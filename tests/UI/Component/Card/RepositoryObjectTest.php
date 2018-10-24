@@ -59,9 +59,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_with_object_icon() {
-		//TODO swap these icons
-		//$icon = new I\Component\Icon\Standard("crs", 'Course', 'responsive', false);
-		$icon = new I\Component\Icon\Custom("templates/default/images/icon_crs.svg", 'Course', 'responsive',false);
+		$icon = new I\Component\Icon\Standard("crs", 'Course', 'medium', false);
 		$card = $this->getBaseCard();
 		$card = $card->withObjectIcon($icon);
 
@@ -107,38 +105,37 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 
 	public function test_render_with_object_icon() {
 		$r = $this->getDefaultRenderer();
-		//TODO swap these icons
-		//$icon = new I\Component\Icon\Standard("crs", 'Course', 'responsive', false);
-		$icon = new I\Component\Icon\Custom("templates/default/images/icon_crs.svg", 'Course', 'responsive',false);
+
+		$icon = new I\Component\Icon\Standard("crs", 'Course', 'medium', false);
 		$c = $this->getBaseCard();
 		$c = $c->withObjectIcon($icon);
 
 		$html = $r->render($c);
-		
+
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
+	
 	<div class="il-card-repository-head">
-		<div class="row">
-			<div class="col-xs-3 col-sm-3">
-				<div class="icon custom responsive" aria-label="Course">
-					<img src="templates/default/images/icon_crs.svg" />
-				</div>
-			</div>
-			<div class="col-xs-3 col-sm-3">
-				
-			</div>
-			<div class="col-xs-3 col-sm-3">
-			</div>
-			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
-				
-			</div>
+		<div>
+			<div class="icon crs medium" aria-label="Course">
+
+
+</div>
+
+		</div>
+		<div>
+			
+		</div>
+		<div class="il-card-repository-dropdown">
+			
 		</div>
 	</div>
-	<img src="src" class="img-standard" alt="alt" />
+<img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
+	
 </div>
 EOT;
 
@@ -156,28 +153,28 @@ EOT;
 
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
+	
 	<div class="il-card-repository-head">
-		<div class="row">
-			<div class="col-xs-3 col-sm-3">
-				
-			</div>
-			<div class="col-xs-3 col-sm-3">
-				<div class="icon custom responsive" aria-label="Certificate">
-					<img src="./templates/default/images/icon_cert.svg" />
-				</div>
-			</div>
-			<div class="col-xs-3 col-sm-3">
-			</div>
-			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
-				
-			</div>
+		<div>
+			
+		</div>
+		<div>
+			<div class="icon cert medium" aria-label="Certificate">
+
+
+</div>
+
+		</div>
+		<div class="il-card-repository-dropdown">
+			
 		</div>
 	</div>
-	<img src="src" class="img-standard" alt="alt" />
+<img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
+	
 </div>
 EOT;
 
@@ -194,40 +191,42 @@ EOT;
 
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
+	
 	<div class="il-card-repository-head">
-		<div class="row">
-			<div class="col-xs-3 col-sm-3">
-				
-			</div>
-			<div class="col-xs-3 col-sm-3">
-				<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
-					<div class="il-chart-progressmeter-mini-container">
-						<div class="il-chart-progressmeter-marker-box hidden" style="transform: rotate(0deg)">
-							<div class="il-chart-progressmeter-mini-marker"></div>
-						</div>
-						<div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">
-							<div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(28.584deg)"></div>
-							<div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(35.416deg) skew(28.584deg)"></div>
-							<div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(95.832deg) skew(28.584deg)"></div>
-							<div class="il-chart-progressmeter-cover">
-								<div class="il-chart-progressmeter-text-container"></div>
-							</div>
-						</div>
-					</div>
-			</div>
-			</div>
-			<div class="col-xs-3 col-sm-3">
-			</div>
-			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
-				
-			</div>
+		<div>
+			
+		</div>
+		<div>
+			<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
+    <div class="il-chart-progressmeter-mini-container">
+        <div class="il-chart-progressmeter-marker-box hidden" style="transform: rotate(0deg)">
+            <div class="il-chart-progressmeter-mini-marker"></div>
+        </div>
+        <div class="il-chart-progressmeter-outerbox
+
+ il-chart-progressmeter-bar-no-success
+
+">
+            <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(28.584deg)"></div>
+            <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(35.416deg) skew(28.584deg)"></div>
+            <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(95.832deg) skew(28.584deg)"></div>
+            <div class="il-chart-progressmeter-cover">
+                <div class="il-chart-progressmeter-text-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+		</div>
+		<div class="il-card-repository-dropdown">
+			
 		</div>
 	</div>
-	<img src="src" class="img-standard" alt="alt" />
+<img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
+	
 </div>
 EOT;
 
@@ -249,23 +248,20 @@ EOT;
 <div class="il-card thumbnail">
 	
 	<div class="il-card-repository-head">
-		<div class="row">
-			<div class="col-xs-3 col-sm-3">
-				
-			</div>
-			<div class="col-xs-3 col-sm-3">
-				
-			</div>
-			<div class="col-xs-3 col-sm-3">
-			</div>
-			<div class="il-card-repository-dropdown col-xs-3 col-sm-3 text-right">
-				<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
+		<div>
+			
+		</div>
+		<div>
+			
+		</div>
+		<div class="il-card-repository-dropdown">
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >Visit ILIAS</button>
 </li>
 </ul>
 </div>
-			</div>
+
 		</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />

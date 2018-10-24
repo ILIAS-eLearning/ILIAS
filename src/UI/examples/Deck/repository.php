@@ -8,8 +8,7 @@ function repository() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->custom(ilUtil::getImagePath("icon_crs.svg"), 'Course', 'responsive');
-	$certificate_icon = $f->icon()->custom(ilUtil::getImagePath("icon_cert.svg"), 'Certificate', 'responsive');
+	$icon = $f->icon()->standard('crs', 'Course');
 
 	$items = array(
 		$f->button()->shy("Go to Course", "#"),
