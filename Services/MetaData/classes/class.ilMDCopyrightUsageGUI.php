@@ -36,6 +36,14 @@ class ilMDCopyrightUsageGUI
 
 	function showUsageTable()
 	{
+		global $DIC;
+
+		$tabs = $DIC->tabs();
+		$lng = $DIC->language();
+
+		$tabs->clearTargets();
+		$tabs->setBackTarget($lng->txt("back"), $this->ctrl->getLinkTargetByClass("ilobjmdsettingsgui", "showCopyrightSettings"));
+
 		include_once("./Services/MetaData/classes/class.ilMDCopyrightUsageTableGUI.php");
 		$table_gui = new ilMDCopyrightUsageTableGUI($this,'showCopyrightSettings',$this->entry_id);
 		$table_gui->setFilterCommand("applyUsageFilter");
