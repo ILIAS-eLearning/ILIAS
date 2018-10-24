@@ -135,37 +135,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input) {
-
-		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
-		/**
-		 * TODO: should we through an error in case for no name or render without name?
-		 *
-		 * if(!$input->getName()){
-		 * throw new \LogicException("Cannot render '".get_class($input)."' no input name given.
-		 * Is there a name source attached (is this input packed into a container attaching
-		 * a name source)?");
-		 * } */
-		if ($input->getName()) {
-//			$tpl->setVariable("NAME", $input->getName());
-		} else {
-//			$tpl->setVariable("NAME", "");
-		}
-
-//		$tpl->setVariable("LABEL", $input->getLabel());
-		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input));
-
-		if ($input->getByline() !== null) {
-//			$tpl->setCurrentBlock("byline");
-//			$tpl->setVariable("BYLINE", $input->getByline());
-//			$tpl->parseCurrentBlock();
-		}
-
-		if ($input->isRequired()) {
-//			$tpl->touchBlock("required");
-		}
-
-
-		return $tpl->get();
+		return $this->renderInputField($input_tpl, $input);
 	}
 
 
@@ -188,12 +158,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 					$tpl->parseCurrentBlock();
 				}
 
-				$input = $input->withAdditionalOnLoadCode(function ($id) {
-					$code = "$('#$id').on('input', function(event) {
-							il.UI.filter.handleChange(event, '$id', $('#$id').val());
-						});";
-					return $code;
-				});
+				$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
 				$this->maybeRenderId($input, $tpl);
 				break;
 		}

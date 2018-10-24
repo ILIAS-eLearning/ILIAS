@@ -101,7 +101,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 		if (count($inputs) != count($is_input_rendered)) {
 			throw new \ArgumentCountError("Inputs and boolean values must be arrays of same size.");
 		} else {
-			$classes = [CI\Input\Field\Input::class];
+			$classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
 			$this->checkArgListElements("input", $inputs, $classes);
 
 			// @todo: how to manage this dependency?
