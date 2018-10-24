@@ -42,7 +42,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 		$this->addColumn($this->lng->txt('object'),'object');
 		$this->addColumn($this->lng->txt('meta_references'),'references');
-		$this->addColumn($this->lng->txt('meta_sub_items'),'subitems');
+		$this->addColumn($this->lng->txt('meta_copyright_sub_items'),'subitems');
 		$this->addColumn($this->lng->txt('owner'),'owner');
 
 		$this->setRowTemplate("tpl.show_copyright_usages_row.html","Services/MetaData");
@@ -97,6 +97,13 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 	function fillRow($a_set)
 	{
+		global $DIC;
+
+		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
+
+		$icon = $f->icon()->standard($a_set['type'], $this->lng->txt($a_set['type']),"medium");
+		$this->tpl->setVariable('OBJ_TYPE_ICON', $r->render($icon));
 		$this->tpl->setVariable('TITLE',$a_set['title']);
 		$this->tpl->setVariable("DESCRIPTION", $a_set['desc']);
 		if($a_set['references'])
