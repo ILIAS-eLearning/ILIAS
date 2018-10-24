@@ -103,7 +103,11 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 		} else {
 			$classes = [CI\Input\Field\Input::class];
 			$this->checkArgListElements("input", $inputs, $classes);
-			$input_factory = (new I\Factory())->input();
+
+			// @todo: how to manage this dependency?
+			global $DIC;
+			$input_factory = $DIC->ui()->factory()->input();
+
 			$this->input_group = $input_factory->field()->group($inputs)->withNameFrom($this);
 
 			foreach ($is_input_rendered as $r) {

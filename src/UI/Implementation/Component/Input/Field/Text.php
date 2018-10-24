@@ -5,6 +5,8 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Factory as ValidationFactory;
@@ -13,6 +15,8 @@ use ILIAS\Validation\Factory as ValidationFactory;
  * This implements the text input.
  */
 class Text extends Input implements C\Input\Field\Text {
+	use JavaScriptBindable;
+	use Triggerer;
 	/**
 	 * @inheritdoc
 	 */
