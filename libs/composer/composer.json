@@ -11,7 +11,7 @@
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.15",
 		"technosophos/LibRIS": "^2.0.2",
-		"ezyang/htmlpurifier": "4.9.3",
+		"ezyang/htmlpurifier": "4.10.0",
 		"phpmailer/phpmailer": "^5.2.24",
 		"geshi/geshi": "dev-master",
 		"tecnickcom/tcpdf": "^6.2.12",
@@ -84,10 +84,10 @@
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.9.3",
+			"used_version" : "v4.10.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2017-08-17",
+			"last_update" : "2018-10-24",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
