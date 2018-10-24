@@ -75,7 +75,8 @@ class ilMDCopyrightSelectionEntry
 
 		$ilDB = $DIC['ilDB'];
 		
-		$query = "SELECT entry_id FROM il_md_cpr_selections ";
+		$query = "SELECT entry_id FROM il_md_cpr_selections ORDER BY is_default DESC";
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -429,7 +430,9 @@ class ilMDCopyrightSelectionEntry
 	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM il_md_cpr_selections ".
-	 		"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer')." ";
+	 		"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer')." ".
+			"ORDER BY is_default DESC";
+
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
