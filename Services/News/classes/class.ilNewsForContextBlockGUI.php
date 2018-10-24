@@ -348,9 +348,18 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 			$ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
 
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui",$parent_gui,"ilcontainernewssettingsgui"), "show"),
-				$lng->txt("settings"));
+			if (in_array($obj_class, ["category", "course", "group"]))
+			{
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"), "show"),
+					$lng->txt("settings"));
+			}
+			else
+			{
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTarget($this, "editSettings"),
+					$lng->txt("settings"));
+			}
 		}
 		
 		// do not display hidden repository news blocks for users
