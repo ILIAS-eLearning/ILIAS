@@ -14,7 +14,6 @@ use ILIAS\Transformation\Transformation;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Constraint;
 use ILIAS\Validation\Factory as ValidationFactory;
-use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -467,19 +466,5 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			throw new \LogicException("No content of this field has been evaluated yet. Seems withInput was not called.");
 		}
 		return $this->content;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withOnClick(Signal $signal) {
-		return $this->withTriggeredSignal($signal, 'click');
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function appendOnClick(Signal $signal) {
-		return $this->appendTriggeredSignal($signal, 'click');
 	}
 }

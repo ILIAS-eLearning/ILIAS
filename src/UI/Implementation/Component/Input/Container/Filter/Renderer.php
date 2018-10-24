@@ -28,7 +28,17 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
 		$f = $this->getUIFactory();
-		$opener = [$f->glyph()->collapse($component->getCollapseAction()), $f->glyph()->expand($component->getExpandAction())];
+		//$opener = [$f->glyph()->collapse($component->getCollapseAction()), $f->glyph()->expand($component->getExpandAction())];
+		//replace with language variable
+		if ($component->isExpanded() == false) {
+			$opener_expand = $f->button()->bulky($f->glyph()->expand(), "Filter", $component->getExpandAction());
+			$tpl->setVariable("OPENER", $default_renderer->render($opener_expand));
+		}
+		elseif ($component->isExpanded() == true) {
+			$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), "Filter", $component->getCollapseAction());
+			$tpl->setVariable("OPENER", $default_renderer->render($opener_collapse));
+			$tpl->setVariable("COLLAPSE", "in");
+		}
 		//replace with Apply Glyph and use language variable
 		$apply = $f->button()->bulky($f->glyph()->note(), "Apply", "#")
 			->withOnLoadCode(function ($id) {
@@ -38,11 +48,15 @@ class Renderer extends AbstractComponentRenderer {
 		//todo: Expand Filter when acitvated (only desktop, not mobile)
 		$toggle = $f->button()->toggle("", $component->getToggleOnAction(), $component->getToggleOffAction(), $component->isActivated());
 
-		$tpl->setVariable("DESCRIPTION", "Filter"); //replace with language variable
-		$tpl->setVariable("OPENER", $default_renderer->render($opener));
 		$tpl->setVariable("APPLY", $default_renderer->render($apply));
 		$tpl->setVariable("RESET", $default_renderer->render($reset));
 		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
+
+		for ($i = 1; $i <= count($component->getInputs()); $i++) {
+			$tpl->setCurrentBlock("active_inputs");
+			$tpl->setVariable("ID", $i);
+			$tpl->parseCurrentBlock();
+		}
 
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("INPUTS", $renderer->render($component->getInputGroup()));
