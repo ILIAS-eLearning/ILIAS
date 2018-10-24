@@ -178,6 +178,21 @@ class ilMDCopyrightSelectionEntry
 	{
 	 	return $this->entry_id;
 	}
+
+	/**
+	 * Get if the entry is default
+	 * No setter for this.
+	 */
+	public function getIsDefault()
+	{
+		$query = "SELECT is_default FROM il_md_cpr_selections ".
+			"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer');
+
+		$res = $this->db->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
+		
+		return $row['is_default'];
+	}
 	
 	/**
 	 * set title

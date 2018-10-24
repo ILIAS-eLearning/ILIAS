@@ -89,6 +89,10 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	{
 		if($this->has_write)
 		{
+			if($a_set['default'])
+			{
+				$this->tpl->setVariable('DISABLED',"disabled");
+			}
 			$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		}
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
@@ -136,6 +140,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 			$tmp_arr['description']	= $entry->getDescription();
 			$tmp_arr['used'] = $entry->getUsage();
 			$tmp_arr['preview'] = $entry->getCopyright();
+			$tmp_arr['default'] = $entry->getIsDefault();
 			
 			$entry_arr[] = $tmp_arr;
 	 	}
