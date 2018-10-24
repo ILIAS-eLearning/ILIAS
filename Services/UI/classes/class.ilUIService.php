@@ -11,16 +11,17 @@
 class ilUIService
 {
 	/**
-	 * @var ilUIService
+	 * @var ilUIServiceDependencies
 	 */
 	protected $_deps;
+
 	/**
 	 * Constructor
 	 * @param ilLanguage $lng
 	 */
 	public function __construct(ilLanguage $lng)
 	{
-		$this->_deps = new ilUIService($lng);
+		$this->_deps = new ilUIServiceDependencies($lng);
 	}
 
 	/**
