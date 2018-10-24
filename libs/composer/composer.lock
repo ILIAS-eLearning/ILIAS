@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b4c2a9f6afaec9afef7e188ceb35629",
+    "content-hash": "eba8de20f202146386156789fc9e7152",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -1751,6 +1751,11 @@
                 "phpunit/phpunit": "~4.8.35"
             },
             "type": "project",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "SimpleSAML\\": "lib/SimpleSAML"
