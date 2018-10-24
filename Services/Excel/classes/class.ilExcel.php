@@ -3,8 +3,17 @@
 
 include_once './libs/composer/vendor/autoload.php';
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 /*
- * Wrapper for Microsoft Excel Import/Export (based on PHPExcel)
+ * Wrapper for Microsoft Excel Import/Export (based on PHPSpreadsheet, formerPHPExcel which is deprecated)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesExcel
@@ -17,17 +26,17 @@ class ilExcel
 	protected $lng;
 
 	/**
-	 * @var PHPExcel
+	 * @var PhpOffice\PhpSpreadsheet\
 	 */
-	protected $workbook; // [PHPExcel]
+	protected $workbook; // [PhpSpreadsheet]
 	
 	/**
 	 * @var string
 	 */
 	protected $type; // [string]
 	
-	const FORMAT_XML = "Excel2007";
-	const FORMAT_BIFF = "Excel5";
+	const FORMAT_XML = "Xlsx";
+	const FORMAT_BIFF = "Xls";
 	
 	/**
 	 * Constructor
@@ -40,7 +49,7 @@ class ilExcel
 
 		$this->lng = $DIC->language();
 		$this->setFormat(self::FORMAT_XML);		
-		$this->workbook = new PHPExcel();	
+		$this->workbook = new Spreadsheet();
 		$this->workbook->removeSheetByIndex(0);
 	}		
 
@@ -53,7 +62,7 @@ class ilExcel
 	 * @param $filename
 	 */
 	public function loadFromFile($filename) {
-		$this->workbook = PHPExcel_IOFactory::load($filename);
+		$this->workbook = IOFactory::load($filename);
 	}
 	
 	// 
@@ -97,7 +106,7 @@ class ilExcel
 	 */
 	public function addSheet($a_name, $a_activate = true)
 	{
-		// see PHPExcel_Worksheet::$_invalidCharacters;
+		// see Worksheet::$_invalidCharacters;
 		$invalid = array('*', ':', '/', '\\', '?', '[', ']');
 		
 		$a_name = str_replace($invalid, "", $a_name);
@@ -106,7 +115,7 @@ class ilExcel
 		// see https://github.com/PHPOffice/PHPExcel/issues/79
 		$a_name = ilUtil::shortenText($a_name, 31); 
 		
-		$sheet = new PHPExcel_Worksheet($this->workbook, $a_name);
+		$sheet = new Worksheet($this->workbook, $a_name);
 		$this->workbook->addSheet($sheet);
 		$new_index = $this->workbook->getSheetCount()-1;
 		
@@ -189,11 +198,11 @@ class ilExcel
 		switch(true)
 		{
 			case $a_value instanceof ilDate:
-				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATE));
+				$a_value = Date::stringToExcel($a_value->get(IL_CAL_DATE));
 				break;
 
 			default:
-				$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
+				$a_value = Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
 				break;
 		}
 
@@ -223,10 +232,10 @@ class ilExcel
 	/**
 	 * Set date format
 	 * 
-	 * @param PHPExcel_Cell $a_cell
+	 * @param Cell $a_cell
 	 * @param mixed $a_value
 	 */
-	protected function setDateFormat(PHPExcel_Cell $a_cell, $a_value)
+	protected function setDateFormat(Cell $a_cell, $a_value)
 	{
 		if($a_value instanceof ilDate)
 		{
@@ -248,11 +257,11 @@ class ilExcel
 	 */
 	public function setCellByCoordinates($a_coords, $a_value)
 	{
-		$cell = $this->workbook->getActiveSheet()->setCellValue(
+		$wb = $this->workbook->getActiveSheet()->setCellValue(
 			$a_coords, 
-			$this->prepareValue($a_value),
-			true
-		);		
+			$this->prepareValue($a_value)
+		);
+		$cell = $wb->getCell($a_coords);
 		$this->setDateFormat($cell, $a_value);		
 	}
 	
@@ -265,13 +274,12 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
-		$cell = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
+		$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
 			$a_col, 
 			$a_row,			 
-			$this->prepareValue($a_value),
-			true
+			$this->prepareValue($a_value)
 		);			
-		$this->setDateFormat($cell, $a_value);		
+		$this->setDateFormat($wb->getCellByColumnAndRow($a_col, $a_row), $a_value);
 	}
 	
 	/**
@@ -331,7 +339,7 @@ class ilExcel
 	 * @return int
 	 */
 	public function getColumnCount() {
-		return PHPExcel_Cell::columnIndexFromString($this->workbook->getActiveSheet()->getHighestDataColumn());
+		return Coordinate::columnIndexFromString($this->workbook->getActiveSheet()->getHighestDataColumn());
 	}
 
 	/**
@@ -342,7 +350,7 @@ class ilExcel
 	 */
 	public function getColumnCoord($a_col)
 	{
-		return PHPExcel_Cell::stringFromColumnIndex($a_col);
+		return Coordinate::stringFromColumnIndex($a_col);
 	}
 	
 	/**
@@ -420,7 +428,7 @@ class ilExcel
 		}
 		$tmp_name = ilUtil::ilTempnam();
 
-		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
+		$writer = IOFactory::createWriter($this->workbook, $this->format);
 		$writer->save($tmp_name);
 
 		ilFileDelivery::deliverFileAttached($tmp_name, $a_file_name, $a_mime_type, true);
@@ -435,7 +443,7 @@ class ilExcel
 	{
 		$a_file = $this->prepareStorage($a_file);
 		
-		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
+		$writer = IOFactory::createWriter($this->workbook, $this->format);
 		$writer->save($a_file);
 	}
 
@@ -445,7 +453,7 @@ class ilExcel
 	 * @throws \PHPExcel_Reader_Exception
 	 */
 	public function writeToTmpFile() {
-		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
+		$writer = IOFactory::createWriter($this->workbook, $this->format);
 		$filename = ilUtil::ilTempnam();
 		$writer->save($filename);
 		
@@ -477,7 +485,7 @@ class ilExcel
 	{
 		$opts = array(
 			'fill' => array(
-				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				'type' => Fill::FILL_SOLID,
 				'color' => array('rgb' => $a_background)
 			)
 		);   
@@ -508,19 +516,19 @@ class ilExcel
 		// :TODO: border styles?
 		if($a_top)
 		{
-			$style->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+			$style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
 		}
 		if($a_right)
 		{
-			$style->getBorders()->getRight()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+			$style->getBorders()->getRight()->setBorderStyle(Border::BORDER_THIN);
 		}
 		if($a_bottom)
 		{
-			$style->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+			$style->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THIN);
 		}
 		if($a_left)
 		{
-			$style->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+			$style->getBorders()->getLeft()->setBorderStyle(Border::BORDER_THIN);
 		}
 	}
 
@@ -533,7 +541,7 @@ class ilExcel
 	 */
 	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
 	{
-		$columnLetter = PHPExcel_Cell::stringFromColumnIndex($pColumn);
+		$columnLetter = Coordinate::stringFromColumnIndex($pColumn);
 		return $columnLetter . $pRow;
 	}
 
