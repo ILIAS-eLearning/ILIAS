@@ -4,15 +4,16 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
- * A Proxy Field for the clickable Fields in Filters
+ * An internal class for the clickable Filter Fields. It reuses the framework concepts JSBindable and Clickable.
  */
-class ProxyFilterField implements \ILIAS\UI\Component\Input\Container\Filter\ProxyFilterField {
+class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable {
 
 	use ComponentHelper;
 	use JavaScriptBindable;
