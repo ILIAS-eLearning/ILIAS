@@ -156,7 +156,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			if ($this->isLearningAchievementEvent()) {
 				$this->handleLPUpdate();
 			} elseif ($this->isMigratingCertificateEvent()) {
-				$this->handleNewUserCertificate();
+				$this->handleNewMigratedUserCertificate();
 			} elseif ($this->isUserDeletedEvent()) {
 				$this->handleDeletedUser();
 			}
@@ -261,7 +261,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	 * @throws \ilDatabaseException
 	 * @throws \ilException
 	 */
-	private function handleNewUserCertificate()
+	private function handleNewMigratedUserCertificate()
 	{
 		$this->logger->info('Try to create new certificates based on event');
 
