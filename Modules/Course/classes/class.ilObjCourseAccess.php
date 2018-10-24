@@ -6,7 +6,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
 include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
-include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjCourseAccess
@@ -26,7 +26,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_PASSED
 		);
@@ -44,7 +44,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	public static function checkCondition($a_obj_id,$a_operator,$a_value,$a_usr_id)
 	{
 		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		
 		switch($a_operator)
 		{

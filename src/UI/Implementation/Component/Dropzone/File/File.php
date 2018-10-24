@@ -204,7 +204,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	 * @inheritDoc
 	 */
 	public function withOnDrop(Signal $signal) {
-		return $this->addTriggeredSignal($signal, self::DROP_EVENT);
+		return $this->withTriggeredSignal($signal, self::DROP_EVENT);
 	}
 
 

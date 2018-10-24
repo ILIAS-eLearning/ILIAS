@@ -2137,9 +2137,20 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if($total != 0)
 			{
-				$link = $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
-				$link = "<a href=\"".$link."\">".$this->lng->txt("test_has_datasets_warning_page_view_link")."</a>";
-				ilUtil::sendInfo($this->lng->txt("test_has_datasets_warning_page_view")." ".$link);
+				$link = $DIC->ui()->factory()->link()->standard(
+					$DIC->language()->txt("test_has_datasets_warning_page_view_link"),
+					$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'))
+				);
+				
+				$message = $DIC->language()->txt("test_has_datasets_warning_page_view");
+				
+				$msgBox = $DIC->ui()->factory()->messageBox()->info($message)->withLinks(array($link));
+				
+				$DIC->ui()->mainTemplate()->setCurrentBlock('mess');
+				$DIC->ui()->mainTemplate()->setVariable('MESSAGE',
+					$DIC->ui()->renderer()->render($msgBox)
+				);
+				$DIC->ui()->mainTemplate()->parseCurrentBlock();
 			}
 			else {
 				global $ilToolbar;
@@ -2865,16 +2876,19 @@ class ilObjTestGUI extends ilObjectGUI
 			$score_reporting_text = "";
 			switch ($this->object->getScoreReporting())
 			{
-				case REPORT_AFTER_TEST:
+				case ilObjTest::SCORE_REPORTING_FINISHED:
 					$score_reporting_text = $this->lng->txt("tst_report_after_test");
 					break;
-				case REPORT_ALWAYS:
+				case ilObjTest::SCORE_REPORTING_IMMIDIATLY:
 					$score_reporting_text = $this->lng->txt("tst_report_after_first_question");
 					break;
-				case REPORT_AFTER_DATE:
+				case ilObjTest::SCORE_REPORTING_DATE:
 					$score_reporting_text = $this->lng->txt("tst_report_after_date");
 					break;
-				case 4:
+				case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
+					$score_reporting_text = $this->lng->txt("tst_report_after_passed");
+					break;
+				default:
 					$score_reporting_text = $this->lng->txt("tst_report_never");
 					break;
 			}

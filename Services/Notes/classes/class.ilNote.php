@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 define("IL_NOTE_PRIVATE", 1);
 define("IL_NOTE_PUBLIC", 2);
@@ -14,13 +15,13 @@ define("IL_NOTE_CONTRA", 4);
  */
 
 /**
-* Note class. Represents a single note.
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-*
-* @ingroup ServicesNotes
-*/
+ * Note class. Represents a single note.
+ *
+ * @author	Alex Killing <alex.killing@gmx.de>
+ * @version	$Id$
+ *
+ * @ingroup ServicesNotes
+ */
 class ilNote
 {
 	/**
@@ -38,7 +39,35 @@ class ilNote
 	 */
 	protected $access;
 
-	
+	/**
+	 * object id (NOT ref_id!) of repository object (e.g for page objects
+	 * the obj_id of the learning module; for personal desktop this is set to 0)
+	 *
+	 * @var int
+	 */
+	protected $rep_obj_id = 0;
+
+	/**
+	 * object id (e.g for page objects the obj_id of the page object)
+	 * this is set to 0 for normal repository objects like forums ...
+	 *
+	 * @var int
+	 */
+	protected $obj_id;
+
+	/**
+	 * type of the object (e.g st,pg,crs ... NOT "news")
+	 *
+	 * @var string
+	 */
+	protected $obj_type;
+
+	/**
+	 * @var int
+	 */
+	protected $news_id;
+
+
 	/**
 	* constructor
 	*/
@@ -77,27 +106,27 @@ class ilNote
 	}
 	
 	/**
-	* set assigned object
-	*
-	* @param	$a_type		string		type of the object (e.g st,pg,crs ...)
-	* @param	$a_rep_obj_id	int		object id (NOT ref_id!) of repository object (e.g for page objects
-	*									the obj_id of the learning module; for personal desktop this
-	*									is set to 0)
-	* @param	$a_obj_id	int			object id (e.g for page objects the obj_id of the page object)
-	*									for, this is set to 0 for normal repository objects like forums ...
-	*/
-	function setObject($a_obj_type, $a_rep_obj_id, $a_obj_id = 0)
+	 * set assigned object
+	 *
+	 * @param string $a_obj_type
+	 * @param int $a_rep_obj_id
+	 * @param int $a_obj_id
+	 * @param int $a_news_id
+	 */
+	function setObject($a_obj_type, $a_rep_obj_id, $a_obj_id = 0, $a_news_id = 0)
 	{		
 		$this->rep_obj_id = $a_rep_obj_id;
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_obj_type;
+		$this->news_id = $a_news_id;
 	}
 	
 	function getObject()
 	{
 		return array("rep_obj_id" => $this->rep_obj_id,
 			"obj_id" => $this->obj_id,
-			"obj_type" => $this->obj_type);
+			"obj_type" => $this->obj_type,
+			"news_id" => $this->news_id);
 	}
 	
 	
@@ -244,6 +273,26 @@ class ilNote
 	}
 	
 	/**
+	 * Set news id
+	 *
+	 * @param int $a_val news id	
+	 */
+	function setNewsId($a_val)
+	{
+		$this->news_id = $a_val;
+	}
+	
+	/**
+	 * Get news id
+	 *
+	 * @return int news id
+	 */
+	function getNewsId()
+	{
+		return $this->news_id;
+	}
+	
+	/**
 	* set repository object status
 	*
 	* @param	bool		
@@ -272,25 +321,13 @@ class ilNote
 			: ilUtil::now();
 		
 		$this->id = $ilDB->nextId("note");
-		/*$q = "INSERT INTO note (id, rep_obj_id, obj_id, obj_type, type,".
-			"author, note_text, subject, label, creation_date) VALUES (".
-			$ilDB->quote($this->id, "integer").",".
-			$ilDB->quote((int) $this->rep_obj_id, "integer").",".
-			$ilDB->quote((int) $this->obj_id, "integer").",".
-			$ilDB->quote((string) $this->obj_type, "text").",".
-			$ilDB->quote((int) $this->type, "integer").",".
-			$ilDB->quote((int) $this->author, "integer").",".
-			$ilDB->quote((string) $this->text, "clob").",".
-			$ilDB->quote((string) $this->subject, "text").",".
-			$ilDB->quote((int) $this->label, "integer").",".
-			$ilDB->now().")";
-		$ilDB->manipulate($q);*/
-		
+
 		$ilDB->insert("note", array(
 			"id" => array("integer", $this->id),
 			"rep_obj_id" => array("integer", (int) $this->rep_obj_id),
 			"obj_id" => array("integer", (int) $this->obj_id),
 			"obj_type" => array("text", (string) $this->obj_type),
+			"news_id" => array("integer", (int) $this->news_id),
 			"type" => array("integer", (int) $this->type),
 			"author" => array("integer", (int) $this->author),
 			"note_text" => array("clob", (string) $this->text),
@@ -309,21 +346,10 @@ class ilNote
 	{
 		$ilDB = $this->db;
 		
-		/*$q = "UPDATE note SET ".
-			"rep_obj_id = ".$ilDB->quote((int) $this->rep_obj_id, "integer").",".
-			"obj_id = ".$ilDB->quote((int) $this->obj_id, "integer").",".
-			"obj_type = ".$ilDB->quote((string) $this->obj_type, "text").",".
-			"type = ".$ilDB->quote((int) $this->type, "integer").",".
-			"author = ".$ilDB->quote((int) $this->author,"integer").",".
-			"note_text = ".$ilDB->quote((string) $this->text, "clob").",".
-			"subject = ".$ilDB->quote((string) $this->subject, "text").",".
-			"update_date = ".$ilDB->now().",".
-			"label = ".$ilDB->quote((int) $this->label, "integer").
-			"WHERE id =".$ilDB->quote((int) $this->getId(), "integer");
-		$ilDB->manipulate($q);*/
 		$ilDB->update("note", array(
 			"rep_obj_id" => array("integer", (int) $this->rep_obj_id),
 			"obj_id" => array("integer", (int) $this->obj_id),
+			"news_id" => array("integer", (int) $this->news_id),
 			"obj_type" => array("text", (string) $this->obj_type),
 			"type" => array("integer", (int) $this->type),
 			"author" => array("integer", (int) $this->author),
@@ -370,7 +396,8 @@ class ilNote
 	function setAllData($a_note_rec)
 	{
 		$this->setId($a_note_rec["id"]);
-		$this->setObject($a_note_rec["obj_type"], $a_note_rec["rep_obj_id"], $a_note_rec["obj_id"]);
+		$this->setObject($a_note_rec["obj_type"], $a_note_rec["rep_obj_id"], $a_note_rec["obj_id"],
+			$a_note_rec["news_id"]);
 		$this->setType($a_note_rec["type"]);
 		$this->setAuthor($a_note_rec["author"]);
 		$this->setText($a_note_rec["note_text"]);
@@ -420,7 +447,7 @@ class ilNote
 	*/
 	static function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
 		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "",
-		$a_all_public = "y", $a_repository_mode = true, $a_sort_ascending = false)
+		$a_all_public = "y", $a_repository_mode = true, $a_sort_ascending = false, $a_news_id = 0)
 	{
 		global $DIC;
 
@@ -435,17 +462,19 @@ class ilNote
 			? " AND obj_id = ".$ilDB->quote((int) $a_obj_id, "integer").
 			  " AND obj_type = ".$ilDB->quote((string) $a_obj_type, "text")
 			: "";
-		
-		if(!$a_repository_mode)
-		{
-			$sub_where .= " AND no_repository = ".$ilDB->quote(1, "integer");
-		}
-		
+
+		$news_where =
+			" AND news_id = ".$ilDB->quote((int) $a_news_id, "integer");
+
+
+		$sub_where .= " AND no_repository = ".$ilDB->quote(!$a_repository_mode, "integer");
+
 		$q = "SELECT * FROM note WHERE ".
 			" rep_obj_id = ".$ilDB->quote((int) $a_rep_obj_id, "integer").
 			$sub_where.
 			" AND type = ".$ilDB->quote((int) $a_type, "integer").
 			$author_where.
+			$news_where.
 			" ORDER BY creation_date ";
 		
 		$q .= ((bool)$a_sort_ascending) ? "ASC" : "DESC";
@@ -470,6 +499,43 @@ class ilNote
 			$notes[$cnt]->setAllData($note_rec);
 		}
 		
+		return $notes;
+	}
+
+	/**
+	 * get all notes related to a single repository object
+	 */
+	public static function _getAllNotesOfSingleRepObject($a_rep_obj_id, $a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_sort_ascending = false,
+		$a_since = "")
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$sub_where = (!$a_incl_sub)
+			? " AND obj_id = ".$ilDB->quote((int) 0, "integer") : "";
+
+		if ($a_since != "")	{
+			$sub_where.=" AND creation_date > ".$ilDB->quote($a_since, "timestamp");
+		}
+
+		$sub_where .= " AND no_repository = ".$ilDB->quote(0, "integer");
+
+		$q = "SELECT * FROM note WHERE ".
+			" rep_obj_id = ".$ilDB->quote((int) $a_rep_obj_id, "integer").
+			$sub_where.
+			" AND type = ".$ilDB->quote((int) $a_type, "integer").
+			" ORDER BY creation_date ";
+
+		$q .= ((bool)$a_sort_ascending) ? "ASC" : "DESC";
+		$set = $ilDB->query($q);
+		$notes = array();
+		while($note_rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt = count($notes);
+			$notes[$cnt] = new ilNote();
+			$notes[$cnt]->setAllData($note_rec);
+		}
 		return $notes;
 	}
 
@@ -705,7 +771,8 @@ class ilNote
 	 * @param array $a_rep_obj_ids repository object IDs array
 	 * @param int $a_sub_obj_id sub objects (if null, all comments are counted)
 	 */
-	static function _countNotesAndComments($a_rep_obj_id, $a_sub_obj_id = null)
+	static function _countNotesAndComments($a_rep_obj_id, $a_sub_obj_id = null, $a_obj_type = "",
+		$a_news_id = 0)
 	{
 		global $DIC;
 
@@ -721,8 +788,11 @@ class ilNote
 		if ($a_sub_obj_id !== null)
 		{
 			$q .= " AND obj_id = ".$ilDB->quote($a_sub_obj_id, "integer");
+			$q .= " AND obj_type = ".$ilDB->quote($a_obj_type, "text");
 		}
-		
+
+		$q .= " AND news_id = ".$ilDB->quote($a_news_id, "integer");
+
 		$q .= " GROUP BY rep_obj_id, type ";
 
 		$cnt = array();
@@ -791,11 +861,16 @@ class ilNote
 	 * @param
 	 * @return
 	 */
-	static function commentsActivated($a_rep_obj_id, $a_obj_id, $a_obj_type)
+	static function commentsActivated($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_news_id = 0)
 	{
 		global $DIC;
 
 		$ilDB = $DIC->database();
+
+		if ($a_news_id > 0)
+		{
+			return true;
+		}
 		
 		if ($a_obj_type == "")
 		{

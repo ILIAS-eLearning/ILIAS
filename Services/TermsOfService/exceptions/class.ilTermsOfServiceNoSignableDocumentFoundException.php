@@ -1,12 +1,10 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Exceptions/classes/class.ilException.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceNoSignableDocumentFoundException
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceNoSignableDocumentFoundException extends ilException
+class ilTermsOfServiceNoSignableDocumentFoundException extends \ilTermsOfServiceException
 {
 }

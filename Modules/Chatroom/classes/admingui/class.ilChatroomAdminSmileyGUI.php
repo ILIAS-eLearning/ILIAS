@@ -363,8 +363,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 	/**
 	 * Deletes a smiley by $_REQUEST["chatroom_smiley_id"]
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilCtrl       $ilCtrl
 	 */
 	public function deleteSmileyObject()
 	{

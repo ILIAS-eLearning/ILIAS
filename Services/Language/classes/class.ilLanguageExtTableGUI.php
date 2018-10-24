@@ -19,7 +19,9 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
     function __construct($a_parent_obj, $a_parent_cmd, $a_params = array())
     {
-        global $ilCtrl, $lng;
+    	global $DIC;
+    	$ilCtrl = $DIC->ctrl();
+    	$lng = $DIC->language();
 
         // allow a different sorting/paging for admin and translation tables
         $this->params = $a_params;
@@ -53,7 +55,10 @@ class ilLanguageExtTableGUI extends ilTable2GUI
      */
     protected function fillRow($data)
     {
-        global $lng, $ilCtrl;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
         if ($this->params['langmode'])
         {
@@ -91,7 +96,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     */
     function initFilter()
     {
-        global $lng;
+		global $DIC;
+		$lng = $DIC->language();
 
         // most filters are only
         if (!ilObjLanguageAccess::_isPageTranslation())

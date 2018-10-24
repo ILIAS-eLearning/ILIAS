@@ -61,7 +61,6 @@ class ilForumUtil
 	 */
 	public static function moveMediaObjects($post_message, $source_type, $source_id, $target_type, $target_id, $direction = 0)
 	{
-		include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		$mediaObjects = ilRTE::_getMediaObjects($post_message, $direction);
 		$myMediaObjects = ilObjMediaObject::_getMobsOfObject($source_type, $source_id);
 		foreach($mediaObjects as $mob)
@@ -86,7 +85,6 @@ class ilForumUtil
 	 */
 	public static function saveMediaObjects($post_message, $target_type, $target_id, $direction = 0)
 	{
-		include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		$mediaObjects = ilRTE::_getMediaObjects($post_message, $direction);
 		
 		foreach($mediaObjects as $mob)

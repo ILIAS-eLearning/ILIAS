@@ -1,17 +1,14 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
-* Class ilDclFieldProperty
-*
-* @author Michael Herren <mh@studer-raimann.ch>
-*
-* @ingroup ModulesDataCollection
-*/
-class ilDclFieldProperty extends ActiveRecord
-{
+ * Class ilDclFieldProperty
+ *
+ * @author  Michael Herren <mh@studer-raimann.ch>
+ *
+ * @ingroup ModulesDataCollection
+ */
+class ilDclFieldProperty extends ActiveRecord {
 
 	/**
 	 * @var int
@@ -25,7 +22,6 @@ class ilDclFieldProperty extends ActiveRecord
 	 * @db_sequence         true
 	 */
 	protected $id;
-
 	/**
 	 * @var int
 	 *
@@ -36,7 +32,6 @@ class ilDclFieldProperty extends ActiveRecord
 	 *
 	 */
 	protected $field_id;
-
 	/**
 	 * @var string
 	 *
@@ -46,7 +41,6 @@ class ilDclFieldProperty extends ActiveRecord
 	 * @db_length           128
 	 */
 	protected $name;
-
 	/**
 	 * @var string
 	 *
@@ -63,10 +57,10 @@ class ilDclFieldProperty extends ActiveRecord
 	 * @param int  $primary_key
 	 * @param null $connector
 	 */
-	public function __construct($primary_key = 0, $connector = NULL)
-	{
+	public function __construct($primary_key = 0, $connector = null) {
 		parent::__construct($primary_key, $connector);
 	}
+
 
 	/**
 	 * @return string
@@ -169,32 +163,35 @@ class ilDclFieldProperty extends ActiveRecord
 
 	/**
 	 * Serialize data before storing to db
+	 *
 	 * @param $value mixed
 	 *
 	 * @return mixed
 	 */
 	public function serializeData($value) {
-		if(is_array($value)) {
+		if (is_array($value)) {
 			$value = json_encode($value);
 		}
+
 		return $value;
 	}
 
 
 	/**
 	 * Deserialize data before applying to field
+	 *
 	 * @param $value mixed
 	 *
 	 * @return mixed
 	 */
 	public function deserializeData($value) {
 		$deserialize = json_decode($value, true);
-		if(is_array($deserialize)) {
+		if (is_array($deserialize)) {
 			return $deserialize;
 		}
+
 		return $value;
 	}
 }
-
 
 ?>

@@ -151,10 +151,11 @@ class ilDclTableFieldSetting extends ActiveRecord {
 	/**
 	 * @param $table_id
 	 * @param $field
+	 *
 	 * @return \ActiveRecord|\ilDclTableFieldSetting
 	 */
 	public static function getInstance($table_id, $field) {
-		$setting = self::where(array( 'table_id' => $table_id, 'field' => $field ))->first();
+		$setting = self::where(array('table_id' => $table_id, 'field' => $field))->first();
 		if (!$setting) {
 			$setting = new self();
 			$setting->setField($field);

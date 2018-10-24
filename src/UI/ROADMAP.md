@@ -12,7 +12,7 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
-### Enaged Buttons (advanced, ~4h)
+### Engaged Buttons (advanced, ~4h)
 
 The [Bulky Button](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Component/Button/Bulky.php)
 introduced the notion of an "engaged" button, i.e. a button that somehow indicates

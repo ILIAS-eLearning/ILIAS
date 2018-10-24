@@ -48,6 +48,23 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	protected $user;
 
+	// $adv_ref_id - $adv_type - $adv_subtype:
+	// Object, that defines the adv md records being used. Default is $this->object, but the
+	// context may set another object (e.g. media pool for media objects)
+	/**
+	 * @var int
+	 */
+	protected $adv_ref_id = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_type = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_subtype = null;
+
+
 	var $ctrl;
 	var $header;
 	var $target_script;
@@ -74,6 +91,33 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->type = "mob";
 		
 		$lng->loadLanguageModule("mob");
+	}
+
+	/**
+	 * Set object, that defines the adv md records being used. Default is $this->object, but the
+	 * context may set another object (e.g. media pool for media objects)
+	 *
+	 * @param string $a_val adv type
+	 */
+	function setAdvMdRecordObject($a_adv_ref_id, $a_adv_type, $a_adv_subtype = "-")
+	{
+		$this->adv_ref_id = $a_adv_ref_id;
+		$this->adv_type = $a_adv_type;
+		$this->adv_subtype = $a_adv_subtype;
+	}
+
+	/**
+	 * Get adv md record type
+	 *
+	 * @return array adv type
+	 */
+	function getAdvMdRecordObject()
+	{
+		if ($this->adv_type == null)
+		{
+			return [$this->ref_id, $this->obj_type, $this->sub_type];
+		}
+		return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
 	}
 
 	function setHeader($a_title = "")
@@ -171,8 +215,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	
 
 	/**
-	* Execute current command
-	*/
+	 * Execute current command
+	 * @return bool|mixed
+	 * @throws ilCtrlException
+	 */
 	function executeCommand()
 	{
 		$tpl = $this->tpl;
@@ -189,6 +235,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$md_gui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());	
 				// object is subtype, so we have to do it ourselves
 				$md_gui->addMDObserver($this->object, 'MDUpdateListener', 'General');
+
+				// set adv metadata record dobject
+				if ($this->adv_type != "")
+				{
+					$md_gui->setAdvMdRecordObject($this->adv_ref_id, $this->adv_type, $this->adv_subtype);
+				}
+
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				

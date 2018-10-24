@@ -132,6 +132,14 @@ class ilObjWikiAccess extends ilObjectAccess
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
 				}
+
+				include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
+				$info = ilExcRepoObjAssignment::getInstance()->getAccessInfo($a_ref_id, $a_user_id);
+				if (!$info->isGranted())
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, implode(" / ", $info->getNotGrantedReasons()));
+					return false;
+				}
 				break;
 		}
 

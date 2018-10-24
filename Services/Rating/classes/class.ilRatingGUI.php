@@ -84,7 +84,6 @@ class ilRatingGUI
 	{
 		$ilUser = $this->user;
 		
-		// db-column is defined as not null, el stupido
 		if(!trim($a_sub_obj_type))
 		{
 			$a_sub_obj_type = "-";

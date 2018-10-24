@@ -68,6 +68,8 @@ class ilLanguageMock extends \ilLanguage {
 	}
 	public function toJS($a_key, ilTemplate $a_tpl = NULL) {
 	}
+	public $lang_module = 'common';
+	public function loadLanguageModule($lang_module) {}
 }
 
 class LoggingJavaScriptBinding implements JavaScriptBinding {

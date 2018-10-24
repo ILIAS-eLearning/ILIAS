@@ -91,7 +91,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$info = new ilInfoScreenGUI($this);
 		$info->setContextRefId((int)$this->ref_id);
 		$info->setContextObjId((int)$this->details_obj_id);
-		$info->setContentObjType($this->obj_type);
+		$info->setContentObjType((string)$this->obj_type);
 		$info->saveProgress(false);
 		$this->ctrl->redirect($this);
 	}
@@ -132,7 +132,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$info = new ilInfoScreenGUI($this);
 		$info->setContextRefId((int)$this->details_id);
 		$info->setContextObjId((int)$this->details_obj_id);
-		$info->setContentObjType($this->obj_type);
+		$info->setContentObjType((string)$this->obj_type);
 		$info->enableLearningProgress(true);
 		$info->setFormAction($ilCtrl->getFormAction($this));
 		$this->__appendUserInfo($info, $this->tracked_user);		

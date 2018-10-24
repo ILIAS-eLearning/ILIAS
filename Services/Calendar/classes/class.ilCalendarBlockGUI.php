@@ -148,21 +148,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	* Is this a repository object
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -957,6 +953,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
 					"",
 					"block_" . $this->getBlockType() . "_" . $this->block_id,
 					false, false);
+
+				$ilCtrl->setParameter($this, "add_mode", "");
+				$this->addFooterLink($lng->txt("add_appointment"),
+					$ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI", "add"),
+					"",
+					"block_" . $this->getBlockType() . "_" . $this->block_id,
+					false, false);
+				$ilCtrl->setParameter($this, "add_mode", "");
 			}
 		}
 	}

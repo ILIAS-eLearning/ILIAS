@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * DataCollection dataset class
  *
@@ -43,21 +42,22 @@ class ilDataCollectionDataSet extends ilDataSet {
 	 *
 	 * @var array
 	 */
-	protected $caches = array(
-		'dcl' => array(),
-		'il_dcl_table' => array(),
-		'il_dcl_field' => array(),
-		'il_dcl_field_prop' => array(),
-		'il_dcl_sel_opts' => array(),
-		'il_dcl_record' => array(),
-		'il_dcl_record_field' => array(),
-		'il_dcl_stloc1_value' => array(),
-		'il_dcl_stloc2_value' => array(),
-		'il_dcl_stloc3_value' => array(),
-		'il_dcl_tfield_set' => array(),
-		'il_dcl_tableview' => array(),
-		'il_dcl_tview_set' => array(),
-	);
+	protected $caches
+		= array(
+			'dcl'                 => array(),
+			'il_dcl_table'        => array(),
+			'il_dcl_field'        => array(),
+			'il_dcl_field_prop'   => array(),
+			'il_dcl_sel_opts'     => array(),
+			'il_dcl_record'       => array(),
+			'il_dcl_record_field' => array(),
+			'il_dcl_stloc1_value' => array(),
+			'il_dcl_stloc2_value' => array(),
+			'il_dcl_stloc3_value' => array(),
+			'il_dcl_tfield_set'   => array(),
+			'il_dcl_tableview'    => array(),
+			'il_dcl_tview_set'    => array(),
+		);
 	/**
 	 * @var ilObjDataCollection
 	 */
@@ -104,7 +104,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 	 * @return array
 	 */
 	public function getSupportedVersions() {
-		return array( '4.5.0' );
+		return array('4.5.0');
 	}
 
 
@@ -146,12 +146,9 @@ class ilDataCollectionDataSet extends ilDataSet {
 	public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) {
 		switch ($a_entity) {
 			case 'dcl':
-				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['id']))
-				{
-					$new_obj = ilObjectFactory::getInstanceByObjId($new_id,false);
-				}
-				else
-				{
+				if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
+					$new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
+				} else {
 					$new_obj = new ilObjDataCollection();
 					$new_obj->create(true);
 				}
@@ -200,13 +197,14 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$tableview->setTableId($new_table_id);
 					$tableview->setDescription($a_rec['description']);
 					$tableview->setTableviewOrder($a_rec['tableview_order']);
-					if(!is_array($a_rec['roles']))
+					if (!is_array($a_rec['roles'])) {
 						$a_rec['roles'] = json_decode($a_rec['roles']);
+					}
 					$tableview->setRoles($a_rec['roles']);
-					$tableview->create(false);	//do not create default setting as they are imported too
+					$tableview->create(false);    //do not create default setting as they are imported too
 				}
 				$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_tableview', $a_rec['id'], $tableview->getId());
-				$a_mapping->addMapping('Services/COPage', 'pg', 'dclf:'.$a_rec['id'], 'dclf:'.$tableview->getId());
+				$a_mapping->addMapping('Services/COPage', 'pg', 'dclf:' . $a_rec['id'], 'dclf:' . $tableview->getId());
 				break;
 			case 'il_dcl_field':
 				$new_table_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_table', $a_rec['table_id']);
@@ -278,8 +276,10 @@ class ilDataCollectionDataSet extends ilDataSet {
 						$a_mapping->addMapping('Services/COPage', 'pg', 'dclf:' . $a_rec['id'], 'dclf:' . $tableview->getId());
 						$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_view', $a_rec['id'], $tableview->getId());
 					} else {
-						$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_view', $a_rec['id'],
-							array('type' => $a_rec['type'], 'table_id' => $new_table_id, 'tableview_id' => $tableview->getId()));
+						$a_mapping->addMapping(
+							'Modules/DataCollection', 'il_dcl_view', $a_rec['id'],
+							array('type' => $a_rec['type'], 'table_id' => $new_table_id, 'tableview_id' => $tableview->getId())
+						);
 					}
 				}
 				break;
@@ -304,7 +304,6 @@ class ilDataCollectionDataSet extends ilDataSet {
 						$tablefield_setting->setFieldOrder($a_rec['field_order']);
 						$tablefield_setting->store();
 						break;
-
 				}
 				break;
 			case 'il_dcl_sel_opts':
@@ -326,23 +325,23 @@ class ilDataCollectionDataSet extends ilDataSet {
 
 					// OLD IMPORT! Backwards-compatibility
 					$name = $a_rec['name'];
-					if(!isset($name) && isset($a_rec['datatype_prop_id'])) {
+					if (!isset($name) && isset($a_rec['datatype_prop_id'])) {
 						$properties = array(
-							1 => 'length',
-							2 => 'regex',
-							3 => 'table_id',
-							4 => 'url',
-							5 => 'text_area',
-							6 => 'reference_link',
-							7 => 'width',
-							8 => 'height',
-							9 => 'learning_progress',
+							1  => 'length',
+							2  => 'regex',
+							3  => 'table_id',
+							4  => 'url',
+							5  => 'text_area',
+							6  => 'reference_link',
+							7  => 'width',
+							8  => 'height',
+							9  => 'learning_progress',
 							10 => 'ILIAS_reference_link',
 							11 => 'multiple_selection',
 							12 => 'expression',
 							13 => 'display_action_menu',
 							14 => 'link_detail_page',
-							15 => 'link_detail_page'
+							15 => 'link_detail_page',
 						);
 
 						$name = $properties[$a_rec['datatype_prop_id']];
@@ -352,13 +351,13 @@ class ilDataCollectionDataSet extends ilDataSet {
 					// For field references, we need to get the new field id of the referenced field
 					// If the field_id does not yet exist (e.g. referenced table not yet created), store temp info and fix before finishing import
 					$value = $a_rec['value'];
-					$refs = array( ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE );
+					$refs = array(ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE);
 					$fix_refs = false;
 
 					if (in_array($prop->getName(), $refs)) {
 						$new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['value']);
 						if ($new_field_id === false) {
-							$value = NULL;
+							$value = null;
 							$fix_refs = true;
 						} else {
 							$value = $new_field_id;
@@ -397,12 +396,12 @@ class ilDataCollectionDataSet extends ilDataSet {
 							case ilDclDatatype::INPUTFORMAT_MOB:
 								// Check if we got a mapping from old object
 								$new_mob_id = $a_mapping->getMapping('Services/MediaObjects', 'mob', $a_rec['value']);
-								$value = ($new_mob_id) ? (int)$new_mob_id : NULL;
+								$value = ($new_mob_id) ? (int)$new_mob_id : null;
 								$this->import_temp_new_mob_ids[] = $new_mob_id;
 								break;
 							case ilDclDatatype::INPUTFORMAT_FILE:
 								$new_file_id = $a_mapping->getMapping('Modules/File', 'file', $a_rec['value']);
-								$value = ($new_file_id) ? (int)$new_file_id : NULL;
+								$value = ($new_file_id) ? (int)$new_file_id : null;
 								break;
 							case ilDclDatatype::INPUTFORMAT_REFERENCE:
 							case ilDclDatatype::INPUTFORMAT_REFERENCELIST:
@@ -412,10 +411,10 @@ class ilDataCollectionDataSet extends ilDataSet {
 								if ($new_record_id === false) {
 									$this->import_temp_refs[$new_record_field_id] = $a_rec['value'];
 								}
-								$value = ($new_record_id) ? (int)$new_record_id : NULL;
+								$value = ($new_record_id) ? (int)$new_record_id : null;
 								break;
 							case ilDclDatatype::INPUTFORMAT_ILIAS_REF:
-								$value = NULL;
+								$value = null;
 								break;
 							default:
 								$value = $a_rec['value'];
@@ -443,7 +442,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 		}
 		foreach ($this->import_temp_refs as $record_field_id => $old_record_id) {
 			$new_record_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $old_record_id);
-			$value = ($new_record_id) ? (int)$new_record_id : NULL;
+			$value = ($new_record_id) ? (int)$new_record_id : null;
 			/** @var ilDclBaseRecordFieldModel $record_field */
 			$record_field = $this->import_record_field_cache[$record_field_id];
 			$record_field->setValue($value, true);
@@ -451,7 +450,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 		}
 		foreach ($this->import_temp_refs_props as $field_prop_id => $old_field_id) {
 			$new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $old_field_id);
-			$value = ($new_field_id) ? (int)$new_field_id : NULL;
+			$value = ($new_field_id) ? (int)$new_field_id : null;
 			$field_prop = new ilDclFieldProperty($field_prop_id);
 			$field_prop->setValue($value);
 			$field_prop->update();
@@ -471,120 +470,120 @@ class ilDataCollectionDataSet extends ilDataSet {
 		switch ($a_entity) {
 			case 'dcl':
 				return array(
-					"id" => "integer",
-					"title" => "text",
-					"description" => "text",
-					'is_online' => 'integer',
-					'rating' => 'integer',
+					"id"           => "integer",
+					"title"        => "text",
+					"description"  => "text",
+					'is_online'    => 'integer',
+					'rating'       => 'integer',
 					'public_notes' => 'integer',
-					'approval' => 'integer',
+					'approval'     => 'integer',
 					'notification' => 'integer',
 				);
 			case 'il_dcl_table':
 				return array(
-					'id' => 'integer',
-					'obj_id' => 'integer',
-					'title' => 'text',
-					'add_perm' => 'integer',
-					'edit_perm' => 'integer',
-					'delete_perm' => 'integer',
-					'edit_by_owner' => 'integer',
-					'limited' => 'integer',
-					'limit_start' => 'text',
-					'limit_end' => 'text',
-					'is_visible' => 'integer',
-					'export_enabled' => 'integer',
-					'import_enabled' => 'integer',
-					'default_sort_field_id' => 'text',
+					'id'                       => 'integer',
+					'obj_id'                   => 'integer',
+					'title'                    => 'text',
+					'add_perm'                 => 'integer',
+					'edit_perm'                => 'integer',
+					'delete_perm'              => 'integer',
+					'edit_by_owner'            => 'integer',
+					'limited'                  => 'integer',
+					'limit_start'              => 'text',
+					'limit_end'                => 'text',
+					'is_visible'               => 'integer',
+					'export_enabled'           => 'integer',
+					'import_enabled'           => 'integer',
+					'default_sort_field_id'    => 'text',
 					'default_sort_field_order' => 'text',
-					'description' => 'text',
-					'public_comments' => 'integer',
-					'view_own_records_perm' => 'integer',
-					'delete_by_owner' => 'integer',
-					'save_confirmation' => 'integer',
-					'table_order' => 'integer',
+					'description'              => 'text',
+					'public_comments'          => 'integer',
+					'view_own_records_perm'    => 'integer',
+					'delete_by_owner'          => 'integer',
+					'save_confirmation'        => 'integer',
+					'table_order'              => 'integer',
 				);
 			case 'il_dcl_tableview':
 				return array(
-					'id' => 'integer',
-					'table_id' => 'integer',
-					'title' => 'text',
-					'roles' => 'text',
-					'description' => 'text',
+					'id'              => 'integer',
+					'table_id'        => 'integer',
+					'title'           => 'text',
+					'roles'           => 'text',
+					'description'     => 'text',
 					'tableview_order' => 'integer',
 				);
 			case 'il_dcl_field':
 				return array(
-					'id' => 'integer',
-					'table_id' => 'integer',
-					'title' => 'text',
+					'id'          => 'integer',
+					'table_id'    => 'integer',
+					'title'       => 'text',
 					'description' => 'text',
 					'datatype_id' => 'integer',
-					'required' => 'integer',
-					'is_unique' => 'integer',
-					'is_locked' => 'integer',
+					'required'    => 'integer',
+					'is_unique'   => 'integer',
+					'is_locked'   => 'integer',
 				);
 			case 'il_dcl_tview_set':
 				return array(
-					'id' => 'integer',
-					'tableview_id' => 'integer',
-					'field' => 'text',
-					'visible' => 'integer',
-					'in_filter' => 'integer',
-					'filter_value' => 'text',
+					'id'                => 'integer',
+					'tableview_id'      => 'integer',
+					'field'             => 'text',
+					'visible'           => 'integer',
+					'in_filter'         => 'integer',
+					'filter_value'      => 'text',
 					'filter_changeable' => 'integer',
 				);
 			case 'il_dcl_tfield_set':
 				return array(
-					'id' => 'integer',
-					'table_id' => 'integer',
-					'field' => 'text',
+					'id'          => 'integer',
+					'table_id'    => 'integer',
+					'field'       => 'text',
 					'field_order' => 'integer',
-					'exportable' => 'integer',
+					'exportable'  => 'integer',
 				);
 			case 'il_dcl_field_prop':
 				return array(
-					'id' => 'integer',
+					'id'       => 'integer',
 					'field_id' => 'integer',
-					'name' => 'text',
-					'value' => 'integer',
+					'name'     => 'text',
+					'value'    => 'integer',
 				);
 			case 'il_dcl_sel_opts':
 				return array(
-					'id' => 'integer',
+					'id'       => 'integer',
 					'field_id' => 'integer',
-					'opt_id' => 'integer',
-					'sorting' => 'integer',
-					'value' => 'text',
+					'opt_id'   => 'integer',
+					'sorting'  => 'integer',
+					'value'    => 'text',
 				);
 			case 'il_dcl_record':
 				return array(
-					'id' => 'integer',
+					'id'       => 'integer',
 					'table_id' => 'integer',
 				);
 			case 'il_dcl_record_field':
 				return array(
-					'id' => 'integer',
+					'id'        => 'integer',
 					'record_id' => 'integer',
-					'field_id' => 'integer',
+					'field_id'  => 'integer',
 				);
 			case 'il_dcl_stloc1_value':
 				return array(
-					'id' => 'integer',
+					'id'              => 'integer',
 					'record_field_id' => 'integer',
-					'value' => 'text',
+					'value'           => 'text',
 				);
 			case 'il_dcl_stloc2_value':
 				return array(
-					'id' => 'integer',
+					'id'              => 'integer',
 					'record_field_id' => 'integer',
-					'value' => 'text',
+					'value'           => 'text',
 				);
 			case 'il_dcl_stloc3_value':
 				return array(
-					'id' => 'integer',
+					'id'              => 'integer',
 					'record_field_id' => 'integer',
-					'value' => 'text',
+					'value'           => 'text',
 				);
 			default:
 				return array();
@@ -612,7 +611,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$ids = $this->buildCache('il_dcl_table', $set);
 
 				return array(
-					'il_dcl_table' => array( 'ids' => $ids ),
+					'il_dcl_table' => array('ids' => $ids),
 				);
 				break;
 			case 'il_dcl_table':
@@ -626,10 +625,10 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$ids_tablefield_settings = $this->buildCache('il_dcl_tfield_set', $set);
 
 				return array(
-					'il_dcl_field' => array( 'ids' => $ids_fields ),
-					'il_dcl_record' => array( 'ids' => $ids_records ),
-					'il_dcl_tableview' => array( 'ids' => $ids_tableviews ),
-					'il_dcl_tfield_set' => array( 'ids' => $ids_tablefield_settings ),
+					'il_dcl_field'      => array('ids' => $ids_fields),
+					'il_dcl_record'     => array('ids' => $ids_records),
+					'il_dcl_tableview'  => array('ids' => $ids_tableviews),
+					'il_dcl_tfield_set' => array('ids' => $ids_tablefield_settings),
 				);
 			case 'il_dcl_field':
 				$set = $this->db->query('SELECT * FROM il_dcl_field_prop WHERE field_id = ' . $this->db->quote($a_rec['id'], 'integer'));
@@ -639,8 +638,8 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$opt_ids = $this->buildCache('il_dcl_sel_opts', $set);
 
 				return array(
-					'il_dcl_field_prop' => array( 'ids' => $prop_ids ),
-					'il_dcl_sel_opts' => array( 'ids' => $opt_ids ),
+					'il_dcl_field_prop' => array('ids' => $prop_ids),
+					'il_dcl_sel_opts'   => array('ids' => $opt_ids),
 				);
 			case 'il_dcl_record':
 				$sql = 'SELECT rf.*, d.storage_location FROM il_dcl_record_field AS rf' . ' INNER JOIN il_dcl_field AS f ON (f.id = rf.field_id)'
@@ -654,8 +653,8 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$this->record_field_ids_2_storage[$rec->id] = ilDclCache::getFieldCache($rec->field_id)->getStorageLocation();
 				}
 				// Also build a cache of all values, no matter in which table they are (il_dcl_stloc(1|2|3)_value)
-				$sql =
-					'SELECT rf.id AS record_field_id, st1.value AS value1, st2.value AS value2, st3.value AS value3 FROM il_dcl_record_field AS rf '
+				$sql
+					= 'SELECT rf.id AS record_field_id, st1.value AS value1, st2.value AS value2, st3.value AS value3 FROM il_dcl_record_field AS rf '
 					. 'LEFT JOIN il_dcl_stloc1_value AS st1 ON (st1.record_field_id = rf.id) '
 					. 'LEFT JOIN il_dcl_stloc2_value AS st2 ON (st2.record_field_id = rf.id) '
 					. 'LEFT JOIN il_dcl_stloc3_value AS st3 ON (st3.record_field_id = rf.id) ' . 'WHERE rf.record_id = '
@@ -668,26 +667,26 @@ class ilDataCollectionDataSet extends ilDataSet {
 					// Save reocrd field id. Internal ID is not used currently
 					$this->caches["il_dcl_stloc{$stloc}_value"][$rec->record_field_id] = array(
 						'record_field_id' => $rec->record_field_id,
-						'value' => $rec->{$value}
+						'value'           => $rec->{$value},
 					);
 				}
 
 				return array(
-					'il_dcl_record_field' => array( 'ids' => $ids )
+					'il_dcl_record_field' => array('ids' => $ids),
 				);
 			case 'il_dcl_tableview':
 				$set = $this->db->query('SELECT * FROM il_dcl_tview_set WHERE tableview_id = ' . $this->db->quote($a_rec['id'], 'integer'));
 				$ids = $this->buildCache('il_dcl_tview_set', $set);
 
 				return array(
-					'il_dcl_tview_set' => array( 'ids' => $ids )
+					'il_dcl_tview_set' => array('ids' => $ids),
 				);
 			case 'il_dcl_record_field':
 				$record_field_id = $a_rec['id'];
 				$storage_loc = $this->record_field_ids_2_storage[$record_field_id];
 
 				return array(
-					"il_dcl_stloc{$storage_loc}_value" => array( 'ids' => array( $record_field_id ) )
+					"il_dcl_stloc{$storage_loc}_value" => array('ids' => array($record_field_id)),
 				);
 		}
 
@@ -705,7 +704,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 	public function readData($a_entity, $a_version, $a_ids) {
 		$this->data = array();
 		if (!is_array($a_ids)) {
-			$a_ids = array( $a_ids );
+			$a_ids = array($a_ids);
 		}
 		$this->_readData($a_entity, $a_ids);
 	}
@@ -724,13 +723,13 @@ class ilDataCollectionDataSet extends ilDataSet {
 					if (ilObject::_lookupType($dcl_id) == 'dcl') {
 						$obj = new ilObjDataCollection($dcl_id, false);
 						$data = array(
-							'id' => $dcl_id,
-							'title' => $obj->getTitle(),
-							'description' => $obj->getDescription(),
-							'is_online' => $obj->getOnline(),
-							'rating' => $obj->getRating(),
+							'id'           => $dcl_id,
+							'title'        => $obj->getTitle(),
+							'description'  => $obj->getDescription(),
+							'is_online'    => $obj->getOnline(),
+							'rating'       => $obj->getRating(),
 							'public_notes' => $obj->getPublicNotes(),
-							'approval' => $obj->getApproval(),
+							'approval'     => $obj->getApproval(),
 							'notification' => $obj->getNotification(),
 						);
 						$this->caches['dcl'][$dcl_id] = $data;

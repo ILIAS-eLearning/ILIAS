@@ -1,4 +1,19 @@
 <?php exit; ?>
+
+## Main changes 5.4
+
+- Introduction of repo objects (wiki) as submission.
+- Introduction of assignment type classes under AssignmentTypes
+
+Current situation in ilExSubmission/exc_returned table
+- PROBLEM: - exc_returned entries are used for text and blog/portfolios submissions, too!
+           - filetitle is the wsp_id for blog/portfolios, the ref_id for wikis now!
+           - getFiles() also returns entries for text
+           -> This is confusing.
+- FUTURE: exc_returned entries should be refactored in a more general concept "Submission Items" (files, text,
+  wsp objects, repo objects, ...)
+
+
 ## Main changes 5.3
 
 New DB table exc_ass_file_order with columns id,assignment_id,filename,order_nr

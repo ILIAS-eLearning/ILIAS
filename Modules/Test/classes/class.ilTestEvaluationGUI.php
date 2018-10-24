@@ -33,6 +33,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	protected $testAccess;
 	
 	/**
+	 * @var ilTestProcessLockerFactory
+	 */
+	protected $processLockerFactory;
+	
+	/**
 	 * ilTestEvaluationGUI constructor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the 
@@ -43,6 +48,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function __construct(ilObjTest $a_object)
 	{
 		parent::__construct($a_object);
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
+		$this->processLockerFactory = new ilTestProcessLockerFactory(
+			new ilSetting('assessment'), $DIC->database()
+		);
 	}
 	
 	/**
@@ -178,7 +190,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	/**
 	* Creates the evaluation output for the test
-	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
@@ -186,12 +197,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$ilToolbar = $DIC->toolbar();
-		ilObjTestGUI::accessViolationRedirect(); // method deprecated
+
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
-
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
+		
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
 		
 		$table_gui = new ilEvaluationAllTableGUI(
@@ -369,19 +382,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	* Creates the detailed evaluation output for a selected participant
 	*
 	* Creates the detailed evaluation output for a selected participant
-	 * 
-	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
 	function detailedEvaluation()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		ilObjTestGUI::accessViolationRedirect(); // method deprecated
+		
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
 
 		$active_id = $_GET['active_id'];
 		
@@ -2290,10 +2303,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	protected function finishTestPass($active_id, $obj_id)
 	{
+		$this->processLockerFactory->setActiveId($active_id);
+		$processLocker = $this->processLockerFactory->getLocker();
+		
 		$test_pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
-		$test_pass_finisher->performFinishTasksBeforeArchiving();
-		//Todo Archiving?
-		$test_pass_finisher->performFinishTasksAfterArchiving();
+		$test_pass_finisher->performFinishTasks($processLocker);
 	}
 	
 	protected function redirectBackToParticipantsScreen()

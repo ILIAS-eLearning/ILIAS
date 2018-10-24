@@ -21,19 +21,20 @@ use Sabre\DAV\Exception\NotFound;
  */
 class ilClientNodeDAV implements Sabre\DAV\ICollection
 {
-    /** @var $access ilAccessHandler */
-    protected $access;
+    /** @var ilWebDAVRepositoryHelper $repo_helper */
+    protected $repo_helper;
     
     protected $name_of_repository_root;
     
     /**
      * @param string $client_name
      */
-    public function __construct(string $client_name)
+    public function __construct(string $client_name, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
         global $DIC;
         
-        $this->access = $DIC->access();
+        $this->repo_helper = $repo_helper;
+        $this->dav_helper = $dav_helper;
         $this->client_name = $client_name;
         $this->name_of_repository_root = 'ILIAS';
     }
@@ -85,9 +86,9 @@ class ilClientNodeDAV implements Sabre\DAV\ICollection
         
         if($ref_id > 0)
         {
-            if($this->access->checkAccess('read', '', $ref_id))
+            if($this->repo_helper->checkAccess('read', $ref_id))
             {
-                return ilObjectDAV::_createDAVObjectForRefId($ref_id);
+                return $this->dav_helper->createDAVObjectForRefId($ref_id);
             }
 
             throw new Forbidden("No read permission for object with reference ID $ref_id ");
@@ -98,8 +99,8 @@ class ilClientNodeDAV implements Sabre\DAV\ICollection
     
     protected function getRepositoryRootPoint()
     {
-        if($this->access->checkAccess('read', '', ROOT_FOLDER_ID))
-            return new ilObjRepositoryRootDAV($this->name_of_repository_root);
+        if($this->repo_helper->checkAccess('read', ROOT_FOLDER_ID))
+            return new ilObjRepositoryRootDAV($this->name_of_repository_root, $this->repo_helper, $this->dav_helper);
         throw new Forbidden("No read permission for ilias repository root");
     }
     
@@ -121,7 +122,7 @@ class ilClientNodeDAV implements Sabre\DAV\ICollection
         $ref_id = $this->getRefIdFromName($name);
         if($ref_id > 0)
         {
-            return ilObject::_exists($ref_id, true) && $this->access->checkAccess('read', '', $ref_id);
+            return $this->repo_helper->objectWithRefIdExists($ref_id) && $this->repo_helper->checkAccess('read', $ref_id);
         }
         return false;
     }
@@ -146,7 +147,7 @@ class ilClientNodeDAV implements Sabre\DAV\ICollection
     
     protected function checkIfRefIdIsValid($ref_id)
     {
-        if($ref_id > 0 && ilObject::_exists($ref_id, true) && ilObjectDAV::_isDAVableObject($ref_id, true))
+        if($ref_id > 0 && $this->repo_helper->objectWithRefIdExists($ref_id) && $this->dav_helper->isDAVableObject($ref_id))
         {
             return $ref_id;
         }

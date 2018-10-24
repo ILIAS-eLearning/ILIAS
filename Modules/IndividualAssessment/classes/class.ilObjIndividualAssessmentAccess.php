@@ -1,8 +1,8 @@
 <?php
 
 require_once 'Services/Object/classes/class.ilObjectAccess.php';
-require_once 'Services/AccessControl/classes/class.ilConditionHandler.php';
-require_once 'Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+require_once 'Services/Conditions/classes/class.ilConditionHandler.php';
+require_once 'Services/Conditions/interfaces/interface.ilConditionHandling.php';
 class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilConditionHandling{
 	/**
 	 * @inheritdoc
@@ -21,7 +21,7 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
 	 * @inheritdoc
 	 */
 	public static function getConditionOperators() {
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_PASSED,
 			ilConditionHandler::OPERATOR_FAILED

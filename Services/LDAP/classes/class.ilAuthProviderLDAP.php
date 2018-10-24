@@ -69,6 +69,11 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 			}
+			if(!trim($this->getCredentials()->getPassword()))
+			{
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
+				return false;
+			}
 			if(!array_key_exists($this->changeKeyCase($this->getCredentials()->getUsername()), $users))
 			{
 				$this->getLogger()->warning('Cannot find user: '. $this->changeKeyCase($this->getCredentials()->getUsername()));

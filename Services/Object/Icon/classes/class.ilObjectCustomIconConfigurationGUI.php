@@ -6,24 +6,16 @@
  */
 class ilObjectCustomIconConfigurationGUI
 {
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	const DEFAULT_CMD = 'showForm';
 
-	/**
-	 * @var \ILIAS\DI\Container
-	 */
+	/** @var \ILIAS\DI\Container */
 	protected $dic;
 
-	/**
-	 * @var \ilObject
-	 */
+	/** @var \ilObject */
 	protected $object;
 
-	/**
-	 * @var \ilObjectGUI|mixed
-	 */
+	/** @var \ilObjectGUI|mixed */
 	protected $parentGui;
 
 	/**
@@ -83,7 +75,7 @@ class ilObjectCustomIconConfigurationGUI
 	/**
 	 * @return \ilPropertyFormGUI
 	 */
-	protected function getForm()
+	protected function getForm(): \ilPropertyFormGUI
 	{
 		$this->dic->language()->loadLanguageModule('cntr');
 

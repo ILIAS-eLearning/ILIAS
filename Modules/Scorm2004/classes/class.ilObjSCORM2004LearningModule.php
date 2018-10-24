@@ -1485,15 +1485,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			case "2004":
 				if ($revision == "3rd") {
-					ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_130_export_2004',$a_target_dir,false);
+					ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_130_export_2004',$a_target_dir,false);
 				} 
 	
 				if ($revision == "4th") {
-					ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_130_export_2004_4th',$a_target_dir,false);
+					ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_130_export_2004_4th',$a_target_dir,false);
 				} 				
 				break;
 			case "12":
-				ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_120_export_12',$a_target_dir,false);
+				ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_120_export_12',$a_target_dir,false);
 				break;	
 		}
 		

@@ -434,7 +434,7 @@ class ilECSTaskScheduler
 		$soap_client->setResponseTimeout(1);
 		$soap_client->enableWSDL(true);
 
-		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
+		$new_session_id = ilSession::_duplicate($_COOKIE[session_name()]);
 		$client_id = $_COOKIE['ilClientId'];
 
 		if($soap_client->init() and 0)

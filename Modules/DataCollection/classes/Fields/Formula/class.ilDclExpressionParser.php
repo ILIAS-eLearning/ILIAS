@@ -26,13 +26,14 @@ class ilDclExpressionParser {
 	/**
 	 * @var array
 	 */
-	protected static $operators = array(
-		'+' => array( 'precedence' => 1 ),
-		'-' => array( 'precedence' => 1 ),
-		'*' => array( 'precedence' => 2 ),
-		'/' => array( 'precedence' => 2 ),
-		'^' => array( 'precedence' => 3 ),
-	);
+	protected static $operators
+		= array(
+			'+' => array('precedence' => 1),
+			'-' => array('precedence' => 1),
+			'*' => array('precedence' => 2),
+			'/' => array('precedence' => 2),
+			'^' => array('precedence' => 3),
+		);
 	/**
 	 * @var array
 	 */
@@ -52,16 +53,17 @@ class ilDclExpressionParser {
 	/**
 	 * @var array
 	 */
-	protected static $functions = array(
-		'SUM',
-		'AVERAGE',
-		'MIN',
-		'MAX',
-	);
+	protected static $functions
+		= array(
+			'SUM',
+			'AVERAGE',
+			'MIN',
+			'MAX',
+		);
 
 
 	/**
-	 * @param string                 $expression
+	 * @param string               $expression
 	 * @param ilDclBaseRecordModel $record
 	 * @param ilDclBaseFieldModel  $field
 	 */
@@ -126,7 +128,7 @@ class ilDclExpressionParser {
 		if (abs($value) >= self::SCIENTIFIC_NOTATION_UPPER) {
 			return sprintf("%e", $value);
 		}
-		if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER && $value != 0 ) {
+		if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER && $value != 0) {
 			return sprintf("%e", $value);
 		}
 		if (is_float($value)) {
@@ -225,9 +227,9 @@ class ilDclExpressionParser {
 	protected function getFunctionArgs($index, array $data) {
 		$return = array(
 			'function' => '',
-			'args' => array(),
+			'args'     => array(),
 		);
-		for ($i = 1; $i < count($data); $i ++) {
+		for ($i = 1; $i < count($data); $i++) {
 			$_data = $data[$i];
 			if ($_data[$index]) {
 				$function = $_data[$index];
@@ -278,17 +280,17 @@ class ilDclExpressionParser {
 			$table = ilDclCache::getTableCache($this->record->getTableId()); // TODO May need caching per table in future
 			$field_title = preg_replace('#^\[\[(.*)\]\]#', "$1", $placeholder);
 			$field = $table->getFieldByTitle($field_title);
-			if ($field === NULL) {
+			if ($field === null) {
 				// Workaround for standardfields - title my be ID
 				$field = $table->getField($field_title);
-				if ($field === NULL) {
+				if ($field === null) {
 					global $DIC;
 					$lng = $DIC['lng'];
 					/**
 					 * @var $lng ilLanguage
 					 */
 					$lng->loadLanguageModule('dcl');
-//					throw new ilException("Field with title '$field_title' not found");
+					//					throw new ilException("Field with title '$field_title' not found");
 					throw new ilException(sprintf($lng->txt('dcl_err_formula_field_not_found'), $field_title));
 				}
 			}
@@ -438,6 +440,5 @@ class ilDclExpressionParser {
 		return $result;
 	}
 }
-
 
 ?>

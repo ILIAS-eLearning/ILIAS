@@ -255,7 +255,6 @@ interface Factory {
 	 *     4: >
 	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
 	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
-	 *      (Not yet part of the KitchenSink).
 	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
 	 *
 	 * ---
@@ -288,7 +287,8 @@ interface Factory {
 	 *          Use a text field for discloseable information (i.e.
 	 *          information that can safely be displayed to an audience)
 	 *
-	 * context: Login-Form and own profile (change Password).
+	 * context:
+     *    - Login-Form and own profile (change Password).
 	 *
 	 * rules:
 	 *   usage:
@@ -348,5 +348,137 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Input\Field\Select
 	 */
 	public function select($label, array $options, $byline = null);
-}
 
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A textarea is intended for entering multi-line texts.
+	 *   composition: >
+	 *      Textarea fields will render an textarea HTML tag.
+	 *      If a limit is set, a byline about limitation is automatically set.
+	 *   effect: >
+	 *      Textarea inputs are NOT restricted to one line of text.
+	 *      A textarea counts the amount of character input by user and displays the number.
+	 *   rivals:
+	 *      text field: Use a text field if users should input only one line of text.
+	 *      numeric field: Use a numeric field if users should input numbers.
+	 *      alphabet field: >
+	 *          Use an alphabet field if the user should input single letters.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Textarea Input MUST NOT be used for choosing from predetermined options.
+	 *     2: >
+	 *         Textarea input MUST NOT be used for numeric input, a Numeric Field is
+	 *         to be used instead.
+	 *     3: >
+	 *         Textarea Input MUST NOT be used for letter-only input, an Alphabet Field
+	 *         is to be used instead.
+	 *     4: >
+	 *         Textarea Input MUST NOT be used for single-line input, a Text Field
+	 *         is to be used instead.
+	 *     5: >
+	 *         If a min. or max. number of characters is set for textarea, a byline MUST
+	 *         be added stating the number of min. and/or max. characters.
+	 *   interaction:
+	 *     1: >
+	 *         Textarea Input MAY limit the number of characters, if a certain length
+	 *         of text-input may not be exceeded (e.g. due to database-limitations).
+	 *
+	 * ---
+	 * @param    string      $label
+	 * @param    string|null $byline
+	 * @return    \ILIAS\UI\Component\Input\Field\Textarea
+	 */
+	public function textarea($label, $byline = null);
+  
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Radio Input is used to depict a choice of options excluding each other.
+	 *   composition: >
+	 *     The Radio is considered as one field with a label and a number of
+	 *     options. Each option in turn bears a label in form of a positive statement.
+	 *   effect: >
+	 *     If used in a form, each option of a Radio may open a Dependant Section (formerly known
+	 *     as Sub Form).
+	 *   rivals:
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Select: >
+	 *       Use Selects to choose items from a longer list as the configuration of
+	 *       an aspect; when the choice has severe effects on, e.g. service behavior,
+	 *       or needs further configuration, stick to radios.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Radio Input SHOULD contain 3 to 5 options.
+	 *       If there are more, the Select Input might be the better option.
+	 *     2: >
+	 *       Radios MAY also be used to select between two options
+	 *       where one is not automatically the inverse of the other
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: The options' labels MUST state something positive.
+	 *     3: >
+	 *        An option's label SHOULD not simply repeat the label of the Radio.
+	 *        A meaningful labeling SHOULD be chosen instead.
+	 *   ordering:
+	 *     1: The presumably most relevant option SHOULD be the first option.
+	 *
+	 * ---
+	 *
+	 * @param    string 	$label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Radio
+	 */
+	public function radio($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Multi Select is used to allow users to pick several options from a list.
+	 *   composition: >
+	 *     The Multi Select field will render labeled checkboxes according to given options.
+	 *   effect: >
+	 *
+	 *   rivals:
+	 *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
+	 *     Tag Field: Use a Tag Input when the user is able to extend the list of given options.
+	 *     Select Field: >
+	 *       Use a Select Input when the user's choice is limited to one option
+	 *       or the options are mutually exclusive.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A Multi Select input SHOULD be used when a user has to choose from a finite list of options
+	 *      which cannot be extended by the user's input and where more than one choice can be made.
+	 *     2: >
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
+	 *     3: >
+	 *      A Multi Select input MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      options where only one option can be selected. A Select MUST be used in this case
+	 *
+	 *   wording:
+	 *     1: Each option MUST be labeled.
+	 *     2: >
+	 *       If the option governs a change of (service-)behavior, the option's
+	 *       label MUST be in form of a positive statement.
+ 	 *
+ 	 * ---
+ 	 * @param string 	$label
+ 	 * @param array<string,string> 	$options 	with the select options as value=>label.
+ 	 * @param string 	$byline
+ 	 *
+ 	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
+ 	 */
+ 	public function multiSelect($label, array $options, $byline = null);
+}

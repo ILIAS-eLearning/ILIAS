@@ -7,11 +7,13 @@
  * @version 1.0.0
  */
 class ilDclRecordQueryObject {
+
 	protected $selectStatement;
 	protected $joinStatement;
 	protected $whereStatement;
 	protected $groupStatement;
 	protected $orderStatement;
+
 
 	/**
 	 * @return mixed
@@ -105,5 +107,4 @@ class ilDclRecordQueryObject {
 	public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, $direction = 'asc') {
 		return $all_records;
 	}
-
 }

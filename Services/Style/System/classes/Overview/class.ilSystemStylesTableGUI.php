@@ -242,7 +242,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 					$this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI', 'skin_id', $a_set["skin_id"]);
 					$this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI', 'style_id', $a_set["style_id"]);
 
-					if ($a_set["skin_id"] != "default") {
+                    $config = new ilSystemStyleConfig();
+                    if ($a_set["skin_id"] != $config->getDefaultSkinId()) {
 						$this->addManagementActionsToList($action_list);
 						$this->addMultiActions($a_set["id"]);
 					}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class ilDclTextFieldRepresentation
  *
@@ -6,11 +7,14 @@
  * @version 1.0.0
  */
 class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation {
+
 	const LINK_MAX_LENGTH = 40;
+
 
 	/**
 	 * Outputs html of a certain field
-	 * @param mixed $value
+	 *
+	 * @param mixed     $value
 	 * @param bool|true $link
 	 *
 	 * @return string
@@ -40,17 +44,18 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation {
 			}
 
 			$html = "<a rel='noopener' target='_blank' href='" . htmlspecialchars($link, ENT_QUOTES) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
-
 		} elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($_GET['tableview_id'])) {
 			$this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
 			$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId());
 			$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $_GET['tableview_id']);
 			$html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $value . '</a>';
 		} else {
-			$html = (is_array($value) && isset($value['link']))? $value['link'] : $value;
+			$html = (is_array($value) && isset($value['link'])) ? $value['link'] : $value;
 		}
+
 		return $html;
 	}
+
 
 	/**
 	 * This method shortens a link. The http(s):// and the www part are taken away. The rest will be shortened to sth similar to:
@@ -83,25 +88,26 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation {
 		return $link;
 	}
 
+
 	/**
 	 * @inheritDoc
 	 */
 	public function fillFormInput($form) {
-		$input_field = $form->getItemByPostVar('field_'.$this->getField()->getId());
+		$input_field = $form->getItemByPostVar('field_' . $this->getField()->getId());
 		$raw_input = $this->getFormInput();
 
 		$value = is_array($raw_input) ? $raw_input['link'] : $raw_input;
 		$field_values = array();
-		if($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-			$field_values["field_".$this->getRecordField()->getField()->getId()."_title"] = (isset($raw_input['title']))? $raw_input['title'] : '';
+		if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+			$field_values["field_" . $this->getRecordField()->getField()->getId() . "_title"] = (isset($raw_input['title'])) ? $raw_input['title'] : '';
 		}
 
 		if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-			$breaks = array( "<br />" );
+			$breaks = array("<br />");
 			$value = str_ireplace($breaks, "", $value);
 		}
 
-		$field_values["field_".$this->getRecordField()->getField()->getId()] = $value;
+		$field_values["field_" . $this->getRecordField()->getField()->getId()] = $value;
 		$input_field->setValueByArray($field_values);
 	}
 }
