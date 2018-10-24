@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/FileSystem/classes/class.ilFileData.php");
-require_once("./Services/Utilities/classes/class.ilFileUtils.php");
-
 /**
 * This class handles all operations on files for the forum object.
 *  

@@ -187,7 +187,7 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 		}
 
 		if ($parser === null) {
-			$parser = $parserFactory->getParser($a_address_list);
+			$parser = $parserFactory->getParser((string)$a_address_list);
 		}
 
 		$role_ids = array();
@@ -546,7 +546,7 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 
 		try
 		{
-			$parser = $mailAddressParserFactory->getParser($mailbox);
+			$parser = $mailAddressParserFactory->getParser((string)$mailbox);
 			$parser->parse();
 
 			return $mailbox;

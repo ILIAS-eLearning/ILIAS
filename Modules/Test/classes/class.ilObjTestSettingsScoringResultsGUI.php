@@ -432,14 +432,21 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$resultsAccessEnabled->setChecked($this->testOBJ->isScoreReportingEnabled());
 			$resultsAccessSetting = new ilRadioGroupInputGUI($this->lng->txt('tst_results_access_setting'), 'results_access_setting');
 			$resultsAccessSetting->setRequired(true);
-			$optAlways = new ilRadioOption($this->lng->txt('tst_results_access_always'), 2, '');
+			$optAlways = new ilRadioOption($this->lng->txt('tst_results_access_always'));
 			$optAlways->setInfo($this->lng->txt('tst_results_access_always_desc'));
+			$optAlways->setValue(ilObjTest::SCORE_REPORTING_IMMIDIATLY);
 			$resultsAccessSetting->addOption($optAlways);
-			$optFinished = $opt = new ilRadioOption($this->lng->txt('tst_results_access_finished'), 1, '');
+			$optFinished = $opt = new ilRadioOption($this->lng->txt('tst_results_access_finished'));
 			$optFinished->setInfo($this->lng->txt('tst_results_access_finished_desc'));
+			$optFinished->setValue(ilObjTest::SCORE_REPORTING_FINISHED);
 			$resultsAccessSetting->addOption($optFinished);
-			$optionDate = new ilRadioOption($this->lng->txt('tst_results_access_date'), 3, '');
+			$optPassed = $opt = new ilRadioOption($this->lng->txt('tst_results_access_passed'));
+			$optPassed->setInfo($this->lng->txt('tst_results_access_passed_desc'));
+			$optPassed->setValue(ilObjTest::SCORE_REPORTING_AFTER_PASSED);
+			$resultsAccessSetting->addOption($optPassed);
+			$optionDate = new ilRadioOption($this->lng->txt('tst_results_access_date'));
 			$optionDate->setInfo($this->lng->txt('tst_results_access_date_desc'));
+			$optionDate->setValue(ilObjTest::SCORE_REPORTING_DATE);
 				// access date
 				$reportingDate = new ilDateTimeInputGUI($this->lng->txt('tst_reporting_date'), 'reporting_date');
 				$reportingDate->setRequired(true);
@@ -454,10 +461,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 				}
 				$optionDate->addSubItem($reportingDate);
 			$resultsAccessSetting->addOption($optionDate);
-			$resultsAccessValue = $this->testOBJ->getScoreReporting();
-			$resultsAccessSetting->setValue(
-				$resultsAccessValue > 0 && $resultsAccessValue < 4 ? $resultsAccessValue : 2
-			);
+			$resultsAccessSetting->setValue($this->testOBJ->getScoreReporting());
 			$resultsAccessEnabled->addSubItem($resultsAccessSetting);
 			// show pass details
 			$showPassDetails = new ilCheckboxInputGUI($this->lng->txt('tst_show_pass_details'), 'pass_details');
@@ -491,7 +495,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			{
 				$this->testOBJ->setScoreReporting($form->getItemByPostVar('results_access_setting')->getValue());
 
-				if( $this->testOBJ->getScoreReporting() == REPORT_AFTER_DATE )
+				if( $this->testOBJ->getScoreReporting() == ilObjTest::SCORE_REPORTING_DATE )
 				{
 					$reporting_date = $form->getItemByPostVar('reporting_date')->getDate();
 					if($reporting_date instanceof ilDateTime)
@@ -512,7 +516,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			}
 			else
 			{
-				$this->testOBJ->setScoreReporting(4); // never
+				$this->testOBJ->setScoreReporting(ilObjTest::SCORE_REPORTING_DISABLED);
 				$this->testOBJ->setShowPassDetails(false);
 				$this->testOBJ->setReportingDate('');
 			}
@@ -801,6 +805,24 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			}
 		}
 	}
+	
+	private function isScoreReportingAvailable()
+	{
+		if (!$this->testOBJ->getScoreReporting())
+		{
+			return false;
+		}
+		
+		if (
+			$this->testOBJ->getScoreReporting() == ilObjTest::SCORE_REPORTING_DATE
+			&& $this->testOBJ->getReportingDate() > time()
+		)
+		{
+			return false;
+		}
+		
+		return true;
+	}
 
 	private function areScoringSettingsWritable()
 	{
@@ -809,7 +831,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			return true;
 		}
 
-		if( !$this->testOBJ->isScoreReportingAvailable() )
+		if( !$this->isScoreReportingAvailable() )
 		{
 			return true;
 		}

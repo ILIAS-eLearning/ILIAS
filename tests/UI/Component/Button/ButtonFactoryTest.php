@@ -7,6 +7,7 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 		( "standard"	=> array("context" => false)
 		, "close"		=> array("context" => false)
 		, "shy"			=> array("context" => false)
+        , "tag"			=> array("context" => false)
 		, "bulky"		=> array("context" => false)
 		);
 

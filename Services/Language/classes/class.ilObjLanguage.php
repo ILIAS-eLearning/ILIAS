@@ -39,7 +39,8 @@ class ilObjLanguage extends ilObject
 	 */
 	function __construct($a_id = 0, $a_call_by_reference = false)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
 
 		$this->type = "lng";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -295,7 +296,8 @@ class ilObjLanguage extends ilObject
 	 */
 	public static function refreshPlugins($a_lang_keys = null)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		// refresh languages of activated plugins
 		include_once("./Services/Component/classes/class.ilPluginSlot.php");
@@ -325,7 +327,9 @@ class ilObjLanguage extends ilObject
 	*/
 	static function _deleteLangData($a_lang_key, $a_keep_local_change = false)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		if (!$a_keep_local_change)
 		{
 			$ilDB->manipulate("DELETE FROM lng_data WHERE lang_key = ".
@@ -345,7 +349,8 @@ class ilObjLanguage extends ilObject
 	 */
 	function flush($a_mode = 'all')
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		ilObjLanguage::_deleteLangData($this->key, ($a_mode == 'keep_local'));
 
@@ -365,7 +370,8 @@ class ilObjLanguage extends ilObject
 	*/
 	function getLocalChanges($a_min_date = "", $a_max_date = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		if ($a_min_date == "")
 		{
@@ -398,7 +404,8 @@ class ilObjLanguage extends ilObject
 	*/
 	static function _getLastLocalChange($a_key)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$q = sprintf("SELECT MAX(local_change) last_change FROM lng_data ".
 					"WHERE lang_key = %s AND local_change IS NOT NULL",
@@ -424,8 +431,8 @@ class ilObjLanguage extends ilObject
 	 */
 	static function _getLocalChangesByModule($a_key, $a_module)
 	{
-		/** @var ilDB $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$changes = array();
 		$result = $ilDB->queryF("SELECT * FROM lng_data WHERE lang_key = %s AND module = %s AND local_change IS NOT NULL",
@@ -448,7 +455,8 @@ class ilObjLanguage extends ilObject
 	 */
 	function insert($scope = '')
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		if (!empty($scope))
 		{
@@ -649,7 +657,8 @@ class ilObjLanguage extends ilObject
 	static final function replaceLangEntry($a_module, $a_identifier,
 		$a_lang_key, $a_value, $a_local_change = null, $a_remarks = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		ilGlobalCache::flushAll();
 
@@ -708,7 +717,8 @@ class ilObjLanguage extends ilObject
 	static final function updateLangEntry($a_module, $a_identifier,
 		$a_lang_key, $a_value, $a_local_change = null, $a_remarks = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		if (isset($a_remarks))
 		{
@@ -743,7 +753,8 @@ class ilObjLanguage extends ilObject
 	*/
 	static final function deleteLangEntry($a_module, $a_identifier, $a_lang_key)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate(sprintf("DELETE FROM lng_data " .
 			"WHERE module = %s AND identifier = %s AND lang_key = %s ",
@@ -763,7 +774,8 @@ class ilObjLanguage extends ilObject
 	 */
 	function resetUserLanguage($lang_key)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$query = "UPDATE usr_pref SET " .
 				"value = ".$ilDB->quote($this->lang_default, "text")." " .
@@ -892,7 +904,9 @@ class ilObjLanguage extends ilObject
 	*/
 	static function countUsers($a_lang)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 		
 		$set = $ilDB->query("SELECT COUNT(*) cnt FROM usr_data ud JOIN usr_pref up".
 			" ON ud.usr_id = up.usr_id ".

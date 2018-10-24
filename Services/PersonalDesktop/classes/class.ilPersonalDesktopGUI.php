@@ -20,7 +20,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMyStaffGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilBadgeProfileGUI, ilGroupUserActionsGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilBadgeProfileGUI, ilGroupUserActionsGUI, ilLearningHistoryGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -271,7 +271,15 @@ class ilPersonalDesktopGUI
 				$this->tpl->show();
 				break;
 
-			case 'ilpersonalskillsgui':				
+			case 'illearninghistorygui':
+				$this->getStandardTemplates();
+				$this->setTabs();
+				$lhistgui = new ilLearningHistoryGUI();
+				$ret = $this->ctrl->forwardCommand($lhistgui);
+				$this->tpl->show();
+				break;
+
+			case 'ilpersonalskillsgui':
 				$this->setTabs();
 				include_once './Services/Skill/classes/class.ilPersonalSkillsGUI.php';
 				$skgui = new ilPersonalSkillsGUI();

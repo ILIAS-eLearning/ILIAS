@@ -142,7 +142,7 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConditions()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		
 		ilConditionHandler::_getDistinctTargetRefIds();
 		ilConditionHandler::_deleteTargetConditionsByRefId(1);
@@ -168,8 +168,8 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		// syntax check
 		$handler->deleteByObjId(-1);
 		$handler->deleteCondition(-1);
-		ilConditionHandler::_getConditionsOfTrigger(-1,-1);
-		ilConditionHandler::_getConditionsOfTarget(-1,-1);
+		ilConditionHandler::_getPersistedConditionsOfTrigger(-1,-1);
+		ilConditionHandler::_getPersistedConditionsOfTarget(-1,-1);
 		ilConditionHandler::_getCondition(-1);
 	}
 

@@ -1,26 +1,56 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * Class ilTermsOfServiceHelper
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceHelper
 {
+	/** @var \ilDBInterface */
+	protected $database;
+
+	/** @var \ilTermsOfServiceDataGatewayFactory */
+	protected $dataGatewayFactory;
+
 	/**
-	 * @return bool
+	 * ilTermsOfServiceHelper constructor.
+	 * @param \ilDBInterface|null                     $database
+	 * @param \ilTermsOfServiceDataGatewayFactory|null $dataGatewayFactory
 	 */
-	public static function isEnabled()
+	public function __construct(
+		\ilDBInterface $database = null,
+		\ilTermsOfServiceDataGatewayFactory $dataGatewayFactory = null
+	)
 	{
 		global $DIC;
 
-		return (bool)$DIC['ilSetting']->get('tos_status', 0);
+		if (null === $database) {
+			$database = $DIC->database();
+		}
+		$this->database = $database;
+
+		if (null === $dataGatewayFactory) {
+			$dataGatewayFactory = new \ilTermsOfServiceDataGatewayFactory();
+			$dataGatewayFactory->setDatabaseAdapter($this->database);
+		}
+		$this->dataGatewayFactory = $dataGatewayFactory;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isEnabled(): bool 
+	{
+		global $DIC;
+
+		return (bool)$DIC['ilSetting']->get('tos_status', false);
 	}
 
 	/**
 	 * @param bool $status
 	 */
-	public static function setStatus($status)
+	public static function setStatus(bool $status)
 	{
 		global $DIC;
 
@@ -28,84 +58,84 @@ class ilTermsOfServiceHelper
 	}
 
 	/**
-	 * @param int $usr_id
+	 * @param int $userId
+	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function deleteAcceptanceHistoryByUser($usr_id)
+	public function deleteAcceptanceHistoryByUser(int $userId)
 	{
-		$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
-		$entity->setUserId($usr_id);
-		$data_gateway->deleteAcceptanceHistoryByUser($entity);
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+
+		$databaseGateway->deleteAcceptanceHistoryByUser($entity->withUserId($userId));
 	}
 
 	/**
-	 * @param ilObjUser $user
-	 * @return ilTermsOfServiceAcceptanceEntity
+	 * @param \ilObjUser $user
+	 * @return \ilTermsOfServiceAcceptanceEntity
+	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function getCurrentAcceptanceForUser(ilObjUser $user)
+	public function getCurrentAcceptanceForUser(\ilObjUser $user): \ilTermsOfServiceAcceptanceEntity
 	{
-		$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
-		$entity->setUserId($user->getId());
-		return $data_gateway->loadCurrentAcceptanceOfUser($entity);
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+
+		return $databaseGateway->loadCurrentAcceptanceOfUser($entity->withUserId($user->getId()));
 	}
 
 	/**
-	 * @param integer $id
-	 * @return ilTermsOfServiceAcceptanceEntity
+	 * @param int $id
+	 * @return \ilTermsOfServiceAcceptanceEntity
+	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function getById($id)
+	public function getById(int $id): \ilTermsOfServiceAcceptanceEntity
 	{
-		$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-		$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
-		$entity->setId($id);
-		return $data_gateway->loadById($entity);
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
+
+		return $databaseGateway->loadById($entity->withId($id));
 	}
 
 	/**
-	 * @param ilObjUser                        $user
-	 * @param ilTermsOfServiceSignableDocument $document
+	 * @param \ilObjUser $user
+	 * @param \ilTermsOfServiceSignableDocument $document
+	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
-	public static function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document)
+	public function trackAcceptance(\ilObjUser $user, \ilTermsOfServiceSignableDocument $document)
 	{
-		if(self::isEnabled() && $document->exists())
-		{
-			$entity       = self::getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
-			$data_gateway = self::getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
-			$entity->setUserId($user->getId());
-			$entity->setTimestamp(time());
-			$entity->setIso2LanguageCode($document->getIso2LanguageCode());
-			$entity->setSource($document->getSource());
-			$entity->setSourceType($document->getSourceType());
-			$entity->setText($document->getContent());
-			$entity->setHash(md5($document->getContent()));
-			$data_gateway->trackAcceptance($entity);
+		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-			$user->writeAccepted(); // <- Has to be refactored in future releases
+		$entity = $entity
+			->withUserId($user->getId())
+			->withTimestamp(time())
+			->withText($document->content())
+			->withHash(md5($document->content()))
+			->withDocumentId($document->id())
+			->withTitle($document->title());
 
-			$user->hasToAcceptTermsOfServiceInSession(false);
-		}
+		$criteriaBag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->criteria());
+		$entity = $entity->withSerializedCriteria($criteriaBag->toJson());
+
+		$databaseGateway->trackAcceptance($entity);
+
+		$user->writeAccepted();
+
+		$user->hasToAcceptTermsOfServiceInSession(false);
 	}
 
 	/**
-	 * @return ilTermsOfServiceEntityFactory
+	 * @return \ilTermsOfServiceEntityFactory
 	 */
-	private static function getEntityFactory()
+	private function getEntityFactory(): \ilTermsOfServiceEntityFactory
 	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceEntityFactory.php';
-		return new ilTermsOfServiceEntityFactory();
+		return new \ilTermsOfServiceEntityFactory();
 	}
 
 	/**
-	 * @return ilTermsOfServiceDataGatewayFactory
+	 * @return \ilTermsOfServiceDataGatewayFactory
 	 */
-	private static function getDataGatewayFactory()
+	private function getDataGatewayFactory(): \ilTermsOfServiceDataGatewayFactory
 	{
-		global $DIC;
-
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceDataGatewayFactory.php';
-		$factory = new ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($DIC['ilDB']);
-		return $factory;
+		return $this->dataGatewayFactory;
 	}
 }

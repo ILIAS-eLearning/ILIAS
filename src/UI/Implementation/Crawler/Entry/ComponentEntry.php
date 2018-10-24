@@ -56,6 +56,11 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 	 */
 	protected $background = "";
 
+    /**
+     * @var string
+     */
+    protected $context = [];
+
 	/**
 	 * @var string
 	 */
@@ -130,6 +135,9 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 		if(array_key_exists('background',$entry_data)){
 			$this->setBackground($entry_data['background']);
 		}
+        if(array_key_exists('context',$entry_data)){
+            $this->setContext($entry_data['context']);
+        }
 		if(array_key_exists('featurewiki',$entry_data)){
 			$this->setFeatureWikiReferences($entry_data['featurewiki']);
 		}
@@ -275,6 +283,24 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 		$this->assert()->isString($background);
 		$this->background = $background;
 	}
+
+    /**
+     * @param array
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * @param array $context
+     */
+    public function setContext( $context)
+    {
+        $this->assert()->isArray($context);
+        $this->context = $context;
+    }
+
 
 	/**
 	 * @return array
@@ -481,8 +507,9 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
 			'status_entry' => $this->getStatusEntry(),
 			'status_implementation' => $this->getStatusImplementation(),
 			'description' => $this->getDescription(),
-			'background ' => $this->getBackground(),
-			'selector' => $this->getSelector(),
+			'background' => $this->getBackground(),
+            'context' => $this->getContext(),
+            'selector' => $this->getSelector(),
 			'feature_wiki_references ' => $this->getFeatureWikiReferences(),
 			'rules' => $this->getRules(),
 			'parent' => $this->getParent(),

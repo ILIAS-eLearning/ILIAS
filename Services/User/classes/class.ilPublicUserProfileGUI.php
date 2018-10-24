@@ -374,8 +374,7 @@ class ilPublicUserProfileGUI
 		}
 		$first_name .= $user->getFirstName();
 
-		if ($this->getPublicPref($user, "public_gender") == "y")
-		{
+		if ($this->getPublicPref($user, "public_gender") == "y" && in_array($user->getGender(), ['m', 'f'])) {
 			$sal = $lng->txt("salutation_".$user->getGender())." ";
 			$tpl->setVariable("SALUTATION", $sal);
 		}

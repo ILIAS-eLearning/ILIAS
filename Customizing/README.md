@@ -3,9 +3,6 @@
 <!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
 
 1. [Introduction](#introduction)
-1. [User Agreements](#user-agreements)
-   1. [Global user agreements:](#global-user-agreements)
-   1. [Client specific user agreements:](#client-specific-user-agreements)
 1. [System Language Changes](#system-language-changes)
 1. [Skins and Styles](#skins-and-styles)
 1. [Plugins](#plugins)
@@ -29,38 +26,6 @@ The clients directory holds a subdirectory for each client:
 
 At the time being, only user agreements can be offered for clients! Customized
 skins and languages are only supported globally.
-
-<a name="user-agreements"></a>
-## User Agreements
-
-User agreement texts are stored within HTML files. They can be defined globally
-for all clients or on a client level.
-
-<a name="global-user-agreements"></a>
-### Global user agreements:
-
-```
-/global/agreement/agreement_<lang_code>.html
-```
-
-Example:
-
-```
-/global/agreement/agreement_fr.html
-```
-
-<a name="client-specific-user-agreements"></a>
-### Client specific user agreements:
-
-```
-/clients/<client_id>/agreement/agreement_<lang_code>.html
-```
-
-Example:
-
-```
-/clients/default/agreement/agreement_fr.html
-```
 
 <a name="system-language-changes"></a>
 ## System Language Changes

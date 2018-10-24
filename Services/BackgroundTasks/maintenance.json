@@ -5,7 +5,9 @@
     "implicit_maintainers": [
         "otruffer(29130)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/BackgroundTasks",

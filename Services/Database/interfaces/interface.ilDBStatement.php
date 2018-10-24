@@ -48,7 +48,7 @@ interface ilDBStatement {
 
 	/**
 	 * @param array $a_data
-	 * @return \ilPDOStatement|\MDB2_Result_Common
+	 * @return \ilPDOStatement
 	 */
 	public function execute($a_data = null);
 }

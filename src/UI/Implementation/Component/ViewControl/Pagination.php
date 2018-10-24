@@ -170,7 +170,7 @@ class Pagination implements C\ViewControl\Pagination  {
 	 * @inheritdoc
 	 */
 	public function withOnSelect(C\Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'select');
+		return $this->withTriggeredSignal($signal, 'select');
 	}
 
 	/**

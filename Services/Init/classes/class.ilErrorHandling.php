@@ -22,10 +22,7 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
 require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
 require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
 require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
-set_include_path("./Services/Database/lib/PEAR" . PATH_SEPARATOR . ini_get('include_path'));
-if (!class_exists('PEAR')) {
-	require_once 'PEAR.php';
-}
+
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\CallbackHandler;

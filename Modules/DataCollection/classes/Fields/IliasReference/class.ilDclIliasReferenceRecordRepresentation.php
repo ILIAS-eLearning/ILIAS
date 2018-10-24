@@ -13,7 +13,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 	 *
 	 * @return string
 	 */
-	public function getHTML($link = true){
+	public function getHTML($link = true) {
 		$title = $this->getRecordField()->getValueForRepresentation();
 		if (!$title) {
 			return '';
@@ -22,17 +22,19 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 
 		if ($field->getProperty(ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU)) {
 			$html = $this->getLinkHTML($title, true);
-		} else if ($field->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
-			$html = $this->getLinkHTML($title);
 		} else {
-			$html = $title;
+			if ($field->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
+				$html = $this->getLinkHTML($title);
+			} else {
+				$html = $title;
+			}
 		}
+
 		return $html;
 	}
 
 
-	public function getSingleHTML(array $options = null, $link = true)
-	{
+	public function getSingleHTML(array $options = null, $link = true) {
 		$value = $this->getRecordField()->getValue();
 		if (!$value) {
 			return '';
@@ -42,6 +44,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 		if ($this->getRecordField()->getField()->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
 			return $this->getLinkHTML($value);
 		}
+
 		return $value;
 	}
 
@@ -49,9 +52,10 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 	/**
 	 * @param $title
 	 * @param $show_action_menu
+	 *
 	 * @return string
 	 */
-	public function getLinkHTML($title, $show_action_menu=false) {
+	public function getLinkHTML($title, $show_action_menu = false) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$this->getRecordField();
@@ -59,7 +63,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 		if ($show_action_menu) {
 			$field = $this->getRecordField()->getField();
 			$record = $this->getRecordField()->getRecord();
-			
+
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setId('adv_list_copy_link_' . $field->getId() . $record->getId());
 			$list->setListTitle($title);
@@ -68,18 +72,20 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 			}
 			$list->addItem($lng->txt('copy'), 'copy', $this->getActionLink('copy'));
 			$list->addItem($lng->txt('link'), 'link', $this->getActionLink('link'));
+
 			return $list->getHTML();
 		} else {
 			return "<a href=\"$link\">$title</a>";
 		}
 	}
 
+
 	/**
 	 * @param string $mode copy|link
+	 *
 	 * @return string
 	 */
-	protected function getActionLink($mode)
-	{
+	protected function getActionLink($mode) {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 
@@ -88,12 +94,12 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 				$ilCtrl->setParameterByClass('ilobjectcopygui', 'item_ref_id', $this->getRecordField()->getValue());
 				$ilCtrl->setParameterByClass('ilobjrootfoldergui', 'item_ref_id', $this->getRecordField()->getValue());
 				$ilCtrl->setParameterByClass('ilobjectcopygui', 'source_id', $this->getRecordField()->getValue());
+
 				return $ilCtrl->getLinkTargetByClass('ilobjectcopygui', 'initTargetSelection');
 			case 'link':
-				return $ilCtrl->getLinkTargetByClass(array('ilrepositorygui','ilobjrootfoldergui'), 'link');
+				return $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjrootfoldergui'), 'link');
 			default:
 				return '';
 		}
 	}
-
 }

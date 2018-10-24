@@ -167,26 +167,31 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
 		$types = [ "integer" ];
 		$values = [ $object_id ];
 
-		$q = "SELECT DISTINCT (e.id), e.type FROM il_bibl_entry AS e
+		if ($info instanceof ilBiblTableQueryInfo) {
+			$filters = $info->getFilters();
+			if(!empty($filters)) {
+				$q = "SELECT (e.id), e.type FROM il_bibl_entry AS e WHERE data_id = %s";
+				foreach ($filters as $filter) {
+					$value = $filter->getFieldValue();
+					if (!$value) {
+						continue;
+					}
+					if ($filter->getOperator() === "IN" && is_array($filter->getFieldValue())) {
+						$types[] = "text";
+						$values[] = $filter->getFieldName();
+						$q .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND " . $DIC->database()->in("a.value", $value, false, "text") . ")";
+					} else {
+						$types[] = "text";
+						$values[] = $filter->getFieldName();
+						$types[] = "text";
+						$values[] = "{$value}";
+						$q .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND a.value {$filter->getOperator()} %s )";
+					}
+				}
+			} else {
+				$q = "SELECT DISTINCT (e.id), e.type FROM il_bibl_entry AS e
                 JOIN il_bibl_attribute AS a ON a.entry_id = e.id
                         WHERE data_id = %s";
-		if ($info instanceof ilBiblTableQueryInfo) {
-			foreach ($info->getFilters() as $filter) {
-				$value = $filter->getFieldValue();
-				if (!$value) {
-					continue;
-				}
-				if ($filter->getOperator() === "IN" && is_array($filter->getFieldValue())) {
-					$types[] = "text";
-					$values[] = $filter->getFieldName();
-					$q .= " AND a.name = %s AND " . $DIC->database()->in("a.value", $value, false, "text");
-				} else {
-					$types[] = "text";
-					$values[] = $filter->getFieldName();
-					$types[] = "text";
-					$values[] = "{$value}";
-					$q .= " AND a.name = %s AND a.value {$filter->getOperator()} %s ";
-				}
 			}
 		}
 		$entries = array();

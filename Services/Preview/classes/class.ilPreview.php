@@ -201,7 +201,11 @@ class ilPreview
 		
 		// no renderer available?
 		if ($renderer == null)
+		{
+			// bugfix mantis 23293
+			$this->delete();
 			return false;
+		}
 		
 		// exists, but still pending?
 		if ($this->getRenderStatus() == self::RENDER_STATUS_PENDING)

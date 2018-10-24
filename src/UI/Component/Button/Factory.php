@@ -190,7 +190,6 @@ interface Factory {
 	 *     There is no visual difference (besides the cursor) between
 	 *     clickable tags and tags with unavailable action.
 	 *
-	 * context:
 	 *
 	 * rules:
 	 *   style:

@@ -3,7 +3,9 @@
     "first_maintainer": "smeyer(191)",
     "second_maintainer": "mjansen(8784)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/SOAPAuth",

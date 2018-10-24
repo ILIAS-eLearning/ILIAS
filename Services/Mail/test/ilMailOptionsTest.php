@@ -1,17 +1,24 @@
 <?php
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/test/ilMailBaseTest.php';
-
+/**
+ * Class ilMailOptionsTest
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilMailOptionsTest extends \ilMailBaseTest
 {
+	/**
+	 * 
+	 */
 	public function testConstructor()
 	{
 		$userId = 1;
 
-		$database = $this->getMockBuilder('ilDBInterface')
+		$database = $this->getMockBuilder(\ilDBInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$queryMock = $this->getMockBuilder('ilPDOStatement')
+		$queryMock = $this->getMockBuilder(\ilPDOStatement::class)
 			->disableOriginalConstructor()
 			->setMethods(array('fetchRow'))
 			->getMock();
@@ -32,10 +39,17 @@ class ilMailOptionsTest extends \ilMailBaseTest
 
 		$this->setGlobalVariable('ilDB', $database);
 
-		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get'))->getMock();
+		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
+			'set',
+			'get'
+		))->getMock();
 		$this->setGlobalVariable('ilSetting', $settings);
 
 		$mailOptions = new ilMailOptions($userId);
+		$this->assertEquals($object->signature, $mailOptions->getSignature());
+		$this->assertEquals($object->incoming_type, $mailOptions->getIncomingType());
+		$this->assertEquals($object->linebreak, $mailOptions->getLinebreak());
+		$this->assertEquals($object->cronjob_notification, $mailOptions->getCronjobNotification());
 	}
 }
 

@@ -281,9 +281,9 @@ class ilCalendarRecurrenceCalculator
 	 	if($this->recurrence->getFrequenceUntilCount() > 0)
 	 	{
 			// Switch the date to the original defined timzone for this recurrence 
-			return $this->createDate($this->start->get(IL_CAL_UNIX,$this->timezone));
+			return $this->createDate($this->start->get(IL_CAL_UNIX,'',$this->timezone));
 	 	}
-	 	$optimized = $start = $this->createDate($this->start->get(IL_CAL_UNIX,$this->timezone));
+	 	$optimized = $start = $this->createDate($this->start->get(IL_CAL_UNIX,'',$this->timezone));
 	 	while(ilDateTime::_before($start,$this->period_start))
 	 	{
 	 		$optimized = clone $start;

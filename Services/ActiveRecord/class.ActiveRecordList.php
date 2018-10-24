@@ -514,7 +514,9 @@ class ActiveRecordList {
 	public function getFirstFromLastQuery() {
 		$this->loadLastQuery();
 
-		return array_shift(array_values($this->result));
+		$result = array_values($this->result);
+
+		return array_shift($result);
 	}
 
 
@@ -524,7 +526,9 @@ class ActiveRecordList {
 	public function first() {
 		$this->load();
 
-		return array_shift(array_values($this->result));
+		$result = array_values($this->result);
+
+		return array_shift($result);
 	}
 
 
@@ -534,7 +538,9 @@ class ActiveRecordList {
 	public function last() {
 		$this->load();
 
-		return array_pop(array_values($this->result));
+		$result = array_values($this->result);
+
+		return array_pop($result);
 	}
 
 

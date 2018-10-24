@@ -51,13 +51,11 @@ class ilPDContentBlockGUI extends ilBlockGUI
 		$this->setBigMode(true);
 		$this->allow_moving = false;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
@@ -83,11 +81,9 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

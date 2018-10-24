@@ -10,7 +10,8 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation 
 
 	/**
 	 * Outputs html of a certain field
-	 * @param mixed $value
+	 *
+	 * @param mixed     $value
 	 * @param bool|true $link
 	 *
 	 * @return string
@@ -19,12 +20,15 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation 
 		$value = $this->getRecordField()->getValue();
 
 		// the file is only temporary uploaded. Still need to be confirmed before stored
-		if(is_array($value) && $_POST['ilfilehash']) {
+		if (is_array($value) && $_POST['ilfilehash']) {
 			$this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_POST['ilfilehash']);
 			$this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id", $this->getRecordField()->getField()->getId());
+
 			return '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "sendFile") . '">' . $value['name'] . '</a>';
-		} else if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
-			return "";
+		} else {
+			if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+				return "";
+			}
 		}
 
 		$file_obj = new ilObjFile($value, false);
@@ -65,7 +69,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation 
 	 */
 	public function parseFormInput($value) {
 
-		if(is_array($value)) {
+		if (is_array($value)) {
 			return $value;
 		}
 
@@ -74,6 +78,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation 
 		}
 
 		$file_obj = new ilObjFile($value, false);
+
 		//$input = ilObjFile::_lookupAbsolutePath($value);
 		return $file_obj->getFileName();
 	}

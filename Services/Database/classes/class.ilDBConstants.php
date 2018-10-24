@@ -19,8 +19,6 @@ class ilDBConstants {
 	const TYPE_GALERA = 'galera';
 	const TYPE_POSTGRES = 'postgres';
 	const TYPE_MYSQLI = 'mysqli';
-	// Oracle Legacy
-	const TYPE_ORACLE = 'oracle';
 	// Development identifiers (will be removed in 5.3), are mapped with Main and Experimental types
 	const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
 	const TYPE_PDO_MYSQL_MYISAM = 'pdo-mysql-myisam';
@@ -56,11 +54,11 @@ class ilDBConstants {
 	const MYSQL_COLLATION_UTF8 = 'utf8_general_ci';
 	const MYSQL_COLLATION_UTF8MB4 = 'utf8mb4_general_ci';
 	// Mapping AutoExec
-	const MDB2_AUTOQUERY_INSERT = 1;
-	const MDB2_AUTOQUERY_UPDATE = 2;
-	const MDB2_AUTOQUERY_DELETE = 3;
-	const MDB2_AUTOQUERY_SELECT = 4;
-	const MDB2_PREPARE_MANIP = false;
+	const AUTOQUERY_INSERT = 1;
+	const AUTOQUERY_UPDATE = 2;
+	const AUTOQUERY_DELETE = 3;
+	const AUTOQUERY_SELECT = 4;
+	const PREPARE_MANIP = false;
 	// Other
 	const MB4_REPLACEMENT = "?";
 	/**
@@ -72,7 +70,6 @@ class ilDBConstants {
 		ilDBConstants::TYPE_MYSQLI           => "MySQL 5.5.x or higher (MyISAM engine)",
 		ilDBConstants::TYPE_INNODB           => "MySQL 5.5.x or higher (InnoDB engine)",
 		// Experimental
-		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher (PHP 5.x only)",
 		ilDBConstants::TYPE_POSTGRES         => "Postgres (experimental)",
 		ilDBConstants::TYPE_GALERA           => "Galera-Cluster (experimental)",
 		// Development identifiers (will be removed in 5.3)
@@ -93,7 +90,6 @@ class ilDBConstants {
 			ilDBConstants::TYPE_INNODB,
 			// Experimental
 			ilDBConstants::TYPE_GALERA,
-			ilDBConstants::TYPE_ORACLE,
 			ilDBConstants::TYPE_GALERA,
 		);
 	}
@@ -126,7 +122,6 @@ class ilDBConstants {
 			ilDBConstants::TYPE_INNODB,
 			ilDBConstants::TYPE_POSTGRES,
 			ilDBConstants::TYPE_GALERA,
-			ilDBConstants::TYPE_ORACLE,
 		);
 	}
 

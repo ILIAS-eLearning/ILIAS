@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclFieldListTableGUI
  *
@@ -19,10 +18,10 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 
 	/**
 	 * @param ilDclFieldListGUI $a_parent_obj
-	 * @param string                       $a_parent_cmd
-	 * @param string                       $table_id
+	 * @param string            $a_parent_cmd
+	 * @param string            $table_id
 	 */
-	public function  __construct(ilDclFieldListGUI $a_parent_obj, $a_parent_cmd, $table_id) {
+	public function __construct(ilDclFieldListGUI $a_parent_obj, $a_parent_cmd, $table_id) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
@@ -34,15 +33,15 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 
 		$this->setId('dcl_field_list');
 		$this->addColumn('', '', '1', true);
-		$this->addColumn($lng->txt('dcl_order'), NULL, '30px');
-		$this->addColumn($lng->txt('dcl_fieldtitle'), NULL, 'auto');
-		$this->addColumn($lng->txt('dcl_locked'), NULL, '30px', false, "", $lng->txt('dcl_locked_tooltip'));
-		$this->addColumn($lng->txt('dcl_in_export'), NULL, '30px');
-		$this->addColumn($lng->txt('dcl_description'), NULL, 'auto');
-		$this->addColumn($lng->txt('dcl_field_datatype'), NULL, 'auto');
-		$this->addColumn($lng->txt('dcl_required'), NULL, 'auto');
-		$this->addColumn($lng->txt('dcl_unique'), NULL, 'auto');
-		$this->addColumn($lng->txt('actions'), NULL, '30px');
+		$this->addColumn($lng->txt('dcl_order'), null, '30px');
+		$this->addColumn($lng->txt('dcl_fieldtitle'), null, 'auto');
+		$this->addColumn($lng->txt('dcl_locked'), null, '30px', false, "", $lng->txt('dcl_locked_tooltip'));
+		$this->addColumn($lng->txt('dcl_in_export'), null, '30px');
+		$this->addColumn($lng->txt('dcl_description'), null, 'auto');
+		$this->addColumn($lng->txt('dcl_field_datatype'), null, 'auto');
+		$this->addColumn($lng->txt('dcl_required'), null, 'auto');
+		$this->addColumn($lng->txt('dcl_unique'), null, 'auto');
+		$this->addColumn($lng->txt('actions'), null, '30px');
 		// Only add mutli command for custom fields
 		if (count($this->table->getRecordFields())) {
 			$this->setSelectAllCheckbox('dcl_field_ids[]');
@@ -70,12 +69,11 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderDirection('asc');
 
-				$this->setTitle($lng->txt('dcl_table_list_fields'));
+		$this->setTitle($lng->txt('dcl_table_list_fields'));
 		$this->setRowTemplate('tpl.field_list_row.html', 'Modules/DataCollection');
 		$this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 
 		$this->setData($this->table->getFields());
-
 	}
 
 
@@ -96,7 +94,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 
 		/* Don't enable setting filter for MOB fields or reference fields that reference a MOB field */
 		$show_exportable = true;
-		
+
 		if ($a_set->getId() == 'comments') {
 			$show_exportable = false;
 		}

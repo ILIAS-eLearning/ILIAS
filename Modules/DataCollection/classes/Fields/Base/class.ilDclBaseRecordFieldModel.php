@@ -29,12 +29,10 @@ class ilDclBaseRecordFieldModel {
 	 * @var ilDclBaseRecordModel
 	 */
 	protected $record;
-
 	/**
 	 * @var ilDclBaseRecordRepresentation
 	 */
 	protected $record_representation;
-
 	/**
 	 * @var ilDclBaseFieldRepresentation
 	 */
@@ -55,11 +53,11 @@ class ilDclBaseRecordFieldModel {
 	 * @var ilDB
 	 */
 	protected $db;
-
 	/**
 	 * @var ilLanguage
 	 */
 	protected $lng;
+
 
 	/**
 	 * @param ilDclBaseRecordModel $record
@@ -85,15 +83,16 @@ class ilDclBaseRecordFieldModel {
 	 * Read object data from database
 	 */
 	protected function doRead() {
-		if(!$this->getRecord()->getId())
+		if (!$this->getRecord()->getId()) {
 			return;
+		}
 
 		$query = "SELECT * FROM il_dcl_record_field WHERE field_id = " . $this->db->quote($this->getField()->getId(), "integer") . " AND record_id = "
 			. $this->db->quote($this->getRecord()->getId(), "integer");
 		$set = $this->db->query($query);
 		$rec = $this->db->fetchAssoc($set);
 		$this->id = $rec['id'];
-		
+
 		$this->loadValue();
 	}
 
@@ -116,9 +115,9 @@ class ilDclBaseRecordFieldModel {
 	public function doUpdate() {
 		//$this->loadValue(); //Removed Mantis #0011799
 		$datatype = $this->getField()->getDatatype();
-		$storage_location = ($this->getField()->getStorageLocationOverride() !== null)? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
+		$storage_location = ($this->getField()->getStorageLocationOverride() !== null) ? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
 
-		if($storage_location != 0) {
+		if ($storage_location != 0) {
 			$query = "DELETE FROM il_dcl_stloc" . $storage_location . "_value WHERE record_field_id = "
 				. $this->db->quote($this->id, "integer");
 			$this->db->manipulate($query);
@@ -132,14 +131,14 @@ class ilDclBaseRecordFieldModel {
 
 			$value = $this->serializeData($this->value);
 
-			if($this->getId() == 0) {
+			if ($this->getId() == 0) {
 				$this->doCreate();
 			}
 
 			$insert_params = array(
-				"value" => array( $datatype->getDbType(), $value),
-				"record_field_id" => array( "integer", $this->getId()),
-				"id" => array( "integer", $next_id )
+				"value"           => array($datatype->getDbType(), $value),
+				"record_field_id" => array("integer", $this->getId()),
+				"id"              => array("integer", $next_id),
 			);
 
 			$this->db->insert("il_dcl_stloc" . $storage_location . "_value", $insert_params);
@@ -152,9 +151,9 @@ class ilDclBaseRecordFieldModel {
 	 */
 	public function delete() {
 		$datatype = $this->getField()->getDatatype();
-		$storage_location = ($this->getField()->getStorageLocationOverride() !== null)? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
+		$storage_location = ($this->getField()->getStorageLocationOverride() !== null) ? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
 
-		if($storage_location != 0) {
+		if ($storage_location != 0) {
 			$query = "DELETE FROM il_dcl_stloc" . $storage_location . "_value WHERE record_field_id = "
 				. $this->db->quote($this->id, "integer");
 			$this->db->manipulate($query);
@@ -182,33 +181,39 @@ class ilDclBaseRecordFieldModel {
 		return $this->getValue();
 	}
 
+
 	/**
 	 * Serialize data before storing to db
+	 *
 	 * @param $value mixed
 	 *
 	 * @return mixed
 	 */
 	public function serializeData($value) {
-		if(is_array($value)) {
+		if (is_array($value)) {
 			$value = json_encode($value);
 		}
+
 		return $value;
 	}
 
 
 	/**
 	 * Deserialize data before applying to field
+	 *
 	 * @param $value mixed
 	 *
 	 * @return mixed
 	 */
 	public function deserializeData($value) {
 		$deserialize = json_decode($value, true);
-		if(is_array($deserialize)) {
+		if (is_array($deserialize)) {
 			return $deserialize;
 		}
+
 		return $value;
 	}
+
 
 	/**
 	 * Set value for record field
@@ -218,7 +223,7 @@ class ilDclBaseRecordFieldModel {
 	 */
 	public function setValue($value, $omit_parsing = false) {
 		$this->loadValue();
-		if (! $omit_parsing) {
+		if (!$omit_parsing) {
 			$tmp = $this->parseValue($value, $this);
 			$old = $this->value;
 			//if parse value fails keep the old value
@@ -230,6 +235,7 @@ class ilDclBaseRecordFieldModel {
 		}
 	}
 
+
 	/**
 	 * @param $form ilPropertyFormGUI
 	 */
@@ -238,6 +244,7 @@ class ilDclBaseRecordFieldModel {
 
 		$this->setValue($value);
 	}
+
 
 	/**
 	 * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
@@ -250,10 +257,12 @@ class ilDclBaseRecordFieldModel {
 		return $value;
 	}
 
+
 	/**
 	 * @param $excel
 	 * @param $row
 	 * @param $col
+	 *
 	 * @return array|string
 	 */
 	public function getValueFromExcel($excel, $row, $col) {
@@ -261,6 +270,7 @@ class ilDclBaseRecordFieldModel {
 
 		return $value;
 	}
+
 
 	/**
 	 * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
@@ -281,6 +291,7 @@ class ilDclBaseRecordFieldModel {
 		return $this->parseExportValue($this->getValue());
 	}
 
+
 	/**
 	 * @param $worksheet
 	 * @param $row
@@ -288,8 +299,9 @@ class ilDclBaseRecordFieldModel {
 	 */
 	public function fillExcelExport(ilExcel $worksheet, &$row, &$col) {
 		$worksheet->setCell($row, $col, $this->getExportValue());
-		$col ++;
+		$col++;
 	}
+
 
 	/**
 	 * @return mixed used for the sorting.
@@ -297,6 +309,7 @@ class ilDclBaseRecordFieldModel {
 	public function getPlainText() {
 		return $this->getExportValue();
 	}
+
 
 	public function getSortingValue($link = true) {
 		return $this->parseSortingValue($this->getValue(), $this, $link);
@@ -306,38 +319,41 @@ class ilDclBaseRecordFieldModel {
 	/**
 	 * @param ilConfirmationGUI $confirmation
 	 */
-	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {;
+	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
+		;
 		if (!is_array($this->getValue())) {
-			$confirmation->addHiddenItem('field_'.$this->field->getId(), $this->getValue());
+			$confirmation->addHiddenItem('field_' . $this->field->getId(), $this->getValue());
 		} else {
 			foreach ($this->getValue() as $key => $value) {
-				$confirmation->addHiddenItem('field_'.$this->field->getId() . "[$key]", $value);
+				$confirmation->addHiddenItem('field_' . $this->field->getId() . "[$key]", $value);
 			}
 		}
 	}
 
+
 	/**
 	 * Returns sortable value for the specific field-types
 	 *
-	 * @param $value
+	 * @param                           $value
 	 * @param ilDclBaseRecordFieldModel $record_field
-	 * @param bool|true $link
+	 * @param bool|true                 $link
 	 *
-	 *@return int|string
+	 * @return int|string
 	 */
 	public function parseSortingValue($value, $link = true) {
 		return $value;
 	}
 
+
 	/**
 	 * Load the value
 	 */
 	protected function loadValue() {
-		if ($this->value === NULL) {
+		if ($this->value === null) {
 			$datatype = $this->getField()->getDatatype();
 
-			$storage_location = ($this->getField()->getStorageLocationOverride() !== null)? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
-			if($storage_location != 0) {
+			$storage_location = ($this->getField()->getStorageLocationOverride() !== null) ? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
+			if ($storage_location != 0) {
 				$query = "SELECT * FROM il_dcl_stloc" . $storage_location . "_value WHERE record_field_id = "
 					. $this->db->quote($this->id, "integer");
 
@@ -362,7 +378,7 @@ class ilDclBaseRecordFieldModel {
 	/**
 	 *
 	 */
-	public function afterClone(){
+	public function afterClone() {
 
 	}
 
@@ -389,6 +405,7 @@ class ilDclBaseRecordFieldModel {
 	public function getRecord() {
 		return $this->record;
 	}
+
 
 	/**
 	 * @return ilDclBaseRecordRepresentation
@@ -420,6 +437,5 @@ class ilDclBaseRecordFieldModel {
 	public function setFieldRepresentation($field_representation) {
 		$this->field_representation = $field_representation;
 	}
-
 }
 

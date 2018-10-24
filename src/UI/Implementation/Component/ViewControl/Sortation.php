@@ -123,7 +123,7 @@ class Sortation implements C\ViewControl\Sortation  {
 	 * @inheritdoc
 	 */
 	public function withOnSort(C\Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'sort');
+		return $this->withTriggeredSignal($signal, 'sort');
 	}
 
 	/**

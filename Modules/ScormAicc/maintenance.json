@@ -3,7 +3,9 @@
     "first_maintainer": "ukohnle(21855)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "suittenpointner(3458)",
     "testcase_writer": "suittenpointner(3458)",
     "path": "Modules/ScormAicc",

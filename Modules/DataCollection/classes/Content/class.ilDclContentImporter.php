@@ -2,66 +2,58 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
  * This Class avoids duplicated code by routing the request to the right place
- * 
- * @author Michael Herren <mh@studer-raimann.ch>
+ *
+ * @author  Michael Herren <mh@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
-class ilDclContentImporter
-{
+class ilDclContentImporter {
+
 	//const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
 	const EXPORT_EXCEL = 'xlsx';
-
 	/**
 	 * @var int
 	 */
 	protected $max_imports = 100;
-
 	/**
 	 * @var array
 	 */
-	protected $supported_import_datatypes = array(
-		ilDclDatatype::INPUTFORMAT_BOOLEAN,
-		ilDclDatatype::INPUTFORMAT_NUMBER,
-		ilDclDatatype::INPUTFORMAT_REFERENCE,
-		ilDclDatatype::INPUTFORMAT_TEXT,
-		ilDclDatatype::INPUTFORMAT_DATETIME,
-		ilDclDatatype::INPUTFORMAT_PLUGIN,
-		ilDclDataType::INPUTFORMAT_TEXT_SELECTION,
-		ilDclDatatype::INPUTFORMAT_DATE_SELECTION
-	);
-
+	protected $supported_import_datatypes
+		= array(
+			ilDclDatatype::INPUTFORMAT_BOOLEAN,
+			ilDclDatatype::INPUTFORMAT_NUMBER,
+			ilDclDatatype::INPUTFORMAT_REFERENCE,
+			ilDclDatatype::INPUTFORMAT_TEXT,
+			ilDclDatatype::INPUTFORMAT_DATETIME,
+			ilDclDatatype::INPUTFORMAT_PLUGIN,
+			ilDclDataType::INPUTFORMAT_TEXT_SELECTION,
+			ilDclDatatype::INPUTFORMAT_DATE_SELECTION,
+		);
 	protected $warnings;
-
 	/**
 	 * @var int $ref_id Ref-ID of DataCollection
 	 */
 	protected $ref_id;
-
 	/**
 	 * @var int $table_id Table-Id for export
 	 */
 	protected $table_id;
-
 	/**
 	 * @var ilObjDataCollection
 	 */
 	protected $dcl;
-
 	/**
 	 * @var ilDclTable[]
 	 */
 	protected $tables;
-
 	/**
 	 * @var
 	 */
 	protected $lng;
+
 
 	public function __construct($ref_id, $table_id = null) {
 		global $DIC;
@@ -73,8 +65,9 @@ class ilDclContentImporter
 		$this->lng = $lng;
 
 		$this->dcl = new ilObjDataCollection($ref_id);
-		$this->tables = ($table_id)? array($this->dcl->getTableById($table_id)) : $this->dcl->getTables();
+		$this->tables = ($table_id) ? array($this->dcl->getTableById($table_id)) : $this->dcl->getTables();
 	}
+
 
 	public function import($file, $simulate = false) {
 		global $DIC;
@@ -91,21 +84,21 @@ class ilDclContentImporter
 		$sheet_count = $excel->getSheetCount();
 		$excel->setActiveSheet(0);
 
-		if($sheet_count != count($this->tables)) {
+		if ($sheet_count != count($this->tables)) {
 			$this->warnings[] = $this->lng->txt('dcl_file_not_readable');
 		}
 
 		if (count($this->warnings)) {
-			return array('line'=>0, 'warnings'=>$this->warnings);
+			return array('line' => 0, 'warnings' => $this->warnings);
 		}
 
-		for($sheet = 0; $sheet < $sheet_count; $sheet++) {
+		for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
 			$excel->setActiveSheet($sheet);
 			$table = $this->tables[$sheet];
 
 			// only 31 character-long table-titles are allowed
 			$sheet_title = substr($table->getTitle(), 0, 31);
-			if($excel->getSheetTitle() != $sheet_title) {
+			if ($excel->getSheetTitle() != $sheet_title) {
 				$this->warnings[] = $this->lng->txt('dcl_table_title_not_matching');
 				continue;
 			}
@@ -119,7 +112,7 @@ class ilDclContentImporter
 			$fields = $this->getImportFieldsFromTitles($table, $field_names);
 
 			$records_failed = 0;
-			for ($i = 2; $i <= count($sheet_data); $i ++) {
+			for ($i = 2; $i <= count($sheet_data); $i++) {
 				$record = new ilDclBaseRecordModel();
 				$record->setOwner($ilUser->getId());
 				$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
@@ -173,9 +166,9 @@ class ilDclContentImporter
 			}
 		}
 
-
-		return array('line'=>($i-2 < 0 ? 0 : $i-2), 'warnings'=>$this->warnings);
+		return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
 	}
+
 
 	/**
 	 * @param ilDclBaseFieldModel $field
@@ -195,7 +188,7 @@ class ilDclContentImporter
 
 	/**
 	 * @param ilDclTable $table
-	 * @param $titles string[]
+	 * @param            $titles string[]
 	 *
 	 * @return ilDclBaseFieldModel[]
 	 */
@@ -222,10 +215,11 @@ class ilDclContentImporter
 			}
 			if (in_array($value, $not_importable_titles)) {
 				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key) . ") \"" . $value . "\" " . $this->lng->txt("dcl_std_field_not_importable");
-			} else if (!isset($import_fields[$key])) {
-				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key+1) . ") \"" . $value . "\" " . $this->lng->txt("dcl_row_not_found");
+			} else {
+				if (!isset($import_fields[$key])) {
+					$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key + 1) . ") \"" . $value . "\" " . $this->lng->txt("dcl_row_not_found");
+				}
 			}
-
 		}
 
 		return $import_fields;

@@ -18,11 +18,21 @@ class ilPersonalProfileGUI
 
 	var $user_defined_fields = null;
 
+	/**
+	 * @var \ilTabsGUI
+	 */
+	protected $tabs;
+
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
 
 	/**
-	* constructor
-	*/
-    function __construct()
+	 * constructor
+	 * @param \ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
+	 */
+    function __construct(
+		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null
+	)
     {
         global $DIC;
 
@@ -30,6 +40,12 @@ class ilPersonalProfileGUI
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
+        $this->tabs = $DIC->tabs();
+
+		if ($termsOfServiceEvaluation === null) {
+			$termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
+		}
+		$this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
@@ -526,6 +542,37 @@ class ilPersonalProfileGUI
 	{
 		$this->showPersonalData();
 	}
+
+	/**
+	 * 
+	 */
+	protected function showUserAgreement()
+	{
+		$this->tabs->clearTargets();
+		$this->tabs->clearSubTabs();
+
+		$tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
+
+		$this->tpl->setTitle($this->lng->txt('usr_agreement'));
+
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$document = $this->termsOfServiceEvaluation->document();
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+		} else {
+			$tpl->setVariable(
+				'TERMS_OF_SERVICE_CONTENT',
+				sprintf(
+					$this->lng->txt('no_agreement_description'),
+					'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+				)
+			);
+		}
+
+		$this->tpl->setContent($tpl->get());
+		$this->tpl->setPermanentLink('usr', null, 'agreement');
+		$this->tpl->show();
+	}
 	
 	/**
 	 * Add location fields to form if activated
@@ -795,46 +842,20 @@ class ilPersonalProfileGUI
 		// user defined fields
 		$user_defined_data = $ilUser->getUserDefinedData();
 
+		
 		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{
-			if($definition['field_type'] == UDF_TYPE_TEXT)
-			{
-				$this->input["udf_".$definition['field_id']] =
-					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$this->input["udf_".$definition['field_id']]->setMaxLength(255);
-				$this->input["udf_".$definition['field_id']]->setSize(40);
-			}
-			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
-			{
-				$this->input["udf_".$definition['field_id']] =
-					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$this->input["udf_".$definition['field_id']]->setUseRte(true);
-			}
-			else
-			{
-				$options = $this->user_defined_fields->fieldValuesToSelectArray($definition['field_values']);
-				$this->input["udf_".$definition['field_id']] =
-					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$this->input["udf_".$definition['field_id']]->setOptions($options);
-			}			
-			
 			$value = $user_defined_data["f_".$field_id];
-			$this->input["udf_".$definition['field_id']]->setValue($value);
 			
-			if($definition['required'])
+			include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+			$fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
+				$definition,
+				$definition['changeable'],
+				$value
+			);
+			if($fprop instanceof ilFormPropertyGUI)
 			{
-				$this->input["udf_".$definition['field_id']]->setRequired(true);
-			}
-			if(!$definition['changeable'] && (!$definition['required'] || $value))
-			{
-				$this->input["udf_".$definition['field_id']]->setDisabled(true);
-			}
-			
-			// add "please select" if no current value
-			if($definition['field_type'] == UDF_TYPE_SELECT && !$value)
-			{
-				$options = array(""=>$lng->txt("please_select")) + $options;
-				$this->input["udf_".$definition['field_id']]->setOptions($options);
+				$this->input['udf_'.$definition['field_id']] = $fprop;
 			}
 		}
 		

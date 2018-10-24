@@ -223,6 +223,20 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$fixed = new ilRadioOption($this->lng->txt("book_schedule_type_fixed"), ilObjBookingPool::TYPE_FIX_SCHEDULE);
 		$fixed->setInfo($this->lng->txt("book_schedule_type_fixed_info"));
 		$type->addOption($fixed);
+
+		// reminder
+		$rmd = new ilCheckboxInputGUI($this->lng->txt("book_reminder_setting"), "rmd");
+		$rmd->setChecked($this->object->getReminderStatus());
+		$fixed->addSubItem($rmd);
+
+		$rmd_day = new ilNumberInputGUI($this->lng->txt("book_reminder_day"), "rmd_day");
+		$rmd_day->setRequired(true);
+		$rmd_day->setInfo($this->lng->txt("book_reminder_day_info"));
+		$rmd_day->setSize(3);
+		$rmd_day->setSuffix($this->lng->txt("book_reminder_days"));
+		$rmd_day->setValue(max($this->object->getReminderDay(), 1));
+		$rmd_day->setMinValue(1);
+		$rmd->addSubItem($rmd_day);
 		
 		$none = new ilRadioOption($this->lng->txt("book_schedule_type_none"), ilObjBookingPool::TYPE_NO_SCHEDULE);
 		$none->setInfo($this->lng->txt("book_schedule_type_none_info"));
@@ -259,11 +273,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$a_values["stype"] = $this->object->getScheduleType();
 		$a_values["limit"] = $this->object->getOverallLimit();		
 		$a_values["period"] = $this->object->getReservationFilterPeriod();
+		$a_values["rmd"] = $this->object->getReminderStatus();
+		$a_values["rmd_day"] = $this->object->getReminderDay();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{		
 		$this->object->setOffline(!$a_form->getInput('online'));
+		$this->object->setReminderStatus($a_form->getInput('rmd'));
+		$this->object->setReminderDay($a_form->getInput('rmd_day'));
 		$this->object->setPublicLog($a_form->getInput('public'));
 		$this->object->setScheduleType($a_form->getInput('stype'));
 		$this->object->setOverallLimit($a_form->getInput('limit') ? $a_form->getInput('limit') : null);
@@ -1706,7 +1724,77 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "render"), "", $this->object->getRefId());
 		}
-	}		
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+	{
+		$access = $this->access;
+		$user = $this->user;
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		$lng->loadLanguageModule("noti");
+
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+
+		if($lg && $access->checkAccess("read", "", $this->ref_id))
+		{
+			// notification
+			if(true)
+			{
+				if(!ilNotification::hasNotification(ilNotification::TYPE_BOOK, $user->getId(), $this->object->getId()))
+				{
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_off.svg"),
+						$lng->txt("noti_notification_deactivated"));
+
+					$ctrl->setParameter($this, "ntf", 1);
+					$caption = "noti_activate_notification";
+				}
+				else
+				{
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_on.svg"),
+						$lng->txt("noti_notification_activated"));
+
+					$ctrl->setParameter($this, "ntf", 0);
+					$caption = "noti_deactivate_notification";
+				}
+
+				$lg->addCustomCommand($ctrl->getLinkTarget($this, "saveNotification"),
+					$caption);
+
+				$ctrl->setParameter($this, "ntf", "");
+			}
+		}
+
+		return $lg;
+	}
+
+	/**
+	 * Save notification
+	 */
+	public function saveNotificationObject()
+	{
+		$ctrl = $this->ctrl;
+		$user = $this->user;
+
+
+		switch ($_GET["ntf"])
+		{
+			case 0:
+				ilNotification::setNotification(ilNotification::TYPE_BOOK, $user->getId(), $this->object->getId(), false);
+				break;
+
+			case 1:
+				ilNotification::setNotification(ilNotification::TYPE_BOOK, $user->getId(), $this->object->getId(), true);
+				break;
+		}
+		$ctrl->redirect($this, "render");
+	}
 }
 
 ?>

@@ -28,7 +28,11 @@ class ilObjLanguageAccess
 	*/
 	static function _checkTranslate()
 	{
-		global $lng, $ilSetting, $ilUser, $rbacsystem;
+		global $DIC;
+		$lng = $DIC->language();
+		$ilSetting = $DIC->settings();
+		$ilUser = $DIC->user();
+		$rbacsystem = $DIC->rbac()->system();
 
 		if (!$ilSetting->get("lang_translate_".$lng->getLangKey()))
 		{
@@ -53,7 +57,10 @@ class ilObjLanguageAccess
 	*/
     static function _checkMaintenance()
 	{
-		global $ilSetting, $ilUser, $rbacsystem;
+		global $DIC;
+		$ilSetting = $DIC->settings();
+		$ilUser = $DIC->user();
+		$rbacsystem = $DIC->rbac()->system();
 
 		if ($ilUser->getId())
 		{
@@ -71,8 +78,9 @@ class ilObjLanguageAccess
 	*/
     static function _lookupLangFolderRefId()
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		$q = "SELECT ref_id FROM object_reference r, object_data d".
 		" WHERE r.obj_id = d.obj_id AND d.type = ".$ilDB->quote("lngf", "text");
 		$set = $ilDB->query($q);
@@ -89,7 +97,8 @@ class ilObjLanguageAccess
 	*/
 	static function _lookupId($a_key)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$q = "SELECT obj_id FROM object_data ".
 		" WHERE type = ".$ilDB->quote("lng", "text").
@@ -137,7 +146,9 @@ class ilObjLanguageAccess
      */
     static function _saveUsages()
     {
-        global $lng;
+		global $DIC;
+		$lng = $DIC->language();
+
         $_SESSION['lang_ext_maintenance']['used_modules'] = array_keys($lng->getUsedModules());
         $_SESSION['lang_ext_maintenance']['used_topics'] = array_keys($lng->getUsedTopics());
     }

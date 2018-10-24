@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Xml/classes/class.ilSaxParser.php';
-require_once 'Modules/Forum/classes/class.ilForumProperties.php';
-include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-
 class ilForumXMLParser extends ilSaxParser
 {
 	/**
@@ -357,8 +353,6 @@ class ilForumXMLParser extends ilSaxParser
 
 				if($this->entity == 'thread' && $this->threadArray)
 				{
-					require_once 'Modules/Forum/classes/class.ilForumTopic.php';
-
 					$this->forumThread = new ilForumTopic();
 					$this->forumThread->setId($this->threadArray['Id']);
 					$this->forumThread->setForumId( $this->lastHandledForumId );
@@ -440,8 +434,6 @@ class ilForumXMLParser extends ilSaxParser
 
 				if($this->entity == 'post' && $this->postArray)
 				{
-					require_once 'Modules/Forum/classes/class.ilForumPost.php';
-
 					$this->forumPost = new ilForumPost();
 					$this->forumPost->setId($this->postArray['Id']);
 					$this->forumPost->setCensorship($this->postArray['Censorship']);

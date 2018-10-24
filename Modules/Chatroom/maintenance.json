@@ -3,7 +3,9 @@
     "first_maintainer": "mjansen(8784)",
     "second_maintainer": "mbecker(27266)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "abaulig1(44386)",
     "testcase_writer": "kunkel(115)",
     "path": "Modules/Chatroom",

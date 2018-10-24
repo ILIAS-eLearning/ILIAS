@@ -43,7 +43,8 @@ class ilLanguageFactory
 	 */
 	public static function _getLanguage($a_lang_key = '')
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
 		
 		if(!$a_lang_key)
 		{

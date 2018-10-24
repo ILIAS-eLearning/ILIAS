@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilObjDataCollectionAccess
  *
@@ -27,11 +26,11 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *    );
 	 */
-	static  function _getCommands() {
+	static function _getCommands() {
 		$commands = array(
-			array( "permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true ),
-			array( "permission" => "write", "cmd" => "listRecords", "lang_var" => "edit_content" ),
-			array( "permission" => "write", "cmd" => "edit", "lang_var" => "settings" )
+			array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true),
+			array("permission" => "write", "cmd" => "listRecords", "lang_var" => "edit_content"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
 		);
 
 		return $commands;
@@ -84,8 +83,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		switch ($a_cmd) {
 			case "view":
 
-				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-					&& ! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
+				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+					&& !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -95,7 +94,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 			// for permission query feature
 			case "infoScreen":
-				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
+				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				} else {
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
@@ -105,8 +104,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		switch ($a_permission) {
 			case "read":
 			case "visible":
-				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-					&& (! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+					&& (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -209,6 +208,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		if ($user_id) {
 			return $ilAccess->checkAccessOfUser($user_id, "write", "", $ref);
 		}
+
 		return $ilAccess->checkAccess("write", "", $ref);
 	}
 
@@ -216,8 +216,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	/**
 	 * Has permission to view and edit all entries event when he is not the owner
 	 *
-	 * @param $ref
+	 * @param     $ref
 	 * @param int $user_id
+	 *
 	 * @return mixed
 	 */
 	public static function hasEditAccess($ref, $user_id = 0) {
@@ -227,13 +228,15 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		if ($user_id) {
 			return $ilAccess->checkAccessOfUser($user_id, "write", "", $ref);
 		}
+
 		return $ilAccess->checkAccess("edit_content", "", $ref);
 	}
 
 
 	/**
-	 * @param $ref int the reference id of the datacollection object to check.
+	 * @param     $ref int the reference id of the datacollection object to check.
 	 * @param int $user_id
+	 *
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
 	 */
 	public static function hasAddRecordAccess($ref, $user_id = 0) {
@@ -243,13 +246,15 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		if ($user_id) {
 			return $ilAccess->checkAccessOfUser($user_id, "write", "", $ref);
 		}
+
 		return $ilAccess->checkAccess("add_entry", "", $ref);
 	}
 
 
 	/**
-	 * @param $ref int the reference id of the datacollection object to check.
+	 * @param     $ref int the reference id of the datacollection object to check.
 	 * @param int $user_id
+	 *
 	 * @return bool whether or not the current user has read access to the referenced datacollection
 	 */
 	public static function hasReadAccess($ref, $user_id = 0) {
@@ -259,23 +264,24 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		if ($user_id) {
 			return $ilAccess->checkAccessOfUser($user_id, "write", "", $ref);
 		}
+
 		return $ilAccess->checkAccess("read", "", $ref);
 	}
 
+
 	/**
 	 * @param integer|ilDclTableView $tableview can be object or id
-	 * @param int $user_id
+	 * @param int                    $user_id
+	 *
 	 * @return bool
 	 */
-	public static function hasAccessToTableView($tableview, $user_id = 0)
-	{
+	public static function hasAccessToTableView($tableview, $user_id = 0) {
 		global $DIC;
 		$rbacreview = $DIC['rbacreview'];
 		$ilUser = $DIC['ilUser'];
 		if (!$tableview) {
 			return false;
 		}
-		
 
 		if (is_numeric($tableview)) {
 			$tableview = ilDclTableView::find($tableview);
@@ -299,10 +305,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	public static function hasAccessToTable($table_id) {
 		$table = ilDclCache::getTableCache($table_id);
 		$collection = $table->getCollectionObject();
+
 		return $table->getIsVisible() || ($table_id == $collection->getFirstVisibleTableId());
 	}
-	
-	
 }
 
 ?>

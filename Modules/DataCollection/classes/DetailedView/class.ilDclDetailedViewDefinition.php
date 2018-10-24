@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclDetailedViewDefinition
  *
@@ -17,7 +16,6 @@
 class ilDclDetailedViewDefinition extends ilPageObject {
 
 	const PARENT_TYPE = 'dclf';
-
 	/**
 	 * @var bool
 	 */
@@ -31,6 +29,7 @@ class ilDclDetailedViewDefinition extends ilPageObject {
 	 */
 	protected static $record_view_cache = array();
 
+
 	/**
 	 * Get parent type
 	 *
@@ -40,8 +39,10 @@ class ilDclDetailedViewDefinition extends ilPageObject {
 		return self::PARENT_TYPE;
 	}
 
+
 	/**
 	 * Get all placeholders for table id
+	 *
 	 * @return array
 	 * @internal param int $a_table_id
 	 * @internal param bool $a_verbose
@@ -50,7 +51,7 @@ class ilDclDetailedViewDefinition extends ilPageObject {
 	public function getAvailablePlaceholders() {
 		$all = array();
 
-						$tableview = new ilDclTableView($this->getId());
+		$tableview = new ilDclTableView($this->getId());
 		$table_id = $tableview->getTableId();
 		$objTable = ilDclCache::getTableCache($table_id);
 		$fields = $objTable->getRecordFields();
@@ -75,13 +76,13 @@ class ilDclDetailedViewDefinition extends ilPageObject {
 		return $all;
 	}
 
-	public static function exists($id)
-	{
+
+	public static function exists($id) {
 		return parent::_exists(self::PARENT_TYPE, $id);
 	}
-	
-	public static function isActive($id)
-	{
+
+
+	public static function isActive($id) {
 		return parent::_lookupActive($id, self::PARENT_TYPE);
 	}
 }

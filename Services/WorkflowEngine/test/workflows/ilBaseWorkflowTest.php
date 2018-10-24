@@ -32,28 +32,4 @@ class ilBaseWorkflowTest extends PHPUnit_Framework_TestCase
 			$ilSetting->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
 		}
 	}
-	
-	public function testStartWorkflow()
-	{
-		$this->markTestIncomplete(
-			'$ilDB is not available during unit tests.'
-		);
-		// ilWorkflowDbHelper needs it, so, though luck atm.
-	}
-	
-	public function testStopWorkflow()
-	{
-		$this->markTestIncomplete(
-			'$ilDB is not available during unit tests.'
-		);
-		// ilWorkflowDbHelper needs it, so, though luck atm.
-	}
-
-	public function testOnStartWorkflow()
-	{
-		$this->markTestIncomplete(
-			'$ilDB is not available during unit tests.'
-		);
-		// ilWorkflowDbHelper needs it, so, though luck atm.
-	}
 }

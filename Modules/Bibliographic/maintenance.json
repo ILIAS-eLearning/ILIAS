@@ -8,7 +8,9 @@
         "otruffer(29130)",
         "ttruffer(42894)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "marko.glaubitz(28309)",
     "testcase_writer": "mstuder(8473)",
     "path": "Modules/Bibliographic",

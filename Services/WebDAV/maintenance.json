@@ -3,7 +3,9 @@
     "first_maintainer": "fawinike(44474)",
     "second_maintainer": "rheer(47872)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/WebDAV",

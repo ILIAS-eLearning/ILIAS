@@ -3,7 +3,9 @@
     "first_maintainer": "smeyer(191)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "bogen(13815)",
     "testcase_writer": "bogen(13815)",
     "path": "Modules/RemoteCategory",
