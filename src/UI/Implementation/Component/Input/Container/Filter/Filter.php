@@ -196,14 +196,6 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	/**
 	 * @inheritdoc
 	 */
-	public function isInputRendered()
-	{
-		return $this->is_input_rendered;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function isActivated()
 	{
 		return $this->is_activated;
@@ -222,6 +214,16 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	/**
 	 * @inheritdoc
 	 */
+	public function withDeactivated()
+	{
+		$clone = clone $this;
+		$clone->is_activated = false;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function isExpanded()
 	{
 		return $this->is_expanded;
@@ -234,6 +236,16 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	{
 		$clone = clone $this;
 		$clone->is_expanded = true;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withCollapsed()
+	{
+		$clone = clone $this;
+		$clone->is_expanded = false;
 		return $clone;
 	}
 }

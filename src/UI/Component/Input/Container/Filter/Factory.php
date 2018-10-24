@@ -15,11 +15,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Possible properties, which only Standard Filters have, should be mentioned here.
+	 *      To do
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: Possible rules, which only Standard Filters have, should be mentioned here.
+	 *     1: To do
 	 *
 	 * ---
 	 *
