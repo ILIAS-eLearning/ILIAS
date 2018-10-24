@@ -18,6 +18,6 @@ class ilCertificatePdfFileNameFactory
 
 		$fileName = $pdfFileGenerator->createFileName($presentation);
 
-		return $fileName;
+		return $fileName . '.pdf';
 	}
 }
