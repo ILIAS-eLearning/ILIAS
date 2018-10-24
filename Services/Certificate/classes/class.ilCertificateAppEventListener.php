@@ -156,7 +156,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			if ($this->isLearningAchievementEvent()) {
 				$this->handleLPUpdate();
 			} elseif ($this->isMigratingCertificateEvent()) {
-				$this->handleNewUserCertificate();
+				$this->handleNewMigratedUserCertificate();
 			} elseif ($this->isUserDeletedEvent()) {
 				$this->handleDeletedUser();
 			}
@@ -261,7 +261,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	 * @throws \ilDatabaseException
 	 * @throws \ilException
 	 */
-	private function handleNewUserCertificate()
+	private function handleNewMigratedUserCertificate()
 	{
 		$this->logger->info('Try to create new certificates based on event');
 
@@ -298,6 +298,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 		$template = $templateRepository->fetchFirstCreatedTemplate($objId);
+
+		try {
+			$certificate = $this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
+			$this->logger->error(sprintf('There are already certificates generated for user_id "%s" and object_id "%s". Abort.', $userId, $objId));
+			return;
+		} catch (ilException $exception) {
+			$this->logger->info('No active user certificate found. Resume migration.');
+		}
 
 		$type = $this->objectDataCache->lookupType($objId);
 
