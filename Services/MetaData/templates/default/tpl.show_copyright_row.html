@@ -3,6 +3,11 @@
 	<td class="std" style="vertical-align:top;">
 		<input type="checkbox" name="entry_id[]" value="{VAL_ID}" {DISABLED}/>
 	</td>
+	<td class="std"{ORDER_INDENT}>
+		<!-- BEGIN order -->
+		<input type="text" class="form-control" name="{ORDER_NAME}" value="{ORDER_VALUE}" maxlength="3" size="3"/>
+		<!-- END order -->
+	</td>
 	<!-- END cb_bl -->
 	<td class="std"  style="vertical-align:top;">
 		{VAL_TITLE}

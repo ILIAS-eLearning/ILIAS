@@ -62,6 +62,8 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 		if($this->has_write)
 		{
 			$this->addColumn('','f',1);
+			$this->addColumn($lng->txt("order"), "");
+			$this->addCommandButton("saveOrder", $lng->txt("meta_save_order"));
 		}
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
 	 	$this->addColumn($this->lng->txt('md_used'),'used',"5%");
@@ -152,6 +154,11 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 			$entry_arr[] = $tmp_arr;
 	 	}
 	 	$this->setData($entry_arr ? $entry_arr : array());
+	}
+
+	public function saveOrder()
+	{
+		//TODO IMPLEMENT
 	}
 	
 } 
