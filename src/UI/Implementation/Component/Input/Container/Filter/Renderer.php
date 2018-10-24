@@ -25,15 +25,21 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	protected function renderStandard(Component\Input\Container\Filter\Standard $component, RendererInterface $default_renderer) {
-		$tpl = $this->getTemplate("tpl.standard.html", true, true);
-
-		$tpl->setVariable("URL", $component->getPostURL());
+		$tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
 		$f = $this->getUIFactory();
-		$submit_button = $f->button()->standard($this->txt("save"), "#");
+		$opener = [$f->glyph()->collapse(), $f->glyph()->expand()];
+		//$apply_old = $f->glyph()->note("#");
+		$apply = $f->button()->bulky($f->glyph()->note("#"), "Apply", "#");
+		//reset_old = $f->glyph()->comment("#");
+		$reset = $f->button()->bulky($f->glyph()->comment("#"), "Reset", "#");
+		//Beim Aktivieren des Filters soll er ausgeklappt werden (nur Desktop, nicht Mobile)
+		$toggle = $f->button()->toggle("", "#", "#");
 
-		$tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
-		$tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
+		$tpl->setVariable("OPENER", $default_renderer->render($opener));
+		$tpl->setVariable("APPLY", $default_renderer->render($apply));
+		$tpl->setVariable("RESET", $default_renderer->render($reset));
+		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
 
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("INPUTS", $renderer->render($component->getInputGroup()));

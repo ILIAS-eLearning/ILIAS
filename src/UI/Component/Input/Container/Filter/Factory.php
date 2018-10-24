@@ -36,10 +36,14 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param    string $post_url
 	 * @param    array<mixed,\ILIAS\UI\Component\Input\Input>    $inputs
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Container\Filter\Standard
 	 */
-	public function standard($post_url, array $inputs);
+	public function standard(array $inputs);
+
+	/*Other types of container might use other mechanisms for data submission. A filter
+	e.g. will likely be commiting its content via query parameters in the URL to make
+	the results of the query cachable and maintain HTTP-semantics. Another type of
+	form might submit its contents asynchronously.*/
 }
