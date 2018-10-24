@@ -5659,6 +5659,8 @@ return array(
     'ilPCImageMapTableGUI' => $baseDir . '/../../Services/COPage/classes/class.ilPCImageMapTableGUI.php',
     'ilPCInteractiveImage' => $baseDir . '/../../Services/COPage/classes/class.ilPCInteractiveImage.php',
     'ilPCInteractiveImageGUI' => $baseDir . '/../../Services/COPage/classes/class.ilPCInteractiveImageGUI.php',
+    'ilPCLearningHistory' => $baseDir . '/../../Services/LearningHistory/classes/class.ilPCLearningHistory.php',
+    'ilPCLearningHistoryGUI' => $baseDir . '/../../Services/LearningHistory/classes/class.ilPCLearningHistoryGUI.php',
     'ilPCList' => $baseDir . '/../../Services/COPage/classes/class.ilPCList.php',
     'ilPCListGUI' => $baseDir . '/../../Services/COPage/classes/class.ilPCListGUI.php',
     'ilPCListItem' => $baseDir . '/../../Services/COPage/classes/class.ilPCListItem.php',

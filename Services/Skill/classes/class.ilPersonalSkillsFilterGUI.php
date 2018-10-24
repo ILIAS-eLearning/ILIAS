@@ -52,6 +52,16 @@ class ilPersonalSkillsFilterGUI
 			$toolbar->addInputItem($si, true);
 		}
 
+		// materials/ressources
+		$options = array(
+			0 => $lng->txt("show"),
+			1 => $lng->txt("hide")
+		);
+		$si = new ilSelectInputGUI($lng->txt("skmg_materials_ressources"), "mat_res");
+		$si->setOptions($options);
+		$si->setValue(ilSession::get("skmg_pf_mat_res"));
+		$toolbar->addInputItem($si, true);
+
 		// from
 		$from = new ilDateTimeInputGUI($lng->txt("from"), "from");
 		if (ilSession::get("skmg_pf_from") != "")
@@ -86,6 +96,7 @@ class ilPersonalSkillsFilterGUI
 			: $to->getDate()->get(IL_CAL_DATETIME);
 		ilSession::set("skmg_pf_type_of_formation", ilUtil::stripSlashes($_POST["type_of_formation"]));
 		ilSession::set("skmg_pf_target_level", ilUtil::stripSlashes($_POST["target_level"]));
+		ilSession::set("skmg_pf_mat_res", ilUtil::stripSlashes($_POST["mat_res"]));
 		ilSession::set("skmg_pf_from", $f);
 		ilSession::set("skmg_pf_to", $t);
 	}
@@ -146,6 +157,14 @@ class ilPersonalSkillsFilterGUI
 		return (int) !ilSession::get("skmg_pf_target_level");
 	}
 
+	/**
+	 * Show materials and ressources?
+	 * @return bool
+	 */
+	public function showMaterialsRessources()
+	{
+		return (int) !ilSession::get("skmg_pf_mat_res");
+	}
 
 
 }

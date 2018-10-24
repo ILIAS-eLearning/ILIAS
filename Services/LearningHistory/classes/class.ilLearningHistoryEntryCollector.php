@@ -29,7 +29,7 @@ class ilLearningHistoryEntryCollector
 	 *
 	 * @return ilLearningHistoryEntry[]
 	 */
-	public function getEntries($from = null, $to = null, $user_id = null)
+	public function getEntries($from = null, $to = null, $user_id = null, $classes = null)
 	{
 		$entries = array();
 		$lng = $this->service->language();
@@ -44,6 +44,10 @@ class ilLearningHistoryEntryCollector
 		$sort_array = [];
 		foreach ($this->service->provider()->getAllProviders(true, $user_id) as $provider)
 		{
+			if (is_array($classes) && !in_array(get_class($provider), $classes)) {
+				continue;
+			}
+
 			foreach ($provider->getEntries($from, $to) as $e)
 			{
 				$sort_array[] = array("entry" => $e,"ts" => $e->getTimestamp());

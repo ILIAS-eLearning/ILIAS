@@ -43,4 +43,16 @@ class ilFirstLoginLearningHistoryProvider extends ilAbstractLearningHistoryProvi
 		return $entries;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getName(): string
+	{
+		$lng = $this->getLanguage();
+		$lng->loadLanguageModule("lhist");
+
+		return $lng->txt("lhist_first_login");
+	}
+
+
 }

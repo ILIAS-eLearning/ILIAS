@@ -14508,3 +14508,14 @@ prtf#:#prtf_decl_authorship#:#Declaration of Authorship
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Download Submission
+content#:#cont_ed_insert_learning_history#:#Insert Learning History
+lhist#:#lhist_all#:#All
+lhist#:#lhist_selected#:#Selected
+lhist#:#lhist_manual#:#Manual
+lhist#:#lhist_period#:#Period
+lhist#:#lhist_type_of_achievement#:#Type of Achievement
+lhist#:#cont_update_lhist#:#Edit Learning History Element
+lhist#:#cont_create_lhist#:#Create Learning History Element
+lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
+lhist#:#lhist_lhist#:#Learning History
+skmg#:#skmg_materials_ressources#:#Resources/Materials

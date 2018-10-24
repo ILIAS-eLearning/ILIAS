@@ -7456,6 +7456,7 @@ hr.il-divider-with-label {
 .il-narrow-content .il-item button.dropdown-toggle > span {
   display: none;
 }
+/* otherwise dropdowns in items with icon do not work */
 .il-std-item .media .media-body,
 .il-std-item .media {
   overflow: visible;
@@ -13732,6 +13733,9 @@ th.ilSkillEntryHead {
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType3 {
   color: #6ea03c;
+}
+.ilSkillFilter .ilToolbar select.form-control {
+  display: block;
 }
 /* Modules/Poll */
 .ilPollDescription {

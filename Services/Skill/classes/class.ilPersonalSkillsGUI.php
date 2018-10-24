@@ -363,8 +363,10 @@ class ilPersonalSkillsGUI
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
 		$lng = $this->lng;
-		$tpl = $this->tpl;
+		$main_tpl = $this->tpl;
 		$ilToolbar = $this->toolbar;
+
+		$tpl = new ilTemplate("tpl.skill_filter.html", true, true, "Services/Skill");
 
 		$this->setTabs("list_skills");
 		
@@ -404,10 +406,11 @@ class ilPersonalSkillsGUI
 		if ($html != "")
 		{
 			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
-			$html = $filter_toolbar->getHTML().$html;
+			$tpl->setVariable("FILTER", $filter_toolbar->getHTML());
+			$html = $tpl->get().$html;
 		}
 
-		$tpl->setContent($html);
+		$main_tpl->setContent($html);
 
 	}
 
@@ -566,7 +569,10 @@ class ilPersonalSkillsGUI
 			// materials (new)
 			if ($this->mode != "gap")
 			{
-				$mat = $this->getMaterials($level_data, $bs["tref"], $user->getId());
+				if ($this->getFilter()->showMaterialsRessources() && $this->use_materials)
+				{
+					$mat = $this->getMaterials($level_data, $bs["tref"], $user->getId());
+				}
 				if ($mat != "")
 				{
 					$panel_comps[] = $this->ui_fac->legacy($mat);
@@ -574,7 +580,10 @@ class ilPersonalSkillsGUI
 			}
 
 			// suggested resources
-			$sugg = $this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]);
+			if ($this->getFilter()->showMaterialsRessources())
+			{
+				$sugg = $this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]);
+			}
 			if ($sugg != "")
 			{
 				$panel_comps[] = $this->ui_fac->legacy($sugg);
@@ -1919,7 +1928,9 @@ class ilPersonalSkillsGUI
 	{
 		$ilCtrl = $this->ctrl;
 
-		$tpl = $this->tpl;
+		$main_tpl = $this->tpl;
+
+		$tpl = new ilTemplate("tpl.skill_filter.html", true, true, "Services/Skill");
 
 		$this->setTabs("profile");
 
@@ -1961,10 +1972,12 @@ class ilPersonalSkillsGUI
 		{
 			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilterAssignedProfiles");
 
-			$html = $filter_toolbar->getHTML().$html;
+			$tpl->setVariable("FILTER", $filter_toolbar->getHTML());
+
+			$html = $tpl->get().$html;
 		}
 
-		$tpl->setContent($html);
+		$main_tpl->setContent($html);
 	}
 
 	

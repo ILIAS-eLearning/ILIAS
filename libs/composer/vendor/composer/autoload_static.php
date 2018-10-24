@@ -5959,6 +5959,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilPCImageMapTableGUI' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilPCImageMapTableGUI.php',
         'ilPCInteractiveImage' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilPCInteractiveImage.php',
         'ilPCInteractiveImageGUI' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilPCInteractiveImageGUI.php',
+        'ilPCLearningHistory' => __DIR__ . '/../..' . '/../../Services/LearningHistory/classes/class.ilPCLearningHistory.php',
+        'ilPCLearningHistoryGUI' => __DIR__ . '/../..' . '/../../Services/LearningHistory/classes/class.ilPCLearningHistoryGUI.php',
         'ilPCList' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilPCList.php',
         'ilPCListGUI' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilPCListGUI.php',
         'ilPCListItem' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilPCListItem.php',
