@@ -1,7 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
 	name="WebDAV" short="trac" dir="Services/WebDAV" id="wbdv">
-	<crons>
-		<cron id="rep_disk_quota" class="ilDAVCronDiskQuota" />
-	</crons>
-	<logging></logging></service>
+	<logging></logging>
+</service>

@@ -23479,3 +23479,7 @@ if (!$ilDB->tableColumnExists('media_item', 'upload_hash'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5336>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>

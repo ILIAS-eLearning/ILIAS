@@ -61,10 +61,8 @@ class ilDAVCronDiskQuota extends ilCronJob
 
 	public function run()
 	{						
-		require_once'./Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';		
 		if(ilDiskQuotaActivationChecker::_isActive())
 		{
-			require_once'./Services/WebDAV/classes/class.ilDiskQuotaChecker.php';		
 			ilDiskQuotaChecker::_updateDiskUsageReport();
 						
 			if(ilDiskQuotaActivationChecker::_isReminderMailActive())
@@ -90,8 +88,7 @@ class ilDAVCronDiskQuota extends ilCronJob
 		
 		$lng->loadLanguageModule("file");
 		
-		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
-		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();				
+		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
 
 		// Enable disk quota reminder mail
 		$cb_prop_reminder = new ilCheckboxInputGUI($lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
@@ -116,8 +113,7 @@ class ilDAVCronDiskQuota extends ilCronJob
 	
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{			
-		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
-		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();		
+		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
 		$disk_quota_obj->setDiskQuotaReminderMailEnabled($_POST['enable_disk_quota_reminder_mail'] == '1');
 		$disk_quota_obj->isDiskQuotaSummaryMailEnabled($_POST['enable_disk_quota_summary_mail'] == '1');
 		$disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
@@ -138,8 +134,7 @@ class ilDAVCronDiskQuota extends ilCronJob
 			case ilAdministrationSettingsFormHandler::FORM_REPOSITORY:				
 			case ilAdministrationSettingsFormHandler::FORM_FILES_QUOTA:				
 			
-				require_once('Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php');
-				
+
 				$subitems = array(
 					"enable_disk_quota_reminder_mail" => array(
 						ilDiskQuotaActivationChecker::_isReminderMailActive(), 
@@ -165,8 +160,7 @@ class ilDAVCronDiskQuota extends ilCronJob
 		$settings->set('enabled', $a_currently_active);
 		
 		/* objDefinition is not available in setup, we cannot use ilObject
-		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
-		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();	
+		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
 		$disk_quota_obj->setDiskQuotaEnabled((bool)$a_currently_active);
 		$disk_quota_obj->update(); 		 
 		*/
