@@ -1,24 +1,22 @@
 <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="{URL}" method="post" novalidate="novalidate">
     <div class="il-filter-bar">
-        <span class="il-filter-bar-opener collapsed" data-toggle="collapse" data-target="#inputs" aria-expanded="false"> {DESCRIPTION}
-            <span class="il-filter-bar-opener-collapse"> {OPENER} </span>
-        </span>
+        <span class="il-filter-bar-opener" data-toggle="collapse" data-target="#inputs" aria-expanded="false"> {OPENER} </span>
         <span class="il-filter-bar-controls"> {APPLY} {RESET} {TOGGLE} </span>
     </div>
-    <div class="il-filter-inputs-active">To do here: Active Filter Labels and Values when Filter is collapsed</div>
-    <div id="inputs" class="form-group row collapse"> {INPUTS} </div>
+    <div class="il-filter-inputs-active"><!-- BEGIN active_inputs --> <span id={ID}> </span> <!-- END active_inputs --></div>
+    <div id="inputs" class="form-group row collapse {COLLAPSE}"> {INPUTS} </div>
 </form>
 
 
 <script>
 
 $(document).ready(function() {
-    $('.il-filter-bar-opener-collapse').find('.glyph:first').hide();
-    $('.il-filter-bar-opener').click(function() {
-        $('.il-filter-bar-opener-collapse .glyph').toggle();
+    /*
+    $('.il-filter-bar-opener-collapse').find('.btn-bulky:first').hide();
+    $('.il-filter-bar').click(function() {
+        $('.il-filter-bar-opener-collapse .btn-bulky').toggle();
     });
-
-    $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
+    */
 });
 
 </script>
