@@ -37,6 +37,7 @@ class RepositoryObject extends Card implements C\RepositoryObject {
 	 */
 	public function withObjectIcon(Icon $icon)
 	{
+		$icon = $icon->withSize("medium");		// ensure same size
 		$clone = clone $this;
 		$clone->object_icon = $icon;
 		return $clone;
