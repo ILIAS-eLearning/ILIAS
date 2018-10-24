@@ -556,6 +556,7 @@ class ilMDEditorGUI
 			$this->md_obj->getRBACId(),
 			$this->md_obj->getObjId()
 		);
+		//current id can be false for non predefined copyright.
 		$current_id = ilMDCopyrightSelectionEntry::_extractEntryId($description);
 
 		if(
@@ -567,11 +568,12 @@ class ilMDEditorGUI
 		}
 
 		$copyright = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright'),'copyright');
-		if($current_id) {
-			$copyright->setValue($current_id);
-		} else {
+		// false if the copyright is set by the user (Own Copyright Information)
+		if($current_id === false) {
 			$default_entry_id = ilMDCopyrightSelectionEntry::getDefault();
 			$copyright->setValue($default_entry_id);
+		} else {
+			$copyright->setValue($current_id);
 		}
 
 

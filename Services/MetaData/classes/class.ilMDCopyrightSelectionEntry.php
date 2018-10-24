@@ -142,6 +142,7 @@ class ilMDCopyrightSelectionEntry
 	 * @static
 	 *
 	 * @param
+	 * @return integer if found, false if not.
 	 */
 	public static function _extractEntryId($a_cp_string)
 	{
@@ -153,7 +154,7 @@ class ilMDCopyrightSelectionEntry
 		{
 			return 0;
 		}
-		return $matches[2] ? $matches[2] : 0;
+		return $matches[2] ? $matches[2] : false;
 	}
 	
 	/**
