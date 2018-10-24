@@ -38,11 +38,14 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 
 		$pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
 			->disableOriginalConstructor()
-			->setMethods(array('generateCurrentActiveCertificate'))
+			->setMethods(array('generateCurrentActiveCertificate', 'generateFileName'))
 			->getMock();
 
 		$pdfGenerator->method('generateCurrentActiveCertificate')
 			->willReturn('Something');
+
+		$pdfGenerator->method('generateFileName')
+			->willReturn('some_file_name.pdf');
 
 		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
@@ -50,7 +53,7 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 		$ilUtilHelper->method('deliverData')
 			->with(
 				'Something',
-				'Certificate.pdf',
+				'some_file_name.pdf',
 				'application/pdf'
 			);
 
@@ -69,11 +72,14 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 
 		$pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
 			->disableOriginalConstructor()
-			->setMethods(array('generateCurrentActiveCertificate'))
+			->setMethods(array('generateCurrentActiveCertificate', 'generateFileName'))
 			->getMock();
 
 		$pdfGenerator->method('generateCurrentActiveCertificate')
 			->willReturn('Something');
+
+		$pdfGenerator->method('generateFileName')
+			->willReturn('some_file_name.pdf');
 
 		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
@@ -81,7 +87,7 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 		$ilUtilHelper->method('deliverData')
 			->with(
 				'Something',
-				'Certificate.pdf',
+				'some_file_name.pdf',
 				'application/pdf'
 			)
 		->willThrowException(new ilRpcClientException(''));
