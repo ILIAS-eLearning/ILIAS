@@ -27,4 +27,8 @@ class Factory implements I\Container\Factory {
 	public function form() {
 		return $this->form_factory;
 	}
+
+	public function filter() {
+		return new Filter\Factory();
+	}
 }
