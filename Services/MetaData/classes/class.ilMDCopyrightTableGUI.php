@@ -66,10 +66,11 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
 	 	$this->addColumn($this->lng->txt('md_used'),'used',"5%");
 	 	$this->addColumn($this->lng->txt('md_copyright_preview'),'preview',"50%");
+		$this->addColumn($this->lng->txt('meta_copyright_status'),'status',"5%");
 		
 		if($this->has_write)
 		{
-			$this->addColumn('','edit',"15%");
+			$this->addColumn('','edit',"10%");
 		}
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -102,6 +103,11 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable('VAL_USAGE',$a_set['used']);
 		$this->tpl->setVariable('VAL_PREVIEW',$a_set['preview']);
+		if($a_set['status']){
+			$this->tpl->setVariable('VAL_STATUS', $this->lng->txt('meta_copyright_outdated'));
+		} else {
+			$this->tpl->setVariable('VAL_STATUS', $this->lng->txt('meta_copyright_in_use'));
+		}
 		
 		if($this->has_write)
 		{
@@ -118,7 +124,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('USAGE_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'showCopyrightUsages'));
 				$this->ctrl->clearParameters($this->getParentObject());
 
-				$this->tpl->setVariable('TXT_USAGE',$this->lng->txt('meta_show_usages'));
+				$this->tpl->setVariable('TXT_USAGE',$this->lng->txt('meta_copyright_show_usages'));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -141,6 +147,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 			$tmp_arr['used'] = $entry->getUsage();
 			$tmp_arr['preview'] = $entry->getCopyright();
 			$tmp_arr['default'] = $entry->getIsDefault();
+			$tmp_arr['status'] = $entry->getOutdated();
 			
 			$entry_arr[] = $tmp_arr;
 	 	}

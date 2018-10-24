@@ -547,9 +547,9 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$cop->setRows(5);
 		$this->form->addItem($cop);
 
-		$usage = new ilRadioGroupInputGUI($this->lng->txt('meta_usage'),'outdated');
-		$use = new ilRadioOption($this->lng->txt('meta_in_use'), 0);
-		$out = new ilRadioOption($this->lng->txt('meta_outdated'),1);
+		$usage = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright_usage'),'outdated');
+		$use = new ilRadioOption($this->lng->txt('meta_copyright_in_use'), 0);
+		$out = new ilRadioOption($this->lng->txt('meta_copyright_outdated'),1);
 		$usage->addOption($use);
 		$usage->addOption($out);
 		$usage->setValue($this->entry->getOutdated());

@@ -14306,8 +14306,9 @@ meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
-meta#:#meta_show_usages#:#Show usages
-meta#:#meta_sub_items#:#Sub Items
-meta#:#meta_outdated#:#Outdated
-meta#:#meta_in_use#:#In use
-meta#:#meta_usage#:#Usage
+meta#:#meta_copyright_show_usages#:#Show usages
+meta#:#meta_copyright_sub_items#:#Sub Items
+meta#:#meta_copyright_outdated#:#Outdated
+meta#:#meta_copyright_in_use#:#In use
+meta#:#meta_copyright_usage#:#Usage
+meta#:#meta_copyright_status#:#Status
