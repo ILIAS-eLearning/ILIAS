@@ -18,6 +18,9 @@ class Factory implements I\Container\Factory {
 		return new Form\Factory();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function filter() {
 		return new Filter\Factory();
 	}
