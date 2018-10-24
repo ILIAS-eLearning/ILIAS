@@ -1,12 +1,14 @@
 <?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
-function base() {
+function with_object_icon_and_certificate() {
 	//Init Factory and Renderer
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
+
+	$icon = $f->icon()->standard("crs", 'Course', 'responsive');
 
 	$content = $f->listing()->descriptive(
 		array(
@@ -19,10 +21,19 @@ function base() {
 		"./templates/default/images/HeaderIcon.svg",
 		"Thumbnail Example");
 
-	$card = $f->card(
+	$card = $f->card()->repositoryObject(
 		"Title",
 		$image
-	)->withSections(array($content));
+	)->withObjectIcon(
+		$icon
+	)->withCertificateIcon(
+		true
+	)->withSections(
+		array(
+			$content,
+			$content,
+		)
+	);
 
 	//Render
 	return $renderer->render($card);

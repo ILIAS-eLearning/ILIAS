@@ -1,7 +1,7 @@
 .il-card {
 	padding: 0;
 	width: 100%;
-
+	position:relative;
 
 	background-color: @il-primary-container-bg;
 
@@ -38,6 +38,51 @@
 				color: @il-light-text-color;
 				font-size: @font-size-small;
 				padding-top: @padding-large-vertical;
+			}
+		}
+	}
+
+	.il-card-repository-head{
+		background-color:@il-card-repository-head-color;
+		position:absolute;
+		top:0;
+		left:0;
+		right:0;
+
+		.row {
+			padding: 0 2px;
+		}
+
+		.row div.col-sm-3 {
+			padding:5px 4% 2px 4%;
+			margin:0;
+		}
+
+
+		.row div.il-card-repository-dropdown {
+			position: absolute;
+			right:0;
+			width: 25%;
+			top: 15%;
+			bottom: 15%;
+			padding-left: 6%;
+			padding-right: 6%;
+
+			> .dropdown {
+				height:100%;
+
+				> button {
+					height:100%;
+					width:100%;
+					background-color: inherit;
+					border: @il-card-repository-dropdown-border;
+
+					span.caret {
+						display: block;
+						margin-left: auto;
+						margin-right: auto;
+					}
+				}
 			}
 		}
 	}
