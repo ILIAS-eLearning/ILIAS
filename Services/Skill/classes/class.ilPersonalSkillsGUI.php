@@ -85,6 +85,11 @@ class ilPersonalSkillsGUI
 	protected $obj_skills = array();
 
 	/**
+	 * @var ilPersonalSkillsFilterGUI
+	 */
+	protected $filter;
+
+	/**
 	 * Contructor
 	 *
 	 * @access public
@@ -128,8 +133,21 @@ class ilPersonalSkillsGUI
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$this->skmg_settings = new ilSkillManagementSettings();
 
+		$this->filter = new ilPersonalSkillsFilterGUI();
+
 	}
-	
+
+	/**
+	 * Get filter
+	 *
+	 * @return ilPersonalSkillsFilterGUI
+	 */
+	protected function getFilter()
+	{
+		return $this->filter;
+	}
+
+
 	/**
 	 * Set profile id
 	 *
@@ -351,6 +369,10 @@ class ilPersonalSkillsGUI
 		$ilToolbar->addFormButton($lng->txt("skmg_add_skill"),
 			"listSkillsForAdd");
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+		$filter_toolbar = new ilToolbarGUI();
+		$filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
+		$this->getFilter()->addToToolbar($filter_toolbar, false);
 			
 		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
 		$html = "";
@@ -372,10 +394,35 @@ class ilPersonalSkillsGUI
 		// list skills
 //		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
 //		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
-		
+
+		if ($html != "")
+		{
+			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
+			$html = $filter_toolbar->getHTML().$html;
+		}
+
 		$tpl->setContent($html);
 
 	}
+
+	/**
+	 * Apply filter
+	 */
+	protected function applyFilter()
+	{
+		$this->getFilter()->save();
+		$this->ctrl->redirect($this, "listSkills");
+	}
+
+	/**
+	 * Apply filter for profiles view
+	 */
+	protected function applyFilterAssignedProfiles()
+	{
+		$this->getFilter()->save();
+		$this->ctrl->redirect($this, "listAssignedProfile");
+	}
+
 
 	/**
 	 * Get skill presentation HTML
@@ -474,7 +521,10 @@ class ilPersonalSkillsGUI
 				if (!$this->skmg_settings->getHideProfileBeforeSelfEval() ||
 					ilBasicSkill::hasSelfEvaluated($user->getId(), $bs["id"], $bs["tref"]))
 				{
-					$panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
+					if ($this->getFilter()->showTargetLevel())
+					{
+						$panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
+					}
 				}
 			}
 
@@ -499,7 +549,10 @@ class ilPersonalSkillsGUI
 					{
 						$se_rendered = true;
 					}
-					$panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+					if ($this->getFilter()->isInRange($level_data, $level_entry))
+					{
+						$panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+					}
 				}
 				
 			}
@@ -1853,12 +1906,18 @@ class ilPersonalSkillsGUI
 	 */
 	function listAssignedProfile()
 	{
+		$ilCtrl = $this->ctrl;
+
 		$tpl = $this->tpl;
 
 		$this->setTabs("profile");
 
 		$this->determineCurrentProfile();
 		$this->showProfileSelectorToolbar();
+
+		$filter_toolbar = new ilToolbarGUI();
+		$filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
+		$this->getFilter()->addToToolbar($filter_toolbar, true);
 
 		$skills = array();
 		if ($this->getProfileId() > 0)
@@ -1885,6 +1944,13 @@ class ilPersonalSkillsGUI
 		{
 			// todo draft check
 			$html.= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
+		}
+
+		if ($html != "")
+		{
+			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilterAssignedProfiles");
+
+			$html = $filter_toolbar->getHTML().$html;
 		}
 
 		$tpl->setContent($html);

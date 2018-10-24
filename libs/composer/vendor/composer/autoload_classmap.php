@@ -5788,6 +5788,7 @@ return array(
     'ilPersonalSkill' => $baseDir . '/../../Services/Skill/classes/class.ilPersonalSkill.php',
     'ilPersonalSkillExplorerGUI' => $baseDir . '/../../Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php',
     'ilPersonalSkillTableGUI' => $baseDir . '/../../Services/Skill/classes/class.ilPersonalSkillTableGUI.php',
+    'ilPersonalSkillsFilterGUI' => $baseDir . '/../../Services/Skill/classes/class.ilPersonalSkillsFilterGUI.php',
     'ilPersonalSkillsGUI' => $baseDir . '/../../Services/Skill/classes/class.ilPersonalSkillsGUI.php',
     'ilPersonalWorkspaceGUI' => $baseDir . '/../../Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php',
     'ilPhantomJSRenderer' => $baseDir . '/../../Services/PDFGeneration/classes/renderer/phantomjs/class.ilPhantomJSRenderer.php',

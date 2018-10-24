@@ -970,6 +970,43 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->ctrl->redirect($this, "preview");
 	}
 
+	/**
+	 * Create portfolio template direct
+	 */
+	protected function createFromTemplateDirect()
+	{
+		$prtt_id = (int)$_REQUEST["prtt_pre"];
+		$title = ilObject::_lookupTitle($prtt_id);
+
+		// valid template?
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+		if(!sizeof($templates) || !in_array($prtt_id, $templates))
+		{
+			$this->toRepository();
+		}
+		unset($templates);
+
+		$source = new ilObjPortfolioTemplate($prtt_id, false);
+
+		// create portfolio
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		$target = new ilObjPortfolio();
+		$target->setTitle($title);
+		$target->create();
+		$target_id = $target->getId();
+
+		$source->clonePagesAndSettings($source, $target, null, true);
+
+		// link portfolio to exercise assignment
+		//$this->linkPortfolioToAssignment($target_id);
+
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+		$this->ctrl->setParameter($this, "prt_id", $target_id);
+		$this->ctrl->redirect($this, "preview");
+	}
+
+
 	public static function _goto($a_target)
 	{
 		$id = explode("_", $a_target);

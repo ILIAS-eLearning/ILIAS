@@ -14245,7 +14245,7 @@ prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new po
 style#:#open_documentation#:#Open Documentation
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
-prtf#:#prtf_pdf#:#PDF
+prtf#:#prtf_pdf#:#Export as PDF
 prtf#:#prtf_print_selection#:#Page Selection
 prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_selected_pages#:#Selected Pages
@@ -14483,3 +14483,13 @@ noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
 book#:#book_notification#:#Send Reservation Notifications
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
+skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_all#:#All
+skmg#:#skmg_refresh_view#:#Refresh
+prtf#:#prtf_copy_tab#:#Copy Tab
+prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
+prtf#:#prtf_edit_content#:#Edit Content
+prtf#:#prtf_set_online#:#Set Online
+prtf#:#prtf_set_offline#:#Set Offline
+prtf#:#prtf_no_submission#:#No Submission
+prtf#:#prtf_submission_on#:#Submitted on $1

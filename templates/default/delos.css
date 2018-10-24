@@ -7456,6 +7456,10 @@ hr.il-divider-with-label {
 .il-narrow-content .il-item button.dropdown-toggle > span {
   display: none;
 }
+.il-std-item .media .media-body,
+.il-std-item .media {
+  overflow: visible;
+}
 @media only screen and (max-width: 767px) {
   .il-item div.col-sm-3 > h5 {
     font-size: 14px;
