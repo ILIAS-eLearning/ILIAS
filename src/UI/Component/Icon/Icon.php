@@ -12,7 +12,7 @@ interface Icon extends \ILIAS\UI\Component\Component {
 	const SMALL = 'small';
 	const MEDIUM = 'medium';
 	const LARGE = 'large';
-	// const RESPONSIVE = 'responsive';		// currently not supported
+	const RESPONSIVE = 'responsive';
 
 	/**
 	 * Get the name of the icon.
