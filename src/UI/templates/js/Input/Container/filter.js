@@ -9,6 +9,10 @@ il.UI = il.UI || {};
 
 (function($, UI) {
 
+	$("*").on("il.ui.popover.show", function(e){
+		//
+	});
+
 	UI.filter = (function ($) {
 		/**
 		 *

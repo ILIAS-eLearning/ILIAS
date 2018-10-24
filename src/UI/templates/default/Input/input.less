@@ -169,11 +169,33 @@
   }
 }
 
-//== Specific Inputs
-//
-//
-@import "tag.less";
-@import "password.less";
-@import "radio.less";
-@import "multiselect.less";
+@media (max-width: @screen-sm) {
+  .il-filter {
+    .webui-popover {
+      position: static;
+      max-width: none;
+
+    }
+
+    .webui-popover.bottom > .webui-arrow, .webui-popover.bottom-right > .webui-arrow, .webui-popover.bottom-left > .webui-arrow {
+      display: none;
+    }
+    .webui-popover.bottom, .webui-popover.bottom-left, .webui-popover.bottom-right {
+      padding: 4px;
+      margin-top: 0;
+      border: 0;
+      box-shadow: none;
+      background-color: @il-secondary-container-bg;
+    }
+  }
+}
+
+
+    //== Specific Inputs
+    //
+    //
+    @import "tag.less";
+    @import "password.less";
+    @import "radio.less";
+    @import "multiselect.less";
 @import "textarea.less";
