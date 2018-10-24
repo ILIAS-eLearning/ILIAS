@@ -52,3 +52,18 @@ if($ilDB->tableExists('il_md_cpr_selections'))
 	);
 }
 ?>
+<#3>
+<?php
+if($ilDB->tableExists('il_md_cpr_selections'))
+{
+	if(!$ilDB->tableColumnExists('il_md_cpr_selections','outdated'))
+	{
+		$ilDB->addTableColumn('il_md_cpr_selections', 'outdated', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+	}
+}
+?>

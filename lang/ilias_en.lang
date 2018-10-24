@@ -14304,3 +14304,6 @@ meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
 meta#:#meta_show_usages#:#Show usages
 meta#:#meta_sub_items#:#Sub Items
+meta#:#meta_outdated#:#Outdated
+meta#:#meta_in_use#:#In use
+meta#:#meta_usage#:#Usage

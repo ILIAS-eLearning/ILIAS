@@ -359,6 +359,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$this->entry->setLanguage('en');
 		$this->entry->setCopyrightAndOtherRestrictions(true);
 		$this->entry->setCosts(false);
+		$this->entry->setOutdated((int)$_POST['outdated']);
 		
 		if(!$this->entry->validate())
 		{
@@ -451,6 +452,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$this->entry->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->entry->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->entry->setCopyright($this->stripSlashes($_POST['copyright']));
+		$this->entry->setOutdated((int)$_POST['outdated']);
 		
 		if(!$this->entry->validate())
 		{
@@ -544,6 +546,14 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$cop->setValue($this->entry->getCopyright());
 		$cop->setRows(5);
 		$this->form->addItem($cop);
+
+		$usage = new ilRadioGroupInputGUI($this->lng->txt('usage'),'outdated');
+		$use = new ilRadioOption($this->lng->txt('md_in_use'), 0);
+		$out = new ilRadioOption($this->lng->txt('md_outdated'),1);
+		$usage->addOption($use);
+		$usage->addOption($out);
+		$usage->setValue($this->entry->getOutdated());
+		$this->form->addItem($usage);
 		
 		switch($a_mode)
 		{

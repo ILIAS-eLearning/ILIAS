@@ -41,6 +41,11 @@ class ilMDCopyrightSelectionEntry
 	private $costs;
 	private $language;
 	private $copyright_and_other_restrictions;
+
+	/**
+	 * @var integer
+	 */
+	protected $outdated;
 	
 
 	/**
@@ -194,6 +199,23 @@ class ilMDCopyrightSelectionEntry
 		$row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
 		
 		return $row['is_default'];
+	}
+
+	/**
+	 * Set copyright element as outdated and not usable anymore
+	 * @param $a_value
+	 */
+	public function setOutdated($a_value)
+	{
+		$this->outdated = (int)$a_value;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOutdated()
+	{
+		return $this->outdated;
 	}
 
 	/**
@@ -394,7 +416,8 @@ class ilMDCopyrightSelectionEntry
 	 		'copyright'			=> array('clob',$this->getCopyright()),
 	 		'language'			=> array('text',$this->getLanguage()),
 	 		'costs'				=> array('integer',$this->getCosts()),
-	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions())
+	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions()),
+			'outdated'			=> array('integer',$this->getOutdated())
 		 	),array(
 		 		'entry_id'			=> array('integer',$this->getEntryId())
 	 	));
@@ -460,6 +483,7 @@ class ilMDCopyrightSelectionEntry
 	 		$this->setCopyright($row->copyright);
 	 		$this->setLanguage($row->language);
 	 		$this->setCosts($row->costs);
+	 		$this->setOutdated($row->outdated);
 	 		// Fixed
 	 		$this->setCopyrightAndOtherRestrictions(true);
 	 	}
