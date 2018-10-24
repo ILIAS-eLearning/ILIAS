@@ -244,7 +244,17 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		
 		return $data;
 	}
-	
+
+	/**
+	 * Get member tab name
+	 * @return string
+	 */
+	protected function getMemberTabName()
+	{
+		return $this->lng->txt($this->getParentObject()->getType().'_members');
+	}
+
+
 
 	/**
 	 * @inheritdoc

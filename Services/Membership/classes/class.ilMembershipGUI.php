@@ -1060,7 +1060,9 @@ class ilMembershipGUI
 		
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
-		
+
+		$member_tab_name = $this->getMemberTabName();
+
 		$has_manage_members_permission = $this->checkRbacOrPositionAccessBool(
 			'manage_members', 
 			'manage_members', 
@@ -1071,7 +1073,7 @@ class ilMembershipGUI
 		{
 			$tabs->addTab(
 				'members',
-				$this->lng->txt('members'),
+				$member_tab_name,
 				$this->ctrl->getLinkTarget($this,'')
 			);
 		}
@@ -1081,7 +1083,7 @@ class ilMembershipGUI
 		{
 			$tabs->addTab(
 				'members',
-				$this->lng->txt('members'),
+				$member_tab_name,
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilusersgallerygui'), 'view')
 			);
 		}
@@ -1093,10 +1095,19 @@ class ilMembershipGUI
 		{
 			$tabs->addTab(
 				'members',
-				$this->lng->txt('members'),
+				$member_tab_name,
 				$this->ctrl->getLinkTarget($this, "mailMembersBtn")
 			);
 		}
+	}
+
+	/**
+	 * Get member tab name
+	 * @return string
+	 */
+	protected function getMemberTabName()
+	{
+		return $this->lng->txt('members');
 	}
 	
 	/**
