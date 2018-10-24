@@ -11,8 +11,8 @@ function base() {
 	//Step 1: Define some input fields to plug into the filter.
 	$text_input1 = $ui->input()->field()->text("Text 1");
 	$text_input2 = $ui->input()->field()->text("Text 2");
-	$numeric_input1 = $ui->input()->field()->numeric("Number 1");
-	$numeric_input2 = $ui->input()->field()->numeric("Number 2");
+	$numeric_input1 = $ui->input()->field()->text("No Number 1");
+	$numeric_input2 = $ui->input()->field()->text("No Number 2");
 
 	//Step 3: Define the filter and attach the inputs. The filter is initially activated in this case.
 	$action = $DIC->ctrl()->getLinkTargetByClass("ilsystemstyledocumentationgui", "entries", "", true);
