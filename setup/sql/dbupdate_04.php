@@ -23527,3 +23527,7 @@ if (!$ilDB->tableColumnExists('usr_data', 'last_profile_prompt'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5339>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
