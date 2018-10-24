@@ -2446,6 +2446,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilcertificategui":
 				$this->tabs_gui->activateTab("settings");
 				$this->setSubTabs("properties");
+				$this->tabs_gui->activateSubTab('certificate');
 				
 				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
