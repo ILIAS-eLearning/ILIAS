@@ -40,11 +40,20 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("COLLAPSE", "in");
 		}
 		//replace with Apply Glyph and use language variable
-		$apply = $f->button()->bulky($f->glyph()->note(), "Apply", "#")
-			->withOnLoadCode(function ($id) {
+		$apply = $f->button()->bulky($f->glyph()->note(), "Apply", "");
+
+		if (!$component->isActivated()) {
+			$apply = $apply->withUnavailableAction(true);
+			$reset = $f->button()->bulky($f->glyph()->comment(), "Reset", "") //replace with Reset Glyph and use
+			->withUnavailableAction(true);
+		} else {
+			$apply = $apply->withOnLoadCode(function ($id) {
 				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').submit();" . "});";
 			});
-		$reset = $f->button()->bulky($f->glyph()->comment(), "Reset", $component->getResetAction()); //replace with Reset Glyph and use language variable
+			$reset = $f->button()->bulky($f->glyph()->comment(), "Reset", $component->getResetAction()); //replace with Reset Glyph and use
+		}
+
+
 		//todo: Expand Filter when acitvated (only desktop, not mobile)
 		$toggle = $f->button()->toggle("", $component->getToggleOnAction(), $component->getToggleOffAction(), $component->isActivated());
 
@@ -52,14 +61,31 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("RESET", $default_renderer->render($reset));
 		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
 
-		for ($i = 1; $i <= count($component->getInputs()); $i++) {
-			$tpl->setCurrentBlock("active_inputs");
-			$tpl->setVariable("ID", $i);
-			$tpl->parseCurrentBlock();
+		$input_group = $component->getInputGroup();
+
+		if ($component->isActivated())
+		{
+			if (!$component->isExpanded())
+			{
+				for ($i = 1; $i <= count($component->getInputs()); $i++)
+				{
+					$tpl->setCurrentBlock("active_inputs");
+					$tpl->setVariable("ID", $i);
+					$tpl->parseCurrentBlock();
+				}
+				if (count($component->getInputs()) > 0)
+				{
+					$tpl->setCurrentBlock("active_inputs_section");
+					$tpl->parseCurrentBlock();
+				}
+			}
+		} else {
+			$tpl->touchBlock("deactivated");
+			$input_group = $input_group->withLabel("disabled");
 		}
 
 		$renderer = $default_renderer->withAdditionalContext($component);
-		$tpl->setVariable("INPUTS", $renderer->render($component->getInputGroup()));
+		$tpl->setVariable("INPUTS", $renderer->render($input_group));
 
 		return $tpl->get();
 	}
