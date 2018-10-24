@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component\Button as B;
+use ILIAS\UI\Component\Signal;
 
 class Factory implements B\Factory {
 	/**
@@ -59,7 +60,7 @@ class Factory implements B\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function toggle($label, $on_action, $off_action, $is_on = false, $click_signal = null) {
+	public function toggle(string $label, $on_action, $off_action, bool $is_on = false, Signal $click_signal = null): \ILIAS\UI\Component\Button\Toggle {
 		return new Toggle($label, $on_action, $off_action, $is_on, $click_signal);
 	}
 }

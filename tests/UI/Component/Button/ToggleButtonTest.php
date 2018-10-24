@@ -25,17 +25,6 @@ class ToggleButtonTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-	public function test_construction_label_type_wrong() {
-		$f = $this->getFactory();
-		try {
-			$f->button()->toggle(1, "action_on_string", "action_off_string");
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
-	}
-
 	public function test_construction_action_on_type_wrong() {
 		$f = $this->getFactory();
 		try {
@@ -58,22 +47,11 @@ class ToggleButtonTest extends ILIAS_UI_TestBase {
 		}
 	}
 
-	public function test_construction_activation_type_wrong() {
-		$f = $this->getFactory();
-		try {
-			$f->button()->toggle("label", "action_on_string", "action_off_string", "true");
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
-	}
-
 	public function test_setOn_on_default() {
 		$f = $this->getFactory();
 		$button = $f->button()->toggle("label", "action_on_string", "action_off_string", true);
 
-		$this->assertTrue($button->isActive());
+		$this->assertTrue($button->isOn());
 	}
 
 	public function test_append_OnAction() {
@@ -92,8 +70,8 @@ class ToggleButtonTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$signal_off1 = $this->createMock(Signal::class);
 		$signal_off2 = $this->createMock(Signal::class);
-		$signal_on = $this->createMock(Signal::class);
-		$button = $f->button()->toggle("label", $signal_off1, $signal_on);
+		//$signal_on = $this->createMock(Signal::class);
+		$button = $f->button()->toggle("label", "action_on", $signal_off1);
 		$this->assertEquals([$signal_off1], $button->getActionOff());
 
 		$button = $button->withAdditionalToggleOffSignal($signal_off2);
@@ -111,7 +89,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase {
 </button>
 EOT;
 
-		$this->assertHTMLEquals("<div>".$expected."</div>", "<div>".$r->render($button)."</div>");   //error in this test, "label" seems to be the reason
+		$this->assertHTMLEquals("<div>".$expected."</div>", "<div>".$r->render($button)."</div>");
 	}
 
 	public function test_render_setOn_on_default() {

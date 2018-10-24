@@ -304,9 +304,9 @@ interface Factory {
 	 * @param	string|Signal	$toggle_on_action action performed when button changes from off to on
 	 * @param	string|Signal	$toggle_off_action action performed when button changes from on to off
 	 * @param	bool			$is_on
-	 * @param	Signal			$click_signal action performed when button is clicked
+	 * @param	Signal|null		$click_signal action performed when button is clicked
 	 * @return  \ILIAS\UI\Component\Button\Toggle
 	 */
-	public function toggle($label, $on_action, $off_action, $is_on = false, $click_signal = null);
+	public function toggle(string $label, $on_action, $off_action, bool $is_on = false, Signal $click_signal = null): \ILIAS\UI\Component\Button\Toggle;
 
 }

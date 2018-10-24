@@ -65,7 +65,7 @@ class Toggle extends Button implements C\Button\Toggle {
 	/**
 	 * @inheritdoc
 	 */
-	public function isOn()
+	public function isOn(): bool
 	{
 		return $this->is_on;
 	}
@@ -97,14 +97,14 @@ class Toggle extends Button implements C\Button\Toggle {
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalToggleOnSignal(Signal $signal) {
+	public function withAdditionalToggleOnSignal(Signal $signal): \ILIAS\UI\Component\Button\Toggle {
 		return $this->appendTriggeredSignal($signal, "toggle_on");
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalToggleOffSignal(Signal $signal)  {
+	public function withAdditionalToggleOffSignal(Signal $signal): \ILIAS\UI\Component\Button\Toggle  {
 		return $this->appendTriggeredSignal($signal, "toggle_off");
 	}
 

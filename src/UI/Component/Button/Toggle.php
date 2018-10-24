@@ -17,7 +17,7 @@ interface Toggle extends Button {
 	 *
 	 * @return bool
 	 */
-	public function isOn();
+	public function isOn(): bool;
 
 	/**
 	 * Get the action of the Toggle Button when it is set from off to on.
@@ -37,12 +37,12 @@ interface Toggle extends Button {
 	 * @param Signal $signal
 	 * @return Toggle
 	 */
-	public function withAdditionalToggleOnSignal(Signal $signal);
+	public function withAdditionalToggleOnSignal(Signal $signal): Toggle;
 
 	/**
 	 * @param Signal $signal
 	 * @return Toggle
 	 */
-	public function withAdditionalToggleOffSignal(Signal $signal);
+	public function withAdditionalToggleOffSignal(Signal $signal): Toggle;
 
 }
