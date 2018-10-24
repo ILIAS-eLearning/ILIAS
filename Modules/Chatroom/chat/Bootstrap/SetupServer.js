@@ -6,7 +6,7 @@ var SocketHandler = require('../Handler/SocketHandler');
 var IMSocketHandler = require('../Handler/IMSocketHandler');
 var FileHandler	= require('../Handler/FileHandler');
 
-module.exports = function SetupServer(callback) {
+module.exports = function SetupServer(result, callback) {
 	var serverConfig = Container.getServerConfig();
 	var options = _generateOptions(serverConfig);
 	var protocol = require(serverConfig.protocol);
