@@ -87,6 +87,9 @@ class ilUIFilterService
 			}
 		}
 
+		// alternative $_SESSION["ui"]["filter"][$input_id] = "";
+
+
 
 		// get data from session
 
@@ -121,6 +124,24 @@ class ilUIFilterService
 			$is_input_rendered,
 			$is_activated,
 			$is_expanded);
+
+		// wenn request + apply, dann
+		// 1. daten aus request in form setzen
+
+		// 2. eingabe werte in session speichern
+		foreach ($filter->getInputs() as $i)
+		{
+			$_SESSION["ui"]["filter"][$input_id]["value"] = serialize($i->getValue());
+		}
+
+		// ansonsten (wenn nicht reset gedrückt)
+		foreach ($filter->getInputs() as $i)
+		{
+			if (isset($_SESSION["ui"]["filter"][$input_id]["value"]))
+			{
+				$i->setValue(unserialize($_SESSION["ui"]["filter"][$input_id]["value"]));
+			}
+		}
 
 		return $filter;
 

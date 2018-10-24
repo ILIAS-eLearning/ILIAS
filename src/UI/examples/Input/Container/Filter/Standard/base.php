@@ -15,7 +15,9 @@ function base() {
 	$numeric_input2 = $ui->input()->field()->numeric("Number 2");
 
 	//Step 3: Define the filter and attach the inputs. The filter is initially activated in this case.
-	$filter = $DIC->uiService()->filter()->standard("filter_ID", $_SERVER['REQUEST_URI'], [$text_input1, $text_input2, $numeric_input1, $numeric_input2],
+	$action = $DIC->ctrl()->getLinkTargetByClass("ilsystemstyledocumentationgui", "entries", "", true);
+	//$action = $_SERVER['REQUEST_URI'];
+	$filter = $DIC->uiService()->filter()->standard("filter_ID", $action, [$text_input1, $text_input2, $numeric_input1, $numeric_input2],
 		[true, true, true, true], true, true);
 
 	//Step 4: Render the filter
