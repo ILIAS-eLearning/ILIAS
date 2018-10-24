@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+// cognos-blu-patch: begin
+include_once './Modules/Course/classes/class.ilCourseConstants.php';
+// cognos-blu-patch: end
+
 /**
 * Class ilObjectActivationGUI
 *
@@ -47,6 +51,10 @@ class ilObjectActivationGUI
 	protected $ctrl;
 	protected $lng;
 
+	// cognos-blu-patch: begin
+	protected $timing_mode = null;
+	// cognos-blu-patch: end
+
 	/**
 	* Constructor
 	* @access public
@@ -80,6 +88,10 @@ class ilObjectActivationGUI
 		$this->parent_ref_id = $a_ref_id;
 		$this->item_id = $a_item_id;
 		$this->ctrl->saveParameter($this,'item_id');
+
+		// cognos-blu-patch: begin
+		$this->initTimingMode();
+		/// cognos-blu-patch: end
 
 	}
 
@@ -129,6 +141,13 @@ class ilObjectActivationGUI
 	{
 		return $this->item_id;
 	}
+
+	// cognos-blu-patch: begin
+	public function getTimingMode()
+	{
+		return $this->timing_mode;
+	}
+	// cognos-blu-patch: end
 
 	function cancel()
 	{
@@ -212,6 +231,10 @@ class ilObjectActivationGUI
 		$tim = new ilRadioOption($this->lng->txt('crs_timings_presetting'),ilObjectActivation::TIMINGS_PRESETTING);
 		$tim->setInfo($this->lng->txt('crs_item_presetting_info'));
 		
+		// cognos-blu-patch: begin
+		if($this->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
+		{
+		
 			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_sug_begin'),'sug_start');
 			$start->setRequired(true);
 			$tim->addSubItem($start);
@@ -233,6 +256,42 @@ class ilObjectActivationGUI
 				$late->setRequired(true);
 				$tim->addSubItem($late);
 			}
+		}
+		else
+		{
+			$start = new ilNumberInputGUI($this->lng->txt('crs_timings_sug_begin'),'sug_start_rel');
+			$start->setSuffix($this->lng->txt('crs_timings_days_after_subsription'));
+			$start->setMinValue(0);
+			$start->setMaxLength(3);
+			$start->setSize(3);
+			$tim->addSubItem($start);
+
+			$end = new ilNumberInputGUI($this->lng->txt('crs_timings_sug_end'),'sug_rel_rel');
+			$end->setSuffix($this->lng->txt('crs_timings_days_after_subsription'));
+			$end->setMinValue(0);
+			$end->setMaxLength(3);
+			$end->setSize(3);
+			$tim->addSubItem($end);
+			
+			$cha = new ilCheckboxInputGUI($this->lng->txt('crs_timings_changeable'),'changeable');
+			$tim->addSubItem($cha);
+			
+			$early = new ilNumberInputGUI($this->lng->txt('crs_timings_early_begin'),'early_start_rel');
+			$early->setSuffix($this->lng->txt('crs_timings_days_after_subsription'));
+			$early->setMinValue(0);
+			$early->setMaxLength(3);
+			$early->setSize(3);
+			$cha->addSubItem($early);
+
+			$late = new ilNumberInputGUI($this->lng->txt('crs_timings_short_limit_start_end'),'late_end_rel');
+			$late->setSuffix($this->lng->txt('crs_timings_days_after_subsription'));
+			$late->setMinValue(0);
+			$late->setMaxLength(3);
+			$late->setSize(3);
+			$cha->addSubItem($late);
+			
+		}
+		// cognos-blu-patch: end
 				
 			
 		$timings->addOption($tim);
@@ -395,6 +454,30 @@ class ilObjectActivationGUI
 								   "", "ilConditionHandlerGUI");
 		return true;
 	}
+	
+	
+	// cognos-blu-patch: begin
+	protected function initTimingMode()
+	{
+		// Check for parent course and if available read timing mode (abs | rel)
+		$crs_ref_id = $GLOBALS['tree']->checkForParentType(
+				$this->parent_ref_id,
+				'crs'
+		);
+		$crs_obj_id = ilObject::_lookupObjId($crs_ref_id);
+		
+		include_once './Modules/Course/classes/class.ilCourseConstants.php';
+		include_once './Modules/Course/classes/class.ilObjCourse.php';
+		if($crs_obj_id)
+		{
+			$this->timing_mode = ilObjCourse::lookupTimingMode($crs_obj_id);
+		}
+		else
+		{
+			$this->timing_mode = ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE;
+		}
+	}
+	// cognos-blu-patch: end
 } 
 
 ?>

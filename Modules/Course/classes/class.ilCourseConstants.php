@@ -57,6 +57,12 @@ class ilCourseConstants
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
+	
+	// cognos-blu-patch: begin
+	const IL_CRS_VIEW_TIMING_ABSOLUTE = 0;
+	const IL_CRS_VIEW_TIMING_RELATIVE = 1;
+	// cognos-blu-patch: end
+	
 }
 
 ?>

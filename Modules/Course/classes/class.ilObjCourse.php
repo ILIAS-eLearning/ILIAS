@@ -68,7 +68,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	private $status_dt = null;
 	
 	private $mail_members = ilCourseConstants::MAIL_ALLOWED_ALL;
-	
+
 	protected $crs_start; // [ilDate]
 	protected $crs_end; // [ilDate]
 	protected $leave_end; // [ilDate]
@@ -79,7 +79,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @var bool
 	 */
 	protected $member_export = false;
-	
+
+	private $timing_mode = ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE;
+
 	/**
 	 *
 	 * 
@@ -603,6 +605,27 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		return $this->view_mode;
 	}
+
+	/**
+	 * Lookup timing mode
+	 */
+	public static function lookupTimingMode($a_obj_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		$query = 'SELECT timing_mode FROM crs_settings ' .
+			'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
+		$res = $ilDB->query($query);
+
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+			return (int)$row->timing_mode;
+		}
+		return ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE;
+	}
+
+
 
 	/**
 	 * lookup view mode of container
