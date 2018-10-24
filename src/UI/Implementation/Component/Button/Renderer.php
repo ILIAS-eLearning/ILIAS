@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
+use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -17,6 +18,8 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($component instanceof Component\Button\Close) {
 			return $this->renderClose($component);
+		}else if ($component instanceof Component\Button\Toggle) {
+			return $this->renderToggle($component);
 		} else if ($component instanceof Component\Button\Month) {
 			return $this->renderMonth($component, $default_renderer);
 		} else {
@@ -122,6 +125,68 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
+	protected function renderToggle(Component\Button\Toggle $component) {
+		$tpl = $this->getTemplate("tpl.toggle.html", true, true);
+
+		$on_action = $component->getActionOn();
+		$off_action = $component->getActionOff();
+
+		$on_url = (is_string($on_action))
+			? $on_action
+			: "";
+
+		$off_url = (is_string($off_action))
+			? $off_action
+			: "";
+
+		$signals = [];
+
+		foreach ($component->getTriggeredSignals() as $s)
+		{
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+
+		}
+
+		$signals = json_encode($signals);
+
+		if ($component->isActive()) {
+			$component = $component->withAdditionalOnLoadCode(function ($id)
+				use ($on_url, $off_url, $signals) {
+				$code = "$('#$id').on('click', function(event) {
+						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
+						return false; // stop event propagation
+				});";
+				//var_dump($code); exit;
+				return $code;
+			});
+		} else {
+			$tpl->touchBlock("disabled");
+		}
+
+		$is_on = $component->isOn();
+		if ($is_on) {
+			$tpl->touchBlock("on");
+		}
+		$label = $component->getLabel();
+		if (!empty($label)) {
+			$tpl->setCurrentBlock("with_label");
+			$tpl->setVariable("LABEL", $label);
+			$tpl->parseCurrentBlock();
+		}
+		$aria_label = $component->getAriaLabel();
+		if($aria_label != null){
+			$tpl->setCurrentBlock("with_aria_label");
+			$tpl->setVariable("ARIA_LABEL", $aria_label);
+			$tpl->parseCurrentBlock();
+		}
+		$this->maybeRenderId($component, $tpl);
+		return $tpl->get();
+	}
+
 	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id !== null) {
@@ -216,6 +281,7 @@ class Renderer extends AbstractComponentRenderer {
 		, Component\Button\Month::class
 		, Component\Button\Tag::class
 		, Component\Button\Bulky::class
+		, Component\Button\Toggle::class
 		);
 	}
 }

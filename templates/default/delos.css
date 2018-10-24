@@ -7275,6 +7275,37 @@ a.btn-link.ilSubmitInactive:hover {
   background-color: #75deea;
   color: #000000;
 }
+.il-toggle-button {
+  position: relative;
+  display: inline-block;
+  height: 19px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 40px;
+  background: #cdcdcd;
+  cursor: pointer;
+}
+.il-toggle-button .il-toggle-switch {
+  position: absolute;
+  top: -4px;
+  left: -6%;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  background: #808080;
+  -webkit-transition: all 0.25s ease-in-out;
+  /* Safari */
+  transition: all 0.25s ease-in-out;
+}
+.il-toggle-button.on {
+  background: #a1b3ca;
+}
+.il-toggle-button.on .il-toggle-switch {
+  left: 53%;
+  background: #4c6586;
+}
 h6.il-divider {
   padding: 3px 6px;
   background-color: #ececec;
