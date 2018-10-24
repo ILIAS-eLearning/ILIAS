@@ -56,7 +56,14 @@ class ilOerHarvester
 
 			$message .= 'Deleted '. $deleted . ' deprecated objects.';
 
-			$this->cronresult->setStatus(ilCronJobResult::STATUS_OK);
+			if(!$deleted && !$num)
+			{
+				$this->cronresult->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+			}
+			else
+			{
+				$this->cronresult->setStatus(ilCronJobResult::STATUS_OK);
+			}
 			$this->cronresult->setMessage($message);
 			return $this->cronresult;
 		}
