@@ -26,7 +26,7 @@ class ilSetup
 	var $ini_client_exists = false; // control flag client.ini
 
 	var $setup_defaults;			// ilias.master.ini
-	var $ilias_nic_server = "https://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
+	var $ilias_nic_server = "https://nic.ilias.de/index.php";	// URL to ilias nic server
 
 	var $preliminaries_result = array();	// preliminaries check results
 	var $preliminaries = true;				//

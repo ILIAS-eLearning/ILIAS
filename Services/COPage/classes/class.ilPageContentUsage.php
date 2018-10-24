@@ -46,7 +46,7 @@ class ilPageContentUsage
 		$ilDB->manipulate($q = "DELETE FROM page_pc_usage WHERE usage_type = ".
 			$ilDB->quote($a_usage_type, "text").
 			" AND usage_id = ".$ilDB->quote((int) $a_usage_id, "integer").
-			" AND usage_lang = ".$ilDB->quote($a_usage_lang, "text").
+			" AND usage_lang = ".$ilDB->quote($a_lang, "text").
 			$and_hist.
 			" AND pc_type = ".$ilDB->quote($a_pc_type, "text"));
 	}

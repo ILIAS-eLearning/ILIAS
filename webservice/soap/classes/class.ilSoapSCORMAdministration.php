@@ -58,7 +58,11 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		global $rbacsystem, $tree, $ilLog;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$ilLog = $DIC['ilLog'];
 
 		// get obj_id
 		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
@@ -123,7 +127,11 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		global $rbacsystem, $tree, $ilLog;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$ilLog = $DIC['ilLog'];
 
 		// get obj_id
 		if(!$obj_id = ilObject::_lookupObjectId($ref_id))

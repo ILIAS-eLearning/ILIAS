@@ -196,7 +196,9 @@ class ilLOSettings
 	 */
 	public static function isObjectiveTest($a_trst_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		
 		// Check for direct assignment
@@ -451,7 +453,9 @@ class ilLOSettings
 	 */
 	public function create()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'INSERT INTO loc_settings '.
 				'(obj_id, it_type,itest,qtest,it_start,qt_type,qt_start,reset_results,passed_obj_mode) VALUES ( '.
@@ -477,7 +481,9 @@ class ilLOSettings
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->entry_exists)
 		{
@@ -583,7 +589,9 @@ class ilLOSettings
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * FROM loc_settings '.
 				'WHERE obj_id = '.$ilDB->quote($this->getObjId(),'integer');
@@ -606,11 +614,11 @@ class ilLOSettings
 			$this->setPassedObjectiveMode($row->passed_obj_mode);
 		}
 		
-		if($GLOBALS['tree']->isDeleted($this->getInitialTest()))
+		if($GLOBALS['DIC']['tree']->isDeleted($this->getInitialTest()))
 		{
 			$this->setInitialTest(0);
 		}
-		if($GLOBALS['tree']->isDeleted($this->getQualifiedTest()))
+		if($GLOBALS['DIC']['tree']->isDeleted($this->getQualifiedTest()))
 		{
 			$this->setQualifiedTest(0);
 		}

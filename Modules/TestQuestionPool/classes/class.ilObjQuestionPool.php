@@ -1458,7 +1458,7 @@ class ilObjQuestionPool extends ilObject
 		$duplicator->setTargetObjId($newObj->getId());
 		$duplicator->setTargetObjType($newObj->getType());
 		$duplicator->setQuestionIdMapping($questionIdsMap);
-		$duplicator->duplicate();
+		$duplicator->duplicate($duplicator->getAllTaxonomiesForSourceObject());
 
 		$duplicatedTaxKeyMap = $duplicator->getDuplicatedTaxonomiesKeysMap();
 		$newObj->setNavTaxonomyId($duplicatedTaxKeyMap->getMappedTaxonomyId($this->getNavTaxonomyId()));

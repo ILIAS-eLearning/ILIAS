@@ -26,7 +26,9 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 	 */
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule('crs');
 		
@@ -38,7 +40,9 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 	 */
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule('crs');
 
@@ -54,7 +58,9 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule('crs');
 
@@ -88,7 +94,9 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if('crs_title' == $placeholder_id)
 		{

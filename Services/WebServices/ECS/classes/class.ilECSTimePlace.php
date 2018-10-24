@@ -59,7 +59,9 @@ class ilECSTimePlace
 	 */
 	public function loadFromJson($a_json)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		if(!is_object($a_json))
 		{
@@ -67,7 +69,7 @@ class ilECSTimePlace
 			throw new ilException('Cannot parse ECSContent.');
 		}
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_json,true));
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($a_json,true));
 
 		$this->room = $a_json->room;
 		$this->begin = $a_json->begin;

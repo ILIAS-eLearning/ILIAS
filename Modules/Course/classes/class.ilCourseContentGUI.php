@@ -30,7 +30,13 @@ class ilCourseContentGUI
 	 */
 	public function __construct($container_gui_obj)
 	{
-		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -46,7 +52,12 @@ class ilCourseContentGUI
 
 	function executeCommand()
 	{
-		global $ilAccess, $ilErr, $ilTabs, $ilCtrl;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(!$ilAccess->checkAccess('read','',$this->container_obj->getRefId()))
 		{
@@ -103,7 +114,9 @@ class ilCourseContentGUI
 
 	function __getDefaultCommand()
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 
 		// edit timings if panel is on
 		if($_SESSION['crs_timings_panel'][$this->course_obj->getId()])
@@ -126,7 +139,10 @@ class ilCourseContentGUI
 	{
 		include_once './Modules/Course/classes/class.ilCourseStart.php';
 
-		global $ilAccess,$ilUser;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
 
 		if($ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
@@ -146,7 +162,13 @@ class ilCourseContentGUI
 		include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
 		include_once './Services/Link/classes/class.ilLink.php';
 
-		global $rbacsystem,$ilias,$ilUser,$ilAccess,$ilObjDataCache;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->tabs_gui->setSubTabActive('crs_content');
 
@@ -271,7 +293,9 @@ class ilCourseContentGUI
 	{
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
 		ilChangeEvent::_recordReadEvent(
 			$this->container_obj->getType(), $this->container_obj->getRefId(),
@@ -291,7 +315,12 @@ class ilCourseContentGUI
 	*/
 	function getRightColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
@@ -328,7 +357,10 @@ class ilCourseContentGUI
 
 	function setColumnSettings($column_gui)
 	{
-		global $ilAccess, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 		
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setEnableEdit(false);
@@ -376,7 +408,10 @@ class ilCourseContentGUI
 	*/
 	function __forwardToColumnGUI()
 	{
-		global $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 
@@ -416,7 +451,10 @@ class ilCourseContentGUI
 
 	function editTimings()
 	{
-		global $ilAccess,$ilErr;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
 
 		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 		include_once './Services/Link/classes/class.ilLink.php';
@@ -584,7 +622,9 @@ class ilCourseContentGUI
 
 	function __showUserAcceptanceTable()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		include_once 'Modules/Course/classes/Timings/class.ilTimingAccepted.php';
 		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
@@ -612,7 +652,9 @@ class ilCourseContentGUI
 	
 	function saveAcceptance()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		include_once 'Modules/Course/classes/Timings/class.ilTimingAccepted.php';
 		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
@@ -631,7 +673,10 @@ class ilCourseContentGUI
 		{
 			return $this->editTimings();
 		}
-		global $ilAccess,$ilErr;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
 
 		if(!$ilAccess->checkAccess('read','',$this->container_obj->getRefId()))
 		{
@@ -935,7 +980,10 @@ class ilCourseContentGUI
 
 	function __renderItem($item,$level)
 	{
-		global $ilUser,$ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 
 		include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 		include_once './Services/Link/classes/class.ilLink.php';
@@ -1077,7 +1125,10 @@ class ilCourseContentGUI
 
 	function __showTimingsPanel()
 	{
-		global $ilAccess, $ilToolbar;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
 
 		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
@@ -1103,7 +1154,9 @@ class ilCourseContentGUI
 
 	function timingsOn()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		$_SESSION['crs_timings_panel'][$this->course_obj->getId()] = 1;
 
 		$ilTabs->clearSubTabs();
@@ -1113,7 +1166,9 @@ class ilCourseContentGUI
 
 	function timingsOff()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		$_SESSION['crs_timings_panel'][$this->course_obj->getId()] = 0;
 
 		$ilTabs->clearSubTabs();
@@ -1124,7 +1179,10 @@ class ilCourseContentGUI
 
 	function updateUserTimings()
 	{
-		global $ilUser,$ilObjDataCache;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 
 		// Validate
@@ -1197,7 +1255,10 @@ class ilCourseContentGUI
 	{
 		include_once 'Services/Object/classes/class.ilObjectActivation.php';
 
-		global $ilAccess,$ilErr;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
 
 		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
@@ -1269,7 +1330,9 @@ class ilCourseContentGUI
 	
 	function __initCourseObject()
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		if($this->container_obj->getType() == 'crs')
 		{
@@ -1307,7 +1370,9 @@ class ilCourseContentGUI
 
 	function __buildPath($a_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		$path_arr = $tree->getPathFull($a_ref_id,$this->course_obj->getRefId());
 		$counter = 0;

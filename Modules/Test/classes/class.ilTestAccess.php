@@ -100,12 +100,10 @@ class ilTestAccess
 			return true;
 		}
 		
-		/*
 		if( $this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_SCORE_PARTICIPANTS, $this->getRefId()) )
 		{
 			return true;
 		}
-		*/
 		
 		return false;
 	}
@@ -120,12 +118,10 @@ class ilTestAccess
 			return true;
 		}
 		
-		/*
 		if( $this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->getRefId()) )
 		{
 			return true;
 		}
-		*/
 		
 		return false;
 	}
@@ -140,12 +136,10 @@ class ilTestAccess
 			return true;
 		}
 		
-		/*
 		if( $this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_ACCESS_RESULTS, $this->getRefId()) )
 		{
 			return true;
 		}
-		*/
 		
 		return false;
 	}

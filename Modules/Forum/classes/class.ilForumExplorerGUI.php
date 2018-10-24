@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php';
-
 /**
  * Class ilForumExplorerGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -169,7 +167,6 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		$tpl->setVariable('TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($a_node)));
 		$tpl->parseCurrentBlock();
 
-		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 		$authorinfo = new ilForumAuthorInformation(
 			$a_node['pos_author_id'],
 			$a_node['pos_display_user_id'],

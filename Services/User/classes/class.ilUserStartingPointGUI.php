@@ -23,7 +23,12 @@ class ilUserStartingPointGUI
 	 */
 	function __construct($a_parent_ref_id)
 	{
-		global $lng,$tpl,$ilToolbar, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->log = ilLoggerFactory::getLogger("user");
 		$this->lng = $lng;
@@ -36,7 +41,9 @@ class ilUserStartingPointGUI
 	}
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$cmd = $ilCtrl->getCmd();
 		if($cmd == "roleStartingPointform" || !$cmd)
@@ -96,7 +103,9 @@ class ilUserStartingPointGUI
 
 	protected function getUserStartingPointForm()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once ("Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once "Services/User/classes/class.ilUserUtil.php";
@@ -121,7 +130,11 @@ class ilUserStartingPointGUI
 	 */
 	protected function getRoleStartingPointForm()
 	{
-		global $ilCtrl, $rbacsystem, $ilErr;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
 
 		if (!$rbacsystem->checkAccess("write",$this->parent_ref_id))
 		{
@@ -250,7 +263,11 @@ class ilUserStartingPointGUI
 
 	protected function saveUserStartingPoint()
 	{
-		global $ilCtrl, $rbacsystem, $ilErr;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
 
 		if (!$rbacsystem->checkAccess("write",$this->parent_ref_id))
 		{
@@ -276,7 +293,13 @@ class ilUserStartingPointGUI
 	 */
 	protected function saveStartingPoint()
 	{
-		global $ilCtrl, $tree, $rbacsystem, $ilErr, $tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tree = $DIC['tree'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$tpl = $DIC['tpl'];
 
 		if (!$rbacsystem->checkAccess("write",$this->parent_ref_id))
 		{
@@ -352,7 +375,11 @@ class ilUserStartingPointGUI
 
 	function saveOrder()
 	{
-		global $ilCtrl, $rbacsystem, $ilErr;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
 
 		if (!$rbacsystem->checkAccess("write",$this->parent_ref_id))
 		{
@@ -376,7 +403,12 @@ class ilUserStartingPointGUI
 	 */
 	function confirmDeleteStartingPoint()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('back_to_starting_points_list'), $ilCtrl->getLinkTarget($this, 'startingPoints'));
@@ -411,7 +443,11 @@ class ilUserStartingPointGUI
 	 */
 	protected function deleteStartingPoint()
 	{
-		global $ilCtrl, $rbacsystem, $ilErr;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
 
 		if (!$rbacsystem->checkAccess("write", $this->parent_ref_id))
 		{

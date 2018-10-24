@@ -419,7 +419,16 @@ class ilTemplate extends HTML_Template_ITX
 
 			if ($txt != "")
 			{
-				$out.= $this->getMessageHTML($txt, $m);
+				// this is a workaround that allows to send rendered message boxes directly
+				// should be removed if we have a decent place for messages in a new ks layout
+				if (strpos($txt, 'role="alert"') > 0)
+				{
+					$out.= $txt;
+				}
+				else
+				{
+					$out.= $this->getMessageHTML($txt, $m);
+				}
 			}
 		
 			if ($m == self::MESSAGE_TYPE_QUESTION)
@@ -1578,8 +1587,18 @@ class ilTemplate extends HTML_Template_ITX
 			include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
 			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
+				$style = ilStyleDefinition::getCurrentStyle();
+
 				$fname = "./Customizing/global/skin/".
-					ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
+						ilStyleDefinition::getCurrentSkin()."/".$style."/".$module_path
+						.basename($a_tplname);
+
+				if($fname == "" || !file_exists($fname))
+				{
+					$fname = "./Customizing/global/skin/".
+							ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
+				}
+
 			}
 
 			if($fname == "" || !file_exists($fname))
@@ -1691,6 +1710,7 @@ class ilTemplate extends HTML_Template_ITX
 		// always load jQuery
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQueryUI();
 
 		// always load ui framework
 		include_once("./Services/UICore/classes/class.ilUIFramework.php");
@@ -2248,11 +2268,11 @@ class ilTemplate extends HTML_Template_ITX
 		// mount webfolder
 		if ($this->mount_webfolder != "")
 		{
-			require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-			$davServer = ilDAVServer::getInstance();
+			require_once('Services/WebDAV/classes/class.ilWebDAVUtil.php');
+			$dav_util = ilWebDAVUtil::getInstance();
 			$a_ref_id = $this->mount_webfolder;
-			$a_link =  $davServer->getMountURI($a_ref_id);
-			$a_folder = $davServer->getFolderURI($a_ref_id);
+			$a_link =  $dav_util->getMountURI($a_ref_id);
+			$a_folder = $dav_util->getFolderURI($a_ref_id);
 			
 			$this->setCurrentBlock("mount_webfolder");
 			$this->setVariable("LINK_MOUNT_WEBFOLDER", $a_link);

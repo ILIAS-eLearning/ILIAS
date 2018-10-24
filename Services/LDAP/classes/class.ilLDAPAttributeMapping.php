@@ -95,9 +95,6 @@ class ilLDAPAttributeMapping
 	
 	/**
 	 * Lookup global role assignment
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 	 *
 	 * @access public
 	 * @param

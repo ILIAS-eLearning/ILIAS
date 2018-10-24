@@ -46,7 +46,11 @@ class ilUserFilterGUI
 
 	function __construct($a_usr_id)
 	{
-		global $lng,$ilCtrl,$tpl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -80,7 +84,9 @@ class ilUserFilterGUI
 
 	function getHTML()
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$tpl = new ilTemplate('tpl.search_user_filter.html',true,true,'Services/Search');
 
@@ -114,7 +120,9 @@ class ilUserFilterGUI
 	// Private
 	function __initFilter()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		include_once 'Services/Search/classes/class.ilUserSearchFilter.php';
 		$this->filter = new ilUserSearchFilter($ilUser->getId());

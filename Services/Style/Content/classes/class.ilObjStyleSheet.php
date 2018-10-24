@@ -241,7 +241,7 @@ class ilObjStyleSheet extends ilObject
 	// displayed with matching tag (group -> tags)
 	public static $filtered_groups =
 			array("ol" => array("ol"), "ul" => array("ul"),
-				"table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a"));
+				"table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure"));
 
 	// style types and their super type
 	public static $style_super_types = array(
@@ -541,8 +541,8 @@ class ilObjStyleSheet extends ilObject
 		);
 
 	// basic style xml file, image directory and dom
-	protected static $basic_style_file = "./Services/Style/Content/basic_style/style.xml";
-	protected static $basic_style_image_dir = "./Services/Style/Content/basic_style/images";
+	protected static $basic_style_file = "./libs/ilias/Style/basic_style/style.xml";
+	protected static $basic_style_image_dir = "./libs/ilias/Style/basic_style/images";
 	protected static $basic_style_dom;
 	
 	/**

@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -12,6 +11,7 @@
  *
  */
 class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel {
+
 	public function parseValue($value) {
 		return $value ? 1 : 0;
 	}

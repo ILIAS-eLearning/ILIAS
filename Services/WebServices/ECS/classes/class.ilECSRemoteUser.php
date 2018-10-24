@@ -30,7 +30,9 @@ class ilECSRemoteUser
 	 */
 	public static function factory($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT eru_id FROM ecs_remote_user '.
 				'WHERE usr_id = '.$ilDB->quote($a_usr_id,'integer');
@@ -47,7 +49,9 @@ class ilECSRemoteUser
 	 */
 	public function exists()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT eru_id FROM ecs_remote_user '.
 				'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
@@ -115,12 +119,12 @@ class ilECSRemoteUser
 	public function update()
 	{
 		$query = 'UPDATE ecs_remote_user SET '.
-				'sid = '.$GLOBALS['ilDB']->quote($this->getServerId(),'integer').', '.
-				'mid = '.$GLOBALS['ilDB']->quote($this->getMid(),'integer').', '.
-				'usr_id = '.$GLOBALS['ilDB']->quote($this->getUserId(),'text').', '.
-				'remote_usr_id = '.$GLOBALS['ilDB']->quote($this->getRemoteUserId(),'text').' '.
-				'WHERE eru_id = '.$GLOBALS['ilDB']->quote($this->getId());
-		$GLOBALS['ilDB']->manipulate($query);
+				'sid = '.$GLOBALS['DIC']['ilDB']->quote($this->getServerId(),'integer').', '.
+				'mid = '.$GLOBALS['DIC']['ilDB']->quote($this->getMid(),'integer').', '.
+				'usr_id = '.$GLOBALS['DIC']['ilDB']->quote($this->getUserId(),'text').', '.
+				'remote_usr_id = '.$GLOBALS['DIC']['ilDB']->quote($this->getRemoteUserId(),'text').' '.
+				'WHERE eru_id = '.$GLOBALS['DIC']['ilDB']->quote($this->getId());
+		$GLOBALS['DIC']['ilDB']->manipulate($query);
 		return true;
 	}
 	
@@ -130,16 +134,16 @@ class ilECSRemoteUser
 	public function create()
 	{
 		
-		$next_id = $GLOBALS['ilDB']->nextId('ecs_remote_user');
+		$next_id = $GLOBALS['DIC']['ilDB']->nextId('ecs_remote_user');
 		$query = 'INSERT INTO ecs_remote_user (eru_id, sid, mid, usr_id, remote_usr_id) '.
 				'VALUES( '.
-				$GLOBALS['ilDB']->quote($next_id).', '.
-				$GLOBALS['ilDB']->quote($this->getServerId(),'integer').', '.
-				$GLOBALS['ilDB']->quote($this->getMid(),'integer').', '.
-				$GLOBALS['ilDB']->quote($this->getUserId(),'text').', '.
-				$GLOBALS['ilDB']->quote($this->getRemoteUserId(),'text').' '.
+				$GLOBALS['DIC']['ilDB']->quote($next_id).', '.
+				$GLOBALS['DIC']['ilDB']->quote($this->getServerId(),'integer').', '.
+				$GLOBALS['DIC']['ilDB']->quote($this->getMid(),'integer').', '.
+				$GLOBALS['DIC']['ilDB']->quote($this->getUserId(),'text').', '.
+				$GLOBALS['DIC']['ilDB']->quote($this->getRemoteUserId(),'text').' '.
 				')';
-		$GLOBALS['ilDB']->manipulate($query);
+		$GLOBALS['DIC']['ilDB']->manipulate($query);
 	}
 	
 	/**
@@ -154,8 +158,8 @@ class ilECSRemoteUser
 		}
 		
 		$query = 'SELECT * FROM ecs_remote_user '.
-				'WHERE eru_id = '.$GLOBALS['ilDB']->quote($this->getId(),'integer');
-		$res = $GLOBALS['ilDB']->query($query);
+				'WHERE eru_id = '.$GLOBALS['DIC']['ilDB']->quote($this->getId(),'integer');
+		$res = $GLOBALS['DIC']['ilDB']->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setServerId($row->sid);

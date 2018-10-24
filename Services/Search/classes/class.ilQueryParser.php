@@ -55,7 +55,9 @@ class ilQueryParser
 	*/
 	function __construct($a_query_str)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		define(MIN_WORD_LENGTH,3);
 

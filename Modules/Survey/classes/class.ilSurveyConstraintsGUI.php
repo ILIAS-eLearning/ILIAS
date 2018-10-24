@@ -88,19 +88,19 @@ class ilSurveyConstraintsGUI
 		
 		include_once "Modules/Survey/classes/tables/class.SurveyConstraintsTableGUI.php";
 		$tbl = new SurveyConstraintsTableGUI($this, "constraints", $this->object, $hasDatasets);
-		$this->tpl->setContent($tbl->getHTML());
-		
+
+		$mess = "";
 		if ($hasDatasets)
-		{						
-			// ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
-			$link = $this->ctrl->getLinkTargetByClass("ilSurveyParticipantsGUI", "maintenance");
-			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
-			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning_page_view")." ".$link);
+		{
+			$mbox = new ilSurveyContainsDataMessageBoxGUI();
+			$mess = $mbox->getHTML();
 		}
 		else
 		{
 			$_SESSION["constraintstructure"] = $tbl->getStructure();		
 		}
+
+		$this->tpl->setContent($mess.$tbl->getHTML());
 	}
 	
 	/**

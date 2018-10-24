@@ -196,7 +196,10 @@ class ilLuceneSearchResultFilter
 	 */
 	public function filter()
 	{
-		global $ilAccess,$tree;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$tree = $DIC['tree'];
 
 		// get ref_ids and check access
 		$counter = 0;

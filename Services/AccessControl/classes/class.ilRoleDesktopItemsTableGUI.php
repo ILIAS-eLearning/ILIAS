@@ -16,7 +16,10 @@ class ilRoleDesktopItemsTableGUI extends ilTable2GUI
 {	
 	public function __construct($a_parent_obj,$a_parent_cmd,$a_object)
 	{
-		global $ilCtrl,$tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		
 		$this->setId('objrolepd');
 		
@@ -41,7 +44,9 @@ class ilRoleDesktopItemsTableGUI extends ilTable2GUI
 	
 	protected function getItems($a_obj_id)
 	{		
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 		
 		$data = array();
 		

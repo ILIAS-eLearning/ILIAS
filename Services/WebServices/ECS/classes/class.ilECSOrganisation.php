@@ -57,7 +57,9 @@ class ilECSOrganisation
 	 */
 	public function loadFromJson($a_json)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		if(!is_object($a_json))
 		{

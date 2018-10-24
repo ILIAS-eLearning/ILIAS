@@ -48,6 +48,23 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	protected $user;
 
+	// $adv_ref_id - $adv_type - $adv_subtype:
+	// Object, that defines the adv md records being used. Default is $this->object, but the
+	// context may set another object (e.g. media pool for media objects)
+	/**
+	 * @var int
+	 */
+	protected $adv_ref_id = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_type = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_subtype = null;
+
+
 	var $ctrl;
 	var $header;
 	var $target_script;
@@ -74,6 +91,33 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->type = "mob";
 		
 		$lng->loadLanguageModule("mob");
+	}
+
+	/**
+	 * Set object, that defines the adv md records being used. Default is $this->object, but the
+	 * context may set another object (e.g. media pool for media objects)
+	 *
+	 * @param string $a_val adv type
+	 */
+	function setAdvMdRecordObject($a_adv_ref_id, $a_adv_type, $a_adv_subtype = "-")
+	{
+		$this->adv_ref_id = $a_adv_ref_id;
+		$this->adv_type = $a_adv_type;
+		$this->adv_subtype = $a_adv_subtype;
+	}
+
+	/**
+	 * Get adv md record type
+	 *
+	 * @return array adv type
+	 */
+	function getAdvMdRecordObject()
+	{
+		if ($this->adv_type == null)
+		{
+			return [$this->ref_id, $this->obj_type, $this->sub_type];
+		}
+		return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
 	}
 
 	function setHeader($a_title = "")
@@ -171,8 +215,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	
 
 	/**
-	* Execute current command
-	*/
+	 * Execute current command
+	 * @return bool|mixed
+	 * @throws ilCtrlException
+	 */
 	function executeCommand()
 	{
 		$tpl = $this->tpl;
@@ -189,6 +235,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$md_gui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());	
 				// object is subtype, so we have to do it ourselves
 				$md_gui->addMDObserver($this->object, 'MDUpdateListener', 'General');
+
+				// set adv metadata record dobject
+				if ($this->adv_type != "")
+				{
+					$md_gui->setAdvMdRecordObject($this->adv_ref_id, $this->adv_type, $this->adv_subtype);
+				}
+
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
@@ -197,6 +250,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$image_map_edit = new ilImageMapEditorGUI($this->object);
 				$ret = $this->ctrl->forwardCommand($image_map_edit);
 				$tpl->setContent($ret);
+				$this->checkFixSize();
 				break;
 				
 			case "ilfilesystemgui":
@@ -319,11 +373,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$add_str = " (".$orig_size["width"]." x ".$orig_size["height"].")";
 			}
 			$op1 = new ilRadioOption($lng->txt("cont_resource_size").$add_str, "original");
+			$op1->setInfo($lng->txt("cont_resource_size_info"));
 			$op2 = new ilRadioOption($lng->txt("cont_custom_size"), "selected");
 		}
 		else
 		{
 			$op1 = new ilRadioOption($lng->txt("cont_orig_size"), "original");
+			$op1->setInfo($lng->txt("cont_resource_size_info"));
 			$op2 = new ilRadioOption($lng->txt("cont_adjust_size"), "selected");
 		}
 		$radio_size->addOption($op1);
@@ -454,11 +510,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$add_str = " (".$orig_size["width"]." x ".$orig_size["height"].")";
 			}
 			$op1 = new ilRadioOption($lng->txt("cont_resource_size").$add_str, "original");
+			$op1->setInfo($lng->txt("cont_resource_size_info"));
 			$op2 = new ilRadioOption($lng->txt("cont_custom_size"), "selected");
 		}
 		else
 		{
 			$op1 = new ilRadioOption($lng->txt("cont_orig_size"), "original");
+			$op1->setInfo($lng->txt("cont_resource_size_info"));
 			$op2 = new ilRadioOption($lng->txt("cont_adjust_size"), "selected");
 		}
 		$radio_size->addOption($op1);
@@ -541,6 +599,22 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
 		
 	}
+
+	/**
+	 * Check fix size
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function checkFixSize()
+	{
+		$std_item = $this->object->getMediaItem("Standard");
+		if ($std_item->getWidth() == "" || $std_item->getHeight() == "")
+		{
+			ilUtil::sendFailure($this->lng->txt("mob_no_fixed_size_map_editing"));
+		}
+	}
+
 	
 	/**
 	* Get values for form
@@ -570,17 +644,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		
 		$values["standard_size"] = "selected";
 
-		if ($orig_size = $std_item->getOriginalSize())
+		$orig_size = $std_item->getOriginalSize();
+		if ($std_item->getWidth() == "" && $std_item->getHeight() == "")
 		{
-			//if ($orig_size["width"] == $std_item->getWidth() &&
-			//	$orig_size["height"] == $std_item->getHeight())
-			if ($std_item->getWidth() == "" && $std_item->getHeight() == "")
-			{
-				$values["standard_size"] = "original";
-				$values["standard_width_height"]["width"] = $orig_size["width"];
-				$values["standard_width_height"]["height"] = $orig_size["height"];
-			}
+			$values["standard_size"] = "original";
+			$values["standard_width_height"]["width"] = $orig_size["width"];
+			$values["standard_width_height"]["height"] = $orig_size["height"];
 		}
+
 		$values["standard_caption"] = $std_item->getCaption();
 		$values["text_representation"] = $std_item->getTextRepresentation();
 		if (ilObjMediaObject::_useAutoStartParameterOnly($std_item->getLocation(),
@@ -619,13 +690,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 			$values["full_size"] = "selected";
 	
-			if ($orig_size = $full_item->getOriginalSize())
+			$orig_size = $full_item->getOriginalSize();
+			if ($full_item->getWidth() == "" &&
+				$full_item->getHeight() == "")
 			{
-				if ($orig_size["width"] == $full_item->getWidth() &&
-					$orig_size["height"] == $full_item->getHeight())
-				{
-					$values["full_size"] = "original";
-				}
+				$values["full_size"] = "original";
+				$values["full_width_height"]["width"] = $orig_size["width"];
+				$values["full_width_height"]["height"] = $orig_size["height"];
 			}
 			$values["full_caption"] = $full_item->getCaption();
 			if (ilObjMediaObject::_useAutoStartParameterOnly($full_item->getLocation(),

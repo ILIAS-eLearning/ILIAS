@@ -300,15 +300,8 @@ class arConnectorDB extends arConnector {
 	 * @return mixed|string
 	 */
 	protected function buildQuery(ActiveRecordList $arl) {
-		$ilDB = $this->returnDB();
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		if ($ilDB->getDBType() == ilDBConstants::TYPE_ORACLE) {
-			$method = 'asORACLEStatement';
-		} else {
-			$method = 'asSQLStatement';
-		}
+		$method = 'asSQLStatement';
+
 		// SELECTS
 		$q = $arl->getArSelectCollection()->{$method}();
 		// Concats
@@ -316,10 +309,10 @@ class arConnectorDB extends arConnector {
 		$q .= ' FROM ' . $arl->getAR()->getConnectorContainerName();
 		// JOINS
 		$q .= $arl->getArJoinCollection()->{$method}();
-		// HAVING
-		$q .= $arl->getArHavingCollection()->{$method}();
 		// WHERE
 		$q .= $arl->getArWhereCollection()->{$method}();
+		// HAVING
+		$q .= $arl->getArHavingCollection()->{$method}();
 		// ORDER
 		$q .= $arl->getArOrderCollection()->{$method}();
 		// LIMIT
@@ -359,15 +352,6 @@ class arConnectorDB extends arConnector {
 	 * @return string
 	 */
 	public function fixDate($value) {
-		$ilDB = $this->returnDB();
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		if ($ilDB->getDBType() != ilDBConstants::TYPE_ORACLE) {
-			return parent::fixDate($value);
-		}
-
 		return parent::fixDate($value);
-		//		return "TO_DATE('{$value}','YYYY-MM-DD HH24:MI:SS')";
 	}
 }

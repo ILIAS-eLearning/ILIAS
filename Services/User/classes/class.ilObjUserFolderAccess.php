@@ -38,7 +38,9 @@ class ilObjUserFolderAccess extends ilObjectAccess
 	 */
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 
 		$a_target = USER_FOLDER_ID;
 

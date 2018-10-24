@@ -43,7 +43,9 @@ class ilLuceneSubItemListGUIFactory
 	 */
 	public static function getInstanceByType($a_type,$a_cmd_class)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
 		
 		if(isset(self::$instances[$a_type]))
 		{

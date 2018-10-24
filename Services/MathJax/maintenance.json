@@ -3,7 +3,9 @@
     "first_maintainer": "fneumann(1560)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "fneumann(1560)",
+    "coordinator": [
+        "fneumann(1560)"
+    ],
     "tester": "claudio.fischer(41113)",
     "testcase_writer": "fneumann(1560)",
     "path": "Services/MathJax",

@@ -54,7 +54,10 @@ class ilSearchRootSelector extends ilExplorer
 	*/
 	function __construct($a_target)
 	{
-		global $tree,$ilCtrl;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ctrl = $ilCtrl;
 
@@ -135,7 +138,9 @@ class ilSearchRootSelector extends ilExplorer
 
 	function showChilds($a_ref_id)
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if ($a_ref_id == 0)
 		{
@@ -162,7 +167,10 @@ class ilSearchRootSelector extends ilExplorer
 	*/
 	function formatHeader($tpl,$a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilias = $DIC['ilias'];
 
 		#$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 

@@ -23,6 +23,11 @@ class ilContainerXmlParser
 	 */
 	protected $obj_definition;
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $cont_log;
+
 	private $source = 0;
 	private $mapping = null;
 	private $xml = '';
@@ -43,6 +48,7 @@ class ilContainerXmlParser
 		$this->obj_definition = $DIC["objDefinition"];
 		$this->mapping = $mapping;
 		$this->xml = $xml;
+		$this->cont_log = ilLoggerFactory::getLogger('cont');
 	}
 
 	/**
@@ -124,12 +130,13 @@ class ilContainerXmlParser
 		// pages
 		if($ilSetting->get('enable_cat_page_edit', false))
 		{								
-			if((bool)$item['Page'])
+			if($item['Page'] == "1")
 			{			
-				$this->mapping->addMapping('Services/COPage', 'pg', 'cont:'.$obj_id, 'cont:'.$new_obj_id);		
+				$this->mapping->addMapping('Services/COPage', 'pg', 'cont:'.$obj_id, 'cont:'.$new_obj_id);
+				$this->cont_log->debug("add pg cont mapping, old: ".$obj_id.", new: ".$new_obj_id.", Page: -".$item['Page']."-");
 			}
 			
-			if((bool)$item['StartPage'])
+			if($item['StartPage'] == "1")
 			{				
 				$this->mapping->addMapping('Services/COPage', 'pg', 'cstr:'.$obj_id, 'cstr:'.$new_obj_id);		
 			}			

@@ -6,7 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Icon;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class Icon implements C\Icon\Icon {
+abstract class Icon implements C\Icon\Icon {
 	use ComponentHelper;
 
 	/**
@@ -30,12 +30,18 @@ class Icon implements C\Icon\Icon {
 	protected $abbreviation;
 
 	/**
+	 * @var bool
+	 */
+	protected $is_disabled;
+
+	/**
 	 * @var	string[]
 	 */
 	protected static $possible_sizes = array(
 		self::SMALL,
 		self::MEDIUM,
-		self::LARGE
+		self::LARGE,
+		self::RESPONSIVE
 	);
 
 
@@ -89,5 +95,23 @@ class Icon implements C\Icon\Icon {
 	 */
 	public function getSize(){
 		return $this->size;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isDisabled()
+	{
+		return $this->is_disabled;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDisabled($is_disabled) {
+		$this->checkBoolArg("is_disabled", $is_disabled);
+		$clone = clone $this;
+		$clone->is_disabled = $is_disabled;
+		return $clone;
 	}
 }

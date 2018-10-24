@@ -46,7 +46,9 @@ class ilECSUtils
 	 */
 	public static function lookupParticipantName($a_owner, $a_server_id)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		try {
 			include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
@@ -102,7 +104,9 @@ class ilECSUtils
 	 */
 	public static function getPossibleRemoteTypes($a_with_captions = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$all = array("rcrs", "rcat", "rfil", "rglo", "rgrp", "rlm", "rwik");
 		
@@ -127,7 +131,9 @@ class ilECSUtils
 	 */
 	public static function getPossibleReleaseTypes($a_with_captions = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$all = array("crs", "cat", "file", "glo", "grp", "lm", "wiki");
 		

@@ -41,7 +41,9 @@ class ilSimpleSAMLphpConfigTemplateHandler
 				$templateContents = str_replace('[[' . $placeholder . ']]', $value, $templateContents);
 			}
 
-			$this->fs->put($destinationPath, $templateContents);
+			// Does not work because of .sec renaming of PHP files
+			//$this->fs->put($destinationPath, $templateContents);
+			file_put_contents(ilUtil::getDataDir() . '/' . $destinationPath, $templateContents);
 		}
 	}
 }

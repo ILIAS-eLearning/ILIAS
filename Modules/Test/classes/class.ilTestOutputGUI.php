@@ -279,6 +279,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->handleTearsAndAngerNoObjectiveOrientedQuestion();
 		}
+		
+		if( !$this->testSequence->isQuestionPresented($questionId) )
+		{
+			$this->testSequence->setQuestionPresented($questionId);
+			$this->testSequence->saveToDb();
+		}
 
 		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
 			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
@@ -386,10 +392,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 // fau: testNav - add feedback modal
-		if (!empty($_SESSION['forced_feedback_navigation_url']))
+		if ($this->isForcedFeedbackNavUrlRegistered())
 		{
-			$this->populateInstantResponseModal($questionGui, $_SESSION['forced_feedback_navigation_url']);
-			unset($_SESSION['forced_feedback_navigation_url']);
+			$this->populateInstantResponseModal($questionGui, $this->getRegisteredForcedFeedbackNavUrl());
+			$this->unregisterForcedFeedbackNavUrl();
 		}
 // fau.
 
@@ -633,6 +639,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			// but only if the ending time is not reached
 			$q_id = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+			
+			if( $this->isParticipantsAnswerFixed($q_id) )
+			{
+				// should only be reached by firebugging the disabled form in ui
+				throw new ilTestException('not allowed request');
+			}
+			
 			if (is_numeric($q_id) && (int)$q_id) 
 			{
 				$questionOBJ = $this->getQuestionInstance($q_id);
@@ -701,7 +714,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		if ($this->getNavigationUrlParameter())
 		{
 			$this->saveNavigationPreventConfirmation();
-			$_SESSION['forced_feedback_navigation_url'] = $this->getNavigationUrlParameter();
+			$this->registerForcedFeedbackNavUrl($this->getNavigationUrlParameter());
 		}
 // fau.
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);

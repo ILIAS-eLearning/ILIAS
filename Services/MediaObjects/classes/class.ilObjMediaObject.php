@@ -587,14 +587,27 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
-	* get directory for files of media object (static)
-	*
-	* @param	int		$a_mob_id		media object id
-	*/
-	static function _getDirectory($a_mob_id)
+	 * Get absolute directory
+	 *
+	 * @param int $a_mob_id
+	 * @return string
+	 */
+	static public function _getDirectory($a_mob_id)
 	{
-		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+		return ilUtil::getWebspaceDir()."/".self::_getRelativeDirectory($a_mob_id);
 	}
+
+	/**
+	 * Get relative (to webspace dir) directory
+	 *
+	 * @param int $a_mob_id
+	 * @return string
+	 */
+	static public function _getRelativeDirectory($a_mob_id)
+	{
+		return "mobs/mm_".$a_mob_id;
+	}
+
 
 	/**
 	 * get directory for files of media object (static)
@@ -1500,6 +1513,7 @@ class ilObjMediaObject extends ilObject
 					case "fold":
 					case "root":
 					case "cont":
+					case "copa":
 					case "cstr":
 						// repository pages
 						$obj_id = $id;
@@ -1570,8 +1584,8 @@ class ilObjMediaObject extends ilObject
 		$lng = $DIC->language();
 		
 		// determine width and height of known image types
-		$width = 640;
-		$height = 360;
+		//$width = 640;
+		//$height = 360;
 		$info = "";
 		
 		if ($a_format == "audio/mpeg")

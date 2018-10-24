@@ -53,7 +53,11 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
   */
   function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
   {
-  	global $objDefinition, $ilAccess, $tree;
+  	global $DIC;
+
+  	$objDefinition = $DIC['objDefinition'];
+  	$ilAccess = $DIC['ilAccess'];
+  	$tree = $DIC['tree'];
   	
   	switch($a_name)
     {

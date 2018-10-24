@@ -3,7 +3,9 @@
     "first_maintainer": "smeyer(191)",
     "second_maintainer": "akill(149)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "iLUB Universität Bern",
     "testcase_writer": "iLUB Universität Bern",
     "path": "Modules/GroupReference",

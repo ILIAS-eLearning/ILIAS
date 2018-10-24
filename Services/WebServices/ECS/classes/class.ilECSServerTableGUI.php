@@ -27,7 +27,9 @@ class ilECSServerTableGUI extends ilTable2GUI
 	 */
 	public function initTable()
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 		$this->setTitle($this->lng->txt('ecs_available_ecs'));
 		$this->setRowTemplate('tpl.ecs_server_row.html','Services/WebServices/ECS');
 
@@ -48,7 +50,10 @@ class ilECSServerTableGUI extends ilTable2GUI
 	 */
 	public function  fillRow($set)
 	{
-		global $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$ilCtrl->setParameter($this->getParentObject(),'server_id',$set['server_id']);
 		$ilCtrl->setParameterByClass('ilecsmappingsettingsgui','server_id',$set['server_id']);

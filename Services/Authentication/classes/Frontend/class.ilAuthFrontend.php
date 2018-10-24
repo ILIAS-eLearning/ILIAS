@@ -268,7 +268,7 @@ class ilAuthFrontend
 		{
 			$this->getLogger()->info('Authentication failed (time limit restriction) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 
-			if($GLOBALS['ilSetting']->get('user_reactivate_code'))
+			if($GLOBALS['DIC']['ilSetting']->get('user_reactivate_code'))
 			{
 				$this->getLogger()->debug('Accout reactivation codes are active');
 				$this->getStatus()->setStatus(ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED);
@@ -373,7 +373,9 @@ class ilAuthFrontend
 		);
 
 		// finally raise event 
-		global $ilAppEventHandler;
+		global $DIC;
+
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		$ilAppEventHandler->raise(
 			'Services/Authentication', 
 			'afterLogin',
@@ -400,7 +402,7 @@ class ilAuthFrontend
 	 */
 	protected function checkExceededLoginAttempts(\ilObjUser $user)
 	{
-		if(in_array($user->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
+		if(in_array($user->getId(), array(ANONYMOUS_USER_ID)))
 		{
 			return true;
 		}
@@ -463,9 +465,9 @@ class ilAuthFrontend
 	 */
 	protected function checkSimultaneousLogins(ilObjUser $user)
 	{
-		$this->getLogger()->debug('Setting prevent simultaneous session is: ' . (string) $GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins'));
+		$this->getLogger()->debug('Setting prevent simultaneous session is: ' . (string) $GLOBALS['DIC']['ilSetting']->get('ps_prevent_simultaneous_logins'));
 		if(
-			$GLOBALS['ilSetting']->get('ps_prevent_simultaneous_logins') &&
+			$GLOBALS['DIC']['ilSetting']->get('ps_prevent_simultaneous_logins') &&
 			ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId())
 		)
 		{
@@ -482,7 +484,7 @@ class ilAuthFrontend
 		$this->getLogger()->debug('Authentication failed for all authentication methods.');
 
 		$user_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
-		if(!in_array($user_id, array(ANONYMOUS_USER_ID,SYSTEM_USER_ID)))
+		if(!in_array($user_id, array(ANONYMOUS_USER_ID)))
 		{
 			ilObjUser::_incrementLoginAttempts($user_id);
 			$login_attempts = ilObjUser::_getLoginAttempts($user_id);

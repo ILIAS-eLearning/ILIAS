@@ -488,7 +488,7 @@ class  ilSystemStyleIconsGUI
 
 		$icon_image = $f->image()->standard($icon->getPath(),$icon->getName());
 
-		$card = $f->card(
+		$card = $f->card()->standard(
 			$icon->getName(),
 			$icon_image
 		);
@@ -517,7 +517,7 @@ class  ilSystemStyleIconsGUI
 				 * @var ilSystemStyleIcon $icon
 				 */
 				$icon_image = $f->image()->standard($icon->getPath(),$icon->getName());
-				$card = $f->card(
+				$card = $f->card()->standard(
 					$icon->getName(),
 					$icon_image
 				);

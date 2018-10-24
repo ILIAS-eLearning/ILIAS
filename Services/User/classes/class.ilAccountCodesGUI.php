@@ -21,7 +21,9 @@ class ilAccountCodesGUI
 	 */
 	function __construct($a_ref_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$this->ref_id = $a_ref_id;
 		$lng->loadLanguageModule("user");
@@ -29,7 +31,9 @@ class ilAccountCodesGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -50,7 +54,14 @@ class ilAccountCodesGUI
 	
 	function listCodes()
 	{
-		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar, $lng, $tpl;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
@@ -70,7 +81,10 @@ class ilAccountCodesGUI
 	
 	function initAddCodesForm()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
@@ -115,7 +129,12 @@ class ilAccountCodesGUI
 	
 	function addCodes()
 	{
-		global $ilAccess, $ilErr, $tpl, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -128,7 +147,13 @@ class ilAccountCodesGUI
 	
 	function createCodes()
 	{
-		global $ilAccess, $ilErr, $lng, $tpl, $ilCtrl;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -174,7 +199,10 @@ class ilAccountCodesGUI
 	
 	function deleteCodes()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		include_once './Services/User/classes/class.ilAccountCode.php';
 		ilAccountCode::deleteCodes($_POST["id"]);
@@ -185,7 +213,12 @@ class ilAccountCodesGUI
 
 	function deleteConfirmation()
 	{
-		global $ilErr, $lng, $ilCtrl, $tpl;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		if(!isset($_POST["id"]))
 		{
@@ -231,7 +264,11 @@ class ilAccountCodesGUI
 	
 	function exportCodes()
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 
 		if(!$ilAccess->checkAccess('read', '', $this->ref_id))
 		{

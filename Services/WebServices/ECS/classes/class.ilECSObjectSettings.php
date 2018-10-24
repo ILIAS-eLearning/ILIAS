@@ -121,7 +121,9 @@ abstract class ilECSObjectSettings
 	 */
 	public function addSettingsToForm(ilPropertyFormGUI $a_form, $a_type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$this->logger->debug('Show ecs settings.');
 		if(!$this->isActive($a_type))
@@ -149,8 +151,8 @@ abstract class ilECSObjectSettings
 			return true;
 		}
 		if(
-			$GLOBALS['tree']->checkForParentType($GLOBALS['tree']->getParentId($this->getContentObject()->getRefId()),'crs',false) or
-			$GLOBALS['tree']->checkForParentType($GLOBALS['tree']->getParentId($this->getContentObject()->getRefId()),'grp',false)
+			$GLOBALS['DIC']['tree']->checkForParentType($GLOBALS['DIC']['tree']->getParentId($this->getContentObject()->getRefId()),'crs',false) or
+			$GLOBALS['DIC']['tree']->checkForParentType($GLOBALS['DIC']['tree']->getParentId($this->getContentObject()->getRefId()),'grp',false)
 		)
 		{
 			$this->logger->debug('Parent crs/grp in path. => no settings.');
@@ -341,7 +343,9 @@ abstract class ilECSObjectSettings
 	 */
 	public function handleContentUpdate()
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if(!$this->isActive())
 		{
@@ -391,7 +395,9 @@ abstract class ilECSObjectSettings
 	 */
 	protected function doAdd(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Starting ECS add resource...');
 
@@ -424,7 +430,9 @@ abstract class ilECSObjectSettings
 	 */
 	protected function doUpdate(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids = null)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		include_once 'Services/WebServices/ECS/classes/class.ilECSConnector.php';
 		
@@ -460,7 +468,9 @@ abstract class ilECSObjectSettings
 	 */
 	public function doDelete(ilECSSetting $a_server, ilECSExport $a_export_settings)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		// already exported?
 		if($a_export_settings->isExported())
@@ -562,7 +572,9 @@ abstract class ilECSObjectSettings
 	 */
 	protected function sendNewContentNotification(ilECSSetting $a_server, $a_econtent_id)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if(!count($rcps = $a_server->getApprovalRecipients()))
 		{
@@ -651,8 +663,8 @@ abstract class ilECSObjectSettings
 			($this->content_obj->getType() == 'grp')
 		)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Permission update for courses/groups');
-			$GLOBALS['rbacadmin']->grantPermission(
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Permission update for courses/groups');
+			$GLOBALS['DIC']['rbacadmin']->grantPermission(
 				$server->getGlobalRole(),
 				ilRbacReview::_getOperationIdsByName(array('join','visible')),
 				$this->content_obj->getRefId()

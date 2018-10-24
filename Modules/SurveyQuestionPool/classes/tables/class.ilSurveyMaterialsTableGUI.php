@@ -66,7 +66,7 @@ class ilSurveyMaterialsTableGUI extends ilTable2GUI
 
 		if ($this->write_access)
 		{
-			$this->addMultiCommand('deleteMaterial', $this->lng->txt('delete'));
+			$this->addMultiCommand('deleteMaterial', $this->lng->txt('remove'));
 		}
 	}
 	

@@ -756,7 +756,11 @@ class ilTestServiceGUI
 		$best_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE, FALSE, FALSE);
 		if( $this->object->getShowSolutionFeedback() && $_GET['cmd'] != 'outCorrectSolution' )
 		{
-			$specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput($active_id, $pass);
+			$specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput(
+				$question_gui->object->fetchIndexedValuesFromValuePairs(
+					$question_gui->object->getSolutionValues($active_id, $pass)
+				)
+			);
 			if( strlen($specificAnswerFeedback) )
 			{
 				$template->setCurrentBlock("outline_specific_feedback");

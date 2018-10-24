@@ -32,7 +32,10 @@ class ilSessionReminderGUI
 		 * @var $lng    ilLanguage
 		 * @var $tpl ilTemplate
 		 */
-		global $lng, $tpl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		if($this->getSessionReminder()->isActive())
 		{

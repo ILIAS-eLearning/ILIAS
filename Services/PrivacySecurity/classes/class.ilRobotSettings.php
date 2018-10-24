@@ -44,7 +44,9 @@ class ilRobotSettings
 	 */
 	private function __construct()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->settings = $ilSetting;
 	 	$this->read();

@@ -38,16 +38,16 @@ class SurveyImportParser extends ilSaxParser
 	var $depth;
 	var $activequestion;
 	var $spl;
-  var $error_code;
-  var $error_line;
-  var $error_col;
-  var $error_msg;
+	var $error_code;
+	var $error_line;
+	var $error_col;
+	var $error_msg;
 	var $has_error;
-  var $size;
-  var $elements;
-  var $attributes;
-  var $texts;
-  var $text_size;
+	var $size;
+	var $elements;
+	var $attributes;
+	var $texts;
+	var $text_size;
 	var $characterbuffer;
 	var $activetag;
 	var $material;
@@ -380,7 +380,7 @@ class SurveyImportParser extends ilSaxParser
 						{
 							// import an mediaobject which was inserted using tiny mce
 							if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
-							array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"], "type" => $a_attribs["type"], "id" => $a_attribs["id"]));													
+							array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"], "type" => $a_attribs["type"], "id" => $a_attribs["id"]));
 						}
 					}
 				break;
@@ -718,8 +718,8 @@ class SurveyImportParser extends ilSaxParser
 							case "anon_user_list":
 								$this->survey->setAnonymousUserList($value["entry"]);
 								break;
-							case "mode_360":
-								$this->survey->set360Mode($value["entry"]);
+							case "mode":
+								$this->survey->setMode($value["entry"]);
 								break;
 							case "mode_360_self_eval":
 								$this->survey->set360SelfEvaluation($value["entry"]);
@@ -733,8 +733,11 @@ class SurveyImportParser extends ilSaxParser
 							case "mode_360_results":
 								$this->survey->set360Results($value["entry"]);
 								break;
-							case "mode_360_skill_service":
-								$this->survey->set360SkillService($value["entry"]);
+							case "mode_self_eval_results":
+								$this->survey->setSelfEvaluationResults($value["entry"]);
+								break;
+							case "mode_skill_service":
+								$this->survey->setSkillService($value["entry"]);
 								break;							
 						}
 					}

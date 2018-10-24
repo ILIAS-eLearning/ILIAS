@@ -223,11 +223,19 @@ class ilObjChatroom extends ilObject
 
 		$room->saveSettings($original_settings);
 
-		// rbac log
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		$rbac_log_roles = $DIC->rbac()->review()->getParentRoleIds($newObj->getRefId(), false);
 		$rbac_log       = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
 		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
+
+		require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomServerSettings.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
+
+		$settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
+		$connector = new ilChatroomServerConnector($settings);
+
+		$connector->sendCreatePrivateRoom($room->getRoomId(), 0, $newObj->getOwner(), $newObj->getTitle());
 
 		return $newObj;
 	}

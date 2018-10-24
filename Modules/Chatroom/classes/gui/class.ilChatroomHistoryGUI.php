@@ -10,9 +10,6 @@
  */
 class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 {
-	/** @var ilTabsGUI */
-	private $tabs;
-
 	/**
 	 * {@inheritdoc}
 	 */

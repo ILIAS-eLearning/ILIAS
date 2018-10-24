@@ -45,7 +45,11 @@ class ilUserUtil
 		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true, $a_return_data_array = false,
 		$a_ctrl_path = "ilpublicuserprofilegui")
 	{
-		global $lng, $ilCtrl, $ilDB;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
 
 		if (!is_array($a_ctrl_path))
 		{
@@ -176,7 +180,9 @@ class ilUserUtil
 	 */
 	static function hasPublicProfile($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->query("SELECT value FROM usr_pref ".
 			" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
@@ -202,8 +208,8 @@ class ilUserUtil
 			return '';
 		}
 		
-		$GLOBALS['ilCtrl']->setParameterByClass('ilpublicuserprofilegui','user',$a_usr_id);
-		return $GLOBALS['ilCtrl']->getLinkTargetByClass('ilpublicuserprofilegui','getHTML');
+		$GLOBALS['DIC']['ilCtrl']->setParameterByClass('ilpublicuserprofilegui','user',$a_usr_id);
+		return $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass('ilpublicuserprofilegui','getHTML');
 	}
 	
 	
@@ -218,7 +224,10 @@ class ilUserUtil
 	 */
 	public static function getPossibleStartingPoints($a_force_all = false)
 	{
-		global $ilSetting, $lng;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$lng = $DIC['lng'];
 		
 		// for all conditions: see ilMainMenuGUI
 		
@@ -267,7 +276,10 @@ class ilUserUtil
 	 */
 	public static function setStartingPoint($a_value, $a_ref_id = null)
 	{
-		global $ilSetting, $tree;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$tree = $DIC['tree'];
 		
 		if($a_value == self::START_REPOSITORY_OBJ)
 		{
@@ -296,7 +308,10 @@ class ilUserUtil
 	 */
 	public static function getStartingPoint()
 	{
-		global $ilSetting, $ilUser;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$ilUser = $DIC['ilUser'];
 				
 		$valid = array_keys(self::getPossibleStartingPoints());		
 		$current = $ilSetting->get("usr_starting_point");	
@@ -333,7 +348,11 @@ class ilUserUtil
 	 */
 	public static function getStartingPointAsUrl()
 	{	
-		global $tree, $ilUser, $rbacreview;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$ilUser = $DIC['ilUser'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		$ref_id = 1;
 		$by_default = true;
@@ -441,7 +460,9 @@ class ilUserUtil
 	 */
 	public static function getStartingObject()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		return $ilSetting->get("usr_starting_point_ref_id");
 	}
@@ -453,7 +474,9 @@ class ilUserUtil
 	 */
 	public static function togglePersonalStartingPoint($a_value)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$ilSetting->set("usr_starting_point_personal", (bool)$a_value);		
 	}	
@@ -465,7 +488,9 @@ class ilUserUtil
 	 */
 	public static function hasPersonalStartingPoint()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		return $ilSetting->get("usr_starting_point_personal");
 	}
@@ -477,7 +502,9 @@ class ilUserUtil
 	 */
 	public static function hasPersonalStartPointPref()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		return (bool)$ilUser->getPref("usr_starting_point");	
 	}	
@@ -489,7 +516,9 @@ class ilUserUtil
 	 */
 	public static function getPersonalStartingPoint()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 								
 		$valid = array_keys(self::getPossibleStartingPoints());
 		$current = $ilUser->getPref("usr_starting_point");	
@@ -513,7 +542,10 @@ class ilUserUtil
 	 */
 	public static function setPersonalStartingPoint($a_value, $a_ref_id = null)
 	{
-		global $ilUser, $tree;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
 		
 		if(!$a_value)
 		{
@@ -549,7 +581,9 @@ class ilUserUtil
 	 */
 	public static function getPersonalStartingObject()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$ref_id = $ilUser->getPref("usr_starting_point_ref_id");
 		if(!$ref_id)

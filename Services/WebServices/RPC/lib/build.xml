@@ -25,8 +25,8 @@
 	<target name="compile" depends="init" >
         <javac srcdir="${src}"
         	destdir="${build}"
-        	source="1.6"
-        	target="1.6"
+        	source="1.8"
+        	target="1.8"
 			classpathref="path-compile"
 			debug="yes">
 			<exclude name="ilias/**" /> 

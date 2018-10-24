@@ -88,6 +88,7 @@ class Language
         'sv'    => 'Svenska', // Swedish
         'fi'    => 'Suomeksi', // Finnish
         'es'    => 'Español', // Spanish
+        'ca'    => 'Català', // Catalan
         'fr'    => 'Français', // French
         'it'    => 'Italiano', // Italian
         'nl'    => 'Nederlands', // Dutch
@@ -399,7 +400,7 @@ class Language
      */
     public static function setLanguageCookie($language)
     {
-        assert('is_string($language)');
+        assert(is_string($language));
 
         $language = strtolower($language);
         $config = \SimpleSAML_Configuration::getInstance();

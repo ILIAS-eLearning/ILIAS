@@ -35,23 +35,19 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("notes"));
 		$this->setAvailableDetailLevels(3);
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -234,8 +230,9 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 				
 			// target objects
-			$this->note_gui->showTargets($this->tpl, $a_set["rep_obj_id"], $a_set["id"],
-				$a_set["obj_type"], $a_set["obj_id"]);
+			$note = new ilNote($a_set["id"]);
+			$this->tpl->setVariable("TARGET_OBJECTS",
+				$this->note_gui->renderTargets($note));
 
 			// edit button
 			$this->tpl->setCurrentBlock("edit_note");

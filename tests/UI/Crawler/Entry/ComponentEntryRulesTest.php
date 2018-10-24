@@ -88,6 +88,17 @@ class ComponentEntryRulesTest extends PHPUnit_Framework_TestCase {
 		$rule = new Entry\ComponentEntryRules(array());
 		$this->assertEquals($this->empty_rules_array,$rule->getRules());
 	}
+
+    /**
+     * @throws Crawler\Exception\CrawlerException
+     */
+    public function testHasRules() {
+        $rules = new Entry\ComponentEntryRules($this->empty_rules_array);
+        $this->assertFalse($rules->hasRules());
+        $rules = new Entry\ComponentEntryRules($this->correct_rules1_array);
+        $this->assertTrue($rules->hasRules());
+    }
+
 	/**
 	 * @throws Crawler\Exception\CrawlerException
 	 */

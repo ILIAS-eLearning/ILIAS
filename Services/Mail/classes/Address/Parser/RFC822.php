@@ -197,8 +197,7 @@ class Mail_RFC822 {
 
         if ($this->address === false || isset($this->error)) {
             // mjansen patch 14 Ap 2016 start
-            require_once 'Services/Mail/exceptions/class.ilMailException.php';
-            throw new ilMailException($this->error);
+            throw new \ilMailException($this->error);
             // mjansen patch 14 Ap 2016 end
         }
 
@@ -209,8 +208,7 @@ class Mail_RFC822 {
 
             if ($valid === false || isset($this->error)) {
                 // mjansen patch 14 Ap 2016 start
-                require_once 'Services/Mail/exceptions/class.ilMailException.php';
-                throw new ilMailException($this->error);
+                throw new \ilMailException($this->error);
                 // mjansen patch 14 Ap 2016 end
             }
 

@@ -220,10 +220,28 @@ class ilInternalLink
 				
 				// if a ref id part is given, strip this
 				// since this will not be part of an import id
+				// see also bug #6685
 				if ($tarr[4] != "")
 				{
 					$import_id = $tarr[0]."_".$tarr[1]."_".$tarr[2]."_".$tarr[3]; 
 				}
+
+				$id = ilObject::_getIdForImportId($import_id);
+
+				// get ref id for object id
+				// (see ilPageObject::insertInstIntoIDs for the export procedure)
+				if($id > 0)
+				{
+					$refs = ilObject::_getAllReferences($id);
+					foreach ($refs as $ref)
+					{
+						return "il__obj_".$ref;
+					}
+				}
+
+				// 26 Sep 2018: moved this under the import id handling above
+				// If an imported object is found, this is always preferred.
+				// see also bug #23324
 				if (ilInternalLink::_extractInstOfTarget($a_target) == IL_INST_ID
 					&& IL_INST_ID > 0)
 				{
@@ -233,20 +251,7 @@ class ilInternalLink
 						return "il__obj_".$tarr[4];
 					}
 				}
-				
-				$id = ilObject::_getIdForImportId($import_id);
-//echo "-$a_target-$id-";
-				// get ref id for object id
-				// (see ilPageObject::insertInstIntoIDs for the export procedure)
-				if($id > 0)
-				{
-					$refs = ilObject::_getAllReferences($id);
-//var_dump($refs);
-					foreach ($refs as $ref)
-					{
-						return "il__obj_".$ref;
-					}
-				}
+
 				break;
 
 		}

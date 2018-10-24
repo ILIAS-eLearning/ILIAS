@@ -1767,12 +1767,8 @@ class ilSetupGUI
 
 		// db name
 		require_once('./Services/Database/classes/class.ilDBConstants.php');
-		if (!in_array($_SESSION["db_type"], array( ilDBConstants::TYPE_ORACLE ))) {
-			$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
-			$ti->setRequired(true);
-		} else {
-			$ti = new ilTextInputGUI($lng->txt("db_service_name"), "db_name");
-		}
+		$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
+		$ti->setRequired(true);
 		$ti->setMaxLength(40);
 		$this->form->addItem($ti);
 
@@ -2817,8 +2813,6 @@ class ilSetupGUI
 	{
 		global $ilCtrlStructureReader;
 
-		$ilCtrlStructureReader->setIniFile($this->setup->getClient()->ini);
-
 		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
@@ -2833,7 +2827,7 @@ class ilSetupGUI
 		$this->lng->setDbHandler($ilDB);
 
 		// run dbupdate
-		$dbupdate = new ilDBUpdate($ilDB);
+		$dbupdate = new ilDBUpdate($ilDB, $this->setup->getClient()->ini);
 		$dbupdate->applyUpdate((int) $_POST["update_break"]);
 
 		if ($dbupdate->updateMsg == "no_changes")
@@ -2946,7 +2940,7 @@ class ilSetupGUI
 		$this->lng->setDbHandler($ilDB);
 
 		// run dbupdate
-		$dbupdate = new ilDBUpdate($ilDB);
+		$dbupdate = new ilDBUpdate($ilDB, $this->setup->getClient()->ini);
 		$dbupdate->applyHotfix();
 
 		if ($dbupdate->updateMsg == "no_changes")
@@ -4212,7 +4206,8 @@ class ilSetupGUI
 		$this->lng->setDbHandler($ilDB);
 
 		// run dbupdate
-		$dbupdate = new ilDBUpdate($ilDB);
+
+		$dbupdate = new ilDBUpdate($ilDB, $this->setup->getClient()->ini);
 		$dbupdate->applyCustomUpdates();
 
 		if ($dbupdate->updateMsg == "no_changes")

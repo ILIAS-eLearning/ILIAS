@@ -1,22 +1,18 @@
 <?php
 
-
 /**
  * Class ilDclTextInputGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilDclTextInputGUI extends ilTextInputGUI
-{
+class ilDclTextInputGUI extends ilTextInputGUI {
 
-    function setValueByArray($a_values)
-    {
-        parent::setValueByArray($a_values);
-        foreach ($this->getSubItems() as $item) {
-            $item->setValueByArray($a_values);
-        }
-
-    }
+	function setValueByArray($a_values) {
+		parent::setValueByArray($a_values);
+		foreach ($this->getSubItems() as $item) {
+			$item->setValueByArray($a_values);
+		}
+	}
 
 
 	function checkInput() {
@@ -26,7 +22,7 @@ class ilDclTextInputGUI extends ilTextInputGUI
 			if (substr($regex, 0, 1) != "/") {
 				$regex = "/" . $regex;
 			}
-			if (substr($regex, - 1) != "/") {
+			if (substr($regex, -1) != "/") {
 				$regex .= "/";
 			}
 			try {
@@ -35,10 +31,11 @@ class ilDclTextInputGUI extends ilTextInputGUI
 				global $DIC;
 				$lng = $DIC['lng'];
 				$this->setAlert($lng->txt('msg_input_does_not_match_regexp'));
+
 				return false;
 			}
 		}
-		
+
 		return parent::checkInput();
 	}
 }

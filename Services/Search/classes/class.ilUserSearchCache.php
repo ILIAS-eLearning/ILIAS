@@ -79,7 +79,9 @@ class ilUserSearchCache
 	 */
 	private function __construct($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if($a_usr_id == ANONYMOUS_USER_ID)
 		{
@@ -352,7 +354,9 @@ class ilUserSearchCache
 	 */
 	public function deleteCachedEntries()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if($this->isAnonymous())
 		{
@@ -422,7 +426,9 @@ class ilUserSearchCache
 	 */
 	public function delete()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 
 	 	$query = "DELETE FROM usr_search ".
 	 		"WHERE usr_id = ".$this->db->quote($this->usr_id ,'integer')." ".
@@ -441,7 +447,9 @@ class ilUserSearchCache
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if($this->isAnonymous())
 		{

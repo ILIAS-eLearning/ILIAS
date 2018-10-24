@@ -23,7 +23,10 @@ class ilCustomUserFieldsGUI
 	
 	function __construct()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$lng->loadLanguageModule("user");		
 		$lng->loadLanguageModule("administration");		
@@ -47,7 +50,9 @@ class ilCustomUserFieldsGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -70,7 +75,12 @@ class ilCustomUserFieldsGUI
 	 */
 	function listUserDefinedFields()
 	{
-		global $lng, $tpl, $ilToolbar, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
 				
 		if($this->getPermissions()->hasPermission(ilUDFPermissionHelper::CONTEXT_UDF, 
 			(int)$_GET["ref_id"], ilUDFPermissionHelper::ACTION_UDF_CREATE_FIELD))
@@ -95,11 +105,13 @@ class ilCustomUserFieldsGUI
 	 */
 	function addField($a_form = null)
 	{
-		global $tpl;		
+		global $DIC;		
+
+		$tpl = $DIC['tpl'];
 		
 		if(!$a_form)
 		{
-			$a_form = $this->initForm();
+			$a_form = $this->initForm('create');
 		}
 		
 		$tpl->setContent($a_form->getHTML());
@@ -112,7 +124,9 @@ class ilCustomUserFieldsGUI
 	 */
 	function getAccessOptions()
 	{	
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$opts = array();
 		$opts["visible"] = $lng->txt("user_visible_in_profile");
@@ -145,15 +159,17 @@ class ilCustomUserFieldsGUI
 		);
 	}
 	
+	
 	/**
-	 * Init field form
-	 * 
-	 * @param string $a_mode 
-	 * @return ilPropertyFormGUI
+	 * init field definition
+	 * @return array
 	 */
-	function initForm($a_mode = "create")
+	protected function initFieldDefinition()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 				
 		include_once("Services/Membership/classes/class.ilMemberAgreement.php");
 	 	if (ilMemberAgreement::_hasAgreements())
@@ -162,6 +178,7 @@ class ilCustomUserFieldsGUI
 			ilUtil::sendInfo($lng->txt("ps_warning_modify"));
 	 	}
 		
+		$perms = array();
 		if($this->field_definition)
 		{
 			$perms = $this->permissions->hasPermissions(ilUDFPermissionHelper::CONTEXT_FIELD,
@@ -193,7 +210,24 @@ class ilCustomUserFieldsGUI
 					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
 						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
 			));
-			
+		}
+		return $perms;
+	}
+	
+	protected function initForm($a_mode = 'create')
+	{
+		global $ilCtrl, $lng;
+		
+		include_once("Services/Membership/classes/class.ilMemberAgreement.php");
+	 	if (ilMemberAgreement::_hasAgreements())
+	 	{
+			$lng->loadLanguageModule("ps");
+			ilUtil::sendInfo($lng->txt("ps_warning_modify"));
+	 	}
+
+		if($this->field_definition)
+		{
+			$perms = $this->initFieldDefinition();
 			$perm_map = self::getAccessPermissions();
 		}
 		
@@ -213,28 +247,47 @@ class ilCustomUserFieldsGUI
 		// type
 		$radg = new ilRadioGroupInputGUI($lng->txt("field_type"), "field_type");
 		$radg->setRequired(true);		
-			$op1 = new ilRadioOption($lng->txt("udf_type_text"), UDF_TYPE_TEXT);
-			$radg->addOption($op1);
-			$op2 = new ilRadioOption($lng->txt("udf_type_select"), UDF_TYPE_SELECT);
-			$radg->addOption($op2);
-			$op3 = new ilRadioOption($lng->txt("udf_type_wysiwyg"), UDF_TYPE_WYSIWYG);
-			$radg->addOption($op3);
+		include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+		foreach(ilCustomUserFieldsHelper::getInstance()->getUDFTypes() as $udf_type => $udf_name)
+		{
+			$op = new ilRadioOption($udf_name, $udf_type);
+			$radg->addOption($op);
+			
+			switch($udf_type)
+			{
+				case UDF_TYPE_TEXT:
+				case UDF_TYPE_WYSIWYG:
+					// do nothing
+					break;
+				case UDF_TYPE_SELECT:
+					// select values
+					$se_mu = new ilTextWizardInputGUI($lng->txt("value"), "selvalue");
+					$se_mu->setRequired(true);
+					$se_mu->setSize(32);
+					$se_mu->setMaxLength(128);
+					$se_mu->setValues(array(''));
+					$op->addSubItem($se_mu);
+					break;
+				
+				default:
+					$plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($udf_type);
+					if($plugin instanceof ilUDFDefinitionPlugin)
+					{
+						$plugin->addDefinitionTypeOptionsToRadioOption($op,$this->field_id);
+					}
+					break;
+			}
+		}
+
 		$form->addItem($radg);
-		
-		// select values
-		$se_mu = new ilTextWizardInputGUI($lng->txt("value"), "selvalue");
-		$se_mu->setRequired(true);
-		$se_mu->setSize(32);
-		$se_mu->setMaxLength(128);
-		$se_mu->setValues(array(''));		
-		$op2->addSubItem($se_mu);
 		
 		if($perms && !$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES])
 		{
 			$se_mu->setDisabled(true);
 			$se_mu->setRequired(false);
 		}
-						
+		
+		
 		// access
 		$acc = new ilCheckboxGroupInputGUI($lng->txt("access"), "access");
 			
@@ -257,17 +310,16 @@ class ilCustomUserFieldsGUI
 		
 		$form->addItem($acc);
 				
-		if($a_mode == "create")
+		
+		if($a_mode == 'create')
 		{
 			$radg->setValue(UDF_TYPE_TEXT);			
-			
 			$form->setTitle($lng->txt('add_new_user_defined_field'));
-									
 			$form->addCommandButton("create", $lng->txt("save"));
 			$form->addCommandButton("listUserDefinedFields", $lng->txt("cancel"));
 		}
 		else
-		{			
+		{
 			$name->setValue($this->field_definition["field_name"]);
 			$radg->setValue($this->field_definition["field_type"]);
 			$radg->setDisabled(true);
@@ -287,13 +339,20 @@ class ilCustomUserFieldsGUI
 				case UDF_TYPE_WYSIWYG:
 					$form->setTitle($lng->txt("udf_update_wysiwyg_field"));
 					break;
+				
+				default:
+					$plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($udf_type);
+					if($plugin instanceof ilUDFDefinitionPlugin)
+					{
+						$form->setTitle($plugin->getDefinitionUpdateFormTitle());
+					}
+					break;
 			}
-			
 			$form->addCommandButton("update", $lng->txt("save"));
 			$form->addCommandButton("listUserDefinedFields", $lng->txt("cancel"));
 		}
-		
 		return $form;		
+		
 	}
 	
 	/**
@@ -307,7 +366,9 @@ class ilCustomUserFieldsGUI
 	 */
 	protected function validateForm($form, $user_field_definitions, array &$access, array $a_field_permissions = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		if($form->checkInput())
 		{
@@ -373,13 +434,16 @@ class ilCustomUserFieldsGUI
 		
 	function create()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$user_field_definitions->setFieldType($_POST["field_type"]);
 		
 		$access = array();
-		$form = $this->initForm();				
+		$form = $this->initForm('create');			
 		if($this->validateForm($form, $user_field_definitions, $access))
 		{
 			$user_field_definitions->setFieldName($form->getInput("name"));						
@@ -394,8 +458,17 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions->enableExport($access['export']);
 			$user_field_definitions->enableSearchable($access['searchable']);
 			$user_field_definitions->enableCertificate($access['certificate']);
-			$user_field_definitions->add();
-
+			$new_id = $user_field_definitions->add();
+			
+			if($user_field_definitions->isPluginType())
+			{
+				include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+				$plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
+				if($plugin instanceof ilUDFDefinitionPlugin)
+				{
+					$plugin->updateDefinitionFromForm($form, $new_id);
+				}
+			}
 			if ($access['course_export'])
 			{
 				include_once('Services/Membership/classes/class.ilMemberAgreement.php');
@@ -417,7 +490,9 @@ class ilCustomUserFieldsGUI
 	 */
 	function edit($a_form = null)
 	{
-		global $tpl;		
+		global $DIC;		
+
+		$tpl = $DIC['tpl'];
 		
 		if(!$a_form)
 		{
@@ -429,7 +504,10 @@ class ilCustomUserFieldsGUI
 	
 	function update()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$user_field_definitions->setFieldType($this->field_definition["field_type"]);
@@ -522,6 +600,16 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions->enableSearchable($access['searchable']);
 			$user_field_definitions->enableCertificate($access['certificate']);
 			$user_field_definitions->update($this->field_id);
+			
+			if($user_field_definitions->isPluginType())
+			{
+				include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+				$plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
+				if($plugin instanceof ilUDFDefinitionPlugin)
+				{
+					$plugin->updateDefinitionFromForm($form, $this->field_id);
+				}
+			}
 
 			if ($access['course_export'])
 			{
@@ -539,7 +627,11 @@ class ilCustomUserFieldsGUI
 		
 	function askDeleteField()
 	{
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		
 		if(!$_POST["fields"])
 		{
@@ -568,7 +660,10 @@ class ilCustomUserFieldsGUI
 		
 	function deleteField()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		
@@ -605,7 +700,10 @@ class ilCustomUserFieldsGUI
 	 */
 	function updateFields($action = "")
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$a_fields = $user_field_definitions->getDefinitions();

@@ -8,6 +8,12 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 class Standard extends Icon implements C\Icon\Standard {
 
+	/**
+	 * @var bool
+	 */
+	protected $is_outlined = false;
+
+
 	private static $standard_icons = array (
 		 self::GRP
 		,self::CAT
@@ -115,17 +121,20 @@ class Standard extends Icon implements C\Icon\Standard {
 		,self::BDGA
 		,self::WFE
 		,self::IASS
+		,self::COPA
 	);
 
-	public function __construct($name, $aria_label, $size) {
+	public function __construct($name, $aria_label, $size, $is_disabled) {
 		$this->checkStringArg("name", $name);
 		$this->checkStringArg("string", $aria_label);
 		$this->checkArgIsElement("size", $size,	self::$possible_sizes,
 			implode(self::$possible_sizes, '/')
 		);
+		$this->checkBoolArg("is_disabled", $is_disabled);
 		$this->name = $name;
 		$this->aria_label = $aria_label;
 		$this->size = $size;
+		$this->is_disabled = $is_disabled;
 	}
 
 	/**
@@ -135,4 +144,22 @@ class Standard extends Icon implements C\Icon\Standard {
 		return self::$standard_icons;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isOutlined(): bool
+	{
+		return $this->is_outlined;
+	}
+
+	/**
+	 * @param bool $is_outlined
+	 * @return Icon
+	 */
+	public function withIsOutlined(bool $is_outlined): Icon
+	{
+		$clone = clone $this;
+		$clone->is_outlined = $is_outlined;
+		return $clone;
+	}
 }

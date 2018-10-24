@@ -26,14 +26,18 @@ class ilLuceneIndexer extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt("cron_lucene_index");
 	}
 	
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt("cron_lucene_index_info");
 	}
@@ -60,7 +64,9 @@ class ilLuceneIndexer extends ilCronJob
 	
 	public function run()
 	{				
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;		
 		$error_message = null;
@@ -109,7 +115,9 @@ class ilLuceneIndexer extends ilCronJob
 	 */
 	public static function updateLuceneIndex($a_obj_ids)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
 		if(!ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
 		{

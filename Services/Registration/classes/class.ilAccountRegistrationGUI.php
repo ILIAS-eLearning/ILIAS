@@ -27,9 +27,16 @@ class ilAccountRegistrationGUI
 	protected $code_enabled; // [bool]
 	protected $code_was_used; // [bool]
 
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
+
 	public function __construct()
 	{
-		global $ilCtrl,$tpl,$lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		$this->tpl =& $tpl;
 
@@ -42,12 +49,17 @@ class ilAccountRegistrationGUI
 		$this->registration_settings = new ilRegistrationSettings();
 		
 		$this->code_enabled = ($this->registration_settings->registrationCodeRequired() ||
-			$this->registration_settings->getAllowCodes());	
+			$this->registration_settings->getAllowCodes());
+
+		$this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
 	}
 
 	public function executeCommand()
 	{
-		global $ilErr, $tpl;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$tpl = $DIC['tpl'];
 
 		if($this->registration_settings->getRegistrationType() == IL_REG_DISABLED)
 		{
@@ -83,7 +95,9 @@ class ilAccountRegistrationGUI
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -97,8 +111,14 @@ class ilAccountRegistrationGUI
 	
 	protected function __initForm()
 	{
-		global $lng, $ilUser;
-		
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+
+		$ilUser->setLanguage($lng->getLangKey());
+		$ilUser->setId(ANONYMOUS_USER_ID);
+
 		// needed for multi-text-fields (interests)
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
@@ -130,49 +150,26 @@ class ilAccountRegistrationGUI
 		
 
 		// user defined fields
-
 		$user_defined_data = $ilUser->getUserDefinedData();
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
-		$user_defined_fields =& ilUserDefinedFields::_getInstance();
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
 		$custom_fields = array();
+		
 		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
 		{
-			if($definition['field_type'] == UDF_TYPE_TEXT)
+			include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+			$fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
+				$definition,
+				true,
+				$user_defined_data['f_'.$field_id]
+			);
+			if($fprop instanceof ilFormPropertyGUI)
 			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setMaxLength(255);
-				$custom_fields["udf_".$definition['field_id']]->setSize(40);
-			}
-			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
-			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setUseRte(true);
-			}
-			else
-			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setOptions(
-					$user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
-			}
-			if($definition['required'])
-			{
-				$custom_fields["udf_".$definition['field_id']]->setRequired(true);
-			}
-
-			if($definition['field_type'] == UDF_TYPE_SELECT && !$user_defined_data["f_".$field_id])
-			{
-				$options = array(""=>$lng->txt("please_select")) + $custom_fields["udf_".$definition['field_id']]->getOptions();
-				$custom_fields["udf_".$definition['field_id']]->setOptions($options);
+				$custom_fields['udf_' . $definition['field_id']] = $fprop;
 			}
 		}
-
+		
 		// standard fields
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
@@ -234,16 +231,15 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
-		{
+		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
+			$document = $this->termsOfServiceEvaluation->document();
+
 			$field = new ilFormSectionHeaderGUI();
 			$field->setTitle($lng->txt('usr_agreement'));
 			$this->form->addItem($field);
 
 			$field = new ilCustomInputGUI();
-			$field->setHTML('<div id="agreement">' . $document->getContent() . '</div>');
+			$field->setHTML('<div id="agreement">' . $document->content() . '</div>');
 			$this->form->addItem($field);
 
 			$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
@@ -266,7 +262,11 @@ class ilAccountRegistrationGUI
 	
 	public function saveForm()
 	{
-		global $lng, $ilSetting, $rbacreview;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
+		$rbacreview = $DIC['rbacreview'];
 
 		$this->__initForm();
 		$form_valid = $this->form->checkInput();
@@ -361,18 +361,15 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 
-		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
-		{
+		$showGlobalTermsOfServieFailure  = false;
+		if (\ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
 			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
-			if($agr_obj)
-			{
+			if ($agr_obj) {
 				$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
+				$form_valid = false;
+			} else {
+				$showGlobalTermsOfServieFailure = true;
 			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt('force_accept_usr_agreement'));
-			}
-			$form_valid = false;
 		}
 
 		// no need if role is attached to code
@@ -425,9 +422,16 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 
-		if(!$form_valid)
+		if (!$form_valid)
 		{
 			ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+		}
+		elseif($showGlobalTermsOfServieFailure) {
+			$this->lng->loadLanguageModule('tos');
+			\ilUtil::sendFailure(sprintf(
+				$this->lng->txt('tos_account_reg_not_possible'),
+				'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+			));
 		}
 		else
 		{
@@ -449,13 +453,19 @@ class ilAccountRegistrationGUI
 		 * @var $rbacadmin ilRbacAdmin
 		 * @var $lng       ilLanguage
 		 */
-		global $ilSetting, $rbacadmin, $lng;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$lng = $DIC['lng'];
 		
 		
 		// something went wrong with the form validation
 		if(!$a_role)
 		{			
-			global $ilias;
+			global $DIC;
+
+			$ilias = $DIC['ilias'];
 			$ilias->raiseError("Invalid role selection in registration".
 				", IP: ".$_SERVER["REMOTE_ADDR"], $ilias->error_obj->FATAL);
 		}
@@ -648,11 +658,16 @@ class ilAccountRegistrationGUI
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng));
-
 		// setup user preferences
 		$this->userObj->setLanguage($this->form->getInput('usr_language'));
+
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$helper = new \ilTermsOfServiceHelper();
+
+			$helper->trackAcceptance($this->userObj, $this->termsOfServiceEvaluation->document());
+		}
+
 		$hits_per_page = $ilSetting->get("hits_per_page");
 		if ($hits_per_page < 10)
 		{
@@ -687,7 +702,7 @@ class ilAccountRegistrationGUI
 					$rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());
 
 					// patch to remove for 45 due to mantis 21953
-					$role_obj = $GLOBALS['rbacreview']->getObjectOfRole($local_role_obj_id);
+					$role_obj = $GLOBALS['DIC']['rbacreview']->getObjectOfRole($local_role_obj_id);
 					switch(ilObject::_lookupType($role_obj))
 					{
 						case 'crs':
@@ -706,7 +721,9 @@ class ilAccountRegistrationGUI
 
 	protected function __distributeMails($password, $a_language = null)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		include_once './Services/Language/classes/class.ilLanguage.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -758,7 +775,7 @@ class ilAccountRegistrationGUI
 			$amail = ilObjUserFolder::_lookupNewAccountMail($a_language);
 			if (trim($amail["body"]) == "" || trim($amail["subject"]) == "")
 			{
-				$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
+				$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS['DIC']["lng"]->getDefaultLanguage());
 			}
 			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 			{				
@@ -831,7 +848,9 @@ class ilAccountRegistrationGUI
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -889,6 +908,7 @@ class ilAccountRegistrationGUI
 			true,
 			ilSession::get('registered_user')
 		);
+		ilInitialisation::initUserAccount();
 		return ilInitialisation::redirectToStartingPage();
 	}
 

@@ -113,6 +113,21 @@ class ilEventItems
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
+
+	/**
+	 * Remove specific items from the DB.
+	 * @param $a_items array
+	 * @return bool
+	 */
+	function removeItems($a_items)
+	{
+		$query = "DELETE FROM event_items WHERE ".$this->db->in('item_id', $a_items, false, 'integer').
+			" AND event_id = ".$this->db->quote($this->event_id, 'integer');
+
+		$res = $this->db->manipulate($query);
+
+		return true;
+	}
 	
 	function update()
 	{

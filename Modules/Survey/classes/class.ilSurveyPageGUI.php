@@ -1478,12 +1478,12 @@ class ilSurveyPageGUI
 		$this->has_next_page = ($this->current_page < sizeof($pages));
 		$this->has_previous_page = ($this->current_page > 1);
 		$this->has_datasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
-		
+
+		$mess = "";
 		if($this->has_datasets)
 		{
-			$link = $ilCtrl->getLinkTargetByClass(array("ilobjsurveygui", "ilsurveyparticipantsgui"), "maintenance");
-			$link = "<a href=\"".$link."\">".$lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
-			ilUtil::sendInfo($lng->txt("survey_has_datasets_warning_page_view")." ".$link);
+			$mbox = new ilSurveyContainsDataMessageBoxGUI();
+			$mess = $mbox->getHTML();
 		}
 
 		$ilCtrl->setParameter($this, "pg", $this->current_page);
@@ -1539,6 +1539,12 @@ class ilSurveyPageGUI
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 				$tags = ilObjAdvancedEditing::_getUsedHTMLTags("survey");
 
+				/**
+				 * Alex Killing, 27 July 2018
+				 * I removed a line $tpl->addJavascript("./Services/RTE/tiny_mce_.../tiny_mce_src.js"); at the end
+				 * of this function. Currently I have no idea when this tiny will be presented...
+				 * Maybe a bug will come out of this during 5.4 testing
+				 */
 				include_once "./Services/RTE/classes/class.ilTinyMCE.php";
 				$tiny = new ilTinyMCE();				
 				$ttpl->setVariable("WYSIWYG_BLOCKFORMATS", $tiny->_buildAdvancedBlockformatsFromHTMLTags($tags));
@@ -1576,13 +1582,12 @@ class ilSurveyPageGUI
 			$ttpl->setVariable("NODES", $this->getPageNodes($pages[$this->current_page-1],
 				$this->has_previous_page, $this->has_next_page, $read_only));
 
-			$tpl->setContent($ttpl->get());
+			$tpl->setContent($mess.$ttpl->get());
 
 			// add js to template
 			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 			ilYuiUtil::initDragDrop();
 			$tpl->addJavascript("./Modules/Survey/js/SurveyPageView.js");
-			$tpl->addJavascript("./Services/RTE/tiny_mce_3_5_11/tiny_mce_src.js");
 		}
 	}
 

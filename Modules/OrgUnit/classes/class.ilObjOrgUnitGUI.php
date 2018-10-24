@@ -70,6 +70,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @var Ilias
 	 */
 	public $ilias;
+	const CMD_EDIT_SETTINGS = 'editSettings';
 
 
 	public function __construct() {
@@ -295,7 +296,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'getAsynchItemList':
 						parent::getAsynchItemListObject();
 						break;
-					case 'editSettings':
+					case self::CMD_EDIT_SETTINGS:
 						$this->tabs_gui->activateTab(self::TAB_SETTINGS);
 						$this->setSubTabsSettings('edit_settings');
 						$this->editSettings();
@@ -324,6 +325,21 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				}
 				break;
 		}
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function afterSave(ilObject $a_new_object) {
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		ilUtil::redirect(
+			$this->getReturnLocation(
+				"save",
+				$this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS, "", false, false)
+			)
+		);
 	}
 
 
@@ -464,7 +480,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->tabs_gui->addTab(self::TAB_STAFF, $this->lng->txt(self::TAB_STAFF), $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_INDEX));
 			}
 			if ($read_access_ref_id) {
-				$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, 'editSettings'));
+				$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS));
 				$this->tabs_gui->addTab("administrate_users", $this->lng->txt("administrate_users"), $this->ctrl->getLinkTargetByClass("ilLocalUserGUI", "index"));
 			}
 		}
@@ -491,7 +507,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	protected function setSubTabsSettings($active_tab_id) {
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		$this->tabs_gui->addSubTab('edit_settings', $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, 'editSettings'));
+		$this->tabs_gui->addSubTab('edit_settings', $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS));
 		$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 
 		$ilOrgUnitType = $this->object->getOrgUnitType();
@@ -508,7 +524,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				break;
 			case '':
 				switch ($cmd) {
-					case 'editSettings':
+					case self::CMD_EDIT_SETTINGS:
 						$this->tabs_gui->setSubTabActive('edit_settings');
 						break;
 					case 'editAdvancedSettings':
@@ -545,7 +561,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton('updateAdvancedSettings', $this->lng->txt('save'));
-		$form->addCommandButton('editSettings', $this->lng->txt('cancel'));
+		$form->addCommandButton(self::CMD_EDIT_SETTINGS, $this->lng->txt('cancel'));
 
 		return $form;
 	}
@@ -608,7 +624,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$form = new ilObjOrgUnitSettingsFormGUI($this, $this->object);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-			$this->ctrl->redirect($this, 'editSettings');
+			$this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
 		} else {
 			$this->tpl->setContent($form->getHTML());
 		}
@@ -618,11 +634,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	/**
 	 * @param $tpl
 	 */
-	public function showAdministrationPanel(&$tpl) {
-		parent::showAdministrationPanel($tpl);
+	public function showAdministrationPanel() {
+		parent::showAdministrationPanel();
+		global $DIC;
 		//an ugly encapsulation violation in order to remove the "verknüpfen"/"link" and copy button.
 		/** @var $toolbar ilToolbarGUI */
-		if (!$toolbar = $tpl->admin_panel_commands_toolbar) {
+		if (!$toolbar = $DIC->ui()->mainTemplate()->admin_panel_commands_toolbar) {
 			return;
 		}
 		if (is_array($toolbar->items)) {

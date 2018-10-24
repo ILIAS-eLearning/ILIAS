@@ -323,7 +323,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				}
 			}
 		}
-		$this->tpl->setVariable("REACHED", $data['reached'] . " " . strtolower($this->lng->txt("of")) . " " . $data['max']);
+		$reachedPercent = !$data['max'] ? 0 : $data['reached'] / $data['max'] * 100;
+		$reached = $data['reached']." ".strtolower($this->lng->txt("of"))." ".$data['max']." (".sprintf("%2.2f", $reachedPercent)." %)";
+		$this->tpl->setVariable("REACHED", $reached);
 		
 		if( $this->offeringQuestionHintsEnabled )
 		{

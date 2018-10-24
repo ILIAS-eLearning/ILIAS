@@ -44,7 +44,12 @@ class ilTimingAccepted
 	 */
 	public function __construct($crs_id,$a_usr_id)
 	{
-		global $ilErr,$ilDB,$lng,$tree;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
 
 		$this->ilErr =& $ilErr;
 		$this->db  =& $ilDB;
@@ -98,7 +103,9 @@ class ilTimingAccepted
 
 	function create()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "INSERT INTO crs_timings_usr_accept (crs_id,usr_id,visible,accept,remark) ".
 			"VALUES( ".
@@ -118,7 +125,9 @@ class ilTimingAccepted
 
 	function _delete($a_crs_id,$a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
 			"WHERE crs_id = ".$ilDB->quote($a_crs_id ,'integer')." ".
@@ -128,7 +137,9 @@ class ilTimingAccepted
 
 	function _deleteByCourse($a_crs_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
 			"WHERE crs_id = ".$ilDB->quote($a_crs_id ,'integer')." ";
@@ -137,7 +148,9 @@ class ilTimingAccepted
 
 	public static function _deleteByUser($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
@@ -146,7 +159,9 @@ class ilTimingAccepted
 
 	function __read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM crs_timings_usr_accept ".
 			"WHERE crs_id = ".$ilDB->quote($this->getCourseId() ,'integer')." ".

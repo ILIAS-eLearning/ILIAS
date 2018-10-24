@@ -158,8 +158,8 @@ class ilObjGroupAccess extends ilObjectAccess
 		include_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
 		{
-			include_once './Services/WebDAV/classes/class.ilDAVUtils.php';
-			if(ilDAVUtils::getInstance()->isLocalPasswordInstructionRequired())
+			include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
+			if(ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired())
 			{
 				$commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
 			}
@@ -337,7 +337,7 @@ class ilObjGroupAccess extends ilObjectAccess
 			if (!$registration_possible)
 			{
 				$registration_possible = false;
-				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_period');
+				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg');
 				$info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
 			}
 		}

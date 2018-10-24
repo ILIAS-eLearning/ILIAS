@@ -44,7 +44,8 @@ interface FileUpload {
 
 
 	/**
-	 * Moves a single UploadResult to the given destination.
+	 * Moves a single File (the attributes, metadata and upload-status of which are contained in UploadResult)
+	 * to the given destination. The destination is a relative path which refers to the path of the location.
 	 *
 	 * @param UploadResult $UploadResult Which upload result do you want to move?
 	 * @param string       $destination  Where do you want to move the file?

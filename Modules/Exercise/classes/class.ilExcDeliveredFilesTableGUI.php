@@ -38,7 +38,8 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt(""), "", "1", 1);
 		$this->addColumn($this->lng->txt("filename"), "filetitle");
 		
-		if($this->submission->getAssignment()->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if ($this->submission->getAssignment()->getAssignmentType()->usesTeams() &&
+			$this->submission->getAssignment()->getAssignmentType()->usesFileUpload())
 		{
 			// #11957
 			$this->lng->loadLanguageModule("file");
@@ -81,7 +82,8 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$date = new ilDateTime($file['timestamp14'],IL_CAL_TIMESTAMP);
 		$this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
 		
-		if($this->submission->getAssignment()->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if ($this->submission->getAssignment()->getAssignmentType()->usesTeams() &&
+			$this->submission->getAssignment()->getAssignmentType()->usesFileUpload())
 		{
 			$this->tpl->setVariable("DELIVERED_OWNER",
 				ilUserUtil::getNamePresentation($file["owner_id"]));

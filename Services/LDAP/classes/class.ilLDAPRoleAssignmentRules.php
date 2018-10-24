@@ -40,9 +40,6 @@ class ilLDAPRoleAssignmentRules
 	
 	/**
 	 * Get default global role
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 	 * @param int $a_server_id
 	 * @return 
 	 */
@@ -158,9 +155,6 @@ class ilLDAPRoleAssignmentRules
 		}
 		
 		// Check if there is minimum on global role
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 		$deassigned_global = 0;
 		foreach($roles as $role_data)
 		{
@@ -173,9 +167,6 @@ class ilLDAPRoleAssignmentRules
 		if(count($rbacreview->assignedGlobalRoles($a_usr_id)) == $deassigned_global)
 		{
 			$ilLog->info(': No global role left. Assigning to default role.');
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 			$roles[] = self::parseRole(
 				self::getDefaultRole($a_server_id),
 				self::ROLE_ACTION_ASSIGN
@@ -224,9 +215,6 @@ class ilLDAPRoleAssignmentRules
 		}
 		
 		// DONE: check for global role
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 		$found_global = false;
 		foreach($roles as $role_data)
 		{

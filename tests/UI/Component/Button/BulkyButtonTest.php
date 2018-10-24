@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 use \ILIAS\UI\Implementation\Component\Signal;
 
 /**
@@ -14,20 +15,20 @@ use \ILIAS\UI\Implementation\Component\Signal;
 class BulkyButtonTest extends ILIAS_UI_TestBase {
 
 	public function setUp() {
-		$this->factory = new \ILIAS\UI\Implementation\Factory();
-		$this->glyph = $this->factory->glyph()->briefcase();
-		$this->icon = $this->factory->icon()->standard('someExample', 'Example');
+		$this->button_factory = new I\Component\Button\Factory();
+		$this->glyph = new I\Component\Glyph\Glyph("briefcase", "briefcase");
+		$this->icon = new I\Component\Icon\Standard("someExample","Example", "small", false);
 	}
 
 	public function test_implements_factory_interface() {
 		$this->assertInstanceOf
 			( "ILIAS\\UI\\Component\\Button\\Bulky"
-			, $this->factory->button()->bulky($this->glyph, "label", "http://www.ilias.de")
+			, $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
 		);
 	}
 
 	public function test_construction_icon_type_wrong() {
-		$f = $this->factory->button();
+		$f = $this->button_factory;
 		try {
 			$f->bulky(new StdClass(), "", "http://www.ilias.de");
 			$this->assertFalse("This should not happen");
@@ -38,7 +39,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_construction_label_type_wrong() {
-		$f = $this->factory->button();
+		$f = $this->button_factory;
 		$icon = $this->createMock(ILIAS\UI\Component\Icon\Icon::class);
 		try {
 			$f->bulky($icon, 1, "http://www.ilias.de");
@@ -50,7 +51,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_construction_action_type_wrong() {
-		$f = $this->factory->button();
+		$f = $this->button_factory;
 		$icon = $this->createMock(ILIAS\UI\Component\Icon\Icon::class);
 		try {
 			$f->bulky($icon, "", 1);
@@ -62,7 +63,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_glyph_or_icon_for_glyph() {
-		$b = $this->factory->button()->bulky($this->glyph, "label", "http://www.ilias.de");
+		$b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
 		$this->assertEquals(
 			$this->glyph,
 			$b->getIconOrGlyph()
@@ -70,7 +71,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_glyph_or_icon_for_icon() {
-		$b = $this->factory->button()->bulky($this->icon, "label", "http://www.ilias.de");
+		$b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de");
 		$this->assertEquals(
 			$this->icon,
 			$b->getIconOrGlyph()
@@ -78,7 +79,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_engaged() {
-		$b = $this->factory->button()->bulky($this->glyph, "label", "http://www.ilias.de");
+		$b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
 		$this->assertFalse($b->isEngaged());
 
 		$b = $b->withEngagedState(true);
@@ -91,7 +92,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 
 	public function test_render_with_glyph_in_context() {
 		$r = $this->getDefaultRenderer();
-		$b = $this->factory->button()->bulky($this->glyph, "label", "http://www.ilias.de");
+		$b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
 
 		$expected = ''
 			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" aria-pressed="undefined">'
@@ -109,7 +110,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 
 	public function test_render_with_glyph_in_context_and_engaged() {
 		$r = $this->getDefaultRenderer();
-		$b = $this->factory->button()->bulky($this->glyph, "label", "http://www.ilias.de")
+		$b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
 				->withEngagedState(true);
 		$expected = ''
 			.'<button class="btn btn-bulky engaged" data-action="http://www.ilias.de" id="id_1" aria-pressed="true">'
@@ -127,7 +128,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 
 	public function test_render_with_icon() {
 		$r = $this->getDefaultRenderer();
-		$b = $this->factory->button()->bulky($this->icon, "label", "http://www.ilias.de");
+		$b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de");
 
 		$expected = ''
 			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" aria-pressed="undefined">'

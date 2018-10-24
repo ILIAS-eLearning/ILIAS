@@ -32,7 +32,10 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 	*/
 	function __construct()
 	{
-		global $ilias,$ilUser;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
 
 		parent::__construct();
 

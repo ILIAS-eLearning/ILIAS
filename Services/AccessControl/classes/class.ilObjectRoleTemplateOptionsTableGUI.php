@@ -19,6 +19,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	private $obj_ref_id = null;
 
 	private $show_admin_permissions = true;
+	private $show_options = true;
 
 	/**
 	 * Constructor
@@ -26,7 +27,11 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd, $a_obj_ref_id,$a_role_id,$a_show_admin_permissions = false)
 	{
-		global $ilCtrl,$rbacreview,$tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacreview = $DIC['rbacreview'];
+		$tpl = $DIC['tpl'];
 
 		$this->tpl_type = $a_type;
 		$this->show_admin_permissions = $a_show_admin_permissions;
@@ -56,6 +61,24 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 		
 		$this->setTopCommands(false);
 	}
+
+	/**
+	 * Set show options
+	 * @param bool show/hide options
+	 *
+	 */
+	public function setShowOptions($a_status)
+	{
+		$this->show_options = $a_status;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getShowOptions()
+	{
+		return $this->show_options;
+	}
 	
 	
 	/**
@@ -83,8 +106,16 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
+
+		if(!$this->getShowOptions())
+		{
+			return true;
+		}
+
 		if(isset($row['recursive']) and !$this->show_admin_permissions)
 		{
 			$this->tpl->setCurrentBlock('recursive');
@@ -119,13 +150,15 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $rbacreview, $objDefinition;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$objDefinition = $DIC['objDefinition'];
 		
 		$row[0]['recursive'] = 1;
 		$row[1]['protected'] = 1;
 		
 		$this->setData($row);
-		
 	}
 }
 ?>

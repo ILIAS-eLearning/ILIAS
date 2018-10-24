@@ -548,6 +548,7 @@
 @il-glyph-hover-color: @link-hover-color;
 @il-glyph-highlighted-color: @brand-warning;
 @il-glyph-highlighted-hover-color:  darken(@brand-warning, 15%);
+@il-glyph-disabled-color: #e0e0e0;
 
 
 //== Counter
@@ -703,13 +704,22 @@
 //
 //## Icons are used to represent (and quickly identify) objects.
 
-//**Size for icons: Small is used in the tree. e.g.
+//** Size for icons: Small is used in the tree. e.g.
 @icon-size-small: 20px;
-//**Size for icons: Medium is used in the content-listing. e.g.
+//** Size for icons: Medium is used in the content-listing. e.g.
 @icon-size-medium: 35px;
-//**Size for icons: Large is used in the header. e.g.
+//** Size for icons: Large is used in the header. e.g.
 @icon-size-large: 45px;
-
+//** Path for standard icons in ILIAS
+@il-standard-icon-path: @background-images-path;
+//** Path for standard icons in ILIAS
+@il-standard-outlined-icon-path: "@{il-standard-icon-path}outlined/";
+//** Standard filter for the outlined icons to be used (rendering them with a black outline). This may be different in each context.
+@il-standard-outlined-icon-filter: brightness(0);
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+@il-standard-disabled-icon-filter: grayscale(100%);
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+@il-standard-outlined-disabled-icon-filter: brightness(0.3);
 
 //== View Control
 //
@@ -726,3 +736,26 @@
 @il-card-highlight-bg: @brand-warning;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
+@il-card-repository-head-color: rgba(0,0,0,0.2);
+@il-card-repository-dropdown-border: #b0b0b0 1px solid;
+
+//== Workflow
+//
+//##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
+@workflow-icon-size: 20px;
+@workflow-icon-font-color: white;
+@workflow-available-text-color: #333;
+@workflow-unavailable-text-color: #ddd;
+
+//== Message Boxes
+//
+//##
+@il-messagebox-link-bullet: "\00BB \0020";
+@il-messagebox-margin-top: 10px;
+@il-messagebox-link-list-margin-top: 15px;
+
+//== Modal
+//
+//## Variables that modify and minpulate the appearance of modals
+//** Controls the speed of the fade in/out of the modal
+@il-modal-transition-speed: 0.15s;

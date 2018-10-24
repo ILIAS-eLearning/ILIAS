@@ -119,7 +119,9 @@ class ilECSCommunityCache
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(!$this->entryExists)
 		{
@@ -144,7 +146,9 @@ class ilECSCommunityCache
 	 */
 	protected function create()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'INSERT INTO ecs_community (sid,cid,own_id,cname,mids) '.
 			'VALUES( '.
@@ -165,7 +169,9 @@ class ilECSCommunityCache
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->entryExists = false;
 
@@ -185,7 +191,9 @@ class ilECSCommunityCache
 	
 	public static function deleteByServerId($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_community'.
 			' WHERE sid = '.$ilDB->quote($a_server_id,'integer');

@@ -64,7 +64,9 @@ class ilWikiContentSearch extends ilAbstractSearch
 	// Protected can be overwritten in Like or Fulltext classes
 	function __createInStatement()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getFilter() and !$this->getIdFilter())
 		{

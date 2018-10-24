@@ -42,7 +42,7 @@ class ilLPObjSettings
 	const LP_MODE_QUESTIONS = 17;
 	const LP_MODE_SURVEY_FINISHED = 18;
 	const LP_MODE_VISITED_PAGES = 19;
-	const LP_MODE_DOWNLOADED = 20;
+	const LP_MODE_CONTENT_VISITED = 20;
 	const LP_MODE_COLLECTION_MOBS = 21;
 	const LP_MODE_STUDY_PROGRAMME = 22;
 	const LP_MODE_INDIVIDUAL_ASSESSMENT = 23;
@@ -110,8 +110,8 @@ class ilLPObjSettings
 		,self::LP_MODE_VISITED_PAGES => array('ilLPStatusVisitedPages', 
 			'trac_mode_visited_pages', 'trac_mode_visited_pages_info') 
 		
-		,self::LP_MODE_DOWNLOADED => array('ilLPStatusDownloaded', 
-			'trac_mode_downloaded', 'trac_mode_downloaded_info')
+		,self::LP_MODE_CONTENT_VISITED => array('ilLPStatusContentVisited', 
+			'trac_mode_content_visited', 'trac_mode_content_visited_info')
 		
 		,self::LP_MODE_COLLECTION_MOBS => array('ilLPStatusCollectionMobs', 
 			'trac_mode_collection_mobs', 'trac_mode_collection_mobs_info')

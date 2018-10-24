@@ -25,7 +25,13 @@ class ilSettingsPermissionGUI
 	 */
 	function __construct($a_gui_obj)
 	{
-		global $objDefinition, $tpl, $ilCtrl, $lng, $rbacreview;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
 
 		$this->objDefinition = $objDefinition;
 		$this->tpl = $tpl;
@@ -53,7 +59,9 @@ class ilSettingsPermissionGUI
 	 */
 	function determineRoles()
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 
 		$roles = array();
 		foreach ($this->base_roles as $k => $r)
@@ -197,7 +205,9 @@ class ilSettingsPermissionGUI
 	 */
 	public function initPermissionForm()
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -251,7 +261,10 @@ class ilSettingsPermissionGUI
 	 */
 	public function save()
 	{
-		global $rbacreview, $rbacadmin;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacadmin = $DIC['rbacadmin'];
 
 		$form = $this->initPermissionForm();
 		if ($form->checkInput())

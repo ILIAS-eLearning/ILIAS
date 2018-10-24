@@ -207,7 +207,6 @@ il.UI = il.UI || {};
          */
         var init = function (uploadId, options) {
             options = $.extend({}, defaultOptions, options);
-            console.log(options.selectFilesButton[0]);
             var uploader = new qq.FineUploaderBasic({
                 autoUpload: options.autoUpload,
                 button: options.selectFilesButton ? options.selectFilesButton[0] : null,

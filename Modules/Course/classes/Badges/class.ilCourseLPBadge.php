@@ -21,7 +21,9 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
 	
 	public function getCaption()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		return $lng->txt("badge_course_lp");
 	}
 	

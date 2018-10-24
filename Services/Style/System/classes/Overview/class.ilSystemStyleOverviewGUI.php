@@ -343,18 +343,15 @@ class ilSystemStyleOverviewGUI
 	 */
 	protected function addSystemStyleForms()
 	{
-		/**
-		 * @var ilHelpGUI $ilHelp
-		 */
-		global $ilHelp, $DIC;
+		global $DIC;
 
 		$DIC->tabs()->clearTargets();
 		/**
 		 * Since clearTargets also clears the help screen ids
 		 */
-		$ilHelp->setScreenIdComponent("sty");
-		$ilHelp->setScreenId("system_styles");
-		$ilHelp->setSubScreenId("create");
+		$DIC->help()->setScreenIdComponent("sty");
+		$DIC->help()->setScreenId("system_styles");
+		$DIC->help()->setSubScreenId("create");
 
 		$forms = array();
 
@@ -666,18 +663,15 @@ class ilSystemStyleOverviewGUI
 	 */
 	protected function addSubStyle()
 	{
-		/**
-		 * @var ilHelpGUI $ilHelp
-		 */
-		global $ilHelp, $DIC;
+		global $DIC;
 
 		$DIC->tabs()->clearTargets();
 		/**
 		 * Since clearTargets also clears the help screen ids
 		 */
-		$ilHelp->setScreenIdComponent("sty");
-		$ilHelp->setScreenId("system_styles");
-		$ilHelp->setSubScreenId("create_sub");
+		$DIC->help()->setScreenIdComponent("sty");
+		$DIC->help()->setScreenId("system_styles");
+		$DIC->help()->setSubScreenId("create_sub");
 
 		$form = $this->addSubStyleForms();
 
@@ -742,16 +736,20 @@ class ilSystemStyleOverviewGUI
 
 				$container = ilSystemStyleSkinContainer::generateFromId($parent_skin_id);
 
-				$sub_style_id = $_POST['sub_style_id'];
+                if(array_key_exists($_POST['sub_style_id'],$container->getSkin()->getSubstylesOfStyle($parent_style_id))){
+                    throw new ilSystemStyleException(ilSystemStyleException::SUBSTYLE_ASSIGNMENT_EXISTS,$_POST['sub_style_id']);
+                }
 
-				$style = new ilSkinStyleXML($_POST['sub_style_id'], $_POST['sub_style_name']);
-				$style->setSubstyleOf($parent_style_id);
-				$container->addStyle($style);
+                $sub_style_id = $_POST['sub_style_id'];
 
-				$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','skin_id',$parent_skin_id);
-				$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','style_id',$sub_style_id);
-				ilUtil::sendSuccess($this->lng->txt("msg_sub_style_created"), true);
-				$this->ctrl->redirectByClass("ilSystemStyleSettingsGUI");
+                $style = new ilSkinStyleXML($_POST['sub_style_id'], $_POST['sub_style_name']);
+                $style->setSubstyleOf($parent_style_id);
+                $container->addStyle($style);
+
+                $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','skin_id',$parent_skin_id);
+                $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','style_id',$sub_style_id);
+                ilUtil::sendSuccess($this->lng->txt("msg_sub_style_created"), true);
+                $this->ctrl->redirectByClass("ilSystemStyleSettingsGUI");
 			}catch(ilSystemStyleException $e){
 				ilUtil::sendFailure($e->getMessage(), true);
 			}

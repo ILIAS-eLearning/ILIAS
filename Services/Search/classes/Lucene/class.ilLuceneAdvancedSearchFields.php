@@ -52,7 +52,9 @@ class ilLuceneAdvancedSearchFields
 	
 	protected function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$this->settings = ilLuceneAdvancedSearchSettings::getInstance();
 		
@@ -80,7 +82,9 @@ class ilLuceneAdvancedSearchFields
 	 */
 	public static function getFields()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule('meta');
 		

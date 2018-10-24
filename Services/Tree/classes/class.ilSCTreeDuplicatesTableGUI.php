@@ -27,7 +27,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 	public function init()
 	{
 		$this->setExternalSorting(TRUE);
-		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
+		$this->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this->getParentObject()));
 		
 		$this->setDisableFilterHiding(TRUE);
 		$this->setRowTemplate('tpl.sc_tree_duplicates_row.html', 'Services/Tree');
@@ -60,18 +60,18 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('DUP_ID',$a_set['id']);
 		
 		
-		$GLOBALS['ilLog']->write('---------------------------- '. print_r($duplicates,TRUE));
+		$GLOBALS['DIC']['ilLog']->write('---------------------------- '. print_r($duplicates,TRUE));
 		
 		foreach($duplicates as $a_id => $node)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': DUPPSSSSSSSSSSSSSSSSSSS '.print_r($node,TRUE));
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': DUPPSSSSSSSSSSSSSSSSSSS '.print_r($node,TRUE));
 			if($node['tree'] == 1)
 			{
 
 				include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
 				$childs = ilSCTreeTasks::getChilds($node['tree'],$node['child']);
 				
-				$GLOBALS['ilLog']->write(__METHOD__.': DUPPSSSSSSSSSSSSSSSSSSS CHILDSSSSSSSSSSS'.print_r($childs,TRUE));
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': DUPPSSSSSSSSSSSSSSSSSSS CHILDSSSSSSSSSSS'.print_r($childs,TRUE));
 				$start_depth = $node['depth'];
 
 				$this->fillObjectRow($node['tree'],$node['child'],$start_depth,'');
@@ -92,7 +92,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 			{
 				include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
 				$childs = ilSCTreeTasks::getChilds($node['tree'],$node['child']);
-				$GLOBALS['ilLog']->write(__METHOD__.': TRASJH DUPPSSSSSSSSSSSSSSSSSSS CHILDSSSSSSSSSSS'.print_r($childs,TRUE));
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': TRASJH DUPPSSSSSSSSSSSSSSSSSSS CHILDSSSSSSSSSSS'.print_r($childs,TRUE));
 
 				$start_depth = $node['depth'];
 
@@ -117,7 +117,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 	{
 		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
 		$child_data = ilSCTreeTasks::getNodeInfo($a_tree_id, $a_ref_id);
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($child_data,TRUE));
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($child_data,TRUE));
 
 		for($i = $a_start_depth; $i <= $child_data['depth']; $i++)
 		{

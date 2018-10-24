@@ -117,12 +117,14 @@ class ilRoleXmlExport extends ilXmlWriter
 	 */
 	private function writeRole($a_role_id, $a_rolf)
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 		
 		$attributes = array(
 			'type'	=> ilObject::_lookupType($a_role_id),
 			'id'	=> 'il_'.IL_INST_ID.'_'.ilObject::_lookupType($a_role_id).'_'.$a_role_id,
-			'protected' => ($GLOBALS['rbacreview']->isProtected($a_rolf,$a_role_id) ? 1 : 0)
+			'protected' => ($GLOBALS['DIC']['rbacreview']->isProtected($a_rolf,$a_role_id) ? 1 : 0)
 		);
 
 		$this->xmlStartTag('role',$attributes);
@@ -148,7 +150,9 @@ class ilRoleXmlExport extends ilXmlWriter
 	 */
 	private function initRbacOperations()
 	{
-		global $rbacreview;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
 
 		foreach($rbacreview->getOperations() as $operation)
 		{

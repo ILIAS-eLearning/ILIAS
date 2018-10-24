@@ -55,7 +55,10 @@ class ilECSTaskScheduler
 	 */
 	private function __construct(ilECSSetting $setting)
 	{
-	 	global $ilDB,$ilLog;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
+	 	$ilLog = $DIC['ilLog'];
 	 	
 	 	$this->db = $ilDB;
 		
@@ -145,7 +148,9 @@ class ilECSTaskScheduler
 	 */
 	public function startTaskExecution()
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		try
 		{
@@ -252,7 +257,7 @@ class ilECSTaskScheduler
 					$this->log->warning('Unknown type in queue, raising new event handling event: '. $event['type']);
 					$event_ignored = true;
 					
-					$GLOBALS['ilAppEventHandler']->raise(
+					$GLOBALS['DIC']['ilAppEventHandler']->raise(
 						'Services/WebServices/ECS',
 						'newEcsEvent',
 						array('event' => $event)
@@ -314,7 +319,9 @@ class ilECSTaskScheduler
 	 */
 	private function handleDeprecatedAccounts()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT usr_id FROM usr_data WHERE auth_mode = 'ecs' ".
 	 		"AND time_limit_until < ".time()." ".
@@ -374,7 +381,9 @@ class ilECSTaskScheduler
 	 */
 	public function checkNextExecution()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 
 	 	
 	 	if(!$this->settings->isEnabled())
@@ -414,7 +423,9 @@ class ilECSTaskScheduler
 	 */
 	protected function initNextExecution()
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		// Start task execution as backend process
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
@@ -423,7 +434,7 @@ class ilECSTaskScheduler
 		$soap_client->setResponseTimeout(1);
 		$soap_client->enableWSDL(true);
 
-		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
+		$new_session_id = ilSession::_duplicate($_COOKIE[session_name()]);
 		$client_id = $_COOKIE['ilClientId'];
 
 		if($soap_client->init() and 0)

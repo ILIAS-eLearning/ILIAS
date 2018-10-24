@@ -47,7 +47,7 @@ function base() {
 						'Fee: ' => $record['fee']
 					)
 				)
-				->withActions(
+				->withAction(
 					$ui_factory->button()->standard('book course', '#')
 				);
 		}

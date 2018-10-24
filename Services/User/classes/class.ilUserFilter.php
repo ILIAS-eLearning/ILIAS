@@ -50,7 +50,9 @@ class ilUserFilter
 	 */
 	public function filter($a_user_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!ilUserAccountSettings::getInstance()->isUserAccessRestricted())
 		{

@@ -62,11 +62,16 @@ class ilBiblEntryTableGUI extends ilTable2GUI {
 
 
 	public function initFilter() {
-		foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObjId()) as $filter) {
-			$filter_presentation = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
-			$field = $filter_presentation->getFilterItem();
-			$this->addAndReadFilterItem($field);
-			$this->filter_objects[$field->getPostVar()] = $filter;
+		$available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
+
+		foreach ($available_fields_for_object as $available_field) {
+			$filter = $this->facade->filterFactory()->findByFieldId($available_field->getId());
+			if (!empty($filter)) {
+				$filter_presentation = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
+				$field = $filter_presentation->getFilterItem();
+				$this->addAndReadFilterItem($field);
+				$this->filter_objects[$field->getPostVar()] = $filter;
+			}
 		}
 	}
 
@@ -102,7 +107,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI {
 		foreach ($libraries as $library) {
 			if ($library->getShowInList()) {
 				$presentation = new ilBiblLibraryPresentationGUI($library, $this->facade);
-				$arr_library_link[] = $presentation->getButton($this->parent_obj->object, $ilBiblEntry);
+				$arr_library_link[] = $presentation->getButton($this->facade, $ilBiblEntry);
 			}
 		}
 		if (count($arr_library_link)) {

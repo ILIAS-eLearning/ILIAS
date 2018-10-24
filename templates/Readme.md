@@ -8,9 +8,8 @@ content.
 
 ## Custom Styles
 
-System Styles may be customized by creating custom System Styles. Those styles
-allow to override the default System Style of ILIAS. Custom styles have to be
-placed in the `./Customizing/global/skin` directory to be active. n have
+System Styles may be customized by creating custom System Styles. Custom styles have
+to be placed in the `./Customizing/global/skin` directory to be active. One may have
 multiple substyles which may be active for different branches of the repository.
 
 ### Tools
@@ -28,6 +27,8 @@ or
 ```
 apt-get install node-less
 ```
+If you want to create system styles throught frontend, make sure, that your webserver
+has the permission to read and execute your newly installed less compiler.
 
 ### How-To 1 (Through Frontend)
 
@@ -177,6 +178,45 @@ may refer to:
 
 [Installation and Maintenance » Change the ILIAS
 icon](http://www.ilias.de/docu/goto_docu_pg_68691_367.html)
+
+
+#### Optional: Configuring lessc on OSX with MAMP
+
+This exlpains how to adjust your MAMP installation to work with System Styles in Ilias on OSX.
+
+First you have to Install Xcode Command Line Tools. Then execute:
+```
+xcode-select --install
+Install Node.js 
+cd /Applications/MAMP/
+git clone https://github.com/nodejs/node.git
+cd node
+./configure
+make
+sudo make install
+Install Less + lessc
+sudo npm install -g less
+```
+
+Edit the File Applications/MAMP/Library/bin/envars.
+Add the line export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin" to the envars file. 
+Make sure that all the other lines are commented (an # is added in front of the line).
+
+Edit the file Applications/MAMP/Library/bin/envars_std
+Make sure that every line is commented. (an # is added in front of the line).
+
+Change the rights on the files. Open a Terminal and execute:
+```
+chmod -R 777 /Application/MAMP/Library/bin
+```
+
+Note that this is only a good option for a local test environment in some protected enironment. Give more sensitive
+Permission rights if there is possible access from the outsite.
+
+Activate System Styles in Ilias
+In a Browser go to localhost:8888/setup/setup.php and Login using the Master-Password. Under “Basic Settings” activate “Manage System Styles”.
+Set the lessc Path to /usr/local/bin/lessc
+
 
 ### Migration
 

@@ -22,7 +22,7 @@ class ilMailAddress
 	 * @param string $mailbox
 	 * @param string $host
 	 */
-	public function __construct($mailbox, $host)
+	public function __construct(string $mailbox, string $host)
 	{
 		$this->mailbox = $mailbox;
 		$this->host    = $host;
@@ -31,7 +31,7 @@ class ilMailAddress
 	/**
 	 * @param string $host
 	 */
-	public function setHost($host)
+	public function setHost(string $host)
 	{
 		$this->host = $host;
 	}
@@ -39,7 +39,7 @@ class ilMailAddress
 	/**
 	 * @param string $mailbox
 	 */
-	public function setMailbox($mailbox)
+	public function setMailbox(string $mailbox)
 	{
 		$this->mailbox = $mailbox;
 	}
@@ -47,7 +47,7 @@ class ilMailAddress
 	/**
 	 * @return string
 	 */
-	public function getHost()
+	public function getHost(): string
 	{
 		return $this->host;
 	}
@@ -55,7 +55,7 @@ class ilMailAddress
 	/**
 	 * @return string
 	 */
-	public function getMailbox()
+	public function getMailbox(): string
 	{
 		return $this->mailbox;
 	}

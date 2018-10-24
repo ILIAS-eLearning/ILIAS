@@ -87,7 +87,10 @@ class ilSecuritySettings
 	private function __construct()
 	{
 
-		global $ilSetting,$ilDB;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;
 		$this->settings = $ilSetting;
@@ -312,7 +315,9 @@ class ilSecuritySettings
 	  */
 	 public function checkAdminRoleAccessible($a_usr_id)
 	 {
-		 global $rbacreview;
+		 global $DIC;
+
+		 $rbacreview = $DIC['rbacreview'];
 		 
 		 if(!$this->isAdminRoleProtected())
 		 {
@@ -357,7 +362,9 @@ class ilSecuritySettings
 	 */
 	private function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 	    $query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
 				"WHERE tree.parent = ".$ilDB->quote(SYSTEM_FOLDER_ID,'integer')." ".

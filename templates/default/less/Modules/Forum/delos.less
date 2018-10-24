@@ -40,9 +40,15 @@ div.ilForumQuoteHead {
 	overflow: hidden;
 	img {
 		vertical-align: top;
-		padding: 5px 20px 5px 5px;
+		margin: 5px 20px 5px 5px;
 		border: none;
+	}
+	img[src*="data:image/"] {
 		max-width: 100%;
+		@media only screen and (min-width: @grid-float-breakpoint) {
+			margin: 0 !important;
+			padding: 5px 20px 5px 5px;
+		}
 	}
 }
 
@@ -74,7 +80,7 @@ div.ilFrmPostHeader span.small {
 		width: 100%;
 	}
 	img {
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
+		@media only screen {
 			width: 100%;
 			height: auto !important;
 		}

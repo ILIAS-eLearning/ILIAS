@@ -12,6 +12,7 @@ interface Icon extends \ILIAS\UI\Component\Component {
 	const SMALL = 'small';
 	const MEDIUM = 'medium';
 	const LARGE = 'large';
+	const RESPONSIVE = 'responsive';
 
 	/**
 	 * Get the name of the icon.
@@ -58,5 +59,20 @@ interface Icon extends \ILIAS\UI\Component\Component {
 	 * @return string
 	 */
 	public function getSize();
+
+	/**
+	 * Is the Icon disabled?
+	 *
+	 * @return bool
+	 */
+	public function isDisabled();
+
+	/**
+	 * Get an icon like this, but marked as disabled.
+	 *
+	 * @param bool $is_disabled
+	 * @return Icon
+	 */
+	public function withDisabled($is_disabled);
 
 }

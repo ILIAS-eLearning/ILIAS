@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Class ilDclBooleanFieldModel
  *
@@ -14,11 +13,12 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel {
 	 *
 	 * @return null|ilDclRecordQueryObject
 	 */
-	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false){
+	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
 		$join_str .= "LEFT JOIN object_reference AS sort_object_reference_{$this->getId()} ON (sort_object_reference_{$this->getId()}.ref_id = sort_stloc_{$this->getId()}.value AND sort_object_reference_{$this->getId()}.deleted IS NULL)";
@@ -31,12 +31,12 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel {
 				. $ilDB->quote($ilUser->getId(), 'integer') . ") ";
 		}
 
-		$select_str = (! $sort_by_status) ? " sort_object_data_{$this->getId()}.title AS field_{$this->getId()}," : " ut.status AS field_{$this->getId()}";
+		$select_str = (!$sort_by_status) ? " sort_object_data_{$this->getId()}.title AS field_{$this->getId()}," : " ut.status AS field_{$this->getId()}";
 
 		$sql_obj = new ilDclRecordQueryObject();
 		$sql_obj->setSelectStatement($select_str);
 		$sql_obj->setJoinStatement($join_str);
-		$sql_obj->setOrderStatement("field_{$this->getId()} ".$direction);
+		$sql_obj->setOrderStatement("field_{$this->getId()} " . $direction);
 
 		return $sql_obj;
 	}
@@ -53,7 +53,8 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$join_str = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id) ";
 		$join_str .= "INNER JOIN object_reference AS filter_object_reference_{$this->getId()} ON (filter_object_reference_{$this->getId()}.ref_id = filter_stloc_{$this->getId()}.value ) ";
@@ -65,6 +66,7 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel {
 
 		return $sql_obj;
 	}
+
 
 	/**
 	 * @inheritDoc

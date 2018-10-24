@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObjectGUI.php';
-
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Michael Jansen <mjansen@databay.de>
@@ -61,7 +59,6 @@ class ilObjMailGUI extends ilObjectGUI
 
 		switch ($next_class) {
 			case 'ilpermissiongui':
-				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -71,7 +68,6 @@ class ilObjMailGUI extends ilObjectGUI
 					$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
 				}
 
-				require_once 'Services/Mail/classes/class.ilMailTemplateGUI.php';
 				$this->ctrl->forwardCommand(new ilMailTemplateGUI($this->object));
 				break;
 
@@ -211,7 +207,6 @@ class ilObjMailGUI extends ilObjectGUI
 	 */
 	protected function getGeneralSettingsForm()
 	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 
 		$form->setFormAction($this->ctrl->getFormAction($this, 'save'));
@@ -233,6 +228,11 @@ class ilObjMailGUI extends ilObjectGUI
 		));
 		$this->ctrl->clearParametersByClass('ilobjuserfoldergui');
 		$form->addItem($incoming_mail_gui);
+
+		$show_mail_settings_gui = new ilCheckboxInputGUI($this->lng->txt('show_mail_settings'), 'show_mail_settings');
+		$show_mail_settings_gui->setInfo($this->lng->txt('show_mail_settings_info'));
+		$show_mail_settings_gui->setValue(1);
+		$form->addItem($show_mail_settings_gui);
 
 		$ti = new ilNumberInputGUI($this->lng->txt('mail_maxsize_attach'), 'mail_maxsize_attach');
 		$ti->setSuffix($this->lng->txt('kb'));
@@ -257,7 +257,6 @@ class ilObjMailGUI extends ilObjectGUI
 		$cron_mail->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($cron_mail);
 
-		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
 		ilAdministrationSettingsFormHandler::addFieldsToForm(
 			ilAdministrationSettingsFormHandler::FORM_MAIL,
 			$form,
@@ -281,6 +280,7 @@ class ilObjMailGUI extends ilObjectGUI
 			'incoming_type'            => (int)$this->settings->get('mail_incoming_mail'),
 			'mail_address_option'      => strlen($this->settings->get('mail_address_option')) ? $this->settings->get('mail_address_option') : ilMailOptions::FIRST_EMAIL,
 			'mail_address_option_both' => strlen($this->settings->get('mail_address_option')) ? $this->settings->get('mail_address_option') : ilMailOptions::FIRST_EMAIL,
+			'show_mail_settings' => $this->settings->get('show_mail_settings', 1),
 			'mail_maxsize_attach'      => $this->settings->get('mail_maxsize_attach'),
 			'mail_notification'        => $this->settings->get('mail_notification')
 		));
@@ -310,6 +310,8 @@ class ilObjMailGUI extends ilObjectGUI
 
 			$this->settings->set('mail_allow_external', (int)$form->getInput('mail_allow_external'));
 			$this->settings->set('mail_incoming_mail', $incoming_type);
+			$this->settings->set('show_mail_settings', (int) $form->getInput('show_mail_settings'));
+
 			$this->settings->set('mail_address_option', $mail_address_option);
 			$this->settings->set('mail_maxsize_attach', $form->getInput('mail_maxsize_attach'));
 			$this->settings->set('mail_notification', (int)$form->getInput('mail_notification'));
@@ -339,8 +341,6 @@ class ilObjMailGUI extends ilObjectGUI
 		}
 
 		if (strlen($GLOBALS['DIC']->user()->getEmail()) > 0) {
-			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-
 			$btn = ilLinkButton::getInstance();
 			$btn->setUrl($this->ctrl->getLinkTarget($this, 'sendTestUserMail'));
 			$btn->setCaption('mail_external_send_test_usr');
@@ -378,7 +378,6 @@ class ilObjMailGUI extends ilObjectGUI
 			return $this->showExternalSettingsFormObject();
 		}
 
-		require_once 'Services/Mail/classes/class.ilMail.php';
 		if ($is_manual_mail) {
 			$mail = new ilMail($GLOBALS['DIC']->user()->getId());
 			$type = array('normal');
@@ -400,7 +399,6 @@ class ilObjMailGUI extends ilObjectGUI
 	 */
 	protected function getExternalSettingsForm()
 	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveExternalSettingsForm'));
@@ -467,6 +465,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$user_from_address = new ilEMailInputGUI($this->lng->txt('mail_system_usr_from_addr'),
 			'mail_system_usr_from_addr');
+		$user_from_address->setInfo($this->lng->txt('mail_system_usr_from_addr_info'));
 		$user_from_address->setRequired(true);
 		$user_from_address->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($user_from_address);
@@ -489,6 +488,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$system_from_addr = new ilEMailInputGUI($this->lng->txt('mail_system_sys_from_addr'),
 			'mail_system_sys_from_addr');
+		$system_from_addr->setInfo($this->lng->txt('mail_system_sys_from_addr_info'));
 		$system_from_addr->setRequired(true);
 		$system_from_addr->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($system_from_addr);
@@ -516,7 +516,6 @@ class ilObjMailGUI extends ilObjectGUI
 		$signature->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($signature);
 
-		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
 		$placeholders = new ilManualPlaceholderInputGUI('mail_system_sys_signature');
 		foreach (array(
 			         array('placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')),
@@ -618,7 +617,6 @@ class ilObjMailGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		require_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($DIC->user()->getId());
 
 		if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {

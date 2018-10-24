@@ -257,7 +257,7 @@ class ilObject
 		}
 
 		$this->id = $obj["obj_id"];
-		
+
 		// check type match (the "xxx" type is used for the unit test)
 		if ($this->type != $obj["type"] && $obj["type"] != "xxx")
 		{
@@ -1806,7 +1806,7 @@ class ilObject
 		}
 		else
 		{
-			include_once("./Services/Component/classes/class.ilObjectPlugin.php");
+			require_once("Services/Repository/classes/class.ilObjectPlugin.php");
 			$options[0] = ilObjectPlugin::lookupTxtById($new_type, "obj_".$new_type."_select");
 		}
 
@@ -1909,6 +1909,11 @@ class ilObject
 		$res = $ilDB->manipulate($query);
 		// END WebDAV: Clone WebDAV properties
 
+		/** @var \ilObjectCustomIconFactory  $customIconFactory */
+		$customIconFactory = $DIC['object.customicons.factory'];
+		$customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
+		$customIcon->copy($new_obj->getId());
+
 		$ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
 			'object'             => $new_obj,
 			'cloned_from_object' => $this,
@@ -1977,7 +1982,7 @@ class ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php' ;
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php' ;
 		ilConditionHandler::cloneDependencies($this->getRefId(),$a_target_id,$a_copy_id);
 		
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
@@ -2008,16 +2013,19 @@ class ilObject
 		$md->cloneMD($target_obj->getId(),0,$target_obj->getType());
 		return true;	 	
 	}
-	
+
 	/**
-	* Get icon for repository item.
-	*
-	* @param	int			object id
-	* @param	string		size (big, small, tiny)
-	* @param	string		object type
-	* @param	boolean		true: offline, false: online
-	*/
-	public static function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
+	 * Get icon for repository item.
+	 *
+	 * @param    int            object id
+	 * @param    string        size (big, small, tiny)
+	 * @param    string        object type
+	 * @param    boolean        true: offline, false: online
+	 */
+	public static function _getIcon(
+		$a_obj_id = "",
+		$a_size = "big",
+		$a_type = "",
 		$a_offline = false)
 	{
 		global $DIC;
@@ -2040,23 +2048,19 @@ class ilObject
 			$a_size = "big";
 		}
 
-		if ($ilSetting->get("custom_icons") &&
-			in_array($a_type, array("cat","grp","crs", "root", "fold", "prg")))
-		{
-			require_once("./Services/Container/classes/class.ilContainer.php");
-			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_custom"))
-			{
-				$cont_dir = ilContainer::_getContainerDirectory($a_obj_id);
-
-				$file_name = $cont_dir."/icon_custom.svg";
-				if (is_file($file_name))
-				{
-					// prevent caching
-					return $file_name."?tmp=".filemtime($file_name);
-				}
+		if(
+			$a_obj_id &&
+			$ilSetting->get('custom_icons')
+		) {
+			/** @var \ilObjectCustomIconFactory  $customIconFactory */
+			$customIconFactory = $DIC['object.customicons.factory'];
+			$customIcon = $customIconFactory->getPresenterByObjId((int)$a_obj_id, (string)$a_type);
+			if ($customIcon->exists()) {
+				$filename = $customIcon->getFullPath();
+				return $filename . '?tmp=' . filemtime($filename);
 			}
 		}
-		
+
 		if (!$a_offline)
 		{			
 			if ($objDefinition->isPluginTypeName($a_type))

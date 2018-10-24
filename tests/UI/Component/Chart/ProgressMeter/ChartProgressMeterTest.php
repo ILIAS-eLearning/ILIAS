@@ -6,25 +6,27 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation as I;
 
 /**
  * Test on ProgressMeter implementation.
  */
 class ChartProgressMeterTest extends ILIAS_UI_TestBase
 {
+	protected function getFactory() {
+		return new I\Component\Chart\ProgressMeter\Factory();
+	}
+
     public function test_implements_factory_interface()
     {
-        $f = new \ILIAS\UI\Implementation\Factory();
+        $progressmeter = $this->getFactory();
 
-        $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
-        $progressmeter = $f->chart()->progressMeter();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Factory", $progressmeter);
     }
 
     public function test_get_instances()
     {
-        $f = new \ILIAS\UI\Implementation\Factory();
-        $progressmeter = $f->chart()->progressMeter();
+        $progressmeter = $this->getFactory();
 
         $standard = $progressmeter->standard(400, 250);
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Standard", $standard);
@@ -38,8 +40,8 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
 
     public function test_get_values_of_standard()
     {
-        $f = new \ILIAS\UI\Implementation\Factory();
-        $standard = $f->chart()->progressMeter()->standard(400, 250, 300, 200);
+        $f = $this->getFactory();
+        $standard = $f->standard(400, 250, 300, 200);
 
         $this->assertEquals($standard->getMaximum(), 400);
         $this->assertEquals($standard->getMainValue(), 250);
@@ -52,8 +54,8 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
 
     public function test_get_values_of_fixedSize()
     {
-        $f = new \ILIAS\UI\Implementation\Factory();
-        $fixedSize = $f->chart()->progressMeter()->fixedSize(400, 250, 300, 200);
+        $f = $this->getFactory();
+        $fixedSize = $f->fixedSize(400, 250, 300, 200);
 
         $this->assertEquals($fixedSize->getMaximum(), 400);
         $this->assertEquals($fixedSize->getMainValue(), 250);
@@ -66,8 +68,8 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
 
     public function test_get_values_of_mini()
     {
-        $f = new \ILIAS\UI\Implementation\Factory();
-        $mini = $f->chart()->progressMeter()->mini(400, 250, 300);
+        $f = $this->getFactory();
+        $mini = $f->mini(400, 250, 300);
 
         $this->assertEquals($mini->getMaximum(), 400);
         $this->assertEquals($mini->getMainValue(), 250);
@@ -79,8 +81,8 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
     public function test_render_standard_two_bar()
     {
         $r = $this->getDefaultRenderer();
-        $f = new \ILIAS\UI\Implementation\Factory();
-        $standard = $f->chart()->progressMeter()->standard(400, 250, 300, 200);
+        $f = $this->getFactory();
+        $standard = $f->standard(400, 250, 300, 200);
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Standard", $standard);
 
@@ -92,11 +94,11 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '    <div class="il-chart-progressmeter-marker-box" style="transform: rotate(57.5deg)">' .
             '      <div class="il-chart-progressmeter-marker"><div class="il-chart-progressmeter-arrow"></div></div>' .
             '    </div>' .
-            '    <div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">' .
+            '    <div class="il-chart-progressmeter-outerbox il-chart-progressmeter-bar-no-success">' .
             '      <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-progressmeter-innerbox    ">' .
+            '      <div class="il-chart-progressmeter-innerbox">' .
             '        <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(51.615deg)"></div>' .
             '        <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(12.385deg) skew(51.615deg)"></div>' .
             '        <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(49.77deg) skew(51.615deg)"></div>' .
@@ -120,8 +122,8 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
     public function test_render_fixedSize_one_bar()
     {
         $r = $this->getDefaultRenderer();
-        $f = new \ILIAS\UI\Implementation\Factory();
-        $fixedSize = $f->chart()->progressMeter()->fixedSize(400, 250, 300);
+        $f = $this->getFactory();
+        $fixedSize = $f->fixedSize(400, 250, 300);
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\FixedSize", $fixedSize);
 
@@ -133,7 +135,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '    <div class="il-chart-progressmeter-marker-box" style="transform: rotate(57.5deg)">' .
             '      <div class="il-chart-progressmeter-marker"><div class="il-chart-progressmeter-arrow"></div></div>' .
             '    </div>' .
-            '    <div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">' .
+            '    <div class="il-chart-progressmeter-outerbox il-chart-progressmeter-bar-no-success">' .
             '      <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
@@ -155,8 +157,8 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
     public function test_render_mini()
     {
         $r = $this->getDefaultRenderer();
-        $f = new \ILIAS\UI\Implementation\Factory();
-        $mini = $f->chart()->progressMeter()->mini(400, 250, 300);
+        $f = $this->getFactory();
+        $mini = $f->mini(400, 250, 300);
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Mini", $mini);
 
@@ -168,7 +170,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '    <div class="il-chart-progressmeter-marker-box" style="transform: rotate(57.5deg)">' .
             '      <div class="il-chart-progressmeter-mini-marker"></div>' .
             '    </div>' .
-            '    <div class="il-chart-progressmeter-outerbox   il-chart-progressmeter-bar-no-success  ">' .
+            '    <div class="il-chart-progressmeter-outerbox il-chart-progressmeter-bar-no-success">' .
             '      <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .

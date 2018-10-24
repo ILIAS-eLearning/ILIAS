@@ -22,7 +22,9 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -58,7 +60,9 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->tpl->setVariable('LANGID',$a_set['key']);
 		$this->tpl->setVariable('LANGKEY_CHECKED',$a_set['status'] ? 'checked="checked' : '');
@@ -91,7 +95,9 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 	 */
 	protected function initTable()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate('tpl.auth_login_page_editor_table_row.html','Services/Authentication');

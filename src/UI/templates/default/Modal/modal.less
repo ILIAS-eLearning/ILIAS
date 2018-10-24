@@ -1,0 +1,30 @@
+.modal {
+	&.fade{
+		transition-property: opacity;
+		transition-duration: @il-modal-transition-speed;
+		transition-timing-function: linear;
+		transition-delay: 0s;
+
+		.modal-dialog {
+			.transition-transform(~"@{il-modal-transition-speed} ease-out");
+		}
+	}
+}
+
+.carousel.slide.text-only {
+	.carousel-inner {
+		min-height: 400px;
+	}
+
+	.carousel-indicators li {
+		border-color: black;
+
+		&.active {
+			background-color: black;
+		}
+	}
+
+	.carousel-control {
+		background: none !important;
+	}
+}

@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -44,6 +43,7 @@ class ilDclTableEditGUI {
 	 * @var ilPropertyFormGUI
 	 */
 	protected $form;
+
 
 	/**
 	 * Constructor
@@ -129,28 +129,28 @@ class ilDclTableEditGUI {
 	 */
 	public function getValues() {
 		$values = array(
-			'title' => $this->table->getTitle(),
-			'add_perm' => (int) $this->table->getAddPerm(),
-			'edit_perm' => (int) $this->table->getEditPerm(),
-			'edit_perm_mode' => $this->table->getEditByOwner() ? 'own' : 'all',
-			'delete_perm' => (int) $this->table->getDeletePerm(),
-			'delete_perm_mode' => $this->table->getDeleteByOwner() ? 'own' : 'all',
-			'export_enabled' => $this->table->getExportEnabled(),
-			'import_enabled' => $this->table->getImportEnabled(),
-			'limited' => $this->table->getLimited(),
-			'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), - 8),
-			'limit_end' => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), - 8),
-			'default_sort_field' => $this->table->getDefaultSortField(),
+			'title'                    => $this->table->getTitle(),
+			'add_perm'                 => (int)$this->table->getAddPerm(),
+			'edit_perm'                => (int)$this->table->getEditPerm(),
+			'edit_perm_mode'           => $this->table->getEditByOwner() ? 'own' : 'all',
+			'delete_perm'              => (int)$this->table->getDeletePerm(),
+			'delete_perm_mode'         => $this->table->getDeleteByOwner() ? 'own' : 'all',
+			'export_enabled'           => $this->table->getExportEnabled(),
+			'import_enabled'           => $this->table->getImportEnabled(),
+			'limited'                  => $this->table->getLimited(),
+			'limit_start'              => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), -8),
+			'limit_end'                => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), -8),
+			'default_sort_field'       => $this->table->getDefaultSortField(),
 			'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
-			'description' => $this->table->getDescription(),
-			'view_own_records_perm' => $this->table->getViewOwnRecordsPerm(),
-			'save_confirmation' => $this->table->getSaveConfirmation(),
+			'description'              => $this->table->getDescription(),
+			'view_own_records_perm'    => $this->table->getViewOwnRecordsPerm(),
+			'save_confirmation'        => $this->table->getSaveConfirmation(),
 		);
 		if (!$this->table->getLimitStart()) {
-			$values['limit_start'] = NULL;
+			$values['limit_start'] = null;
 		}
 		if (!$this->table->getLimitEnd()) {
-			$values['limit_end'] = NULL;
+			$values['limit_end'] = null;
 		}
 		$this->form->setValuesByArray($values);
 	}
@@ -161,18 +161,18 @@ class ilDclTableEditGUI {
 	 */
 	public function getStandardValues() {
 		$values = array(
-			'title' => "",
-			'add_perm' => 1,
-			'edit_perm' => 1,
-			'edit_perm_mode' => 'own',
+			'title'            => "",
+			'add_perm'         => 1,
+			'edit_perm'        => 1,
+			'edit_perm_mode'   => 'own',
 			'delete_perm_mode' => 'own',
-			'delete_perm' => 1,
-			'edit_by_owner' => 1,
-			'export_enabled' => 0,
-			'import_enabled' => 0,
-			'limited' => 0,
-			'limit_start' => NULL,
-			'limit_end' => NULL
+			'delete_perm'      => 1,
+			'edit_by_owner'    => 1,
+			'export_enabled'   => 0,
+			'import_enabled'   => 0,
+			'limited'          => 0,
+			'limit_start'      => null,
+			'limit_end'        => null,
 		);
 		$this->form->setValuesByArray($values);
 	}
@@ -204,9 +204,9 @@ class ilDclTableEditGUI {
 			$this->createTableSwitcher();
 
 			$item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
-            $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
+			$item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
 			$fields = $this->table->getFields();
-			$options = array( 0 => $this->lng->txt('dcl_please_select') );
+			$options = array(0 => $this->lng->txt('dcl_please_select'));
 			foreach ($fields as $field) {
 				if ($field->getId() == 'comments') {
 					continue;
@@ -217,14 +217,14 @@ class ilDclTableEditGUI {
 			$this->form->addItem($item);
 
 			$item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field_order'), 'default_sort_field_order');
-			$options = array( 'asc' => $this->lng->txt('dcl_asc'), 'desc' => $this->lng->txt('dcl_desc') );
+			$options = array('asc' => $this->lng->txt('dcl_asc'), 'desc' => $this->lng->txt('dcl_desc'));
 			$item->setOptions($options);
 			$this->form->addItem($item);
 		}
 
 		$item = new ilTextAreaInputGUI($this->lng->txt('additional_info'), 'description');
 		$item->setUseRte(true);
-        $item->setInfo($this->lng->txt('dcl_additional_info_desc'));
+		$item->setInfo($this->lng->txt('dcl_additional_info_desc'));
 		//        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
 		$item->setRteTagSet('mini');
 		$this->form->addItem($item);
@@ -301,14 +301,15 @@ class ilDclTableEditGUI {
 		}
 	}
 
+
 	/**
 	 *
 	 */
-	public function doTableSwitch()
-	{
+	public function doTableSwitch() {
 		$this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
 		$this->ctrl->redirect($this, "edit");
 	}
+
 
 	/**
 	 * save
@@ -321,6 +322,7 @@ class ilDclTableEditGUI {
 
 		if (!ilObjDataCollectionAccess::checkActionForObjId('write', $this->obj_id)) {
 			$this->accessDenied();
+
 			return;
 		}
 
@@ -399,7 +401,7 @@ class ilDclTableEditGUI {
 			}
 		}
 
-		if (! $return) {
+		if (!$return) {
 			ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
 		}
 
@@ -440,6 +442,7 @@ class ilDclTableEditGUI {
 		$this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
 	}
 
+
 	/*
 	  * delete
 	  */
@@ -472,7 +475,7 @@ class ilDclTableEditGUI {
 	 */
 	protected function createTableSwitcher() {
 		// Show tables
-				$tables = $this->parent_object->getDataCollectionObject()->getTables();
+		$tables = $this->parent_object->getDataCollectionObject()->getTables();
 
 		foreach ($tables as $table) {
 			$options[$table->getId()] = $table->getTitle(); //TODO order tables

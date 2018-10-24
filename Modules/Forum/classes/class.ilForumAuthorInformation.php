@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
-require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
-
 /**
  * ilForumAuthorInformation
  * @author  Michael Jansen <mjansen@databay.de>
@@ -203,8 +200,6 @@ class ilForumAuthorInformation
 	 */
 	protected function init()
 	{
-		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
-
 		$translationLanguage = $this->globalLng;
 		if ($this->lng instanceof \ilLanguage) {
 			$translationLanguage = $this->lng;
@@ -347,7 +342,7 @@ class ilForumAuthorInformation
 		}
 		else
 		{
-			return trim(preg_replace('/\(' . $this->getAuthorShortName() . '\)/', '', $this->author_name));
+			return trim(preg_replace('/\(' . preg_quote($this->getAuthorShortName()) . '\)/', '', $this->author_name));
 		}
 	}
 

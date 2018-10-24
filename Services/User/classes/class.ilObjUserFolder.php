@@ -153,9 +153,15 @@ class ilObjUserFolder extends ilObject
 		include_once './Services/User/classes/class.ilUserDefinedData.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
 
-		global $rbacreview;
-		global $ilDB;
-		global $log;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$log = $DIC['log'];
 
 		$file = fopen($filename, "w");
 
@@ -353,7 +359,9 @@ class ilObjUserFolder extends ilObject
 	 */
 	static function getExportSettings()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$db_settings = array();
 		
@@ -419,11 +427,21 @@ class ilObjUserFolder extends ilObject
 	*/
 	function buildExportFile($a_mode = "userfolder_export_excel_x86", $user_data_filter = FALSE)
 	{
-		global $ilBench;
-		global $log;
-		global $ilDB;
-		global $ilias;
-		global $lng;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
+		global $DIC;
+
+		$log = $DIC['log'];
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		//get Log File
 		$expDir = $this->getExportDirectory();
@@ -561,7 +579,9 @@ class ilObjUserFolder extends ilObject
 
 	static function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(self::_lookupNewAccountMail($a_lang))
 		{
@@ -592,12 +612,21 @@ class ilObjUserFolder extends ilObject
 		}
 	}
 
-	static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
+	/**
+	 * Update account mail attachment
+	 * @param $a_lang
+	 * @param $a_tmp_name
+	 * @param $a_name
+	 * @throws ilFileUtilsException
+	 */
+	public static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
-		$fs = new ilFSStorageUserFolder($this->getId());
+		$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
 		$fs->create();
 		$path = $fs->getAbsolutePath()."/";
 
@@ -608,15 +637,21 @@ class ilObjUserFolder extends ilObject
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
 
-	static function _deleteAccountMailAttachment($a_lang)
+	/**
+	 * Delete account mail attachment
+	 * @param $a_lang
+	 */
+	public static function _deleteAccountMailAttachment($a_lang)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
-		$fs = new ilFSStorageUserFolder($this->getId());
+		$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
 		$path = $fs->getAbsolutePath()."/";
 		
-		@unlink($path.$a_lang);
+		unlink($path.$a_lang);
 		
 		$ilDB->update('mail_template',
 				array('att_file' => array('text', '')),
@@ -625,7 +660,9 @@ class ilObjUserFolder extends ilObject
 
 	static function _lookupNewAccountMail($a_lang)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->query("SELECT * FROM mail_template ".
 			" WHERE type='nacc' AND lang = ".$ilDB->quote($a_lang,'text'));
@@ -650,7 +687,9 @@ class ilObjUserFolder extends ilObject
 	 */
 	public static function _updateUserFolderAssignment($a_old_id,$a_new_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "UPDATE usr_data SET time_limit_owner = ".$ilDB->quote($a_new_id, "integer")." ".
 			"WHERE time_limit_owner = ".$ilDB->quote($a_old_id, "integer")." ";

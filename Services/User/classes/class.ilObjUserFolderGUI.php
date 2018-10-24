@@ -29,7 +29,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		// TODO: move this to class.ilias.php
 		define('USER_FOLDER_ID',7);
@@ -56,7 +58,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -124,8 +128,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case 'iluserprofileinfosettingsgui':
 				$this->tabs_gui->setTabActive('settings');
 				$this->setSubTabs("settings");
-				$ilTabs->activateSubTab("user_profile_settings");
-				include_once("./Services/User/classes/class.ilUserProfileInfoSettingsGUI.php");
+				$ilTabs->activateSubTab("user_profile_info");
 				$ps = new ilUserProfileInfoSettingsGUI();
 				$this->ctrl->forwardCommand($ps);
 				break;
@@ -145,7 +148,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function learningProgressObject()
 	{
-		global $rbacsystem, $tpl;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$tpl = $DIC['tpl'];
 		
 		// deprecated JF 27 May 2013
 		exit();
@@ -183,7 +189,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function addUserObject()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$ilCtrl->setParameterByClass("ilobjusergui", "new_type", "usr");
 		$ilCtrl->redirectByClass(array("iladministrationgui", "ilobjusergui"), "create");
@@ -195,7 +203,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function applyFilterObject()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
 		$utab = new ilUserTableGUI($this, "view");
@@ -212,7 +222,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function viewObject($reset_filter = FALSE)
 	{
-		global $rbacsystem, $ilUser, $ilToolbar, $tpl, $ilSetting, $lng;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$tpl = $DIC['tpl'];
+		$ilSetting = $DIC['ilSetting'];
+		$lng = $DIC['lng'];
 		
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
@@ -285,7 +302,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	function chooseLetterObject()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$ilCtrl->redirect($this, "view");
 	}
@@ -299,7 +318,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
  	*/
 	function showActions($with_subobjects = false)
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$operations = array();
 //var_dump($this->actions);
@@ -371,7 +392,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
 		
@@ -436,7 +459,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function confirmactivateObject()
 	{
-		global $rbacsystem, $ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
@@ -472,7 +498,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function confirmdeactivateObject()
 	{
-		global $rbacsystem, $ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 		
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
@@ -504,7 +533,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	function confirmaccessFreeObject()
 	{
-		global $rbacsystem, $ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
@@ -610,7 +642,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			return $this->setAccessRestrictionObject($form);
 		}
 
-		global $rbacsystem, $ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
@@ -650,7 +685,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function confirmdeleteObject()
 	{
-		global $rbacsystem, $ilCtrl, $ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
@@ -709,7 +748,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function showActionConfirmation($action, $a_from_search = false)
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
@@ -839,7 +880,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserFormObject ()
 	{
-		global $tpl, $rbacsystem;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		// Blind out tabs for local user import
 		if ($_GET["baseClass"] == 'ilRepositoryGUI')
@@ -863,7 +907,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	public function initUserImportForm()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -917,7 +964,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// For each user session a different directory must be used to prevent
 		// that one user session overwrites the import data that another session
 		// is currently importing.
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		$importDir = ilUtil::getDataDir().'/user_import/usr_'.$ilUser->getId().'_'.session_id(); 
 		ilUtil::makeDirParents($importDir);
 		return $importDir;
@@ -928,7 +977,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserRoleAssignmentObject ()
 	{
-		global $ilUser, $tpl, $lng, $ilCtrl;;
+		global $DIC;;
+
+		$ilUser = $DIC['ilUser'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 	
 		// Blind out tabs for local user import
 		if ($_GET["baseClass"] == 'ilRepositoryGUI')
@@ -942,7 +996,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			include_once './Services/AccessControl/classes/class.ilObjRole.php';
 			include_once './Services/User/classes/class.ilUserImportParser.php';
 			
-			global $rbacreview, $rbacsystem, $tree, $lng;
+			global $DIC;
+
+			$rbacreview = $DIC['rbacreview'];
+			$rbacsystem = $DIC['rbacsystem'];
+			$tree = $DIC['tree'];
+			$lng = $DIC['lng'];
 			
 	
 			$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html", "Services/User");
@@ -1306,7 +1365,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUsersObject()
 	{
-		global $rbacreview,$ilUser;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 		
 		// Blind out tabs for local user import
 		if ($_GET["baseClass"] == 'ilRepositoryGUI')
@@ -1317,7 +1379,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 
-		global $rbacreview, $rbacsystem, $tree, $lng;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
 
 		switch ($_POST["conflict_handling_choice"])
 		{
@@ -1421,7 +1488,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	protected function generalSettingsObject()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->initFormGeneralSettings();
 		
@@ -1482,7 +1551,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	public function saveGeneralSettingsObject()
 	{
-		global $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->initFormGeneralSettings();
 		if($this->form->checkInput())
@@ -1594,7 +1666,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	protected function initFormGeneralSettings()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
@@ -1852,13 +1926,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* Allows to define global settings for user accounts
 	*
 	* Note: The Global user settings form allows to specify default values
-	*       for some user preferences. To avoid redundant implementations, 
+	*       for some user preferences. To avoid redundant implementations,
 	*       specification of default values can be done elsewhere in ILIAS
 	*       are not supported by this form. 
 	*/
 	function settingsObject()
 	{
-		global $tpl, $lng, $ilias, $ilTabs;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilias = $DIC['ilias'];
+		$ilTabs = $DIC['ilTabs'];
 
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		$lng->loadLanguageModule("administration");
@@ -1884,7 +1963,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 
-		global $ilias,$ilSetting;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		// see ilUserFieldSettingsTableGUI
 		include_once("./Services/User/classes/class.ilUserProfile.php");
@@ -1906,7 +1988,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if(!$valid)
 		{
-			global $lng;
+			global $DIC;
+
+			$lng = $DIC['lng'];
 			ilUtil::sendFailure($lng->txt('invalid_visible_required_options_selected'));
 			$this->confirm_change = 1;
 			$this->settingsObject();
@@ -2176,13 +2260,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* Allows to define global settings for user accounts
 	*
 	* Note: The Global user settings form allows to specify default values
-	*       for some user preferences. To avoid redundant implementations, 
+	*       for some user preferences. To avoid redundant implementations,
 	*       specification of default values can be done elsewhere in ILIAS
 	*       are not supported by this form. 
 	*/
 	function exportObject()
 	{
-		global $ilias, $ilCtrl;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if ($_POST["cmd"]["export"])
 		{
@@ -2307,7 +2394,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	protected function initNewAccountMailForm()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$lng->loadLanguageModule("meta");
 		$lng->loadLanguageModule("mail");
@@ -2382,7 +2472,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function newAccountMailObject()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
@@ -2424,7 +2516,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function saveNewAccountMailObject()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 				
 		$langs = $lng->getInstalledLanguages();
 		foreach($langs as $lang_key)
@@ -2467,7 +2561,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -2515,7 +2611,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function setSubTabs($a_tab)
 	{
-		global $rbacsystem,$ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 		
 		switch($a_tab)
 		{
@@ -2550,7 +2649,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	public function showLoginnameSettingsObject()
 	{
-		global $ilSetting;	
+		global $DIC;	
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$show_blocking_time_in_days = (int)$ilSetting->get('loginname_change_blocking_time') / 86400;
 		
@@ -2600,7 +2701,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	public function saveLoginnameSettingsObject()
 	{
-		global $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->initLoginSettingsForm();
 		if($this->loginSettingsForm->checkInput())
@@ -2644,7 +2748,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	public static function _goto($a_user)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 
 		$a_target = USER_FOLDER_ID;
 
@@ -2670,7 +2778,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	function jumpToUserObject()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if (((int) $_GET["jmpToUser"]) > 0 && ilObject::_lookupType((int)$_GET["jmpToUser"]) == "usr")
 		{
@@ -2705,7 +2815,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	public function getUserMultiCommands($a_search_form = false)
 	{
-		global $rbacsystem, $ilUser;		
+		global $DIC;		
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 		
 		// see searchResultHandler()
 		if($a_search_form)
@@ -2799,7 +2912,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	function mailObject()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		$user_ids = $this->getActionUserIds();			
 		if(!$user_ids)
@@ -2912,7 +3027,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, 'view');
 		}
 		include_once './Services/User/classes/class.ilUserClipboard.php';
-		$clip = ilUserClipboard::getInstance($GLOBALS['ilUser']->getId());
+		$clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
 		$clip->add($users);
 		$clip->save();
 		

@@ -50,7 +50,11 @@ class ilExportFieldsInfo
 	 */
 	private function __construct($a_type)
 	{
-	 	global $ilDB,$ilSetting,$lng;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
+	 	$ilSetting = $DIC['ilSetting'];
+	 	$lng = $DIC['lng'];
 	 	
 	 	$this->db = $ilDB;
 	 	$this->lng = $lng;
@@ -132,7 +136,9 @@ class ilExportFieldsInfo
 	 */
 	public function getSelectableFieldsInfo($a_obj_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$fields = array();
 		foreach($this->getExportableFields() as $field)
@@ -160,10 +166,10 @@ class ilExportFieldsInfo
 		}
 		
 		include_once './Services/Booking/classes/class.ilBookingEntry.php';
-		if(ilBookingEntry::hasObjectBookingEntries($a_obj_id, $GLOBALS['ilUser']->getId()))
+		if(ilBookingEntry::hasObjectBookingEntries($a_obj_id, $GLOBALS['DIC']['ilUser']->getId()))
 		{
-			$GLOBALS['lng']->loadLanguageModule('dateplaner');
-			$fields['consultation_hour']['txt'] = $GLOBALS['lng']->txt('cal_ch_field_ch');
+			$GLOBALS['DIC']['lng']->loadLanguageModule('dateplaner');
+			$fields['consultation_hour']['txt'] = $GLOBALS['DIC']['lng']->txt('cal_ch_field_ch');
 			$fields['consultation_hour']['default'] = 0;
 		}
 		
@@ -196,7 +202,7 @@ class ilExportFieldsInfo
 		if(count($cdf))
 		{
 			// add last edit
-			$fields['odf_last_update']['txt'] = $GLOBALS['lng']->txt($this->getType().'_cdf_tbl_last_edit');
+			$fields['odf_last_update']['txt'] = $GLOBALS['DIC']['lng']->txt($this->getType().'_cdf_tbl_last_edit');
 			$fields['odf_last_update']['default'] = 0;
 		}
 		

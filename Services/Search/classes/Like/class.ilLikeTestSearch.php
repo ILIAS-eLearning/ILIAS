@@ -39,7 +39,9 @@ class ilLikeTestSearch extends ilTestSearch
 
 	function __createWhereCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		foreach($this->getFields() as $field)
 		{

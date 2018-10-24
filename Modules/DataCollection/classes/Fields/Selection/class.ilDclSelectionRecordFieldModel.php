@@ -12,6 +12,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 	const PROP_SELECTION_TYPE = '';
 	const PROP_SELECTION_OPTIONS = '';
 
+
 	/**
 	 * @return array|mixed|string
 	 */
@@ -22,6 +23,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 		if (!$this->getField()->isMulti() && is_array($this->value)) {
 			return (count($this->value) == 1) ? array_shift($this->value) : '';
 		}
+
 		return $this->value;
 	}
 
@@ -38,6 +40,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 	 */
 	public function parseExportValue($value) {
 		$values = ilDclSelectionOption::getValues($this->getField()->getId(), $value);
+
 		return is_array($values) ? implode("; ", $values) : $values;
 	}
 
@@ -49,7 +52,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 	 *
 	 * @return array|int|int[]|string
 	 */
-	public function getValueFromExcel($excel, $row, $col){
+	public function getValueFromExcel($excel, $row, $col) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$string = parent::getValueFromExcel($excel, $row, $col);
@@ -63,13 +66,15 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 		}
 
 		if (!$has_value && $old) {
-			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col+1) . ") " . $lng->txt("dcl_no_such_reference") . " "
+			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $lng->txt("dcl_no_such_reference") . " "
 				. $old;
+
 			return array('warning' => $warning);
 		}
 
 		return $string;
 	}
+
 
 	/**
 	 * Copied from reference field and slightly adjusted.
@@ -77,7 +82,9 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 	 * This method tries to get as many valid values out of a string separated by commata. This is problematic as a string value could contain commata itself.
 	 * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
 	 * Will mess with it.
+	 *
 	 * @param $stringValues string
+	 *
 	 * @return int[]
 	 */
 	protected function getMultipleValuesFromString($stringValues) {
@@ -85,11 +92,11 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 		$slicedStrings = explode($delimiter, $stringValues);
 		$slicedReferences = array();
 		$resolved = 0;
-		for($i = 0; $i < count($slicedStrings); $i++) {
+		for ($i = 0; $i < count($slicedStrings); $i++) {
 			//try to find a reference since the last resolved value separated by a comma.
 			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "hello, world".
 			$searchString = implode(array_slice($slicedStrings, $resolved, $i - $resolved + 1));
-			if($ref = $this->getValueFromString($searchString)){
+			if ($ref = $this->getValueFromString($searchString)) {
 				$slicedReferences[] = $ref;
 				$resolved = $i;
 				continue;
@@ -98,12 +105,13 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 			//try to find a reference with the current index.
 			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "world".
 			$searchString = $slicedStrings[$i];
-			if($ref = $this->getValueFromString($searchString)){
+			if ($ref = $this->getValueFromString($searchString)) {
 				$slicedReferences[] = $ref;
 				$resolved = $i;
 				continue;
 			}
 		}
+
 		return $slicedReferences;
 	}
 
@@ -123,6 +131,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 				return $opt->getOptId();
 			}
 		}
+
 		return null;
 	}
 }

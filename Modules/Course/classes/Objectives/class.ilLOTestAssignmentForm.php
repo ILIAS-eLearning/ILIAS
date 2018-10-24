@@ -29,8 +29,8 @@ class ilLOTestAssignmentForm
 	 */
 	public function __construct($gui, ilObject $a_container_obj, $a_type)
 	{
-		$this->lng = $GLOBALS['lng'];
-		$this->ctrl = $GLOBALS['ilCtrl'];
+		$this->lng = $GLOBALS['DIC']['lng'];
+		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
 		
 		$this->gui = $gui;
 		$this->container = $a_container_obj;
@@ -221,7 +221,7 @@ class ilLOTestAssignmentForm
 		$assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());
 
 		$tests = array();
-		foreach($GLOBALS['tree']->getChildsByType($this->getContainer()->getRefId(),'tst') as $tree_node)
+		foreach($GLOBALS['DIC']['tree']->getChildsByType($this->getContainer()->getRefId(),'tst') as $tree_node)
 		{
 			if(!in_array($tree_node['child'], $assignments->getTests()))
 			{

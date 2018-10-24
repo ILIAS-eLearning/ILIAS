@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclDetailedViewDefinitionGUI
  *
@@ -14,7 +13,7 @@
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
-	
+
 	/**
 	 * @var ilDclDetailedViewDefinition
 	 */
@@ -41,7 +40,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		//TODO Permission-Check
 
 		// we always need a page object - create on demand
-		if (! ilPageObject::_exists('dclf', $tableview_id)) {
+		if (!ilPageObject::_exists('dclf', $tableview_id)) {
 			$viewdef = new ilDclDetailedViewDefinition();
 			$viewdef->setId($tableview_id);
 			$viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
@@ -103,7 +102,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		// :TODO: temporary legend of available placeholders
 		if ($this->getOutputMode() == IL_PAGE_EDIT) {
 			$delete_button = ilLinkButton::getInstance();
-			$delete_button->setCaption('dcl_empty_view');
+			$delete_button->setCaption('dcl_empty_detailed_view');
 			$delete_button->setUrl($this->ctrl->getLinkTarget($this, 'confirmDelete'));
 			$ilToolbar->addButtonInstance($delete_button);
 
@@ -120,8 +119,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 
 			$legend = $this->getPageObject()->getAvailablePlaceholders();
 			if (sizeof($legend)) {
-				$this->setPrependingHtml("<span class=\"small\">" . $this->lng->txt("dcl_legend_placeholders") . ": " . implode(" ", $legend)
-					. "</span>");
+				$this->setPrependingHtml(
+					"<span class=\"small\">" . $this->lng->txt("dcl_legend_placeholders") . ": " . implode(" ", $legend)
+					. "</span>"
+				);
 			}
 		}
 
@@ -157,9 +158,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($ilCtrl->getFormAction($this));
-		$conf->setHeaderText($lng->txt('dcl_confirm_delete_view_title'));
+		$conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-		$conf->addItem('tableview', (int)$this->tableview_id, $lng->txt('dcl_confirm_delete_view_text'));
+		$conf->addItem('tableview', (int)$this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
 		$conf->setConfirm($lng->txt('delete'), 'deleteView');
 		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -190,17 +191,18 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 			$pageObject->delete();
 		}
 
-		ilUtil::sendSuccess($lng->txt("dcl_empty_view_success"), true);
+		ilUtil::sendSuccess($lng->txt("dcl_empty_detailed_view_success"), true);
 
-		$ilCtrl->redirectByClass("ilDclFieldListGUI", "listFields");
+		// Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
+		$ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
 	}
+
 
 	/**
 	 * Release page lock
 	 * overwrite to redirect properly
 	 */
-	function releasePageLock()
-	{
+	function releasePageLock() {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
@@ -209,6 +211,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
 		$ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
 	}
+
 
 	/**
 	 * Finalizing output processing
@@ -224,16 +227,16 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		if ($this->getOutputMode() == IL_PAGE_PREVIEW) {
 			//page preview is not being used inside DataCollections - if you are here, something's probably wrong
 
-//			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-//
-//			// :TODO: find a suitable presentation for matched placeholders
-//			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);
-//			foreach ($allp as $id => $item) {
-//				$parsed_item = new ilTextInputGUI("", "fields[" . $item->getId() . "]");
-//				$parsed_item = $parsed_item->getToolbarHTML();
-//
-//				$a_output = str_replace($id, $item->getTitle() . ": " . $parsed_item, $a_output);
-//			}
+			//			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			//
+			//			// :TODO: find a suitable presentation for matched placeholders
+			//			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);
+			//			foreach ($allp as $id => $item) {
+			//				$parsed_item = new ilTextInputGUI("", "fields[" . $item->getId() . "]");
+			//				$parsed_item = $parsed_item->getToolbarHTML();
+			//
+			//				$a_output = str_replace($id, $item->getTitle() . ": " . $parsed_item, $a_output);
+			//			}
 		} // editor
 		else {
 			if ($this->getOutputMode() == IL_PAGE_EDIT) {

@@ -16,6 +16,12 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjUserGUI extends ilObjectGUI
 {
+	/** @var ILIAS\UI\Factory */
+	protected $uiFactory;
+
+	/** @var ILIAS\UI\Renderer */
+	protected $uiRenderer;
+	
 	var $ilCtrl;
 
 	/**
@@ -40,12 +46,37 @@ class ilObjUserGUI extends ilObjectGUI
 	var $user_ref_id;
 
 	/**
-	* Constructor
-	* @access	public
-	*/
-	function __construct($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
+	 * ilObjUserGUI constructor.
+	 * @param $a_data
+	 * @param $a_id
+	 * @param bool $a_call_by_reference
+	 * @param bool $a_prepare_output
+	 * @param \ILIAS\UI\Factory $uiFactory
+	 * @param \ILIAS\UI\Renderer $uiRenderer
+	 */
+	public function __construct(
+		$a_data,
+		$a_id,
+		$a_call_by_reference = false,
+		$a_prepare_output = true,
+		ILIAS\UI\Factory $uiFactory = null,
+		ILIAS\UI\Renderer $uiRenderer = null
+	)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		if (null === $uiFactory) {
+			$uiFactory = $DIC->ui()->factory();
+		}
+		$this->uiFactory = $uiFactory;
+
+		if (null === $uiRenderer) {
+			$uiRenderer = $DIC->ui()->renderer();
+		}
+		$this->uiRenderer = $uiRenderer;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		define('USER_FOLDER_ID',7);
 
@@ -62,14 +93,17 @@ class ilObjUserGUI extends ilObjectGUI
 		// for gender selection. don't change this
 		// maybe deprecated
 		$this->gender = array(
+							  'n'    => "salutation_n",
 							  'm'    => "salutation_m",
-							  'f'    => "salutation_f"
+							  'f'    => "salutation_f",
 							  );
 	}
 
 	function executeCommand()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -150,7 +184,10 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem, $ilHelp;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilHelp = $DIC['ilHelp'];
 
 		$this->tabs_gui->clearTargets();
 		
@@ -271,7 +308,12 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function initCreate()
 	{
-		global $tpl, $rbacsystem, $rbacreview, $ilUser;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
@@ -342,7 +384,12 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $tpl, $rbacsystem, $rbacreview, $ilUser;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 
 		if (!$rbacsystem->checkAccess('create_usr', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
@@ -361,7 +408,14 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-        global $ilAccess, $ilSetting, $tpl, $ilUser, $rbacadmin, $rbacsystem;
+        global $DIC;
+
+        $ilAccess = $DIC['ilAccess'];
+        $ilSetting = $DIC['ilSetting'];
+        $tpl = $DIC['tpl'];
+        $ilUser = $DIC['ilUser'];
+        $rbacadmin = $DIC['rbacadmin'];
+        $rbacsystem = $DIC['rbacsystem'];
 
         include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
@@ -586,7 +640,10 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	protected function loadValuesFromForm($a_mode = 'create')
 	{
-		global $ilSetting,$ilUser;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$ilUser = $DIC['ilUser'];
 		
 		switch($a_mode)
 		{
@@ -767,7 +824,13 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	public function updateObject()
 	{
-		global $tpl, $rbacsystem, $ilias, $ilUser, $ilSetting;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
@@ -898,7 +961,9 @@ class ilObjUserGUI extends ilObjectGUI
 			// this ts is needed by ilSecuritySettings
 			$this->object->setLastPasswordChangeTS( time() );
 			
-			global $ilSetting;
+			global $DIC;
+
+			$ilSetting = $DIC['ilSetting'];
 			if((int)$ilSetting->get('session_reminder_enabled'))
 			{
 				$this->object->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
@@ -962,7 +1027,10 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getValues()
 	{
-		global $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$data = array();
 
@@ -1088,7 +1156,14 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function initForm($a_mode)
 	{
-		global $lng, $ilCtrl, $styleDefinition, $ilSetting, $ilClientIniFile, $ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$styleDefinition = $DIC['styleDefinition'];
+		$ilSetting = $DIC['ilSetting'];
+		$ilClientIniFile = $DIC['ilClientIniFile'];
+		$ilUser = $DIC['ilUser'];
 
 		$settings = $ilSetting->getAll();
 
@@ -1417,11 +1492,13 @@ class ilObjUserGUI extends ilObjectGUI
 		// gender
 		if($this->isSettingChangeable('gender'))
 		{
-			$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
+			$gndr = new ilRadioGroupInputGUI($lng->txt("salutation"), "gender");
 			$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
-			$female = new ilRadioOption($lng->txt("gender_f"), "f");
+			$neutral = new ilRadioOption($lng->txt("salutation_n"), "n");
+			$gndr->addOption($neutral);
+			$female = new ilRadioOption($lng->txt("salutation_f"), "f");
 			$gndr->addOption($female);
-			$male = new ilRadioOption($lng->txt("gender_m"), "m");
+			$male = new ilRadioOption($lng->txt("salutation_m"), "m");
 			$gndr->addOption($male);
 			$this->form_gui->addItem($gndr);
 		}
@@ -1624,31 +1701,15 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
 		}
-	
+		
 		foreach($all_defs as $field_id => $definition)
 		{
-			if($definition['field_type'] == UDF_TYPE_TEXT)	// text input
+			include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+			$f_property = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition,true);
+			if($f_property instanceof ilFormPropertyGUI)
 			{
-				$udf = new ilTextInputGUI($definition['field_name'],
-					"udf_".$definition['field_id']);
-				$udf->setSize(40);
-				$udf->setMaxLength(255);
+				$this->form_gui->addItem($f_property);
 			}
-			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)	// text area input
-			{
-				$udf = new ilTextAreaInputGUI($definition['field_name'],
-					"udf_".$definition['field_id']);
-				$udf->setUseRte(true);
-			}
-			else			// selection input
-			{
-				$udf = new ilSelectInputGUI($definition['field_name'],
-					"udf_".$definition['field_id']);
-				$udf->setOptions($user_defined_fields->fieldValuesToSelectArray(
-							$definition['field_values']));
-			}
-			$udf->setRequired($definition['required']);
-			$this->form_gui->addItem($udf);
 		}
 
 		// settings
@@ -1839,7 +1900,9 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		// TODO: Allow mixed field parameter to support checks against an array of field names.
 		
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		static $settings = null;
 		
 		
@@ -1865,7 +1928,10 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function uploadUserPictureObject()
 	{
-		global $ilUser, $rbacsystem;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and
@@ -1998,7 +2064,11 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function assignSaveObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
 
 		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
 		{
@@ -2065,7 +2135,12 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function roleassignmentObject ()
 	{
-		global $rbacreview,$rbacsystem,$ilUser, $ilTabs;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilTabs = $DIC['ilTabs'];
 		
 		$ilTabs->activateTab("role_assignment");
 
@@ -2346,7 +2421,9 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $ilLocator;
+		global $DIC;
+
+		$ilLocator = $DIC['ilLocator'];
 
 		$ilLocator->clearItems();
 
@@ -2389,7 +2466,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function __sendProfileMail()
 	{
-		global $ilUser,$ilias;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilias = $DIC['ilias'];
 
 		if($_POST['send_mail'] != 'y')
 		{
@@ -2408,7 +2488,7 @@ class ilObjUserGUI extends ilObjectGUI
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 		/** @var ilMailMimeSenderFactory $senderFactory */
-		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+		$senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
 
 		$mmail = new ilMimeMail();
 		$mmail->From($senderFactory->system());
@@ -2456,7 +2536,10 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	public static function _goto($a_target)
 	{
-		global $ilUser, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
 				
 		// #10888
 		if($a_target == md5("usrdelown"))
@@ -2497,6 +2580,18 @@ class ilObjUserGUI extends ilObjectGUI
 			$_GET["baseClass"] = 'ilStartUpGUI';
 			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
+		}
+		else if('agreement' == $a_target)
+		{
+			if ($ilUser->getId() > 0 && !$ilUser->isAnonymous()) {
+				$ilCtrl->setTargetScript('ilias.php');
+				$ilCtrl->initBaseClass('ilpersonaldesktopgui');
+				$ilCtrl->redirectByClass(array('ilpersonaldesktopgui', 'ilpersonalprofilegui'), 'showUserAgreement');
+			} else {
+				$_GET['baseClass'] = 'ilStartUpGUI';
+				$ilCtrl->setTargetScript('ilias.php');
+				$ilCtrl->redirectByClass(array('ilStartUpGUI'), 'showTermsOfService');
+			}
 		}
 
 		if (substr($a_target, 0, 1) == "n")
@@ -2578,35 +2673,34 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	protected function showAcceptedTermsOfService()
 	{
-		/**
-		 * @var $agree_date ilNonEditableValueGUI
-		 */
-		$agree_date = $this->form_gui->getItemByPostVar('agree_date');
-		if($agree_date && $agree_date->getValue())
-		{
+		/** @var $agreeDate ilNonEditableValueGUI */
+		$agreeDate = $this->form_gui->getItemByPostVar('agree_date');
+		if ($agreeDate && $agreeDate->getValue()) {
 			$this->lng->loadLanguageModule('tos');
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-			/**
-			 * @var $entity ilTermsOfServiceAcceptanceEntity
-			 */
-			$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
-			if($entity->getId())
-			{
-				$show_agreement_text = new ilCheckboxInputGUI($this->lng->txt('tos_show_signed_text'), 'tos_show_signed_text');
+			$helper = new \ilTermsOfServiceHelper();
 
-				$agreement_lang = new ilNonEditableValueGUI($this->lng->txt('language'), '');
-				$agreement_lang->setValue($this->lng->txt('meta_l_' . $entity->getIso2LanguageCode()));
-				$show_agreement_text->addSubItem($agreement_lang);
+			$entity = $helper->getCurrentAcceptanceForUser($this->object);
+			if ($entity->getId()) {
 
-				require_once 'Services/TermsOfService/classes/form/class.ilTermsOfServiceSignedDocumentFormElementGUI.php';
-				$agreement_document = new ilTermsOfServiceSignedDocumentFormElementGUI($this->lng->txt('tos_agreement_document'), '', $entity);
-				$show_agreement_text->addSubItem($agreement_document);
-				$agree_date->addSubItem($show_agreement_text);
+				$modal = $this->uiFactory
+					->modal()
+					->lightbox([
+						$this->uiFactory->modal()->lightboxTextPage($entity->getText(), $entity->getTitle())
+					]);
+
+				$titleLink = $this->uiFactory
+					->button()
+					->shy($entity->getTitle(), '#')
+					->withOnClick($modal->getShowSignal());
+
+				$agreementDocument = new ilNonEditableValueGUI(
+					$this->lng->txt('tos_agreement_document'), '', true
+				);
+				$agreementDocument->setValue($this->uiRenderer->render([$titleLink, $modal]));
+				$agreeDate->addSubItem($agreementDocument);
 			}
-		}
-		else if($agree_date)
-		{
-			$agree_date->setValue($this->lng->txt('tos_not_accepted_yet'));
+		} else if($agreeDate) {
+			$agreeDate->setValue($this->lng->txt('tos_not_accepted_yet'));
 		}
 	}
 } // END class.ilObjUserGUI

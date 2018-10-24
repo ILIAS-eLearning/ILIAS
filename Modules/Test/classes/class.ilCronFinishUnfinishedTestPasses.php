@@ -46,6 +46,11 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 	protected $test_ending_times;
 	
 	/**
+	 * @var ilTestProcessLockerFactory
+	 */
+	protected $processLockerFactory;
+	
+	/**
 	 * Constructor
 	 */
 	function __construct()
@@ -56,6 +61,8 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 		 */
 
 		global $ilObjDataCache, $lng, $ilDB;
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
 		$this->log				= ilLoggerFactory::getLogger('tst');
 		$this->lng				= $lng;
@@ -66,7 +73,11 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 		$this->unfinished_passes= array();
 		$this->test_ids			= array();
 		$this->test_ending_times= array();
-
+		
+		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
+		$this->processLockerFactory = new ilTestProcessLockerFactory(
+			new ilSetting('assessment'), $DIC->database()
+		);
 	}
 
 	public function getId()
@@ -234,9 +245,12 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 	
 	protected function finishPassForUser($active_id, $obj_id)
 	{
+		$this->processLockerFactory->setActiveId($active_id);
+		$processLocker = $this->processLockerFactory->getLocker();
+		
 		$pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
-		$pass_finisher->performFinishTasksBeforeArchiving();
-		$pass_finisher->performFinishTasksAfterArchiving();
+		$pass_finisher->performFinishTasks($processLocker);
+		
 		$this->log->info('Test session with active id ('.$active_id .') and obj_id (' .$obj_id .') is now finished.');
 	}
 }

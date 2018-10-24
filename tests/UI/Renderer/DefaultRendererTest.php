@@ -102,7 +102,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 				new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false,false,false))
 		);
 		$html = $renderer->renderAsync($c1);
-		$this->assertEquals('foo<script>id:foo.id content:foo</script>',$html);
+		$this->assertEquals('foo<script data-replace-marker="script">id:foo.id content:foo</script>',$html);
 	}
 
 	public function test_render_async_with_js_twice() {
@@ -112,11 +112,11 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 				new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false,false,false))
 		);
 		$html = $renderer->renderAsync($c2);
-		$this->assertEquals('foo<script>id:foo.id content:foo</script>',$html);
+		$this->assertEquals('foo<script data-replace-marker="script">id:foo.id content:foo</script>',$html);
 		$html = $renderer->renderAsync($c1);
 		$this->assertEquals("foo",$html);
 		$html = $renderer->renderAsync($c2);
-		$this->assertEquals('foo<script>id:foo.id content:foo</script>',$html);
+		$this->assertEquals('foo<script data-replace-marker="script">id:foo.id content:foo</script>',$html);
 	}
 
 	public function test_render_async_array() {

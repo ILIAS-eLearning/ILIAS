@@ -42,7 +42,11 @@ class ilSearch
 	*/
 	function __construct($a_user_id = 0,$a_read = false)
 	{
-		global $ilias,$rbacsystem,$lng;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$lng = $DIC['lng'];
 		
 		// Initiate variables
 		$this->ilias =& $ilias;
@@ -185,7 +189,10 @@ class ilSearch
 
 	function performSearch()
 	{
-		global $objDefinition, $ilBench;
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
+		$ilBench = $DIC['ilBench'];
 
 		$ilBench->start("Search", "performSearch");
 		
@@ -284,7 +291,9 @@ class ilSearch
 
 	function __updateDBResult()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
@@ -310,7 +319,9 @@ class ilSearch
 	
 	function __readDBResult()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID and $this->read_db_result)
 		{
@@ -348,7 +359,9 @@ class ilSearch
 
 	function __checkAccess($a_results,$a_type)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 		
 		if (is_array($a_results))
 		{
@@ -367,7 +380,9 @@ class ilSearch
 
 	function __validateResults()
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC['tree'];
 
 		$new_result = array();
 

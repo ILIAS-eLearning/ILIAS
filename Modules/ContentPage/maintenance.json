@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "mjansen(8784)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Modules/ContentPage",
+    "belong_to_component": "None",
+    "used_in_components": []
+}

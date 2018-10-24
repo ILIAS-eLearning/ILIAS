@@ -40,8 +40,23 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	 */
 	protected $user;
 
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * @var string
+	 */
+	protected $pool_view;
+
 	var $header;
 	var $ctrl;
+
+	/**
+	 * @var string table sub command (e.g. applyFilter)
+	 */
+	protected $sub_cmd;
 
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
@@ -54,8 +69,18 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->user = $DIC->user();
 		$ilCtrl = $DIC->ctrl();
+		$this->ui = $DIC->ui();
+
+		$this->pool_view = "folder";
+		if (in_array($_GET["pool_view"], array("folder", "all")))
+		{
+			$this->pool_view = $_GET["pool_view"];
+		}
 
 		$this->ctrl = $ilCtrl;
+
+		$this->ctrl->saveParameter($this, "pool_view");
+
 //		var_dump($_POST);
 //ilUtil::printBacktrace(10); exit;
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
@@ -68,6 +93,27 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		));
 
 	}
+
+	/**
+	 * Set table sub command
+	 *
+	 * @param string $a_val command
+	 */
+	function setSubCmd($a_val)
+	{
+		$this->sub_cmd = $a_val;
+	}
+
+	/**
+	 * Get table sub command
+	 *
+	 * @return string command
+	 */
+	function getSubCmd()
+	{
+		return $this->sub_cmd;
+	}
+
 
 	function setHeader($a_title = "")
 	{
@@ -115,7 +161,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		// get current command
 		$cmd = $this->ctrl->getCmd();
-
 		if (is_object ($this->content_obj))
 		{
 			$this->tpl->clearHeader();
@@ -159,6 +204,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					$this->pg_obj);
 				$ret = $this->ctrl->forwardCommand($image_map_edit);
 				$tpl->setContent($ret);
+				$this->checkFixSize();
 				break;
 			
 			default:
@@ -292,6 +338,33 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 	}
 
+
+	/**
+	 * Check fix size
+	 */
+	protected function checkFixSize()
+	{
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
+		$std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
+
+		$ok = false;
+		if (($std_alias_item->getWidth() != "" && $std_alias_item->getHeight() != ""))
+		{
+			$ok = true;
+		}
+		if ($std_alias_item->getWidth() == "" && $std_alias_item->getHeight() == ""
+			&& $std_item->getWidth() != "" && $std_item->getHeight() != "")
+		{
+			$ok = true;
+		}
+
+		if (!$ok)
+		{
+			ilUtil::sendFailure($this->lng->txt("mob_no_fixed_size_map_editing"));
+		}
+	}
+
 	/**
 	* Insert media object from pool
 	*/
@@ -302,7 +375,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$ilTabs = $this->tabs;
 		$tpl = $this->tpl;
 		$lng = $this->lng;
-		$ilToolbar = $this->toolbar;
+		$ui = $this->ui;
 
 		if ($_SESSION["cont_media_pool"] != "" &&
 			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
@@ -311,6 +384,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$html = "";
 			$tb = new ilToolbarGUI();
 
+			// button: select pool
 			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
 			if ($a_change_obj_ref)
 			{
@@ -325,10 +399,30 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			}
 			$ilCtrl->setParameter($this, "subCmd", "");
 
+			// view mode: pool view (folders/all media objects)
+			$f = $ui->factory();
+			$tcmd =  ($a_change_obj_ref)
+				? "changeObjectReference"
+				: "insert";
+			$lng->loadLanguageModule("mep");
+			$ilCtrl->setParameter($this, "pool_view", "folder");
+			$actions[$lng->txt("folders")] = $ilCtrl->getLinkTarget($this, $tcmd);
+			$ilCtrl->setParameter($this, "pool_view", "all");
+			$actions[$lng->txt("mep_all_mobs")] = $ilCtrl->getLinkTarget($this, $tcmd);
+			$ilCtrl->setParameter($this, "pool_view", $this->pool_view);
+			$aria_label = $lng->txt("cont_change_pool_view");
+			$view_control = $f->viewControl()->mode($actions, $aria_label)->withActive(($this->pool_view == "folder")
+				? $lng->txt("folders") : $lng->txt("mep_all_mobs"));
+			$tb->addSeparator();
+			$tb->addComponent($view_control);
+
 			$html = $tb->getHTML();
 
 			$this->getTabs($ilTabs, true, $a_change_obj_ref);
 			$ilTabs->setSubTabActive("cont_mob_from_media_pool");
+
+
+
 			
 			include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 			include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
@@ -340,8 +434,24 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$tmode = ($a_change_obj_ref)
 				? ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE
 				: ilMediaPoolTableGUI::IL_MEP_SELECT;
+
+			// handle table sub commands and get the table
+			if ($this->getSubCmd() == "applyFilter")
+			{
+				$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
+					$tmode, $this->pool_view == "all");
+				$mpool_table->resetOffset();
+				$mpool_table->writeFilterToSession();
+			}
+			if ($this->getSubCmd() == "resetFilter")
+			{
+				$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
+					$tmode, $this->pool_view == "all");
+				$mpool_table->resetOffset();
+				$mpool_table->resetFilter();
+			}
 			$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
-				$tmode);
+				$tmode, $this->pool_view == "all");
 
 			$html.= $mpool_table->getHTML();
 
@@ -573,8 +683,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		// standard size
 		$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "st_derive_size");
 		$orig_size = $std_item->getOriginalSize();
-		$op1 = new ilRadioOption($lng->txt("cont_default").
-			" (".$orig_size["width"]." x ".$orig_size["height"].")", "y");
+		$add_str = ($orig_size["width"] != "" && $orig_size["height"] != "")
+			? " (".$orig_size["width"]." x ".$orig_size["height"].")"
+			: "";
+		$op1 = new ilRadioOption($lng->txt("cont_default").$add_str, "y");
 		$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
 		$radio_size->addOption($op1);
 		
@@ -692,8 +804,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			// full size
 			$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_derive_size");
 			$fw_size = $std_item->getOriginalSize();
-			$op1 = new ilRadioOption($lng->txt("cont_default").
-				" (".$fw_size["width"]." x ".$fw_size["height"].")", "y");
+			$add_str = ($fw_size["width"] != "" && $fw_size["height"] != "")
+				? " (".$fw_size["width"]." x ".$fw_size["height"].")"
+				: "";
+			$op1 = new ilRadioOption($lng->txt("cont_default").$add_str, "y");
 			$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
 			$radio_size->addOption($op1);
 			
@@ -1107,6 +1221,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "editAlias");
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else

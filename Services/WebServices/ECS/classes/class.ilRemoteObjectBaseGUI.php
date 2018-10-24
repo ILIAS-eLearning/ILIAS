@@ -21,7 +21,9 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	
 	public function executeCommand()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -64,7 +66,9 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	 */
 	public function showObject()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($ilUser->getId() == ANONYMOUS_USER_ID || 
 			$this->object->isLocalObject())
@@ -83,7 +87,9 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	 */
 	public function setTabs()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		
 		if($this->checkPermissionBool('visible'))
 		{
@@ -113,7 +119,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 				$this->getType(),
 				$this->object->getRefId(),
 				$this->object->getId(),
-				$GLOBALS['ilUser']->getId()
+				$GLOBALS['DIC']['ilUser']->getId()
 		);
 				
 
@@ -149,7 +155,11 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	 */
 	public function infoScreen()
 	{
-		global $ilErr,$ilUser,$ilTabs;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilUser = $DIC['ilUser'];
+		$ilTabs = $DIC['ilTabs'];
 		
 		if(!$this->checkPermissionBool('visible'))
 		{
@@ -218,7 +228,10 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	 */
 	public function editObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilErr,$ilTabs;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilTabs = $DIC['ilTabs'];
 
 		if(!$this->checkPermissionBool('write'))
 		{
@@ -294,7 +307,9 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	 */
 	public function updateObject()
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
 				
 		if(!$this->checkPermissionBool('write'))
 		{
@@ -342,7 +357,11 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilErr, $lng, $ilAccess;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 
 		//static if ($this->checkPermissionBool("visible", "", "", $a_target))
 		if($ilAccess->checkAccess('visible','',$a_target))

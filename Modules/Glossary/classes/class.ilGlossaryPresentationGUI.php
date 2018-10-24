@@ -252,8 +252,20 @@ class ilGlossaryPresentationGUI
 			// alphabetical navigation
 			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
 			$ai = new ilAlphabetInputGUI($lng->txt("glo_quick_navigation"), "first");
+
 			$ai->setFixDBUmlauts(true);
-			$ai->setLetters($this->glossary->getFirstLetters($this->tax_node));
+
+			$first_letters = $this->glossary->getFirstLetters($this->tax_node);
+			if (!is_array($first_letters))
+			{
+				$first_letters = [];
+			}
+			if (!in_array($_GET["letter"], $first_letters))
+			{
+				$first_letters[] = ilUtil::stripSlashes($_GET["letter"]);
+			}
+			$ai->setLetters($first_letters);
+
 			$ai->setParentCommand($this, "chooseLetter");
 			$ai->setHighlighted($_GET["letter"]);
 			$ilToolbar->addInputItem($ai, true);

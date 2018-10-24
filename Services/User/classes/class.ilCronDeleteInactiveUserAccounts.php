@@ -25,7 +25,9 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	
 	public function __construct()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 
 		if(is_object($ilSetting))
 		{
@@ -91,14 +93,18 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt("delete_inactive_user_accounts");
 	}
 	
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		return $lng->txt("delete_inactive_user_accounts_desc");
 	}
@@ -130,7 +136,10 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	
 	public function run()
 	{
-		global $rbacreview, $ilLog;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilLog = $DIC['ilLog'];
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		$reminder_time      = (int)$this->reminderTimer;
@@ -217,7 +226,12 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng, $rbacreview, $ilObjDataCache, $ilSetting;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$ilSetting = $DIC['ilSetting'];
 		$lng->loadLanguageModule("user");
 			
 		$schedule = $a_form->getItemByPostVar('type');
@@ -283,7 +297,10 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
-		global $ilSetting, $lng;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("user");
 		$setting = implode(',', $_POST['cron_inactive_user_delete_include_roles']);
 		if(!strlen($setting))

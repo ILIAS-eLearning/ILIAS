@@ -20,7 +20,12 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("usr_settings_header_profile"));
@@ -58,7 +63,10 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilSetting;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilSetting = $DIC['ilSetting'];
 		
 		$field = $a_set["key"];
 		

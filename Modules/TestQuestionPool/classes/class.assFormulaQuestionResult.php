@@ -292,7 +292,7 @@ class assFormulaQuestionResult
 		}
 
 		$math                  = new EvalMath();
-		$math->suppress_errors = false;
+		$math->suppress_errors = true;
 		$result                = $math->evaluate($formula); // baseunit-result!!
 
 		$resultWithRespectedUnit = ilMath::_round($result, $this->getPrecision());

@@ -44,7 +44,6 @@ class ilRPCServerSettings
 
 	var $log = null;
 	var $db = null;
-	var $err = null;
 
 	var $settings_obj  = null;
 
@@ -55,14 +54,16 @@ class ilRPCServerSettings
 	 */
 	private function __construct()
 	{
-		global $ilLog,$ilDB,$ilError,$ilias;
+		global $DIC;
 
-		$this->log =& $ilLog;
-		$this->db =& $ilDB;
-		$this->err =& $ilError;
-		$this->ilias =& $ilias;
+		$ilDB = $DIC['ilDB'];
+		$ilias = $DIC['ilias'];
+
+		$this->log = $DIC->logger()->wsrv();
+		$this->db = $ilDB;
+		$this->ilias = $ilias;
 	}
-	
+
 	/**
 	 * Get singelton instance
 	 * @return object $ilRPCServerSettings
@@ -128,6 +129,9 @@ class ilRPCServerSettings
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
 	function pingServer()
 	{
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
@@ -139,7 +143,7 @@ class ilRPCServerSettings
 		}
 		catch(Exception $e)
 		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			$this->log->warning('Calling RPC server failed with message: '.$e->getMessage());
 			return false;
 		}
 	}

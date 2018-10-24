@@ -1153,42 +1153,23 @@ class ilUtil
 	 */
 	public static function is_email($a_email, ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
-		global $DIC;
-
-		$ilErr = $DIC["ilErr"];
+		if (null === $a_email || !is_string($a_email)) {
+			return false;
+		}
 
 		if ($mailAddressParserFactory === null) {
 			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
 		}
-		// additional check for ilias object is needed,
-		// otherwise setup will fail with this if branch
-		if(is_object($ilErr)) // seems to work in Setup now
+
+		try
 		{
-			try
-			{
-				$parser    = $mailAddressParserFactory->getParser($a_email);
-				$addresses = $parser->parse();
-				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
-			}
-			catch(ilException $e)
-			{
-				return false;
-			}
+			$parser    = $mailAddressParserFactory->getParser((string)$a_email);
+			$addresses = $parser->parse();
+			return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 		}
-		else
+		catch(ilException $e)
 		{
-			$tlds = strtolower(
-				"AC|AD|AE|AERO|AF|AG|AI|AL|AM|AN|AO|AQ|AR|ARPA|AS|ASIA|AT|AU|AW|AX|AZ|BA|BB|BD|BE|BF|BG|BH|BI|BIZ|BJ|BM|BN|BO|BR|BS|BT|BV|BW|BY|".
-				"BZ|CA|CAT|CC|CD|CF|CG|CH|CI|CK|CL|CM|CN|CO|COM|COOP|CR|CU|CV|CX|CY|CZ|DE|DJ|DK|DM|DO|DZ|EC|EDU|EE|EG|".
-				"ER|ES|ET|EU|FI|FJ|FK|FM|FO|FR|GA|GB|GD|GE|GF|GG|GH|GI|GL|GM|GN|GOV|GP|GQ|GR|GS|GT|GU|GW|GY|HK|HM|HN|HR|HT|".
-				"HU|ID|IE|IL|IM|IN|INFO|INT|IO|IQ|IR|IS|IT|JE|JM|JO|JOBS|JP|KE|KG|KH|KI|KM|KN|KP|KR|KW|KY|KZ|LA|LB|LC|".
-				"LI|LK|LR|LS|LT|LU|LV|LY|MA|MC|MD|ME|MG|MH|MIL|MK|ML|MM|MN|MO|MOBI|MP|MQ|MR|MS|MT|MU|MUSEUM|MV|MW|MX|".
-				"MY|MZ|NA|NAME|NC|NE|NET|NF|NG|NI|NL|NO|NP|NR|NU|NZ|OM|ORG|PA|PE|PF|PG|PH|PK|PL|PM|PN|PR|PRO|PS|".
-				"PT|PW|PY|QA|RE|RO|RS|RU|RW|SA|SB|SC|SD|SE|SG|SH|SI|SJ|SK|SL|SM|SN|SO|SR|ST|SU|SV|SY|SZ|TC|TD|TEL|".
-				"TF|TG|TH|TJ|TK|TL|TM|TN|TO|TP|TR|TRAVEL|TT|TV|TW|TZ|UA|UG|UK|US|UY|UZ|VA|VC|VE|VG|VI|VN|VU|".
-				"WF|WS|XN|YE|YT|YU|ZA|ZM|ZW");
-			
-			return(preg_match("/^[-_.[:alnum:]]+@((([[:alnum:]]|[[:alnum:]][[:alnum:]-]*[[:alnum:]])\.)+(".$tlds.")|(([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])\.){3}([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]))$/i",$a_email));
+			return false;
 		}
 	}
 
@@ -1586,53 +1567,52 @@ class ilUtil
 		return $attribs;
 	}
 
+
 	/**
 	 * Copies content of a directory $a_sdir recursively to a directory $a_tdir
-	 * @param	string	$a_sdir		source directory
-	 * @param	string	$a_tdir		target directory
-	 * @param 	boolean $preserveTimeAttributes	if true, ctime will be kept.
 	 *
-	 * @return	boolean	TRUE for sucess, FALSE otherwise
-	 * @access	public
+	 * @param    string  $a_sdir                 source directory
+	 * @param    string  $a_tdir                 target directory
+	 * @param    boolean $preserveTimeAttributes if true, ctime will be kept.
+	 *
+	 * @return    boolean    TRUE for sucess, FALSE otherwise
+	 * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @access     public
 	 * @static
 	 *
 	 * @deprecated in favour of Filesystem::copyDir() located at the filesystem service.
-	 * @see Filesystem::copyDir()
-	 *
+	 * @see        Filesystem::copyDir()
 	 */
-	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
-	{
-		$a_sdir = realpath($a_sdir); // See https://www.ilias.de/mantis/view.php?id=23056
-		$a_tdir = realpath($a_tdir); // See https://www.ilias.de/mantis/view.php?id=23056
-		try {
-			$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
-			$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
+	public static function rCopy($a_sdir, $a_tdir, $preserveTimeAttributes = false) {
+		$sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
+		$targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
 
-			$sourceDir = LegacyPathHelper::createRelativePath($a_sdir);
-			$targetDir = LegacyPathHelper::createRelativePath($a_tdir);
+		$sourceDir = LegacyPathHelper::createRelativePath($a_sdir);
+		$targetDir = LegacyPathHelper::createRelativePath($a_tdir);
 
-			// check if arguments are directories
-			if (!$sourceFS->hasDir($sourceDir))
-			{
-				return false;
+		// check if arguments are directories
+		if (!$sourceFS->hasDir($sourceDir)) {
+			return false;
+		}
+
+		$sourceList = $sourceFS->listContents($sourceDir, true);
+
+		foreach ($sourceList as $item) {
+			if ($item->isDir()) {
+				continue;
 			}
-
-			$sourceList = $sourceFS->listContents($sourceDir, true);
-
-			foreach($sourceList as $item)
-			{
-				if($item->isDir())
-					continue;
-
+			try {
 				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
 				$stream = $sourceFS->readStream($item->getPath());
 				$targetFS->writeStream($itemPath, $stream);
+			} catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+				// Do nothing with that type of exception
 			}
-			return true;
 		}
-		catch (\Exception $exception) {
-			return false;
-		}
+
+		return true;
 	}
 
 
@@ -2197,71 +2177,29 @@ class ilUtil
 	public static function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false,
 		$a_exit_after = true)
 	{
+		global $DIC;
 		// should we fail silently?
 		if(!file_exists($a_file))
 		{
 			return false;
-		}	
+		}
+		$delivery = new ilFileDelivery($a_file);
 
 		if ($isInline) {
-			$disposition = "inline"; // "inline" to view file in browser
+			$delivery->setDisposition(ilFileDelivery::DISP_INLINE);
 		} else {
-			$disposition =  "attachment"; // "attachment" to download to hard disk
-			//$a_mime = "application/octet-stream"; // override mime type to ensure that no browser tries to show the file anyway.
+			$delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
 		}
-	// END WebDAV: Show file in browser or provide it as attachment
 
 		if(strlen($a_mime))
 		{
-			$mime = $a_mime;
-		}
-		else
-		{
-			$mime = "application/octet-stream"; // or whatever the mime type is
-		}
-	// BEGIN WebDAV: Removed broken HTTPS code.
-	// END WebDAV: Removed broken HTTPS code.
-		if ($disposition == "attachment")
-		{
-			header("Cache-control: private");
-		}
-		else
-		{
-			header("Cache-Control: no-cache, must-revalidate");
-			header("Pragma: no-cache");
+			$delivery->setMimeType($a_mime);
 		}
 
-		$ascii_filename = ilUtil::getASCIIFilename($a_filename);
-
-		header("Content-Type: $mime");
-		header("Content-Disposition:$disposition; filename=\"".$ascii_filename."\"");
-		header("Content-Description: ".$ascii_filename);
-		
-		// #7271: if notice gets thrown download will fail in IE
-		$filesize = @filesize($a_file);
-		if ($filesize)
-		{
-			header("Content-Length: ".(string)$filesize);
-		}
-
-		include_once './Services/Http/classes/class.ilHTTPS.php';
-		#if($_SERVER['HTTPS'])
-		if(ilHTTPS::getInstance()->isDetected())
-		{
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-		}
-
-		header("Connection: close");
-		ilUtil::readFile( $a_file );
-		if ($removeAfterDelivery)
-		{
-			unlink ($a_file);
-		}
-		if ($a_exit_after)
-		{
-			exit;
-		}
+		$delivery->setDownloadFileName($a_filename);
+		$delivery->setConvertFileNameToAsci((bool)!$DIC->clientIni()->readVariable('file_access', 'disable_ascii'));
+		$delivery->setDeleteFile($removeAfterDelivery);
+		$delivery->deliver();
 	}
 
 
@@ -4914,6 +4852,7 @@ class ilUtil
 	{
 		global $DIC;
 
+		/** @var ilTemplate $tpl */
 		$tpl = $DIC["tpl"];
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}
@@ -4934,7 +4873,7 @@ class ilUtil
 
 			if (!empty($_SESSION["infopanel"]["text"]))
 			{
-				$link = "<a href=\"".$dir.$_SESSION["infopanel"]["link"]."\" target=\"".
+				$link = "<a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
 				$link .= $lng->txt($_SESSION["infopanel"]["text"]);
@@ -5385,12 +5324,12 @@ class ilUtil
 	
 	public static function MB2Bytes($a_value)
 	{
-		return  $a_value * pow(self::_getSizeMagnitude(), 2);
+		return  ((int) $a_value) * pow(self::_getSizeMagnitude(), 2);
 	}
 	
 	public static function Bytes2MB($a_value)
 	{
-		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
+		return  ((int) $a_value) / (pow(self::_getSizeMagnitude(), 2));
 	}
 
 	/**

@@ -76,7 +76,9 @@ class ilECSCourseAttribute
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM ecs_crs_mapping_atts ".
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
@@ -91,7 +93,9 @@ class ilECSCourseAttribute
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->id = $ilDB->nextId('ecs_crs_mapping_atts');
 		
@@ -113,7 +117,9 @@ class ilECSCourseAttribute
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getId())
 		{

@@ -84,7 +84,9 @@ class ilSessionControl
 	 */
 	public static function checkExpiredSession()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		// do not check session in fixed duration mode
 		if( $ilSetting->get('session_handling_type', 0) != 1 )
@@ -99,7 +101,9 @@ class ilSessionControl
 
 		if(!$ilSetting->get("pub_section"))
 		{
-			global $lng;
+			global $DIC;
+
+			$lng = $DIC['lng'];
 
 			$sid = null;
 
@@ -122,7 +126,9 @@ class ilSessionControl
 					self::removeSessionCookie();
 
 					// Trigger expiredSessionDetected  Event
-					global $ilAppEventHandler;
+					global $DIC;
+
+					$ilAppEventHandler = $DIC['ilAppEventHandler'];
 					$ilAppEventHandler->raise(
 						'Services/Authentication', 'expiredSessionDetected', array()
 					);
@@ -139,7 +145,9 @@ class ilSessionControl
 	 */
 	public static function initSession()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		// do not init session type in fixed duration mode
 		if( $ilSetting->get('session_handling_type', 0) != 1 )
@@ -163,7 +171,9 @@ class ilSessionControl
 	 */
 	public static function handleLoginEvent($a_login, ilAuthSession $auth_session)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		require_once 'Services/User/classes/class.ilObjUser.php';
 		$user_id = ilObjUser::_lookupId($a_login);
@@ -207,7 +217,9 @@ class ilSessionControl
 	 */
 	public static function handleLogoutEvent()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		// do not handle logout event in fixed duration mode
 		if( $ilSetting->get('session_handling_type', 0) != 1 )
@@ -233,7 +245,9 @@ class ilSessionControl
 	 */
 	private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, $a_user_id)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$max_sessions = (int)$ilSetting->get('session_max_count', self::DEFAULT_MAX_COUNT);
 
@@ -276,7 +290,9 @@ class ilSessionControl
 						$auth->logout();
 
 						// Trigger reachedSessionPoolLimit Event
-						global $ilAppEventHandler;
+						global $DIC;
+
+						$ilAppEventHandler = $DIC['ilAppEventHandler'];
 						$ilAppEventHandler->raise(
 							'Services/Authentication', 'reachedSessionPoolLimit', array()
 						);
@@ -317,7 +333,9 @@ class ilSessionControl
 	 */
 	public static function getExistingSessionCount(array $a_types)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$ts = time();
 
@@ -343,7 +361,10 @@ class ilSessionControl
 	 */
 	private static function kickOneMinIdleSession(array $a_types)
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$ts = time();
 		$min_idle = (int)$ilSetting->get('session_min_idle', self::DEFAULT_MIN_IDLE) * 60;
@@ -383,7 +404,10 @@ class ilSessionControl
 	 */
 	private static function kickFirstRequestAbidencer(array $a_types)
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$max_idle_after_first_request = (int)$ilSetting->get('session_max_idle_after_first_request') * 60;
 
@@ -420,7 +444,10 @@ class ilSessionControl
 	 */
 	private static function isValidSession($a_sid)
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
 
 		$query = "SELECT session_id, expires FROM usr_session ".
 					"WHERE session_id = %s";
@@ -481,7 +508,9 @@ class ilSessionControl
 	{
 		if( !(int)$a_user_id ) return false;
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$access = $rbacsystem->checkAccessOfUser(
 			$a_user_id, 'read,visible', SYSTEM_FOLDER_ID
@@ -498,7 +527,9 @@ class ilSessionControl
 	 */
 	private static function debug($a_debug_log_message)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		if(DEVMODE) $ilLog->write($a_debug_log_message, 'message');
 

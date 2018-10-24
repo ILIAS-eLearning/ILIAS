@@ -5,7 +5,9 @@
     "implicit_maintainers": [
         "mstuder(8473)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/MyStaff",

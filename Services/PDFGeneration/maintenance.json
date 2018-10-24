@@ -3,7 +3,9 @@
     "first_maintainer": "gvollbach(25234)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/PDFGeneration",

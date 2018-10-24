@@ -3,8 +3,6 @@
 /**
  * Class ilBiblFactoryFacade
  *
- * REFACTOR $ilias_object ersetzen analog zu ilBiblAdminLibraryFacade
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface {

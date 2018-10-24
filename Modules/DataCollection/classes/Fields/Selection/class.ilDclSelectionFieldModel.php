@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilDclSelectionFieldModel
  *
@@ -10,10 +11,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	const SELECTION_TYPE_SINGLE = 'selection_type_single';
 	const SELECTION_TYPE_MULTI = 'selection_type_multi';
 	const SELECTION_TYPE_COMBOBOX = 'selection_type_combobox';
-
 	// those should be overwritten by subclasses
 	const PROP_SELECTION_TYPE = '';
 	const PROP_SELECTION_OPTIONS = '';
+
 
 	/**
 	 * @inheritDoc
@@ -21,6 +22,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	public function getValidFieldProperties() {
 		return array(static::PROP_SELECTION_OPTIONS, static::PROP_SELECTION_TYPE);
 	}
+
 
 	/**
 	 * Returns a query-object for building the record-loader-sql-query
@@ -33,17 +35,15 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$join_str =
-			" INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= " INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 
 		if ($this->isMulti()) {
-			$join_str .=
-				" INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value LIKE "
+			$join_str .= " INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value LIKE "
 				. $ilDB->quote("%$filter_value%", 'text') . ") ";
 		} else {
-			$join_str .=
-				" INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value = "
+			$join_str .= " INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value = "
 				. $ilDB->quote($filter_value, 'integer') . ") ";
 		}
 
@@ -53,9 +53,11 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 		return $sql_obj;
 	}
 
+
 	public function isMulti() {
 		return ($this->getProperty(static::PROP_SELECTION_TYPE) == self::SELECTION_TYPE_MULTI);
 	}
+
 
 	/**
 	 * called when saving the 'edit field' form
@@ -80,7 +82,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 			}
 
 			// save non empty values and set them to null, when they already exist. Do not override plugin-hook when already set.
-			if(!empty($value) || ($this->getPropertyInstance($property) != NULL && $property != self::PROP_PLUGIN_HOOK_NAME)) {
+			if (!empty($value) || ($this->getPropertyInstance($property) != null && $property != self::PROP_PLUGIN_HOOK_NAME)) {
 				$this->setProperty($property, $value);
 			}
 		}
@@ -173,14 +175,13 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 				$sorted_array = array();
 				// $options has the right order, so loop those
 				foreach ($options as $option) {
-					if (in_array($option->getOptId(),$record_field_value)) {
+					if (in_array($option->getOptId(), $record_field_value)) {
 						$sorted_array[] = $option->getOptId();
 					}
 				}
 				$record_field->setValue($sorted_array);
 				$record_field->doUpdate();
 			}
-
 		}
 	}
 
@@ -198,13 +199,15 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 			if ($record_field_value && !is_array($record_field_value) && $is_multi_now) {
 				$record_field->setValue(array($record_field_value));
 				$record_field->doUpdate();
-			}
-			else if (is_array($record_field_value) && !$is_multi_now) {
-				$record_field->setValue(array_shift($record_field_value));
-				$record_field->doUpdate();
+			} else {
+				if (is_array($record_field_value) && !$is_multi_now) {
+					$record_field->setValue(array_shift($record_field_value));
+					$record_field->doUpdate();
+				}
 			}
 		}
 	}
+
 
 	/**
 	 * @param $key
@@ -235,21 +238,20 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 		$sql_obj = new ilDclRecordQueryObject();
 
 		$select_str = "sel_opts_{$this->getId()}.value AS field_{$this->getId()}";
-		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
 		//if ($this->isMulti()) {
 		//	$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value->'$[0]' AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
 		//} else {
-			$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
+		$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value AND sel_opts_{$this->getId()}.field_id = "
+			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		//}
-
-
 
 		$sql_obj->setSelectStatement($select_str);
 		$sql_obj->setJoinStatement($join_str);
 		$sql_obj->setOrderStatement("field_{$this->getId()} {$direction}");
-
 
 		return $sql_obj;
 	}
@@ -283,6 +285,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	 */
 	public function isConfirmationRequired(ilPropertyFormGUI $form) {
 		$will_be_multi = ($form->getInput('prop_' . static::PROP_SELECTION_TYPE) == self::SELECTION_TYPE_MULTI);
+
 		return $this->isMulti() && !$will_be_multi;
 	}
 
@@ -300,8 +303,9 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 		$ilConfirmationGUI->setHeaderText($DIC->language()->txt('dcl_msg_mc_to_sc_confirmation'));
 		$ilConfirmationGUI->addHiddenItem($prop_selection_type, $form->getInput($prop_selection_type));
 		foreach ($form->getInput($prop_selection_options) as $key => $option) {
-			$ilConfirmationGUI->addHiddenItem($prop_selection_options . "[$key][selection_value]",$option['selection_value']);
+			$ilConfirmationGUI->addHiddenItem($prop_selection_options . "[$key][selection_value]", $option['selection_value']);
 		}
+
 		return $ilConfirmationGUI;
 	}
 }

@@ -34,7 +34,9 @@ class ilObjCourseVerification extends ilVerificationObject
 	 */
 	public static function createFromCourse(ilObjCourse $a_course, $a_user_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule("crs");
 		

@@ -37,14 +37,17 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilTabs,$ilUser;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
+		$ilUser = $DIC['ilUser'];
 		
 		if($this->getWaitingList()->isOnList($ilUser->getId()))
 		{
 			$ilTabs->activateTab('leave');
 		}
 		
-		if(!$GLOBALS['ilAccess']->checkAccess('join','',$this->getRefId()))
+		if(!$GLOBALS['DIC']['ilAccess']->checkAccess('join','',$this->getRefId()))
 		{
 			$this->ctrl->setReturn($this->parent_gui,'infoScreen');
 			$this->ctrl->returnToParent($this);
@@ -70,7 +73,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function getFormTitle()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($this->getWaitingList()->isOnList($ilUser->getId()))
 		{
@@ -183,7 +188,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function fillMaxMembers()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if(!$this->container->isSubscriptionMembershipLimited())
 		{
@@ -296,7 +303,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function fillRegistrationType()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($this->container->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{
@@ -388,7 +397,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function addCommandButtons()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		parent::addCommandButtons();
 		
@@ -427,7 +438,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function validate()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
@@ -479,7 +492,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function add()
 	{
-		global $ilUser,$tree, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		// TODO: language vars
 
@@ -521,7 +538,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				
 				if($this->container->isSubscriptionMembershipLimited() && $this->container->getSubscriptionMaxMembers())
 				{
-					$success = $GLOBALS['rbacadmin']->assignUserLimited(
+					$success = $GLOBALS['DIC']['rbacadmin']->assignUserLimited(
 						ilParticipants::getDefaultMemberRole($this->container->getRefId()),
 						$ilUser->getId(),
 						$this->container->getSubscriptionMaxMembers(),
@@ -592,7 +609,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      */
     protected function isWaitingListActive()
     {
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		static $active = null;
 		
 		if($active !== null)

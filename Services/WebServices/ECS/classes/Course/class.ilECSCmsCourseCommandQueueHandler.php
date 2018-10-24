@@ -63,7 +63,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 			$part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
 			if(!$part->isImportEnabled())
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Import disabled for mid '.$this->getMid());
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Import disabled for mid '.$this->getMid());
 				return false;
 			}
 			// Check course allocation setting
@@ -75,13 +75,13 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 			$enabled = $gl_settings->isCourseAllocationEnabled();
 			if(!$enabled)
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Course allocation disabled for '.$this->getMid());
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Course allocation disabled for '.$this->getMid());
 			}
 			return $enabled;
 		}
 		catch(ilECSConnectorException $e) 
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Reading course details failed with message '. $e->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Reading course details failed with message '. $e->getMessage());
 			return false;
 		}		
 	}
@@ -105,13 +105,13 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 		try 
 		{
 			$course = $this->readCourse($server,$a_content_id);
-			$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($course,true));
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '. print_r($course,true));
 			$this->doUpdate($a_content_id, $course);
 			return true;
 		}
 		catch(ilECSConnectorException $e) 
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Course creation failed  with mesage ' . $e->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Course creation failed  with mesage ' . $e->getMessage());
 			return false;
 		}
 		return true;
@@ -148,7 +148,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 		}
 		catch(ilECSConnectorException $e) 
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Course creation failed  with mesage ' . $e->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Course creation failed  with mesage ' . $e->getMessage());
 			return false;
 		}
 		return true;
@@ -162,7 +162,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	protected function doUpdate($a_content_id, $course)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Starting course creation/update');
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Starting course creation/update');
 		
 		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseCreationHandler.php';
 		$creation_handler = new ilECSCourseCreationHandler($this->getServer(),$this->mid);

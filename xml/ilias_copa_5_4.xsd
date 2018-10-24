@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/ContentPage/copa/5_4"
+	xmlns:t = "http://www.ilias.de/Modules/ContentPage/copa/5_4">
+
+	<!-- t:Data type -->
+	<complexType name="Data" mixed="true" />
+
+	<!-- ilObjContentPage -->
+	<element name="Copa">
+		<complexType>
+		<sequence>
+			<element ref="t:id" minOccurs="1" maxOccurs="1"/>
+			<element ref="t:title" minOccurs="1" maxOccurs="1"/>
+			<element ref="t:description" minOccurs="1" maxOccurs="1"/>
+			<element ref="t:info-tab" minOccurs="1" maxOccurs="1"/>
+			<element ref="t:style-id" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name="id" type="t:Data" />
+	<element name="title" type="t:Data" />
+	<element name="description" type="t:Data" />
+	<element name="info-tab" type="t:Data" />
+	<element name="style-id" type="t:Data" />
+
+</schema>

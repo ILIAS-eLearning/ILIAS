@@ -3,8 +3,8 @@
 /**
  * Class ilDclPropertyFormGUI
  *
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
+ * @author       Michael Herren <mh@studer-raimann.ch>
+ * @version      1.0.0
  * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
  */
 class ilDclPropertyFormGUI extends ilPropertyFormGUI {
@@ -20,13 +20,14 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * @param null $a_index
 	 * @param null $a_sub_index
 	 */
-	public function keepTempFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
-	{
+	public function keepTempFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null) {
 		parent::keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
 	}
 
+
 	/**
 	 * return temp-filename
+	 *
 	 * @param      $a_hash
 	 * @param      $a_field
 	 * @param      $a_name
@@ -41,29 +42,32 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 		$ilUser = $DIC['ilUser'];
 
 		$user_id = $ilUser->getId();
-		if(!$user_id || $user_id == ANONYMOUS_USER_ID)
-		{
+		if (!$user_id || $user_id == ANONYMOUS_USER_ID) {
 			return;
 		}
 
 		$a_name = ilUtil::getAsciiFileName($a_name);
 
-		$tmp_file_name = implode("~~", array($user_id,
-			$a_hash,
-			$a_field,
-			$a_index,
-			$a_sub_index,
-			str_replace("/", "~~", $a_type),
-			str_replace("~~", "_", $a_name)));
+		$tmp_file_name = implode(
+			"~~", array($user_id,
+			            $a_hash,
+			            $a_field,
+			            $a_index,
+			            $a_sub_index,
+			            str_replace("/", "~~", $a_type),
+			            str_replace("~~", "_", $a_name))
+		);
 
 		// make sure temp directory exists
 		$temp_path = ilUtil::getDataDir() . "/temp/";
-		return $temp_path.$tmp_file_name;
+
+		return $temp_path . $tmp_file_name;
 	}
 
 
 	/**
 	 * Return temp files
+	 *
 	 * @param $hash
 	 * @param $user_id
 	 *
@@ -71,7 +75,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 */
 	public static function getTempFileByHash($hash, $user_id) {
 		$temp_path = ilUtil::getDataDir() . "/temp";
-		if(is_dir($temp_path) && $user_id && $user_id != ANONYMOUS_USER_ID) {
+		if (is_dir($temp_path) && $user_id && $user_id != ANONYMOUS_USER_ID) {
 			$reload = array();
 
 			$temp_files = glob($temp_path . "/" . $user_id . "~~" . $hash . "~~*");
@@ -114,28 +118,32 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 				}
 			}
 		}
+
 		return $reload;
 	}
 
 
 	/**
 	 * Get reloaded files
+	 *
 	 * @return mixed
 	 */
 	public function getReloadedFiles() {
 		return $this->reloaded_files;
 	}
 
+
 	/**
 	 * Cleanup temp-files
+	 *
 	 * @param $hash
 	 * @param $user
 	 */
 	public function cleanupTempFiles($hash, $user) {
 		$files = glob(ilUtil::getDataDir() . "/temp/" . $user . "~~" . $hash . "~~*");
 
-		foreach($files as $file) {
-			if(file_exists($file)) {
+		foreach ($files as $file) {
+			if (file_exists($file)) {
 				unlink($file);
 			}
 		}

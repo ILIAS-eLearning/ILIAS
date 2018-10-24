@@ -9,7 +9,7 @@
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="NOT_ANALYZED" column="language" type="text" name="lomLanguage" />
-		<Field store="YES" index="NOT_ANALYZED" column="language" type="text" name="metaData" />
+		<Field store="YES" index="ANALYZED" column="language" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>

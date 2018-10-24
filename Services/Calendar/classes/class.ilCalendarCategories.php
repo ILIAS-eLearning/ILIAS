@@ -774,9 +774,6 @@ class ilCalendarCategories
 		}
 
 		// global categories
-// !!!DIC refactoring-script warning.!!!
-// There is an isolated 'global' whithout any variable behind.
-// Either this is a comment, or something is seriously wrong
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL ,'integer')." ".$in.
 			"ORDER BY title ";

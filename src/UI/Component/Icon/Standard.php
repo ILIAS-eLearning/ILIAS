@@ -116,5 +116,20 @@ interface Standard extends Icon {
 	const BDGA  = 'bdga';	//Badge Settings
 	const WFE  	= 'wfe';	//WorkflowEngine
 	const IASS  = 'iass';	//Individual Assessment
+	const COPA  = 'copa';	//Content Page
+
+
+    /**
+     * Is this an outlined Icon?
+     */
+    public function isOutlined();
+
+    /**
+     * Get an icon like this, but marked as outlined.
+     *
+     * @param bool $is_outlined
+     * @return Standard
+     */
+    public function withIsOutlined(bool $is_outlined);
 
 }

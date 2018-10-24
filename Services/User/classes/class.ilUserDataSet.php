@@ -146,7 +146,9 @@ class ilUserDataSet extends ilDataSet
 	 */
 	function getXmlRecord($a_entity, $a_version, $a_set)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		if ($a_entity == "usr_profile")
 		{
@@ -197,7 +199,9 @@ class ilUserDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if (!is_array($a_ids))
 		{
@@ -348,7 +352,10 @@ class ilUserDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-		global $ilSetting, $ilUser;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$ilUser = $DIC['ilUser'];
 //echo $a_entity;
 //var_dump($a_rec);
 

@@ -43,7 +43,10 @@ class ilLuceneQueryInputGUI extends ilTextInputGUI
 	
 	public function checkInput()
 	{
-		global $lng,$ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		
 		$ok = parent::checkInput();
 		

@@ -1,18 +1,16 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
-
 /**
  * Class ilMailMailingListAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailMailingListAddressType extends ilBaseMailAddressType
+class ilMailMailingListAddressType extends \ilBaseMailAddressType
 {
 	/**
-	 * @var ilMailingLists|null
+	 * @var \ilMailingLists|null
 	 */
-	protected static $maling_lists;
+	protected static $mailingLists;
 
 	/**
 	 *
@@ -24,57 +22,51 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected static function initMailingLists()
 	{
 		global $DIC;
 
-		if(self::$maling_lists === null)
-		{
-			require_once 'Services/Contact/classes/class.ilMailingLists.php';
-			self::$maling_lists = new ilMailingLists($DIC->user());
+		if (self::$mailingLists === null) {
+			self::$mailingLists = new \ilMailingLists($DIC->user());
 		}
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
-	protected function isValid($a_sender_id)
+	protected function isValid(int $a_sender_id): bool
 	{
-		$valid = self::$maling_lists->mailingListExists($this->address->getMailbox());
+		$valid = self::$mailingLists->mailingListExists($this->address->getMailbox());
 
-		if(!$valid)
-		{
-			$this->errors = array(
-				array('mail_no_valid_mailing_list', $this->address->getMailbox())
-			);
+		if (!$valid) {
+			$this->errors = [
+				['mail_no_valid_mailing_list', $this->address->getMailbox()]
+			];
 		}
 
 		return $valid;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
-	public function resolve()
+	public function resolve(): array
 	{
-		$usr_ids = array();
+		$usr_ids = [];
 
-		if(self::$maling_lists->mailingListExists($this->address->getMailbox()))
-		{
-			foreach(self::$maling_lists->getCurrentMailingList()->getAssignedEntries() as $entry)
-			{
+		if (self::$mailingLists->mailingListExists($this->address->getMailbox())) {
+			foreach (self::$mailingLists->getCurrentMailingList()->getAssignedEntries() as $entry) {
 				$usr_ids[] = $entry['usr_id'];
 			}
 
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Found the following user ids for address (mailing list title) '%s': %s", $this->address->getMailbox(), implode(', ', array_unique($usr_ids))
+			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Found the following user ids for address (mailing list title) '%s': %s",
+				$this->address->getMailbox(), implode(', ', array_unique($usr_ids))
 			));
-		}
-		else
-		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+		} else {
+			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Did not find any user ids for address (mailing list title) '%s'", $this->address->getMailbox()
 			));
 		}

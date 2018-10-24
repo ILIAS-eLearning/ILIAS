@@ -42,7 +42,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function getSubTreeIds($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT s.child FROM '.
 			$this->getTree()->getTreeTable().' s, '.
@@ -75,7 +77,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$type_str = '';
 		if (is_array($a_types))
@@ -174,7 +178,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function insertNode($a_node_id, $a_parent_id, $a_pos)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$insert_node_callable = function(ilDBInterface $ilDB) use($a_node_id, $a_parent_id, $a_pos)
 		{
@@ -395,7 +401,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function deleteTree($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$delete_tree_callable = function(ilDBInterface $ilDB) use($a_node_id)
 		{
@@ -471,7 +479,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function moveToTrash($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$move_to_trash_callable = function(ilDBInterface $ilDB) use($a_node_id)
 		{
@@ -515,7 +525,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	*/
 	protected function getPathIdsUsingAdjacencyMap($a_endnode_id, $a_startnode_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// The adjacency map algorithm is harder to implement than the nested sets algorithm.
 		// This algorithms performs an index search for each of the path element.
@@ -638,7 +650,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	*/
 	public function getPathIdsUsingNestedSets($a_endnode_id, $a_startnode_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// The nested sets algorithm is very easy to implement.
 		// Unfortunately it always does a full table space scan to retrieve the path
@@ -682,7 +696,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_position)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$move_tree_callable = function(ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position)
 		{
@@ -811,7 +827,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function getSubtreeInfo($a_endnode_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type ".
 			"FROM ".$this->getTree()->getTreeTable()." t1 ".
@@ -844,7 +862,9 @@ class ilNestedSetTree implements ilTreeImplementation
 	 */
 	public function validateParentRelations()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'select child from '.$this->getTree()->getTreeTable().' child where not exists '.
 				'( '.

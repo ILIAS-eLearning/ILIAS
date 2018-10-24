@@ -96,11 +96,9 @@ class ilTestParticipantAccessFilter
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		/*
 		$userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser('write',
 			ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->getRefId(), $userIds
 		);
-		*/
 		
 		return $userIds;
 	}
@@ -113,11 +111,9 @@ class ilTestParticipantAccessFilter
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		/*
 		$userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser('write',
 			ilOrgUnitOperation::OP_SCORE_PARTICIPANTS, $this->getRefId(), $userIds
 		);
-		*/
 		
 		return $userIds;
 	}
@@ -130,11 +126,9 @@ class ilTestParticipantAccessFilter
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		/*
 		$userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser('write',
 			ilOrgUnitOperation::OP_ACCESS_RESULTS, $this->getRefId(), $userIds
 		);
-		*/
 		
 		return $userIds;
 	}

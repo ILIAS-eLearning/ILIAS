@@ -226,7 +226,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		);
 
 		$this->addSetting(
-			"instant_feedback",
+			"instant_feedback_contents",
 			ilSettingsTemplateConfig::CHECKBOX,
 			$this->lng->txt("tst_instant_feedback"),
 			true,
@@ -235,22 +235,33 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'instant_feedback_points' => $this->lng->txt("tst_instant_feedback_results"),
 				'instant_feedback_generic' => $this->lng->txt("tst_instant_feedback_answer_generic"),
 				'instant_feedback_specific' => $this->lng->txt("tst_instant_feedback_answer_specific"),
-				'instant_feedback_solution' => $this->lng->txt("tst_instant_feedback_solution"),
-				'force_instant_feedback' => $this->lng->txt("tst_instant_feedback_forced")
+				'instant_feedback_solution' => $this->lng->txt("tst_instant_feedback_solution")
 			)
 		);
 
 		$this->addSetting(
-			'instant_feedback_handling',
+			"instant_feedback_trigger",
 			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt('tst_instant_feedback_handling'),
+			$this->lng->txt("tst_instant_feedback_trigger"),
 			true,
-			ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_NONE,
+			0,
 			array(
-				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_NONE => $this->lng->txt('tst_instant_feedback_handling_none'),
-				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FREEZE => $this->lng->txt('tst_instant_feedback_handling_freeze'),
-				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE => $this->lng->txt('tst_instant_feedback_handling_force_and_freeze'),
-				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FORCE => $this->lng->txt('tst_instant_feedback_handling_force'),
+				ilObjTestSettingsGeneralGUI::INSTANT_FEEDBACK_TRIGGER_MANUAL => $this->lng->txt("tst_instant_feedback_trigger_manual"),
+				ilObjTestSettingsGeneralGUI::INSTANT_FEEDBACK_TRIGGER_FORCED => $this->lng->txt("tst_instant_feedback_trigger_forced")
+			)
+		);
+
+		$this->addSetting(
+			'answer_fixation_handling',
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt('tst_answer_fixation_handling'),
+			true,
+			0,
+			array(
+				ilObjTestSettingsGeneralGUI::ANSWER_FIXATION_NONE => $this->lng->txt('tst_answer_fixation_none'),
+				ilObjTestSettingsGeneralGUI::ANSWER_FIXATION_ON_INSTANT_FEEDBACK => $this->lng->txt('tst_answer_fixation_on_instant_feedback'),
+				ilObjTestSettingsGeneralGUI::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION => $this->lng->txt('tst_answer_fixation_on_followup_question'),
+				ilObjTestSettingsGeneralGUI::ANSWER_FIXATION_ON_IFB_OR_FUQST => $this->lng->txt('tst_answer_fixation_on_instantfb_or_followupqst')
 			)
 		);
 

@@ -58,7 +58,10 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $rep_object)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -118,7 +121,11 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $rbacsystem, $ilAccess, $ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
 		$hasEditPermissionAccess = 
 			(
 				$ilAccess->checkAccess('edit_permission', '',$this->rep_object->getRefId()) or

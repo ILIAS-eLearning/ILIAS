@@ -56,7 +56,7 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 
 		/** @var ilMailMimeSenderFactory $senderFactory */
-		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+		$senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
 
 		if(is_numeric($sender))
 		{
@@ -153,18 +153,20 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 		catch(InvalidArgumentException $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.' '.$e->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.' '.$e->getMessage());
 			return $this->__raiseError($e->getMessage(),'CLIENT');
 		}
 		catch(ilSaxParserException $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.' '.$e->getMessage());
+			$GLOBALS['DIC']['ilLog']->write(__METHOD__.' '.$e->getMessage());
 			return $this->__raiseError($e->getMessage(), 'CLIENT');
 		}
 		
 		$mails = $parser->getMails();
 		
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		foreach($mails as $mail)
 		{
@@ -258,7 +260,10 @@ class ilSoapUtils extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		global $ilLog,$ilUser;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
+		$ilUser = $DIC['ilUser'];
 
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		$cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
@@ -326,7 +331,10 @@ class ilSoapUtils extends ilSoapAdministration
 			ilLoggerFactory::getLogger('obj')->error('Object cloning failed. Invalid session given: '. $this->__getMessage());
 		}			
 
-		global $ilLog,$ilUser;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
+		$ilUser = $DIC['ilUser'];
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		$cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
@@ -389,7 +397,9 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function callNextNode($sid,$cp_options)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		$cp_options->dropFirstNode();
 
@@ -415,7 +425,9 @@ class ilSoapUtils extends ilSoapAdministration
 	
 	private function callNextDependency($sid,$cp_options)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		$cp_options->dropFirstDependenciesNode();
 		
@@ -448,7 +460,12 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function cloneNode($node,$cp_options)
 	{
-		global $ilLog,$tree,$ilAccess,$rbacreview;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
+		$tree = $DIC['tree'];
+		$ilAccess = $DIC['ilAccess'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		#sleep(20);
 		
@@ -505,7 +522,9 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function cloneDependencies($node,$cp_options)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$source_id = $node['child'];
 		$mappings = $cp_options->getMappings();
@@ -531,7 +550,11 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function linkNode($node,$cp_options)
 	{
-		global $ilLog,$ilAccess,$rbacreview;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
+		$ilAccess = $DIC['ilAccess'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		$source_id = $node['child'];
 		$parent_id = $node['parent'];
@@ -613,7 +636,9 @@ class ilSoapUtils extends ilSoapAdministration
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Starting task execution...');
 		$scheduler = ilECSTaskScheduler::_getInstanceByServerId($a_server_id);
@@ -641,7 +666,10 @@ class ilSoapUtils extends ilSoapAdministration
 		
 		// Session check not possible -> anonymous user is the trigger
 		
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		$ilLog->write(__METHOD__.': Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
 

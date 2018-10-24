@@ -57,7 +57,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id, false))
 		{
@@ -113,7 +115,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
@@ -130,7 +134,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 
 
-		global $tree,$rbacadmin,$log;
+		global $DIC;
+
+		$tree = $DIC['tree'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$log = $DIC['log'];
 
 		if($tree->isDeleted($course_id))
 		{
@@ -176,7 +184,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
@@ -254,7 +264,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
@@ -308,7 +320,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
 									   'Client');
 		}
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
@@ -369,7 +383,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$tmp_course = $this->checkObjectAccess($course_id, "crs", "read", true);
 		if ($this->isFault($tmp_course)) {
@@ -419,7 +435,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
@@ -485,7 +503,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		global $rbacreview, $ilObjDataCache, $tree;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$tree = $DIC['tree'];
 		
 		include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';
 		$parser = new ilXMLResultSetParser($parameters);
@@ -585,7 +607,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$xmlResultSet->addColumn("xml");
 		$xmlResultSet->addColumn("parent_ref_id");
 
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		//#18004
 		// Enable to see own participations by reducing the needed permissions
 		$permission = $user_id == $ilUser->getId() ? 'read' : 'write';

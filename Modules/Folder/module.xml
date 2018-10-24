@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="fold" class_name="Folder" dir="classes" default_pos="40" default_pres_pos="20"
-			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1" export="1">
+			checkbox="1" inherit="1" translate="db" allow_copy="1" rbac="1" export="1">
 			<parent id="fold">fold</parent>
 			<parent id="grp">grp</parent>
 			<parent id="crs">crs</parent>

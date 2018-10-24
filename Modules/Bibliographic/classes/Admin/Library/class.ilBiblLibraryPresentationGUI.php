@@ -100,24 +100,22 @@ class ilBiblLibraryPresentationGUI {
 
 
 	/**
-	 * @param \ilObjBibliographic $bibl_obj
+	 * @param \ilBiblFactoryFacadeInterface $bibl_factory_facade
 	 * @param \ilBiblEntry        $entry
-	 *
-	 * @deprecated REFACTOR sollte nicht ilObjBibliographic nutzen, um den type zu holen, sondern type() auf der facade nutzen
 	 *
 	 * @return string
 	 */
-	public function getButton(ilObjBibliographic $bibl_obj, ilBiblEntry $entry) {
+	public function getButton(ilBiblFactoryFacadeInterface $bibl_factory_facade, ilBiblEntry $entry) {
 		if ($this->library->getImg()) {
 			$button = ilImageLinkButton::getInstance();
-			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFileTypeAsString()));
+			$button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
 			$button->setImage($this->library->getImg(), false);
 			$button->setTarget('_blank');
 
 			return $button->render();
 		} else {
 			$button = ilLinkButton::getInstance();
-			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFileTypeAsString()));
+			$button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
 			$button->setTarget('_blank');
 			$button->setCaption('bibl_link_online');
 

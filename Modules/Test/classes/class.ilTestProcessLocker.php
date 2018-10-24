@@ -65,4 +65,29 @@ abstract class ilTestProcessLocker
 	protected function onAfterExecutingRandomPassBuildOperation($withTaxonomyTables = false)
 	{
 	}
+	
+	
+	/**
+	 * @param callable $operation
+	 */
+	final public function executeTestFinishOperation(callable $operation)
+	{
+		$this->onBeforeExecutingTestFinishOperation();
+		$this->executeOperation($operation);
+		$this->onAfterExecutingTestFinishOperation();
+	}
+
+	/**
+	 * 
+	 */
+	protected function onBeforeExecutingTestFinishOperation()
+	{
+	}
+
+	/**
+	 * 
+	 */
+	protected function onAfterExecutingTestFinishOperation()
+	{
+	}
 }

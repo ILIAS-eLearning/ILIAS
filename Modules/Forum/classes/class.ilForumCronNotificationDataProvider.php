@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
-include_once './Modules/Forum/classes/class.ilForumProperties.php';
-require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
-
 /**
  * Class ilForumCronNotificationDataProvider
  *
@@ -126,6 +122,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	public $pos_author_id = 0;
 
 	/**
+	 * @var string
+	 */
+	public $deleted_by = '';
+
+	/**
 	 * @var \ilForumAuthorInformation[]
 	 */
 	protected static $authorInformationCache = array();
@@ -177,6 +178,18 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		}
 		$this->notificationCache = $notificationCache;
 
+		if(isset($row['deleted_by']))
+		{
+			//cron context
+			$this->deleted_by = $row['deleted_by'];
+		}
+		else
+		{
+			//  fallback
+			global $DIC;
+			$this->deleted_by = $DIC->user()->getLogin();
+		}
+
 		$this->read();
 	}
 
@@ -196,10 +209,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
 			// get attachments
-			include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
 			$filesOfPost   = $fileDataForum->getFilesOfPost();
-			
+
 			foreach($filesOfPost as $attachment)
 			{
 				$this->attachments[] = $attachment['name'];
@@ -383,7 +395,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	{
 		$this->post_update_user_id = $post_update_user_id;
 	}
-	
+
 	public function setPosAuthorId($pos_author_id)
 	{
 		$this->pos_author_id = $pos_author_id;
@@ -392,7 +404,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->pos_author_id;
 	}
-	
+
 	/**
 	 * @return bool
 	 */
@@ -400,7 +412,15 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->is_anonymized;
 	}
-	
+
+	/**
+	 * @return int
+	 */
+	public function getDeletedBy()
+	{
+		return $this->deleted_by;
+	}
+
 	/**
 	 * @return string
 	 */
@@ -417,10 +437,10 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		if ($this->post_user_name === null) {
 			$this->post_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
 				$user_lang,
-				$this->getPosAuthorId(),
-				$this->getPosDisplayUserId(),
-				$this->getPosUserAlias(),
-				$this->getImportName()
+				(int) $this->getPosAuthorId(),
+				(int) $this->getPosDisplayUserId(),
+				(string) $this->getPosUserAlias(),
+				(string) $this->getImportName()
 			));
 		}
 
@@ -435,10 +455,10 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		if ($this->update_user_name === null) {
 			$this->update_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
 				$user_lang,
-				$this->getPosAuthorId(),
-				$this->getPostUpdateUserId(),
-				$this->getPosUserAlias(),
-				$this->getImportName()
+				(int) $this->getPosAuthorId(),
+				(int) $this->getPostUpdateUserId(),
+				(string) $this->getPosUserAlias(),
+				(string) $this->getImportName()
 			));
 		}
 

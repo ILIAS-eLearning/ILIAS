@@ -13,7 +13,7 @@
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssSpecFeedbackPageGUI
-
+ * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilNoteGUI
  */
 class ilAssQuestionPreviewGUI
 {
@@ -175,6 +175,16 @@ class ilAssQuestionPreviewGUI
 				$forwarder->forward();
 				break;
 			
+			case 'ilnotegui':
+				
+				$notesGUI = new ilNoteGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');
+				$notesGUI->enablePublicNotes(true);
+				$notesGUI->enablePublicNotesDeletion(true);
+				$notesPanelHTML = $this->ctrl->forwardCommand($notesGUI);
+				$this->showCmd($notesPanelHTML);
+				break;
+			
+			
 			default:
 
 				$cmd = $this->ctrl->getCmd(self::CMD_SHOW).'Cmd';
@@ -191,7 +201,19 @@ class ilAssQuestionPreviewGUI
 		return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
 	}
 	
-	private function showCmd()
+	protected function isCommentingRequired()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( $this->previewSettings->isTestRefId() )
+		{
+			return false;
+		}
+		
+		return (bool)$DIC->rbac()->system()->checkAccess('write', (int)$_GET['ref_id']);
+	}
+	
+	private function showCmd($notesPanelHTML = '')
 	{
 		$tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
 
@@ -201,9 +223,13 @@ class ilAssQuestionPreviewGUI
 		
 		$this->populateQuestionOutput($tpl);
 		
-		$this->populateQuestionNavigation($tpl);
-
 		$this->handleInstantResponseRendering($tpl);
+		
+		if( $this->isCommentingRequired() )
+		{
+			$this->questionGUI->addHeaderAction();
+			$this->populateNotesPanel($tpl, $notesPanelHTML);
+		}
 		
 		$this->tpl->setContent($tpl->get());
 	}
@@ -213,10 +239,18 @@ class ilAssQuestionPreviewGUI
 		$renderHeader = false;
 		$renderAnchor = false;
 		
+		if( $this->isShowReachedPointsRequired() )
+		{
+			$this->populateReachedPointsOutput($tpl);
+			$renderAnchor = true;
+			$renderHeader = true;
+		}
+		
 		if( $this->isShowBestSolutionRequired() )
 		{
 			$this->populateSolutionOutput($tpl);
 			$renderAnchor = true;
+			$renderHeader = true;
 		}
 		
 		if( $this->isShowGenericQuestionFeedbackRequired() )
@@ -315,6 +349,8 @@ class ilAssQuestionPreviewGUI
 			$questionHtml = $this->questionGUI->buildFocusAnchorHtml() . $questionHtml;
 		}
 		
+		$questionHtml .= $this->getQuestionNavigationHtml();
+		
 		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $questionHtml));
 
 		//$pageGUI->setHeader($this->questionOBJ->getTitle()); // NO ADDITIONAL HEADER
@@ -324,6 +360,19 @@ class ilAssQuestionPreviewGUI
 
 		$tpl->setVariable('QUESTION_OUTPUT', $pageGUI->preview());
 	}
+	
+	protected function populateReachedPointsOutput(ilTemplate $tpl)
+	{
+		$reachedPoints = $this->questionOBJ->calculateReachedPointsFromPreviewSession($this->previewSession);
+		$maxPoints = $this->questionOBJ->getMaximumPoints();
+		
+		$scoreInformation = sprintf(
+			$this->lng->txt( "you_received_a_of_b_points" ), $reachedPoints, $maxPoints
+		);
+		
+		$tpl->setCurrentBlock( "reached_points_feedback" );
+		$tpl->setVariable("REACHED_POINTS_FEEDBACK", $scoreInformation);
+		$tpl->parseCurrentBlock();	}
 
 	private function populateSolutionOutput(ilTemplate $tpl)
 	{
@@ -363,7 +412,7 @@ class ilAssQuestionPreviewGUI
 		$tpl->parseCurrentBlock();
 	}
 
-	private function populateQuestionNavigation(ilTemplate $tpl)
+	private function getQuestionNavigationHtml()
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php';
 		$navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
@@ -378,7 +427,7 @@ class ilAssQuestionPreviewGUI
 		$navGUI->setHintRequestsPossible($this->hintTracking->requestsPossible());
 		$navGUI->setHintRequestsExist($this->hintTracking->requestsExist());
 		
-		$tpl->setVariable('QUESTION_NAVIGATION', $this->ctrl->getHTML($navGUI));
+		return $this->ctrl->getHTML($navGUI);
 	}
 	
 	private function populateGenericQuestionFeedback(ilTemplate $tpl)
@@ -405,8 +454,12 @@ class ilAssQuestionPreviewGUI
 
 	private function populateSpecificQuestionFeedback(ilTemplate $tpl)
 	{
+		$fb = $this->questionGUI->getSpecificFeedbackOutput(
+			(array)$this->previewSession->getParticipantsSolution()
+		);
+		
 		$tpl->setCurrentBlock('instant_feedback_specific');
-		$tpl->setVariable('ANSWER_FEEDBACK', $this->questionGUI->getSpecificFeedbackOutput(0, -1));
+		$tpl->setVariable('ANSWER_FEEDBACK', $fb);
 		$tpl->parseCurrentBlock();
 	}
 	
@@ -447,6 +500,16 @@ class ilAssQuestionPreviewGUI
 	private function isShowSpecificQuestionFeedbackRequired()
 	{
 		if( !$this->previewSettings->isSpecificFeedbackEnabled() )
+		{
+			return false;
+		}
+
+		return $this->previewSession->isInstantResponseActive();
+	}
+
+	private function isShowReachedPointsRequired()
+	{
+		if( !$this->previewSettings->isReachedPointsEnabled() )
 		{
 			return false;
 		}
@@ -497,5 +560,17 @@ class ilAssQuestionPreviewGUI
 		$shuffler->setSeed($this->previewSession->getRandomizerSeed());		
 		
 		return $shuffler;
+	}
+	
+	protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML)
+	{
+		if( !strlen($notesPanelHTML) )
+		{
+			$notesPanelHTML = $this->questionGUI->getNotesHTML();
+		}
+		
+		$tpl->setCurrentBlock('notes_panel');
+		$tpl->setVariable('NOTES_PANEL', $notesPanelHTML);
+		$tpl->parseCurrentBlock();
 	}
 }

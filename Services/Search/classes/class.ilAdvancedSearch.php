@@ -160,7 +160,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function &__searchGeneral()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->options['lom_coverage'] and !$this->options['lom_structure'])
 		{
@@ -205,7 +207,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function &__searchLanguage()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->options['lom_language'])
 		{
@@ -228,7 +232,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function &__searchContribute()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->options['lom_role'])
 		{
@@ -429,7 +435,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 	}
 	function &__searchLifecycle()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$this->setFields(array('meta_version'));
 
@@ -469,7 +477,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function &__searchFormat()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->options['lom_format'])
 		{
@@ -492,7 +502,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 	function __createRightsWhere()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$counter = 0;
 		$where = 'WHERE ';
@@ -512,7 +524,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 	}
 	function __createClassificationWhere()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$counter = 0;
 		$where = 'WHERE ';
@@ -527,7 +541,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 	}
 	function __createEducationalWhere()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$counter = 0;
 		$where = 'WHERE ';
@@ -585,7 +601,9 @@ class ilAdvancedSearch extends ilAbstractSearch
 	}
 	function __createRequirementWhere()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$counter = 0;
 		$where = 'WHERE ';

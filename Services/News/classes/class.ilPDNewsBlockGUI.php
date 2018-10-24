@@ -34,6 +34,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$lng = $DIC->language();
 		$ilUser = $DIC->user();
 		$ilAccess = $DIC->access();
+		$this->obj_definition = $DIC["objDefinition"];
 
 		// NOT ilNewsForContextBlockGUI::__construct() !
 		ilBlockGUI::__construct();
@@ -112,23 +113,19 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
 		return $data;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
-	
+
 	/**
-	* Is block used in repository object?
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

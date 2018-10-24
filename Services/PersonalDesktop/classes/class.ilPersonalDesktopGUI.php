@@ -14,13 +14,13 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilContactGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMyStaffGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilBadgeProfileGUI, ilGroupUserActionsGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilGroupUserActionsGUI, ilAchievementsGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -220,15 +220,6 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($pd_news_gui);
 				break;
 
-			case "illearningprogressgui":
-				$this->getStandardTemplates();
-				$this->setTabs();
-				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP,0);
-				$ret = $this->ctrl->forwardCommand($new_gui);
-				
-				break;		
-
 			case "ilcolumngui":
 				$this->getStandardTemplates();
 				$this->setTabs();
@@ -271,23 +262,13 @@ class ilPersonalDesktopGUI
 				$this->tpl->show();
 				break;
 
-			case 'ilpersonalskillsgui':				
-				$this->setTabs();
-				include_once './Services/Skill/classes/class.ilPersonalSkillsGUI.php';
-				$skgui = new ilPersonalSkillsGUI();
-				$this->getStandardTemplates();
-				$ret = $this->ctrl->forwardCommand($skgui);
-				$this->tpl->show();
-				break;
-			
-			case 'ilbadgeprofilegui':		
+			case 'ilachievementsgui':
 				$this->getStandardTemplates();
 				$this->setTabs();
-				include_once './Services/Badge/classes/class.ilBadgeProfileGUI.php';
-				$bgui = new ilBadgeProfileGUI();
-				$ret = $this->ctrl->forwardCommand($bgui);
-				$this->tpl->show();
+				$achievegui = new ilAchievementsGUI();
+				$ret = $this->ctrl->forwardCommand($achievegui);
 				break;
+
 			case 'ilmystaffgui':
 				$this->getStandardTemplates();
 				include_once './Services/MyStaff/classes/class.ilMyStaffGUI.php';

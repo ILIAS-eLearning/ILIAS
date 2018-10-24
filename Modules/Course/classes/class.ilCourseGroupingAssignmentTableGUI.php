@@ -14,7 +14,10 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 {
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_content_obj, $a_group_obj)
 	{
-	 	global $lng, $ilCtrl;
+	 	global $DIC;
+
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 		
 	 	$this->lng = $lng;	
 	 	$this->ctrl = $ilCtrl;
@@ -47,7 +50,10 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 	
 	protected function getItems($a_content_obj, $a_group_obj)
 	{
-		global $ilUser, $tree;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
 		
 		$counter = 0;
 		$items = ilUtil::_getObjectsByOperations($this->type,

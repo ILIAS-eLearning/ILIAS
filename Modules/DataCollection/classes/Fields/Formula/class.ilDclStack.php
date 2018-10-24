@@ -31,10 +31,11 @@ class ilDclStack {
 			$elem = $this->stack[$last_index];
 			unset($this->stack[$last_index]);
 			$this->stack = array_values($this->stack); // re-index
+
 			return $elem;
 		}
 
-		return NULL;
+		return null;
 	}
 
 
@@ -46,7 +47,7 @@ class ilDclStack {
 			return $this->stack[count($this->stack) - 1];
 		}
 
-		return NULL;
+		return null;
 	}
 
 

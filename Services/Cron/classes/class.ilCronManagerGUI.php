@@ -96,7 +96,7 @@ class ilCronManagerGUI
 	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getScheduleTypeFormElementName($scheduleTypeId)
+	protected function getScheduleTypeFormElementName(int $scheduleTypeId)
 	{
 		switch ($scheduleTypeId) {
 			case ilCronJob::SCHEDULE_TYPE_DAILY:
@@ -132,7 +132,7 @@ class ilCronManagerGUI
 	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getScheduleValueFormElementName($scheduleTypeId)
+	protected function getScheduleValueFormElementName(int $scheduleTypeId)
 	{
 		switch ($scheduleTypeId) {
 			case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
@@ -147,6 +147,22 @@ class ilCronManagerGUI
 
 		throw new \InvalidArgumentException(sprintf('The passed argument %s is invalid!', var_export($scheduleTypeId, 1)));
  	}
+
+	/**
+	 * @param int $scheduleTypeId
+	 * @return bool
+	 */
+	protected function hasScheduleValue(int $scheduleTypeId): bool 
+	{
+		return in_array(
+			$scheduleTypeId,
+			[
+				ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+				ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+				ilCronJob::SCHEDULE_TYPE_IN_DAYS
+			]
+		);
+	}
 
 	protected function initEditForm($a_job_id)
 	{

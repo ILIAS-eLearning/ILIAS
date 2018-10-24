@@ -426,7 +426,7 @@ class ilMimeMail
 	 * @param $transport \ilMailMimeTransport|null
 	 * @return bool A boolean flag whether or not the transport might be successful
 	 */
-	public function Send($transport = null)
+	public function Send(\ilMailMimeTransport $transport = null)
 	{
 		if(!($transport instanceof \ilMailMimeTransport))
 		{

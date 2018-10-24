@@ -33,7 +33,9 @@ class ilECSImport
 	 */
 	public function __construct($a_server_id,$a_obj_id)
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 
 		$this->server_id = $a_server_id;
 		$this->obj_id = $a_obj_id;
@@ -52,7 +54,9 @@ class ilECSImport
 	 */
 	public static function lookupContentId($a_server_id, $a_mid, $a_econtent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * from ecs_import '.
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
@@ -75,7 +79,9 @@ class ilECSImport
 	 */
 	public static function lookupObjIdByContentId($a_server_id, $a_mid, $a_content_id, $a_sub_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT obj_id FROM ecs_import ".
 			"WHERE content_id = ".$ilDB->quote($a_content_id,'integer')." ".
@@ -102,7 +108,9 @@ class ilECSImport
 	
 	public static function lookupObjIdsByContentId($a_content_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT obj_id FROM ecs_import ".
 			"WHERE content_id = ".$ilDB->quote($a_content_id,'integer');
@@ -128,7 +136,9 @@ class ilECSImport
 	 */
 	public static function lookupEContentIdByContentId($a_server_id,$a_mid,$a_content_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT * from ecs_import '.
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
@@ -151,7 +161,9 @@ class ilECSImport
 	 */
 	public static function getAllImportedRemoteObjects($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
 		
@@ -177,7 +189,9 @@ class ilECSImport
 	 */
 	public static function _lookupObjIdsByMID($a_server_id,$a_mid)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM ecs_import ".
 			"WHERE mid = ".$ilDB->quote($a_mid,'integer')." ".
@@ -201,7 +215,9 @@ class ilECSImport
 	 */
 	public static function _lookupEContentId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM ecs_import WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
 		$res = $ilDB->query($query);
@@ -220,7 +236,9 @@ class ilECSImport
 	 */
 	public static function lookupServerId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM ecs_import WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
 		$res = $ilDB->query($query);
@@ -240,7 +258,9 @@ class ilECSImport
 	 */
 	public static function _lookupObjIds($a_server_id,$a_econtent_id)
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT obj_id FROM ecs_import WHERE econtent_id  = ".$ilDB->quote($a_econtent_id,'text')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -262,7 +282,9 @@ class ilECSImport
 	 */
 	public static function _lookupObjId($a_server_id,$a_econtent_id,$a_mid, $a_sub_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT obj_id FROM ecs_import ".
 			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'text')." ".
@@ -294,7 +316,9 @@ class ilECSImport
 	 */
 	public static function _lookupMID($a_server_id,$a_obj_id)
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM ecs_emport WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -317,7 +341,9 @@ class ilECSImport
 	 */
 	public static function _lookupMIDs($a_server_id,$a_econtent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT mid FROM ecs_import WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'text')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -339,7 +365,9 @@ class ilECSImport
 	 */
 	public static function _deleteByObjId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM ecs_import ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
@@ -354,7 +382,9 @@ class ilECSImport
 	 */
 	public static function deleteByServer($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_import '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
@@ -370,7 +400,9 @@ class ilECSImport
 	 */
 	public static function deleteRessources($a_server_id, $a_mid, $a_econtent_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'DELETE FROM ecs_import '.
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
@@ -499,7 +531,9 @@ class ilECSImport
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM ecs_import ".
 			"WHERE obj_id = ".$this->db->quote($this->obj_id,'integer')." ".
@@ -527,7 +561,9 @@ class ilECSImport
 	 */
 	private function read()
 	{
-	 	global $ilDB;
+	 	global $DIC;
+
+	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM ecs_import WHERE ".
 	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." ".
@@ -544,7 +580,9 @@ class ilECSImport
 	
 	public static function resetServerId($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'UPDATE ecs_import SET server_id = '.$ilDB->quote(0,'integer').
 			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');

@@ -34,7 +34,9 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
 	
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
 		
 		$t_arr = explode("_", $a_target);
 		

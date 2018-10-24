@@ -83,6 +83,11 @@ class ilMainMenuGUI
 	protected $mode; // [int]
 	protected $topbar_back_url; // [stringt]
 	protected $topbar_back_caption; // [string]
+
+	/**
+	 * @var ilLearningHistoryService
+	 */
+	protected $learing_history;
 	
 	const MODE_FULL = 1;
 	const MODE_TOPBAR_ONLY = 2;
@@ -118,6 +123,9 @@ class ilMainMenuGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->help = $DIC["ilHelp"];
 		$this->ui = $DIC->ui();
+		$this->learing_history = $DIC->learningHistory();
+		$this->achievements = new ilAchievements();
+
 		$rbacsystem = $DIC->rbac()->system();
 		$ilUser = $DIC->user();
 		
@@ -664,41 +672,15 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
-			// skills
-			$skmg_set = new ilSetting("skmg");
-			if ($skmg_set->get("enable_skmg"))
-			{
-				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills",
-					"_top", "", "", "mm_pd_skill", ilHelp::getMainMenuTooltip("mm_pd_skill"),
-					"left center", "right center", false);
-				
-				$separator = true;
-			}
 
-			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
-			if(ilBadgeHandler::getInstance()->isActive())
+			// achievements
+			if ($this->achievements->isAnyActive())
 			{
-				$gl->addEntry($lng->txt('obj_bdga'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges', '_top'
-					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+				$this->lng->loadLanguageModule("pd");
+				$gl->addEntry($lng->txt("pd_achievements"), $this->ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI"], ""),
+					"_top", "", "", "mm_pd_achiev", ilHelp::getMainMenuTooltip("mm_pd_achiev"),
 					"left center", "right center", false);
 
-				$separator = true;
-			}
-
-
-			// Learning Progress
-			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-			if (ilObjUserTracking::_enabledLearningProgress() && 
-				(ilObjUserTracking::_hasLearningProgressOtherUsers() ||
-				ilObjUserTracking::_hasLearningProgressLearner()))
-			{
-				//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
-				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP",
-					"_top", "", "", "mm_pd_lp", ilHelp::getMainMenuTooltip("mm_pd_lp"),
-					"left center", "right center", false);
-				
 				$separator = true;
 			}
 

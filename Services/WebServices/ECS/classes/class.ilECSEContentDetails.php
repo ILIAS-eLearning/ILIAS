@@ -56,7 +56,9 @@ class ilECSEContentDetails
 	 */
 	public static function getInstance($a_server_id, $a_econtent_id, $a_resource_type)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 		
 		try
 		{
@@ -166,7 +168,9 @@ class ilECSEContentDetails
 	 */
 	public function loadFromJson($json)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC['ilLog'];
 
 		if(!is_object($json))
 		{

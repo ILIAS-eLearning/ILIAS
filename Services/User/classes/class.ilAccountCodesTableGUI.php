@@ -19,7 +19,10 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->setId("user_account_code");
 		
@@ -62,7 +65,11 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng, $rbacreview, $ilObjDataCache;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->determineOffsetAndOrder();
 		
@@ -134,7 +141,11 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 		
 		include_once("./Services/User/classes/class.ilAccountCode.php");
 		

@@ -28,6 +28,11 @@ class ilPersonalSkillsGUI
 	protected $hidden_skills = array();
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -85,6 +90,11 @@ class ilPersonalSkillsGUI
 	protected $obj_skills = array();
 
 	/**
+	 * @var ilPersonalSkillsFilterGUI
+	 */
+	protected $filter;
+
+	/**
 	 * Contructor
 	 *
 	 * @access public
@@ -104,6 +114,7 @@ class ilPersonalSkillsGUI
 		$this->access = $DIC->access();
 		$this->ui_fac = $DIC->ui()->factory();
 		$this->ui_ren = $DIC->ui()->renderer();
+		$this->ui = $DIC->ui();
 
 		$ilCtrl = $this->ctrl;
 		$ilHelp = $this->help;
@@ -128,8 +139,21 @@ class ilPersonalSkillsGUI
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$this->skmg_settings = new ilSkillManagementSettings();
 
+		$this->filter = new ilPersonalSkillsFilterGUI();
+
 	}
-	
+
+	/**
+	 * Get filter
+	 *
+	 * @return ilPersonalSkillsFilterGUI
+	 */
+	protected function getFilter()
+	{
+		return $this->filter;
+	}
+
+
 	/**
 	 * Set profile id
 	 *
@@ -288,8 +312,8 @@ class ilPersonalSkillsGUI
 
 		$cmd = $ilCtrl->getCmd($std_cmd);
 		
-		$tpl->setTitle($lng->txt("skills"));
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
+		//$tpl->setTitle($lng->txt("skills"));
+		//$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
 
 		switch($next_class)
 		{
@@ -310,20 +334,20 @@ class ilPersonalSkillsGUI
 		$ilTabs = $this->tabs;
 
 		// list skills
-		$ilTabs->addTab("list_skills",
+		$ilTabs->addSubTab("list_skills",
 			$lng->txt("skmg_selected_skills"),
 			$ilCtrl->getLinkTarget($this, "listSkills"));
 
 		if (count($this->user_profiles) > 0)
 		{
-			$ilTabs->addTab("profile",
+			$ilTabs->addSubTab("profile",
 				$lng->txt("skmg_assigned_profiles"),
 				$ilCtrl->getLinkTarget($this, "listAssignedProfile"));
 		}
 
 		// assign materials
 
-		$ilTabs->activateTab($a_activate);
+		$ilTabs->activateSubTab($a_activate);
 	}
 	
 	function setOfflineMode($a_file_path)
@@ -351,6 +375,10 @@ class ilPersonalSkillsGUI
 		$ilToolbar->addFormButton($lng->txt("skmg_add_skill"),
 			"listSkillsForAdd");
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+		$filter_toolbar = new ilToolbarGUI();
+		$filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
+		$this->getFilter()->addToToolbar($filter_toolbar, false);
 			
 		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
 		$html = "";
@@ -372,10 +400,35 @@ class ilPersonalSkillsGUI
 		// list skills
 //		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
 //		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
-		
+
+		if ($html != "")
+		{
+			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
+			$html = $filter_toolbar->getHTML().$html;
+		}
+
 		$tpl->setContent($html);
 
 	}
+
+	/**
+	 * Apply filter
+	 */
+	protected function applyFilter()
+	{
+		$this->getFilter()->save();
+		$this->ctrl->redirect($this, "listSkills");
+	}
+
+	/**
+	 * Apply filter for profiles view
+	 */
+	protected function applyFilterAssignedProfiles()
+	{
+		$this->getFilter()->save();
+		$this->ctrl->redirect($this, "listAssignedProfile");
+	}
+
 
 	/**
 	 * Get skill presentation HTML
@@ -474,7 +527,10 @@ class ilPersonalSkillsGUI
 				if (!$this->skmg_settings->getHideProfileBeforeSelfEval() ||
 					ilBasicSkill::hasSelfEvaluated($user->getId(), $bs["id"], $bs["tref"]))
 				{
-					$panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
+					if ($this->getFilter()->showTargetLevel())
+					{
+						$panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
+					}
 				}
 			}
 
@@ -499,7 +555,10 @@ class ilPersonalSkillsGUI
 					{
 						$se_rendered = true;
 					}
-					$panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+					if ($this->getFilter()->isInRange($level_data, $level_entry))
+					{
+						$panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+					}
 				}
 				
 			}
@@ -684,7 +743,7 @@ class ilPersonalSkillsGUI
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("skmg_really_remove_skills"));
 			$cgui->setCancel($lng->txt("cancel"), "listSkills");
-			$cgui->setConfirm($lng->txt("delete"), "removeSkills");
+			$cgui->setConfirm($lng->txt("remove"), "removeSkills");
 			
 			foreach ($_POST["id"] as $i)
 			{
@@ -811,10 +870,15 @@ class ilPersonalSkillsGUI
 		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		$ilSetting = $this->setting;
+		$ui = $this->ui;
 
 		if(!$ilSetting->get("disable_personal_workspace"))
 		{
-			ilUtil::sendInfo($lng->txt("skmg_ass_materials_from_workspace")." » <a href='ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace'>".$lng->txt("personal_workspace")."</a>");
+			$url = 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace';
+			$mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
+				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_workspace"),
+					$url)]);
+			$message =  $ui->renderer()->render($mbox);
 		}
 		
 		$ilCtrl->saveParameter($this, "skill_id");
@@ -852,7 +916,7 @@ class ilPersonalSkillsGUI
 		$tb->setCloseFormTag(true);
 		$mtpl->setVariable("TOOLBAR2", $tb->getHTML());
 		
-		$tpl->setContent($mtpl->get());
+		$tpl->setContent($message.$mtpl->get());
 	}
 	
 	/**
@@ -1853,12 +1917,18 @@ class ilPersonalSkillsGUI
 	 */
 	function listAssignedProfile()
 	{
+		$ilCtrl = $this->ctrl;
+
 		$tpl = $this->tpl;
 
 		$this->setTabs("profile");
 
 		$this->determineCurrentProfile();
 		$this->showProfileSelectorToolbar();
+
+		$filter_toolbar = new ilToolbarGUI();
+		$filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
+		$this->getFilter()->addToToolbar($filter_toolbar, true);
 
 		$skills = array();
 		if ($this->getProfileId() > 0)
@@ -1885,6 +1955,13 @@ class ilPersonalSkillsGUI
 		{
 			// todo draft check
 			$html.= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
+		}
+
+		if ($html != "")
+		{
+			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilterAssignedProfiles");
+
+			$html = $filter_toolbar->getHTML().$html;
 		}
 
 		$tpl->setContent($html);

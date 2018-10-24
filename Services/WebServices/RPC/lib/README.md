@@ -26,7 +26,7 @@ that requires full-text search, especially cross-platform.
 <a name="requirements"></a>
 ## Requirements
 
-This Java server has been tested with Sun Java Runtime Environment 1.6.
+This Java server has been tested with Open JDK Java Runtime 1.8.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
 

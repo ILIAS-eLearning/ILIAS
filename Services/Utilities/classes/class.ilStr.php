@@ -43,6 +43,18 @@ class ilStr
 		}
 	}
 
+	static function strrPos($a_haystack, $a_needle, $a_offset = NULL)
+	{
+		if (function_exists("mb_strpos"))
+		{
+			return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+		}
+		else
+		{
+			return strrpos($a_haystack, $a_needle, $a_offset);
+		}
+	}
+
 	static function strIPos($a_haystack, $a_needle, $a_offset = NULL)
 	{
 		if (function_exists("mb_stripos"))

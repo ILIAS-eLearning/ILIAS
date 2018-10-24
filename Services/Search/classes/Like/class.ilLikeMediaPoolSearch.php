@@ -38,7 +38,9 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 {
 	function __createAndCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		/*
 		$concat  = " CONCAT(";
@@ -73,7 +75,9 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 	 */
 	public function __createKeywordAndCondition()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$concat = ' keyword ';
 

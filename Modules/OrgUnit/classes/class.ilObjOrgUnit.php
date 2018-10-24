@@ -249,7 +249,7 @@ class ilObjOrgUnit extends ilContainer {
 			ilOrgUnitUserAssignment::findOrCreateAssignment(
 				$user_id,
 				$position_id,
-				$this->getId());
+				$this->getRefId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToEmployeeRole', array(
 				'object'  => $this,
@@ -275,7 +275,7 @@ class ilObjOrgUnit extends ilContainer {
 			ilOrgUnitUserAssignment::findOrCreateAssignment(
 				$user_id,
 				$position_id,
-				$this->getId());
+				$this->getRefId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToSuperiorRole', array(
 				'object'  => $this,
@@ -296,7 +296,7 @@ class ilObjOrgUnit extends ilContainer {
 		ilOrgUnitUserAssignment::findOrCreateAssignment(
 			$user_id,
 			$position_id,
-			$this->getId())->delete();
+			$this->getRefId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
 			'object'  => $this,
@@ -316,7 +316,7 @@ class ilObjOrgUnit extends ilContainer {
 		ilOrgUnitUserAssignment::findOrCreateAssignment(
 			$user_id,
 			$position_id,
-			$this->getId())->delete();
+			$this->getRefId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
 			'object'  => $this,
@@ -509,7 +509,7 @@ class ilObjOrgUnit extends ilContainer {
 
 		// Delete all position assignments to this object.
 		$assignments = ilOrgUnitUserAssignment::where(array(
-			'orgu_id'     => $this->getId(),
+			'orgu_id'     => $this->getRefId(),
 		))->get();
 		foreach ($assignments as $assignment) {
 			$assignment->delete();

@@ -49,6 +49,16 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	* @var boolean
 	*/
 	var $isRandomTest;
+	
+	/**
+	 * @var integer[]
+	 */
+	protected $alreadyPresentedQuestions = array();
+	
+	/**
+	 * @var int
+	 */
+	protected $newlyPresentedQuestion = 0;
 
 	/**
 	 * @var array
@@ -160,6 +170,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	public function loadFromDb()
 	{
 		$this->loadQuestionSequence();
+		$this->loadPresentedQuestions();
 		$this->loadCheckedQuestions();
 		$this->loadOptionalQuestions();
 	}
@@ -184,6 +195,21 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 			if (!is_array($this->sequencedata["hidden"])) $this->sequencedata["hidden"] = array();
 			
 			$this->setAnsweringOptionalQuestionsConfirmed((bool)$row['ans_opt_confirmed']);
+		}
+	}
+	
+	protected function loadPresentedQuestions()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$res = $DIC->database()->queryF(
+			"SELECT question_fi FROM tst_seq_qst_presented WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'), array($this->active_id, $this->pass)
+		);
+		
+		while( $row = $DIC->database()->fetchAssoc($res) )
+		{
+			$this->alreadyPresentedQuestions[ $row['question_fi'] ] = $row['question_fi'];
 		}
 	}
 	
@@ -223,6 +249,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	public function saveToDb()
 	{
 		$this->saveQuestionSequence();
+		$this->saveNewlyPresentedQuestion();
 		$this->saveNewlyCheckedQuestion();
 		$this->saveOptionalQuestions();
 	}
@@ -256,6 +283,20 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 			"tstamp" => array("integer", time()),
 			'ans_opt_confirmed' => array('integer', (int)$this->isAnsweringOptionalQuestionsConfirmed())
 		));
+	}
+	
+	protected function saveNewlyPresentedQuestion()
+	{
+		if( (int)$this->newlyPresentedQuestion )
+		{
+			global $DIC; /* @var ILIAS\DI\Container $DIC */
+			
+			$DIC->database()->replace('tst_seq_qst_presented', array(
+				'active_fi' => array('integer', (int)$this->active_id),
+				'pass' => array('integer', (int)$this->pass),
+				'question_fi' => array('integer', (int)$this->newlyPresentedQuestion)
+			), array());
+		}
 	}
 
 	/**
@@ -391,6 +432,42 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 				array_push($this->sequencedata["hidden"], intval($this->questions[$sequence]));
 			}
 		}
+	}
+	
+	public function setQuestionPresented($questionId)
+	{
+		$this->newlyPresentedQuestion = $questionId;
+	}
+	
+	public function isQuestionPresented($questionId)
+	{
+		return (
+			$this->newlyPresentedQuestion == $questionId || in_array($questionId, $this->alreadyPresentedQuestions)
+		);
+	}
+	
+	public function isNextQuestionPresented($questionId)
+	{
+		$nextQstId = $this->getQuestionForSequence(
+			$this->getNextSequence( $this->getSequenceForQuestion($questionId) )
+		);
+		
+		if( !$nextQstId )
+		{
+			return false;
+		}
+		
+		if( $this->newlyPresentedQuestion == $nextQstId )
+		{
+			return true;
+		}
+		
+		if( in_array($nextQstId, $this->alreadyPresentedQuestions) )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public function setQuestionChecked($questionId)
@@ -660,6 +737,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 					"nr" => "$key",
 					"title" => $question->getTitle(),
 					"qid" => $question->getId(),
+					"presented" => $this->isQuestionPresented($question->getId()),
 					"visited" => $worked_through,
 					"solved" => (($solved)?"1":"0"),
 					"description" => $question->getComment(),

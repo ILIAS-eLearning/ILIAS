@@ -3,7 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Image\Image;
-use ILIAS\UI\Component\Modal\LightboxPage;
+use ILIAS\UI\Component\Modal\LightboxDescriptionEnabledPage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
@@ -14,7 +14,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class LightboxImagePage implements LightboxPage {
+class LightboxImagePage implements LightboxDescriptionEnabledPage {
 
 	use ComponentHelper;
 
@@ -58,7 +58,7 @@ class LightboxImagePage implements LightboxPage {
 	/**
 	 * @inheritdoc
 	 */
-	public function getDescription() {
+	public function getDescription(): string {
 		return $this->description ? $this->description : $this->image->getAlt();
 	}
 

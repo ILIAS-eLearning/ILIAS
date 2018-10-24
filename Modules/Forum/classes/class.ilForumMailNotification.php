@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailNotification.php';
-
 /**
  * @author Nadia Matuschek <nmatuschek@databay.de>
  * @version $Id$
@@ -103,7 +101,6 @@ class ilForumMailNotification extends ilMailNotification
 		global $DIC; 
 		$ilSetting = $DIC->settings();
 		$lng = $DIC->language();
-		$ilUser = $DIC->user();
 
 		if(!$ilSetting->get('forum_notification', 0))
 		{
@@ -128,7 +125,7 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('thread_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
+					$customText = sprintf($this->getLanguageText('thread_deleted_by'), $this->provider->getDeletedBy(),  $this->provider->getForumTitle());
 					$this->sendMailWithoutAttachments('frm_noti_subject_del_thread', (int) $rcp, (string) $customText, 'content_deleted_thread');
 				}
 				break;
@@ -194,7 +191,7 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('post_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
+					$customText = sprintf($this->getLanguageText('post_deleted_by'), $this->provider->getDeletedBy(),  $this->provider->getForumTitle());
 					$this->sendMailWithoutAttachments('frm_noti_subject_del_post', (int) $rcp, (string) $customText, 'content_deleted_post');
 				}
 				break;

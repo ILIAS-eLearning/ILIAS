@@ -29,7 +29,12 @@ class ilSearchController
 	*/
 	function __construct()
 	{
-		global $ilCtrl,$ilias,$lng,$tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 
 		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
@@ -64,7 +69,9 @@ class ilSearchController
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 

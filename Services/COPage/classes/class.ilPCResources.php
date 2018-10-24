@@ -182,7 +182,16 @@ class ilPCResources extends ilPageContent
 		return array("pc_res");
 	}
 
-	
+	/**
+	 * Resolve resources
+	 *
+	 * @param ilPageObject $page
+	 */
+	static public function resolveResources(ilPageObject $page, $ref_mappings)
+	{
+		self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
+	}
+
 }
 
 ?>

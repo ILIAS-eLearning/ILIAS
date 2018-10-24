@@ -10,7 +10,9 @@
         "mherren(42714)",
         "swanzenried(36442)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "kim.schmidt(28720)",
     "testcase_writer": "mstuder(8473)",
     "path": "Modules/DataCollection",

@@ -348,7 +348,7 @@ class assSingleChoiceImport extends assQuestionImport
 		foreach ($feedbacks as $ident => $material)
 		{
 			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
-					$this->object->getId(), $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+					$this->object->getId(),0, $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
 			);
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)

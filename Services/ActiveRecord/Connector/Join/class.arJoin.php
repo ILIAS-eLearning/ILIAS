@@ -81,15 +81,6 @@ class arJoin extends arStatement {
 	}
 
 
-	/**
-	 * @param \ActiveRecord $ar
-	 * @return string
-	 */
-	public function asORACLEStatement(ActiveRecord $ar) {
-		return $this->asStatementText($ar, ' ');
-	}
-
-
 	public function setLeft() {
 		$this->setType(self::TYPE_LEFT);
 	}

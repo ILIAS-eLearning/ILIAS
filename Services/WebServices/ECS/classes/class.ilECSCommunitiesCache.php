@@ -64,7 +64,9 @@ class ilECSCommunitiesCache
 	 */
 	public static function delete($a_server_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'DELETE FROM ecs_community '.
 			'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
@@ -123,7 +125,9 @@ class ilECSCommunitiesCache
 	 */
 	private function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT sid,cid FROM ecs_community ';
 		$res = $ilDB->query($query);

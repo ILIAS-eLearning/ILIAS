@@ -108,7 +108,10 @@ class ilLuceneSearcher
 	 */
 	public function highlight($a_obj_ids)
 	{
-		global $ilBench,$ilSetting;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
+		$ilSetting = $DIC['ilSetting'];
 
 		include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
 		
@@ -193,7 +196,10 @@ class ilLuceneSearcher
 	 */
 	protected function performSearch()
 	{
-		global $ilBench,$ilSetting;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
+		$ilSetting = $DIC['ilSetting'];
 
 		// TODO error handling
 		if(!$this->query_parser->getQuery())

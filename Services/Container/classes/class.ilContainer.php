@@ -111,13 +111,17 @@ class ilContainer extends ilObject
 	const SORT_NEW_ITEMS_ORDER_CREATION = 1;
 	const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
-
 	static $data_preloaded = false;
 
 	/**
 	 * @var ilSetting
 	 */
 	protected $setting;
+
+	/**
+	 * @var ilObjectTranslation
+	 */
+	protected $obj_trans = null;
 
 	function __construct($a_id = 0, $a_reference = true)
 	{
@@ -135,7 +139,30 @@ class ilContainer extends ilObject
 
 		$this->setting = $DIC["ilSetting"];
 		parent::__construct($a_id, $a_reference);
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 
+		if ($this->getId() > 0)
+		{
+			$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+		}
+	}
+
+	/**
+	 * Get object translation
+	 * @return ilObjectTranslation
+	 */
+	public function getObjectTranslation()
+	{
+		return $this->obj_trans;
+	}
+
+	/**
+	 * Get object translation
+	 * @param ilObjectTranslation $obj_trans
+	 */
+	public function setObjectTranslation(ilObjectTranslation $obj_trans)
+	{
+		$this->obj_trans = $obj_trans;
 	}
 
 	/**
@@ -176,50 +203,6 @@ class ilContainer extends ilObject
 	{
 		return ilUtil::getWebspaceDir()."/container_data/obj_".$a_id;
 	}
-	
-	/**
-	 * Get path for big icon.
-	 *
-	 * @return	string	icon path
-	 * @deprecated use _lookupIconPath instead
-	 */
-	function getBigIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
-	/**
-	 * Get path for small icon
-	 *
-	 * @return	string	icon path
-	 * @deprecated use _lookupIconPath instead
-	 */
-	function getSmallIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
-	/**
-	 * Get path for tiny icon
-	 *
-	 * @return	string	icon path
-	 * @deprecated use _lookupIconPath instead
-	 */
-	function getTinyIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
-	/**
-	 * Get path for custom icon
-	 *
-	 * @return	string	icon path
-	 */
-	function getCustomIconPath()
-	{
-		return self::_lookupIconPath($this->getId());
-	}
-
 
 	/**
 	* Set Found hidden files (set by getSubItems).
@@ -316,6 +299,44 @@ class ilContainer extends ilObject
 	{
 		return $this->news_timeline_landing_page;
 	}
+
+	/**
+	 * Is news timeline effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Is news timeline landing page effective?
+	 *
+	 * @return bool
+	 */
+	public function isNewsTimelineLandingPageEffective()
+	{
+		if ($this->getUseNews())
+		{
+			if ($this->getNewsTimeline())
+			{
+				if ($this->getNewsTimelineLandingPage())
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 
 	/**
 	 * Set news block activated
@@ -492,68 +513,7 @@ class ilContainer extends ilObject
 			$a_xml->xmlEndTag("ContainerSettings");
 		}		
 	}
-	
-	/**
-	* lookup icon path
-	*
-	* @param	int		$a_id		container object id
-	* @param	string	$a_size		"big" | "small"
-	*/
-	static function _lookupIconPath($a_id, $a_size = "big")
-	{
-		if (ilContainer::_lookupContainerSetting($a_id, "icon_custom"))
-		{
-			$cont_dir = ilContainer::_getContainerDirectory($a_id);
 
-			$file_name = $cont_dir."/icon_custom.svg";
-			if (is_file($file_name))
-			{
-				return $file_name;
-			}
-		}
-		
-		return "";
-	}
-
-	/**
-	* save container icons
-	*/
-	function saveIcons($a_custom_icon)
-	{
-		$this->createContainerDirectory();
-		$cont_dir = $this->getContainerDirectory();
-
-		if ($a_custom_icon != "")
-		{
-			if (is_file($cont_dir."/icon_custom.svg"))
-			{
-				unlink($cont_dir . "/icon_custom.svg");
-			}
-			$file_name = $cont_dir."/icon_custom.svg";
-			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name);
-
-			if ($file_name != "" && is_file($file_name))
-			{
-				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
-			}
-			else
-			{
-				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
-			}
-		}
-	}
-
-	/**
-	* remove small icon
-	*/ 
-	function removeCustomIcon()
-	{
-		$cont_dir = $this->getContainerDirectory();
-		$small_file_name = $cont_dir."/icon_custom.svg";
-		@unlink($small_file_name);
-		ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
-	}
-	
 	/**
 	 * Clone container settings
 	 *
@@ -565,7 +525,12 @@ class ilContainer extends ilObject
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
-	
+
+		// translations
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = ilObjectTranslation::getInstance($this->getId());
+		$ot->copy($new_obj->getId());
+
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		#18624 - copy all sorting settings
 		ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
@@ -604,22 +569,6 @@ class ilContainer extends ilObject
 		foreach(self::_getContainerSettings($this->getId()) as $keyword => $value)
 		{						
 			self::_writeContainerSetting($new_obj->getId(), $keyword, $value);
-			
-			// copy custom icons
-			if($keyword == "icon_custom" && 
-				$value)
-			{
-				// see saveIcons()
-				$new_obj->createContainerDirectory();
-				$tgt_dir = $new_obj->getContainerDirectory();
-				$src_dir = $this->getContainerDirectory();				
-				$file = "icon_custom.svg";
-				$src_file = $src_dir."/".$file;
-				if(file_exists($src_file))
-				{
-					copy($src_file, $tgt_dir."/".$file);
-				}
-			}
 		}
 		
 		return $new_obj;
@@ -743,7 +692,25 @@ class ilContainer extends ilObject
 				'ref_id' => (int) $res
 		);
 	}
-	
+
+	/**
+	 * delete category and all related data
+	 *
+	 * @return	boolean	true if all object data were removed; false if only a references were removed
+	 */
+	function delete()
+	{
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		// delete translations
+		$this->obj_trans->delete();
+
+		return true;
+	}
+
 	/**
 	* Get container view mode
 	*/
@@ -960,8 +927,19 @@ class ilContainer extends ilObject
 	*/
 	function create()
 	{
+		global $DIC;
+
+		$lng = $DIC->language();
+
 		$ret = parent::create();
-		
+
+		// set translation object, since we have an object id now
+		$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+
+		// add default translation
+		$this->addTranslation($this->getTitle(),
+			$this->getDescription(), $lng->getDefaultLanguage(), true);
+
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
 			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -987,7 +965,12 @@ class ilContainer extends ilObject
 	function update()
 	{
 		$ret = parent::update();
-		
+
+		$trans = $this->getObjectTranslation();
+		$trans->setDefaultTitle($this->getTitle());
+		$trans->setDefaultDescription($this->getDescription());
+		$trans->save();
+
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
@@ -1015,7 +998,7 @@ class ilContainer extends ilObject
 	public function read()
 	{
 		parent::read();
-		
+
 		include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
 		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 		
@@ -1023,6 +1006,7 @@ class ilContainer extends ilObject
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 		$this->readContainerSettings();
+		$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
 	}
 
 	/**
@@ -1107,6 +1091,11 @@ class ilContainer extends ilObject
 	 */
 	protected static function fixInternalLinksAfterCopy($a_target_id, $a_copy_id, $a_source_ref_id)
 	{
+		global $DIC;
+
+		/** @var ilObjectDefinition $obj_definition */
+		$obj_definition = $DIC["objDefinition"];
+
 		$obj_id = ilObject::_lookupObjId($a_target_id);
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		if (ilContainerPage::_exists("cont", $obj_id))
@@ -1117,8 +1106,73 @@ class ilContainer extends ilObject
 			$pg = new ilContainerPage($obj_id);
 			$pg->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
 			$pg->update(true, true);
+			foreach ($mapping as $old_ref_id => $new_ref_id)
+			{
+                if (!is_int($old_ref_id) || !is_int($new_ref_id)) {
+                    continue;
+                }
+				$type = ilObject::_lookupType($new_ref_id, true);
+				$class = "il".$obj_definition->getClassName($type)."PageCollector";
+				$loc = $obj_definition->getLocation($type);
+				$file = $loc."/class.".$class.".php";
+				if (is_file($file))
+				{
+					include_once($file);
+					/** @var ilCOPageCollectorInterface $coll */
+					$coll = new $class();
+					foreach ($coll->getAllPageIds(ilObject::_lookupObjId($new_ref_id)) as $page_id)
+					{
+						if (ilPageObject::_exists($page_id["parent_type"], $page_id["id"], $page_id["lang"]))
+						{
+							/** @var ilPageObject $page */
+							$page = ilPageObjectFactory::getInstance($page_id["parent_type"], $page_id["id"], 0, $page_id["lang"]);
+							$page->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
+							$page->update(true, true);
+						}
+					}
+				}
+			}
 		}
 	}
-	
-} // END class ilContainer
-?>
+
+	/**
+	 * Remove all translations of container
+	 */
+	function removeTranslations()
+	{
+		$this->obj_trans->delete();
+	}
+
+	/**
+	 * Delete translation
+	 *
+	 * @param $a_lang
+	 */
+	function deleteTranslation($a_lang)
+	{
+		$this->obj_trans->removeLanguage($a_lang);
+		$this->obj_trans->save();
+	}
+
+	/**
+	 * Add translation
+	 *
+	 * @param $a_title
+	 * @param $a_desc
+	 * @param $a_lang
+	 * @param $a_lang_default
+	 * @return bool
+	 */
+	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
+	{
+		if (empty($a_title))
+		{
+			$a_title = "NO TITLE";
+		}
+
+		$this->obj_trans->addLanguage($a_lang, $a_title, $a_desc, $a_lang_default, true);
+		$this->obj_trans->save();
+
+		return true;
+	}
+}

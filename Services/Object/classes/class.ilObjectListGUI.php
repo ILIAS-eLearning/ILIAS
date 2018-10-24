@@ -1112,15 +1112,15 @@ class ilObjectListGUI
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 			if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
 			{
-				require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-				$davServer = ilDAVServer::getInstance();
+				require_once ('Services/WebDAV/classes/class.ilWebDAVUtil.php');
+				$dav_util = ilWebDAVUtil::getInstance();
 
 				// XXX: The following is a very dirty, ugly trick.
 				//        To mount URI needs to be put into two attributes:
 				//        href and folder. This hack returns both attributes
 				//        like this:  http://...mount_uri..." folder="http://...folder_uri...
-				return $davServer->getMountURI($this->ref_id).
-							'" folder="'.$davServer->getFolderURI($this->ref_id);
+				return $dav_util->getMountURI($this->ref_id).
+							'" folder="'.$dav_util->getFolderURI($this->ref_id);
 			}
 			// END WebDAV Get mount webfolder link.
 
@@ -1214,23 +1214,20 @@ class ilObjectListGUI
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 			if (ilDAVActivationChecker::_isActive())
 			{
-				require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-
 				// Show lock info
-				require_once('Services/WebDAV/classes/class.ilDAVLocks.php');
-				$davLocks = new ilDAVLocks();
+				require_once('Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php');
+				$webdav_lock_backend = new ilWebDAVLockBackend();
 				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-					$locks =& $davLocks->getLocksOnObjectObj($this->obj_id);
-					if (count($locks) > 0)
+                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id))
 					{
-						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
+						$lock_user = new ilObjUser($lock->getIliasOwner());
 
 						$props[] = array(
 							"alert" => false, 
 							"property" => $lng->txt("in_use_by"),
-							"value" => $lockUser->getLogin(),
-							"link" => 	"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI',
+							"value" => $lock_user->getLogin(),
+							"link" => 	"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&baseClass=ilPersonalDesktopGUI',
 						);
 					}
 				}
@@ -1956,9 +1953,9 @@ class ilObjectListGUI
 		$objDefinition = $this->obj_definition;
 		$tree = $this->tree;
 		
-		$num_required = ilConditionHandler::calculateRequiredTriggers($this->ref_id, $this->obj_id);
+		$num_required = ilConditionHandler::calculateEffectiveRequiredTriggers($this->ref_id, $this->obj_id);
 		$num_optional_required =
-			$num_required - count($conditions) + count(ilConditionHandler::getOptionalConditionsOfTarget($this->ref_id, $this->obj_id));
+			$num_required - count($conditions) + count(ilConditionHandler::getEffectiveOptionalConditionsOfTarget($this->ref_id, $this->obj_id));
 
 		// Check if all conditions are fullfilled
 		$visible_conditions = array();
@@ -1980,7 +1977,7 @@ class ilObjectListGUI
 			}
 
 			include_once 'Services/Container/classes/class.ilMemberViewSettings.php';
-			$ok = ilConditionHandler::_checkCondition($condition['id']) and
+			$ok = ilConditionHandler::_checkCondition($condition) and
 				!ilMemberViewSettings::getInstance()->isActive();
 
 			if(!$ok)
@@ -2006,7 +2003,7 @@ class ilObjectListGUI
 				continue;
 			}
 
-			include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
+			include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
 			$cond_txt = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'],$condition['operator']).' '.$condition['value'];
 			
 			// display trigger item
@@ -2068,7 +2065,7 @@ class ilObjectListGUI
 	*/
 	function insertPreconditions()
 	{
-		include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
+		include_once("./Services/Conditions/classes/class.ilConditionHandler.php");
 
 		// do not show multi level conditions (messes up layout)
 		if ($this->condition_depth > 0)
@@ -2078,7 +2075,7 @@ class ilObjectListGUI
 
 		if($this->condition_target)
 		{
-			$conditions = ilConditionHandler::_getConditionsOfTarget(
+			$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
 					$this->condition_target['ref_id'],
 					$this->condition_target['obj_id'],
 					$this->condition_target['target_type']
@@ -2086,7 +2083,7 @@ class ilObjectListGUI
 		}
 		else
 		{
-			$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
+			$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
 		}
 		
 		if(sizeof($conditions))
@@ -3048,7 +3045,10 @@ class ilObjectListGUI
 		{
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-			$cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id);
+			$type = ($this->sub_obj_type == "")
+				? $this->type
+				: $this->sub_obj_type;
+			$cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
 
 			if($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
@@ -3344,7 +3344,8 @@ class ilObjectListGUI
 			if($this->isExpanded())
 			{
 				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
-				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
+				// "view" added, see #19922
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'view',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.svg'));
 			$this->tpl->setVariable('EXP_ALT',$this->lng->txt('collapse'));
@@ -3352,7 +3353,8 @@ class ilObjectListGUI
 			else
 			{
 				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
-				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
+				// "view" added, see #19922
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'view',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.svg'));
 				$this->tpl->setVariable('EXP_ALT',$this->lng->txt('expand'));

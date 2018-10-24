@@ -33,7 +33,9 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	protected $toggle_fulltime = false;
 	protected $toggle_fulltime_txt = '';
 	protected $toggle_fulltime_checked = false;
-	
+
+	protected $allowOpenIntervals = false;
+
 	/**
 	* Constructor
 	*
@@ -243,14 +245,28 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	public function setValueByArray($a_values)
 	{		
 		$incoming = $a_values[$this->getPostVar()];
-		if(is_array($incoming))
-		{
-			$format = $incoming['tgl'] ?  0 : $this->getDatePickerTimeFormat();
-			$this->toggle_fulltime_checked = (bool) $incoming['tgl'];
-			$this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
-			$this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
+		if (is_array($incoming)) {
+			$format = $incoming['tgl'] ? 0 : $this->getDatePickerTimeFormat();
+			$this->toggle_fulltime_checked = (bool)$incoming['tgl'];
+
+			if ($this->openIntervalsAllowed()) {
+				if (is_string($incoming['start']) && trim($incoming['start']) !== '') {
+					$this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
+				} else {
+					$this->setStart(new ilDate(null, IL_CAL_UNIX));
+				}
+
+				if (is_string($incoming['end']) && trim($incoming['end']) !== '') {
+					$this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
+				} else {
+					$this->setEnd(new ilDate(null, IL_CAL_UNIX));
+				}
+			} else {
+				$this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
+				$this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
+			}
 		}
-		
+
 		foreach($this->getSubItems() as $item)
 		{
 			$item->setValueByArray($a_values);
@@ -288,37 +304,41 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		// always done to make sure there are no obsolete values left
 		$this->setStart(null);
 		$this->setEnd(null);
-		
+
 		$valid_start = false;
-		if(trim($start))
-		{
+		if (trim($start)) {
 			$parsed = ilCalendarUtil::parseIncomingDate($start, $format);
-			if($parsed)
-			{									
+			if ($parsed) {
 				$this->setStart($parsed);
 				$valid_start = true;
-			}						
+			}
+		} else {
+			if (!$this->getRequired() && !trim($end)) {
+				$valid_start = true;
+			} else {
+				if ($this->openIntervalsAllowed() && !strlen(trim($start))) {
+					$valid_start = true;
+				}
+			}
 		}
-		else if(!$this->getRequired() && !trim($end))
-		{
-			$valid_start = true;			
-		}
-								
-		$valid_end = false;		
-		if(trim($end))
-		{			
-			$parsed = ilCalendarUtil::parseIncomingDate($end, $format);		
-			if($parsed)
-			{
+
+		$valid_end = false;
+		if (trim($end)) {
+			$parsed = ilCalendarUtil::parseIncomingDate($end, $format);
+			if ($parsed) {
 				$this->setEnd($parsed);
 				$valid_end = true;
-			}					
+			}
+		} else {
+			if (!$this->getRequired() && !trim($start)) {
+				$valid_end = true;
+			} else {
+				if ($this->openIntervalsAllowed() && !strlen(trim($end))) {
+					$valid_end = true;
+				}
+			}
 		}
-		else if(!$this->getRequired() && !trim($start))
-		{					
-			$valid_end = true;			
-		}
-		
+
 		if($this->getStartYear())
 		{
 			if($valid_start && 
@@ -342,29 +362,34 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		{
 			$valid = false;			
 		}
-		
-		if(!$valid)
-		{
+
+		if ($this->openIntervalsAllowed()) {
+			if (!$this->getStart()) {
+				$_POST[$this->getPostVar()]["start"] = null;
+			}
+
+			if (!$this->getEnd()) {
+				$_POST[$this->getPostVar()]["end"] = null;
+			}
+			$valid = true;
+		} elseif (!$valid) {
 			$this->invalid_input_start = $start;
 			$this->invalid_input_end = $end;
-			
+
 			$_POST[$this->getPostVar()]["start"] = null;
 			$_POST[$this->getPostVar()]["end"] = null;
-			
+
 			$this->setAlert($lng->txt("form_msg_wrong_date"));
-		}	
-		else
-		{
-			if(
+		} else {
+			if (
 				!$this->getStart() ||
 				!$this->getEnd()
-			)
-			{
+			) {
 				$_POST[$this->getPostVar()]["start"] = null;
 				$_POST[$this->getPostVar()]["end"] = null;
 			}
 		}
-		
+
 		if($valid)
 		{
 			$valid = $this->checkSubItemsInput();
@@ -483,8 +508,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		
 		
 		// values
-		
-		$date_value = htmlspecialchars($this->invalid_input_start);			
+
+		$date_value = htmlspecialchars($this->invalid_input_start);
 		if(!$date_value &&
 			$this->getStart())
 		{						
@@ -560,7 +585,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$this->setEnd(new ilDateTime($value['end'], IL_CAL_UNIX));
 		}
 	}
-			
+
 	public function hideSubForm()
 	{
 		if($this->invalid_input_start ||
@@ -568,8 +593,24 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		{
 			return false;
 		}
-		
+
 		return ((!$this->getStart() || $this->getStart()->isNull()) &&
 			(!$this->getEnd() || $this->getEnd()->isNull()));
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function openIntervalsAllowed(): bool 
+	{
+		return $this->allowOpenIntervals;
+	}
+
+	/**
+	 * @param bool $allowOpenInterval
+	 */
+	public function setAllowOpenIntervals(bool $allowOpenInterval)
+	{
+		$this->allowOpenIntervals = $allowOpenInterval;
 	}
 }

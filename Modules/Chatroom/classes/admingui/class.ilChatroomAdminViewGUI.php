@@ -15,8 +15,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomConfigFileHandler.php';
  */
 class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
-
-	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.md';
+	const CHATROOM_README_PATH = '/Modules/Chatroom/README.md';
 
 	/**
 	 * @var ilSetting
@@ -246,7 +245,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 		}
 
 		$settings = array(
-			'name'                  => CLIENT_ID,
+			'name'                  => (string)$form->getInput('client_name'),
 			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
 			'enable_osc'            => (boolean)$form->getInput('enable_osc'),
 			'osd_intervall'         => (int)$form->getInput('osd_intervall'),

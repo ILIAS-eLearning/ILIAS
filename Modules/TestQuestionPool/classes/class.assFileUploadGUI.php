@@ -520,7 +520,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		}
 	}
 
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);

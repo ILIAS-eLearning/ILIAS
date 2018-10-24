@@ -1,0 +1,35 @@
+.il-input-tag {
+  height:     auto;
+  min-height: @line-height-base;
+  input {
+	border:      none;
+	box-shadow:  none;
+	outline:     none;
+	padding:     0 6px @padding-base-vertical + 1;
+	line-height: @line-height-base;
+  }
+  .tag {
+	font-size:     100%;
+	display:       inline-block;
+	margin-bottom: @padding-base-vertical;
+	[data-role="remove"] {
+	  margin-left: 8px;
+	  cursor:      pointer;
+	}
+	[data-role="remove"]:after {
+	  content: "x";
+	  padding: 0px 2px;
+	}
+  }
+  .bootstrap-tagsinput {
+	margin-bottom: (@padding-base-vertical * -1);
+  }
+
+  // Typeahead.js does not highlight suggestions when using Cursors. This CSS will add the same highlighting as currently defined in
+  .tt-suggestion:hover, .tt-suggestion:focus, .tt-cursor {
+	color:            #FFFFFF;
+	text-decoration:  none;
+	outline:          0;
+	background-color: @brand-primary;
+  }
+}

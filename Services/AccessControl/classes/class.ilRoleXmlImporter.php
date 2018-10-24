@@ -90,10 +90,14 @@ class ilRoleXmlImporter
 	 */
 	public function importSimpleXml(SimpleXMLElement $role)
 	{
-		global $rbacadmin, $rbacreview, $lng;
+		global $DIC;
+
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
+		$lng = $DIC['lng'];
 
 		$import_id = (string) $role['id'];
-		$GLOBALS['ilLog']->write(__METHOD__.' Importing role with import id '. $import_id);
+		$GLOBALS['DIC']['ilLog']->write(__METHOD__.' Importing role with import id '. $import_id);
 
 		if(!$this->initRole($import_id))
 		{
@@ -120,7 +124,7 @@ class ilRoleXmlImporter
 
 			if($id[0])
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Overwrite role '. implode("_", $exp));
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Overwrite role '. implode("_", $exp));
 				$this->getRole()->setId($id[0]);
 				$this->getRole()->read();
 			}
@@ -173,10 +177,10 @@ class ilRoleXmlImporter
 				}
 				else
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': Cannot create operation for...');
-					$GLOBALS['ilLog']->write(__METHOD__.': New operation for group '. $ops_group);
-					$GLOBALS['ilLog']->write(__METHOD__.': New operation '.$ops);
-					$GLOBALS['ilLog']->write(__METHOD__.': New operation '. $ops_id);
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Cannot create operation for...');
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': New operation for group '. $ops_group);
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': New operation '.$ops);
+					$GLOBALS['DIC']['ilLog']->write(__METHOD__.': New operation '. $ops_id);
 				}
 
 			}
@@ -192,7 +196,10 @@ class ilRoleXmlImporter
 	 */
 	protected function assigntoRoleFolder()
 	{
-		global $rbacadmin, $rbacreview;
+		global $DIC;
+
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		if(!$this->getRoleFolderId())
 		{

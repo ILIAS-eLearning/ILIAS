@@ -14,7 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilObjectCustomIconConfigurationGUI, ilContainerNewsSettingsGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -247,6 +247,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->prepareOutput();		
 				$this->tabs_gui->activateTab('meta_data');
 				$this->ctrl->forwardCommand($this->getObjectMetadataGUI());
+				break;
+
+			case 'ilobjectcustomiconconfigurationgui':
+				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
+					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+				}
+
+				$this->prepareOutput();
+
+				$this->setEditTabs('icons');
+
+				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
+				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -516,12 +530,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	protected function afterSave(ilObject $a_new_object)
 	{
-		$ilUser = $this->user;
 		$tree = $this->tree;
-		
-		// add default translation
-		$a_new_object->addTranslation($a_new_object->getTitle(),
-			$a_new_object->getDescription(), $ilUser->getPref("language"), true);
 
 		// default: sort by title
 		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
@@ -705,20 +714,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->lng->txt("settings"),
 			$this->ctrl->getLinkTarget($this, "edit"));
 
-		/*$this->tabs_gui->addSubTab("settings_trans",
-			$this->lng->txt("title_and_translations"),
-			$this->ctrl->getLinkTarget($this, "editTranslations"));*/
-
 		$this->tabs_gui->addSubTab("settings_trans",
 			$this->lng->txt("obj_multilinguality"),
 			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 
-		// custom icon
-		if ($ilSetting->get("custom_icons"))
-		{
-			$this->tabs_gui->addSubTab("icons",
-				$this->lng->txt("icon_settings"),
-				$this->ctrl->getLinkTarget($this,'editIcons'));
+		if ($ilSetting->get('custom_icons')) {
+			$this->tabs_gui->addSubTab(
+				'icons',
+				$this->lng->txt('icon_settings'),
+				$this->ctrl->getLinkTargetByClass('ilobjectcustomiconconfigurationgui')
+			);
 		}
 
 		$this->tabs_gui->activateTab("settings");
@@ -736,35 +741,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
 		
 		// title/description
-		
-		$trans = $this->object->getTranslations();
-		$def = $trans["Fobject"][0]; // default
-	
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setRequired(true);
-		$title->setSize(min(40, ilObject::TITLE_LENGTH));
-		$title->setMaxLength(ilObject::TITLE_LENGTH);
-		$title->setValue($def["title"]);
-		$form->addItem($title);
-				
-		if(sizeof($trans["Fobject"]) > 1)
-		{
-			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
-			$languages = ilMDLanguageItem::_getLanguages();
-			
-			$title->setInfo($this->lng->txt("language").": ".$languages[$def["lang"]].
-				' <a href="'.$this->ctrl->getLinkTarget($this, "editTranslations").
-				'">&raquo; '.$this->lng->txt("cat_more_translations").'</a>');
+		$this->initFormTitleDescription($form);
 
-			unset($languages);
-		}		
-
-		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$desc->setRows(2);
-		$desc->setCols(40);
-		$desc->setValue($def["desc"]);
-		$form->addItem($desc);
-		
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
 
@@ -784,8 +762,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		);
 				
 		// icon settings
-//		$this->showCustomIconsEditing(1, $form, false);
-		
+
 		// Edit ecs export settings
 		include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';
 		$ecs = new ilECSCategorySettings($this->object);		
@@ -809,7 +786,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			);
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
-//		$form->addCommandButton("addTranslation", $this->lng->txt("add_translation"));		
 
 		return $form;
 	}
@@ -840,10 +816,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{				
 				$title = $form->getInput("title");
 				$desc = $form->getInput("desc");
-				$lang = $this->object->getTranslations();
-				$lang = $lang["Fobject"][0]["lang"]; 
-				$this->object->deleteTranslation($lang);
-				$this->object->addTranslation($title, $desc, $lang, true);	
+
 				$this->object->setTitle($title);
 				$this->object->setDescription($desc);
 				$this->object->update();
@@ -885,151 +858,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$form->setValuesByPost();
 			$this->tpl->setContent($form->getHTML());
 		}
-	}
-
-	/**
-	 * Edit title and translations
-	 */
-	function editTranslationsObject($a_get_post_values = false, $a_add = false)
-	{
-		$tpl = $this->tpl;
-
-	$this->ctrl->redirectByClass("ilobjecttranslationgui", "");
-
-
-		$this->lng->loadLanguageModule($this->object->getType());
-		$this->setEditTabs("settings_trans");
-
-		include_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
-		$table = new ilObjectTranslationTableGUI($this, "editTranslations", true,
-			"Translation");
-		if ($a_get_post_values)
-		{
-			$vals = array();
-			foreach($_POST["title"] as $k => $v)
-			{
-				$vals[] = array("title" => $v,
-					"desc" => $_POST["desc"][$k],
-					"lang" => $_POST["lang"][$k],
-					"default" => ($_POST["default"] == $k));
-			}
-			$table->setData($vals);
-		}
-		else
-		{
-			$data = $this->object->getTranslations();
-			foreach($data["Fobject"] as $k => $v)
-			{
-				$data["Fobject"][$k]["default"] = ($k == $data["default_language"]);
-			}
-			if($a_add)
-			{
-				$data["Fobject"][++$k]["title"] = "";
-			}
-			$table->setData($data["Fobject"]);
-		}
-		$tpl->setContent($table->getHTML());
-	}
-
-	/**
-	 * Save title and translations
-	 */
-	function saveTranslationsObject()
-	{
-		$ilErr = $this->error;
-
-		if (!$this->checkPermissionBool("write"))
-		{
-			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
-		}
-
-		// default language set?
-		if (!isset($_POST["default"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
-			return $this->editTranslationsObject(true);
-		}
-
-		// all languages set?
-		if (array_key_exists("",$_POST["lang"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("msg_no_language_selected"));
-			return $this->editTranslationsObject(true);
-		}
-
-		// no single language is selected more than once?
-		if (count(array_unique($_POST["lang"])) < count($_POST["lang"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("msg_multi_language_selected"));
-			return $this->editTranslationsObject(true);
-		}
-
-		// save the stuff
-		$this->object->removeTranslations();
-		foreach($_POST["title"] as $k => $v)
-		{
-			// update object data if default
-			$is_default = ($_POST["default"] == $k);
-			if($is_default)
-			{
-				$this->object->setTitle(ilUtil::stripSlashes($v));
-				$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"][$k]));
-				$this->object->update();
-			}
-
-			$this->object->addTranslation(
-				ilUtil::stripSlashes($v),
-				ilUtil::stripSlashes($_POST["desc"][$k]),
-				ilUtil::stripSlashes($_POST["lang"][$k]),
-				$is_default);
-		}
-
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "editTranslations");
-	}
-
-	/**
-	 * Add a translation
-	 */
-	function addTranslationObject()
-	{
-		if($_POST["title"])
-		{
-			$k = max(array_keys($_POST["title"]));
-			$k++;
-			$_POST["title"][$k] = "";
-			$this->editTranslationsObject(true);
-		}
-		else
-		{
-			$this->editTranslationsObject(false, true);
-		}
-	}
-
-	/**
-	 * Remove translation
-	 */
-	function deleteTranslationsObject()
-	{
-		foreach($_POST["title"] as $k => $v)
-		{			
-			if ($_POST["check"][$k])
-			{
-				// default translation cannot be deleted
-				if($k != $_POST["default"])
-				{
-					unset($_POST["title"][$k]);
-					unset($_POST["desc"][$k]);
-					unset($_POST["lang"][$k]);
-				}
-				else
-				{
-					ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
-					return $this->editTranslationsObject();
-				}
-			}
-		}
-		$this->saveTranslationsObject();
 	}
 
 	/**
@@ -1558,79 +1386,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	}
 
-
-	////
-	//// Icons
-	////
-	
-	/**
-	 * Edit folder icons
-	 */
-	function editIconsObject($a_form = null)
-	{
-		$tpl = $this->tpl;
-
-		$this->checkPermission('write');
-	
-		$this->tabs_gui->setTabActive('settings');
-		
-		if(!$a_form)
-		{
-			$a_form = $this->initIconsForm();
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-
-	function initIconsForm()
-	{
-		$this->setEditTabs("icons");
-		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));	
-		
-		$this->showCustomIconsEditing(1, $form);
-		
-		// $form->setTitle($this->lng->txt('edit_grouping'));
-		$form->addCommandButton('updateIcons', $this->lng->txt('save'));					
-		
-		return $form;
-	}
-	
-	/**
-	* update container icons
-	*/
-	function updateIconsObject()
-	{
-		$ilSetting = $this->settings;
-
-		$this->checkPermission('write');
-		
-		$form = $this->initIconsForm();
-		if($form->checkInput())
-		{
-			//save custom icons
-			if ($ilSetting->get("custom_icons"))
-			{
-				if($_POST["cont_icon_delete"])
-				{
-					$this->object->removeCustomIcon();
-				}
-				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
-			}
-			if ($_FILES["cont_icon"]['tmp_name'] || $_POST["cont_icon_delete"])
-			{
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			}
-			$this->ctrl->redirect($this,"editIcons");
-		}
-
-		$form->setValuesByPost();
-		$this->editIconsObject($form);	
-	}
-	
-	
 	//
 	// taxonomy
 	// 

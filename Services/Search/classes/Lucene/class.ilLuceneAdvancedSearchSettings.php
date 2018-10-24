@@ -45,7 +45,9 @@ class ilLuceneAdvancedSearchSettings
 	 */
 	private function __construct()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->storage = new ilSetting('lucene_adv_search');
 		$this->read();		

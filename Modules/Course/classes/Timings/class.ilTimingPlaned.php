@@ -44,7 +44,12 @@ class ilTimingPlaned
 	 */
 	public function __construct($item_id,$a_usr_id)
 	{
-		global $ilErr,$ilDB,$lng,$tree;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$tree = $DIC['tree'];
 
 		$this->ilErr =& $ilErr;
 		$this->db  =& $ilDB;
@@ -103,7 +108,9 @@ class ilTimingPlaned
 
 	function create()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "INSERT INTO crs_timings_planed (item_id,usr_id,planed_start,planed_end) ".
 			"VALUES( ".
@@ -122,7 +129,9 @@ class ilTimingPlaned
 
 	public static function _delete($a_item_id,$a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_timings_planed ".
 			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ".
@@ -133,7 +142,9 @@ class ilTimingPlaned
 	// Static
 	public static function _getPlanedTimings($a_usr_id,$a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM crs_timings_planed ".
 			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ".
@@ -150,7 +161,9 @@ class ilTimingPlaned
 
 	static function _getPlanedTimingsByItem($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM crs_timings_planed ".
 			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ";
@@ -165,7 +178,9 @@ class ilTimingPlaned
 
 	public static function _deleteByItem($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_timings_planed ".
 			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ";
@@ -174,7 +189,9 @@ class ilTimingPlaned
 
 	public static function _deleteByUser($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$query = "DELETE FROM crs_timings_planed ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
@@ -183,7 +200,9 @@ class ilTimingPlaned
 
 	function __read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM crs_timings_planed ".
 			"WHERE item_id = ".$ilDB->quote($this->getItemId() ,'integer')." ".

@@ -757,7 +757,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			{
 				$a_item_list_gui->setConditionTarget($this->getContainerObject()->getRefId(), $a_item['objective_id'], 'lobj');
 				// check conditions of target
-				include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+				include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 				$fullfilled = ilConditionHandler::_checkAllConditionsOfTarget($this->getContainerObject()->getRefId(),$a_item['objective_id'],'lobj');
 				if(!$fullfilled || $a_item['objective_status'])
 				{

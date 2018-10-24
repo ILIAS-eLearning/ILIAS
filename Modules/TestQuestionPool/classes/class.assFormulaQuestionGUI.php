@@ -1232,7 +1232,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		return $pageoutput;
 	}
 
-	public function getSpecificFeedbackOutput($active_id, $pass)
+	public function getSpecificFeedbackOutput($userSolution)
 	{
 		return '';
 	}

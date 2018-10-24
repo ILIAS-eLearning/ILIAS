@@ -48,9 +48,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		/**
 		 * @var $ilUser ilObjUser
 		 */
-		global $ilUser;
+		global $DIC;
 
-		unset($_COOKIE['PHPSESSID']);
+		$ilUser = $DIC['ilUser'];
+
+		unset($_COOKIE[session_name()]);
 		$_COOKIE['ilClientId'] = $client;
 
 		try
@@ -148,7 +150,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	 */
 	public function loginStudipUser($sid, $user_id)
 	{
-		global $rbacreview, $ilUser, $ilIliasIniFile;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
+		$ilIliasIniFile = $DIC['ilIliasIniFile'];
 
 		$this->initAuth($sid);
 		$this->initIlias();
@@ -175,7 +181,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	    		include_once './Services/Authentication/classes/class.ilSession.php';
         		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
 			$GLOBALS['DIC']['ilAuthSession']->logout();
-			unset($_COOKIE['PHPSESSID']);
+			unset($_COOKIE[session_name()]);
 
 			// init session and set user as authenticated
 			$_COOKIE['ilClientId'] = $client;
@@ -224,7 +230,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('No username given. Aborting','Client');
 		}
 
-		global $rbacsystem, $ilUser ;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		if(strcasecmp($ilUser->getLogin(), $user_name) != 0 && !$rbacsystem->checkAccess('read',USER_FOLDER_ID))
 		{
@@ -248,7 +257,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacsystem, $ilUser;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
 
 		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
 		{
@@ -284,7 +296,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('No user_id given. Aborting','Client');
 		}
 
-		global $rbacsystem, $ilUser, $log;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$log = $DIC['log'];
 
 		if(!$rbacsystem->checkAccess('delete',USER_FOLDER_ID))
 		{
@@ -311,7 +327,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return true;
 	}
 
-	function __readUserData(&$usr_obj)
+	function __readUserData(\ilObjUser &$usr_obj)
 	{
 		$usr_data['usr_id'] = $usr_obj->getId();
 		$usr_data['login'] = $usr_obj->getLogin();
@@ -322,6 +338,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['title'] = $usr_obj->getUTitle();
 		$usr_data['gender'] = $usr_obj->getGender();
 		$usr_data['email'] = $usr_obj->getEmail();
+		$usr_data['second_email'] = $usr_obj->getSecondEmail();
 		$usr_data['institution'] = $usr_obj->getInstitution();
 		$usr_data['street'] = $usr_obj->getStreet();
 		$usr_data['city'] = $usr_obj->getCity();
@@ -375,7 +392,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once './Services/Object/classes/class.ilObjectFactory.php';
-		global $rbacreview, $rbacsystem, $tree, $lng,$ilUser,$ilLog;
+		global $DIC;
+
+		$rbacreview = $DIC['rbacreview'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
+		$ilLog = $DIC['ilLog'];
 
     	// this takes time but is nescessary
    		$error = false;
@@ -575,7 +599,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $checked_roles[$a_role];
 		}
 		
-		global $rbacsystem,$rbacreview,$ilUser,$tree,$ilLog;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
+		$tree = $DIC['tree'];
+		$ilLog = $DIC['ilLog'];
 		
 		$locations = $rbacreview->getFoldersAssignedToRole($a_role,true);
 		$location = $locations[0];
@@ -672,7 +702,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-    	global $ilDB, $tree, $rbacreview, $rbacsystem;
+    	global $DIC;
+
+    	$ilDB = $DIC['ilDB'];
+    	$tree = $DIC['tree'];
+    	$rbacreview = $DIC['rbacreview'];
+    	$rbacsystem = $DIC['rbacsystem'];
 
 		if ($ref_id == -1)
 			$ref_id = USER_FOLDER_ID;
@@ -751,7 +786,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		global $ilDB, $rbacreview, $rbacsystem, $tree,$ilUser;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacreview = $DIC['rbacreview'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$ilUser = $DIC['ilUser'];
 
 
 		$global_roles = $rbacreview->getGlobalRoles();
@@ -894,7 +935,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		
-		global $ilDB, $rbacsystem;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(!$rbacsystem->checkAccess('read', USER_FOLDER_ID))
 		{
@@ -961,7 +1005,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	 */
 
 	function __buildSearchQuery ($a_keyfields, $queryOperator, $a_keyvalues) {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 	    $query = array();
 
 	    $allowed_fields = array ("firstname","lastname","email","login","matriculation","institution","department","title","ext_account");
@@ -1007,7 +1053,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacsystem, $ilUser, $ilDB;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		// check if own account
 		$is_self = false;
@@ -1060,7 +1110,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 
 		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if(ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId()) > 0)
@@ -1083,7 +1135,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$parts = explode('::', $sid);		
 		$query = "SELECT usr_id FROM usr_session "

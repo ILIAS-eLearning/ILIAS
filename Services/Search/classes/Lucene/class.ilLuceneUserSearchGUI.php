@@ -26,7 +26,9 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	 */
 	public function __construct()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC['ilTabs'];
 		
 		$this->tabs_gui = $ilTabs;
 		parent::__construct();
@@ -39,7 +41,10 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilBench, $ilCtrl;
+		global $DIC;
+
+		$ilBench = $DIC['ilBench'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -52,7 +57,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 				$profile = new ilPublicUserProfileGUI((int) $_REQUEST['user']);
 				$profile->setBackUrl($this->ctrl->getLinkTarget($this,'showSavedResults'));
 				$ret = $ilCtrl->forwardCommand($profile);
-				$GLOBALS['tpl']->setContent($ret);
+				$GLOBALS['DIC']['tpl']->setContent($ret);
 			    break;
 
 			
@@ -125,7 +130,10 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function showSavedResults()
 	{
-		global $ilUser,$ilBench;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilBench = $DIC['ilBench'];
 		
 		if(strlen($this->search_cache->getQuery()))
 		{
@@ -186,7 +194,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 		$user_table->setLuceneResult($searcher->getResult());
 		$user_table->parseUserIds($searcher->getResult()->getCandidates());
 
-		$GLOBALS['tpl']->setVariable('SEARCH_RESULTS',$user_table->getHTML());
+		$GLOBALS['DIC']['tpl']->setVariable('SEARCH_RESULTS',$user_table->getHTML());
 		
 		return true;
 	}
@@ -196,7 +204,9 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
-		global $ilHelp;
+		global $DIC;
+
+		$ilHelp = $DIC['ilHelp'];
 
 		$ilHelp->setScreenIdComponent("src_luc");
 
@@ -227,7 +237,9 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initUserSearchCache()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
 		
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
@@ -253,7 +265,10 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function showSearchForm()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_usr_search.html','Services/Search');
 
@@ -262,7 +277,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 		ilOverlayGUI::initJavascript();
 		$this->tpl->addJavascript("./Services/Search/js/Search.js");
 
-		$this->tpl->setVariable('FORM_ACTION',$GLOBALS['ilCtrl']->getFormAction($this,'performSearch'));
+		$this->tpl->setVariable('FORM_ACTION',$GLOBALS['DIC']['ilCtrl']->getFormAction($this,'performSearch'));
 		$this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->search_cache->getQuery()));
 		include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
 		$btn = ilSubmitButton::getInstance();

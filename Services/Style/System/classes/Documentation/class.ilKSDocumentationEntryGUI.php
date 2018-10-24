@@ -50,7 +50,7 @@ class ilKSDocumentationEntryGUI
 	 * @param Entry\ComponentEntries $entries
 	 */
 	public function __construct(ilSystemStyleDocumentationGUI $parent, Entry\ComponentEntry $entry, Entry\ComponentEntries $entries) {
-		global $ilCtrl,$DIC;
+		global $DIC;
 
 		$this->f = $DIC->ui()->factory();
 		$this->r = $DIC->ui()->renderer();
@@ -58,7 +58,7 @@ class ilKSDocumentationEntryGUI
 		$this->setEntry($entry);
 		$this->setEntries($entries);
 		$this->setParent($parent);
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 
 	}
 
@@ -81,28 +81,39 @@ class ilKSDocumentationEntryGUI
 						"Purpose" => $this->entry->getDescription()->getProperty("purpose"),
 						"Composition" => $this->entry->getDescription()->getProperty("composition"),
 						"Effect" => $this->entry->getDescription()->getProperty("effect"),
-						"Rivals" => $this->f->listing()->ordered(
-							$this->entry->getDescription()->getProperty("rivals")
-						)
+
 					)
 				),
 				$this->f->listing()->descriptive(
 					array(
 						"Background" => $this->entry->getBackground(),
+                        "Context" => $this->f->listing()->ordered($this->entry->getContext()),
 						"Feature Wiki References" => $this->f->listing()->ordered($feature_wiki_links)
 					)
 				)
 			)
 		);
 
-		$rule_listings = array();
-		foreach($this->entry->getRulesAsArray() as $categoery => $category_rules){
-			$rule_listings[ucfirst($categoery)] = $this->f->listing()->ordered($category_rules);
-		}
+        if(sizeof($this->entry->getDescription()->getProperty("rivals"))){
+            $sub_panels[] = $this->f->panel()->sub("Rivals",
+                $this->f->listing()->descriptive(
+                    $this->entry->getDescription()->getProperty("rivals")
 
-		$sub_panels[] = $this->f->panel()->sub("Rules",
-			$this->f->listing()->descriptive($rule_listings)
-		);
+            ));
+        }
+
+        if($this->entry->getRules()->hasRules()){
+            $rule_listings = array();
+            foreach($this->entry->getRulesAsArray() as $categoery => $category_rules){
+                $rule_listings[ucfirst($categoery)] = $this->f->listing()->ordered($category_rules);
+            }
+
+
+            $sub_panels[] = $this->f->panel()->sub("Rules",
+                $this->f->listing()->descriptive($rule_listings)
+            );
+        }
+
 
 		if($this->entry->getExamples()){
 			$nr = 1;

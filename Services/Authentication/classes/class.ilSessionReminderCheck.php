@@ -20,7 +20,12 @@ class ilSessionReminderCheck
 		 * @var $ilClientIniFile ilIniFile
 		 * @var $lng             ilLanguage
 		 */
-		global $ilDB, $ilUser, $lng, $ilClientIniFile;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		

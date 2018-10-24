@@ -126,10 +126,12 @@ class ilLearningModuleImporter extends ilXmlImporter
 
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+		$this->log->debug("pg map entries: ".count($pg_map));
 		foreach ($pg_map as $pg_id)
 		{
 			$lm_id = ilLMPageObject::_lookupContObjID($pg_id);
 			ilLMPage::_writeParentId("lm", $pg_id, $lm_id);
+			$this->log->debug("write parent id, pg id: ".$pg_id.", lm id: ".$lm_id);
 		}
 
 		// header footer page

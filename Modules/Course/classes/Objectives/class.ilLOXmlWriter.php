@@ -52,7 +52,9 @@ class ilLOXmlWriter
 	 */
 	public function write()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
 		
 		$this->getWriter()->xmlStartTag('Objectives');
 		

@@ -7,7 +7,7 @@ use ILIAS\UI\Component\Component;
 /**
  * Interface LightboxPage
  *
- * A lightbox page represents a page displaying a media element, such as image or video.
+ * A lightbox page represents a page displaying a media element, such as image, video or text.
  */
 interface LightboxPage {
 
@@ -17,14 +17,6 @@ interface LightboxPage {
 	 * @return string
 	 */
 	public function getTitle();
-
-
-	/**
-	 * Get the description of this page, displayed along with the media item
-	 *
-	 * @return string
-	 */
-	public function getDescription();
 
 
 	/**

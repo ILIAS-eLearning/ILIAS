@@ -308,11 +308,12 @@ assessment#:#action#:#Action
 assessment#:#add_circle#:#Add circle area
 assessment#:#add_gap#:#Add Gap Text
 assessment#:#tst_msg_rand_quest_set_not_sync#:#The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules.
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
+assessment#:#tst_answer_aggr_answer_header#:#Answer
+assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
@@ -358,6 +359,14 @@ assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
+assessment#:#ass_comments#:#Comments
+assessment#:#ass_commented_questions_only#:#Only Commented Questions
+assessment#:#tst_proceed#:#Proceed
+assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
+assessment#:#tst_nav_next_locks_empty_answer_confirm#:#You did not answer the current question. An empty solution will be saved and locked as answer. This answer cannot be changed later on.
+assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Question
+assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
@@ -420,6 +429,22 @@ assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value
 assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value
 assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces
 assessment#:#out_of_range#:#Out of range
+assessment#:#ass_cloze_fb_mode#:#Feedback Mode
+assessment#:#ass_cloze_fb_mode_gap_qst#:#Feedback per Gap
+assessment#:#ass_cloze_fb_mode_gap_qst_info#:#For every gap a single feedback can be configured.
+assessment#:#ass_cloze_fb_mode_gap_answ#:#Answer specific Feedback
+assessment#:#ass_cloze_fb_mode_gap_answ_info#:#For every gap separate feedbacks can be configured for different answers.
+assessment#:#ass_cloze_gap_fb_gap_label#:#Gap %s: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_txt_empty_label#:#Gap %s - No Input
+assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Gap %s - Wrong Answer
+assessment#:#ass_cloze_gap_fb_txt_match_label#:#Gap %s - Given Answer: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_sel_empty_label#:#Gap %s - No Selection
+assessment#:#ass_cloze_gap_fb_sel_opt_label#:#Gap %s - Select Option: <i>%s</i>
+assessment#:#ass_cloze_gap_fb_num_empty_label#:#Gap %s - No Input
+assessment#:#ass_cloze_gap_fb_num_valuehit_label#:#Gap %s - Value Hit
+assessment#:#ass_cloze_gap_fb_num_rangehit_label#:#Gap %s - Range Hit
+assessment#:#ass_cloze_gap_fb_num_toolow_label#:#Gap %s - Value too Low
+assessment#:#ass_cloze_gap_fb_num_toohigh_label#:#Gap %s - Value too High
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -476,9 +501,8 @@ assessment#:#edit_test_questions#:#List View
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#element_height#:#Minimum Height
 assessment#:#end_tag#:#End Tag
-assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.
-assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".
-assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".
+assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
+assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
@@ -713,6 +737,7 @@ assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
@@ -724,11 +749,11 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for th
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: %s
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />
-assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
-assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#On the subtab %s the non available question pools can be newly derived.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore. The non available pools can be newly derived.<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Open Selected Question Pools
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -904,15 +929,20 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
-assessment#:#tst_instant_feedback_handling#:#Lock Answers
-assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
-assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can click 'Request Feedback' to get a feedback on their answer as configured in the option 'Instant feedback'. They may however change their answer afterwards.###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers and give Feedback###fau: testNav
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#Participants can click 'Save Answer, Freeze and Check' to lock their answer and get feedback as configured in the option 'Instant feedback'. Afterwards they can no longer change their answer.###fau: testNav
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Save Answer, Freeze and Check' or save the answer when they navigate away from the question, they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.###fau: testNav
-assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
-assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Request Feedback' or save the answer when they navigate away from the question, they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.###fau: testNav
+assessment#:#tst_answer_fixation_handling#:#Participant Answers
+assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
+assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Presentation of Feedback
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.
+assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers with the Presentation of Follow-Up Questions
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer.
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.
+assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger
+assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
+assessment#:#tst_instant_feedback_trigger_forced#:#The Feedback is Triggered by Answering Questions
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feedback is forced to all participants with answering a question.
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_user#:#Please select at least one user.
@@ -1033,6 +1063,8 @@ assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’-but
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
 assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’-button ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback#:#Instant Feedback
+assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
+assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
@@ -1117,7 +1149,13 @@ assessment#:#tst_remove_questions#:#Are you sure you want to remove the followin
 assessment#:#tst_report_after_date#:#After a fixed score reporting date
 assessment#:#tst_report_after_first_question#:#Offer test results when the test has been started
 assessment#:#tst_report_after_test#:#Offer test results when the test is finished
+assessment#:#tst_report_after_passed#:#Offer test results when the test has been passed
 assessment#:#tst_report_never#:#No test results available
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_date#:#You test results will be offered here on the following date: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your results will be offered here on the following date: %s
 assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test pass. This setting requires multiple test passes to become effective.
 assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
@@ -1129,6 +1167,8 @@ assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
 assessment#:#tst_results_access_finished#:#After Test Pass is Finished
 assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
+assessment#:#tst_results_access_passed#:#After Test has been Passed
+assessment#:#tst_results_access_passed_desc#:#ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
 assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
 assessment#:#tst_results_access_setting#:#Point in Time
@@ -2084,7 +2124,7 @@ common#:#editor#:#Editor
 common#:#email_not_valid#:#The e-mail address you entered is not valid!
 common#:#email#:#E-Mail
 common#:#enable_calendar#:#Enable Calendar
-common#:#enable_custom_icons_info#:#This allows you to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
+common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
@@ -2717,8 +2757,8 @@ common#:#message_content#:#Message Content
 common#:#message_no_delivered_files#:#You have not submitted any files.
 common#:#message#:#Message
 common#:#meta_data#:#Metadata
-common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s
-common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s).
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s).
 common#:#migrate#:#Migrate
 common#:#minute#:#Minute
 common#:#minutes#:#Minutes
@@ -3289,6 +3329,7 @@ rbac#:#sahs_write#:#User can edit content and settings of SCORM learning module
 common#:#sahs#:#Learning Module SCORM
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
+common#:#salutation_n#:#No salutation desired
 common#:#salutation#:#Salutation
 common#:#save_and_back#:#Save And Back
 common#:#save_message#:#Save as Draft
@@ -3841,7 +3882,7 @@ content#:#cont_current_chapter#:#Current Chapter
 content#:#cont_current_page#:#Current Page
 content#:#cont_current_style#:#Current Style
 content#:#cont_current_version#:#Current Version
-content#:#cont_custom_size#:#Custom Size
+content#:#cont_custom_size#:#Fixed Size
 content#:#cont_custom#:#Custom
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Activate
@@ -4174,7 +4215,8 @@ content#:#cont_replace_mob_feature_info#:#Activates a feature that allows you to
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content
 content#:#cont_repository_item#:#Repository Item
 content#:#cont_resize_img#:#Resize Image File
-content#:#cont_resource_size#:#Original Resource Size
+content#:#cont_resource_size#:#Original Resource Size / No Size Declaration
+content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.
 content#:#cont_resource_type#:#type
 content#:#cont_resource#:#Resource
 content#:#cont_resources#:#Resources
@@ -4306,7 +4348,7 @@ content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_validate_file#:#Validate File
 content#:#cont_version#:#version
 content#:#cont_versions#:#Versions
-content#:#cont_width#:#Width in pixels
+content#:#cont_width#:#Width
 content#:#cont_wiki_page_link#:#Wiki Page Link
 content#:#cont_xml_base#:#xml:base
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
@@ -4685,8 +4727,8 @@ crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
 crs#:#sess_limit_info#:#Participants are not presented with the list of all sessions but a limited number of sessions.
 crs#:#sess_limit#:#Limit Number of Sessions Shown
-crs#:#sess_num_next#:#Number of Future Sessions
-crs#:#sess_num_prev#:#Number of Past Sessions
+crs#:#sess_num_next#:#Number of Following Sessions (from tomorrow)
+crs#:#sess_num_prev#:#Number of Past Sessions (until yesterday)
 crs#:#sess_print_attendance_list#:#Print List
 crs#:#sess_signature#:#Signature
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
@@ -5179,6 +5221,7 @@ forum#:#frm_default_view#:#Default View
 forum#:#frm_detach_moderator_role#:#Detach Moderator Role
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
+forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#The user was added as moderator successfully.
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
 forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
@@ -5593,7 +5636,7 @@ mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
-mail#:#mail_nacc_salutation#:#Salutation
+mail#:#mail_nacc_salutation#:#Greeting
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
@@ -5625,9 +5668,11 @@ mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
+mail#:#mail_error_reading_attachment#:#Could not determine any attachment.
 mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the To field.%sPersonal placeholders of CC and BCC recipients are kept as they are.
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
+mail#:#mail_tbl_head_attachments#:#Attachment
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -5742,8 +5787,8 @@ meta#:#md_adv_select_one_file#:#Please choose one file.
 meta#:#md_adv_show#:#Show
 meta#:#md_adv_substitution_table#:#Presentation in the Repository/Personal Desktop
 meta#:#md_advanced#:#Custom Metadata
-meta#:#md_copyright_add#:#Add Copyright Presetting
-meta#:#md_copyright_edit#:#Edit Copyright Presetting
+meta#:#md_copyright_add#:#Add Copyright Default
+meta#:#md_copyright_edit#:#Edit Copyright Default
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
 meta#:#md_copyright_preview#:#Copyright (Preview)
@@ -7207,7 +7252,7 @@ survey#:#maintenance#:#Participants
 survey#:#manage_phrases#:#My Phrases
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material#:#Material
-survey#:#materials_deleted#:#Material(s) deleted
+survey#:#materials_deleted#:#Material(s) have been removed from the question.
 survey#:#materials#:#Materials
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
@@ -7440,7 +7485,7 @@ trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplish
 trac#:#trac_mode_exercise_returned#:#Tutors Monitor and Set Status
 trac#:#trac_mode_manual_by_tutor_info#:#Tutors decide if users have accomplished the object. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
 trac#:#trac_mode_manual_by_tutor#:#Tutors Monitor and Set Status
-trac#:#trac_mode_manual_info#:#Users decide themselves if they have accomplished the learning module. Once they are done, they have to set their status to ‘Completed’ on the 'Info'-tab.
+trac#:#trac_mode_manual_info#:#Users decide themselves if they have accomplished the object. Once they are done, they have to set their status to ‘Completed’ on the 'Info'-tab.
 trac#:#trac_mode_manual#:#Users Monitor and Set Status Themselves (Complete Module)
 trac#:#trac_mode_objectives_info#:#The learning progress will be automatically determined according to the number of passed learning objectives.
 trac#:#trac_mode_objectives#:#Status is Determined by Learning Objectives
@@ -7654,12 +7699,14 @@ mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
+mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective date of the e-mail initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective data of the e-mail initiator.
 mail#:#mail_system_usr_env_from_addr#:#Technical Sender
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
+mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#Sender Fullname (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
@@ -7752,8 +7799,8 @@ rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
 administration#:#group_export#:#Visible in Groups
-tbl#:#tbl_export_csv#:#Export .csv
-tbl#:#tbl_export_excel#:#Export .xls
+tbl#:#tbl_export_csv#:#Export CSV
+tbl#:#tbl_export_excel#:#Export Excel
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
@@ -7792,7 +7839,9 @@ rbac#:#log#:#Log
 rbac#:#rbac_log#:#Log
 rbac#:#rbac_changes#:#Changes
 rbac#:#rbac_log_operation_add#:#Added Operation for "%s"
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"
 rbac#:#rbac_log_inheritance_add#:#Stopped Inheritance for "%s"
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"
 rbac#:#rbac_log_source_object#:#Source object
 rbac#:#rbac_log_edit_permissions#:#Edit Permissions
 rbac#:#rbac_log_move_object#:#Move Object
@@ -9135,7 +9184,7 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
-prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files: %s
+prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files.
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -9920,6 +9969,7 @@ common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
 common#:#crs_list_reg_noreg#:#No Registration Possible
 common#:#crs_list_reg_period#:#Registration Period
+common#:#crs_list_reg#:#Registration
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter#:#Online-Status
@@ -9933,6 +9983,7 @@ common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_noreg#:#No Registration Possible
 common#:#grp_list_reg_period#:#Registration Period
+common#:#grp_list_reg#:#Registration
 common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
@@ -10048,8 +10099,9 @@ rtst#:#rtst_call#:#Call ECS Test
 rbac#:#contribute#:#Contribute
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_dcl_new_record#:#The following Entry has been created
-dcl#:#dcl_change_notification_dcl_update_record#:#The following Entry has been updated
+dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
@@ -10159,14 +10211,14 @@ rbac#:#blog_contribute#:#User can create postings
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
-dcl#:#dcl_empty_view#:#Delete this View
+dcl#:#dcl_empty_detailed_view#:#Delete this detailed view
 dcl#:#dcl_activate_view#:#Activate this view
 dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_table_info_title#:#Info
-dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
-dcl#:#dcl_confirm_delete_view_text#:#The View Definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
-dcl#:#dcl_empty_view_success#:#The View Definition has been deleted successfully.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this detailed view?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#The detailed view definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
+dcl#:#dcl_empty_detailed_view_success#:#The detailed view definition has been deleted successfully.
 dcl#:#dcl_permissions_form#:#User actions
 rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
@@ -10293,6 +10345,7 @@ ecs#:#ecs_cmap_all_in_one_cat#:#Course Category
 ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit
+ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)
 ecs#:#ecs_cmap_att_term#:#Term
 ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_lecturer#:#Lecturer
@@ -10320,7 +10373,9 @@ common#:#edited_on#:#Edited on
 common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_tos#:#Terms of Service
 tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.
-tos#:#tos_agreement_by_lng#:#Terms of Service
+tos#:#tos_never_reset#:#The terms of service have not been reset, yet.
+tos#:#tos_agreement_documents_tab_label#:#Terms of Service
+tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement#:#Terms of Service
 tos#:#tos_agreement_exists#:#Existent
 tos#:#tos_agreement_missing#:#Missing
@@ -10330,9 +10385,49 @@ tos#:#tos_tos_settings#:#Settings
 tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web services, the chat server, or the cron job.
-tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
-user#:#tos_show_signed_text#:#Show Details
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web service for instance.
+tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
+tos#:#tos_form_new_doc_head#:#Create Document
+tos#:#tos_form_edit_doc_head#:#Edit Document
+tos#:#tos_form_document_title#:#Title
+tos#:#tos_form_document_title_info#:#Please enter a title for the document.
+tos#:#tos_form_document#:#Document
+tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
+tos#:#tos_form_document_new#:#Change Content
+tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.
+tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
+tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.
+tos#:#tos_tbl_docs_title#:#Documents
+tos#:#tos_tbl_docs_head_sorting#:#Sorting
+tos#:#tos_tbl_docs_head_title#:#Title
+tos#:#tos_tbl_docs_head_created#:#Creation Date
+tos#:#tos_tbl_docs_head_last_change#:#Last Change
+tos#:#tos_tbl_docs_head_criteria#:#Criteria
+tos#:#tos_tbl_docs_action_add_criterion#:#Add Criterion
+tos#:#tos_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned
+tos#:#tos_tbl_hist_cell_not_criterion#:#No criterion assigned
+tos#:#tos_doc_detach_crit_confirm_title#:#Detach Criterion
+tos#:#tos_doc_delete#:#Delete Document
+tos#:#tos_doc_crit_detached#:#The criterion has been detached.
+tos#:#tos_doc_crit_attached#:#The criterion has been attached.
+tos#:#tos_doc_crit_changed#:#The criterion has been changed.
+tos#:#tos_form_attach_criterion_head#:#Attach Criterion
+tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
+tos#:#tos_form_criterion#:#Criterion
+tos#:#tos_document#:#Document
+tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
+tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
+tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
+tos#:#tos_deleted_documents_s#:#The document has been deleted.
+tos#:#tos_deleted_documents_p#:#The documents have been deleted.
+tos#:#tos_saved_sorting#:#The sorting has been saved.
+tos#:#tos_tbl_hist_head_acceptance_date#:#Date
+tos#:#tos_tbl_hist_head_login#:#Login
+tos#:#tos_tbl_hist_head_firstname#:#Firstname
+tos#:#tos_tbl_hist_head_lastname#:#Lastname
+tos#:#tos_tbl_hist_head_document#:#Document
+tos#:#tos_tbl_hist_head_criteria#:#Criteria
 user#:#tos_not_accepted_yet#:#Not accepted yet
 user#:#tos_accepted_content#:#Accepted Content
 tos#:#tos_last_modified#:#Last Change
@@ -10340,9 +10435,15 @@ tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_period#:#Period
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
-tos#:#tos_acceptance_datetime#:#Date
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
+tos#:#tos_no_documents_exist#:#Currently there are no terms of service documents at all.
+tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached. 
+tos#:#tos_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
+tos#:#tos_crit_type_usr_global_role#:#User has Global Role
+tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.
+tos#:#tos_crit_type_usr_language#:#Profile Language
+tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.
+tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Put on Personal Desktop
 rbac#:#chtr_delete#:#User can move or delete chat room
@@ -10351,7 +10452,6 @@ ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
-blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
@@ -10380,6 +10480,9 @@ cron#:#cron_result_status_no_action#:#Ok, no processing
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Crashed
 cron#:#cron_result_status_reset#:#Reset
+cron#:#cro_job_rc_job_manual_reset#:#Cron job re-activated by admin
+cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cron job deactivated because it has been inactive for 3 hours
 cron#:#cron_action_activate#:#Activate
 cron#:#cron_action_deactivate#:#Deactivate
 cron#:#cron_action_reset#:#Reset
@@ -10410,8 +10513,6 @@ cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
 cron#:#cron_action_reset_success#:#Cron-Job reset.
 cron#:#cron_action_edit_success#:#Schedule updated.
 cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
-cron#:#cro_job_rc_job_manual_reset#:#RESET MANUALLY
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#PROBABLY CRASHED
 dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
@@ -11075,6 +11176,12 @@ orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
+orgu#:#org_op_access_results#:#Access Results
+rbac#:#org_op_access_results#:#Access Results of Subordinated Users
+orgu#:#org_op_manage_participants#:#Manage Participants
+rbac#:#org_op_manage_participants#:#Manage Subordinated Participants
+orgu#:#org_op_score_participants#:#Score Participants
+rbac#:#org_op_score_participants#:#Score Subordinated Participants
 orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
@@ -11381,6 +11488,12 @@ mail#:#mail_filter_body#:#Body
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
+mail#:#mail_filter_only_unread#:#Only Unread
+mail#:#mail_filter_only_with_attachments#:#With Attachments
+mail#:#mail_filter_period#:#Period
+mail#:#mail_filter_period_from#:#From
+mail#:#mail_filter_period_until#:#Until
+mail#:#mail_download_zip_no_attachments#:#Could not find any attachments.
 blog#:#blog_properties#:#Blog Properties
 blog#:#blog_style#:#Blog Style
 prtf#:#prtf_properties#:#Portfolio Properties
@@ -11627,7 +11740,6 @@ obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate tran
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 content#:#cont_languages#:#Languages
 content#:#cont_language#:#Language
-content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
 content#:#cont_finish_editing#:#Finish Editing
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.
 notes#:#note_content_removed#:#The content has been removed.
@@ -11663,6 +11775,7 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
+cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
@@ -12441,6 +12554,7 @@ dcl#:#dcl_selection_type#:#Type
 dcl#:#dcl_selection_type_single#:#Single Selection
 dcl#:#dcl_selection_type_multi#:#Multiple Selection
 dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_title_standardview#:#Standard Views
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
@@ -12677,8 +12791,8 @@ note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_link#:#Link
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
-trac#:#trac_mode_downloaded#:#Downloaded
-trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the download status of the file.
+trac#:#trac_mode_content_visited#:#Visited
+trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.
 trac#:#trac_mode_collection_mobs#:#Collection of Media Objects
 trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast
@@ -12727,6 +12841,11 @@ crs#:#crs_mail_context_member_title#:#Info Page Course
 sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template
+mail#:#mail_template_set_as_default#:#Set as Default
+mail#:#mail_template_unset_as_default#:#Unset as Default
+mail#:#mail_template_default#:# (Default)
+mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the text template?
+mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following entries?
 mail#:#mail_template_title#:#Name
 mail#:#mail_template_context#:#Context
 mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.
@@ -12936,7 +13055,7 @@ log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
-forum#:#frm_search#:#Suche
+forum#:#frm_search#:#Search
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
 mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
@@ -13036,6 +13155,9 @@ common#:#obj_prgs_desc#:#Study Programme Administration
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
+forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
+forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
+forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.
 meta#:#meta_advmd_select_options#:#Entries
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 search#:#btn_search#:#Search
@@ -13187,6 +13309,8 @@ chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_key#:#Authentication-Key
 chatroom#:#chatroom_auth_secret#:#Authentication-Secret
 chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
+chatroom#:#chatroom_client_name#:#Name
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.
 chatroom#:#key#:#Key
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
@@ -13357,7 +13481,6 @@ assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
 assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
 assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
 assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again in my current session.
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
@@ -13520,6 +13643,8 @@ style#:#system_style_activation_description#:#Active system styles can be assign
 style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
 style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
 style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.
+style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.
 style#:#zip_export_failed#:#The ZIP export failed. The following error occured:
 style#:#no_style_selected#:#No sub style has been selected.
 style#:#adapt_less#:#Adapt Less
@@ -13747,6 +13872,7 @@ chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of th
 chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
+chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. 
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
@@ -13847,7 +13973,6 @@ mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suf
 form#:#form_msg_file_type_is_not_allowed#:#This file type is not allowed.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
-ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
@@ -13891,7 +14016,7 @@ auth#:#auth_saml_sync_info#:#If enabled new user accounts will be created automa
 auth#:#auth_saml_sync#:#User Synchronization
 auth#:#auth_saml_uid_claim#:#Unique Attribute for User Account Matching
 auth#:#auth_saml_uid_claim_info#:#Define the attribute ILIAS uses to detect whether or not an incoming authentication request matches an existing ILIAS user account.
-auth#:#auth_saml_username_claim#:#Arrtibue for Username
+auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_update_field_info#:#Update automatically
@@ -13967,6 +14092,7 @@ content#:#cont_grid_width_l_info#:#E.g. desktop
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
 content#:#cont_add_cell#:#Add Column
+content#:#cont_added_cell#:#Column added
 content#:#cont_ed_delete_cell#:#Delete Column
 content#:#cont_ed_cell_left#:#Move Left
 content#:#cont_ed_cell_right#:#Move Right
@@ -14118,7 +14244,7 @@ prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new po
 style#:#open_documentation#:#Open Documentation
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
-prtf#:#prtf_pdf#:#PDF
+prtf#:#prtf_pdf#:#Export as PDF
 prtf#:#prtf_print_selection#:#Page Selection
 prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_selected_pages#:#Selected Pages
@@ -14189,7 +14315,7 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
-dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
+dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise
@@ -14214,4 +14340,171 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-assessment#:#not_enough_unique_answers#:#You have not selected "Identical Scoring", but you are using the same answer in at least to gaps.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+common#:#obj_copa#:#Content Page
+common#:#objs_copa#:#Content Pages
+rbac#:#copa_visible#:#Content Page is visible
+rbac#:#copa_read#:#User can read Content Page
+rbac#:#copa_copy#:#Copy Content Page
+rbac#:#copa_write#:#User can edit Content Page
+rbac#:#copa_delete#:#User can move or delete Content Page
+rbac#:#copa_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_copa#:#Create Content Page
+rbac#:#copa_read_learning_progress#:#User can view learning progress of other users
+rbac#:#copa_edit_learning_progress#:#User can edit learning progress settings
+copa#:#copa_new#:#Create Content Page
+copa#:#copa_import#:#Import Content Page
+copa#:#copa_copy#:#Copy Content Page
+copa#:#copa_add#:#Add Content Page
+copa#:#copa_edit#:#Edit Content Page
+copa#:#obj_copa_duplicate#:#Duplicate Content Page
+copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
+adve#:#adve_grp_copa#:#Content Pages
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
+mail#:#show_mail_settings#:#Show Mail Settings
+mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
+mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
+common#:#presentation_table_more#:#more
+ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:
+exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#feedback_given#:#Feedback given
+exc#:#feedback#:#Feedback
+exc#:#feedback_received#:#Feedback received
+exc#:#feedback_from#:#Feedback from
+exc#:#text_assignment#:#Text Assignment
+exc#:#not_yet#:#not yet
+exc#:#grade_evaluate#:#Grade and Evaluate
+exc#:#submissions_feedback#:#Submissions and Feedback
+exc#:#submissions_only#:#Submissions Only
+exc#:#filter#:#Filter
+exc#:#fiter_no_results#:#The current filter did not match any submission.
+exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
+exc#:#exc_reminder_start#:#Start Reminders before Deadline
+exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
+exc#:#exc_reminder_frequency#:#Frequency
+exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade
+exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback
+exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
+exc#:#exc_reminders_cron#:#Reminders for Assignments
+exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_reminder_end#:#Reminder ends
+exc#:#exc_reminder_mail_template#:#Mail Template
+exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
+exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
+exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
+exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
+exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
+exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
+exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
+exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
+exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
+exc#:#exc_reminder_salutation#:#Hello %s,
+exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
+exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded
+exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
+exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
+exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet
+exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
+exc#:#exc_reminder_link#:#URL
+exc#:#exc_reminder_cron_ok#:#Reminders sent:
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only
+survey#:#svy_self_ev_info#:#Use for self evaluation.
+survey#:#svy_self_ev_access_results_none#:#No Access to Results
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
+survey#:#svy_participant#:#Participant
+cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
+skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
+crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
+trac#:#trac_lhist_obj_completed#:#$1$ was completed.
+lhist#:#lhist_learning_history#:#Learning History
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
+pd#:#pd_enable_learning_history#:#Learning History
+pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
+blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
+news#:#news_news_block#:#News Block
+sess#:#sess_filter_all_types#:#All types
+sess#:#sess_filter_not_assigned#:#Not Assigned
+sess#:#sess_is_assigned#:#is Assigned
+obj#:#obj_more_translations#:#More Translations
+wiki#:#wiki_type_wiki_team#:#Team Wiki
+exc#:#exc_without_wiki_template#:#Without Wiki Template
+exc#:#exc_with_wiki_template#:#With Wiki Template
+exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from scratch.
+exc#:#exc_with_wiki_template_info#:#The template wiki will be copied to create the wikis of participants.
+exc#:#exc_wiki_container#:#Wiki Container
+exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
+exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
+exc#:#exc_create_wiki#:#Create Wiki
+wiki#:#wiki_exercise_info#:#This wiki is part of the assignment "%s" of exercise "%s".
+wiki#:#wiki_finalize_wiki#:#Finalize and Submit Wiki
+wiki#:#wiki_finalized#:#Wiki has been finalized and submitted.
+wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file.
+wiki#:#wiki_team_members#:#Team Members
+wiki#:#wiki_exc_wiki_created#:#Wiki has been created.
+wiki#:#wiki_exc_template#:#Wiki Template
+wiki#:#wiki_download_submission#:#Download Submission File
+news#:#news_new_reactions#:#New reactions
+news#:#news_new_comments#:#New comments
+like#:#reaction#:#Reaction
+common#:#like#:#Like
+common#:#love#:#Love
+common#:#dislike#:#Dislike
+common#:#laugh#:#Laugh
+common#:#astounded#:#Astounded
+common#:#sad#:#Sad
+common#:#angry#:#Angry
+news#:#news_media#:#Media File
+like#:#like#:#Like
+notes#:#notes_latest_comment#:#Latest Comment
+notes#:#notes_add_edit_comment#:#Add/Edit Comment
+mep#:#mep_media_files#:#Media Files
+mep#:#mep_bulk_upload#:#Bulk Upload
+mep#:#mep_mob#:#Media Object
+book#:#book_booking_reminders#:#Upcoming reservations
+book#:#book_rem_intro#:#This is an overview of upcoming reservations:
+book#:#book_your_reservations#:#Your Reservations
+book#:#book_reservation_overview#:#Reservation Overviews
+book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.
+book#:#book_reminder_setting#:#Reminder
+book#:#book_reminder_day#:#Before Reservation
+book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
+book#:#book_reminder_days#:#Day(s)
+noti#:#noti_activate_notification#:#Activate Notification
+noti#:#noti_deactivate_notification#:#Deactivate Notification
+noti#:#noti_notification_activated#:#Notification Activated
+noti#:#noti_notification_deactivated#:#Notification Deactivated
+book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
+skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_all#:#All
+skmg#:#skmg_refresh_view#:#Refresh
+prtf#:#prtf_copy_tab#:#Copy Tab
+prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
+prtf#:#prtf_edit_content#:#Edit Content
+prtf#:#prtf_set_online#:#Set Online
+prtf#:#prtf_set_offline#:#Set Offline
+prtf#:#prtf_no_submission#:#No Submission
+prtf#:#prtf_submission_on#:#Submitted on $1
+prtf#:#prtf_no_offline_share_info#:#A portfolio has to be online to be shared by other users.
+prtf#:#prtf_has_been_set_online#:#Portfolio has been set online.
+user#:#user_prompting_recurrence#:#Prompting Recurrence
+user#:#user_prompting_settings#:#Prompting Settings
+user#:#user_prompt_incomplete#:#Only if profile is incomplete
+user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
+user#:#user_prompt_once_after_login#:#Once after specific number of days after first login
+user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.
+user#:#user_prompt_repeat#:#Repeat every specific number of days
+user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.
+user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
+lhist#:#lhist_first_login#:#First Login
+prtf#:#prtf_decl_authorship#:#Declaration of Authorship
+pd#:#pd_achievements#:#Achievements
+content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
+prtf#:#prtf_download_submission#:#Download Submission

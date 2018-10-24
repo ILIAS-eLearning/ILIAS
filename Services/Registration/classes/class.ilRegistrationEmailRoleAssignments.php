@@ -40,7 +40,9 @@ class ilRegistrationRoleAssignments
 
 	function __construct()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->db = $ilDB;
 		$this->__read();
@@ -48,7 +50,9 @@ class ilRegistrationRoleAssignments
 
 	function getRoleByEmail($a_email)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		foreach($this->assignments as $assignment)
 		{
@@ -95,7 +99,9 @@ class ilRegistrationRoleAssignments
 
 	function delete($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "DELETE FROM reg_er_assignments ".
 			"WHERE assignment_id = ".$ilDB->quote($a_id ,'integer');
@@ -106,7 +112,9 @@ class ilRegistrationRoleAssignments
 
 	function add()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$next_id = $ilDB->nextId('reg_er_assignments');
 		$query = "INSERT INTO reg_er_assignments (assignment_id,domain,role) ".
@@ -122,7 +130,10 @@ class ilRegistrationRoleAssignments
 
 	function save()
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilDB = $DIC['ilDB'];
 
 		// Save default role
 		$ilias->setSetting('reg_default_role',$this->getDefaultRole());
@@ -164,7 +175,10 @@ class ilRegistrationRoleAssignments
 	// Private
 	function __read()
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilias = $DIC['ilias'];
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT * FROM reg_er_assignments ";
 		$res = $this->db->query($query);

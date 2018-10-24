@@ -23,7 +23,20 @@ class ilLearningModuleDataSet extends ilDataSet
 	protected $transl_into_lm = null;
 	protected $transl_lang = "";
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $lm_log;
 
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->lm_log = ilLoggerFactory::getLogger('lm');
+	}
 	/**
 	 * Set master language only (export)
 	 *
@@ -503,6 +516,7 @@ class ilLearningModuleDataSet extends ilDataSet
 							$a_mapping->addMapping("Modules/LearningModule", "lm_tree", $a_rec["Child"],
 								$pg_obj->getId());
 							$a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
+							$this->lm_log->debug("add pg map (1), old : ".$a_rec["Child"].", new: ".$pg_obj->getId());
 							$a_mapping->addMapping("Services/COPage", "pg", "lm:".$a_rec["Child"],
 								"lm:".$pg_obj->getId());
 							$a_mapping->addMapping("Services/MetaData", "md",
@@ -521,6 +535,7 @@ class ilLearningModuleDataSet extends ilDataSet
 							$a_mapping->addMapping("Modules/LearningModule", "lm_tree", $a_rec["Child"],
 								$pg_obj->getId());
 							$a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_obj->getId());
+							$this->lm_log->debug("add pg map (2), old : ".$a_rec["Child"].", new: ".$pg_obj->getId());
 							$a_mapping->addMapping("Services/COPage", "pg", "lm:".$a_rec["Child"],
 								"lm:".$pg_obj->getId());
 							$a_mapping->addMapping("Services/MetaData", "md",
@@ -569,6 +584,7 @@ class ilLearningModuleDataSet extends ilDataSet
 									$trans->setTitle($a_rec["Title"]);
 									$trans->save();
 									$a_mapping->addMapping("Modules/LearningModule", "pg", $a_rec["Child"], $pg_id);
+									$this->lm_log->debug("add pg map (3), old : ".$a_rec["Child"].", new: ".$pg_id);
 									$a_mapping->addMapping("Modules/LearningModule", "link",
 										"il_".$this->getCurrentInstallationId()."_".$a_rec["Type"]."_".$a_rec["Child"], $a_rec["ImportId"]);
 									$a_mapping->addMapping("Services/COPage", "pg", "lm:".$a_rec["Child"],

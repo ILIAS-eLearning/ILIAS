@@ -1,0 +1,29 @@
+<div class="il-workflow linear">
+	<div class="il-workflow-header">
+		<h3 class="il-workflow-title">{TITLE}</h3>
+	</div>
+	<ul class="il-workflow-container">
+	<!-- BEGIN step -->
+		<li class="il-workflow-step
+			<!-- BEGIN first --> first<!-- END first -->
+			<!-- BEGIN last --> last<!-- END last -->
+
+			<!-- BEGIN active --> active<!-- END active -->
+			<!-- BEGIN available --> available<!-- END available -->
+			<!-- BEGIN not_available --> not-available<!-- END not_available -->
+			<!-- BEGIN not_anymore --> no-longer-available<!-- END not_anymore -->
+
+			<!-- BEGIN status_notstarted --> not-started<!-- END status_notstarted -->
+			<!-- BEGIN status_inprogress --> in-progress<!-- END status_inprogress -->
+			<!-- BEGIN status_completed_successfully --> completed-successfully<!-- END status_completed_successfully -->
+			<!-- BEGIN status_completed_unsuccessfully --> completed-unsuccessfully<!-- END status_completed_unsuccessfully -->
+		">
+
+			<div class="text">
+				<span class="il-workflow-step-label">{LABEL}</span>
+				<span class="il-workflow-step-description">{DESCRIPTION}</span>
+			</div>
+		</li>
+	<!-- END step -->
+	</ul>
+</div>

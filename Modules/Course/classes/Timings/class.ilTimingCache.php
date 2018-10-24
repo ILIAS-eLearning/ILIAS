@@ -50,7 +50,9 @@ class ilTimingCache
 		
 	static function _showWarning($a_ref_id, $a_usr_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
 								

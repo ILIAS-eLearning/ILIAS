@@ -33,7 +33,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	
 	public static function initErrorMessages()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		if(is_array(self::$ERROR_MESSAGE))
 		{
@@ -65,7 +67,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -106,7 +112,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -223,7 +231,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function showSecurity()
 	{
-		global $ilSetting, $ilUser, $rbacreview;
+		global $DIC;
+
+		$ilSetting = $DIC['ilSetting'];
+		$ilUser = $DIC['ilUser'];
+		$rbacreview = $DIC['rbacreview'];
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
@@ -254,7 +266,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function save_privacy()
 	{
-		global $ilErr,$ilAccess, $ilSetting;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilSetting = $DIC['ilSetting'];
 
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -349,7 +365,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function save_security()
 	{
-		global $ilErr,$ilAccess, $ilSetting, $rbacreview, $ilUser;
+		global $DIC;
+
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilSetting = $DIC['ilSetting'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{

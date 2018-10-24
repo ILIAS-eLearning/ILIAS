@@ -1155,7 +1155,7 @@ var ILIASConnector = function ILIASConnector(_postUrl, responseHandler) {
  * @param {GUI} gui
  * @constructor
  */
-var ServerConnector = function ServerConnector(url, scope, user, userManager, gui) {
+var ServerConnector = function ServerConnector(url, scope, user, userManager, gui, subdirectory) {
 
 	var _socket;
 
@@ -1163,7 +1163,7 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 	 * Setup server connector
 	 */
 	this.init = function() {
-		_socket = io.connect(url);
+		_socket = io.connect(url, {path: subdirectory});
 
 		_socket.on('message', _onMessage);
 		_socket.on('connect', function(){
@@ -1678,7 +1678,7 @@ il.Util.addOnLoad(function () {
 			var userManager		= new UserManager();
 			smileys			= new Smileys(initial.smileys);
 			iliasConnector	= new ILIASConnector(posturl, new ILIASResponseHandler());
-			serverConnector 	= new ServerConnector(baseurl + '/'+instance, scope, user, userManager, gui);
+			serverConnector 	= new ServerConnector(baseurl + '/'+instance, scope, user, userManager, gui, initial.subdirectory);
 			var privateRooms	= new PrivateRooms('#private_rooms', translation, iliasConnector);
 			var chatUsers		= new ChatUsers('#chat_users', translation, iliasConnector);
 			chatActions		= new ChatActions('#chat_actions', translation, iliasConnector, initial.private_rooms_enabled, userManager);

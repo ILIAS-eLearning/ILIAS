@@ -746,7 +746,10 @@ class ilECSSetting
 	 */
 	public function checkImportId()
 	{
-	 	global $ilObjDataCache,$tree;
+	 	global $DIC;
+
+	 	$ilObjDataCache = $DIC['ilObjDataCache'];
+	 	$tree = $DIC['tree'];
 	 	
 	 	if(!$this->getImportId())
 	 	{
@@ -771,7 +774,9 @@ class ilECSSetting
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$this->server_id = $ilDB->nextId('ecs_server');
 		$ilDB->manipulate($q = 'INSERT INTO ecs_server (server_id,active,title,protocol,server,port,auth_type,client_cert_path,ca_cert_path,'.
@@ -807,7 +812,9 @@ class ilECSSetting
 	 */
 	public function update()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulate('UPDATE ecs_server SET '.
 			'server_id = '.$ilDB->quote($this->getServerId(),'integer').', '.
@@ -841,7 +848,9 @@ class ilECSSetting
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// --- cascading delete
 
@@ -958,7 +967,9 @@ class ilECSSetting
 	 */
 	private function read()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!$this->getServerId())
 		{

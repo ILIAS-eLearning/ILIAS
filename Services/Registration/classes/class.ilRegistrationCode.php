@@ -17,7 +17,9 @@ class ilRegistrationCode
 	
 	public static function create($role, $stamp, $local_roles, $limit, $limit_date, $reg_type, $ext_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$id = $ilDB->nextId(self::DB_TABLE);
 		
@@ -71,7 +73,9 @@ class ilRegistrationCode
 	
 	public static function getCodesData($order_field, $order_direction, $offset, $limit, $filter_code, $filter_role, $filter_generated, $filter_access_limitation)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// filter
 		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated, $filter_access_limitation);
@@ -108,7 +112,9 @@ class ilRegistrationCode
 	
 	public static function loadCodesByIds(array $ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->query("SELECT * FROM ".self::DB_TABLE." WHERE ".$ilDB->in("code_id", $ids, false, "integer"));
 		$result = array();
@@ -121,7 +127,9 @@ class ilRegistrationCode
 	
 	public static function deleteCodes(array $ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		if(sizeof($ids))
 		{
@@ -132,7 +140,9 @@ class ilRegistrationCode
 	
 	public static function getGenerationDates()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT DISTINCT(generated_on) genr FROM ".self::DB_TABLE." ORDER BY genr");
 		$result = array();
@@ -145,7 +155,9 @@ class ilRegistrationCode
 	
 	protected static function filterToSQL($filter_code, $filter_role, $filter_generated, $filter_access_limitation)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$where = array();
 		if($filter_code)
@@ -176,7 +188,9 @@ class ilRegistrationCode
 	
 	public static function getCodesForExport($filter_code, $filter_role, $filter_generated, $filter_access_limitation)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		// filter
 		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated, $filter_access_limitation);
@@ -199,7 +213,9 @@ class ilRegistrationCode
 	 */
 	public static function isUnusedCode($code)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->query("SELECT used FROM ".self::DB_TABLE." WHERE code = ".$ilDB->quote($code, "text"));
 		$set = $ilDB->fetchAssoc($set);
@@ -217,7 +233,9 @@ class ilRegistrationCode
 	 */
 	public static function isValidRegistrationCode($a_code)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT code_id FROM reg_registration_codes '.
 			'WHERE used = '.$ilDB->quote(0,'integer').' '.
@@ -230,14 +248,18 @@ class ilRegistrationCode
 
 	public static function useCode($code)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		return (bool)$ilDB->update(self::DB_TABLE, array("used"=>array("timestamp", time())), array("code"=>array("text", $code)));
 	}
 
 	public static function getCodeRole($code)
     {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->query("SELECT role FROM ".self::DB_TABLE." WHERE code = ".$ilDB->quote($code, "text"));
 		$row = $ilDB->fetchAssoc($set);
@@ -249,7 +271,9 @@ class ilRegistrationCode
 	
 	public static function getCodeData($code)
     {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->query("SELECT role, role_local, alimit, alimitdt, reg_enabled, ext_enabled".
 			" FROM ".self::DB_TABLE.

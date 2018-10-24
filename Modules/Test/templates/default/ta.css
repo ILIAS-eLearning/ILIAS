@@ -343,6 +343,40 @@ table.kprimchoicewizard th.optionLabel
     background-color: lightgrey;
 }
 
+table.ilAssKprimChoiceTable tr.aggregaterow td
+{
+	border-bottom: solid lightgrey 1px;
+}
+table.ilAssKprimChoiceTable tr.aggregaterow td.answer_frequency
+{
+	text-align: right;
+}
+table.il_tst_answer_aggregation
+{
+	border-collapse: collapse;
+}
+table.il_tst_answer_aggregation td,
+table.il_tst_answer_aggregation th
+{
+	padding: 5px 15px;
+}
+table.il_tst_answer_aggregation th
+{
+	background-color: lightgrey;
+}
+table.il_tst_answer_aggregation td
+{
+	border-bottom: solid lightgrey 1px;
+}
+table.il_tst_answer_aggregation td.answer_option
+{
+	font-style: italic;
+}
+table.il_tst_answer_aggregation td.answer_frequency
+{
+	text-align: right;
+}
+
 #tst_output {
 	clear: both;
 	overflow: hidden;

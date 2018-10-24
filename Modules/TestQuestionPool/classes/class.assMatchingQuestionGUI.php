@@ -593,7 +593,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$feedback .= strlen($fb) ? $fb : '';
 			}
 			
-			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$fb = $this->getSpecificFeedbackOutput(array());
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
 		if (strlen($feedback))
@@ -1050,11 +1050,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->addBackTab($ilTabs);
 	}
 
-	function getSpecificFeedbackOutput($active_id, $pass)
+	function getSpecificFeedbackOutput($userSolution)
 	{
 		$matches = array_values($this->object->getMaximumScoringMatchingPairs());
 
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($matches) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
 			return '';
 		}
@@ -1064,7 +1064,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		foreach ($matches as $idx => $ans)
 		{
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-				$this->object->getId(), $idx
+				$this->object->getId(),0, $idx
 			);
 			$feedback .= '<tr><td>"' . $ans->definition->text . '"&nbsp;' . $this->lng->txt("matches") . '&nbsp;"';
 			$feedback .= $ans->term->text . '"</td><td>';

@@ -56,7 +56,9 @@ class ilSessionIStorage
 	 */
 	function set($a_key, $a_val)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (!is_array(self::$values[$this->component_id]))
 		{
@@ -80,7 +82,9 @@ class ilSessionIStorage
 	 */
 	function get($a_key)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if (is_array(self::$values[$this->component_id]) &&
 			isset(self::$values[$this->component_id][$a_key]))
@@ -107,7 +111,9 @@ class ilSessionIStorage
 	 */
 	static function destroySession($a_session_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		if(!is_array($a_session_id))
 		{

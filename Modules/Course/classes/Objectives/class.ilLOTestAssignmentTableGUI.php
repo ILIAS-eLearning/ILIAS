@@ -121,7 +121,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 		
 			 
 		$this->setRowTemplate("tpl.crs_loc_tst_row.html","Modules/Course");
-		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
+		$this->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this->getParentObject()));
 		
 		if($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS)
 		{
@@ -143,7 +143,9 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($set)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS)
 		{
@@ -283,10 +285,10 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 				include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
 				
 				$list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-						$GLOBALS['ilDB'],
+						$GLOBALS['DIC']['ilDB'],
 						$tst,
 						new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-								$GLOBALS['ilDB'],
+								$GLOBALS['DIC']['ilDB'],
 								$tst
 						)
 				);
@@ -295,7 +297,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 				
 				// tax translations
 				include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
-				$translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['ilDB']);
+				$translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
 				$translater->loadLabels($list);
 				
 				$tst_data['qst_info'] = $this->lng->txt('crs_loc_tst_qpls');

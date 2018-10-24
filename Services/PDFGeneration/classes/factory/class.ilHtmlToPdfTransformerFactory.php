@@ -31,9 +31,27 @@ class ilHtmlToPdfTransformerFactory
 	}
 
 	/**
+	 * @param $output
+	 * @return string
+	 */
+	protected function generateTempPath($output)
+	{
+		$dir = ilUtil::ilTempnam();
+		if( ! is_dir($dir)) {
+			ilUtil::makeDirParents($dir);
+		}
+
+		$output = $dir . '/' . $output;
+		return $output;
+	}
+
+	/**
 	 * @param $src
 	 * @param $output
 	 * @param $delivery_type
+	 * @param $service
+	 * @param $purpose
+	 * @throws Exception
 	 */
 	public function deliverPDFFromHTMLString($src, $output, $delivery_type, $service, $purpose)
 	{
@@ -41,6 +59,7 @@ class ilHtmlToPdfTransformerFactory
 		$renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
 		$config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $map['selected']);
 
+		$output = $this->generateTempPath($output);
 		$job = new ilPDFGenerationJob();
 		$job->setFilename($output);
 		$job->addPage($src);
