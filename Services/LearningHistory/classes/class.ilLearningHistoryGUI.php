@@ -51,6 +51,17 @@ class ilLearningHistoryGUI
 	}
 
 	/**
+	 * Set user id
+	 *
+	 * @param int $user_id
+	 */
+	public function setUserId($user_id)
+	{
+		$this->user_id = $user_id;
+	}
+
+
+	/**
 	 * Execute command
 	 */
 	function executeCommand()
@@ -77,29 +88,14 @@ class ilLearningHistoryGUI
 	{
 		$main_tpl = $this->main_tpl;
 		$lng = $this->lng;
-		$collector = $this->lhist_service->factory()->collector();
-
 		$f = $this->ui->factory();
 		$renderer = $this->ui->renderer();
 
-		$to = time();
-		$from = time() - (365 * 24 * 60 * 60);
+		$html = $this->getHistoryHtml();
 
-		$entries = $collector->getEntries($from, $to, $this->user_id);
-
-		$timeline = ilTimelineGUI::getInstance();
-		foreach ($entries as $e)
+		if ($html != "")
 		{
-			$timeline->addItem(new ilLearningHistoryTimelineItem($e, $this->ui, $this->user_id, $this->access,
-				$this->lhist_service->repositoryTree()));
-		}
-
-
-		$main_tpl->setTitle($lng->txt("lhist_learning_history"));
-
-		if (count($entries) > 0)
-		{
-			$main_tpl->setContent($timeline->render());
+			$main_tpl->setContent($html);
 		}
 		else
 		{
@@ -108,6 +104,41 @@ class ilLearningHistoryGUI
 				));
 		}
 	}
+	
+	/**
+	 * Get history html
+	 *
+	 * @return string
+	 */
+	public function getHistoryHtml($from = null, $to = null, $classes = null)
+	{
+		$collector = $this->lhist_service->factory()->collector();
+
+		$to = (is_null($to))
+			? time()
+			: $to;
+		$from = (is_null($from))
+			? time() - (365 * 24 * 60 * 60)
+			: $from;
+
+		$entries = $collector->getEntries($from, $to, $this->user_id, $classes);
+
+		$timeline = ilTimelineGUI::getInstance();
+		foreach ($entries as $e)
+		{
+			$timeline->addItem(new ilLearningHistoryTimelineItem($e, $this->ui, $this->user_id, $this->access,
+				$this->lhist_service->repositoryTree()));
+		}
+
+		$html = "";
+		if (count($entries) > 0)
+		{
+			$html = $timeline->render();
+		}
+
+		return $html;
+	}
+	
 	
 
 }

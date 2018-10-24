@@ -33,7 +33,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	protected $toggle_fulltime = false;
 	protected $toggle_fulltime_txt = '';
 	protected $toggle_fulltime_checked = false;
-
 	protected $allowOpenIntervals = false;
 
 	/**
@@ -352,9 +351,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 				$valid_end = false;
 			}
 		}
-		
-		$valid = ($valid_start && $valid_end);	
-		
+		$valid = ($valid_start && $valid_end);
+
 		if($valid && 
 			$this->getStart() && 
 			$this->getEnd() &&

@@ -116,6 +116,12 @@ class ilBlogExerciseGUI
 	{		
 		global $DIC;
 
+		$ui = $DIC->ui();
+
+		$links = [];
+		$buttons = [];
+		$elements = [];
+
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		$ilUser = $DIC->user();
@@ -134,11 +140,11 @@ class ilBlogExerciseGUI
 		include_once "./Services/Link/classes/class.ilLink.php";
 		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
 		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
-		
-		$info = sprintf($lng->txt("blog_exercise_info"), 
+
+		$text = sprintf($lng->txt("blog_exercise_info"),
 			$ass->getTitle(),
-			"<a href=\"".$exc_link."\">".
-			ilObject::_lookupTitle($exercise_id)."</a>");
+			ilObject::_lookupTitle($exercise_id));
+		$links[] = $ui->factory()->link()->standard(ilObject::_lookupTitle($exercise_id), $exc_link);
 		
 		// submit button
 		if(!$times_up)
@@ -146,13 +152,8 @@ class ilBlogExerciseGUI
 			$ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $a_assignment_id);
 			$submit_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "finalize");
 			$ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("blog_finalize_blog");
-			$button->setPrimary(true);
-			$button->setUrl($submit_link);			
-			$info .= " ".$button->render();
+
+			$buttons[] = $ui->factory()->button()->primary($lng->txt("blog_finalize_blog"), $submit_link);
 		}
 		
 		// submitted files
@@ -169,17 +170,13 @@ class ilBlogExerciseGUI
 			
 			$rel = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("download");		
-			$button->setUrl($dl_link);			
-			
-			$info .= "<br />".sprintf($lng->txt("blog_exercise_submitted_info"), 
+
+			$text .= "<br />".sprintf($lng->txt("blog_exercise_submitted_info"),
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				$button->render());
+				"");
 			
 			ilDatePresentation::setUseRelativeDates($rel);
+			$buttons[] = $ui->factory()->button()->standard($lng->txt("blog_download_submission"), $dl_link);
 		}		
 		
 		
@@ -204,30 +201,29 @@ class ilBlogExerciseGUI
 				$ilCtrl->setParameterByClass("ilblogexercisegui", "file", urlencode($file["name"]));
 				$dl_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "downloadExcAssFile");
 				$ilCtrl->setParameterByClass("ilblogexercisegui", "file", "");			
-				$ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");			
-				
-				$tooltip .= $file["name"].": <a href=\"".$dl_link."\">".
-					$lng->txt("download")."</a>";										
+				$ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");
+
+				$items[] = $ui->renderer()->render($ui->factory()->button()->shy($file["name"], $dl_link));
 			}
+			$list = $ui->factory()->listing()->unordered($items);
+			$tooltip .= $ui->renderer()->render($list);
 		}			
 		
 		if($tooltip)
 		{
-			$ol_id = "exc_ass_".$a_assignment_id;
+			$modal = $ui->factory()->modal()->roundtrip($lng->txt("exc_instruction"), $ui->factory()->legacy($tooltip))
+				->withCancelButtonLabel("close");
+			$elements[] = $modal;
+			$buttons[] = $ui->factory()->button()->standard($lng->txt("exc_instruction"), '#')
+				->withOnClick($modal->getShowSignal());
 
-			include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
-			$overlay = new ilOverlayGUI($ol_id);
-
-			// overlay
-			$overlay->setAnchor($ol_id."_tr");
-			$overlay->setTrigger($ol_id."_tr", "click", $ol_id."_tr");
-			$overlay->add();
-
-			$info .= "<div id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></div>".
-				"<div id=\"".$ol_id."\" style=\"display:none; padding:10px;\" class=\"ilOverlay\">".$tooltip."</div>";
 		}
-		
-		return "<div>".$info."</div>";
+
+		$elements[] = $ui->factory()->messageBox()->info($text)
+			->withLinks($links)
+			->withButtons($buttons);
+
+		return $ui->renderer()->render($elements);
 	}
 	
 	protected function downloadExcAssFile()

@@ -1478,12 +1478,12 @@ class ilSurveyPageGUI
 		$this->has_next_page = ($this->current_page < sizeof($pages));
 		$this->has_previous_page = ($this->current_page > 1);
 		$this->has_datasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
-		
+
+		$mess = "";
 		if($this->has_datasets)
 		{
-			$link = $ilCtrl->getLinkTargetByClass(array("ilobjsurveygui", "ilsurveyparticipantsgui"), "maintenance");
-			$link = "<a href=\"".$link."\">".$lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
-			ilUtil::sendInfo($lng->txt("survey_has_datasets_warning_page_view")." ".$link);
+			$mbox = new ilSurveyContainsDataMessageBoxGUI();
+			$mess = $mbox->getHTML();
 		}
 
 		$ilCtrl->setParameter($this, "pg", $this->current_page);
@@ -1582,7 +1582,7 @@ class ilSurveyPageGUI
 			$ttpl->setVariable("NODES", $this->getPageNodes($pages[$this->current_page-1],
 				$this->has_previous_page, $this->has_next_page, $read_only));
 
-			$tpl->setContent($ttpl->get());
+			$tpl->setContent($mess.$ttpl->get());
 
 			// add js to template
 			include_once("./Services/YUI/classes/class.ilYuiUtil.php");

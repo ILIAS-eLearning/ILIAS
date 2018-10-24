@@ -48,34 +48,26 @@
 		top:0;
 		left:0;
 		right:0;
+		height: @icon-size-medium + @padding-large-horizontal;
+		padding: 0 @padding-small-horizontal;
 
-		.row {
-			padding: 0 2px;
+
+		> div {
+			padding: @padding-large-vertical @padding-small-horizontal;
+			float: left;
 		}
 
-		.row div.col-sm-3 {
-			padding:5px 4% 2px 4%;
-			margin:0;
-		}
 
-
-		.row div.il-card-repository-dropdown {
-			position: absolute;
-			right:0;
-			width: 25%;
-			top: 15%;
-			bottom: 15%;
-			padding-left: 6%;
-			padding-right: 6%;
+		> div.il-card-repository-dropdown {
+			float:right;
+			padding: (@padding-large-vertical + @padding-base-vertical) @padding-small-horizontal;
 
 			> .dropdown {
-				height:100%;
-
 				> button {
-					height:100%;
-					width:100%;
 					background-color: inherit;
 					border: @il-card-repository-dropdown-border;
+					width: @icon-size-medium - @padding-large-vertical;
+					height: @icon-size-medium - @padding-large-vertical;
 
 					span.caret {
 						display: block;

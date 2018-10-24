@@ -28,4 +28,10 @@ interface ilLearningHistoryProviderInterface
 	 */
 	function getEntries($ts_start, $ts_end);
 
+	/**
+	 * Get name of provider (in user language)
+	 * @return string
+	 */
+	function getName(): string;
+
 }

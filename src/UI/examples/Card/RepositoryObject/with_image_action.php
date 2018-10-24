@@ -8,7 +8,7 @@ function with_image_action() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->standard("crs", 'Course', 'responsive');
+	$icon = $f->icon()->standard("crs", 'Course');
 
 	$image = $f->image()->responsive(
 		"./templates/default/images/HeaderIcon.svg",

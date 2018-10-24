@@ -6906,33 +6906,24 @@ button.close {
   top: 0;
   left: 0;
   right: 0;
+  height: 47px;
+  padding: 0 6px;
 }
-.il-card .il-card-repository-head .row {
-  padding: 0 2px;
+.il-card .il-card-repository-head > div {
+  padding: 6px 6px;
+  float: left;
 }
-.il-card .il-card-repository-head .row div.col-sm-3 {
-  padding: 5px 4% 2px 4%;
-  margin: 0;
+.il-card .il-card-repository-head > div.il-card-repository-dropdown {
+  float: right;
+  padding: 9px 6px;
 }
-.il-card .il-card-repository-head .row div.il-card-repository-dropdown {
-  position: absolute;
-  right: 0;
-  width: 25%;
-  top: 15%;
-  bottom: 15%;
-  padding-left: 6%;
-  padding-right: 6%;
-}
-.il-card .il-card-repository-head .row div.il-card-repository-dropdown > .dropdown {
-  height: 100%;
-}
-.il-card .il-card-repository-head .row div.il-card-repository-dropdown > .dropdown > button {
-  height: 100%;
-  width: 100%;
+.il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button {
   background-color: inherit;
   border: #b0b0b0 1px solid;
+  width: 29px;
+  height: 29px;
 }
-.il-card .il-card-repository-head .row div.il-card-repository-dropdown > .dropdown > button span.caret {
+.il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button span.caret {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -7284,6 +7275,37 @@ a.btn-link.ilSubmitInactive:hover {
   background-color: #75deea;
   color: #000000;
 }
+.il-toggle-button {
+  position: relative;
+  display: inline-block;
+  height: 19px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 40px;
+  background: #cdcdcd;
+  cursor: pointer;
+}
+.il-toggle-button .il-toggle-switch {
+  position: absolute;
+  top: -4px;
+  left: -6%;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  background: #808080;
+  -webkit-transition: all 0.25s ease-in-out;
+  /* Safari */
+  transition: all 0.25s ease-in-out;
+}
+.il-toggle-button.on {
+  background: #a1b3ca;
+}
+.il-toggle-button.on .il-toggle-switch {
+  left: 53%;
+  background: #4c6586;
+}
 h6.il-divider {
   padding: 3px 6px;
   background-color: #ececec;
@@ -7464,6 +7486,11 @@ hr.il-divider-with-label {
 }
 .il-narrow-content .il-item button.dropdown-toggle > span {
   display: none;
+}
+/* otherwise dropdowns in items with icon do not work */
+.il-std-item .media .media-body,
+.il-std-item .media {
+  overflow: visible;
 }
 @media only screen and (max-width: 767px) {
   .il-item div.col-sm-3 > h5 {
@@ -13737,6 +13764,9 @@ th.ilSkillEntryHead {
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType3 {
   color: #6ea03c;
+}
+.ilSkillFilter .ilToolbar select.form-control {
+  display: block;
 }
 /* Modules/Poll */
 .ilPollDescription {

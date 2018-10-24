@@ -40,4 +40,15 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
 		return $entries;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getName(): string
+	{
+		$lng = $this->getLanguage();
+		$lng->loadLanguageModule("crs");
+
+		return $lng->txt("crs_objectives");
+	}
+
 }

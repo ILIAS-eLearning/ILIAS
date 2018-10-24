@@ -78,7 +78,7 @@ class Renderer extends AbstractComponentRenderer {
 
 			$certificate = $component->getCertificateIcon();
 			if($certificate !== null) {
-				$certificate_icon= new StandardIcon("cert", "Certificate", "responsive",false);
+				$certificate_icon= new StandardIcon("cert", "Certificate", "medium", false);
 				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($certificate_icon));
 			}
 

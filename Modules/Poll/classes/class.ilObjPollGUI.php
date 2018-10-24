@@ -32,6 +32,11 @@ class ilObjPollGUI extends ilObject2GUI
 	 */
 	protected $nav_history;
 
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $ui;
+
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
 		global $DIC;
@@ -47,6 +52,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$this->tree = $DIC->repositoryTree();
 		$this->locator = $DIC["ilLocator"];
 		$lng = $DIC->language();
+		$this->ui = $DIC->ui();
 		
 	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
 		
@@ -327,6 +333,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$lng = $this->lng;
 		$ilToolbar = $this->toolbar;
 		$ilUser = $this->user;
+		$ui = $this->ui;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -341,8 +348,13 @@ class ilObjPollGUI extends ilObject2GUI
 			if($this->object->countVotes())
 			{
 				$url = $ilCtrl->getLinkTarget($this, "showParticipants");
-				ilUtil::sendInfo($lng->txt("poll_votes_no_edit").
-					" <a href=\"".$url."\">&raquo;".$lng->txt("poll_result")."</a>");				
+
+				$mbox = $ui->factory()->messageBox()->info($lng->txt("poll_votes_no_edit"))
+					->withLinks([$ui->factory()->link()->standard($lng->txt("poll_result"),
+						$url)]);
+
+				$message = $ui->renderer()->render($mbox);
+
 			}
 			
 			$a_form = $this->initQuestionForm($this->object->countVotes());
@@ -350,7 +362,7 @@ class ilObjPollGUI extends ilObject2GUI
 			
 		$tpl->setPermanentLink('poll', $this->node_id);
 		
-		$tpl->setContent($a_form->getHTML());		
+		$tpl->setContent($message.$a_form->getHTML());
 	}
 	
 	protected function initQuestionForm($a_read_only = false)

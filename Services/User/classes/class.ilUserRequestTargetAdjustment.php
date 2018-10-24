@@ -38,10 +38,6 @@ class ilUserRequestTargetAdjustment
 	 */
 	protected function initCases()
 	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceRequestTargetAdjustmentCase.php';
-		require_once 'Services/User/classes/class.ilUserProfileIncompleteRequestTargetAdjustmentCase.php';
-		require_once 'Services/User/classes/class.ilUserPasswordResetRequestTargetAdjustmentCase.php';
-
 		$this->cases = array(
 			new ilTermsOfServiceRequestTargetAdjustmentCase($this->user, $this->ctrl),
 			new ilUserProfileIncompleteRequestTargetAdjustmentCase($this->user, $this->ctrl),

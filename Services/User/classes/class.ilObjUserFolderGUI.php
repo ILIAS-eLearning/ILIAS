@@ -128,8 +128,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case 'iluserprofileinfosettingsgui':
 				$this->tabs_gui->setTabActive('settings');
 				$this->setSubTabs("settings");
-				$ilTabs->activateSubTab("user_profile_settings");
-				include_once("./Services/User/classes/class.ilUserProfileInfoSettingsGUI.php");
+				$ilTabs->activateSubTab("user_profile_info");
 				$ps = new ilUserProfileInfoSettingsGUI();
 				$this->ctrl->forwardCommand($ps);
 				break;
