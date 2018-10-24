@@ -14318,6 +14318,13 @@ content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
+common#:#user_never_logged_in_info_threshold_err_num#:#Der Schwellenwert muss eine ganzzahlige, positive Zahl sein.
+common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rolle
+common#:#cron_users_without_login_del_role_whitelist_info#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
+common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Benutzerkonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
+common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
+common#:#user_never_logged_in_info#:#Accounts werden gelöscht, wenn sie sich noch nie in ILIAS angemeldet haben.
 dateplaner#:#cal_download_files_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
