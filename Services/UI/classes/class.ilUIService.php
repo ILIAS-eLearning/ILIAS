@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * News service
+ * Filter service
  *
  * @author killing@leifos.de
  * @ingroup ServiceUI
