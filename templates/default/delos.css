@@ -8885,6 +8885,95 @@ ul.breadcrumb li:hover {
   height: unset;
   width: unset;
 }
+.il-standard-form .il-filter-bar {
+  font-size: 1.4em;
+  padding: 3px 12px;
+}
+.il-standard-form .il-filter-bar .il-toggle-button {
+  height: 13px;
+  border-radius: 13px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.il-standard-form .il-filter-bar .il-toggle-button .il-toggle-switch {
+  border-radius: 19px;
+  width: 19px;
+  height: 19px;
+}
+.il-standard-form .il-filter-bar .btn-bulky {
+  display: inline-flex;
+  width: auto;
+  background-color: initial;
+  font-size: 0.7em;
+  border-width: 0;
+}
+.il-standard-form .il-filter-bar .btn-bulky.disabled .bulky-label {
+  color: #b0b0b0;
+}
+.il-standard-form .il-filter-bar .glyph {
+  padding-right: 0.3em;
+}
+.il-standard-form .il-filter-bar-controls {
+  float: right;
+}
+.il-standard-form .il-filter-bar-controls .il-toggle-button {
+  vertical-align: middle;
+}
+.il-standard-form .il-filter-inputs-active {
+  background-color: #f9f9f9;
+  padding: 3px 12px;
+}
+.il-standard-form .il-filter-inputs-active span {
+  display: inline-block;
+  margin: 1px 4px;
+  float: left;
+  background-color: white;
+}
+.il-standard-form .col-md-4 {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.il-standard-form .glyphicon-ok {
+  font-size: unset;
+  text-align: unset;
+}
+.il-standard-form input {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.il-standard-form .input-group {
+  width: 100%;
+  height: 25px;
+  table-layout: fixed;
+}
+.il-standard-form #leftaddon {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 30%;
+}
+.il-standard-form #rightaddon {
+  overflow: visible;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 10%;
+}
+.il-standard-form .il-filter-field {
+  cursor: text;
+}
+@media (max-width: 768px) {
+  .il-standard-form .il-filter-bar-controls .bulky-label {
+    display: none;
+  }
+}
+.il-filter.disabled .input-group-addon {
+  background-color: white;
+  color: #b0b0b0;
+}
+.il-filter.disabled .input-group span.form-control {
+  color: #b0b0b0;
+}
 .il-input-tag {
   height: auto;
   min-height: 1.42857143;
@@ -8945,72 +9034,6 @@ ul.breadcrumb li:hover {
 .il-input-multiselect {
   list-style: none;
   padding-left: 0px;
-}
-.il-standard-form .il-filter-bar {
-  padding: 10px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid black;
-}
-.il-standard-form .il-filter-bar-opener {
-  font-size: 1.4em;
-  cursor: pointer;
-}
-.il-standard-form .il-filter-bar-controls {
-  font-size: 1.4em;
-  float: right;
-}
-.il-standard-form .il-filter-bar-controls .btn-bulky {
-  display: inline-flex;
-  width: auto;
-  background-color: initial;
-  font-size: 0.9em;
-}
-.il-standard-form .il-filter-bar-controls .glyph {
-  padding-right: 0.3em;
-}
-.il-standard-form .il-filter-bar-controls .il-toggle-button {
-  vertical-align: middle;
-}
-.il-standard-form .il-filter-bar-opener-collapse .glyph {
-  margin-left: 8px;
-}
-.il-standard-form .col-md-4 {
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-.il-standard-form .glyphicon-ok {
-  font-size: unset;
-  text-align: unset;
-}
-.il-standard-form input {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.il-standard-form .input-group {
-  width: 100%;
-  height: 25px;
-  table-layout: fixed;
-}
-.il-standard-form #leftaddon {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 30%;
-}
-.il-standard-form #rightaddon {
-  overflow: visible;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 10%;
-}
-.il-standard-form .il-filter-field {
-  cursor: text;
-}
-@media (max-width: 768px) {
-  .il-standard-form .bulky-label {
-    display: none;
-  }
 }
 .il-table-presentation-viewcontrols {
   height: 40px;
