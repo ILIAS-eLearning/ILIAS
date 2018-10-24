@@ -70,11 +70,14 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$inputs = "";
 		$input_labels = array();
 		foreach ($group->getInputs() as $input) {
+			$input = $input->withByLine($group->getLabel());
 			$inputs .= $default_renderer->render($input);
 			$input_labels[] = $input->getLabel();
 		}
-
-		$inputs .= $this->renderAddField($input_labels, $default_renderer);
+		if ($group->getLabel() != "disabled")
+		{
+			$inputs .= $this->renderAddField($input_labels, $default_renderer);
+		}
 
 		return $inputs;
 	}
@@ -92,14 +95,18 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
-		$remove_glyph = $f->glyph()->remove()->withAdditionalOnLoadCode(function ($id) {
-			$code = "$('#$id').on('click', function(event) {
-						il.UI.filter.onRemoveClick(event, '$id');
-						return false; // stop event propagation
-				});";
-			//var_dump($code); exit;
-			return $code;
-		});
+		if ($input->getByline() == "disabled") {
+			$remove_glyph = $f->glyph()->remove()->withUnavailableAction(true);
+		} else {
+			$remove_glyph = $f->glyph()->remove()->withAdditionalOnLoadCode(function ($id) {
+				$code = "$('#$id').on('click', function(event) {
+							il.UI.filter.onRemoveClick(event, '$id');
+							return false; // stop event propagation
+					});";
+				//var_dump($code); exit;
+				return $code;
+			});
+		}
 
 		$tpl->setCurrentBlock("addon_left");
 		$tpl->setVariable("LABEL", $input->getLabel());
@@ -132,7 +139,10 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
 
 		$prox = new ProxyFilterField();
-		$prox = $prox->withOnClick($popover->getShowSignal());
+		if ($input->getByline() != "disabled")
+		{
+			$prox = $prox->withOnClick($popover->getShowSignal());
+		}
 
 		$this->maybeRenderId($prox, $tpl);
 		return $tpl->get();

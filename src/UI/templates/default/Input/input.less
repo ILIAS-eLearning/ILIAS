@@ -59,14 +59,30 @@
 
   .il-filter-bar {
     font-size: 1.4em;
-    padding: 10px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid black;
+    padding: @padding-small-vertical @padding-large-horizontal;
+
+    .il-toggle-button {
+      height: 13px;
+      border-radius: 13px;
+      padding-left: 15px;
+      padding-right: 15px;
+
+      .il-toggle-switch {
+        border-radius: 19px;
+        width: 19px;
+        height: 19px;
+      }
+    }
+
     .btn-bulky {
       display: inline-flex;
       width: auto;
       background-color: initial;
-      font-size: 0.9em;
+      font-size: 0.7em;
+      border-width: 0;
+      &.disabled .bulky-label{
+        color: #b0b0b0;
+      }
     }
     .glyph {
       padding-right: 0.3em;
@@ -81,10 +97,15 @@
   }
 
   .il-filter-inputs-active {
-    //overflow: hidden;
-    //white-space: nowrap;
-    //text-overflow: ellipsis;
-    //max-width: 100%;
+    background-color: @il-secondary-container-bg;
+    padding: @padding-small-vertical @padding-large-horizontal;
+
+    span {
+      display: inline-block;
+      margin: 1px 4px;
+      float: left;
+      background-color: @il-primary-container-bg;
+    }
   }
 
   .col-md-4 {
@@ -136,7 +157,16 @@
       display: none;
     }
   }
+}
 
+.il-filter.disabled {
+  .input-group-addon {
+    background-color: @il-primary-container-bg;
+    color: #b0b0b0;
+  }
+  .input-group span.form-control {
+    color: #b0b0b0;
+  }
 }
 
 //== Specific Inputs
