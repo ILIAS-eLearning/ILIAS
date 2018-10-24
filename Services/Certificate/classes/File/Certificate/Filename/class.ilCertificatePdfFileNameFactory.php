@@ -9,15 +9,23 @@ class ilCertificatePdfFileNameFactory
 	public function create(ilUserCertificatePresentation $presentation)
 	{
 		$objectType = $presentation->getUserCertificate()->getObjType();
-
-		if ($objectType === 'sahs') {
-			$pdfFileGenerator = new ilCertificateScormPdfFilename(new ilSetting('scorm'));
-		} else {
-			$pdfFileGenerator = new ilCertificatePdfFilename();
-		}
+		$pdfFileGenerator = $this->fetchCertificateGenerator($objectType);
 
 		$fileName = $pdfFileGenerator->createFileName($presentation);
 
 		return $fileName . '.pdf';
+	}
+
+	/**
+	 * @param $objectType
+	 * @return ilCertificatePdfFilename|ilCertificateScormPdfFilename
+	 */
+	private function fetchCertificateGenerator(string $objectType)
+	{
+		if ($objectType === 'sahs') {
+			return new ilCertificateScormPdfFilename(new ilSetting('scorm'));
+		}
+
+		return new ilCertificatePdfFilename();
 	}
 }
