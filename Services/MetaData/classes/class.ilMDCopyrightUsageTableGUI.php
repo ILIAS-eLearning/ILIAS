@@ -7,7 +7,6 @@
  *
  * @ingroup ServicesMetaData
  */
-
 class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 {
 	/**
@@ -62,8 +61,6 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 	function initFilter()
 	{
-		ilLoggerFactory::getRootLogger()->debug("**** INIT FILTER ****");
-
 		$title = $this->addFilterItemByMetaType(
 			"title",
 			ilTable2GUI::FILTER_TEXT,
@@ -79,7 +76,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 			$this->objects[$item] = $this->lng->txt("obj_".$item);
 		}
 		$item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-		$item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);
+		$item->setOptions(array(""=>"-")+$this->objects);
 		$this->filter["object"] = $item->getValue();
 
 	}
@@ -90,7 +87,6 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 	 */
 	function getCurrentFilter()
 	{
-		ilLoggerFactory::getRootLogger()->debug("***** GET CURRENT FILTER *****");
 		$filter = array();
 		if($this->filter["title"])
 		{
@@ -203,8 +199,6 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 				"obj_type" => $row['obj_type']
 			);
 		}
-		ilLoggerFactory::getRootLogger()->debug("DATA FROM DB");
-		ilLoggerFactory::getRootLogger()->dump($data);
 		return $data;
 	}
 
