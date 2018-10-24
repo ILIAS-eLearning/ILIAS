@@ -38,11 +38,21 @@ il.UI = il.UI || {};
 			}
 		};
 
+        /**
+         *
+         * @param event
+         * @param id
+         */
+        var onRemoveClick = function(event, id) {
+            // hide the Input in the Filter which should be removed
+        };
+
 		/**
 		 * Public interface
 		 */
 		return {
-			onFieldUpdate: onFieldUpdate
+			onFieldUpdate: onFieldUpdate,
+			onRemoveClick: onRemoveClick
 		};
 
 	})($);

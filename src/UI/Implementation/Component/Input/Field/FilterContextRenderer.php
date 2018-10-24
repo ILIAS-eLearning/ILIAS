@@ -68,11 +68,13 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	protected function renderFieldGroups(Group $group, RendererInterface $default_renderer) {
 
 		$inputs = "";
+		$input_labels = array();
 		foreach ($group->getInputs() as $input) {
 			$inputs .= $default_renderer->render($input);
+			$input_labels[] = $input->getLabel();
 		}
 
-		$inputs .= $this->renderAddField($default_renderer);
+		$inputs .= $this->renderAddField($input_labels, $default_renderer);
 
 		return $inputs;
 	}
@@ -90,6 +92,15 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
+		$remove_glyph = $f->glyph()->remove()->withAdditionalOnLoadCode(function ($id) {
+			$code = "$('#$id').on('click', function(event) {
+						il.UI.filter.onRemoveClick(event, '$id');
+						return false; // stop event propagation
+				});";
+			//var_dump($code); exit;
+			return $code;
+		});
+
 		$tpl->setCurrentBlock("addon_left");
 		$tpl->setVariable("LABEL", $input->getLabel());
 		$tpl->parseCurrentBlock();
@@ -97,7 +108,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl->setVariable("FILTER_FIELD", $this->renderProxyField($input_tpl, $input, $default_renderer));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("addon_right");
-		$tpl->setVariable("DELETE", $default_renderer->render($f->glyph()->remove()));
+		$tpl->setVariable("DELETE", $default_renderer->render($remove_glyph));
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
@@ -172,12 +183,17 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 *
 	 * @return string
 	 */
-	protected function renderAddField(RendererInterface $default_renderer) {
+	protected function renderAddField(array $input_labels, RendererInterface $default_renderer) {
 
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
-		$list = $f->listing()->unordered([$f->button()->shy("Label 8", "#"), $f->button()->shy("Label 9", "#"), $f->button()->shy("Label 10", "#")]);
+		$links = array();
+		foreach ($input_labels as $label) {
+			$links[] = $f->button()->shy($label, "");
+		}
+		//var_dump($links); exit;
+		$list = $f->listing()->unordered($links);
 		$popover = $f->popover()->standard($list)->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
 		$add = $f->button()->bulky($f->glyph()->add(), "", "#")->withOnClick($popover->getShowSignal());
