@@ -22,6 +22,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' => 
+        array (
+            'phpseclib\\' => 10,
+        ),
         'c' => 
         array (
             'cweagans\\Composer\\' => 18,
@@ -89,6 +93,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpseclib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
         'cweagans\\Composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/cweagans/composer-patches/src',
@@ -1206,6 +1214,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'JaimePerez\\TwigConfigurableI18n\\Twig\\Extensions\\Extension\\I18n' => __DIR__ . '/..' . '/jaimeperez/twig-configurable-i18n/src/Twig/Extensions/Extension/I18n.php',
         'JaimePerez\\TwigConfigurableI18n\\Twig\\Extensions\\Node\\Trans' => __DIR__ . '/..' . '/jaimeperez/twig-configurable-i18n/src/Twig/Extensions/Node/Trans.php',
         'JaimePerez\\TwigConfigurableI18n\\Twig\\Extensions\\TokenParser\\Trans' => __DIR__ . '/..' . '/jaimeperez/twig-configurable-i18n/src/Twig/Extensions/TokenParser/Trans.php',
+        'Jumbojett\\OpenIDConnectClient' => __DIR__ . '/..' . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
+        'Jumbojett\\OpenIDConnectClientException' => __DIR__ . '/..' . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
         'LTI\\ilMainMenuGUI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilMainMenuGUI.php',
         'LTI\\ilTemplate' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilTemplate.php',
         'League\\Flysystem\\AdapterInterface' => __DIR__ . '/..' . '/league/flysystem/src/AdapterInterface.php',
@@ -3273,6 +3283,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilAuthFrontendCredentialsCAS' => __DIR__ . '/../..' . '/../../Services/CAS/classes/class.ilAuthFrontendCredentialsCAS.php',
         'ilAuthFrontendCredentialsHTTP' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsHTTP.php',
         'ilAuthFrontendCredentialsLTI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilAuthFrontendCredentialsLTI.php',
+        'ilAuthFrontendCredentialsOpenIdConnect' => __DIR__ . '/../..' . '/../../Services/OpenIdConnect/classes/class.ilAuthFrontendCredentialsOpenIdConnect.php',
         'ilAuthFrontendCredentialsSaml' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php',
         'ilAuthFrontendCredentialsShibboleth' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/class.ilAuthFrontendCredentialsShibboleth.php',
         'ilAuthFrontendFactory' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php',
@@ -3298,6 +3309,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilAuthProviderInterface' => __DIR__ . '/../..' . '/../../Services/Authentication/interfaces/interface.ilAuthProviderInterface.php',
         'ilAuthProviderLDAP' => __DIR__ . '/../..' . '/../../Services/LDAP/classes/class.ilAuthProviderLDAP.php',
         'ilAuthProviderLTI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php',
+        'ilAuthProviderOpenIdConnect' => __DIR__ . '/../..' . '/../../Services/OpenIdConnect/classes/class.ilAuthProviderOpenIdConnect.php',
         'ilAuthProviderRadius' => __DIR__ . '/../..' . '/../../Services/Radius/classes/class.ilAuthProviderRadius.php',
         'ilAuthProviderSaml' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilAuthProviderSaml.php',
         'ilAuthProviderShibboleth' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php',
@@ -7183,6 +7195,30 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'nusoap_base' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
         'pdoDB' => __DIR__ . '/../..' . '/../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
         'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
+        'phpseclib\\Crypt\\AES' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
+        'phpseclib\\Crypt\\Base' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',
+        'phpseclib\\Crypt\\Blowfish' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Blowfish.php',
+        'phpseclib\\Crypt\\DES' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/DES.php',
+        'phpseclib\\Crypt\\Hash' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Hash.php',
+        'phpseclib\\Crypt\\RC2' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RC2.php',
+        'phpseclib\\Crypt\\RC4' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RC4.php',
+        'phpseclib\\Crypt\\RSA' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RSA.php',
+        'phpseclib\\Crypt\\Random' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Random.php',
+        'phpseclib\\Crypt\\Rijndael' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Rijndael.php',
+        'phpseclib\\Crypt\\TripleDES' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/TripleDES.php',
+        'phpseclib\\Crypt\\Twofish' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Twofish.php',
+        'phpseclib\\File\\ANSI' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/File/ANSI.php',
+        'phpseclib\\File\\ASN1' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/File/ASN1.php',
+        'phpseclib\\File\\ASN1\\Element' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/File/ASN1/Element.php',
+        'phpseclib\\File\\X509' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/File/X509.php',
+        'phpseclib\\Math\\BigInteger' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Math/BigInteger.php',
+        'phpseclib\\Net\\SCP' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SCP.php',
+        'phpseclib\\Net\\SFTP' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SFTP.php',
+        'phpseclib\\Net\\SFTP\\Stream' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SFTP/Stream.php',
+        'phpseclib\\Net\\SSH1' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SSH1.php',
+        'phpseclib\\Net\\SSH2' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SSH2.php',
+        'phpseclib\\System\\SSH\\Agent' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/System/SSH/Agent.php',
+        'phpseclib\\System\\SSH\\Agent\\Identity' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/System/SSH/Agent/Identity.php',
         'shibConfig' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/Config/class.shibConfig.php',
         'shibServerData' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/ServerData/class.shibServerData.php',
         'shibUser' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/User/class.shibUser.php',
