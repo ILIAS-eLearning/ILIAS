@@ -117,6 +117,12 @@ class ilPortfolioExerciseGUI
 	{				
 		global $DIC;
 
+		$ui = $DIC->ui();
+
+		$links = [];
+		$buttons = [];
+		$elements = [];
+
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		
@@ -137,10 +143,10 @@ class ilPortfolioExerciseGUI
 		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
 
 		$info_arr["ass_title"] = $ass->getTitle();
-		$info = sprintf($lng->txt("prtf_exercise_info"), 
+		$text = sprintf($lng->txt("prtf_exercise_info"), 
 			$ass->getTitle(),
-			"<a href=\"".$exc_link."\">".
-			ilObject::_lookupTitle($exercise_id)."</a>");
+			ilObject::_lookupTitle($exercise_id));
+		$links[] = $ui->factory()->link()->standard(ilObject::_lookupTitle($exercise_id), $exc_link);
 		$info_arr["exc_title"] = ilObject::_lookupTitle($exercise_id);
 		
 		// submit button
@@ -150,12 +156,7 @@ class ilPortfolioExerciseGUI
 			$submit_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "finalize");
 			$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");	
 			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("prtf_finalize_portfolio");
-			$button->setPrimary(true);
-			$button->setUrl($submit_link);			
-			$info .= " ".$button->render();			
+			$buttons[] = $ui->factory()->button()->primary($lng->txt("prtf_finalize_portfolio"), $submit_link);
 		}
 		
 		// submitted files
@@ -176,14 +177,10 @@ class ilPortfolioExerciseGUI
 				$rel = ilDatePresentation::useRelativeDates();
 				ilDatePresentation::setUseRelativeDates(false);
 
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-				$button = ilLinkButton::getInstance();
-				$button->setCaption("download");
-				$button->setUrl($dl_link);
-
-				$info .= "<p>" . sprintf($lng->txt("prtf_exercise_submitted_info"),
+				$text .= "<p>" . sprintf($lng->txt("prtf_exercise_submitted_info"),
 						ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-						$button->render()) . "</p>";
+						"") . "</p>";
+				$buttons[] = $ui->factory()->button()->standard($lng->txt("prtf_download_submission"), $dl_link);
 			}
 			
 			ilDatePresentation::setUseRelativeDates($rel);
@@ -206,52 +203,51 @@ class ilPortfolioExerciseGUI
 		}
 
 		$ass_files = $ass->getFiles();
-		if (count($ass_files) > 0)
+		if (!$as_array)
 		{
-			if($tooltip)
+			if (count($ass_files) > 0)
 			{
-				$tooltip .= "<br /><br />";
+				if ($tooltip)
+				{
+					$tooltip .= "<br /><br />";
+				}
+
+				$items = [];
+
+				foreach ($ass_files as $file)
+				{
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", urlencode($file["name"]));
+					$dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcAssFile");
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", "");
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
+
+					$items[] = $ui->renderer()->render($ui->factory()->button()->shy($file["name"], $dl_link));
+				}
+				$list = $ui->factory()->listing()->unordered($items);
+				$tooltip .= $ui->renderer()->render($list);
 			}
-			
-			foreach($ass_files as $file)
-			{
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", urlencode($file["name"]));
-				$dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcAssFile");
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", "");			
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");			
-				
-				$tooltip .= $file["name"].": <a href=\"".$dl_link."\">".
-					$lng->txt("download")."</a>";										
-			}
-		}			
+		}
 		
 		if($tooltip)
 		{
-			$ol_id = "exc_ass_".$a_assignment_id;
-
-			include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
-			$overlay = new ilOverlayGUI($ol_id);
-
-			// overlay
-			$overlay->setAnchor($ol_id."_tr");
-			$overlay->setTrigger($ol_id."_tr", "click", $ol_id."_tr");
-			$overlay->setAutoHide(false);
-			// $overlay->setCloseElementId($cl_id);
-			$overlay->add();
-
-			// trigger
-			$overlay->addTrigger($ol_id."_tr", "click", $ol_id."_tr");
-
-			$info .= "<p id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></p>".
-				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
+			$modal = $ui->factory()->modal()->roundtrip($lng->txt("exc_instruction"), $ui->factory()->legacy($tooltip))
+				->withCancelButtonLabel("close");
+			$elements[] = $modal;
+			$buttons[] = $ui->factory()->button()->standard($lng->txt("exc_instruction"), '#')
+				->withOnClick($modal->getShowSignal());
 		}
 
 		if ($as_array)
 		{
 			return $info_arr;
 		}
-		return $info;
+
+		$elements[] = $ui->factory()->messageBox()->info($text)
+			->withLinks($links)
+			->withButtons($buttons);
+
+		return $ui->renderer()->render($elements);
 	}
 	
 	function downloadExcAssFile()

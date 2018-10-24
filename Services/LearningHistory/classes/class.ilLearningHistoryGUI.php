@@ -94,8 +94,7 @@ class ilLearningHistoryGUI
 				$this->lhist_service->repositoryTree()));
 		}
 
-
-		$main_tpl->setTitle($lng->txt("lhist_learning_history"));
+		//$main_tpl->setTitle($lng->txt("lhist_learning_history"));
 
 		if (count($entries) > 0)
 		{

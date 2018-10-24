@@ -62,8 +62,8 @@ class ilBadgeProfileGUI
 		
 		$lng->loadLanguageModule("badge");
 		
-		$tpl->setTitle($lng->txt("obj_bdga"));
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
+		//$tpl->setTitle($lng->txt("obj_bdga"));
+		//$tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
 								
 		switch($ilCtrl->getNextClass())
 		{			
@@ -117,13 +117,13 @@ class ilBadgeProfileGUI
 		}
 		else
 		{
-			$ilTabs->addTab("list",
+			$ilTabs->addSubTab("list",
 				$lng->txt("badge_profile_view"),
 				$ilCtrl->getLinkTarget($this, "listBadges"));
-			$ilTabs->addTab("manage",
+			$ilTabs->addSubTab("manage",
 				$lng->txt("badge_profile_manage"),
 				$ilCtrl->getLinkTarget($this, "manageBadges"));
-			$ilTabs->activateTab($a_active);
+			$ilTabs->activateSubTab($a_active);
 		}
 		
 	}
