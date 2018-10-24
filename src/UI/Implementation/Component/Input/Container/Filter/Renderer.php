@@ -28,14 +28,13 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
 		$f = $this->getUIFactory();
-		$opener = [$f->glyph()->collapse(), $f->glyph()->expand()];
-		//$apply_old = $f->glyph()->note("#");
-		$apply = $f->button()->bulky($f->glyph()->note("#"), "Apply", "#");
-		//reset_old = $f->glyph()->comment("#");
-		$reset = $f->button()->bulky($f->glyph()->comment("#"), "Reset", "#");
-		//Beim Aktivieren des Filters soll er ausgeklappt werden (nur Desktop, nicht Mobile)
-		$toggle = $f->button()->toggle("", "#", "#");
+		$opener = [$f->glyph()->collapse($component->getCollapseAction()), $f->glyph()->expand($component->getExpandAction())];
+		$apply = $f->button()->bulky($f->glyph()->note(), "Apply", $component->getApplyAction()); //replace with Apply Glyph and use language variable
+		$reset = $f->button()->bulky($f->glyph()->comment(), "Reset", $component->getResetAction()); //replace with Reset Glyph and use language variable
+		//todo: Expand Filter when acitvated (only desktop, not mobile)
+		$toggle = $f->button()->toggle("", $component->getToggleOnAction(), $component->getToggleOffAction(), $component->isActivated());
 
+		$tpl->setVariable("DESCRIPTION", "Filter"); //replace with language variable
 		$tpl->setVariable("OPENER", $default_renderer->render($opener));
 		$tpl->setVariable("APPLY", $default_renderer->render($apply));
 		$tpl->setVariable("RESET", $default_renderer->render($reset));
