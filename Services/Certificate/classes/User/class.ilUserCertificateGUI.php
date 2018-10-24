@@ -74,6 +74,8 @@ class ilUserCertificateGUI
 	 * @param Factory|null $uiFactory
 	 * @param Renderer|null $uiRenderer
 	 * @param \ilAccessHandler|null $access
+	 * @param \ILIAS\Filesystem\Filesystem|null $filesystem
+	 * @param ilSetting|null $scormSettings
 	 */
 	public function __construct(
 		ilTemplate $template = null,
@@ -277,8 +279,11 @@ class ilUserCertificateGUI
 				$listSections = [];
 
 				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
+
 				$downloadHref = $this->controller->getLinkTarget($this, 'download');
+
 				$this->controller->clearParameters($this);
+
 				$listSections[$this->language->txt('cert_download_label')] = $this->uiRenderer->render(
 					$this->uiFactory->button()->standard('Download', $downloadHref)
 				);

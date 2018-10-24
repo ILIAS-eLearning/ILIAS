@@ -25,7 +25,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 					'obj_type' => 'crs',
 					'acquired_timestamp' => 1539867618,
 					'thumbnail_image_path' => 'some/path/test.svg',
-					'description'          => 'some description'
+					'description'          => 'some description',
+					'firstname' => 'ilyas',
+					'lastname' => 'homer',
 				),
 				null
 			);
@@ -77,7 +79,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			'obj_type'             => 'crs',
 			'date'                 => 1539867618,
 			'thumbnail_image_path' => 'some/path/test.svg',
-			'description'          => 'some description'
+			'description'          => 'some description',
+			'firstname'            => 'ilyas',
+			'lastname'             => 'homer',
 		);
 
 		$expected['cnt'] = 1;
@@ -104,7 +108,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 					'obj_type' => 'crs',
 					'acquired_timestamp' => 1539867618,
 					'thumbnail_image_path' => 'some/path/test.svg',
-					'description'          => 'some description'
+					'description'          => 'some description',
+					'firstname' => 'ilyas',
+					'lastname' => 'homer',
 				),
 				null,
 				array(
@@ -160,7 +166,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			'obj_type' => 'crs',
 			'date' => 1539867618,
 			'thumbnail_image_path' => 'some/path/test.svg',
-			'description'          => 'some description'
+			'description'          => 'some description',
+			'firstname' => 'ilyas',
+			'lastname' => 'homer',
 		);
 
 		$expected['cnt'] = 5;
@@ -187,7 +195,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 					'obj_type' => 'crs',
 					'acquired_timestamp' => 1539867618,
 					'thumbnail_image_path' => 'some/path/test.svg',
-					'description'          => 'some description'
+					'description'          => 'some description',
+					'firstname' => 'ilyas',
+					'lastname' => 'homer',
 				),
 				null,
 				array(
@@ -243,7 +253,9 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 			'obj_type' => 'crs',
 			'date' => 1539867618,
 			'thumbnail_image_path' => 'some/path/test.svg',
-			'description'          => 'some description'
+			'description'          => 'some description',
+			'firstname' => 'ilyas',
+			'lastname' => 'homer',
 		);
 
 		$expected['cnt'] = 5;

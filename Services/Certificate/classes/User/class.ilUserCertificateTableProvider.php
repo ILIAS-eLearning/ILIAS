@@ -71,7 +71,9 @@ class ilUserCertificateTableProvider
   il_cert_user_cert.id,
   il_cert_user_cert.obj_type,
   il_cert_user_cert.thumbnail_image_path,
-  acquired_timestamp,
+  il_cert_user_cert.acquired_timestamp,
+  usr_data.firstname,
+  usr_data.lastname,
   il_cert_user_cert.obj_id,
   (CASE WHEN (object_data.title IS NULL OR LENGTH(object_data.title) = 0)
     THEN
@@ -94,6 +96,7 @@ class ilUserCertificateTableProvider
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
 
@@ -134,7 +137,9 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 				'obj_type'             => $row['obj_type'],
 				'date'                 => $row['acquired_timestamp'],
 				'thumbnail_image_path' => $row['thumbnail_image_path'],
-				'description'          => $row['description']
+				'description'          => $row['description'],
+				'firstname'            => $row['firstname'],
+				'lastname'             => $row['lastname'],
 			);
 		}
 
