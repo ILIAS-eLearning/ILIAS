@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isParent;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
+use ILIAS\GlobalScreen\MainMenu\Item\Separator;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 
@@ -106,6 +107,7 @@ class Main {
 						if (!$this->checkAvailability($child)) {
 							continue;
 						}
+
 						$child = $this->applyTypeHandler($child);
 						$position_of_sub_item = $this->information->getPositionOfSubItem($child);
 						if (isset($children[$position_of_sub_item])) {
@@ -114,6 +116,7 @@ class Main {
 						$children[$position_of_sub_item] = $child;
 					}
 					ksort($children);
+					$children = $this->handleDoubleDividers($children);
 					$top_item = $top_item->withChildren($children);
 				}
 				$top_item = $this->applyTypeHandler($top_item);
@@ -305,5 +308,27 @@ class Main {
 		$handler = self::$typehandlers[$type];
 
 		return $handler;
+	}
+
+
+	/**
+	 * @param $children
+	 *
+	 * @return array
+	 */
+	private function handleDoubleDividers($children): array {
+		$separators = 0;
+		foreach ($children as $position => $child) {
+			if ($child instanceof Separator) {
+				$separators++;
+			} else {
+				$separators = 0;
+			}
+			if ($separators > 1) {
+				unset($children[$position]);
+			}
+		}
+
+		return $children;
 	}
 }

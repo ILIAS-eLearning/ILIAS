@@ -41,10 +41,13 @@ class ilMMEntryRendererGUI {
 			/**
 			 * @var $child Link
 			 */
+			$tpl->setCurrentBlock('mmentry');
+			$tpl->setVariable("TITLE", $top_item->getTitle());
 			if ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
-				$tpl->setCurrentBlock('mmentry');
-				$tpl->setVariable("TITLE", $top_item->getTitle());
-
+				$tpl->setVariable("ACTION", "#");
+				$tpl->setVariable("CARET", "caret");
+				// $tpl->setCurrentBlock('dropdown');
+				// $tpl->parseCurrentBlock();
 				$gl = new ilGroupedListGUI();
 				$gl->setAsDropDown(true);
 				foreach ($top_item->getChildren() as $child) {
@@ -76,8 +79,6 @@ class ilMMEntryRendererGUI {
 				}
 				$tpl->setVariable("CONTENT", $gl->getHTML());
 			} elseif ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem) {
-				$tpl->setCurrentBlock('mmlink');
-				$tpl->setVariable("TITLE", $top_item->getTitle());
 				$tpl->setVariable("ACTION", $top_item->getAction());
 			}
 

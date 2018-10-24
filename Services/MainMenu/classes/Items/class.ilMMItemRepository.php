@@ -235,8 +235,9 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 */
 	public function getPossibleSubItemTypesForForm(): array {
 		return [
-			\ILIAS\GlobalScreen\MainMenu\Item\Link::class => "Link",
+			\ILIAS\GlobalScreen\MainMenu\Item\Link::class           => "Link",
 			\ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink::class => "RepositoryLink",
+			\ILIAS\GlobalScreen\MainMenu\Item\Separator::class      => "Separator",
 		];
 	}
 

@@ -133,7 +133,8 @@ class ilMMSubItemGUI {
 		$r = $DIC->http()->request()->getParsedBody();
 		foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
 			$item = $this->repository->getItemFacadeForIdentificationString($identification_string);
-			$item->setPosition((int)$data['position']);
+			$position = (int)$data['position'];
+			$item->setPosition($position);
 			$item->setActiveStatus((bool)$data['active']);
 			$item->setParent((string)$data['parent']);
 			$this->repository->updateItem($item);
