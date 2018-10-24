@@ -17,4 +17,8 @@ class Factory implements I\Container\Factory {
 	public function form() {
 		return new Form\Factory();
 	}
+
+	public function filter() {
+		return new Filter\Factory();
+	}
 }

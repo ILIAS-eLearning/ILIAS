@@ -29,4 +29,21 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Input\Container\Form\Factory
 	 */
 	public function form();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      Filters...
+	 *   composition: >
+	 *      Filters...
+	 *   rivals:
+	 *      forms: >
+	 *          Unlike Filters, Forms are used to modify data in the system.
+	 *
+	 *
+	 * ---
+	 * @return  \ILIAS\UI\Component\Input\Container\Filter\Factory
+	 */
+	public function filter();
 }
