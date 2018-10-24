@@ -14425,7 +14425,7 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
@@ -14493,3 +14493,15 @@ prtf#:#prtf_set_online#:#Set Online
 prtf#:#prtf_set_offline#:#Set Offline
 prtf#:#prtf_no_submission#:#No Submission
 prtf#:#prtf_submission_on#:#Submitted on $1
+prtf#:#prtf_no_offline_share_info#:#A portfolio has to be online to be shared by other users.
+prtf#:#prtf_has_been_set_online#:#Portfolio has been set online.
+user#:#user_prompting_recurrence#:#Prompting Recurrence
+user#:#user_prompting_settings#:#Prompting Settings
+user#:#user_prompt_incomplete#:#Only if profile is incomplete
+user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
+user#:#user_prompt_once_after_login#:#Once after specific number of days after first login
+user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.
+user#:#user_prompt_repeat#:#Repeat every specific number of days
+user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.
+user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
+lhist#:#lhist_first_login#:#First Login

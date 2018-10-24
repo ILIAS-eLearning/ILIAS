@@ -14421,7 +14421,7 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
@@ -14489,3 +14489,15 @@ prtf#:#prtf_set_online#:#Online setzen
 prtf#:#prtf_set_offline#:#Offline setzen
 prtf#:#prtf_no_submission#:#Keine Abgabe
 prtf#:#prtf_submission_on#:#Abgabe am $1
+prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden bevor es für bestimmte Benutzer freigegeben werden kann.
+prtf#:#prtf_has_been_set_online#:#Das Portfolio wurde online gesetzt.
+user#:#user_prompting_recurrence#:#Häufigkeit
+user#:#user_prompting_settings#:#Aufforderung Profilkonfiguration
+user#:#user_prompt_incomplete#:#Nur wenn unvollständig
+user#:#user_prompt_incomplete_info#:#Dem Benutzer wird sein Profil nach dem Login angezeigt, wenn es leere Pflichtfelder enthält.
+user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
+user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer aufgefordert sein Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
+user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
+user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
+user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den Standard-Infotext, falls der Benutzer zur Konfiguration des Profils aufgefordert wird.
+lhist#:#lhist_first_login#:#First Login

@@ -23,6 +23,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	protected $help;
 
 	protected $ws_access; // [ilWorkspaceAccessHandler]
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 	
 	public function __construct($a_id = 0)
 	{		
@@ -34,6 +39,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->access = $DIC->access();
 		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
+		$this->ui = $DIC->ui();
+
 		parent::__construct($a_id, self::PORTFOLIO_OBJECT_ID, 0);
 
 		$this->ctrl->saveParameter($this, "exc_back_ref_id");
@@ -93,13 +100,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					if($this->access_handler->getPermissions($this->object->getId()) &&
 						!$this->object->isOnline())
 					{
-						ilUtil::sendInfo($lng->txt("prtf_shared_offline_info"));
+						//ilUtil::sendInfo($lng->txt("prtf_shared_offline_info"));
 					}
 										
 					$this->tpl->setPermanentLink("prtf", $this->object->getId());
 
 					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 					$wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true);
+					$wspacc->setBlockingMessage($this->getOfflineMessage());
 					$this->ctrl->forwardCommand($wspacc);
 				}
 				break;
@@ -1483,6 +1491,48 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
 			return $ret;
 		}
+	}
+
+	/**
+	 * Get offline message for sharing tab
+	 *
+	 * @return string
+	 */
+	protected function getOfflineMessage()
+	{
+		$ui = $this->ui;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		if (!$this->object->isOnline())
+		{
+			$f = $ui->factory();
+			$renderer = $ui->renderer();
+
+			$buttons = [$f->button()->standard($lng->txt("prtf_set_online"),
+				$ctrl->getLinkTarget($this, "setOnlineAndShare"))];
+
+			return $renderer->render($f->messageBox()->info($lng->txt("prtf_no_offline_share_info"))
+				->withButtons($buttons));
+		}
+		return "";
+	}
+
+	/**
+	 * Set online and switch to share screen
+	 */
+	protected function setOnlineAndShare()
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
+		if (ilObjPortfolio::_lookupOwner($this->object->getId()) == $this->user_id)
+		{
+			$this->object->setOnline(true);
+			$this->object->update();
+			ilUtil::sendSuccess($lng->txt("prtf_has_been_set_online"), true);
+		}
+		$ilCtrl->redirectByClass("ilworkspaceaccessgui", "");
 	}
 
 }
