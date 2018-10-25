@@ -46,6 +46,7 @@ class ilMMEntryRendererGUI {
 			if ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
 				$tpl->setVariable("ACTION", "#");
 				$tpl->setVariable("CARET", "caret");
+				$tpl->setVariable("DROPDOWN_HANDLER", "class=\"dropdown-toggle\" data-toggle=\"dropdown\"");
 				// $tpl->setCurrentBlock('dropdown');
 				// $tpl->parseCurrentBlock();
 				$gl = new ilGroupedListGUI();
@@ -80,6 +81,9 @@ class ilMMEntryRendererGUI {
 				$tpl->setVariable("CONTENT", $gl->getHTML());
 			} elseif ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem) {
 				$tpl->setVariable("ACTION", $top_item->getAction());
+				if ($top_item->isLinkWithExternalAction()) {
+					$tpl->touchBlock("external");
+				}
 			}
 
 			$tpl->parseCurrentBlock();
@@ -99,9 +103,12 @@ class ilMMEntryRendererGUI {
 	 * @param string           $identifier
 	 */
 	protected function addEntry(ilGroupedListGUI $gl, hasTitle $child, string $identifier) {
+		$target = $child instanceof hasAction ? ($child->isLinkWithExternalAction() ? "_blank" : "_top") : "_top";
+		$href = ($child instanceof hasAction) ? $child->getAction() : "#";
+		$tooltip = ilHelp::getMainMenuTooltip($identifier);
+		$a_id = "mm_" . $identifier;
 		$gl->addEntry(
-			$child->getTitle(), ($child instanceof hasAction) ? $child->getAction() : "#", "_top", "", "", "mm_"
-			                  . $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+			$child->getTitle(), $href, $target, "", "", $a_id, $tooltip, "left center", "right center", false
 		);
 	}
 }

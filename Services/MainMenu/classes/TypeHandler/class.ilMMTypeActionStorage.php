@@ -26,6 +26,14 @@ class ilMMTypeActionStorage extends CachedActiveRecord {
 	 */
 	protected $action = '';
 	/**
+	 * @var bool
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     1
+	 */
+	protected $external = false;
+	/**
 	 * @var string
 	 */
 	protected $connector_container_name = "il_mm_actions";
@@ -66,6 +74,26 @@ class ilMMTypeActionStorage extends CachedActiveRecord {
 	 */
 	public function setAction(string $action): ilMMTypeActionStorage {
 		$this->action = $action;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isExternal(): bool {
+		return $this->external;
+	}
+
+
+	/**
+	 * @param bool $external
+	 *
+	 * @return ilMMTypeActionStorage
+	 */
+	public function setExternal(bool $external): ilMMTypeActionStorage {
+		$this->external = $external;
 
 		return $this;
 	}

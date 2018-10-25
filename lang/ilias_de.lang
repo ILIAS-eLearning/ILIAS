@@ -14471,6 +14471,12 @@ mme#:#msg_subitem_deleted#:#Eintrag gelöscht.
 mme#:#msg_topitem_deleted#:#Eintrag gelöscht.
 mme#:#subitem_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
 mme#:#topitem_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
+mme#:#field_external#:#Externer Link
+mme#:#field_external_info#:#Link wird in einem neuen Fenster geöffnet.
+mme#:#field_url#:#URL
+mme#:#field_url_info#:#Link zu der gewünschten Website, beginnend mit http(s)://
+mme#:#field_ref_id#:#ILIAS Referenz-ID
+mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin, Sie finden die Referenz-ID in der URL eines Onjektes (...?ref_id=123)
 common#:#obj_mme#:#Hauptmenu
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.

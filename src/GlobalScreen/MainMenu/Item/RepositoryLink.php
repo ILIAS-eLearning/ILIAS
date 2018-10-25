@@ -74,7 +74,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	/**
 	 * @return string
 	 */
-	public function getAction(): string {
+	public final function getAction(): string {
 		return ilLink::_getLink($this->ref_id);
 	}
 
@@ -110,5 +110,21 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	 */
 	public function getRefId(): int {
 		return $this->ref_id;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withIsLinkToExternalAction(bool $is_external): hasAction {
+		throw new \LogicException("Repository-Links are always internal");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isLinkWithExternalAction(): bool {
+		return false;
 	}
 }

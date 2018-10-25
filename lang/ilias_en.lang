@@ -14475,6 +14475,12 @@ mme#:#msg_subitem_deleted#:#Item deleted.
 mme#:#msg_topitem_deleted#:#Item deleted.
 mme#:#subitem_confirm_delete#:#Do you really want to delete the following Item?
 mme#:#topitem_confirm_delete#:#Do you really want to delete the following Item?
+mme#:#field_external#:#External Link
+mme#:#field_external_info#:#Link will be opnened in a separate Window.
+mme#:#field_url#:#URL
+mme#:#field_url_info#:#Link to the desired website, lead by http(s)://
+mme#:#field_ref_id#:#ILIAS Reference-ID
+mme#:#field_ref_id_info#:#The Reference-ID of the desired ILIAS-Object from the Repository, you find the Reference-ID in the URL of a object (...?ref_id=123)
 common#:#obj_mme#:#Main Menu
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.

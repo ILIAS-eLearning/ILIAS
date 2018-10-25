@@ -21,7 +21,9 @@ class ilMMTypeHandlerLink extends ilMMAbstractBaseTypeHandlerAction implements T
 	 */
 	public function enrichItem(isItem $item): isItem {
 		if ($item instanceof hasAction && isset($this->links[$item->getProviderIdentification()->serialize()])) {
-			$item = $item->withAction((string)$this->links[$item->getProviderIdentification()->serialize()]);
+			$action = (string)$this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
+			$is_external = (bool)$this->links[$item->getProviderIdentification()->serialize()][self::F_EXTERNAL];
+			$item = $item->withAction($action)->withIsLinkToExternalAction($is_external);
 		}
 
 		return $item;
@@ -34,6 +36,16 @@ class ilMMTypeHandlerLink extends ilMMAbstractBaseTypeHandlerAction implements T
 	protected function getFieldTranslation(): string {
 		global $DIC;
 
-		return $DIC->language()->txt("url");
+		return $DIC->language()->txt("field_url");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getFieldInfoTranslation(): string {
+		global $DIC;
+
+		return $DIC->language()->txt("field_url_info");
 	}
 }

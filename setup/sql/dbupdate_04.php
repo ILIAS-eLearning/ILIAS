@@ -23636,6 +23636,11 @@ $fields = array(
 		'length' => '4000',
 		
 	),
+	'external' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	)
 );
 if (! $ilDB->tableExists('il_mm_actions')) {
 	$ilDB->createTable('il_mm_actions', $fields);

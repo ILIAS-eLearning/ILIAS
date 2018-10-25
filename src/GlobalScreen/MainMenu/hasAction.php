@@ -19,4 +19,18 @@ interface hasAction {
 	 * @return string
 	 */
 	public function getAction(): string;
+
+
+	/**
+	 * @param bool $is_external
+	 *
+	 * @return hasAction
+	 */
+	public function withIsLinkToExternalAction(bool $is_external): hasAction;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isLinkWithExternalAction(): bool;
 }

@@ -48,6 +48,15 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
 	protected function getFieldTranslation(): string {
 		global $DIC;
 
-		return $DIC->language()->txt("ref_id");
+		return $DIC->language()->txt("field_ref_id");
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getFieldInfoTranslation(): string {
+		global $DIC;
+
+		return $DIC->language()->txt("field_ref_id_info");
 	}
 }
