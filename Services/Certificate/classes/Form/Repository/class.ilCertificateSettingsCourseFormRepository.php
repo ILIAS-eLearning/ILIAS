@@ -173,7 +173,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 				if(in_array($olp->getCurrentMode(), $invalid_modes)) {
 					$mode = '<strong>' . $mode . '</strong>';
 				}
-				return $objectHelper->lookupType($objectHelper->lookupObjId($id)) . ' (' . $mode . ')';
+				return $objectHelper->lookupTitle($objectHelper->lookupObjId($id)) . ' (' . $mode . ')';
 			});
 
 			$subitems->setRequired(true);
