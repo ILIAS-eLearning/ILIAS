@@ -75,13 +75,14 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 
 		$this->templateRepository->deleteTemplate($templateTemplateId, $objectId);
 
+		$version = (int) $template->getVersion();
 		$certificateTemplate = new ilCertificateTemplate(
 			$objectId,
 			$this->objectHelper->lookupType($objectId),
 			'',
 			hash('sha256', ''),
 			'',
-			(int) $template->getVersion() + 1,
+			$version + 1,
 			$this->iliasVersion,
 			time(),
 			false,
