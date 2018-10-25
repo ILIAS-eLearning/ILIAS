@@ -37,32 +37,55 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 	{
 		try {
 
-			$this->getLogger()->info('using: ' . $this->settings->getProvider());
-			$this->getLogger()->info('using: ' . $this->settings->getClientId());
-			$this->getLogger()->info('using: ' . $this->settings->getSecret());
-
 			$oidc = new OpenIDConnectClient(
 				$this->settings->getProvider(),
 				$this->settings->getClientId(),
 				$this->settings->getSecret()
 			);
+			$oidc->setRedirectURL(ILIAS_HTTP_PATH.'/openidconnect.php');
+			$oidc->addAuthParam('prompt=none');
+
+			$this->getLogger()->debug(
+				'Redirect url is: '.
+				$oidc->getRedirectURL()
+			);
+
 			$oidc->setResponseTypes(
 				[
 					'id_token'
 				]
 			);
-			$oidc->addScope(['openid']);
-			$oidc->setAllowImplicitFlow(true);
+			$oidc->addScope(
+				[
+					'openid'
+				]
+			);
 			$oidc->addAuthParam(
 				[
 					'response_mode' => 'form_post'
 				]
 			);
+			$oidc->setAllowImplicitFlow(true);
+
 			$oidc->authenticate();
-			$sub = $oidc->getVerifiedClaims('sub');
-			$this->getLogger()->dump($sub, ilLogLevel::DEBUG);
+			// user is authenticated, otherwise redirected to authorization endpoint or exception
+			$this->getLogger()->dump($_REQUEST);
+
+			$claims = $oidc->getVerifiedClaims(null);
+
+			$this->getLogger()->info('User is authenticated');
+			$this->getLogger()->dump($claims);
+
+			$status->setAuthenticatedUserId(6);
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+
+			$token = $oidc->requestClientCredentialsToken();
+			$this->getLogger()->dump($token);
+
+			$oidc->signOut($token->access_token, ILIAS_HTTP_PATH.'/logout.php');
 
 
+			return true;
 		}
 		catch(Exception $e) {
 			$this->getLogger()->error($e->getMessage());
