@@ -198,6 +198,7 @@ class ilOerHarvester
 		if(!$object instanceof ilObject)
 		{
 			$this->logger->warning('Found invalid reference: ' . $a_ref_id);
+			return false;
 		}
 		$this->logger->debug('Deleting reference...');
 		$object->delete();
