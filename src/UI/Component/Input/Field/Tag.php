@@ -14,7 +14,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface Tag extends Input, JavaScriptBindable, InputInternal {
+interface Tag extends Input, InputInternal {
 
 	/**
 	 * @return string[] of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
