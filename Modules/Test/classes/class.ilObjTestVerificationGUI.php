@@ -58,11 +58,15 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 		$test_id = $_REQUEST["tst_id"];
 		if($test_id)
 		{
-			include_once "Modules/Test/classes/class.ilObjTest.php";
 			$test = new ilObjTest($test_id, false);
 
-			include_once "Modules/Test/classes/class.ilObjTestVerification.php";
-			$newObj = ilObjTestVerification::createFromTest($test, $ilUser->getId());
+			try {
+				$newObj = ilObjTestVerification::createFromTest($test, $ilUser->getId());
+			} catch (\Exception $exception) {
+				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+				return $this->create();
+			}
+
 			if($newObj)
 			{				
 				$parent_id = $this->node_id;

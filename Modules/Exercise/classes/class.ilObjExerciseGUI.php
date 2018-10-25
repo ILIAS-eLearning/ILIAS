@@ -49,6 +49,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl = $DIC["tpl"];
 		$this->toolbar = $DIC->toolbar();
 		$lng = $DIC->language();
+
+		$this->lng->loadLanguageModule('cert');
 		
 		$this->type = "exc";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -130,9 +132,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->setSettingsSubTabs();
 				$this->tabs_gui->activateTab("settings");
 				$this->tabs_gui->activateSubTab("certificate");
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilExerciseCertificateAdapter($this->object));
+
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
+
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -801,19 +804,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");
 		
-		// show certificate?
-		if($this->object->hasUserCertificate($ilUser->getId()))
-		{					
-			include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";
-			$adapter = new ilExerciseCertificateAdapter($this->object);
-			if(ilCertificate::_isComplete($adapter))
-			{
-				$ilToolbar->addButton($this->lng->txt("certificate"),
-					$this->ctrl->getLinkTarget($this, "outCertificate"));
-			}
-		}	
-		
+		$validator = new ilCertificateDownloadValidator();
+		if($validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
+			$ilToolbar->addButton($this->lng->txt("certificate"),
+			$this->ctrl->getLinkTarget($this, "outCertificate"));
+		}
+
 		include_once("./Modules/Exercise/classes/class.ilExAssignmentGUI.php");
 		$ass_gui = new ilExAssignmentGUI($this->object);
 				
@@ -858,15 +854,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->setSettingsSubTabs();
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab("certificate");
-		
-		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$output_gui = new ilCertificateGUI(new ilExerciseCertificateAdapter($this->object));
-		$output_gui->certificateEditor();				
+
+		$guiFactory = new ilCertificateGUIFactory();
+		$output_gui = $guiFactory->create($this->object);
+
+		$output_gui->certificateEditor();
 	}
 	
 	function outCertificateObject()
 	{
+		global $DIC;
+
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
 		$ilUser = $this->user;
 	
 		if($this->object->hasUserCertificate($ilUser->getId()))
@@ -874,13 +875,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt("msg_failed"));
 			$this->showOverviewObject();			
 		}
-		
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilExerciseCertificateAdapter($this->object));
-		$certificate->outCertificate(array("user_id" => $ilUser->getId()));					
-	}		
-	
+
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
+
+		$pdfAction->downloadPdf((int) $ilUser->getId(), (int)$this->object->getId());
+	}
 }
 
 ?>

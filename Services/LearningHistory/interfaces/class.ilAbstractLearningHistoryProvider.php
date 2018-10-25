@@ -99,8 +99,9 @@ abstract class ilAbstractLearningHistoryProvider
 	 */
 	protected function getEmphasizedTitle($title)
 	{
-		$this->template->setVariable("TITLE", $title);
-		return $this->template->get();
+		$clone = clone $this->template;
+		$clone->setVariable("TITLE", $title);
+		return $clone->get();
 	}
 
 
