@@ -201,6 +201,7 @@ class ilStartUpGUI
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
+		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
 		$page_editor_html = $this->showSamlLoginForm($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
@@ -2355,6 +2356,46 @@ class ilStartUpGUI
 				'[list-saml-login-form]',
 				'SAML_LOGIN_FORM'
 			);
+		}
+
+		return $page_editor_html;
+	}
+
+	/**
+	 * @param $page_editor_html
+	 * @return string
+	 */
+	protected function showOpenIdConnectLoginForm($page_editor_html)
+	{
+		global $DIC;
+
+		$oidc_settings = ilOpenIdConnectSettings::getInstance();
+		if($oidc_settings->getActive())
+		{
+			$tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
+
+			switch($oidc_settings->getLoginElementType())
+			{
+				case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT:
+
+					$tpl->setVariable('SCRIPT_OIDCONNECT_T',ILIAS_HTTP_PATH.'/openidconnect.php');
+					$tpl->setVariable('TXT_OIDC',$oidc_settings->getLoginElemenText());
+					break;
+
+				case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG:
+					$tpl->setVariable('SCRIPT_OIDCONNECT_I',ILIAS_HTTP_PATH.'/openidconnect.php');
+					$tpl->setVariable('IMG_SOURCE', $oidc_settings->getImageFilePath());
+					break;
+			}
+
+			return $this->substituteLoginPageElements(
+				$DIC->ui()->mainTemplate(),
+				$page_editor_html,
+				$tpl->get(),
+				['list-openidconnect-login-form'],
+				'OPEN_ID_CONNECT_LOGIN_FORM'
+			);
+
 		}
 
 		return $page_editor_html;

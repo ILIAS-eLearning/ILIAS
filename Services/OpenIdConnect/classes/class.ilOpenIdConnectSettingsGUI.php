@@ -170,6 +170,53 @@ class ilOpenIdConnectSettingsGUI
 		$secret->setValue($this->settings->getSecret());
 		$form->addItem($secret);
 
+		// login element
+		$login_element = new ilRadioGroupInputGUI(
+			$this->lng->txt('auth_oidc_settings_le'),
+			'le'
+		);
+		$login_element->setRequired(true);
+		$login_element->setValue($this->settings->getLoginElementType());
+		$form->addItem($login_element);
+
+		// le -> type text
+		$text_option = new ilRadioOption(
+			$this->lng->txt('auth_oidc_settings_txt'),
+			ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT
+		);
+		$login_element->addOption($text_option);
+
+		// le -> type text -> text
+		$text = new ilTextInputGUI(
+			$this->lng->txt('auth_oidc_settings_txt_val'),
+			'le_text'
+		);
+		$text->setValue($this->settings->getLoginElemenText());
+		$text->setMaxLength(120);
+		$text->setInfo('auth_oidc_settings_txt_val_info');
+		$text_option->addSubItem($text);
+
+		// le -> type img
+		$img_option = new ilRadioOption(
+			$this->lng->txt('auth_oidc_settings_img'),
+			ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG
+		);
+		$login_element->addOption($img_option);
+
+
+
+		$image = new ilImageFileInputGUI(
+			$this->lng->txt('auth_oidc_settings_img_file'),
+			'le_img'
+		);
+
+		if($this->settings->hasImageFile())
+		{
+			$image->setImage($this->settings->getImageFilePath());
+		}
+		$image->setInfo('auth_oidc_settings_img_file');
+		$img_option->addSubItem($image);
+
 		if($this->checkAccessBool('write'))
 		{
 			// save button
@@ -201,9 +248,50 @@ class ilOpenIdConnectSettingsGUI
 		$this->settings->setProvider((string) $form->getInput('provider'));
 		$this->settings->setClientId((string) $form->getInput('client_id'));
 		$this->settings->setSecret((string) $form->getInput('secret'));
+		$this->settings->setLoginElementType((int) $form->getInput('le'));
+		$this->settings->setLoginElementText((string) $form->getInput('le_text'));
+
+		$fileData = (array) $form->getInput('le_img');
+
+		if(strlen($fileData['tmp_name']))
+		{
+			$this->saveImageFromHttpRequest();
+		}
+
 		$this->settings->save();
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this, 'settings');
+	}
+
+	/**
+	 * Save image from http request
+	 */
+	protected function saveImageFromHttpRequest()
+	{
+		global $DIC;
+
+		try {
+			$upload = $DIC->upload();
+			if(!$upload->hasBeenProcessed())
+			{
+				$upload->process();
+			}
+			foreach($upload->getResults() as $single_file_upload)
+			{
+				if($single_file_upload->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK)
+				{
+					$this->settings->deleteImageFile();
+					$upload->moveFilesTo(
+						ilOpenIdConnectSettings::FILE_STORAGE,
+						\ILIAS\FileUpload\Location::WEB
+					);
+					$this->settings->setLoginElementImage($single_file_upload->getName());
+				}
+			}
+		}
+		catch (\ILIAS\Filesystem\Exception\IllegalStateException $e) {
+			$this->logger->warning('Upload failed with message: ' . $e->getMessage());
+		}
 	}
 }

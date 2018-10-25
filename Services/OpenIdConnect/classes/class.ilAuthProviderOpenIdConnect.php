@@ -43,7 +43,6 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 				$this->settings->getSecret()
 			);
 			$oidc->setRedirectURL(ILIAS_HTTP_PATH.'/openidconnect.php');
-			$oidc->addAuthParam('prompt=none');
 
 			$this->getLogger()->debug(
 				'Redirect url is: '.
@@ -82,7 +81,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			$token = $oidc->requestClientCredentialsToken();
 			$this->getLogger()->dump($token);
 
-			$oidc->signOut($token->access_token, ILIAS_HTTP_PATH.'/logout.php');
+			//$oidc->signOut($token->access_token, ILIAS_HTTP_PATH.'/logout.php');
 
 
 			return true;
