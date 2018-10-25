@@ -33,12 +33,15 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component->isExpanded() == false) {
 			$opener_expand = $f->button()->bulky($f->glyph()->expand(), "Filter", $component->getExpandAction());
 			$tpl->setVariable("OPENER", $default_renderer->render($opener_expand));
+			$tpl->touchBlock("collapsed");
 		}
-		elseif ($component->isExpanded() == true) {
+		else {
 			$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), "Filter", $component->getCollapseAction());
 			$tpl->setVariable("OPENER", $default_renderer->render($opener_collapse));
-			$tpl->setVariable("COLLAPSE", "in");
+			//$tpl->setVariable("COLLAPSE", "in");
+			$tpl->touchBlock("expanded");
 		}
+		$tpl->setVariable("OPENER_TITLE", "Filter");
 		//replace with Apply Glyph and use language variable
 		$apply = $f->button()->bulky($f->glyph()->apply(), "Apply", "");
 
@@ -65,22 +68,20 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($component->isActivated())
 		{
-			if (!$component->isExpanded())
+			for ($i = 1; $i <= count($component->getInputs()); $i++)
 			{
-				for ($i = 1; $i <= count($component->getInputs()); $i++)
-				{
-					$tpl->setCurrentBlock("active_inputs");
-					$tpl->setVariable("ID", $i);
-					$tpl->parseCurrentBlock();
-				}
-				if (count($component->getInputs()) > 0)
-				{
-					$tpl->setCurrentBlock("active_inputs_section");
-					$tpl->parseCurrentBlock();
-				}
+				$tpl->setCurrentBlock("active_inputs");
+				$tpl->setVariable("ID", $i);
+				$tpl->parseCurrentBlock();
 			}
+			if (count($component->getInputs()) > 0)
+			{
+				$tpl->setCurrentBlock("active_inputs_section");
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->touchBlock("enabled");
 		} else {
-			$tpl->touchBlock("deactivated");
+			$tpl->touchBlock("disabled");
 			$input_group = $input_group->withLabel("disabled");
 		}
 
