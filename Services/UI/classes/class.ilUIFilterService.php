@@ -166,7 +166,7 @@ class ilUIFilterService
 		global $DIC;
 		$request = $DIC->http()->request();
 		$result = null;
-		if ($_REQUEST["cmdFilter"] == "apply" && $request->getMethod() == "POST") {
+		if (in_array($_REQUEST["cmdFilter"], ["apply", "toggleOn", "expand", "collapse"]) && $request->getMethod() == "POST") {
 			$filter = $filter->withRequest($request);
 			$result = $filter->getData();
 		}
