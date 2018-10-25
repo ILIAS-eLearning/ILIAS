@@ -16,12 +16,17 @@ class ilUIService
 	protected $_deps;
 
 	/**
+	 * @var \Psr\Http\Message\ServerRequestInterface
+	 */
+	protected $request;
+
+	/**
 	 * Constructor
 	 * @param ilLanguage $lng
 	 */
-	public function __construct(ilLanguage $lng)
+	public function __construct(\Psr\Http\Message\ServerRequestInterface $request)
 	{
-		$this->_deps = new ilUIServiceDependencies($lng);
+		$this->_deps = new ilUIServiceDependencies(new ilUIFilterRequestAdapter($request));
 	}
 
 	/**

@@ -227,7 +227,7 @@ class Container extends \Pimple\Container {
 	 * @return \ilUIService
 	 */
 	public function uiService() {
-		return new \ilUIService($this->language());
+		return new \ilUIService($this->http()->request());
 	}
 
 

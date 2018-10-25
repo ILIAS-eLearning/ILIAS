@@ -3,13 +3,22 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Filter service
+ * Filter service. Wraps around KS filter container.
  *
  * @author killing@leifos.de
  * @ingroup ServiceUI
  */
 class ilUIFilterService
 {
+	// command constants
+	const CMD_TOGGLE_ON = "toggleOn";
+	const CMD_TOGGLE_OFF = "toggleOff";
+	const CMD_EXPAND = "expand";
+	const CMD_COLLAPSE = "collapse";
+	const CMD_APPLY = "apply";
+	const CMD_RESET = "reset";
+
+
 	/**
 	 * @var ilUIService
 	 */
@@ -28,152 +37,73 @@ class ilUIFilterService
 	public function __construct(ilUIService $service, ilUIServiceDependencies $deps)
 	{
 		$this->service = $service;
-		$this->_deps = $deps;
+		$this->session = $deps->getSession();
+		$this->request = $deps->getRequest();
 	}
 
 
 	/**
 	 * Get standard filter instance
 	 *
-	 * @param
-	 * @return
+	 * @param string $filter_id
+	 * @param string $base_action
+	 * @param array $inputs
+	 * @param array $is_input_initially_rendered
+	 * @param bool $is_activated
+	 * @param bool $is_expanded
+	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
 	 */
 	public function standard($filter_id, $base_action, array $inputs, array $is_input_initially_rendered,
-								$is_initially_activated = false, $is_initially_expanded = false): \ILIAS\UI\Component\Input\Container\Filter\Standard
+							 $is_activated = false, $is_expanded = false): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
 		global $DIC;
 		$ui = $DIC->ui()->factory();
 
-		$is_input_rendered = $is_input_initially_rendered;
-		$is_activated = $is_initially_activated;
-		$is_expanded = $is_initially_expanded;
+		// write expand, activation, rendered inputs info to session
+		$this->writeFilterStatusToSession($filter_id, $inputs);
 
-		// read cmdFilter from request and update session data
+		// handle the reset command
+		$this->handleReset($filter_id);
 
-		if ($_REQUEST["cmdFilter"] == "toggleOn") {
-			ilSession::set("ui_service_filter_activated_".$filter_id, true);
-		}
-
-		if ($_REQUEST["cmdFilter"] == "toggleOff") {
-			ilSession::set("ui_service_filter_activated_".$filter_id, false);
-		}
-
-		if ($_REQUEST["cmdFilter"] == "expand") {
-			ilSession::set("ui_service_filter_expanded_".$filter_id, true);
-		}
-
-		if ($_REQUEST["cmdFilter"] == "collapse") {
-			ilSession::set("ui_service_filter_expanded_".$filter_id, false);
-		}
-
-		if ($_REQUEST["cmdFilter"] == "apply")
-		{
-			$_SESSION["ui"]["filter"]["rendered"][$filter_id] = [];
-			foreach ($inputs as $input_id => $i)
-			{
-				if ($_POST["__filter_status_" . $input_id] === "1")
-				{
-					$_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id] = 1;
-				} else
-				{
-					$_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id] = 0;
-				}
-			}
-		}
-
-
-
-		// get data from session
-
-		if (isset($_SESSION["ui_service_filter_activated_".$filter_id]) && !empty("ui_service_filter_activated_".$filter_id)) {
-			$is_activated = ilSession::get("ui_service_filter_activated_".$filter_id);
-		}
-
-		if (isset($_SESSION["ui_service_filter_expanded_".$filter_id]) && !empty("ui_service_filter_expanded_".$filter_id)) {
-			$is_expanded = ilSession::get("ui_service_filter_expanded_".$filter_id);
-		}
-
-
-		//compose a new array because rendering of inputs has eventually changed
-		//if (ilSession::get("ui_service_filter_is_input_rendered_0" . "_" . $filter_id) != null) {
-		//	$is_input_rendered = array();
-		//	for ($i = 0; $i <= $input_id; $i++) {
-		//		$is_input_rendered[] = ilSession::get("ui_service_filter_is_input_rendered_" . $i . "_" . $filter_id);
-		//	}
-		//}
-
-
-		// create the KS Filter
-
-
-		$request = $DIC->http()->request();
-
-		// clear session, if reset is pressed
-		if ($_REQUEST["cmdFilter"] == "reset")
-		{
-			if (is_array($_SESSION["ui"]["filter"]["value"][$filter_id]))
-			{
-				unset($_SESSION["ui"]["filter"]["value"][$filter_id]);
-			}
-			unset($_SESSION["ui"]["filter"]["rendered"][$filter_id]);
-		}
+		// determine activation/expand status
+		$is_activated = $this->session->isActivated($filter_id, $is_activated);
+		$is_expanded = $this->session->isExpanded($filter_id, $is_expanded);
 
 		// put data from session into filter
 		$inputs_with_session_data = [];
 		$is_input_initially_rendered_with_session = [];
 		foreach ($inputs as $input_id => $i)
 		{
-			//var_dump($_SESSION["ui"]["filter"]); exit;
-			// is filter rendered or not?
-			$rendered = current($is_input_initially_rendered);
-			if (isset($_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id]))
-			{
-				$rendered = (bool) $_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id];
-			}
+			// rendering information
+			$rendered =
+				$this->session->isRendered($filter_id, $input_id, current($is_input_initially_rendered));
 			$is_input_initially_rendered_with_session[] = $rendered;
 			next($is_input_initially_rendered);
 
-			if ($rendered && isset($_SESSION["ui"]["filter"]["value"][$filter_id][$input_id]))
+			// values
+			$val = $this->session->getValue($filter_id, $input_id);
+			if ($rendered && !is_null($val))
 			{
-				$val = unserialize($_SESSION["ui"]["filter"]["value"][$filter_id][$input_id]);
-				if (!is_null($val))
-				{
-					$i = $i->withValue($val);
-				}
+				$i = $i->withValue($val);
 			}
 			$inputs_with_session_data[$input_id] = $i;
 		}
 
+		// get the filter
 		$filter = $ui->input()->container()->filter()->standard(
-			$base_action."&cmdFilter=toggleOn",
-			$base_action."&cmdFilter=toggleOff",
-			$base_action."&cmdFilter=expand",
-			$base_action."&cmdFilter=collapse",
-			$base_action."&cmdFilter=apply",
-			$base_action."&cmdFilter=reset",
+			$base_action."&cmdFilter=".self::CMD_TOGGLE_ON,
+			$base_action."&cmdFilter=".self::CMD_TOGGLE_OFF,
+			$base_action."&cmdFilter=".self::CMD_EXPAND,
+			$base_action."&cmdFilter=".self::CMD_COLLAPSE,
+			$base_action."&cmdFilter=".self::CMD_APPLY,
+			$base_action."&cmdFilter=".self::CMD_RESET,
 			$inputs_with_session_data,
 			$is_input_initially_rendered_with_session,
 			$is_activated,
 			$is_expanded);
 
-		// 2. eingabe werte in session speichern
-		switch ($_REQUEST["cmdFilter"])
-		{
-			case "apply":
-				if ($request->getMethod() == "POST")
-				{
-					$filter = $filter->withRequest($request);
-					foreach ($filter->getInputs() as $input_id => $i)
-					{
-						$_SESSION["ui"]["filter"]["value"][$filter_id][$input_id] = serialize($i->getValue());
-					}
-				}
-				break;
-		}
-
-
-
-		//var_dump($_SESSION["ui"]["filter"][$filter_id]); exit;
+		// handle apply command
+		$filter = $this->handleApply($filter_id, $filter);
 
 		return $filter;
 
@@ -182,20 +112,95 @@ class ilUIFilterService
 	/**
 	 * Get data
 	 *
-	 * @param
-	 * @return
+	 * @param \ILIAS\UI\Component\Input\Container\Filter\Standard $filter
+	 * @return array|null
 	 */
 	public function getData(\ILIAS\UI\Component\Input\Container\Filter\Standard $filter)
 	{
-		global $DIC;
-		$request = $DIC->http()->request();
 		$result = null;
-		if (in_array($_REQUEST["cmdFilter"], ["apply", "toggleOn", "expand", "collapse"]) && $request->getMethod() == "POST") {
-			$filter = $filter->withRequest($request);
+		if (in_array($this->request->getFilterCmd(),
+				[self::CMD_APPLY, self::CMD_TOGGLE_ON, self::CMD_EXPAND, self::CMD_COLLAPSE]) && $this->request->isPost()) {
+			$filter = $this->request->getFilterWithRequest($filter);
 			$result = $filter->getData();
 		}
 		return $result;
 	}
+
+	/**
+	 * Write filter status to session (filter activated/expanded, inputs being rendered or not)
+	 * @param string $filter_id
+	 * @param array $inputs
+	 */
+	protected function writeFilterStatusToSession($filter_id, $inputs)
+	{
+		if ($this->request->getFilterCmd() == self::CMD_TOGGLE_ON) {
+			$this->session->writeActivated($filter_id, true);
+		}
+
+		if ($this->request->getFilterCmd() == self::CMD_TOGGLE_OFF) {
+			$this->session->writeActivated($filter_id, false);
+		}
+
+		if ($this->request->getFilterCmd() == self::CMD_EXPAND) {
+			$this->session->writeExpanded($filter_id, true);
+		}
+
+		if ($this->request->getFilterCmd() == self::CMD_COLLAPSE) {
+			$this->session->writeExpanded($filter_id, false);
+		}
+
+		if ($this->request->getFilterCmd() == self::CMD_APPLY)
+		{
+			foreach ($inputs as $input_id => $i)
+			{
+				if ($this->request->isInputRendered($input_id))
+				{
+					$this->session->writeRendered($filter_id, $input_id, true);
+				}
+				else
+				{
+					$this->session->writeRendered($filter_id, $input_id, false);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Handle reset command
+	 *
+	 * @param string $filter_id
+	 */
+	protected function handleReset(string $filter_id)
+	{
+		// clear session, if reset is pressed
+		if ($this->request->getFilterCmd() == self::CMD_RESET)
+		{
+			$this->session->reset($filter_id);
+		}
+	}
+
+
+	/**
+	 * Handle apply command
+	 *
+	 * @param string $filter_id
+	 * @param \ILIAS\UI\Component\Input\Container\Filter\Standard $filter
+	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
+	 */
+	protected function handleApply(string $filter_id, \ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
+	{
+		if ($this->request->getFilterCmd() == self::CMD_APPLY &&
+			$this->request->isPost())
+		{
+			$filter = $this->request->getFilterWithRequest($filter);
+			foreach ($filter->getInputs() as $input_id => $i)
+			{
+				$this->session->writeValue($filter_id, $input_id, $i->getValue());
+			}
+		}
+		return $filter;
+	}
+
 
 
 }
