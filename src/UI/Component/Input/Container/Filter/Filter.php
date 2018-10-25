@@ -63,6 +63,13 @@ interface Filter extends Component {
 	public function getInputs();
 
 	/**
+	 * Get if the inputs are rendered
+	 *
+	 * @return    bool[]
+	 */
+	public function isInputRendered();
+
+	/**
 	 * Get a Filter like this where data from the request is attached.
 	 *
 	 * @param    ServerRequestInterface $request

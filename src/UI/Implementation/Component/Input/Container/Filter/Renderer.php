@@ -28,9 +28,20 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandard(Component\Input\Container\Filter\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
+
+		// pass information on what inputs should be initially rendered
+		$is_input_rendered = $component->isInputRendered();
+		foreach ($component->getInputs() as $k => $input)
+		{
+			$is_rendered = current($is_input_rendered);
+			$tpl->setCurrentBlock("status");
+			$tpl->setVariable("FIELD", $k);
+			$tpl->setVariable("VALUE", (int) $is_rendered);
+			$tpl->parseCurrentBlock();
+			next($is_input_rendered);
+		}
+
 		$f = $this->getUIFactory();
-		//$opener = [$f->glyph()->collapse($component->getCollapseAction()), $f->glyph()->expand($component->getExpandAction())];
-		//replace with language variable
 		if ($component->isExpanded() == false) {
 
 			if ($component->isActivated())
