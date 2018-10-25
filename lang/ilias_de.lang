@@ -14566,3 +14566,8 @@ exc#:#exc_participants#:#Participants
 exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.
 exc#:#exc_team_by_tutors_manual#:#Manually
 exc#:#exc_team_creation#:#Creation
+exc#:#exc_ass_submission_zip#:#Submissions
+exc#:#exc_submission_file#:#Submission File
+exc#:#exc_submission_text#:#Submission Text
+common#:#open#:#Open
+exc#:#exc_down_files_started#:#Download of submission files has started.
