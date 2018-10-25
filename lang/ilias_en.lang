@@ -14590,3 +14590,10 @@ exc#:#exc_submission_text#:#Submission Text
 common#:#open#:#Open
 exc#:#exc_down_files_started#:#Download of submission files has started.
 survey#:#svy_participant#:#Participant
+book#:#participants#:#Participants
+book#:#book_assign_object#:#Assign Booking Object
+book#:#book_assign#:#Assign
+book#:#book_assign_participant#:#Assign to Participant
+book#:#book_deassign#:#Deassign
+book#:#book_participant_assigned#:#Participant(s) assigned
+book#:#book_participant_already_assigned#:#Participant(s) already assigned.

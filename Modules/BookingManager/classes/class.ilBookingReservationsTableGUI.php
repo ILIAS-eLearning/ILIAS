@@ -430,7 +430,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				ilBookingReservation::getUserFilter(array_keys($this->objects));
 			$item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
 			$item->setOptions($options);
-			$this->filter["user_id"] = $item->getValue();		
+			if(is_array($a_filter_pre) && isset($a_filter_pre["user_id"]))
+			{
+				$item->setValue($a_filter_pre["user_id"]);
+				$this->filter["user_id"] = $a_filter_pre["user_id"];
+			}
+			else
+			{
+				$this->filter["user_id"] = $item->getValue();
+			}
 		}	
 	}
 
