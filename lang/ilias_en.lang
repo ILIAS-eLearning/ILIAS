@@ -14519,3 +14519,18 @@ lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Resources/Materials
+iass#:#iass_location#:#Location
+iass#:#iass_further_field_headline#:#Detailed Information
+iass#:#iass_no_entries#:#No entries found.
+iass#:#iass_filter_all#:#All
+iass#:#iass_filter_not_started#:#Not started only
+iass#:#iass_filter_not_finalized#:#Not completed only
+iass#:#iass_filter_finalized#:#Completed only
+iass#:#iass_filter_failed#:#Failed only
+iass#:#iass_file#:#File
+iass#:#iass_download#:#Download
+iass#:#iass_sort#:#Sortation
+iass#:#iass_sort_name_asc#:#Username ascending
+iass#:#iass_sort_name_desc#:#Username descending
+iass#:#iass_sort_examiner_login_asc#:#Examiner ascending
+iass#:#iass_sort_examiner_login_desc#:#Examiner descending

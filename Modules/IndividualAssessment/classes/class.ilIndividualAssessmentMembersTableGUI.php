@@ -1,273 +1,517 @@
 <?php
-/* @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de> */
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/* Copyright (c) 2017 Denis Klöpfer <denis.kloepfer@concepts-and-training.de>  Extended GPL, see ./LICENSE */
+/* Copyright (c) 2018 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see ./LICENSE */
+
+declare(strict_types=1);
+
 require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php';
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 require_once 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Table\PresentationRow;
+use ILIAS\UI\Component\Dropdown\Dropdown;
+
 /**
  * List of members fo iass
- *
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
-	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+class ilIndividualAssessmentMembersTableGUI {
 
-		global $DIC;
-		$this->ctrl = $DIC['ilCtrl'];
-		$this->lng = $DIC['lng'];
-		$this->viewer_id = (int)$DIC['ilUser']->getId();
-
-		$this->setEnableTitle(true);
-		$this->setTopCommands(true);
-		$this->setEnableHeader(true);
-		$this->setExternalSorting(false);
-		$this->setExternalSegmentation(true);
-		$this->setRowTemplate("tpl.members_table_row.html", "Modules/IndividualAssessment");
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
-
-		$this->iass_access = $this->parent_obj->object->accessHandler();
-
-		foreach ($this->visibleColumns() as $lng_var => $params) {
-			$this->addColumn($this->lng->txt($lng_var), $params[0], $params[1]);
-		}
-		$this->setData(iterator_to_array($a_parent_obj->object->loadVisibleMembers()));
+	public function __construct(
+		ilIndividualAssessmentMembersGUI $parent,
+		ilLanguage $lng,
+		ilCtrl $ctrl,
+		ilIndividualAssessmentAccessHandler $iass_access,
+		Factory $factory,
+		Renderer $renderer,
+		int $current_user_id
+	) {
+		$this->parent = $parent;
+		$this->lng = $lng;
+		$this->ctrl = $ctrl;
+		$this->iass_access = $iass_access;
+		$this->factory = $factory;
+		$this->renderer = $renderer;
+		$this->current_user_id = $current_user_id;
 	}
 
 	/**
-	 * Get column user should be shown
+	 * Set data to show in table
 	 *
-	 * @return string()
+	 * @param mixed[] 	$data
+	 *
+	 * @return void
 	 */
-	protected function visibleColumns() {
-		$columns = array( 'name'				=> array('name', "")
-						, 'login'				=> array('login', ""));
-		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
-			$columns['grading'] = array('lp_status', "");
-			$columns['iass_graded_by'] = array('iass_graded_by', "");
-			$columns['iass_changed_by'] = array('iass_changed_by', "");
-		}
-		$columns['actions'] = array(null, "120px");
-		return $columns;
+	public function setData(array $data)
+	{
+		$this->data = $data;
 	}
 
 	/**
-	 * @inheritdoc
+	 * Renders the presentation table
+	 *
+	 * @param 	ILIAS\UI\Component\Component[] 	$view_constrols
 	 */
-	protected function fillRow($a_set) {
-		$this->tpl->setVariable("FULLNAME", $a_set[ilIndividualAssessmentMembers::FIELD_LASTNAME].', '.$a_set[ilIndividualAssessmentMembers::FIELD_FIRSTNAME]);
-		$this->tpl->setVariable("LOGIN", $a_set[ilIndividualAssessmentMembers::FIELD_LOGIN]);
+	public function render(array $view_constrols, int $offset = 0, int $limit = null): string
+	{
+		$ptable = $this->factory->table()->presentation(
+			"",
+			$view_constrols,
+			function (
+				PresentationRow $row,
+				ilIndividualAssessmentMember $record,
+				Factory $ui_factory,
+				$environment
+			) {
+				$headline = $this->getHeadline($record);
+				$subheadline = $this->getSubheadline($record);
+				$important_infos = $this->importantInfos($record);
+				$further_fields = $this->getFurtherFields($record);
+				$content = $this->getContent($record);
+				$action = $this->getAction($record, $ui_factory);
 
-		if(!ilObjUser::_lookupActive($a_set[ilIndividualAssessmentMembers::FIELD_USR_ID])) {
-			$this->tpl->setCurrentBlock('access_warning');
-			$this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
-			$this->tpl->parseCurrentBlock();
-		}
+				$row = $row
+					->withHeadline($headline)
+					->withSubheadline($subheadline)
+					->withImportantFields($important_infos)
+					->withContent($ui_factory->listing()->descriptive($content))
+					->withFurtherFieldsHeadline($this->txt("iass_further_field_headline"))
+					->withFurtherFields($further_fields)
+					->withAction($action);
 
-		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
-			$this->tpl->setCurrentBlock('grading_columns');
-			$status = $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
-			if($status == 0)
-			{
-				$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+				return $row;
 			}
-			if($a_set['finalized'] === '0' && $a_set['examiner_id'] !== null)
-			{
-				$status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
-			}
-			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
+		);
 
-			$graded_by = "";
-			if($a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] && $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED]) {
-				$graded_by = $a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", ".$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME];
-			}
-			$this->tpl->setVariable("GRADED_BY", $graded_by);
-
-			$changed_by = "";
-			if($a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_ID]) {
-				$changed_by =
-					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_LASTNAME].", ".
-					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_FIRSTNAME]." ".
-					(new ilDateTime($a_set[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_DATETIME))->get(IL_CAL_FKT_DATE, "d.m.Y H:i")
-					;
-			}
-			$this->tpl->setVariable("CHANGED_BY", $changed_by);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
+		$data = array_slice($this->data, $offset, $limit);
+		return $this->renderer->render($ptable->withData($data));
 	}
 
 	/**
-	 * Get image path for lp images
-	 *
-	 * @param int	$a_status
-	 *
-	 * @return string
+	 * Returns the headline for each row
 	 */
-	protected function getImagetPathForStatus($a_status) {
-		switch($a_status) {
-			case ilIndividualAssessmentMembers::LP_IN_PROGRESS :
-				$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-				break;
-			case ilIndividualAssessmentMembers::LP_COMPLETED :
-				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-				break;
-			case ilIndividualAssessmentMembers::LP_FAILED :
-				$status = ilLPStatus::LP_STATUS_FAILED_NUM;
-				break;
-			default :
-				$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED ;
-				break;
+	protected function getHeadline(ilIndividualAssessmentMember $record): string
+	{
+		return $record->lastname().", ".$record->firstname();
+	}
+
+	/**
+	 * Returns the subheadline for each row
+	 */
+	protected function getSubheadline(ilIndividualAssessmentMember $record): string
+	{
+		if(!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
+			return "";
 		}
-		return ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+
+		$examiner_id = $this->getExaminerId($record);
+		return $this->txt("grading").": ".$this->getStatus($record->finalized(), (int)$record->LPStatus(), $examiner_id);
+	}
+
+	/**
+	 * Returns all informations needed for important row
+	 *
+	 * @return string[]
+	 */
+	protected function importantInfos(ilIndividualAssessmentMember $record): array
+	{
+		$finalized = $record->finalized();
+
+		if((!$this->userMayViewGrades() && !$this->userMayEditGrades()) || !$finalized) {
+			return [];
+		}
+
+		return array_merge(
+			$this->getGradedInformations($record->eventTime()),
+			$this->getExaminerLogin($this->getExaminerId($record))
+		);
+	}
+
+	/**
+	 * Return all content elements for each row
+	 *
+	 * @return string[]
+	 */
+	protected function getContent(ilIndividualAssessmentMember $record): array
+	{
+		$examiner_id = $this->getExaminerId($record);
+		if(!$this->checkEditable($record->finalized(), $examiner_id, (int)$record->id())
+			&& !$this->checkAmendable($record->finalized())
+		) {
+			return [];
+		}
+
+		$usr_id = (int)$record->id();
+		$file_name = $record->fileName();
+
+		return array_merge(
+			$this->getRecordNote($record->record()),
+			$this->getInternalRecordNote($record->internalNote()),
+			$this->checkDownloadFile($usr_id, $file_name)
+				? $this->getFileDownloadLink($usr_id, $file_name)
+				: []
+		);
+	}
+
+	/**
+	 * Returns all informations needed for further informations for each row
+	 *
+	 * @return string[]
+	 */
+	protected function getFurtherFields(ilIndividualAssessmentMember $record): array
+	{
+		if(!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
+			return [];
+		}
+
+		return array_merge(
+			$this->importantInfos($record),
+			$this->getLocationInfos(
+				$record->place(),
+				$record->finalized(),
+				$this->getExaminerId($record),
+				(int)$record->id()
+			)
+		);
+	}
+
+	/**
+	 * Return the ui control with executable actions
+	 */
+	protected function getAction(ilIndividualAssessmentMember $record, $ui_factory): Dropdown
+	{
+		$items = [];
+
+		$examiner_id = $this->getExaminerId($record);
+		$usr_id = (int)$record->id();
+		$finalized = $record->finalized();
+		$file_name = $record->fileName();
+
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
+
+		if($this->checkEditable($finalized, $examiner_id, $usr_id)) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_edit'), $target);
+		}
+
+		if($this->checkUserRemoveable($finalized)) {
+			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', $usr_id);
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMembersGUI', 'removeUserConfirmation');
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_remove'), $target);
+			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', null);
+		}
+
+		if($this->checkAmendable($finalized)) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_amend'), $target);
+		}
+
+		if($this->checkDownloadFile($usr_id, $file_name)) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_download_attachment'), $target);
+		}
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
+
+		$action = $ui_factory->dropdown()->standard($items)->withLabel($this->txt("actions"));
+		return $action;
+	}
+
+	/**
+	 * Returns readable status
+	 */
+	protected function getStatus(bool $finalized, int $status, int $examiner_id = null): string
+	{
+		if($status == 0)
+		{
+			$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+		}
+
+		if(!$finalized && !is_null($examinerId))
+		{
+			$status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
+		}
+
+		return $this->getEntryForStatus($status);
+	}
+
+	/**
+	 * Returns informations about the grading
+	 *
+	 * @return string[]
+	 */
+	protected function getGradedInformations(ilDateTime $event_time): array
+	{
+		return array(
+			$this->txt("iass_event_time").": " => ilDatePresentation::formatDate($event_time)
+		);
+	}
+
+	/**
+	 * Returns login of examinier
+	 *
+	 * @return string[]
+	 */
+	protected function getExaminerLogin(int $examiner_id = null): array
+	{
+		if(is_null($examiner_id)) {
+			return array();
+		}
+
+		return array(
+			$this->txt("iass_graded_by").": " => ilObjUser::_lookupLogin($examiner_id)
+		);
+	}
+
+	/**
+	 * Returns the location of assessment
+	 *
+	 * @return string[]
+	 */
+	protected function getLocationInfos(
+		string $location = null,
+		bool $finalized,
+		int $examiner_id = null,
+		int $usr_id
+	): array {
+		if(!$this->viewLocation($finalized, $examiner_id, $usr_id)) {
+			return array();
+		}
+
+		if ($location == "" || is_null($location)) {
+			$location = $this->txt("none");
+		}
+
+		return array(
+			$this->txt("iass_location").": " => $location
+		);
+	}
+
+	/**
+	 * Returns inforamtions out of record note
+	 *
+	 * @return string[]
+	 */
+	protected function getRecordNote(string $record_note): array
+	{
+		return array(
+			$this->txt("iass_record") => $record_note
+		);
+	}
+
+	/**
+	 * Returns inforamtions out of internal record note
+	 *
+	 * @return string[]
+	 */
+	protected function getInternalRecordNote(string $internal_note = null)
+	{
+		if(is_null($internal_note)) {
+			$internal_note = "";
+		}
+
+		return array(
+			$this->txt("iass_internal_note") => $internal_note
+		);
+	}
+
+	/**
+	 * Get the link for download of file
+	 */
+	protected function getFileDownloadLink(int $usr_id, $file_name): array
+	{
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
+		$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
+
+		$link = $this->factory->link()->standard($this->txt("iass_download"), $target);
+
+		return array(
+			$this->txt("iass_file") => $this->renderer->render($link)
+		);
 	}
 
 	/**
 	 * Get text for lp status
-	 *
-	 * @param int	$a_status
-	 *
-	 * @return string
 	 */
-	protected function getEntryForStatus($a_status) {
+	protected function getEntryForStatus(int $a_status): string
+	{
 		switch($a_status) {
 			case ilIndividualAssessmentMembers::LP_IN_PROGRESS :
-				return $this->lng->txt('iass_status_pending');
+				return $this->txt('iass_status_pending');
 				break;
 			case ilIndividualAssessmentMembers::LP_COMPLETED :
-				return $this->lng->txt('iass_status_completed');
+				return $this->txt('iass_status_completed');
 				break;
 			case ilIndividualAssessmentMembers::LP_FAILED :
-				return $this->lng->txt('iass_status_failed');
+				return $this->txt('iass_status_failed');
 				break;
 			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED :
-				return $this->lng->txt('iass_assessment_not_completed');
+				return $this->txt('iass_assessment_not_completed');
 				break;
 		}
 	}
 
 	/**
-	 * Get the action drop down
+	 * Returns the examnier id from record
 	 *
-	 * @param string[]
-	 *
-	 * @return ilAdvancedSelectionListGUI
+	 * @return int | null
 	 */
-	protected function buildActionDropDown($a_set) {
-		$l = new ilAdvancedSelectionListGUI();
-		$l->setListTitle($this->lng->txt("actions"));
+	protected function getExaminerId(ilIndividualAssessmentMember $record)
+	{
+		$examiner_id = $record->examinerId();
 
-		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
-		$edited_by_viewer = $this->setWasEditedByViewer((int)$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]);
-		$finalized = (bool)$a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED];
-
-		if (($this->userIsSystemAdmin() && $finalized) || ($finalized && (($this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) || $this->userMayViewGrades()))) {
-			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
-			$l->addItem($this->lng->txt('iass_usr_view'), 'view', $target);
+		if(is_null($examiner_id)) {
+			return null;
 		}
 
-		if(($this->userIsSystemAdmin() && !$finalized) || (!$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer)) {
-			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
-			$l->addItem($this->lng->txt('iass_usr_edit'), 'edit', $target);
-		}
-
-		if(($this->userIsSystemAdmin() && !$finalized) || (!$finalized && $this->userMayEditMembers())) {
-			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
-			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUserConfirmation');
-			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
-			$l->addItem($this->lng->txt('iass_usr_remove'), 'removeUser', $target);
-		}
-
-		if(($this->userIsSystemAdmin() && $finalized) || ($finalized && $this->userMayAmendGrades())) {
-			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
-			$l->addItem($this->lng->txt('iass_usr_amend'), 'amend', $target);
-		}
-
-		if($this->userIsSystemAdmin() || ($this->userMayDownloadAttachment($a_set['usr_id']) && (string)$a_set['file_name'] !== '')) {
-			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
-			$l->addItem($this->lng->txt('iass_usr_download_attachment'), 'downloadAttachment', $target);
-		}
-		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
-		return $l->getHTML();
+		return (int)$examiner_id;
 	}
 
 	/**
-	 * Check the set was edited by viewing user
-	 *
-	 * @param int	$examiner_id
-	 *
-	 * @return bool
+	 * Check user may view the location
 	 */
-	protected function setWasEditedByViewer($examiner_id) {
-		return $examiner_id === $this->viewer_id || 0 === $examiner_id;
+	protected function viewLocation(bool $finalized, int $examiner_id = null, int $usr_id): bool
+	{
+		return $this->checkEditable($finalized, $examiner_id, $usr_id)
+			|| $this->checkAmendable($finalized);
 	}
 
 	/**
-	 * User may edit grades
-	 *
-	 * @return bool
+	 * Check the current user has visible permission on record
 	 */
-	protected function userMayEditGrades() {
-		return $this->iass_access->mayGradeUser();
+	protected function checkViewable(bool $finalized, int $examiner_id = null, int $usr_id): bool
+	{
+		if (($this->userIsSystemAdmin() && $finalized)
+			|| ($finalized && (
+				($this->userMayEditGradesOf($usr_id)
+					&& $this->wasEditedByViewer($examiner_id))
+				|| $this->userMayViewGrades())
+			)
+		) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
-	 * User may edit grades of a specific user.
-	 *
-	 * @param  int	$a_user_id
-	 * @return bool
+	 * Check the current user has edit permission on record
 	 */
-	protected function userMayEditGradesOf($a_user_id) {
-		return $this->iass_access->mayGradeUserById($a_user_id);
+	protected function checkEditable(bool $finalized, int $examiner_id = null, int $usr_id): bool
+	{
+		if(($this->userIsSystemAdmin() && !$finalized)
+			|| (!$finalized && $this->userMayEditGradesOf($$usr_id)
+				&& $this->wasEditedByViewer($examiner_id)
+			)
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the current user has amend permission on record
+	 */
+	protected function checkAmendable(bool $finalized): bool
+	{
+		if(($this->userIsSystemAdmin() && $finalized)
+			|| ($finalized && $this->userMayAmendGrades())
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the current user is allowed to remove the user
+	 */
+	protected function checkUserRemoveable(bool $finalized): bool
+	{
+		if(($this->userIsSystemAdmin() && !$finalized)
+			|| (!$finalized && $this->userMayEditMembers())
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the current user is allowed to download the record file
+	 */
+	protected function checkDownloadFile(int $usr_id, string $file_name = null): bool
+	{
+		if((!is_null($file_name) && $file_name !== '')
+			&& ($this->userIsSystemAdmin() || $this->userMayDownloadAttachment($usr_id))
+		) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * User may view grades
-	 *
-	 * @return bool
 	 */
-	protected function userMayViewGrades() {
+	protected function userMayViewGrades(): bool
+	{
 		return $this->iass_access->mayViewUser();
 	}
 
 	/**
-	 * User may amend members records.
-	 *
-	 * @return bool
+	 * User may edit grades
 	 */
-	protected function userMayEditMembers() {
-		return $this->iass_access->mayEditMembers();
+	protected function userMayEditGrades(): bool
+	{
+		return $this->iass_access->mayGradeUser();
 	}
 
 	/**
 	 * User may amend grades
-	 *
-	 * @return bool
 	 */
-	protected function userMayAmendGrades() {
+	protected function userMayAmendGrades(): bool
+	{
 		return $this->iass_access->mayAmendGradeUser();
 	}
 
 	/**
-	 * User may download attachment
-	 *
-	 * @return bool
+	 * User may amend members records.
 	 */
-	protected function userMayDownloadAttachment($usr_id) {
-		return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
+	protected function userMayEditMembers(): bool
+	{
+		return $this->iass_access->mayEditMembers();
 	}
 
 	/**
 	 * Check whether usr is admin.
-	 *
-	 * @return bool
 	 */
-	protected function userIsSystemAdmin()
+	protected function userIsSystemAdmin(): bool
 	{
 		return $this->iass_access->isSystemAdmin();
+	}
+
+	/**
+	 * User may edit grades of a specific user.
+	 */
+	protected function userMayEditGradesOf(int $usr_id): bool
+	{
+		return $this->iass_access->mayGradeUserById($usr_id);
+	}
+
+	/**
+	 * Check the set was edited by viewing user
+	 */
+	protected function wasEditedByViewer(int $examiner_id): bool
+	{
+		return $examiner_id === $this->current_user_id || 0 === $examiner_id;
+	}
+
+	protected function txt(string $code): string
+	{
+		return $this->lng->txt($code);
 	}
 }
