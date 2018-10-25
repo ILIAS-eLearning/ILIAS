@@ -142,6 +142,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		if ($input->getByline() != "disabled")
 		{
 			$prox = $prox->withOnClick($popover->getShowSignal());
+			$tpl->touchBlock("tabindex");
 		}
 
 		$this->maybeRenderId($prox, $tpl);
