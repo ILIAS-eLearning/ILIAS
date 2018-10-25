@@ -4852,6 +4852,7 @@ class ilUtil
 	{
 		global $DIC;
 
+		/** @var ilTemplate $tpl */
 		$tpl = $DIC["tpl"];
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}

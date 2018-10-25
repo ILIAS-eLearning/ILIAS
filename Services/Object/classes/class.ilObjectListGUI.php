@@ -3045,7 +3045,10 @@ class ilObjectListGUI
 		{
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-			$cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id);
+			$type = ($this->sub_obj_type == "")
+				? $this->type
+				: $this->sub_obj_type;
+			$cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
 
 			if($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
@@ -3399,13 +3402,28 @@ class ilObjectListGUI
 					ilObjectPlugin::lookupTxtById($this->getIconImageType(), "obj_".$this->getIconImageType()));
 			}
 
-			$this->tpl->setVariable("SRC_ICON",
-				ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType()));
+			$this->tpl->setVariable(
+				"SRC_ICON",
+				$this->getTypeIcon()
+			);
 			$this->tpl->parseCurrentBlock();
 			$cnt += 1;
 		}
 		
 		$this->tpl->touchBlock("d_".$cnt);	// indent main div
+	}
+
+	/**
+	 * Get object type specific type icon
+	 * @return string
+	 */
+	public function getTypeIcon()
+	{
+		return ilObject::_getIcon(
+			$this->obj_id,
+			'small',
+			$this->getIconImageType()
+		);
 	}
 	
 	/**

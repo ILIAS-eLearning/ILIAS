@@ -29,9 +29,10 @@ class ilLearningHistoryEntryCollector
 	 *
 	 * @return ilLearningHistoryEntry[]
 	 */
-	public function getEntries($from = null, $to = null, $user_id = null)
+	public function getEntries($from = null, $to = null, $user_id = null, $classes = null)
 	{
 		$entries = array();
+		$lng = $this->service->language();
 
 		$to = (is_null($to))
 			? time()
@@ -43,6 +44,10 @@ class ilLearningHistoryEntryCollector
 		$sort_array = [];
 		foreach ($this->service->provider()->getAllProviders(true, $user_id) as $provider)
 		{
+			if (is_array($classes) && !in_array(get_class($provider), $classes)) {
+				continue;
+			}
+
 			foreach ($provider->getEntries($from, $to) as $e)
 			{
 				$sort_array[] = array("entry" => $e,"ts" => $e->getTimestamp());
@@ -51,7 +56,20 @@ class ilLearningHistoryEntryCollector
 
 		$sort_array = ilUtil::sortArray($sort_array, "ts", "desc");
 
+		// add today entry
 		$entries = [];
+
+		if (date("Y-m-d", $to) == date("Y-m-d", time()))
+		{
+			if (count($sort_array) == 0 ||
+				date("Y-m-d", (current($sort_array)["ts"])) != date("Y-m-d", time()))
+			{
+				$entries[] = $this->service->factory()->entry($lng->txt("lhist_no_entries"), $lng->txt("lhist_no_entries"),
+					ilUtil::getImagePath("spacer.png"), time(), 0);
+			}
+		}
+
+
 		foreach ($sort_array as $s)
 		{
 			$entries[] = $s["entry"];

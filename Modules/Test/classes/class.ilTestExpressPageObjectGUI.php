@@ -165,9 +165,20 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		    
 					if( $total != 0 )
 					{
-						$link = $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
-						$link = "<a href=\"".$link."\">".$lng->txt("test_has_datasets_warning_page_view_link")."</a>";
-						ilUtil::sendInfo($lng->txt("test_has_datasets_warning_page_view")." ".$link);
+						$link = $DIC->ui()->factory()->link()->standard(
+							$DIC->language()->txt("test_has_datasets_warning_page_view_link"),
+							$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'))
+						);
+						
+						$message = $DIC->language()->txt("test_has_datasets_warning_page_view");
+						
+						$msgBox = $DIC->ui()->factory()->messageBox()->info($message)->withLinks(array($link));
+						
+						$DIC->ui()->mainTemplate()->setCurrentBlock('mess');
+						$DIC->ui()->mainTemplate()->setVariable('MESSAGE',
+							$DIC->ui()->renderer()->render($msgBox)
+						);
+						$DIC->ui()->mainTemplate()->parseCurrentBlock();
 					}
 		    
                     if( (in_array($cmd, array('view', 'showPage')) || $cmd == 'edit') && $this->test_object->evalTotalPersons() )

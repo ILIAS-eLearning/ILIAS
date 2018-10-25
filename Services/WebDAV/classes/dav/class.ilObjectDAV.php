@@ -77,16 +77,11 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      */
     public function delete()
     {
-        if($this->repo_helper->checkAccess('delete', $this->obj->getRefId()))
+        if($this->repo_helper->checkAccess('delete', $this->ref_id))
         {
             $this->repo_helper->deleteObject($this->ref_id);
-            /* use same functionality as in ilObjectGUI
-            include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
-            $ru = new ilRepUtilGUI($this);
-            $ru->deleteObjects($_GET["ref_id"], ilSession::get("saved_post"));
-            //*/
         }
-        else 
+        else
         {
             throw new Forbidden("Permission denied");
         }

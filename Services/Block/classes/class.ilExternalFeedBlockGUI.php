@@ -58,23 +58,19 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->setLimit(5);
 		$this->setRowTemplate("tpl.block_external_feed_row.html", "Services/Feeds");
 	}
-		
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return true;
 	}

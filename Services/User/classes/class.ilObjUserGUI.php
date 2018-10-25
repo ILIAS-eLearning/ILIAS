@@ -16,6 +16,12 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjUserGUI extends ilObjectGUI
 {
+	/** @var ILIAS\UI\Factory */
+	protected $uiFactory;
+
+	/** @var ILIAS\UI\Renderer */
+	protected $uiRenderer;
+	
 	var $ilCtrl;
 
 	/**
@@ -40,12 +46,34 @@ class ilObjUserGUI extends ilObjectGUI
 	var $user_ref_id;
 
 	/**
-	* Constructor
-	* @access	public
-	*/
-	function __construct($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
+	 * ilObjUserGUI constructor.
+	 * @param $a_data
+	 * @param $a_id
+	 * @param bool $a_call_by_reference
+	 * @param bool $a_prepare_output
+	 * @param \ILIAS\UI\Factory $uiFactory
+	 * @param \ILIAS\UI\Renderer $uiRenderer
+	 */
+	public function __construct(
+		$a_data,
+		$a_id,
+		$a_call_by_reference = false,
+		$a_prepare_output = true,
+		ILIAS\UI\Factory $uiFactory = null,
+		ILIAS\UI\Renderer $uiRenderer = null
+	)
 	{
 		global $DIC;
+
+		if (null === $uiFactory) {
+			$uiFactory = $DIC->ui()->factory();
+		}
+		$this->uiFactory = $uiFactory;
+
+		if (null === $uiRenderer) {
+			$uiRenderer = $DIC->ui()->renderer();
+		}
+		$this->uiRenderer = $uiRenderer;
 
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
@@ -2553,6 +2581,18 @@ class ilObjUserGUI extends ilObjectGUI
 			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
 		}
+		else if('agreement' == $a_target)
+		{
+			if ($ilUser->getId() > 0 && !$ilUser->isAnonymous()) {
+				$ilCtrl->setTargetScript('ilias.php');
+				$ilCtrl->initBaseClass('ilpersonaldesktopgui');
+				$ilCtrl->redirectByClass(array('ilpersonaldesktopgui', 'ilpersonalprofilegui'), 'showUserAgreement');
+			} else {
+				$_GET['baseClass'] = 'ilStartUpGUI';
+				$ilCtrl->setTargetScript('ilias.php');
+				$ilCtrl->redirectByClass(array('ilStartUpGUI'), 'showTermsOfService');
+			}
+		}
 
 		if (substr($a_target, 0, 1) == "n")
 		{
@@ -2633,35 +2673,34 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	protected function showAcceptedTermsOfService()
 	{
-		/**
-		 * @var $agree_date ilNonEditableValueGUI
-		 */
-		$agree_date = $this->form_gui->getItemByPostVar('agree_date');
-		if($agree_date && $agree_date->getValue())
-		{
+		/** @var $agreeDate ilNonEditableValueGUI */
+		$agreeDate = $this->form_gui->getItemByPostVar('agree_date');
+		if ($agreeDate && $agreeDate->getValue()) {
 			$this->lng->loadLanguageModule('tos');
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-			/**
-			 * @var $entity ilTermsOfServiceAcceptanceEntity
-			 */
-			$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
-			if($entity->getId())
-			{
-				$show_agreement_text = new ilCheckboxInputGUI($this->lng->txt('tos_show_signed_text'), 'tos_show_signed_text');
+			$helper = new \ilTermsOfServiceHelper();
 
-				$agreement_lang = new ilNonEditableValueGUI($this->lng->txt('language'), '');
-				$agreement_lang->setValue($this->lng->txt('meta_l_' . $entity->getIso2LanguageCode()));
-				$show_agreement_text->addSubItem($agreement_lang);
+			$entity = $helper->getCurrentAcceptanceForUser($this->object);
+			if ($entity->getId()) {
 
-				require_once 'Services/TermsOfService/classes/form/class.ilTermsOfServiceSignedDocumentFormElementGUI.php';
-				$agreement_document = new ilTermsOfServiceSignedDocumentFormElementGUI($this->lng->txt('tos_agreement_document'), '', $entity);
-				$show_agreement_text->addSubItem($agreement_document);
-				$agree_date->addSubItem($show_agreement_text);
+				$modal = $this->uiFactory
+					->modal()
+					->lightbox([
+						$this->uiFactory->modal()->lightboxTextPage($entity->getText(), $entity->getTitle())
+					]);
+
+				$titleLink = $this->uiFactory
+					->button()
+					->shy($entity->getTitle(), '#')
+					->withOnClick($modal->getShowSignal());
+
+				$agreementDocument = new ilNonEditableValueGUI(
+					$this->lng->txt('tos_agreement_document'), '', true
+				);
+				$agreementDocument->setValue($this->uiRenderer->render([$titleLink, $modal]));
+				$agreeDate->addSubItem($agreementDocument);
 			}
-		}
-		else if($agree_date)
-		{
-			$agree_date->setValue($this->lng->txt('tos_not_accepted_yet'));
+		} else if($agreeDate) {
+			$agreeDate->setValue($this->lng->txt('tos_not_accepted_yet'));
 		}
 	}
 } // END class.ilObjUserGUI

@@ -187,7 +187,7 @@ class ilUsersGalleryGUI
 
 			foreach($group as $user)
 			{
-				$card   = $this->factory->card($user->getPublicName());
+				$card   = $this->factory->card()->standard($user->getPublicName());
 				$avatar = $this->factory->image()->standard($user->getAggregatedUser()->getPersonalPicturePath('big'), $user->getPublicName());
 
 				$sections = [];

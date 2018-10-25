@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\FileUpload\Location;
+
 include_once("./Services/Object/classes/class.ilObject2GUI.php");
 include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 include_once("./Services/Table/classes/class.ilTableGUI.php");
@@ -17,7 +19,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
-* @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -38,19 +40,40 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	protected $help;
 
+	/**
+	 * @var ilTemplate
+	 */
+	protected $main_tpl;
+
+	/**
+	 * @var \ILIAS\FileUpload\FileUpload
+	 */
+	protected $upload;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $mep_log;
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		global $DIC;
+
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
 		$this->tabs = $DIC->tabs();
 		$this->error = $DIC["ilErr"];
 		$this->locator = $DIC["ilLocator"];
 		$this->help = $DIC["ilHelp"];
+
+		$this->main_tpl = $DIC->ui()->mainTemplate();
+
+		$this->upload = $DIC->upload();
+
+		$this->mep_log = ilLoggerFactory::getLogger("mep");
 	}
 
 	var $output_prepared;
@@ -86,8 +109,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	}
 	
 	/**
-	* execute command
-	*/
+	 * execute command
+	 *
+	 * @return bool|void
+	 * @throws ilCtrlException
+	 */
 	function executeCommand()
 	{
 		$ilTabs = $this->tabs;
@@ -138,6 +164,20 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		switch($next_class)
 		{
+			case 'ilobjectmetadatagui';
+				$this->checkPermission("write");
+
+				$this->prepareOutput();
+				$this->addHeaderAction();
+
+				$this->tabs_gui->activateTab('meta_data');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object, 'mob');
+				$this->ctrl->forwardCommand($md_gui);
+				$this->tpl->show();
+				break;
+
+
 			case 'ilmediapoolpagegui':
 				$this->checkPermission("write");
 				$this->prepareOutput();
@@ -192,6 +232,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->getTemplate();
 				$ilObjMediaObjectGUI->setTabs();
 				$this->setLocator();
+
+				// set adv metadata record dobject
+				$ilObjMediaObjectGUI->setAdvMdRecordObject($this->object->getRefId(), "mep", "mob");
 
 				$ret = $this->ctrl->forwardCommand($ilObjMediaObjectGUI);
 
@@ -441,18 +484,54 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ni->setSize(5);
 		$ni->setInfo($this->lng->txt("mep_default_width_height_info"));
 		$a_form->addItem($ni);
+
+		// additional features
+		$feat = new ilFormSectionHeaderGUI();
+		$feat->setTitle($this->lng->txt('obj_features'));
+		$a_form->addItem($feat);
+
+		include_once './Services/Container/classes/class.ilContainer.php';
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::initServiceSettingsForm(
+			$this->object->getId(),
+			$a_form,
+			array(
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA
+			)
+		);
+
 	}
 
 	/**
-	 * Edit
+	 * edit object
 	 *
-	 * @param
-	 * @return
+	 * @access	public
 	 */
-	function edit()
+	public function edit()
 	{
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs_gui;
+		$ilErr = $this->ilErr;
+
 		$this->setSettingsSubTabs("settings");
-		parent::edit();
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
+		}
+
+		$ilTabs->activateTab("settings");
+
+		$form = $this->initEditForm();
+		$values = $this->getEditFormValues();
+		if($values)
+		{
+			$form->setValuesByArray($values, true);
+		}
+
+		$this->addExternalEditFormCustom($form);
+
+		$tpl->setContent($form->getHTML());
 	}
 
 
@@ -472,6 +551,17 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	{
 		$this->object->setDefaultWidth($a_form->getInput("default_width"));
 		$this->object->setDefaultHeight($a_form->getInput("default_height"));
+
+		// additional features
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$a_form,
+			array(
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA
+			)
+		);
+
 	}
 
 	/**
@@ -512,7 +602,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			{
 				$ilToolbar->addButton($lng->txt("mep_create_from_upload_dir"),
 					$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
-			}		
+			}
+
+			$ilToolbar->addButton($lng->txt("mep_bulk_upload"),
+				$ilCtrl->getLinkTarget($this, "bulkUpload"));
 		}
 
 		// tree
@@ -1516,7 +1609,21 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				"view", "ileditclipboardgui");
 		}
 
+		// properties
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			// meta data
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object, "mob");
+			$mdtab = $mdgui->getTab();
+			if ($mdtab)
+			{
+				$ilTabs->addTarget("meta_data", $mdtab,
+					"", "ilobjectmetadatagui");
+			}
+		}
+
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$ilTabs->addTarget("export", $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
 				"", "ilexportgui");
@@ -1854,6 +1961,260 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		$this->object->exportXML($opt);
 	}
+
+	//
+	// BULK UPLOAD
+	//
+
+	/**
+	 * Bulk upload
+	 */
+	protected function bulkUpload()
+	{
+		$this->checkPermission("write");
+
+		$main_tpl = $this->main_tpl;
+
+		$form = $this->initBulkUploadForm();
+		$main_tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Init bulk upload form
+	 */
+	public function initBulkUploadForm()
+	{
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		$form->setFormAction($ctrl->getFormAction($this));
+		$form->setPreventDoubleSubmission(false);
+
+		$item = new ilFileStandardDropzoneInputGUI($lng->txt("mep_media_files"), 'media_files');
+//		$item->setUploadUrl($ctrl->getLinkTarget($this, "uploadMediaFiles", "save", true, true));
+		$item->setMaxFiles(20);
+		//$item->setSuffixes([ 'jpg', 'gif', 'png', 'pdf' , 'svg']);
+		//$item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
+		$item->setDropzoneMessage('For the purpose of this demo, any PDF file will fail to upload');
+		$form->addItem($item);
+
+		$form->addCommandButton("performBulkUpload", $lng->txt("upload"));
+
+		$form->setTitle($lng->txt("mep_bulk_upload"));
+
+		return $form;
+	}
+
+
+	/**
+	 * Save bulk upload form
+	 */
+	public function performBulkUpload()
+	{
+		$this->checkPermission("write");
+
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+		$main_tpl = $this->main_tpl;
+		$upload = $this->upload;
+		$log = $this->mep_log;
+
+		$form = $this->initBulkUploadForm();
+		if ($form->checkInput())
+		{
+			$mep_item_ids = [];
+			// Check if this is a request to upload a file
+			if ($upload->hasUploads()) {
+				try {
+					$upload->process();
+					$log->debug("nr of results: ".count($upload->getResults()));
+					foreach ($upload->getResults() as $result)
+					{
+						$title = $result->getName();
+
+						$mob = new ilObjMediaObject();
+						$mob->setTitle($title);
+						$mob->setDescription("");
+						$mob->create();
+
+						$mob->createDirectory();
+						$media_item = new ilMediaItem();
+						$mob->addMediaItem($media_item);
+						$media_item->setPurpose("Standard");
+
+						$mob_dir = ilObjMediaObject::_getRelativeDirectory($mob->getId());
+						$file_name = ilObjMediaObject::fixFilename($title);
+						$file = $mob_dir."/".$file_name;
+
+						$upload->moveOneFileTo($result,
+							$mob_dir,
+							Location::WEB,
+							$file_name,
+							true
+						);
+
+						$mep_item = new ilMediaPoolItem();
+						$mep_item->setTitle($title);
+						$mep_item->setType("mob");
+						$mep_item->setForeignId($mob->getId());
+						$mep_item->create();
+
+						$tree = $this->object->getTree();
+						$parent = ($_GET["mepitem_id"] == "")
+							? $tree->getRootId()
+							: $_GET["mepitem_id"];
+						$tree->insertNode($mep_item->getId(), $parent);
+
+						// get mime type
+						$format = ilObjMediaObject::getMimeType($file);
+						$location = $file_name;
+
+						// set real meta and object data
+						$media_item->setFormat($format);
+						$media_item->setLocation($location);
+						$media_item->setLocationType("LocalFile");
+						$media_item->setUploadHash(ilUtil::stripSlashes($_POST["ilfilehash"]));
+						$mob->update();
+						$mep_item_ids[] = $mob->getId();
+
+
+						include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
+
+						//ilSession::set("mep_ids_".$_POST["ilfilehash"], $ids);
+
+						//$log->debug("added mob: ".$mob->getId());
+						//$log->debug("mep_item_ids: ".print_r($mep_item_ids, true));
+						//$log->debug("post: ".print_r($_POST, true));
+						//$log->debug("get: ".print_r($_GET, true));
+						//$log->debug("files: ".print_r($_FILES, true));
+					}
+				}
+				catch (Exception $e)
+				{
+					$log->debug("failure ".$e->getMessage());
+					ilUtil::sendFailure($e->getMessage());
+					$form->setValuesByPost();
+					$main_tpl->setContent($form->getHtml());
+				}
+				$log->debug("end of 'has_uploads'");
+			}
+
+			$log->debug("calling redirect...");
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ctrl->setParameter($this, "mep_hash", $_POST["ilfilehash"]);
+			$ctrl->redirect($this, "editTitlesAndDescriptions");
+		}
+
+		$form->setValuesByPost();
+		$main_tpl->setContent($form->getHtml());
+	}
+
+	/**
+	 * Edit titles and descriptions
+	 */
+	protected function editTitlesAndDescriptions()
+	{
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		$this->checkPermission("write");
+		$ctrl->saveParameter($this,"mep_hash");
+
+		$main_tpl = $this->main_tpl;
+
+		include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
+		$media_items = ilMediaItem::getMediaItemsForUploadHash($_GET["mep_hash"]);
+
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+
+		$tb = new ilToolbarGUI();
+		$tb->setFormAction($ctrl->getFormAction($this));
+		$tb->addFormButton($lng->txt("save"), "saveTitlesAndDescriptions");
+		$tb->setOpenFormTag(true);
+		$tb->setCloseFormTag(false);
+		$tb->setId("tb_top");
+
+		$html = $tb->getHTML();
+		foreach ($media_items as $mi)
+		{
+			$acc = new ilAccordionGUI();
+			$acc->setBehaviour(ilAccordionGUI::ALL_CLOSED);
+			$acc->setId("acc_".$mi["mob_id"]);
+
+			$mob = new ilObjMediaObject($mi["mob_id"]);
+			$form = $this->initMediaBulkForm($mi["mob_id"], $mob->getTitle());
+			$acc->addItem($mob->getTitle(), $form->getHTML());
+
+			$html.= $acc->getHTML();
+		}
+
+		$html.= $tb->getHTML();
+		$tb->setOpenFormTag(false);
+		$tb->setCloseFormTag(true);
+		$tb->setId("tb_bottom");
+
+		$main_tpl->setContent($html);
+	}
+
+	/**
+	 * Init media bulk form.
+	 */
+	public function initMediaBulkForm($a_id, $a_title)
+	{
+		$lng = $this->lng;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setOpenTag(false);
+		$form->setCloseTag(false);
+
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title_".$a_id);
+		$ti->setValue($a_title);
+		$form->addItem($ti);
+
+		// description
+		$ti = new ilTextAreaInputGUI($lng->txt("description"), "description_".$a_id);
+		$form->addItem($ti);
+
+		return $form;
+	}
+
+	/**
+	 * Save titles and descriptions
+	 */
+	protected function saveTitlesAndDescriptions()
+	{
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+		
+		$this->checkPermission("write");
+		//var_dump(_$POST); exit;
+
+		$media_items = ilMediaItem::getMediaItemsForUploadHash($_GET["mep_hash"]);
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+
+		foreach ($media_items as $mi)
+		{
+			$mob = new ilObjMediaObject($mi["mob_id"]);
+			$form = $this->initMediaBulkForm($mi["mob_id"], $mob->getTitle());
+			$form->checkInput();
+			$title = $form->getInput("title_" . $mi["mob_id"]);
+			$desc = $form->getInput("description_" . $mi["mob_id"]);
+			if (trim($title) != "")
+			{
+				$mob->setTitle($title);
+			}
+			$mob->setDescription($desc);
+			$mob->update();
+		}
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ctrl->redirect($this, "listMedia");
+	}
+
 
 }
 ?>

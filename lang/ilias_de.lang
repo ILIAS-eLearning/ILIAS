@@ -396,7 +396,6 @@ assessment#:#action#:#Aktion
 assessment#:#add_circle#:#Kreis hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#tst_msg_rand_quest_set_not_sync#:#Die Regeln zur zufälligen Ziehung von Fragen wurden neu erstellt oder verändert. Die Fragen müssen erneut aus den Fragenpools in den Test kopiert werden. Bei diesem Vorgang wird auch eine Prüfung durchgeführt, ob der Regelsatz für Zufallsziehungen erfüllbar ist.
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#Die Synchronisierung kopiert alle Fragen, welche auf die Kriterien der Ziehungsregeln zutreffen. Dies kann für große Pools einige Minuten dauern.
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
@@ -855,11 +854,11 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für d
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfiguration des Tests mit zufälliger Fragenauswahl wurde erfolgreich synchronisiert.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronisiere Fragen aus den Pools
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: %s
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.</b><br />
-assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen:<br />%s
-assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Die nicht verfügbaren Fragenpools können unter dem Unterreiter %s neu abgeleitet werden.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen. Die nicht verfügbaren Fragenpools können neu abgeleitet werden.<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Öffne Auswahl der Fragenpools
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
@@ -1091,7 +1090,7 @@ assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
-assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline (nicht aktiviert).
+assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline.
 assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
@@ -3244,8 +3243,8 @@ common#:#message#:#Nachricht
 common#:#message_content#:#Inhalt
 common#:#message_no_delivered_files#:#Sie haben noch keine Datei abgegeben.
 common#:#meta_data#:#Metadaten
-common#:#mgs_objects_linked_to_the_following_folders_p#:#Die Objekte wurden in folgende Bereiche verknüpft: %s
-common#:#mgs_objects_linked_to_the_following_folders_s#:#Das Objekt wurde in folgende Bereiche verknüpft: %s
+common#:#mgs_objects_linked_to_the_following_folders_p#:#Die Objekte wurden in folgende Bereiche verknüpft.
+common#:#mgs_objects_linked_to_the_following_folders_s#:#Das Objekt wurde in folgende Bereiche verknüpft.
 common#:#migrate#:#Migrieren
 common#:#minute#:#Minute
 common#:#minutes#:#Minuten
@@ -7487,7 +7486,7 @@ prtf#:#prtf_create_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_default_portfolio#:#Mein Profil
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
-prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage %s
+prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage.
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
@@ -10399,7 +10398,9 @@ common#:#edited_on#:#Bearbeitet am
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_tos#:#Nutzungsvereinbarungen
 tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt.
-tos#:#tos_agreement_by_lng#:#Nutzungsvereinbarungen
+tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt.
+tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
+tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
 tos#:#tos_agreement_exists#:#Vorhanden
 tos#:#tos_agreement_missing#:#Nicht vorhanden
@@ -10409,9 +10410,8 @@ tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_status_enable#:#Aktivieren
 tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die evtl. für die SOAP-Web-Services, den Chat-Server, oder Cron-Jobs genutzt werden.
-tos#:#tos_reset_successfull#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
-user#:#tos_show_signed_text#:#Zeige Details
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die z.B. für die SOAP Web-Services genutzt werden.
+tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
 user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#tos_accepted_content#:#Akzeptierter Text
 tos#:#tos_last_modified#:#Letzte Änderung
@@ -10419,9 +10419,56 @@ tos#:#tos_acceptance_history#:#Zustimmungshistorie
 tos#:#tos_period#:#Zeitraum
 tos#:#tos_period_from#:#Von
 tos#:#tos_period_until#:#Bis
-tos#:#tos_acceptance_datetime#:#Datum
-tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
-tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor. Daher können Sie die den Service nicht aktivieren.
+tos#:#tos_form_new_doc_head#:#Dokument erstellen
+tos#:#tos_form_edit_doc_head#:#Dokument bearbeiten
+tos#:#tos_form_document_title#:#Titel
+tos#:#tos_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
+tos#:#tos_form_document#:#Dokument
+tos#:#tos_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
+tos#:#tos_form_document_new#:#Inhalt ändern
+tos#:#tos_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht, die Historie ist davon nicht betroffen.
+tos#:#tos_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+tos#:#tos_disabled_no_docs_left#:#Die Nutzungsvereinbarungen wurden deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarungen wieder aktivieren.  
+tos#:#tos_tbl_docs_title#:#Dokumente
+tos#:#tos_tbl_docs_head_sorting#:#Sortierung
+tos#:#tos_tbl_docs_head_title#:#Titel
+tos#:#tos_tbl_docs_head_created#:#Erstellungsdatum
+tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
+tos#:#tos_tbl_docs_head_criteria#:#Kriterien
+tos#:#tos_tbl_docs_action_add_criterion#:#Kriterium hinzufügen
+tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Kriterium zugewiesen
+tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Kriterium zugewiesen
+tos#:#tos_doc_detach_crit_confirm_title#:#Kriterium entfernen
+tos#:#tos_doc_delete#:#Dokument löschen
+tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Kriterium entfernt werden soll?
+tos#:#tos_doc_crit_detached#:#Das Kriterium wurde entfernt.
+tos#:#tos_doc_crit_attached#:#Das Kriterium wurde zugewiesen.
+tos#:#tos_doc_crit_changed#:#Das Kriterium wurde aktualisiert.
+tos#:#tos_form_attach_criterion_head#:#Kriterium hinzufügen
+tos#:#tos_form_edit_criterion_head#:#Kriteriumzuweisung bearbeiten
+tos#:#tos_form_criterion#:#Kriterium
+tos#:#tos_form_criterion_info#:#Bitte wählen Sie ein entsprechendes Kriterium für das Dokument.
+tos#:#tos_document#:#Dokument
+tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
+tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
+tos#:#tos_deleted_documents_s#:#Das Dokument wurde gelöscht.
+tos#:#tos_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
+tos#:#tos_no_documents_exist#:#Aktuell liegen keine Nutzungsvereinbarungsdokumente vor.
+tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
+tos#:#tos_saved_sorting#:#Die Sortierung wurde gespeichert.
+tos#:#tos_tbl_hist_head_acceptance_date#:#Datum
+tos#:#tos_tbl_hist_head_login#:#Benutzername
+tos#:#tos_tbl_hist_head_firstname#:#Vorname
+tos#:#tos_tbl_hist_head_lastname#:#Nachname
+tos#:#tos_tbl_hist_head_document#:#Dokument
+tos#:#tos_tbl_hist_head_criteria#:#Kriterien
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Kriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.  
+tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Kriteriums nicht wie gewünscht ändern.  Es existiert bereits eine identische Zuweisung.
+tos#:#tos_crit_type_usr_global_role#:#Benutzer hat Globale Rolle
+tos#:#tos_crit_type_usr_global_role_info#:#Das Kriterium gilt als erfüllt, wenn ein Benutzer der hier gewählten Rolle zugewiesen ist.
+tos#:#tos_crit_type_usr_language#:#Profilesprache
+tos#:#tos_crit_type_usr_language_info#:#Das Kriterium gilt als erfüllt, wenn die hier gewählte Sprache im Benutzerprofil eingestellt ist. Bitte beachten Sie, dass Sie nur ein Kriterium dieses Typs hinzufügen können.
+tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
@@ -13126,6 +13173,9 @@ buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 common#:#obj_prgs#:#Studienprogramme
 forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
 forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
+forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
+forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
+forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht.
 meta#:#meta_advmd_select_options#:#Einträge
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
 search#:#btn_search#:#Suchen
@@ -14314,6 +14364,8 @@ copa#:#copa_copy#:#Inhaltsseite kopieren
 copa#:#copa_add#:#Inhaltsseite hinzufügen
 copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
+copa#:#copa_btn_lp_toggle_state_completed#:#Auf nicht bearbeitet setzen
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf bearbeitet setzen
 adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
@@ -14369,7 +14421,7 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
@@ -14395,6 +14447,75 @@ wiki#:#wiki_team_members#:#Teammitglieder
 wiki#:#wiki_exc_wiki_created#:#Wiki wurde erstellt
 wiki#:#wiki_exc_template#:#Wikivorlage
 wiki#:#wiki_download_submission#:#Abgabedatei herunterladen
+news#:#news_new_reactions#:#Neue Reaktionen
+news#:#news_new_comments#:#Neue Kommentare
+like#:#reaction#:#Reaktion
+common#:#like#:#Like
+common#:#love#:#Love
+common#:#dislike#:#Dislike
+common#:#laugh#:#Laugh
+common#:#astounded#:#Astounded
+common#:#sad#:#Sad
+common#:#angry#:#Angry
+news#:#news_media#:#Mediendatei
+like#:#like#:#Like
+notes#:#notes_latest_comment#:#Letzter Kommentar
+notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
+mep#:#mep_media_files#:#Mediendateien
+mep#:#mep_bulk_upload#:#Massen-Upload
+mep#:#mep_mob#:#Medienobjekt
+book#:#book_booking_reminders#:#Anstehende Reservierungen
+book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
+book#:#book_your_reservations#:#Ihre Reservierungen
+book#:#book_reservation_overview#:#Reservierungen anderer Benutzer
+book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
+book#:#book_reminder_setting#:#Reminder
+book#:#book_reminder_day#:#Vor der Reservierung
+book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
+book#:#book_reminder_days#:#Tag(e)
+noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
+noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
+noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
+noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+book#:#book_notification#:#Benachrichtigungen über Reservierungen
+book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
+skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_all#:#Alle
+skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
+prtf#:#prtf_copy_tab#:#Reiter kopieren
+prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
+prtf#:#prtf_edit_content#:#Inhalt bearbeiten
+prtf#:#prtf_set_online#:#Online setzen
+prtf#:#prtf_set_offline#:#Offline setzen
+prtf#:#prtf_no_submission#:#Keine Abgabe
+prtf#:#prtf_submission_on#:#Abgabe am $1
+prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden bevor es für bestimmte Benutzer freigegeben werden kann.
+prtf#:#prtf_has_been_set_online#:#Das Portfolio wurde online gesetzt.
+user#:#user_prompting_recurrence#:#Häufigkeit
+user#:#user_prompting_settings#:#Aufforderung Profilkonfiguration
+user#:#user_prompt_incomplete#:#Nur wenn unvollständig
+user#:#user_prompt_incomplete_info#:#Dem Benutzer wird sein Profil nach dem Login angezeigt, wenn es leere Pflichtfelder enthält.
+user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
+user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer aufgefordert sein Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
+user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
+user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
+user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den Standard-Infotext, falls der Benutzer zur Konfiguration des Profils aufgefordert wird.
+lhist#:#lhist_first_login#:#First Login
+prtf#:#prtf_decl_authorship#:#Declaration of Authorship
+pd#:#pd_achievements#:#Achievements
+content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
+prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
+content#:#cont_ed_insert_learning_history#:#Insert Learning History
+lhist#:#lhist_all#:#All
+lhist#:#lhist_selected#:#Selected
+lhist#:#lhist_manual#:#Manual
+lhist#:#lhist_period#:#Period
+lhist#:#lhist_type_of_achievement#:#Type of Achievement
+lhist#:#cont_update_lhist#:#Edit Learning History Element
+lhist#:#cont_create_lhist#:#Create Learning History Element
+lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
+lhist#:#lhist_lhist#:#Learning History
+skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?

@@ -37,6 +37,23 @@ class ilAdvancedMDRecordGUI
 	
 	protected $editor_form; // [array]
 
+	// $adv_ref_id - $adv_type - $adv_subtype:
+	// Object, that defines the adv md records being used. Default is $this->object, but the
+	// context may set another object (e.g. media pool for media objects)
+	/**
+	 * @var int
+	 */
+	protected $adv_ref_id = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_type = null;
+	/**
+	 * @var string
+	 */
+	protected $adv_subtype = null;
+
+
 	/**
 	 * Constructor
 	 *
@@ -65,7 +82,35 @@ class ilAdvancedMDRecordGUI
 		}
 		
 	}
-	
+
+	/**
+	 * Set object, that defines the adv md records being used. Default is $this->object, but the
+	 * context may set another object (e.g. media pool for media objects)
+	 *
+	 * @param string $a_val adv type
+	 */
+	function setAdvMdRecordObject($a_adv_ref_id, $a_adv_type, $a_adv_subtype = "-")
+	{
+		$this->adv_ref_id = $a_adv_ref_id;
+		$this->adv_type = $a_adv_type;
+		$this->adv_subtype = $a_adv_subtype;
+	}
+
+	/**
+	 * Get adv md record type
+	 *
+	 * @return array adv type
+	 */
+	function getAdvMdRecordObject()
+	{
+		if ($this->adv_type == null)
+		{
+			return [$this->ref_id, $this->obj_type, $this->sub_type];
+		}
+		return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
+	}
+
+
 	/**
 	 * Set ref_id for context. In case of object creations this is the reference id 
 	 * of the parent container.
@@ -699,7 +744,8 @@ class ilAdvancedMDRecordGUI
 	protected function getActiveRecords()
 	{
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		return ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type);
+		list ($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
+		return ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype);
 	}
 	
 	/**
@@ -795,12 +841,15 @@ class ilAdvancedMDRecordGUI
 	 * Parse property for table head
 	 */
 	private function parseTableHead()
-	{	 	
-	 	foreach($this->getActiveRecords() as $record_obj)
-	 	{
-	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
-	 		{
+	{
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		foreach($this->getActiveRecords() as $record_obj)
+		{
+			$record_id = $record_obj->getRecordId();
+
+			$defs = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
+			foreach($defs as $def)
+			{
 	 			if($this->handleECSDefinitions($def))
 	 			{
 	 				continue;
@@ -817,14 +866,16 @@ class ilAdvancedMDRecordGUI
 	private function parseTableCells()
 	{	 	
 	 	$data = $this->getRowData();
-	 	
 	 	$html = "";
-	 	
-	 	foreach($this->getActiveRecords() as $record_obj)
-	 	{
-	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
-	 		{
+
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		foreach($this->getActiveRecords() as $record_obj)
+		{
+			$record_id = $record_obj->getRecordId();
+
+			$defs = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
+			foreach($defs as $def)
+			{
 	 			if($this->handleECSDefinitions($def))
 	 			{
 	 				continue;

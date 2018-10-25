@@ -28,16 +28,36 @@ abstract class ilAbstractLearningHistoryProvider
 	protected $lng;
 
 	/**
+	 * @var ilTemplate|null
+	 */
+	private $template;
+
+	/**
 	 * Constructor
 	 * @param int $user_id
 	 * @param ilLearningHistoryFactory $factory
-	 * @param iLanguage $lng
+	 * @param ilLanguage $lng
+	 * @param ilTemplate|null $template
 	 */
-	public function __construct($user_id, ilLearningHistoryFactory $factory, ilLanguage $lng)
-	{
+	public function __construct(
+		$user_id,
+		ilLearningHistoryFactory $factory,
+		ilLanguage $lng,
+		ilTemplate $template = null
+	) {
 		$this->user_id = $user_id;
 		$this->factory = $factory;
 		$this->lng = $lng;
+
+		if ($template === null) {
+			$template = new ilTemplate(
+				'tpl.emphasized_title.php',
+				true,
+				true,
+				'Services/LearningHistory'
+			);
+		}
+		$this->template = $template;
 	}
 
 	/**
@@ -79,9 +99,8 @@ abstract class ilAbstractLearningHistoryProvider
 	 */
 	protected function getEmphasizedTitle($title)
 	{
-		$tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "Services/LearningHistory");
-		$tpl->setVariable("TITLE", $title);;
-		return $tpl->get();
+		$this->template->setVariable("TITLE", $title);
+		return $this->template->get();
 	}
 
 

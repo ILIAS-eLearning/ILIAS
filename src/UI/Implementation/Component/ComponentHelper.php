@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation\Component;
 
+use ILIAS\UI\Component\Signal;
+
 /**
  * Provides common functionality for component implementations.
  */
@@ -84,6 +86,21 @@ trait ComponentHelper {
 	 */
 	protected function checkStringArg($which, $value) {
 		$this->checkArg($which, is_string($value), $this->wrongTypeMessage("string", $value));
+	}
+
+	/**
+	 * Throw an InvalidArgumentException if $value is no string or Signal.
+	 *
+	 * @param	string	$which
+	 * @param	mixed	$value
+	 * @throws	\InvalidArgumentException	if $value is no string or Signal
+	 * @return null
+	 */
+	protected function checkStringOrSignalArg($which, $value) {
+		$this->checkArg(
+			$which,
+			is_string($value) || $value instanceof Signal,
+			$this->wrongTypeMessage("string or Signal", gettype($value)));
 	}
 
 	/**

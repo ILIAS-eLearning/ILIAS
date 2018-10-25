@@ -8,14 +8,11 @@
  * @package SimpleSAMLphp
  */
 
-
 use JaimePerez\TwigConfigurableI18n\Twig\Environment as Twig_Environment;
 use JaimePerez\TwigConfigurableI18n\Twig\Extensions\Extension\I18n as Twig_Extensions_Extension_I18n;
 
-
 class SimpleSAML_XHTML_Template
 {
-
     /**
      * The data associated with this template, accessible within the template itself.
      *
@@ -157,7 +154,7 @@ class SimpleSAML_XHTML_Template
     /**
      * Set up the places where twig can look for templates.
      *
-     * @return Twig_Loader_Filesystem|false The twig template loader or false if the template does not exist.
+     * @return Twig_Loader_Filesystem The twig template loader or false if the template does not exist.
      * @throws Twig_Error_Loader In case a failure occurs.
      */
     private function setupTwigTemplatepaths()
@@ -247,6 +244,16 @@ class SimpleSAML_XHTML_Template
         }
         $twig->addGlobal('queryParams', $queryParams);
         $twig->addGlobal('templateId', str_replace('.twig', '', $this->normalizeTemplateName($this->template)));
+        $twig->addGlobal('isProduction', $this->configuration->getBoolean('production', true));
+
+        // add a filter for translations out of arrays
+        $twig->addFilter(
+            new \Twig_SimpleFilter(
+                'translateFromArray',
+                array('\SimpleSAML\Locale\Translate', 'translateFromArray'),
+                array('needs_context' => true)
+            )
+        );
 
         if ($this->controller) {
             $this->controller->setUpTwig($twig);
@@ -269,9 +276,9 @@ class SimpleSAML_XHTML_Template
         // setup directories & namespaces
         $themeDir = \SimpleSAML\Module::getModuleDir($this->theme['module']).'/themes/'.$this->theme['name'];
         $subdirs = scandir($themeDir);
-        if (!$subdirs) { // no subdirectories in the theme directory, nothing to do here
+        if (empty($subdirs)) { // no subdirectories in the theme directory, nothing to do here
             // this is probably wrong, log a message
-            \SimpleSAML\Logger::warning('Emtpy theme directory for theme "'.$this->theme['name'].'".');
+            \SimpleSAML\Logger::warning('Empty theme directory for theme "'.$this->theme['name'].'".');
             return array();
         }
 
@@ -306,7 +313,6 @@ class SimpleSAML_XHTML_Template
         $templatedir = $moduledir.'/templates';
         if (!is_dir($templatedir)) {
             throw new InvalidArgumentException('The module \''.$module.'\' has no templates directory.');
-
         }
         return $templatedir;
     }
@@ -442,7 +448,7 @@ class SimpleSAML_XHTML_Template
      */
     private function findTemplatePath($template, $throw_exception = true)
     {
-        assert('is_string($template)');
+        assert(is_string($template));
 
         list($templateModule, $templateName) = $this->findModuleAndTemplateName($template);
         $templateModule = ($templateModule !== null) ? $templateModule : 'default';
@@ -694,7 +700,7 @@ class SimpleSAML_XHTML_Template
      * @see \SimpleSAML\Locale\Translate::noop()
      * @deprecated This method will be removed in SSP 2.0. Please use \SimpleSAML\Locale\Translate::noop() instead.
      */
-    static public function noop($tag)
+    public static function noop($tag)
     {
         return $tag;
     }

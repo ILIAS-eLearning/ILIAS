@@ -417,10 +417,11 @@ class AuthnRequest extends Request
      * For backward compatibility, an idpEntries can also
      * be a string instead of an array, where each string
      * is mapped to the value of attribute ProviderID.
+     *
+     * @param array List of idpEntries to scope the request to.
      */
-    public function setIDPList($IDPList)
+    public function setIDPList(array $IDPList)
     {
-        assert(is_array($IDPList));
         $this->IDPList = $IDPList;
     }
 
@@ -445,7 +446,7 @@ class AuthnRequest extends Request
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getProxyCount()
     {
@@ -761,7 +762,7 @@ class AuthnRequest extends Request
                                 'ProviderID',
                                 'Loc',
                                 'Name'
-                            ))) {
+                            ), true)) {
                                 $idpEntry->setAttribute($attribute, $value);
                             }
                         }

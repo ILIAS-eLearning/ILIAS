@@ -27,6 +27,9 @@ class ilAccountRegistrationGUI
 	protected $code_enabled; // [bool]
 	protected $code_was_used; // [bool]
 
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
+
 	public function __construct()
 	{
 		global $DIC;
@@ -46,7 +49,9 @@ class ilAccountRegistrationGUI
 		$this->registration_settings = new ilRegistrationSettings();
 		
 		$this->code_enabled = ($this->registration_settings->registrationCodeRequired() ||
-			$this->registration_settings->getAllowCodes());	
+			$this->registration_settings->getAllowCodes());
+
+		$this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
 	}
 
 	public function executeCommand()
@@ -110,7 +115,10 @@ class ilAccountRegistrationGUI
 
 		$lng = $DIC['lng'];
 		$ilUser = $DIC['ilUser'];
-		
+
+		$ilUser->setLanguage($lng->getLangKey());
+		$ilUser->setId(ANONYMOUS_USER_ID);
+
 		// needed for multi-text-fields (interests)
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
@@ -223,16 +231,15 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
-		{
+		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
+			$document = $this->termsOfServiceEvaluation->document();
+
 			$field = new ilFormSectionHeaderGUI();
 			$field->setTitle($lng->txt('usr_agreement'));
 			$this->form->addItem($field);
 
 			$field = new ilCustomInputGUI();
-			$field->setHTML('<div id="agreement">' . $document->getContent() . '</div>');
+			$field->setHTML('<div id="agreement">' . $document->content() . '</div>');
 			$this->form->addItem($field);
 
 			$field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
@@ -354,18 +361,15 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 
-		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
-		{
+		$showGlobalTermsOfServieFailure  = false;
+		if (\ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
 			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
-			if($agr_obj)
-			{
+			if ($agr_obj) {
 				$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
+				$form_valid = false;
+			} else {
+				$showGlobalTermsOfServieFailure = true;
 			}
-			else
-			{
-				ilUtil::sendFailure($lng->txt('force_accept_usr_agreement'));
-			}
-			$form_valid = false;
 		}
 
 		// no need if role is attached to code
@@ -418,9 +422,16 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 
-		if(!$form_valid)
+		if (!$form_valid)
 		{
 			ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+		}
+		elseif($showGlobalTermsOfServieFailure) {
+			$this->lng->loadLanguageModule('tos');
+			\ilUtil::sendFailure(sprintf(
+				$this->lng->txt('tos_account_reg_not_possible'),
+				'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+			));
 		}
 		else
 		{
@@ -647,11 +658,16 @@ class ilAccountRegistrationGUI
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		ilTermsOfServiceHelper::trackAcceptance($this->userObj, ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng));
-
 		// setup user preferences
 		$this->userObj->setLanguage($this->form->getInput('usr_language'));
+
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$helper = new \ilTermsOfServiceHelper();
+
+			$helper->trackAcceptance($this->userObj, $this->termsOfServiceEvaluation->document());
+		}
+
 		$hits_per_page = $ilSetting->get("hits_per_page");
 		if ($hits_per_page < 10)
 		{

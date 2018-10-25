@@ -11,6 +11,10 @@
 class ilTestRandomQuestionSetConfigStateMessageHandler
 {
 	/**
+	 * @var ILIAS\DI\Container
+	 */
+	protected $DIC;
+	/**
 	 * @var ilLanguage
 	 */
 	protected $lng;
@@ -63,6 +67,9 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	 */
 	public function __construct(ilLanguage $lng, ilCtrl $ctrl)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->DIC = $DIC;
+		
 		$this->lng = $lng;
 		$this->ctrl = $ctrl;
 		$this->validationFailed = false;
@@ -197,7 +204,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         }
         elseif( $this->getLostPools() )
 		{
-			$this->addValidationReport( $this->buildLostPoolsReport() );
+			$this->populateMessage( $this->buildLostPoolsReportMessage() );
 		}
 		elseif( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
 		{
@@ -227,9 +234,10 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		// fau: delayCopyRandomQuestions - show info message if date of last synchronisation is empty
 		elseif ($this->questionSetConfig->getLastQuestionSyncTimestamp() == 0)
 		{
-			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_not_sync') );
-			$this->addValidationReport( "<br />{$this->buildQuestionStageRebuildLink()}" );
-			$this->addValidationReport( "<br><small>".$this->lng->txt('tst_msg_rand_quest_set_sync_duration')."</small>" );
+			$message = $this->DIC->language()->txt('tst_msg_rand_quest_set_not_sync');
+			$button = $this->buildQuestionStageRebuildButton();
+			$msgBox = $this->DIC->ui()->factory()->messageBox()->info($message)->withButtons(array($button));
+			$this->populateMessage($this->DIC->ui()->renderer()->render($msgBox));
 		}
 		// fau.
 
@@ -242,35 +250,30 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 			$this->addValidationReport( implode('<br />', $this->questionSetConfig->getBuildableMessages()) );
 			//fau.
 		}
-		else
+		elseif( $this->questionSetConfig->getLastQuestionSyncTimestamp() )
 		{
-			//fau: fixRandomTestBuildable - show the messages if set is buildable but messages exist
-			#if (count($this->questionSetConfig->getBuildableMessages()))
-			#{
-                //$this->setValidationFailed(true);
-
-				// REALLY REQUIRED !?? vielleicht doch?
-				//ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
-			#}
-			//fau.
+			$message = $this->lng->txt('tst_msg_rand_quest_set_pass_buildable');
 			
-			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_pass_buildable') );
+			$syncDate = new ilDateTime(
+				$this->questionSetConfig->getLastQuestionSyncTimestamp(), IL_CAL_UNIX
+			);
 			
-			if( $this->questionSetConfig->getLastQuestionSyncTimestamp() )
-			{
-				$syncDate = new ilDateTime(
-					$this->questionSetConfig->getLastQuestionSyncTimestamp(), IL_CAL_UNIX
-				);
-				
-				$this->addValidationReport( sprintf( $this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'),
-					ilDatePresentation::formatDate($syncDate)
-				));
-			}
-
+			$message .= sprintf( $this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'),
+				ilDatePresentation::formatDate($syncDate)
+			);
+			
 			if( !$this->doesParticipantDataExists() && !$this->getLostPools() )
 			{
-				$this->addValidationReport( $this->buildQuestionStageRebuildLink() );
+				$msgBox = $this->DIC->ui()->factory()->messageBox()->info($message)->withButtons(
+					array($this->buildQuestionStageRebuildButton())
+				);
 			}
+			else
+			{
+				$msgBox = $this->DIC->ui()->factory()->messageBox()->info($message);
+			}
+			
+			$this->populateMessage($this->DIC->ui()->renderer()->render($msgBox));
 		}
 	}
 	
@@ -300,12 +303,11 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 				return ilTestRandomQuestionSetConfigGUI::CMD_SHOW_GENERAL_CONFIG_FORM;
 		}
 	}
-
+	
 	/**
-	 * @param $afterRebuildQuestionStageCmd
-	 * @return string
+	 * @return \ILIAS\UI\Component\Button\Standard
 	 */
-	private function buildQuestionStageRebuildLink()
+	private function buildQuestionStageRebuildButton()
 	{
 		$this->ctrl->setParameter( $this->getTargetGUI(),
 			ilTestRandomQuestionSetConfigGUI::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD,
@@ -317,7 +319,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		);
 		$label = $this->lng->txt('tst_btn_rebuild_random_question_stage');
 
-		return "<a href=\"{$href}\">{$label}</a>";
+		return $this->DIC->ui()->factory()->button()->standard($label, $href);
 	}
 
 	private function buildGeneralConfigSubTabLink()
@@ -402,7 +404,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	/**
 	 * @return string
 	 */
-	protected function buildLostPoolsReport()
+	protected function buildLostPoolsReportMessage()
 	{
 		$report = sprintf(
 			$this->lng->txt('tst_msg_rand_quest_set_lost_pools'), $this->buildLostQuestionPoolsString()
@@ -410,25 +412,31 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		
 		if ($this->getContext() == self::CONTEXT_GENERAL_CONFIG)
 		{
-			$report .= '<br /><br />' . sprintf(
-				$this->lng->txt('tst_msg_rand_quest_set_lost_pools_link'), $this->buildQuestionPoolsTabLink()
+			$action = $this->ctrl->getLinkTarget(
+				$this->getTargetGUI(), ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST
 			);
+			
+			$link = $this->DIC->ui()->factory()->link()->standard(
+				$this->lng->txt('tst_msg_rand_quest_set_lost_pools_link'), $action
+			);
+			
+			$msgBox = $this->DIC->ui()->factory()->messageBox()->info($report)->withLinks(array($link));
+		}
+		else
+		{
+			$msgBox = $this->DIC->ui()->factory()->messageBox()->info($report);
 		}
 		
-		return $report;
+		return $this->DIC->ui()->renderer()->render($msgBox);
 	}
 	
 	/**
-	 * @return string
+	 * @param $message
 	 */
-	protected function buildQuestionPoolsTabLink()
+	protected function populateMessage($message)
 	{
-		$href = $this->ctrl->getLinkTarget( $this->getTargetGUI(),
-			ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST
-		);
-		
-		$label = $this->getTargetGUI()->getPoolConfigTabLabel();
-		
-		return "<a href=\"{$href}\">{$label}</a>";
+		$this->DIC->ui()->mainTemplate()->setCurrentBlock('mess');
+		$this->DIC->ui()->mainTemplate()->setVariable('MESSAGE', $message);
+		$this->DIC->ui()->mainTemplate()->parseCurrentBlock();
 	}
 }

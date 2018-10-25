@@ -205,7 +205,8 @@ class Container extends \Pimple\Container {
 	/**
 	 * @return \ilLearningHistoryService
 	 */
-	public function learningHistory() {
+	public function learningHistory()
+	{
 		return new \ilLearningHistoryService(
 			$this->user(),
 			$this->language(),
@@ -213,6 +214,13 @@ class Container extends \Pimple\Container {
 			$this->access(),
 			$this->repositoryTree()
 		);
+	}
+
+	/**
+	 * @return \ilNewsService
+	 */
+	public function news() {
+		return new \ilNewsService($this->language(), $this->settings(), $this->user());
 	}
 
 	/**
