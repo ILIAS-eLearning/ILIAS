@@ -49,8 +49,8 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Numeric) {
-			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Select) {
+			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -244,7 +244,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return [
 			Component\Input\Field\Text::class,
-			Component\Input\Field\Numeric::class,
+			Component\Input\Field\Select::class,
 			Component\Input\Field\Group::class
 		];
 	}
