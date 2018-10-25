@@ -396,6 +396,15 @@ class ilMDCopyrightSelectionEntry
 		return $this->order_position;
 	}
 
+	protected function getNextOrderPosition()
+	{
+		$query = "SELECT count(entry_id) total FROM il_md_cpr_selections";
+		$res = $this->db->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+
+		return $row['total'] + 1;
+	}
+
 	/**
 	 * Add entry
 	 *
@@ -416,7 +425,8 @@ class ilMDCopyrightSelectionEntry
 	 		'copyright'			=> array('clob',$this->getCopyright()),
 	 		'language'			=> array('text',$this->getLanguage()),
 	 		'costs'				=> array('integer',$this->getCosts()),
-	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions())
+	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions()),
+			'position'			=> array('integer', $this->getNextOrderPosition())
 	 	));
 	 	$this->entry_id = $next_id;
 		return true;
