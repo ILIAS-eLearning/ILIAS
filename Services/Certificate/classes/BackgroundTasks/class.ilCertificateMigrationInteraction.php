@@ -75,7 +75,12 @@ class ilCertificateMigrationInteraction extends AbstractUserInteraction
 			return $input;
 		}
 
-		$DIC->ctrl()->redirectByClass(['ilPersonalDesktopGUI', 'ilLearningHistoryGUI', 'ilUserCertificateGUI'], 'listCertificates');
+		$DIC->ctrl()->redirectByClass([
+			'ilPersonalDesktopGUI',
+			'ilAchievementsGUI',
+			'ilLearningHistoryGUI',
+			'ilUserCertificateGUI'
+		], 'listCertificates');
 
 		return $input;
 	}
