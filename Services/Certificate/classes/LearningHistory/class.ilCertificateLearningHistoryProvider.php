@@ -34,6 +34,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 * @param int $user_id
 	 * @param ilLearningHistoryFactory $factory
 	 * @param ilLanguage $lng
+	 * @param ilTemplate|null $template
 	 * @param \ILIAS\DI\Container|null $dic
 	 * @param ilUserCertificateRepository|null $userCertificateRepository
 	 * @param ilCtrl $controller
@@ -45,6 +46,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 		int $user_id,
 		ilLearningHistoryFactory $factory,
 		ilLanguage $lng,
+		ilTemplate $template = null,
 		\ILIAS\DI\Container $dic = null,
 		ilUserCertificateRepository $userCertificateRepository = null,
 		ilCtrl $controller = null,
@@ -54,7 +56,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	) {
 		$lng->loadLanguageModule("cert");
 
-		parent::__construct($user_id, $factory, $lng);
+		parent::__construct($user_id, $factory, $lng, $template);
 
 		if (null === $dic) {
 			global $DIC;
