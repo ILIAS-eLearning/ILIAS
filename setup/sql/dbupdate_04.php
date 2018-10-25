@@ -23735,7 +23735,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5341>
 <?php
-if(!$ilDB->tableExists('certificate_template')) {
+if($ilDB->tableExists('certificate_template')) {
 	// Insert all current templates as database entries
 	$web_path = CLIENT_WEB_DIR;
 
@@ -23743,7 +23743,7 @@ if(!$ilDB->tableExists('certificate_template')) {
 		'exc' => '/exercise/certificates/',
 		'crs' => '/course/certificates/',
 		'tst' => '/assessment/certificates/',
-		'sahs' => '/assessment/certificates/'
+		'sahs' => '/certificates/scorm/'
 	);
 
 	foreach ($directories as $type => $relativePath) {
