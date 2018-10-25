@@ -320,7 +320,8 @@ class ilUserCertificateGUI
 				$listSections[$this->language->txt('cert_description_label')] = $certificateData['description'];
 
 				$card = $this->uiFactory
-					->card($certificateData['title'], $cardImage)
+					->card()
+					->standard($certificateData['title'], $cardImage)
 					->withSections([
 						$this->uiFactory->listing()->descriptive($listSections)
 					]);
