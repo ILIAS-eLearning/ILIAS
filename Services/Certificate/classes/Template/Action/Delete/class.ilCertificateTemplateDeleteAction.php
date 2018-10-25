@@ -81,7 +81,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 			'',
 			hash('sha256', ''),
 			'',
-			$template->getVersion() + 1,
+			(int) $template->getVersion() + 1,
 			$this->iliasVersion,
 			time(),
 			false,
