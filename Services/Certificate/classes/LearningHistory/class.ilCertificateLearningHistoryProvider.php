@@ -147,4 +147,13 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 
 		return $entries;
 	}
+
+	/**
+	 * Get name of provider (in user language)
+	 * @return string
+	 */
+	function getName(): string
+	{
+		return $this->lng->txt('certificates');
+	}
 }
