@@ -94,6 +94,9 @@ il.UI = il.UI || {};
             if (addableInputs == 0) {
                 $("#" + id).parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").hide();
             }
+
+            //Hide the Popover of the Add-Button when adding Input Field
+            $("#" + id).parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").find(".il-popover").hide();
         };
 
 		/**
@@ -117,4 +120,11 @@ $(document).ready(function() {
     if (addableInputs == 0) {
         $(".btn-bulky").parents(".il-popover-container").hide();
     }
+
+    $(".il-filter-field").keydown(function (event) {
+        var key = event.which;
+        if ((key === 13) || (key === 32)) {	// 13 = Return, 32 = Space
+            $(this).click();
+        }
+    });
 });
