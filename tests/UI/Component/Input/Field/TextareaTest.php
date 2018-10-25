@@ -245,4 +245,15 @@ class TextareaTest extends ILIAS_UI_TestBase {
 		$expected = trim(preg_replace('/\t+/', '', $expected));
 		$this->assertEquals($expected, $html);
 	}
+
+	public function test_stripsTags() {
+		$f = $this->buildFactory();
+		$name = "name_0";
+		$text = $f->textarea("")
+			->withNameFrom($this->name_source)
+			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+
+		$content = $text->getContent();
+		$this->assertEquals("alert()", $content->value());
+	}
 }
