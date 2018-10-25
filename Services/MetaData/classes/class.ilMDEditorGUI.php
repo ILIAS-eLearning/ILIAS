@@ -585,6 +585,12 @@ class ilMDEditorGUI
 				$copyright_entry->getDescription()
 			);
 
+			if($copyright_entry->getOutdated())
+			{
+				$radio_entry->setTitle("(".$this->lng->txt('meta_copyright_outdated').") ".$radio_entry->getTitle());
+				$radio_entry->setDisabled(true);
+			}
+
 			if(
 				$oer_settings->supportsHarvesting($this->md_obj->getObjType()) &&
 				$oer_settings->isActiveCopyrightTemplate($copyright_entry->getEntryId())
