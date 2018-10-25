@@ -67,28 +67,6 @@ class ilUIFilterService
 		}
 
 
-		$input_id = 0;
-
-		/*if ($_REQUEST["cmdFilter"] == "apply") {
-			foreach ($is_input_rendered as $i) {
-				if ($i == true) {
-					ilSession::set("ui_service_filter_is_input_rendered_" . $input_id . "_" . $filter_id, true);
-				} else {
-					ilSession::set("ui_service_filter_is_input_rendered_" . $input_id . "_" . $filter_id, false);
-				}
-				$input_id++;
-			}
-		}*/
-
-		if ($_REQUEST["cmdFilter"] == "reset") {
-			foreach ($is_input_rendered as $i) {
-					ilSession::clear("ui_service_filter_is_input_rendered_" . $input_id . "_" . $filter_id);
-				$input_id++;
-			}
-		}
-
-		// alternative $_SESSION["ui"]["filter"][$input_id] = "";
-
 
 
 		// get data from session
@@ -103,15 +81,44 @@ class ilUIFilterService
 
 
 		//compose a new array because rendering of inputs has eventually changed
-		if (ilSession::get("ui_service_filter_is_input_rendered_0" . "_" . $filter_id) != null) {
-			$is_input_rendered = array();
-			for ($i = 0; $i <= $input_id; $i++) {
-				$is_input_rendered[] = ilSession::get("ui_service_filter_is_input_rendered_" . $i . "_" . $filter_id);
-			}
-		}
+		//if (ilSession::get("ui_service_filter_is_input_rendered_0" . "_" . $filter_id) != null) {
+		//	$is_input_rendered = array();
+		//	for ($i = 0; $i <= $input_id; $i++) {
+		//		$is_input_rendered[] = ilSession::get("ui_service_filter_is_input_rendered_" . $i . "_" . $filter_id);
+		//	}
+		//}
 
 
 		// create the KS Filter
+
+
+		$request = $DIC->http()->request();
+
+		// clear session, if reset is pressed
+		if ($_REQUEST["cmdFilter"] == "reset")
+		{
+			if (is_array($_SESSION["ui"]["filter"][$filter_id]))
+			{
+				unset($_SESSION["ui"]["filter"][$filter_id]);
+			}
+		}
+
+		// put data from session into filter
+		$inputs_with_session_data = [];
+		foreach ($inputs as $input_id => $i)
+		{
+			if (isset($_SESSION["ui"]["filter"][$filter_id][$input_id]["value"]))
+			{
+				$val = unserialize($_SESSION["ui"]["filter"][$filter_id][$input_id]["value"]);
+				if (!is_null($val))
+				{
+					$i = $i->withValue($val);
+					//var_dump($input_id);
+					//var_dump($val); exit;
+				}
+			}
+			$inputs_with_session_data[$input_id] = $i;
+		}
 
 		$filter = $ui->input()->container()->filter()->standard(
 			$base_action."&cmdFilter=toggleOn",
@@ -120,35 +127,29 @@ class ilUIFilterService
 			$base_action."&cmdFilter=collapse",
 			$base_action."&cmdFilter=apply",
 			$base_action."&cmdFilter=reset",
-			$inputs,
+			$inputs_with_session_data,
 			$is_input_rendered,
 			$is_activated,
 			$is_expanded);
 
-		// wenn request + apply, dann
-		// 1. daten aus request in form setzen
-		$request = $DIC->http()->request();
-		//if ($_REQUEST["cmdFilter"] == "apply" && $request->getMethod() == "POST") {
-		if ($request->getMethod() == "POST") {
-			//var_dump($_POST); exit;
-			//	$filter = $filter->withRequest($request);
-		//	$result = $filter->getData();
-		}
-
 		// 2. eingabe werte in session speichern
-		foreach ($filter->getInputs() as $i)
+		switch ($_REQUEST["cmdFilter"])
 		{
-			//$_SESSION["ui"]["filter"][$input_id]["value"] = serialize($i->getValue());
+			case "apply":
+				if ($request->getMethod() == "POST")
+				{
+					$filter = $filter->withRequest($request);
+					foreach ($filter->getInputs() as $input_id => $i)
+					{
+						$_SESSION["ui"]["filter"][$filter_id][$input_id]["value"] = serialize($i->getValue());
+					}
+				}
+				break;
 		}
 
-		// ansonsten (wenn nicht reset gedrückt)
-		foreach ($filter->getInputs() as $i)
-		{
-			if (isset($_SESSION["ui"]["filter"][$input_id]["value"]))
-			{
-				//$i->setValue(unserialize($_SESSION["ui"]["filter"][$input_id]["value"]));
-			}
-		}
+
+
+		//var_dump($_SESSION["ui"]["filter"][$filter_id]); exit;
 
 		return $filter;
 
@@ -165,8 +166,7 @@ class ilUIFilterService
 		global $DIC;
 		$request = $DIC->http()->request();
 		$result = null;
-		//if ($_REQUEST["cmdFilter"] == "apply" && $request->getMethod() == "POST") {
-		if ($request->getMethod() == "POST") {
+		if ($_REQUEST["cmdFilter"] == "apply" && $request->getMethod() == "POST") {
 			$filter = $filter->withRequest($request);
 			$result = $filter->getData();
 		}
