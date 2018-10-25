@@ -959,6 +959,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		require_once 'Modules/TestQuestionPool/classes/tables/class.ilKprimChoiceAnswerFreqStatTableGUI.php';
 		
 		$table = new ilKprimChoiceAnswerFreqStatTableGUI($parentGui, $parentCmd, $this->object);
+		$table->setQuestionIndex($questionIndex);
 		$table->setData($this->getAnswersFrequency($relevantAnswers,$questionIndex));
 		$table->initColumns();
 		

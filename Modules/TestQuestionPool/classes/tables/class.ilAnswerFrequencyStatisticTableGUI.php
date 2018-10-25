@@ -23,9 +23,19 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 	protected $question;
 	
 	/**
+	 * @var int
+	 */
+	protected $questionIndex;
+	
+	/**
 	 * @var bool
 	 */
 	protected $actionsColumnEnabled = false;
+	
+	/**
+	 * @var string
+	 */
+	protected $additionalHtml = '';
 	
 	/**
 	 * ilAnswerFrequencyStatisticTableGUI constructor.
@@ -67,6 +77,46 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 	public function setActionsColumnEnabled(bool $actionsColumnEnabled)
 	{
 		$this->actionsColumnEnabled = $actionsColumnEnabled;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAdditionalHtml(): string
+	{
+		return $this->additionalHtml;
+	}
+	
+	/**
+	 * @param string $additionalHtml
+	 */
+	public function setAdditionalHtml(string $additionalHtml)
+	{
+		$this->additionalHtml = $additionalHtml;
+	}
+	
+	/**
+	 * @param string $additionalHtml
+	 */
+	public function addAdditionalHtml(string $additionalHtml)
+	{
+		$this->additionalHtml .= $additionalHtml;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getQuestionIndex(): int
+	{
+		return $this->questionIndex;
+	}
+	
+	/**
+	 * @param int $questionIndex
+	 */
+	public function setQuestionIndex(int $questionIndex)
+	{
+		$this->questionIndex = $questionIndex;
 	}
 	
 	public function initColumns()
@@ -114,29 +164,55 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 	
 	protected function buildAddAnswerAction($data)
 	{
-		$l = $this->DIC->language();
-		$c = $this->DIC->ctrl();
-		$f = $this->DIC->ui()->factory();
-		$r = $this->DIC->ui()->renderer();
+		$uid = md5($data['answer']);
 		
-		$inputs = array(
-			$f->input()->field()->numeric(
-				$l->txt('tst_corr_points_field'), $l->txt('tst_corr_points_field_desc') 
-			)
+		$modal = $this->buildAddAnswerModalGui($uid, $data);
+	
+		$showModalButton = ilJsLinkButton::getInstance();
+		$showModalButton->setId('btnShow_'.$uid);
+		$showModalButton->setCaption('tst_corr_add_as_answer_btn');
+		$showModalButton->setOnClick("$('#{$modal->getId()}').modal('show')");
+			
+		// TODO: migrate stuff above to ui components when ui-form supports
+		// - presentation in ui-roundtrip
+		// - submit signals
+		
+		$uiFactory = $this->DIC->ui()->factory();
+		$uiRenderer = $this->DIC->ui()->renderer();
+		
+		$modal = $uiFactory->legacy( $modal->getHTML() );
+		$showModalButton = $uiFactory->legacy( $showModalButton->render() );
+		
+		$this->addAdditionalHtml($uiRenderer->render($modal));
+		
+		return $uiRenderer->render($showModalButton);
+	}
+	
+	protected function buildAddAnswerModalGui($uid, $data)
+	{
+		$formAction = $this->DIC->ctrl()->getFormAction(
+			$this->getParentObject(), 'addAnswerAsynch'
 		);
 		
-		$form = $f->input()->container()->form()->standard(
-			'', $inputs
-		);
+		$form = new ilAddAnswerModalFormGUI();
+		$form->setId($uid);
+		$form->setFormAction($formAction);
+		$form->setQuestionId($this->question->getId());
+		$form->setQuestionIndex($this->getQuestionIndex());
+		$form->setAnswerValue($data['answer']);
+		$form->build();
 		
-		$modal = $f->modal()->roundtrip(
-			$l->txt('tst_corr_add_as_answer_btn'), $form
-		);
+		$bodyTpl = new ilTemplate('tpl.tst_corr_addanswermodal.html', true, true, 'Modules/TestQuestionPool');
+		$bodyTpl->setVariable('BODY_UID', $uid);
+		$bodyTpl->setVariable('FORM', $form->getHTML());
+		$bodyTpl->setVariable('JS_UID', $uid);
 		
-		$button = $f->button()->standard(
-			$l->txt('tst_corr_add_as_answer_btn'), $modal->getShowSignal()
-		);
+		$modal = ilModalGUI::getInstance();
+		$modal->setId('modal_'.$uid);
+		$modal->setHeading($this->DIC->language()->txt('tst_corr_add_as_answer_btn'));
 		
-		return $r->render($modal) . $r->render($button);
+		$modal->setBody($bodyTpl->get());
+		
+		return $modal;
 	}
 }

@@ -47,19 +47,19 @@ class ilTestCorrectionsGUI
 			ilObjTestGUI::accessViolationRedirect();
 		}
 		
-		if ((int)$_GET["eqid"] && (int)$_GET["eqpl"])
+		if (isset($_GET['eqid']) && (int)$_GET["eqid"] && isset($_GET['eqpl']) && (int)$_GET["eqpl"])
 		{
 			$this->DIC->ctrl()->setParameter($this, 'qid', (int)$_GET["eqid"]);
 			$this->DIC->ctrl()->redirect($this, 'showQuestion');
 		}
 		
-		if ((int)$_GET['removeQid'])
+		if (isset($_GET['removeQid']) && (int)$_GET['removeQid'])
 		{
 			$this->DIC->ctrl()->setParameter($this, 'qid', (int)$_GET['removeQid']);
 			$this->DIC->ctrl()->redirect($this, 'confirmQuestionRemoval');
 		}
 		
-		if( isset($_GET['qid']) && (int)$_GET['qid'] && !$this->checkQuestion((int)$_GET['qid']) )
+		if( (int)$_GET['qid'] && !$this->checkQuestion((int)$_GET['qid']) )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
@@ -119,10 +119,15 @@ class ilTestCorrectionsGUI
 		$manscoringPreservation->setInfo($this->DIC->language()->txt('preserve_manscoring_info'));
 		$form->addItem($manscoringPreservation);
 		
-		$form->addCommandButton('saveQuestion', 'Save');
+		$form->addCommandButton('saveQuestion', $this->DIC->language()->txt('save'));
 		
 		$this->populatePageTitleAndDescription($questionGUI);
 		$this->DIC->ui()->mainTemplate()->setContent($form->getHTML());
+	}
+	
+	protected function saveQuestion()
+	{
+		
 	}
 	
 	protected function showSolution()
@@ -178,13 +183,73 @@ class ilTestCorrectionsGUI
 				$this, 'showAnswerStatistic', $solutions, $subQuestionIndex
 			);
 			
-			$tablesHtml .= $table->getHTML();
+			$tablesHtml .= $table->getHTML() . $table->getAdditionalHtml();
 		}
 		
 		$this->populatePageTitleAndDescription($questionGUI);
 		$this->DIC->ui()->mainTemplate()->setContent($tablesHtml);
 		$this->DIC->ui()->mainTemplate()->addCss('Modules/Test/templates/default/ta.css');
 		
+	}
+	
+	protected function addAnswerAsynch()
+	{
+		$response = new stdClass();
+		
+		$form = new ilAddAnswerModalFormGUI();
+		$form->build();
+		$form->setValuesByPost();
+		
+		if( !$form->checkInput() )
+		{
+			$uid = md5($form->getInput('answer'));
+			
+			$form->setId($uid);
+			$form->setFormAction($this->DIC->ctrl()->getFormAction($this, 'addAnswerAsynch'));
+
+			$alert = $this->DIC->ui()->factory()->messageBox()->failure(
+				$this->DIC->language()->txt('form_input_not_valid')
+			);
+			
+			$bodyTpl = new ilTemplate('tpl.tst_corr_addanswermodal.html', true, true, 'Modules/TestQuestionPool');
+			$bodyTpl->setVariable('MESSAGE', $this->DIC->ui()->renderer()->render($alert));
+			$bodyTpl->setVariable('FORM', $form->getHTML());
+			$bodyTpl->setVariable('BODY_UID', $uid);
+			
+			$response->result = false;
+			$response->html = $bodyTpl->get();
+			
+			echo json_encode($response);
+			exit;
+		}
+		
+		$qid = (int)$form->getInput('qid');
+		
+		if( !$this->checkQuestion($qid) )
+		{
+			$response->html = '';
+			$response->result = false;
+
+			echo json_encode($response);
+			exit;
+		}
+		
+		$questionGUI = $this->getQuestion($qid);
+		
+		$qIndex = (int)$form->getInput('qindex');
+		$points = (float)$form->getInput('points');
+		$answerOption = $form->getInput('answer');
+		
+		if( $questionGUI->object->isAddableAnswerOptionValue($qIndex, $answerOption) )
+		{
+			$questionGUI->object->addAnswerOptionValue($qIndex, $answerOption, $points);
+			$questionGUI->object->saveToDb();
+		}
+		
+		$response->result = true;
+		
+		echo json_encode($response);
+		exit;
 	}
 	
 	protected function confirmQuestionRemoval()

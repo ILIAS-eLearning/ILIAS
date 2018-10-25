@@ -5309,6 +5309,16 @@ abstract class assQuestion
 	}
 // fau.
 
+	public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+	{
+		return false;
+	}
+	
+	public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+	{
+		
+	}
+
 	public function removeAllExistingSolutions()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */

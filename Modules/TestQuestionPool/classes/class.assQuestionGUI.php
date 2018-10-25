@@ -2391,6 +2391,7 @@ abstract class assQuestionGUI
 		require_once 'Modules/TestQuestionPool/classes/tables/class.ilAnswerFrequencyStatisticTableGUI.php';
 		
 		$table = new ilAnswerFrequencyStatisticTableGUI($parentGui, $parentCmd, $this->object);
+		$table->setQuestionIndex($questionIndex);
 		$table->setData($this->getAnswersFrequency($relevantAnswers, $questionIndex));
 		$table->initColumns();
 		
