@@ -248,7 +248,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$list = $f->legacy($add_tpl->get());
 		$popover = $f->popover()->standard($list)->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
-		$add = $f->button()->bulky($f->glyph()->add(), "", "#")->withOnClick($popover->getShowSignal());
+		$add = $f->button()->bulky($f->glyph()->add(), "", "")->withOnClick($popover->getShowSignal());
 
 		$tpl->setCurrentBlock("filter_field");
 		$tpl->setVariable("FILTER_FIELD", $default_renderer->render($add));
