@@ -29,6 +29,7 @@ il.UI = il.UI || {};
 				$("#" + id).parents(".input-group").find("span.il-filter-field").html(value_as_string);
 			}
 
+			//Show labels and values in Filter Bar
             var input_name = $("#" + id).attr("name");
             var input_num = input_name.substring(13);
             var input_label = $("#" + id).parents(".input-group").find("#leftaddon").html();
@@ -48,7 +49,51 @@ il.UI = il.UI || {};
          * @param id
          */
         var onRemoveClick = function(event, id) {
-            // hide the Input in the Filter which should be removed
+            //Remove Input Field from Filter
+            $("#" + id).parents(".il-popover-container").hide();
+            //Clear Input Field when it is removed
+            $("#" + id).parents(".il-popover-container").find(".il-standard-popover-content").children().val("");
+            $("#" + id).parents(".il-popover-container").find(".il-filter-field").html("");
+            var label = $("#" + id).parents(".input-group").find(".input-group-addon").html();
+
+            //Add Input Field to Add-Button
+            $("#" + id).parents(".il-standard-form").find(".btn-link").filter(function() {
+                return $(this).text() === label;
+            }).parents("li").show();
+
+            //Show Add-Button when not all Input Fields are shown in the Filter
+            var addableInputs = $("#" + id).parents(".il-standard-form").find(".il-popover-container:hidden").length;
+            if (addableInputs != 0) {
+                $("#" + id).parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").show();
+            }
+        };
+
+        /**
+         *
+         * @param event
+         * @param id
+         */
+        var onAddClick = function(event, id) {
+            //Remove Input Field from Add-Button
+            $("#" + id).parent().hide();
+            var label = $("#" + id).text();
+
+            //Add Input Field to Filter
+            $("#" + id).parents(".il-standard-form").find(".input-group-addon").filter(function() {
+                return $(this).text() === label;
+            }).parents(".il-popover-container").show();
+
+            //Imitate a click on the Input Field in the Fiter and focus on the element (input, select,...) in the Popover
+            $("#" + id).parents(".il-standard-form").find(".input-group-addon").filter(function() {
+                return $(this).text() === label;
+            }).parent().find(".il-filter-field").click()
+                .parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
+
+            //Hide Add-Button when all Input Fields are shown in the Filter
+            var addableInputs = $("#" + id).parents(".il-standard-form").find("li:visible").length;
+            if (addableInputs == 0) {
+                $("#" + id).parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").hide();
+            }
         };
 
 		/**
@@ -56,13 +101,20 @@ il.UI = il.UI || {};
 		 */
 		return {
 			onFieldUpdate: onFieldUpdate,
-			onRemoveClick: onRemoveClick
+			onRemoveClick: onRemoveClick,
+			onAddClick: onAddClick
 		};
 
 	})($);
 })($, il.UI);
 
-//Popover of Add-Button always at the bottom
 $(document).ready(function() {
+    //Popover of Add-Button always at the bottom
     $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
+
+    //Hide Add-Button when all Input Fields are shown in the Filter at the beginning
+    var addableInputs = $(".il-popover-container:hidden").length;
+    if (addableInputs == 0) {
+        $(".btn-bulky").parents(".il-popover-container").hide();
+    }
 });

@@ -234,9 +234,15 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 		$links = array();
 		foreach ($input_labels as $label) {
-			$links[] = $f->button()->shy($label, "");
+			$links[] = $f->button()->shy($label, "")->withAdditionalOnLoadCode(function ($id) {
+				$code = "$('#$id').on('click', function(event) {
+						il.UI.filter.onAddClick(event, '$id');
+						return false; // stop event propagation
+				});";
+				return $code;
+			});
 		}
-		//var_dump($links); exit;
+
 		$list = $f->listing()->unordered($links);
 		$popover = $f->popover()->standard($list)->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
