@@ -44,6 +44,7 @@ class ilPersonalProfileGUI
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
+		$ilCtrl->saveParameter($this, "prompted");
 		// $ilCtrl->saveParameter($this, "user_page");
 	}
 
@@ -748,12 +749,21 @@ class ilPersonalProfileGUI
 		$ilUser = $DIC['ilUser'];
 		$lng = $DIC['lng'];
 		$ilTabs = $DIC['ilTabs'];
+		$prompt_service = new ilUserProfilePromptService();
 
 		$ilTabs->activateTab("personal_data");
 		$ctrl = $DIC->ctrl();
 
 		$setting = new ilSetting("user");
-		$it = $setting->get("user_profile_info_".$ilUser->getLanguage());
+		$it = "";
+		if ($_GET["prompted"] == 1)
+		{
+			$it = $prompt_service->data()->getSettings()->getPromptText($ilUser->getLanguage());
+		}
+		if ($it == "")
+		{
+			$it = $prompt_service->data()->getSettings()->getInfoText($ilUser->getLanguage());
+		}
 		if (trim($it) != "")
 		{
 			$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))

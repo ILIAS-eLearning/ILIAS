@@ -11,7 +11,6 @@
  */
 class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilter
 {
-
     /**
      * Button to receive focus
      *
@@ -36,7 +35,7 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
     /**
      * Consent backend storage configuration
      *
-     * @var array
+     * @var sspmod_consent_Store|null
      */
     private $_store = null;
 
@@ -74,7 +73,7 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
      */
     public function __construct($config, $reserved)
     {
-        assert('is_array($config)');
+        assert(is_array($config));
         parent::__construct($config, $reserved);
 
         if (array_key_exists('includeValues', $config)) {
@@ -117,7 +116,16 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
             $this->_hiddenAttributes = $config['hiddenAttributes'];
         }
 
-        if (array_key_exists('noconsentattributes', $config)) {
+        if (array_key_exists('attributes.exclude', $config)) {
+            if (!is_array($config['attributes.exclude'])) {
+                throw new SimpleSAML_Error_Exception(
+                    'Consent: attributes.exclude must be an array. '.
+                    var_export($config['attributes.exclude'], true).' given.'
+                );
+            }
+            $this->_noconsentattributes = $config['attributes.exclude'];
+        } elseif (array_key_exists('noconsentattributes', $config)) {
+            SimpleSAML\Logger::warning("The 'noconsentattributes' option has been deprecated in favour of 'attributes.exclude'.");
             if (!is_array($config['noconsentattributes'])) {
                 throw new SimpleSAML_Error_Exception(
                     'Consent: noconsentattributes must be an array. '.
@@ -218,13 +226,13 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
      */
     public function process(&$state)
     {
-        assert('is_array($state)');
-        assert('array_key_exists("UserID", $state)');
-        assert('array_key_exists("Destination", $state)');
-        assert('array_key_exists("entityid", $state["Destination"])');
-        assert('array_key_exists("metadata-set", $state["Destination"])');
-        assert('array_key_exists("entityid", $state["Source"])');
-        assert('array_key_exists("metadata-set", $state["Source"])');
+        assert(is_array($state));
+        assert(array_key_exists('UserID', $state));
+        assert(array_key_exists('Destination', $state));
+        assert(array_key_exists('entityid', $state['Destination']));
+        assert(array_key_exists('metadata-set', $state['Destination']));
+        assert(array_key_exists('entityid', $state['Source']));
+        assert(array_key_exists('metadata-set', $state['Source']));
 
         $spEntityId = $state['Destination']['entityid'];
         $idpEntityId = $state['Source']['entityid'];
@@ -320,7 +328,10 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
         // user interaction necessary. Throw exception on isPassive request
         if (isset($state['isPassive']) && $state['isPassive'] === true) {
             SimpleSAML_Stats::log('consent:nopassive', $statsData);
-            throw new SimpleSAML_Error_NoPassive('Unable to give consent on passive request.');
+            throw new SimpleSAML\Module\saml\Error\NoPassive(
+                    \SAML2\Constants::STATUS_REQUESTER,
+                    'Unable to give consent on passive request.'
+            );
         }
 
         // Save state and redirect
@@ -372,8 +383,10 @@ class sspmod_consent_Auth_Process_Consent extends SimpleSAML_Auth_ProcessingFilt
      */
     public static function getAttributeHash($attributes, $includeValues = false)
     {
-        $hashBase = null;
         if ($includeValues) {
+            foreach ($attributes as &$values) {
+                sort($values);
+            }
             ksort($attributes);
             $hashBase = serialize($attributes);
         } else {

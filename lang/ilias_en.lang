@@ -308,7 +308,6 @@ assessment#:#action#:#Action
 assessment#:#add_circle#:#Add circle area
 assessment#:#add_gap#:#Add Gap Text
 assessment#:#tst_msg_rand_quest_set_not_sync#:#The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules.
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
@@ -750,11 +749,11 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for th
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: %s
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />
-assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
-assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#On the subtab %s the non available question pools can be newly derived.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore. The non available pools can be newly derived.<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Open Selected Question Pools
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -2758,8 +2757,8 @@ common#:#message_content#:#Message Content
 common#:#message_no_delivered_files#:#You have not submitted any files.
 common#:#message#:#Message
 common#:#meta_data#:#Metadata
-common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s
-common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s).
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s).
 common#:#migrate#:#Migrate
 common#:#minute#:#Minute
 common#:#minutes#:#Minutes
@@ -9185,7 +9184,7 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
-prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files: %s
+prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files.
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -10438,7 +10437,7 @@ tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
 tos#:#tos_no_documents_exist#:#Currently there are no terms of service documents at all.
 tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
-tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached. 
 tos#:#tos_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
 tos#:#tos_crit_type_usr_global_role#:#User has Global Role
 tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.
@@ -11741,7 +11740,6 @@ obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate tran
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 content#:#cont_languages#:#Languages
 content#:#cont_language#:#Language
-content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
 content#:#cont_finish_editing#:#Finish Editing
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.
 notes#:#note_content_removed#:#The content has been removed.
@@ -14360,6 +14358,8 @@ copa#:#copa_copy#:#Copy Content Page
 copa#:#copa_add#:#Add Content Page
 copa#:#copa_edit#:#Edit Content Page
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
+copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
 adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
@@ -14424,7 +14424,7 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
@@ -14482,6 +14482,43 @@ noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
 book#:#book_notification#:#Send Reservation Notifications
 book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
+skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_all#:#All
+skmg#:#skmg_refresh_view#:#Refresh
+prtf#:#prtf_copy_tab#:#Copy Tab
+prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
+prtf#:#prtf_edit_content#:#Edit Content
+prtf#:#prtf_set_online#:#Set Online
+prtf#:#prtf_set_offline#:#Set Offline
+prtf#:#prtf_no_submission#:#No Submission
+prtf#:#prtf_submission_on#:#Submitted on $1
+prtf#:#prtf_no_offline_share_info#:#A portfolio has to be online to be shared by other users.
+prtf#:#prtf_has_been_set_online#:#Portfolio has been set online.
+user#:#user_prompting_recurrence#:#Prompting Recurrence
+user#:#user_prompting_settings#:#Prompting Settings
+user#:#user_prompt_incomplete#:#Only if profile is incomplete
+user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
+user#:#user_prompt_once_after_login#:#Once after specific number of days after first login
+user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.
+user#:#user_prompt_repeat#:#Repeat every specific number of days
+user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.
+user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
+lhist#:#lhist_first_login#:#First Login
+prtf#:#prtf_decl_authorship#:#Declaration of Authorship
+pd#:#pd_achievements#:#Achievements
+content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
+prtf#:#prtf_download_submission#:#Download Submission
+content#:#cont_ed_insert_learning_history#:#Insert Learning History
+lhist#:#lhist_all#:#All
+lhist#:#lhist_selected#:#Selected
+lhist#:#lhist_manual#:#Manual
+lhist#:#lhist_period#:#Period
+lhist#:#lhist_type_of_achievement#:#Type of Achievement
+lhist#:#cont_update_lhist#:#Edit Learning History Element
+lhist#:#cont_create_lhist#:#Create Learning History Element
+lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
+lhist#:#lhist_lhist#:#Learning History
+skmg#:#skmg_materials_ressources#:#Resources/Materials
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
 cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?

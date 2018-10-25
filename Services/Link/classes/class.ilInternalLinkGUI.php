@@ -1199,7 +1199,7 @@ class ilInternalLinkGUI
 					ilObjUser::_lookupLogin($user)."\"/]', '', ev); return false;});";
 				});
 			$name = ilUserUtil::getNamePresentation($user);
-			$cards[] = $f->card($name, $f->image()->responsive(ilObjUser::_getPersonalPicturePath($user, "small") , $name))
+			$cards[] = $f->card()->standard($name, $f->image()->responsive(ilObjUser::_getPersonalPicturePath($user, "small") , $name))
 				->withSections(array($b));
 		}
 		$deck = $f->deck($cards)->withLargeCardsSize();

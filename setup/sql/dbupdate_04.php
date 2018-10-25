@@ -22776,7 +22776,6 @@ if(!$ilDB->tableColumnExists('file_data', 'max_version'))
 	));
 }
 ?>
-
 <#5302>
 <?php
 include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDCreator.php';
@@ -23475,6 +23474,58 @@ if (!$ilDB->tableColumnExists('media_item', 'upload_hash'))
 			"default" => 0
 		));
 	}
+?>
+<#5335>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5336>
+<?php
+if (!$ilDB->tableColumnExists('usr_data', 'first_login'))
+{
+	$ilDB->addTableColumn('usr_data', 'first_login', array(
+		"type" => "timestamp",
+		"notnull" => false
+	));
+
+	// since we do not have this date for existing users we take the minimum of last login
+	// and first access to any repo object
+	$set = $ilDB->queryF("SELECT u.usr_id, u.last_login, min(r.first_access) first_access FROM usr_data u LEFT JOIN read_event r ON (u.usr_id = r.usr_id) GROUP BY u.usr_id, u.last_login",
+		array(),
+		array()
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$first_login = $rec["last_login"];
+		if ($rec["first_access"] != "" && ($rec["first_access"] < $rec["last_login"]))
+		{
+			$first_login = $rec["first_access"];
+		}
+
+		if ($first_login != "")
+		{
+			$ilDB->update("usr_data", array(
+				"first_login" => array("timestamp", $first_login)
+			), array(    // where
+				"usr_id" => array("integer", $rec["usr_id"])
+			));
+		}
+	}
+}
+?>
+<#5337>
+<?php
+if (!$ilDB->tableColumnExists('usr_data', 'last_profile_prompt'))
+{
+	$ilDB->addTableColumn('usr_data', 'last_profile_prompt', array(
+		"type" => "timestamp",
+		"notnull" => false
+	));
+}
+?>
+<#5338>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
 <#5335>
 <?php

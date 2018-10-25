@@ -14,9 +14,18 @@ class ilWebDAVRepositoryHelper
         $this->tree = $tree;
     }
 
+    /**
+     * I stole this method of deleting objects from ilObjectGUI->confirmedDeleteObject()
+     *
+     * @param $a_ref_id ref_id of object to delete
+     * @throws ilRepositoryException
+     */
     public function deleteObject($a_ref_id)
     {
-        throw new \Sabre\DAV\Exception\NotImplemented("Delete currently not implemented");
+        include_once("./Services/Repository/classes/class.ilRepUtil.php");
+        $repository_util = new ilRepUtil($this);
+        $parent = $this->tree->getParentId($a_ref_id);
+        $repository_util->deleteObjects($parent, array($a_ref_id));
     }
 
     public function checkAccess($a_permission, $a_ref_id)

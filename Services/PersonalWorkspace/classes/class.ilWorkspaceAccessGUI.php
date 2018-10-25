@@ -48,8 +48,12 @@ class ilWorkspaceAccessGUI
 	const PERMISSION_REGISTERED = -1;
 	const PERMISSION_ALL_PASSWORD = -3;
 	const PERMISSION_ALL = -5;
-	
-	
+
+	/**
+	 * @var string
+	 */
+	protected $blocking_message = "";
+
 	function __construct($a_node_id, $a_access_handler, $a_is_portfolio = false, $a_footer = null)
 	{
 		global $DIC;
@@ -69,6 +73,27 @@ class ilWorkspaceAccessGUI
 		$this->is_portfolio = (bool)$a_is_portfolio;
 		$this->footer = $a_footer;		
 	}
+
+	/**
+	 * Set blocking message
+	 *
+	 * @param string $a_val blocking message
+	 */
+	function setBlockingMessage($a_val)
+	{
+		$this->blocking_message = $a_val;
+	}
+
+	/**
+	 * Get blocking message
+	 *
+	 * @return string blocking message
+	 */
+	function getBlockingMessage()
+	{
+		return $this->blocking_message;
+	}
+
 	
 	function executeCommand()
 	{
@@ -178,6 +203,14 @@ class ilWorkspaceAccessGUI
 		$tpl = $this->tpl;
 		$ilUser = $this->user;
 		$ilSetting = $this->settings;
+
+
+		// blocking message
+		if ($this->getBlockingMessage() != "")
+		{
+			$tpl->setContent($this->getBlockingMessage());
+			return;
+		}
 		
 		$options = array();
 		$options["user"] = $this->lng->txt("wsp_set_permission_single_user");

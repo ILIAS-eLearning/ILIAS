@@ -48,4 +48,14 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
 		return $entries;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getName(): string
+	{
+		$lng = $this->getLanguage();
+		$lng->loadLanguageModule("lp");
+
+		return $lng->txt("learning_progress");
+	}
 }
