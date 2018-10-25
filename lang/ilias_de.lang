@@ -14543,3 +14543,26 @@ certificate#:#cert_cron_task_title#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
 certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung
 certificate#:#certificate_change_active_status#:#Der Aktiv-Status des Zertifikats wurde geändert
+exc#:#exc_team_formation#:#Team Formation
+exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams
+exc#:#exc_team_by_participants_info#:#Participants opt for teams.
+exc#:#exc_team_by_tutors#:#Teams are formed by Tutors.
+exc#:#exc_team_by_tutors_info#:#Tutors allocate participants to teams, participants cannot self-organize.
+exc#:#exc_team_by_random#:#Teams are formed randomly and automatically.
+exc#:#exc_team_by_random_info#:#ILIAS will allocate participants to a set number of teams.
+exc#:#exc_team_by_assignment#:#Adopt Teams from Assignment
+exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be used for this Assignment too.
+exc#:#exc_num_teams#:#Number
+exc#:#exc_min_team_participants#:#Minimal Number
+exc#:#exc_max_team_participants#:#Maximal Number
+exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_value_can_not_set#:#This value can not be set.
+exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
+exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
+exc#:#exc_team_min_big_than_max#:#Maximal number of team participants can not be smaller than Minimal number of team participants.
+exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.
+exc#:#exc_team_min_small_than_members#:#Minimal Number of Participants can not be set as %s because teams are set with %s participants.
+exc#:#exc_participants#:#Participants
+exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.
+exc#:#exc_team_by_tutors_manual#:#Manually
+exc#:#exc_team_creation#:#Creation
