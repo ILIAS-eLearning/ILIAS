@@ -460,14 +460,13 @@ class ilCertificateMigrationJob extends AbstractJob
 					if ($active)
 					{
 						$type = \ilObjSAHSLearningModule::_lookupSubType($obj_id);
-						if ($type == "scorm")
-						{
-							$lm = new \ilObjSCORMLearningModule($obj_id, false);
+
+						$lm = \ilObjectFactory::getInstanceByObjId($obj_id, false);
+						if (!$lm || !($lm instanceof \ilObjSAHSLearningModule)) {
+							$this->logMessage('Found inconsistent object, skipped migration: ' . $obj_id, 'debug');
+							continue;
 						}
-						else
-						{
-							$lm = new \ilObjSCORM2004LearningModule($obj_id, false);
-						}
+						$lm->setSubType($type);
 
 						$adapter = new \ilSCORMCertificateAdapter($lm);
 
@@ -523,7 +522,12 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		foreach(\ilObjTest::getTestObjIdsWithActiveForUserId($this->user_id) as $test_id)
 		{
-			$test = new \ilObjTest($test_id, false);
+			$test = \ilObjectFactory::getInstanceByObjId($test_id, false);
+			if (!$test || !($test instanceof \ilObjTest)) {
+				$this->logMessage('Found inconsistent object, skipped migration: ' . $test_id, 'debug');
+				continue;
+			}
+
 			$session = new \ilTestSessionFactory($test);
 			$session = $session->getSession(null);
 			if ($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
@@ -579,10 +583,14 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		foreach(\ilObjExercise::_lookupFinishedUserExercises($this->user_id) as $exercise_id => $passed)
 		{
-			$exc = new \ilObjExercise($exercise_id, false);
+			$exc = \ilObjectFactory::getInstanceByObjId($exercise_id, false);
+			if (!$exc || !($exc instanceof \ilObjExercise)) {
+				$this->logMessage('Found inconsistent object, skipped migration: ' . $exercise_id, 'debug');
+				continue;
+			}
+
 			if ($exc->hasUserCertificate($this->user_id))
 			{
-
 				$adapter = new \ilExerciseCertificateAdapter($exc);
 
 				$obj_id = $adapter->getCertificateID();
@@ -640,8 +648,12 @@ class ilCertificateMigrationJob extends AbstractJob
 			{
 				if (\ilCourseCertificateAdapter::_hasUserCertificate($this->user_id, $crs_id))
 				{
+					$crs = \ilObjectFactory::getInstanceByObjId($crs_id, false);
+					if (!$crs || !($crs instanceof \ilObjCourse)) {
+						$this->logMessage('Found inconsistent object, skipped migration: ' . $crs_id, 'debug');
+						continue;
+					}
 
-					$crs = new \ilObjCourse($crs_id, false);
 					$adapter = new \ilCourseCertificateAdapter($crs);
 					$obj_id = $adapter->getCertificateID();
 					if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
