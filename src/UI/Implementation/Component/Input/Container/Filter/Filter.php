@@ -180,6 +180,12 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 		return $this->getInputGroup()->getInputs();
 	}
 
+	/**
+	 * @inheritdocs
+	 */
+	public function isInputRendered() {
+		return $this->is_input_rendered;
+	}
 
 	/**
 	 * @inheritdocs

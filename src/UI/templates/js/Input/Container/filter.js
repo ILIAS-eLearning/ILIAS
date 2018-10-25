@@ -13,7 +13,37 @@ il.UI = il.UI || {};
 		//
 	});
 
+	// init the filter fields (hide hidden stuff)
+	var init = function() {
+		$("div.il-filter").each(function () {
+			var $filter = this;
+			var cnt = 0;
+			$($filter).find(".il-filter-field-status").each(function() {
+				$hidden_input = this;
+				if ($($hidden_input).val() === "0") {
+					$($("div.il-filter .il-popover-container")[cnt]).hide();
+				} else {
+					$($("div.il-filter .il-filter-add-list li")[cnt]).hide();
+				}
+				cnt++;
+			});
+		});
+	};
+
+	$(init);
+
 	UI.filter = (function ($) {
+
+		/**
+		 * Store filter status (hidden or shown) in hidden input fields
+		 * @param $el
+		 * @param index
+		 * @param val
+		 */
+		var storeFilterStatus = function($el, index, val) {
+			$($el.parents(".il-filter").find(".il-filter-field-status").get(index)).val(val);
+		};
+
 		/**
 		 *
 		 * @param event
@@ -49,6 +79,9 @@ il.UI = il.UI || {};
          * @param id
          */
         var onRemoveClick = function(event, id) {
+			var index = $("#" + id).parents(".il-popover-container").index();
+			storeFilterStatus($("#" + id), index, "0");
+
             //Remove Input Field from Filter
             $("#" + id).parents(".il-popover-container").hide();
             //Clear Input Field when it is removed
@@ -78,7 +111,11 @@ il.UI = il.UI || {};
             $("#" + id).parent().hide();
             var label = $("#" + id).text();
 
-            //Add Input Field to Filter
+            // Store show/hide status in hidden status inputs
+            var index = $("#" + id).parent().index();
+			storeFilterStatus($("#" + id), index, "1");
+
+            // Add Input Field to Filter
             $("#" + id).parents(".il-standard-form").find(".input-group-addon").filter(function() {
                 return $(this).text() === label;
             }).parents(".il-popover-container").show();

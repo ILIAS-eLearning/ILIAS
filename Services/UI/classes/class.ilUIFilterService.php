@@ -66,6 +66,20 @@ class ilUIFilterService
 			ilSession::set("ui_service_filter_expanded_".$filter_id, false);
 		}
 
+		if ($_REQUEST["cmdFilter"] == "apply")
+		{
+			$_SESSION["ui"]["filter"]["rendered"][$filter_id] = [];
+			foreach ($inputs as $input_id => $i)
+			{
+				if ($_POST["__filter_status_" . $input_id] === "1")
+				{
+					$_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id] = 1;
+				} else
+				{
+					$_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id] = 0;
+				}
+			}
+		}
 
 
 
@@ -97,24 +111,34 @@ class ilUIFilterService
 		// clear session, if reset is pressed
 		if ($_REQUEST["cmdFilter"] == "reset")
 		{
-			if (is_array($_SESSION["ui"]["filter"][$filter_id]))
+			if (is_array($_SESSION["ui"]["filter"]["value"][$filter_id]))
 			{
-				unset($_SESSION["ui"]["filter"][$filter_id]);
+				unset($_SESSION["ui"]["filter"]["value"][$filter_id]);
 			}
+			unset($_SESSION["ui"]["filter"]["rendered"][$filter_id]);
 		}
 
 		// put data from session into filter
 		$inputs_with_session_data = [];
+		$is_input_initially_rendered_with_session = [];
 		foreach ($inputs as $input_id => $i)
 		{
-			if (isset($_SESSION["ui"]["filter"][$filter_id][$input_id]["value"]))
+			//var_dump($_SESSION["ui"]["filter"]); exit;
+			// is filter rendered or not?
+			$rendered = current($is_input_initially_rendered);
+			if (isset($_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id]))
 			{
-				$val = unserialize($_SESSION["ui"]["filter"][$filter_id][$input_id]["value"]);
+				$rendered = (bool) $_SESSION["ui"]["filter"]["rendered"][$filter_id][$input_id];
+			}
+			$is_input_initially_rendered_with_session[] = $rendered;
+			next($is_input_initially_rendered);
+
+			if ($rendered && isset($_SESSION["ui"]["filter"]["value"][$filter_id][$input_id]))
+			{
+				$val = unserialize($_SESSION["ui"]["filter"]["value"][$filter_id][$input_id]);
 				if (!is_null($val))
 				{
 					$i = $i->withValue($val);
-					//var_dump($input_id);
-					//var_dump($val); exit;
 				}
 			}
 			$inputs_with_session_data[$input_id] = $i;
@@ -128,7 +152,7 @@ class ilUIFilterService
 			$base_action."&cmdFilter=apply",
 			$base_action."&cmdFilter=reset",
 			$inputs_with_session_data,
-			$is_input_rendered,
+			$is_input_initially_rendered_with_session,
 			$is_activated,
 			$is_expanded);
 
@@ -141,7 +165,7 @@ class ilUIFilterService
 					$filter = $filter->withRequest($request);
 					foreach ($filter->getInputs() as $input_id => $i)
 					{
-						$_SESSION["ui"]["filter"][$filter_id][$input_id]["value"] = serialize($i->getValue());
+						$_SESSION["ui"]["filter"]["value"][$filter_id][$input_id] = serialize($i->getValue());
 					}
 				}
 				break;

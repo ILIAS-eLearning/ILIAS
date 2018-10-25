@@ -232,6 +232,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
+		$add_tpl = $this->getTemplate("tpl.filter_add_list.html", true, true);
 
 		$links = array();
 		foreach ($input_labels as $label) {
@@ -243,8 +244,8 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 				return $code;
 			});
 		}
-
-		$list = $f->listing()->unordered($links);
+		$add_tpl->setVariable("LIST", $default_renderer->render($f->listing()->unordered($links)));
+		$list = $f->legacy($add_tpl->get());
 		$popover = $f->popover()->standard($list)->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
 		$add = $f->button()->bulky($f->glyph()->add(), "", "")->withOnClick($popover->getShowSignal());
