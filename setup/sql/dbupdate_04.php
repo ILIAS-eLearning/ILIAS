@@ -23992,3 +23992,32 @@ if (!$ilDB->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')) {
 	);
 }
 ?>
+<#5353>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360', 'mode');
+}
+?>
+<#5354>
+<?php
+if(!$ilDB->tableColumnExists('svy_svy', 'mode_self_eval_results'))
+{
+	$ilDB->addTableColumn(
+		'svy_svy',
+		'mode_self_eval_results',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5355>
+<?php
+if($ilDB->tableColumnExists('svy_svy', 'mode_360_skill_service'))
+{
+	$ilDB->renameTableColumn('svy_svy', 'mode_360_skill_service', 'mode_skill_service');
+}
+?>
