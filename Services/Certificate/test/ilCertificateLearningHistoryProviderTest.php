@@ -35,6 +35,10 @@ class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCas
 			->disableOriginalConstructor()
 			->getMock();
 
+		$template = $this->getMockBuilder('ilTemplate')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
 			->disableOriginalConstructor()
 			->getMock();
@@ -111,6 +115,7 @@ class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCas
 			10,
 			$learningHistoryFactory,
 			$language,
+			$template,
 			$dic,
 			$userCertificateRepository,
 			$controller,

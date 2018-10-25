@@ -23,7 +23,17 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 		$ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
 			->getMock();
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator, $ilUtilHelper);
+		$errorHandler = $this->getMockBuilder('ilErrorHandling')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			$ilUtilHelper,
+			'translatedError',
+			$errorHandler
+		);
 
 		$result = $pdfAction->createPDF(10, 200);
 
@@ -57,8 +67,17 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 				'application/pdf'
 			);
 
-		$pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator, $ilUtilHelper);
+		$errorHandler = $this->getMockBuilder('ilErrorHandling')
+			->disableOriginalConstructor()
+			->getMock();
 
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			$ilUtilHelper,
+			'translatedError',
+			$errorHandler
+		);
 		$result = $pdfAction->downloadPdf(10, 200);
 
 		$this->assertEquals('Something', $result);
