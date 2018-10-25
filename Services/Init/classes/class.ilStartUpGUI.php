@@ -130,10 +130,12 @@ class ilStartUpGUI
 	 */
 	protected function showLoginPageOrStartupPage()
 	{
+
 		/**
 		 * @var ilAuthSession
 		 */
 		$auth_session = $GLOBALS['DIC']['ilAuthSession'];
+		$ilAppEventHandler = $GLOBALS['DIC']['ilAppEventHandler'];
 
 		$force_login = false;
 		if(
@@ -150,10 +152,10 @@ class ilStartUpGUI
 			if($auth_session->isValid())
 			{
 				$this->logger->debug('Valid session -> logout current user');
-				ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
+				ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 				$auth_session->logout();
 
-				$GLOBALS['ilAppEventHandler']->raise(
+				$ilAppEventHandler->raise(
 					'Services/Authentication', 
 					'afterLogout',
 					array(
@@ -1549,9 +1551,24 @@ class ilStartUpGUI
 	*/
 	function showLogout()
 	{
-		global $tpl, $ilSetting, $lng, $ilIliasIniFile;
-		
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
+		global $DIC;
+
+
+		$tpl = $DIC->ui()->mainTemplate();
+		$ilSetting = $DIC->settings();
+		$lng = $DIC->language();
+		$ilIliasIniFile = $DIC['ilIliasIniFile'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+
+		$ilAppEventHandler->raise(
+			'Services/Authentication',
+			'beforeLogout',
+			[
+				'user_id' => $this->user->getId()
+			]
+		);
+
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 		$GLOBALS['DIC']['ilAuthSession']->logout();
 		
 		$GLOBALS['ilAppEventHandler']->raise(

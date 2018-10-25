@@ -29,6 +29,30 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 	}
 
 	/**
+	 * Handle logout event
+	 */
+	public function handleLogout()
+	{
+		$auth_token = ilSession::get('oidc_auth_token');
+
+		$this->getLogger()->info('Using token: ' . $auth_token);
+
+		if(strlen($auth_token))
+		{
+			ilSession::set('oidc_auth_token','');
+			$oidc = $this->initClient();
+			$oidc->signOut(
+				$auth_token,
+				ILIAS_HTTP_PATH.'/logout.php'
+			);
+		}
+		else
+		{
+			$this->getLogger()->info('No valid token found');
+		}
+	}
+
+	/**
 	 * Do authentication
 	 * @param \ilAuthStatus $status Authentication status
 	 * @return bool
@@ -37,11 +61,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 	{
 		try {
 
-			$oidc = new OpenIDConnectClient(
-				$this->settings->getProvider(),
-				$this->settings->getClientId(),
-				$this->settings->getSecret()
-			);
+			$oidc = $this->initClient();
 			$oidc->setRedirectURL(ILIAS_HTTP_PATH.'/openidconnect.php');
 
 			$this->getLogger()->debug(
@@ -75,15 +95,14 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			$this->getLogger()->info('User is authenticated');
 			$this->getLogger()->dump($claims);
 
-			$status->setAuthenticatedUserId(6);
-			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 
 			$token = $oidc->requestClientCredentialsToken();
-			$this->getLogger()->dump($token);
-
-			//$oidc->signOut($token->access_token, ILIAS_HTTP_PATH.'/logout.php');
 
 
+			ilSession::set('oidc_auth_token', $token->access_token);
+
+			$status->setAuthenticatedUserId(6);
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 			return true;
 		}
 		catch(Exception $e) {
@@ -92,6 +111,18 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			$status->setTranslatedReason($e->getMessage());
 			return false;
 		}
+	}
 
+	/**
+	 * @return OpenIDConnectClient
+	 */
+	private function initClient() : OpenIDConnectClient
+	{
+		$oidc = new OpenIDConnectClient(
+			$this->settings->getProvider(),
+			$this->settings->getClientId(),
+			$this->settings->getSecret()
+		);
+		return $oidc;
 	}
 }
