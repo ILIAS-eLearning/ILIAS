@@ -103,7 +103,12 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock("order");
 				$this->tpl->setVariable("ORDER_NAME", "order[c_".$a_set["id"]."]");
-				$this->tpl->setVariable("ORDER_VALUE", $a_set["position"]);
+				if($a_set["position"] == 0) {
+					$position = 10;
+				} else {
+					$position = (int)$a_set['position']*10;
+				}
+				$this->tpl->setVariable("ORDER_VALUE", $position);
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -153,8 +158,6 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	{
 		$entries = ilMDCopyrightSelectionEntry::_getEntries();
 
-		$position = 0;
-
 	 	foreach( $entries as $entry)
 	 	{
 			$tmp_arr['id'] = $entry->getEntryId();
@@ -164,17 +167,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 			$tmp_arr['preview'] = $entry->getCopyright();
 			$tmp_arr['default'] = $entry->getIsDefault();
 			$tmp_arr['status'] = $entry->getOutdated();
-
-			if($this->has_write)
-			{
-				// order
-				if(sizeof($entries) > 1)
-				{
-					$position += 10;
-					$tmp_arr["position"] = $position;
-				}
-
-			}
+			$tmp_arr['position'] = $entry->getOrderPosition();
 			
 			$entry_arr[] = $tmp_arr;
 	 	}

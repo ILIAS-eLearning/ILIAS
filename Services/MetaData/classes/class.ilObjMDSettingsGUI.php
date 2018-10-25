@@ -604,7 +604,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 	{
 		if(isset($_POST["order"]))
 		{
-			$position = -1;
+			$position = 0;
 			$order = array();
 			asort($_POST["order"]);
 			foreach(array_keys($_POST["order"]) as $id)
