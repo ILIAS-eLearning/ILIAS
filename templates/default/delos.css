@@ -9015,13 +9015,15 @@ ul.breadcrumb li:hover {
 }
 .il-filter-inputs-active {
   background-color: #f9f9f9;
-  padding: 3px 12px;
+  padding: 3px 8px;
 }
 .il-filter-inputs-active span {
   display: inline-block;
-  margin: 1px 4px;
+  margin: 3px 8px 3px 0;
+  padding: 0 8px;
   float: left;
   background-color: white;
+  font-size: 0.8em;
 }
 .il-filter-field {
   cursor: text;
@@ -9084,6 +9086,16 @@ ul.breadcrumb li:hover {
 }
 .il-filter.disabled .input-group span.form-control {
   color: #b0b0b0;
+}
+.il-filter-add-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.il-filter-add-list ul li > button {
+  padding: 6px 12px;
+  display: block;
+  width: 100%;
 }
 .il-table-presentation-viewcontrols {
   height: 40px;

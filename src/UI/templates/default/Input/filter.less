@@ -84,13 +84,15 @@
 
 .il-filter-inputs-active {
 	background-color: @il-secondary-container-bg;
-	padding: @padding-small-vertical @padding-large-horizontal;
+	padding: @padding-small-vertical @padding-base-horizontal;
 
 	span {
 		display: inline-block;
-		margin: 1px 4px;
+		margin: @padding-small-vertical @padding-base-horizontal @padding-small-vertical 0;
+		padding: 0 @padding-base-horizontal;
 		float: left;
 		background-color: @il-primary-container-bg;
+		font-size: 0.8em;
 	}
 }
 
@@ -167,5 +169,17 @@
 	}
 	.input-group span.form-control {
 		color: #b0b0b0;
+	}
+}
+
+.il-filter-add-list ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li > button {
+		padding: @padding-large-vertical @padding-large-horizontal;
+		display: block;
+		width: 100%;
 	}
 }
