@@ -244,7 +244,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function getGradedInformations(ilDateTime $event_time): array
 	{
 		return array(
-			$this->txt("iass_event_time").": " => $event_time->get(IL_CAL_DATE)
+			$this->txt("iass_event_time").": " => ilDatePresentation::formatDate($event_time)
 		);
 	}
 
@@ -277,6 +277,10 @@ class ilIndividualAssessmentMembersTableGUI {
 	): array {
 		if(!$this->viewLocation($finalized, $examiner_id, $usr_id)) {
 			return array();
+		}
+
+		if ($location == "" || is_null($location)) {
+			$location = $this->txt("none");
 		}
 
 		return array(
