@@ -11,27 +11,41 @@
 class ilUIServiceDependencies
 {
 	/**
-	 * @var ilLanguage
+	 * @var ilUIFilterRequestAdapter
 	 */
-	protected $lng;
+	protected $request_adapter;
+
+	/**
+	 * @var ilUIFilterServiceSessionGateway
+	 */
+	protected $session;
 
 	/**
 	 * Constructor
 	 * @param ilLanguage $lng
 	 */
-	public function __construct(ilLanguage $lng)
+	public function __construct(ilUIFilterRequestAdapter $request, ilUIFilterServiceSessionGateway $session = null)
 	{
-		$this->lng = $lng;
+		$this->request_adapter = $request;
+		$this->session = (is_null($session))
+			? new ilUIFilterServiceSessionGateway()
+			: $session;
 	}
 
 	/**
-	 * Get language object
-	 *
-	 * @return ilLanguage
+	 * @return ilUIFilterRequestAdapter
 	 */
-	public function language()
+	public function getRequest()
 	{
-		return $this->lng;
+		return $this->request_adapter;
+	}
+
+	/**
+	 * @return ilUIFilterServiceSessionGateway
+	 */
+	public function getSession()
+	{
+		return $this->session;
 	}
 
 }
