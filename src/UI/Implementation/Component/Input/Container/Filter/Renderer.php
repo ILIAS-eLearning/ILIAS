@@ -28,7 +28,127 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandard(Component\Input\Container\Filter\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
+		// render expand
+		$this->renderExpand($tpl, $component, $default_renderer);
 
+		// render apply and reset buttons
+		$this->renderApplyAndReset($tpl, $component, $default_renderer);
+
+		// render toggle button
+		$this->renderToggleButton($tpl, $component, $default_renderer);
+
+		// render inputs
+		$this->renderInputs($tpl, $component, $default_renderer);
+
+		return $tpl->get();
+	}
+
+	/**
+	 * Render expand section
+	 *
+	 * @param I\Render\Template $tpl
+	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param RendererInterface $default_renderer
+	 */
+	protected function renderExpand(\ILIAS\UI\Implementation\Render\Template $tpl,
+									Component\Input\Container\Filter\Standard $component, RendererInterface $default_renderer)
+	{
+		$f = $this->getUIFactory();
+		if ($component->isExpanded() == false) {
+
+			if ($component->isActivated())
+			{
+				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
+					->withOnLoadCode(function ($id) use ($component) {
+						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getExpandAction() . "').submit();" . "});";
+					});
+			} else {
+				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), $component->getExpandAction());
+			}
+
+			$tpl->setVariable("OPENER", $default_renderer->render($opener_expand));
+			$tpl->touchBlock("collapsed");
+		}
+		else {
+
+			if ($component->isActivated()) {
+				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
+					->withOnLoadCode(function ($id) use ($component) {
+						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getCollapseAction() . "').submit();" . "});";
+					});
+			} else {
+				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), $component->getCollapseAction());
+			}
+
+			$tpl->setVariable("OPENER", $default_renderer->render($opener_collapse));
+			$tpl->touchBlock("expanded");
+		}
+		$tpl->setVariable("OPENER_TITLE", $this->txt("filter"));
+
+	}
+
+	/**
+	 * Render apply and reset
+	 *
+	 * @param I\Render\Template $tpl
+	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param RendererInterface $default_renderer
+	 */
+	protected function renderApplyAndReset(\ILIAS\UI\Implementation\Render\Template $tpl,
+										   Component\Input\Container\Filter\Standard $component, RendererInterface$default_renderer)
+	{
+		$f = $this->getUIFactory();
+
+		// render apply and reset buttons
+		$apply = $f->button()->bulky($f->glyph()->apply(), $this->txt("apply"), "");
+
+		if (!$component->isActivated()) {
+			$apply = $apply->withUnavailableAction(true);
+			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), "") //replace with Reset Glyph and use
+			->withUnavailableAction(true);
+		} else {
+			$apply = $apply->withOnLoadCode(function ($id) use ($component) {
+				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '".$component->getApplyAction()."').submit();" . "});";
+			});
+			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), $component->getResetAction());
+		}
+		$tpl->setVariable("APPLY", $default_renderer->render($apply));
+		$tpl->setVariable("RESET", $default_renderer->render($reset));
+	}
+
+	/**
+	 * Render toggle button
+	 *
+	 * @param I\Render\Template $tpl
+	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param RendererInterface $default_renderer
+	 */
+	protected function renderToggleButton(\ILIAS\UI\Implementation\Render\Template $tpl,
+										  Component\Input\Container\Filter\Standard $component, RendererInterface$default_renderer)
+	{
+		$f = $this->getUIFactory();
+
+		$component->getToggleOnAction();
+		$signal_generator = new I\Component\SignalGenerator();
+		$toggle_on_signal = $signal_generator->create();
+		$toggle_on_action = $component->getToggleOnAction();
+		$toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
+			->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
+				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').submit();" . "});";
+			});
+		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
+	}
+
+	/**
+	 * Render inputs
+	 *
+	 * @param I\Render\Template $tpl
+	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param RendererInterface $default_renderer
+	 */
+	protected function renderInputs(\ILIAS\UI\Implementation\Render\Template $tpl,
+									Component\Input\Container\Filter\Standard $component, RendererInterface$default_renderer)
+	{
 		// pass information on what inputs should be initially rendered
 		$is_input_rendered = $component->isInputRendered();
 		foreach ($component->getInputs() as $k => $input)
@@ -41,70 +161,8 @@ class Renderer extends AbstractComponentRenderer {
 			next($is_input_rendered);
 		}
 
-		$f = $this->getUIFactory();
-		if ($component->isExpanded() == false) {
-
-			if ($component->isActivated())
-			{
-				$opener_expand = $f->button()->bulky($f->glyph()->expand(), "Filter", "")
-					->withOnLoadCode(function ($id) use ($component) {
-						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getExpandAction() . "').submit();" . "});";
-					});
-			} else {
-				$opener_expand = $f->button()->bulky($f->glyph()->expand(), "Filter", $component->getExpandAction());
-			}
-
-			$tpl->setVariable("OPENER", $default_renderer->render($opener_expand));
-			$tpl->touchBlock("collapsed");
-		}
-		else {
-
-			if ($component->isActivated()) {
-				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), "Filter", "")
-					->withOnLoadCode(function ($id) use ($component) {
-						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getCollapseAction() . "').submit();" . "});";
-					});
-			} else {
-				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), "Filter", $component->getCollapseAction());
-			}
-
-			$tpl->setVariable("OPENER", $default_renderer->render($opener_collapse));
-			$tpl->touchBlock("expanded");
-		}
-		$tpl->setVariable("OPENER_TITLE", "Filter");
-		//replace with Apply Glyph and use language variable
-		$apply = $f->button()->bulky($f->glyph()->apply(), "Apply", "");
-
-		if (!$component->isActivated()) {
-			$apply = $apply->withUnavailableAction(true);
-			$reset = $f->button()->bulky($f->glyph()->reset(), "Reset", "") //replace with Reset Glyph and use
-			->withUnavailableAction(true);
-		} else {
-			$apply = $apply->withOnLoadCode(function ($id) use ($component) {
-				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '".$component->getApplyAction()."').submit();" . "});";
-			});
-			$reset = $f->button()->bulky($f->glyph()->reset(), "Reset", $component->getResetAction());
-		}
-
-		$component->getToggleOnAction();
-
-		// toggle on signal
-		$signal_generator = new I\Component\SignalGenerator();
-		$toggle_on_signal = $signal_generator->create();
-		$toggle_on_action = $component->getToggleOnAction();
-
-		// toggle button
-		$toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
-			->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
-				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').submit();" . "});";
-			});
-
-		$tpl->setVariable("APPLY", $default_renderer->render($apply));
-		$tpl->setVariable("RESET", $default_renderer->render($reset));
-		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
-
+		// render inputs
 		$input_group = $component->getInputGroup();
-
 		if ($component->isActivated())
 		{
 			for ($i = 1; $i <= count($component->getInputs()); $i++)
@@ -126,8 +184,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("INPUTS", $renderer->render($input_group));
-
-		return $tpl->get();
 	}
 
 
