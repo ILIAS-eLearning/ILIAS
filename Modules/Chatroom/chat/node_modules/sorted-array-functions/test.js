@@ -339,6 +339,27 @@ tape('custom compare lt', function (t) {
   t.end()
 })
 
+tape('find nearest value', function (t) {
+  var list = []
+
+  sorted.add(list, 0.001)
+  sorted.add(list, 10)
+  sorted.add(list, 20)
+  sorted.add(list, 30)
+  sorted.add(list, 40)
+  sorted.add(list, 50)
+  sorted.add(list, 70)
+
+  t.equal(sorted.nearest(list, 66), 6)
+  t.equal(sorted.nearest(list, 51), 5)
+  t.equal(sorted.nearest(list, 1), 0)
+  t.equal(sorted.nearest(list, 0), 0)
+  t.equal(sorted.nearest(list, 69.999), 6)
+  t.equal(sorted.nearest(list, 72), 6)
+
+  t.end()
+})
+
 function cmp (a, b) {
   return a.foo - b.foo
 }
