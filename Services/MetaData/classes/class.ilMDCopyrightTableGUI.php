@@ -62,7 +62,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 		if($this->has_write)
 		{
 			$this->addColumn('','f',1);
-			$this->addColumn($lng->txt("order"), "");
+			$this->addColumn($lng->txt("order"), "order");
 			$this->addCommandButton("saveCopyrightPosition", $lng->txt("meta_save_order"));
 		}
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
