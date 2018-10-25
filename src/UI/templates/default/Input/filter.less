@@ -1,0 +1,171 @@
+.il-filter {
+	.col-md-4 {
+		padding-top: @padding-large-vertical;
+		padding-bottom: @padding-large-vertical;
+	}
+
+	//Strange fix, check later if we really need this
+	.glyphicon-ok {
+		font-size: unset;
+		text-align: unset;
+	}
+
+	input {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.input-group {
+		width: 100%;
+		height: 25px;
+		table-layout: fixed;
+		.glyphicon-plus-sign {
+			//font-size: 1.2em;
+		}
+	}
+
+	.leftaddon {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 30%;
+	}
+
+	.rightaddon {
+		overflow: visible;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 10%;
+	}
+}
+
+.il-filter-bar {
+	font-size: 1.4em;
+	padding: @padding-small-vertical @padding-large-horizontal;
+
+	.il-toggle-button {
+		height: 13px;
+		border-radius: 13px;
+		padding-left: 15px;
+		padding-right: 15px;
+
+		.il-toggle-switch {
+			border-radius: 19px;
+			width: 19px;
+			height: 19px;
+		}
+	}
+
+	.btn-bulky {
+		display: inline-flex;
+		width: auto;
+		background-color: initial;
+		font-size: 0.7em;
+		border-width: 0;
+		&.disabled .bulky-label{
+			color: #b0b0b0;
+		}
+	}
+	.il-filter-bar-opener-disabled {
+		font-size: 0.7em;
+	}
+	.glyph {
+		padding-right: 0.3em;
+	}
+}
+
+.il-filter-bar-controls {
+	float: right;
+	.il-toggle-button {
+		vertical-align: middle;
+	}
+}
+
+.il-filter-inputs-active {
+	background-color: @il-secondary-container-bg;
+	padding: @padding-small-vertical @padding-large-horizontal;
+
+	span {
+		display: inline-block;
+		margin: 1px 4px;
+		float: left;
+		background-color: @il-primary-container-bg;
+	}
+}
+
+.il-filter-field {
+	cursor: text;
+}
+
+@media (max-width: @screen-sm){
+	.il-filter-bar-controls .bulky-label {
+		display: none;
+	}
+}
+
+.il-filter-bar-opener-disabled {
+	display: none;
+}
+
+@media (min-width: @screen-sm) {
+	.il-filter.collapsed.enabled{
+		.il-filter-inputs-active, .il-filter-bar-opener {
+			display: none;
+		}
+		.il-filter-bar-opener-disabled {
+			display: inline-block;
+		}
+	}
+	.il-filter.enabled{
+		.il-filter-bar-opener {
+			display: none;
+		}
+		.il-filter-bar-opener-disabled {
+			display: inline-block;
+		}
+	}
+}
+
+@media (max-width: @screen-sm) {
+	.il-filter {
+		.webui-popover {
+			position: static;
+			max-width: none;
+
+		}
+
+		.webui-popover.bottom > .webui-arrow, .webui-popover.bottom-right > .webui-arrow, .webui-popover.bottom-left > .webui-arrow {
+			display: none;
+		}
+		.webui-popover.bottom, .webui-popover.bottom-left, .webui-popover.bottom-right {
+			padding: 4px;
+			margin-top: 0;
+			border: 0;
+			box-shadow: none;
+			background-color: @il-secondary-container-bg;
+		}
+	}
+	.il-filter.collapsed .il-filter-input-section {
+		display: none;
+	}
+
+}
+
+.il-filter.collapsed.disabled .il-filter-input-section{
+	display: none;
+}
+
+.il-filter.expanded .il-filter-inputs-active {
+	display: none;
+}
+
+.il-filter.disabled {
+	.input-group-addon {
+		background-color: @il-primary-container-bg;
+		color: #b0b0b0;
+	}
+	.input-group span.form-control {
+		color: #b0b0b0;
+	}
+}

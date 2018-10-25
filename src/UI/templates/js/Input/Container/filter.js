@@ -62,7 +62,7 @@ il.UI = il.UI || {};
 			//Show labels and values in Filter Bar
             var input_name = $("#" + id).attr("name");
             var input_num = input_name.substring(13);
-            var input_label = $("#" + id).parents(".input-group").find("#leftaddon").html();
+            var input_label = $("#" + id).parents(".input-group").find(".leftaddon").html();
             if (input_label == undefined) {
                 var old_input_label = $("#" + input_num).html();
                 var last_char = old_input_label.indexOf(":");
