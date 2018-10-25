@@ -77,6 +77,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 	{
 		 	$this->addColumn($this->lng->txt('last_access'),'access_time');
 	 	}
+	 	$this->addColumn($this->lng->txt('grp_contact'),'contact');
 	 	$this->addColumn($this->lng->txt('grp_notification'),'notification');
 	 	$this->addColumn($this->lng->txt('objs_role'),'roles');
 
@@ -109,6 +110,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_ACCESS',$a_set['access_time']);
 		}
+		$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
 		

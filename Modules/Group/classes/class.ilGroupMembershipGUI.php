@@ -122,14 +122,20 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	{
 		$participants = (array) $_POST['visible_member_ids'];
 		$notification = (array) $_POST['notification'];
+		$contact = (array) $_POST['contact'];
+
+		ilLoggerFactory::getLogger('grp')->dump($contact);
+
 		foreach($participants as $mem_id)
 		{
 			if($this->getMembersObject()->isAdmin($mem_id))
 			{
+				$this->getMembersObject()->updateContact($mem_id, in_array($mem_id, $contact));
 				$this->getMembersObject()->updateNotification($mem_id, in_array($mem_id, $notification));
 			}
 			else
 			{
+				$this->getMembersObject()->updateContact($mem_id, false);
 				$this->getMembersObject()->updateNotification($mem_id, false);
 			}
 		}

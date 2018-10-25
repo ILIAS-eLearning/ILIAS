@@ -81,6 +81,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		{
 			$this->addColumn($this->lng->txt('last_access'), 'access_time_unix');
 		}
+		$this->addColumn($this->lng->txt('grp_contact'),'contact');
 		$this->addColumn($this->lng->txt('grp_notification'), 'notification');
 
 		$this->addColumn($this->lng->txt(''), 'optional');
@@ -253,6 +254,15 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         }
         
 		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
+
+        if($this->getParticipants()->isAdmin($a_set['usr_id']))
+		{
+			$this->tpl->setVariable('VAL_CONTACT_ID', $a_set['usr_id']);
+			$this->tpl->setVariable(
+				'VAL_CONTACT_CHECKED',
+				$a_set['contact'] ? 'checked="checked"' : '');
+		}
+
 		if(
 			$this->getParticipants()->isAdmin($a_set['usr_id'])
 		)
