@@ -34,7 +34,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
       - [Proxy configuration via nginx](#proxy-configuration-by-nginx)
       - [Proxy configuration via apache2](#proxy-configuration-per-apache2)
   - [Development](#development)
-      - [Dependencies](#dependency-management)
+      - [Dependency Management](#dependency-management)
 
 <!-- /TOC -->
 
