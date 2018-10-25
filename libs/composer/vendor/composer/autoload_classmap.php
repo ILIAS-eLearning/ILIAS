@@ -4763,6 +4763,7 @@ return array(
     'ilMMTypeActionStorage' => $baseDir . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeActionStorage.php',
     'ilMMTypeHandlerLink' => $baseDir . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeHandlerLink.php',
     'ilMMTypeHandlerRepositoryLink' => $baseDir . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeHandlerRepositoryLink.php',
+    'ilMMTypeHandlerSeparator' => $baseDir . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeHandlerSeparator.php',
     'ilMMTypeHandlerTopLink' => $baseDir . '/../../Services/MainMenu/classes/TypeHandler/class.ilMMTypeHandlerTopLink.php',
     'ilMStListCourse' => $baseDir . '/../../Services/MyStaff/classes/ListCourses/class.ilMStListCourse.php',
     'ilMStListCourses' => $baseDir . '/../../Services/MyStaff/classes/ListCourses/class.ilMStListCourses.php',
