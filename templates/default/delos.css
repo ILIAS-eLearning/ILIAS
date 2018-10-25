@@ -8910,6 +8910,9 @@ ul.breadcrumb li:hover {
 .il-standard-form .il-filter-bar .btn-bulky.disabled .bulky-label {
   color: #b0b0b0;
 }
+.il-standard-form .il-filter-bar .il-filter-bar-opener-disabled {
+  font-size: 0.7em;
+}
 .il-standard-form .il-filter-bar .glyph {
   padding-right: 0.3em;
 }
@@ -8967,12 +8970,36 @@ ul.breadcrumb li:hover {
     display: none;
   }
 }
+.il-filter.collapsed.disabled .il-filter-input-section {
+  display: none;
+}
+.il-filter.expanded .il-filter-inputs-active {
+  display: none;
+}
 .il-filter.disabled .input-group-addon {
   background-color: white;
   color: #b0b0b0;
 }
 .il-filter.disabled .input-group span.form-control {
   color: #b0b0b0;
+}
+.il-filter-bar-opener-disabled {
+  display: none;
+}
+@media (min-width: 768px) {
+  .il-filter.collapsed.enabled .il-filter-inputs-active,
+  .il-filter.collapsed.enabled .il-filter-bar-opener {
+    display: none;
+  }
+  .il-filter.collapsed.enabled .il-filter-bar-opener-disabled {
+    display: inline-block;
+  }
+  .il-filter.enabled .il-filter-bar-opener {
+    display: none;
+  }
+  .il-filter.enabled .il-filter-bar-opener-disabled {
+    display: inline-block;
+  }
 }
 @media (max-width: 768px) {
   .il-filter .webui-popover {
@@ -8992,6 +9019,9 @@ ul.breadcrumb li:hover {
     border: 0;
     box-shadow: none;
     background-color: #f9f9f9;
+  }
+  .il-filter.collapsed .il-filter-input-section {
+    display: none;
   }
 }
 .il-input-tag {

@@ -1,13 +1,14 @@
-<div class="il-filter <!-- BEGIN deactivated -->disabled<!-- END deactivated -->">
+<div class="il-filter <!-- BEGIN disabled -->disabled<!-- END disabled --> <!-- BEGIN enabled -->enabled<!-- END enabled --> <!-- BEGIN expanded -->expanded<!-- END expanded --> <!-- BEGIN collapsed -->collapsed<!-- END collapsed -->">
     <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="{URL}" method="post" novalidate="novalidate">
         <div class="il-filter-bar">
             <span class="il-filter-bar-opener" data-toggle="collapse" data-target="#inputs" aria-expanded="false"> {OPENER} </span>
+            <span class="il-filter-bar-opener-disabled"> {OPENER_TITLE} </span>
             <span class="il-filter-bar-controls"> {APPLY} {RESET} {TOGGLE} </span>
         </div>
         <!-- BEGIN active_inputs_section -->
         <div class="il-filter-inputs-active clearfix"><!-- BEGIN active_inputs --> <span id={ID}> </span> <!-- END active_inputs --></div>
         <!-- END active_inputs_section -->
-        <div id="inputs" class="form-group row collapse {COLLAPSE}"> {INPUTS} </div>
+        <div id="inputs" class="il-filter-input-section form-group row"> {INPUTS} </div>
     </form>
 </div>
 
