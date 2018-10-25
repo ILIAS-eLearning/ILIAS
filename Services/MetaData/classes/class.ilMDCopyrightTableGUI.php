@@ -63,7 +63,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 		{
 			$this->addColumn('','f',1);
 			$this->addColumn($lng->txt("order"), "");
-			$this->addCommandButton("saveOrder", $lng->txt("meta_save_order"));
+			$this->addCommandButton("saveCopyrightPosition", $lng->txt("meta_save_order"));
 		}
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
 	 	$this->addColumn($this->lng->txt('md_used'),'used',"5%");
@@ -97,6 +97,16 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('DISABLED',"disabled");
 			}
 			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+
+			// order
+			if($a_set["position"])
+			{
+				$this->tpl->setCurrentBlock("order");
+				$this->tpl->setVariable("ORDER_NAME", "order[c_".$a_set["id"]."]");
+				$this->tpl->setVariable("ORDER_VALUE", $a_set["position"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
 		}
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		if(strlen($a_set['description']))
@@ -141,7 +151,11 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	 */
 	public function parseSelections()
 	{
-	 	foreach(ilMDCopyrightSelectionEntry::_getEntries() as $entry)
+		$entries = ilMDCopyrightSelectionEntry::_getEntries();
+
+		$position = 0;
+
+	 	foreach( $entries as $entry)
 	 	{
 			$tmp_arr['id'] = $entry->getEntryId();
 			$tmp_arr['title'] = $entry->getTitle();
@@ -150,17 +164,23 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 			$tmp_arr['preview'] = $entry->getCopyright();
 			$tmp_arr['default'] = $entry->getIsDefault();
 			$tmp_arr['status'] = $entry->getOutdated();
+
+			if($this->has_write)
+			{
+				// order
+				if(sizeof($entries) > 1)
+				{
+					$position += 10;
+					$tmp_arr["position"] = $position;
+				}
+
+			}
 			
 			$entry_arr[] = $tmp_arr;
 	 	}
+
 	 	$this->setData($entry_arr ? $entry_arr : array());
 	}
-
-	public function saveOrder()
-	{
-		//TODO IMPLEMENT
-	}
-	
 } 
 
 

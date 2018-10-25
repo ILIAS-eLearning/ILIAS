@@ -46,6 +46,12 @@ class ilMDCopyrightSelectionEntry
 	 * @var integer
 	 */
 	protected $outdated;
+
+	/**
+	 * order position in the MDCopyrightTableGUI
+	 * @var integer
+	 */
+	protected $order_position;
 	
 
 	/**
@@ -371,7 +377,25 @@ class ilMDCopyrightSelectionEntry
 	 	// Fixed
 	 	return true;
 	}
-	
+
+	/**
+	 * Set the order position in the table of copyrights.
+	 * @param $a_position integer
+	 */
+	public function setOrderPosition($a_position)
+	{
+		$this->order_position = (int)$a_position;
+	}
+
+	/**
+	 * Get the order position in the table of copyrights.
+	 * @return int
+	 */
+	public function getOrderPosition()
+	{
+		return $this->order_position;
+	}
+
 	/**
 	 * Add entry
 	 *
@@ -417,7 +441,8 @@ class ilMDCopyrightSelectionEntry
 	 		'language'			=> array('text',$this->getLanguage()),
 	 		'costs'				=> array('integer',$this->getCosts()),
 	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions()),
-			'outdated'			=> array('integer',$this->getOutdated())
+			'outdated'			=> array('integer',$this->getOutdated()),
+			'position'			=> array('integer',$this->getOrderPosition())
 		 	),array(
 		 		'entry_id'			=> array('integer',$this->getEntryId())
 	 	));
@@ -484,6 +509,7 @@ class ilMDCopyrightSelectionEntry
 	 		$this->setLanguage($row->language);
 	 		$this->setCosts($row->costs);
 	 		$this->setOutdated($row->outdated);
+	 		$this->setOrderPosition($row->position);
 	 		// Fixed
 	 		$this->setCopyrightAndOtherRestrictions(true);
 	 	}

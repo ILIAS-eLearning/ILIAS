@@ -596,5 +596,27 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		}
 		return $a_str;		
 	}
+
+	/**
+	 * Save the order position to display the copyrights in the GUI table.
+	 */
+	public function saveCopyrightPosition()
+	{
+		if(isset($_POST["order"]))
+		{
+			$position = -1;
+			$order = array();
+			asort($_POST["order"]);
+			foreach(array_keys($_POST["order"]) as $id)
+			{
+					$copyright_id = substr($id, 2);
+					$position++;
+					$copyright = new ilMDCopyrightSelectionEntry($copyright_id);
+					$copyright->setOrderPosition($position);
+					$copyright->update();
+					$order[$copyright_id] = $position;
+			}
+		}
+	}
 }
 ?>
