@@ -14244,7 +14244,7 @@ prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new po
 style#:#open_documentation#:#Open Documentation
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
-prtf#:#prtf_pdf#:#PDF
+prtf#:#prtf_pdf#:#Export as PDF
 prtf#:#prtf_print_selection#:#Page Selection
 prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_selected_pages#:#Selected Pages
