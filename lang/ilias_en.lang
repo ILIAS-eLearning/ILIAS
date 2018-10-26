@@ -14488,6 +14488,7 @@ mme#:#type_separator#:#Separator
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Komplex
+mme#:#type_repository_link#:#Repository-Link
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.

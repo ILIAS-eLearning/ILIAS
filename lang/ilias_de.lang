@@ -14483,7 +14483,8 @@ mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Trenner
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link Liste
-mme#:#type_complex#:#Komplex
+mme#:#type_link_list#:#Link Liste
+mme#:#type_repository_link#:#Magazin-Link
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
