@@ -24114,3 +24114,9 @@ if(!$ilDB->tableColumnExists('exc_idl','starting_ts'))
         ));
 }
 ?>
+<#5367>
+<?php
+$ilSetting = new ilSetting('certificate');
+$setting = $ilSetting->set('persisting_cers_introduced_ts', time());
+?>
+

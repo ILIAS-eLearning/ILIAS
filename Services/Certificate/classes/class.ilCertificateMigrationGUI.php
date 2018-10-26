@@ -52,6 +52,11 @@ class ilCertificateMigrationGUI
 	protected $learningHistoryService;
 
 	/**
+	 * @var ilCertificateMigrationValidator|null
+	 */
+	private $migrationValidator;
+
+	/**
 	 * ilCertificateMigrationGUI constructor.
 	 * @param \ilCtrl $ctrl
 	 * @param \ilLanguage $lng
@@ -59,6 +64,8 @@ class ilCertificateMigrationGUI
 	 * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
 	 * @param \ilObjUser $user
 	 * @param \ilLearningHistoryService $learningHistoryService
+	 * @param ilSetting|null $certificateSettings
+	 * @param ilCertificateMigrationValidator|null $migrationValidator
 	 */
 	public function __construct(
 		\ilCtrl $ctrl = null,
@@ -66,7 +73,9 @@ class ilCertificateMigrationGUI
 		\ilAccessHandler $access = null,
 		\ILIAS\DI\BackgroundTaskServices $backgroundTasks = null,
 		\ilObjUser $user = null,
-		\ilLearningHistoryService $learningHistoryService = null
+		\ilLearningHistoryService $learningHistoryService = null,
+		\ilSetting $certificateSettings = null,
+		\ilCertificateMigrationValidator $migrationValidator = null
 	) {
 		global $DIC;
 
@@ -88,6 +97,15 @@ class ilCertificateMigrationGUI
 		if (null === $learningHistoryService) {
 			$learningHistoryService = $DIC->learningHistory();
 		}
+
+		if (null === $certificateSettings) {
+			$certificateSettings = new \ilSetting('certificate');
+		}
+
+		if (null === $migrationValidator) {
+			$migrationValidator = new ilCertificateMigrationValidator($certificateSettings);
+		}
+		$this->migrationValidator = $migrationValidator;
 
 		$this->ctrl = $ctrl;
 		$lng->loadLanguageModule('cert');
@@ -129,9 +147,14 @@ class ilCertificateMigrationGUI
 
 	/**
 	 * @return string
+	 * @throws ilException
 	 */
 	public function startMigration(): string
 	{
+		if (false === $this->migrationValidator->isMigrationAvailable($this->user)) {
+			throw new ilException('User is not allowed to start migration');
+		}
+
 		$factory = $this->backgroundTasks->taskFactory();
 		$taskManager = $this->backgroundTasks->taskManager();
 

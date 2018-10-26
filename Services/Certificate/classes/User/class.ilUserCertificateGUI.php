@@ -63,6 +63,11 @@ class ilUserCertificateGUI
 	private $filesystem;
 
 	/**
+	 * @var ilCertificateMigrationValidator|null
+	 */
+	private $migrationVisibleValidator;
+
+	/**
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
 	 * @param ilLanguage|null $language
@@ -75,7 +80,7 @@ class ilUserCertificateGUI
 	 * @param Renderer|null $uiRenderer
 	 * @param \ilAccessHandler|null $access
 	 * @param \ILIAS\Filesystem\Filesystem|null $filesystem
-	 * @param ilSetting|null $scormSettings
+	 * @param ilCertificateMigrationValidator|null $migrationVisibleValidator
 	 */
 	public function __construct(
 		ilTemplate $template = null,
@@ -89,7 +94,8 @@ class ilUserCertificateGUI
 		Factory $uiFactory = null,
 		Renderer $uiRenderer = null,
 		\ilAccessHandler $access = null,
-		\ILIAS\Filesystem\Filesystem $filesystem = null
+		\ILIAS\Filesystem\Filesystem $filesystem = null,
+		ilCertificateMigrationValidator $migrationVisibleValidator = null
 	) {
 		global $DIC;
 
@@ -155,6 +161,11 @@ class ilUserCertificateGUI
 		}
 		$this->filesystem = $filesystem;
 
+		if (null === $migrationVisibleValidator) {
+			$migrationVisibleValidator = new ilCertificateMigrationValidator($this->certificateSettings);
+		}
+		$this->migrationVisibleValidator = $migrationVisibleValidator;
+
 		$this->language->loadLanguageModule('cert');
 	}
 
@@ -204,6 +215,7 @@ class ilUserCertificateGUI
 	/**
 	 * @param bool $migrationWasStarted
 	 * @throws ilDateTimeException
+	 * @throws ilWACException
 	 */
 	public function listCertificates(bool $migrationWasStarted = false)
 	{
@@ -214,7 +226,9 @@ class ilUserCertificateGUI
 			return;
 		}
 
-		if (!$migrationWasStarted) {
+		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable($this->user);
+
+		if (!$migrationWasStarted && true === $showMigrationBox) {
 			$cert_ui_elements = new \ilCertificateMigrationUIElements();
 			$messageBoxLink = $this->controller->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
 			$messageBox = $cert_ui_elements->getMigrationMessageBox($messageBoxLink);

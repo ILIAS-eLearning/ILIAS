@@ -791,7 +791,12 @@ class ilPersonalProfileGUI
 			}
 		}
 
-		if (!$a_migration_started) {
+		$certificateSettings = new ilSetting('certificate');
+		$migrationVisibleValidator = new ilCertificateMigrationValidator($certificateSettings);
+
+		$showMigrationBox =  $migrationVisibleValidator->isMigrationAvailable($ilUser);
+
+		if (!$a_migration_started && true === $showMigrationBox) {
 		    $cert_ui_elements = new \ilCertificateMigrationUIElements();
 			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
 			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
