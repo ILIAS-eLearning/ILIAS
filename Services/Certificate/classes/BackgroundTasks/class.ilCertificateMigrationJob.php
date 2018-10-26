@@ -715,7 +715,9 @@ class ilCertificateMigrationJob extends AbstractJob
 	 */
 	protected function renderCertificate(array $cert_data): string
 	{
+		$oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
 		\ilDatePresentation::setUseRelativeDates(false);
+
 		$this->logMessage(
 			'Try to render ' . $cert_data['certificate_type'] . ' certificate for obj_id: ' . $cert_data['obj_id'] . ' and user_id: ' . $this->user_id,
 			'debug'
@@ -810,7 +812,8 @@ class ilCertificateMigrationJob extends AbstractJob
 			'debug'
 		);
 
-		ilDatePresentation::setUseRelativeDates(true);
+		\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
+
 		return $xslfo;
 	}
 }
