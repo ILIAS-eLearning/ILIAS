@@ -24021,3 +24021,51 @@ if($ilDB->tableColumnExists('svy_svy', 'mode_360_skill_service'))
 	$ilDB->renameTableColumn('svy_svy', 'mode_360_skill_service', 'mode_skill_service');
 }
 ?>
+<#5356>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_template', ['obj_id', 'deleted'])) {
+	$ilDB->addIndex('il_cert_template', ['obj_id', 'deleted'], 'i2');
+}
+?>
+<#5357>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_template', ['obj_id', 'currently_active', 'deleted'])) {
+	$ilDB->addIndex('il_cert_template', ['obj_id', 'currently_active', 'deleted'], 'i3');
+}
+?>
+<#5358>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_template', ['obj_type'])) {
+	$ilDB->addIndex('il_cert_template', ['obj_type'], 'i4');
+}
+?>
+<#5359>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'currently_active'])) {
+	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'currently_active'], 'i2');
+}
+?>
+<#5360>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'currently_active', 'acquired_timestamp'])) {
+	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'currently_active', 'acquired_timestamp'], 'i3');
+}
+?>
+<#5361>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'obj_type', 'currently_active'])) {
+	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'obj_type', 'currently_active'], 'i5');
+}
+?>
+<#5362>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['obj_id', 'currently_active'])) {
+	$ilDB->addIndex('il_cert_user_cert', ['obj_id', 'currently_active'], 'i6');
+}
+?>
+<#5363>
+<?php
+if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'obj_id', 'currently_active'])) {
+	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'obj_id', 'currently_active'], 'i7');
+}
+?>
