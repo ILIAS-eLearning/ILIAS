@@ -6909,6 +6909,12 @@ button.close {
   height: 47px;
   padding: 0 6px;
 }
+.il-card .il-card-repository-head .icon.outlined {
+  filter: brightness(1);
+}
+.il-card .il-card-repository-head .icon.outlined.disabled {
+  filter: brightness(1);
+}
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
   float: left;
