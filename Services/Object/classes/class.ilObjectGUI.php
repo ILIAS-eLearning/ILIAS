@@ -484,6 +484,11 @@ class ilObjectGUI
 	 */
 	protected function insertHeaderAction($a_list_gui)
 	{
+		if (!is_object($this->object) || ilContainer::_lookupContainerSetting($this->object->getId(), "hide_top_actions"))
+		{
+			return;
+		}
+
 		if(is_object($a_list_gui))
 		{
 			$this->tpl->setHeaderActionMenu($a_list_gui->getHeaderAction());

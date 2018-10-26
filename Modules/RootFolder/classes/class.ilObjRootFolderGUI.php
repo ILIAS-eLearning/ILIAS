@@ -287,6 +287,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	function initEditForm()
 	{
 		$this->setEditTabs();
+		$obj_service = $this->getObjectService();
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -312,11 +313,12 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 
 		$this->showCustomIconsEditing(1, $form, false);
-		
-		
-		$hide = new ilCheckboxInputGUI($this->lng->txt("cntr_hide_title_and_icon"), "hide_header_icon_and_title");
-		$hide->setChecked(ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"));
-		$form->addItem($hide);
+
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		//$hide = new ilCheckboxInputGUI($this->lng->txt("cntr_hide_title_and_icon"), "hide_header_icon_and_title");
+		//$hide->setChecked(ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"));
+		//$form->addItem($hide);
 		
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
@@ -338,6 +340,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	function updateObject()
 	{
 		global $ilSetting;
+
+		$obj_service = $this->getObjectService();
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -373,10 +377,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
 					// cognos-blu-patch: end
 				}
 
+				// custom icon
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
 				// hide icon/title
-				ilContainer::_writeContainerSetting($this->object->getId(),
-					"hide_header_icon_and_title",
-					$form->getInput("hide_header_icon_and_title"));
+				//ilContainer::_writeContainerSetting($this->object->getId(),
+				//	"hide_header_icon_and_title",
+				//	$form->getInput("hide_header_icon_and_title"));
 
 				// BEGIN ChangeEvent: Record update
 				global $ilUser;

@@ -34,5 +34,29 @@ interface ilObjectCommonSettingFormAdapterInterface
 	 */
 	public function saveTileImage();
 
+	/**
+	 * Add title icon visibility setting to form
+	 *
+	 * @return null|ilPropertyFormGUI
+	 */
+	public function addTitleIconVisibility(): ilPropertyFormGUI;
+
+	/**
+	 * Save title icon visibility setting from form
+	 */
+	public function saveTitleIconVisibility();
+
+	/**
+	 * Add top actions visibility setting to form
+	 *
+	 * @return null|ilPropertyFormGUI
+	 */
+	public function addTopActionsVisibility(): ilPropertyFormGUI;
+
+	/**
+	 * Save top actions visibility setting from form
+	 */
+	public function saveTopActionsVisibility();
+
 
 }

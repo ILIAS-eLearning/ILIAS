@@ -50,6 +50,8 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->settings = $DIC->settings();
 		$this->type = "fold";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output, false);
+
+		$this->lng->loadLanguageModule("obj");
 	}
 
 
@@ -287,6 +289,11 @@ class ilObjFolderGUI extends ilContainerGUI
 		$pres->setTitle($this->lng->txt('fold_presentation'));
 		$form->addItem($pres);
 
+		// title and icon visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		// top actions visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
 
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
@@ -325,6 +332,12 @@ class ilObjFolderGUI extends ilContainerGUI
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
 		$obj_service = $this->getObjectService();
+
+		// title icon visibility
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTitleIconVisibility();
+
+		// top actions visibility
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTopActionsVisibility();
 
 		// custom icon
 		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveIcon();

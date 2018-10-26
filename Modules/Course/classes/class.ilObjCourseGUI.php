@@ -30,6 +30,10 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  */
 class ilObjCourseGUI extends ilContainerGUI
 {
+	const BREADCRUMB_DEFAULT = 0;
+	const BREADCRUMB_CRS_ONLY = 1;
+	const BREADCRUMB_FULL_PATH = 2;
+
 	/**
 	 * Constructor
 	 * @access public
@@ -50,6 +54,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('cert');
+		$this->lng->loadLanguageModule('obj');
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
@@ -836,6 +841,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	public function updateObject()
 	{
 		$obj_service = $this->getObjectService();
+		$setting = $this->settings;
 			
 		$form = $this->initEditForm();
 
@@ -946,6 +952,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
+
+		// title icon visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+		// top actions visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
+
+		ilContainer::_writeContainerSetting($this->object->getId(), "rep_breacrumb", $form->getInput('rep_breacrumb'));
 
 		// custom icon
 		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
@@ -1110,6 +1124,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	protected function initEditForm()
 	{
 		$obj_service = $this->getObjectService();
+		$setting = $this->settings;
 
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
@@ -1340,6 +1355,30 @@ class ilObjCourseGUI extends ilContainerGUI
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
 
 		$form->addItem($pres);
+
+		// title and icon visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		// top actions visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
+
+		// breadcrumbs
+		if ($setting->get("rep_breadcr_crs_overwrite"))
+		{
+			$add = $setting->get("rep_breadcr_crs_default")
+				? " (".$this->lng->txt("crs_breadcrumb_crs_only").")"
+				: " (".$this->lng->txt("crs_breadcrumb_full_path").")";
+			$options = array(
+				self::BREADCRUMB_DEFAULT => $this->lng->txt("crs_sys_default").$add,
+				self::BREADCRUMB_CRS_ONLY => $this->lng->txt("crs_breadcrumb_crs_only"),
+				self::BREADCRUMB_FULL_PATH => $this->lng->txt("crs_breadcrumb_full_path")
+			);
+			$si = new ilSelectInputGUI($this->lng->txt("crs_shorten_breadcrumb"), "rep_breacrumb");
+			$si->setValue((int) ilContainer::_lookupContainerSetting($this->object->getId(), "rep_breacrumb"));
+			$si->setOptions($options);
+			$form->addItem($si);
+		}
+
 
 		// custom icon
 		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
