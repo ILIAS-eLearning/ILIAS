@@ -4,7 +4,7 @@
 		padding-bottom: @padding-large-vertical;
 	}
 
-	//Strange fix, check later if we really need this
+	//Necessary fix for Apply-Glyph
 	.glyphicon-ok {
 		font-size: unset;
 		text-align: unset;
@@ -17,43 +17,38 @@
 	}
 
 	.input-group {
-		width: 100%;
-		height: 25px;
+		width: @il-standard-filter-input-group-width;
+		height: @il-standard-filter-input-group-height;
 		table-layout: fixed;
-		.glyphicon-plus-sign {
-			//font-size: 1.2em;
-		}
 	}
 
 	.leftaddon {
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		width: 30%;
+		width: @il-standard-filter-label-width;
 	}
 
 	.rightaddon {
 		overflow: visible;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		width: 10%;
+		width: @il-standard-filter-input-remove-width;
 	}
 }
 
 .il-filter-bar {
-	font-size: 1.4em;
+	font-size: @il-standard-filter-bar-font-size;
 	padding: @padding-small-vertical @padding-large-horizontal;
 
 	.il-toggle-button {
-		height: 13px;
-		border-radius: 13px;
-		padding-left: 15px;
-		padding-right: 15px;
+		height: @il-standard-filter-bar-btn-toggle-height;
+		padding-left: @il-standard-filter-bar-btn-toggle-padding;
+		padding-right: @il-standard-filter-bar-btn-toggle-padding;
 
 		.il-toggle-switch {
-			border-radius: 19px;
-			width: 19px;
-			height: 19px;
+			width: @il-standard-filter-bar-btn-toggle-switch-width;
+			height: @il-standard-filter-bar-btn-toggle-switch-width;
 		}
 	}
 
@@ -61,17 +56,17 @@
 		display: inline-flex;
 		width: auto;
 		background-color: initial;
-		font-size: 0.7em;
-		border-width: 0;
+		font-size: @il-standard-filter-bar-btn-bulky-font-size;
+		border-width: @il-standard-filter-bar-btn-bulky-border-width;
 		&.disabled .bulky-label{
-			color: #b0b0b0;
+			color: @il-standard-filter-font-color-disabled;
 		}
 	}
 	.il-filter-bar-opener-disabled {
-		font-size: 0.7em;
+		font-size: @il-standard-filter-bar-opener-disabled;
 	}
 	.glyph {
-		padding-right: 0.3em;
+		padding-right: @il-standard-filter-bar-glyph-padding;
 	}
 }
 
@@ -88,11 +83,11 @@
 
 	span {
 		display: inline-block;
-		margin: @padding-small-vertical @padding-base-horizontal @padding-small-vertical 0;
-		padding: 0 @padding-base-horizontal;
+		margin: @padding-small-vertical @padding-base-horizontal @padding-small-vertical @il-standard-filter-active-inputs-margin-left;
+		padding: @il-standard-filter-active-inputs-padding-vertical @padding-base-horizontal;
 		float: left;
 		background-color: @il-primary-container-bg;
-		font-size: 0.8em;
+		font-size: @il-standard-filter-active-inputs-font-size;
 	}
 }
 
@@ -141,9 +136,9 @@
 			display: none;
 		}
 		.webui-popover.bottom, .webui-popover.bottom-left, .webui-popover.bottom-right {
-			padding: 4px;
-			margin-top: 0;
-			border: 0;
+			padding: @il-standard-filter-screen-sm-input-popover-padding;
+			margin-top: @il-standard-filter-screen-sm-input-popover-margin-top;
+			border: @il-standard-filter-screen-sm-input-popover-border;
 			box-shadow: none;
 			background-color: @il-secondary-container-bg;
 		}
@@ -165,21 +160,21 @@
 .il-filter.disabled {
 	.input-group-addon {
 		background-color: @il-primary-container-bg;
-		color: #b0b0b0;
+		color: @il-standard-filter-font-color-disabled;
 	}
 	.input-group span.form-control {
-		color: #b0b0b0;
+		color: @il-standard-filter-font-color-disabled;
 	}
 }
 
 .il-filter-add-list ul {
 	list-style: none;
-	margin: 0;
-	padding: 0;
+	margin: @il-standard-filter-add-input-popover-list-margin;
+	padding: @il-standard-filter-add-input-popover-list-padding;
 
 	li > button {
 		padding: @padding-large-vertical @padding-large-horizontal;
 		display: block;
-		width: 100%;
+		width: @il-standard-filter-add-input-popover-list-button-width;
 	}
 }

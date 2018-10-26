@@ -104,7 +104,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		if (!$component->isActivated()) {
 			$apply = $apply->withUnavailableAction(true);
-			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), "") //replace with Reset Glyph and use
+			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), "")
 			->withUnavailableAction(true);
 		} else {
 			$apply = $apply->withOnLoadCode(function ($id) use ($component) {
