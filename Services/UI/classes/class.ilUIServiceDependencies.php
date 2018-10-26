@@ -22,7 +22,8 @@ class ilUIServiceDependencies
 
 	/**
 	 * Constructor
-	 * @param ilLanguage $lng
+	 * @param ilUIFilterRequestAdapter $request
+	 * @param ilUIFilterServiceSessionGateway|null $session
 	 */
 	public function __construct(ilUIFilterRequestAdapter $request, ilUIFilterServiceSessionGateway $session = null)
 	{
@@ -35,7 +36,7 @@ class ilUIServiceDependencies
 	/**
 	 * @return ilUIFilterRequestAdapter
 	 */
-	public function getRequest()
+	public function getRequest(): ilUIFilterRequestAdapter
 	{
 		return $this->request_adapter;
 	}
@@ -43,7 +44,7 @@ class ilUIServiceDependencies
 	/**
 	 * @return ilUIFilterServiceSessionGateway
 	 */
-	public function getSession()
+	public function getSession(): ilUIFilterServiceSessionGateway
 	{
 		return $this->session;
 	}

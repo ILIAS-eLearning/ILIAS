@@ -44,10 +44,9 @@ class ilUIFilterRequestAdapter
 	/**
 	 * Is post send?
 	 *
-	 * @param
-	 * @return
+	 * @return bool
 	 */
-	public function isPost()
+	public function isPost(): bool
 	{
 		return ($this->request->getMethod() == "POST");
 	}

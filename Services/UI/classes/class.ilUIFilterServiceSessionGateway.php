@@ -39,8 +39,9 @@ class ilUIFilterServiceSessionGateway
 	/**
 	 * Get value
 	 *
-	 * @param
-	 * @return
+	 * @param string $filter_id
+	 * @param string $input_id
+	 * @return mixed|null
 	 */
 	public function getValue(string $filter_id, string $input_id)
 	{
@@ -84,6 +85,7 @@ class ilUIFilterServiceSessionGateway
 
 	/**
 	 * Resets values and rendered status
+	 * @param string $filter_id
 	 */
 	public function reset(string $filter_id)
 	{
@@ -99,8 +101,7 @@ class ilUIFilterServiceSessionGateway
 	 * Write activation info of filter
 	 *
 	 * @param string $filter_id
-	 * @param string $input_id
-	 * @param $value
+	 * @param bool $value
 	 */
 	public function writeActivated(string $filter_id, bool $value)
 	{
@@ -111,8 +112,7 @@ class ilUIFilterServiceSessionGateway
 	 * Write expand info of filter
 	 *
 	 * @param string $filter_id
-	 * @param string $input_id
-	 * @param $value
+	 * @param bool $value
 	 */
 	public function writeExpanded(string $filter_id, bool $value)
 	{
