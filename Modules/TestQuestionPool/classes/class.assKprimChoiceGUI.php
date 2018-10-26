@@ -997,4 +997,22 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		
 		return $form;
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->setPoints(
+			(float)$form->getInput('points')
+		);
+		
+		$this->object->setScorePartialSolutionEnabled(
+			(bool)$form->getInput('score_partsol_enabled')
+		);
+		
+		$this->object->setAnswers(
+			$form->getItemByPostVar('kprim_answers')->getValues()
+		);
+	}
 }

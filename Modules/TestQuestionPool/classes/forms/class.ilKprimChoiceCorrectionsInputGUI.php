@@ -12,9 +12,54 @@
  */
 class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 {
+	public function setValue($a_value)
+	{
+		if( is_array($a_value) && is_array($a_value['correctness']) )
+		{
+			foreach ($this->values as $index => $value)
+			{
+				if(isset($a_value['correctness'][$index]))
+				{
+					$this->values[$index]->setCorrectness((bool)$a_value['correctness'][$index]);
+				}
+				else
+				{
+					$this->values[$index]->setCorrectness(null);
+				}
+			}
+		}
+	}
+	
 	public function checkInput()
 	{
+		global $lng;
 		
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		if( is_array($_POST[$this->getPostVar()]) )
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
+				$_POST[$this->getPostVar()], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+			);
+		}
+		
+		$foundvalues = $_POST[$this->getPostVar()];
+		
+		if( is_array($foundvalues) )
+		{
+			// check correctness
+			if( !isset($foundvalues['correctness']) || count($foundvalues['correctness']) < count($this->values) )
+			{
+				$this->setAlert($lng->txt("msg_input_is_required"));
+				return false;
+			}
+		}
+		else
+		{
+			$this->setAlert($lng->txt("msg_input_is_required"));
+			return FALSE;
+		}
+		
+		return $this->checkSubItemsInput();
 	}
 	
 	public function insert($a_tpl)
