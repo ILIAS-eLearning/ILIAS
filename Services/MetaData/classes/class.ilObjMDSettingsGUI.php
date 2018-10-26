@@ -602,24 +602,29 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 	 */
 	public function saveCopyrightPosition()
 	{
-
-
-
-		if(isset($_POST["order"]))
+		if(!isset($_POST['order']))
 		{
-			$position = 0;
-			$order = array();
-			asort($_POST["order"]);
-			foreach(array_keys($_POST["order"]) as $id)
-			{
-					$copyright_id = substr($id, 2);
-					$position++;
-					$copyright = new ilMDCopyrightSelectionEntry($copyright_id);
-					$copyright->setOrderPosition($position);
-					$copyright->update();
-					$order[$copyright_id] = $position;
-			}
+			$this->ctrl->redirect($this,'showCopyrightSettings');
+			return false;
 		}
+
+		ilLoggerFactory::getLogger('root')->dump($positions);
+
+		$positions = $_POST['order'];
+		ilLoggerFactory::getLogger('root')->dump($positions);
+		asort($positions);
+		ilLoggerFactory::getLogger('root')->dump($positions);
+
+		$position = 0;
+		foreach($positions as $entry_id => $position_ignored)
+		{
+			$copyright = new ilMDCopyrightSelectionEntry($entry_id);
+			$copyright->setOrderPosition($position++);
+			$copyright->update();
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->ctrl->redirect($this,'showCopyrightSettings');
+		return false;
 	}
 }
 ?>
