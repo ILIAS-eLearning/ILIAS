@@ -24,7 +24,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI
  *
  * @extends ilContainerGUI
  */
@@ -835,6 +835,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
+		$obj_service = $this->getObjectService();
+			
 		$form = $this->initEditForm();
 
 		if(!$form->checkInput())
@@ -944,7 +946,17 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
-		
+
+		// custom icon
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+		// list presentation
+		$this->saveListPresentation($form);
+
+
 		// view mode settings
 		$this->object->setViewMode((int) $form->getInput('view_mode'));
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -1097,6 +1109,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function initEditForm()
 	{
+		$obj_service = $this->getObjectService();
+
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
@@ -1324,9 +1338,18 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
-		
-		$form->addItem($pres);		
-		
+
+		$form->addItem($pres);
+
+		// custom icon
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
+		// tile image
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
+
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
 		$view_type->setValue($this->object->getViewMode());
@@ -1558,14 +1581,6 @@ class ilObjCourseGUI extends ilContainerGUI
 					);
 				}
 
-				if ($this->ilias->getSetting('custom_icons')) {
-					$this->tabs_gui->addSubTabTarget(
-						'icon_settings',
-						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
-						'editCourseIcons', get_class($this)
-					);
-				}
-				
 				// map settings
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
 				if (ilMapUtil::isActivated())
@@ -2576,19 +2591,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->setSubTabs('properties');
-				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('icon_settings');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
-				break;
 
 			case 'ilobjecttranslationgui':
 				$this->checkPermissionBool("write");

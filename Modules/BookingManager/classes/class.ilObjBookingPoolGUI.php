@@ -231,6 +231,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->getObjectService();
+
 		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
 		$a_form->addItem($online);
 
@@ -283,7 +285,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$period->setSize(3);
 		$period->setMinValue(0);
 		$a_form->addItem($period);
-		
+
+		// presentation
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$a_form->addItem($pres);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+
 		// additional features
 		$feat = new ilFormSectionHeaderGUI();
 		$feat->setTitle($this->lng->txt('obj_features'));
@@ -303,7 +313,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
-	{		
+	{
+		$obj_service = $this->getObjectService();
+
 		$this->object->setOffline(!$a_form->getInput('online'));
 		$this->object->setReminderStatus($a_form->getInput('rmd'));
 		$this->object->setReminderDay($a_form->getInput('rmd_day'));
@@ -311,7 +323,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->object->setScheduleType($a_form->getInput('stype'));
 		$this->object->setOverallLimit($a_form->getInput('limit') ? $a_form->getInput('limit') : null);
 		$this->object->setReservationFilterPeriod(strlen($a_form->getInput('period')) ? (int)$a_form->getInput('period') : null);
-		
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
 		include_once './Services/Container/classes/class.ilContainer.php';
 		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 		ilObjectServiceSettingsGUI::updateServiceSettingsForm(

@@ -203,9 +203,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{							
 		$this->setSettingsSubTabs("properties");
 		
-		// comments
-		$comments = new ilCheckboxInputGUI($this->lng->txt("prtf_public_comments"), "comments");
-		$a_form->addItem($comments);
 
 		// profile picture
 		$ppic = new ilCheckboxInputGUI($this->lng->txt("prtf_profile_picture"), "ppic");
@@ -230,6 +227,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				$img->setImage($file);
 			}		
 		}
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_features'));
+		$a_form->addItem($section);
+
+		// comments
+		$comments = new ilCheckboxInputGUI($this->lng->txt("prtf_public_comments"), "comments");
+		$a_form->addItem($comments);
 
 		/* #15000
 		$bg_color = new ilColorPickerInputGUI($this->lng->txt("prtf_background_color"), "bg_color");

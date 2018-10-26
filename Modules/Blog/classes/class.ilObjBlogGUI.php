@@ -239,6 +239,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
+		$obj_service = $this->getObjectService();
 		
 		$this->setSettingsSubTabs("properties");
 		
@@ -338,7 +339,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($lng->txt("blog_presentation_frame"));
 		$a_form->addItem($pres);
-	
+
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			$obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+		}
+
 		$ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
 		$a_form->addItem($ppic);
 		
@@ -380,7 +386,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$list = new ilFormSectionHeaderGUI();
 		$list->setTitle($lng->txt("blog_presentation_overview"));
 		$a_form->addItem($list);
-		
+
+
 		$post_num = new ilNumberInputGUI($lng->txt("blog_list_num_postings"), "ov_list_post_num");
 		$post_num->setInfo($lng->txt("blog_list_num_postings_info"));
 		$post_num->setSize(3);
@@ -449,11 +456,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{		
 		$lng = $this->lng;
+		$obj_service = $this->getObjectService();
 		
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
 			$this->object->setApproval($a_form->getInput("approval"));
 			$this->object->setAuthors($a_form->getInput("nav_authors"));
+			$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
 		}
 		$this->object->setKeywords($a_form->getInput("keywords"));
 		$this->object->setNotesStatus($a_form->getInput("notes"));
@@ -472,7 +481,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->object->setNavModeListMonthsWithPostings($a_form->getInput("nav_list_mon_with_post"));
 		$this->object->setNavModeListMonths($a_form->getInput("nav_list_mon"));
 		$this->object->setOverviewPostings($a_form->getInput("ov_list_post_num"));
-		
+
 		$order = $a_form->getInput("order");
 		foreach($order as $idx => $value)
 		{
@@ -490,7 +499,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			}
 		}
 		$this->object->setOrder($order);
-		
 		// banner field is optional
 		$banner = $a_form->getItemByPostVar("banner");
 		if($banner)
