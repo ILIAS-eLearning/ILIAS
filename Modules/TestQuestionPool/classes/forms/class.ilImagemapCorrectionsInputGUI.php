@@ -12,9 +12,62 @@
  */
 class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 {
+	public function setValueByArray($a_values)
+	{
+		$this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
+	}
+	
+	public function setAreasByArray($a_areas)
+	{
+		if (is_array($a_areas['points']))
+		{
+			foreach ($this->areas as $idx => $name)
+			{
+				if( $this->getPointsUncheckedFieldEnabled() && isset($a_areas['points_unchecked']) )
+				{
+					$this->areas[$idx]->setPointsUnchecked($a_areas['points_unchecked'][$idx]);
+				}
+				else
+				{
+					$this->areas[$idx]->setPointsUnchecked(0);
+				}
+				
+				$this->areas[$idx]->setPoints($a_areas['points'][$idx]);
+			}
+		}
+	}
+
 	public function checkInput()
 	{
+		global $lng;
 		
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		
+		$max = 0;
+		if (is_array($_POST[$this->getPostVar()]['coords']['points']))
+		{
+			foreach ($_POST[$this->getPostVar()]['coords']['points'] as $idx => $name)
+			{
+				if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired))
+				{
+					$this->setAlert($lng->txt('form_msg_area_missing_points'));
+					return false;
+				}
+				if ((!is_numeric($_POST[$this->getPostVar()]['coords']['points'][$idx])))
+				{
+					$this->setAlert($lng->txt('form_msg_numeric_value_required'));
+					return false;
+				}
+				if ($_POST[$this->getPostVar()]['coords']['points'][$idx] > 0) $max = $_POST[$this->getPostVar()]['coords']['points'][$idx];
+			}
+		}
+		
+		if ($max == 0)
+		{
+			$this->setAlert($lng->txt("enter_enough_positive_points"));
+			return false;
+		}
+		return true;
 	}
 	
 	public function insert($a_tpl)

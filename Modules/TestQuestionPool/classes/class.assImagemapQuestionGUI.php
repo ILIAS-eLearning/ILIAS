@@ -1085,4 +1085,22 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$form->addItem( $image );
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$areas = $form->getItemByPostVar('image')->getAreas();
+		
+		foreach($this->object->getAnswers() as $index => $answer)
+		{
+			if( $this->object->getIsMultipleChoice() )
+			{
+				$answer->setPointsUnchecked((float)$areas[$index]->getPointsUnchecked());
+			}
+			
+			$answer->setPoints((float)$areas[$index]->getPoints());
+		}
+	}
 }
