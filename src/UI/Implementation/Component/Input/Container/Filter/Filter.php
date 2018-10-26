@@ -104,9 +104,13 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 			$classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
 			$this->checkArgListElements("input", $inputs, $classes);
 
-			// @todo: how to manage this dependency?
-			global $DIC;
-			$input_factory = $DIC->ui()->factory()->input();
+			// how to better handle these dependencies?
+			$sg = new CI\SignalGenerator();
+			$input_factory = new CI\Input\Factory(
+				$sg,
+				new CI\Input\Field\Factory($sg),
+				new CI\Input\Container\Factory()
+			);
 
 			$this->input_group = $input_factory->field()->group($inputs)->withNameFrom($this);
 
