@@ -21,6 +21,7 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 	 * @inheritDoc
 	 */
 	public function getComponentForItem(isItem $item): Component {
+		global $DIC;
 		/**
 		 * @var $item TopParentItem
 		 */
@@ -43,6 +44,19 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 					break;
 				case ($child instanceof hasAction && $child instanceof hasTitle):
 					$this->addEntry($gl, $child, $i);
+					break;
+				case($child instanceof isItem):
+				default:
+					$com = $child->getTypeInformation()->getRenderer()->getComponentForItem($child);
+					$identifier = $child->getProviderIdentification()->getInternalIdentifier();
+					$target = $child instanceof hasAction ? ($child->isLinkWithExternalAction() ? "_blank" : "_top") : "_top";
+					$href = ($child instanceof hasAction) ? $child->getAction() : "#";
+					$tooltip = ilHelp::getMainMenuTooltip($identifier);
+					$a_id = "mm_" . $identifier;
+					$gl->addEntry(
+						$DIC->ui()->renderer()->render($com), $href, $target, "", "", $a_id, $tooltip, "left center", "right center", false
+					);
+
 					break;
 			}
 		}
