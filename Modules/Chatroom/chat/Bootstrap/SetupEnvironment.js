@@ -7,7 +7,7 @@ var Util = require('util');
 /**
  * @param {Function} callback
  */
-module.exports = function SetupEnvironment(callback) {
+module.exports = function SetupEnvironment(result, callback) {
 
 	var logFile = 'chat.log';
 	var errorLogFile = 'chatError.log';
@@ -73,5 +73,5 @@ module.exports = function SetupEnvironment(callback) {
 
 	Container.setLogger(logger);
 
-	callback();
+	callback(null);
 };

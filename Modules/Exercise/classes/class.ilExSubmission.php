@@ -1048,11 +1048,13 @@ class ilExSubmission
 
 	/**
 	 * Download all submitted files of an assignment (all user)
-	 *
+	 * @param $a_ass ilExAssignment
 	 * @param	$members		array of user names, key is user id
+	 * @param $to_path string
 	 * @throws ilExerciseException
+	 * @return void
 	 */
-	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, array $members)
+	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, array $members, $to_path)
 	{
 		global $DIC;
 
@@ -1079,13 +1081,10 @@ class ilExSubmission
 		}
 		// Safe mode fix
 //		chdir($this->getExercisePath());
-		chdir($storage->getTempPath());
-		$zip = PATH_TO_ZIP;
 
-		// check first, if we have enough free disk space to copy all files to temporary directory
-		$tmpdir = ilUtil::ilTempnam();
-		ilUtil::makeDir($tmpdir);
+		$tmpdir = $storage->getTempPath();
 		chdir($tmpdir);
+		$zip = PATH_TO_ZIP;
 
 		// check free diskspace
 		$dirsize = 0;
@@ -1119,9 +1118,7 @@ class ilExSubmission
 			{
 				continue;
 			}
-			
-			$userName = ilObjUser::_lookupName($id);
-			
+
 			// group by teams
 			$team_dir= "";
 			if(is_array($team_map) &&
@@ -1150,12 +1147,7 @@ class ilExSubmission
 			}
 			else
 			{
-				$targetdir = $team_dir . ilUtil::getASCIIFilename(
-						trim($userName["lastname"]) . "_" .
-						trim($userName["firstname"]) . "_" .
-						trim($userName["login"]) . "_" .
-						$userName["user_id"]
-					);
+				$targetdir = self::getDirectoryNameFromUserData($id);
 			}
 			ilUtil::makeDir($targetdir);			
 						
@@ -1234,19 +1226,28 @@ class ilExSubmission
 
 			}
 		}
-		
-		$tmpfile = ilUtil::ilTempnam();
-		$tmpzipfile = $tmpfile . ".zip";
+		$tmpzipfile = ilUtil::getASCIIFilename($lng->txt("exc_ass_submission_zip")).".zip";
 		// Safe mode fix
 		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($tmpzipfile)." .";
 		exec($zipcmd);
-		ilUtil::delDir($tmpdir);
+		//$path_final_zip_file = $to_path.DIRECTORY_SEPARATOR."Submissions/".$tmpzipfile;
+		$path_final_zip_file = $to_path.DIRECTORY_SEPARATOR.$tmpzipfile;
 
-		$assTitle = $a_ass->getTitle()."_".$a_ass->getId();
+		if(file_exists($tmpdir.DIRECTORY_SEPARATOR.$tmpzipfile))
+		{
+			copy($tmpzipfile,$path_final_zip_file);
+			ilUtil::delDir($tmpdir);
+
+			//unzip the submissions zip file.(decided to unzip to allow the excel link the files more obvious when blog/portfolio)
+			chdir($to_path);
+			//TODO Bug in ilUtil -> if flat unzip fails. We can get rid of creating Submissions directory
+			//ilUtil::unzip($path_final_zip_file,FALSE, TRUE);
+			ilUtil::unzip($path_final_zip_file);
+			unlink($path_final_zip_file);
+		}
+
 		chdir($cdir);
-		ilUtil::deliverFile($tmpzipfile, (strlen($assTitle) == 0
-			? strtolower($lng->txt("exc_assignment"))
-			: $assTitle). ".zip", "", false, true);
+
 	}
 
 
@@ -1645,6 +1646,22 @@ class ilExSubmission
 
 		return $rets;
 	}
+	
+	/*
+	 * @param $a_user_id
+	 * @return string
+	 */
+	static function getDirectoryNameFromUserData($a_user_id)
+	{
+		$userName = ilObjUser::_lookupName($a_user_id);
+		$targetdir = ilUtil::getASCIIFilename(
+			trim($userName["lastname"])."_".
+			trim($userName["firstname"])."_".
+			trim($userName["login"])."_".
+			$userName["user_id"]
+		);
 
+		return $targetdir;
+	}
 }
 

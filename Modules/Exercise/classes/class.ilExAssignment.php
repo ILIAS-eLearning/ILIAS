@@ -62,6 +62,11 @@ class ilExAssignment
 	const PEER_REVIEW_VALID_NONE = 1;
 	const PEER_REVIEW_VALID_ONE = 2;
 	const PEER_REVIEW_VALID_ALL = 3;
+
+	const TEAMS_FORMED_BY_PARTICIPANTS = 0;
+	const TEAMS_FORMED_BY_TUTOR = 1;
+	const TEAMS_FORMED_BY_RANDOM = 2;
+	const TEAMS_FORMED_BY_ASSIGNMENT = 3;
 	
 	protected $id;
 	protected $exc_id;

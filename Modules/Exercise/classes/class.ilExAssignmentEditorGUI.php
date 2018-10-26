@@ -314,6 +314,115 @@ class ilExAssignmentEditorGUI
 		//
 
 
+		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			if($a_mode == "edit") {
+				$has_teams = (bool)count(ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId()));
+			} else {
+				$has_teams = false;
+			}
+
+			// Radio for creators
+			$rd_team = new ilRadioGroupInputGUI($lng->txt("exc_team_formation"), "team_creator");
+			$rd_team->setRequired(true);
+
+			$radio_participants = new ilRadioOption(
+				$lng->txt("exc_team_by_participants"),
+				ilExAssignment::TEAMS_FORMED_BY_PARTICIPANTS,
+				$lng->txt("exc_team_by_participants_info")
+			);
+
+			$radio_tutors = new ilRadioOption(
+				$lng->txt("exc_team_by_tutors"),
+				ilExAssignment::TEAMS_FORMED_BY_TUTOR,
+				$lng->txt("exc_team_by_tutors_info")
+			);
+
+			#23679
+			if(!$has_teams)
+			{
+				// Creation options
+				$rd_creation_method = new ilRadioGroupInputGUI($lng->txt("exc_team_creation"), "team_creation");
+				$rd_creation_method->setRequired(true);
+
+				//manual
+				$rd_creation_manual = new ilRadioOption(
+					$lng->txt("exc_team_by_tutors_manual"),
+					0,
+					$lng->txt("exc_team_by_tutors_manual_info")
+				);
+				$rd_creation_method->addOption($rd_creation_manual);
+
+				//random options
+				$rd_creation_random = new ilRadioOption(
+					$lng->txt("exc_team_by_random"),
+					ilExAssignment::TEAMS_FORMED_BY_RANDOM,
+						$lng->txt("exc_team_by_random_info")."<br>".$lng->txt("exc_total_members").": ".$this->getExerciseTotalMembers()
+				);
+				$rd_creation_method->addOption($rd_creation_random);
+
+				$number_teams = new ilNumberInputGUI($lng->txt("exc_num_teams"), "number_teams");
+				$number_teams->setSize(3);
+				$number_teams->setMinValue(1);
+				$number_teams->setMaxValue($this->getExerciseTotalMembers());
+				$number_teams->setRequired(true);
+				$number_teams->setSuffix($lng->txt("exc_team_assignment_adopt_teams"));
+				$rd_creation_random->addSubItem($number_teams);
+
+				$min_team_participants = new ilNumberInputGUI($lng->txt("exc_min_team_participants"), "min_participants_team");
+				$min_team_participants->setSize(3);
+				$min_team_participants->setMinValue(1);
+				$min_team_participants->setMaxValue($this->getExerciseTotalMembers());
+				$min_team_participants->setRequired(true);
+				$min_team_participants->setSuffix($lng->txt("exc_participants"));
+				$rd_creation_random->addSubItem($min_team_participants);
+
+				$max_team_participants = new ilNumberInputGUI($lng->txt("exc_max_team_participants"), "max_participants_team");
+				$max_team_participants->setSize(3);
+				$max_team_participants->setMinValue(1);
+				$max_team_participants->setMaxValue($this->getExerciseTotalMembers());
+				$max_team_participants->setRequired(true);
+				$max_team_participants->setSuffix($lng->txt("exc_participants"));
+				$rd_creation_random->addSubItem($max_team_participants);
+
+				$options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->exercise_id);
+				if(count($options))
+				{
+					$radio_assignment = new ilRadioOption(
+						$lng->txt("exc_team_by_assignment"),
+						ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT,
+						$lng->txt("exc_team_by_assignment_info")
+					);
+
+					$radio_assignment_adopt = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
+					$radio_assignment_adopt->setRequired(true);
+					$radio_assignment_adopt->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none"), -1));
+
+					foreach($options as $id => $item)
+					{
+						$option = new ilRadioOption($item["title"], $id);
+						$option->setInfo($lng->txt("exc_team_assignment_adopt_teams").": ".$item["teams"]);
+						$radio_assignment_adopt->addOption($option);
+					}
+					$radio_assignment->addSubItem($radio_assignment_adopt);
+					$rd_creation_method->addOption($radio_assignment);
+				}
+
+				$radio_tutors->addSubItem($rd_creation_method);
+			}
+			$rd_team->addOption($radio_participants);
+			$rd_team->addOption($radio_tutors);
+			/*if(!$has_teams) {
+				$rd_team->addOption($radio_assignment);
+			}*/
+			$form->addItem($rd_team);
+
+			if($has_teams)
+			{
+				$rd_team->setDisabled(true);
+			}
+		}
+
 		// mandatory
 		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
 		$cb->setInfo($lng->txt("exc_mandatory_info"));
@@ -661,7 +770,24 @@ class ilExAssignmentEditorGUI
 					$valid = false;						
 				}				
 			}
-			
+
+			if($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_RANDOM &&
+				$a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
+			{
+				$team_validation = $this->validationTeamsFormation(
+					$a_form->getInput("number_teams"),
+					$a_form->getInput("min_participants_team"),
+					$a_form->getInput("max_participants_team")
+				);
+				if($team_validation['status'] == 'error') {
+					$a_form->getItemByPostVar("team_creation")
+						->setAlert($team_validation['msg']);
+					$a_form->getItemByPostVar($team_validation["field"])
+						->setAlert($lng->txt("exc_value_can_not_set"));
+					$valid = false;
+				}
+			}
+
 			if($valid)
 			{
 				$res = array(
@@ -677,8 +803,25 @@ class ilExAssignmentEditorGUI
 					,"max_file" => $a_form->getInput("max_file_tgl")
 						? $a_form->getInput("max_file")
 						: null
-					,"team_tutor" => $a_form->getInput("team_tutor")							
 				);
+
+				if($a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
+				{
+					$res['team_creator'] = $a_form->getInput("team_creator");
+					$res["team_creation"] = $a_form->getInput("team_creation");
+
+					if($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_RANDOM)
+					{
+						$res["number_teams"] = $a_form->getInput("number_teams");
+						$res["min_participants_team"] = $a_form->getInput("min_participants_team");
+						$res["max_participants_team"] = $a_form->getInput("max_participants_team");
+					}
+					else if($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT)
+					{
+						$res['ass_adpt'] = $a_form->getInput("ass_adpt");
+					}
+				}
+
 				// portfolio template
 				//if($a_form->getInput("template_id") && $a_form->getInput("template"))
 				//{
@@ -773,7 +916,7 @@ class ilExAssignmentEditorGUI
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
-		$a_ass->setTeamTutor($a_input["team_tutor"]);
+		$a_ass->setTeamTutor($a_input["team_creator"]);
 
 		//$a_ass->setPortfolioTemplateId($a_input['template_id']);
 
@@ -893,6 +1036,10 @@ class ilExAssignmentEditorGUI
 			$ass_type_gui = $this->type_guis->getById($ass->getType());
 
 			$this->importFormToAssignment($ass, $input);
+
+			$this->generateTeams($ass, $input);
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
 			$ass_type_gui->importFormToAssignment($ass, $form);
 			$ass->update();
 
@@ -986,7 +1133,7 @@ class ilExAssignmentEditorGUI
 					
 		if($this->assignment->getAssignmentType()->usesTeams())
 		{		
-			$values["team_tutor"] = $this->assignment->getTeamTutor();
+			$values["team_creator"] = $this->assignment->getTeamTutor();
 		}
 
 		if ($this->assignment->getFeedbackDateCustom())
@@ -1114,6 +1261,8 @@ class ilExAssignmentEditorGUI
 			$old_ext_deadline = $this->assignment->getExtendedDeadline();
 
 			$this->importFormToAssignment($this->assignment, $input);
+			$this->generateTeams($this->assignment, $input);
+
 			$ass_type_gui->importFormToAssignment($this->assignment, $form);
 			$this->assignment->update();
 
@@ -1694,73 +1843,92 @@ class ilExAssignmentEditorGUI
 	//
 	// TEAM
 	// 
-	
-	public function adoptTeamAssignmentsFormObject()
-	{
-		$ilCtrl = $this->ctrl;
-		$ilTabs = $this->tabs;
-		$lng = $this->lng;
-		$tpl = $this->tpl;
-		
-		if(!$this->assignment)
-		{
-			$ilCtrl->redirect($this, "listAssignments");
-		}
-		
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listAssignments"));
-		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();		         
-		$form->setTitle($lng->txt("exc_team_assignment_adopt"));
-		$form->setFormAction($ilCtrl->getFormAction($this, "adoptTeamAssignments"));
-		
-		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-		$options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId());
-		
-		// we must not have existing teams in assignment
-		if(array_key_exists($this->assignment->getId(), $options))
-		{
-			$ilCtrl->redirect($this, "listAssignments");
-		}
-		
-		$teams = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
-		$teams->setValue(-1);
-		
-		$teams->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none"), -1));
-		
-		foreach($options as $id => $item)
-		{
-			$option = new ilRadioOption($item["title"], $id);
-			$option->setInfo($lng->txt("exc_team_assignment_adopt_teams").": ".$item["teams"]);
-			$teams->addOption($option);
-		}
-		
-		$form->addItem($teams);
-	
-		$form->addCommandButton("adoptTeamAssignments", $lng->txt("save"));
-		$form->addCommandButton("listAssignments", $lng->txt("cancel"));
 
-		$tpl->setContent($form->getHTML());
-	}
-	
-	public function adoptTeamAssignmentsObject()
+	/**
+	 * @param $a_num_teams integer
+	 * @param $a_min_participants integer
+	 * @param $a_max_participants integer
+	 * @return array
+	 */
+	function validationTeamsFormation($a_num_teams, $a_min_participants, $a_max_participants)
 	{
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
-		
-		$src_ass_id = (int)$_POST["ass_adpt"];
-		
-		if($this->assignment && 
-			$src_ass_id > 0)
-		{
-			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-			ilExAssignmentTeam::adoptTeams($src_ass_id, $this->assignment->getId());			
-			
-			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$total_members = $this->getExerciseTotalMembers();
+		$number_of_teams = $a_num_teams;
+
+		if($number_of_teams){
+			$members_per_team = round($total_members / $a_num_teams);
+		} else {
+			if($a_min_participants)
+			{
+				$number_of_teams = round($total_members / $a_min_participants);
+				$participants_extra_team =  $total_members % $a_min_participants;
+				if($participants_extra_team > $number_of_teams)
+				{
+					//Can't create teams with this minimum of participants.
+					$message = sprintf($this->lng->txt("exc_team_minimal_too_big"),$a_min_participants);
+					return array("status" => "error", "msg" => $message, "field" => "min_participants_team");
+				}
+			}
+			$members_per_team = 0;
 		}
-							
-		$ilCtrl->redirect($this, "listAssignments");		
+
+		if($a_min_participants > $a_max_participants)
+		{
+			$message = $this->lng->txt("exc_team_min_big_than_max");
+			return array("status" => "error", "msg" => $message, "field" => "max_participants_team");
+		}
+
+		if( $a_max_participants > 0 && $members_per_team > $a_max_participants)
+		{
+			$message = sprintf($this->lng->txt("exc_team_max_small_than_members"),$a_max_participants, $members_per_team);
+			return array("status" => "error", "msg" => $message, "field" => "max_participants_team");
+		}
+
+		if($members_per_team > 0 && $members_per_team < $a_min_participants)
+		{
+			$message = sprintf($this->lng->txt("exc_team_min_small_than_members"),$a_min_participants, $members_per_team);
+			return array("status" => "error", "msg" => $message, "field" => "min_participants_team");
+		}
+
+		return array("status" => "success", "msg" => "");
+	}
+
+	/**
+	 * Get the total number of exercise members
+	 * @return int
+	 */
+	function getExerciseTotalMembers()
+	{
+		$exercise = new ilObjExercise($this->exercise_id, false);
+		$exc_members = new ilExerciseMembers($exercise);
+
+		return count($exc_members->getMembers());
+	}
+
+	/**
+	 * @param ilExAssignment $a_assignment
+	 * @param array $a_input
+	 */
+	function generateTeams(ilExAssignment $a_assignment, $a_input)
+	{
+		if($a_assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM &&
+			$a_input['team_creator'] == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
+		{
+			if($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_RANDOM)
+			{
+				$number_teams = $a_input['number_teams'];
+				if(count(ilExAssignmentTeam::getAssignmentTeamMap($a_assignment->getId())) == 0)
+				{
+					$ass_team = new ilExAssignmentTeam();
+					$ass_team->createRandomTeams($this->exercise_id, $a_assignment->getId(), $number_teams, $a_input['min_participants_team']);
+				}
+			}
+			elseif ($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT)
+			{
+				ilExAssignmentTeam::adoptTeams($a_input["ass_adpt"], $a_assignment->getId());
+				ilUtil::sendInfo($this->lng->txt("exc_teams_assignment_adopted"), true);
+			}
+		}
+
 	}
 }

@@ -109,6 +109,8 @@ class ilTestServiceGUI
 	{
 		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB, $ilPluginAdmin, $ilTabs, $ilObjDataCache;
 
+		$lng->loadLanguageModule('cert');
+
 		$this->db = $ilDB;
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;

@@ -166,7 +166,9 @@ class InputTest extends ILIAS_UI_TestBase {
 
 
 	public function test_getContent() {
-		$this->assertEquals(null, $this->input->getContent());
+		$this->expectException(\LogicException::class);
+
+		$this->input->getContent();
 	}
 
 

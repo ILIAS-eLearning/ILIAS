@@ -134,4 +134,15 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$value2 = $text2->getContent();
 		$this->assertTrue($value2->isError());
 	}
+
+	public function test_stripsTags() {
+		$f = $this->buildFactory();
+		$name = "name_0";
+		$text = $f->text("")
+			->withNameFrom($this->name_source)
+			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+
+		$content = $text->getContent();
+		$this->assertEquals("alert()", $content->value());
+	}
 }

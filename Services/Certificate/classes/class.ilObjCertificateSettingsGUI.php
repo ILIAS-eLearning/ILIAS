@@ -65,6 +65,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'cert';
 		$this->lng->loadLanguageModule("certificate");
+		$this->lng->loadLanguageModule("trac");
 
 		$this->access              = $DIC['rbacsystem'];
 		$this->error               = $DIC['ilErr'];
@@ -195,6 +196,14 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		if($this->hierarchical_access->checkAccess('write','',$this->object->getRefId()))
 		{
 			$form->addCommandButton('save',$this->lng->txt('save'));
+		}
+
+		if (!\ilObjUserTracking::_enabledLearningProgress()) {
+			ilAdministrationSettingsFormHandler::addFieldsToForm(
+				ilAdministrationSettingsFormHandler::FORM_CERTIFICATE,
+				$form,
+				$this
+			);
 		}
 
 		$this->tpl->setContent($form->getHTML());

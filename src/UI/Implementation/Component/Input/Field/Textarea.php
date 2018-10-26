@@ -6,16 +6,34 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
  * This implements the textarea input.
  */
 class Textarea extends Input implements C\Input\Field\Textarea {
-
 	use JavaScriptBindable;
 
 	protected $max_limit;
 	protected $min_limit;
+
+	/**
+	 * @inheritdoc
+	 */
+	public function __construct(
+		DataFactory $data_factory,
+		ValidationFactory $validation_factory,
+		TransformationFactory $transformation_factory,
+		$label,
+		$byline
+	) {
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		$this->setAdditionalTransformation($transformation_factory->custom(function($v) {
+			return strip_tags($v);
+		}));
+	}
 
 	/**
 	 * set maximum number of characters

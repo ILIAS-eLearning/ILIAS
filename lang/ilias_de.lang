@@ -14516,3 +14516,58 @@ lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
+wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
+cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
+cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
+cert#:#certificate_migration_go#:#Starte Migration
+cert#:#user_certificates#:#Zertifikate
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
+cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
+common#:#my_certificates#:#Meine Zertifikate
+cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
+cert#:#certificate_achievement#:#%1$s erhalten.
+cert#:#certificate_no_object_title#:#Kein Titel vorhanden
+cert#:#certificate_no_object_desc#:#Keine Beschreibung vorhanden
+cert#:#cert_sortable_by_title_asc#:#Ascending by title
+cert#:#cert_sortable_by_title_desc#:#Descending by title
+cert#:#cert_sortable_by_issue_date_asc#:#Ascending by issue date
+cert#:#cert_sortable_by_issue_date_desc#:#Descending by issue date
+cert#:#cert_issued_on_label#:#Ausgestellt am
+cert#:#cert_download_label#:#Herunterladen
+cert#:#cert_object_label#:#Objekt
+cert#:#cert_description_label#:#Beschreibung
+cert#:#cert_currently_no_certs#:#Aktuelle besitzen Sie noch keine Zertifikate.
+certificate#:#cert_cron_task_title#:#Zertifikate
+certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
+certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung
+certificate#:#certificate_change_active_status#:#Der Aktiv-Status des Zertifikats wurde geändert
+exc#:#exc_team_formation#:#Team Formation
+exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams
+exc#:#exc_team_by_participants_info#:#Participants opt for teams.
+exc#:#exc_team_by_tutors#:#Teams are formed by Tutors.
+exc#:#exc_team_by_tutors_info#:#Tutors allocate participants to teams, participants cannot self-organize.
+exc#:#exc_team_by_random#:#Teams are formed randomly and automatically.
+exc#:#exc_team_by_random_info#:#ILIAS will allocate participants to a set number of teams.
+exc#:#exc_team_by_assignment#:#Adopt Teams from Assignment
+exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be used for this Assignment too.
+exc#:#exc_num_teams#:#Number
+exc#:#exc_min_team_participants#:#Minimal Number
+exc#:#exc_max_team_participants#:#Maximal Number
+exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_value_can_not_set#:#This value can not be set.
+exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
+exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
+exc#:#exc_team_min_big_than_max#:#Maximal number of team participants can not be smaller than Minimal number of team participants.
+exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.
+exc#:#exc_team_min_small_than_members#:#Minimal Number of Participants can not be set as %s because teams are set with %s participants.
+exc#:#exc_participants#:#Participants
+exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.
+exc#:#exc_team_by_tutors_manual#:#Manually
+exc#:#exc_team_creation#:#Creation
+exc#:#exc_ass_submission_zip#:#Submissions
+exc#:#exc_submission_file#:#Submission File
+exc#:#exc_submission_text#:#Submission Text
+common#:#open#:#Open
+exc#:#exc_down_files_started#:#Download of submission files has started.
