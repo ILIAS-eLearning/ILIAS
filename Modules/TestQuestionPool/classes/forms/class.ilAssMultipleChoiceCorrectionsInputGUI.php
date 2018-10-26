@@ -10,16 +10,73 @@
  *
  * @package    Modules/Test(QuestionPool)
  */
-class ilAssMultipleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
+class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInputGUI
 {
 	/**
 	 * @var assSingleChoice
 	 */
 	protected $qstObject;
 	
+	public function setValue($a_value)
+	{
+		if (is_array($a_value))
+		{
+			if (is_array($a_value['points']) && is_array($a_value['points_unchecked']))
+			{
+				foreach ($this->values as $index => $value)
+				{
+					$this->values[$index]->setPoints($a_value['points'][$index]);
+					$this->values[$index]->setPointsUnchecked($a_value['points_unchecked'][$index]);
+				}
+			}
+		}
+	}
+	
 	public function checkInput()
 	{
+		global $lng;
 		
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$foundvalues = $_POST[$this->getPostVar()];
+		if (is_array($foundvalues))
+		{
+			// check points
+			$max = 0;
+			if (is_array($foundvalues['points']))
+			{
+				foreach ($foundvalues['points'] as $points)
+				{
+					if ($points > $max) $max = $points;
+					if (((strlen($points)) == 0) || (!is_numeric($points)))
+					{
+						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
+						return FALSE;
+					}
+				}
+				foreach ($foundvalues['points_unchecked'] as $points)
+				{
+					if ($points > $max) $max = $points;
+					if (((strlen($points)) == 0) || (!is_numeric($points)))
+					{
+						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
+						return FALSE;
+					}
+				}
+			}
+			if ($max == 0)
+			{
+				$this->setAlert($lng->txt("enter_enough_positive_points"));
+				return false;
+			}
+		}
+		else
+		{
+			$this->setAlert($lng->txt("msg_input_is_required"));
+			return FALSE;
+		}
+		
+		return $this->checkSubItemsInput();
 	}
 	
 	public function insert($a_tpl)
@@ -56,7 +113,7 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGU
 			$tpl->parseCurrentBlock();
 			
 			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("POINTS_POST_VAR", 'POINTS');
+			$tpl->setVariable("POINTS_POST_VAR", $this->getPostVar());
 			$tpl->setVariable("POINTS_ROW_NUMBER", $i);
 			$tpl->setVariable("PROPERTY_VALUE_CHECKED", ilUtil::prepareFormOutput($value->getPointsChecked()));
 			$tpl->setVariable("PROPERTY_VALUE_UNCHECKED", ilUtil::prepareFormOutput($value->getPointsUnchecked()));

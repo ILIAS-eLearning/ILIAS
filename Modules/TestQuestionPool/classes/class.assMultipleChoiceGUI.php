@@ -1180,4 +1180,20 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$choices->setValues( $this->object->getAnswers() );
 		$form->addItem( $choices );
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$pointsChecked = $form->getInput('choice')['points'];
+		$pointsUnchecked = $form->getInput('choice')['points_unchecked'];
+		
+		foreach($this->object->getAnswers() as $index => $answer)
+		{
+			/* @var ASS_AnswerMultipleResponseImage $answer */
+			$answer->setPointsChecked((float)$pointsChecked[$index]);
+			$answer->setPointsUnchecked((float)$pointsUnchecked[$index]);
+		}
+	}
 }

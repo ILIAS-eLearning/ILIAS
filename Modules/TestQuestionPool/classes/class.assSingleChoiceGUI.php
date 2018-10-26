@@ -978,7 +978,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		foreach($this->object->getAnswers() as $index => $answer)
 		{
 			/* @var ASS_AnswerMultipleResponseImage $answer */
-			$answer->setPoints($points[$index]);
+			$answer->setPoints((float)$points[$index]);
 		}
 	}
 }
