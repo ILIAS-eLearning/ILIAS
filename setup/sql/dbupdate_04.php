@@ -24054,18 +24054,18 @@ if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'currently_acti
 <#5361>
 <?php
 if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'obj_type', 'currently_active'])) {
-	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'obj_type', 'currently_active'], 'i5');
+	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'obj_type', 'currently_active'], 'i4');
 }
 ?>
 <#5362>
 <?php
 if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['obj_id', 'currently_active'])) {
-	$ilDB->addIndex('il_cert_user_cert', ['obj_id', 'currently_active'], 'i6');
+	$ilDB->addIndex('il_cert_user_cert', ['obj_id', 'currently_active'], 'i5');
 }
 ?>
 <#5363>
 <?php
 if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'obj_id', 'currently_active'])) {
-	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'obj_id', 'currently_active'], 'i7');
+	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'obj_id', 'currently_active'], 'i6');
 }
 ?>
