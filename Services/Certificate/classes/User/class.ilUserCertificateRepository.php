@@ -348,10 +348,10 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 			'integer'
 		);
 
-		$sql = 'SELECT obj_id FROM il_cert_user_cert WHERE user_id = ' .
-			$this->database->quote($userId, 'integer') .
-			' AND ' . $inStatementObjectIds .
-			' AND currently_active = 1';
+		$sql = 'SELECT obj_id FROM il_cert_user_cert
+ WHERE user_id = ' . $this->database->quote($userId, 'integer') .
+' AND ' . $inStatementObjectIds .
+' AND currently_active = 1';
 
 		$query = $this->database->query($sql);
 
