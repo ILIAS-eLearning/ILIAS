@@ -19,7 +19,41 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
 	
 	public function checkInput()
 	{
+		global $lng;
 		
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$foundvalues = $_POST[$this->getPostVar()];
+		if (is_array($foundvalues))
+		{
+			// check points
+			$max = 0;
+			if (is_array($foundvalues['points']))
+			{
+				foreach ($foundvalues['points'] as $points)
+				{
+					if ($points > $max) $max = $points;
+					if (((strlen($points)) == 0) || (!is_numeric($points)))
+					{
+						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
+						return FALSE;
+					}
+				}
+			}
+			if ($max == 0)
+			{
+				$this->setAlert($lng->txt("enter_enough_positive_points"));
+				return false;
+			}
+		}
+		else
+		{
+			$this->setAlert($lng->txt("msg_input_is_required"));
+			return FALSE;
+		}
+		
+		return $this->checkSubItemsInput();
 	}
 	
 	public function insert($a_tpl)
@@ -31,8 +65,10 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
 		
 		$i = 0;
 		
-		foreach ($this->values as $value) {
-			if (strlen($value->getImage())) {
+		foreach ($this->values as $value)
+		{
+			if (strlen($value->getImage()))
+			{
 				$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
 				if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
 				{

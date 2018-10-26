@@ -967,4 +967,12 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$choices->setValues( $this->object->getAnswers() );
 		$form->addItem( $choices );
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		
+	}
 }

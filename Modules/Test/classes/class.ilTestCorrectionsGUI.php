@@ -92,12 +92,50 @@ class ilTestCorrectionsGUI
 		$this->DIC->ui()->mainTemplate()->setContent($table_gui->getHTML());
 	}
 	
-	protected function showQuestion()
+	protected function showQuestion(ilPropertyFormGUI $form = null)
 	{
 		$questionGUI = $this->getQuestion((int)$_GET['qid']);
 		
 		$this->setCorrectionTabsContext($questionGUI, 'question');
 		
+		if($form === null)
+		{
+			$form = $this->buildQuestionCorrectionForm($questionGUI);
+		}
+		
+		$this->populatePageTitleAndDescription($questionGUI);
+		$this->DIC->ui()->mainTemplate()->setContent($form->getHTML());
+	}
+	
+	protected function saveQuestion()
+	{
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
+		
+		$form = $this->buildQuestionCorrectionForm($questionGUI);
+		
+		$form->setValuesByPost();
+		
+		if( !$form->checkInput() )
+		{
+			$this->showQuestion($form);
+			return;
+		}
+		
+		$questionGUI->saveCorrectionsFormProperties($form);
+		$questionGUI->object->setPoints($questionGUI->object->getMaximumPoints());
+		$questionGUI->object->saveToDb();
+		
+		$preserveManualScoring = (bool)$form->getInput('preserve_manscoring')->getChecked();
+		
+		$scoring = new ilTestScoring($this->testOBJ);
+		$scoring->setPreserveManualScores($preserveManualScoring);
+		$scoring->recalculateSolutions();
+		
+		$this->DIC->ctrl()->redirect($this, 'showQuestion');
+	}
+	
+	protected function buildQuestionCorrectionForm(assQuestionGUI $questionGUI)
+	{
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction( $this->DIC->ctrl()->getFormAction($this) );
 		$form->setId('tst_question_correction');
@@ -121,13 +159,7 @@ class ilTestCorrectionsGUI
 		
 		$form->addCommandButton('saveQuestion', $this->DIC->language()->txt('save'));
 		
-		$this->populatePageTitleAndDescription($questionGUI);
-		$this->DIC->ui()->mainTemplate()->setContent($form->getHTML());
-	}
-	
-	protected function saveQuestion()
-	{
-		
+		return $form;
 	}
 	
 	protected function showSolution()
