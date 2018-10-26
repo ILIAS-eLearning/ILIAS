@@ -389,8 +389,15 @@ class ilMDEditorGUI
 		$modal = $this->getChangeCopyrightModal();
 		$form = $this->initQuickEditForm($modal);
 		$s = $modal->getShowSignal();
-		$button = $this->ui_factory->button()->standard($this->lng->txt('save') );
-		$tpl->setContent($this->ui_renderer->render($modal).$form->getHTML().$this->ui_renderer->render($button));
+		$button = $this->ui_factory->button()->standard(
+			$this->lng->txt('save'),
+			'updateQuickEdit'
+		);
+		$tpl->setContent(
+			$this->ui_renderer->render($modal).
+			$form->getHTML().
+			$this->ui_renderer->render($button)
+		);
 	}
 
 	/**
