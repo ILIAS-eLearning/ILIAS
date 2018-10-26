@@ -14587,3 +14587,12 @@ exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_text#:#Submission Text
 common#:#open#:#Open
 exc#:#exc_down_files_started#:#Download of submission files has started.
+exc#:#exc_fixed_date#:#Festes Datum
+exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
+exc#:#exc_relative_date#:#Relatives Datum
+exc#:#exc_relative_date_info#:#Das Abgabedatum ergibt sich aus dem Bearbeitungszeitraum und dem durch den Teilnehmer gewählten Startzeitpunkt.
+exc#:#exc_earliest_start_time#:#Frühester Starttermin
+exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
+exc#:#exc_start_assignment#:#Übungseinheit starten
+exc#:#exc_needs_fixed_deadline#:#Diese Funktion benötigt ein festes Abgabedatum.
+exc#:#exc_tbl_calculated_deadline#:#Errechneter Abgabetermin

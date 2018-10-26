@@ -24069,3 +24069,48 @@ if (!$ilDB->indexExistsByFields('il_cert_user_cert', ['user_id', 'obj_id', 'curr
 	$ilDB->addIndex('il_cert_user_cert', ['user_id', 'obj_id', 'currently_active'], 'i6');
 }
 ?>
+<#5364>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','deadline_mode'))
+{
+    $ilDB->addTableColumn(
+        'exc_assignment',
+        'deadline_mode',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+?>
+<#5365>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','relative_deadline'))
+{
+    $ilDB->addTableColumn(
+        'exc_assignment',
+        'relative_deadline',
+        array(
+            'type' => 'integer',
+			'length' => 4,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+?>
+<#5366>
+<?php
+if(!$ilDB->tableColumnExists('exc_idl','starting_ts'))
+{
+    $ilDB->addTableColumn(
+        'exc_idl',
+        'starting_ts',
+        array(
+            'type' => 'integer',
+			'length' => 4,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+?>

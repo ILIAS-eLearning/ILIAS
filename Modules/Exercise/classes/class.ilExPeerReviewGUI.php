@@ -180,28 +180,37 @@ class ilExPeerReviewGUI
 
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
-		
+
+		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+		$state = ilExcAssMemberState::getInstanceByIds($a_submission->getAssignment()->getId(), $a_submission->getUserId());
+
 		$ass = $a_submission->getAssignment();
-		
-		if($ass->afterDeadlineStrict() && 
+
+
+
+
+		//if($ass->afterDeadlineStrict() &&
+		//	$ass->getPeerReview())
+		if($state->hasSubmissionEndedForAllUsers() &&
 			$ass->getPeerReview())
-		{								
+		{
 			$ilCtrl->setParameterByClass("ilExPeerReviewGUI", "ass_id", $a_submission->getAssignment()->getId());
 			
-			$nr_missing_fb = $a_submission->getPeerReview()->getNumberOfMissingFeedbacksForReceived($ass->getId(), $ass->getPeerReviewMin());
+			$nr_missing_fb = $a_submission->getPeerReview()->getNumberOfMissingFeedbacksForReceived();
 			
 			// before deadline (if any)
-			if(!$ass->getPeerReviewDeadline() || 
-				$ass->getPeerReviewDeadline() > time())
+			// if(!$ass->getPeerReviewDeadline() ||
+			//  	$ass->getPeerReviewDeadline() > time())
+			if($state->isPeerReviewAllowed())
 			{			
 				$dl_info = "";
 				if($ass->getPeerReviewDeadline())
 				{
-					$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info_button"), 
-						ilDatePresentation::formatDate(new ilDateTime($ass->getPeerReviewDeadline(), IL_CAL_UNIX))).")";							
+					$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info_button"),
+							$state->getPeerReviewDeadlinePresentation()).")";
 				}
 
-				$button = ilLinkButton::getInstance();
+				$button = ilLinkButton::getInstance();				// edit peer review
 				$button->setPrimary($nr_missing_fb);
 				$button->setCaption($lng->txt("exc_peer_review_give").$dl_info, false);
 				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "editPeerReview"));							

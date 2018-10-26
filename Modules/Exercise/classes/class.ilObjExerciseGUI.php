@@ -33,6 +33,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	protected $help;
 
 	/**
+	 * @var ilExAssignment
+	 */
+	protected $ass = null;
+
+	/**
 	* Constructor
 	* @access public
 	*/
@@ -900,6 +905,31 @@ class ilObjExerciseGUI extends ilObjectGUI
 		);
 
 		$pdfAction->downloadPdf((int) $ilUser->getId(), (int)$this->object->getId());
+	}
+
+	/**
+	 * Start assignment with relative deadline
+	 */
+	function startAssignmentObject()
+	{
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
+
+		if ($this->ass)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+			$state = ilExcAssMemberState::getInstanceByIds($this->ass->getId(), $ilUser->getId());
+			if (!$state->getCommonDeadline() && $state->getRelativeDeadline())
+			{
+				$idl = $state->getIndividualDeadlineObject();
+				$idl->setStartingTimestamp(time());
+				$idl->save();
+			}
+		}
+
+		$ilCtrl->redirect($this, "showOverview");
 	}
 }
 
