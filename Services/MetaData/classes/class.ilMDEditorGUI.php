@@ -34,24 +34,20 @@ class ilMDEditorGUI
 	{
 		global $DIC;
 
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC['tpl'];
+		$this->tabs_gui = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
 
 		$this->md_obj = new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
-		$this->ctrl = $ilCtrl;
 
-		$this->lng = $lng;
 		$this->lng->loadLanguageModule('meta');
 		
 		include_once('Services/MetaData/classes/class.ilMDSettings.php');
 		$this->md_settings = ilMDSettings::_getInstance();
-
-		$this->tpl = $tpl;
-
-		$this->tabs_gui = $ilTabs;
-
 	}
 
 	function executeCommand()
@@ -389,14 +385,18 @@ class ilMDEditorGUI
 		}
 		
 		$this->__setTabs('meta_quickedit');
-		$form = $this->initQuickEditForm();
-		$tpl->setContent($form->getHTML());
+
+		$modal = $this->getChangeCopyrightModal();
+		$form = $this->initQuickEditForm($modal);
+		$s = $modal->getShowSignal();
+		$button = $this->ui_factory->button()->standard($this->lng->txt('save') );
+		$tpl->setContent($this->ui_renderer->render($modal).$form->getHTML().$this->ui_renderer->render($button));
 	}
 
 	/**
 	 * Init quick edit form.
 	 */
-	public function initQuickEditForm()
+	public function initQuickEditForm($modal)
 	{
 		global $DIC;
 
@@ -535,7 +535,7 @@ class ilMDEditorGUI
 		}
 		$this->form->addItem($tlt);
 
-		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
+		//$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
 		$this->form->setTitle($this->lng->txt("meta_quickedit"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	 
@@ -3580,7 +3580,13 @@ class ilMDEditorGUI
 		}
 		return false;
 	}
-			
 
+	public function getChangeCopyrightModal()
+	{
+
+		$link = $this->ctrl->getLinkTarget($this,'updateQuickEdit');
+		//return $this->ui_factory->modal()->interruptive($this->lng->txt("meta_copyright_change_warning_title"), $this->lng->txt("meta_copyright_change_info","","Accept"), $link);
+		return $this->ui_factory->modal()->interruptive($this->lng->txt("meta_copyright_change_warning_title"), $this->lng->txt("meta_copyright_change_info"), $link);
+	}
 }
 ?>
