@@ -15,14 +15,11 @@ class ilUIService
 	 */
 	protected $_deps;
 
-	/**
-	 * @var \Psr\Http\Message\ServerRequestInterface
-	 */
-	protected $request;
 
 	/**
 	 * Constructor
-	 * @param ilLanguage $lng
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request
 	 */
 	public function __construct(\Psr\Http\Message\ServerRequestInterface $request)
 	{
@@ -30,7 +27,7 @@ class ilUIService
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return ilUIFilterService
 	 */
 	public function filter(): ilUIFilterService
 	{
