@@ -159,7 +159,7 @@ EOT;
 			
 		</div>
 		<div>
-			<div class="icon cert medium" aria-label="Certificate">
+			<div class="icon cert medium outlined" aria-label="Certificate">
 
 
 </div>
