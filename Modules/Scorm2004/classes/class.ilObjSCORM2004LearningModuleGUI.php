@@ -369,6 +369,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$obj_service = $this->getObjectService();
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -516,6 +517,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$cb->setInfo($this->lng->txt("cont_auto_last_visited_info"));
 		$this->form->addItem($cb);
 
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 
 		//
 		// scorm options
@@ -810,7 +813,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	function saveProperties()
 	{
 		$ilSetting = $this->settings;
-		
+		$obj_service = $this->getObjectService();
+		$this->initPropertiesForm();
+		$this->form->checkInput();
+
 		if ($this->object->editable != 1)
 		{
 			//check if OfflineMode-Zip has to be created
@@ -874,6 +880,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->object->setNameSetting($_POST["name_setting"]);
 			$this->object->setTitle($_POST["Fobject_title"]);
 			$this->object->setDescription($_POST["Fobject_description"]);
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
 
 		}
 		else
