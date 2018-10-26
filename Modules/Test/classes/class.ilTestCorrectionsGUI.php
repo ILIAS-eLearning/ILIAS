@@ -125,7 +125,7 @@ class ilTestCorrectionsGUI
 		$questionGUI->object->setPoints($questionGUI->object->getMaximumPoints());
 		$questionGUI->object->saveToDb();
 		
-		$preserveManualScoring = (bool)$form->getInput('preserve_manscoring')->getChecked();
+		$preserveManualScoring = (bool)$form->getItemByPostVar('preserve_manscoring')->getChecked();
 		
 		$scoring = new ilTestScoring($this->testOBJ);
 		$scoring->setPreserveManualScores($preserveManualScoring);

@@ -973,6 +973,12 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
 	{
+		$points = $form->getInput('choice')['points'];
 		
+		foreach($this->object->getAnswers() as $index => $answer)
+		{
+			/* @var ASS_AnswerMultipleResponseImage $answer */
+			$answer->setPoints($points[$index]);
+		}
 	}
 }

@@ -17,6 +17,20 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
 	 */
 	protected $qstObject;
 	
+	public function setValue($a_value)
+	{
+		if (is_array($a_value))
+		{
+			if (is_array($a_value['points']))
+			{
+				foreach($a_value['points'] as $index => $value)
+				{
+					$this->values[$index]->setPoints($value);
+				}
+			}
+		}
+	}
+	
 	public function checkInput()
 	{
 		global $lng;
@@ -65,6 +79,8 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
 		
 		$i = 0;
 		
+		if($this->values === null) $this->values = $this->value;
+		
 		foreach ($this->values as $value)
 		{
 			if (strlen($value->getImage()))
@@ -90,6 +106,7 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
 			$tpl->parseCurrentBlock();
 			
 			$tpl->setCurrentBlock("prop_points_propval");
+			$tpl->setVariable("POINTS_POST_VAR", $this->getPostVar());
 			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
 			$tpl->parseCurrentBlock();
 			
