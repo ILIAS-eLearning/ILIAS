@@ -17,6 +17,15 @@ interface ilIndividualAssessmentMembersStorage {
 	public function loadMembers(ilObjIndividualAssessment $obj);
 
 	/**
+	 * Get ilIndividualAssessmentMember-object for each obj member
+	 * associated with $obj.
+	 *
+	 * @param	ilObjIndividualAssessment	$obj
+	 * @return	ilIndividualAssessmentMember[]
+	 */
+	public function loadMembersAsSingleObjects(ilObjIndividualAssessment $obj, string $filter = null, string $sort = null);
+
+	/**
 	 * Get ilIndividualAssessmentMember-object containing meberinfo
 	 * associated with $obj and $usr.
 	 *

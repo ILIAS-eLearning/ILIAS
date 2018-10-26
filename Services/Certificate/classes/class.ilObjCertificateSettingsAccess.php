@@ -42,12 +42,9 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 	{
 		if (@file_exists(ilObjCertificateSettingsAccess::getBackgroundImagePath()) && (@filesize(ilObjCertificateSettingsAccess::getBackgroundImagePath()) > 0))
 		{
-			return TRUE;
+			return true;
 		}
-		else
-		{
-			return FALSE;
-		}
+		return false;
 	}
 
 	/**
@@ -67,16 +64,17 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 	*/
 	public static function getBackgroundImagePath($asRelative = false)
 	{
-		if($asRelative)
-		{
+		$imagePath = ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName();
+
+		if($asRelative) {
 			return str_replace(
 				array(CLIENT_WEB_DIR, '//'),
 				array('[CLIENT_WEB_DIR]', '/'),
-				ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName()
+				$imagePath
 			);
 		}
 
-		return ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName();
+		return $imagePath;
 	}
 
 	/**
@@ -106,8 +104,11 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 	*/
 	public static function getBackgroundImagePathWeb()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), ilObjCertificateSettingsAccess::getBackgroundImagePath());
+		return str_replace(ilUtil::removeTrailingPathSeparators(
+			ILIAS_ABSOLUTE_PATH),
+			ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+			ilObjCertificateSettingsAccess::getBackgroundImagePath()
+		);
 	}
 	
 	/**
@@ -117,8 +118,11 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 	*/
 	public static function getBackgroundImageThumbPathWeb()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), ilObjCertificateSettingsAccess::getBackgroundImageThumbPath());
+		return str_replace(ilUtil::removeTrailingPathSeparators(
+			ILIAS_ABSOLUTE_PATH),
+			ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+			ilObjCertificateSettingsAccess::getBackgroundImageThumbPath()
+		);
 	}
 
 }

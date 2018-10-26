@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailNotification.php';
-
 /**
  * @author Nadia Matuschek <nmatuschek@databay.de>
  * @version $Id$
@@ -103,7 +101,6 @@ class ilForumMailNotification extends ilMailNotification
 		global $DIC; 
 		$ilSetting = $DIC->settings();
 		$lng = $DIC->language();
-		$ilUser = $DIC->user();
 
 		if(!$ilSetting->get('forum_notification', 0))
 		{

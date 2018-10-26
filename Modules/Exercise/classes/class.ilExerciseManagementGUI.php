@@ -59,7 +59,9 @@ class ilExerciseManagementGUI
 
 	protected $exercise; // [ilObjExercise]
 	protected $assignment; // [ilExAssignment]
-	
+
+	protected $task_factory;
+
 	const VIEW_ASSIGNMENT = 1;
 	const VIEW_PARTICIPANT = 2;	
 	const VIEW_GRADES = 3;
@@ -84,13 +86,21 @@ class ilExerciseManagementGUI
 		$this->ui_factory = $DIC->ui()->factory();
 		$this->ui_renderer = $DIC->ui()->renderer();
 		$this->toolbar = $DIC->toolbar();
+
 		$this->ctrl = $DIC->ctrl();
 		$this->tabs_gui = $DIC->tabs();
 		$this->lng = $DIC->language();
 		$this->tpl = $DIC["tpl"];
+
+		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
+
 		
 		$this->exercise = $a_exercise;
-		$this->assignment = $a_ass;
+		if($a_ass)
+		{
+			$this->assignment = $a_ass;
+			$this->ass_id = $this->assignment->getId();
+		}
 		
 		$this->ctrl->saveParameter($this, array("vw", "member_id"));
 
@@ -103,7 +113,7 @@ class ilExerciseManagementGUI
 		$ilTabs = $this->tabs_gui;
 		
 		$class = $ilCtrl->getNextClass($this);
-		$cmd = $ilCtrl->getCmd("listPublicSubmissions");		
+		//$cmd = $ilCtrl->getCmd("listPublicSubmissions");
 		
 		switch($class)
 		{			
@@ -202,8 +212,18 @@ class ilExerciseManagementGUI
 				$ilCtrl->forwardCommand($gui);				
 				break;
 			
-			default:									
-				$this->{$cmd."Object"}();				
+			default:
+				$cmd = $ilCtrl->getCmd();
+				switch($cmd)
+				{
+					case 'downloadSubmissions':
+						$cmd = $ilCtrl->getCmd("downloadSubmissions");
+						break;
+					default:
+						$cmd = $ilCtrl->getCmd("listPublicSubmissions");
+						break;
+				}
+				$this->{$cmd."Object"}();
 				break;
 		}
 	}	
@@ -383,24 +403,25 @@ class ilExerciseManagementGUI
 				}
 			}		
 			else if($this->exercise->hasTutorFeedbackFile())
-			{	
-				// multi-feedback
-				$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
-					$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
-				
-				$ilToolbar->addSeparator();			
+			{
+				if (!$this->assignment->getAssignmentType()->usesTeams())
+				{
+					// multi-feedback
+					$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
+						$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
+
+					$ilToolbar->addSeparator();
+				}
 			}
 								
 			if(ilExSubmission::hasAnySubmissions($this->assignment->getId()))
-			{				
-				if($this->assignment->getType() == ilExAssignment::TYPE_TEXT)
-				{
-					$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");					
-				}		
-				else 
-				{			
-					$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");			
-				}		
+			{
+				$ass_type = $this->assignment->getType();
+				//todo change addFormButton for addButtonInstance
+				if($ass_type == ilExAssignment::TYPE_TEXT) {
+					$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");
+				}
+				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
 			}
 			$this->ctrl->setParameter($this, "vw", self::VIEW_ASSIGNMENT);
 			
@@ -419,6 +440,25 @@ class ilExerciseManagementGUI
 		$ilCtrl->setParameter($this, "ass_id", "");
 
 		return;		
+	}
+
+	function downloadSubmissionsObject()
+	{
+		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilDownloadSubmissionsBackgroundTask.php';
+
+		$participant_id = $_REQUEST['part_id'];
+
+		$download_task = new ilDownloadSubmissionsBackgroundTask($GLOBALS['DIC']->user()->getId(), $this->exercise->getId(), (int)$this->ass_id, (int)$participant_id);
+
+		if($download_task->run()) {
+			ilUtil::sendSuccess($this->lng->txt('exc_down_files_started'),true);
+		}
+
+		if($this->assignment) {
+			$this->ctrl->redirect($this, "members");
+		} else{
+			$this->ctrl->redirect($this, "showParticipant");
+		}
 	}
 	
 	function membersApplyObject()
@@ -584,7 +624,7 @@ class ilExerciseManagementGUI
 		}
 
 		$main_panel = $this->ui_factory->panel()->sub($a_data['uname'], $this->ui_factory->legacy($a_data['utext']))
-			->withCard($this->ui_factory->card($this->lng->txt('text_assignment'))->withSections(array($this->ui_factory->legacy($card_tpl->get()))))->withActions($actions);
+			->withCard($this->ui_factory->card()->standard($this->lng->txt('text_assignment'))->withSections(array($this->ui_factory->legacy($card_tpl->get()))))->withActions($actions);
 
 		$feedback_tpl = new ilTemplate("tpl.exc_report_feedback.html", true, true, "Modules/Exercise");
 		if(array_key_exists("peer", $a_data) && $this->filter["feedback"] == "submission_feedback")
@@ -871,14 +911,15 @@ class ilExerciseManagementGUI
 			$button->setCaption("exc_select_part");
 			$button->setCommand("selectParticipant");			
 			$ilToolbar->addStickyItem($button);
-			
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));		
 		}
 
 		if (count($mems) > 0)
 		{
 			$this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
 			$this->ctrl->setParameter($this, "part_id", $current_participant);
+
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
 			
 			include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
 			$part_tab = new ilExParticipantTableGUI($this, "showParticipant",
@@ -1008,7 +1049,7 @@ class ilExerciseManagementGUI
 			));
 		}
 	}
-	
+
 	/**
 	* Download all submitted files (of all members).
 	*/
@@ -1023,22 +1064,42 @@ class ilExerciseManagementGUI
 			
 			// get member object (ilObjUser)
 			if (ilObject::_exists($member_id))
-			{				
+			{
+				$storage_id = "";
 				// adding file metadata
 				foreach($submission->getFiles() as $file)
 				{
-					$members[$file["user_id"]]["files"][$file["returned_id"]] = $file;
-				}			
-			
-				$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
-				$members[$member_id]["name"] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
+					if ($this->assignment->getAssignmentType()->isSubmissionAssignedToTeam())
+					{
+						$storage_id = $file["team_id"];
+					}
+					else
+					{
+						$storage_id = $file["user_id"];
+					}
+
+					$members[$storage_id]["files"][$file["returned_id"]] = $file;
+				}
+				if ($this->assignment->getAssignmentType()->isSubmissionAssignedToTeam())
+				{
+					$name = "Team ".$submission->getTeam()->getId();
+				}
+				else
+				{
+					$tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
+					$name = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
+				}
+				if ($storage_id > 0)
+				{
+					$members[$storage_id]["name"] = $name;
+				}
 				unset($tmp_obj);
 			}
 		}
 		
 		ilExSubmission::downloadAllAssignmentFiles($this->assignment, $members);		
 	}
-	
+
 	protected function getMultiActionUserIds($a_keep_teams = false)
 	{				
 		// multi-user

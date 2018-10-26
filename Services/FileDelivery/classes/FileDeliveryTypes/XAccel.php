@@ -36,6 +36,14 @@ final class XAccel implements ilFileDeliveryType {
 		$this->httpService = $httpState;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function doesFileExists($path_to_file) {
+		return is_readable($path_to_file);
+	}
+
+
 
 	/**
 	 * @inheritdoc

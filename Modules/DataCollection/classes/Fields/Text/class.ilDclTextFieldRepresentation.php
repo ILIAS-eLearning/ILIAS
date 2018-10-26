@@ -7,6 +7,7 @@
  * @version 1.0.0
  */
 class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -43,7 +44,6 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation {
 		if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
 			$input = new ilTextAreaInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 		}
-
 
 		if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
 			$input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));

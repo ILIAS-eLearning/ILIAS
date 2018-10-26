@@ -419,7 +419,16 @@ class ilTemplate extends HTML_Template_ITX
 
 			if ($txt != "")
 			{
-				$out.= $this->getMessageHTML($txt, $m);
+				// this is a workaround that allows to send rendered message boxes directly
+				// should be removed if we have a decent place for messages in a new ks layout
+				if (strpos($txt, 'role="alert"') > 0)
+				{
+					$out.= $txt;
+				}
+				else
+				{
+					$out.= $this->getMessageHTML($txt, $m);
+				}
 			}
 		
 			if ($m == self::MESSAGE_TYPE_QUESTION)
@@ -1578,8 +1587,18 @@ class ilTemplate extends HTML_Template_ITX
 			include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
 			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
+				$style = ilStyleDefinition::getCurrentStyle();
+
 				$fname = "./Customizing/global/skin/".
-					ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
+						ilStyleDefinition::getCurrentSkin()."/".$style."/".$module_path
+						.basename($a_tplname);
+
+				if($fname == "" || !file_exists($fname))
+				{
+					$fname = "./Customizing/global/skin/".
+							ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
+				}
+
 			}
 
 			if($fname == "" || !file_exists($fname))

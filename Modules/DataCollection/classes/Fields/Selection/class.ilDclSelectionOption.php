@@ -10,9 +10,11 @@ class ilDclSelectionOption extends ActiveRecord {
 
 	const DB_TABLE_NAME = "il_dcl_sel_opts";
 
+
 	public static function returnDbTableName() {
 		return self::DB_TABLE_NAME;
 	}
+
 
 	/**
 	 * @var int
@@ -26,7 +28,6 @@ class ilDclSelectionOption extends ActiveRecord {
 	 * @db_sequence         true
 	 */
 	protected $id;
-
 	/**
 	 * @var int
 	 *
@@ -37,7 +38,6 @@ class ilDclSelectionOption extends ActiveRecord {
 	 *
 	 */
 	protected $field_id;
-
 	/**
 	 * @var int
 	 *
@@ -48,7 +48,6 @@ class ilDclSelectionOption extends ActiveRecord {
 	 *
 	 */
 	protected $opt_id;
-
 	/**
 	 * @var int
 	 *
@@ -59,7 +58,6 @@ class ilDclSelectionOption extends ActiveRecord {
 	 *
 	 */
 	protected $sorting;
-
 	/**
 	 * @var string
 	 *
@@ -107,7 +105,7 @@ class ilDclSelectionOption extends ActiveRecord {
 	 * @return int
 	 */
 	public function getOptId() {
-		return (int) $this->opt_id;
+		return (int)$this->opt_id;
 	}
 
 
@@ -190,6 +188,7 @@ class ilDclSelectionOption extends ActiveRecord {
 		return self::where(array("field_id" => $field_id))->orderBy('sorting')->get();
 	}
 
+
 	public static function getValues($field_id, $opt_ids) {
 		$operators = array('field_id' => '=');
 		if (is_array($opt_ids)) {
@@ -204,6 +203,7 @@ class ilDclSelectionOption extends ActiveRecord {
 		foreach (self::where(array("field_id" => $field_id, "opt_id" => $opt_ids), $operators)->orderBy('sorting')->get() as $opt) {
 			$return[] = $opt->getValue();
 		}
+
 		return $return;
 	}
 

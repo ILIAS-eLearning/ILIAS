@@ -11,6 +11,7 @@
  *
  */
 class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
+
 	public function parseValue($value) {
 		if ($value == -1) //marked for deletion.
 		{
@@ -19,7 +20,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 		$media = $value;
 		$has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !isset($_GET['record_id']));
-		$is_confirmed = (bool) (isset($_POST['save_confirmed']));
+		$is_confirmed = (bool)(isset($_POST['save_confirmed']));
 
 		if (is_array($media) && $media['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {
 			$mob = new ilObjMediaObject();
@@ -37,8 +38,8 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$file = $mob_dir . "/" . $file_name;
 			$title = $file_name;
 			$location = $file_name;
-			if($has_save_confirmation) {
-				$move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_'.$this->getField()->getId(), $media["name"], $media["type"]);
+			if ($has_save_confirmation) {
+				$move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_' . $this->getField()->getId(), $media["name"], $media["type"]);
 				ilUtil::moveUploadedFile($move_file, $file_name, $file);
 			} else {
 				ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
@@ -59,7 +60,8 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 						//resize proportional
 						if (!$new_height || !$new_width) {
 							$format = ilObjMediaObject::getMimeType($file);
-							$wh = ilObjMediaObject::_determineWidthHeight($format, "File", $file, "", true, false, $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH), (int)$field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT));
+							$wh
+								= ilObjMediaObject::_determineWidthHeight($format, "File", $file, "", true, false, $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH), (int)$field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT));
 						} else {
 							$wh['width'] = (int)$field->getProperty(ilDclBaseFieldModel::PROP_WIDTH);
 							$wh['height'] = (int)$field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
@@ -91,12 +93,14 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$mob->update();
 			$return = $mob->getId();
 			// handover for save-confirmation
-		} else if(is_array($media) && isset($media['tmp_name']) && $media['tmp_name'] != '') {
-			$return = $media;
-		}else {
-			$return = $this->getValue();
+		} else {
+			if (is_array($media) && isset($media['tmp_name']) && $media['tmp_name'] != '') {
+				$return = $media;
+			} else {
+				$return = $this->getValue();
+			}
 		}
-		
+
 		return $return;
 	}
 
@@ -116,16 +120,18 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 			return $mob_name;
 		}
+
 		return $file;
 	}
+
 
 	/**
 	 * @param ilConfirmationGUI $confirmation
 	 */
 	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
 		if (is_array($this->getValue())) {
-			foreach($this->getValue() as $key=>$value) {
-				$confirmation->addHiddenItem('field_'.$this->field->getId().'['.$key.']', $value);
+			foreach ($this->getValue() as $key => $value) {
+				$confirmation->addHiddenItem('field_' . $this->field->getId() . '[' . $key . ']', $value);
 			}
 		}
 	}
@@ -142,6 +148,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 */
 	public function parseSortingValue($value, $link = true) {
 		$mob = new ilObjMediaObject($value, false);
+
 		return $mob->getTitle();
 	}
 
@@ -152,7 +159,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 	public function setValueFromForm($form) {
 		$value = $form->getInput("field_" . $this->getField()->getId());
 		if ($form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
-			$value = - 1;
+			$value = -1;
 		}
 		$this->setValue($value);
 	}

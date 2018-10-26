@@ -7,6 +7,9 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
+ *
+ * @ilCtrl_Calls ilNewsTimelineGUI: ilLikeGUI, ilNoteGUI
+ *
  * @ingroup ServicesNews
  */
 class ilNewsTimelineGUI
@@ -74,6 +77,9 @@ class ilNewsTimelineGUI
 		$this->include_auto_entries = $a_include_auto_entries;
 		$this->access = $DIC->access();
 
+		$this->news_id = (int) $_GET["news_id"];
+
+
 		$this->lng->loadLanguageModule("news");
 	}
 
@@ -110,16 +116,42 @@ class ilNewsTimelineGUI
 
 	/**
 	 * Execute command
+	 *
+	 * @throws ilCtrlException
 	 */
 	function executeCommand()
 	{
+		$ctrl = $this->ctrl;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("show");
 
 		switch ($next_class)
 		{
+			case "illikegui":
+				$i = new ilNewsItem($this->news_id);
+				include_once("./Services/Like/classes/class.ilLikeFactoryGUI.php");
+				$likef = new ilLikeFactoryGUI();
+				$like_gui = $likef->widget(array($i->getContextObjId()));
+				$ctrl->saveParameter($this,"news_id");
+				$like_gui->setObject($i->getContextObjId(), $i->getContextObjType(),
+					$i->getContextSubObjId(), $i->getContextSubObjType(), $this->news_id);
+				$ret = $ctrl->forwardCommand($like_gui);
+				break;
+
+			case "ilnotegui":
+				$i = new ilNewsItem($this->news_id);
+				$ctrl->saveParameter($this,"news_id");
+				$notes_obj_type = ($i->getContextSubObjType() == "")
+					? $i->getContextObjType()
+					: $i->getContextSubObjType();
+				$note_gui = new ilNoteGUI($i->getContextObjId(), $i->getContextSubObjId(),
+					$notes_obj_type, false,  $i->getId());
+				$ret = $ctrl->forwardCommand($note_gui);
+				break;
+
 			default:
-				if (in_array($cmd, array("show", "save", "update", "loadMore", "remove")))
+				if (in_array($cmd, array("show", "save", "update", "loadMore", "remove", "updateNewsItem")))
 				{
 					$this->$cmd();
 				}
@@ -156,11 +188,19 @@ class ilNewsTimelineGUI
 		include_once("./Services/News/classes/class.ilNewsTimelineItemGUI.php");
 		$timeline = ilTimelineGUI::getInstance();
 
+		// get like widget
+		$obj_ids = array_unique(array_map(function ($a) {
+			return $a["context_obj_id"];
+		}, $news_data));
+		include_once("./Services/Like/classes/class.ilLikeFactoryGUI.php");
+		$likef = new ilLikeFactoryGUI();
+		$like_gui = $likef->widget($obj_ids);
+
 		$js_items = array();
 		foreach ($news_data as $d)
 		{
 			$news_item = new ilNewsItem($d["id"]);
-			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"]);
+			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
 			$item->setUserEditAll($this->getUserEditAll());
 			$timeline->addItem($item);
 			$js_items[$d["id"]] = array(
@@ -171,7 +211,8 @@ class ilNewsTimelineGUI
 				"content_long" => "",
 				"priority" => $d["priority"],
 				"visibility" => $d["visibility"],
-				"content_type" => $d["content_type"]
+				"content_type" => $d["content_type"],
+				"mob_id" => $d["mob_id"]
 			);
 		}
 
@@ -227,11 +268,19 @@ class ilNewsTimelineGUI
 		include_once("./Services/News/classes/class.ilNewsTimelineItemGUI.php");
 		$timeline = ilTimelineGUI::getInstance();
 
+		// get like widget
+		$obj_ids = array_unique(array_map(function ($a) {
+			return $a["context_obj_id"];
+		}, $news_data));
+		include_once("./Services/Like/classes/class.ilLikeFactoryGUI.php");
+		$likef = new ilLikeFactoryGUI();
+		$like_gui = $likef->widget($obj_ids);
+
 		$js_items = array();
 		foreach ($news_data as $d)
 		{
 			$news_item = new ilNewsItem($d["id"]);
-			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"]);
+			$item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
 			$item->setUserEditAll($this->getUserEditAll());
 			$timeline->addItem($item);
 			$js_items[$d["id"]] = array(
@@ -242,7 +291,8 @@ class ilNewsTimelineGUI
 				"content_long" => "",
 				"priority" => $d["priority"],
 				"visibility" => $d["visibility"],
-				"content_type" => $d["content_type"]
+				"content_type" => $d["content_type"],
+				"mob_id" => $d["mob_id"]
 			);
 		}
 
@@ -255,6 +305,26 @@ class ilNewsTimelineGUI
 		exit;
 	}
 
+	
+	/**
+	 *
+	 *
+	 * @param
+	 */
+	protected function updateNewsItem()
+	{
+		if ($_POST["news_action"] == "save")
+		{
+			$this->save();
+			$this->ctrl->redirect($this, "show");
+		}
+		if ($_POST["news_action"] == "update")
+		{
+			$this->update();
+			$this->ctrl->redirect($this, "show");
+		}
+	}
+	
 
 	/**
 	 * Save (ajax)
@@ -283,6 +353,13 @@ class ilNewsTimelineGUI
 			$news_item->setContextObjType($obj_type);
 			$news_item->setUserId($this->user->getId());
 
+			$media = $_FILES["media"];
+			if ($media["name"] != "")
+			{
+				$mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
+				$news_item->setMobId($mob->getId());
+			}
+
 			$news_set = new ilSetting("news");
 			if (!$news_set->get("enable_rss_for_internal"))
 			{
@@ -291,8 +368,9 @@ class ilNewsTimelineGUI
 
 			$news_item->create();
 		}
-		exit;
 	}
+
+
 
 	/**
 	 * Update (ajax)
@@ -315,16 +393,40 @@ class ilNewsTimelineGUI
 			}
 			$news_item->setContentLong("");
 
+			$media = $_FILES["media"];
+			$old_mob_id = 0;
+
+			// delete old media object
+			if ($media["name"] != "" || $_POST["media_delete"] != "")
+			{
+				if ($news_item->getMobId() > 0 && ilObject::_lookupType($news_item->getMobId()) == "mob")
+				{
+					$old_mob_id = $news_item->getMobId();
+				}
+				$news_item->setMobId(0);
+			}
+
+			if ($media["name"] != "")
+			{
+				$mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
+				$news_item->setMobId($mob->getId());
+			}
+
 			$obj_id = ilObject::_lookupObjectId($this->ref_id);
 
 			if ($news_item->getContextObjId() == $obj_id)
 			{
 				$news_item->setUpdateUserId($this->user->getId());
 				$news_item->update();
-			}
 
+				if ($old_mob_id > 0)
+				{
+					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+					$old_mob = new ilObjMediaObject($old_mob_id);
+					$old_mob->delete();
+				}
+			}
 		}
-		exit;
 	}
 
 	/**
@@ -357,6 +459,16 @@ class ilNewsTimelineGUI
 		include_once("./Services/News/classes/class.ilNewsItemGUI.php");
 		$form = ilNewsItemGUI::getEditForm(IL_FORM_EDIT, $this->ref_id);
 		$form->setShowTopButtons(false);
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+
+		//
+		$hi = new ilHiddenInputGUI("id");
+		$form->addItem($hi);
+		$act = new ilHiddenInputGUI("news_action");
+		$form->addItem($act);
+		$form->setId("news_edit_form");
+
 		$modal->setBody($form->getHTML());
 
 		return $modal->getHTML();

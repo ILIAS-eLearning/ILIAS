@@ -72,10 +72,15 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}
 
 
+		$newObj = new ilObjGroup();
+		$newObj->setTitle('dummy');
+		$newObj->setDescription("");
+		$newObj->create(true); // true for upload
+
 		// Start import
 		include_once("./Modules/Group/classes/class.ilObjGroup.php");
 		include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
-		$xml_parser = new ilGroupXMLParser($grp_xml,$target_id);
+		$xml_parser = new ilGroupXMLParser($newObj, $grp_xml,$target_id);
 		$new_ref_id = $xml_parser->startParsing();
 
 		return $new_ref_id ? $new_ref_id : "0";
@@ -131,9 +136,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 
 		include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
-		$xml_parser = new ilGroupXMLParser($grp_xml, -1);
+		$xml_parser = new ilGroupXMLParser($grp, $grp_xml, -1);
 		$xml_parser->setMode(ilGroupXMLParser::$UPDATE);
-		$xml_parser->setGroup($grp);
 		$new_ref_id = $xml_parser->startParsing();
 
 		return $new_ref_id ? $new_ref_id : "0";

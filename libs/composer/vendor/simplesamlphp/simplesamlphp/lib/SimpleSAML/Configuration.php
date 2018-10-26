@@ -1,5 +1,6 @@
 <?php
 
+use SimpleSAML\Utils\System;
 
 /**
  * Configuration of SimpleSAMLphp
@@ -9,7 +10,6 @@
  */
 class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
 {
-
     /**
      * A default value which means that the given option is required.
      *
@@ -87,13 +87,12 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function __construct($config, $location)
     {
-        assert('is_array($config)');
-        assert('is_string($location)');
+        assert(is_array($config));
+        assert(is_string($location));
 
         $this->configuration = $config;
         $this->location = $location;
     }
-
 
     /**
      * Load the given configuration file.
@@ -108,8 +107,8 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     private static function loadFromFile($filename, $required)
     {
-        assert('is_string($filename)');
-        assert('is_bool($required)');
+        assert(is_string($filename));
+        assert(is_bool($required));
 
         if (array_key_exists($filename, self::$loadedConfigs)) {
             return self::$loadedConfigs[$filename];
@@ -120,7 +119,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
 
             // the file initializes a variable named '$config'
             ob_start();
-            if (interface_exists('Throwable')) {
+            if (interface_exists('Throwable', false)) {
                 try {
                     require($filename);
                 } catch (ParseError $e) {
@@ -190,10 +189,39 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public static function setConfigDir($path, $configSet = 'simplesaml')
     {
-        assert('is_string($path)');
-        assert('is_string($configSet)');
+        assert(is_string($path));
+        assert(is_string($configSet));
 
         self::$configDirs[$configSet] = $path;
+    }
+
+    /**
+     * Store a pre-initialized configuration.
+     *
+     * Allows consumers to create configuration objects without having them
+     * loaded from a file.
+     *
+     * @param SimpleSAML_Configuration $config  The configuration object to store
+     * @param string $filename  The name of the configuration file.
+     * @param string $configSet  The configuration set. Optional, defaults to 'simplesaml'.
+     */
+    public static function setPreLoadedConfig(SimpleSAML_Configuration $config, $filename = 'config.php', $configSet = 'simplesaml')
+    {
+        assert(is_string($filename));
+        assert(is_string($configSet));
+
+        if (!array_key_exists($configSet, self::$configDirs)) {
+            if ($configSet !== 'simplesaml') {
+                throw new Exception('Configuration set \'' . $configSet . '\' not initialized.');
+            } else {
+                self::$configDirs['simplesaml'] = dirname(dirname(dirname(__FILE__))) . '/config';
+            }
+        }
+
+        $dir = self::$configDirs[$configSet];
+        $filePath = $dir . '/' . $filename;
+
+        self::$loadedConfigs[$filePath] = $config;
     }
 
 
@@ -208,8 +236,8 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public static function getConfig($filename = 'config.php', $configSet = 'simplesaml')
     {
-        assert('is_string($filename)');
-        assert('is_string($configSet)');
+        assert(is_string($filename));
+        assert(is_string($configSet));
 
         if (!array_key_exists($configSet, self::$configDirs)) {
             if ($configSet !== 'simplesaml') {
@@ -238,8 +266,8 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public static function getOptionalConfig($filename = 'config.php', $configSet = 'simplesaml')
     {
-        assert('is_string($filename)');
-        assert('is_string($configSet)');
+        assert(is_string($filename));
+        assert(is_string($configSet));
 
         if (!array_key_exists($configSet, self::$configDirs)) {
             if ($configSet !== 'simplesaml') {
@@ -268,8 +296,8 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public static function loadFromArray($config, $location = '[ARRAY]', $instance = null)
     {
-        assert('is_array($config)');
-        assert('is_string($location)');
+        assert(is_array($config));
+        assert(is_string($location));
 
         $c = new SimpleSAML_Configuration($config, $location);
         if ($instance !== null) {
@@ -296,7 +324,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public static function getInstance($instancename = 'simplesaml')
     {
-        assert('is_string($instancename)');
+        assert(is_string($instancename));
 
         // check if the instance exists already
         if (array_key_exists($instancename, self::$instance)) {
@@ -331,9 +359,9 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public static function init($path, $instancename = 'simplesaml', $configfilename = 'config.php')
     {
-        assert('is_string($path)');
-        assert('is_string($instancename)');
-        assert('is_string($configfilename)');
+        assert(is_string($path));
+        assert(is_string($instancename));
+        assert(is_string($configfilename));
 
         if ($instancename === 'simplesaml') {
             // for backwards compatibility
@@ -363,9 +391,9 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function copyFromBase($instancename, $filename)
     {
-        assert('is_string($instancename)');
-        assert('is_string($filename)');
-        assert('$this->filename !== NULL');
+        assert(is_string($instancename));
+        assert(is_string($filename));
+        assert($this->filename !== null);
 
         // check if we already have loaded the given config - return the existing instance if we have
         if (array_key_exists($instancename, self::$instance)) {
@@ -386,7 +414,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getVersion()
     {
-        return '1.15.4';
+        return '1.16.2';
     }
 
 
@@ -539,21 +567,9 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
             return null;
         }
 
-        assert('is_string($path)');
+        assert(is_string($path));
 
-        /* Prepend path with basedir if it doesn't start with a slash or a Windows drive letter (e.g. "C:\"). We assume
-         * getBaseDir ends with a slash.
-         */
-        if ($path[0] !== '/' &&
-            !(preg_match('@^[a-z]:[\\\\/]@i', $path, $matches) && is_dir($matches[0]))
-        ) {
-            $path = $this->getBaseDir().$path;
-        }
-
-        // remove trailing slashes
-        $path = rtrim($path, '/');
-
-        return $path;
+        return System::resolvePath($path, $this->getBaseDir());
     }
 
 
@@ -612,13 +628,13 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
 
         // the directory wasn't set in the configuration file, path is <base directory>/lib/SimpleSAML/Configuration.php
         $dir = __FILE__;
-        assert('basename($dir) === "Configuration.php"');
+        assert(basename($dir) === 'Configuration.php');
 
         $dir = dirname($dir);
-        assert('basename($dir) === "SimpleSAML"');
+        assert(basename($dir) === 'SimpleSAML');
 
         $dir = dirname($dir);
-        assert('basename($dir) === "lib"');
+        assert(basename($dir) === 'lib');
 
         $dir = dirname($dir);
 
@@ -647,7 +663,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getBoolean($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
 
@@ -685,7 +701,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getString($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
 
@@ -723,7 +739,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getInteger($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
 
@@ -765,9 +781,9 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getIntegerRange($name, $minimum, $maximum, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
-        assert('is_int($minimum)');
-        assert('is_int($maximum)');
+        assert(is_string($name));
+        assert(is_int($minimum));
+        assert(is_int($maximum));
 
         $ret = $this->getInteger($name, $default);
 
@@ -811,8 +827,8 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getValueValidate($name, $allowedValues, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
-        assert('is_array($allowedValues)');
+        assert(is_string($name));
+        assert(is_array($allowedValues));
 
         $ret = $this->getValue($name, $default);
         if ($ret === $default) {
@@ -856,7 +872,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getArray($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
 
@@ -887,7 +903,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getArrayize($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
 
@@ -920,7 +936,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getArrayizeString($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getArrayize($name, $default);
 
@@ -962,7 +978,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getConfigItem($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
 
@@ -1003,7 +1019,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getConfigList($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
 
@@ -1072,7 +1088,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     private function getDefaultBinding($endpointType)
     {
-        assert('is_string($endpointType)');
+        assert(is_string($endpointType));
 
         $set = $this->getString('metadata-set');
         switch ($set.':'.$endpointType) {
@@ -1105,7 +1121,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getEndpoints($endpointType)
     {
-        assert('is_string($endpointType)');
+        assert(is_string($endpointType));
 
         $loc = $this->location.'['.var_export($endpointType, true).']:';
 
@@ -1186,7 +1202,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getEndpointPrioritizedByBinding($endpointType, array $bindings, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($endpointType)');
+        assert(is_string($endpointType));
 
         $endpoints = $this->getEndpoints($endpointType);
 
@@ -1221,7 +1237,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getDefaultEndpoint($endpointType, array $bindings = null, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($endpointType)');
+        assert(is_string($endpointType));
 
         $endpoints = $this->getEndpoints($endpointType);
 
@@ -1254,7 +1270,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getLocalizedString($name, $default = self::REQUIRED_OPTION)
     {
-        assert('is_string($name)');
+        assert(is_string($name));
 
         $ret = $this->getValue($name, $default);
         if ($ret === $default) {
@@ -1294,7 +1310,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      * @param string $prefix The prefix which should be used when reading from the metadata
      *                       array. Defaults to ''.
      *
-     * @return array|null Public key data, or null if no public key or was found.
+     * @return array Public key data, or empty array if no public key or was found.
      *
      * @throws Exception If the certificate or public key cannot be loaded from a file.
      * @throws SimpleSAML_Error_Exception If the file does not contain a valid PEM-encoded certificate, or there is no
@@ -1302,8 +1318,8 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
      */
     public function getPublicKeys($use = null, $required = false, $prefix = '')
     {
-        assert('is_bool($required)');
-        assert('is_string($prefix)');
+        assert(is_bool($required));
+        assert(is_string($prefix));
 
         if ($this->hasValue($prefix.'keys')) {
             $ret = array();
@@ -1317,9 +1333,7 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
                 }
                 $ret[] = $key;
             }
-            if (!empty($ret)) {
-                return $ret;
-            }
+            return $ret;
         } elseif ($this->hasValue($prefix.'certData')) {
             $certData = $this->getString($prefix.'certData');
             $certData = preg_replace('/\s+/', '', $certData);
@@ -1357,12 +1371,10 @@ class SimpleSAML_Configuration implements \SimpleSAML\Utils\ClearableState
                     'X509Certificate' => $certData,
                 ),
             );
-        }
-
-        if ($required) {
+        } elseif ($required === true) {
             throw new SimpleSAML_Error_Exception($this->location.': Missing certificate in metadata.');
         } else {
-            return null;
+            return array();
         }
     }
 

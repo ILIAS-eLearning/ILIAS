@@ -34,6 +34,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 	static $block_type = "news";
 	static $st_data;
+
+	protected $obj_definition;
 	
 	/**
 	* Constructor
@@ -49,6 +51,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
 		$this->tabs = $DIC->tabs();
+		$this->obj_definition = $DIC["objDefinition"];
+
 		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
 		$ilUser = $DIC->user();
@@ -149,23 +153,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 //var_dump($news_data);
 		return $news_data;
 	}
-		
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	* Is this a repository object
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -270,6 +270,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
+		global $DIC;
+
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilUser = $this->user;
@@ -337,9 +339,27 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		if ($this->getProperty("settings") == true)
 		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "editSettings"),
-				$lng->txt("settings"));
+			$ref_id = $_GET["ref_id"];
+			$obj_def = $DIC["objDefinition"];
+			$obj_id = ilObject::_lookupObjectId($ref_id);
+			$obj_type = ilObject::_lookupType($ref_id, true);
+			$obj_class= strtolower($obj_def->getClassName($obj_type));
+			$parent_gui = "ilobj".$obj_class."gui";
+
+			$ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
+
+			if (in_array($obj_class, ["category", "course", "group"]))
+			{
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"), "show"),
+					$lng->txt("settings"));
+			}
+			else
+			{
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTarget($this, "editSettings"),
+					$lng->txt("settings"));
+			}
 		}
 		
 		// do not display hidden repository news blocks for users
@@ -424,6 +444,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
+		$obj_definition = $this->obj_definition;
 
 		if ($this->getCurrentDetailLevel() > 2)
 		{
@@ -454,8 +475,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				? "lres"
 				: "obj_".$type;
 
+			$type_txt = ($obj_definition->isPlugin($news["context_obj_type"]))
+				? ilObjectPlugin::lookupTxtById($news["context_obj_type"], $lang_type)
+				: $lng->txt($lang_type);
+
 			$this->tpl->setCurrentBlock("news_context");
-			$this->tpl->setVariable("TYPE", $lng->txt($lang_type));
+			$this->tpl->setVariable("TYPE", $type_txt);
 			$this->tpl->setVariable("IMG_TYPE",
 				ilObject::_getIcon($obj_id, "tiny", $type));
 			$this->tpl->setVariable("TITLE",
@@ -1158,7 +1183,65 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->settings_form->addCommandButton("cancelSettings", $lng->txt("cancel"));
 		$this->settings_form->setFormAction($ilCtrl->getFormaction($this));
 	}
-	
+
+	/**
+	 * Add inputs to the container news settings form to configure also the contextBlock options.
+	 * @param ilFormPropertyGUI $a_input
+	 */
+	static function addToSettingsForm(ilFormPropertyGUI $a_input)
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$block_id = $DIC->ctrl()->getContextObjId();
+
+		$news_set = new ilSetting("news");
+		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
+		//$public_notification = ilBlockSetting::_lookup(self::$block_type, "public_notifications",0, $block_id);
+		$public_feed = ilBlockSetting::_lookup(self::$block_type, "public_feed",
+			0, $block_id);
+
+		$default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility_option", 0, $block_id);
+		if ($default_visibility == "")
+		{
+			$default_visibility =
+				ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
+		}
+
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "default_visibility");
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
+		$radio_group->addOption($radio_option);
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+		$radio_group->setRequired(false);
+		$radio_group->setValue($default_visibility);
+		$a_input->addSubItem($radio_group);
+
+		// extra rss feed
+		if ($enable_internal_rss)
+		{
+			$radio_rss = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
+				"notifications_public_feed");
+			$radio_rss->setInfo($lng->txt("news_public_feed_info"));
+			$radio_rss->setChecked($public_feed);
+			$a_input->addSubItem($radio_rss);
+		}
+	}
+
+	static function writeSettings($a_values)
+	{
+		global $DIC;
+
+		$block_id = $DIC->ctrl()->getContextObjId();
+
+		foreach($a_values as $key=>$value)
+		{
+			ilBlockSetting::_write(self::$block_type, $key, $value, 0, $block_id);
+		}
+	}
+
 	/**
 	* Cancel settings.
 	*/

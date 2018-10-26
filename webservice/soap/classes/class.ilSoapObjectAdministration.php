@@ -1200,7 +1200,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$tree->moveTree($ref_id,$target_id);
 		$rbacadmin->adjustMovedObjectPermissions($ref_id,$old_parent);
 				
-		include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+		include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 		ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 		return true;
 	}

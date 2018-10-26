@@ -14,6 +14,17 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 	protected $container_ref_id;
 	protected $material_items;
+	protected $filter; // [array]
+
+	/**
+	 * @var \ILIAS\UI\Factory
+	 */
+	protected $ui;
+
+	/**
+	 * @var \ILIAS\UI\Renderer
+	 */
+	protected $renderer;
 
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
@@ -23,11 +34,15 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$lng = $DIC['lng'];
 		$tree = $DIC['tree'];
 
+		$this->ui = $DIC->ui()->factory();
+		$this->renderer = $DIC->ui()->renderer();
+
 		$this->setId("sess_materials_".$a_parent_obj->object->getId());
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->parent_ref_id = $tree->getParentId($a_parent_obj->object->getRefId());
+		$this->parent_object_id = $a_parent_obj->object->getId();
 
 		//$this->setEnableNumInfo(false);
 		//$this->setLimit(100);
@@ -35,12 +50,17 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
 		$this->setFormName('materials');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj,$a_parent_cmd));
-		$this->addCommandButton("saveMaterials", $lng->txt("save"));
 
 		$this->addColumn("", "f", 1);
 		$this->addColumn($lng->txt("crs_materials"), "object", "90%" );
-		$this->addColumn($lng->txt("status"), "active", 5);
+		$this->addColumn($lng->txt("sess_is_assigned"), "active", 5);
+		//todo can I remove this?
 		$this->setSelectAllCheckbox('items');
+
+		$this->setFilterCommand("applyFilter");
+		$this->setResetCommand("resetFilter");
+
+		$this->initFilter();
 	}
 
 	/**
@@ -72,12 +92,88 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 				continue;
 			}
 
-			$node["sorthash"] = (int)(!in_array($node['ref_id'],$this->getMaterialItems())).$node["title"];
+			if(!empty($this->getMaterialItems())) {
+				$node["sorthash"] = (int)(!in_array($node['ref_id'], $this->getMaterialItems())) . $node["title"];
+			}
 			$materials[] = $node;
 		}
 
 		$materials = ilUtil::sortArray($materials, "sorthash", "ASC");
-		$this->setData($materials);
+
+		if(!empty($this->filter)){
+			$materials = $this->filterData($materials);
+		}
+		return $materials;
+	}
+
+	/**
+	 * Apply the filters to the data
+	 * @param $a_data
+	 * @return mixed
+	 */
+	function filterData($a_data)
+	{
+		$data_filtered = $a_data;
+
+		//Filter by title
+		if($this->filter["title"])
+		{
+			foreach ($data_filtered as $key => $material)
+			{
+				$title = $material["title"];
+				if(stripos($title, $this->filter["title"]) === false)
+				{
+					unset($data_filtered[$key]);
+				}
+			}
+		}
+
+		//Filter by obj type
+		if($this->filter['type'])
+		{
+			foreach ($data_filtered as $key => $material)
+			{
+				$type = $material["type"];
+				//types can be: file, exc
+				if($type != $this->filter["type"]) {
+					unset($data_filtered[$key]);
+				}
+			}
+		}
+
+		//Filter by status
+		if($this->filter["status"])
+		{
+			//items_ref = materials already assigned.
+			$assigned_items = new ilEventItems($this->parent_object_id);
+			$assigned_items = $assigned_items->getItems();
+
+			if($this->filter["status"]== "assigned")
+			{
+				foreach ($data_filtered as $key => $material)
+				{
+					if(!in_array($material["ref_id"], $assigned_items)) {
+						unset($data_filtered[$key]);
+					}
+				}
+			}
+			elseif ($this->filter["status"] == "notassigned")
+			{
+				foreach ($data_filtered as $key => $material)
+				{
+					if(in_array($material["ref_id"], $assigned_items)) {
+						unset($data_filtered[$key]);
+					}
+				}
+			}
+		}
+
+		return $data_filtered;
+	}
+
+	function setMaterials($a_materials)
+	{
+		$this->setData($a_materials);
 	}
 
 	/**
@@ -91,21 +187,17 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_POSTNAME","items");
 		$this->tpl->setVariable("VAL_ID",$a_set['ref_id']);
 
-		if(in_array($a_set['ref_id'],$this->getMaterialItems()))
-		{
-			$this->tpl->setVariable("VAL_CHECKED","checked");
-		}
-
 		$this->tpl->setVariable("COLL_TITLE",$a_set['title']);
 
 		if(strlen($a_set['description']))
 		{
 			$this->tpl->setVariable("COLL_DESC",$a_set['description']);
 		}
-		$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($a_set['ref_id'],$this->getMaterialItems()) ?
-			ilUtil::getImagePath('icon_ok.svg') :
-			ilUtil::getImagePath('icon_not_ok.svg'));
-		$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
+		if(in_array($a_set['ref_id'],$this->getMaterialItems()))
+		{
+			$ass_glyph = $this->ui->glyph()->apply();
+			$this->tpl->setVariable("ASSIGNED_IMG_OK",$this->renderer->render($ass_glyph));
+		}
 
 		include_once('./Services/Tree/classes/class.ilPathGUI.php');
 		$path = new ilPathGUI();
@@ -150,4 +242,61 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		return $this->container_ref_id;
 	}
 
+	/**
+	 * Get object types available in this specific session.
+	 * @return array
+	 */
+	function typesAvailable()
+	{
+		$items = $this->getDataFromDb();
+
+		$all_types = array();
+		foreach($items as $item)
+		{
+			array_push($all_types, $item["type"]);
+		}
+		return array_values(array_unique($all_types));
+	}
+
+	/**
+	 * Filters initialization.
+	 */
+	function initFilter()
+	{
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(64);
+		$ti->setSize(20);
+		$this->addFilterItem($ti);
+		$ti->readFromSession();	// get currenty value from session (always after addFilterItem())
+		$this->filter["title"] = $ti->getValue();
+
+		// types
+		//todo remove banned types if necessary.
+		$filter_types = $this->typesAvailable();
+		$types = array();
+		$types[0] = $this->lng->txt('sess_filter_all_types');
+		foreach($filter_types as $type)
+		{
+			$types["$type"] = $this->lng->txt("obj_".$type);
+		}
+
+		$select = new ilSelectInputGUI($this->lng->txt("type"), "type");
+		$select->setOptions($types);
+		$this->addFilterItem($select);
+		$select->readFromSession();
+		$this->filter["type"] = $select->getValue();
+
+		// status
+		$status = array();
+		$status[0] = "-";
+		$status["notassigned"] = $this->lng->txt("sess_filter_not_assigned");
+		$status["assigned"] = $this->lng->txt("assigned");
+
+		$select_status = new ilSelectInputGUI($this->lng->txt("assigned"), "status");
+		$select_status->setOptions($status);
+		$this->addFilterItem($select_status);
+		$select_status->readFromSession();
+		$this->filter['status'] = $select_status->getValue();
+	}
 }

@@ -4,7 +4,7 @@ var schedule = require('node-schedule');
 /**
  * @param {Function} callback
  */
-module.exports = function UserSettingsProcess(callback) {
+module.exports = function UserSettingsProcess(result, callback) {
 
 	schedule.scheduleJob('UserSettingsProcess', '*/20 * * * *', function fetchUserSettings() {
 		var namespaces = Container.getNamespaces();

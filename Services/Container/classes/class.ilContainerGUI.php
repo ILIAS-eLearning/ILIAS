@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
@@ -95,7 +97,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	protected $app_event_handler;
 
 	var $bl_cnt = 1;		// block counter
-	var $multi_download_enabled = false;	
+	var $multi_download_enabled = false;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 	
 	/**
 	* Constructor
@@ -123,6 +130,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->toolbar = $DIC->toolbar();
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		$this->ui = $DIC->ui();
 		$rbacsystem = $DIC->rbac()->system();
 		$lng = $DIC->language();
 
@@ -693,9 +701,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						}
 						else
 						{
+
+							$url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
 							$main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
 							$main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
-							
+							$main_tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
+
 							include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 							$button = ilSubmitButton::getInstance();
 							$button->setCaption("download_selected_items");
@@ -1164,7 +1175,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				global $DIC;
 				/** @var \ilObjectCustomIconFactory $customIconFactory */
 				$customIconFactory = $DIC['object.customicons.factory'];
-				$customIcon = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
+				$customIcon = $customIconFactory->getPresenterByObjId($a_item_obj_id, $a_image_type);
 
 				if ($customIcon->exists()) {
 					$icon = $customIcon->getFullPath();
@@ -1786,6 +1797,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		// copy to temporary directory
 		$oldFilename = ilObjFile::_lookupAbsolutePath($obj_id);
+
 		if (!copy($oldFilename, $newFilename))
 			throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
 		
@@ -1898,6 +1910,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilUser = $this->user;
 		$ilErr = $this->error;
 		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+		$ui = $this->ui;
 
 		$command = $_SESSION['clipboard']['cmd'];
 		if(!in_array($command, array('cut', 'link', 'copy')))
@@ -2077,7 +2091,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$tree->moveTree($ref_id, $folder_ref_id);
 					$rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 					
-					include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+					include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 					ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 	
 					// BEGIN ChangeEvent: Record cut event.
@@ -2148,12 +2162,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 
 			$linked_targets = array();
+			$links = [];
 			if(count($linked_to_folders))
 			{
 				require_once 'Services/Link/classes/class.ilLink.php';
 				foreach($linked_to_folders as $ref_id => $title)
 				{
 					$linked_targets[] = '<a href="' . ilLink::_getLink($ref_id) . '">' . $title . '</a>';
+					$links[] = $ui->factory()->link()->standard($title, ilLink::_getLink($ref_id));
 				}
 			}
 
@@ -2162,7 +2178,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				$suffix = 's';
 			}
-			ilUtil::sendSuccess(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix), implode(', ', $linked_targets)), true);
+			
+			$mbox = $ui->factory()->messageBox()->success($this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix))
+				->withLinks($links);
+			
+			ilUtil::sendSuccess($ui->renderer()->render($mbox), true);
 		} // END LINK
 
 		// clear clipboard
@@ -2488,7 +2508,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->tree->moveTree($ref_id,$this->object->getRefId());
 				$rbacadmin->adjustMovedObjectPermissions($ref_id,$old_parent);
 				
-				include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+				include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 				ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 
 				// BEGIN ChangeEvent: Record cut event.
@@ -3467,7 +3487,69 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 	}
-	
+
+	/**
+	 * Init object edit form
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initEditForm()
+	{
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
+		$lng->loadLanguageModule($this->object->getType());
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+
+		$this->initFormTitleDescription($form);
+
+		$this->initEditCustomForm($form);
+
+		$form->addCommandButton("update", $this->lng->txt("save"));
+		//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+
+		return $form;
+	}
+
+	/**
+	 * Init title/description for edit form
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function initFormTitleDescription(ilPropertyFormGUI $form)
+	{
+		/** @var ilObjectTranslation $trans */
+		$trans = $this->object->getObjectTranslation();
+
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
+		$title->setValue($trans->getDefaultTitle());
+		$form->addItem($title);
+
+		if(sizeof($trans->getLanguages()) > 1)
+		{
+			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
+			$languages = ilMDLanguageItem::_getLanguages();
+			$title->setInfo($this->lng->txt("language").": ".$languages[$trans->getDefaultLanguage()].
+				' <a href="'.$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "").
+				'">&raquo; '.$this->lng->txt("obj_more_translations").'</a>');
+
+			unset($languages);
+		}
+
+		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$desc->setRows(2);
+		$desc->setCols(40);
+		$desc->setValue($trans->getDefaultDescription());
+		$form->addItem($desc);
+	}
+
+
 	/**
 	 * Append sorting settings to property form
 	 * @param ilPropertyFormGUI $form

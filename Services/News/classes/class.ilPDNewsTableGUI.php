@@ -311,20 +311,14 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ALT_CONTEXT_TITLE",
 			$lng->txt("icon")." ".$lng->txt("obj_".$obj_type));
 		$this->tpl->setVariable("IMG_CONTEXT_TITLE",
-			ilUtil::getImagePath("icon_".$obj_type.".svg"));
+			ilObject::_getIcon($a_set["context_obj_id"]));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("HREF_TITLE", $url_target);
 		
 		// title
-		if ($a_set["content_is_lang_var"])
-		{
-			$this->tpl->setVariable("VAL_TITLE", $lng->txt($a_set["title"]));
-		}
-		else
-		{
-			$this->tpl->setVariable("VAL_TITLE", ilUtil::stripSlashes($a_set["title"]));			// title
-		}
+		$this->tpl->setVariable("VAL_TITLE",
+			ilNewsItem::determineNewsTitle($a_set["context_obj_type"], $a_set["title"], $a_set["content_is_lang_var"]));
 
 		// creation date
 		$this->tpl->setVariable("VAL_CREATION_DATE",

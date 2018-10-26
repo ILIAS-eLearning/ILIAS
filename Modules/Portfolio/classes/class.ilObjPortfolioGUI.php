@@ -23,6 +23,16 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	protected $help;
 
 	protected $ws_access; // [ilWorkspaceAccessHandler]
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * @var ilPortfolioDeclarationOfAuthorship
+	 */
+	protected $declaration_authorship;
 	
 	public function __construct($a_id = 0)
 	{		
@@ -34,7 +44,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->access = $DIC->access();
 		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
+		$this->ui = $DIC->ui();
+
 		parent::__construct($a_id, self::PORTFOLIO_OBJECT_ID, 0);
+		$this->declaration_authorship = new ilPortfolioDeclarationOfAuthorship();
 
 		$this->ctrl->saveParameter($this, "exc_back_ref_id");
 	}
@@ -93,13 +106,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					if($this->access_handler->getPermissions($this->object->getId()) &&
 						!$this->object->isOnline())
 					{
-						ilUtil::sendInfo($lng->txt("prtf_shared_offline_info"));
+						//ilUtil::sendInfo($lng->txt("prtf_shared_offline_info"));
 					}
 										
 					$this->tpl->setPermanentLink("prtf", $this->object->getId());
 
 					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 					$wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true);
+					$wspacc->setBlockingMessage($this->getOfflineMessage());
 					$this->ctrl->forwardCommand($wspacc);
 				}
 				break;
@@ -235,7 +249,101 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	//
 	// CREATE/EDIT
 	// 
-	
+
+	/**
+	 * create new object form
+	 *
+	 * @access	public
+	 */
+	public function create()
+	{
+		$tpl = $this->tpl;
+		$ilErr = $this->ilErr;
+
+		$new_type = $_REQUEST["new_type"];
+
+		// add new object to custom parent container
+		$this->ctrl->saveParameter($this, "crtptrefid");
+		// use forced callback after object creation
+		$this->ctrl->saveParameter($this, "crtcb");
+
+		if (!$this->checkPermissionBool("create", "", $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
+		}
+		else
+		{
+			$this->lng->loadLanguageModule($new_type);
+			$this->ctrl->setParameter($this, "new_type", $new_type);
+
+			$forms = $this->initCreationForms($new_type);
+
+			// copy form validation error: do not show other creation forms
+			if($_GET["cpfl"] && isset($forms[self::CFORM_CLONE]))
+			{
+				$forms = array(self::CFORM_CLONE => $forms[self::CFORM_CLONE]);
+			}
+			$tpl->setContent($this->getCreateInfoMessage().$this->getCreationFormsHTML($forms));
+		}
+	}
+
+	/**
+	 * Get cereat info message
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function getCreateInfoMessage()
+	{
+		global $DIC;
+
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+		$ui = $DIC->ui();
+		$ilSetting =$DIC->settings();
+
+		$message = "";
+		// page type: blog
+		if (!$ilSetting->get('disable_wsp_blogs'))
+		{
+			$options = array();
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($this->user_id);
+			$root = $tree->readRootId();
+			if ($root)
+			{
+				$root = $tree->getNodeData($root);
+				foreach ($tree->getSubTree($root) as $node)
+				{
+					if ($node["type"] == "blog")
+					{
+						$options[$node["obj_id"]] = $node["title"];
+					}
+				}
+				asort($options);
+			}
+			if (!sizeof($options))
+			{
+
+				// #18147
+				$this->lng->loadLanguageModule('pd');
+				$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
+				$text = $this->lng->txt("pd_personal_workspace");
+
+				$text = sprintf($this->lng->txt("prtf_no_blogs_info"), $text);
+
+				$mbox = $ui->factory()->messageBox()->info($text)
+					->withLinks([$ui->factory()->link()->standard($this->lng->txt("pd_personal_workspace"),
+						$url)]);
+
+				$message = $ui->renderer()->render($mbox);
+			}
+
+		}
+		return $message;
+	}
+
+
 	protected function initCreationForms($a_new_type)
 	{		
 		return array(self::CFORM_NEW => $this->initCreateForm($a_new_type));		
@@ -338,12 +446,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 			else
 			{
-				// #18147
-				$this->lng->loadLanguageModule('pd');
-				$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
-				$url = '<a href="'.$url.'">'.$this->lng->txt("pd_personal_workspace").'</a>';
-
-				ilUtil::sendInfo(sprintf($this->lng->txt("prtf_no_blogs_info"), $url), true);				
 				$type->setValue("page");
 			}
 		}
@@ -970,6 +1072,43 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->ctrl->redirect($this, "preview");
 	}
 
+	/**
+	 * Create portfolio template direct
+	 */
+	protected function createFromTemplateDirect()
+	{
+		$prtt_id = (int)$_REQUEST["prtt_pre"];
+		$title = ilObject::_lookupTitle($prtt_id);
+
+		// valid template?
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+		if(!sizeof($templates) || !in_array($prtt_id, $templates))
+		{
+			$this->toRepository();
+		}
+		unset($templates);
+
+		$source = new ilObjPortfolioTemplate($prtt_id, false);
+
+		// create portfolio
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		$target = new ilObjPortfolio();
+		$target->setTitle($title);
+		$target->create();
+		$target_id = $target->getId();
+
+		$source->clonePagesAndSettings($source, $target, null, true);
+
+		// link portfolio to exercise assignment
+		//$this->linkPortfolioToAssignment($target_id);
+
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+		$this->ctrl->setParameter($this, "prt_id", $target_id);
+		$this->ctrl->redirect($this, "preview");
+	}
+
+
 	public static function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
@@ -1194,6 +1333,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		// because of PDF export
 		$form->setPreventDoubleSubmission(false);
 
+		// declaration of authorship
+		if ($this->declaration_authorship->getForUser($this->user) != "")
+		{
+			$cb = new ilCheckboxInputGUI($this->lng->txt("prtf_decl_authorship"), "decl_author");
+			$cb->setInfo($this->declaration_authorship->getForUser($this->user));
+			$form->addItem($cb);
+		}
+
 		// signature
 		$cb = new ilCheckboxInputGUI($this->lng->txt("prtf_signature"), "signature");
 		$cb->setInfo($this->lng->txt("prtf_signature_info"));
@@ -1350,6 +1497,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$cover_tpl->parseCurrentBlock();
 		}
 
+		if ($_POST["decl_author"])
+		{
+			$cover_tpl->setCurrentBlock("decl_author");
+			$cover_tpl->setVariable("TXT_DECL_AUTHOR",
+				nl2br($this->declaration_authorship->getForUser($this->user)));
+			$cover_tpl->parseCurrentBlock();
+		}
+
 		$cover_tpl->setVariable("PORTFOLIO_TITLE", $this->object->getTitle());
 		$cover_tpl->setVariable("PORTFOLIO_ICON", ilUtil::getImagePath("icon_prtf.svg"));
 
@@ -1446,6 +1601,48 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
 			return $ret;
 		}
+	}
+
+	/**
+	 * Get offline message for sharing tab
+	 *
+	 * @return string
+	 */
+	protected function getOfflineMessage()
+	{
+		$ui = $this->ui;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		if (!$this->object->isOnline())
+		{
+			$f = $ui->factory();
+			$renderer = $ui->renderer();
+
+			$buttons = [$f->button()->standard($lng->txt("prtf_set_online"),
+				$ctrl->getLinkTarget($this, "setOnlineAndShare"))];
+
+			return $renderer->render($f->messageBox()->info($lng->txt("prtf_no_offline_share_info"))
+				->withButtons($buttons));
+		}
+		return "";
+	}
+
+	/**
+	 * Set online and switch to share screen
+	 */
+	protected function setOnlineAndShare()
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
+		if (ilObjPortfolio::_lookupOwner($this->object->getId()) == $this->user_id)
+		{
+			$this->object->setOnline(true);
+			$this->object->update();
+			ilUtil::sendSuccess($lng->txt("prtf_has_been_set_online"), true);
+		}
+		$ilCtrl->redirectByClass("ilworkspaceaccessgui", "");
 	}
 
 }

@@ -30,11 +30,30 @@ class ilExAssignment
 	 */
 	protected $app_event_handler;
 
+	/**
+	 * @deprecated direct checks against const should be avoided, use type objects instead
+	 */
 	const TYPE_UPLOAD = 1;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_BLOG = 2;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_PORTFOLIO = 3;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_UPLOAD_TEAM = 4;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_TEXT = 5;
+	/**
+	 * @deprecated
+	 */
+	const TYPE_WIKI_TEAM = 6;
 	
 	const FEEDBACK_DATE_DEADLINE = 1;
 	const FEEDBACK_DATE_SUBMISSION = 2;
@@ -43,6 +62,11 @@ class ilExAssignment
 	const PEER_REVIEW_VALID_NONE = 1;
 	const PEER_REVIEW_VALID_ONE = 2;
 	const PEER_REVIEW_VALID_ALL = 3;
+
+	const TEAMS_FORMED_BY_PARTICIPANTS = 0;
+	const TEAMS_FORMED_BY_TUTOR = 1;
+	const TEAMS_FORMED_BY_RANDOM = 2;
+	const TEAMS_FORMED_BY_ASSIGNMENT = 3;
 	
 	protected $id;
 	protected $exc_id;
@@ -74,6 +98,13 @@ class ilExAssignment
 	protected $portfolio_template;
 	protected $min_char_limit;
 	protected $max_char_limit;
+
+	protected $types = null;
+
+	/**
+	 * @var ilExAssignmentTypeInterface
+	 */
+	protected $ass_type;
 	
 	protected $member_status = array(); // [array]
 
@@ -90,6 +121,9 @@ class ilExAssignment
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
+		$this->types = ilExAssignmentTypes::getInstance();
+
 		$this->setType(self::TYPE_UPLOAD);
 		$this->setFeedbackDate(self::FEEDBACK_DATE_DEADLINE);
 
@@ -159,7 +193,7 @@ class ilExAssignment
 
 	public function hasTeam()
 	{
-		return $this->type == self::TYPE_UPLOAD_TEAM;
+		return $this->ass_type->usesTeams();
 	}
 	
 	/**
@@ -252,7 +286,7 @@ class ilExAssignment
 		$ilDB = $this->db;
 		
 		$is_team = false;
-		if($this->getType() == self::TYPE_UPLOAD_TEAM)
+		if($this->ass_type->usesTeams())
 		{
 			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
 			$team_id = ilExAssignmentTeam::getTeamId($this->getId(), $a_user_id);
@@ -397,25 +431,41 @@ class ilExAssignment
 	/**
 	 * Set type
 	 * 
-	 * @param int $a_value 
+	 * @param int $a_value
+	 * @deprecated this will most probably become an non public function in the future (or become obsolete)
 	 */
 	function setType($a_value)
 	{
 		if($this->isValidType($a_value))
 		{
 			$this->type = (int)$a_value;
-			
-			if($this->type == self::TYPE_UPLOAD_TEAM)
+
+			$this->ass_type = $this->types->getById($a_value);
+
+			if($this->ass_type->usesTeams())
 			{
 				$this->setPeerReview(false);
 			}
 		}
 	}
+
+	/**
+	 * Get assignment type
+	 *
+	 * @param
+	 * @return null|ilExAssignmentTypeInterface
+	 */
+	public function getAssignmentType()
+	{
+		return $this->ass_type;
+	}
+
 	
 	/**
 	 * Get type
 	 * 
 	 * @return int
+	 * @deprecated this will most probably become an non public function in the future (or become obsolete)
 	 */
 	function getType()
 	{
@@ -430,12 +480,7 @@ class ilExAssignment
 	 */
 	function isValidType($a_value)
 	{
-		if(in_array((int)$a_value, array(self::TYPE_UPLOAD, self::TYPE_BLOG, 
-			self::TYPE_PORTFOLIO, self::TYPE_UPLOAD_TEAM, self::TYPE_TEXT)))
-		{
-			return true;
-		}
-		return false;
+		return $this->types->isValidId($a_value);
 	}
 	
 	/**
@@ -2150,7 +2195,7 @@ class ilExAssignment
 	
 	public function hasReadOnlyIDl()
 	{
-		if($this->getType() != ilExAssignment::TYPE_UPLOAD_TEAM &&
+		if(!$this->ass_type->usesTeams() &&
 			$this->getPeerReview())
 		{		
 			// all deadlines are read-only if we have peer feedback

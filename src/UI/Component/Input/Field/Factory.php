@@ -287,7 +287,8 @@ interface Factory {
 	 *          Use a text field for discloseable information (i.e.
 	 *          information that can safely be displayed to an audience)
 	 *
-	 * context: Login-Form and own profile (change Password).
+	 * context:
+     *    - Login-Form and own profile (change Password).
 	 *
 	 * rules:
 	 *   usage:

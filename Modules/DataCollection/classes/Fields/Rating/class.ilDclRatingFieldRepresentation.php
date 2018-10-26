@@ -17,6 +17,7 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation {
 		return $input;
 	}
 
+
 	public function addFilterInputFieldToTable(ilTable2GUI $table) {
 		$input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
 		$options = array("" => $this->lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5");
@@ -33,6 +34,7 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation {
 		if (!$filter || $filter <= $value['avg']) {
 			return true;
 		}
+
 		return false;
 	}
 }

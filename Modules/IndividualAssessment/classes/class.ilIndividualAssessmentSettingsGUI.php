@@ -91,7 +91,7 @@ class ilIndividualAssessmentSettingsGUI {
 			$this->object->updateInfo();
 			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'));
 		}
-		$this->renderForm($form);
+		$this->ctrl->redirect($this, "editInfo");
 	}
 
 	protected function renderForm(ilPropertyFormGUI $a_form) {
@@ -113,10 +113,14 @@ class ilIndividualAssessmentSettingsGUI {
 			ilObjectServiceSettingsGUI::updateServiceSettingsForm(
 				$this->object->getId(),
 				$form,
-				[ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS]);
+				[
+					ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+				]
+			);
 			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'));
 		}
-		$this->renderForm($form);
+		$this->ctrl->redirect($this, "edit");
 	}
 
 
@@ -164,7 +168,11 @@ class ilIndividualAssessmentSettingsGUI {
 		ilObjectServiceSettingsGUI::initServiceSettingsForm(
 			$this->object->getId(),
 			$form,
-			[ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS]);
+			[
+				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA
+			]
+		);
 
 		return $form;
 	}
@@ -220,6 +228,11 @@ class ilIndividualAssessmentSettingsGUI {
 			, self::PROP_EVENT_TIME_PLACE_REQUIRED => $settings->eventTimePlaceRequired()
 			, self::PROP_FILE_REQUIRED => $settings->fileRequired()
 			, ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS => (bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($iass->getId())
+			, ilObjectServiceSettingsGUI::CUSTOM_METADATA => ilContainer::_lookupContainerSetting(
+					$this->object->getId(),
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+					false
+				)
 			));
 		return $a_form;
 	}

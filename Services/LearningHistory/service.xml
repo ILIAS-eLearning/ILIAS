@@ -1,0 +1,7 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="lhist">
+	<logging />
+	<copage>
+		<pagecontent pc_type="lhist" name="LearningHistory" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
+	</copage>
+</service>

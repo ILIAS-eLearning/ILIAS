@@ -85,7 +85,7 @@ class ilSurveyEvaluationGUI
 		$this->log = ilLoggerFactory::getLogger("svy");
 		$this->array_panels = array();
 
-		if ($this->object->get360Mode())
+		if ($this->object->get360Mode() || $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL)
 		{
 			$this->determineAppraiseeId();
 		}
@@ -98,7 +98,7 @@ class ilSurveyEvaluationGUI
 	{
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
-		if ($this->object->get360SkillService() && $skmg_set->isActivated())
+		if ($this->object->getSkillService() && $skmg_set->isActivated())
 		{
 			$cmd = $this->ctrl->getCmd("competenceEval");
 		}
@@ -137,7 +137,7 @@ class ilSurveyEvaluationGUI
 
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
-		if ($this->object->get360SkillService() && $skmg_set->isActivated())
+		if ($this->object->getSkillService() && $skmg_set->isActivated())
 		{
 			$ilTabs->addSubTabTarget(
 				"svy_eval_competences", 
@@ -210,7 +210,7 @@ class ilSurveyEvaluationGUI
 		}
 		
 		// write access? allow selection
-		if ($req_appr_id > 0)
+		if ($req_appr_id > 0 && $this->object->get360Mode())
 		{
 			$all_appr = ($this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL);
 			
@@ -234,6 +234,10 @@ class ilSurveyEvaluationGUI
 				// current selection / user is not valid, use 1st valid instead
 				$appr_id = array_shift($valid);
 			}				
+		}
+		else // SVY SELF EVALUATION MODE
+		{
+			$appr_id = $req_appr_id;
 		}
 		
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);		
@@ -1208,8 +1212,9 @@ class ilSurveyEvaluationGUI
 	{
 		$ilToolbar = $this->toolbar;
 		$rbacsystem = $this->rbacsystem;
-		
-		if($this->object->get360Mode())
+
+		$svy_mode = $this->object->getMode();
+		if($svy_mode == ilObjSurvey::MODE_360 || $svy_mode == ilObjSurvey::MODE_SELF_EVAL)
 		{
 			$appr_id = $this->getAppraiseeId();
 
@@ -1218,12 +1223,24 @@ class ilSurveyEvaluationGUI
 			{
 				$options[""] = $this->lng->txt("please_select");
 			}
+
 			$no_appr = true;
-			foreach($this->object->getAppraiseesData() as $item)
+			if($this->object->get360Mode())
 			{
-				if($item["closed"])
+				foreach($this->object->getAppraiseesData() as $item)
 				{
-					$options[$item["user_id"]] = $item["login"];
+					if($item["closed"])
+					{
+						$options[$item["user_id"]] = $item["login"];
+						$no_appr = false;
+					}
+				}
+			}
+			else //self evaluation mode
+			{
+				foreach($this->object->getSurveyParticipants() as $item)
+				{
+					$options[ilObjUser::_lookupId($item['login'])] = $item['login'];
 					$no_appr = false;
 				}
 			}
@@ -1231,10 +1248,11 @@ class ilSurveyEvaluationGUI
 			if(!$no_appr)
 			{								
 				if ($rbacsystem->checkAccess("write", $this->object->getRefId()) ||
-					$this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL)
-				{			
+					$this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL ||
+					$this->object->getSelfEvaluationResults() == ilObjSurvey::RESULTS_SELF_EVAL_ALL)
+				{
 					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-					$appr = new ilSelectInputGUI($this->lng->txt("survey_360_appraisee"), "appr_id");
+					$appr = new ilSelectInputGUI($this->lng->txt("svy_participant"), "appr_id");
 					$appr->setOptions($options);
 					$appr->setValue($this->getAppraiseeId());
 					$ilToolbar->addInputItem($appr, true);
@@ -1485,8 +1503,8 @@ class ilSurveyEvaluationGUI
 	{
 		$ilAccess = $this->access;
 		$ilToolbar = $this->toolbar;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+			$this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL)
 		{
 			ilUtil::sendFailure($this->lng->txt("no_permission"), TRUE);
 			$this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
@@ -1626,7 +1644,7 @@ class ilSurveyEvaluationGUI
 
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
 		
-		if($this->object->get360Mode())
+		if($this->object->get360Mode() || ilObjSurvey::MODE_SELF_EVAL)
 		{				
 			$appr_id = $this->getAppraiseeId();
 			$this->addApprSelectionToToolbar();

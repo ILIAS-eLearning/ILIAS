@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -17,7 +16,6 @@
 class ilDclRecordListTableGUI extends ilTable2GUI {
 
 	const EXPORT_EXCEL_ASYNC = 10;
-
 	/**
 	 * @var ilDclTable
 	 */
@@ -44,14 +42,13 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	protected $mode;
 
 
-
 	/**
 	 * @param ilDclRecordListGUI $a_parent_obj
-	 * @param string                        $a_parent_cmd
+	 * @param string             $a_parent_cmd
 	 * @param ilDclTable         $table
-	 * @param int                           $mode
+	 * @param int                $mode
 	 */
-	public function  __construct(ilDclRecordListGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table, $tableview_id, $mode = ilDclRecordListGUI::MODE_VIEW) {
+	public function __construct(ilDclRecordListGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table, $tableview_id, $mode = ilDclRecordListGUI::MODE_VIEW) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
@@ -82,9 +79,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		$this->numeric_fields = array();
 		foreach ($this->tableview->getVisibleFields() as $field) {
 			$title = $field->getTitle();
-			$sort_field = ($field->getRecordQuerySortObject() != null)? $field->getSortField() : '';
+			$sort_field = ($field->getRecordQuerySortObject() != null) ? $field->getSortField() : '';
 
-			if($field->hasNumericSorting()) {
+			if ($field->hasNumericSorting()) {
 				$this->numeric_fields[] = $title;
 			}
 
@@ -161,7 +158,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		$data = array();
 		foreach ($this->object_data as $record) {
 			$record_data = array();
-			$record_data["_front"] = NULL;
+			$record_data["_front"] = null;
 			$record_data['_record'] = $record;
 
 			foreach ($this->tableview->getVisibleFields() as $field) {
@@ -215,6 +212,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		$this->setData($data);
 	}
 
+
 	/**
 	 * @param array $record_data
 	 *
@@ -234,7 +232,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$title = $field->getTitle();
 			$this->tpl->setCurrentBlock("field");
 			$content = $record_data[$title];
-			if ($content === false || $content === NULL) {
+			if ($content === false || $content === null) {
 				$content = '';
 			} // SW - This ensures to display also zeros in the table...
 
@@ -295,6 +293,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		return $return;
 	}
 
+
 	/**
 	 * init filters with values from tableview
 	 */
@@ -310,16 +309,15 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->applyFilter($field->getId(), empty(array_filter($value)) ? null : $filter->getValue());
 
 			//Disable filters
-			if (!$field_set->isFilterChangeable())
-			{
+			if (!$field_set->isFilterChangeable()) {
 				$filter->setDisabled(true);
-				if ($filter instanceof ilCombinationInputGUI)
-				{
+				if ($filter instanceof ilCombinationInputGUI) {
 					$filter->__call('setDisabled', array(true));
 				}
 			}
 		}
 	}
+
 
 	/**
 	 * normally initialize filters - used by applyFilter and resetFilter
@@ -331,16 +329,14 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 
 			//Disable filters
 			$filter = &end($this->filters);
-			if (!$field_set->isFilterChangeable())
-			{
+			if (!$field_set->isFilterChangeable()) {
 				//always set tableview-filtervalue with disabled fields, so resetFilter won't reset it
 				$value = $field_set->getFilterValue();
 				$filter->setValueByArray($value);
 				$value = $filter->getValue();
 
 				$filter->setDisabled(true);
-				if ($filter instanceof ilCombinationInputGUI)
-				{
+				if ($filter instanceof ilCombinationInputGUI) {
 					$filter->__call('setDisabled', array(true));
 				}
 			}
@@ -349,12 +345,14 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		}
 	}
 
+
 	public function applyFilter($field_id, $filter_value) {
 
 		if ($filter_value) {
 			$this->filter["filter_" . $field_id] = $filter_value;
 		}
 	}
+
 
 	/**
 	 * @param string $type
@@ -385,7 +383,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 
 		return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
 	}
-	
+
 
 	/**
 	 * Exports the table
@@ -409,7 +407,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$exporter->export(ilDclContentExporter::EXPORT_EXCEL, null, true);
 		}
 	}
-
 }
 
 ?>

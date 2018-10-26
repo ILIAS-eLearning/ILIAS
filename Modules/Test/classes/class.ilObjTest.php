@@ -7299,7 +7299,12 @@ function getAnswerFeedbackPoints()
 	*/
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilLog, $tree, $ilDB, $ilPluginAdmin;
+		global $DIC;
+
+		$certificateLogger = $DIC->logger()->cert();
+		$tree = $DIC['tree'];
+		$ilDB = $DIC->database();
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$this->loadFromDb();
 
@@ -7394,13 +7399,20 @@ function getAnswerFeedbackPoints()
 		$newObj->saveToDb();
 		
 		// clone certificate
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$cert = new ilCertificate(new ilTestCertificateAdapter($this));
-		$newcert = new ilCertificate(new ilTestCertificateAdapter($newObj));
-		$cert->cloneCertificate($newcert);
+		$factory = new ilCertificateFactory();
+		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
-		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$cloneAction = new ilCertificateCloneAction(
+			$ilDB,
+			$factory,
+			$templateRepository,
+			$DIC->filesystem()->web(),
+			$certificateLogger,
+			new ilCertificateObjectHelper()
+		);
+
+		$cloneAction->cloneCertificate($this, $newObj);
+
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
 
@@ -10503,9 +10515,10 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->canShowTestResults($testSession))
 		{
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";
-			include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-			$cert = new ilCertificate(new ilTestCertificateAdapter($this));
+			$factory = new ilCertificateFactory();
+
+			$cert = $factory->create($this);
+
 			if ($cert->isComplete())
 			{
 				$vis = $this->getCertificateVisibility();

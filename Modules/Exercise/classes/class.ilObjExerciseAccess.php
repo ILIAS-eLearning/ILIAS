@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
-include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjExerciseAccess
@@ -21,7 +21,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_PASSED,
 			ilConditionHandler::OPERATOR_FAILED
@@ -39,7 +39,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function checkCondition($a_exc_id,$a_operator,$a_value,$a_usr_id)
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		
 		switch($a_operator)

@@ -314,17 +314,19 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			$db_file = $dbupdate->getFileVersion();
 		}
 
+		$plugin_db_data = ilPlugin::getPluginRecord($plugin["component_type"], $plugin["component_name"], $plugin["slot_id"], $plugin["name"]);
+
 		// toolbar actions
 		if($plugin["must_install"]) {
 			$ilToolbar->addButton($lng->txt("cmps_install"),
 					$ilCtrl->getLinkTarget($this, "installPlugin"));
 		} else {
 			// configure button
-			if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $plugin["name"]) &&
-				$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($plugin["name"])))
+			if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $plugin, $plugin_db_data) &&
+				$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($plugin)))
 			{
 				$ilToolbar->addButton($lng->txt("cmps_configure"),
-					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin["name"])), "configure"));
+					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin)), "configure"));
 			}
 			// refresh languages button
 			if (count($langs) > 0)

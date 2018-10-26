@@ -331,9 +331,10 @@ class ilObjTestGUI extends ilObjectGUI
 			case "ilcertificategui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				require_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				require_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
+
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
+
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -2137,9 +2138,20 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if($total != 0)
 			{
-				$link = $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
-				$link = "<a href=\"".$link."\">".$this->lng->txt("test_has_datasets_warning_page_view_link")."</a>";
-				ilUtil::sendInfo($this->lng->txt("test_has_datasets_warning_page_view")." ".$link);
+				$link = $DIC->ui()->factory()->link()->standard(
+					$DIC->language()->txt("test_has_datasets_warning_page_view_link"),
+					$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'))
+				);
+				
+				$message = $DIC->language()->txt("test_has_datasets_warning_page_view");
+				
+				$msgBox = $DIC->ui()->factory()->messageBox()->info($message)->withLinks(array($link));
+				
+				$DIC->ui()->mainTemplate()->setCurrentBlock('mess');
+				$DIC->ui()->mainTemplate()->setVariable('MESSAGE',
+					$DIC->ui()->renderer()->render($msgBox)
+				);
+				$DIC->ui()->mainTemplate()->parseCurrentBlock();
 			}
 			else {
 				global $ilToolbar;
@@ -3003,9 +3015,9 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
-		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
+		$guiFactory = new ilCertificateGUIFactory();
+		$output_gui = $guiFactory->create($this->object);
+
 		$output_gui->certificateEditor();
 	}
 	

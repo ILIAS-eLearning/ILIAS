@@ -339,6 +339,9 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		$a_form->addItem($section);
 	
 		parent::initEditCustomForm($a_form);
+
+		$tit = $a_form->getItemByPostVar("title");
+		$tit->setInfo($this->lng->txt('prtt_title_info'));
 	}
 	
 	protected function getEditFormCustomValues(array &$a_values)
@@ -522,12 +525,18 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		return parent::preview($a_return , $a_content, $a_show_notes);
 	}
 	
-	public function createFromTemplate()
+	public function createFromTemplateOld()
 	{		
 		$this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());
 		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create");		
-	}	
-		
+	}
+
+	public function createFromTemplate()
+	{
+		$this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());
+		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "createFromTemplateDirect");
+	}
+
 	public static function _goto($a_target)
 	{		
 		$id = explode("_", $a_target);

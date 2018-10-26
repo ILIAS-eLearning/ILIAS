@@ -73,6 +73,18 @@ class ComponentEntryRules extends AbstractEntryPart implements \JsonSerializable
 		return $this->rules;
 	}
 
+    /**
+     * @return bool
+     */
+	public function hasRules(){
+	    foreach ($this->rules as $category_rules){
+            if(sizeof($category_rules)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 	/**
 	 * @return array
 	 */

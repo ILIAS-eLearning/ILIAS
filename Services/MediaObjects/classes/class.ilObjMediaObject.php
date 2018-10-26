@@ -587,14 +587,27 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
-	* get directory for files of media object (static)
-	*
-	* @param	int		$a_mob_id		media object id
-	*/
-	static function _getDirectory($a_mob_id)
+	 * Get absolute directory
+	 *
+	 * @param int $a_mob_id
+	 * @return string
+	 */
+	static public function _getDirectory($a_mob_id)
 	{
-		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+		return ilUtil::getWebspaceDir()."/".self::_getRelativeDirectory($a_mob_id);
 	}
+
+	/**
+	 * Get relative (to webspace dir) directory
+	 *
+	 * @param int $a_mob_id
+	 * @return string
+	 */
+	static public function _getRelativeDirectory($a_mob_id)
+	{
+		return "mobs/mm_".$a_mob_id;
+	}
+
 
 	/**
 	 * get directory for files of media object (static)

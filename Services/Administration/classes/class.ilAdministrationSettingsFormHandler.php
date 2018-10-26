@@ -24,22 +24,25 @@ class ilAdministrationSettingsFormHandler
 	const FORM_ACCESSIBILITY = 11;
 	const FORM_WSP = 12;
 	const FORM_TAGGING = 13;
+	const FORM_CERTIFICATE = 14;
 
-	const SETTINGS_USER             = "usrf";
-	const SETTINGS_GENERAL          = "adm";
-	const SETTINGS_FILE             = "facs";
-	const SETTINGS_ROLE             = "rolf";
-	const SETTINGS_FORUM            = "frma";
-	const SETTINGS_LRES             = "lrss";
-	const SETTINGS_REPOSITORY       = "reps";
-	const SETTINGS_PD               = "pdts";
-	const SETTINGS_COURSE           = "crss";
-	const SETTINGS_GROUP            = "grps";
-	const SETTINGS_PRIVACY_SECURITY = "ps";
-	const SETTINGS_CALENDAR         = "cals";
-	const SETTINGS_AUTH             = "auth";
-	const SETTINGS_WIKI             = "wiks";
-	const SETTINGS_PORTFOLIO        = "prfa";
+
+	const SETTINGS_USER                 = "usrf";
+	const SETTINGS_GENERAL              = "adm";
+	const SETTINGS_FILE                 = "facs";
+	const SETTINGS_ROLE                 = "rolf";
+	const SETTINGS_FORUM                = "frma";
+	const SETTINGS_LRES                 = "lrss";
+	const SETTINGS_REPOSITORY           = "reps";
+	const SETTINGS_PD                   = "pdts";
+	const SETTINGS_COURSE               = "crss";
+	const SETTINGS_GROUP                = "grps";
+	const SETTINGS_PRIVACY_SECURITY     = "ps";
+	const SETTINGS_CALENDAR             = "cals";
+	const SETTINGS_AUTH                 = "auth";
+	const SETTINGS_WIKI                 = "wiks";
+	const SETTINGS_PORTFOLIO            = "prfa";
+	const SETTINGS_LP_COMPLETION_STATUS = "trac";
 
 	const VALUE_BOOL = "bool";
 	
@@ -136,6 +139,10 @@ class ilAdministrationSettingsFormHandler
 			
 			case self::FORM_TAGGING:
 				$types = array(self::SETTINGS_REPOSITORY);
+				break;
+
+			case self::FORM_CERTIFICATE:
+				$types = array(self::SETTINGS_LP_COMPLETION_STATUS);
 				break;
 			
 			default:

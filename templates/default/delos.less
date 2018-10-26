@@ -10,6 +10,7 @@
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
 
+
 /*
 /* rtl-review */
 /* with specifics imports
@@ -18,6 +19,7 @@ to elements with different left/right margin, padding, border, position, float, 
 In theory, you should also invert shadow... but i think we could postpone this to another release...
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
+
 
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
@@ -86,6 +88,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Dropzone/dropzone.less";
 @import "@{uibase}Button/button.less";
 @import "@{uibase}Button/tag.less";
+@import "@{uibase}Button/toggle.less";
 @import "@{uibase}Divider/divider.less";
 @import "@{uibase}Dropdown/dropdown.less";
 @import "@{uibase}Item/item.less";
@@ -1279,6 +1282,10 @@ footer.ilFooter {
     border: 1px dashed grey;
     padding: 10px;
     margin-top: 25px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		//#23684
+		position: absolute;
+	}
     table {
         @media only screen and (max-width: @grid-float-breakpoint-max) {
             table-layout: fixed;
@@ -1823,11 +1830,14 @@ img.ilSmallIcon {
 @import "less/Modules/Portfolio/delos.less";
 @import "less/Services/Awareness/delos.less";
 @import "less/Services/OnScreenChat/delos.less";
+@import "less/Services/TermsOfService/delos.less";
 @import "less/Services/UIComponent/Modal/delos.less";
 @import "less/Services/Badge/delos.less";
 @import "less/Services/Calendar/bootstrap-datetimepicker.less";
 @import "less/Services/BackgroundTasks/delos.less";
 @import "less/Modules/OrgUnit/delos.less";
+@import "less/Services/Like/delos.less";
+
 
 .noMargin {
 	margin: 0;

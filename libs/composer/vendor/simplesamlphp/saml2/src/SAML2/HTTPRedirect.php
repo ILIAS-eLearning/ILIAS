@@ -219,7 +219,7 @@ class HTTPRedirect extends Binding
 
         $signature = base64_decode($signature);
 
-        if ($key->type !== XMLSecurityKey::RSA_SHA1) {
+        if ($key->type !== XMLSecurityKey::RSA_SHA256) {
             throw new \Exception('Invalid key type for validating signature on query string.');
         }
         if ($key->type !== $sigAlg) {

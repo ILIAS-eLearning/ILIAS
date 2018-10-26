@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -17,7 +16,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * @var string
 	 */
 	protected $expression = '';
-
 	/**
 	 * @var string
 	 */
@@ -47,7 +45,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	protected function loadValue() {
-		return NULL;
+		return null;
 	}
 
 
@@ -66,7 +64,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	public function doUpdate() {
-		return NULL;
+		return null;
 	}
 
 
@@ -74,7 +72,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	public function doRead() {
-		return NULL;
+		return null;
 	}
 
 
@@ -82,7 +80,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	public function delete() {
-		return NULL;
+		return null;
 	}
 
 

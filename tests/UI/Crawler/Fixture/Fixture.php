@@ -16,6 +16,7 @@ class ProperEntryFixture
 			),
 			"background"=>"\"Some wild background with quotes\" and links <a href='http:test'>test</a>",
 			"featurewiki"=> array("http://www.ilias.de/docu/goto_docu_wiki_wpage_3208_1357.html"),
+			"context"=>array("Some Context"),
 			"rules"=>array(
 				"usage"=>array(
 					1 => "Usage Rule 1",
@@ -46,6 +47,8 @@ class ProperEntryFixture
 background: >
     \"Some wild background with quotes\"
     and links <a href='http:test'>test</a>
+context:
+  - Some Context
 featurewiki:
       - http://www.ilias.de/docu/goto_docu_wiki_wpage_3208_1357.html
 rules:

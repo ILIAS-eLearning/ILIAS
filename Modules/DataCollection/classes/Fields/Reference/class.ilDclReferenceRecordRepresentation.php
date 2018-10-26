@@ -29,7 +29,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 			$ref_record = ilDclCache::getRecordCache($v);
 			if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
 				//the referenced record_field does not seem to exist.
-				$record_field->setValue(NULL);
+				$record_field->setValue(null);
 				$record_field->doUpdate();
 			} else {
 				$field = $this->getRecordField()->getField();
@@ -38,7 +38,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 					$ref_table = $ref_record->getTable();
 
 					if ($ref_table->getVisibleTableViews($_GET['ref_id'], true)) {
-						$html .= $this->getLinkHTML(NULL, $v);
+						$html .= $this->getLinkHTML(null, $v);
 					} else {
 						$html .= $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 					}
@@ -61,7 +61,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 	 *
 	 * @return string
 	 */
-	protected function getLinkHTML($link_name = NULL, $value) {
+	protected function getLinkHTML($link_name = null, $value) {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 
@@ -80,5 +80,4 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 
 		return $html;
 	}
-
 }

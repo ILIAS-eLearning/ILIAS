@@ -1000,7 +1000,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
-		$ilToolbar = $this->toolbar;
+		$ilToolbar = new ilToolbarGUI();
 		$ilUser = $this->user;
 		$tree = $this->tree;
 		
@@ -1046,11 +1046,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						
 			// exercise blog?			
 			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
-			$exercises = ilBlogExerciseGUI::checkExercise($this->node_id);
-			if($exercises)
-			{				
-				ilUtil::sendInfo($exercises);														
-			}
+			$message = ilBlogExerciseGUI::checkExercise($this->node_id);
 		}
 								
 		// $is_owner = ($this->object->getOwner() == $ilUser->getId());
@@ -1067,7 +1063,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		$this->setContentStyleSheet();	
 					
-		$tpl->setContent($list);
+		$tpl->setContent($message.$ilToolbar->getHTML().$list);
 		$tpl->setRightContent($nav);
 	}	
 

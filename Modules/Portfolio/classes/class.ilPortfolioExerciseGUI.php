@@ -65,7 +65,7 @@ class ilPortfolioExerciseGUI
 		return true;
 	}
 	
-	public static function checkExercise($a_user_id, $a_obj_id, $a_add_submit = false)
+	public static function checkExercise($a_user_id, $a_obj_id, $a_add_submit = false, $as_array = false)
 	{			
 		global $DIC;
 
@@ -95,23 +95,33 @@ class ilPortfolioExerciseGUI
 				}
 				if($active_ref)
 				{				
-					$part = self::getExerciseInfo($a_user_id, $exercise["ass_id"], $a_add_submit);
+					$part = self::getExerciseInfo($a_user_id, $exercise["ass_id"], $a_add_submit, $as_array);
 					if($part)
 					{
 						$info[] = $part;
 					}
 				}
 			}
-			if(sizeof($info))
+			if(sizeof($info) && !$as_array)
 			{
 				return implode("<br />", $info);				
 			}
 		}
+		if ($as_array)
+		{
+			return $info;
+		}
 	}	
 	
-	protected static function getExerciseInfo($a_user_id, $a_assignment_id, $a_add_submit = false)
+	protected static function getExerciseInfo($a_user_id, $a_assignment_id, $a_add_submit = false, $as_array = false)
 	{				
 		global $DIC;
+
+		$ui = $DIC->ui();
+
+		$links = [];
+		$buttons = [];
+		$elements = [];
 
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
@@ -132,54 +142,56 @@ class ilPortfolioExerciseGUI
 		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
 		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
 
-		$info = sprintf($lng->txt("prtf_exercise_info"), 
+		$info_arr["ass_title"] = $ass->getTitle();
+		$text = sprintf($lng->txt("prtf_exercise_info"), 
 			$ass->getTitle(),
-			"<a href=\"".$exc_link."\">".
-			ilObject::_lookupTitle($exercise_id)."</a>");
+			ilObject::_lookupTitle($exercise_id));
+		$links[] = $ui->factory()->link()->standard(ilObject::_lookupTitle($exercise_id), $exc_link);
+		$info_arr["exc_title"] = ilObject::_lookupTitle($exercise_id);
 		
 		// submit button
-		if($a_add_submit && !$times_up)
+		if($a_add_submit && !$times_up && !$as_array)
 		{				
 			$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
 			$submit_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "finalize");
 			$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");	
 			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("prtf_finalize_portfolio");
-			$button->setPrimary(true);
-			$button->setUrl($submit_link);			
-			$info .= " ".$button->render();			
+			$buttons[] = $ui->factory()->button()->primary($lng->txt("prtf_finalize_portfolio"), $submit_link);
 		}
 		
 		// submitted files
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";		
-		$submission = new ilExSubmission($ass, $a_user_id);		
+		$submission = new ilExSubmission($ass, $a_user_id);
+		$info_arr["submitted"] = false;
 		if($submission->hasSubmitted())
 		{
 			// #16888
-			$submitted = $submission->getSelectedObject();	
-			
-			$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
-			$dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcSubFile");
-			$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
-			
-			$rel = ilDatePresentation::useRelativeDates();
-			ilDatePresentation::setUseRelativeDates(false);
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("download");
-			$button->setUrl($dl_link);
-			
-			$info .= "<p>".sprintf($lng->txt("prtf_exercise_submitted_info"),
-				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				$button->render())."</p>";
+			$submitted = $submission->getSelectedObject();
+
+			if (!$as_array)
+			{
+				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
+				$dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcSubFile");
+				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
+
+				$rel = ilDatePresentation::useRelativeDates();
+				ilDatePresentation::setUseRelativeDates(false);
+
+				$text .= "<p>" . sprintf($lng->txt("prtf_exercise_submitted_info"),
+						ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
+						"") . "</p>";
+				$buttons[] = $ui->factory()->button()->standard($lng->txt("prtf_download_submission"), $dl_link);
+			}
 			
 			ilDatePresentation::setUseRelativeDates($rel);
-		}		
-		
-		
+			$info_arr["submitted_date"] = ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME));
+			$info_arr["submitted"] = true;
+			if ($submitted["ts"] == "")
+			{
+				$info_arr["submitted"] = false;
+			}
+		}
+
 		// work instructions incl. files
 		
 		$tooltip = "";
@@ -191,48 +203,51 @@ class ilPortfolioExerciseGUI
 		}
 
 		$ass_files = $ass->getFiles();
-		if (count($ass_files) > 0)
+		if (!$as_array)
 		{
-			if($tooltip)
+			if (count($ass_files) > 0)
 			{
-				$tooltip .= "<br /><br />";
+				if ($tooltip)
+				{
+					$tooltip .= "<br /><br />";
+				}
+
+				$items = [];
+
+				foreach ($ass_files as $file)
+				{
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", urlencode($file["name"]));
+					$dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcAssFile");
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", "");
+					$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
+
+					$items[] = $ui->renderer()->render($ui->factory()->button()->shy($file["name"], $dl_link));
+				}
+				$list = $ui->factory()->listing()->unordered($items);
+				$tooltip .= $ui->renderer()->render($list);
 			}
-			
-			foreach($ass_files as $file)
-			{
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", urlencode($file["name"]));
-				$dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcAssFile");
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", "");			
-				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");			
-				
-				$tooltip .= $file["name"].": <a href=\"".$dl_link."\">".
-					$lng->txt("download")."</a>";										
-			}
-		}			
+		}
 		
 		if($tooltip)
 		{
-			$ol_id = "exc_ass_".$a_assignment_id;
-
-			include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
-			$overlay = new ilOverlayGUI($ol_id);
-
-			// overlay
-			$overlay->setAnchor($ol_id."_tr");
-			$overlay->setTrigger($ol_id."_tr", "click", $ol_id."_tr");
-			$overlay->setAutoHide(false);
-			// $overlay->setCloseElementId($cl_id);
-			$overlay->add();
-
-			// trigger
-			$overlay->addTrigger($ol_id."_tr", "click", $ol_id."_tr");
-
-			$info .= "<p id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></p>".
-				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
+			$modal = $ui->factory()->modal()->roundtrip($lng->txt("exc_instruction"), $ui->factory()->legacy($tooltip))
+				->withCancelButtonLabel("close");
+			$elements[] = $modal;
+			$buttons[] = $ui->factory()->button()->standard($lng->txt("exc_instruction"), '#')
+				->withOnClick($modal->getShowSignal());
 		}
-		
-		return $info;
+
+		if ($as_array)
+		{
+			return $info_arr;
+		}
+
+		$elements[] = $ui->factory()->messageBox()->info($text)
+			->withLinks($links)
+			->withButtons($buttons);
+
+		return $ui->renderer()->render($elements);
 	}
 	
 	function downloadExcAssFile()

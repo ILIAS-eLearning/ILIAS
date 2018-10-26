@@ -61,6 +61,26 @@ class ilObjStudyProgrammeSettingsGUI {
 	 */
 	protected $tmp_heading;
 
+	/**
+	 * @var ILIAS\UI\Component\Input\Factory
+	 */
+	protected $input_factory;
+
+	/**
+	 * @var ILIAS\UI\Renderer
+	 */
+	protected $renderer;
+
+	/**
+	 * @var Psr\Http\Message\ServerRequestInterface
+	 */
+	protected $request;
+
+	/**
+	 * @var ILIAS\Transformation\Factory
+	 */
+	protected $trafo_factory;
+
 	public function __construct($a_parent_gui, $a_ref_id) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -86,6 +106,10 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
 		$this->lng = $lng;
+		$this->input_factory = $DIC->ui()->factory()->input();
+		$this->renderer = $DIC->ui()->renderer();
+		$this->request = $DIC->http()->request();
+		$this->trafo_factory = new \ILIAS\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
 		
 		$this->object = null;
 
@@ -128,27 +152,25 @@ class ilObjStudyProgrammeSettingsGUI {
 	protected function view() {
 		$this->buildModalHeading($this->lng->txt('prg_async_settings'),isset($_GET["currentNode"]));
 
-		$form = $this->buildForm();
-		$this->fillForm($form);
-		return $form->getHTML();
+		$form = $this->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "update"));
+		return $this->renderer->render($form);
 	}
 	
-	/*protected function cancel() {
-		$this->ctrl->redirect($this->parent_gui);
-	}*/
-	
 	protected function update() {
+		$form = $this
+			->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "update"))
+			->withRequest($this->request);
+		$content = $form->getData();
+		$prg = $this->getObject();
 
-		$form = $this->buildForm();
-		$form->setValuesByPost();
-		$update_possible = $this->checkForm($form);
-
+		// This could further improved by providing a new container for asynch-forms in the
+		// UI-Framework.
+		$update_possible = !is_null($content);
 		if ($update_possible) {
-			$this->updateFromFrom($form);
+			$this->updateWith($prg, $content);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
 		} else {
-			// TODO:
 			ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 		}
@@ -159,7 +181,7 @@ class ilObjStudyProgrammeSettingsGUI {
 			if($update_possible) {
 				$this->ctrl->redirect($this);
 			} else {
-				return $form->getHTML();
+				return $this->renderer->render($form);
 			}
 		}
 	}
@@ -191,50 +213,80 @@ class ilObjStudyProgrammeSettingsGUI {
 	const PROP_POINTS = "points";
 	const PROP_STATUS = "status";
 
-	protected function buildForm() {
-		$form = new ilAsyncPropertyFormGUI();
+	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
+		$ff = $this->input_factory->field();
+		$tf = $this->trafo_factory;
+		$txt = function($id) { return $this->lng->txt($id); };
+		$sp_types = ilStudyProgrammeType::getAllTypesArray();
+		$status_options = self::getStatusOptions();
+		return $this->input_factory->container()->form()->standard(
+			$submit_action,
+			[
+				$ff->section(
+					[
+						self::PROP_TITLE =>
+							$ff->text($txt("title"))
+								->withValue($prg->getTitle())
+								->withRequired(true),
+						self::PROP_DESC =>
+							$ff->textarea($txt("description"))
+								->withValue($prg->getDescription())
+					],
+					$txt("prg_edit"),
+					""
+				),
+				$ff->section(
+					[
+						self::PROP_TYPE =>
+							$ff->select($txt("type"), $sp_types)
+								->withValue($prg->getSubtypeId() == 0 ? "" : $prg->getSubtypeId())
+								->withAdditionalTransformation($tf->custom(function($v) {
+									if ($v == "") {
+										return 0;
+									}
+									return $v;
+								}))
+					],
+					$txt("prg_type"),
+					""
+				),
+				$ff->section(
+					[
+						self::PROP_POINTS =>
+							$ff->numeric($txt("prg_points"))
+								->withValue((string)$prg->getPoints()),
+						self::PROP_STATUS =>
+							$ff->select($txt("prg_status"), $status_options)
+								->withValue((string)$prg->getStatus())
+								->withRequired(true)
+					],
+					$txt("prg_assessment"),
+					""
+				)
+			]
+		)
+		->withAdditionalTransformation($tf->custom(function($values) {
+			// values now contains the results of the single sections,
+			// i.e. a list of arrays that each contains keys according
+			// to the section they originated from.
+			return call_user_func_array("array_merge", $values);
+		}));
+	}
 
-		if(!$this->ctrl->isAsynch()) {
-			$form->setAsync(false);
+	protected function updateWith(\ilObjStudyProgramme $prg, array $data) {
+		$prg->setTitle($data[self::PROP_TITLE]);
+		$prg->setDescription($data[self::PROP_DESC]);
+
+		if($prg->getSubtypeId() != $data[self::PROP_TYPE]) {
+			$prg->setSubtypeId($data[self::PROP_TYPE]);
+			$prg->updateCustomIcon();
+			$this->parent_gui->setTitleAndDescription();
 		}
 
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("prg_edit"));
-		$form->addItem($header);
-		
-		$item = new ilTextInputGUI($this->lng->txt("title"), self::PROP_TITLE);
-		$item->setRequired(true);
-		$form->addItem($item);
-		
-		$item = new ilTextAreaInputGUI($this->lng->txt("description"), self::PROP_DESC);
-		$form->addItem($item);
-		
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("prg_type"));
-		$form->addItem($header);
-		
-		$item = new ilSelectInputGUI($this->lng->txt("type"), self::PROP_TYPE);
-		$item->setOptions(ilStudyProgrammeType::getAllTypesArray());
-		$form->addItem($item);
-		
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("prg_assessment"));
-		$form->addItem($header);
-		
-		$item = new ilNumberInputGUI($this->lng->txt("prg_points"), self::PROP_POINTS);
-		$item->setMinValue(0);
-		$form->addItem($item);
-		
-		$item = new ilSelectInputGUI($this->lng->txt("prg_status"), self::PROP_STATUS);
-		$item->setOptions(self::getStatusOptions());
-		$form->addItem($item);
-		
-		$form->addCommandButton("update", $this->lng->txt("save"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
-		
-		return $form;
+		$prg->setPoints($data[self::PROP_POINTS]);
+		$prg->setStatus($data[self::PROP_STATUS]);
+
+		$prg->update();
 	}
 	
 	protected function getObject() {
@@ -242,41 +294,6 @@ class ilObjStudyProgrammeSettingsGUI {
 			$this->object = ilObjStudyProgramme::getInstanceByRefId($this->ref_id);
 		}
 		return $this->object;
-	}
-	
-	protected function fillForm($a_form) {
-		$obj = $this->getObject();
-		
-		$a_form->setValuesByArray(array
-			( self::PROP_TITLE => $obj->getTitle()
-			, self::PROP_DESC => $obj->getDescription()
-			, self::PROP_TYPE => $obj->getSubtypeId()
-			, self::PROP_POINTS => $obj->getPoints()
-			, self::PROP_STATUS => $obj->getStatus()
-			));
-	}
-	
-	protected function checkForm($a_form) {
-		if (!$a_form->checkInput()) {
-			return false;
-		}
-		return true;
-	}
-	
-	protected function updateFromFrom($a_form) {
-		$obj = $this->getObject();
-		
-		$obj->setTitle($a_form->getItemByPostVar(self::PROP_TITLE)->getValue());
-		$obj->setDescription($a_form->getItemByPostVar(self::PROP_DESC)->getValue());
-
-		if($obj->getSubtypeId() != $a_form->getItemByPostVar(self::PROP_TYPE)->getValue()) {
-			$obj->setSubtypeId($a_form->getItemByPostVar(self::PROP_TYPE)->getValue());
-			$obj->updateCustomIcon();
-			$this->parent_gui->setTitleAndDescription();
-		}
-
-		$obj->setPoints($a_form->getItemByPostVar(self::PROP_POINTS)->getValue());
-		$obj->setStatus($a_form->getItemByPostVar(self::PROP_STATUS)->getValue());
 	}
 	
 	static protected function getStatusOptions() {

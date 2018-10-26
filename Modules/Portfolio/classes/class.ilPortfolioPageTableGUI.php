@@ -38,14 +38,16 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$lng = $DIC->language();
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+		$this->disable("numinfo");
+		$this->setLimit(9999);
 
 		$this->portfolio = $a_parent_obj->object;		
 		$this->page_gui = $this->parent_obj->getPageGUIClassName();
 		$this->is_template = ($this->portfolio->getType() == "prtt");	
 		
-		$this->setTitle($lng->txt("pages"));
+		$this->setTitle($lng->txt("tabs"));
 
-		$this->addColumn($this->lng->txt(""), "", "1");
+		//$this->addColumn($this->lng->txt(""), "", "1");
 		$this->addColumn($this->lng->txt("user_order"));
 		$this->addColumn($this->lng->txt("title"));
 		$this->addColumn($this->lng->txt("type"));
@@ -54,8 +56,8 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.portfolio_page_row.html", "Modules/Portfolio");
 
-		$this->addMultiCommand("confirmPortfolioPageDeletion", $lng->txt("delete"));
-		$this->addMultiCommand("copyPageForm", $lng->txt("prtf_copy_page"));		
+		//$this->addMultiCommand("confirmPortfolioPageDeletion", $lng->txt("delete"));
+		//$this->addMultiCommand("copyPageForm", $lng->txt("prtf_copy_page"));
 		
 		$this->addCommandButton("savePortfolioPagesOrdering",
 			$lng->txt("user_save_ordering_and_titles"));
@@ -103,6 +105,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$lng = $this->lng;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$action_items = [];
 
 		switch($a_set["type"])
 		{
@@ -111,14 +114,15 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("ID", $a_set["id"]);
 				$this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
 				$this->tpl->parseCurrentBlock();
-				
-				$this->tpl->setCurrentBlock("action");
-				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit_page"));
+
 				$ilCtrl->setParameterByClass($this->page_gui,
 					"ppage", $a_set["id"]);
-				$this->tpl->setVariable("CMD_EDIT",
-					$ilCtrl->getLinkTargetByClass($this->page_gui, "edit"));	
-				$this->tpl->parseCurrentBlock();
+				$action_item = ilLinkButton::getInstance();
+				$action_item->setCaption('edit_page');
+				$action_item->setUrl($ilCtrl->getLinkTargetByClass($this->page_gui, "edit"));
+				$action_items[] = $action_item;
+
+
 				$this->tpl->setVariable("TYPE", $lng->txt("page"));
 				break;
 			
@@ -140,10 +144,12 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 							"ppage", $a_set["id"]);
 						$link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "render");
 
-						$this->tpl->setCurrentBlock("action");
-						$this->tpl->setVariable("TXT_EDIT", $lng->txt("blog_edit"));
-						$this->tpl->setVariable("CMD_EDIT", $link);	
-						$this->tpl->parseCurrentBlock();
+						$action_item = ilLinkButton::getInstance();
+						$action_item->setCaption('blog_edit');
+						$action_item->setUrl($link);
+						$action_items[] = $action_item;
+
+
 					}
 					$this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
 				}
@@ -164,7 +170,43 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 				}
 				break;
 		}
-		
+
+		$ilCtrl->setParameter($this->parent_obj, "prtf_pages[]", $a_set["id"]);
+
+		// copy
+		$action_item = ilLinkButton::getInstance();
+		$action_item->setCaption('prtf_copy_tab');
+		$action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm"));
+		$action_items[] = $action_item;
+
+		// delete
+		$action_item = ilLinkButton::getInstance();
+		$action_item->setCaption('delete');
+		$action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "confirmPortfolioPageDeletion"));
+		$action_items[] = $action_item;
+
+
+		$ilCtrl->setParameter($this->parent_obj, "prtf_pages[]", "");
+
+		if (count($action_items) > 0)
+		{
+			$split_button = ilSplitButtonGUI::getInstance();
+			$i = 0;
+			foreach ($action_items as $item)
+			{
+				if ($i++ == 0)
+				{
+					$split_button->setDefaultButton($item);
+				}
+				else
+				{
+					$split_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($item));
+				}
+			}
+			$this->tpl->setVariable("SPLIT_BUTTON", $split_button->render());
+		}
+
+
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_ORDER_NR", $a_set["order_nr"]);
 	}

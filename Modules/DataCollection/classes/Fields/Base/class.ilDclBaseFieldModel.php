@@ -62,12 +62,10 @@ class ilDclBaseFieldModel {
 	 * @var ilDclDatatype This fields Datatype.
 	 */
 	protected $datatype;
-
 	/**
 	 * @var null|int With this property the datatype-storage-location can be overwritten. This need to be done in plugins.
 	 */
 	protected $storage_location_override = null;
-
 	/**
 	 * General properties
 	 */
@@ -91,12 +89,11 @@ class ilDclBaseFieldModel {
 	const PROP_TEXT_SELECTION_TYPE = "text_selection_type";
 	const PROP_DATE_SELECTION_OPTIONS = "date_selection_options";
 	const PROP_DATE_SELECTION_TYPE = "date_selection_type";
-
-
 	// type of table il_dcl_view
 	const EDIT_VIEW = 2;
 	const EXPORTABLE_VIEW = 4;
-	
+
+
 	/**
 	 * @param int $a_id
 	 */
@@ -133,8 +130,10 @@ class ilDclBaseFieldModel {
 	public static function _getFieldIdByTitle($title, $table_id) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$result = $ilDB->query('SELECT id FROM il_dcl_field WHERE title = ' . $ilDB->quote($title, 'text') . ' AND table_id = '
-			. $ilDB->quote($table_id, 'integer'));
+		$result = $ilDB->query(
+			'SELECT id FROM il_dcl_field WHERE title = ' . $ilDB->quote($title, 'text') . ' AND table_id = '
+			. $ilDB->quote($table_id, 'integer')
+		);
 		$id = 0;
 		while ($rec = $ilDB->fetchAssoc($result)) {
 			$id = $rec['id'];
@@ -235,7 +234,7 @@ class ilDclBaseFieldModel {
 	 */
 	public function setDatatypeId($a_id) {
 		//unset the cached datatype.
-		$this->datatype = NULL;
+		$this->datatype = null;
 		$this->datatypeId = $a_id;
 	}
 
@@ -273,6 +272,7 @@ class ilDclBaseFieldModel {
 		return $this->required;
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -287,6 +287,7 @@ class ilDclBaseFieldModel {
 	public function setUnique($unique) {
 		$this->unique = $unique ? 1 : 0;
 	}
+
 
 	/**
 	 * @return ilDclDatatype
@@ -310,14 +311,16 @@ class ilDclBaseFieldModel {
 
 	/**
 	 * Get storage location for the model
+	 *
 	 * @return int|null
 	 */
 	public function getStorageLocation() {
-		if($this->getStorageLocationOverride() !== null) {
+		if ($this->getStorageLocationOverride() !== null) {
 			return $this->getStorageLocationOverride();
 		}
 
 		$this->loadDatatype();
+
 		return $this->datatype->getStorageLocation();
 	}
 
@@ -326,10 +329,11 @@ class ilDclBaseFieldModel {
 	 * Load datatype for model
 	 */
 	protected function loadDatatype() {
-		if ($this->datatype == NULL) {
+		if ($this->datatype == null) {
 			$this->datatype = ilDclCache::getDatatype($this->datatypeId);
 		}
 	}
+
 
 	/**
 	 * loadTableFieldSetting
@@ -340,22 +344,24 @@ class ilDclBaseFieldModel {
 		$this->order = $tablefield_setting->getFieldOrder();
 	}
 
+
 	/**
 	 * @return bool
 	 */
 	public function getExportable() {
-		if (! isset($this->exportable)) {
+		if (!isset($this->exportable)) {
 			$this->loadExportability();
 		}
 
 		return $this->exportable;
 	}
 
+
 	/**
 	 * Load exportability
 	 */
 	private function loadExportability() {
-		if ($this->exportable == NULL) {
+		if ($this->exportable == null) {
 			$this->loadTableFieldSetting();
 		}
 	}
@@ -403,6 +409,7 @@ class ilDclBaseFieldModel {
 
 	/**
 	 * Builds model from db record
+	 *
 	 * @param $rec
 	 */
 	public function buildFromDBRecord($rec) {
@@ -423,9 +430,9 @@ class ilDclBaseFieldModel {
 	public function doCreate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$this->getLocked() == NULL ? $this->setLocked(false) : true;
+		$this->getLocked() == null ? $this->setLocked(false) : true;
 
-		if (! ilDclTable::_tableExists($this->getTableId())) {
+		if (!ilDclTable::_tableExists($this->getTableId())) {
 			throw new ilException("The field does not have a related table!");
 		}
 
@@ -443,13 +450,12 @@ class ilDclBaseFieldModel {
 		$this->addToTableViews();
 	}
 
+
 	/**
 	 * create ilDclTableViewFieldSettings for this field in each tableview
 	 */
-	protected function addToTableViews()
-	{
-		foreach (ilDclTableView::getAllForTableId($this->table_id) as $tableview)
-		{
+	protected function addToTableViews() {
+		foreach (ilDclTableView::getAllForTableId($this->table_id) as $tableview) {
 			$tableview->createFieldSetting($this->id);
 		}
 	}
@@ -462,41 +468,43 @@ class ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$ilDB->update("il_dcl_field", array(
-			"table_id" => array(
+		$ilDB->update(
+			"il_dcl_field", array(
+			"table_id"    => array(
 				"integer",
-				$this->getTableId()
+				$this->getTableId(),
 			),
 			"datatype_id" => array(
 				"text",
-				$this->getDatatypeId()
+				$this->getDatatypeId(),
 			),
-			"title" => array(
+			"title"       => array(
 				"text",
-				$this->getTitle()
+				$this->getTitle(),
 			),
 			"description" => array(
 				"text",
-				$this->getDescription()
+				$this->getDescription(),
 			),
-			"required" => array(
+			"required"    => array(
 				"integer",
-				$this->getRequired()
+				$this->getRequired(),
 			),
-			"is_unique" => array(
+			"is_unique"   => array(
 				"integer",
-				$this->isUnique()
+				$this->isUnique(),
 			),
-			"is_locked" => array(
+			"is_locked"   => array(
 				"integer",
-				$this->getLocked() ? 1 : 0
+				$this->getLocked() ? 1 : 0,
 			),
 		), array(
-			"id" => array(
-				"integer",
-				$this->getId()
+				"id" => array(
+					"integer",
+					$this->getId(),
+				),
 			)
-		));
+		);
 		$this->updateTableFieldSetting();
 		$this->updateProperties();
 	}
@@ -523,6 +531,7 @@ class ilDclBaseFieldModel {
 		$tablefield_setting->store();
 	}
 
+
 	/**
 	 * Remove field and properties
 	 */
@@ -539,15 +548,16 @@ class ilDclBaseFieldModel {
 		$query = "DELETE FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
 
-		foreach ($this->getFieldSettings() as $field_setting)
-		{
+		foreach ($this->getFieldSettings() as $field_setting) {
 			$field_setting->delete();
 		}
 	}
 
+
 	public function getFieldSettings() {
 		return ilDclTableViewFieldSetting::where(array('field' => $this->getId()))->get();
 	}
+
 
 	/**
 	 * @return int
@@ -557,7 +567,7 @@ class ilDclBaseFieldModel {
 			$this->loadTableFieldSetting();
 		}
 
-		return ! $this->order ? 0 : $this->order;
+		return !$this->order ? 0 : $this->order;
 	}
 
 
@@ -568,6 +578,7 @@ class ilDclBaseFieldModel {
 		$this->order = $order;
 	}
 
+
 	/**
 	 * Get all properties of a field
 	 *
@@ -577,20 +588,24 @@ class ilDclBaseFieldModel {
 		$this->property = ilDclCache::getFieldProperties($this->getId());
 	}
 
+
 	/**
 	 * Checks if a certain property for a field is set
+	 *
 	 * @param $key
 	 *
 	 * @return bool
 	 */
 	public function hasProperty($key) {
 		$this->loadProperties();
-		return (isset($this->property[$key]) && $this->property[$key]->getValue() != NULL);
+
+		return (isset($this->property[$key]) && $this->property[$key]->getValue() != null);
 	}
 
 
 	/**
 	 * Returns a certain property of a field
+	 *
 	 * @param $key
 	 *
 	 * @return null
@@ -598,7 +613,7 @@ class ilDclBaseFieldModel {
 	public function getProperty($key) {
 		$instance = $this->getPropertyInstance($key);
 
-		return ($instance !== NULL)? $instance->getValue() : null;
+		return ($instance !== null) ? $instance->getValue() : null;
 	}
 
 
@@ -611,10 +626,12 @@ class ilDclBaseFieldModel {
 	 */
 	public function getPropertyInstance($key) {
 		$this->loadProperties();
-		if($this->hasProperty($key)) {
+		if ($this->hasProperty($key)) {
 			$value = $this->property[$key];
+
 			return $value;
 		}
+
 		return null;
 	}
 
@@ -627,7 +644,7 @@ class ilDclBaseFieldModel {
 	 */
 	public function setProperty($key, $value) {
 		$this->loadProperties();
-		if(isset($this->property[$key])) {
+		if (isset($this->property[$key])) {
 			$this->property[$key]->setValue($value);
 		} else {
 			$property = new ilDclFieldProperty();
@@ -644,11 +661,13 @@ class ilDclBaseFieldModel {
 
 	/**
 	 * Returns all valid properties for a field-type
+	 *
 	 * @return array
 	 */
 	public function getValidFieldProperties() {
 		return array();
 	}
+
 
 	/**
 	 * @param boolean $locked
@@ -670,29 +689,31 @@ class ilDclBaseFieldModel {
 	 * @param ilPropertyFormGUI $form
 	 * @param null              $record_id
 	 */
-	public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = NULL) {
+	public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = null) {
 		$value = $form->getInput('field_' . $this->getId());
 		$this->checkValidity($value, $record_id);
 	}
+
+
 	/**
 	 * Check if input is valid
+	 *
 	 * @param      $value
 	 * @param null $record_id
 	 *
 	 * @return bool
 	 * @throws ilDclInputException
 	 */
-	public function checkValidity($value, $record_id = NULL) {
+	public function checkValidity($value, $record_id = null) {
 		//Don't check empty values
-		if ($value == NULL) {
+		if ($value == null) {
 			return true;
 		}
 
 		if ($this->isUnique()) {
 			$table = ilDclCache::getTableCache($this->getTableId());
 			foreach ($table->getRecords() as $record) {
-				if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) == $this->normalizeValue($value) &&
-					($record->getId() != $record_id || $record_id == 0)) {
+				if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) == $this->normalizeValue($value) && ($record->getId() != $record_id || $record_id == 0)) {
 					throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
 				}
 			}
@@ -748,6 +769,7 @@ class ilDclBaseFieldModel {
 		}
 	}
 
+
 	/**
 	 * @param ilDclBaseFieldModel $originalField
 	 */
@@ -764,8 +786,8 @@ class ilDclBaseFieldModel {
 			$value = $originalField->getProperty($prop_name);
 
 			// If reference field, we must reset the referenced field, otherwise it will point to the old ID
-			if ($originalField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE	&& $prop_name == ilDclBaseFieldModel::PROP_REFERENCE) {
-				$value = NULL;
+			if ($originalField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE && $prop_name == ilDclBaseFieldModel::PROP_REFERENCE) {
+				$value = null;
 			}
 
 			$fieldprop_obj->setValue($value);
@@ -781,6 +803,7 @@ class ilDclBaseFieldModel {
 		$this->exportable = $exportable;
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -792,19 +815,20 @@ class ilDclBaseFieldModel {
 	/**
 	 * Returns a query-object for building the record-loader-sql-query
 	 *
-	 * @param string $direction
+	 * @param string  $direction
 	 * @param boolean $sort_by_status The specific sort object is a status field
 	 *
 	 * @return null|ilDclRecordQueryObject
 	 */
-	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false){
+	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
 		$sql_obj = new ilDclRecordQueryObject();
 
 		$select_str = "sort_stloc_{$this->getId()}.value AS field_{$this->getId()}";
-		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id)";
 
@@ -818,18 +842,20 @@ class ilDclBaseFieldModel {
 
 	/**
 	 * Returns a query-object for building the record-loader-sql-query
-	 * @param string $filter_value
+	 *
+	 * @param string                   $filter_value
 	 * @param ilDclBaseFieldModel|null $sort_field
 	 *
 	 * @return null|ilDclRecordQueryObject
 	 */
-	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null){
+	public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null) {
 		return null;
 	}
 
 
 	/**
 	 * Returns the sort-field id
+	 *
 	 * @return string
 	 */
 	public function getSortField() {
@@ -839,12 +865,14 @@ class ilDclBaseFieldModel {
 
 	/**
 	 * Set to true, when the sorting should be handled numerical
+	 *
 	 * @return bool
 	 */
 	public function hasNumericSorting() {
-		if($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_NUMBER) {
+		if ($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_NUMBER) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -853,13 +881,14 @@ class ilDclBaseFieldModel {
 	 * Checks input of specific fields befor saving
 	 *
 	 * @param ilPropertyFormGUI $form
+	 *
 	 * @return boolean if checkInput was successful
 	 */
 	public function checkFieldCreationInput(ilPropertyFormGUI $form) {
 		return true;
 	}
 
-	
+
 	/**
 	 * @return int|null
 	 */
@@ -915,7 +944,7 @@ class ilDclBaseFieldModel {
 			$value = $form->getInput($representation->getPropertyInputFieldId($property));
 
 			// save non empty values and set them to null, when they already exist. Do not override plugin-hook when already set.
-			if(!empty($value) || ($this->getPropertyInstance($property) != NULL && $property != self::PROP_PLUGIN_HOOK_NAME)) {
+			if (!empty($value) || ($this->getPropertyInstance($property) != null && $property != self::PROP_PLUGIN_HOOK_NAME)) {
 				$this->setProperty($property, $value)->store();
 			}
 		}
@@ -931,13 +960,13 @@ class ilDclBaseFieldModel {
 	 */
 	public function fillPropertiesForm(ilPropertyFormGUI &$form) {
 		$values = array(
-			'table_id' => $this->getTableId(),
-			'field_id' => $this->getId(),
-			'title' => $this->getTitle(),
-			'datatype' => $this->getDatatypeId(),
+			'table_id'    => $this->getTableId(),
+			'field_id'    => $this->getId(),
+			'title'       => $this->getTitle(),
+			'datatype'    => $this->getDatatypeId(),
 			'description' => $this->getDescription(),
-			'required' => $this->getRequired(),
-			'unique' => $this->isUnique(),
+			'required'    => $this->getRequired(),
+			'unique'      => $this->isUnique(),
 		);
 
 		$properties = $this->getValidFieldProperties();
@@ -984,6 +1013,7 @@ class ilDclBaseFieldModel {
 		$ilConfirmationGUI->addHiddenItem('unique', $form->getInput('unique'));
 		$ilConfirmationGUI->setConfirm($DIC->language()->txt('dcl_update_field'), 'update');
 		$ilConfirmationGUI->setCancel($DIC->language()->txt('cancel'), 'edit');
+
 		return $ilConfirmationGUI;
 	}
 }

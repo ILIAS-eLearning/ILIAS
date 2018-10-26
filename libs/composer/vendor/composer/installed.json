@@ -101,17 +101,17 @@
     },
     {
         "name": "ezyang/htmlpurifier",
-        "version": "v4.9.3",
-        "version_normalized": "4.9.3.0",
+        "version": "v4.10.0",
+        "version_normalized": "4.10.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/ezyang/htmlpurifier.git",
-            "reference": "95e1bae3182efc0f3422896a3236e991049dac69"
+            "reference": "d85d39da4576a6934b72480be6978fb10c860021"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
-            "reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d85d39da4576a6934b72480be6978fb10c860021",
+            "reference": "d85d39da4576a6934b72480be6978fb10c860021",
             "shasum": ""
         },
         "require": {
@@ -120,7 +120,7 @@
         "require-dev": {
             "simpletest/simpletest": "^1.1"
         },
-        "time": "2017-06-03T02:28:16+00:00",
+        "time": "2018-02-23T01:58:20+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -654,6 +654,103 @@
         ]
     },
     {
+        "name": "markbaker/complex",
+        "version": "1.4.6",
+        "version_normalized": "1.4.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/MarkBaker/PHPComplex.git",
+            "reference": "a78d82ae4e682c3809fc3023d1b0ce654f6ab12b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/a78d82ae4e682c3809fc3023d1b0ce654f6ab12b",
+            "reference": "a78d82ae4e682c3809fc3023d1b0ce654f6ab12b",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.6.0|^7.0.0"
+        },
+        "require-dev": {
+            "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+            "phpcompatibility/php-compatibility": "^8.0",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phploc/phploc": "2.*",
+            "phpmd/phpmd": "2.*",
+            "phpunit/phpunit": "^4.8.35|^5.4.0",
+            "sebastian/phpcpd": "2.*",
+            "squizlabs/php_codesniffer": "^3.3.0"
+        },
+        "time": "2018-07-31T08:38:40+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Complex\\": "classes/src/"
+            },
+            "files": [
+                "classes/src/functions/abs.php",
+                "classes/src/functions/acos.php",
+                "classes/src/functions/acosh.php",
+                "classes/src/functions/acot.php",
+                "classes/src/functions/acoth.php",
+                "classes/src/functions/acsc.php",
+                "classes/src/functions/acsch.php",
+                "classes/src/functions/argument.php",
+                "classes/src/functions/asec.php",
+                "classes/src/functions/asech.php",
+                "classes/src/functions/asin.php",
+                "classes/src/functions/asinh.php",
+                "classes/src/functions/atan.php",
+                "classes/src/functions/atanh.php",
+                "classes/src/functions/conjugate.php",
+                "classes/src/functions/cos.php",
+                "classes/src/functions/cosh.php",
+                "classes/src/functions/cot.php",
+                "classes/src/functions/coth.php",
+                "classes/src/functions/csc.php",
+                "classes/src/functions/csch.php",
+                "classes/src/functions/exp.php",
+                "classes/src/functions/inverse.php",
+                "classes/src/functions/ln.php",
+                "classes/src/functions/log2.php",
+                "classes/src/functions/log10.php",
+                "classes/src/functions/negative.php",
+                "classes/src/functions/pow.php",
+                "classes/src/functions/rho.php",
+                "classes/src/functions/sec.php",
+                "classes/src/functions/sech.php",
+                "classes/src/functions/sin.php",
+                "classes/src/functions/sinh.php",
+                "classes/src/functions/sqrt.php",
+                "classes/src/functions/tan.php",
+                "classes/src/functions/tanh.php",
+                "classes/src/functions/theta.php",
+                "classes/src/operations/add.php",
+                "classes/src/operations/subtract.php",
+                "classes/src/operations/multiply.php",
+                "classes/src/operations/divideby.php",
+                "classes/src/operations/divideinto.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mark Baker",
+                "email": "mark@lange.demon.co.uk"
+            }
+        ],
+        "description": "PHP Class for working with complex numbers",
+        "homepage": "https://github.com/MarkBaker/PHPComplex",
+        "keywords": [
+            "complex",
+            "mathematics"
+        ]
+    },
+    {
         "name": "monolog/monolog",
         "version": "1.21.0",
         "version_normalized": "1.21.0.0",
@@ -735,17 +832,17 @@
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v5.2.24",
-        "version_normalized": "5.2.24.0",
+        "version": "v5.2.26",
+        "version_normalized": "5.2.26.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "22d04c6a58145a244696f3f254c1875aa653b26a"
+            "reference": "70362997bda4376378be7d92d81e2200550923f7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/22d04c6a58145a244696f3f254c1875aa653b26a",
-            "reference": "22d04c6a58145a244696f3f254c1875aa653b26a",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/70362997bda4376378be7d92d81e2200550923f7",
+            "reference": "70362997bda4376378be7d92d81e2200550923f7",
             "shasum": ""
         },
         "require": {
@@ -775,7 +872,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2017-07-26T21:00:20+00:00",
+        "time": "2017-11-04T09:26:05+00:00",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -818,36 +915,63 @@
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
     },
     {
-        "name": "phpoffice/phpexcel",
-        "version": "1.8.1",
-        "version_normalized": "1.8.1.0",
+        "name": "phpoffice/phpspreadsheet",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/PHPOffice/PHPExcel.git",
-            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
+            "reference": "125f462a718956f37d81305ca0df4f17cef0f3b9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
-            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/125f462a718956f37d81305ca0df4f17cef0f3b9",
+            "reference": "125f462a718956f37d81305ca0df4f17cef0f3b9",
             "shasum": ""
         },
         "require": {
+            "ext-ctype": "*",
+            "ext-dom": "*",
+            "ext-gd": "*",
+            "ext-iconv": "*",
+            "ext-libxml": "*",
+            "ext-mbstring": "*",
+            "ext-simplexml": "*",
             "ext-xml": "*",
+            "ext-xmlreader": "*",
             "ext-xmlwriter": "*",
-            "php": ">=5.2.0"
+            "ext-zip": "*",
+            "ext-zlib": "*",
+            "markbaker/complex": "^1.4.1",
+            "php": "^5.6|^7.0",
+            "psr/simple-cache": "^1.0"
         },
-        "time": "2015-05-01T07:00:55+00:00",
+        "require-dev": {
+            "dompdf/dompdf": "^0.8.0",
+            "friendsofphp/php-cs-fixer": "@stable",
+            "jpgraph/jpgraph": "^4.0",
+            "mpdf/mpdf": "^7.0.0",
+            "phpunit/phpunit": "^5.7",
+            "squizlabs/php_codesniffer": "^3.3",
+            "tecnickcom/tcpdf": "^6.2"
+        },
+        "suggest": {
+            "dompdf/dompdf": "Option for rendering PDF with PDF Writer",
+            "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+            "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
+            "tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
+        },
+        "time": "2018-08-06T02:58:06+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "PHPExcel": "Classes/"
+            "psr-4": {
+                "PhpOffice\\PhpSpreadsheet\\": "src/PhpSpreadsheet"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPL"
+            "LGPL-2.1-or-later"
         ],
         "authors": [
             {
@@ -855,27 +979,29 @@
                 "homepage": "http://blog.maartenballiauw.be"
             },
             {
-                "name": "Mark Baker"
+                "name": "Erik Tilt"
             },
             {
                 "name": "Franck Lefevre",
-                "homepage": "http://blog.rootslabs.net"
+                "homepage": "http://rootslabs.net"
             },
             {
-                "name": "Erik Tilt"
+                "name": "Mark Baker",
+                "homepage": "http://markbakeruk.net"
             }
         ],
-        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
-        "homepage": "http://phpexcel.codeplex.com",
+        "description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "https://github.com/PHPOffice/PhpSpreadsheet",
         "keywords": [
             "OpenXML",
             "excel",
+            "gnumeric",
+            "ods",
             "php",
             "spreadsheet",
             "xls",
             "xlsx"
-        ],
-        "abandoned": "phpoffice/phpspreadsheet"
+        ]
     },
     {
         "name": "pimple/pimple",
@@ -1024,6 +1150,56 @@
             "log",
             "psr",
             "psr-3"
+        ]
+    },
+    {
+        "name": "psr/simple-cache",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/simple-cache.git",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+            "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2017-10-23T01:57:42+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\SimpleCache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interfaces for simple caching",
+        "keywords": [
+            "cache",
+            "caching",
+            "psr",
+            "psr-16",
+            "simple-cache"
         ]
     },
     {
@@ -1531,17 +1707,17 @@
     },
     {
         "name": "simplesamlphp/saml2",
-        "version": "v3.1.5",
-        "version_normalized": "3.1.5.0",
+        "version": "v3.2.2",
+        "version_normalized": "3.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/simplesamlphp/saml2.git",
-            "reference": "a07885a55fe5d3335ef0913ee9e95a75b34bfc52"
+            "reference": "b3a040ec186f4a3749228b8c13642c5295fc451b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/a07885a55fe5d3335ef0913ee9e95a75b34bfc52",
-            "reference": "a07885a55fe5d3335ef0913ee9e95a75b34bfc52",
+            "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/b3a040ec186f4a3749228b8c13642c5295fc451b",
+            "reference": "b3a040ec186f4a3749228b8c13642c5295fc451b",
             "shasum": ""
         },
         "require": {
@@ -1560,7 +1736,7 @@
             "sensiolabs/security-checker": "~1.1",
             "squizlabs/php_codesniffer": "~1.4"
         },
-        "time": "2018-04-18T04:43:35+00:00",
+        "time": "2018-09-27T14:09:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1590,17 +1766,17 @@
     },
     {
         "name": "simplesamlphp/simplesamlphp",
-        "version": "v1.15.4",
-        "version_normalized": "1.15.4.0",
+        "version": "1.16.2",
+        "version_normalized": "1.16.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/simplesamlphp/simplesamlphp.git",
-            "reference": "c770d0cd392ba8d8b12ac6214dcabd818d7cca32"
+            "reference": "bf9e21146df2530ed2e79041136c2f8549010275"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp/zipball/c770d0cd392ba8d8b12ac6214dcabd818d7cca32",
-            "reference": "c770d0cd392ba8d8b12ac6214dcabd818d7cca32",
+            "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp/zipball/bf9e21146df2530ed2e79041136c2f8549010275",
+            "reference": "bf9e21146df2530ed2e79041136c2f8549010275",
             "shasum": ""
         },
         "require": {
@@ -1616,17 +1792,17 @@
             "gettext/gettext": "^3.5",
             "jaimeperez/twig-configurable-i18n": "^1.2",
             "php": ">=5.4",
-            "robrichards/xmlseclibs": "~3.0",
-            "simplesamlphp/saml2": "~3.1.4",
+            "robrichards/xmlseclibs": "^3.0",
+            "simplesamlphp/saml2": "~3.2.2",
             "twig/twig": "~1.0",
             "whitehat101/apr1-md5": "~1.0"
         },
         "require-dev": {
-            "ext-pdo_sqlite": "*",
+            "friendsofphp/php-cs-fixer": "^2.2",
             "mikey179/vfsstream": "~1.6",
-            "phpunit/phpunit": "~4.8"
+            "phpunit/phpunit": "~4.8.35"
         },
-        "time": "2018-03-02T15:02:24+00:00",
+        "time": "2018-09-28T13:06:14+00:00",
         "type": "project",
         "extra": {
             "patches_applied": {
@@ -1765,7 +1941,8 @@
             "File parser",
             "RIS",
             "Reference"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "tecnickcom/tcpdf",

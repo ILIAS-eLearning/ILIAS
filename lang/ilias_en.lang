@@ -308,7 +308,6 @@ assessment#:#action#:#Action
 assessment#:#add_circle#:#Add circle area
 assessment#:#add_gap#:#Add Gap Text
 assessment#:#tst_msg_rand_quest_set_not_sync#:#The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules.
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
@@ -360,6 +359,8 @@ assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
+assessment#:#ass_comments#:#Comments
+assessment#:#ass_commented_questions_only#:#Only Commented Questions
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer
@@ -748,11 +749,11 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for th
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: %s
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />
-assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
-assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#On the subtab %s the non available question pools can be newly derived.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore. The non available pools can be newly derived.<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Open Selected Question Pools
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -2756,8 +2757,8 @@ common#:#message_content#:#Message Content
 common#:#message_no_delivered_files#:#You have not submitted any files.
 common#:#message#:#Message
 common#:#meta_data#:#Metadata
-common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s
-common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s).
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s).
 common#:#migrate#:#Migrate
 common#:#minute#:#Minute
 common#:#minutes#:#Minutes
@@ -3328,6 +3329,7 @@ rbac#:#sahs_write#:#User can edit content and settings of SCORM learning module
 common#:#sahs#:#Learning Module SCORM
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
+common#:#salutation_n#:#No salutation desired
 common#:#salutation#:#Salutation
 common#:#save_and_back#:#Save And Back
 common#:#save_message#:#Save as Draft
@@ -5219,6 +5221,7 @@ forum#:#frm_default_view#:#Default View
 forum#:#frm_detach_moderator_role#:#Detach Moderator Role
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
+forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#The user was added as moderator successfully.
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
 forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
@@ -5633,7 +5636,7 @@ mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
-mail#:#mail_nacc_salutation#:#Salutation
+mail#:#mail_nacc_salutation#:#Greeting
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
@@ -5665,9 +5668,11 @@ mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
+mail#:#mail_error_reading_attachment#:#Could not determine any attachment.
 mail#:#placeholders_advise#:#Personal placeholders are only substituted for recipients in the To field.%sPersonal placeholders of CC and BCC recipients are kept as they are.
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
+mail#:#mail_tbl_head_attachments#:#Attachment
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -9179,7 +9184,7 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
-prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files: %s
+prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files.
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -10368,7 +10373,9 @@ common#:#edited_on#:#Edited on
 common#:#obj_tos_desc#:#Terms of Service Settings
 common#:#obj_tos#:#Terms of Service
 tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.
-tos#:#tos_agreement_by_lng#:#Terms of Service
+tos#:#tos_never_reset#:#The terms of service have not been reset, yet.
+tos#:#tos_agreement_documents_tab_label#:#Terms of Service
+tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement#:#Terms of Service
 tos#:#tos_agreement_exists#:#Existent
 tos#:#tos_agreement_missing#:#Missing
@@ -10378,9 +10385,49 @@ tos#:#tos_tos_settings#:#Settings
 tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web services, the chat server, or the cron job.
-tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
-user#:#tos_show_signed_text#:#Show Details
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web service for instance.
+tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
+tos#:#tos_form_new_doc_head#:#Create Document
+tos#:#tos_form_edit_doc_head#:#Edit Document
+tos#:#tos_form_document_title#:#Title
+tos#:#tos_form_document_title_info#:#Please enter a title for the document.
+tos#:#tos_form_document#:#Document
+tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
+tos#:#tos_form_document_new#:#Change Content
+tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.
+tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
+tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.
+tos#:#tos_tbl_docs_title#:#Documents
+tos#:#tos_tbl_docs_head_sorting#:#Sorting
+tos#:#tos_tbl_docs_head_title#:#Title
+tos#:#tos_tbl_docs_head_created#:#Creation Date
+tos#:#tos_tbl_docs_head_last_change#:#Last Change
+tos#:#tos_tbl_docs_head_criteria#:#Criteria
+tos#:#tos_tbl_docs_action_add_criterion#:#Add Criterion
+tos#:#tos_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned
+tos#:#tos_tbl_hist_cell_not_criterion#:#No criterion assigned
+tos#:#tos_doc_detach_crit_confirm_title#:#Detach Criterion
+tos#:#tos_doc_delete#:#Delete Document
+tos#:#tos_doc_crit_detached#:#The criterion has been detached.
+tos#:#tos_doc_crit_attached#:#The criterion has been attached.
+tos#:#tos_doc_crit_changed#:#The criterion has been changed.
+tos#:#tos_form_attach_criterion_head#:#Attach Criterion
+tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
+tos#:#tos_form_criterion#:#Criterion
+tos#:#tos_document#:#Document
+tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
+tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
+tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
+tos#:#tos_deleted_documents_s#:#The document has been deleted.
+tos#:#tos_deleted_documents_p#:#The documents have been deleted.
+tos#:#tos_saved_sorting#:#The sorting has been saved.
+tos#:#tos_tbl_hist_head_acceptance_date#:#Date
+tos#:#tos_tbl_hist_head_login#:#Login
+tos#:#tos_tbl_hist_head_firstname#:#Firstname
+tos#:#tos_tbl_hist_head_lastname#:#Lastname
+tos#:#tos_tbl_hist_head_document#:#Document
+tos#:#tos_tbl_hist_head_criteria#:#Criteria
 user#:#tos_not_accepted_yet#:#Not accepted yet
 user#:#tos_accepted_content#:#Accepted Content
 tos#:#tos_last_modified#:#Last Change
@@ -10388,9 +10435,15 @@ tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_period#:#Period
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
-tos#:#tos_acceptance_datetime#:#Date
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
+tos#:#tos_no_documents_exist#:#Currently there are no terms of service documents at all.
+tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service documents at all. Please add at least one document before activated this service..
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached. 
+tos#:#tos_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
+tos#:#tos_crit_type_usr_global_role#:#User has Global Role
+tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.
+tos#:#tos_crit_type_usr_language#:#Profile Language
+tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.
+tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Put on Personal Desktop
 rbac#:#chtr_delete#:#User can move or delete chat room
@@ -10399,7 +10452,6 @@ ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
-blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
@@ -11436,6 +11488,12 @@ mail#:#mail_filter_body#:#Body
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
+mail#:#mail_filter_only_unread#:#Only Unread
+mail#:#mail_filter_only_with_attachments#:#With Attachments
+mail#:#mail_filter_period#:#Period
+mail#:#mail_filter_period_from#:#From
+mail#:#mail_filter_period_until#:#Until
+mail#:#mail_download_zip_no_attachments#:#Could not find any attachments.
 blog#:#blog_properties#:#Blog Properties
 blog#:#blog_style#:#Blog Style
 prtf#:#prtf_properties#:#Portfolio Properties
@@ -11682,7 +11740,6 @@ obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate tran
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 content#:#cont_languages#:#Languages
 content#:#cont_language#:#Language
-content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
 content#:#cont_finish_editing#:#Finish Editing
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.
 notes#:#note_content_removed#:#The content has been removed.
@@ -12784,6 +12841,11 @@ crs#:#crs_mail_context_member_title#:#Info Page Course
 sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template
+mail#:#mail_template_set_as_default#:#Set as Default
+mail#:#mail_template_unset_as_default#:#Unset as Default
+mail#:#mail_template_default#:# (Default)
+mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the text template?
+mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following entries?
 mail#:#mail_template_title#:#Name
 mail#:#mail_template_context#:#Context
 mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.
@@ -12993,7 +13055,7 @@ log#:#log_browser_users#:#Usernames Using Console Log
 log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
-forum#:#frm_search#:#Suche
+forum#:#frm_search#:#Search
 mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
 mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
@@ -13093,6 +13155,9 @@ common#:#obj_prgs_desc#:#Study Programme Administration
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
+forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
+forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
+forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.
 meta#:#meta_advmd_select_options#:#Entries
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 search#:#btn_search#:#Search
@@ -13136,7 +13201,7 @@ content#:#cont_open_window#:#Enforced to Open in New Window , Without ILIAS Main
 content#:#cont_open_iframe#:#Opens in the Same Window Underneath the ILIAS Main Menu
 content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
 content#:#cont_hidenavig_info#:#The navigation tree on the left can be hidden, if the SCORM Learning module contains sufficient functionality to navigate between sections of content or the top navigation bar is displayed.
-w_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
+content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
 grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
@@ -13578,6 +13643,8 @@ style#:#system_style_activation_description#:#Active system styles can be assign
 style#:#system_style_default_description#:#Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.
 style#:#system_style_personal_description#:#Set this style as your personal system style. This might be handy to see the changes that are currently performed.
 style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
+style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.
+style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.
 style#:#zip_export_failed#:#The ZIP export failed. The following error occured:
 style#:#no_style_selected#:#No sub style has been selected.
 style#:#adapt_less#:#Adapt Less
@@ -13949,7 +14016,7 @@ auth#:#auth_saml_sync_info#:#If enabled new user accounts will be created automa
 auth#:#auth_saml_sync#:#User Synchronization
 auth#:#auth_saml_uid_claim#:#Unique Attribute for User Account Matching
 auth#:#auth_saml_uid_claim_info#:#Define the attribute ILIAS uses to detect whether or not an incoming authentication request matches an existing ILIAS user account.
-auth#:#auth_saml_username_claim#:#Arrtibue for Username
+auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_update_field_info#:#Update automatically
@@ -14025,6 +14092,7 @@ content#:#cont_grid_width_l_info#:#E.g. desktop
 content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
 content#:#cont_add_cell#:#Add Column
+content#:#cont_added_cell#:#Column added
 content#:#cont_ed_delete_cell#:#Delete Column
 content#:#cont_ed_cell_left#:#Move Left
 content#:#cont_ed_cell_right#:#Move Right
@@ -14176,7 +14244,7 @@ prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new po
 style#:#open_documentation#:#Open Documentation
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
-prtf#:#prtf_pdf#:#PDF
+prtf#:#prtf_pdf#:#Export as PDF
 prtf#:#prtf_print_selection#:#Page Selection
 prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_selected_pages#:#Selected Pages
@@ -14290,6 +14358,8 @@ copa#:#copa_copy#:#Copy Content Page
 copa#:#copa_add#:#Add Content Page
 copa#:#copa_edit#:#Edit Content Page
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
+copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
 adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
@@ -14340,3 +14410,190 @@ exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by 
 exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only
+survey#:#svy_self_ev_info#:#Use for self evaluation.
+survey#:#svy_self_ev_access_results_none#:#No Access to Results
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
+survey#:#svy_participant#:#Participant
+cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
+skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
+crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
+trac#:#trac_lhist_obj_completed#:#$1$ was completed.
+lhist#:#lhist_learning_history#:#Learning History
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
+pd#:#pd_enable_learning_history#:#Learning History
+pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
+blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
+news#:#news_news_block#:#News Block
+sess#:#sess_filter_all_types#:#All types
+sess#:#sess_filter_not_assigned#:#Not Assigned
+sess#:#sess_is_assigned#:#is Assigned
+obj#:#obj_more_translations#:#More Translations
+wiki#:#wiki_type_wiki_team#:#Team Wiki
+exc#:#exc_without_wiki_template#:#Without Wiki Template
+exc#:#exc_with_wiki_template#:#With Wiki Template
+exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from scratch.
+exc#:#exc_with_wiki_template_info#:#The template wiki will be copied to create the wikis of participants.
+exc#:#exc_wiki_container#:#Wiki Container
+exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
+exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
+exc#:#exc_create_wiki#:#Create Wiki
+wiki#:#wiki_exercise_info#:#This wiki is part of the assignment "%s" of exercise "%s".
+wiki#:#wiki_finalize_wiki#:#Finalize and Submit Wiki
+wiki#:#wiki_finalized#:#Wiki has been finalized and submitted.
+wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file.
+wiki#:#wiki_team_members#:#Team Members
+wiki#:#wiki_exc_wiki_created#:#Wiki has been created.
+wiki#:#wiki_exc_template#:#Wiki Template
+wiki#:#wiki_download_submission#:#Download Submission File
+news#:#news_new_reactions#:#New reactions
+news#:#news_new_comments#:#New comments
+like#:#reaction#:#Reaction
+common#:#like#:#Like
+common#:#love#:#Love
+common#:#dislike#:#Dislike
+common#:#laugh#:#Laugh
+common#:#astounded#:#Astounded
+common#:#sad#:#Sad
+common#:#angry#:#Angry
+news#:#news_media#:#Media File
+like#:#like#:#Like
+notes#:#notes_latest_comment#:#Latest Comment
+notes#:#notes_add_edit_comment#:#Add/Edit Comment
+mep#:#mep_media_files#:#Media Files
+mep#:#mep_bulk_upload#:#Bulk Upload
+mep#:#mep_mob#:#Media Object
+book#:#book_booking_reminders#:#Upcoming reservations
+book#:#book_rem_intro#:#This is an overview of upcoming reservations:
+book#:#book_your_reservations#:#Your Reservations
+book#:#book_reservation_overview#:#Reservation Overviews
+book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.
+book#:#book_reminder_setting#:#Reminder
+book#:#book_reminder_day#:#Before Reservation
+book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
+book#:#book_reminder_days#:#Day(s)
+noti#:#noti_activate_notification#:#Activate Notification
+noti#:#noti_deactivate_notification#:#Deactivate Notification
+noti#:#noti_notification_activated#:#Notification Activated
+noti#:#noti_notification_deactivated#:#Notification Deactivated
+book#:#book_notification#:#Send Reservation Notifications
+book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
+skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_all#:#All
+skmg#:#skmg_refresh_view#:#Refresh
+prtf#:#prtf_copy_tab#:#Copy Tab
+prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
+prtf#:#prtf_edit_content#:#Edit Content
+prtf#:#prtf_set_online#:#Set Online
+prtf#:#prtf_set_offline#:#Set Offline
+prtf#:#prtf_no_submission#:#No Submission
+prtf#:#prtf_submission_on#:#Submitted on $1
+prtf#:#prtf_no_offline_share_info#:#A portfolio has to be online to be shared by other users.
+prtf#:#prtf_has_been_set_online#:#Portfolio has been set online.
+user#:#user_prompting_recurrence#:#Prompting Recurrence
+user#:#user_prompting_settings#:#Prompting Settings
+user#:#user_prompt_incomplete#:#Only if profile is incomplete
+user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
+user#:#user_prompt_once_after_login#:#Once after specific number of days after first login
+user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.
+user#:#user_prompt_repeat#:#Repeat every specific number of days
+user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.
+user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
+lhist#:#lhist_first_login#:#First Login
+prtf#:#prtf_decl_authorship#:#Declaration of Authorship
+pd#:#pd_achievements#:#Achievements
+content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
+prtf#:#prtf_download_submission#:#Download Submission
+content#:#cont_ed_insert_learning_history#:#Insert Learning History
+lhist#:#lhist_all#:#All
+lhist#:#lhist_selected#:#Selected
+lhist#:#lhist_manual#:#Manual
+lhist#:#lhist_period#:#Period
+lhist#:#lhist_type_of_achievement#:#Type of Achievement
+lhist#:#cont_update_lhist#:#Edit Learning History Element
+lhist#:#cont_create_lhist#:#Create Learning History Element
+lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
+lhist#:#lhist_lhist#:#Learning History
+skmg#:#skmg_materials_ressources#:#Resources/Materials
+wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
+cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
+cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?
+cert#:#certificate_migration_confirm_started#:#The migration was started.
+cert#:#certificate_migration_go#:#Start Migration
+cert#:#user_certificates#:#Certificates
+cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
+cert#:#cert_error_no_access#:#You have no access to this certificate.
+cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
+common#:#my_certificates#:#My Certificates
+cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
+cert#:#certificate_achievement#:#%1$s achieved.
+cert#:#certificate_no_object_title#:#No object title available
+cert#:#certificate_no_object_desc#:#No object description available
+cert#:#cert_sortable_by_title_asc#:#Nach Titel aufsteigend
+cert#:#cert_sortable_by_title_desc#:#Nach Titel absteigend
+cert#:#cert_sortable_by_issue_date_asc#:#Nach Ausstellungsdatum aufsteigend
+cert#:#cert_sortable_by_issue_date_desc#:#Nach Ausstellungsdatum absteigend
+cert#:#cert_issued_on_label#:#Issued On
+cert#:#cert_download_label#:#Download
+cert#:#cert_object_label#:#Object
+cert#:#cert_description_label#:#Description
+cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
+certificate#:#cert_cron_task_title#:#Certificates
+certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail
+certificate#:#certificate_change_active_status#:#The active state of the certificate has been changed
+iass#:#iass_location#:#Location
+iass#:#iass_further_field_headline#:#Detailed Information
+iass#:#iass_no_entries#:#No entries found.
+iass#:#iass_filter_all#:#All
+iass#:#iass_filter_not_started#:#Not started only
+iass#:#iass_filter_not_finalized#:#Not completed only
+iass#:#iass_filter_finalized#:#Completed only
+iass#:#iass_filter_failed#:#Failed only
+iass#:#iass_file#:#File
+iass#:#iass_download#:#Download
+iass#:#iass_sort#:#Sortation
+iass#:#iass_sort_name_asc#:#Username ascending
+iass#:#iass_sort_name_desc#:#Username descending
+iass#:#iass_sort_examiner_login_asc#:#Examiner ascending
+iass#:#iass_sort_examiner_login_desc#:#Examiner descending
+exc#:#exc_team_formation#:#Team Formation
+exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams
+exc#:#exc_team_by_participants_info#:#Participants opt for teams.
+exc#:#exc_team_by_tutors#:#Teams are formed by Tutors.
+exc#:#exc_team_by_tutors_info#:#Tutors allocate participants to teams, participants cannot self-organize.
+exc#:#exc_team_by_random#:#Teams are formed randomly and automatically.
+exc#:#exc_team_by_random_info#:#ILIAS will allocate participants to a set number of teams.
+exc#:#exc_team_by_assignment#:#Adopt Teams from Assignment
+exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be used for this Assignment too.
+exc#:#exc_num_teams#:#Number
+exc#:#exc_min_team_participants#:#Minimal Number
+exc#:#exc_max_team_participants#:#Maximal Number
+exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_value_can_not_set#:#This value can not be set.
+exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
+exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
+exc#:#exc_team_min_big_than_max#:#Maximal number of team participants can not be smaller than Minimal number of team participants.
+exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.
+exc#:#exc_team_min_small_than_members#:#Minimal Number of Participants can not be set as %s because teams are set with %s participants.
+exc#:#exc_participants#:#Participants
+exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.
+exc#:#exc_team_by_tutors_manual#:#Manually
+exc#:#exc_team_creation#:#Creation
+exc#:#exc_ass_submission_zip#:#Submissions
+exc#:#exc_submission_file#:#Submission File
+exc#:#exc_submission_text#:#Submission Text
+common#:#open#:#Open
+exc#:#exc_down_files_started#:#Download of submission files has started.
+survey#:#svy_participant#:#Participant
+book#:#participants#:#Participants
+book#:#book_assign_object#:#Assign Booking Object
+book#:#book_assign#:#Assign
+book#:#book_assign_participant#:#Assign to Participant
+book#:#book_deassign#:#Deassign
+book#:#book_participant_assigned#:#Participant(s) assigned
+book#:#book_participant_already_assigned#:#Participant(s) already assigned.

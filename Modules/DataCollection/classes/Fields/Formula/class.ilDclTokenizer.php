@@ -44,7 +44,7 @@ class ilDclTokenizer {
 	public static function getMathTokens($math_expression) {
 		$operators = array_keys(ilDclExpressionParser::getOperators());
 		$pattern = '#((^\[\[)[\d\.]+)|(\(|\)|\\' . implode("|\\", $operators) . ')#';
-		$tokens = preg_split($pattern, $math_expression, - 1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$tokens = preg_split($pattern, $math_expression, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
 		return array_map('trim', $tokens);
 	}
