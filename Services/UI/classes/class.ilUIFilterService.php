@@ -30,6 +30,16 @@ class ilUIFilterService
 	protected $_deps;
 
 	/**
+	 * @var ilUIFilterServiceSessionGateway
+	 */
+	protected $session;
+
+	/**
+	 * @var ilUIFilterRequestAdapter
+	 */
+	protected $request;
+
+	/**
 	 * Constructor
 	 * @param ilUIService $service
 	 * @param ilUIServiceDependencies $deps
