@@ -19,6 +19,18 @@ class ilUIFilterRequestAdapter
 	protected $request;
 
 	/**
+	 * query params
+	 * @var array
+	 */
+	protected $params;
+
+	/**
+	 * post data
+	 * @var array|null
+	 */
+	protected $post;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(\Psr\Http\Message\ServerRequestInterface $request)
