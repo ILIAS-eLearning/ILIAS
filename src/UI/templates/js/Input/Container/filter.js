@@ -168,6 +168,7 @@ $(document).ready(function() {
         $(".btn-bulky").parents(".il-popover-container").hide();
     }
 
+    //Accessibility for Input Fields
     $(".il-filter-field").keydown(function (event) {
         var key = event.which;
         if ((key === 13) || (key === 32)) {	// 13 = Return, 32 = Space

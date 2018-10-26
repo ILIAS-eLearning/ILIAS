@@ -8982,12 +8982,10 @@ ul.breadcrumb li:hover {
 }
 .il-filter-bar .il-toggle-button {
   height: 13px;
-  border-radius: 13px;
   padding-left: 15px;
   padding-right: 15px;
 }
 .il-filter-bar .il-toggle-button .il-toggle-switch {
-  border-radius: 19px;
   width: 19px;
   height: 19px;
 }
@@ -17018,3 +17016,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
+/*# sourceMappingURL=none */
