@@ -86,14 +86,16 @@ class ilMDCopyrightSelectionEntry
 
 		$ilDB = $DIC['ilDB'];
 		
-		$query = "SELECT entry_id FROM il_md_cpr_selections ORDER BY is_default DESC";
-
+		$query = "SELECT entry_id FROM il_md_cpr_selections ORDER BY is_default DESC, position ASC";
 		$res = $ilDB->query($query);
+
+		$entries = [];
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$entries[] = new ilMDCopyrightSelectionEntry($row->entry_id);
 		}
-		return $entries ? $entries : array();
+		return $entries;
+
 	}
 	
 	/**
@@ -508,7 +510,7 @@ class ilMDCopyrightSelectionEntry
 	 	
 	 	$query = "SELECT * FROM il_md_cpr_selections ".
 	 		"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer')." ".
-			"ORDER BY is_default DESC";
+			"ORDER BY is_default DESC, position ASC ";
 
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

@@ -602,6 +602,9 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 	 */
 	public function saveCopyrightPosition()
 	{
+
+
+
 		if(isset($_POST["order"]))
 		{
 			$position = 0;
