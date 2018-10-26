@@ -14,6 +14,22 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+crs#:#crs_shorten_breadcrumb#:#Breadcrumb
+crs#:#crs_sys_default#:#System Default
+crs#:#crs_breadcrumb_crs_only#:#Start with Course
+crs#:#crs_breadcrumb_full_path#:#Full Path
+rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
+rep#:#rep_default#:#Default
+rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
+rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
+obj#:#obj_show_title_and_icon#:#Title und Icon anzeigen
+obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
+cont#:#cont_list_presentation#:#Anzeige der Objekte
+cont#:#cont_item_list#:#Liste
+cont#:#cont_tile_view#:#Kacheln
+fold#:#fold_presentation#:#Präsentation
+obj#:#obj_tile_image#:#Kachelbild
+obj#:#obj_tile_image_info#:#Das Kachebild wird genutzt, wenn der übergeordnete Container (Kurs, Gruppe, Ordner) die Kachelansicht aktiviert.
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 commocommon#:#lti_outcome#:#Übermittlung LTI-Lernfortschritt
@@ -396,7 +412,6 @@ assessment#:#action#:#Aktion
 assessment#:#add_circle#:#Kreis hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#tst_msg_rand_quest_set_not_sync#:#Die Regeln zur zufälligen Ziehung von Fragen wurden neu erstellt oder verändert. Die Fragen müssen erneut aus den Fragenpools in den Test kopiert werden. Bei diesem Vorgang wird auch eine Prüfung durchgeführt, ob der Regelsatz für Zufallsziehungen erfüllbar ist.
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#Die Synchronisierung kopiert alle Fragen, welche auf die Kriterien der Ziehungsregeln zutreffen. Dies kann für große Pools einige Minuten dauern.
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
@@ -855,11 +870,11 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für d
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfiguration des Tests mit zufälliger Fragenauswahl wurde erfolgreich synchronisiert.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronisiere Fragen aus den Pools
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: %s
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.</b><br />
-assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen:<br />%s
-assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Die nicht verfügbaren Fragenpools können unter dem Unterreiter %s neu abgeleitet werden.
+assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen. Die nicht verfügbaren Fragenpools können neu abgeleitet werden.<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Öffne Auswahl der Fragenpools
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
@@ -1091,7 +1106,7 @@ assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
-assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline (nicht aktiviert).
+assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline.
 assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
@@ -3244,8 +3259,8 @@ common#:#message#:#Nachricht
 common#:#message_content#:#Inhalt
 common#:#message_no_delivered_files#:#Sie haben noch keine Datei abgegeben.
 common#:#meta_data#:#Metadaten
-common#:#mgs_objects_linked_to_the_following_folders_p#:#Die Objekte wurden in folgende Bereiche verknüpft: %s
-common#:#mgs_objects_linked_to_the_following_folders_s#:#Das Objekt wurde in folgende Bereiche verknüpft: %s
+common#:#mgs_objects_linked_to_the_following_folders_p#:#Die Objekte wurden in folgende Bereiche verknüpft.
+common#:#mgs_objects_linked_to_the_following_folders_s#:#Das Objekt wurde in folgende Bereiche verknüpft.
 common#:#migrate#:#Migrieren
 common#:#minute#:#Minute
 common#:#minutes#:#Minuten
@@ -7487,7 +7502,7 @@ prtf#:#prtf_create_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_default_portfolio#:#Mein Profil
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
-prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage %s
+prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage.
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
@@ -13174,6 +13189,9 @@ buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 common#:#obj_prgs#:#Studienprogramme
 forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
 forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
+forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
+forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
+forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht.
 meta#:#meta_advmd_select_options#:#Einträge
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
 search#:#btn_search#:#Suchen
@@ -14220,7 +14238,7 @@ prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen 
 style#:#open_documentation#:#Dokumentation öffnen
 style#:#ks_documentation_of_style#:#'Kitchen Sink'-Dokumentation von Style:
 style#:#ks_documentation_of_substyle#:#'Kitchen Sink'-Dokumentation von Sub-Style:
-prtf#:#prtf_pdf#:#PDF erzeugen
+prtf#:#prtf_pdf#:#Exportieren als PDF
 prtf#:#prtf_print_selection#:#Auswahl
 prtf#:#prtf_all_pages#:#Gesamtes Portfolio
 prtf#:#prtf_selected_pages#:#Ausgewählte Teile des Portfolios
@@ -14362,6 +14380,8 @@ copa#:#copa_copy#:#Inhaltsseite kopieren
 copa#:#copa_add#:#Inhaltsseite hinzufügen
 copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
+copa#:#copa_btn_lp_toggle_state_completed#:#Auf nicht bearbeitet setzen
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf bearbeitet setzen
 adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
@@ -14417,7 +14437,6 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_no_entries#:#You do not have any entries in your learning history yet. Start learning and make achievments!
 mme#:#main#:#Hauptmenu
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
@@ -14485,6 +14504,7 @@ mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link Liste
 mme#:#type_link_list#:#Link Liste
 mme#:#type_repository_link#:#Magazin-Link
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
@@ -14542,3 +14562,104 @@ noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
+skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_all#:#Alle
+skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
+prtf#:#prtf_copy_tab#:#Reiter kopieren
+prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
+prtf#:#prtf_edit_content#:#Inhalt bearbeiten
+prtf#:#prtf_set_online#:#Online setzen
+prtf#:#prtf_set_offline#:#Offline setzen
+prtf#:#prtf_no_submission#:#Keine Abgabe
+prtf#:#prtf_submission_on#:#Abgabe am $1
+prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden bevor es für bestimmte Benutzer freigegeben werden kann.
+prtf#:#prtf_has_been_set_online#:#Das Portfolio wurde online gesetzt.
+user#:#user_prompting_recurrence#:#Häufigkeit
+user#:#user_prompting_settings#:#Aufforderung Profilkonfiguration
+user#:#user_prompt_incomplete#:#Nur wenn unvollständig
+user#:#user_prompt_incomplete_info#:#Dem Benutzer wird sein Profil nach dem Login angezeigt, wenn es leere Pflichtfelder enthält.
+user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
+user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer aufgefordert sein Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
+user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
+user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
+user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den Standard-Infotext, falls der Benutzer zur Konfiguration des Profils aufgefordert wird.
+lhist#:#lhist_first_login#:#First Login
+prtf#:#prtf_decl_authorship#:#Declaration of Authorship
+pd#:#pd_achievements#:#Achievements
+content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
+prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
+content#:#cont_ed_insert_learning_history#:#Insert Learning History
+lhist#:#lhist_all#:#All
+lhist#:#lhist_selected#:#Selected
+lhist#:#lhist_manual#:#Manual
+lhist#:#lhist_period#:#Period
+lhist#:#lhist_type_of_achievement#:#Type of Achievement
+lhist#:#cont_update_lhist#:#Edit Learning History Element
+lhist#:#cont_create_lhist#:#Create Learning History Element
+lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
+lhist#:#lhist_lhist#:#Learning History
+skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
+wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
+cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
+cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
+cert#:#certificate_migration_go#:#Starte Migration
+cert#:#user_certificates#:#Zertifikate
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
+cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
+common#:#my_certificates#:#Meine Zertifikate
+cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
+cert#:#certificate_achievement#:#%1$s erhalten.
+cert#:#certificate_no_object_title#:#Kein Titel vorhanden
+cert#:#certificate_no_object_desc#:#Keine Beschreibung vorhanden
+cert#:#cert_sortable_by_title_asc#:#Ascending by title
+cert#:#cert_sortable_by_title_desc#:#Descending by title
+cert#:#cert_sortable_by_issue_date_asc#:#Ascending by issue date
+cert#:#cert_sortable_by_issue_date_desc#:#Descending by issue date
+cert#:#cert_issued_on_label#:#Ausgestellt am
+cert#:#cert_download_label#:#Herunterladen
+cert#:#cert_object_label#:#Objekt
+cert#:#cert_description_label#:#Beschreibung
+cert#:#cert_currently_no_certs#:#Aktuelle besitzen Sie noch keine Zertifikate.
+certificate#:#cert_cron_task_title#:#Zertifikate
+certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
+certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung
+certificate#:#certificate_change_active_status#:#Der Aktiv-Status des Zertifikats wurde geändert
+exc#:#exc_team_formation#:#Team Formation
+exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams
+exc#:#exc_team_by_participants_info#:#Participants opt for teams.
+exc#:#exc_team_by_tutors#:#Teams are formed by Tutors.
+exc#:#exc_team_by_tutors_info#:#Tutors allocate participants to teams, participants cannot self-organize.
+exc#:#exc_team_by_random#:#Teams are formed randomly and automatically.
+exc#:#exc_team_by_random_info#:#ILIAS will allocate participants to a set number of teams.
+exc#:#exc_team_by_assignment#:#Adopt Teams from Assignment
+exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be used for this Assignment too.
+exc#:#exc_num_teams#:#Number
+exc#:#exc_min_team_participants#:#Minimal Number
+exc#:#exc_max_team_participants#:#Maximal Number
+exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_value_can_not_set#:#This value can not be set.
+exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
+exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
+exc#:#exc_team_min_big_than_max#:#Maximal number of team participants can not be smaller than Minimal number of team participants.
+exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.
+exc#:#exc_team_min_small_than_members#:#Minimal Number of Participants can not be set as %s because teams are set with %s participants.
+exc#:#exc_participants#:#Participants
+exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.
+exc#:#exc_team_by_tutors_manual#:#Manually
+exc#:#exc_team_creation#:#Creation
+exc#:#exc_ass_submission_zip#:#Submissions
+exc#:#exc_submission_file#:#Submission File
+exc#:#exc_submission_text#:#Submission Text
+common#:#open#:#Open
+exc#:#exc_down_files_started#:#Download of submission files has started.
+exc#:#exc_fixed_date#:#Festes Datum
+exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
+exc#:#exc_relative_date#:#Relatives Datum
+exc#:#exc_relative_date_info#:#Das Abgabedatum ergibt sich aus dem Bearbeitungszeitraum und dem durch den Teilnehmer gewählten Startzeitpunkt.
+exc#:#exc_earliest_start_time#:#Frühester Starttermin
+exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
+exc#:#exc_start_assignment#:#Übungseinheit starten
+exc#:#exc_needs_fixed_deadline#:#Diese Funktion benötigt ein festes Abgabedatum.
+exc#:#exc_tbl_calculated_deadline#:#Errechneter Abgabetermin

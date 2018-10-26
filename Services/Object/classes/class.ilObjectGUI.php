@@ -114,6 +114,11 @@ class ilObjectGUI
 	 */
 	protected $ctrl;
 
+	/**
+	 * @var ilObjectService
+	 */
+	protected $object_service;
+
 	const CFORM_NEW = 1;
 	const CFORM_IMPORT = 2;
 	const CFORM_CLONE = 3;
@@ -135,6 +140,7 @@ class ilObjectGUI
 		$this->settings = $DIC->settings();
 		$this->rbacreview = $DIC->rbac()->review();
 		$this->toolbar = $DIC->toolbar();
+		$this->object_service = $DIC->object();
 		$objDefinition = $DIC["objDefinition"];
 		$tpl = $DIC["tpl"];
 		$tree = $DIC->repositoryTree();
@@ -216,6 +222,15 @@ class ilObjectGUI
 		}
 	}
 	
+	/**
+	 * Get object service
+	 * 
+	 * @return ilObjectService
+	 */
+	protected function getObjectService()
+	{
+		return $this->object_service;
+	}
 	
 	/**
 	* execute command
@@ -469,6 +484,11 @@ class ilObjectGUI
 	 */
 	protected function insertHeaderAction($a_list_gui)
 	{
+		if (!is_object($this->object) || ilContainer::_lookupContainerSetting($this->object->getId(), "hide_top_actions"))
+		{
+			return;
+		}
+
 		if(is_object($a_list_gui))
 		{
 			$this->tpl->setHeaderActionMenu($a_list_gui->getHeaderAction());

@@ -553,6 +553,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function savePropertiesObject()
 	{		
 		$rbacsystem = $this->rbacsystem;
+		$obj_service = $this->object_service;
 		
 		$form = $this->initPropertiesForm();
 		if ($form->checkInput())
@@ -706,7 +707,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$this->object->setActivationLimited(false);
 				}
-								
+
+				// tile image
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+
 				if(!$template_settings["enabled_start_date"]["hide"])
 				{
 					$start = $form->getItemByPostVar("start_date");		
@@ -865,7 +870,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	 * @return ilPropertyFormGUI
 	 */
 	function initPropertiesForm()
-	{		
+	{
+		$obj_service = $this->object_service;
+
 		$template_settings = $hide_rte_switch = null;
 		$template = $this->object->getTemplate();
 		if($template)
@@ -982,7 +989,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$visible->setInfo($this->lng->txt('svy_activation_limited_visibility_info'));
 			$visible->setChecked($this->object->getActivationVisibility());
 			$dur->addSubItem($visible);
-			
+
+		// presentation
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_presentation'));
+		$form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 																		
 		// before start
 		

@@ -9,5 +9,5 @@ module.exports = function ReadCommandArguments(callback) {
 	var arguments = Handler.readArguments();
 	Container.setArguments(arguments);
 
-	callback();
+	callback(null);
 };

@@ -60,6 +60,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$ilTabs  = $DIC["ilTabs"];
 		$tree  = $DIC["tree"];
 		$ilAccess  = $DIC["ilAccess"];
+		$this->object_service = $DIC->object();
 		
 		if (!isset($ilErr))
 		{

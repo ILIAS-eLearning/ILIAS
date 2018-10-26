@@ -97,7 +97,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	protected $app_event_handler;
 
 	var $bl_cnt = 1;		// block counter
-	var $multi_download_enabled = false;	
+	var $multi_download_enabled = false;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 	
 	/**
 	* Constructor
@@ -125,6 +130,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->toolbar = $DIC->toolbar();
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		$this->ui = $DIC->ui();
 		$rbacsystem = $DIC->rbac()->system();
 		$lng = $DIC->language();
 
@@ -1904,6 +1910,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilUser = $this->user;
 		$ilErr = $this->error;
 		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+		$ui = $this->ui;
 
 		$command = $_SESSION['clipboard']['cmd'];
 		if(!in_array($command, array('cut', 'link', 'copy')))
@@ -2154,12 +2162,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 
 			$linked_targets = array();
+			$links = [];
 			if(count($linked_to_folders))
 			{
 				require_once 'Services/Link/classes/class.ilLink.php';
 				foreach($linked_to_folders as $ref_id => $title)
 				{
 					$linked_targets[] = '<a href="' . ilLink::_getLink($ref_id) . '">' . $title . '</a>';
+					$links[] = $ui->factory()->link()->standard($title, ilLink::_getLink($ref_id));
 				}
 			}
 
@@ -2168,7 +2178,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				$suffix = 's';
 			}
-			ilUtil::sendSuccess(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix), implode(', ', $linked_targets)), true);
+			
+			$mbox = $ui->factory()->messageBox()->success($this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix))
+				->withLinks($links);
+			
+			ilUtil::sendSuccess($ui->renderer()->render($mbox), true);
 		} // END LINK
 
 		// clear clipboard
@@ -3611,7 +3625,45 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		return $form;
 	}
-	
+
+	/**
+	 * Add list presentation settings to form
+	 * @param ilPropertyFormGUI $form
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initListPresentationForm(ilPropertyFormGUI $form)
+	{
+		$lpres = new ilRadioGroupInputGUI($this->lng->txt('cont_list_presentation'), "list_presentation");
+
+		$item_list = new ilRadioOption($this->lng->txt('cont_item_list'), "");
+		//$item_list->setInfo($this->lng->txt('cont_item_list_info'));
+		$lpres->addOption($item_list);
+
+		$tile_view = new ilRadioOption($this->lng->txt('cont_tile_view'), "tile");
+		//$tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
+		$lpres->addOption($tile_view);
+
+		$lpres->setValue(
+			ilContainer::_lookupContainerSetting($this->object->getId(), "list_presentation"));
+
+		$form->addItem($lpres);
+
+		return $form;
+	}
+
+	/**
+	 * Save list presentation setting
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function saveListPresentation(ilPropertyFormGUI $form)
+	{
+		$val = ($form->getInput('list_presentation') == "tile")
+			? "tile"
+			: "";
+		ilContainer::_writeContainerSetting($this->object->getId(), "list_presentation", $val);
+	}
+
+
 	/**
 	 * Add sorting direction
 	 * @param ilFormPropertyGUI $element

@@ -7,52 +7,36 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilCertificateMigrationGUI
  */
 class ilPersonalProfileGUI
 {
-    var $tpl;
-    var $lng;
-    var $ilias;
+	var $tpl;
+	var $lng;
+	var $ilias;
 	var $ctrl;
 
 	var $user_defined_fields = null;
 
-	/**
-	 * @var \ilTabsGUI
-	 */
-	protected $tabs;
-
-	/** @var \ilTermsOfServiceDocumentEvaluation */
-	protected $termsOfServiceEvaluation;
 
 	/**
-	 * constructor
-	 * @param \ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
-	 */
-    function __construct(
-		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null
-	)
-    {
-        global $DIC;
+	* constructor
+	*/
+	function __construct()
+	{
+		global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $this->tabs = $DIC->tabs();
-
-		if ($termsOfServiceEvaluation === null) {
-			$termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
-		}
-		$this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
 		$lng->loadLanguageModule("jsmath");
@@ -60,6 +44,7 @@ class ilPersonalProfileGUI
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
+		$ilCtrl->saveParameter($this, "prompted");
 		// $ilCtrl->saveParameter($this, "user_page");
 	}
 
@@ -87,6 +72,16 @@ class ilPersonalProfileGUI
 				$pub_profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "showPersonalData"));
 				$ilCtrl->forwardCommand($pub_profile_gui);
 				$tpl->show();
+				break;
+
+			case "ilcertificatemigrationgui":
+				include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
+				$cert_migration_gui = new \ilCertificateMigrationGUI();
+				$ret = $ilCtrl->forwardCommand($cert_migration_gui);
+				/** @var ilTemplate $tpl */
+				$tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$this->setTabs();
+				$this->showPersonalData(false, true);
 				break;
 			
 			default:
@@ -542,37 +537,6 @@ class ilPersonalProfileGUI
 	{
 		$this->showPersonalData();
 	}
-
-	/**
-	 * 
-	 */
-	protected function showUserAgreement()
-	{
-		$this->tabs->clearTargets();
-		$this->tabs->clearSubTabs();
-
-		$tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
-
-		$this->tpl->setTitle($this->lng->txt('usr_agreement'));
-
-		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
-		if ($handleDocument) {
-			$document = $this->termsOfServiceEvaluation->document();
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
-		} else {
-			$tpl->setVariable(
-				'TERMS_OF_SERVICE_CONTENT',
-				sprintf(
-					$this->lng->txt('no_agreement_description'),
-					'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
-				)
-			);
-		}
-
-		$this->tpl->setContent($tpl->get());
-		$this->tpl->setPermanentLink('usr', null, 'agreement');
-		$this->tpl->show();
-	}
 	
 	/**
 	 * Add location fields to form if activated
@@ -778,19 +742,28 @@ class ilPersonalProfileGUI
 	/**
 	* Personal data form.
 	*/
-	function showPersonalData($a_no_init = false)
+	function showPersonalData($a_no_init = false, $a_migration_started = false)
 	{
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
 		$lng = $DIC['lng'];
 		$ilTabs = $DIC['ilTabs'];
+		$prompt_service = new ilUserProfilePromptService();
 
 		$ilTabs->activateTab("personal_data");
 		$ctrl = $DIC->ctrl();
 
 		$setting = new ilSetting("user");
-		$it = $setting->get("user_profile_info_".$ilUser->getLanguage());
+		$it = "";
+		if ($_GET["prompted"] == 1)
+		{
+			$it = $prompt_service->data()->getSettings()->getPromptText($ilUser->getLanguage());
+		}
+		if ($it == "")
+		{
+			$it = $prompt_service->data()->getSettings()->getInfoText($ilUser->getLanguage());
+		}
 		if (trim($it) != "")
 		{
 			$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
@@ -817,6 +790,16 @@ class ilPersonalProfileGUI
 				ilUtil::sendInfo($lng->txt("profile_incomplete"));
 			}
 		}
+
+		if (!$a_migration_started) {
+		    $cert_ui_elements = new \ilCertificateMigrationUIElements();
+			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
+			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
+			$this->tpl->setCurrentBlock('mess');
+			$this->tpl->setVariable('MESSAGE', $messagebox);
+			$this->tpl->parseCurrentBlock('mess');
+		}
+
 		$this->tpl->setContent($this->form->getHTML());
 
 		$this->tpl->show();

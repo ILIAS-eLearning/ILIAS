@@ -30,7 +30,7 @@ class SpIsValidAudience implements
         }
 
         $entityId = $this->serviceProvider->getEntityId();
-        if (!in_array($entityId, $intendedAudiences)) {
+        if (!in_array($entityId, $intendedAudiences, true)) {
             $result->addError(sprintf(
                 'The configured Service Provider [%s] is not a valid audience for the assertion. Audiences: [%s]',
                 $entityId,

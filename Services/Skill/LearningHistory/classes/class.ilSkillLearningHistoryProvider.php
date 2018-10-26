@@ -54,4 +54,15 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 		return $entries;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getName(): string
+	{
+		$lng = $this->getLanguage();
+		$lng->loadLanguageModule("skmg");
+
+		return $lng->txt("skills");
+	}
+
 }

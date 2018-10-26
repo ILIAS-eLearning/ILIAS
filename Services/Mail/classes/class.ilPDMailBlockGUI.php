@@ -75,19 +75,17 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	 * Get block type
-	 * @return	string	Block type.
+	 * @inheritdoc
 	 */
-	static function getBlockType()
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	 * Get block type
-	 * @return	string	Block type.
+	 * @inheritdoc
 	 */
-	static function isRepositoryObject()
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

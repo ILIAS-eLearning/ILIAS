@@ -468,6 +468,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->object_service;
+
 		// default width
 		$ni = new ilNumberInputGUI($this->lng->txt("mep_default_width"), "default_width");
 		$ni->setMinValue(0);
@@ -484,6 +486,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ni->setSize(5);
 		$ni->setInfo($this->lng->txt("mep_default_width_height_info"));
 		$a_form->addItem($ni);
+
+		// presentation
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$a_form->addItem($pres);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 
 		// additional features
 		$feat = new ilFormSectionHeaderGUI();
@@ -549,8 +559,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->object_service;
+
 		$this->object->setDefaultWidth($a_form->getInput("default_width"));
 		$this->object->setDefaultHeight($a_form->getInput("default_height"));
+
 
 		// additional features
 		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
@@ -561,6 +574,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA
 			)
 		);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
 
 	}
 

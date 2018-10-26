@@ -4,7 +4,7 @@ var schedule = require('node-schedule');
 /**
  * @param {Function} callback
  */
-module.exports = function SetupClearMessagesProcess(callback) {
+module.exports = function SetupClearMessagesProcess(result, callback) {
 
 	if (Container.getServerConfig().hasOwnProperty('deletion_mode') &&
 		parseInt(Container.getServerConfig().deletion_mode, 10) === 1) {

@@ -13,7 +13,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectCustomIconConfigurationGUI, ilObjectTranslationGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI
 *
 * @extends ilObjectGUI
 */
@@ -50,6 +50,8 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->settings = $DIC->settings();
 		$this->type = "fold";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output, false);
+
+		$this->lng->loadLanguageModule("obj");
 	}
 
 
@@ -113,21 +115,6 @@ class ilObjFolderGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->prepareOutput();
-
-				$this->setSubTabs('settings');
-				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('icons');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
-				break;
 
 			case 'ilcoursecontentgui':
 				$this->prepareOutput();
@@ -263,16 +250,62 @@ class ilObjFolderGUI extends ilContainerGUI
 			$this->ctrl->returnToParent($this);
 		}
 	}
-	
 
-
-	protected function initEditCustomForm(ilPropertyFormGUI $a_form) 
+	/**
+	 * Init object edit form
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initEditForm()
 	{
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$obj_service = $this->getObjectService();
+
+		$lng->loadLanguageModule($this->object->getType());
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setSize(min(40, ilObject::TITLE_LENGTH));
+		$ti->setMaxLength(ilObject::TITLE_LENGTH);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
 		// Show didactic template type
-		$this->initDidacticTemplate($a_form);
-		
+		$this->initDidacticTemplate($form);
+
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('fold_presentation'));
+		$form->addItem($pres);
+
+		// title and icon visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		// top actions visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
+
+		// custom icon
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
+		// tile image
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
+
 		$this->initSortingForm(
-			$a_form,
+			$form,
 			array(
 				ilContainer::SORT_INHERIT,
 				ilContainer::SORT_TITLE,
@@ -280,6 +313,11 @@ class ilObjFolderGUI extends ilContainerGUI
 				ilContainer::SORT_MANUAL
 			)
 		);
+
+		$form->addCommandButton("update", $this->lng->txt("save"));
+		//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+
+		return $form;
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -293,6 +331,23 @@ class ilObjFolderGUI extends ilContainerGUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->getObjectService();
+
+		// title icon visibility
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTitleIconVisibility();
+
+		// top actions visibility
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTopActionsVisibility();
+
+		// custom icon
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveIcon();
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
+		// list presentation
+		$this->saveListPresentation($a_form);
+
 		$this->saveSortingSettings($a_form);
 	}
 	
@@ -591,14 +646,6 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->tabs_gui->addSubTab("settings_trans",
 			$this->lng->txt("obj_multilinguality"),
 			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
-
-		if ($this->ilias->getSetting('custom_icons')) {
-			$ilTabs->addSubTab(
-				'icons',
-				$lng->txt('icon_settings'),
-				$this->ctrl->getLinkTargetByClass('ilobjectcustomiconconfigurationgui')
-			);
-		}
 
 		$ilTabs->activateSubTab($a_tab);
 		$ilTabs->activateTab("settings");

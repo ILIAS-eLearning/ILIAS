@@ -46,4 +46,14 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 		return $entries;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getName(): string
+	{
+		$lng = $this->getLanguage();
+
+		return $lng->txt("obj_bdga");
+	}
+
 }

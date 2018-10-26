@@ -24,12 +24,16 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI
  *
  * @extends ilContainerGUI
  */
 class ilObjCourseGUI extends ilContainerGUI
 {
+	const BREADCRUMB_DEFAULT = 0;
+	const BREADCRUMB_CRS_ONLY = 1;
+	const BREADCRUMB_FULL_PATH = 2;
+
 	/**
 	 * Constructor
 	 * @access public
@@ -49,6 +53,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::__construct('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('cert');
+		$this->lng->loadLanguageModule('obj');
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
@@ -834,6 +840,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
+		$obj_service = $this->getObjectService();
+		$setting = $this->settings;
+			
 		$form = $this->initEditForm();
 
 		if(!$form->checkInput())
@@ -943,7 +952,25 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
-		
+
+		// title icon visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+		// top actions visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
+
+		ilContainer::_writeContainerSetting($this->object->getId(), "rep_breacrumb", $form->getInput('rep_breacrumb'));
+
+		// custom icon
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+		// list presentation
+		$this->saveListPresentation($form);
+
+
 		// view mode settings
 		$this->object->setViewMode((int) $form->getInput('view_mode'));
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -1096,6 +1123,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function initEditForm()
 	{
+		$obj_service = $this->getObjectService();
+		$setting = $this->settings;
+
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
@@ -1323,9 +1353,42 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
-		
-		$form->addItem($pres);		
-		
+
+		$form->addItem($pres);
+
+		// title and icon visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		// top actions visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
+
+		// breadcrumbs
+		if ($setting->get("rep_breadcr_crs_overwrite"))
+		{
+			$add = $setting->get("rep_breadcr_crs_default")
+				? " (".$this->lng->txt("crs_breadcrumb_crs_only").")"
+				: " (".$this->lng->txt("crs_breadcrumb_full_path").")";
+			$options = array(
+				self::BREADCRUMB_DEFAULT => $this->lng->txt("crs_sys_default").$add,
+				self::BREADCRUMB_CRS_ONLY => $this->lng->txt("crs_breadcrumb_crs_only"),
+				self::BREADCRUMB_FULL_PATH => $this->lng->txt("crs_breadcrumb_full_path")
+			);
+			$si = new ilSelectInputGUI($this->lng->txt("crs_shorten_breadcrumb"), "rep_breacrumb");
+			$si->setValue((int) ilContainer::_lookupContainerSetting($this->object->getId(), "rep_breacrumb"));
+			$si->setOptions($options);
+			$form->addItem($si);
+		}
+
+
+		// custom icon
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
+		// tile image
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
+
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
 		$view_type->setValue($this->object->getViewMode());
@@ -1557,14 +1620,6 @@ class ilObjCourseGUI extends ilContainerGUI
 					);
 				}
 
-				if ($this->ilias->getSetting('custom_icons')) {
-					$this->tabs_gui->addSubTabTarget(
-						'icon_settings',
-						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
-						'editCourseIcons', get_class($this)
-					);
-				}
-				
 				// map settings
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
 				if (ilMapUtil::isActivated())
@@ -2446,10 +2501,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilcertificategui":
 				$this->tabs_gui->activateTab("settings");
 				$this->setSubTabs("properties");
-				
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
+				$this->tabs_gui->activateSubTab('certificate');
+
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -2575,19 +2630,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->setSubTabs('properties');
-				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('icon_settings');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
-				break;
 
 			case 'ilobjecttranslationgui':
 				$this->checkPermissionBool("write");

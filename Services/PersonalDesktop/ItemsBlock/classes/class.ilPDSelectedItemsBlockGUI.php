@@ -153,7 +153,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/**
 	 * @inheritdoc
 	 */
-	static function getBlockType()
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
@@ -184,7 +184,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/**
 	 * @inheritdoc
 	 */
-	static function isRepositoryObject()
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}

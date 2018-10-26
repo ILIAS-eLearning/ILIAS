@@ -32,7 +32,7 @@ abstract class AbstractChainedValidator implements ChainedValidator
     {
         $lastException = null;
         foreach ($pemCandidates as $index => $candidateKey) {
-            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA1, array('type' => 'public'));
+            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type' => 'public'));
             $key->loadKey($candidateKey->getCertificate());
 
             try {
