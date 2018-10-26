@@ -15,11 +15,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      To do
+	 *      The standard filter is the default filter to be used in ILIAS. If there is no good reason using another filter instance in ILIAS, this is the one that should be used.
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: To do
+	 *     1: Standard filters MUST be used if there is no good reason using another instance.
 	 *
 	 * ---
 	 *
