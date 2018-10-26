@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\ItemInformation;
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;

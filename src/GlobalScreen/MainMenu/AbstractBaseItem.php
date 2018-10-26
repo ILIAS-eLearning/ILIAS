@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -38,6 +39,10 @@ abstract class AbstractBaseItem implements isItem {
 	 * @var bool
 	 */
 	protected $is_always_available = false;
+	/**
+	 * @var
+	 */
+	protected $type_information;
 
 
 	/**
@@ -201,5 +206,23 @@ abstract class AbstractBaseItem implements isItem {
 		$clone->position = $position;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTypeInformation(TypeInformation $information): isItem {
+		$this->type_information = $information;
+
+		return $this;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getTypeInformation(): TypeInformation {
+		return $this->type_information;
 	}
 }

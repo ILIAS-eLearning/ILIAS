@@ -1,5 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\BaseTypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
@@ -24,10 +28,6 @@ use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
  */
 class Main {
 
-	/**
-	 * @var TypeHandler[]
-	 */
-	private static $typehandlers = [];
 	/**
 	 * @var bool
 	 */
@@ -209,13 +209,9 @@ class Main {
 			 */
 			try {
 				$this->loaded = true;
+				$this->loadTypeInformation();
 				$this->loadTopItems();
 				$this->loadSubItems();
-				foreach ($this->providers as $provider) {
-					if ($provider instanceof StaticMainMenuProvider) {
-						$this->type_information_collection->append($provider->provideTypeInformation());
-					}
-				}
 			} catch (\Throwable $e) {
 				throw $e;
 			}
@@ -233,6 +229,9 @@ class Main {
 			foreach ($provider->getStaticTopItems() as $top_item) {
 				if ($top_item instanceof hasTitle && $this->information) {
 					$top_item = $this->information->translateItemForUser($top_item);
+				}
+				if ($top_item instanceof isItem) {
+					$top_item->setTypeInformation($this->type_information_collection->get(get_class($top_item)));
 				}
 				self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
 				self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
@@ -328,5 +327,14 @@ class Main {
 	 */
 	public function getTypeInformationCollection(): TypeInformationCollection {
 		return $this->type_information_collection;
+	}
+
+
+	private function loadTypeInformation() {
+		foreach ($this->providers as $provider) {
+			if ($provider instanceof StaticMainMenuProvider) {
+				$this->type_information_collection->append($provider->provideTypeInformation());
+			}
+		}
 	}
 }

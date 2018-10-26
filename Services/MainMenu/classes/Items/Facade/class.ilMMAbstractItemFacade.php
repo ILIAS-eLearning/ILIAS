@@ -11,7 +11,7 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 	/**
-	 * @var \ILIAS\GlobalScreen\Collector\MainMenu\TypeInformation
+	 * @var \ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation
 	 */
 	protected $type_information;
 	/**

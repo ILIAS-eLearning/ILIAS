@@ -1,8 +1,8 @@
-<?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
+<?php namespace ILIAS\GlobalScreen\Collector\MainMenu\Handler;
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\isItem;
-use ILIAS\UI\Component\Input\Field\Input;
 
 /**
  * Class BaseTypeHandler

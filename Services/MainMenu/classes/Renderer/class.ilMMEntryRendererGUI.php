@@ -39,132 +39,18 @@ class ilMMEntryRendererGUI {
 		/**
 		 * @var $top_item \ILIAS\GlobalScreen\MainMenu\isItem|\ILIAS\GlobalScreen\MainMenu\isTopItem
 		 */
+		$components = [];
+
 		foreach ($top_items as $top_item) {
-			$tpl->setVariable("ID", "mm_" . $top_item->getProviderIdentification()->getInternalIdentifier());
-
-			/**
-			 * @var $child Link
-			 */
-			$tpl->setCurrentBlock('mmentry');
-			$tpl->setVariable("TITLE", $top_item->getTitle());
-			if ($top_item instanceof TopParentItem || $top_item instanceof isParent) {
-				$this->handleTopParentItem($tpl, $top_item);
-			} elseif ($top_item instanceof TopLinkItem) {
-				$this->handleTopLinkItem($tpl, $top_item);
-			}
-
-			$tpl->parseCurrentBlock();
+			$components[] = $top_item->getTypeInformation()->getRenderer()->getComponentForItem($top_item);
 		}
+
+		$tpl->setVariable("ENTRIES", $DIC->ui()->renderer()->render($components));
 
 		$html = $tpl->get();
 
 		$storage->cache()->set($cacke_key, $html, 10);
 
 		return $html;
-	}
-
-
-	/**
-	 * @param ilGroupedListGUI $gl
-	 * @param hasTitle         $child
-	 * @param string           $identifier
-	 */
-	protected function addEntry(ilGroupedListGUI $gl, hasTitle $child, string $identifier) {
-		$target = $child instanceof hasAction ? ($child->isLinkWithExternalAction() ? "_blank" : "_top") : "_top";
-		$href = ($child instanceof hasAction) ? $child->getAction() : "#";
-		$tooltip = ilHelp::getMainMenuTooltip($identifier);
-		$a_id = "mm_" . $identifier;
-		$gl->addEntry(
-			$child->getTitle(), $href, $target, "", "", $a_id, $tooltip, "left center", "right center", false
-		);
-	}
-
-
-	/**
-	 * @param $child
-	 * @param $gl
-	 *
-	 * @throws ilTemplateException
-	 */
-	private function handleAsyncContent($child, $gl) {
-		$identifier = $child->getProviderIdentification()->getInternalIdentifier();
-		$atpl = new ilTemplate("tpl.self_loading_item.html", false, false, 'Services/MainMenu');
-		$atpl->setVariable("ASYNC_URL", $child->getAsyncContentURL());
-		$gl->addEntry(
-			$atpl->get(), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
-		);
-	}
-
-
-	/**
-	 * @param $child
-	 * @param $gl
-	 * @param $i
-	 */
-	private function handleLinkList($child, $gl, $i) {
-		if (count($child->getLinks()) > 0) {
-			$gl->addGroupHeader($child->getTitle());
-			foreach ($child->getLinks() as $link) {
-				$this->addEntry($gl, $link, $i);
-			}
-		}
-	}
-
-
-	/**
-	 * @param $tpl
-	 * @param $top_item
-	 *
-	 * @throws ilTemplateException
-	 */
-	private function handleTopParentItem($tpl, isParent $top_item) {
-		$tpl->setVariable("ACTION", "#");
-		$tpl->setVariable("CARET", "caret");
-		$tpl->setVariable("DROPDOWN_HANDLER", "class=\"dropdown-toggle\" data-toggle=\"dropdown\"");
-		// $tpl->setCurrentBlock('dropdown');
-		// $tpl->parseCurrentBlock();
-		$gl = new ilGroupedListGUI();
-		$gl->setAsDropDown(true);
-		foreach ($top_item->getChildren() as $child) {
-			$i = $child->getProviderIdentification()->getInternalIdentifier();
-			switch (true) {
-				case ($child instanceof hasAsyncContent):
-					$this->handleAsyncContent($child, $gl);
-					break;
-				case ($child instanceof LinkList):
-					$this->handleLinkList($child, $gl, $i);
-					break;
-				case ($child instanceof Separator):
-					$this->handleSeparator($child, $gl);
-					break;
-				case ($child instanceof hasAction && $child instanceof hasTitle):
-					$this->addEntry($gl, $child, $i);
-					break;
-			}
-		}
-		$tpl->setVariable("CONTENT", $gl->getHTML());
-	}
-
-
-	/**
-	 * @param ilTemplate $tpl
-	 * @param hasAction  $top_item
-	 */
-	private function handleTopLinkItem(ilTemplate $tpl, hasAction $top_item) {
-		$tpl->setVariable("ACTION", $top_item->getAction());
-		$tpl->setVariable("TARGET", $top_item->isLinkWithExternalAction() ? "_blank" : "_top");
-	}
-
-
-	/**
-	 * @param $child
-	 * @param $gl
-	 */
-	private function handleSeparator($child, $gl) {
-		if ($child->isTitleVisible()) {
-			$gl->addGroupHeader($child->getTitle());
-		} else {
-			$gl->addSeparator();
-		}
 	}
 }

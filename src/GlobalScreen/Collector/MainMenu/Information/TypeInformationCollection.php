@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
+<?php namespace ILIAS\GlobalScreen\Collector\MainMenu\Information;
+
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation;
 
 /**
  * Class TypeInformationCollection
@@ -31,7 +33,7 @@ final class TypeInformationCollection {
 			return $this->type_informations[$type];
 		}
 
-		return new TypeInformation($type, $type);
+		return new TypeInformation($type, $type, null);
 	}
 
 

@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformation;
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\MainMenu\Item\Complex;
 use ILIAS\GlobalScreen\MainMenu\Item\Link;
@@ -108,14 +108,14 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 	 */
 	public function provideTypeInformation(): TypeInformationCollection {
 		$c = new TypeInformationCollection();
-		$c->add(new TypeInformation(TopParentItem::class, $this->translateType(TopParentItem::class)));
-		$c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class), new ilMMTypeHandlerTopLink()));
-		$c->add(new TypeInformation(Link::class, $this->translateType(Link::class), new ilMMTypeHandlerLink()));
+		$c->add(new TypeInformation(TopParentItem::class, $this->translateType(TopParentItem::class), new ilMMTopParentItemRenderer()));
+		$c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class), new ilMMTopLinkItemRenderer(), new ilMMTypeHandlerTopLink()));
+		$c->add(new TypeInformation(Link::class, $this->translateType(Link::class), null, new ilMMTypeHandlerLink()));
 		$link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class));
 		$link_list->setCreationPrevented(true);
 		$c->add($link_list);
-		$c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), new ilMMTypeHandlerSeparator()));
-		$c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), new ilMMTypeHandlerRepositoryLink()));
+		$c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), null, new ilMMTypeHandlerSeparator()));
+		$c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), null, new ilMMTypeHandlerRepositoryLink()));
 		$complex = new TypeInformation(Complex::class, $this->translateType(Complex::class));
 		$complex->setCreationPrevented(true);
 		$c->add($complex);

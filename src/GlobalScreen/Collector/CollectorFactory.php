@@ -1,10 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Collector;
 
-use ILIAS\GlobalScreen\Collector\MainMenu\ItemInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
 use ILIAS\GlobalScreen\Collector\MainMenu\ItemSorting;
 use ILIAS\GlobalScreen\Collector\MainMenu\ItemTranslation;
 use ILIAS\GlobalScreen\Collector\MainMenu\Main;
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Provider\Provider;
 
 /**

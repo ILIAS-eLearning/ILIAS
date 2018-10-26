@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 

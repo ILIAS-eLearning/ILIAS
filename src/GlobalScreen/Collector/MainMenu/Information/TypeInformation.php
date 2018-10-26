@@ -1,5 +1,9 @@
-<?php namespace ILIAS\GlobalScreen\Collector\MainMenu;
+<?php namespace ILIAS\GlobalScreen\Collector\MainMenu\Information;
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\BaseTypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Renderer\BaseTypeRenderer;
+use ILIAS\GlobalScreen\Collector\MainMenu\Renderer\TypeRenderer;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isParent;
@@ -13,6 +17,10 @@ use ILIAS\GlobalScreen\MainMenu\Item\Lost;
  */
 final class TypeInformation {
 
+	/**
+	 * @var TypeRenderer
+	 */
+	private $renderer;
 	/**
 	 * @var
 	 */
@@ -38,15 +46,17 @@ final class TypeInformation {
 	/**
 	 * TypeInformation constructor.
 	 *
-	 * @param string      $type
-	 * @param string      $type_name_for_presentation
-	 * @param TypeHandler $type_handler
+	 * @param string       $type
+	 * @param string       $type_name_for_presentation
+	 * @param TypeRenderer $renderer
+	 * @param TypeHandler  $type_handler
 	 */
-	public function __construct(string $type, string $type_name_for_presentation, TypeHandler $type_handler = null) {
+	public function __construct(string $type, string $type_name_for_presentation, TypeRenderer $renderer = null, TypeHandler $type_handler = null) {
 		$this->instance = new $type(new NullIdentification());
 		$this->type = $type;
 		$this->type_name_for_presentation = $type_name_for_presentation;
 		$this->type_handler = $type_handler ? $type_handler : new BaseTypeHandler();
+		$this->renderer = $renderer ? $renderer : new BaseTypeRenderer();
 	}
 
 
@@ -147,5 +157,21 @@ final class TypeInformation {
 	 */
 	public function setTypeHandler(TypeHandler $type_handler) {
 		$this->type_handler = $type_handler;
+	}
+
+
+	/**
+	 * @return TypeRenderer
+	 */
+	public function getRenderer(): TypeRenderer {
+		return $this->renderer;
+	}
+
+
+	/**
+	 * @param TypeRenderer $renderer
+	 */
+	public function setRenderer(TypeRenderer $renderer) {
+		$this->renderer = $renderer;
 	}
 }

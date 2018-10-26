@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\ItemInformation;
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
@@ -283,9 +283,9 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 *
 	 * @param string $type
 	 *
-	 * @return \ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler
+	 * @return \ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler
 	 */
-	public function getTypeHandlerForType(string $type): \ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler {
+	public function getTypeHandlerForType(string $type): \ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler {
 		$item = $this->services->mainmenu()->custom($type, new NullIdentification());
 
 		return $this->main_collector->getHandlerForItem($item);

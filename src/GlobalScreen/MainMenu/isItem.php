@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -118,4 +119,18 @@ interface isItem {
 	 * @return isItem
 	 */
 	public function withAlwaysAvailable(bool $always_active): isItem;
+
+
+	/**
+	 * @param TypeInformation $information
+	 *
+	 * @return isItem
+	 */
+	public function setTypeInformation(TypeInformation $information): isItem;
+
+
+	/**
+	 * @return TypeInformation
+	 */
+	public function getTypeInformation(): TypeInformation;
 }

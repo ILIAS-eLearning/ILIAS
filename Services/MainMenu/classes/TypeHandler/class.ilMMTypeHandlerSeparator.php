@@ -7,7 +7,7 @@ use ILIAS\GlobalScreen\MainMenu\Item\Separator;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler {
+class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler {
 
 	/**
 	 * @inheritDoc

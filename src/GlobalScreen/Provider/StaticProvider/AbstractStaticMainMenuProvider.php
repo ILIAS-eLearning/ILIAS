@@ -1,8 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
 use ILIAS\DI\Container;
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
-use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
