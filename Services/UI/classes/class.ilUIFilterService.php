@@ -91,12 +91,12 @@ class ilUIFilterService
 
 		// get the filter
 		$filter = $ui->input()->container()->filter()->standard(
-			$base_action."&cmdFilter=".self::CMD_TOGGLE_ON,
-			$base_action."&cmdFilter=".self::CMD_TOGGLE_OFF,
-			$base_action."&cmdFilter=".self::CMD_EXPAND,
-			$base_action."&cmdFilter=".self::CMD_COLLAPSE,
-			$base_action."&cmdFilter=".self::CMD_APPLY,
-			$base_action."&cmdFilter=".self::CMD_RESET,
+			$this->request->getAction($base_action, self::CMD_TOGGLE_ON),
+			$this->request->getAction($base_action, self::CMD_TOGGLE_OFF),
+			$this->request->getAction($base_action, self::CMD_EXPAND),
+			$this->request->getAction($base_action, self::CMD_COLLAPSE),
+			$this->request->getAction($base_action, self::CMD_APPLY),
+			$this->request->getAction($base_action, self::CMD_RESET),
 			$inputs_with_session_data,
 			$is_input_initially_rendered_with_session,
 			$is_activated,

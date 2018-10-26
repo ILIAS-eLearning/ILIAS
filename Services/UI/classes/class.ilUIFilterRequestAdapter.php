@@ -78,4 +78,16 @@ class ilUIFilterRequestAdapter
 		return $filter->withRequest($this->request);
 	}
 
+	/**
+	 * Get action for filter command
+	 *
+	 * @param string $base_action
+	 * @param string $filter_cmd
+	 * @return string
+	 */
+	public function getAction(string $base_action, string $filter_cmd): string
+	{
+		return $base_action."&".self::CMD_PARAMETER."=".$filter_cmd;
+	}
+
 }
