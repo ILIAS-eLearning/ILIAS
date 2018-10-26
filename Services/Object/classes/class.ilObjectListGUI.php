@@ -1888,6 +1888,10 @@ class ilObjectListGUI
 				}
 			}
 		}
+		if (!is_array($props))
+		{
+			return [];
+		}
 		return $props;
 	}
 
