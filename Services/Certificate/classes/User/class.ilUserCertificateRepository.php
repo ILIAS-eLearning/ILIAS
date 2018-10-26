@@ -348,7 +348,10 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 			'integer'
 		);
 
-		$sql = 'SELECT obj_id FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND ' . $inStatementObjectIds;
+		$sql = 'SELECT obj_id FROM il_cert_user_cert
+ WHERE user_id = ' . $this->database->quote($userId, 'integer') .
+' AND ' . $inStatementObjectIds .
+' AND currently_active = '  .  $this->database->quote(1, 'integer');
 
 		$query = $this->database->query($sql);
 
@@ -366,7 +369,9 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	{
 		$this->logger->info(sprintf('START - Fetch certificate for object("%s")"', $objectId));
 
-		$sql = 'SELECT user_id FROM il_cert_user_cert WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
+		$sql = 'SELECT user_id FROM il_cert_user_cert
+WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
+ AND currently_active = '  .  $this->database->quote(1, 'integer');
 
 		$query = $this->database->query($sql);
 
