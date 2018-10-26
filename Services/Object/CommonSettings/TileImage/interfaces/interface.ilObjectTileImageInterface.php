@@ -35,7 +35,7 @@ interface ilObjectTileImageInterface
 	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
 	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
-	public function saveFromHttpRequest();
+	public function saveFromHttpRequest(string $tmpname);
 
 	/**
 	 * Does tile image file exist?

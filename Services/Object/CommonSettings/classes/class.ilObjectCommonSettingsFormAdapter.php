@@ -100,6 +100,12 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
 				$timg->setImage('');
 			}
 			$this->legacy_form->addItem($timg);
+
+			/*
+			$file = new ilFileStandardDropzoneInputGUI($lng->txt('obj_tile_image'), 'tile_image');
+			$file->setRequired(false);
+			$file->setSuffixes($tile_image_fac->getSupportedFileExtensions());
+			$this->legacy_form->addItem($file);*/
 		}
 
 		return $this->legacy_form;
@@ -122,9 +128,9 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
 				$tile_image->delete();
 			}
 
-			$file_data = (array)$this->legacy_form->getInput('tile_image');
+			$file_data = $this->legacy_form->getInput('tile_image');
 			if ($file_data['tmp_name']) {
-				$tile_image->saveFromHttpRequest();
+				$tile_image->saveFromHttpRequest($file_data['tmp_name']);
 			}
 		}
 	}

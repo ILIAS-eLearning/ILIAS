@@ -99,7 +99,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function saveFromHttpRequest()
+	public function saveFromHttpRequest(string $tmpname)
 	{
 		$this->createDirectory();
 
@@ -109,27 +109,35 @@ class ilObjectTileImage implements ilObjectTileImageInterface
 			$this->web->delete($file_name);
 		}
 
-		if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
-			$this->upload->process();
+		if ($this->upload->hasUploads()) {
+			if (!$this->upload->hasBeenProcessed())
+			{
+				$this->upload->process();
+			}
 
 			/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
-			$result = array_values($this->upload->getResults())[0];
-			$this->ext = pathinfo($result->getName(), PATHINFO_EXTENSION);
-			$file_name = $this->getRelativePath();
-			if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
-				$this->upload->moveOneFileTo(
-					$result,
-					$this->getRelativeDirectory(),
-					\ILIAS\FileUpload\Location::WEB,
-					$this->getFileName(),
-					true
-				);
+			$results = $this->upload->getResults();
+			if (isset($results[$tmpname]))
+			{
+				$result = $results[$tmpname];
+				$this->ext = pathinfo($result->getName(), PATHINFO_EXTENSION);
+				$file_name = $this->getRelativePath();
+				if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK)
+				{
+					$this->upload->moveOneFileTo(
+						$result,
+						$this->getRelativeDirectory(),
+						\ILIAS\FileUpload\Location::WEB,
+						$this->getFileName(),
+						true
+					);
 
 
-				$fullpath = CLIENT_WEB_DIR . "/" . $this->getRelativeDirectory() . "/" . 	$this->getFileName();
-				list($width, $height, $type, $attr) = getimagesize($fullpath);
-				$min = min($width, $height);
-				ilUtil::execConvert($fullpath . "[0] -geometry " . $min . "x" . $min . "^ -gravity center -extent " . $min . "x" . $min . " " . $fullpath);
+					$fullpath = CLIENT_WEB_DIR . "/" . $this->getRelativeDirectory() . "/" . $this->getFileName();
+					list($width, $height, $type, $attr) = getimagesize($fullpath);
+					$min = min($width, $height);
+					ilUtil::execConvert($fullpath . "[0] -geometry " . $min . "x" . $min . "^ -gravity center -extent " . $min . "x" . $min . " " . $fullpath);
+				}
 			}
 		}
 		$this->persistImageState($file_name);
