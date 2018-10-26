@@ -12,9 +12,72 @@
  */
 class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
 {
+	public function setValue($a_value)
+	{
+		if (is_array($a_value))
+		{
+			include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
+			if (is_array($a_value['points']))
+			{
+				foreach ($this->values as $idx => $key)
+				{
+					$this->values[$idx]->points = (
+						str_replace(",", ".", $a_value['points'][$idx])
+					);
+				}
+			}
+		}
+	}
+	
 	public function checkInput()
 	{
+		global $lng;
 		
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		$foundvalues = $_POST[$this->getPostVar()];
+		
+		if (is_array($foundvalues))
+		{
+			if (is_array($foundvalues['points']))
+			{
+				foreach ($foundvalues['points'] as $val)
+				{
+					if ($this->getRequired() && (strlen($val)) == 0)
+					{
+						$this->setAlert($lng->txt("msg_input_is_required"));
+						return FALSE;
+					}
+					if (!is_numeric(str_replace(",", ".", $val)))
+					{
+						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
+						return FALSE;
+					}
+					if((float)$val <= 0)
+					{
+						$this->setAlert($lng->txt("positive_numbers_required"));
+						return FALSE;
+					}
+				}
+			}
+			else
+			{
+				if ($this->getRequired())
+				{
+					$this->setAlert($lng->txt("msg_input_is_required"));
+					return FALSE;
+				}
+			}
+		}
+		else
+		{
+			if ($this->getRequired())
+			{
+				$this->setAlert($lng->txt("msg_input_is_required"));
+				return FALSE;
+			}
+		}
+		
+		return $this->checkSubItemsInput();
 	}
 	
 	public function insert($a_tpl)

@@ -639,4 +639,20 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		return $form;
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->flushErrorData();
+		foreach($form->getItemByPostVar('errordata')->getValues() as $idx => $errAnswer)
+		{
+			$this->object->addErrorData(
+				$errAnswer->text_wrong, $errAnswer->text_correct, $errAnswer->points
+			);
+		}
+		
+		$this->object->setPointsWrong((float)$form->getInput('points_wrong'));
+	}
 }
