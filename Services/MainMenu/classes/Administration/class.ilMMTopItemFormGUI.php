@@ -13,6 +13,7 @@ use ILIAS\UI\Renderer;
  */
 class ilMMTopItemFormGUI {
 
+	use ilMMHasher;
 	/**
 	 * @var \ILIAS\DI\HTTPServices
 	 */
@@ -145,15 +146,5 @@ class ilMMTopItemFormGUI {
 	 */
 	public function getHTML(): string {
 		return $this->ui_re->render([$this->form]);
-	}
-
-
-	private function hash($class_name): string {
-		return bin2hex($class_name);
-	}
-
-
-	private function unhash($class_name): string {
-		return hex2bin($class_name);
 	}
 }

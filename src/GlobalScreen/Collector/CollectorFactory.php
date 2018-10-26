@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Collector\MainMenu\ItemInformation;
 use ILIAS\GlobalScreen\Collector\MainMenu\ItemSorting;
 use ILIAS\GlobalScreen\Collector\MainMenu\ItemTranslation;
 use ILIAS\GlobalScreen\Collector\MainMenu\Main;
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
 use ILIAS\GlobalScreen\Provider\Provider;
 
 /**
@@ -24,6 +25,7 @@ class CollectorFactory {
 	 * @param ItemInformation|null $information
 	 *
 	 * @return Main
+	 * @throws \Throwable
 	 */
 	public function mainmenu(array $providers, ItemInformation $information = null): Main {
 		if (!isset(self::$instances['mainmenu'])) {

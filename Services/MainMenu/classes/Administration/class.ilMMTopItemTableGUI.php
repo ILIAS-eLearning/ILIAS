@@ -7,6 +7,7 @@
  */
 class ilMMTopItemTableGUI extends ilTable2GUI {
 
+	use ilMMHasher;
 	/**
 	 * @var ilMMCustomProvider
 	 */
@@ -38,6 +39,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		// $this->addColumn($this->lng->txt('topitem_mobile'));
 		$this->addColumn($this->lng->txt('topitem_subentries'));
 		$this->addColumn($this->lng->txt('topitem_css_id'));
+		$this->addColumn($this->lng->txt('topitem_type'));
 		$this->addColumn($this->lng->txt('topitem_provider'));
 		$this->addColumn($this->lng->txt('topitem_actions'));
 	}
@@ -59,18 +61,19 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('ID', $item_facade->getId());
 		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
+		$this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
 		$this->tpl->setVariable('CSS_ID', "mm_" . $item_facade->identification()->getInternalIdentifier());
 		$this->tpl->setVariable('POSITION', $position * 10);
 		if ($item_facade->isAvailable()) {
 			$this->tpl->touchBlock('is_active');
 		}
-		if ($item_facade->item()->isAlwaysAvailable()) {
+		if ($item_facade->isAlwaysAvailable() || !$item_facade->isAvailable()) {
 			$this->tpl->touchBlock('is_active_blocked');
 		}
 		$this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
 
-		$this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $a_set['identification']);
-		$this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $a_set['identification']);
+		$this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $this->hash($a_set['identification']));
+		$this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $this->hash($a_set['identification']));
 
 		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_EDIT));
 		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));

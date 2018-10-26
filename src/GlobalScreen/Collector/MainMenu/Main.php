@@ -7,7 +7,9 @@ use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isParent;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
+use ILIAS\GlobalScreen\MainMenu\Item\Lost;
 use ILIAS\GlobalScreen\MainMenu\Item\Separator;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 
@@ -39,6 +41,10 @@ class Main {
 	 */
 	private static $topitems = [];
 	/**
+	 * @var TypeInformationCollection
+	 */
+	private $type_information_collection;
+	/**
 	 * @var ItemInformation|null
 	 */
 	private $information;
@@ -64,9 +70,10 @@ class Main {
 		if (self::$constructed === true) {
 			throw new \LogicException("only one Instance of Main Collector is possible");
 		}
+		self::$constructed = true;
 		$this->information = $information;
 		$this->providers = $providers;
-		self::$constructed = true;
+		$this->type_information_collection = new TypeInformationCollection();
 		$this->load();
 	}
 
@@ -167,14 +174,15 @@ class Main {
 	/**
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return isTopItem
+	 * @return Lost
 	 */
-	private function getLostItem(IdentificationInterface $identification): isTopItem {
+	private function getLostItem(IdentificationInterface $identification): Lost {
 		global $DIC;
 
-		return $DIC->globalScreen()->mainmenu()->topParentItem(new NullIdentification($identification))
+		return $DIC->globalScreen()->mainmenu()->custom(Lost::class, new NullIdentification($identification))
 			->withTitle($DIC->language()->txt("deleted_item"))
 			->withAlwaysAvailable(true)
+			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('component_not_active')}"))
 			->withVisibilityCallable(
 				function () use ($DIC) {
 					return (bool)($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
@@ -205,12 +213,7 @@ class Main {
 				$this->loadSubItems();
 				foreach ($this->providers as $provider) {
 					if ($provider instanceof StaticMainMenuProvider) {
-						foreach ($provider->provideTypeHandlers() as $type_handler) {
-							if (isset(self::$typehandlers[$type_handler->matchesForType()])) {
-								throw new \LogicException("Can't register two Handlers for Type {$type_handler->matchesForType()}");
-							}
-							self::$typehandlers[$type_handler->matchesForType()] = $type_handler;
-						}
+						$this->type_information_collection->append($provider->provideTypeInformation());
 					}
 				}
 			} catch (\Throwable $e) {
@@ -272,23 +275,9 @@ class Main {
 	 * @return isItem
 	 */
 	private function applyTypeHandler(isItem $item): isItem {
-		if ($this->hasTypeHandler($item)) {
-			$item = $this->getHandlerForItem($item)->enrichItem($item);
-		}
+		$item = $this->getHandlerForItem($item)->enrichItem($item);
 
 		return $item;
-	}
-
-
-	/**
-	 * @param isItem $item
-	 *
-	 * @return bool
-	 */
-	public function hasTypeHandler(isItem $item): bool {
-		$type = get_class($item);
-
-		return isset(self::$typehandlers[$type]);
 	}
 
 
@@ -298,14 +287,15 @@ class Main {
 	 * @return TypeHandler
 	 */
 	public function getHandlerForItem(isItem $item): TypeHandler {
-		if (!$this->hasTypeHandler($item)) {
-			return new BaseTypeHandler();
-		}
 		/**
 		 * @var $handler TypeHandler
 		 */
 		$type = get_class($item);
-		$handler = self::$typehandlers[$type];
+		$type_information = $this->type_information_collection->get($type);
+		if (is_null($type_information)) {
+			return new BaseTypeHandler();
+		}
+		$handler = $type_information->getTypeHandler();
 
 		return $handler;
 	}
@@ -330,5 +320,13 @@ class Main {
 		}
 
 		return $children;
+	}
+
+
+	/**
+	 * @return TypeInformationCollection
+	 */
+	public function getTypeInformationCollection(): TypeInformationCollection {
+		return $this->type_information_collection;
 	}
 }

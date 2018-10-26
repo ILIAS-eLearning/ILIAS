@@ -1,14 +1,13 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Component/classes/class.ilComponent.php");
-include_once("./Services/Component/exceptions/class.ilPluginException.php");
+use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticPluginMainMenuProvider;
 
 /**
  * @defgroup ServicesComponent Services/Component
  *
  * @author   Alex Killing <alex.killing@gmx.de>
- * @version  $Id$
+ * @author   Fabian Schmid <fs@studer-raimann.ch>
  *
  * @ingroup  ServicesComponent
  */
@@ -409,7 +408,6 @@ abstract class ilPlugin {
 	 */
 	public function updateLanguages(array $a_lang_keys = null) {
 		ilGlobalCache::flushAll();
-		include_once("./Services/Language/classes/class.ilObjLanguage.php");
 
 		// get the keys of all installed languages if keys are not provided
 		if (!isset($a_lang_keys)) {
@@ -469,7 +467,7 @@ abstract class ilPlugin {
 		$ilDB = $DIC->database();
 		$lng = $DIC->language();
 
-		ilCachedComponentData::flush();
+		ilGlobalCache::flushAll();
 
 		$dbupdate = new ilPluginDBUpdate(
 			$this->getComponentType(),
@@ -488,6 +486,7 @@ abstract class ilPlugin {
 		}
 
 		$this->message .= $message;
+		ilGlobalCache::flushAll();
 
 		return $result;
 	}
@@ -976,7 +975,7 @@ abstract class ilPlugin {
 		$ilDB = $DIC->database();
 		$ilCtrl = $DIC->ctrl();
 
-		ilCachedComponentData::flush();
+		ilGlobalCache::flushAll();
 
 		$result = $this->beforeUpdate();
 		if ($result === false) {
@@ -1019,6 +1018,7 @@ abstract class ilPlugin {
 			$ilDB->manipulate($q);
 			$this->afterUpdate();
 		}
+		ilGlobalCache::flushAll();
 
 		return $result;
 	}
@@ -1229,5 +1229,13 @@ abstract class ilPlugin {
 		if ($rec = $ilDB->fetchAssoc($set)) {
 			return $rec["plugin_id"];
 		}
+	}
+
+
+	/**
+	 * @return AbstractStaticPluginMainMenuProvider
+	 */
+	public function promoteGlobalScreenProvider(): AbstractStaticPluginMainMenuProvider {
+		return new ilPluginGlobalScreenNullProvider();
 	}
 }

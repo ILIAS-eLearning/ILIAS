@@ -11,6 +11,10 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 	/**
+	 * @var \ILIAS\GlobalScreen\Collector\MainMenu\TypeInformation
+	 */
+	protected $type_information;
+	/**
 	 * @var ilMMItemStorage
 	 */
 	protected $mm_item;
@@ -39,6 +43,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector) {
 		$this->identification = $identification;
 		$this->gs_item = $collector->getSingleItem($identification);
+		$this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->gs_item));
 		$this->mm_item = ilMMItemStorage::register($this->gs_item);
 	}
 
@@ -112,6 +117,14 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	/**
+	 * @inheritDoc
+	 */
+	public function isAlwaysAvailable(): bool {
+		return $this->item()->isAlwaysAvailable();
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function getProviderNameForPresentation(): string {
@@ -157,9 +170,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 * @throws ReflectionException
 	 */
 	public function getTypeForPresentation(): string {
-		$reflect = new ReflectionClass($this->gs_item);
-
-		return $reflect->getShortName();
+		return $this->type_information->getTypeNameForPresentation();
 	}
 
 
@@ -196,7 +207,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 * @inheritDoc
 	 */
 	public function getType(): string {
-		return get_class($this->gs_item);
+		return $this->type_information->getType();
 	}
 
 

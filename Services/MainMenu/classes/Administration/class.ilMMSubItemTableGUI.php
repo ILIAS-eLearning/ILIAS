@@ -7,6 +7,7 @@
  */
 class ilMMSubItemTableGUI extends ilTable2GUI {
 
+	use ilMMHasher;
 	/**
 	 * @var array
 	 */
@@ -91,7 +92,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 			$position = 1;
 		}
 		$this->tpl->setVariable('IDENTIFIER', self::IDENTIFIER);
-		$this->tpl->setVariable('ID', $item_facade->getId());
+		$this->tpl->setVariable('ID', $this->hash($item_facade->getId()));
 		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('PARENT', $this->getSelect($item_facade)->render());
 		$this->tpl->setVariable('STATUS', $item_facade->getStatus());
@@ -106,8 +107,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
 		$this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
 
-		$this->ctrl->setParameterByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::IDENTIFIER, $a_set['identification']);
-		$this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $a_set['identification']);
+		$this->ctrl->setParameterByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::IDENTIFIER, $this->hash($a_set['identification']));
+		$this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $this->hash($a_set['identification']));
 
 		$items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT));
 		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
@@ -125,9 +126,9 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 * @return ilSelectInputGUI
 	 */
 	private function getSelect(ilMMItemFacadeInterface $child): ilSelectInputGUI {
-		$s = new ilSelectInputGUI('', self::IDENTIFIER . "[{$child->getId()}][parent]");
+		$s = new ilSelectInputGUI('', self::IDENTIFIER . "[{$this->hash($child->getId())}][parent]");
 		$s->setOptions($this->getPossibleParentsForFormAndTable());
-		$s->setValue($child->getParentIdentificationString());
+		$s->setValue($this->hash($child->getParentIdentificationString()));
 
 		return $s;
 	}
@@ -137,7 +138,12 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 * @return array
 	 */
 	public function getPossibleParentsForFormAndTable(): array {
-		return $this->item_repository->getPossibleParentsForFormAndTable();
+		$parents = [];
+		foreach ($this->item_repository->getPossibleParentsForFormAndTable() as $identification => $name) {
+			$parents[$this->hash($identification)] = $name;
+		}
+
+		return $parents;
 	}
 
 

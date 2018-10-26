@@ -11,6 +11,7 @@ use ILIAS\UI\Renderer;
  */
 class ilMMSubitemFormGUI {
 
+	use ilMMHasher;
 	const F_TITLE = "title";
 	const F_TYPE = "type";
 	const F_PARENT = "parent";
@@ -97,6 +98,8 @@ class ilMMSubitemFormGUI {
 			->withRequired(true);
 		if (!$this->item_facade->isEmpty()) {
 			$parent = $parent->withValue($this->item_facade->getParentIdentificationString());
+		}else {
+			$parent = $parent->withValue(reset(array_keys($this->repository->getPossibleParentsForFormAndTable())));
 		}
 		$items[self::F_PARENT] = $parent;
 
@@ -151,15 +154,5 @@ class ilMMSubitemFormGUI {
 
 	public function getHTML() {
 		return $this->ui_re->render([$this->form]);
-	}
-
-
-	private function hash($class_name): string {
-		return bin2hex($class_name);
-	}
-
-
-	private function unhash($class_name): string {
-		return hex2bin($class_name);
 	}
 }

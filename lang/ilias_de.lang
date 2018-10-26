@@ -14478,6 +14478,12 @@ mme#:#field_url_info#:#Link zu der gewünschten Website, beginnend mit http(s):/
 mme#:#field_ref_id#:#ILIAS Referenz-ID
 mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin, Sie finden die Referenz-ID in der URL eines Onjektes (...?ref_id=123)
 common#:#obj_mme#:#Hauptmenu
+mme#:#type_top_parent_item#:#Container
+mme#:#type_top_link_item#:#Link
+mme#:#type_separator#:#Trenner
+mme#:#type_link#:#Link
+mme#:#type_link_list#:#Link Liste
+mme#:#type_complex#:#Komplex
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.

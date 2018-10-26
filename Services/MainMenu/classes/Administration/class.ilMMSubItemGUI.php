@@ -10,6 +10,7 @@
  */
 class ilMMSubItemGUI {
 
+	use ilMMHasher;
 	const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
 	const CMD_ADD = 'subitem_add';
 	const CMD_CREATE = 'subitem_create';
@@ -132,11 +133,11 @@ class ilMMSubItemGUI {
 		global $DIC;
 		$r = $DIC->http()->request()->getParsedBody();
 		foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
-			$item = $this->repository->getItemFacadeForIdentificationString($identification_string);
+			$item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
 			$position = (int)$data['position'];
 			$item->setPosition($position);
 			$item->setActiveStatus((bool)$data['active']);
-			$item->setParent((string)$data['parent']);
+			$item->setParent($this->unhash((string)$data['parent']));
 			$this->repository->updateItem($item);
 		}
 		$this->cancel();
@@ -150,7 +151,9 @@ class ilMMSubItemGUI {
 	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
 		global $DIC;
 
-		return $this->repository->getItemFacadeForIdentificationString($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+		$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+
+		return $this->repository->getItemFacadeForIdentificationString($identification);
 	}
 
 
@@ -286,7 +289,7 @@ class ilMMSubItemGUI {
 		$this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
 		$i = $this->getMMItemFromRequest();
 		$c = new ilConfirmationGUI();
-		$c->addItem(self::IDENTIFIER, $i->getId(), $i->getDefaultTitle());
+		$c->addItem(self::IDENTIFIER, $this->hash($i->getId()), $i->getDefaultTitle());
 		$c->setFormAction($this->ctrl->getFormActionByClass(self::class));
 		$c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_DELETE);
 		$c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);

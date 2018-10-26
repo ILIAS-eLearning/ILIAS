@@ -1,6 +1,16 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\MainMenu\Item\Complex;
+use ILIAS\GlobalScreen\MainMenu\Item\Link;
+use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
+use ILIAS\GlobalScreen\MainMenu\Item\Lost;
+use ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink;
+use ILIAS\GlobalScreen\MainMenu\Item\Separator;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
 use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 
@@ -18,7 +28,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem[]
+	 * @return TopParentItem[]
 	 */
 	public function getStaticTopItems(): array {
 		/**
@@ -96,10 +106,36 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 	/**
 	 * @inheritDoc
 	 */
-	public function provideTypeHandlers(): array {
-		return [new ilMMTypeHandlerLink(),
-		        new ilMMTypeHandlerTopLink(),
-		        new ilMMTypeHandlerRepositoryLink(),
-		        new ilMMTypeHandlerSeparator()];
+	public function provideTypeInformation(): TypeInformationCollection {
+		$c = new TypeInformationCollection();
+		$c->add(new TypeInformation(TopParentItem::class, $this->translateType(TopParentItem::class)));
+		$c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class), new ilMMTypeHandlerTopLink()));
+		$c->add(new TypeInformation(Link::class, $this->translateType(Link::class), new ilMMTypeHandlerLink()));
+		$link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class));
+		$link_list->setCreationPrevented(true);
+		$c->add($link_list);
+		$c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), new ilMMTypeHandlerSeparator()));
+		$c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), new ilMMTypeHandlerRepositoryLink()));
+		$complex = new TypeInformation(Complex::class, $this->translateType(Complex::class));
+		$complex->setCreationPrevented(true);
+		$c->add($complex);
+		$lost = new TypeInformation(Lost::class, $this->translateType(Lost::class));
+		$lost->setCreationPrevented(true);
+		$c->add($lost);
+
+		return $c;
+	}
+
+
+	/**
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	private function translateType(string $type): string {
+		$last_part = substr(strrchr($type, "\\"), 1);
+		$last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
+
+		return $this->dic->language()->txt("type_" . strtolower($last_part));
 	}
 }

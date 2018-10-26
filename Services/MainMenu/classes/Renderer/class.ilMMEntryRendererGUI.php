@@ -1,11 +1,14 @@
 <?php
 
 use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
+use ILIAS\GlobalScreen\MainMenu\isParent;
 use ILIAS\GlobalScreen\MainMenu\Item\Separator;
 use ILIAS\GlobalScreen\MainMenu\Item\Link;
 use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
  * Class ilMMEntryRendererGUI
@@ -44,9 +47,9 @@ class ilMMEntryRendererGUI {
 			 */
 			$tpl->setCurrentBlock('mmentry');
 			$tpl->setVariable("TITLE", $top_item->getTitle());
-			if ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem) {
+			if ($top_item instanceof TopParentItem || $top_item instanceof isParent) {
 				$this->handleTopParentItem($tpl, $top_item);
-			} elseif ($top_item instanceof \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem) {
+			} elseif ($top_item instanceof TopLinkItem) {
 				$this->handleTopLinkItem($tpl, $top_item);
 			}
 
@@ -114,7 +117,7 @@ class ilMMEntryRendererGUI {
 	 *
 	 * @throws ilTemplateException
 	 */
-	private function handleTopParentItem($tpl, $top_item) {
+	private function handleTopParentItem($tpl, isParent $top_item) {
 		$tpl->setVariable("ACTION", "#");
 		$tpl->setVariable("CARET", "caret");
 		$tpl->setVariable("DROPDOWN_HANDLER", "class=\"dropdown-toggle\" data-toggle=\"dropdown\"");

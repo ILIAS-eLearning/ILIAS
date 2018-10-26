@@ -66,6 +66,12 @@ interface ilMMItemFacadeInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isAlwaysAvailable(): bool;
+
+
+	/**
 	 * @return string
 	 */
 	public function getDefaultTitle(): string;

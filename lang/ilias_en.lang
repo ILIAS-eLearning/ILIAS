@@ -14482,6 +14482,12 @@ mme#:#field_url_info#:#Link to the desired website, lead by http(s)://
 mme#:#field_ref_id#:#ILIAS Reference-ID
 mme#:#field_ref_id_info#:#The Reference-ID of the desired ILIAS-Object from the Repository, you find the Reference-ID in the URL of a object (...?ref_id=123)
 common#:#obj_mme#:#Main Menu
+mme#:#type_top_parent_item#:#Container
+mme#:#type_top_link_item#:#Link
+mme#:#type_separator#:#Separator
+mme#:#type_link#:#Link
+mme#:#type_link_list#:#Link List
+mme#:#type_complex#:#Komplex
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.

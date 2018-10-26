@@ -43,10 +43,13 @@ class ilGSRepository {
 		 * @var $identification_storage ilGSIdentificationStorage
 		 */
 		$identifications = [];
-		foreach (
-			ilGSIdentificationStorage::innerjoinAR(new ilGSProviderStorage(), 'provider_class', 'provider_class', ['purpose'])->where(
+		/*
+		 * innerjoinAR(new ilGSProviderStorage(), 'provider_class', 'provider_class', ['purpose'])->where(
 				"il_gs_providers.purpose = " . $this->storage->db()->quote($purpose, 'text')
-			)->get() as $identification_storage
+			)->
+		 */
+		foreach (
+			ilGSIdentificationStorage::get() as $identification_storage
 		) {
 			$identifications[] = $this->getIdentificationFromStorage($identification_storage);
 		};

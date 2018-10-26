@@ -20,8 +20,8 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
 	 * @inheritdoc
 	 */
 	public function enrichItem(isItem $item): isItem {
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()])) {
-			$item = $item->withRefId((int)$this->links[$item->getProviderIdentification()->serialize()]);
+		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
+			$item = $item->withRefId((int)$this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION]);
 		}
 
 		return $item;
@@ -34,8 +34,8 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
 	public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): array {
 		global $DIC;
 		$url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation());
-		if (isset($this->links[$identification->serialize()]) && is_numeric($this->links[$identification->serialize()])) {
-			$url = $url->withValue((int)$this->links[$identification->serialize()]);
+		if (isset($this->links[$identification->serialize()][self::F_ACTION]) && is_numeric($this->links[$identification->serialize()][self::F_ACTION])) {
+			$url = $url->withValue((int)$this->links[$identification->serialize()][self::F_ACTION]);
 		}
 
 		return [self::F_ACTION => $url];
@@ -50,6 +50,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
 
 		return $DIC->language()->txt("field_ref_id");
 	}
+
 
 	/**
 	 * @inheritDoc

@@ -36,4 +36,12 @@ class PluginIdentification extends AbstractIdentification implements Identificat
 	public function getPluginId(): string {
 		return $this->plugin_id;
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getProviderNameForPresentation(): string {
+		return $this->plugin_id;
+	}
 }

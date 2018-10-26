@@ -19,6 +19,10 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 	 * @var
 	 */
 	private $active_status;
+	/**
+	 * @var bool
+	 */
+	protected $top_item = false;
 
 
 	/**
@@ -26,6 +30,23 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 	 */
 	public function __construct(IdentificationInterface $identification, Main $collector) {
 		$this->identification = $identification;
+		parent::__construct($identification, $collector);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isTopItem(): bool {
+		return $this->top_item;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setIsTopItm(bool $top_item) {
+		$this->top_item = $top_item;
 	}
 
 
@@ -84,6 +105,43 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 		}
 
 		parent::create();
+	}
+
+
+	public function isAvailable(): bool {
+		return false;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isAlwaysAvailable(): bool {
+		return false;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function delete() {
+		$serialize = $this->identification->serialize();
+		$gs = ilGSIdentificationStorage::find($serialize);
+		if ($gs instanceof ilGSIdentificationStorage) {
+			$gs->delete();
+		}
+		$mm = ilMMItemStorage::find($serialize);
+		if ($mm instanceof ilMMItemStorage) {
+			$mm->delete();
+		}
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getProviderNameForPresentation(): string {
+		return $this->identification->getProviderNameForPresentation();
 	}
 }
 

@@ -2,7 +2,9 @@
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
+use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 
@@ -71,7 +73,7 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	/**
 	 * @inheritDoc
 	 */
-	public function provideTypeHandlers(): array {
-		return array();
+	public function provideTypeInformation(): TypeInformationCollection {
+		return new TypeInformationCollection();
 	}
 }

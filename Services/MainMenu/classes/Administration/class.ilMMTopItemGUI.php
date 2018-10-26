@@ -10,6 +10,7 @@
  */
 class ilMMTopItemGUI {
 
+	use ilMMHasher;
 	const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
 	const CMD_ADD = 'topitem_add';
 	const CMD_CREATE = 'topitem_create';
@@ -86,7 +87,9 @@ class ilMMTopItemGUI {
 	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
 		global $DIC;
 
-		return $this->repository->getItemFacadeForIdentificationString($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+		$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+
+		return $this->repository->getItemFacadeForIdentificationString($identification);
 	}
 
 
@@ -260,7 +263,7 @@ class ilMMTopItemGUI {
 		$this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
 		$i = $this->getMMItemFromRequest();
 		$c = new ilConfirmationGUI();
-		$c->addItem(self::IDENTIFIER, $i->getId(), $i->getDefaultTitle());
+		$c->addItem(self::IDENTIFIER, $this->hash($i->getId()), $i->getDefaultTitle());
 		$c->setFormAction($this->ctrl->getFormActionByClass(self::class));
 		$c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_DELETE);
 		$c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);

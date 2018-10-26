@@ -42,7 +42,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
 	 * @inheritdoc
 	 */
 	public function saveFormFields(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $data): bool {
-		ilMMTypeActionStorage::find($identification->serialize())->setAction($data[self::F_ACTION])->setExternal($data[self::F_EXTERNAL])->update();
+		ilMMTypeActionStorage::find($identification->serialize())->setAction((string)$data[self::F_ACTION])->setExternal((bool)$data[self::F_EXTERNAL])->update();
 
 		return true;
 	}

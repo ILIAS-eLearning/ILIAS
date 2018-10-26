@@ -1,9 +1,14 @@
 <?php
 
 use ILIAS\GlobalScreen\Collector\MainMenu\ItemInformation;
+use ILIAS\GlobalScreen\Collector\MainMenu\TypeInformationCollection;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\MainMenu\isChild;
+use ILIAS\GlobalScreen\MainMenu\Item\Complex;
+use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
 
 /**
  * Class ilMMItemRepository
@@ -73,7 +78,7 @@ class ilMMItemRepository {
 	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
 	 */
 	public function getEmptyItemForTypeString(string $class_name): \ILIAS\GlobalScreen\MainMenu\isItem {
-		return $this->services->mainmenu()->custom($class_name, new  \ILIAS\GlobalScreen\Identification\NullIdentification());
+		return $this->services->mainmenu()->custom($class_name, new  NullIdentification());
 	}
 
 
@@ -111,11 +116,15 @@ class ilMMItemRepository {
 	 */
 	private function initProviders(): array {
 		$providers = [];
+		// Core
 		foreach (ilGSProviderStorage::get() as $provider_storage) {
 			/**
 			 * @var $provider_storage ilGSProviderStorage
 			 */
 			$providers[] = $provider_storage->getInstance();
+		}
+		foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
+			$providers[] = $provider;
 		}
 
 		return $providers;
@@ -169,8 +178,8 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 * @throws Throwable
 	 */
 	public function getItemFacade(IdentificationInterface $identification = null): ilMMItemFacadeInterface {
-		if ($identification === null) {
-			return new ilMMNullItemFacade(new \ILIAS\GlobalScreen\Identification\NullIdentification(), $this->main_collector);
+		if ($identification === null || $identification instanceof NullIdentification || $identification instanceof NullPluginIdentification) {
+			return new ilMMNullItemFacade($identification ? $identification : new NullIdentification(), $this->main_collector);
 		}
 		if ($identification->getClassName() === ilMMCustomProvider::class) {
 			return new ilMMCustomItemFacade($identification, $this->main_collector);
@@ -195,6 +204,12 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
 	private function sync(): bool {
 		if ($this->synced === false || $this->synced === null) {
+			foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
+				foreach ($provider->getAllIdentifications() as $identification) {
+					ilGSIdentificationStorage::registerIdentification($identification, $provider);
+				}
+			}
+
 			$this->storage->db()->manipulate(
 				"DELETE il_mm_items FROM il_mm_items 
   						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification 
@@ -234,34 +249,44 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 * @return array
 	 */
 	public function getPossibleSubItemTypesForForm(): array {
-		return [
-			\ILIAS\GlobalScreen\MainMenu\Item\Link::class           => "Link",
-			\ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink::class => "RepositoryLink",
-			\ILIAS\GlobalScreen\MainMenu\Item\Separator::class      => "Separator",
-		];
+		$types = [];
+		foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
+			if ($information->isCreationPrevented()) {
+				continue;
+			}
+			if ($information->isChild()) {
+				$types[$information->getType()] = $information->getTypeNameForPresentation();
+			}
+		}
+
+		return $types;
 	}
 
 
 	/**
-	 * FSX get from Main
-	 *
 	 * @return array
 	 */
 	public function getPossibleTopItemTypesForForm(): array {
-		return [
-			\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem::class => "TopParentItem",
-			\ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem::class   => "TopLinkItem",
-		];
+		$types = [];
+		foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
+			if ($information->isTop()) {
+				$types[$information->getType()] = $information->getTypeNameForPresentation();
+			}
+		}
+
+		return $types;
 	}
 
 
 	/**
+	 * @deprecated
+	 *
 	 * @param string $type
 	 *
 	 * @return \ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler
 	 */
 	public function getTypeHandlerForType(string $type): \ILIAS\GlobalScreen\Collector\MainMenu\TypeHandler {
-		$item = $this->services->mainmenu()->custom($type, new \ILIAS\GlobalScreen\Identification\NullIdentification());
+		$item = $this->services->mainmenu()->custom($type, new NullIdentification());
 
 		return $this->main_collector->getHandlerForItem($item);
 	}
