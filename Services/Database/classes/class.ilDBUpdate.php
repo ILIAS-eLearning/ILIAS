@@ -85,7 +85,7 @@ class ilDBUpdate {
 		// NOTE: IF YOU ADD A NEW FILE HERE, CHANGE ALSO THE CONSTRUCTOR
 		//
 		switch (true) {
-			case ((int)$a_version > 5355): // last number in previous file
+			case ((int)$a_version > 5366): // last number in previous file
 				return "dbupdate_05.php";
 			case ((int)$a_version > 4182): // last number in previous file
 				return "dbupdate_04.php";
