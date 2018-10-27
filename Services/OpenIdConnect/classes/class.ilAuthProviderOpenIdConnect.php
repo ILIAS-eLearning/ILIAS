@@ -33,9 +33,13 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 	 */
 	public function handleLogout()
 	{
-		$auth_token = ilSession::get('oidc_auth_token');
+		if($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL)
+		{
+			return false;
+		}
 
-		$this->getLogger()->info('Using token: ' . $auth_token);
+		$auth_token = ilSession::get('oidc_auth_token');
+		$this->getLogger()->debug('Using token: ' . $auth_token);
 
 		if(strlen($auth_token))
 		{
@@ -45,10 +49,6 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 				$auth_token,
 				ILIAS_HTTP_PATH.'/logout.php'
 			);
-		}
-		else
-		{
-			$this->getLogger()->info('No valid token found');
 		}
 	}
 
@@ -79,12 +79,13 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 					'openid'
 				]
 			);
-			$oidc->addAuthParam(
-				[
-					'response_mode' => 'form_post',
-					'prompt' => 'consent'
-				]
-			);
+			$oidc->addAuthParam(['response_mode' => 'form_post']);
+			switch($this->settings->getLoginPromptType())
+			{
+				case ilOpenIdConnectSettings::LOGIN_ENFORCE:
+					$oidc->addAuthParam(['prompt' => 'login']);
+					break;
+			}
 			$oidc->setAllowImplicitFlow(true);
 
 			$oidc->authenticate();
@@ -92,18 +93,16 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			$this->getLogger()->dump($_REQUEST);
 
 			$claims = $oidc->getVerifiedClaims(null);
+			$status = $this->handleUpdate($status, $claims);
 
-			$this->getLogger()->info('User is authenticated');
-			$this->getLogger()->dump($claims);
+			if($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL)
+			{
+				$token = $oidc->requestClientCredentialsToken();
+				ilSession::set('oidc_auth_token', $token->access_token);
+			}
 
 
-			$token = $oidc->requestClientCredentialsToken();
 
-
-			ilSession::set('oidc_auth_token', $token->access_token);
-
-			$status->setAuthenticatedUserId(6);
-			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 			return true;
 		}
 		catch(Exception $e) {
@@ -113,6 +112,56 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			$status->setTranslatedReason($e->getMessage());
 			return false;
 		}
+	}
+
+
+	/**
+	 * @param ilAuthStatus $status
+	 * @param array $user_info
+	 */
+	private function handleUpdate(ilAuthStatus $status,$user_info)
+	{
+		if(!is_object($user_info))
+		{
+			$this->getLogger()->error('Received invalid user credentials: ');
+			$this->getLogger()->dump($user_info,ilLogLevel::ERROR);
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+			$status->setReason('err_wrong_login');
+			return false;
+		}
+
+
+		$uid_field = $this->settings->getUidField();
+		$ext_acocunt = $user_info->$uid_field;
+		$this->getLogger()->debug('Authenticated external account: ' . $ext_acocunt);
+
+		$int_account = ilObjUser::_checkExternalAuthAccount(
+			'auth_oidc',
+			$ext_acocunt
+		);
+		if($int_account)
+		{
+			$this->getLogger()->debug('User is authenticated: ' . $int_account);
+			$this->getLogger()->dump($user_info);
+
+			ilSession::set('used_external_auth', true);
+			$status->setAuthenticatedUserId(
+				ilObjUser::_lookupId($int_account)
+			);
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+		}
+		else
+		{
+			if(!$this->settings->isSyncAllowed())
+			{
+				$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+				$status->setReason('err_wrong_login');
+				return false;
+			}
+		}
+
+
+		return $status;
 	}
 
 	/**
