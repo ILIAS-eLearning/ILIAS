@@ -1242,4 +1242,17 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$pairs->setPairs( $this->object->getMatchingPairs() );
 		$form->addItem( $pairs );
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$pairs = $form->getItemByPostVar('pairs')->getPairs();
+		
+		foreach($this->object->getMatchingPairs() as $idx => $matchingPair)
+		{
+			$matchingPair->points = (float)$pairs[$idx]->points; 
+		}
+	}
 }

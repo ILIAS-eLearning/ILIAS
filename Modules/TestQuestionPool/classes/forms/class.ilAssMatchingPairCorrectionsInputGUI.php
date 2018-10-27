@@ -12,8 +12,59 @@
  */
 class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
 {
+	public function getPairs()
+	{
+		return $this->pairs;
+	}
+	
+	public function setValue($a_value)
+	{
+		if (is_array($a_value))
+		{
+			if (is_array($a_value['points']))
+			{
+				foreach ($a_value['points'] as $idx => $term)
+				{
+					$this->pairs[$idx]->points = $a_value['points'][$idx];
+				}
+			}
+		}
+	}
+	
 	public function checkInput()
 	{
+		global $lng;
+		
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		$foundvalues = $_POST[$this->getPostVar()];
+		if (is_array($foundvalues))
+		{
+			$max = 0;
+			foreach ($foundvalues['points'] as $val)
+			{
+				if ($val > 0) $max += $val;
+				if ($this->getRequired() && (strlen($val)) == 0)
+				{
+					$this->setAlert($lng->txt("msg_input_is_required"));
+					return FALSE;
+				}
+			}
+			if ($max <= 0)
+			{
+				$this->setAlert($lng->txt("enter_enough_positive_points"));
+				return FALSE;
+			}
+		}
+		else
+		{
+			if ($this->getRequired())
+			{
+				$this->setAlert($lng->txt("msg_input_is_required"));
+				return FALSE;
+			}
+		}
+		
+		return $this->checkSubItemsInput();
 	}
 	
 	public function insert($a_tpl)
