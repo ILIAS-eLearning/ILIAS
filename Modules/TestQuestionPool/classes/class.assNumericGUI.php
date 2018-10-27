@@ -622,4 +622,14 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 			$upper_limit->setMaxLength( $this->object->getMaxChars() );
 		}
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->setPoints((float)$form->getInput('points'));
+		$this->object->setLowerLimit((float)$form->getInput('lowerlimit'));
+		$this->object->setUpperLimit((float)$form->getInput('upperlimit'));
+	}
 }
