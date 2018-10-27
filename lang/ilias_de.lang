@@ -14314,3 +14314,5 @@ meta#:#meta_copyright_usage#:#Usage
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
+meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
+meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
