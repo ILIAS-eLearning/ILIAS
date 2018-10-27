@@ -29,14 +29,8 @@
 * 
 * @ingroup ServicesAdvancedMetaData
 */
-include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
-
 class ilMDCopyrightTableGUI extends ilTable2GUI
 {
-	protected $lng = null;
-	protected $ctrl;
-	protected $parent_obj;
 	protected $has_write; // [bool]
 	
 	/**
@@ -50,11 +44,8 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	{
 	 	global $DIC;
 
-	 	$lng = $DIC['lng'];
 	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
-	 	$this->lng = $lng;
-	 	$this->ctrl = $ilCtrl;
 		$this->has_write = (bool)$a_has_write;
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
@@ -62,8 +53,8 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 		if($this->has_write)
 		{
 			$this->addColumn('','f',1);
-			$this->addColumn($lng->txt("position"), "order");
-			$this->addCommandButton("saveCopyrightPosition", $lng->txt("meta_save_order"));
+			$this->addColumn($this->lng->txt("position"), "order");
+			$this->addCommandButton("saveCopyrightPosition", $this->lng->txt("meta_save_order"));
 		}
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
 	 	$this->addColumn($this->lng->txt('md_used'),'used',"5%");
@@ -133,10 +124,20 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 			if((int)$a_set['used'] > 0)
 			{
 				$this->tpl->setCurrentBlock("link_usage");
-				$this->ctrl->setParameter($this->getParentObject(),'entry_id',$a_set['id']);
-				$this->tpl->setVariable('USAGE_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'showCopyrightUsages'));
-				$this->ctrl->clearParameters($this->getParentObject());
 
+				// direct redirection to ...UsageGUI
+				$this->ctrl->setParameterByClass(
+					'ilMDCopyrightUsageGUI',
+					'entry_id',
+					$a_set['id']
+				);
+				$this->tpl->setVariable(
+					'USAGE_LINK',
+					$this->ctrl->getLinkTargetByClass(
+						'ilMDCopyrightUsageGUI',
+						''
+					)
+				);
 				$this->tpl->setVariable('TXT_USAGE',$this->lng->txt('meta_copyright_show_usages'));
 				$this->tpl->parseCurrentBlock();
 			}

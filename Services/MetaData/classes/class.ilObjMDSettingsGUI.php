@@ -95,9 +95,10 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 				break;
 
 			case 'ilmdcopyrightusagegui':
+				// this command is used if copyrightUsageGUI calls getParentReturn (see ...UsageGUI->setTabs)
+				$this->ctrl->setReturn($this, 'showCopyrightSettings');
 				$copyright_id = $_GET['entry_id'];
-				include_once("./Services/MetaData/classes/class.ilMDCopyrightUsageGUI.php");
-				$gui = new ilMDCopyrightUsageGUI($copyright_id);
+				$gui = new ilMDCopyrightUsageGUI((int) $copyright_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -608,13 +609,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 			return false;
 		}
 
-		ilLoggerFactory::getLogger('root')->dump($positions);
-
 		$positions = $_POST['order'];
-		ilLoggerFactory::getLogger('root')->dump($positions);
 		asort($positions);
-		ilLoggerFactory::getLogger('root')->dump($positions);
-
 		$position = 0;
 		foreach($positions as $entry_id => $position_ignored)
 		{

@@ -14,7 +14,12 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 	 */
 	protected $copyright_id;
 
+	/**
+	 * @var ilDBInterface
+	 */
 	protected $db;
+
+	protected $lng;
 
 	protected $filter;
 	protected $objects;
@@ -29,16 +34,22 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		global $DIC;
 
 		$this->db = $DIC->database();
-
 		$this->copyright_id = $a_parent_obj->getEntryId();
+		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule('meta');
 
 		$this->setId("mdcopusage".$this->copyright_id);
-
-		$md_entry = new ilMDCopyrightSelectionEntry($this->copyright_id);
-
-		$this->setTitle($md_entry->getTitle());
-
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+	}
+
+
+	/**
+	 * init table columns, ...
+	 */
+	public function init()
+	{
+		$md_entry = new ilMDCopyrightSelectionEntry($this->copyright_id);
+		$this->setTitle($md_entry->getTitle());
 
 		$this->addColumn($this->lng->txt('object'),'object');
 		$this->addColumn($this->lng->txt('meta_references'),'references');
@@ -46,20 +57,28 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('owner'),'owner');
 
 		$this->setRowTemplate("tpl.show_copyright_usages_row.html","Services/MetaData");
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-
-		$this->setResetCommand("resetUsageFilter");
-		$this->setFilterCommand("applyUsageFilter");
-
+		$this->setFormAction($this->ctrl->getFormAction(
+			$this->getParentObject(),
+			$this->getParentCmd()
+		));
 		$this->setDisableFilterHiding(true);
+
 		$this->initFilter();
-
-		$data = $this->collectData($this->getCurrentFilter());
-		$this->setData($data);
-
 	}
 
-	function initFilter()
+	/**
+	 * Parse table content
+	 */
+	public function parse()
+	{
+		$data = $this->collectData($this->getCurrentFilter());
+		$this->setData($data);
+	}
+
+	/**
+	 * Init Filter
+	 */
+	public function initFilter()
 	{
 		$title = $this->addFilterItemByMetaType(
 			"title",
@@ -78,19 +97,23 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		$item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
 		$item->setOptions(array(""=>"-")+$this->objects);
 		$this->filter["object"] = $item->getValue();
-
 	}
 
 	/**
 	 * Get current filter settings
 	 * @return	array
 	 */
-	function getCurrentFilter()
+	protected function getCurrentFilter()
 	{
 		$filter = array();
 		if($this->filter["title"])
 		{
 			$filter["title"] = $this->filter["title"];
+		}
+
+		if($this->filter['object'])
+		{
+			$filter['object'] = $this->filter['object'];
 		}
 		return $filter;
 	}
@@ -108,8 +131,8 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("DESCRIPTION", $a_set['desc']);
 		if($a_set['references'])
 		{
-			include_once('./Services/Tree/classes/class.ilPathGUI.php');
 			$path = new ilPathGUI();
+			$path->enableHideLeaf(false);
 			$path->enableDisplayCut(true);
 			$path->enableTextOnly(false);
 
@@ -138,6 +161,10 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
 	}
 
+	/**
+	 * @param array $filters
+	 * @return array
+	 */
 	function collectData(array $filters)
 	{
 		$db_data = $this->getDataFromDB();
@@ -145,33 +172,29 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		$data = array();
 		foreach($db_data as $item)
 		{
-			$add_data = true;
 			$obj_id = $item['obj_id'];
 			if($filters['title'])
 			{
 				if(stripos(ilObject::_lookupTitle($obj_id),$filters['title']) === false) {
-					$add_data = false;
+					continue;
 				}
 			}
-			if($filters['type'])
+			if($filters['object'])
 			{
-				if(ilObject::_lookupType($obj_id) != $filters['type']) {
-					$add_data = false;
+				if(ilObject::_lookupType($obj_id) != $filters['object']) {
+					continue;
 				}
 			}
-			if($add_data)
-			{
-				$data[] = array(
-					"obj_id" => $obj_id,
-					"type" => ilObject::_lookupType($obj_id),
-					"title" => ilObject::_lookupTitle($obj_id),
-					"desc" => ilObject::_lookupDescription($obj_id),
-					"references" => ilObject::_getAllReferences($obj_id),
-					"owner_name" => ilUserUtil::getNamePresentation(ilObject::_lookupOwner($obj_id)),
-					"owner_link" => ilUserUtil::getProfileLink(ilObject::_lookupOwner($obj_id)),
-					"sub_items" => $this->getCountSubItemsFromDB($obj_id)
-				);
-			}
+			$data[] = array(
+				"obj_id" => $obj_id,
+				"type" => ilObject::_lookupType($obj_id),
+				"title" => ilObject::_lookupTitle($obj_id),
+				"desc" => ilObject::_lookupDescription($obj_id),
+				"references" => ilObject::_getAllReferences($obj_id),
+				"owner_name" => ilUserUtil::getNamePresentation(ilObject::_lookupOwner($obj_id)),
+				"owner_link" => ilUserUtil::getProfileLink(ilObject::_lookupOwner($obj_id)),
+				"sub_items" => $this->getCountSubItemsFromDB($obj_id)
+			);
 		}
 		
 		return $data;
