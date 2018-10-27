@@ -117,6 +117,8 @@ class ilTestCorrectionsGUI
 		
 		if( !$form->checkInput() )
 		{
+			$questionGUI->prepareReprintableCorrectionsForm($form);
+			
 			$this->showQuestion($form);
 			return;
 		}

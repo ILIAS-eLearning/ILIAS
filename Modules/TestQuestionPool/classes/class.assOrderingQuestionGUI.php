@@ -1013,6 +1013,18 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return array_values($answers);
 	}
 	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function prepareReprintableCorrectionsForm(ilPropertyFormGUI $form)
+	{
+		$orderingInput = $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
+		$orderingInput->prepareReprintable($this->object);
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
 	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
 	{
 		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
@@ -1035,5 +1047,41 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$orderingElementInput->setElementList( $this->object->getOrderingElementList() );
 		
 		$form->addItem($orderingElementInput);
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->setPoints((float)$form->getInput('points'));
+		
+		$submittedElementList = $this->object->fetchSolutionListFromSubmittedForm($form);
+		
+		$curElementList = $this->object->getOrderingElementList();
+		
+		$newElementList = new ilAssOrderingElementList();
+		$newElementList->setQuestionId($this->object->getId());
+		
+		foreach($submittedElementList as $submittedElement)
+		{
+			if( !$curElementList->elementExistByRandomIdentifier($submittedElement->getRandomIdentifier()) )
+			{
+				continue;
+			}
+			
+			$curElement = $curElementList->getElementByRandomIdentifier($submittedElement->getRandomIdentifier());
+			
+			$curElement->setPosition($submittedElement->getPosition());
+				
+			if( $this->object->isOrderingTypeNested() )
+			{
+				$curElement->setIndentation($submittedElement->getIndentation());
+			}
+			
+			$newElementList->addElement($curElement);
+		}
+		
+		$this->object->setOrderingElementList($newElementList);
 	}
 }
