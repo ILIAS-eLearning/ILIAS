@@ -702,6 +702,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			{
 				$newObj->setImportId($object_data['import_id']);
 			}
+
+			if($objDefinition->supportsOfflineHandling($newObj->getType()))
+			{
+				$newObj->setOfflineStatus((bool) $object_data['offline']);
+			}
 			$newObj->setTitle($object_data['title']);
 			$newObj->setDescription($object_data['description']);
 			$newObj->create(); // true for upload
@@ -1007,6 +1012,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$rbacsystem = $DIC['rbacsystem'];
 		$lng = $DIC['lng'];
 		$ilAccess = $DIC['ilAccess'];
+		$objDefinition = $DIC['objDefinition'];
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
 		$xml_parser = new ilObjectXMLParser($a_xml, true);
@@ -1105,13 +1111,17 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			{
 				$this->updateReferences($object_data);
 				
+				/**
+				 * @var ilObject
+				 */
 				$tmp_obj = $object_data["instance"];
 				$tmp_obj->setTitle($object_data['title']);
 				$tmp_obj->setDescription($object_data['description']);
 
-				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': type is '. $object_data['type']);
-				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': type is '. $a_xml);
-
+				if($objDefinition->supportsOfflineHandling($tmp_obj->getType()))
+				{
+					$tmp_obj->setOfflineStatus($object_data['offline']);
+				}
 
 				switch ($object_data['type']) 
 				{
