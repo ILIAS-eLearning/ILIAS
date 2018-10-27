@@ -784,7 +784,8 @@ abstract class ilContainerContentGUI
 		$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
 
 		// card
-		$icon = $f->icon()->custom(ilUtil::getImagePath("icon_".$a_item_data["type"].".svg"), 'Course', 'responsive');
+		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
+			->withIsOutlined(true);
 		$card = $f->card()->repositoryObject(
 			$a_item_data["title"],
 			$image

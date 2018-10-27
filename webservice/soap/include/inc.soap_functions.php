@@ -1081,6 +1081,36 @@ class ilSoapFunctions {
 	}
 
 	/**
+	 * Add desktop items for user
+	 *
+	 * @param $sid
+	 * @param $user_id
+	 * @param $reference_ids
+	 * @return int
+	 */
+	public static function addDesktopItems($sid, $user_id, $reference_ids)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$obj_handler = new ilSoapObjectAdministration();
+		return $obj_handler->addDesktopItems($sid, $user_id, $reference_ids);
+	}
+
+	/**
+	 * Add desktop items for user
+	 *
+	 * @param $sid
+	 * @param $user_id
+	 * @param $reference_ids
+	 * @return int
+	 */
+	public static function removeDesktopItems($sid, $user_id, $reference_ids)
+	{
+		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$obj_handler = new ilSoapObjectAdministration();
+		return $obj_handler->removeDesktopItems($sid, $user_id, $reference_ids);
+	}
+
+	/**
 	 * @param string $name
 	 * @param array $arguments
 	 * @return mixed

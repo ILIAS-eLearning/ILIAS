@@ -153,7 +153,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				}
-				if(!$tutor and !$active && !$visible)
+				if(!$tutor && !$active && !$visible)
 				{
 					return false;
 				}
@@ -310,25 +310,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	}
 	
 	/**
-	 * Check if online setting is active
-	 * 
-	 * @param int $a_obj_id
-	 * @return bool
-	 */
-	public static function _isOnline($a_obj_id)
-	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		
-		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-		return (bool)$row->activation_type;	
-	}
-
-	/**
 	 * Is activated?
 	 *
 	 * @see ilStartupGUI
@@ -349,13 +330,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 				return true;
 			}
 		}
-		
-		// offline?
-		if(!self::_isOnline($a_obj_id))
-		{
-			$a_visible_flag = false;
-			return false;							
-		}				
 		
 		$ref_id = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = array_pop($ref_id);		
