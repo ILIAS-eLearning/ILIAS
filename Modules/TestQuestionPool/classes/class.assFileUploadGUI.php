@@ -640,4 +640,13 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$subcompl->setChecked( $this->object->isCompletionBySubmissionEnabled() );
 		$form->addItem( $subcompl );
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->setPoints((float)$form->getInput('points'));
+		$this->object->setCompletionBySubmission((bool)$form->getInput('completion_by_submission'));
+	}
 }
