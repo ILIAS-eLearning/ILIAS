@@ -16,6 +16,12 @@ class ilOpenIdConnectSettings
 	const LOGIN_ELEMENT_TYPE_TXT = 0;
 	const LOGIN_ELEMENT_TYPE_IMG = 1;
 
+	const LOGIN_ENFORCE = 0;
+	const LOGIN_STANDARD = 1;
+
+	const LOGOUT_SCOPE_GLOBAL = 0;
+	const LOGOUT_SCOPE_LOCAL = 1;
+
 	/**
 	 * @var \ilOpenIdConnectSettings
 	 *
@@ -68,6 +74,42 @@ class ilOpenIdConnectSettings
 	 * @var string
 	 */
 	private $login_element_text;
+
+	/**
+	 * @var int
+	 */
+	private $login_prompt_type = self::LOGIN_ENFORCE;
+
+
+	/**
+	 * @var int
+	 */
+	private $logout_scope;
+
+	/**
+	 * @var bool
+	 */
+	private $custom_session = false;
+
+	/**
+	 * @var int
+	 */
+	private $session_duration = 60;
+
+	/**
+	 * @var bool
+	 */
+	private $allow_sync;
+
+	/**
+	 * @var int
+	 */
+	private $role;
+
+	/**
+	 * @var string
+	 */
+	private $uid = '';
 
 	/**
 	 * ilOpenIdConnectSettings constructor.
@@ -196,9 +238,122 @@ class ilOpenIdConnectSettings
 	}
 
 
-	public function getLoginElemenText()
+	public function getLoginElemenText() : string
 	{
 		return $this->login_element_text;
+	}
+
+	/**
+	 * @param int $a_type
+	 */
+	public function setLoginPromptType(int $a_type)
+	{
+		$this->login_prompt_type = $a_type;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLoginPromptType() : int
+	{
+		return $this->login_prompt_type;
+	}
+
+	/**
+	 * @param int $a_scope
+	 */
+	public function setLogoutScope(int $a_scope)
+	{
+		$this->logout_scope = $a_scope;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLogoutScope() : int
+	{
+		return $this->logout_scope;
+	}
+
+	/**
+	 * @param bool $a_stat
+	 */
+	public function useCustomSession(bool $a_stat)
+	{
+		$this->custom_session = $a_stat;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isCustomSession() : bool
+	{
+		return $this->custom_session;
+	}
+
+	/**
+	 * @param int $a_duration
+	 */
+	public function setSessionDuration(int $a_duration)
+	{
+		$this->session_duration = $a_duration;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSessionDuration() : int
+	{
+		return $this->session_duration;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isSyncAllowed() : bool
+	{
+		return $this->allow_sync;
+	}
+
+	/**
+	 * @param bool $a_stat
+	 */
+	public function allowSync(bool $a_stat)
+	{
+		$this->allow_sync = $a_stat;
+	}
+
+	/**
+	 * @param int $role
+	 */
+	public function setRole(int $role)
+	{
+		$this->role = $role;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRole() : int
+	{
+		return $this->role;
+	}
+
+	/**
+	 * @param string $field
+	 */
+	public function setUidField(string $field)
+	{
+		ilLoggerFactory::getLogger('root')->warning($field);
+		$this->uid = $field;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUidField() : string
+	{
+		return $this->uid;
 	}
 
 	/**
@@ -251,6 +406,14 @@ class ilOpenIdConnectSettings
 		$this->storage->set('le_img', $this->getLoginElementImage());
 		$this->storage->set('le_text', $this->getLoginElemenText());
 		$this->storage->set('le_type', $this->getLoginElementType());
+		$this->storage->set('prompt_type', $this->getLoginPromptType());
+		$this->storage->set('logout_scope', $this->getLogoutScope());
+		$this->storage->set('custom_session', (int) $this->isCustomSession());
+		$this->storage->set('session_duration', (int) $this->getSessionDuration());
+		$this->storage->set('allow_sync', (int) $this->isSyncAllowed());
+		$this->storage->set('role', (int) $this->getRole());
+		$this->storage->set('uid',(string) $this->getUidField());
+
 	}
 
 	/**
@@ -265,5 +428,12 @@ class ilOpenIdConnectSettings
 		$this->setLoginElementImage($this->storage->get('le_img',''));
 		$this->setLoginElementText($this->storage->get('le_text'));
 		$this->setLoginElementType($this->storage->get('le_type'));
+		$this->setLoginPromptType((int) $this->storage->get('prompt_type',self::LOGIN_ENFORCE));
+		$this->setLogoutScope((int) $this->storage->get('logout_scope', self::LOGOUT_SCOPE_GLOBAL));
+		$this->useCustomSession((bool) $this->storage->get('custom_session'), false);
+		$this->setSessionDuration((int) $this->storage->get('session_duration', 60));
+		$this->allowSync((bool) $this->storage->get('allow_sync'), false);
+		$this->setRole((int) $this->storage->get('role'),0);
+		$this->setUidField((string) $this->storage->get('uid'),'');
 	}
 }

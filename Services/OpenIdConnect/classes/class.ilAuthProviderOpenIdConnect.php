@@ -81,7 +81,8 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			);
 			$oidc->addAuthParam(
 				[
-					'response_mode' => 'form_post'
+					'response_mode' => 'form_post',
+					'prompt' => 'consent'
 				]
 			);
 			$oidc->setAllowImplicitFlow(true);
@@ -106,7 +107,8 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			return true;
 		}
 		catch(Exception $e) {
-			$this->getLogger()->error($e->getMessage());
+			$this->getLogger()->warning($e->getMessage());
+			$this->getLogger()->warning($e->getCode());
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			$status->setTranslatedReason($e->getMessage());
 			return false;

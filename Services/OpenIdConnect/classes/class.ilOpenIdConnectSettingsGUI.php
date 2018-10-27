@@ -44,6 +44,11 @@ class ilOpenIdConnectSettingsGUI
 	protected $access = null;
 
 	/**
+	 * @var ilRbacReview
+	 */
+	protected $review;
+
+	/**
 	 * @var \ilErrorHandling
 	 */
 	protected $error = null;
@@ -70,7 +75,9 @@ class ilOpenIdConnectSettingsGUI
 		$this->logger = $DIC->logger()->auth();
 
 		$this->access = $DIC->access();
+		$this->review = $DIC->rbac()->review();
 		$this->error = $DIC['ilErr'];
+
 
 		$this->settings = ilOpenIdConnectSettings::getInstance();
 	}
@@ -162,12 +169,17 @@ class ilOpenIdConnectSettingsGUI
 		$form->addItem($client_id);
 
 		// secret
-		$secret = new ilTextInputGUI(
+		$secret = new ilPasswordInputGUI(
 			$this->lng->txt('auth_oidc_settings_secret'),
 			'secret'
 		);
-		$secret->setRequired(true);
-		$secret->setValue($this->settings->getSecret());
+		$secret->setSkipSyntaxCheck(true);
+		$secret->setRetype(false);
+		$secret->setRequired(false);
+		if(strlen($this->settings->getSecret()))
+		{
+			$secret->setValue('******');
+		}
 		$form->addItem($secret);
 
 		// login element
@@ -188,12 +200,12 @@ class ilOpenIdConnectSettingsGUI
 
 		// le -> type text -> text
 		$text = new ilTextInputGUI(
-			$this->lng->txt('auth_oidc_settings_txt_val'),
+			'',
 			'le_text'
 		);
 		$text->setValue($this->settings->getLoginElemenText());
 		$text->setMaxLength(120);
-		$text->setInfo('auth_oidc_settings_txt_val_info');
+		$text->setInfo($this->lng->txt('auth_oidc_settings_txt_val_info'));
 		$text_option->addSubItem($text);
 
 		// le -> type img
@@ -203,25 +215,128 @@ class ilOpenIdConnectSettingsGUI
 		);
 		$login_element->addOption($img_option);
 
-
-
 		$image = new ilImageFileInputGUI(
-			$this->lng->txt('auth_oidc_settings_img_file'),
+			'',
 			'le_img'
 		);
+		$image->setALlowDeletion(false);
 
 		if($this->settings->hasImageFile())
 		{
 			$image->setImage($this->settings->getImageFilePath());
 		}
-		$image->setInfo('auth_oidc_settings_img_file');
+		$image->setInfo($this->lng->txt('auth_oidc_settings_img_file_info'));
 		$img_option->addSubItem($image);
+
+		// login options
+		$login_options = new ilRadioGroupInputGUI(
+			$this->lng->txt('auth_oidc_settings_login_options'),
+			'login_prompt'
+		);
+		$login_options->setValue($this->settings->getLoginPromptType());
+
+		// enforce login
+		$enforce = new ilRadioOption(
+			$this->lng->txt('auth_oidc_settings_login_option_enforce'),
+			ilOpenIdConnectSettings::LOGIN_ENFORCE
+		);
+		$enforce->setInfo($this->lng->txt('auth_oidc_settings_login_option_enforce_info'));
+		$login_options->addOption($enforce);
+
+		// default login
+		$default = new ilRadioOption(
+			$this->lng->txt('auth_oidc_settings_login_option_default'),
+			ilOpenIdConnectSettings::LOGIN_STANDARD
+		);
+		$default->setInfo($this->lng->txt('auth_oidc_settings_login_option_default_info'));
+		$login_options->addOption($default);
+
+		$form->addItem($login_options);
+
+		// logout scope
+		$logout_scope = new ilRadioGroupInputGUI(
+			$this->lng->txt('auth_oidc_settings_logout_scope'),
+			'logout_scope'
+		);
+		$logout_scope->setValue($this->settings->getLogoutScope());
+
+		// scope global
+		$global_scope = new ilRadioOption(
+			$this->lng->txt('auth_oidc_settings_logout_scope_global'),
+			ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL
+		);
+		$global_scope->setInfo($this->lng->txt('auth_oidc_settings_logout_scope_global_info'));
+		$logout_scope->addOption($global_scope);
+
+		// ilias scope
+		$ilias_scope = new ilRadioOption(
+			$this->lng->txt('auth_oidc_settings_logout_scope_local'),
+			ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL
+		);
+		$logout_scope->addOption($ilias_scope);
+
+		$form->addItem($logout_scope);
+
+		$use_custom_session = new ilCheckboxInputGUI(
+			$this->lng->txt('auth_oidc_settings_custom_session_duration_type'),
+			'custom_session'
+		);
+		$use_custom_session->setOptionTitle(
+			$this->lng->txt('auth_oidc_settings_custom_session_duration_option')
+		);
+		$use_custom_session->setChecked($this->settings->isCustomSession());
+		$form->addItem($use_custom_session);
+
+		// session duration
+		$session = new ilNumberInputGUI(
+			$this->lng->txt('auth_oidc_settings_session_duration'),
+			'session_duration'
+		);
+		$session->setValue($this->settings->getSessionDuration());
+		$session->setSuffix($this->lng->txt('minutes'));
+		$session->setMinValue(5);
+		$session->setMaxValue(1440);
+		$session->setRequired(true);
+		$use_custom_session->addSubItem($session);
 
 		if($this->checkAccessBool('write'))
 		{
 			// save button
 			$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		}
+
+
+		// User sync settings --------------------------------------------------------------
+		$user_sync = new ilFormSectionHeaderGUI();
+		$user_sync->setTitle($this->lng->txt('auth_oidc_settings_section_user_sync'));
+		$form->addItem($user_sync);
+
+		$sync = new ilCheckboxInputGUI(
+			$this->lng->txt('auth_oidc_settings_user_sync'),
+			'sync'
+		);
+		$sync->setChecked($this->settings->isSyncAllowed());
+		$sync->setInfo($this->lng->txt('auth_oidc_settings_user_sync_info'));
+		$sync->setValue(1);
+		$form->addItem($sync);
+
+		$roles = new ilSelectInputGUI(
+			$this->lng->txt('auth_oidc_settings_default_role'),
+			'role'
+		);
+		$roles->setValue($this->settings->getRole());
+		$roles->setInfo($this->lng->txt('auth_oidc_settings_default_role_info'));
+		$roles->setOptions($this->prepareRoleSelection());
+		$roles->setRequired(true);
+		$sync->addSubItem($roles);
+
+		$user_attr = new ilTextInputGUI(
+			$this->lng->txt('auth_oidc_settings_user_attr'),
+			'username'
+		);
+		$user_attr->setValue($this->settings->getUidField());
+		$user_attr->setRequired(true);
+		$form->addItem($user_attr);
 
 		return $form;
 	}
@@ -247,9 +362,19 @@ class ilOpenIdConnectSettingsGUI
 		$this->settings->setActive((bool) $form->getInput('activation'));
 		$this->settings->setProvider((string) $form->getInput('provider'));
 		$this->settings->setClientId((string) $form->getInput('client_id'));
-		$this->settings->setSecret((string) $form->getInput('secret'));
+		if(strlen($form->getInput('secret')) && strcmp($form->getInput('secret'),'******') !== 0)
+		{
+			$this->settings->setSecret((string) $form->getInput('secret'));
+		}
 		$this->settings->setLoginElementType((int) $form->getInput('le'));
 		$this->settings->setLoginElementText((string) $form->getInput('le_text'));
+		$this->settings->setLoginPromptType((int) $form->getInput('login_prompt'));
+		$this->settings->setLogoutScope((int) $form->getInput('logout_scope'));
+		$this->settings->useCustomSession((bool) $form->getInput('custom_session'));
+		$this->settings->setSessionDuration((int) $form->getInput('session_duration'));
+		$this->settings->allowSync((bool) $form->getInput('sync'));
+		$this->settings->setRole((int) $form->getInput('role'));
+		$this->settings->setUidField((string) $form->getInput('username'));
 
 		$fileData = (array) $form->getInput('le_img');
 
@@ -294,4 +419,26 @@ class ilOpenIdConnectSettingsGUI
 			$this->logger->warning('Upload failed with message: ' . $e->getMessage());
 		}
 	}
+
+	/**
+	 * Prepare role selection
+	 */
+	protected function prepareRoleSelection()
+	{
+		$global_roles = ilUtil::_sortIds(
+			$this->review->getGlobalRoles(),
+			'object_data',
+			'title',
+			'obj_id'
+		);
+
+		$select[0] = $this->lng->txt('links_select_one');
+		foreach($global_roles as $role_id)
+		{
+			$select[$role_id] = ilObject::_lookupTitle($role_id);
+		}
+
+		return $select;
+	}
+
 }
