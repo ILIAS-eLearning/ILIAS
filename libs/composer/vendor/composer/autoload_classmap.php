@@ -4572,6 +4572,8 @@ return array(
     'ilMDCopyrightSelectionEntry' => $baseDir . '/../../Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php',
     'ilMDCopyrightSelectionGUI' => $baseDir . '/../../Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php',
     'ilMDCopyrightTableGUI' => $baseDir . '/../../Services/MetaData/classes/class.ilMDCopyrightTableGUI.php',
+    'ilMDCopyrightUsageGUI' => $baseDir . '/../../Services/MetaData/classes/class.ilMDCopyrightUsageGUI.php',
+    'ilMDCopyrightUsageTableGUI' => $baseDir . '/../../Services/MetaData/classes/class.ilMDCopyrightUsageTableGUI.php',
     'ilMDCreator' => $baseDir . '/../../Services/MetaData/classes/class.ilMDCreator.php',
     'ilMDDescription' => $baseDir . '/../../Services/MetaData/classes/class.ilMDDescription.php',
     'ilMDEditorGUI' => $baseDir . '/../../Services/MetaData/classes/class.ilMDEditorGUI.php',

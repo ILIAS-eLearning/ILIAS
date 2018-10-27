@@ -4816,6 +4816,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMDCopyrightSelectionEntry' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php',
         'ilMDCopyrightSelectionGUI' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php',
         'ilMDCopyrightTableGUI' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDCopyrightTableGUI.php',
+        'ilMDCopyrightUsageGUI' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDCopyrightUsageGUI.php',
+        'ilMDCopyrightUsageTableGUI' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDCopyrightUsageTableGUI.php',
         'ilMDCreator' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDCreator.php',
         'ilMDDescription' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDDescription.php',
         'ilMDEditorGUI' => __DIR__ . '/../..' . '/../../Services/MetaData/classes/class.ilMDEditorGUI.php',
