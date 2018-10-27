@@ -29,9 +29,6 @@ class ilObjSurvey extends ilObject
 	 */
 	protected $plugin_admin;
 
-	const STATUS_OFFLINE = 0;
-	const STATUS_ONLINE = 1;	
-	
 	const EVALUATION_ACCESS_OFF = 0;
 	const EVALUATION_ACCESS_ALL = 1;
 	const EVALUATION_ACCESS_PARTICIPANTS = 2;
@@ -84,12 +81,6 @@ class ilObjSurvey extends ilObject
 	*/
 	var $outro;
 
-	/**
-	* Survey status (online/offline)
-	*
-	* @var integer
-	*/
-	var $status;
 
 	/**
 	* Indicates the evaluation access for learners
@@ -241,7 +232,6 @@ class ilObjSurvey extends ilObject
 		$this->introduction = "";
 		$this->outro = $lng->txt("survey_finished");
 		$this->author = $ilUser->getFullname();
-		$this->status = self::STATUS_OFFLINE;
 		$this->evaluation_access = self::EVALUATION_ACCESS_OFF;
 		$this->questions = array();
 		$this->invitation = self::INVITATION_OFF;
@@ -779,7 +769,6 @@ class ilObjSurvey extends ilObject
 				"author" => array("text", $this->getAuthor()),
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
-				"status" => array("text", $this->getStatus()),
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
@@ -830,7 +819,6 @@ class ilObjSurvey extends ilObject
 				"author" => array("text", $this->getAuthor()),
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
-				"status" => array("text", $this->getStatus()),
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
@@ -1148,7 +1136,6 @@ class ilObjSurvey extends ilObject
 			$this->setAnonymize($data["anonymize"]);
 			$this->setEvaluationAccess($data["evaluation_access"]);
 			$this->loadQuestionsFromDb();
-			$this->setStatus($data["status"]);
 			$this->setMailNotification($data['mailnotification']);
 			$this->setMailAddresses($data['mailaddresses']);
 			$this->setMailParticipantData($data['mailparticipantdata']);
@@ -1521,65 +1508,6 @@ class ilObjSurvey extends ilObject
 	}
 
 /**
-* Gets the survey status
-*
-* @return integer Survey status
-* @access public
-* @see $status
-*/
-	function getStatus() 
-	{
-		return ($this->status) ? $this->status : self::STATUS_OFFLINE;
-	}
-
-/**
-* Gets the survey status
-*
-* @return integer true if status is online, false otherwise
-* @access public
-* @see $status
-*/
-	function isOnline() 
-	{
-		return ($this->status == self::STATUS_ONLINE) ? true : false;
-	}
-
-/**
-* Gets the survey status
-*
-* @return integer true if status is online, false otherwise
-* @access public
-* @see $status
-*/
-	function isOffline() 
-	{
-		return ($this->status == self::STATUS_OFFLINE) ? true : false;
-	}
-
-/**
-* Sets the survey status
-*
-* @param integer $status Survey status
-* @return string An error message, if the status cannot be set, otherwise an empty string
-* @access public
-* @see $status
-*/
-	function setStatus($status = self::STATUS_OFFLINE) 
-	{
-		$result = "";
-		if (($status == self::STATUS_ONLINE) && (count($this->questions) == 0))
-		{
-			$this->status = self::STATUS_OFFLINE;
-			$result = $this->lng->txt("cannot_switch_to_online_no_questions");
-		}
-		else
-		{
-			$this->status = $status;
-		}
-		return $result;
-	}
-
-/**
 * Gets the start date of the survey
 *
 * @return string Survey start date (YYYY-MM-DD)
@@ -1632,7 +1560,7 @@ class ilObjSurvey extends ilObject
 		}
 		
 		// check online status
-		if ($this->getStatus() == self::STATUS_OFFLINE)
+		if($this->getOfflineStatus())
 		{
 			array_push($messages, $this->lng->txt("survey_is_offline"));
 			$result = FALSE;
@@ -3712,7 +3640,7 @@ class ilObjSurvey extends ilObject
 
 		$custom_properties = array();
 		$custom_properties["evaluation_access"] = $this->getEvaluationAccess();
-		$custom_properties["status"] = $this->getStatus();
+		$custom_properties["status"] = !$this->getOfflineStatus();
 		$custom_properties["display_question_titles"] = $this->getShowQuestionTitles();
 		$custom_properties["pool_usage"] = (int)$this->getPoolUsage();
 		
@@ -4134,7 +4062,7 @@ class ilObjSurvey extends ilObject
 
 		if(!$cp_options->isRootNode($this->getRefId()))
 		{
-			$newObj->setStatus($this->isOnline()?self::STATUS_ONLINE: self::STATUS_OFFLINE);
+			$newObj->setOfflineStatus($this->getOfflineStatus());
 		}
 
 		$newObj->saveToDb();		
@@ -6396,7 +6324,8 @@ class ilObjSurvey extends ilObject
 		$this->log->debug("Check status and dates.");
 		
 		// object settings / participation period
-		if($this->isOffline() ||
+		if(
+			$this->getOfflineStatus() ||
 			!$this->getReminderStatus() ||
 			($this->getStartDate() && $now_with_format < $this->getStartDate()) ||
 			($this->getEndDate() && $now_with_format > $this->getEndDate()))
