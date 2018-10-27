@@ -24116,6 +24116,7 @@ if(!$ilDB->tableColumnExists('exc_idl','starting_ts'))
 ?>
 <#5367>
 <?php
+// BEGIN MME
 $fields = array(
 	'identification' => array(
 		'type' => 'text',
@@ -24290,4 +24291,5 @@ require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::addAdminNode('mme', 'Main Menu');
 
 $ilCtrlStructureReader->getStructure();
+// END MME
 ?>
