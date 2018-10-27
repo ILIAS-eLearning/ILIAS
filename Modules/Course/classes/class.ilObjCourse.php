@@ -280,14 +280,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->activation_end = $a_value;
 	}
-	function getOfflineStatus()
-	{
-		return (bool)$this->activation_offline;
-	}
-	function setOfflineStatus($a_value)
-	{
-		$this->activation_offline = (bool) $a_value;
-	}
 	function setActivationVisibility($a_value)
 	{
 		$this->activation_visibility = (bool) $a_value;
