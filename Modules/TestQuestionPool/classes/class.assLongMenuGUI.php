@@ -739,23 +739,68 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		
 		foreach($this->object->getAnswers() as $lmIndex => $lm)
 		{
+			$lmValues = array(
+				'answers_all' => $lm,
+				'answers_all_count' => count($lm),
+				'answers_correct' => $correctAnswers[$lmIndex][0]
+			);
+			
+			$lmPoints = $correctAnswers[$lmIndex][1];
+			
 			$section = new ilFormSectionHeaderGUI();
-			$section->setTitle('Longmenu '. ($lmIndex + 1));
+			$section->setTitle($this->lng->txt('longmenu'). ' ' .($lmIndex + 1));
 			$form->addItem($section);
 			
-			require_once("Services/Form/classes/class.ilTagInputGUI.php");
-			$tag_input = new ilTagInputGUI();
-			$tag_input->setTypeAhead(true);
-			$tag_input->setPostVar('tags_'.$lmIndex);
-			$tag_input->setJsSelfInit(true);
-			$tag_input->setTypeAheadMinLength(1);
-			//$tag_input->setAnswerEditingEnabled(false);
-			$tag_input->setOptions($correctAnswers[$lmIndex][0]);
-			$form->addItem($tag_input);
+			$lmInput = new ilAssLongmenuCorrectionsInputGUI(
+				$this->lng->txt('answers'), 'longmenu_'.$lmIndex
+			);
 			
-			$inp = new ilNumberInputGUI('Points');
-			$inp->setValue($lm->points);
+			$lmInput->setRequired(true);
+			
+			$lmInput->setValues($lmValues);
+			
+			$form->addItem($lmInput);
+			
+			$pointsInp = new ilNumberInputGUI($this->lng->txt( "points" ), 'points_'.$lmIndex);
+			$pointsInp->setRequired(true);
+			$pointsInp->allowDecimals(true);
+			$pointsInp->setSize(4);
+			$pointsInp->setMinValue(0);
+			$pointsInp->setMinvalueShouldBeGreater(false);
+			$pointsInp->setValue($lmPoints);
+			$form->addItem( $pointsInp );
 		}
 		
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$correctAnswers = $this->object->getCorrectAnswers();
+		
+		foreach($this->object->getAnswers() as $lmIndex => $lm)
+		{
+			$pointsInput = (float)$form->getInput('points_'.$lmIndex);
+			$correctAnswersInput = $form->getInput('longmenu_'.$lmIndex.'_tags');
+			
+			foreach($correctAnswersInput as $idx => $answer)
+			{
+				if( in_array($answer, $lm) )
+				{
+					continue;
+				}
+				
+				unset($correctAnswersInput[$idx]);
+			}
+			
+			$correctAnswersInput = array_values($correctAnswersInput);
+			
+			$correctAnswers[$lmIndex][0] = $correctAnswersInput;
+			$correctAnswers[$lmIndex][1] = $pointsInput;
+		}
+		
+		$this->object->setCorrectAnswers($correctAnswers);
 	}
 }

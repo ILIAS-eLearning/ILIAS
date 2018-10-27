@@ -5,17 +5,17 @@
     {ANSWERS_MODAL}
 </div>
 <script type="text/javascript">
-(function($){
+(function($){ $(document).ready(function(){
 
-    $('#link_{POSTVAR}').click(function(e)
-    {
-        $('#modal_{POSTVAR}').modal('show');
+        $('#link_{POSTVAR}').click(function(e)
+        {
+            $('#modal_{POSTVAR}').modal('show');
+            
+            e.stopPropagation();
+            e.preventDefault();
+            
+            return false;
+        });
         
-        e.stopPropagation();
-        e.preventDefault();
-        
-        return false;
-    });
-    
-}(jQuery));
+}); }(jQuery));
 </script>
