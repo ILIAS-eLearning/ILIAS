@@ -1,6 +1,9 @@
 <?php
-
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+// @FIXME
+define('IL_TLT_MAX_HOURS',99);
+
 
 /**
 * Meta Data class (element general)
@@ -11,12 +14,6 @@
 * 
 * @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
 */
-include_once 'Services/MetaData/classes/class.ilMD.php';
-include_once 'Services/MetaData/classes/class.ilMDUtilSelect.php';
-
-define('IL_TLT_MAX_HOURS',99);
-
-
 class ilMDEditorGUI
 {
 	var $ctrl = null;
@@ -377,7 +374,7 @@ class ilMDEditorGUI
 		global $DIC;
 
 		$tpl = $DIC['tpl'];
-		
+
 		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
 		{
 			$this->md_section = $this->md_obj->addGeneral();
@@ -386,24 +383,26 @@ class ilMDEditorGUI
 		
 		$this->__setTabs('meta_quickedit');
 
-		$modal = $this->getChangeCopyrightModal();
-		$form = $this->initQuickEditForm($modal);
-		$s = $modal->getShowSignal();
-		$button = $this->ui_factory->button()->standard(
-			$this->lng->txt('save'),
-			'updateQuickEdit'
-		);
+
+		$interruptive_modal = $this->getChangeCopyrightModal();
+		$interruptive_signal = '';
+		if($interruptive_modal != null)
+		{
+			$interruptive_signal = $interruptive_modal->getShowSignal();
+		}
+
+		$form = $this->initQuickEditForm($interruptive_signal);
+
 		$tpl->setContent(
-			$this->ui_renderer->render($modal).
-			$form->getHTML().
-			$this->ui_renderer->render($button)
+			$this->ui_renderer->render($interruptive_modal).
+			$form->getHTML()
 		);
 	}
 
 	/**
 	 * Init quick edit form.
 	 */
-	public function initQuickEditForm($modal)
+	public function initQuickEditForm($a_signal_id)
 	{
 		global $DIC;
 
@@ -413,6 +412,8 @@ class ilMDEditorGUI
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setId('ilquickeditform');
+		$this->form->setShowTopButtons(false);
 	
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "gen_title");
@@ -542,10 +543,23 @@ class ilMDEditorGUI
 		}
 		$this->form->addItem($tlt);
 
-		//$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
+		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"),'button_ilquickeditform');
 		$this->form->setTitle($this->lng->txt("meta_quickedit"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	 
+
+
+		if(ilMDSettings::_getInstance()->isCopyrightSelectionActive())
+		{
+			$DIC->ui()->mainTemplate()->addJavaScript(
+				'Services/MetaData/js/ilMetaCopyrightListener.js'
+			);
+			$DIC->ui()->mainTemplate()->addOnLoadCode(
+				'il.MetaDataCopyrightListener.init("'.
+				$a_signal_id.'","copyright","form_ilquickeditform","button_ilquickeditform");');
+		}
+
+
+
 		return $this->form;
 	}
 
@@ -681,8 +695,9 @@ class ilMDEditorGUI
 	*/
 	function updateQuickEdit()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
-		
+		ilLoggerFactory::getLogger('root')->dump($_REQUEST);
+
+
 		if(!trim($_POST['gen_title']))
 		{
 			if($this->md_obj->getObjType() != 'sess')
@@ -3588,12 +3603,27 @@ class ilMDEditorGUI
 		return false;
 	}
 
-	public function getChangeCopyrightModal()
+	/**
+	 * Get cnange copyright modal
+	 *
+	 * @return \ILIAS\UI\Component\Modal\Interruptive
+	 */
+	protected function getChangeCopyrightModal()
 	{
+		$md_settings = ilMDSettings::_getInstance();
+		if(!$md_settings->isCopyrightSelectionActive())
+		{
+			return null;
+		}
 
 		$link = $this->ctrl->getLinkTarget($this,'updateQuickEdit');
-		//return $this->ui_factory->modal()->interruptive($this->lng->txt("meta_copyright_change_warning_title"), $this->lng->txt("meta_copyright_change_info","","Accept"), $link);
-		return $this->ui_factory->modal()->interruptive($this->lng->txt("meta_copyright_change_warning_title"), $this->lng->txt("meta_copyright_change_info"), $link);
+		return $this->ui_factory
+			->modal()
+			->interruptive(
+				$this->lng->txt("meta_copyright_change_warning_title"),
+				$this->lng->txt("meta_copyright_change_info"),
+				$link
+			);
 	}
 }
 ?>
