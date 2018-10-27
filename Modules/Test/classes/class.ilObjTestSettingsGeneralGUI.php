@@ -323,7 +323,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				{
 					$form->getItemByPostVar('online')->setChecked(false);
 
-					if( $this->testOBJ->isOnline() )
+					if( !$this->testOBJ->getOfflineStatus() )
 					{
 						$infoMsg[] = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
 					}
@@ -637,6 +637,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		$this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
 		$this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+		$this->testOBJ->setOfflineStatus(!$form->getItemByPostVar('online')->getChecked());
 		$this->testOBJ->update();
 
 		// pool usage setting
@@ -681,7 +682,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		}
 
 		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'online');
-		$online->setChecked($this->testOBJ->isOnline());
+		$online->setChecked(!$this->testOBJ->getOfflineStatus());
 		$online->setInfo($this->lng->txt('tst_activation_online_info') . $act_obj_info);
 		$form->addItem($online);
 
@@ -714,9 +715,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 */
 	private function saveAvailabilityProperties(ilPropertyFormGUI $form)
 	{
-		// online status
-		$this->testOBJ->setOnline($form->getItemByPostVar('online')->getChecked());
-
 		// activation
 		if ($form->getItemByPostVar('activation_type')->getChecked())
 		{
