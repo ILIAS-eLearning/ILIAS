@@ -450,8 +450,18 @@ class ilMDSaxParser extends ilSaxParser
 				break;
 
 			case 'Description':
-				$par =& $this->__getParent();
-				if(strtolower(get_class($par)) == 'ilmddescription')
+				$par = $this->__getParent();
+
+				if($par instanceof ilMDRights)
+				{
+					$par->parseDescriptionFromImport(
+						$this->__getCharacterData()
+					);
+					$par->update();
+					$this->__popParent();
+					break;
+				}
+				elseif($par instanceof ilMDDescription)
 				{
 					$par->setDescription($this->__getCharacterData());
 					$par->update();
@@ -461,6 +471,8 @@ class ilMDSaxParser extends ilSaxParser
 				else
 				{
 					$par->setDescription($this->__getCharacterData());
+					$par->update();
+					$this->__popParent();
 					break;
 				}
 

@@ -231,12 +231,30 @@ class ilMDRights extends ilMDBase
 											: 'No'));
 		include_once './Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php';
 		$writer->xmlElement(
-			'Description',array('Language' => $this->getDescriptionLanguageCode()
-												? $this->getDescriptionLanguageCode()
-												: 'en'),
-			ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($this->getDescription())
+			'Description',
+			[
+				'Language' => $this->getDescriptionLanguageCode()
+					? $this->getDescriptionLanguageCode()
+					: 'en'
+			],
+			ilMDCopyrightSelectionEntry::_lookupCopyright($this->getDescription())
 		);
 		$writer->xmlEndTag('Rights');
+	}
+
+	/**
+	 * @param $a_description
+	 * @throws ilDatabaseException
+	 */
+	public function parseDescriptionFromImport($a_description)
+	{
+		$entry_id = ilMDCopyrightSelectionEntry::lookupCopyrightByText($a_description);
+		if(!$entry_id)
+		{
+			$this->setDescription($a_description);
+		}
+
+		$this->setDescription(ilMDCopyrightSelectionEntry::createIdentifier($entry_id));
 	}
 	
 	/**

@@ -147,6 +147,27 @@ class ilMDCopyrightSelectionEntry
 		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return $row->copyright ? $row->copyright : '';
 	}
+
+	/**
+	 * @param $copyright_text
+	 * @return int
+	 * @throws ilDatabaseException
+	 */
+	public static function lookupCopyrightByText($copyright_text)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$query = 'SELECT entry_id FROM il_md_cpr_selections '.
+			'WHERE copyright = '.$db->quote($copyright_text,'text');
+		$res = $db->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			return $row->entry_id;
+		}
+		return 0;
+	}
 	
 	/**
 	 * extract entry id
@@ -529,11 +550,19 @@ class ilMDCopyrightSelectionEntry
 	 	$query = "SELECT count(meta_rights_id) used FROM il_meta_rights ".
 	 		"WHERE description = ".$ilDB->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->getEntryId(),'text');
 		
-		$this->logger->debug($query);
-		
 	 	$res = $this->db->query($query);
 	 	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	 	$this->usage = $row->used;
+	}
+
+	/**
+	 * Create identifier for entry id
+	 * @param $a_entry_id
+	 * @return string
+	 */
+	public static function createIdentifier($a_entry_id)
+	{
+		return 'il_copyright_entry__' . IL_INST_ID.'__'.$a_entry_id;
 	}
 }
 ?>
