@@ -83,6 +83,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function create($a_no_meta_data = false)
 	{
+		$this->setOfflineStatus(true);
 		parent::create();
 		
 		// meta data will be created by
@@ -1024,16 +1025,6 @@ class ilObjContentObject extends ilObject
 		$this->toc_mode = $a_toc_mode;
 	}
 
-	function setOnline($a_online)
-	{
-		$this->online = $a_online;
-	}
-
-	function getOnline()
-	{
-		return $this->online;
-	}
-
 	function setActiveLMMenu($a_act_lm_menu)
 	{
 		$this->lm_menu_active = $a_act_lm_menu;
@@ -1194,7 +1185,6 @@ class ilObjContentObject extends ilObject
 		$this->setStyleSheetId((int) $lm_rec["stylesheet"]);
 		$this->setPageHeader($lm_rec["page_header"]);
 		$this->setTOCMode($lm_rec["toc_mode"]);
-		$this->setOnline(ilUtil::yn2tf($lm_rec["is_online"]));
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
 		$this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
 		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
@@ -1244,7 +1234,6 @@ class ilObjContentObject extends ilObject
 			" stylesheet = ".$ilDB->quote($this->getStyleSheetId(), "integer").",".
 			" page_header = ".$ilDB->quote($this->getPageHeader(), "text").",".
 			" toc_mode = ".$ilDB->quote($this->getTOCMode(), "text").",".
-			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
 			" toc_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveTOC()), "text").",".
 			" numbering = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveNumbering()), "text").",".
 			" print_view_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePrintView()), "text").",".
@@ -1293,23 +1282,6 @@ class ilObjContentObject extends ilObject
 		$this->readProperties();		// to get db default values
 	}
 
-	/**
-	* check wether content object is online
-	*/
-	static function _lookupOnline($a_id)
-	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-		
-//echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
-
-		$q = "SELECT is_online FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
-		$lm_set = $ilDB->query($q);
-		$lm_rec = $ilDB->fetchAssoc($lm_set);
-
-		return ilUtil::yn2tf($lm_rec["is_online"]);
-	}
 
 	/**
 	* get all available lm layouts
@@ -3342,7 +3314,7 @@ class ilObjContentObject extends ilObject
 
 		if(!$cp_options->isRootNode($this->getRefId()))
 		{
-			$new_obj->setOnline($this->getOnline());
+			$new_obj->setOfflineStatus($this->getOfflineStatus());
 		}
 	 	
 //		$new_obj->setTitle($this->getTitle());

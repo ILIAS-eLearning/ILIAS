@@ -643,7 +643,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		$values["title"] = $title;
 		$values["description"] = $description;
-		if ($this->object->getOnline())
+		if(!$this->object->getOfflineStatus())
 		{
 			$values["cobj_online"] = true;
 		}
@@ -710,7 +710,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setLayout($_POST["lm_layout"]);
 			$this->object->setPageHeader($_POST["lm_pg_header"]);
 			$this->object->setTOCMode($_POST["toc_mode"]);
-			$this->object->setOnline($_POST["cobj_online"]);
+			$this->object->setOfflineStatus(!($_POST['cobj_online']));
 			$this->object->setActiveNumbering($_POST["cobj_act_number"]);
 			$this->object->setCleanFrames($_POST["cobj_clean_frames"]);
 			if (!$ilSetting->get('disable_comments'))
