@@ -35,6 +35,71 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
+	/**
+	 * Add desktop items for user
+	 * @param string $sid
+	 * @param int $user_id
+	 * @param int[] $reference_ids
+	 * @return bool
+	 *
+	 */
+	public function addDesktopItems($sid, $user_id, $reference_ids)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+
+		global $DIC;
+
+		$access = $DIC->rbac()->system();
+		$logger = $DIC->logger()->wsrv();
+
+		if(!$access->checkAccess('edit_userassignment', ROLE_FOLDER_ID))
+		{
+			$logger->warning('Missing permission "edit_userassignment".');
+			return $this->__raiseError(
+				'Missing permission "edit_userassignment".',
+				'Client'
+			);
+		}
+
+		$user = ilObjectFactory::getInstanceByObjId($user_id, false);
+		if(!$user instanceof ilObjUser)
+		{
+			$logger->warning('Invalid user id given. Cannot instantiate user for id: ' . $user_id);
+			return $this->__raiseError(
+				'Invalid user id given. Cannot instantiate user for id: ' . $user_id,
+				'Client'
+			);
+		}
+		$num_added = 0;
+		foreach($reference_ids as $ref_id)
+		{
+			// short "validation" of reference id
+			$ref_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
+			if(!$ref_obj instanceof ilObject)
+			{
+				$logger->warning('Invalid reference id passed to SOAP::addDesktopItems: ' . $ref_id);
+				continue;
+			}
+
+			$num_added++;
+			ilObjUser::_addDesktopItem(
+				$user->getId(),
+				$ref_id,
+				ilObject::_lookupType($ref_id,true)
+			);
+
+		}
+		return $num_added;
+	}
+
+
+
 	function getObjIdByImportId($sid,$import_id)
 	{
 		$this->initAuth($sid);
