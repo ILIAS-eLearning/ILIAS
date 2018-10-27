@@ -629,4 +629,12 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		$points->setMinvalueShouldBeGreater( true );
 		$form->addItem( $points );
 	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->setPoints((float)$form->getInput('points'));
+	}
 }
