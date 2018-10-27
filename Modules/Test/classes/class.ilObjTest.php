@@ -1996,10 +1996,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 					break;							
 			}
 		}
-
-
-		ilLoggerFactory::getLogger('root')->info('HELPPPPPPPPPP');
-		ilLoggerFactory::getLogger('root')->info('Offline status: ' . $this->getOfflineStatus());
 	}
 
 /**
