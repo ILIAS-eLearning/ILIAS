@@ -94,7 +94,7 @@ class ilObjectDataCache
 	 * @param $a_obj_id
 	 * @return null | bool
 	 */
-	public function lookupOffline($a_obj_id)
+	public function lookupOfflineStatus($a_obj_id)
 	{
 		if(!$this->__isObjectCached($a_obj_id))
 		{

@@ -2003,8 +2003,20 @@ class ilStartUpGUI
 				$pobj_id = ilObject::_lookupObjId($path_ref_id);		
 					
 				// core checks: timings/object-specific
-				if(!$ilAccess->doActivationCheck("read", "", $path_ref_id, $ilUser->getId(), $pobj_id, $ptype) ||
-					!$ilAccess->doStatusCheck("read", "", $path_ref_id, $ilUser->getId(), $pobj_id, $ptype))
+				if(!$ilAccess->doActivationCheck(
+					"read",
+					"",
+					$path_ref_id,
+					$pobj_id,
+					$ptype
+					$ilUser->getId()) ||
+					!$ilAccess->doStatusCheck(
+						"read",
+						"",
+						$path_ref_id,
+						$ilUser->getId(),
+						$pobj_id,
+						$ptype))
 				{
 					// object in path is inaccessible - aborting
 					return false;
