@@ -353,7 +353,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
 
 		$values = array();
-		$values["cobj_online"] = $this->object->getOnline();
+		$values['cobj_online'] = !$this->object->getOfflineStatus();
 		if ($startfile != "")
 		{
 			$startfile = basename($startfile);
@@ -363,7 +363,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$startfile = $this->lng->txt("no_start_file");
 		}
 
-		$values["cobj_online"] = $this->object->getOnline();
 		$values["startfile"] = $startfile;
 		$values["title"] = $this->object->getTitle();
 		$values["desc"] = $this->object->getDescription();
@@ -400,7 +399,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		{			
 			$this->object->setTitle($this->form->getInput("title"));
 			$this->object->setDescription($this->form->getInput("desc"));
-			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+			$this->object->setOfflineStatus(! (bool) $_POST['cobj_online']);
 
 			$this->object->update();
 
