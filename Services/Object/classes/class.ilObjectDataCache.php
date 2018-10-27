@@ -92,7 +92,7 @@ class ilObjectDataCache
 	/**
 	 * Check if supports centralized offline handling and is offline
 	 * @param $a_obj_id
-	 * @return null | bool
+	 * @return bool
 	 */
 	public function lookupOfflineStatus($a_obj_id)
 	{
@@ -100,7 +100,7 @@ class ilObjectDataCache
 		{
 			$this->__storeObjectData($a_obj_id);
 		}
-		return $this->object_data_cache[$a_obj_id]['offline'];
+		return (bool) $this->object_data_cache[$a_obj_id]['offline'];
 	}
 
 	// PRIVATE

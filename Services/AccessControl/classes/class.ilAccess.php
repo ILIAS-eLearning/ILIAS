@@ -673,7 +673,7 @@ class ilAccess implements ilAccessHandler {
 		// no write access => check centralized offline status
 		if(
 			$objDefinition->supportsOfflineHandling($a_type) &&
-			!ilObject::lookupOfflineStatus($a_obj_id)
+			ilObject::lookupOfflineStatus($a_obj_id)
 		)
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;

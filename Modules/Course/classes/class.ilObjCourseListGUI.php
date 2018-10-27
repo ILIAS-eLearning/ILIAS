@@ -82,9 +82,9 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 		$props = parent::getProperties();
 		
-		// offline
+		// check activation
 		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
-		if(ilObjCourseAccess::_isOffline($this->obj_id))
+		if(!ilObjCourseAccess::_isActivated($this->obj_id))
 		{
 			$showRegistrationInfo = false;
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
