@@ -342,9 +342,9 @@ class ilAccess implements ilAccessHandler {
 			$a_permission,
 			$a_cmd,
 			$a_ref_id,
+			$a_user_id,
 			$a_obj_id,
-			$a_type,
-			$a_user_id
+			$a_type
 		);
 
 		if(!$act_check)
@@ -623,7 +623,7 @@ class ilAccess implements ilAccessHandler {
 	/**
 	 * @inheritdoc
 	 */
-	public function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_obj_id, $a_type, $a_user_id)
+	public function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type)
 	{
 		global $DIC;
 
@@ -638,7 +638,6 @@ class ilAccess implements ilAccessHandler {
 			? "visible"
 			: "other";
 
-//echo "<br>doActivationCheck-$cache_perm-$a_ref_id-$a_user_id-".$ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
 
 		if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id]))
 		{
