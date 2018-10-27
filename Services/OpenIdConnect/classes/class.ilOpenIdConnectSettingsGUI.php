@@ -10,6 +10,10 @@
  */
 class ilOpenIdConnectSettingsGUI
 {
+	const STAB_SETTINGS = 'settings';
+	const STAB_PROFILE = 'profile';
+	const STAB_ROLES = 'roles';
+
 	const DEFAULT_CMD = 'settings';
 
 	/**
@@ -59,6 +63,11 @@ class ilOpenIdConnectSettingsGUI
 	protected $mainTemplate = null;
 
 	/**
+	 * @var ilTabsGUI|null
+	 */
+	protected $tabs = null;
+
+	/**
 	 * ilOpenIdConnectSettingsGUI constructor.
 	 */
 	public function __construct($a_ref_id)
@@ -71,6 +80,7 @@ class ilOpenIdConnectSettingsGUI
 		$this->lng->loadLanguageModule('auth');
 
 		$this->mainTemplate = $DIC->ui()->mainTemplate();
+		$this->tabs = $DIC->tabs();
 		$this->ctrl = $DIC->ctrl();
 		$this->logger = $DIC->logger()->auth();
 
@@ -125,6 +135,8 @@ class ilOpenIdConnectSettingsGUI
 	protected function settings(ilPropertyFormGUI $form = null)
 	{
 		$this->checkAccess('read');
+		$this->setSubTabs(self::STAB_SETTINGS);
+
 
 		if(!$form instanceof ilPropertyFormGUI)
 		{
@@ -439,6 +451,119 @@ class ilOpenIdConnectSettingsGUI
 		}
 
 		return $select;
+	}
+
+
+	/**
+	 * Show profile settings
+	 */
+	protected function profile(ilPropertyFormGUI $form = null)
+	{
+		$this->checkAccess('read');
+		$this->setSubTabs(self::STAB_PROFILE);
+
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initProfileForm();
+		}
+		$this->mainTemplate->setContent($form->getHTML());
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initProfileForm() : \ilPropertyFormGUI
+	{
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('auth_oidc_mapping_table'));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveProfile'));
+
+		foreach($this->settings->getProfileMappingFields() as $field => $lng_key)
+		{
+			$text_form = new ilTextInputGUI($this->lng->txt($lng_key));
+			$text_form->setPostVar($field."_value");
+			$text_form->setValue($this->settings->getProfileMappingFieldValue($field));
+			$form->addItem($text_form);
+
+			$checkbox_form = new ilCheckboxInputGUI('');
+			$checkbox_form->setValue(1);
+			$checkbox_form->setPostVar($field . "_update");
+			$checkbox_form->setChecked($this->settings->getProfileMappingFieldUpdate($field));
+			$checkbox_form->setOptionTitle($this->lng->txt('auth_oidc_update_field_info'));
+			$form->addItem($checkbox_form);
+		}
+
+		if($this->checkAccessBool('write'))
+		{
+			$form->addCommandButton('saveProfile',$this->lng->txt('save'));
+		}
+		return $form;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function saveProfile()
+	{
+		$this->checkAccessBool('write');
+
+		$form = $this->initProfileForm();
+		if(!$form->checkInput()) {
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			$form->setValuesByPost();
+			$this->profile($form);
+			return false;
+		}
+
+		foreach($this->settings->getProfileMappingFields() as $field => $lng_key)
+		{
+			$this->settings->setProfileMappingFieldValue(
+				$field,
+				$form->getInput($field.'_value')
+			);
+			$this->settings->setProfileMappingFieldUpdate(
+				$field,
+				$form->getInput($field.'_update')
+			);
+		}
+		$this->settings->save();
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this, self::STAB_PROFILE);
+	}
+
+	/**
+	 * Show role mapping
+	 */
+	protected function roles()
+	{
+		$this->checkAccess('read');
+		$this->setSubTabs(self::STAB_ROLES);
+
+
+	}
+
+	/**
+	 * Set sub tabs
+	 */
+	protected function setSubTabs(string $active_tab)
+	{
+		$this->tabs->addSubTab(
+			self::STAB_SETTINGS,
+			$this->lng->txt('auth_oidc_' . self::STAB_SETTINGS),
+			$this->ctrl->getLinkTarget($this,self::STAB_SETTINGS)
+		);
+		$this->tabs->addSubTab(
+			self::STAB_PROFILE,
+			$this->lng->txt('auth_oidc_' . self::STAB_PROFILE),
+			$this->ctrl->getLinkTarget($this,self::STAB_PROFILE)
+		);
+		$this->tabs->addSubTab(
+			self::STAB_ROLES,
+			$this->lng->txt('auth_oidc_' . self::STAB_ROLES),
+			$this->ctrl->getLinkTarget($this,self::STAB_ROLES)
+		);
+
+		$this->tabs->activateSubTab($active_tab);
 	}
 
 }

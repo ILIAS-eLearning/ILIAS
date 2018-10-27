@@ -112,6 +112,16 @@ class ilOpenIdConnectSettings
 	private $uid = '';
 
 	/**
+	 * @var array
+	 */
+	private $profile_map = [];
+
+	/**
+	 * @var array
+	 */
+	private $profile_update_map = [];
+
+	/**
 	 * ilOpenIdConnectSettings constructor.
 	 */
 	private function __construct()
@@ -414,6 +424,11 @@ class ilOpenIdConnectSettings
 		$this->storage->set('role', (int) $this->getRole());
 		$this->storage->set('uid',(string) $this->getUidField());
 
+		foreach($this->getProfileMappingFields() as $field => $lang_key)
+		{
+			$this->storage->set('pmap_'.$field, $this->getProfileMappingFieldValue($field));
+			$this->storage->set('pumap_'.$field, $this->getProfileMappingFieldUpdate($field));
+		}
 	}
 
 	/**
@@ -421,6 +436,12 @@ class ilOpenIdConnectSettings
 	 */
 	protected function load()
 	{
+		foreach($this->getProfileMappingFields() as $field => $lang_key)
+		{
+			$this->profile_map[$field] = (string) $this->storage->get('pmap_'.$field,'');
+			$this->profile_update_map[$field] = (bool) $this->storage->get('pumap_'.$field,'');
+		}
+
 		$this->setActive((bool) $this->storage->get('active', 0));
 		$this->setProvider($this->storage->get('provider', ''));
 		$this->setClientId($this->storage->get('client_id',''));
@@ -436,4 +457,54 @@ class ilOpenIdConnectSettings
 		$this->setRole((int) $this->storage->get('role'),0);
 		$this->setUidField((string) $this->storage->get('uid'),'');
 	}
+
+	/**
+	 * @param string $field
+	 */
+	public function getProfileMappingFieldValue(string $field) : string
+	{
+		return (string) $this->profile_map[$field];
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $value
+	 */
+	public function setProfileMappingFieldValue(string $field, string $value)
+	{
+		$this->profile_map[$field] = $value;
+	}
+
+	/**
+	 * @param string $value
+	 * @return bool
+	 */
+	public function getProfileMappingFieldUpdate(string $field) : bool
+	{
+		return (bool) $this->profile_update_map[$field];
+	}
+
+	/**
+	 * @param string $field
+	 * @param bool $value
+	 */
+	public function setProfileMappingFieldUpdate(string $field, bool $value)
+	{
+		$this->profile_update_map[$field] = $value;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getProfileMappingFields() : array
+	{
+		return [
+			'firstname' => 'firstname',
+			'lastname' => 'lastname',
+			'email'	=> 'email',
+			'birthday' => 'birthday'
+		];
+	}
+
 }

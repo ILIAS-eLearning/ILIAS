@@ -100,9 +100,6 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 				$token = $oidc->requestClientCredentialsToken();
 				ilSession::set('oidc_auth_token', $token->access_token);
 			}
-
-
-
 			return true;
 		}
 		catch(Exception $e) {
@@ -130,36 +127,32 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			return false;
 		}
 
-
 		$uid_field = $this->settings->getUidField();
 		$ext_acocunt = $user_info->$uid_field;
+
 		$this->getLogger()->debug('Authenticated external account: ' . $ext_acocunt);
+
 
 		$int_account = ilObjUser::_checkExternalAuthAccount(
 			'auth_oidc',
 			$ext_acocunt
 		);
-		if($int_account)
-		{
-			$this->getLogger()->debug('User is authenticated: ' . $int_account);
-			$this->getLogger()->dump($user_info);
 
+		try {
+			$sync = new ilOpenIdConnectUserSync($this->settings, $user_info);
+			$sync->setExternalAccount($ext_acocunt);
+			$sync->setInternalAccount($int_account);
+			$sync->updateUser();
+
+			$user_id = $sync->getUserId();
 			ilSession::set('used_external_auth', true);
-			$status->setAuthenticatedUserId(
-				ilObjUser::_lookupId($int_account)
-			);
+			$status->setAuthenticatedUserId($user_id);
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		}
-		else
-		{
-			if(!$this->settings->isSyncAllowed())
-			{
-				$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-				$status->setReason('err_wrong_login');
-				return false;
-			}
+		catch(ilOpenIdConnectSyncForbiddenException $e) {
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+			$status->setReason('err_wrong_login');
 		}
-
 
 		return $status;
 	}
