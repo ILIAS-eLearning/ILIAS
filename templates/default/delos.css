@@ -6901,7 +6901,7 @@ button.close {
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   position: absolute;
   top: 0;
   left: 0;
@@ -6925,7 +6925,7 @@ button.close {
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button {
   background-color: inherit;
-  border: #b0b0b0 1px solid;
+  border: #e0e0e0 1px solid;
   width: 29px;
   height: 29px;
 }
