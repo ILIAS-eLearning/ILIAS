@@ -120,7 +120,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock('start_rel');
 			$this->tpl->setVariable('START_REL_VAL',(int) $set['item']['suggestion_start_rel']);
-			$this->tpl->setVariable('START_REL_NAME', 'item['.$set['ref_id'].'][sug_start]');
+			$this->tpl->setVariable('START_REL_NAME', 'item['.$set['ref_id'].'][sug_start_rel]');
 			$this->tpl->parseCurrentBlock();
 		}
 		// duration

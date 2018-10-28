@@ -1314,9 +1314,10 @@ class ilCourseContentGUI
 			$old_data = ilObjectActivation::getItem($ref_id);
 
 			$item_obj->setTimingType($data['active'] ? 	ilObjectActivation::TIMINGS_PRESETTING : ilObjectActivation::TIMINGS_DEACTIVATED);
-			
 			$item_obj->setTimingStart($old_data['timing_start']);
 			$item_obj->setTimingEnd($old_data['timing_end']);
+			$item_obj->toggleVisible($old_data['visible']);
+			$item_obj->toggleChangeable((int) $data['change']);
 
 			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
 			{
@@ -1328,8 +1329,6 @@ class ilCourseContentGUI
 					
 					$item_obj->setSuggestionEnd($sug_start_dt->get(IL_CAL_UNIX));
 				}
-				
-				
 				$latest_end_dt = ilCalendarUtil::dateFromUserSetting($data['lim_end']['date']);
 				if($latest_end_dt instanceof ilDate)
 				{
@@ -1338,8 +1337,13 @@ class ilCourseContentGUI
 					$item_obj->setLatestEnd($latest_end_dt->get(IL_CAL_UNIX));
 				}
 				
-				$item_obj->toggleVisible($old_data['visible']);
-				$item_obj->toggleChangeable((int) $data['change']);
+			}
+			else
+			{
+				$item_obj->setSuggestionStartRelative($data['sug_start_rel']);
+				$item_obj->setSuggestionEndRelative($data['sug_start_rel'] + $data['duration_a']);
+				$item_obj->setEarliestStartRelative(0);
+				$item_obj->setLatestEndRelative($data['lim_end_rel']);
 			}
 			
 			if(!$item_obj->validateActivation())
