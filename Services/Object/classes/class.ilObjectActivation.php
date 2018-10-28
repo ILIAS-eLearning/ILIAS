@@ -11,6 +11,13 @@
 */
 class ilObjectActivation
 {
+
+	const ERR_SUG_START_END = 1;
+	const ERR_START_END = 2;
+	const ERR_SUG_START_BEFORE_START = 3;
+	const ERR_SUG_END_BEFORE_END = 4;
+
+
 	/**
 	 * @var ilErrorHandling
 	 */
@@ -315,7 +322,36 @@ class ilObjectActivation
 		}
 		return true;
 	}
-	
+
+	/**
+	 * @return array
+	 */
+	public function validateRelativePlaning()
+	{
+		$errors = array();
+		
+		if($this->getSuggestionStartRelative() >= $this->getSuggestionEndRelative())
+		{
+			$errors[] = self::ERR_SUG_START_END;
+		}
+		if($this->enabledChangeable())
+		{
+			if($this->getEaliestStartRelative() >= $this->getLatestEndRelative())
+			{
+				$errors[] = self::ERR_START_END;
+			}
+			if($this->getSuggestionStartRelative() < $this->getEaliestStartRelative())
+			{
+				$errors[] = self::ERR_SUG_START_BEFORE_START;
+			}
+			if($this->getSuggestionEndRelative() > $this->getLatestEndRelative())
+			{
+				$errors[] = self::ERR_SUG_END_BEFORE_END;
+			}
+		}
+		return $errors;
+	}
+
 	/**
 	 * Update db entry
 	 * 
