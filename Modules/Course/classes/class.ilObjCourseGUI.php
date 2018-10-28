@@ -949,6 +949,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
+			if($form->getInput('timing_mode') != $this->object->getTimingMode())
+			{
+				ilUtil::sendInfo($this->lng->txt("crs_view_info_timing_mode"), true);
+			}
 			$this->object->setTimingMode((int) $form->getInput('timing_mode'));
 		}
 		else
