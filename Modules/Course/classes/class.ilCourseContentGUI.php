@@ -607,15 +607,6 @@ class ilCourseContentGUI
 
 			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDate($item['suggestion_end'],IL_CAL_UNIX)));
 
-			// Limit
-			if(is_array($_POST['item']["$item[ref_id]"]['lim_end']))
-			{
-				$end = $this->__toUnix($_POST['item']["$item[ref_id]"]['lim_end']);
-			}
-			else
-			{
-				$end = $item['latest_end'];
-			}
 
 			$date = $this->__prepareDateSelect($end);
 			$this->tpl->setVariable("LIM_END",
@@ -1145,8 +1136,6 @@ class ilCourseContentGUI
 			{
 				$this->tpl->setVariable("VAL_DURATION",intval(($end - $start) / (60 * 60 * 24)));
 			}
-			$this->tpl->setVariable('LIM_START',ilDatePresentation::formatDate(new ilDate($item['earliest_start'],IL_CAL_UNIX)));
-			$this->tpl->setVariable('LIM_END',ilDatePresentation::formatDate(new ilDate($item['latest_end'],IL_CAL_UNIX)));
 		}
 
 		$this->tpl->parseCurrentBlock();
@@ -1280,8 +1269,6 @@ class ilCourseContentGUI
 			// #9325
 			$item['suggestion_end'] = $this->__toUnix($_POST['item'][$obj_id]['sug_end']);
 		}
-		$item['earliest_start'] = $this->__toUnix($_POST['item'][$obj_id]['lim_start']);
-		$item['latest_end'] = $this->__toUnix($_POST['item'][$obj_id]['lim_end']);
 		$item['changeable'] = $_POST['item'][$obj_id]['change'];
 		$item['timing_type'] = $_POST['item'][$obj_id]['active'] ? ilObjectActivation::TIMINGS_PRESETTING : $item['timing_type'];
 		$item['duration_a'] = $_POST['item'][$obj_id]['duration_a'];
