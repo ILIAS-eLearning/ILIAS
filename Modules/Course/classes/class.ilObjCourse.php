@@ -623,7 +623,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
 		$res = $ilDB->query($query);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
 			return (int)$row->timing_mode;
 		}
 		return ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE;
