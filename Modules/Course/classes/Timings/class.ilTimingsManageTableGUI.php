@@ -71,7 +71,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('crs_timings_short_start_end'),'','',FALSE,'',$this->lng->txt('crs_timings_short_start_end_tt'.$tooltip_postfix));
 		$this->addColumn($this->lng->txt('crs_timings_time_frame'),'','',FALSE,'',$this->lng->txt('crs_timings_time_frame_tt'));
 		$this->addColumn($this->lng->txt('crs_timings_short_changeable'),'','',FALSE,'',$this->lng->txt('crs_timings_short_changeable_tt'));
-		$this->addColumn($this->lng->txt('crs_timings_short_limit_start_end'),'','',FALSE,'',$this->lng->txt('crs_timings_short_limit_start_end_tt'.$tooltip_postfix));
 		
 		$this->addCommandButton('updateManagedTimings', $this->lng->txt('save'));
 		#$this->addCommandButton('timingsOff', $this->lng->txt('cancel'));
@@ -154,26 +153,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		// changeable
 		$this->tpl->setVariable('NAME_CHANGE','item['.$set['ref_id'].'][change]');
 		$this->tpl->setVariable('CHECKED_CHANGE', $set['item']['changeable'] ? 'checked="checked"' : '');
-		
-		// latest end
-		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
-		{
-			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
-			$dt_input = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][lim_end]');
-			$dt_input->setDate(new ilDate($set['item']['latest_end'],IL_CAL_UNIX));
-			
-			$this->tpl->setCurrentBlock('end_abs');
-			$this->tpl->setVariable('LIM_END',$dt_input->render());
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock('end_rel');
-			$this->tpl->setVariable('END_REL_VAL',(int) $set['item']['latest_end_rel']);
-			$this->tpl->setVariable('END_REL_NAME', 'item['.$set['ref_id'].'][lim_end_rel]');
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		
 	}
 	

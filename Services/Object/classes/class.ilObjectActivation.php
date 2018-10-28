@@ -13,9 +13,6 @@ class ilObjectActivation
 {
 
 	const ERR_SUG_START_END = 1;
-	const ERR_START_END = 2;
-	const ERR_SUG_START_BEFORE_START = 3;
-	const ERR_SUG_END_BEFORE_END = 4;
 
 
 	/**
