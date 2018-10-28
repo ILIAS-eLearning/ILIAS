@@ -1289,6 +1289,76 @@ class ilCourseContentGUI
 		return $item;
 	}
 
+	/**
+	 * @return bool
+	 * @throws ilDateTimeException
+	 */
+	protected function updateManagedTimings()
+	{
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC['ilErr'];
+
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
+		}
+
+		$failed = array();
+		$all_items = array();
+		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
+		foreach((array) $_POST['item'] as $ref_id => $data)
+		{
+			$item_obj = new ilObjectActivation();
+			$old_data = ilObjectActivation::getItem($ref_id);
+
+			$item_obj->setTimingType($data['active'] ? 	ilObjectActivation::TIMINGS_PRESETTING : ilObjectActivation::TIMINGS_DEACTIVATED);
+			
+			$item_obj->setTimingStart($old_data['timing_start']);
+			$item_obj->setTimingEnd($old_data['timing_end']);
+
+			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
+			{
+				$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']['date']);
+				if($sug_start_dt instanceof ilDate)
+				{
+					$item_obj->setSuggestionStart($sug_start_dt->get(IL_CAL_UNIX));
+					$sug_start_dt->increment(IL_CAL_DAY, abs($data['duration_a']));
+					
+					$item_obj->setSuggestionEnd($sug_start_dt->get(IL_CAL_UNIX));
+				}
+				
+				
+				$latest_end_dt = ilCalendarUtil::dateFromUserSetting($data['lim_end']['date']);
+				if($latest_end_dt instanceof ilDate)
+				{
+					$now = new ilDateTime(time(),IL_CAL_UNIX);
+					$item_obj->setEarliestStart($now->get(IL_CAL_UNIX));
+					$item_obj->setLatestEnd($latest_end_dt->get(IL_CAL_UNIX));
+				}
+				
+				$item_obj->toggleVisible($old_data['visible']);
+				$item_obj->toggleChangeable((int) $data['change']);
+			}
+			
+			if(!$item_obj->validateActivation())
+			{
+				$failed[$ref_id] = $old_data['title'];
+			}
+			$all_items[$ref_id] =& $item_obj;
+			unset($item_obj);
+		}
+		
+		foreach($all_items as $ref_id => $item_obj_new)
+		{
+			$item_obj_new->update($ref_id);
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->manageTimings();
+		return TRUE;
+	}
+
 	function updateTimings()
 	{
 		include_once 'Services/Object/classes/class.ilObjectActivation.php';

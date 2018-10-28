@@ -529,7 +529,7 @@ class ilCalendarUtil
 		return self::$default_calendar[$a_usr_id][$a_type_id];
 	}
 	
-	
+
 	//
 	// BOOTSTRAP DATEPICKER
 	// 	
@@ -746,31 +746,66 @@ class ilCalendarUtil
 	 * @return ilDateTime|ilDate
 	 */
 	public static function parseIncomingDate($a_value, $a_add_time = null)
-	{						
+	{
 		// already datetime object?
-		if(is_object($a_value) && 
-			$a_value instanceof ilDateTime)
-		{
+		if (is_object($a_value) &&
+			$a_value instanceof ilDateTime) {
 			return $a_value;
-		}
-		else if(trim($a_value))
-		{							
+		} else if (trim($a_value)) {
 			// try user-specific format
-			$parsed = self::parseDateString($a_value, $a_add_time);				
-			if(is_object($parsed["date"]))
-			{
+			$parsed = self::parseDateString($a_value, $a_add_time);
+			if (is_object($parsed["date"])) {
 				return $parsed["date"];
-			}		
-			else 
-			{			
+			} else {
 				// try generic format 
-				$parsed = self::parseDateString($a_value, $a_add_time, true);				
-				if(is_object($parsed["date"]))
-				{
+				$parsed = self::parseDateString($a_value, $a_add_time, true);
+				if (is_object($parsed["date"])) {
 					return $parsed["date"];
-				}	
-			}			
-		}		
-	}		
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param string $a_date_string
+	 * @return \ilDateTime
+	 */
+	public static function dateFromUserSetting($a_date_string)
+	{
+		global $ilUser;
+		
+		switch ($ilUser->getDateFormat())
+		{
+			case ilCalendarSettings::DATE_FORMAT_DMY:
+				$date = explode(".", $a_date_string);
+				$dt['mday'] = (int) $date[0];
+				$dt['mon'] = (int) $date[1];
+				$dt['year'] = (int) $date[2];
+				break;
+
+			case ilCalendarSettings::DATE_FORMAT_YMD:
+				$date = explode("-", $a_date_string);
+				$dt['mday'] = (int) $date[2];
+				$dt['mon'] = (int) $date[1];
+				$dt['year'] = (int) $date[0];
+				break;
+
+			case ilCalendarSettings::DATE_FORMAT_MDY:
+				$date = explode("/", $a_date_string);
+				$dt['mday'] = (int) $date[1];
+				$dt['mon'] = (int) $date[0];
+				$dt['year'] = (int) $date[2];
+				break;
+		}
+		try 
+		{
+			$dt = new ilDate($dt,IL_CAL_FKT_GETDATE);
+		} 
+		catch(ilDateTimeException $e)
+		{
+			return null;
+		}
+		return $dt;
+	}
 }
 ?>

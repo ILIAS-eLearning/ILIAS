@@ -1,7 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once './Modules/Course/classes/class.ilCourseConstants.php';
 
 /**
  * TableGUI class for timings administration
@@ -52,6 +50,9 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		return $this->main_container;
 	}
 	
+	/**
+	 * Init table
+	 */
 	public function init()
 	{
 		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
@@ -66,7 +67,10 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('crs_timings_short_changeable'),'');
 		$this->addColumn($this->lng->txt('crs_timings_short_limit_start_end'),'');
 		
-		$this->addCommandButton('updateTimings', $this->lng->txt('save'));
+		$this->addCommandButton('updateManagedTimings', $this->lng->txt('save'));
+		
+		
+		$this->setShowRowsSelector(FALSE);
 	}
 	
 	/**
@@ -96,8 +100,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// active
-		$this->tpl->setVariable('NAME_ACTIVE','item_active['.$set['ref_id'].']');
-		$this->tpl->setVariable('CHECKED_ACTIVE', $set['active_checked'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable('NAME_ACTIVE','item['.$set['ref_id'].'][active]');
+		$this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type']  == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
 		
 		// start
 		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
@@ -122,13 +126,15 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		// duration
 		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
 		{
-			// @todo
+			$duration = intval(($set['item']['suggestion_end'] - $set['item']['suggestion_start']) / (60*60*24));
+			
+			$GLOBALS['ilLog']->write($set['item']['suggestion_end'] - $set['item']['suggestion_start']);
 		}
 		else
 		{
 			$duration = $set['item']['suggestion_end_rel'] - $set['item']['suggestion_start_rel'];
 		}
-		$this->tpl->setVariable('NAME_DUARATION_A','item['.$set['ref_id'].'][duration_a]');
+		$this->tpl->setVariable('NAME_DURATION_A','item['.$set['ref_id'].'][duration_a]');
 		$this->tpl->setVariable('VAL_DURATION_A', (int) $duration);
 		
 		// changeable
@@ -177,7 +183,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 			}
 			$current_row['ref_id'] = $item['ref_id'];
 			$current_row = $this->parseTitle($current_row, $item);
-			$current_row = $this->parseActivation($current_row, $item);
 			
 			$current_row['item'] = $item;
 			
@@ -231,30 +236,5 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		
 		return $current_row;
 	}
-	
-	/**
-	 * PArse activation
-	 * @param type $current_row
-	 * @param type $item
-	 */
-	protected function parseActivation($current_row, $item)
-	{
-		$current_row['active_checked'] = 
-		(
-				($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 
-				TRUE : FALSE
-		);
-		return $current_row;
-	}
-	
-	
-	protected function __prepareDateSelect($a_unix_time)
-	{
-		return array('y' => date('Y',$a_unix_time),
-					 'm' => date('m',$a_unix_time),
-					 'd' => date('d',$a_unix_time));
-	}
-	
 }
-
 ?>
