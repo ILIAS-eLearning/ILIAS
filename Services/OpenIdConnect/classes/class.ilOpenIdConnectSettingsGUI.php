@@ -433,9 +433,10 @@ class ilOpenIdConnectSettingsGUI
 	}
 
 	/**
-	 * Prepare role selection
+	 * @param bool $a_with_select_option
+	 * @return mixed
 	 */
-	protected function prepareRoleSelection()
+	protected function prepareRoleSelection($a_with_select_option = true) : array
 	{
 		$global_roles = ilUtil::_sortIds(
 			$this->review->getGlobalRoles(),
@@ -444,18 +445,25 @@ class ilOpenIdConnectSettingsGUI
 			'obj_id'
 		);
 
-		$select[0] = $this->lng->txt('links_select_one');
+		$select = [];
+		if($a_with_select_option)
+		{
+			$select[0] = $this->lng->txt('links_select_one');
+		}
 		foreach($global_roles as $role_id)
 		{
+			if($role_id == ANONYMOUS_ROLE_ID)
+			{
+				continue;
+			}
 			$select[$role_id] = ilObject::_lookupTitle($role_id);
 		}
-
 		return $select;
 	}
 
 
 	/**
-	 * Show profile settings
+	 * @param ilPropertyFormGUI|null $form
 	 */
 	protected function profile(ilPropertyFormGUI $form = null)
 	{
@@ -532,14 +540,51 @@ class ilOpenIdConnectSettingsGUI
 	}
 
 	/**
-	 * Show role mapping
+	 * @param ilPropertyFormGUI $form
 	 */
-	protected function roles()
+	protected function roles(\ilPropertyFormGUI $form = null)
 	{
 		$this->checkAccess('read');
 		$this->setSubTabs(self::STAB_ROLES);
 
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initRolesForm();
+		}
+		$this->mainTemplate->setContent($form->getHTML());
+	}
 
+	/**
+	 * @return \ilPropertyFormGUI
+	 */
+	protected function initRolesForm()
+	{
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('auth_oidc_role_mapping_table'));
+		$form->setFormAction($this->ctrl->getFormAction($this, self::STAB_ROLES));
+
+		foreach($this->prepareRoleSelection(false) as $role_id => $role_title)
+		{
+			$role_map = new ilTextInputGUI(
+				$role_title,
+				'role_map_'.$role_id
+			);
+			$form->addItem($role_map);
+
+			$update = new ilCheckboxInputGUI(
+				'',
+				'role_map_update_'.$role_id
+			);
+			$update->setOptionTitle($this->lng->txt('auth_oidc_update_role_info'));
+			$update->setValue(1);
+			$form->addItem($update);
+		}
+
+		if($this->checkAccessBool('write'))
+		{
+			$form->addCommandButton('saveRoles', $this->lng->txt('save'));
+		}
+		return $form;
 	}
 
 	/**

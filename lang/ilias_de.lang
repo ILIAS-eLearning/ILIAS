@@ -14505,15 +14505,17 @@ auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzu
 auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
 auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
-auth#:#auth_oidc_settings_user_sync#:#Synchronisierung
+auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von OpenId Connect-Attributen zu ILIAS-Benutzerdaten
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
+auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
+auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
