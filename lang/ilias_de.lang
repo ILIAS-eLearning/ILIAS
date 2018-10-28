@@ -14689,3 +14689,5 @@ dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
 sess#:#sess_members#:#Teilnehmer
 grp#:#grp_contact#:#Kontakt
 grp#:#grp_mem_contacts#:#Tutorielle Betreuung
+crs#:#crs_lobj_pm_score#:#Ihr Ergebnis
+crs#:#crs_lobj_pm_min_goal#:#Benötigter Wert
