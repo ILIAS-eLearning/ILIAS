@@ -64,8 +64,9 @@ class ilCourseContentGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
 		
+		// cognos-blu-patch: begin
 		// Handle timings view
-		$_SESSION['crs_timings'] = true;
+		// cognos-blu-patch: end
 
 		$this->__setSubTabs();
 		$this->tabs_gui->setTabActive('view_content');
@@ -472,9 +473,9 @@ class ilCourseContentGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
-		$GLOBALS['DIC']['ilTabs']->setSubTabActive('timings_timings');
+		$GLOBALS['DIC']['ilTabs']->setTabActive('timings_timings');
+		$GLOBALS['DIC']['ilTabs']->clearSubTabs();
 		
-		$this->__showTimingsPanel();
 		$table = new ilTimingsManageTableGUI(
 				$this,
 				'manageTimings',
@@ -495,19 +496,15 @@ class ilCourseContentGUI
 		$ilAccess = $DIC['ilAccess'];
 		$ilErr = $DIC['ilErr'];
 
-		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
-		include_once './Services/Link/classes/class.ilLink.php';
-
 		$this->lng->loadLanguageModule('meta');
 
 		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
-		$this->__showTimingsPanel();
-		$this->tabs_gui->setSubTabActive('timings_timings');
+		$this->tabs_gui->setTabActive('timings_timings');
+		$this->tabs_gui->clearSubTabs();
 
-		include_once 'Services/Object/classes/class.ilObjectActivation.php';
 		$this->cont_arr = ilObjectActivation::getTimingsAdministrationItems($this->container_obj->getRefId());
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_edit_items.html','Modules/Course');
@@ -650,29 +647,8 @@ class ilCourseContentGUI
 
 	}
 
-	function saveAcceptance()
-	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-
-		include_once 'Modules/Course/classes/Timings/class.ilTimingAccepted.php';
-		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
-
-		$accept_obj->setRemark(ilUtil::stripSlashes($_POST['remark']));
-		$accept_obj->accept($_POST['accepted']);
-		$accept_obj->setVisible($_POST['tutor']);
-		$accept_obj->update();
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->editUserTimings();
-	}
-
 	function editUserTimings()
 	{
-		if($_SESSION['crs_timings_panel'][$this->course_obj->getId()])
-		{
-			return $this->manageTimings();
-		}
 		global $DIC;
 
 		$ilAccess = $DIC['ilAccess'];
@@ -682,7 +658,8 @@ class ilCourseContentGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
-		$this->tabs_gui->setSubTabActive('timings_timings');
+		$this->tabs_gui->clearSubTabs();
+		$this->tabs_gui->setTabActive('timings_timings');
 
 		$_SESSION['crs_timings_user_hidden'] = isset($_GET['show_details']) ? $_GET['show_details'] : $_SESSION['crs_timings_user_hidden'];
 
@@ -852,8 +829,9 @@ class ilCourseContentGUI
 	function __editAdvancedUserTimings()
 	{
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','Modules/Course');
-		$this->__showTimingsPanel();
+
 		// cognos-blu-patch: begin
+		$this->tabs_gui->clearSubTabs();
 		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -912,8 +890,8 @@ class ilCourseContentGUI
 	{
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings.html','Modules/Course');
 
-		$this->__showTimingsPanel();
 		// cognos-blu-patch: begin
+		$this->tabs_gui->clearSubTabs();
 		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -1100,59 +1078,6 @@ class ilCourseContentGUI
 		}
 	}
 
-	function __showTimingsPanel()
-	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-
-		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
-		{
-			return true;
-		}
-		
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-		$btn = ilLinkButton::getInstance();
-			
-		if(!$_SESSION['crs_timings_panel'][$this->course_obj->getId()])
-		{
-			$btn->setCaption("timings_timings_on");
-			$btn->setUrl($this->ctrl->getLinkTarget($this,'timingsOn'));		
-		}
-		else
-		{
-			$btn->setCaption("timings_timings_off");
-			$btn->setUrl($this->ctrl->getLinkTarget($this,'timingsOff'));			
-		}
-		
-		$ilToolbar->addButtonInstance($btn);
-	}
-
-	function timingsOn()
-	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$_SESSION['crs_timings_panel'][$this->course_obj->getId()] = 1;
-
-		$ilTabs->clearSubTabs();
-		$this->__setSubTabs();
-		$this->manageTimings();
-	}
-
-	function timingsOff()
-	{
-		global $DIC;
-
-		$ilTabs = $DIC['ilTabs'];
-		$_SESSION['crs_timings_panel'][$this->course_obj->getId()] = 0;
-
-		$ilTabs->clearSubTabs();
-		$this->__setSubTabs();
-		$this->editUserTimings();
-	}
-
 
 	function updateUserTimings()
 	{
@@ -1161,6 +1086,10 @@ class ilCourseContentGUI
 		$ilUser = $DIC['ilUser'];
 		$ilObjDataCache = $DIC['ilObjDataCache'];
 		include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
+
+		// cognos-blu-patch: begin
+		$this->tabs_gui->clearSubTabs();
+		// cognos-blu-patch: end
 
 		// Validate
 		$this->invalid = array();
@@ -1242,6 +1171,8 @@ class ilCourseContentGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
 
+		$this->tabs_gui->clearSubTabs();
+		
 		$failed = array();
 		$all_items = array();
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
@@ -1315,8 +1246,6 @@ class ilCourseContentGUI
 
 	function updateTimings()
 	{
-		include_once 'Services/Object/classes/class.ilObjectActivation.php';
-
 		global $DIC;
 
 		$ilAccess = $DIC['ilAccess'];
