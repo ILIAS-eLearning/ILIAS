@@ -4057,8 +4057,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCountry' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/class.ilCountry.php',
         'ilCountrySelectInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilCountrySelectInputGUI.php',
         'ilCourseAppEventListener' => __DIR__ . '/../..' . '/../../Modules/Course/classes/class.ilCourseAppEventListener.php',
-        'ilCourseArchives' => __DIR__ . '/../..' . '/../../Modules/Course/classes/class.ilCourseArchives.php',
-        'ilCourseArchivesGUI' => __DIR__ . '/../..' . '/../../Modules/Course/classes/class.ilCourseArchivesGUI.php',
         'ilCourseBadgeProvider' => __DIR__ . '/../..' . '/../../Modules/Course/classes/class.ilCourseBadgeProvider.php',
         'ilCourseCertificateAdapter' => __DIR__ . '/../..' . '/../../Modules/Course/classes/class.ilCourseCertificateAdapter.php',
         'ilCourseConstants' => __DIR__ . '/../..' . '/../../Modules/Course/classes/class.ilCourseConstants.php',

@@ -3757,8 +3757,6 @@ return array(
     'ilCountry' => $baseDir . '/../../Services/Utilities/classes/class.ilCountry.php',
     'ilCountrySelectInputGUI' => $baseDir . '/../../Services/Form/classes/class.ilCountrySelectInputGUI.php',
     'ilCourseAppEventListener' => $baseDir . '/../../Modules/Course/classes/class.ilCourseAppEventListener.php',
-    'ilCourseArchives' => $baseDir . '/../../Modules/Course/classes/class.ilCourseArchives.php',
-    'ilCourseArchivesGUI' => $baseDir . '/../../Modules/Course/classes/class.ilCourseArchivesGUI.php',
     'ilCourseBadgeProvider' => $baseDir . '/../../Modules/Course/classes/class.ilCourseBadgeProvider.php',
     'ilCourseCertificateAdapter' => $baseDir . '/../../Modules/Course/classes/class.ilCourseCertificateAdapter.php',
     'ilCourseConstants' => $baseDir . '/../../Modules/Course/classes/class.ilCourseConstants.php',
