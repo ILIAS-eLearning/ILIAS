@@ -244,6 +244,7 @@ class ilOpenIdConnectUserSync
 		if(!property_exists($this->user_info,$connect_name))
 		{
 			$this->logger->debug('Cannot find property ' . $connect_name .' in user info ');
+			return '';
 		}
 		$val = $this->user_info->$connect_name;
 		return $val;
