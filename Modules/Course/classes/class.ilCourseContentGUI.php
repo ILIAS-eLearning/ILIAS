@@ -112,6 +112,14 @@ class ilCourseContentGUI
 		}
 	}
 
+	/**
+	 * @return ilObject
+	 */
+	public function getContainerObject()
+	{
+		return $this->container_obj;
+	}
+
 	function __getDefaultCommand()
 	{
 		global $DIC;
@@ -447,6 +455,36 @@ class ilCourseContentGUI
 		}
 		
 		return $html;
+	}
+
+	/**
+	 * Manage timings
+	 */
+	protected function manageTimings()
+	{
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC['ilErr'];
+		$mainTemplate = $DIC->ui()->mainTemplate();
+		
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
+		}
+		$GLOBALS['DIC']['ilTabs']->setSubTabActive('timings_timings');
+		
+		$table = new ilTimingsManageTableGUI(
+				$this,
+				'manageTimings',
+				$this->getContainerObject(),
+				$this->course_obj
+		);
+		$table->init();
+		$table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()));
+		
+		
+		$mainTemplate->setContent($table->getHTML());
 	}
 
 	function editTimings()
@@ -1161,7 +1199,7 @@ class ilCourseContentGUI
 
 		$ilTabs->clearSubTabs();
 		$this->__setSubTabs();
-		$this->editTimings();
+		$this->manageTimings();
 	}
 
 	function timingsOff()

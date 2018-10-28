@@ -585,7 +585,7 @@ class ilObjectActivation
 				$a_item['latest_end_rel'] = 0;
 				$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,timing_end," .
 					"suggestion_start,suggestion_end, ".
-					"changeable,earliest_start,latest_end,visible,position) ".
+					"changeable,earliest_start,latest_end,visible,suggestion_start_rel, suggestion_end_rel, earliest_start_rel, latest_end_rel, position) ".
 					"VALUES( ".
 					$ilDB->quote($parent_id,'integer').",".
 					$ilDB->quote($a_ref_id,'integer').",".
@@ -657,9 +657,9 @@ class ilObjectActivation
 
 		$ilLog = $DIC["ilLog"];
 	 	
-		$ilLog->write(__METHOD__.': Begin course items...');
+		$ilLog->write(__METHOD__.': Begin course items...'.$a_ref_id);
  				
-		$items = self::getItems($a_ref_id);	 	
+		$items = self::getItems($a_ref_id,FALSE);	 	
 	 	if(!$items)
 	 	{
 			$ilLog->write(__METHOD__.': No course items found.');
@@ -703,16 +703,13 @@ class ilObjectActivation
 	 		$new_item->setLatestEnd($item['latest_end']);
 	 		$new_item->toggleVisible($item['visible']);
 	 		$new_item->update($new_item_id, $new_parent);
-			 // cognos-blu-patch: begin
 			$new_item->setSuggestionStartRelative($item['suggestion_start_rel']);
 			$new_item->setSuggestionEndRelative($item['suggestion_end_rel']);
 			$new_item->setEarliestStartRelative($item['earliest_start_rel']);
 			$new_item->setLatestEndRelative($item['latest_end_rel']);
-			// cognos-blu-patch: end
-			
-			$ilLog->write(__METHOD__.': Added new entry for item nr. '.$item['obj_id']);
+			$new_item->createDefaultEntry($new_item_id);
+			$new_item->update($new_item_id);
 	 	}
-		$ilLog->write(__METHOD__.': Finished course items.');
 	}
 	
 	
@@ -995,6 +992,5 @@ class ilObjectActivation
 			$this->setTimingEnd($row->timing_end);
 		}
 	}
-}	
-	
+}
 ?>
