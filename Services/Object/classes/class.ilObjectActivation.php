@@ -863,7 +863,6 @@ class ilObjectActivation
 				}
 			}
 		}
-		
 		return $items;
 	}
 	

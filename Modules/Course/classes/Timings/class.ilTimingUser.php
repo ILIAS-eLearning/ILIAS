@@ -120,7 +120,9 @@ class ilTimingUser
 		
 		$query = 'UPDATE crs_timings_user '.
 				'SET sstart = '.$ilDB->quote($this->getStart()->get(IL_CAL_UNIX,'integer')).', '.
-				'ssend = '.$ilDB->quote($this->getEnd()->get(IL_CAL_UNIX,'integer'));
+				'ssend = '.$ilDB->quote($this->getEnd()->get(IL_CAL_UNIX,'integer')).' '.
+				'WHERE ref_id = '.$ilDB->quote($this->getRefId(),'integer').' '.
+				'AND usr_id = '.$ilDB->quote($this->getUserId(),'integer');
 		$ilDB->manipulate($query);
 	}
 

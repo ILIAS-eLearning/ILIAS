@@ -173,9 +173,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 				continue;
 			}
 			$current_row['ref_id'] = $item['ref_id'];
-			
-			
-			
 			$current_row = $this->parseTitle($current_row, $item);
 			
 			// dubios error handling

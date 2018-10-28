@@ -16,26 +16,17 @@
 		<!-- END tlt -->
 	</td>
 	<td class="{TD_CLASS}">
-		<input type="checkbox" name="{NAME_ACTIVE}" value="1" {CHECKED_ACTIVE} />
-	</td>
-	<td class="{TD_CLASS}">
 		<!-- BEGIN start_abs -->
-			{SUG_START}<br />
-			{SUG_END}
+			{SUG_START}
 		<!-- END start_abs -->
-		<!-- BEGIN start_rel -->
-		<div class="form-inline">
-			<input type="text" class="form-control" name="{START_REL_NAME}" value="{START_REL_VAL}" size="2" maxlength="3" />
-		</div>
-		<!-- END start_rel -->
 	</td>
 	<td class="{TD_CLASS}">
 		<div class="form-inline">
-			<input type="text" class="form-control" name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
+			<input type="text" class="form-control" {FORM_DURATION_DISABLED} name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
 		</div>
 	</td>
 	<td class="{TD_CLASS}">
-		<input type="checkbox" name="{NAME_CHANGE}" value="1" {CHECKED_CHANGE} />
+		{TXT_CHANGEABLE}
 	</td>
 </tr>
 

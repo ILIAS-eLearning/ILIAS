@@ -4,17 +4,18 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
 
 /**
-* TableGUI class for timings administration 
+* TableGUI class for editing personal timings
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
 * @ingroup ModulesCourse
 */
-class ilTimingsManageTableGUI extends ilTable2GUI
+class ilTimingsPersonalTableGUI extends ilTable2GUI
 {
 	private $container = null;
 	private $main_container = null;
+	private $user_id = null;
 	
 	/**
 	 * Constructor
@@ -23,7 +24,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 	{
 		$this->container = $a_container_obj;
 		$this->main_container = $a_main_container;
-		$this->setId('manage_timings_'.$this->getContainerObject()->getRefId());
+		$this->setId('personal_timings_'.$this->getContainerObject()->getRefId());
 		
 		parent::__construct($a_parent_class, $a_parent_cmd);
 	}
@@ -44,32 +45,34 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		return $this->main_container;
 	}
 	
+	public function setUserId($a_usr_id)
+	{
+		$this->user_id = $a_usr_id;
+	}
+	
+	/**
+	 * Get user id
+	 */
+	public function getUserId()
+	{
+		return $this->user_id;
+	}
+	
 	/**
 	 * Init table
 	 */
 	public function init()
 	{
 		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
-		$this->setRowTemplate('tpl.crs_manage_timings_row.html','Modules/Course');
+		$this->setRowTemplate('tpl.crs_personal_timings_row.html','Modules/Course');
 		
-		$this->setTitle($this->lng->txt('edit_timings_list'));
-		
-		$tooltip_postfix = '';
-		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE)
-		{
-			$tooltip_postfix = '_rel';
-		}
+		$this->setTitle($this->lng->txt('crs_timings_edit_personal'));
 		
 		$this->addColumn($this->lng->txt('title'),'');
-		$this->addColumn($this->lng->txt('crs_timings_short_active'),'','',FALSE,'',$this->lng->txt('crs_timings_short_active_tt'));
-		$this->addColumn($this->lng->txt('crs_timings_short_start_end'),'','',FALSE,'',$this->lng->txt('crs_timings_short_start_end_tt'.$tooltip_postfix));
-		$this->addColumn($this->lng->txt('crs_timings_time_frame'),'','',FALSE,'',$this->lng->txt('crs_timings_time_frame_tt'));
-		$this->addColumn($this->lng->txt('crs_timings_short_changeable'),'','',FALSE,'',$this->lng->txt('crs_timings_short_changeable_tt'));
-		
-		$this->addCommandButton('updateManagedTimings', $this->lng->txt('save'));
-		#$this->addCommandButton('timingsOff', $this->lng->txt('cancel'));
-		
-		
+		$this->addColumn($this->lng->txt('crs_timings_personal_start'), '');
+		$this->addColumn($this->lng->txt('crs_timings_time_frame_tt'),'');
+		$this->addColumn($this->lng->txt('crs_timings_short_changeable'), '');
+		$this->addCommandButton('updatePersonalTimings', $this->lng->txt('save'));
 		$this->setShowRowsSelector(FALSE);
 	}
 	
@@ -113,54 +116,55 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type']  == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
 		
 		// start
-		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
+		
+		include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
+		$dt_input = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_start]');
+		$dt_input->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		$dt_input->setShowEmpty(TRUE);
+		$dt_input->setDate(new ilDate($set['item']['suggestion_start'],IL_CAL_UNIX));
+		
+		if(!$set['item']['changeable'])
 		{
-			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
-			$dt_input = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_start]');
-			$dt_input->setMode(ilDateTimeInputGUI::MODE_INPUT);
-			$dt_input->setShowEmpty(TRUE);
-			$dt_input->setDate(new ilDate($set['item']['suggestion_start'],IL_CAL_UNIX));
-			
-			$this->tpl->setVariable('start_abs');
-			$this->tpl->setVariable('SUG_START',$dt_input->render());
-			$this->tpl->parseCurrentBlock();
+			$dt_input->setDisabled(TRUE);
 		}
-		else
-		{
-			$this->tpl->setCurrentBlock('start_rel');
-			$this->tpl->setVariable('START_REL_VAL',(int) $set['item']['suggestion_start_rel']);
-			$this->tpl->setVariable('START_REL_NAME', 'item['.$set['ref_id'].'][sug_start_rel]');
-			$this->tpl->parseCurrentBlock();
-		}
+		
+		$this->tpl->setVariable('start_abs');
+		$this->tpl->setVariable('SUG_START',$dt_input->render());
+		$this->tpl->parseCurrentBlock();
+		
 		// duration
-		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
-		{
-			$duration = intval(($set['item']['suggestion_end'] - $set['item']['suggestion_start']) / (60*60*24));
-			
-			$GLOBALS['ilLog']->write($set['item']['suggestion_end'] - $set['item']['suggestion_start']);
-		}
-		else
-		{
-			$duration = $set['item']['suggestion_end_rel'] - $set['item']['suggestion_start_rel'];
-		}
-		$this->tpl->setVariable('NAME_DURATION_A','item['.$set['ref_id'].'][duration_a]');
+		$duration = intval(($set['item']['suggestion_end'] - $set['item']['suggestion_start']) / (60*60*24));
+		$this->tpl->setVariable('NAME_DURATION_A','item['.$set['ref_id'].'][duration]');
 		$this->tpl->setVariable('VAL_DURATION_A', (int) $duration);
 		
-		// changeable
-		$this->tpl->setVariable('NAME_CHANGE','item['.$set['ref_id'].'][change]');
-		$this->tpl->setVariable('CHECKED_CHANGE', $set['item']['changeable'] ? 'checked="checked"' : '');
+		if(!$set['item']['changeable'])
+		{
+			$this->tpl->setVariable('FORM_DURATION_DISABLED','disabled="disabled"');
+		}
 		
+		
+		// changeable
+		$this->tpl->setVariable('TXT_CHANGEABLE', $set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no'));
 	}
 	
 	
 	/**
 	 * Parse table content
 	 */
-	public function parse($a_item_data, $a_failed_update = array())
+	public function parse($a_item_data)
 	{
 		$rows = array();
 		foreach($a_item_data as $item)
 		{
+			// hide objects without timings
+			if($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING)
+			{
+				continue;
+			}
+			
+			$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($item,TRUE));
+			
+			
 			$current_row = array();
 			
 			// no item groups
@@ -170,28 +174,52 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 			}
 			$current_row['ref_id'] = $item['ref_id'];
 			
-			
-			
 			$current_row = $this->parseTitle($current_row, $item);
+			
+			$GLOBALS['ilLog']->write(print_r($item,TRUE));
+			$item = $this->parseUserTimings($item);
+			$GLOBALS['ilLog']->write(print_r($item,TRUE));
 
 			// dubios error handling
-			if(array_key_exists($item['ref_id'], $a_failed_update))
+			#if(array_key_exists($item['ref_id'], $a_failed_update))
 			{
-				$current_row['item'] = $a_failed_update[$item['ref_id']];
-				$current_row['error'] = TRUE;
+				#$current_row['item'] = $a_failed_update[$item['ref_id']];
+				#$current_row['error'] = TRUE;
 			}
-			else
+			#else
 			{
 				$current_row['item'] = $item;
 			}
-			
-			
-			
 			$rows[] = $current_row;
 		}
 		$this->setData($rows);
 	}
 	
+	/**
+	 * Parse/read individual timings
+	 */
+	protected function parseUserTimings($a_item)
+	{
+		include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
+		$tu = new ilTimingUser($a_item['child'], $this->getUserId());
+		
+		if($a_item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING)
+		{
+			if($tu->getStart()->get(IL_CAL_UNIX))
+			{
+			$GLOBALS['ilLog']->write(__METHOD__.': '.(string) $tu->getStart());
+				$a_item['suggestion_start'] = $tu->getStart()->get(IL_CAL_UNIX);
+			}
+			if($tu->getEnd()->get(IL_CAL_UNIX))
+			{
+			$GLOBALS['ilLog']->write(__METHOD__.': '.(string) $tu->getEnd());
+				$a_item['suggestion_end'] = $tu->getEnd()->get(IL_CAL_UNIX);
+			}
+		}
+		return $a_item;
+	}
+
+
 	
 	
 	/**
