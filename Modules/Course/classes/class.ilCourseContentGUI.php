@@ -460,7 +460,7 @@ class ilCourseContentGUI
 	/**
 	 * Manage timings
 	 */
-	protected function manageTimings()
+	protected function manageTimings($failed_items = array())
 	{
 		global $DIC;
 
@@ -482,7 +482,7 @@ class ilCourseContentGUI
 				$this->course_obj
 		);
 		$table->init();
-		$table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()));
+		$table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()),$failed_items);
 		
 		
 		$mainTemplate->setContent($table->getHTML());
@@ -1345,21 +1345,50 @@ class ilCourseContentGUI
 				$item_obj->setLatestEndRelative($data['lim_end_rel']);
 			}
 			
-			if(!$item_obj->validateActivation())
+			// cognos-blu-patch: begin
+			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE)
+			{
+				$errors = $item_obj->validateRelativePlaning();
+				if($errors)
+				{
+					$failed[$ref_id]['timing_type'] = $item_obj->getTimingType();
+					$failed[$ref_id]['suggestion_start'] = $item_obj->getSuggestionStart();
+					$failed[$ref_id]['suggestion_end'] = $item_obj->getSuggestionEnd();
+					$failed[$ref_id]['suggestion_start_rel'] = $item_obj->getSuggestionStartRelative();
+					$failed[$ref_id]['suggestion_end_rel'] = $item_obj->getSuggestionEndRelative();
+					$failed[$ref_id]['changeable'] = $item_obj->enabledChangeable();
+					$failed[$ref_id]['earliest_start'] = $item_obj->getEarliestStart();
+					$failed[$ref_id]['earliest_start_rel'] = $item_obj->getEaliestStartRelative();
+					$failed[$ref_id]['latest_end'] = $item_obj->getLatestEnd();
+					$failed[$ref_id]['latest_end_rel'] = $item_obj->getLatestEndRelative();
+				}
+			}
+			elseif(!$item_obj->validateActivation())
 			{
 				$failed[$ref_id] = $ref_id;
 			}
 			$all_items[$ref_id] =& $item_obj;
 			unset($item_obj);
 		}
-		
 		foreach($all_items as $ref_id => $item_obj_new)
 		{
-			$item_obj_new->update($ref_id);
+			if(!array_key_exists($ref_id, $failed))
+			{
+				$item_obj_new->update($ref_id);
+			}
 		}
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->manageTimings();
-		return TRUE;
+		if(!$failed)
+		{
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			$this->manageTimings();
+			return TRUE;
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			$this->manageTimings($failed);
+			return TRUE;
+		}
 	}
 
 	function updateTimings()

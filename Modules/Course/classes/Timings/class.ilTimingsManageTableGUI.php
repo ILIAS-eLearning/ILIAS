@@ -68,7 +68,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('crs_timings_short_limit_start_end'),'');
 		
 		$this->addCommandButton('updateManagedTimings', $this->lng->txt('save'));
-		$this->addCommandButton('timingsOff', $this->lng->txt('cancel'));
+		#$this->addCommandButton('timingsOff', $this->lng->txt('cancel'));
 		
 		
 		$this->setShowRowsSelector(FALSE);
@@ -80,6 +80,15 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($set)
 	{
+		if($set['error'] == TRUE)
+		{
+			$this->tpl->setVariable('TD_CLASS','warning');
+		}
+		else
+		{
+			$this->tpl->setVariable('TD_CLASS','std');
+		}
+		
 		// title
 		if(strlen($set['title_link']))
 		{
@@ -170,7 +179,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 	/**
 	 * Parse table content
 	 */
-	public function parse($a_item_data)
+	public function parse($a_item_data, $a_failed_update = array())
 	{
 		$rows = array();
 		foreach($a_item_data as $item)
@@ -183,9 +192,22 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 				continue;
 			}
 			$current_row['ref_id'] = $item['ref_id'];
+			
+			
+			
 			$current_row = $this->parseTitle($current_row, $item);
 			
+			// dubios error handling
+			if(array_key_exists($item['ref_id'], $a_failed_update))
+			{
+				$current_row['item'] = $a_failed_update[$item['ref_id']];
+				$current_row['error'] = TRUE;
+			}
+			else
+			{
 			$current_row['item'] = $item;
+			}
+			
 			
 			
 			$rows[] = $current_row;
