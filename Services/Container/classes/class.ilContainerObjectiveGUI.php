@@ -1251,23 +1251,27 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$lng = $DIC->language();
 		$lng->loadLanguageModule('crs');
 
-		$uiFactory = $DIC->ui()->factory();
-		$uiRenderer = $DIC->ui()->renderer();
 
-		$pMeter = $uiFactory->chart()->progressMeter()->standard(
-			100,
-			(int) $a_perc_result,
-			(int) $a_perc_limit
-		);
-		if(strlen($a_main_text))
+		if($a_perc_result !== null)
 		{
-			$pMeter = $pMeter->withMainText($a_main_text);
+			$uiFactory = $DIC->ui()->factory();
+			$uiRenderer = $DIC->ui()->renderer();
+
+			$pMeter = $uiFactory->chart()->progressMeter()->standard(
+				100,
+				(int) $a_perc_result,
+				(int) $a_perc_limit
+			);
+			if(strlen($a_main_text))
+			{
+				$pMeter = $pMeter->withMainText($a_main_text);
+			}
+			if(strlen($a_required_text))
+			{
+				$pMeter = $pMeter->withRequiredText($a_required_text);
+			}
+			$tpl->setVariable('PROGRESS_METER', $uiRenderer->render($pMeter));
 		}
-		if(strlen($a_required_text))
-		{
-			$pMeter = $pMeter->withRequiredText($a_required_text);
-		}
-		$tpl->setVariable('PROGRESS_METER', $uiRenderer->render($pMeter));
 
 		if($a_caption)
 		{
