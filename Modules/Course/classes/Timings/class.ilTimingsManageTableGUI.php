@@ -124,8 +124,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		{
 			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 			$dt_input = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_start]');
-			$dt_input->setMode(ilDateTimeInputGUI::MODE_INPUT);
-			$dt_input->setShowEmpty(TRUE);
 			$dt_input->setDate(new ilDate($set['item']['suggestion_start'],IL_CAL_UNIX));
 			
 			$this->tpl->setVariable('start_abs');
@@ -162,8 +160,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		{
 			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 			$dt_input = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][lim_end]');
-			$dt_input->setMode(ilDateTimeInputGUI::MODE_INPUT);
-			$dt_input->setShowEmpty(TRUE);
 			$dt_input->setDate(new ilDate($set['item']['latest_end'],IL_CAL_UNIX));
 			
 			$this->tpl->setCurrentBlock('end_abs');
