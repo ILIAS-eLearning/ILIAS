@@ -949,6 +949,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
+			$this->object->setTimingMode((int) $form->getInput('timing_mode'));
 		}
 		else
 		{
@@ -1381,6 +1382,22 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			$optt = new ilRadioOption($this->lng->txt('crs_view_timing'),IL_CRS_VIEW_TIMING);
 			$optt->setInfo($this->lng->txt('crs_view_info_timing'));
+
+		// cognos-blu-patch: begin
+				$timing = new ilRadioGroupInputGUI($this->lng->txt('crs_view_timings'), "timing_mode");
+				$timing->setValue($this->object->getTimingMode());
+
+				$absolute = new ilRadioOption($this->lng->txt('crs_view_timing_absolute'), IL_CRS_VIEW_TIMING_ABSOLUTE );
+				$absolute->setInfo($this->lng->txt('crs_view_info_timing_absolute'));
+				$timing->addOption($absolute);
+
+				$relative = new ilRadioOption($this->lng->txt('crs_view_timing_relative'), IL_CRS_VIEW_TIMING_RELATIVE );
+				$relative->setInfo($this->lng->txt('crs_view_info_timing_relative'));
+				$timing->addOption($relative);
+
+			$optt->addSubItem($timing);
+		// cognos-blu-patch: end
+
 			$view_type->addOption($optt);
 
 		$form->addItem($view_type);
