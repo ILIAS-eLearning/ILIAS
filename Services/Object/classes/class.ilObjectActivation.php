@@ -296,6 +296,10 @@ class ilObjectActivation
 		{
 			$errors[] = self::ERR_SUG_START_END;
 		}
+		elseif($this->getSuggestionStartRelative() < 0)
+		{
+			$errors[] = self::ERR_SUG_START_END;
+		}
 		return $errors;
 	}
 
