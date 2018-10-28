@@ -5490,7 +5490,7 @@ crs#:#event_date_time#:#Datum und Zeit
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Sitzung
 crs#:#event_digit#:#Ziffer
-crs#:#event_edit_members#:#Sitzungsteilnehmer verwalten
+crs#:#event_edit_members#:#Teilnehmer
 crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
 crs#:#event_file#:#Datei
 crs#:#event_files#:#Zugeordnete Dateien
@@ -9634,7 +9634,8 @@ help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Online-Hilfe öffnen
-help#:#help_toggle_tooltips#:#Hilfe-Tooltips an-/ausschalten
+help#:#help_toggle_tooltips#:#Hilfe-Tooltips
+help#:#help_toggle_tooltips_info#:#Hilfe-Tooltips zu Menüs und Reitern anzeigen.
 rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsverwaltung bearbeiten
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
@@ -14664,3 +14665,27 @@ exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
 exc#:#exc_start_assignment#:#Übungseinheit starten
 exc#:#exc_needs_fixed_deadline#:#Diese Funktion benötigt ein festes Abgabedatum.
 exc#:#exc_tbl_calculated_deadline#:#Errechneter Abgabetermin
+rbac#:#sess_manage_members#:#Teilnehmer einer Sitzung verwalten
+rbac#:#sess_manage_materials#:#Materialzuordnungen verwalten
+rbac#:#manage_materials#:#Materialien verwalten
+meta#:#md_adv_col_presentation_ordering#:#Position
+sess#:#sess_show_members#:#Teilnehmergalerie
+sess#:#sess_show_participants_info#:#Alle Teilnehmer können im Reiter "Teilnehmer" die Teilnehmergalerie einsehen.
+sess#:#sess_member_administration#:#Teilnehmerverwaltung
+sess#:#sess_members_gallery#:#Teilnehmergalerie
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Teilnehmer
+sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten einer Sitzung
+sess#:#mail_sess_roles#:#Verschicke Mail an folgende Rollen der Sitzung
+sess#:#send_mail_participants#:#Alle Teilnehmer der Sitzung
+sess#:#il_sess_participant#:#Sitzungsteilnehmer
+sess#:#sess_mail_type#:#Mail an Teilnehmer
+sess#:#sess_mail_admins_only#:#Nur für Administratoren
+sess#:#sess_mail_admins_only_info#:#Nur Administratoren können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
+sess#:#sess_mail_all#:#Für alle Teilnehmer
+sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
+sess#:#sess_contact#:#Kontakt
+sess#:#sess_mem_contacts#:#Tutorielle Betreuung
+dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
+sess#:#sess_members#:#Teilnehmer
+grp#:#grp_contact#:#Kontakt
+grp#:#grp_mem_contacts#:#Tutorielle Betreuung

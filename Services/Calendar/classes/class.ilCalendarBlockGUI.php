@@ -561,6 +561,44 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	}
 
 	/**
+	 * Add subscription block command
+	 */
+	protected function addSubscriptionBlockCommand()
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+
+		$ui_factory = $DIC->ui()->factory();
+		$ui_renderer = $DIC->ui()->renderer();
+
+		$gui_path = $this->getTargetGUIClassPath();
+		$gui_path[] = "ilcalendarsubscriptiongui";
+		$url = $this->ctrl->getLinkTargetByClass($gui_path, 'getModalForSubscription', "", true, false);
+
+		$roundtrip = $ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+
+		$standard_button = $ui_factory->button()->standard('Ical', '')->withOnClick(
+			$roundtrip->getShowSignal()
+		);
+		$components = [
+			$roundtrip,
+			$standard_button
+		];
+
+		$out = $ui_renderer->render($components);
+		$this->addBlockCommand(
+			'',
+			'',
+			"", "",
+			true,
+			false,
+			'<span class="ilIcalIcon">'.$out.'</span>'
+		);
+	}
+
+
+	/**
 	* Get bloch HTML code.
 	*/
 	function getHTML()
@@ -576,31 +614,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		{
 			return "";
 		}
-		
-		// add edit commands
-		#if ($this->getEnableEdit())
-		
-		//if($this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS or
-		//	$this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
-		//{
-			/*include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
-			$this->addBlockCommand(
-				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
-				$lng->txt('ical_export'),
-				"", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL)
-			);*/
 
-			include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
-			$gui_path = $this->getTargetGUIClassPath();
-			$gui_path[] = "ilcalendarsubscriptiongui";
-			$this->addBlockCommand(
-				$this->ctrl->getLinkTargetByClass($gui_path),
-				$lng->txt('ical_export'),
-				"", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL)
-			);
-		//}
-		
-		
+		$this->addSubscriptionBlockCommand();
+
 		if($this->mode == ilCalendarCategories::MODE_REPOSITORY)
 		{
 			if(!isset($_GET["bkid"]))

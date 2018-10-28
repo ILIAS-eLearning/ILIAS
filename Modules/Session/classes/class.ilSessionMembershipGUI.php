@@ -17,6 +17,15 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 class ilSessionMembershipGUI extends ilMembershipGUI
 {
 	/**
+	 * @return ilAbstractMailMemberRoles|null
+	 */
+	protected function getMailMemberRoles()
+	{
+		return new ilMailMemberSessionRoles();
+	}
+
+
+	/**
 	 * No support for positions in sessions
 	 * Check if rbac or position access is granted.
 	 * @param string $a_rbac_perm
@@ -72,7 +81,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	 */
 	protected function updateMembers()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
 		
 		$part = ilParticipants::getInstance($this->getParentObject()->getRefId());
 		
@@ -80,20 +89,21 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		{
 			$participated = (bool) $_POST['participated'][$part_id];
 			$registered = (bool) $_POST['registered'][$part_id];
+			$contact = (bool) $_POST['contact'][$part_id];
 			
 			$this->getLogger()->debug('Participated: ' . (int) $participated);
 			$this->getLogger()->debug('Registered: ' . (int) $registered);
 			
 			if($part->isAssigned($part_id))
 			{
-				if(!$participated && !$registered)
+				if(!$participated && !$registered && !$contact)
 				{
 					$part->delete($part_id);
 				}
 			}
 			else
 			{
-				if($participated || $registered)
+				if($participated || $registered || $contact)
 				{
 					$part->add($part_id,IL_SESS_MEMBER);
 				}
@@ -104,6 +114,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 			$event_part->setComment(ilUtil::stripSlashes($_POST['comment'][$part_id]));
 			$event_part->setParticipated($participated);
 			$event_part->setRegistered($registered);
+			$event_part->setContact($contact);
 			$event_part->updateUser();
 		}
 		
@@ -156,7 +167,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	 */
 	protected function deleteParticipants()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('manage_members');
                 
 		$participants = (array) $_POST['participants'];
 		
@@ -189,28 +200,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	}
 	
 	
-	/**
-	 * Show participants toolbar
-	 */
-	protected function showParticipantsToolbar()
-	{
-		$ilToolbar = $GLOBALS['DIC']->toolbar();
-		// print button
 
-		$ilToolbar->addButton(
-			$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
-			$this->ctrl->getLinkTarget($this, 'printMembers'));
-
-	}
-	
-	/**
-	 * Set sub tabs
-	 */
-	protected function setSubTabs(ilTabsGUI $tabs)
-	{
-	
-	}
-	
 	/**
 	 * @param array $a_members
 	 * @return array
@@ -218,6 +208,15 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	public function getPrintMemberData($a_members)
 	{
 		return $a_members;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function canAddOrSearchUsers()
+	{
+		return false;
 	}
 
 	
@@ -245,44 +244,34 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		
 		return $data;
 	}
-	
+
 	/**
-	 * Check permission has no manage members
-	 * @param string $a_permission
-	 * @param type $a_cmd
-	 * @return type
+	 * Get member tab name
+	 * @return string
 	 */
-	protected function checkPermission($a_permission, $a_cmd = "")
+	protected function getMemberTabName()
 	{
-		if($a_permission == 'manage_members')
-		{
-			$a_permission = 'write';
-		}
-		return parent::checkPermission($a_permission, $a_cmd);
-	}
-	
-	/**
-	 * Check if current user is allowed to add / search users
-	 * @return bool
-	 */
-	protected function canAddOrSearchUsers()
-	{
-		return $this->checkPermissionBool('write');
+		return $this->lng->txt($this->getParentObject()->getType().'_members');
 	}
 
 
+
 	/**
-	 * Workaround for unavailable gallery
+	 * @inheritdoc
 	 */
-	protected function jump2UsersGallery()
+	protected function getMailContextOptions()
 	{
-		return $this->participants();
+		$context_options = [];
+
+		$context_options =
+			[
+				ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
+				'ref_id' => $this->getParentObject()->getRefId(),
+				'ts'     => time()
+			];
+		return $context_options;
 	}
 
-	
-	
-	
-	
-	
+
 }
 ?>
