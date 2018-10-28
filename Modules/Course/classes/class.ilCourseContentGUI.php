@@ -64,9 +64,6 @@ class ilCourseContentGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
 		
-		// cognos-blu-patch: begin
-		// Handle timings view
-		// cognos-blu-patch: end
 
 		$this->__setSubTabs();
 		$this->tabs_gui->setTabActive('view_content');
@@ -699,8 +696,6 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
 
-		// cognos-blu-patch: begin
-		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.svg'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_usr'));
@@ -734,7 +729,9 @@ class ilCourseContentGUI
 
 		$this->lng->loadLanguageModule('meta');
 
-		$usr_planed = new ilTimingPlaned($item['ref_id'],$_GET['member_id']);
+		include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
+		$usr_planed = new ilTimingUser($item['ref_id'], (int) $_GET['member_id']);
+
 		for($i = 0;$i < $level;$i++)
 		{
 			$this->tpl->touchBlock('start_indent');
@@ -775,11 +772,14 @@ class ilCourseContentGUI
 
 		if($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING)
 		{
-			$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDate($item['suggestion_start'],IL_CAL_UNIX)));
-			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDate($item['suggestion_end'],IL_CAL_UNIX)));
+			if($usr_planed->getStart()->get(IL_CAL_UNIX))
+				$this->tpl->setVariable('SUG_START',$usr_planed->getStart()->get(IL_CAL_DATE));
+			if($usr_planed->getEnd()->get(IL_CAL_UNIX))
+				$this->tpl->setVariable('SUG_END',$usr_planed->getEnd()->get(IL_CAL_DATE));
 		}
 
-		if($item['changeable'] and $item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING)
+		
+		if(0 and $item['changeable'] and $item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING)
 		{
 			if($usr_planed->getPlanedStartingTime())
 			{
@@ -791,7 +791,7 @@ class ilCourseContentGUI
 			}
 			$this->tpl->setVariable('OWN_START',ilDatePresentation::formatDate(new ilDate($start,IL_CAL_UNIX)));
 
-			if($usr_planed->getPlanedEndingTime())
+			if($usr_planed->getPlanedEndingTime() and 0)
 			{
 				$end = $usr_planed->getPlanedEndingTime();
 			}
@@ -830,9 +830,7 @@ class ilCourseContentGUI
 	{
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','Modules/Course');
 
-		// cognos-blu-patch: begin
 		$this->tabs_gui->clearSubTabs();
-		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.svg'));
@@ -856,8 +854,6 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_START_END",$this->lng->txt('crs_timings_short_start_end'));
 		$this->tpl->setVariable("TXT_INFO_START_END",$this->lng->txt('crs_timings_start_end_info'));
 
-		// cognos-blu-patch: begin
-		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
 		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_start_end_info'));
@@ -890,9 +886,7 @@ class ilCourseContentGUI
 	{
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings.html','Modules/Course');
 
-		// cognos-blu-patch: begin
 		$this->tabs_gui->clearSubTabs();
-		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.svg'));
@@ -1087,9 +1081,7 @@ class ilCourseContentGUI
 		$ilObjDataCache = $DIC['ilObjDataCache'];
 		include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 
-		// cognos-blu-patch: begin
 		$this->tabs_gui->clearSubTabs();
-		// cognos-blu-patch: end
 
 		// Validate
 		$this->invalid = array();
