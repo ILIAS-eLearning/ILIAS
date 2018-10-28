@@ -81,4 +81,23 @@ if(!$ilDB->tableColumnExists('crs_items','latest_end_rel'))
 }
 ?>
 
+<#6>
+<?php
 
+if($ilDB->tableColumnExists('crs_items','earliest_start'))
+{
+	$ilDB->dropTableColumn('crs_items','earliest_start');
+}
+if($ilDB->tableColumnExists('crs_items','latest_end'))
+{
+	$ilDB->dropTableColumn('crs_items','latest_end');
+}
+if($ilDB->tableColumnExists('crs_items','earliest_start_rel'))
+{
+	$ilDB->dropTableColumn('crs_items','earliest_start_rel');
+}
+if($ilDB->tableColumnExists('crs_items','latest_end_rel'))
+{
+	$ilDB->dropTableColumn('crs_items','latest_end_rel');
+}
+?>
