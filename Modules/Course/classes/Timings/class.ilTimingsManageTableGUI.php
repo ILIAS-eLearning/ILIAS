@@ -60,12 +60,18 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		
 		$this->setTitle($this->lng->txt('edit_timings_list'));
 		
+		$tooltip_postfix = '';
+		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE)
+		{
+			$tooltip_postfix = '_rel';
+		}
+		
 		$this->addColumn($this->lng->txt('title'),'');
-		$this->addColumn($this->lng->txt('crs_timings_short_active'),'');
-		$this->addColumn($this->lng->txt('crs_timings_short_start_end'),'','',FALSE,'','Dauer in Tagen');
-		$this->addColumn($this->lng->txt('crs_timings_time_frame'),'');
-		$this->addColumn($this->lng->txt('crs_timings_short_changeable'),'');
-		$this->addColumn($this->lng->txt('crs_timings_short_limit_start_end'),'');
+		$this->addColumn($this->lng->txt('crs_timings_short_active'),'','',FALSE,'',$this->lng->txt('crs_timings_short_active_tt'));
+		$this->addColumn($this->lng->txt('crs_timings_short_start_end'),'','',FALSE,'',$this->lng->txt('crs_timings_short_start_end_tt'.$tooltip_postfix));
+		$this->addColumn($this->lng->txt('crs_timings_time_frame'),'','',FALSE,'',$this->lng->txt('crs_timings_time_frame_tt'));
+		$this->addColumn($this->lng->txt('crs_timings_short_changeable'),'','',FALSE,'',$this->lng->txt('crs_timings_short_changeable_tt'));
+		$this->addColumn($this->lng->txt('crs_timings_short_limit_start_end'),'','',FALSE,'',$this->lng->txt('crs_timings_short_limit_start_end_tt'.$tooltip_postfix));
 		
 		$this->addCommandButton('updateManagedTimings', $this->lng->txt('save'));
 		#$this->addCommandButton('timingsOff', $this->lng->txt('cancel'));
