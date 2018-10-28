@@ -960,9 +960,14 @@ class ilObjectActivation
 		}
 		
 		return $filtered;
-	} 	
-	
-	public function read($a_ref_id, $a_parent_id = 0) 
+	}
+
+	/**
+	 * @param $a_ref_id
+	 * @param int $a_parent_id
+	 * @throws ilDatabaseException
+	 */
+	public function read($a_ref_id, $a_parent_id = 0)
 	{
 		global $DIC;
 		$ilDB = $DIC->database();

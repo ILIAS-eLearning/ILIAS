@@ -1312,12 +1312,12 @@ class ilCourseContentGUI
 		foreach((array) $_POST['item'] as $ref_id => $data)
 		{
 			$item_obj = new ilObjectActivation();
-			$old_data = ilObjectActivation::getItem($ref_id);
+			$item_obj->read($ref_id);
 
 			$item_obj->setTimingType($data['active'] ? 	ilObjectActivation::TIMINGS_PRESETTING : ilObjectActivation::TIMINGS_DEACTIVATED);
-			$item_obj->setTimingStart($old_data['timing_start']);
-			$item_obj->setTimingEnd($old_data['timing_end']);
-			$item_obj->toggleVisible($old_data['visible']);
+			#$item_obj->setTimingStart($old_data['timing_start']);
+			#$item_obj->setTimingEnd($old_data['timing_end']);
+			#$item_obj->toggleVisible($old_data['visible']);
 			$item_obj->toggleChangeable((int) $data['change']);
 
 			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
@@ -1327,7 +1327,6 @@ class ilCourseContentGUI
 				{
 					$item_obj->setSuggestionStart($sug_start_dt->get(IL_CAL_UNIX));
 					$sug_start_dt->increment(IL_CAL_DAY, abs($data['duration_a']));
-					
 					$item_obj->setSuggestionEnd($sug_start_dt->get(IL_CAL_UNIX));
 				}
 				$latest_end_dt = ilCalendarUtil::dateFromUserSetting($data['lim_end']['date']);
@@ -1337,7 +1336,6 @@ class ilCourseContentGUI
 					$item_obj->setEarliestStart($now->get(IL_CAL_UNIX));
 					$item_obj->setLatestEnd($latest_end_dt->get(IL_CAL_UNIX));
 				}
-				
 			}
 			else
 			{
@@ -1349,7 +1347,7 @@ class ilCourseContentGUI
 			
 			if(!$item_obj->validateActivation())
 			{
-				$failed[$ref_id] = $old_data['title'];
+				$failed[$ref_id] = $ref_id;
 			}
 			$all_items[$ref_id] =& $item_obj;
 			unset($item_obj);

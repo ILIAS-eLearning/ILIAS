@@ -68,6 +68,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('crs_timings_short_limit_start_end'),'');
 		
 		$this->addCommandButton('updateManagedTimings', $this->lng->txt('save'));
+		$this->addCommandButton('timingsOff', $this->lng->txt('cancel'));
 		
 		
 		$this->setShowRowsSelector(FALSE);
