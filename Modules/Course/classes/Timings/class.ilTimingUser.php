@@ -157,7 +157,7 @@ class ilTimingUser
 				'WHERE ref_id = '.$ilDB->quote($this->getRefId(),'integer').' '.
 				'AND usr_id = '.$ilDB->quote($this->getUserId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->is_scheduled = TRUE;
 			$this->start = new ilDateTime($row->sstart,IL_CAL_UNIX);
