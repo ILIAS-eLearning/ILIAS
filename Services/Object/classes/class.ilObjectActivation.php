@@ -43,10 +43,7 @@ class ilObjectActivation
 	
 	protected $suggestion_start_rel;
 	protected $suggestion_end_rel;
-	protected $earliest_start_rel;
-	protected $latest_end_rel;
 
-	
 	protected static $preloaded_data = array();
 	
 	const TIMINGS_ACTIVATION = 0;
@@ -280,7 +277,7 @@ class ilObjectActivation
 		{
 			if($this->getSuggestionStart() > $this->getSuggestionEnd())
 			{
-				$ilErr->appendMessage($lng->txt('crs_latest_end_not_valid'));
+				$ilErr->appendMessage($lng->txt('crs_timing_err_sug_start_end'));
 			}
 		}
 	
@@ -559,18 +556,10 @@ class ilObjectActivation
 				$a_item["suggestion_end"]	= $now;
 				$a_item['visible']			= 0;
 				$a_item['changeable']		= 0;
-				$a_item['earliest_start']	= $now;
-				$a_item['latest_end']	    = mktime(23,55,00,$now_parts["mon"],$now_parts["mday"],$now_parts["year"]);
-				$a_item['visible']			= 0;
-				$a_item['changeable']		= 0;
-
-				$a_item['suggestion_start_rel'] = 0;
-				$a_item['suggestion_end_rel'] = 0;
-				$a_item['earliest_start_rel'] = 0;
-				$a_item['latest_end_rel'] = 0;
+				
 				$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,timing_end," .
 					"suggestion_start,suggestion_end, ".
-					"changeable,earliest_start,latest_end,visible,suggestion_start_rel, suggestion_end_rel, earliest_start_rel, latest_end_rel, position) ".
+					"changeable,visible,suggestion_start_rel, suggestion_end_rel, position) ".
 					"VALUES( ".
 					$ilDB->quote($parent_id,'integer').",".
 					$ilDB->quote($a_ref_id,'integer').",".
@@ -580,13 +569,9 @@ class ilObjectActivation
 					$ilDB->quote($a_item["suggestion_start"],'integer').",".
 					$ilDB->quote($a_item["suggestion_end"],'integer').",".
 					$ilDB->quote($a_item["changeable"],'integer').",".
-					$ilDB->quote($a_item['earliest_start'],'integer').", ".
-					$ilDB->quote($a_item['latest_end'],'integer').", ".
 					$ilDB->quote($a_item["visible"],'integer').", ".
 					$ilDB->quote($a_item["suggestion_start_rel"],'integer').",".
 					$ilDB->quote($a_item['suggestion_end_rel'],'integer').", ".
-					$ilDB->quote($a_item['earliest_start_rel'],'integer').", ".
-					$ilDB->quote($a_item['latest_end_rel'],'integer').", ".
 					$ilDB->quote(0,'integer').")";
 				$ilDB->manipulate($query);
 			}
