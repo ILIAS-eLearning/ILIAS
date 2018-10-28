@@ -1252,7 +1252,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$lng->loadLanguageModule('crs');
 
 
-		if($a_perc_result !== null)
+		if($a_perc_result)
 		{
 			$uiFactory = $DIC->ui()->factory();
 			$uiRenderer = $DIC->ui()->renderer();
