@@ -38,8 +38,6 @@ class ilObjectActivation
 	protected $timing_end;
 	protected $suggestion_start;
 	protected $suggestion_end;
-	protected $earliest_start;
-	protected $latest_end;
 	protected $visible;
 	protected $changeable;
 	
@@ -178,17 +176,6 @@ class ilObjectActivation
 		$this->earliest_start_rel = $a_start;
 	}
 	
-	public function getLatestEndRelative()
-	{
-		return $this->latest_end_rel;
-	}
-	
-	public function setLatestEndRelative($a_end)
-	{
-		$this->latest_end_rel = $a_end;
-	}
-
-
 	/**
 	 * Set suggestion end
 	 * 
@@ -229,26 +216,7 @@ class ilObjectActivation
 		return $this->earliest_start;
 	}
 	
-	/**
-	 * Set latest end
-	 * 
-	 * @param int $a_end
-	 */
-	function setLatestEnd($a_end)
-	{
-		$this->latest_end = $a_end;
-	}
-	
-	/**
-	 * Get latest end
-	 * 
-	 * @return int
-	 */
-	function getLatestEnd()
-	{
-		return $this->latest_end;
-	}
-	
+
 	/**
 	 * Set visible status
 	 * 
@@ -334,21 +302,6 @@ class ilObjectActivation
 		{
 			$errors[] = self::ERR_SUG_START_END;
 		}
-		if($this->enabledChangeable())
-		{
-			if($this->getEaliestStartRelative() >= $this->getLatestEndRelative())
-			{
-				$errors[] = self::ERR_START_END;
-			}
-			if($this->getSuggestionStartRelative() < $this->getEaliestStartRelative())
-			{
-				$errors[] = self::ERR_SUG_START_BEFORE_START;
-			}
-			if($this->getSuggestionEndRelative() > $this->getLatestEndRelative())
-			{
-				$errors[] = self::ERR_SUG_END_BEFORE_END;
-			}
-		}
 		return $errors;
 	}
 
@@ -370,12 +323,8 @@ class ilObjectActivation
 			"suggestion_start = ".$ilDB->quote((int)$this->getSuggestionStart(),'integer').", ".
 			"suggestion_end = ".$ilDB->quote((int)$this->getSuggestionEnd(),'integer').", ".
 			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
-			"earliest_start = ".$ilDB->quote((int)$this->getEarliestStart(),'integer').", ".
-			"latest_end = ".$ilDB->quote((int)$this->getLatestEnd(),'integer').", ";
 			'suggestion_start_rel = '.$ilDB->quote($this->getSuggestionStartRelative(),'integer').', '.
-			'suggestion_end_rel = '.$ilDB->quote($this->getSuggestionEndRelative(), 'integer').', '.
-			'earliest_start_rel = '.$ilDB->quote($this->getEaliestStartRelative(),'integer').', '.
-			'latest_end_rel = '.$ilDB->quote($this->getLatestEndRelative(),'integer').', ';
+			'suggestion_end_rel = '.$ilDB->quote($this->getSuggestionEndRelative(), 'integer').', ';
 
 		if($a_parent_id)
 		{
@@ -735,14 +684,10 @@ class ilObjectActivation
 	 		$new_item->setSuggestionStart($item['suggestion_start']);
 	 		$new_item->setSuggestionEnd($item['suggestion_end']);
 	 		$new_item->toggleChangeable($item['changeable']);
-	 		$new_item->setEarliestStart($item['earliest_start']);
-	 		$new_item->setLatestEnd($item['latest_end']);
 	 		$new_item->toggleVisible($item['visible']);
 	 		$new_item->update($new_item_id, $new_parent);
 			$new_item->setSuggestionStartRelative($item['suggestion_start_rel']);
 			$new_item->setSuggestionEndRelative($item['suggestion_end_rel']);
-			$new_item->setEarliestStartRelative($item['earliest_start_rel']);
-			$new_item->setLatestEndRelative($item['latest_end_rel']);
 			$new_item->createDefaultEntry($new_item_id);
 			$new_item->update($new_item_id);
 	 	}
@@ -1022,10 +967,6 @@ class ilObjectActivation
 			$this->setSuggestionEnd($row->suggestion_end);
 			$this->setSuggestionStartRelative($row->suggestion_start_rel);
 			$this->setSuggestionEndRelative($row->suggestion_end_rel);
-			$this->setEarliestStart($row->earliest_start);
-			$this->setLatestEnd($row->latest_end);
-			$this->setEarliestStartRelative($row->earliest_start_rel);
-			$this->setLatestEndRelative($row->latest_end_rel);
 			$this->toggleVisible($row->visible);
 			$this->toggleChangeable($row->changeable);
 			$this->setTimingType($row->timing_type);

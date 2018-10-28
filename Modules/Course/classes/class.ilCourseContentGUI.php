@@ -1329,23 +1329,13 @@ class ilCourseContentGUI
 					$sug_start_dt->increment(IL_CAL_DAY, abs($data['duration_a']));
 					$item_obj->setSuggestionEnd($sug_start_dt->get(IL_CAL_UNIX));
 				}
-				$latest_end_dt = ilCalendarUtil::dateFromUserSetting($data['lim_end']);
-				if($latest_end_dt instanceof ilDate)
-				{
-					$now = new ilDateTime(time(),IL_CAL_UNIX);
-					$item_obj->setEarliestStart($now->get(IL_CAL_UNIX));
-					$item_obj->setLatestEnd($latest_end_dt->get(IL_CAL_UNIX));
-				}
 			}
 			else
 			{
 				$item_obj->setSuggestionStartRelative($data['sug_start_rel']);
 				$item_obj->setSuggestionEndRelative($data['sug_start_rel'] + $data['duration_a']);
-				$item_obj->setEarliestStartRelative(0);
-				$item_obj->setLatestEndRelative($data['lim_end_rel']);
 			}
 			
-			// cognos-blu-patch: begin
 			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE)
 			{
 				$errors = $item_obj->validateRelativePlaning();
@@ -1357,10 +1347,6 @@ class ilCourseContentGUI
 					$failed[$ref_id]['suggestion_start_rel'] = $item_obj->getSuggestionStartRelative();
 					$failed[$ref_id]['suggestion_end_rel'] = $item_obj->getSuggestionEndRelative();
 					$failed[$ref_id]['changeable'] = $item_obj->enabledChangeable();
-					$failed[$ref_id]['earliest_start'] = $item_obj->getEarliestStart();
-					$failed[$ref_id]['earliest_start_rel'] = $item_obj->getEaliestStartRelative();
-					$failed[$ref_id]['latest_end'] = $item_obj->getLatestEnd();
-					$failed[$ref_id]['latest_end_rel'] = $item_obj->getLatestEndRelative();
 				}
 			}
 			elseif(!$item_obj->validateActivation())
@@ -1425,10 +1411,6 @@ class ilCourseContentGUI
 			// add duration
 			$data['sug_start']['d'] += abs($data['duration_a']);
 			$item_obj->setSuggestionEnd($this->__toUnix($data['sug_start'],array('h' => 23,'m' => 55)));
-
-			$item_obj->setEarliestStart(time());
-			$item_obj->setLatestEnd($this->__toUnix($data['lim_end'],array('h' => 23,'m' => 55)));
-
 			$item_obj->toggleVisible($old_data['visible']);
 			$item_obj->toggleChangeable($_POST['item_change'][$ref_id]['change']);
 
