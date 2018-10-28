@@ -129,7 +129,7 @@ class ilCourseContentGUI
 		// edit timings if panel is on
 		if($_SESSION['crs_timings_panel'][$this->course_obj->getId()])
 		{
-			return 'editTimings';
+			return 'manageTimings';
 		}
 		if($ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
@@ -474,6 +474,7 @@ class ilCourseContentGUI
 		}
 		$GLOBALS['DIC']['ilTabs']->setSubTabActive('timings_timings');
 		
+		$this->__showTimingsPanel();
 		$table = new ilTimingsManageTableGUI(
 				$this,
 				'manageTimings',
@@ -709,7 +710,7 @@ class ilCourseContentGUI
 	{
 		if($_SESSION['crs_timings_panel'][$this->course_obj->getId()])
 		{
-			return $this->editTimings();
+			return $this->manageTimings();
 		}
 		global $DIC;
 
