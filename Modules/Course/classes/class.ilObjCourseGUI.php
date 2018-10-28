@@ -2018,6 +2018,18 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','manageTimings')
 			);
 		}
+		elseif(
+			$this->object->getViewMode() == IL_CRS_VIEW_TIMING and
+			$this->object->getMemberObject()->isParticipant() and
+			$ilAccess->checkAccess('read','',$this->ref_id))
+		{
+			$this->tabs->addTab(
+				'timings_timings',
+				$lng->txt('timings_timings'),
+				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','managePersonalTimings')
+			);
+		}
+
 
 		
 		// learning objectives
