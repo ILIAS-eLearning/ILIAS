@@ -36,6 +36,12 @@ class ilObjectActivation
 	protected $visible;
 	protected $changeable;
 	
+	protected $suggestion_start_rel;
+	protected $suggestion_end_rel;
+	protected $earliest_start_rel;
+	protected $latest_end_rel;
+
+	
 	protected static $preloaded_data = array();
 	
 	const TIMINGS_ACTIVATION = 0;
@@ -135,10 +141,51 @@ class ilObjectActivation
 		return $this->suggestion_start;
 	}
 	
+	public function getSuggestionStartRelative()
+	{
+		return $this->suggestion_start_rel;
+	}
+	
+	public function setSuggestionStartRelative($a_start)
+	{
+		$this->suggestion_start_rel = $a_start;
+	}
+	
+	public function getSuggestionEndRelative()
+	{
+		return $this->suggestion_end_rel;
+	}
+	
+	public function setSuggestionEndRelative($a_end)
+	{
+		$this->suggestion_end_rel = $a_end;
+	}
+	
+	public function getEaliestStartRelative()
+	{
+		return $this->earliest_start_rel;
+	}
+	
+	public function setEarliestStartRelative($a_start)
+	{
+		$this->earliest_start_rel = $a_start;
+	}
+	
+	public function getLatestEndRelative()
+	{
+		return $this->latest_end_rel;
+	}
+	
+	public function setLatestEndRelative($a_end)
+	{
+		$this->latest_end_rel = $a_end;
+	}
+
+
 	/**
 	 * Set suggestion end
 	 * 
-	 * @param timestamp $a_end 
+	 * @param int $a_end
 	 */
 	function setSuggestionEnd($a_end)
 	{
@@ -148,7 +195,7 @@ class ilObjectActivation
 	/**
 	 * Get suggestion end
 	 * 
-	 * @return timestamp
+	 * @return int
 	 */
 	function getSuggestionEnd()
 	{
@@ -158,7 +205,7 @@ class ilObjectActivation
 	/**
 	 * Set earliest start
 	 * 
-	 * @param timestamp $a_start 
+	 * @param int $a_start
 	 */
 	function setEarliestStart($a_start)
 	{
@@ -168,7 +215,7 @@ class ilObjectActivation
 	/**
 	 * Get earliest start
 	 * 
-	 * @return timestamp
+	 * @return int
 	 */
 	function getEarliestStart()
 	{
@@ -178,7 +225,7 @@ class ilObjectActivation
 	/**
 	 * Set latest end
 	 * 
-	 * @param timestamp $a_end 
+	 * @param int $a_end
 	 */
 	function setLatestEnd($a_end)
 	{
@@ -188,7 +235,7 @@ class ilObjectActivation
 	/**
 	 * Get latest end
 	 * 
-	 * @return timestamp
+	 * @return int
 	 */
 	function getLatestEnd()
 	{
@@ -289,7 +336,11 @@ class ilObjectActivation
 			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
 			"earliest_start = ".$ilDB->quote((int)$this->getEarliestStart(),'integer').", ".
 			"latest_end = ".$ilDB->quote((int)$this->getLatestEnd(),'integer').", ";
-		
+			'suggestion_start_rel = '.$ilDB->quote($this->getSuggestionStartRelative(),'integer').', '.
+			'suggestion_end_rel = '.$ilDB->quote($this->getSuggestionEndRelative(), 'integer').', '.
+			'earliest_start_rel = '.$ilDB->quote($this->getEaliestStartRelative(),'integer').', '.
+			'latest_end_rel = '.$ilDB->quote($this->getLatestEndRelative(),'integer').', ';
+
 		if($a_parent_id)
 		{
 			$query .= "parent_id = ".$ilDB->quote($a_parent_id,'integer').", ";
@@ -528,6 +579,10 @@ class ilObjectActivation
 				$a_item['visible']			= 0;
 				$a_item['changeable']		= 0;
 
+				$a_item['suggestion_start_rel'] = 0;
+				$a_item['suggestion_end_rel'] = 0;
+				$a_item['earliest_start_rel'] = 0;
+				$a_item['latest_end_rel'] = 0;
 				$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,timing_end," .
 					"suggestion_start,suggestion_end, ".
 					"changeable,earliest_start,latest_end,visible,position) ".
@@ -543,6 +598,10 @@ class ilObjectActivation
 					$ilDB->quote($a_item['earliest_start'],'integer').", ".
 					$ilDB->quote($a_item['latest_end'],'integer').", ".
 					$ilDB->quote($a_item["visible"],'integer').", ".
+					$ilDB->quote($a_item["suggestion_start_rel"],'integer').",".
+					$ilDB->quote($a_item['suggestion_end_rel'],'integer').", ".
+					$ilDB->quote($a_item['earliest_start_rel'],'integer').", ".
+					$ilDB->quote($a_item['latest_end_rel'],'integer').", ".
 					$ilDB->quote(0,'integer').")";
 				$ilDB->manipulate($query);
 			}
@@ -644,6 +703,12 @@ class ilObjectActivation
 	 		$new_item->setLatestEnd($item['latest_end']);
 	 		$new_item->toggleVisible($item['visible']);
 	 		$new_item->update($new_item_id, $new_parent);
+			 // cognos-blu-patch: begin
+			$new_item->setSuggestionStartRelative($item['suggestion_start_rel']);
+			$new_item->setSuggestionEndRelative($item['suggestion_end_rel']);
+			$new_item->setEarliestStartRelative($item['earliest_start_rel']);
+			$new_item->setLatestEndRelative($item['latest_end_rel']);
+			// cognos-blu-patch: end
 			
 			$ilLog->write(__METHOD__.': Added new entry for item nr. '.$item['obj_id']);
 	 	}
@@ -899,6 +964,37 @@ class ilObjectActivation
 		
 		return $filtered;
 	} 	
+	
+	public function read($a_ref_id, $a_parent_id = 0) 
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+		
+		$query = 'SELECT * FROM crs_items '.
+				'WHERE obj_id = '.$ilDB->quote($a_ref_id,'integer').' ';
+		
+		if($a_parent_id)
+		{
+			$query .= ('AND parent_id = '.$ilDB->quote($a_parent_id,'integer').' ');
+		}
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$this->setSuggestionStart($row->suggestion_start);
+			$this->setSuggestionEnd($row->suggestion_end);
+			$this->setSuggestionStartRelative($row->suggestion_start_rel);
+			$this->setSuggestionEndRelative($row->suggestion_end_rel);
+			$this->setEarliestStart($row->earliest_start);
+			$this->setLatestEnd($row->latest_end);
+			$this->setEarliestStartRelative($row->earliest_start_rel);
+			$this->setLatestEndRelative($row->latest_end_rel);
+			$this->toggleVisible($row->visible);
+			$this->toggleChangeable($row->changeable);
+			$this->setTimingType($row->timing_type);
+			$this->setTimingStart($row->timing_start);
+			$this->setTimingEnd($row->timing_end);
+		}
+	}
 }	
 	
 ?>
