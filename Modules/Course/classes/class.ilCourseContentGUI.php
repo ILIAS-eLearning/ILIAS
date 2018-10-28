@@ -650,36 +650,6 @@ class ilCourseContentGUI
 
 	}
 
-	function __showUserAcceptanceTable()
-	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-
-		include_once 'Modules/Course/classes/Timings/class.ilTimingAccepted.php';
-		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
-		
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveAcceptance'));
-		$form->setTitle($this->lng->txt('timing_accept_table'));
-		
-		$accept = new ilCheckboxInputGUI($this->lng->txt('timing_user_accept'), "accepted");	
-		$accept->setChecked($accept_obj->isAccepted());
-		$form->addItem($accept);
-		
-		$remark = new ilTextAreaInputGUI($this->lng->txt('timing_remark'), "remark");
-		$remark->setValue($accept_obj->getRemark());
-		$form->addItem($remark);
-		
-		$tutor = new ilCheckboxInputGUI($this->lng->txt('timing_tutor_visible'), "tutor");	
-		$tutor->setChecked($accept_obj->isVisible());
-		$form->addItem($tutor);
-		
-		$form->addCommandButton('saveAcceptance', $this->lng->txt('save'));
-		$this->tpl->setVariable("FORM", $form->getHTML());
-	}
-	
 	function saveAcceptance()
 	{
 		global $DIC;
@@ -752,31 +722,8 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
 
-		include_once 'Modules/Course/classes/Timings/class.ilTimingAccepted.php';
-		$usr_accepted = new ilTimingAccepted($this->course_obj->getId(),(int) $_GET['member_id']);
-
-		if($usr_accepted->isAccepted())
-		{
-			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_ok.svg'));
-			$this->tpl->setVariable("ACC_ALT",$this->lng->txt('timing_accepted'));
-		}
-		else
-		{
-			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_not_ok.svg'));
-			$this->tpl->setVariable("ACC_ALT",$this->lng->txt('timing_not_accepted'));
-		}
-		if($usr_accepted->isVisible() and strlen($usr_accepted->getRemark()))
-		{
-			$this->tpl->setVariable("REMARK",nl2br($usr_accepted->getRemark()));
-		}
-		else
-		{
-			$this->tpl->setVariable("REMARK",$this->lng->txt('not_available'));
-		}
-
-		$this->tpl->setVariable("TIMING_ACCEPT",$this->lng->txt('timing_accept_table'));
-		$this->tpl->setVariable("TXT_ACCEPTED",$this->lng->txt('timing_user_accepted'));
-		$this->tpl->setVariable("TXT_REMARK",$this->lng->txt('timing_remark'));
+		// cognos-blu-patch: begin
+		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.svg'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_usr'));
@@ -906,7 +853,8 @@ class ilCourseContentGUI
 	{
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','Modules/Course');
 		$this->__showTimingsPanel();
-		$this->__showUserAcceptanceTable();
+		// cognos-blu-patch: begin
+		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.svg'));
@@ -930,8 +878,8 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_START_END",$this->lng->txt('crs_timings_short_start_end'));
 		$this->tpl->setVariable("TXT_INFO_START_END",$this->lng->txt('crs_timings_start_end_info'));
 
-		$this->tpl->setVariable("TXT_LIMIT",$this->lng->txt('crs_timings_short_limit_start_end'));
-		$this->tpl->setVariable("TXT_INFO_LIMIT",$this->lng->txt('crs_timings_from_until'));
+		// cognos-blu-patch: begin
+		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
 		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_start_end_info'));
@@ -965,7 +913,8 @@ class ilCourseContentGUI
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings.html','Modules/Course');
 
 		$this->__showTimingsPanel();
-		$this->__showUserAcceptanceTable();
+		// cognos-blu-patch: begin
+		// cognos-blu-patch: end
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.svg'));
