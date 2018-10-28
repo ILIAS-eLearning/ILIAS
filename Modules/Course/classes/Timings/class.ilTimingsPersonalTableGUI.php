@@ -69,8 +69,8 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('crs_timings_edit_personal'));
 		
 		$this->addColumn($this->lng->txt('title'),'');
-		$this->addColumn($this->lng->txt('crs_timings_personal_start'), '');
-		$this->addColumn($this->lng->txt('crs_timings_time_frame_tt'),'');
+		$this->addColumn($this->lng->txt('crs_timings_short_start_end'), '');
+		$this->addColumn($this->lng->txt('crs_timings_time_frame'),'');
 		$this->addColumn($this->lng->txt('crs_timings_short_changeable'), '');
 		$this->addCommandButton('updatePersonalTimings', $this->lng->txt('save'));
 		$this->setShowRowsSelector(FALSE);
