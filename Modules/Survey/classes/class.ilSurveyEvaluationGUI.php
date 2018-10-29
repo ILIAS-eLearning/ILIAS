@@ -158,7 +158,7 @@ class ilSurveyEvaluationGUI
 			array("evaluationdetails")
 		);
 		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if($this->hasResultsAccess())
 		{
 			$ilTabs->addSubTabTarget(
 				"svy_eval_user", 
@@ -813,9 +813,9 @@ class ilSurveyEvaluationGUI
 		$ui_renderer = $ui->renderer();
 
 		// auth
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		if(!$this->hasResultsAccess())
 		{			
-			if (!$rbacsystem->checkAccess("read",$_GET["ref_id"]))
+			if(!$this->access->checkAccess('read','',$this->object->getRefId()))
 			{
 				ilUtil::sendFailure($this->lng->txt("permission_denied"));
 				return;
@@ -925,6 +925,15 @@ class ilSurveyEvaluationGUI
 				? $_POST["vw"]
 				: "tc";
 			
+			// @todo
+			// filter finished ids
+			$finished_ids2 = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_results',
+				'access_results',
+				$this->object->getRefId(),
+				(array) $finished_ids
+			);
+
 			// parse answer data in evaluation results
 			include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
 			$list = new ilNestedList();
@@ -1503,7 +1512,8 @@ class ilSurveyEvaluationGUI
 	{
 		$ilAccess = $this->access;
 		$ilToolbar = $this->toolbar;
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+
+		if(!$this->hasResultsAccess() &&
 			$this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL)
 		{
 			ilUtil::sendFailure($this->lng->txt("no_permission"), TRUE);
@@ -1571,7 +1581,35 @@ class ilSurveyEvaluationGUI
 	{				
 		$data = array();		
 		
-		$participants = $this->object->getSurveyParticipants($a_finished_ids);
+		$all_participants = $this->object->getSurveyParticipants($a_finished_ids);
+		$participant_ids = [];
+		foreach($all_participants as $participant)
+		{
+			$participant_ids[] = $participant['usr_id'];
+		}
+		
+		
+		$filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'read_results',
+			'access_results',
+			$this->object->getRefId(),
+			$participant_ids
+		);
+		$this->log->dump($filtered_participant_ids);
+		$participants = [];
+		foreach($all_participants as $username => $user_data)
+		{
+			if(!$user_data['usr_id'])
+			{
+				$participants[$username] = $user_data;
+			}
+			if(in_array($user_data['usr_id'], $filtered_participant_ids))
+			{
+				$participants[$username] = $user_data;
+			}
+		}
+		$this->log->dump($$participants);
+		
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 		foreach($this->object->getSurveyQuestions() as $qdata)
@@ -1780,6 +1818,14 @@ class ilSurveyEvaluationGUI
 			$tpl->setContent($html);
 		}
 		
+	}
+	
+	/**
+	 * Check if user can view results granted by rbac or positions
+	 */
+	protected function hasResultsAccess()
+	{
+		return $this->access->checkRbacOrPositionPermissionAccess('read_results', 'access_results', $this->object->getRefId());
 	}
 }
 
