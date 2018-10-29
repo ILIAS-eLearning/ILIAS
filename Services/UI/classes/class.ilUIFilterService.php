@@ -58,7 +58,7 @@ class ilUIFilterService
 	 * @param string $filter_id
 	 * @param string $base_action
 	 * @param array $inputs
-	 * @param array $is_input_initially_rendered
+	 * @param bool[] $is_input_initially_rendered
 	 * @param bool $is_activated
 	 * @param bool $is_expanded
 	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
