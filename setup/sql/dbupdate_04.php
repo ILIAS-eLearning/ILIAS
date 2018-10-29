@@ -24115,6 +24115,7 @@ if(!$ilDB->tableColumnExists('exc_idl','starting_ts'))
 }
 ?>
 <#5367>
+<?php
 // BEGIN MME
 $fields = array(
 	'identification' => array(
