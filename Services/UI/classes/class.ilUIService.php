@@ -21,9 +21,9 @@ class ilUIService
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request
 	 */
-	public function __construct(\Psr\Http\Message\ServerRequestInterface $request)
+	public function __construct(\Psr\Http\Message\ServerRequestInterface $request, \ILIAS\DI\UIServices $ui)
 	{
-		$this->_deps = new ilUIServiceDependencies(new ilUIFilterRequestAdapter($request));
+		$this->_deps = new ilUIServiceDependencies($ui, new ilUIFilterRequestAdapter($request));
 	}
 
 	/**

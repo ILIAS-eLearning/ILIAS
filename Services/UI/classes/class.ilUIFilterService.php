@@ -25,9 +25,9 @@ class ilUIFilterService
 	protected $service;
 
 	/**
-	 * @var ilUIServiceDependencies
+	 * @var \ILIAS\DI\UIServices
 	 */
-	protected $_deps;
+	protected $ui;
 
 	/**
 	 * @var ilUIFilterServiceSessionGateway
@@ -49,6 +49,7 @@ class ilUIFilterService
 		$this->service = $service;
 		$this->session = $deps->getSession();
 		$this->request = $deps->getRequest();
+		$this->ui = $deps->ui();
 	}
 
 
@@ -66,8 +67,7 @@ class ilUIFilterService
 	public function standard($filter_id, $base_action, array $inputs, array $is_input_initially_rendered,
 							 $is_activated = false, $is_expanded = false): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
-		global $DIC;
-		$ui = $DIC->ui()->factory();
+		$ui = $this->ui->factory();
 
 		// write expand, activation, rendered inputs info to session
 		$this->writeFilterStatusToSession($filter_id, $inputs);
