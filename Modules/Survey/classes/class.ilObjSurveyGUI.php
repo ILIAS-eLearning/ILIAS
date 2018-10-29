@@ -485,7 +485,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 			
 		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
-		if ($this->checkPermissionBool("write") || 
+		if ($this->checkPermissionBool("read_results") || 
 			ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 		{
 			// evaluation
