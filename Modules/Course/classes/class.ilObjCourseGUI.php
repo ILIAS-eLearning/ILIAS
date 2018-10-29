@@ -115,33 +115,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->viewObject();
 	}
 	
-	/**
-	 * 
-	 * @param
-	 * @return
-	 */
-	protected function forwardToTimingsView()
-	{
-		if(!$this->ctrl->getCmd() and $this->object->getViewMode() == ilContainer::VIEW_TIMING)
-		{
-			if(!isset($_SESSION['crs_timings'])) {
-				$_SESSION['crs_timings'] = true;
-			}
-			
-			if($_SESSION['crs_timings'] == true) {
-				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
-				$course_content_obj = new ilCourseContentGUI($this);
-				$this->ctrl->setCmdClass(get_class($course_content_obj));
-				$this->ctrl->setCmd('editUserTimings');
-				$this->ctrl->forwardCommand($course_content_obj);
-				return true;
-			}	
-		}
-		$_SESSION['crs_timings'] = false;
-		return false;
-	}
-	
-	
 	function viewObject()
 	{
 		global $DIC;
@@ -976,11 +949,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
+			if($form->getInput('timing_mode') != $this->object->getTimingMode())
+			{
+				ilUtil::sendInfo($this->lng->txt("crs_view_info_timing_mode"), true);
+			}
+			$this->object->setTimingMode((int) $form->getInput('timing_mode'));
 		}
-		else
-		{
-			$this->object->setOrderType($form->getInput('sorting'));
-		}
+		$this->object->setTimingMode($form->getInput('timing_mode'));
+		$this->object->setOrderType($form->getInput('sorting'));
 		$this->saveSortingSettings($form);
 		
 		$this->object->setAboStatus((int) $form->getInput('abo'));
@@ -1439,6 +1415,22 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			$optt = new ilRadioOption($this->lng->txt('crs_view_timing'),IL_CRS_VIEW_TIMING);
 			$optt->setInfo($this->lng->txt('crs_view_info_timing'));
+
+		// cognos-blu-patch: begin
+				$timing = new ilRadioGroupInputGUI($this->lng->txt('crs_view_timings'), "timing_mode");
+				$timing->setValue($this->object->getTimingMode());
+
+				$absolute = new ilRadioOption($this->lng->txt('crs_view_timing_absolute'), IL_CRS_VIEW_TIMING_ABSOLUTE );
+				$absolute->setInfo($this->lng->txt('crs_view_info_timing_absolute'));
+				$timing->addOption($absolute);
+
+				$relative = new ilRadioOption($this->lng->txt('crs_view_timing_relative'), IL_CRS_VIEW_TIMING_RELATIVE );
+				$relative->setInfo($this->lng->txt('crs_view_info_timing_relative'));
+				$timing->addOption($relative);
+
+			$optt->addSubItem($timing);
+		// cognos-blu-patch: end
+
 			$view_type->addOption($optt);
 
 		$form->addItem($view_type);
@@ -2063,6 +2055,30 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->addContentTab();
 			}
 		}
+
+		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING and
+			$ilAccess->checkAccess('write','',$this->ref_id)
+		)
+		{
+			$this->tabs->addTab(
+				'timings_timings',
+				$lng->txt('timings_timings'),
+				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','manageTimings')
+			);
+		}
+		elseif(
+			$this->object->getViewMode() == IL_CRS_VIEW_TIMING and
+			$this->object->getMemberObject()->isParticipant() and
+			$ilAccess->checkAccess('read','',$this->ref_id))
+		{
+			$this->tabs->addTab(
+				'timings_timings',
+				$lng->txt('timings_timings'),
+				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','managePersonalTimings')
+			);
+		}
+
+
 		
 		// learning objectives
 		if($ilAccess->checkAccess('write','',$this->ref_id))
@@ -2709,11 +2725,8 @@ class ilObjCourseGUI extends ilContainerGUI
                     break;
                 }
 
-                // Dirty hack for course timings view
-                if($this->forwardToTimingsView())
-                {
-                    break;
-                }
+				// cognos-blu-patch: begin
+				// cognos-blu-patch: end
 
 				// if news timeline is landing page, redirect if necessary
 				if ($cmd == "" && $this->object->isNewsTimelineLandingPageEffective())
@@ -3090,11 +3103,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "disableAdministrationPanel"));
 			}
 		}
-		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
-		{
-			$this->tabs_gui->addSubTabTarget('timings_timings',
-				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','editUserTimings'));
-		}
+		// cognos-blu-patch: begin
+		// cognos-blu-patch: begin
 		
 		$this->addStandardContainerSubTabs(false);
 		

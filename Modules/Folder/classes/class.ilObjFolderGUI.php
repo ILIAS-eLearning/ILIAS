@@ -208,11 +208,9 @@ class ilObjFolderGUI extends ilContainerGUI
 			default:
 
 				$this->prepareOutput();
-				// Dirty hack for course timings view
-				if($this->forwardToTimingsView())
-				{
-					break;
-				}
+				// cognos-blu-patch: begin
+				// removed timings forward
+				// cognos-blu-patch: end
 
 				if (empty($cmd))
 				{

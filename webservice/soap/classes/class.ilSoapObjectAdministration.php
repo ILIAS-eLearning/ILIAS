@@ -1632,9 +1632,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$items->toggleVisible(isset($ref_data['time_target']['timing_visibility']) ? $ref_data['time_target']['timing_visibility'] : $old['visible']);
 				$items->setSuggestionStart(isset($ref_data['time_target']['suggestion_start']) ? $ref_data['time_target']['suggestion_start'] : $old['suggestion_start']);
 				$items->setSuggestionEnd(isset($ref_data['time_target']['suggestion_end']) ? $ref_data['time_target']['suggestion_end'] : $old['suggestion_end']);
-				$items->setEarliestStart(isset($ref_data['time_target']['earliest_start']) ? $ref_data['time_target']['earliest_start'] : $old['earliest_start']);
-				$items->setLatestEnd(isset($ref_data['time_target']['latest_end']) ? $ref_data['time_target']['latest_end'] : $old['latest_end']);
-				
+
 				switch($ref_data['time_target']['timing_type']) 
 				{
 					case ilObjectXMLWriter::TIMING_DEACTIVATED:
@@ -1704,9 +1702,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$items->toggleVisible($ref_data['time_target']['timing_visibility']);
 				$items->setSuggestionStart($ref_data['time_target']['suggestion_start']);
 				$items->setSuggestionEnd($ref_data['time_target']['suggestion_end']);
-				$items->setEarliestStart($ref_data['time_target']['earliest_start']);
-				$items->setLatestEnd($ref_data['time_target']['latest_end']);
-				
+
 				switch($ref_data['time_target']['timing_type']) 
 				{
 					case ilObjectXMLWriter::TIMING_DEACTIVATED:

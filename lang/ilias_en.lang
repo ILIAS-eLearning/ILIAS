@@ -100,6 +100,22 @@ lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
 lti#:#lti_member#:#LTI Member
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
+crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
+crs#:#crs_timings_short_active_tt#:#Activate Timings
+crs#:#crs_timings_short_start_end_tt_rel#:#Suggested start after course subscription
+crs#:#crs_timings_time_frame_tt#:#Time frame in days
+crs#:#crs_timings_short_changeable_tt#:#Timings changeable by participants
+crs#:#crs_timings_short_limit_start_end_tt_rel#:#Latest end in days after course subscription
+crs#:#crs_timings_short_start_end_tt#:#Suggested start
+crs#:#crs_timings_short_limit_start_end_tt#:#Latest end
+crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.
+crs#:#crs_timings_activate_optional#:#Optional mode for course timings
+crs#:#crs_timings_activate_optional_own#:#Optional mode for my course timings
+crs#:#crs_timings_optional_checked#:#Optional mode was activated for this user
+crs#:#crs_timings_optional_unchecked#:#Optional mode was deactivated for this user
+crs#:#crs_timings_optional_on#:#Optional mode is active.
+crs#:#crs_timings_optional_on_and_passed#:#Optional mode is active and cannot be changed because user is passed.
+crs#:#crs_timings_optional_off#:#Optional mode is not active.
 lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_launch_url#:#Url
@@ -14909,3 +14925,5 @@ crs#:#crs_lobj_pm_min_goal#:#Required Score
 dateplaner#:#back_to_crs#:#Go to Course
 dateplaner#:#back_to_grp#:#Go to Group
 dateplaner#:#back_to_pd#:#Back to Personal Desktop
+crs#:#crs_timings_short_start_end#:#Starting Date
+crs#:#crs_timings_time_frame_tt#:#Duration in days
