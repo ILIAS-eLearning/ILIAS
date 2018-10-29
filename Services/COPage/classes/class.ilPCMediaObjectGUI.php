@@ -89,7 +89,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->setCharacteristics(array(
 			"MediaContainer" => $this->lng->txt("cont_Media"),
 			"MediaContainerMax50" => "MediaContainerMax50",
-			"MediaContainerFull100" => "MediaContainerFull100"
+			"MediaContainerFull100" => "MediaContainerFull100",
+			"MediaContainerHighlighted" => "MediaContainerHighlighted",
+			"MediaContainerSeparated" => "MediaContainerSeparated"
 		));
 
 	}

@@ -27,7 +27,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
- * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilScoringAdjustmentGUI, ilTestExportGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
  * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ilTestScoringByQuestionsGUI
@@ -41,6 +41,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
@@ -56,7 +57,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	/** @var ilObjTest $object */
 	public $object = null;
-
+	
 	/** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
 	private $testQuestionSetConfigFactory = null;
 	
@@ -146,7 +147,7 @@ class ilObjTestGUI extends ilObjectGUI
 			'resumePlayer', 'resumePlayer', 'outUserResultsOverview', 'outUserListOfAnswerPasses'
 		);
 
-		if(!$this->getCreationMode() && !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus))
+		if(!$this->getCreationMode() && $this->object->getOfflineStatus() && in_array($cmd, $cmdsDisabledDueToOfflineStatus))
 		{
 			$cmd = 'infoScreen';
 		}
@@ -651,10 +652,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 				break;
 
-			case 'ilscoringadjustmentgui':
+			case 'iltestcorrectionsgui':
 				$this->prepareOutput();
-				require_once './Modules/Test/classes/class.ilScoringAdjustmentGUI.php';
-				$gui = new ilScoringAdjustmentGUI($this->object);
+				require_once './Modules/Test/classes/class.ilTestCorrectionsGUI.php';
+				$gui = new ilTestCorrectionsGUI($DIC, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
@@ -2183,7 +2184,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 
-				if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
+				if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 				{
 					if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 					{
@@ -2229,14 +2230,30 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
+		$table_gui = new ilTestQuestionsTableGUI(
+			$this, 'questions', $this->object->getRefId()
+		);
+		
+		$table_gui->setPositionInsertCommandsEnabled(
+			is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()])
+			&& count($_SESSION['tst_qst_move_' . $this->object->getTestId()])
+		);
+		
+		$table_gui->setQuestionTitleLinksEnabled( !$total );
+		$table_gui->setQuestionPositioningEnabled( !$total );
+		$table_gui->setQuestionManagingEnabled( !$total );
+		$table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());
+
+		$table_gui->setTotalPoints($this->object->getFixedQuestionSetTotalPoints());
+		$table_gui->setTotalWorkingTime($this->object->getFixedQuestionSetTotalWorkingTime());
+		
+		$table_gui->init();
+		
+		$table_gui->setData($this->object->getTestQuestions());
+		
 		$this->tpl->setCurrentBlock("adm_content");
-		include_once "./Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php";
-		$checked_move = is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()]) && (count($_SESSION['tst_qst_move_' . $this->object->getTestId()]));
-		$table_gui = new ilTestQuestionsTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move, $total);
-		$data = $this->object->getTestQuestions();
-		$table_gui->setData($data);
-		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -2676,9 +2693,9 @@ class ilObjTestGUI extends ilObjectGUI
 				return;
 		}
 
-		if( $questionSetTypeSettingSwitched && $this->object->isOnline() )
+		if( $questionSetTypeSettingSwitched && !$this->getOfflineStatus() )
 		{
-			$this->object->setOnline(false);
+			$this->object->setOfflineStatus(true);
 
 			$info = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
 
@@ -2819,8 +2836,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 			$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		}
-		if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
+		if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 		{
+			// note smeyer: $online_access is not defined here
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				if ($this->object->getShowInfo() || !$this->object->getForceJS())
@@ -3267,7 +3285,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if($this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ))
+		if(!$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ))
 		{
 			if((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{

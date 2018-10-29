@@ -9,7 +9,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
 * @ilCtrl_Calls ilContactGUI: ilMailFormGUI, ilUsersGalleryGUI, ilPublicUserProfileGUI
 */
 class ilContactGUI

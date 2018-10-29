@@ -1097,6 +1097,7 @@ class ilInitialisation
 
 			self::initInjector($GLOBALS['DIC']);
 			self::initBackgroundTasks($GLOBALS['DIC']);
+			self::initKioskMode($GLOBALS['DIC']);
 
 			if(ilContext::hasHTML())
 			{													
@@ -2025,7 +2026,6 @@ class ilInitialisation
 		};
 	}
 
-
 	private static function initKioskMode(\ILIAS\DI\Container $c) {
 		$c["service.kiosk_mode"] = function ($c) {
 			return new ilKioskModeService(
@@ -2036,5 +2036,4 @@ class ilInitialisation
 			);
 		};
 	}
-
 }

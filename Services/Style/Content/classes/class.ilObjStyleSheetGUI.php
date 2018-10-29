@@ -1016,13 +1016,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 			$this->ctrl->redirect($this, "create");
 		}
-		
-//echo "HH"; exit;
-		$class_name = "ilObjStyleSheet";
+
+		// import from basic zip file
+		$imp = new ilImport();
+		$style_id = $imp->importObject(null, ilObjStyleSheet::getBasicZipPath(), "style.zip", "sty",
+			$a_comp = "Services/Style", true);
+
 		require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$newObj = new ilObjStyleSheet();
-		$newObj->setTitle("-");
-		$newObj->create();
+		$newObj = new ilObjStyleSheet($style_id);
+		//$newObj->create();
 		$newObj->setTitle(ilUtil::stripSlashes($_POST["style_title"]));
 		$newObj->setDescription(ilUtil::stripSlashes($_POST["style_description"]));
 		$newObj->update();

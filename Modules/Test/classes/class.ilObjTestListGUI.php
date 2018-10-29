@@ -103,15 +103,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 	{
 		global $lng, $ilUser;
 
-		$props = array();
-		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-
-		if (!ilObjTestAccess::_isOnline($this->obj_id))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
-		}
-
+		$props = parent::getProperties();
 
 		// we cannot use ilObjTestAccess::_isOffline() because of text messages
 		$onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->id);

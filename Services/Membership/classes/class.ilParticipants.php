@@ -18,6 +18,9 @@ define('IL_GRP_MEMBER',5);
 
 define('IL_SESS_MEMBER', 6);
 
+define('IL_LSO_ADMIN', 7);
+define('IL_LSO_MEMBER', 8);
+
 define("IL_ROLE_POSITION_ADMIN",1);
 define("IL_ROLE_POSITION_TUTOR",2);
 define("IL_ROLE_POSITION_MEMBER",3);
@@ -99,12 +102,11 @@ abstract class ilParticipants
 		{
 			case 'crs':
 			case 'grp':
+			case 'lso':
 				return self::getInstanceByObjId($obj_id);
-				
 			case 'sess':
 				include_once './Modules/Session/classes/class.ilSessionParticipants.php';
 				return ilSessionParticipants::getInstance($a_ref_id);
-				
 			default:
 				$GLOBALS['DIC']->logger()->mem()->logStack();
 				$GLOBALS['DIC']->logger()->mem()->warning('Invalid ref_id -> obj_id given: ' . $a_ref_id .' -> '. $obj_id);
@@ -136,7 +138,8 @@ abstract class ilParticipants
 			case 'sess':
 				include_once './Modules/Session/classes/class.ilSessionParticipants.php';
 				return ilSessionParticipants::_getInstanceByObjId($a_obj_id);
-				
+			case 'lso':
+				return ilLearningSequenceParticipants::_getInstanceByObjId($a_obj_id);
 			default:
 				$GLOBALS['DIC']->logger()->mmbr()->logStack(ilLogLevel::WARNING);
 				$GLOBALS['DIC']->logger()->mmbr()->warning(': Invalid obj_id given: '.$a_obj_id);
@@ -954,42 +957,50 @@ abstract class ilParticipants
 	 */
 	public function add($a_usr_id,$a_role)
 	{
-	 	global $DIC;
+		global $DIC;
 
-	 	$rbacadmin = $DIC['rbacadmin'];
-	 	$ilAppEventHandler = $DIC['ilAppEventHandler'];
-	 	
-	 	if($this->isAssigned($a_usr_id))
-	 	{
-	 		return false;
-	 	}
-	 	
-	 	switch($a_role)
-	 	{
-	 		case IL_CRS_ADMIN:
-	 			$this->admins[] = $a_usr_id;
-	 			break;
+		$rbacadmin = $DIC['rbacadmin'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-	 		case IL_CRS_TUTOR:
-	 			$this->tutors[] = $a_usr_id;
-	 			break;
+		if($this->isAssigned($a_usr_id))
+		{
+			return false;
+		}
 
-	 		case IL_CRS_MEMBER:
-	 			$this->members[] = $a_usr_id;
-	 			break;
-	 			
-	 		case IL_GRP_ADMIN:
-	 			$this->admins[] = $a_usr_id;
-	 			break;
-	 			
-	 		case IL_GRP_MEMBER:
-	 			$this->members[] = $a_usr_id;
-	 			break;
-			
+		switch($a_role)
+		{
+			case IL_CRS_ADMIN:
+				$this->admins[] = $a_usr_id;
+				break;
+
+			case IL_CRS_TUTOR:
+				$this->tutors[] = $a_usr_id;
+				break;
+
+			case IL_CRS_MEMBER:
+				$this->members[] = $a_usr_id;
+				break;
+
+			case IL_GRP_ADMIN:
+				$this->admins[] = $a_usr_id;
+				break;
+
+			case IL_GRP_MEMBER:
+				$this->members[] = $a_usr_id;
+				break;
+
+			case IL_LSO_ADMIN:
+				$this->admins[] = $a_usr_id;
+				break;
+
+			case IL_LSO_MEMBER:
+				$this->members[] = $a_usr_id;
+				break;
+
 			case IL_SESS_MEMBER:
 				$this->members[] = $a_usr_id;
 				break;
-	 	}
+		}
 		
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
@@ -1184,8 +1195,23 @@ abstract class ilParticipants
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->members = $rbacreview->assignedUsers($role_id);
 					break;
-					
-				
+
+				case 'il_lso_m':
+					$auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
+					$this->role_data[IL_LSO_MEMBER] = $role_id;
+					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
+					$this->members = $rbacreview->assignedUsers($role_id);
+					$this->role_assignments[$role_id] = $assigned;
+					break;
+
+				case 'il_lso_a':
+					$auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
+					$this->role_data[IL_LSO_ADMIN] = $role_id;
+					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
+					$this->admins = $rbacreview->assignedUsers($role_id);
+					$this->role_assignments[$role_id] = $assigned;
+					break;
+
 				default:
 					$additional_roles[$role_id] = $title;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
@@ -1395,6 +1421,10 @@ abstract class ilParticipants
 		if($this instanceof ilGroupParticipants)
 		{
 			$this->add($tmp_obj->getId(),IL_GRP_MEMBER);
+		}
+		if($this instanceof ilLearningSequenceParticipants)
+		{
+			$this->add($tmp_obj->getId(),IL_LSO_MEMBER);
 		}
 		if($this instanceof ilSessionParticipants)
 		{

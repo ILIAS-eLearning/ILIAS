@@ -1,0 +1,82 @@
+<!-- BEGIN modal_body -->
+<div id="body_{BODY_UID}">
+    <!-- BEGIN message_box -->
+    {MESSAGE}
+    <!-- END message_box -->
+    {FORM}
+</div>
+<!-- END modal_form -->
+<!-- BEGIN modal_js -->
+<script type="text/javascript">
+(function($){ $(document).ready(function(){
+    
+    var uid = '{JS_UID}';
+
+    var hideModal = function()
+    {
+        $('#modal_'+uid).modal('hide');
+    };
+    
+    var removeShowModalButton = function()
+    {
+        $('#btnShow_'+uid).remove();
+    };
+    
+    var replaceModalBody = function(html)
+    {
+        $('#body_'+uid).replaceWith(html);
+    };
+    
+    var submitForm = function(form)
+    {
+        $.ajax({
+            
+            type: 'POST',
+            url: form.attr('action'),
+            dataType: 'json',
+            data: form.serialize(),
+            
+            success: function(response)
+            {
+                if(response.result)
+                {
+                    removeShowModalButton();
+                    hideModal();
+                }
+                else
+                {
+                    replaceModalBody(response.html);
+                    initFormHandler();
+                }
+            }
+        });
+    };
+    
+    var initFormHandler = function()
+    {
+        $('#form_'+uid).find('input[name="cmd[cancel]"]').click(function(e){
+
+            hideModal();
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            return false;
+        });
+
+        $('#form_'+uid).find('input[name="cmd[addAnswerAsynch]"]').click(function(e){
+            
+            submitForm( $('#form_'+uid) );
+            
+            e.preventDefault();
+            e.stopPropagation();
+
+            return false;
+        });
+    };
+
+    initFormHandler();
+
+}); }(jQuery));
+</script>
+<!-- END modal_js -->

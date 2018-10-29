@@ -1153,4 +1153,47 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$this->addQuestionFormCommandButtons($form);
 		return $form;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
+		
+		$answers = array();
+		
+		foreach($agg as $ans)
+		{
+			$answers[] = array(
+				'answer' => $ans['answertext'],
+				'frequency' => $ans['count_checked']
+			);
+		}
+		
+		return $answers;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssMultipleChoiceCorrectionsInputGUI.php';
+		$choices = new ilAssMultipleChoiceCorrectionsInputGUI($this->lng->txt( "answers" ), "choice");
+		$choices->setRequired( true );
+		$choices->setQuestionObject( $this->object );
+		$choices->setValues( $this->object->getAnswers() );
+		$form->addItem( $choices );
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$pointsChecked = $form->getInput('choice')['points'];
+		$pointsUnchecked = $form->getInput('choice')['points_unchecked'];
+		
+		foreach($this->object->getAnswers() as $index => $answer)
+		{
+			/* @var ASS_AnswerMultipleResponseImage $answer */
+			$answer->setPointsChecked((float)$pointsChecked[$index]);
+			$answer->setPointsUnchecked((float)$pointsUnchecked[$index]);
+		}
+	}
 }

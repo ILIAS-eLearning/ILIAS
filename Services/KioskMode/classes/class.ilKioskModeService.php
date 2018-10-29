@@ -5,7 +5,6 @@
  * Central entry point for users of the service.
  */
 final class ilKioskModeService {
-
 	/**
 	 * @var ilCtrl
 	 */
@@ -43,13 +42,15 @@ final class ilKioskModeService {
 	 *
 	 * @return	ilKioskModeView|null
 	 */
-	public function getViewFor(\ilObject $object) {
+	public function getViewFor(\ilObject $object)
+	{
 		$object_type = $object->getType();
 		if(! $this->hasKioskMode($object_type))	{
 			return null;
 		}
 
 		$class_name = $this->getClassNameForType($object_type);
+
 		return new $class_name(
 			$object,
 			$this->ctrl,
@@ -63,7 +64,8 @@ final class ilKioskModeService {
 	 *
 	 * @param	string	$object_type	needs to be a valid object type
 	 */
-	public function hasKioskMode(string $object_type) : bool {
+	public function hasKioskMode(string $object_type): bool
+	{
 		$class_name = $this->getClassNameForType($object_type);
 		return class_exists($class_name);
 	}
@@ -71,7 +73,7 @@ final class ilKioskModeService {
 	/**
 	 * @return classname of type-specific kiosk view.
 	 */
-	protected function getClassNameForType(string $object_type): string
+	protected function getClassNameForType(string $object_type) : string
 	{
 		$class = $this->obj_definition->getClassName($object_type);
 		$full_class = "il".$class."KioskModeView";

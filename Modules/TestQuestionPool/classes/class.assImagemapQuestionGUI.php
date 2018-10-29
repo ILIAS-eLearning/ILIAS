@@ -1046,4 +1046,61 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		
 		return $tpl->get();
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
+		
+		$answers = array();
+		
+		foreach($this->object->getAnswers() as $answerIndex => $ans)
+		{
+			$answers[] = array(
+				'answer' => $ans->getAnswerText(),
+				'frequency' => $agg[$answerIndex]
+			);
+		}
+		
+		return $answers;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilImagemapCorrectionsInputGUI.php';
+		$image = new ilImagemapCorrectionsInputGUI($this->lng->txt( 'image' ), 'image');
+		$image->setPointsUncheckedFieldEnabled( $this->object->getIsMultipleChoice() );
+		$image->setRequired( true );
+		
+		if (strlen( $this->object->getImageFilename() ))
+		{
+			$image->setImage( $this->object->getImagePathWeb() . $this->object->getImageFilename() );
+			$image->setValue( $this->object->getImageFilename() );
+			$image->setAreas( $this->object->getAnswers() );
+			$assessmentSetting = new ilSetting("assessment");
+			$linecolor         = (strlen( $assessmentSetting->get( "imap_line_color" )
+			)) ? "\"#" . $assessmentSetting->get( "imap_line_color" ) . "\"" : "\"#FF0000\"";
+			$image->setLineColor( $linecolor );
+			$image->setImagePath( $this->object->getImagePath() );
+			$image->setImagePathWeb( $this->object->getImagePathWeb() );
+		}
+		$form->addItem( $image );
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$areas = $form->getItemByPostVar('image')->getAreas();
+		
+		foreach($this->object->getAnswers() as $index => $answer)
+		{
+			if( $this->object->getIsMultipleChoice() )
+			{
+				$answer->setPointsUnchecked((float)$areas[$index]->getPointsUnchecked());
+			}
+			
+			$answer->setPoints((float)$areas[$index]->getPoints());
+		}
+	}
 }

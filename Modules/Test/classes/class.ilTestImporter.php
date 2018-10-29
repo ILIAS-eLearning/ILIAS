@@ -36,7 +36,7 @@ class ilTestImporter extends ilXmlImporter
 			$_SESSION['tst_import_subdir'] = $this->getImportPackageName();
 			$newObj->saveToDb(); // this generates test id first time
 			$questionParentObjId = $newObj->getId();
-			$newObj->setOnline(true);
+			$newObj->setOfflineStatus(false);
 			$questionParentObjId = $newObj->getId();
 		}
 		else
@@ -368,8 +368,8 @@ class ilTestImporter extends ilXmlImporter
 			require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
 			$sltImportFails = new ilTestSkillLevelThresholdImportFails($testOBJ->getId());
 			$sltImportFails->registerFailedImports($importer->getFailedThresholdImportSkillList());
-			
-			$testOBJ->setOnline(false);
+
+			$testOBJ->setOfflineStatus(true);
 		}
 	}
 }

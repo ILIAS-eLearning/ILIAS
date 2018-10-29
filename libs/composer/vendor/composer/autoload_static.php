@@ -3785,6 +3785,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateMigrationReducedInteraction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationReducedInteraction.php',
         'ilCertificateMigrationRepository' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationRepository.php',
         'ilCertificateMigrationUIElements' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationUIElements.php',
+        'ilCertificateMigrationValidator' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationValidator.php',
         'ilCertificateNotObtainedException' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Exception/class.ilCertificateNotObtainedException.php',
         'ilCertificateObjUserTrackingHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateObjUserTrackingHelper.php',
         'ilCertificateObjectHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateObjectHelper.php',
