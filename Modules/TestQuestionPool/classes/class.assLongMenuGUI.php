@@ -686,4 +686,121 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		}
 		return $tpl->get();
 	}
+	
+	public function getSubQuestionsIndex()
+	{
+		return array_keys($this->object->getAnswers());
+	}
+	
+	public function getAnswersFrequency($relevant_answers, $questionIndex)
+	{
+		$answers = array();
+		
+		foreach ($relevant_answers as $row)
+		{
+			if( $row['value1'] != $questionIndex )
+			{
+				continue;
+			}
+			
+			if( !isset($answers[$row['value2']]) )
+			{
+				//$label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
+				
+				$answers[$row['value2']] = array(
+					'answer' => $row['value2'], 'frequency' => 0
+				);
+			}
+			
+			$answers[$row['value2']]['frequency']++;
+		}
+		
+		return $answers;
+	}
+	
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$table = parent::getAnswerFrequencyTableGUI(
+			$parentGui, $parentCmd, $relevantAnswers, $questionIndex
+		);
+		
+		$table->setTitle(sprintf($DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
+			$DIC->language()->txt('longmenu').' '.($questionIndex + 1)
+		));
+		
+		return $table;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$correctAnswers = $this->object->getCorrectAnswers();
+		
+		foreach($this->object->getAnswers() as $lmIndex => $lm)
+		{
+			$lmValues = array(
+				'answers_all' => $lm,
+				'answers_all_count' => count($lm),
+				'answers_correct' => $correctAnswers[$lmIndex][0]
+			);
+			
+			$lmPoints = $correctAnswers[$lmIndex][1];
+			
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->lng->txt('longmenu'). ' ' .($lmIndex + 1));
+			$form->addItem($section);
+			
+			$lmInput = new ilAssLongmenuCorrectionsInputGUI(
+				$this->lng->txt('answers'), 'longmenu_'.$lmIndex
+			);
+			
+			$lmInput->setRequired(true);
+			
+			$lmInput->setValues($lmValues);
+			
+			$form->addItem($lmInput);
+			
+			$pointsInp = new ilNumberInputGUI($this->lng->txt( "points" ), 'points_'.$lmIndex);
+			$pointsInp->setRequired(true);
+			$pointsInp->allowDecimals(true);
+			$pointsInp->setSize(4);
+			$pointsInp->setMinValue(0);
+			$pointsInp->setMinvalueShouldBeGreater(false);
+			$pointsInp->setValue($lmPoints);
+			$form->addItem( $pointsInp );
+		}
+		
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$correctAnswers = $this->object->getCorrectAnswers();
+		
+		foreach($this->object->getAnswers() as $lmIndex => $lm)
+		{
+			$pointsInput = (float)$form->getInput('points_'.$lmIndex);
+			$correctAnswersInput = $form->getInput('longmenu_'.$lmIndex.'_tags');
+			
+			foreach($correctAnswersInput as $idx => $answer)
+			{
+				if( in_array($answer, $lm) )
+				{
+					continue;
+				}
+				
+				unset($correctAnswersInput[$idx]);
+			}
+			
+			$correctAnswersInput = array_values($correctAnswersInput);
+			
+			$correctAnswers[$lmIndex][0] = $correctAnswersInput;
+			$correctAnswers[$lmIndex][1] = $pointsInput;
+		}
+		
+		$this->object->setCorrectAnswers($correctAnswers);
+	}
 }

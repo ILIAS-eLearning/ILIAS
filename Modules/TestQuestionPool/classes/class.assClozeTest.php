@@ -2055,4 +2055,34 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		return $answerValue;
 	}
+	
+	public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+	{
+		$gap = $this->getGap($qIndex);
+		
+		if( $gap->getType() != CLOZE_TEXT )
+		{
+			return false;
+		}
+		
+		foreach($gap->getItems(new ilArrayElementOrderKeeper()) as $item)
+		{
+			if($item->getAnswertext() == $answerOptionValue)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+	{
+		$gap = $this->getGap($qIndex); /* @var assClozeGap $gap */
+		
+		$item = new assAnswerCloze($answerOptionValue, $points);
+		$item->setOrder($gap->getItemCount());
+		
+		$gap->addItem($item);
+	}
 }
