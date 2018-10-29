@@ -169,14 +169,14 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '  <div class="il-chart-progressmeter-mini-container">' .
             '    <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
             '      <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066">' .
-            '      </path>' .
+            '            </path>' .
             '      <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="54.495, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066">' .
-            '      </path>' .
+            '            </path>' .
             '      <path class="il-chart-progressmeter-needle-mini needle_color" stroke-dasharray="100, 100" d="M25,10 l0,15" style="transform: rotate(57.5deg)"></path>' .
             '    </svg>' .
             '  </div>' .
             '</div>';
-
+        
         $this->assertHTMLEquals($expected_html, $html);
     }
 }
