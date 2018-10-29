@@ -17,6 +17,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 
 	private $container = null;
 	private $main_container = null;
+	private $failure = FALSE;
 	
 	/**
 	 * Constructor
@@ -60,18 +61,19 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		
 		$this->setTitle($this->lng->txt('edit_timings_list'));
 		
-		$this->addColumn($this->lng->txt('title'),'');
+		$this->addColumn($this->lng->txt('title'),'','40%');
 		$this->addColumn($this->lng->txt('crs_timings_short_active'),'','',FALSE);
 
 		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE)
 		{
 			$this->addColumn($this->lng->txt('crs_timings_short_start_end_rel'),'','',FALSE);
+			$this->addColumn($this->lng->txt('crs_timings_time_frame'),'','',FALSE);
 		}
 		else
 		{
 			$this->addColumn($this->lng->txt('crs_timings_short_start_end'),'','',FALSE);
+			$this->addColumn($this->lng->txt('crs_timings_short_end'),'');
 		}
-		$this->addColumn($this->lng->txt('crs_timings_time_frame'),'','',FALSE);
 		$this->addColumn($this->lng->txt('crs_timings_short_changeable'),'','',FALSE);
 		
 		
@@ -83,6 +85,25 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		
 		$this->setShowRowsSelector(FALSE);
 	}
+	
+	/**
+	 * Set status
+	 * @param type $a_status
+	 */
+	public function setFailureStatus($a_status)
+	{
+		$this->failure = $a_status;
+	}
+	
+	/**
+	 * Get failure status
+	 * @return type
+	 */
+	public function getFailureStatus()
+	{
+		return $this->failure;
+	}
+	
 	
 	/**
 	 * Fill table row
@@ -119,9 +140,27 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('DESC',$set['desc']);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if($set['failure'])
+		{
+			$this->tpl->setCurrentBlock('alert');
+			$this->tpl->setVariable('IMG_ALERT',ilUtil::getImagePath("icon_alert.svg"));
+			$this->tpl->setVariable('ALT_ALERT',$this->lng->txt("alert"));
+			$this->tpl->setVariable("TXT_ALERT",$this->lng->txt($set['failure']));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// active
 		$this->tpl->setVariable('NAME_ACTIVE','item['.$set['ref_id'].'][active]');
+		$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($_POST,TRUE));
+		if($this->getFailureStatus())
+		{
+			$this->tpl->setVariable('CHECKED_ACTIVE',$_POST['item'][$set['ref_id']]['active'] ? 'checked="checked"' : '');
+		}
+		else
+		{
 		$this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type']  == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+		}
 		
 		// start
 		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
@@ -129,6 +168,10 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 			$dt_input = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_start]');
 			$dt_input->setDate(new ilDate($set['item']['suggestion_start'],IL_CAL_UNIX));
+			if($this->getFailureStatus())
+			{
+				$dt_input->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_start']['date'], IL_CAL_DATE));
+			}
 			
 			$this->tpl->setVariable('start_abs');
 			$this->tpl->setVariable('SUG_START',$dt_input->render());
@@ -138,26 +181,60 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock('start_rel');
 			$this->tpl->setVariable('START_REL_VAL',(int) $set['item']['suggestion_start_rel']);
+			if($this->getFailureStatus())
+			{
+				$this->tpl->setVariable('START_REL_VAL',$_POST['item'][$set['ref_id']]['sug_start_rel']);
+			}
+			else
+			{
+				$this->tpl->setVariable('START_REL_VAL',(int) $set['item']['suggestion_start_rel']);
+			}
 			$this->tpl->setVariable('START_REL_NAME', 'item['.$set['ref_id'].'][sug_start_rel]');
 			$this->tpl->parseCurrentBlock();
 		}
-		// duration
-		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
-		{
-			$duration = intval(($set['item']['suggestion_end'] - $set['item']['suggestion_start']) / (60*60*24));
 			
-			$GLOBALS['ilLog']->write($set['item']['suggestion_end'] - $set['item']['suggestion_start']);
+		if($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE)
+		{
+			if($this->getFailureStatus())
+			{
+				$this->tpl->setVariable('VAL_DURATION_A', $_POST['item'][$set['ref_id']]['duration_a']);
 		}
 		else
 		{
 			$duration = $set['item']['suggestion_end_rel'] - $set['item']['suggestion_start_rel'];
+				$this->tpl->setVariable('VAL_DURATION_A', (int) $duration);
 		}
 		$this->tpl->setVariable('NAME_DURATION_A','item['.$set['ref_id'].'][duration_a]');
-		$this->tpl->setVariable('VAL_DURATION_A', (int) $duration);
+			
+		}
+		else
+		{
+			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
+			$dt_end = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_end]');
+			$dt_end->setMode(ilDateTimeInputGUI::MODE_INPUT);
+			$dt_end->setShowEmpty(TRUE);
+			$dt_end->setDate(new ilDate($set['item']['suggestion_end'],IL_CAL_UNIX));
+			if($this->getFailureStatus())
+			{
+				$dt_end->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_end']['date'], IL_CAL_DATE));
+			}
+			
+			$this->tpl->setVariable('end_abs');
+			$this->tpl->setVariable('SUG_END',$dt_end->render());
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		// changeable
 		$this->tpl->setVariable('NAME_CHANGE','item['.$set['ref_id'].'][change]');
 		$this->tpl->setVariable('CHECKED_CHANGE', $set['item']['changeable'] ? 'checked="checked"' : '');
+		if($this->getFailureStatus())
+		{
+			$this->tpl->setVariable('CHECKED_CHANGE', $_POST['item'][$set['ref_id']]['change'] ? 'checked="checked"' : '');
+		}
+		else
+		{
+			$this->tpl->setVariable('CHECKED_CHANGE', $set['item']['changeable'] ? 'checked="checked"' : '');
+		}
 		
 	}
 	
@@ -183,15 +260,10 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 			// dubios error handling
 			if(array_key_exists($item['ref_id'], $a_failed_update))
 			{
-				$current_row['item'] = $a_failed_update[$item['ref_id']];
-				$current_row['error'] = TRUE;
+				$current_row['failed'] = TRUE;
+				$current_row['failure'] = $a_failed_update[$item['ref_id']];
 			}
-			else
-			{
 			$current_row['item'] = $item;
-			}
-			
-			
 			
 			$rows[] = $current_row;
 		}

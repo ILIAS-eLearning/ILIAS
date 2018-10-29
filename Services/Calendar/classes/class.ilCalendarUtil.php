@@ -774,6 +774,10 @@ class ilCalendarUtil
 	{
 		global $ilUser;
 		
+		if(!strlen($a_date_string))
+		{
+			return null;
+		}
 		switch ($ilUser->getDateFormat())
 		{
 			case ilCalendarSettings::DATE_FORMAT_DMY:

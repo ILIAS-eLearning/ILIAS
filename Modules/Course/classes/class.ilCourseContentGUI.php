@@ -483,6 +483,10 @@ class ilCourseContentGUI
 				$this->getContainerObject(),
 				$this->course_obj
 		);
+		if(count($failed_items))
+		{
+			$table->setFailureStatus(TRUE);
+		}
 		$table->init();
 		$table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()),$failed_items);
 		
@@ -525,7 +529,7 @@ class ilCourseContentGUI
 	/**
 	 * Manage personal timings
 	 */
-	protected function managePersonalTimings()
+	protected function managePersonalTimings($failed = array())
 	{
 		global $ilErr, $ilAccess;
 		
@@ -543,13 +547,15 @@ class ilCourseContentGUI
 				$this->getContainerObject(),
 				$this->course_obj
 		);
+		$table->setFailureStatus(count($failed));
 		$table->setUserId($GLOBALS['ilUser']->getId());
 		$table->init();
 		$table->parse(
 			ilObjectActivation::getItems(
 					$this->getContainerObject()->getRefId(),
 					FALSE
-			)
+			),
+			$failed
 		);
 		$GLOBALS['tpl']->setContent($table->getHTML());
 	}
@@ -572,22 +578,31 @@ class ilCourseContentGUI
 		$this->tabs_gui->clearSubTabs();
 		
 		$failed = array();
-		$all_items = array();
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
 		foreach((array) $_POST['item'] as $ref_id => $data)
 		{
 			$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']['date']);
+			$sug_end_dt = ilCalendarUtil::dateFromUserSetting($data['sug_end']['date']);
 			
-			if($sug_start_dt instanceof ilDate)
+			if(($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate))
 			{
+				include_once './Services/Calendar/classes/class.ilDateTime.php';
+				if(ilDateTime::_after($sug_start_dt, $sug_end_dt))
+			{
+					$failed[$ref_id] = 'crs_timing_err_start_end';
+					continue;
+				}
 				// update user date
 				include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
 				$tu = new ilTimingUser($ref_id, $GLOBALS['ilUser']->getId());
 				$tu->getStart()->setDate($sug_start_dt->get(IL_CAL_UNIX),IL_CAL_UNIX);
-				$sug_start_dt->increment(IL_CAL_DAY, abs($data['duration']));
-				
-				$tu->getEnd()->setDate($sug_start_dt->get(IL_CAL_UNIX), IL_CAL_UNIX);
+				$tu->getEnd()->setDate($sug_end_dt->get(IL_CAL_UNIX),IL_CAL_UNIX);
 				$tu->update();
+			}
+			else
+			{
+				$failed['ref_id'] = 'crs_timing_err_valid_dates';
+				continue;
 			}
 		}
 		// cognos-blu-patch: begin
@@ -600,7 +615,7 @@ class ilCourseContentGUI
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt('err_check_input'));
-			$this->managePersonalTimings();
+			$this->managePersonalTimings($failed);
 			return TRUE;
 		}
 		// cognos-blu-patch: end
@@ -1358,45 +1373,40 @@ class ilCourseContentGUI
 			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
 			{
 				$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']);
-				if($sug_start_dt instanceof ilDate)
+				$sug_end_dt = ilCalendarUtil::dateFromUserSetting($data['sug_end']);
+				
+				if(($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) 
 				{
+					include_once './Services/Calendar/classes/class.ilDateTime.php';
+					if(ilDateTime::_after($sug_start_dt, $sug_end_dt))
+				{
+						$failed[$ref_id] = 'crs_timing_err_start_end';
+						continue;
+					}
 					$item_obj->setSuggestionStart($sug_start_dt->get(IL_CAL_UNIX));
-					$sug_start_dt->increment(IL_CAL_DAY, abs($data['duration_a']));
-					$item_obj->setSuggestionEnd($sug_start_dt->get(IL_CAL_UNIX));
+					$item_obj->setSuggestionEnd($sug_end_dt->get(IL_CAL_UNIX));
+				}
+				else
+				{
+					$failed['ref_id'] = 'crs_timing_err_valid_dates';
+					continue;
 				}
 			}
 			else
 			{
+				if(
+					((int) $data['sug_start_rel'] < 0 ) or
+					((int) $data['duration_a'] < 0 )
+				)
+				{
+					$failed[$ref_id] = 'crs_timing_err_start_dur_rel';
+					continue;
+				}
 				$item_obj->setSuggestionStartRelative($data['sug_start_rel']);
 				$item_obj->setSuggestionEndRelative($data['sug_start_rel'] + $data['duration_a']);
 			}
 			
-			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE)
-			{
-				$errors = $item_obj->validateRelativePlaning();
-				if($errors)
-				{
-					$failed[$ref_id]['timing_type'] = $item_obj->getTimingType();
-					$failed[$ref_id]['suggestion_start'] = $item_obj->getSuggestionStart();
-					$failed[$ref_id]['suggestion_end'] = $item_obj->getSuggestionEnd();
-					$failed[$ref_id]['suggestion_start_rel'] = $item_obj->getSuggestionStartRelative();
-					$failed[$ref_id]['suggestion_end_rel'] = $item_obj->getSuggestionEndRelative();
-					$failed[$ref_id]['changeable'] = $item_obj->enabledChangeable();
-				}
-			}
-			elseif(!$item_obj->validateActivation())
-			{
-				$failed[$ref_id] = $ref_id;
-			}
-			$all_items[$ref_id] =& $item_obj;
-			unset($item_obj);
-		}
-		foreach($all_items as $ref_id => $item_obj_new)
-		{
-			if(!array_key_exists($ref_id, $failed))
-			{
-				$item_obj_new->update($ref_id);
-			}
+			$item_obj->update($ref_id);
 		}
 		if(!$failed)
 		{

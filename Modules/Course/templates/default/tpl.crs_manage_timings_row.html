@@ -9,6 +9,9 @@
 		<!-- BEGIN item_description -->
 		<div class="il_Description" >{DESC}</div>
 		<!-- END item_description -->
+		<!-- BEGIN alert -->
+				<div class="help-block alert alert-danger" role="alert"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" /> {TXT_ALERT}</div>
+		<!-- END alert -->
 		<!-- BEGIN tlt -->
 		<div class="il_ItemProperties">
 			<div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
@@ -20,8 +23,7 @@
 	</td>
 	<td class="{TD_CLASS}">
 		<!-- BEGIN start_abs -->
-			{SUG_START}<br />
-			{SUG_END}
+			{SUG_START}
 		<!-- END start_abs -->
 		<!-- BEGIN start_rel -->
 		<div class="form-inline">
@@ -30,9 +32,14 @@
 		<!-- END start_rel -->
 	</td>
 	<td class="{TD_CLASS}">
+		<!-- BEGIN end_abs -->
+			{SUG_END}
+		<!-- END end_abs -->
+		<!-- BEGIN end_rel -->
 		<div class="form-inline">
 			<input type="text" class="form-control" name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
 		</div>
+		<!-- END end_rel -->
 	</td>
 	<td class="{TD_CLASS}">
 		<input type="checkbox" name="{NAME_CHANGE}" value="1" {CHECKED_CHANGE} />
