@@ -11,7 +11,7 @@ use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\Container\Filter\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
-class FixedNameSource implements NameSource {
+class FixedNameSourceFilter implements NameSource {
 
 	public $name = "name";
 
@@ -60,7 +60,7 @@ class FilterTest extends ILIAS_UI_TestBase
 	{
 		//$f = $this->buildFactory();
 		$if = $this->buildInputFactory();
-		$name_source = new FixedNameSource();
+		$name_source = new FixedNameSourceFilter();
 
 		$inputs = [$if->text(""), $if->text("")];
 		$inputs_rendered = [true, true];
