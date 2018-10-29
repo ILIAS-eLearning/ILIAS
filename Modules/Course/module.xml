@@ -40,6 +40,9 @@
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
 	</events>
+	<crons>
+		<cron id="crs_timings_reminder" class="ilTimingsCronReminder" />
+	</crons>
 	<copage>
 		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>	
 	</copage>
