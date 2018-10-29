@@ -32,8 +32,9 @@ class ilCertificateObjectsForUserPreloader
 		}
 
 		$objectIdsWithUserCertificate = $this->userCertificateRepository->fetchObjectIdsWithCertificateForUser(
-			$userId, $objIds
+			$userId, array_diff($objIds, self::$certificates[$userId])
 		);
+
 		self::$certificates[$userId] = array_unique(array_merge(
 			$objectIdsWithUserCertificate,
 			self::$certificates[$userId]
