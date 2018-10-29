@@ -66,7 +66,7 @@ final class ilKioskModeService {
 	 */
 	public function hasKioskMode(string $object_type): bool
 	{
-		list($location, $class_name) = $this->getClassLocationForType($object_type);
+		$class_name = $this->getClassNameForType($object_type);
 		return class_exists($class_name);
 	}
 

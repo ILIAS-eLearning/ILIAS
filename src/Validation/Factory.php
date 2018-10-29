@@ -60,6 +60,15 @@ class Factory {
 		return new Constraints\Not($other, $this->data_factory);
 	}
 
+	/**
+	 * Get a logical or constraint.
+	 * @param   Constraint[]   $others
+	 * @return  Constraint
+	 */
+	public function or(array $others) {
+		return new Constraints\LogicalOr($others, $this->data_factory);
+	}
+
 	// SOME RESTRICTOINS
 
 

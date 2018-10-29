@@ -19,32 +19,47 @@ class ilLTICronOutcomeService extends ilCronJob
 	}
 
 	/**
-	 * return int
+	 * @inheritdoc
 	 */
 	public function getDefaultScheduleValue()
 	{
 		return 5;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getId()
 	{
 		return 'lti_outcome';
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function hasAutoActivation()
 	{
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function hasFlexibleSchedule()
 	{
 		return true;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function run()
 	{
-		
-	}
+		$status = \ilCronJobResult::STATUS_NO_ACTION;
 
+		$result = new \ilCronJobResult();
+		$result->setStatus($status);
+
+		return $result;
+	}
 }
-?>

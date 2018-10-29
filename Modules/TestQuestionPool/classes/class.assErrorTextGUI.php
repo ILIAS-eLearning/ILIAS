@@ -576,4 +576,83 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		return $html;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answersByActiveAndPass = array();
+		
+		foreach($relevantAnswers as $row)
+		{
+			$key = $row['active_fi'].':'.$row['pass'];
+			
+			if( !isset($answersByActiveAndPass[$key]) )
+			{
+				$answersByActiveAndPass[$key] = array();
+			}
+			
+			if( !isset($answersByActiveAndPass[$key][$row['value2']]) )
+			{
+				$answersByActiveAndPass[$key][$row['value2']] = array();
+			}
+			
+			$answersByActiveAndPass[$key][$row['value2']][] = $row['value1'];
+		}
+		
+		$answers = array();
+		
+		foreach($answersByActiveAndPass as $ans)
+		{
+			$errorText = $this->object->createErrorTextOutput($ans);
+			$errorMd5 = md5($errorText);
+			
+			if( !isset($answers[$errorMd5]) )
+			{
+				$answers[$errorMd5] = array(
+					'answer' => $errorText, 'frequency' => 0
+				);
+			}
+			
+			$answers[$errorMd5]['frequency']++;
+		}
+		
+		return array_values($answers);
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		// error terms
+		include_once "./Modules/TestQuestionPool/classes/forms/class.ilAssErrorTextCorrectionsInputGUI.php";
+		$errordata = new ilAssErrorTextCorrectionsInputGUI($this->lng->txt( "errors" ), "errordata");
+		$errordata->setKeyName( $this->lng->txt( 'text_wrong' ) );
+		$errordata->setValueName( $this->lng->txt( 'text_correct' ) );
+		$errordata->setValues( $this->object->getErrorData() );
+		$form->addItem( $errordata );
+		
+		// points for wrong selection
+		$points_wrong = new ilNumberInputGUI($this->lng->txt( "points_wrong" ), "points_wrong");
+		$points_wrong->allowDecimals(true);
+		$points_wrong->setValue( $this->object->getPointsWrong() );
+		$points_wrong->setInfo( $this->lng->txt( "points_wrong_info" ) );
+		$points_wrong->setSize( 6 );
+		$points_wrong->setRequired( true );
+		$form->addItem( $points_wrong );
+
+		return $form;
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->flushErrorData();
+		foreach($form->getItemByPostVar('errordata')->getValues() as $idx => $errAnswer)
+		{
+			$this->object->addErrorData(
+				$errAnswer->text_wrong, $errAnswer->text_correct, $errAnswer->points
+			);
+		}
+		
+		$this->object->setPointsWrong((float)$form->getInput('points_wrong'));
+	}
 }

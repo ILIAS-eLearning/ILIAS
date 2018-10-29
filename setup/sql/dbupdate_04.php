@@ -24584,6 +24584,21 @@ if(!$ilDB->tableExists('post_conditions'))
 
 <#5397>
 <?php
+$ilSetting = new ilSetting('certificate');
+$setting = $ilSetting->set('persisting_cers_introduced_ts', time());
+?>
+
+<#5398>
+<?php
+// migration of svy offline status
+$query = 'update object_data od set offline = '.
+	'(select if( online_status = 0,1,0) from tst_tests '.
+	'where obj_fi = od.obj_id) where type = '.$ilDB->quote('tst','text');
+$ilDB->manipulate($query);
+?>
+
+<#5399>
+<?php
 if(!$ilDB->tableExists('lso_states'))
 {
 	$ilDB->createTable('lso_states', array(
@@ -24610,7 +24625,7 @@ if(!$ilDB->tableExists('lso_states'))
 }
 ?>
 
-<#5398>
+<#5400>
 <?php
 global $ilDB;
 
@@ -24660,7 +24675,7 @@ if ($lso_type_id) {
 }
 ?>
 
-<#5399>
+<#5401>
 <?php
 if(!$ilDB->tableExists('lso_settings'))
 {
@@ -24691,7 +24706,7 @@ if(!$ilDB->tableExists('lso_settings'))
 }
 ?>
 
-<#5400>
+<#5402>
 <?php
 if (!$ilDB->tableColumnExists('lso_settings', 'online'))
 {
@@ -24704,7 +24719,7 @@ if (!$ilDB->tableColumnExists('lso_settings', 'online'))
 }
 ?>
 
-<#5401>
+<#5403>
 <?php
 if (!$ilDB->tableColumnExists('lso_settings', 'gallery'))
 {
@@ -24717,7 +24732,7 @@ if (!$ilDB->tableColumnExists('lso_settings', 'gallery'))
 }
 ?>
 
-<#5402>
+<#5404>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId("lso");
@@ -24753,7 +24768,7 @@ if ($lp_type_id) {
 }
 ?>
 
-<#5403>
+<#5405>
 <?php
 if (!$ilDB->tableColumnExists('lso_states', 'first_access'))
 {
@@ -24765,7 +24780,7 @@ if (!$ilDB->tableColumnExists('lso_states', 'first_access'))
 }
 ?>
 
-<#5404>
+<#5406>
 <?php
 if (!$ilDB->tableColumnExists('lso_states', 'last_access'))
 {
@@ -24777,7 +24792,7 @@ if (!$ilDB->tableColumnExists('lso_states', 'last_access'))
 }
 ?>
 
-<#5405>
+<#5407>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $lso_type_id = ilDBUpdateNewObjectType::getObjectTypeId("lso");
@@ -24797,4 +24812,8 @@ foreach ($op_ids as $op_id) {
 		array($lso_type_id, "lso", $op_id, 8))
 	;
 }
+
+$ilCtrlStructureReader->getStructure();
 ?>
+
+

@@ -461,13 +461,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 	private $template_id;
 
-	/**
-     * the object's online status
-     *
-	 * @var bool $online
-	 */
-	private $online = null;
-	
 	protected $oldOnlineStatus = null;
 	
 	/**
@@ -1312,7 +1305,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'highscore_own_table'        => array('integer', (int)$this->getHighscoreOwnTable()),
 				'highscore_top_table'        => array('integer', (int)$this->getHighscoreTopTable()),
 				'highscore_top_num'          => array('integer', (int)$this->getHighscoreTopNum()),
-				'online_status'              => array('integer', (int)$this->isOnline()),
 				'specific_feedback'          => array('integer', (int)$this->getSpecificAnswerFeedback()),
 				'autosave'                   => array('integer', (int)$this->getAutosave()),
 				'autosave_ival'              => array('integer', (int)$this->getAutosaveIval()),
@@ -1435,7 +1427,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'highscore_own_table'        => array('integer', (int)$this->getHighscoreOwnTable()),
 						'highscore_top_table'        => array('integer', (int)$this->getHighscoreTopTable()),
 						'highscore_top_num'          => array('integer', (int)$this->getHighscoreTopNum()),
-						'online_status'              => array('integer', (int)$this->isOnline()),
 						'specific_feedback'          => array('integer', (int)$this->getSpecificAnswerFeedback()),
 						'autosave'                   => array('integer', (int)$this->getAutosave()),
 						'autosave_ival'              => array('integer', (int)$this->getAutosaveIval()),
@@ -1544,7 +1535,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
 		// news item creation/update/deletion
 		include_once 'Services/News/classes/class.ilNewsItem.php';
-		if( !$this->getOldOnlineStatus() && $this->isOnline() )
+		if( !$this->getOldOnlineStatus() && !$this->getOfflineStatus() )
 		{
 			global $ilUser;
 			$newsItem = new ilNewsItem();
@@ -1557,11 +1548,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$newsItem->setVisibility(NEWS_USERS);
 			$newsItem->create();
 		}
-		elseif( $this->getOldOnlineStatus() && !$this->isOnline() )
+		elseif( $this->getOldOnlineStatus() && !$this->getOfflineStatus() )
 		{
 			ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
 		}
-		elseif( $this->isOnline() )
+		elseif( !$this->getOfflineStatus() )
 		{
 			$newsId = ilNewsItem::getFirstNewsIdForContext($this->getId(), 'tst');
 			if($newsId > 0)
@@ -1959,8 +1950,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setHighscoreOwnTable((bool) $data->highscore_own_table);
 			$this->setHighscoreTopTable((bool) $data->highscore_top_table);
 			$this->setHighscoreTopNum((int) $data->highscore_top_num);
-			$this->setOnline((bool) $data->online_status);
-			$this->setOldOnlineStatus((bool) $data->online_status);
+			$this->setOldOnlineStatus((bool) !$this->getOfflineStatus());
 			$this->setSpecificAnswerFeedback((int) $data->specific_feedback);
 			$this->setAutosave((bool)$data->autosave);
 			$this->setAutosaveIval((int)$data->autosave_ival);
@@ -3412,6 +3402,30 @@ function getAnswerFeedbackPoints()
 			return true;
 		}
 		return false;
+	}
+
+	public function removeQuestionFromSequences($questionId, $activeIds)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$testSequenceFactory = new ilTestSequenceFactory(
+			$DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this
+		);
+		
+		foreach($activeIds as $activeId)
+		{
+			$passSelector = new ilTestPassesSelector($DIC->database(), $this);
+			$passSelector->setActiveId($activeId);
+			
+			foreach($passSelector->getExistingPasses() as $pass)
+			{
+				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
+				$testSequence->loadFromDb();
+				
+				$testSequence->removeQuestion($questionId);
+				$testSequence->saveToDb();
+			}
+		}
 	}
 	
 	/**
@@ -7319,7 +7333,7 @@ function getAnswerFeedbackPoints()
 
 		if(!$cp_options->isRootNode($this->getRefId()))
 		{
-			$newObj->setOnline($this->isOnline());
+			$newObj->setOfflineStatus($this->getOfflineStatus());
 		}
 
 		$newObj->setAnonymity($this->getAnonymity());
@@ -8723,6 +8737,57 @@ function getAnswerFeedbackPoints()
 		}
 		
 		return $questions;
+	}
+	
+	/**
+	 * @param int $questionId
+	 * @return bool
+	 */
+	public function isTestQuestion($questionId)
+	{
+		foreach($this->getTestQuestions() as $questionData)
+		{
+			if( $questionData['question_id'] != $questionId )
+			{
+				continue;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @return float
+	 */
+	public function getFixedQuestionSetTotalPoints()
+	{
+		$points = 0;
+		
+		foreach($this->getTestQuestions() as $questionData)
+		{
+			$points += $questionData['points'];
+		}
+		
+		return $points;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFixedQuestionSetTotalWorkingTime()
+	{
+		$totalWorkingTime = '00:00:00';
+		
+		foreach($this->getTestQuestions() as $questionData)
+		{
+			$totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended(
+				$totalWorkingTime, $questionData['working_time']
+			);
+		}
+
+		return $totalWorkingTime;
 	}
 
 	/**
