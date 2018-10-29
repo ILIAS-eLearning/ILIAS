@@ -116,7 +116,11 @@ class ilAuthProviderFactory
 				require_once 'Services/Saml/classes/class.ilAuthProviderSaml.php';
 				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 				return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($saml_info[1]));
-				
+
+			case AUTH_OPENID_CONNECT:
+				$this->getLogger()->debug('Using openid connect authentication.');
+				return new ilAuthProviderOpenIdConnect($credentials);
+
 			default:
 				$this->getLogger('Plugin authentication: '. $a_authmode);
 				foreach(ilAuthUtils::getAuthPlugins() as $pl)
