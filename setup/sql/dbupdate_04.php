@@ -24557,3 +24557,7 @@ if(!$ilDB->tableColumnExists('event_participants', 'contact'))
 	);
 }
 ?>
+<#5396>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
