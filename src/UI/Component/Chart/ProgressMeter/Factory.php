@@ -66,6 +66,9 @@ interface Factory {
      *   composition: >
      *     Other than the Standard and Fixed Size Progress Meter it does not allow a comparison value and
      *     only displays a single bar. It also does not display any text.
+	 *   effect: >
+	 *     They always fit to their parent element to get full responsibility. So that if the parent element has no
+	 *     fixed size, they grow and shrink with the screen size, to a maximum width of 250px and a minimum of 20px.
      *
      * rules:
      *   composition:

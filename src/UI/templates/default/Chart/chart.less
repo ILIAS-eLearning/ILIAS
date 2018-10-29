@@ -476,17 +476,19 @@
 
   .il-chart-progressmeter-mini-container {
     position: relative;
-    min-width: 25px;
+    min-width: 20px;
     max-width: 250px;
+    width: 100%;
+    height: auto;
 
     .il-chart-progressmeter-viewbox {
       display: block;
-      margin: 10px auto;
       max-width: 80%;
+      min-width: 20px;
       max-height: 250px;
 
       .il-chart-progressmeter-circle-bg {
-        stroke: #333;
+        stroke: @il-chart-progressmeter-background;
         fill: none;
         stroke-width: 5;
         stroke-linecap: round;
@@ -497,13 +499,13 @@
         stroke-linecap: round;
       }
       .il-chart-progressmeter-circle.no-success {
-        stroke: #d9534f;
+        stroke: @il-chart-progressmeter-bar-no-success;
       }
       .il-chart-progressmeter-circle.success {
-        stroke: #6ea03c;
+        stroke: @il-chart-progressmeter-bar-success;
       }
       .il-chart-progressmeter-needle-mini {
-        stroke: #bcbcbc;
+        stroke: @il-chart-progressmeter-mini-marker-color;
         fill: none;
         stroke-width: 4px;
         stroke-linecap: round;
