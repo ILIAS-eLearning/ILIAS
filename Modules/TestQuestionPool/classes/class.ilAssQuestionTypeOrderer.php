@@ -54,6 +54,13 @@ class ilAssQuestionTypeOrderer
 	);
 	
 	/**
+	 * @var array
+	 */
+	protected $deprecatedTypes = array(
+		'assFlashQuestion', 'assJavaApplet'
+	);
+	
+	/**
 	 * flipped question type order (used for determining order priority)
 	 * 
 	 * @var array
@@ -98,9 +105,26 @@ class ilAssQuestionTypeOrderer
 	 * 
 	 * @return array $orderedQuestionTypes
 	 */
-	public function getOrderedTypes()
+	public function getOrderedTypes($withDeprecatedTypes = true)
 	{
-		return $this->types;
+		if( $withDeprecatedTypes )
+		{
+			return $this->types;
+		}
+		
+		$types = array();
+		
+		foreach($this->types as $translation => $typeData)
+		{
+			if( in_array($typeData['type_tag'], $this->deprecatedTypes) )
+			{
+				continue;
+			}
+			
+			$types[$translation] = $typeData;
+		}
+		
+		return $types;
 	}
 	
 	/**

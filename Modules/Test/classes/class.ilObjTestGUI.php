@@ -1981,7 +1981,7 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 		$pool = new ilObjQuestionPool();
-		$questionTypes = $pool->getQuestionTypes(false, true);
+		$questionTypes = $pool->getQuestionTypes(false, true, false);
 		$options = array();
 
 		// question type
