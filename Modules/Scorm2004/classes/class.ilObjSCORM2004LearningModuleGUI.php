@@ -410,8 +410,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		
 		// online
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_online"), "cobj_online");
-		$cb->setValue("y");
-		if ($this->object->getOnline())
+		if(!$this->object->getOfflineStatus())
 		{
 			$cb->setChecked(true);
 		}
@@ -853,7 +852,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			if ($_POST["width_0"] != $this->object->getWidth()) $t_width = $_POST["width_0"];
 			if ($_POST["width_1"] != $this->object->getWidth()) $t_width = $_POST["width_1"];
 
-			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+			$this->object->setOfflineStatus(!($_POST['cobj_online']));
 			$this->object->setOpenMode($_POST["open_mode"]);
 			$this->object->setWidth($t_width);
 			$this->object->setHeight($t_height);

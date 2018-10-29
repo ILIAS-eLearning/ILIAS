@@ -221,7 +221,7 @@ class ilSCORM13Package
 		//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
 	  	$x['persistPreviousAttempts'] = $this->packageData['persistprevattempts'];  	
-	  	$x['online'] = $this->packageData['c_online'];
+	  	$x['online'] = !$this->getOfflineStatus();//$this->packageData['c_online'];
 	  	
 	  	$x['defaultLessonMode'] = $this->packageData['default_lesson_mode'];
 	  	$x['credit'] = $this->packageData['credit'];
