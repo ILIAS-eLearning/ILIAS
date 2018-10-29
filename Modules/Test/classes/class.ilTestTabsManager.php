@@ -637,19 +637,13 @@ class ilTestTabsManager
 			}
 		}
 		
-		// Scoring Adjustment
+		// NEW CORRECTIONS TAB
 		$setting = new ilSetting('assessment');
 		$scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', false);
-		if ($this->isWriteAccessGranted() && $scoring_adjust_active && !$this->isHiddenTab('scoringadjust'))
+		if( $this->isWriteAccessGranted() && $scoring_adjust_active && !$this->isHiddenTab(self::TAB_ID_CORRECTION) )
 		{
-			// scoring tab
-			$this->tabs->addTarget(
-				self::TAB_ID_CORRECTION, $DIC->ctrl()->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
-				array(
-					'showquestionlist',
-					'savescoringfortest',
-					'adjustscoringfortest'
-				), ''
+			$this->tabs->addTab(self::TAB_ID_CORRECTION, $DIC->language()->txt(self::TAB_ID_CORRECTION),
+				$DIC->ctrl()->getLinkTargetByClass('ilTestCorrectionsGUI')
 			);
 		}
 		

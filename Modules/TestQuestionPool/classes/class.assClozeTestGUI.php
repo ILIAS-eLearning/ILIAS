@@ -1687,4 +1687,354 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		
 		$gaptemplate->parseCurrentBlock();
 	}
+	
+	protected function hasAddAnswerAction($relevantAnswers, $questionIndex)
+	{
+		foreach($this->getAnswersFrequency($relevantAnswers, $questionIndex) as $answer)
+		{
+			if( isset($answer['actions']) )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$table = parent::getAnswerFrequencyTableGUI(
+			$parentGui, $parentCmd, $relevantAnswers, $questionIndex
+		);
+		
+		$table->setTitle(sprintf($DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
+			$DIC->language()->txt('gap').' '.($questionIndex + 1)
+		));
+		
+		if( $this->hasAddAnswerAction($relevantAnswers, $questionIndex) )
+		{
+			$table->addColumn('', '', '200');
+		}
+		
+		return $table;
+	}
+	
+	public function getSubQuestionsIndex()
+	{
+		return array_keys($this->object->getGaps());
+	}
+	
+	protected function getAnswerTextLabel($gapIndex, $answer)
+	{
+		$gap = $this->object->getGap($gapIndex);
+		
+		switch($gap->type)
+		{
+			case CLOZE_NUMERIC:
+			case CLOZE_TEXT:
+				return $answer;
+				
+			case CLOZE_SELECT:
+				
+				$items = $gap->getItems(new ilArrayElementOrderKeeper());
+				return $items[$answer]->getAnswertext();
+		}
+	}
+	
+	protected function completeAddAnswerAction($answers, $questionIndex)
+	{
+		$gap = $this->object->getGap($questionIndex);
+		
+		if( $gap->type != CLOZE_TEXT )
+		{
+			return $answers;
+		}
+		
+		foreach($answers as $key => $ans)
+		{
+			$found = false;
+			
+			foreach($gap->getItems(new ilArrayElementOrderKeeper()) as $item)
+			{
+				if( $ans['answer'] != $item->getAnswerText() )
+				{
+					continue;
+				}
+				
+				$found = true;
+				break;
+			}
+			
+			if( !$found )
+			{
+				$answers[$key]['addable'] = true;
+			}
+		}
+		
+		return $answers;
+	}
+	
+	public function getAnswersFrequency($relevant_answers, $questionIndex)
+	{
+		$answers = array();
+		
+		foreach ($relevant_answers as $row)
+		{
+			if( $row['value1'] != $questionIndex )
+			{
+				continue;
+			}
+			
+			if( !isset($answers[$row['value2']]) )
+			{
+				$label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
+				
+				$answers[$row['value2']] = array(
+					'answer' => $label, 'frequency' => 0
+				);
+			}
+			
+			$answers[$row['value2']]['frequency']++;
+		}
+		
+		$answers = $this->completeAddAnswerAction($answers, $questionIndex);
+		
+		return $answers;
+	}
+	
+	protected function isUsedInCombinations($gapIndex)
+	{
+		foreach($this->object->getGapCombinations() as $combination)
+		{
+			if( $combination['gap_fi'] != $gapIndex )
+			{
+				continue;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	protected function getGapCombinations()
+	{
+		$combinations = array();
+		
+		foreach($this->object->getGapCombinations() as $c)
+		{
+			if( !isset($combinations[$c['cid']]) )
+			{
+				$combinations[$c['cid']] = array();
+			}
+			
+			if( !isset($combinations[$c['cid']][$c['row_id']]) )
+			{
+				$combinations[$c['cid']][$c['row_id']] = array(
+					'gaps' => array(), 'points' => $c['points'], 
+				);
+			}
+			
+			if( !isset($combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']]) )
+			{
+				$combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']] = array();
+			}
+			
+			$combinations[$c['cid']][$c['row_id']]['gaps'][$c['gap_fi']] = $c['answer'];
+		}
+		
+		return $combinations;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		foreach($this->object->getGaps() as $gapIndex => $gap)
+		{
+			$this->populateGapCorrectionFormProperties(
+				$form, $gap, $gapIndex, $this->isUsedInCombinations($gapIndex)
+			);
+		}
+		
+		if( $this->object->getGapCombinationsExists() )
+		{
+			foreach($this->getGapCombinations() as $combiIndex => $gapCombination)
+			{
+				$this->populateGapCombinationCorrectionFormProperty($form, $gapCombination, $combiIndex);
+			}
+		}
+	}
+	
+	protected function populateGapCombinationCorrectionFormProperty(ilPropertyFormGUI $form, $gapCombi, $combiIndex)
+	{
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( "Gap Combination " . ($combiIndex + 1) );
+		$form->addItem( $header );
+		
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssClozeTestCombinationVariantsInputGUI.php';
+		$inp = new ilAssClozeTestCombinationVariantsInputGUI('Answers', 'combination_'.$combiIndex);
+		$inp->setValues($gapCombi);
+		$form->addItem($inp);
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 * @param assClozeGap $gap
+	 * @param integer $gapIndex
+	 */
+	protected function populateGapCorrectionFormProperties($form, $gap, $gapIndex, $hidePoints)
+	{		
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle( $this->lng->txt( "gap" ) . " " . ($gapIndex + 1) );
+		$form->addItem( $header );
+		
+		if ($gap->getType() == CLOZE_TEXT || $gap->getType() == CLOZE_SELECT)
+		{
+			$this->populateTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints);
+		}
+		else if ($gap->getType() == CLOZE_NUMERIC)
+		{
+			foreach ($gap->getItemsRaw() as $item)
+			{
+				$this->populateNumericGapCorrectionFormProperty($form, $item, $gapIndex, $hidePoints);
+			}
+		}
+	}
+	
+	protected function populateTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints)
+	{
+		require_once "Modules/TestQuestionPool/classes/forms/class.ilAssAnswerCorrectionsInputGUI.php";
+		$values = new ilAssAnswerCorrectionsInputGUI($this->lng->txt( "values" ), "gap_".$gapIndex);
+		$values->setHidePointsEnabled($hidePoints);
+		$values->setRequired( true );
+		$values->setQuestionObject( $this->object );
+		$values->setValues( $gap->getItemsRaw() );
+		$form->addItem( $values );
+	}
+	
+	protected function populateNumericGapCorrectionFormProperty($form, $item, $gapIndex, $hidePoints)
+	{
+		$value = new ilNumberInputGUI($this->lng->txt( 'value' ), "gap_" . $gapIndex . "_numeric");
+		$value->allowDecimals( true );
+		$value->setSize( 10 );
+		$value->setValue( ilUtil::prepareFormOutput( $item->getAnswertext() ) );
+		$value->setRequired( true );
+		$form->addItem( $value );
+		
+		$lowerbound = new ilNumberInputGUI($this->lng->txt( 'range_lower_limit'), "gap_" . $gapIndex . "_numeric_lower");
+		$lowerbound->allowDecimals( true );
+		$lowerbound->setSize( 10 );
+		$lowerbound->setRequired( true );
+		$lowerbound->setValue( ilUtil::prepareFormOutput( $item->getLowerBound() ) );
+		$form->addItem( $lowerbound );
+		
+		$upperbound = new ilNumberInputGUI($this->lng->txt( 'range_upper_limit'), "gap_" . $gapIndex . "_numeric_upper");
+		$upperbound->allowDecimals( true );
+		$upperbound->setSize( 10 );
+		$upperbound->setRequired( true );
+		$upperbound->setValue( ilUtil::prepareFormOutput( $item->getUpperBound() ) );
+		$form->addItem( $upperbound );
+		
+		if( !$hidePoints )
+		{
+			$points = new ilNumberInputGUI($this->lng->txt( 'points' ), "gap_" . $gapIndex . "_numeric_points");
+			$points->allowDecimals(true);
+			$points->setSize( 3 );
+			$points->setRequired( true );
+			$points->setValue( ilUtil::prepareFormOutput( $item->getPoints() ) );
+			$form->addItem( $points );
+		}
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		foreach($this->object->getGaps() as $gapIndex => $gap)
+		{
+			if( $this->isUsedInCombinations($gapIndex) )
+			{
+				continue;
+			}
+			
+			$this->saveGapCorrectionFormProperty($form, $gap, $gapIndex);
+		}
+		
+		if( $this->object->getGapCombinationsExists() )
+		{
+			$this->saveGapCombinationCorrectionFormProperties($form);
+		}
+	}
+	
+	protected function saveGapCorrectionFormProperty(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
+	{
+		if ($gap->getType() == CLOZE_TEXT || $gap->getType() == CLOZE_SELECT)
+		{
+			$this->saveTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex);
+		}
+		else if ($gap->getType() == CLOZE_NUMERIC)
+		{
+			foreach ($gap->getItemsRaw() as $item)
+			{
+				$this->saveNumericGapCorrectionFormProperty($form, $item, $gapIndex);
+			}
+		}
+	}
+	
+	protected function saveTextOrSelectGapCorrectionFormProperty(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
+	{
+		$answers = $form->getItemByPostVar('gap_'.$gapIndex)->getValues();
+		
+		foreach($gap->getItemsRaw() as $index => $item)
+		{
+			$item->setPoints((float)$answers[$index]->getPoints());
+		}
+	}
+	
+	protected function saveNumericGapCorrectionFormProperty(ilPropertyFormGUI $form, assAnswerCloze $item, $gapIndex)
+	{
+		$item->setAnswertext($form->getInput('gap_'.$gapIndex.'_numeric'));
+		$item->setLowerBound($form->getInput('gap_'.$gapIndex.'_numeric_lower'));
+		$item->setUpperBound($form->getInput('gap_'.$gapIndex.'_numeric_upper'));
+		$item->setPoints($form->getInput('gap_'.$gapIndex.'_numeric_points'));
+	}
+	
+	protected function saveGapCombinationCorrectionFormProperties(ilPropertyFormGUI $form)
+	{
+		// please dont ask (!) -.-
+		
+		$combinationPoints = array('points' => array(), 'select' => array());
+		$combinationValues = array();
+		
+		foreach($this->getGapCombinations() as $combiId => $combi)
+		{
+			$values = $form->getItemByPostVar('combination_'.$combiId)->getValues();
+			
+			if( !isset($combinationPoints['points'][$combiId]) )
+			{
+				$combinationPoints['points'][$combiId] = array();
+				$combinationPoints['select'][$combiId] = array();
+				$combinationValues[$combiId] = array();
+			}
+			
+			foreach($combi as $varId => $variant)
+			{
+				$combinationPoints['points'][$combiId][$varId] = (float)$values[$varId]['points'];
+				$combinationPoints['select'][$combiId] = array_keys($values[$varId]['gaps']);
+				$combinationValues[$combiId][$varId] = array_values($values[$varId]['gaps']);
+			}
+		}
+		
+		$combinationPoints = ilUtil::stripSlashesRecursive($combinationPoints);
+		$combinationValues = ilUtil::stripSlashesRecursive($combinationValues);
+		
+		$assClozeGapCombinationObject = new assClozeGapCombination();
+		$assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
+		
+		$assClozeGapCombinationObject->saveGapCombinationToDb(
+			$this->object->getId(), $combinationPoints, $combinationValues
+		);
+	}
 }

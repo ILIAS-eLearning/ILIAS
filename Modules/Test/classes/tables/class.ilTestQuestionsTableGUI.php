@@ -15,23 +15,51 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
-	protected $writeAccess 		= false;
-	protected $totalPoints 		= 0;
-	protected $totalWorkingTime = '00:00:00';
-	protected $checked_move 	= false;
-	protected $total 			= 0;
-	protected $position			= 0;
-
 	/**
-	 * @var array
+	 * @var bool
 	 */
-	protected $visibleOptionalColumns = array();
-
+	protected $questionTitleLinksEnabled = false;
+	
 	/**
-	 * @var array
+	 * @var bool
 	 */
-	protected $optionalColumns = array();
-
+	protected $questionRemoveRowButtonEnabled = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected $questionManagingEnabled = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected $positionInsertCommandsEnabled = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected $questionPositioningEnabled = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected $obligatoryQuestionsHandlingEnabled = false;
+	
+	/**
+	 * @var int
+	 */
+	protected $totalPoints = 0;
+	
+	/**
+	 * @var string
+	 */
+	protected $totalWorkingTime = '';
+	
+	/**
+	 * @var int
+	 */
+	private $position = 0;
+	
 	/**
 	 * Constructor
 	 *
@@ -39,91 +67,27 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $a_checked_move = false, $a_total = 0)
+	public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
 	{
-		$this->setId('tst_qst_lst_'.$a_parent_obj->object->getRefId());
+		$this->setId('tst_qst_lst_'.$parentRefId);
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-
-		global $lng, $ilCtrl;
-
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->total = $a_total;
-	
-		$this->setWriteAccess($a_write_access);
-		$this->setCheckedMove($a_checked_move);
 		
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
-		$this->addColumn('','f','1%', true);
-		$this->addColumn('','f','1%');
-		$this->visibleOptionalColumns = (array)$this->getSelectedColumns();
-		$this->optionalColumns        = (array)$this->getSelectableColumns();
-		if(isset($this->visibleOptionalColumns['qid']))
-		{
-			$this->addColumn($this->optionalColumns['qid']['txt'],'qid', '');
-		}
-		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
-		//$this->addColumn($this->lng->txt("tst_sequence"),'sequence', '');
-		if( $a_parent_obj->object->areObligationsEnabled() )
-		{
-			$this->addColumn($this->lng->txt("obligatory"),'obligatory', '');
-		}
-		if(isset($this->visibleOptionalColumns['description']))
-		{
-			$this->addColumn($this->optionalColumns['description']['txt'],'description', '');
-		}
-		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
-		$this->addColumn($this->lng->txt("points"),'', '');
-		if(isset($this->visibleOptionalColumns['author']))
-		{
-			$this->addColumn($this->optionalColumns['author']['txt'],'author', '');
-		}
-		if(isset($this->visibleOptionalColumns['working_time']))
-		{
-			$this->addColumn($this->optionalColumns['working_time']['txt'],'working_time', '');
-		}
-		$this->addColumn($this->lng->txt("qpl"),'qpl', '');
-
-		$this->setSelectAllCheckbox('q_id');
 
 		$this->setExternalSegmentation(true);
-
-		if ($this->getWriteAccess() && !$this->getTotal())
-		{
-			$this->addMultiCommand('removeQuestions', $this->lng->txt('remove_question'));
-			$this->addMultiCommand('moveQuestions', $this->lng->txt('move'));
-			if ($this->checked_move)
-			{
-				$this->addMultiCommand('insertQuestionsBefore', $this->lng->txt('insert_before'));
-				$this->addMultiCommand('insertQuestionsAfter', $this->lng->txt('insert_after'));
-			}
-                        //$this->addMultiCommand('copyToQuestionpool', $this->lng->txt('copy_to_questionpool'));
-                        $this->addMultiCommand('copyQuestion', $this->lng->txt('copy'));
-			$this->addMultiCommand('copyAndLinkToQuestionpool', $this->lng->txt('copy_and_link_to_questionpool'));
-                        
-		}
-
 
 		$this->setRowTemplate("tpl.il_as_tst_questions_row.html", "Modules/Test");
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		if( $a_parent_obj->object->areObligationsEnabled() )
-		{
-			$this->addCommandButton('saveOrderAndObligations', $this->lng->txt('saveOrderAndObligations'));
-		}
-		else
-		{
-			$this->addCommandButton('saveOrderAndObligations', $this->lng->txt('saveOrder'));
-		}
-
 		$this->disable('sort');
 		$this->enable('header');
-		$this->enable('select_all');
+		
+		$this->setShowRowsSelector(false);
 	}
-
+	
 	/**
 	 * @return array
 	 */
@@ -135,24 +99,100 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 			'author'      => array('txt' => $this->lng->txt('author'), 'default' => false),
 			'working_time'=> array('txt' => $this->lng->txt('working_time'), 'default' => false)
 		);
-
+		
 		return $cols;
 	}
-
-	function fillHeader()
+	
+	/**
+	 * 
+	 */
+	public function init()
 	{
-		foreach ($this->column as $key => $column)
+		$this->initColumns();
+		$this->initCommands();
+
+		if( $this->isQuestionManagingEnabled() )
 		{
-			if (strcmp($column['text'], $this->lng->txt("points")) == 0)
-			{
-				$this->column[$key]['text'] = $this->lng->txt("points") . "&nbsp;(" . $this->totalPoints . ")";
-			}
-			elseif (strcmp($column['text'], $this->lng->txt("working_time")) == 0)
-			{
-				$this->column[$key]['text'] = $this->lng->txt("working_time") . "&nbsp;(" . $this->totalWorkingTime . ")";
-			}
+			$this->setSelectAllCheckbox('q_id');
 		}
-		parent::fillHeader();
+	}
+	
+	/**
+	 * 
+	 */
+	protected function initColumns()
+	{
+		if( $this->isCheckboxColumnRequired() )
+		{
+			$this->addColumn('','f','1%', true);
+		}
+		
+		if( $this->isQuestionPositioningEnabled() )
+		{
+			$this->addColumn('','f','1%');
+		}
+
+		if( $this->isColumnSelected('qid') )
+		{
+			$this->addColumn($this->lng->txt('question_id'),'qid', '');
+		}
+
+		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
+
+		if( $this->isObligatoryQuestionsHandlingEnabled() )
+		{
+			$this->addColumn($this->lng->txt("obligatory"),'obligatory', '');
+		}
+		
+		if( $this->isColumnSelected('description') )
+		{
+			$this->addColumn($this->lng->txt('description'),'description', '');
+		}
+		
+		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
+		$this->addColumn($this->buildPointsHeader(),'', '');
+		
+		if( $this->isColumnSelected('author') )
+		{
+			$this->addColumn($this->lng->txt('author'),'author', '');
+		}
+		if( $this->isColumnSelected('working_time') )
+		{
+			$this->addColumn($this->buildWorkingTimeHeader(),'working_time', '');
+		}
+		
+		$this->addColumn($this->lng->txt('qpl'),'qpl', '');
+		
+		if( $this->isQuestionRemoveRowButtonEnabled() )
+		{
+			$this->addColumn('','','1%');
+		}
+	}
+	
+	protected function initCommands()
+	{
+		if( $this->isQuestionManagingEnabled() )
+		{
+			$this->addMultiCommand('removeQuestions', $this->lng->txt('remove_question'));
+			$this->addMultiCommand('moveQuestions', $this->lng->txt('move'));
+		}
+		
+		if( $this->isPositionInsertCommandsEnabled() )
+		{
+			$this->addMultiCommand('insertQuestionsBefore', $this->lng->txt('insert_before'));
+			$this->addMultiCommand('insertQuestionsAfter', $this->lng->txt('insert_after'));
+		}
+		
+		if( $this->isQuestionManagingEnabled() )
+		{
+			$this->addMultiCommand('copyQuestion', $this->lng->txt('copy'));
+			$this->addMultiCommand('copyAndLinkToQuestionpool', $this->lng->txt('copy_and_link_to_questionpool'));
+		}
+		
+		if( $this->isTableSaveCommandRequired() )
+		{
+			$this->addCommandButton('saveOrderAndObligations', $this->buildTableSaveCommandLabel());
+		}
 	}
 	
 	/**
@@ -164,138 +204,345 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $ilUser,$ilAccess;
-		
-		$q_id = $data["question_id"];
-
-		$this->tpl->setVariable("QUESTION_ID", $q_id);
-		if(isset($this->visibleOptionalColumns['qid']))
+		if( $this->isCheckboxColumnRequired() )
 		{
-			$this->tpl->setVariable("QUESTION_ID_PRESENTATION", $q_id);
+			$this->tpl->setVariable("CHECKBOX_QID", $data['question_id']);
 		}
-		if ($this->getWriteAccess() && !$this->getTotal() && $data["obj_fi"] > 0) 
+		
+		if( $this->isQuestionPositioningEnabled() )
 		{
-                        if (!$data['complete']) {
-                            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
-                            $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
-                            $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
-                        }
-                        
+			$this->position += 10;
+			$inputField = $this->buildPositionInput($data['question_id'], $this->position);
 			
-			$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
-			$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
-
-			// obligatory checkbox (when obligation is possible)
-			if( $data["obligationPossible"] )
-			{
-				$CHECKED = $data["obligatory"] ? "checked=\"checked\" " : "";
-				$OBLIGATORY = "<input type=\"checkbox\" name=\"obligatory[$q_id]\" value=\"1\" $CHECKED/>";
-			}
-			else
-			{
-				$OBLIGATORY = "";
-			}
-		} 
-		else 
+			$this->tpl->setVariable("QUESTION_POSITION", $inputField);
+			$this->tpl->setVariable("POSITION_QID", $data['question_id']);
+		}
+		
+		if( $this->isColumnSelected('qid') )
 		{
-			global $lng;
-			
+			$this->tpl->setVariable("QUESTION_ID_PRESENTATION", $data['question_id']);
+		}
+		
+		if( $this->isQuestionTitleLinksEnabled() )
+		{
+			$this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($data));
+		}
+		else
+		{
 			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-			
-			// obligatory icon
-			if( $data["obligatory"] )
-			{
-				require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-				$OBLIGATORY = ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $lng->txt('question_obligatory'));
-			}
-			else $OBLIGATORY = '';
 		}
 		
-		if( $this->parent_obj->object->areObligationsEnabled() )
+		if (!$data['complete'])
 		{
-			$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
+			$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
+			$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
+			$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 		}
 		
-		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
-
-		if ($this->getWriteAccess() && !$this->getTotal()) 
+		if( $this->isObligatoryQuestionsHandlingEnabled() )
 		{
-			if ($data["sequence"] != 1)
-			{
-				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&up=".$data["question_id"]."\">" . ilGlyphGUI::get(ilGlyphGUI::UP, $this->lng->txt('up')) . "</a>");
-			}
-			if ($data["sequence"] != count($this->getData()))
-			{
-				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\">" . ilGlyphGUI::get(ilGlyphGUI::DOWN, $this->lng->txt('down')) . "</a>");
-			}
+			$this->tpl->setVariable("QUESTION_OBLIGATORY", $this->buildObligatoryColumnContent($data));
 		}
-
-		if(isset($this->visibleOptionalColumns['description']))
+		
+		if( $this->isColumnSelected('description') )
 		{
-			if($data["description"])
-			{
-				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"] ? $data["description"] : '&nbsp;');
-			}
-			else
-			{
-				$this->tpl->touchBlock('question_comment_block');
-			}
+			$this->tpl->setVariable("QUESTION_COMMENT", $data["description"] ? $data["description"] : '&nbsp;');
 		}
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 		$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
-		$this->totalPoints 		+= $data["points"];
-		$this->totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended($this->totalWorkingTime,$data['working_time']);
-		if(isset($this->visibleOptionalColumns['author']))
+		
+		if( $this->isColumnSelected('author') )
 		{
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 		}
-		if(isset($this->visibleOptionalColumns['working_time']))
+
+		if( $this->isColumnSelected('working_time') )
 		{
 			$this->tpl->setVariable("QUESTION_WORKING_TIME", $data["working_time"]);
 		}
-		if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl') {
+
+		if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl')
+		{
 		    $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));
 		}
-		else {
+		else
+		{
 		    $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
 		}
-
-
-		$this->position += 10;
-		$field = "<input type=\"text\" name=\"order[q_".$data["question_id"].
-			"]\" value=\"".$this->position."\" maxlength=\"3\" size=\"3\" />";
-		$this->tpl->setVariable("QUESTION_POSITION", $field);
+		
+		if( $this->isQuestionRemoveRowButtonEnabled() )
+		{
+			$this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($data));
+		}
 	}
 	
-	public function setWriteAccess($value)
+	/**
+	 * @param array $rowData
+	 * @return string
+	 */
+	protected function buildQuestionRemoveButton(array $rowData): string
 	{
-		$this->writeAccess = $value;
-	}
-	
-	public function getWriteAccess()
-	{
-		return $this->writeAccess;
-	}
+		$this->ctrl->setParameter($this->getParentObject(), 'removeQid', $rowData['question_id']);
+		$removeUrl = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
+		$this->ctrl->setParameter($this->getParentObject(),'removeQid', '');
 
-	public function setCheckedMove($value)
-	{
-		$this->checked_move = $value;
+		$button = ilLinkButton::getInstance();
+		$button->setCaption('remove_question');
+		$button->setUrl($removeUrl);
+		
+		return $button->render();
 	}
 	
-	public function getCheckedMove()
+	/**
+	 * @param array $rowData
+	 * @return string
+	 */
+	protected function buildQuestionTitleLink(array $rowData): string
 	{
-		return $this->checked_move;
-	}
-
-	public function setTotal($value)
-	{
-		$this->total = $value;
+		$this->ctrl->setParameter(
+			$this->getParentObject(),'eqpl',
+			current(ilObject::_getAllReferences($rowData['obj_fi']))
+		);
+		
+		$this->ctrl->setParameter(
+			$this->getParentObject(), 'eqid', $rowData['question_id']
+		);
+		
+		$questionHref = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
+		
+		$this->ctrl->setParameter($this->getParentObject(),'eqpl', '');
+		$this->ctrl->setParameter($this->getParentObject(),'eqid', '');
+		
+		return '<a href="'.$questionHref.'">'.$rowData["title"].'</a>';
 	}
 	
-	public function getTotal()
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	protected function buildObligatoryColumnContent(array $rowData): string
 	{
-		return $this->total;
+		if( !$rowData['obligationPossible'] )
+		{
+			return '&nbsp;';
+		}
+		
+		if( $rowData['obligatory'] && !$this->isQuestionManagingEnabled() )
+		{
+			// obligatory icon
+			return ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
+		}
+		
+		$checkedAttr = $rowData['obligatory'] ? 'checked="checked"' : '';
+		return '<input type="checkbox" name="obligatory['.$rowData['question_id'].']" value="1" '.$checkedAttr.' />';
+	}
+	
+	/**
+	 * @param $questionId
+	 * @param $position
+	 * @return string
+	 */
+	protected function buildPositionInput($questionId, $position): string
+	{
+		return '<input type="text" name="order[q_'.$questionId.']" value="'.$position.'" maxlength="3" size="3" />';
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildTableSaveCommandLabel(): string
+	{
+		if( $this->isObligatoryQuestionsHandlingEnabled() && $this->isQuestionPositioningEnabled() )
+		{
+			return $this->lng->txt('saveOrderAndObligations');
+		}
+		
+		if( $this->isObligatoryQuestionsHandlingEnabled() )
+		{
+			return $this->lng->txt('saveObligations');
+		}
+		
+		if( $this->isQuestionPositioningEnabled() )
+		{
+			return $this->lng->txt('saveOrder');
+		}
+		
+		return $this->lng->txt('save');
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildPointsHeader(): string
+	{
+		if( $this->getTotalPoints() )
+		{
+			return $this->lng->txt('points').' ('.$this->getTotalPoints().')';
+		}
+		
+		return $this->lng->txt('points');
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildWorkingTimeHeader(): string
+	{
+		if( strlen($this->getTotalWorkingTime()) )
+		{
+			return $this->lng->txt('working_time').' ('.$this->getTotalWorkingTime().')';
+		}
+		
+		return $this->lng->txt('working_time');
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isTableSaveCommandRequired(): bool
+	{
+		if( !$this->isQuestionManagingEnabled() )
+		{
+			return false;
+		}
+		
+		return $this->isQuestionPositioningEnabled() || $this->isObligatoryQuestionsHandlingEnabled();
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isCheckboxColumnRequired(): bool
+	{
+		return $this->isQuestionManagingEnabled() || $this->isPositionInsertCommandsEnabled();
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isQuestionManagingEnabled(): bool
+	{
+		return $this->questionManagingEnabled;
+	}
+	
+	/**
+	 * @param bool $questionManagingEnabled
+	 */
+	public function setQuestionManagingEnabled(bool $questionManagingEnabled)
+	{
+		$this->questionManagingEnabled = $questionManagingEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isPositionInsertCommandsEnabled(): bool
+	{
+		return $this->positionInsertCommandsEnabled;
+	}
+	
+	/**
+	 * @param bool $positionInsertCommandsEnabled
+	 */
+	public function setPositionInsertCommandsEnabled(bool $positionInsertCommandsEnabled)
+	{
+		$this->positionInsertCommandsEnabled = $positionInsertCommandsEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isQuestionPositioningEnabled(): bool
+	{
+		return $this->questionPositioningEnabled;
+	}
+	
+	/**
+	 * @param bool $questionPositioningEnabled
+	 */
+	public function setQuestionPositioningEnabled(bool $questionPositioningEnabled)
+	{
+		$this->questionPositioningEnabled = $questionPositioningEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isObligatoryQuestionsHandlingEnabled(): bool
+	{
+		return $this->obligatoryQuestionsHandlingEnabled;
+	}
+	
+	/**
+	 * @param bool $obligatoryQuestionsHandlingEnabled
+	 */
+	public function setObligatoryQuestionsHandlingEnabled(bool $obligatoryQuestionsHandlingEnabled)
+	{
+		$this->obligatoryQuestionsHandlingEnabled = $obligatoryQuestionsHandlingEnabled;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getTotalPoints(): int
+	{
+		return $this->totalPoints;
+	}
+	
+	/**
+	 * @param int $totalPoints
+	 */
+	public function setTotalPoints(int $totalPoints)
+	{
+		$this->totalPoints = $totalPoints;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getTotalWorkingTime(): string
+	{
+		return $this->totalWorkingTime;
+	}
+	
+	/**
+	 * @param string $totalWorkingTime
+	 */
+	public function setTotalWorkingTime(string $totalWorkingTime)
+	{
+		$this->totalWorkingTime = $totalWorkingTime;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isQuestionTitleLinksEnabled(): bool
+	{
+		return $this->questionTitleLinksEnabled;
+	}
+	
+	/**
+	 * @param bool $questionTitleLinksEnabled
+	 */
+	public function setQuestionTitleLinksEnabled(bool $questionTitleLinksEnabled)
+	{
+		$this->questionTitleLinksEnabled = $questionTitleLinksEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isQuestionRemoveRowButtonEnabled(): bool
+	{
+		return $this->questionRemoveRowButtonEnabled;
+	}
+	
+	/**
+	 * @param bool $questionRemoveRowButtonEnabled
+	 */
+	public function setQuestionRemoveRowButtonEnabled(bool $questionRemoveRowButtonEnabled)
+	{
+		$this->questionRemoveRowButtonEnabled = $questionRemoveRowButtonEnabled;
 	}
 }
-?>

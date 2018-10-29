@@ -559,4 +559,50 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		}
 		return $tpl;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answers = array();
+		
+		foreach($relevantAnswers as $ans)
+		{
+			if( !isset($answers[$ans['value1']]) )
+			{
+				$answers[$ans['value1']] = array(
+					'answer' => $ans['value1'], 'frequency' => 0
+				);
+			}
+			
+			$answers[$ans['value1']]['frequency']++;
+		}
+		
+		return $answers;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		// Choices
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssAnswerCorrectionsInputGUI.php';
+		$choices = new ilAssAnswerCorrectionsInputGUI($this->lng->txt( "answers" ), "answers");
+		$choices->setRequired( true );
+		$choices->setQuestionObject( $this->object );
+		$choices->setValues( $this->object->getAnswers() );
+		$form->addItem( $choices );
+		
+		return $form;
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$points = $form->getInput('choice')['points'];
+		
+		foreach($this->object->getAnswers() as $index => $answer)
+		{
+			/* @var ASS_AnswerBinaryStateImage $answer */
+			$answer->setPoints((float)$points[$index]);
+		}
+	}
 }

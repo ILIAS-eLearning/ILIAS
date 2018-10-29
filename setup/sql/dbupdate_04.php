@@ -24557,3 +24557,21 @@ if(!$ilDB->tableColumnExists('event_participants', 'contact'))
 	);
 }
 ?>
+<#5396>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5397>
+<?php
+$ilSetting = new ilSetting('certificate');
+$setting = $ilSetting->set('persisting_cers_introduced_ts', time());
+?>
+<#5398>
+<?php
+
+// migration of svy offline status
+$query = 'update object_data od set offline = '.
+	'(select if( online_status = 0,1,0) from tst_tests '.
+	'where obj_fi = od.obj_id) where type = '.$ilDB->quote('tst','text');
+$ilDB->manipulate($query);
+?>
