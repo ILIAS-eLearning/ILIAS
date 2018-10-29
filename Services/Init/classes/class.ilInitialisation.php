@@ -1598,7 +1598,7 @@ class ilInitialisation
 						  	, $c["ui.template_factory"]
 						  	, $c["lng"]
 						  	, $c["ui.javascript_binding"]
-						  )
+							)
 						)
 					)
 				);
