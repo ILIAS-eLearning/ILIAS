@@ -333,6 +333,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		global $DIC;
 
 		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 
 		if(strlen($a_set['path']))
 		{
@@ -371,7 +372,13 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			$a_set['ref_id']
 		)
 		{
-			$ilCtrl->setParameterByClass('ilcalendarpresentationgui','backpd',1);
+			if(
+				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP ||
+				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS
+			)
+			{
+				$ilCtrl->setParameterByClass('ilcalendarpresentationgui', 'backpd', 1);
+			}
 			$ilCtrl->setParameterByClass('ilcalendarpresentationgui','ref_id',$a_set['ref_id']);
 			switch(ilObject::_lookupType($a_set['obj_id']))
 			{
