@@ -45,12 +45,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 		
 		$is_admin = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);		
 		
-		// check "global" online switch
-		if(!self::_isOnline($a_obj_id) && !$is_admin)
-		{
-			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-			return false;
-		}
 
 		switch ($a_permission)
 		{			
@@ -799,27 +793,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 		return !self::_isOnline($a_obj_id);
 	}
 
-	/**
-	 * returns the objects's ONline status
-	 *
-	 * @param integer $a_obj_id
-	 * @return boolean $online
-	 */
-	public static function _isOnline($a_obj_id)
-	{
-		global $ilDB;
-
-		$query = "
-			SELECT		test_id
-			FROM		tst_tests
-			WHERE		obj_fi = %s
-			AND			online_status = 1
-		";
-
-		$result = $ilDB->queryF( $query, array('integer'), array($a_obj_id) );
-
-		return $result->numRows() == 1;
-	}
 
 	public static function visibleUserResultExists($testObjId, $userId)
 	{
