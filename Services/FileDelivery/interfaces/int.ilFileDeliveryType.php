@@ -10,6 +10,14 @@ namespace ILIAS\FileDelivery;
 interface ilFileDeliveryType {
 
 	/**
+	 * @param string $path_to_file
+	 *
+	 * @return bool
+	 */
+	public function doesFileExists($path_to_file);
+
+
+	/**
 	 * @param $path_to_file
 	 *
 	 * @return bool

@@ -7,7 +7,7 @@ function show_card_in_popover() {
 	$renderer = $DIC->ui()->renderer();
 
 	$image = $factory->image()->responsive("./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
-	$card = $factory->card("Title", $image)->withSections(array($factory->legacy("Hello World, I'm a card")));
+	$card = $factory->card()->standard("Title", $image)->withSections(array($factory->legacy("Hello World, I'm a card")));
 	$popover = $factory->popover()->standard($card)->withTitle('Card');
 	$button = $factory->button()->standard('Show Card', '#')
 		->withOnClick($popover->getShowSignal());

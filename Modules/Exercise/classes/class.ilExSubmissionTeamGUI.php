@@ -116,9 +116,11 @@ class ilExSubmissionTeamGUI
 		{
 			return;
 		}
+
+		$state = ilExcAssMemberState::getInstanceByIds($a_submission->getAssignment()->getId() ,$a_submission->getUserId());
 								
 		$team_members = $a_submission->getTeam()->getMembers();
-		if(sizeof($team_members))
+		if(sizeof($team_members))									// we have a team
 		{
 			$team = array();						
 			foreach($team_members as $member_id)
@@ -127,34 +129,35 @@ class ilExSubmissionTeamGUI
 			}						
 			$team = implode(", ", $team);
 			
-			// any team member upload?
-			if(!$a_submission->getLastSubmission())
-			{
-				$button = ilLinkButton::getInstance();							
-				$button->setCaption("exc_delete_team");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "confirmDeleteTeam"));							
-				$team .= " ".$button->render();	
-			}
-
-			$button = ilLinkButton::getInstance();							
-			
 			if(!$a_submission->getAssignment()->getTeamTutor())
 			{
+				#23685
+				// any team member upload?
+				if(!$a_submission->getLastSubmission())
+				{
+					$button = ilLinkButton::getInstance();
+					$button->setCaption("exc_delete_team");
+					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "confirmDeleteTeam"));
+					$team .= " ".$button->render();
+				}
+				$button = ilLinkButton::getInstance();
 				$button->setCaption("exc_manage_team");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam"));							
+				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam"));
 			}			
 			else
 			{
+				$button = ilLinkButton::getInstance();
 				$button->setCaption("exc_team_log");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeamLog"));						
+				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeamLog"));
 			}
 			$team .= " ".$button->render();				
 
 			$a_info->addProperty($lng->txt("exc_team_members"), $team);	
 		}
 		else
-		{			
-			if($a_submission->getAssignment()->beforeDeadline())
+		{
+			//if($a_submission->getAssignment()->beforeDeadline())		// this was "for all users"
+			if (!$state->hasSubmissionEnded())							// this is for current user/team -> no team creation, if no submission possible
 			{
 				if(!$a_submission->hasSubmitted())
 				{
@@ -169,7 +172,7 @@ class ilExSubmissionTeamGUI
 				{
 					$button = ilLinkButton::getInstance();
 					$button->setPrimary(true);
-					$button->setCaption("exc_create_team");
+					$button->setCaption("exc_create_team");		// team creation
 					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "createTeam"));							
 					$team_info .= " ".$button->render();		
 					

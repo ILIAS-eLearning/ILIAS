@@ -8,6 +8,12 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 class Standard extends Icon implements C\Icon\Standard {
 
+	/**
+	 * @var bool
+	 */
+	protected $is_outlined = false;
+
+
 	private static $standard_icons = array (
 		 self::GRP
 		,self::CAT
@@ -138,4 +144,22 @@ class Standard extends Icon implements C\Icon\Standard {
 		return self::$standard_icons;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isOutlined(): bool
+	{
+		return $this->is_outlined;
+	}
+
+	/**
+	 * @param bool $is_outlined
+	 * @return Icon
+	 */
+	public function withIsOutlined(bool $is_outlined): Icon
+	{
+		$clone = clone $this;
+		$clone->is_outlined = $is_outlined;
+		return $clone;
+	}
 }

@@ -285,19 +285,19 @@ class ilSurveyEditorGUI
 			$button->setUrl($this->ctrl->getLinkTarget($this, "addHeading"));										
 			$ilToolbar->addInputItem($button);		
 		}
+		$mess = "";
 		if ($hasDatasets)
 		{
-			$link = $this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "maintenance");
-			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
-			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning_page_view")." ".$link);
+			$mbox = new ilSurveyContainsDataMessageBoxGUI();
+			$mess = $mbox->getHTML();
 		}
-	
+
 		// table gui
 		
 		include_once "Modules/Survey/classes/class.ilSurveyQuestionTableGUI.php";
 		$table = new ilSurveyQuestionTableGUI($this, "questions", $this->object,
 			$read_only);
-		$this->tpl->setContent($table->getHTML());
+		$this->tpl->setContent($mess.$table->getHTML());
 	}
 		
 	/**

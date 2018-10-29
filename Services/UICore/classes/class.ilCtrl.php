@@ -211,10 +211,12 @@ class ilCtrl
 	 * Gets an HTML output from another GUI class and
 	 * returns the flow of control to the calling class.
 	 *
-	 * @param	object		gui object that returns the HTML block
-	 * @return	string		HTML
+	 * @param object $a_gui_object GUI class that implements getHTML() method to return its HTML
+	 * @param array|null $a_parameters parameter array
+	 * @return string
+	 * @throws ilCtrlException
 	 */
-	function getHTML($a_gui_object)
+	function getHTML($a_gui_object, array $a_parameters = null)
 	{
 		$class = strtolower(get_class($a_gui_object));
 
@@ -233,7 +235,14 @@ class ilCtrl
 					"mode" => "getHtml", "cmd" => $this->getCmd());
 			
 			// get block
-			$html = $a_gui_object->getHTML();
+			if ($a_parameters != null)
+			{
+				$html = $a_gui_object->getHTML($a_parameters);
+			}
+			else
+			{
+				$html = $a_gui_object->getHTML();
+			}
 			
 			// reset current node
 			$this->current_node = $current_node;

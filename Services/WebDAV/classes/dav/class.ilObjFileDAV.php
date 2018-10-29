@@ -1,8 +1,7 @@
 <?php
 
 use ILIAS\UI\NotImplementedException;
-use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception;
 
 require_once 'Modules/File/classes/class.ilObjFile.php';
 
@@ -14,20 +13,22 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @var $obj ilObjFile
      */
     protected $obj;
-    
+
     /**
      * ilObjFileDAV represents the WebDAV-Interface to an ILIAS-Object
-     * 
+     *
      * So an ILIAS is needed in the constructor. Otherwise this object would
      * be useless.
-     * 
+     *
      * @param ilObjFile $a_obj
+     * @param ilWebDAVRepositoryHelper $repo_helper
+     * @param ilWebDAVObjDAVHelper $dav_helper
      */
-    public function __construct(ilObjFile $a_obj)
+    public function __construct(ilObjFile $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
-        parent::__construct($a_obj);
+        parent::__construct($a_obj, $repo_helper, $dav_helper);
     }
-    
+
     /**
      * Replaces the contents of the file.
      *
@@ -47,28 +48,30 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      *
      * @param resource|string $data
      * @return string|null
+     * @throws BadRequest
+     * @throws Forbidden
      */
     function put($data)
     {        
-        if($this->access->checkAccess("write", "", $this->obj->getRefId()))
+        if($this->repo_helper->checkAccess('write', $this->getRefId()))
         {
             $this->handleFileUpload($data);
             return $this->getETag();
         }
-        throw new Forbidden("Permission denied. No write access for this file");
+        throw new Exception\Forbidden("Permission denied. No write access for this file");
     }
-    
+
     /**
      * Returns the data
      *
      * This method may either return a string or a readable stream resource
      *
      * @return mixed
+     * @throws Forbidden
      */
     function get()
     {
-        // TODO: Check permission
-        if($this->access->checkAccess("read", "", $this->obj->getRefId()))
+        if($this->repo_helper->checkAccess("read", $this->obj->getRefId()))
         {
             $file = $this->getPathToFile();
             if(file_exists($file))
@@ -77,10 +80,11 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             }
             else 
             {
-                return null;
+                throw new Exception\NotFound("File not found");
             }
         }
-        throw new Forbidden("Permission denied. No read access for this file");
+
+        throw new Exception\Forbidden("Permission denied. No read access for this file");
     }
     
     /**
@@ -132,37 +136,35 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         }
         return 0;
     }
-    
+
     /**
-     * 
-     * {@inheritDoc}
-     * @see ilObjectDAV::delete()
+     * @param string $a_name
+     * @throws Forbidden
      */
-    public function delete()
+    function setName($a_name)
     {
-        if($this->access->checkAccess('delete', '', $this->obj->getRefId()))
+        if($this->repo_helper->isValidFileNameWithValidFileExtension($a_name))
         {
-            $this->obj->delete();
+            parent::setName($a_name);
         }
         else
         {
-            throw new Forbidden('You are not allowed to delete this file!');
+            throw new Exception\Forbidden("Invalid file extension");
         }
     }
-    
+
     /**
      * Handle uploaded file. Either it is a new file upload to a directory or it is an
      * upload to replace an existing file.
-     * 
+     *
      * Given data can be a resource or data (given from the sabreDAV library)
-     * 
+     *
      * @param string | resource $a_data
-     * @param boolean $a_has_already_a_file
+     * @throws BadRequest
+     * @throws Forbidden
      */
     public function handleFileUpload($a_data)
     {
-        global $DIC;
-        
         $file_dest_path = $this->getPathToFile();
 
         // If dir does not exist yet -> create it
@@ -172,7 +174,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         }
         
         // File upload
-        $written_length = 0;
         if(is_resource($a_data))
         {
             $written_length = $this->fileUploadWithStream($a_data, $file_dest_path);
@@ -184,36 +185,38 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         else 
         {
             ilLoggerFactory::getLogger('WebDAV')->warning(get_class($this). ' ' . $this->obj->getTitle() ." -> invalid upload data sent");
-            throw new BadRequest('Invalid put data sent'); 
+            throw new Exception\BadRequest('Invalid put data sent');
         }
         
         // Security checks
         $this->checkForVirus($file_dest_path);
-        
+
         // Set last meta data
         include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $this->obj->setFileType(ilMimeTypeUtil::lookupMimeType($file_dest_path));
         $this->obj->setFileSize($written_length);
         $this->obj->update();
     }
-    
+
     /**
      * Write given data (as Resource) to the given file
-     * 
+     *
      * @param Resource $a_data
      * @param string $file_dest_path
-     * @throws Forbidden
+     * @throws Exception
      * @return number
      */
     protected function fileUploadWithStream($a_data, string $file_dest_path)
     {
         try {
+            $written_length = 0;
             $write_stream = fopen($file_dest_path,'w');
-            
-            while (!feof($a_data)) {
-                if (false === ($written = fwrite($write_stream, fread($a_data, 4096)))) {
+            while (!feof($a_data))
+            {
+                if (false === ($written = fwrite($write_stream, fread($a_data, 4096))))
+                {
                     fclose($write_stream);
-                    throw new Forbidden('Forbidden to write file');
+                    throw new Exception\Forbidden('Forbidden to write file');
                 }
                 $written_length += $written;
             }
@@ -221,8 +224,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         } catch(Exception $e) {
             ilLoggerFactory::getLogger('WebDAV')->error("Error on uploading {$this->obj->getTitle()} to path $file_dest_path with message: " . $e->getMessage());
             throw new Exception();
-        } finally
-        {
+        } finally {
             fclose($write_stream);
         }
         
@@ -244,7 +246,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         fclose($write_stream);
         if($written_length === false && strlen($a_data) > 0)
         {
-            throw new Forbidden('Forbidden to write file');
+            throw new Exception\Forbidden('Forbidden to write file');
         }
         return $written_length;
     }
@@ -259,7 +261,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         return $this->getPathToDirectory() . "/" . $this->obj->getFileName();
     }
     
-    protected function checkForVirus()
+    protected function checkForVirus($file_dest_path)
     {
         $vrs = ilUtil::virusHandling($file_dest_path, '', true);
         // If vrs[0] == false -> virus found
@@ -268,7 +270,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             ilLoggerFactory::getLogger('WebDAV')->error(get_class($this). ' ' . $this->obj->getTitle() ." -> virus found on '$file_dest_path'!");
             unlink($file_dest_path);
             $this->obj->delete();
-            throw new Forbidden('Virus found!');
+            throw new Exception\Forbidden('Virus found!');
         }
     }
 }

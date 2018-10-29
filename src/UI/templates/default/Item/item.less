@@ -158,6 +158,11 @@
 
 }
 
+/* otherwise dropdowns in items with icon do not work */
+.il-std-item .media .media-body, .il-std-item .media {
+	overflow: visible;
+}
+
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 
 	.il-item {

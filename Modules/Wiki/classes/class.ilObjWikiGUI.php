@@ -769,6 +769,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilCtrl = $this->ctrl;
 		$ilTabs = $this->tabs;
 		$ilSetting = $this->settings;
+		$obj_service = $this->object_service;
 		
 		$lng->loadLanguageModule("wiki");
 		$ilTabs->activateTab("settings");
@@ -881,8 +882,17 @@ class ilObjWikiGUI extends ilObjectGUI
 				$link_md = new ilCheckboxInputGUI($lng->txt("wiki_link_md_values"), "link_md_values");
 				$link_md->setInfo($lng->txt("wiki_link_md_values_info"));
 				$this->form_gui->addItem($link_md);
-			}		
-			
+			}
+
+
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->lng->txt('obj_presentation'));
+			$this->form_gui->addItem($section);
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->addTileImage();
+
+
 			// additional features
 			$feat = new ilFormSectionHeaderGUI();
 			$feat->setTitle($this->lng->txt('obj_features'));
@@ -973,6 +983,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilSetting = $this->settings;
+		$obj_service = $this->object_service;
 		
 		$this->checkPermission("write");
 		
@@ -1008,6 +1019,10 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
 				$this->object->setLinkMetadataValues($this->form_gui->getInput("link_md_values"));
 				$this->object->update();
+
+				// tile image
+				$obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->saveTileImage();
+
 							
 				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 				ilObjectServiceSettingsGUI::updateServiceSettingsForm(

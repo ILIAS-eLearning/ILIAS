@@ -9,6 +9,9 @@
 * @version $Id$
 * 
 */
+
+use ILIAS\Filesystem\Filesystem;
+
 require_once("./Services/FileSystem/classes/class.ilFileData.php");
 require_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
@@ -36,6 +39,15 @@ class ilFileDataMail extends ilFileData
 	 */
 	protected $mail_max_upload_file_size;
 
+	/** @var Filesystem */
+	protected $tmpDirectory;
+
+	/** @var Filesystem */
+	protected $storageDirectory;
+
+	/** @var \ilDBInterface */
+	protected $db;
+
 	/**
 	* Constructor
 	* call base constructors
@@ -45,11 +57,17 @@ class ilFileDataMail extends ilFileData
 	*/
 	public function __construct($a_user_id = 0)
 	{
+		global $DIC;
+
 		define('MAILPATH','mail');
 		parent::__construct();
 		$this->mail_path = parent::getPath()."/".MAILPATH;
 		$this->checkReadWrite();
 		$this->user_id = $a_user_id;
+
+		$this->db = $DIC->database();
+		$this->tmpDirectory = $DIC->filesystem()->temp();
+		$this->storageDirectory = $DIC->filesystem()->storage();
 
 		$this->initAttachmentMaxUploadSize();
 	}
@@ -107,83 +125,74 @@ class ilFileDataMail extends ilFileData
 	{
 		return $this->mail_path;
 	}
-	
-	/**
-	* get the path of a specific attachment
-	* @param string md5 encrypted filename
-	* @param integer mail_id
-	* @access	public
-	* @return string path
-	*/
-	public function getAttachmentPathByMD5Filename($a_filename,$a_mail_id)
-	{
-		global $ilDB;
-		
-/*		$query = "SELECT path FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
-		
-		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
-		$path = $this->getMailPath().'/'.$row->path;
-*/
-		$query = $ilDB->query("SELECT path FROM mail_attachment 
-				  WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer')."");
-		
-		$rel_path = "";
-		while($row = $ilDB->fetchObject($query))
-		{
-			$rel_path = $row->path;
-			$path = $this->getMailPath().'/'.$row->path;
 
+	/**
+	 * @param string $md5FileHash
+	 * @param int $mailId
+	 * @return array array An array containing the 'path' and the 'filename' for the passed MD5 hash
+	 * @throws \OutOfBoundsException
+	 */
+	public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mailId): array
+	{
+		$res = $this->db->queryF(
+			"SELECT path FROM mail_attachment WHERE mail_id = %s",
+			['integer'],
+			[$mailId]
+		);
+
+		if (1 !== (int)$this->db->numRows($res)) {
+			throw new \OutOfBoundsException();
 		}
+
+		$row = $this->db->fetchAssoc($res);
+
+		$relativePath = $row['path'];
+		$path = $this->getMailPath() . '/' . $row['path'];
 
 		$files = ilUtil::getDir($path);
-		foreach((array)$files as $file)
-		{
-			if($file['type'] == 'file' && md5($file['entry']) == $a_filename)
-			{
-				return array(
-					'path' => $this->getMailPath().'/'.$rel_path.'/'.$file['entry'],
+		foreach ($files as $file) {
+			if ($file['type'] === 'file' && md5($file['entry']) === $md5FileHash) {
+				return [
+					'path' => $this->getMailPath() . '/' . $relativePath . '/' . $file['entry'],
 					'filename' => $file['entry']
-				);
+				];
 			}
 		}
+
+		throw new \OutOfBoundsException();
+	}
+
+	/**
+	 * @param int $mailId
+	 * @return string
+	 */
+	private function getAttachmentPathByMailId(int $mailId): string
+	{
+		$query = $this->db->query(
+			"SELECT path FROM mail_attachment WHERE mail_id = " . $this->db->quote($mailId, 'integer')
+		);
+
+		while($row = $this->db->fetchObject($query)) {
+			return $row->path;
+		}
+
 		return '';
 	}
-	
 
 	/**
 	* get the path of a specific attachment
 	* @param string filename
 	* @param integer mail_id
-	* @access	public
 	* @return string path
 	*/
 	function getAttachmentPath($a_filename,$a_mail_id)
 	{
-		global $ilDB;
-		
-/*		$query = "SELECT path FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
-		
-		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
-		$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;
-*/
-		$query = $ilDB->query("SELECT path FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id, 'integer')."");
+		$path = $this->getMailPath() . '/' . $this->getAttachmentPathByMailId($a_mail_id) . '/' . $a_filename;
 
-		while($row = $ilDB->fetchObject($query))
-		{
-			$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;			
+		if (file_exists($path) && is_readable($path)) {
+			return $path;
 		}
-			
-		if(file_exists($path))
-		{
-			if(is_readable($path))
-			{
-				return $path;
-			}
-			return '';
-		}
+
 		return '';
 	}
 	/**
@@ -384,15 +393,15 @@ class ilFileDataMail extends ilFileData
 			return unlink($this->mail_path.'/'.basename($this->user_id.'_'.$a_filename));
 		}
 	}
+
 	/**
-	* get absolute path of filename
-	* @param string relative path
-	* @access	public
-	* @return string absolute path
-	*/
-	function getAbsolutePath($a_path)
+	 * Resolves a path for a passed filename in regards of a user's mail attachment pool, meaning attachments not being sent
+	 * @param string $fileName
+	 * @return string
+	 */
+	public function getAbsoluteAttachmentPoolPathByFilename(string $fileName): string 
 	{
-		return $this->mail_path.'/'.$this->user_id.'_'.$a_path;
+		return $this->mail_path . '/' . $this->user_id . '_' . $fileName;
 	}
 
 	/**
@@ -412,8 +421,13 @@ class ilFileDataMail extends ilFileData
 			$this->saveFile($a_mail_id, $attachment);
 		}
 	}
-	
-	public static function getStorage($a_mail_id, $a_usr_id)
+
+	/**
+	 * @param $a_mail_id
+	 * @param $a_usr_id
+	 * @return \ilFSStorageMail
+	 */
+	public static function getStorage($a_mail_id, $a_usr_id): \ilFSStorageMail
 	{
 		static $fsstorage_cache = array();
 		
@@ -700,5 +714,74 @@ class ilFileDataMail extends ilFileData
 			array($this->user_id)
 		);
 	}
+
+	/**
+	 * @param string $basename
+	 * @param int $mailId
+	 * @param array $files
+	 * @param bool $isDraft
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilException
+	 * @throws ilFileUtilsException
+	 */
+	public function deliverAttachmentsAsZip(string $basename, int $mailId, $files = [], $isDraft = false)
+	{
+		$path = '';
+		if (!$isDraft) {
+			$path = $this->getAttachmentPathByMailId($mailId);
+			if (0 === strlen($path)) {
+				throw new \ilException('mail_download_zip_no_attachments');
+			}
+		}
+
+		$downloadFilename = \ilUtil::getASCIIFilename($basename);
+		if (0 === strlen($downloadFilename)) {
+			$downloadFilename = 'attachments';
+		}
+
+		$processingDirectory = \ilUtil::ilTempnam();
+		$relativeProcessingDirectory = basename($processingDirectory);
+
+		$absoluteZipDirectory = $processingDirectory . '/' . $downloadFilename;
+		$relativeZipDirectory = $relativeProcessingDirectory . '/' . $downloadFilename;
+
+		$this->tmpDirectory->createDir($relativeZipDirectory);
+
+		foreach ($files as $fileName) {
+			if ($isDraft) {
+				$source = str_replace(
+					$this->mail_path,
+					MAILPATH,
+					$this->getAbsoluteAttachmentPoolPathByFilename($fileName)
+				);
+			} else {
+				$source = MAILPATH . '/' .$path . '/' . $fileName;
+			}
+
+			$source = str_replace('//', '/', $source);
+			if (!$this->storageDirectory->has($source)) {
+				continue;
+			}
+
+			$target = $relativeZipDirectory . '/' . $fileName;
+
+			$stream = $this->storageDirectory->readStream($source);
+			$this->tmpDirectory->writeStream($target, $stream);
+		}
+
+		$pathToZipFile = $processingDirectory . '/' . $downloadFilename . '.zip';
+		\ilUtil::zip($absoluteZipDirectory, $pathToZipFile);
+
+		$this->tmpDirectory->deleteDir($relativeZipDirectory);
+
+		$delivery = new \ilFileDelivery($processingDirectory . '/' .  $downloadFilename . '.zip');
+		$delivery->setDisposition(\ilFileDelivery::DISP_ATTACHMENT);
+		$delivery->setMimeType(\ilMimeTypeUtil::APPLICATION__ZIP);
+		$delivery->setConvertFileNameToAsci(true);
+		$delivery->setDownloadFileName(\ilFileUtils::getValidFilename($downloadFilename . '.zip'));
+		$delivery->setDeleteFile(true);
+
+		$delivery->deliver();
+	}
 }
-?>

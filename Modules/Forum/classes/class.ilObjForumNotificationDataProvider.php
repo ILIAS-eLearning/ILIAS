@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
-include_once './Modules/Forum/classes/class.ilForumProperties.php';
-
 /**
  * Class ilObjForumNotificationDataProvider
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -379,11 +376,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		if(ilForumProperties::isSendAttachmentsByMailEnabled())
 		{
-			require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
 			$fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
 			$filesOfPost   = $fileDataForum->getFilesOfPost();
 			
-			require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 			$fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
 			
 			foreach($filesOfPost as $attachment)
@@ -410,7 +405,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
-			AND frm_notification.user_id <> %s
+			AND frm_notification.user_id != %s
 			GROUP BY frm_notification.user_id',
 				array('integer', 'integer'),
 				array($this->getForumId(), $this->user->getId()));
@@ -425,10 +420,14 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @return array
+	 * @return int[]
 	 */
 	public function getThreadNotificationRecipients()
 	{
+		if (!$this->getThreadId()) {
+			return [];
+		}
+
 		$cacheKey = $this->notificationCache->createKeyByValues(array(
 			'thread',
 			$this->getThreadId(),
@@ -436,21 +435,23 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		));
 
 		if (false === $this->notificationCache->exists($cacheKey)) {
-			// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
-			$res = $this->db->queryf('
-			SELECT user_id FROM frm_notification 
-			WHERE thread_id = %s
-			AND user_id <> %s',
+			$res = $this->db->queryF('
+				SELECT frm_notification.user_id
+				FROM frm_notification
+				INNER JOIN frm_threads ON frm_threads.thr_pk = frm_notification.thread_id
+				WHERE frm_notification.thread_id = %s
+				AND frm_notification.user_id != %s',
 				array('integer', 'integer'),
-				array($this->getThreadId(), $this->user->getId()));
+				array($this->getThreadId(), $this->user->getId())
+			);
 
-			$rcps = $this->createRecipientArray($res);
-			$this->notificationCache->store($cacheKey, $rcps);
+			$usrIds = $this->createRecipientArray($res);
+			$this->notificationCache->store($cacheKey, $usrIds);
 		}
 
-		$rcps = $this->notificationCache->fetch($cacheKey);
+		$usrIds = $this->notificationCache->fetch($cacheKey);
 
-		return $rcps;
+		return $usrIds;
 	}
 
 	/**
@@ -464,7 +465,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		));
 
 		if (false === $this->notificationCache->exists($cacheKey)) {
-			include_once './Modules/Forum/classes/class.ilForumPost.php';
 			$parent_objPost = new ilForumPost($this->objPost->getParentId());
 
 			$this->notificationCache->store($cacheKey, $parent_objPost);
@@ -488,7 +488,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		));
 
 		if (false === $this->notificationCache->exists($cacheKey)) {
-			include_once './Modules/Forum/classes/class.ilForum.php';
 			// get moderators to notify about needed activation
 			$rcps = ilForum::_getModerators($this->getRefId());
 			$this->notificationCache->store($cacheKey, $rcps);
@@ -522,11 +521,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function createRecipientArray(\ilPDOStatement $statement): array
 	{
-		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());
 		$rcps = array();
 		while ($row = $this->db->fetchAssoc($statement)) {
-			// do rbac check before sending notification
 			foreach ((array)$frm_references as $ref_id) {
 				if ($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id)) {
 					$rcps[] = $row['user_id'];

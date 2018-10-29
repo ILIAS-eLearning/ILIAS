@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Provider;
 
 use ILIAS\Filesystem\Decorator\FilesystemWhitelistDecorator;
+use ILIAS\Filesystem\Decorator\ReadOnlyDecorator;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
@@ -16,7 +17,7 @@ use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
  * factory of the concrete implementation and applies all necessary decorators.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.1.0
  */
 final class DelegatingFilesystemFactory implements FilesystemFactory {
@@ -50,7 +51,11 @@ final class DelegatingFilesystemFactory implements FilesystemFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function getLocal(LocalConfig $config): Filesystem {
-		return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
+	public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem {
+		if ($read_only) {
+			return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer));
+		} else {
+			return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
+		}
 	}
 }

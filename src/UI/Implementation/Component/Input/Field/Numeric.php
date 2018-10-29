@@ -50,6 +50,6 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		throw new \LogicException("NYI: What could 'required' mean here?");
+		return $this->validation_factory->isNumeric();
 	}
 }

@@ -144,7 +144,12 @@ class ilAppEventHandler
 			 */
 			public function __toString()
 			{
-				return 'Event data: ' . print_r($this->parameter, 1);
+				if(is_object($this->parameter)) {
+					return 'Event data class: ' . get_class($this->parameter);
+				}
+
+				return 'Event data size: ' . sizeof($this->parameter);
+				//return 'Event data: ' . print_r($this->parameter, 1);
 			}
 		});
 

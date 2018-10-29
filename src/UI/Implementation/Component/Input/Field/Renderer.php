@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field\Password;
 use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -49,6 +50,7 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
+		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 	}
 
@@ -82,9 +84,12 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
 		} else if ($input instanceof Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} else if ($input instanceof Component\Input\Field\Textarea) {
+			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Radio) {
 			return $this->renderRadioField($input, $default_renderer);
-
+		} else if ($input instanceof MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -122,7 +127,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		return $inputs;
 	}
-
 
 	/**
 	 * @param Component\JavascriptBindable $component
@@ -272,6 +276,10 @@ class Renderer extends AbstractComponentRenderer {
 			$id = $this->additionalRenderPassword($tpl, $input);
 		}
 
+		if($input instanceof Textarea){
+			$tpl = $this->renderTextareaField($tpl, $input);
+		}
+
 		$tpl->setVariable("NAME", $input->getName());
 
 		switch (true) {
@@ -279,6 +287,7 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Checkbox):
 			case ($input instanceof Numeric):
 			case ($input instanceof Password):
+			case ($input instanceof Textarea):
 				$tpl->setVariable("NAME", $input->getName());
 
 				if ($input->getValue() !== null) {
@@ -295,6 +304,10 @@ class Renderer extends AbstractComponentRenderer {
 			case ($input instanceof Select):
 				$tpl = $this->renderSelectInput($tpl, $input);
 				break;
+			case ($input instanceof MultiSelect):
+				$tpl = $this->renderMultiSelectInput($tpl, $input);
+				break;
+
 			case ($input instanceof Tag):
 				$configuration = $input->getConfiguration();
 				$input = $input->withAdditionalOnLoadCode(
@@ -329,7 +342,6 @@ class Renderer extends AbstractComponentRenderer {
 
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
-		global $DIC;
 		$value = $input->getValue();
 		//disable first option if required.
 		$tpl->setCurrentBlock("options");
@@ -352,6 +364,26 @@ class Renderer extends AbstractComponentRenderer {
 			}
 			$tpl->setVariable("VALUE", $option_key);
 			$tpl->setVariable("VALUE_STR", $option_value);
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl;
+	}
+
+	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
+		$value = $input->getValue();
+		$name = $input->getName();
+
+		foreach ($input->getOptions() as $opt_value => $opt_label) {
+			$tpl->setCurrentBlock("option");
+			$tpl->setVariable("NAME", $name);
+			$tpl->setVariable("VALUE", $opt_value);
+			$tpl->setVariable("LABEL", $opt_label);
+
+			if($value && in_array($opt_value, $value)) {
+				$tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl;
@@ -400,6 +432,30 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 		return $id;
+	}
+
+	protected function renderTextareaField(Template $tpl, Textarea $input)
+	{
+		if($input->isLimited())
+		{
+			$this->toJS("ui_chars_remaining");
+			$this->toJS("ui_chars_min");
+			$this->toJS("ui_chars_max");
+
+			$counter_id_prefix = "textarea_feedback_";
+			$min = $input->getMinLimit();
+			$max = $input->getMaxLimit();
+
+			$input = $input->withOnLoadCode(function($id) use($counter_id_prefix, $min, $max) {
+				return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
+			});
+
+			$textarea_id = $this->bindJavaScript($input);
+			$tpl->setVariable("ID", $textarea_id);
+			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
+		}
+
+		return $tpl;
 	}
 
 
@@ -487,7 +543,9 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\DependantGroup::class,
 			Component\Input\Field\Password::class,
 			Component\Input\Field\Select::class,
-			Component\Input\Field\Radio::class
+			Component\Input\Field\Radio::class,
+			Component\Input\Field\Textarea::class,
+			Component\Input\Field\MultiSelect::class
 		];
 	}
 }

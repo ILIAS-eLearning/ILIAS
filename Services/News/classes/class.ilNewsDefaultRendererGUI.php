@@ -103,7 +103,8 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 		if ($this->news_item->getContentTextIsLangVar())
 		{
 			$this->lng->loadLanguageModule($this->news_item->getContextObjType());
-			return $this->lng->txt($this->news_item->getContent());
+			return ilNewsItem::determineNewsContent($this->news_item->getContextObjType(), $this->news_item->getContent(),
+				$this->news_item->getContentTextIsLangVar());
 		}
 
 		$content = $this->makeClickable($this->news_item->getContent());

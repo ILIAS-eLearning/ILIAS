@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/Icon/interfaces/interface.ilObjectCustomIcon.php';
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Class ilObjectCustomIconImpl
@@ -11,27 +12,26 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 {
 	const ICON_BASENAME = 'icon_custom';
 
-	/**
-	 * @var \ILIAS\Filesystem\Filesystem
-	 */
+	/** @var Filesystem */
 	protected $webDirectory;
 
-	/**
-	 * @var \ILIAS\FileUpload\FileUpload
-	 */
+	/** @var FileUpload */
 	protected $upload;
 
-	/**
-	 * @var \ilCustomIconObjectConfiguration
-	 */
+	/** @var \ilCustomIconObjectConfiguration */
 	protected $config;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $objId;
 
-	public function __construct($webDirectory, $uploadService, \ilCustomIconObjectConfiguration $config, $objId)
+	/**
+	 * ilObjectCustomIconImpl constructor.
+	 * @param Filesystem                      $webDirectory
+	 * @param FileUpload                      $uploadService
+	 * @param ilCustomIconObjectConfiguration $config
+	 * @param                                 $objId
+	 */
+	public function __construct(Filesystem $webDirectory, FileUpload $uploadService, \ilCustomIconObjectConfiguration $config, int $objId)
 	{
 		$this->objId = $objId;
 
@@ -43,7 +43,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @return int
 	 */
-	protected function getObjId()
+	protected function getObjId(): int 
 	{
 		return $this->objId;
 	}
@@ -51,7 +51,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @inheritdoc
 	 */
-	public function copy($targetObjId)
+	public function copy(int $targetObjId)
 	{
 		if (!$this->exists()) {
 			\ilContainer::_writeContainerSetting($targetObjId, 'icon_custom', 0);
@@ -92,7 +92,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @return string[]
 	 */
-	public function getSupportedFileExtensions()
+	public function getSupportedFileExtensions(): array 
 	{
 		return $this->config->getSupportedFileExtensions();
 	}
@@ -100,7 +100,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @inheritdoc
 	 */
-	public function saveFromSourceFile($sourceFilePath)
+	public function saveFromSourceFile(string $sourceFilePath)
 	{
 		$this->createCustomIconDirectory();
 
@@ -152,9 +152,9 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	}
 
 	/**
-	 * @param string$fileName
+	 * @param string $fileName
 	 */
-	protected function persistIconState($fileName)
+	protected function persistIconState(string $fileName)
 	{
 		if ($this->webDirectory->has($fileName)) {
 			\ilContainer::_writeContainerSetting($this->getObjId(), 'icon_custom', 1);
@@ -196,7 +196,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @return string
 	 */
-	protected function getIconDirectory()
+	protected function getIconDirectory(): string 
 	{
 		return implode(DIRECTORY_SEPARATOR, [
 			$this->config->getBaseDirectory(),
@@ -207,7 +207,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @return string
 	 */
-	protected function getIconFileName()
+	protected function getIconFileName(): string 
 	{
 		return self::ICON_BASENAME . '.' . $this->config->getTargetFileExtension();
 	}
@@ -215,7 +215,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @return string
 	 */
-	protected function getRelativePath()
+	protected function getRelativePath(): string 
 	{
 		return implode(DIRECTORY_SEPARATOR, [
 			$this->getIconDirectory(),
@@ -226,7 +226,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @inheritdoc
 	 */
-	public function exists()
+	public function exists(): bool 
 	{
 		if (!\ilContainer::_lookupContainerSetting($this->getObjId(), 'icon_custom', 0)) {
 			return false;
@@ -238,7 +238,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @inheritdoc
 	 */
-	public function getFullPath()
+	public function getFullPath(): string 
 	{
 		// TODO: Currently there is no option to get the relative base directory of a filesystem
 		return implode(DIRECTORY_SEPARATOR, [

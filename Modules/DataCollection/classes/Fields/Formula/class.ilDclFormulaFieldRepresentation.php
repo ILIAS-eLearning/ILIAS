@@ -14,7 +14,6 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$input->setValue('-');
 		$input->setInfo($this->getField()->getDescription() . '<br>' . $this->lng->txt('dcl_formula_detail_desc'));
 
-
 		return $input;
 	}
 

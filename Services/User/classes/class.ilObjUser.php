@@ -168,6 +168,16 @@ class ilObjUser extends ilObject
 	protected $interests_help_looking; // [array]
 
 	/**
+	 * @var string
+	 */
+	protected $last_profile_prompt;	// timestamp
+
+	/**
+	 * @var string
+	 */
+	protected $first_login;	// timestamp
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer		user_id
@@ -190,6 +200,7 @@ class ilObjUser extends ilObject
 
 		// for gender selection. don't change this
 		/*$this->gender = array(
+							  'n'    => "salutation_n",
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
 							  );*/
@@ -396,6 +407,8 @@ class ilObjUser extends ilObject
 
 		// system data
 		$this->setLastLogin($a_data["last_login"]);
+		$this->setFirstLogin($a_data["first_login"]);
+		$this->setLastProfilePrompt($a_data["last_profile_prompt"]);
 		$this->setLastUpdate($a_data["last_update"]);
 		$this->create_date	= $a_data["create_date"];
         $this->setComment($a_data["referral_comment"]);
@@ -503,6 +516,8 @@ class ilObjUser extends ilObject
 			"fax" => array("text", $this->fax),
 			"birthday" => array('date', $this->getBirthday()),
 			"last_login" => array("timestamp", null),
+			"first_login" => array("timestamp", null),
+			"last_profile_prompt" => array("timestamp", null),
 			"last_update" => array("timestamp", ilUtil::now()),
 			"create_date" => array("timestamp", ilUtil::now()),
 			"referral_comment" => array("text", $this->referral_comment),
@@ -862,6 +877,14 @@ class ilObjUser extends ilObject
 		return ilObjUser::_lookup($a_user_id, "last_login");
 	}
 
+	/**
+	* lookup first login
+	*/
+	static function _lookupFirstLogin($a_user_id)
+	{
+		return ilObjUser::_lookup($a_user_id, "first_login");
+	}
+
 
 	/**
 	* updates the login data of a "user"
@@ -878,6 +901,13 @@ class ilObjUser extends ilObject
 			 "last_login = ".$ilDB->now().
 			 " WHERE usr_id = %s",
 			 array("integer"), array($this->id));
+
+		if ($this->getFirstLogin() == "") {
+			$ilDB->manipulateF("UPDATE usr_data SET ".
+				"first_login = ".$ilDB->now().
+				" WHERE usr_id = %s",
+				array("integer"), array($this->id));
+		}
 	}
 
 
@@ -2135,6 +2165,42 @@ class ilObjUser extends ilObject
 	function getLastLogin()
 	{
 		 return $this->last_login;
+	}
+
+	/**
+	 * set user's first login
+	 * @param	string	login date
+	 */
+	public function setFirstLogin($a_str)
+	{
+		$this->first_login = $a_str;
+	}
+
+	/**
+	 * returns first login date
+	 * @return	string	date
+	 */
+	public function getFirstLogin()
+	{
+		 return $this->first_login;
+	}
+
+	/**
+	 * set user's last profile prompt
+	 * @param	string	last profile prompt timestamp
+	 */
+	public function setLastProfilePrompt($a_str)
+	{
+		$this->last_profile_prompt = $a_str;
+	}
+
+	/**
+	 * returns user's last profile prompt
+	 * @return	string	ast profile prompt timestamp
+	 */
+	public function getLastProfilePrompt()
+	{
+		 return $this->last_profile_prompt;
 	}
 
 	/**
@@ -4399,12 +4465,9 @@ class ilObjUser extends ilObject
 		{
 			$body .= ($language->txt("title").": ".$this->getUTitle()."\n");
 		}
-		if(strlen($this->getGender()))
+		if(1 === strlen($this->getGender()))
 		{
-			$gender = ($this->getGender() == 'm') ?
-				$language->txt('gender_m') :
-				$language->txt('gender_f');
-			$body .= ($language->txt("gender").": ".$gender."\n");
+			$body .= ($language->txt("gender").": ". $language->txt('gender_' . strtolower($this->getGender())) ."\n");
 		}
 		if(strlen($this->getFirstname()))
 		{
@@ -5325,6 +5388,10 @@ class ilObjUser extends ilObject
 
 		$query = "UPDATE usr_data SET last_login = %s WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array($last_login, $a_usr_id) );
+
+		$query = "UPDATE usr_data SET first_login = %s WHERE usr_id = %s AND first_login IS NULL";
+		$ilDB->manipulateF( $query, array('timestamp', 'integer'), array($last_login, $a_usr_id) );
+		
 
 		if($affected) return $last_login;
 		else return false;

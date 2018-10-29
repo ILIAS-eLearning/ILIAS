@@ -104,6 +104,7 @@ class ilSessionParticipants extends ilParticipants
 			$this->participants_status[$mem_uid]['blocked'] = FALSE;
 			$this->participants_status[$mem_uid]['notification'] = FALSE;
 			$this->participants_status[$mem_uid]['passed'] = FALSE;
+			$this->participants_status[$mem_uid]['contact'] = $this->getEventParticipants()->isContact($mem_uid);
 		}
 	}
 	

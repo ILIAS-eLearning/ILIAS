@@ -48,6 +48,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 		    > 0) {
 			return true;
 		}
+
 	}
 
 

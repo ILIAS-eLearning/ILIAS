@@ -70,7 +70,7 @@ class ilMDTaxon extends ilMDBase
 	{
 		if($this->db->autoExecute('il_meta_taxon',
 								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
+								  ilDBConstants::AUTOQUERY_INSERT))
 		{
 			$this->setMetaId($this->db->getLastInsertId());
 
@@ -87,7 +87,7 @@ class ilMDTaxon extends ilMDBase
 		{
 			if($this->db->autoExecute('il_meta_taxon',
 									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
+									  ilDBConstants::AUTOQUERY_UPDATE,
 									  "meta_taxon_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;

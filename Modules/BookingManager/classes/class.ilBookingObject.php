@@ -466,6 +466,27 @@ class ilBookingObject
 		}
 		return $res;
 	}
+
+	/**
+	 * Get number of booking objects for given booking pool id.
+	 * @param	int	$a_pool_id
+	 * @return	int
+	 */
+	static function getNumberOfObjectsForPool($a_pool_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$sql = 'SELECT count(*) as count'.
+			' FROM booking_object'.
+			' WHERE pool_id = '.$ilDB->quote($a_pool_id, 'integer');
+		$set = $ilDB->query($sql);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec["count"];
+	}
+
 	
 	/**
 	 * Delete single entry

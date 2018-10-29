@@ -15,6 +15,11 @@ class Constants
     const AC_PASSWORD = 'urn:oasis:names:tc:SAML:2.0:ac:classes:Password';
 
     /**
+     * PasswordProtectedTransport authentication context.
+     */
+    const AC_PASSWORD_PROTECTED_TRANSPORT = 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport';
+
+    /**
      * Unspecified authentication context.
      */
     const AC_UNSPECIFIED = 'urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified';

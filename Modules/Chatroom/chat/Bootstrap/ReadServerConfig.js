@@ -6,7 +6,7 @@ var dns 		= require('dns');
 /**
  * @param {Function} callback
  */
-module.exports = function ReadServerConfig(callback) {
+module.exports = function ReadServerConfig(result, callback) {
 	var config = Handler.read(Container.getArgument(CONST.SERVER_CONFIG_INDEX));
 
 	function onHostnameResolved(err, addresses, family){
@@ -18,5 +18,5 @@ module.exports = function ReadServerConfig(callback) {
 
 	Container.setServerConfig(config);
 
-	callback();
+	callback(null);
 };

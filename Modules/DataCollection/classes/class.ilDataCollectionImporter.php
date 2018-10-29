@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilDataCollectionImporter
  *
@@ -47,8 +46,10 @@ class ilDataCollectionImporter extends ilXmlImporter {
 		$this->ds->beforeFinishImport($a_mapping);
 	}
 
+
 	/**
 	 * @param $int
+	 *
 	 * @return string
 	 */
 	public static function getExcelCharForInteger($int) {

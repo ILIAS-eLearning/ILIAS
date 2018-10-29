@@ -1,38 +1,50 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once __DIR__ . '/bootstrap.php';
+
 /**
+ * Class ilServicesMailSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilServicesMailSuite extends PHPUnit_Framework_TestSuite
 {
 	/**
 	 * @return self
+	 * @throws \ReflectionException
 	 */
 	public static function suite()
 	{
 		$suite = new self();
 
-		require_once 'Services/Mail/test/ilMailAddressTest.php';
-		$suite->addTestSuite('ilMailAddressTest');
+		foreach (new \RegExIterator(
+					 new \RecursiveIteratorIterator(
+						 new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
+						 \RecursiveIteratorIterator::LEAVES_ONLY
+					 ), '/BaseTest\.php$/') as $file) {
+			/** @var \SplFileInfo $file */
+			require_once $file->getPathname();
+		}
 
-		require_once 'Services/Mail/test/ilMailAddressTypesTest.php';
-		$suite->addTestSuite('ilMailAddressTypesTest');
+		foreach (new \RegExIterator(
+					 new \RecursiveIteratorIterator(
+						 new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
+						 \RecursiveIteratorIterator::LEAVES_ONLY
+					 ), '/(?<!Base)Test\.php$/') as $file) {
+			/** @var \SplFileInfo $file */
+			require_once $file->getPathname();
 
-		require_once 'Services/Mail/test/ilMailMimeTest.php';
-		$suite->addTestSuite('ilMailMimeTest');
-
-		require_once 'Services/Mail/test/ilMailOptionsTest.php';
-		$suite->addTestSuite('ilMailOptionsTest');
-
-		require_once 'Services/Mail/test/ilMailTransportSettingsTest.php';
-		$suite->addTestSuite('ilMailTransportSettingsTest');
-
-		require_once 'Services/Mail/test/ilGroupNameAsMailValidatorTest.php';
-		$suite->addTestSuite('ilGroupNameAsMailValidatorTest');
-		
-		require_once 'Services/Mail/test/gui/ilMailOptionsGUITest.php';
-		$suite->addTestSuite('ilMailOptionsGUITest');
+			$className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
+			if (class_exists($className)) {
+				$reflection = new \ReflectionClass($className);
+				if (
+					!$reflection->isAbstract() &&
+					!$reflection->isInterface() &&
+					$reflection->isSubclassOf(\PHPUnit_Framework_TestCase::class)) {
+					$suite->addTestSuite($className);
+				}
+			}
+		}
 
 		return $suite;
 	}

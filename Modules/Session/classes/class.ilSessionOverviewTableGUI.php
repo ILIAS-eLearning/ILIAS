@@ -82,7 +82,7 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
 		{
 			$tmp_event = ilObjectFactory::getInstanceByRefId($event_id,false);
 			if(!is_object($tmp_event) ||
-				!$ilAccess->checkAccess('write','',$event_id)) 
+				!$ilAccess->checkAccess('manage_members','',$event_id))
 			{
 				continue;
 			}

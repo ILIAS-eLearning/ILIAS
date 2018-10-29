@@ -88,23 +88,19 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			self::CAL_GRP_OTHERS => $lng->txt("cal_grp_".self::CAL_GRP_OTHERS)
 		);
 	}
-		
+
 	/**
-	 * Is this a repository object
-	 *
-	 * @return	string	Block type.
+	 * @inheritdoc
 	 */
-	static function isRepositoryObject()
+	protected function isRepositoryObject(): bool
 	{
 		return false;
 	}
 
 	/**
-	 * Get block type
-	 *
-	 * @return	string	Block type.
+	 * @inheritdoc
 	 */
-	static function getBlockType()
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}

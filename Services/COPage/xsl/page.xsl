@@ -76,6 +76,7 @@
 <xsl:param name="enable_blog"/>
 <xsl:param name="enable_qover"/>
 <xsl:param name="enable_skills"/>
+<xsl:param name="enable_learning_history"/>
 <xsl:param name="flv_video_player"/>
 <xsl:param name="enable_placeholder"/>
 <xsl:param name="enable_consultation_hours"/>
@@ -763,6 +764,14 @@
 		</xsl:call-template>
 	</xsl:if>
 	
+	<!-- insert learning history -->
+	<xsl:if test = "$enable_learning_history = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_lhist</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_learning_history</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<!-- insert consultation hours -->
 	<xsl:if test = "$enable_consultation_hours = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -1287,9 +1296,13 @@
 		<!-- user -->
 		<xsl:when test="@Type = 'User'">
 			<xsl:variable name="href" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkHref"/>
+			<xsl:variable name="link_target" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkTarget"/>
 			<xsl:if test="$href != ''">
 				<a class="ilc_link_IntLink">
 					<xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+					<xsl:if test="$link_target != ''">
+						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
+					</xsl:if>
 					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkContent"/>
 				</a>
 			</xsl:if>
@@ -2438,8 +2451,11 @@
 	<xsl:param name="inline"/>
 	<img border="0">
 		<!-- see 0020796 -->
-		<xsl:if test = "name(..) != 'Paragraph'">
+		<xsl:if test = "count(ancestor-or-self::Paragraph) = 0 and name(..) != 'InteractiveImage'">
 			<xsl:attribute name="style">width:100%</xsl:attribute>
+		</xsl:if>
+		<xsl:if test = "name(..) = 'InteractiveImage'">
+			<xsl:attribute name="style">max-width:none</xsl:attribute>
 		</xsl:if>
 		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
@@ -3442,25 +3458,26 @@
 				<xsl:attribute name="style">clear:both; float:right;</xsl:attribute>
 			</xsl:if>
 		</xsl:if>
-		<table class="ilc_media_cont_MediaContainer" width="1">
+		<div class="ilc_media_cont_MediaContainer">
 			<xsl:if test="(./Layout[1]/@HorizontalAlign = 'LeftFloat')">
 				<xsl:attribute name="style">margin-left: 0px; style="float:left;"</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="./Layout[1]/@HorizontalAlign = 'RightFloat'">
 				<xsl:attribute name="style">margin-right: 0px; style="float:right;</xsl:attribute>
 			</xsl:if>
-			<tr><td class="ilc_Mob">
-				<div>
+			<figure>
+				<xsl:attribute name="style">width: <xsl:value-of select="./Layout[1]/@Width"/>px</xsl:attribute>
+				<div class="ilc_Mob">
 					[[[[[Map;<xsl:value-of select="@Latitude"/>;<xsl:value-of select="@Longitude"/>;<xsl:value-of select="@Zoom"/>;<xsl:value-of select="./Layout[1]/@Width"/>;<xsl:value-of select="./Layout[1]/@Height"/>]]]]]
 					<xsl:call-template name="EditReturnAnchors"/>
 				</div>
-			</td></tr>
 			<xsl:if test="count(./MapCaption[1]) != 0">
-				<tr><td><div class="ilc_media_caption_MediaCaption">
+				<figcaption class="ilc_media_caption_MediaCaption">
 				<xsl:value-of select="./MapCaption[1]"/>
-				</div></td></tr>
+				</figcaption>
 			</xsl:if>
-		</table>
+			</figure>
+		</div>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->
 			<xsl:if test="$javascript='disable'">
@@ -4226,6 +4243,28 @@
 <!-- Skills data -->
 <xsl:template match="Skills">
 	{{{{{Skills<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>#<xsl:value-of select="@Id"/>}}}}}
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test="$javascript='disable'">
+			<br />
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
+			<xsl:with-param name="edit">y</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
+<!-- Learning History -->
+<xsl:template match="LearningHistory">
+	{{{{{LearningHistory#<xsl:value-of select="@From"/>#<xsl:value-of select="@To"/>#<xsl:for-each select="LearningHistoryProvider">
+		<xsl:value-of select="@Name"/>;
+	</xsl:for-each>}}}}}
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">

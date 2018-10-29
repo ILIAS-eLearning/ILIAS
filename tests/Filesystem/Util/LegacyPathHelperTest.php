@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class LegacyPathHelperTest
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
@@ -23,6 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class LegacyPathHelperTest extends TestCase {
 
+	private $libsPath;
 	private $customizingPath;
 	private $tempPath;
 	private $storagePath;
@@ -32,14 +33,15 @@ class LegacyPathHelperTest extends TestCase {
 	 */
 	private $filesystemsMock;
 
+
 	/**
 	 * @inheritDoc
 	 */
 	protected function setUp() {
 		parent::setUp();
 
-		$iliasAbsolutePath = '/var/www/html/ilias';
-		$dataDir = '/var/www/ildata';
+		$iliasAbsolutePath = '/dummy/var/www/html/ilias';
+		$dataDir = '/dummy/var/www/ildata';
 		$webDir = 'data';
 		$clientId = 'default';
 
@@ -51,6 +53,7 @@ class LegacyPathHelperTest extends TestCase {
 		define("CLIENT_ID", 'default');
 
 		$this->customizingPath = $iliasAbsolutePath . '/' . 'Customizing';
+		$this->libsPath = $iliasAbsolutePath . '/' . 'libs';
 		$this->webPath = CLIENT_WEB_DIR;
 		$this->storagePath = CLIENT_DATA_DIR;
 		$this->tempPath = sys_get_temp_dir();
@@ -60,13 +63,12 @@ class LegacyPathHelperTest extends TestCase {
 
 		$containerMock = Mockery::mock(Container::class);
 		$containerMock->shouldReceive('filesystem')
-		              ->withNoArgs()
-		              ->zeroOrMoreTimes()
-		              ->andReturn($this->filesystemsMock);
+			->withNoArgs()
+			->zeroOrMoreTimes()
+			->andReturn($this->filesystemsMock);
 
 		$GLOBALS['DIC'] = $containerMock;
 	}
-
 
 
 	/**
@@ -85,6 +87,7 @@ class LegacyPathHelperTest extends TestCase {
 		$this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
 	}
 
+
 	/**
 	 * @Test
 	 * @small
@@ -98,8 +101,42 @@ class LegacyPathHelperTest extends TestCase {
 			->andReturn(Mockery::mock(Filesystem::class));
 
 		$filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
-		$this->assertTrue($filesystem instanceof Filesystem,'Expecting filesystem instance.');
+		$this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
 	}
+
+
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testDeriveFilesystemFromWithRelativeLibsTargetWhichShouldSucceed() {
+		$target = './libs/bower/bower_components/mediaelement/build';
+
+		$this->filesystemsMock
+			->shouldReceive('libs')
+			->once()
+			->andReturn(Mockery::mock(Filesystem::class));
+
+		$filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
+		$this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
+	}
+
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testDeriveFilesystemFromWithAbsoluteLibsTargetWhichShouldSucceed() {
+		$target = $this->libsPath . 'libs/bower/bower_components/mediaelement/build';
+
+		$this->filesystemsMock
+			->shouldReceive('libs')
+			->once()
+			->andReturn(Mockery::mock(Filesystem::class));
+
+		$filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
+		$this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
+	}
+
 
 	/**
 	 * @Test
@@ -109,10 +146,11 @@ class LegacyPathHelperTest extends TestCase {
 		$target = '/invalid/path/to/testtarget';
 
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
+		$this->expectExceptionMessage("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$target}'");
 
 		LegacyPathHelper::deriveFilesystemFrom($target);
 	}
+
 
 	/**
 	 * @Test
@@ -126,6 +164,7 @@ class LegacyPathHelperTest extends TestCase {
 		$this->assertEquals($expectedPath, $result);
 	}
 
+
 	/**
 	 * @Test
 	 * @small
@@ -138,6 +177,7 @@ class LegacyPathHelperTest extends TestCase {
 		$this->assertEquals($expectedPath, $result);
 	}
 
+
 	/**
 	 * @Test
 	 * @small
@@ -146,7 +186,7 @@ class LegacyPathHelperTest extends TestCase {
 		$target = '/invalid/path/to/target';
 
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
+		$this->expectExceptionMessage("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$target}'");
 
 		LegacyPathHelper::createRelativePath($target);
 	}

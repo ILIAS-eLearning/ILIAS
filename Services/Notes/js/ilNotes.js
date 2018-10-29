@@ -190,6 +190,7 @@ var ilNotes =
 	// send request per ajax
 	sendAjaxPostRequest: function(form_id, url, args)
 	{
+		console.log('form_id' + form_id);
 		args.reg_type = "post";
 		var cb =
 		{
@@ -246,5 +247,11 @@ var ilNotes =
 	handleAjaxFailure: function(o)
 	{
 		console.log("ilNotes.js: Ajax Failure.");
+	},
+
+	// FailureHandler
+	updateWidget: function(id, url)
+	{
+		il.Util.ajaxReplace(url, id);
 	}
 };

@@ -75,19 +75,17 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	 * Get block type
-	 * @return	string	Block type.
+	 * @inheritdoc
 	 */
-	static function getBlockType()
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	 * Get block type
-	 * @return	string	Block type.
+	 * @inheritdoc
 	 */
-	static function isRepositoryObject()
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -146,7 +144,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		require_once 'Services/Mail/classes/class.ilObjMail.php';
 
 		$umail       = new ilMail($this->user->getId());
-		$mbox        = new ilMailBox($this->user->getId());
+		$mbox        = new ilMailbox($this->user->getId());
 		$this->inbox = $mbox->getInboxFolder();
 
 		$this->mails = $umail->getMailsOfFolder(
@@ -302,7 +300,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$this->lng->loadLanguageModule('mail');
 
 		$umail = new ilMail($this->user->getId());
-		$mbox  = new ilMailBox($this->user->getId());
+		$mbox  = new ilMailbox($this->user->getId());
 
 		if(!$_GET['mobj_id'])
 		{

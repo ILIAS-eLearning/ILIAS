@@ -80,5 +80,4 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 
 		return $clone;
 	}
-
 }

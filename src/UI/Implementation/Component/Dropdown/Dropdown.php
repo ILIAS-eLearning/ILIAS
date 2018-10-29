@@ -64,7 +64,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	 * @inheritdoc
 	 */
 	public function withOnClick(Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'click');
+		return $this->withTriggeredSignal($signal, 'click');
 	}
 
 	/**
@@ -78,7 +78,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	 * @inheritdoc
 	 */
 	public function withOnHover(Signal $signal) {
-		return $this->addTriggeredSignal($signal, 'hover');
+		return $this->withTriggeredSignal($signal, 'hover');
 	}
 
 	/**

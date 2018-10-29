@@ -27,23 +27,19 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		$this->mail_mode = "system";
 		$this->allow_moving = false;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
-	
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -73,7 +69,7 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	function getMails()
 	{
 		$umail = new ilMail($this->user->getId());
-		$mbox  = new ilMailBox($this->user->getId());
+		$mbox  = new ilMailbox($this->user->getId());
 		$inbox = $mbox->getInboxFolder();
 
 		$this->mails = $umail->getMailsOfFolder($inbox, array('status' => 'unread', 'type' => 'system'));

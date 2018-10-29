@@ -45,7 +45,7 @@ interface InputInternal {
 	/**
 	 * Get the current content of the input.
 	 *
-	 * @return    Result|null
+	 * @return    Result
 	 */
 	public function getContent();
 }

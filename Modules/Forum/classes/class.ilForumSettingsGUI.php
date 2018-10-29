@@ -42,6 +42,7 @@ class ilForumSettingsGUI
 		$this->tabs = $DIC->tabs();
 		$this->access = $DIC->access();
 		$this->tree = $DIC->repositoryTree();
+		$this->obj_service = $DIC->object();
 	}
 
 	/**
@@ -136,6 +137,8 @@ class ilForumSettingsGUI
 			$frm_upload->setInfo($this->lng->txt('allow_file_upload_desc'));
 			$a_form->addItem($frm_upload);
 		}
+
+		$this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->addTileImage();
 	}
 	
 	/**
@@ -236,6 +239,7 @@ class ilForumSettingsGUI
 			$this->parent_obj->objProperties->setFileUploadAllowed((bool)$a_form->getInput('file_upload_allowed'));
 		}
 		$this->parent_obj->objProperties->update();
+		$this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->saveTileImage();
 	}
 
 	public function showMembers()
@@ -263,9 +267,6 @@ class ilForumSettingsGUI
 		// set form html into template
 		$this->tpl->setVariable('NOTIFICATIONS_SETTINGS_FORM', $this->notificationSettingsForm->getHTML());
 
-		include_once 'Modules/Forum/classes/class.ilForumNotification.php';
-		include_once 'Modules/Forum/classes/class.ilObjForum.php';
-
 		$frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 		$oParticipants = $this->getParticipants();
 
@@ -278,7 +279,6 @@ class ilForumSettingsGUI
 		if($this->parent_obj->objProperties->getNotificationType() == 'default')
 		{
 			// update forum_notification table
-			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 			$forum_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 			$forum_noti->setAdminForce($this->parent_obj->objProperties->isAdminForceNoti());
 			$forum_noti->setUserToggle($this->parent_obj->objProperties->isUserToggleNoti());
@@ -369,7 +369,6 @@ class ilForumSettingsGUI
 		}
 		else
 		{
-			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 			$frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
 			foreach($_POST['user_id'] as $user_id)
@@ -404,7 +403,6 @@ class ilForumSettingsGUI
 		}
 		else
 		{
-			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 			$frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
 			foreach($_POST['user_id'] as $user_id)
@@ -436,7 +434,6 @@ class ilForumSettingsGUI
 		}
 		else
 		{
-			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 			$frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
 			foreach($_POST['user_id'] as $user_id)
@@ -475,7 +472,6 @@ class ilForumSettingsGUI
 		}
 		else
 		{
-			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 			$frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
 			foreach($_POST['user_id'] as $user_id)
@@ -522,7 +518,6 @@ class ilForumSettingsGUI
 		if($grp_ref_id > 0)
 		{
 			$parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
-			include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
 			$oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
 			return $oParticipants;
 		}
@@ -530,7 +525,6 @@ class ilForumSettingsGUI
 		{
 			$parent_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id);
 
-			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 			$oParticipants = ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
 			return $oParticipants;
 		}
@@ -542,8 +536,6 @@ class ilForumSettingsGUI
 
 	private function updateUserNotifications($update_all_users = false)
 	{
-		include_once 'Modules/Forum/classes/class.ilForumNotification.php';
-
 		$oParticipants = $this->getParticipants();
 
 		$frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
@@ -644,7 +636,6 @@ class ilForumSettingsGUI
 				$this->parent_obj->objProperties->setNotificationType('default');
 				$this->parent_obj->objProperties->setAdminForceNoti(0);
 				$this->parent_obj->objProperties->setUserToggleNoti(0);
-				include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 				$frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 				$frm_noti->deleteNotificationAllUsers();
 			}

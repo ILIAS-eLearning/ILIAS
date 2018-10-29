@@ -238,7 +238,6 @@ class ilForumDraftsHistory
 	public function addMobsToDraftsHistory($message)
 	{
 		// copy temporary media objects (frm~)
-		include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		$mediaObjects = ilRTE::_getMediaObjects($this->getPostMessage(), 0);
 		
 		$myMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~h:html', $this->getHistoryId());
@@ -259,7 +258,6 @@ class ilForumDraftsHistory
 	
 	public function deleteMobs()
 	{
-		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		// delete mobs of draft history
 		$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~h:html',  $this->getHistoryId());
 		foreach($oldMediaObjects as $oldMob)

@@ -16,6 +16,21 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 {
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * @var \Psr\Http\Message\ServerRequestInterface
+	 */
+	protected $request;
+
+	/**
+	 * @var ilPortfolioDeclarationOfAuthorship
+	 */
+	protected $declaration_authorship;
+
+	/**
 	 * Contructor
 	 *
 	 * @access public
@@ -29,7 +44,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->access = $DIC->access();
 		$this->type = "prfa";
+		$this->ui = $DIC->ui();
+		$this->request = $DIC->http()->request();
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+
+		$this->declaration_authorship = new ilPortfolioDeclarationOfAuthorship();
 
 		$this->lng->loadLanguageModule("prtf");
 	}
@@ -50,7 +69,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive('perm_settings');
+				$this->tabs_gui->activateTab('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
@@ -75,19 +94,23 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	 *
 	 */
 	public function getAdminTabs()
-	{		
+	{
+		$lng = $this->lng;
+		$tabs = $this->tabs_gui;
+
+
 		if ($this->checkPermissionBool("visible,read"))
 		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "editSettings"),
-				array("editSettings", "view"));
+			$tabs->addTab("settings", $lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "editSettings"));
+			$tabs->addTab("authorship", $lng->txt("prtf_decl_authorship"),
+				$this->ctrl->getLinkTarget($this, "editDeclarationOfAuthorship"));
 		}
 
 		if ($this->checkPermissionBool('edit_permission'))
 		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),
-				array(),'ilpermissiongui');
+			$tabs->addTab("perm_settings", $lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"));
 		}
 	}
 
@@ -100,7 +123,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
 		
-		$this->tabs_gui->setTabActive('settings');	
+		$this->tabs_gui->activateTab('settings');
 		
 		/*
 		if ($ilSetting->get('user_portfolios'))
@@ -254,6 +277,91 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 				return array(array("editSettings", $fields));			
 		}
 	}
+
+	//
+	// Declaration of authorship
+	//
+
+	/**
+	 * Edit declaration of authorship
+	 */
+	protected function editDeclarationOfAuthorship()
+	{
+		$main_tpl = $this->tpl;
+		$renderer = $ui = $this->ui->renderer();
+		$form = $this->initAuthorshipForm();
+
+		$this->tabs_gui->activateTab("authorship");
+
+		$main_tpl->setContent($renderer->render($form));
+	}
+
+	/**
+	 * Init authorship form.
+	 * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+	 */
+	public function initAuthorshipForm()
+	{
+		$ui = $this->ui;
+		$f = $ui->factory();
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		$lng->loadLanguageModule("meta");
+
+		foreach ($lng->getInstalledLanguages() as $l)
+		{
+			$txt = $lng->txt("meta_l_" . $l);
+			if ($lng->getDefaultLanguage() == $l)
+			{
+				$txt.= " (".$lng->txt("default").")";
+			}
+			$fields["decl_" . $l] = $f->input()->field()->textarea($txt)
+				->withRequired(false)
+				->withValue((string) $this->declaration_authorship->getForLanguage($l));
+		}
+
+		// section
+		$section1 = $f->input()->field()->section($fields, $lng->txt("prtf_decl_authorship"));
+
+		$form_action = $ctrl->getLinkTarget($this, "saveAuthorship");
+		return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
+	}
+
+	/**
+	 * Save authorship
+	 */
+	public function saveAuthorship()
+	{
+		$request = $this->request;
+		$form = $this->initAuthorshipForm();
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		if ($this->checkPermissionBool("write"))
+		{
+			if ($request->getMethod() == "POST")
+			{
+				$form = $form->withRequest($request);
+				$data = $form->getData();
+				if (is_array($data["sec"]))
+				{
+					foreach ($lng->getInstalledLanguages() as $l)
+					{
+						$this->declaration_authorship->setForLanguage($l, $data["sec"]["decl_" . $l]);
+					}
+
+					ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+				}
+			}
+		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt("msg_no_perm_write"), true);
+		}
+		$ctrl->redirect($this, "editDeclarationOfAuthorship");
+	}
+
 }
 
 ?>

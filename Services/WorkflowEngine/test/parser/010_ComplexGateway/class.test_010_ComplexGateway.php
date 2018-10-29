@@ -39,32 +39,4 @@ class test_010_ComplexGateway extends ilWorkflowEngineBaseTest
 
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
-
-	public function test_WorkflowWithSimpleEndEventShouldOutputAccordingly()
-	{
-		$this->markTestIncomplete('The complex gateway has conceptual issues. Proper modeling of a default outgoing 
-		sequence flows seems to be impossible with available modelling tools. Once this is resolved, testing makes
-		sense, not before.');
-		// TODO: Resolve conceptual issues.
-
-		$test_name = 'ComplexGateway_Blanko_Simple';
-		$xml = file_get_contents($this->getTestInputFilename($test_name));
-		$parser = new ilBPMN2Parser();
-		$parse_result = $parser->parseBPMN2XML($xml);
-
-		file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
-		$return = exec('php -l ' . $this->getTestOutputFilename($test_name));
-
-		$this->assertTrue(substr($return,0,25) == 'No syntax errors detected', 'Lint of output code failed.');
-
-		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
-		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
-
-		require_once $this->getTestOutputFilename($test_name);
-		$process = new $test_name;
-		$this->assertFalse($process->isActive());
-
-		unlink($this->getTestOutputFilename($test_name));
-	}
-
 }

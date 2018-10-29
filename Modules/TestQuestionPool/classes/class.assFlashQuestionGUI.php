@@ -240,7 +240,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 			}
 		}
 
-		array_push($params, "session_id=" . urlencode($_COOKIE["PHPSESSID"]));
+		array_push($params, "session_id=" . urlencode($_COOKIE[session_name()]));
 		array_push($params, "client=" . urlencode(CLIENT_ID));
 		array_push($params, "points_max=" . urlencode($this->object->getPoints()));
 		array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));
@@ -380,7 +380,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 			}
 		}
 
-		array_push($params, "session_id=" . urlencode($_COOKIE["PHPSESSID"]));
+		array_push($params, "session_id=" . urlencode($_COOKIE[session_name()]));
 		array_push($params, "client=" . urlencode(CLIENT_ID));
 		array_push($params, "points_max=" . urlencode($this->object->getPoints()));
 		array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));

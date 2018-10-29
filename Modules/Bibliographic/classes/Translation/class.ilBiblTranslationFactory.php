@@ -186,7 +186,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	 * @return \ActiveRecordList
 	 */
 	private function getCollectionOfTranslationsForField(ilBiblFieldInterface $field) {
-		return ilBiblTranslation::where([ 'field_id' => $field->getId() ]);
+		return ilBiblTranslation::where([ 'field_id' => $field->getId() ])->orderBy('language_key');
 	}
 
 

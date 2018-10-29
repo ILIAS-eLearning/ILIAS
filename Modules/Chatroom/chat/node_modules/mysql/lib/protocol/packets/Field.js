@@ -27,6 +27,8 @@ Field.prototype.geometry = function () {
 
 function typeToString(t) {
   for (var k in Types) {
-    if (Types[k] == t) return k;
+    if (Types[k] === t) return k;
   }
+
+  return undefined;
 }

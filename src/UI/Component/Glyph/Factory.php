@@ -15,9 +15,9 @@ interface Factory {
 	 *   effect: >
 	 *      Upon clicking a settings Dropdown is opened.
 	 *
-	 * context: >
-	 *   Adding answer options or taxonomies in questions-editing forms in tests,
-	 *   adding events to the calendar.
+	 * context:
+	 *    - Adding answer options or taxonomies in questions-editing forms in tests.
+	 *    - Adding events to the calendar.
 	 *
 	 * rules:
 	 *   usage:
@@ -99,9 +99,9 @@ interface Factory {
 	 *   effect: >
 	 *      Clicking on the Add Glyph adds a new input to a form or an event to the calendar.
 	 *
-	 * context: >
-	 *   Adding answer options or taxonomies in questions-editing forms in tests,
-	 *   adding events to the calendar.
+	 * context:
+	 *   - Adding answer options or taxonomies in questions-editing forms in tests.
+	 *   - Adding events to the calendar.
 	 *
 	 * rules:
 	 *   usage:
@@ -138,9 +138,9 @@ interface Factory {
 	 *       Clicking on the Remove Glyph adds a new input to a form or an event to
 	 *       the calendar.
 	 *
-	 * context: >
-	 *   Adding answer options or taxonomies in questions-editing forms in tests,
-	 *   adding events to the calendar.
+	 * context:
+	 *   - Removing answer options or taxonomies in questions-editing forms in tests.
+	 *   - Removing events to the calendar.
 	 *
 	 * rules:
 	 *   usage:
@@ -175,7 +175,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking on the Up Glyph moves an item up.
 	 *
-	 * context: Moving answers up in Survey matrix questions.
+	 * context:
+     *       - Moving answers up in Survey matrix questions.
 	 *
 	 * featurewiki:
 	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
@@ -211,7 +212,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking on the Down Glyph moves an item up.
 	 *
-	 * context: Moving answers up in Survey matrix questions.
+	 * context:
+     *       - Moving answers up in Survey matrix questions.
 	 *
 	 * featurewiki:
 	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
@@ -245,7 +247,8 @@ interface Factory {
 	 *   effect: >
 	 *       The click on a Back Glyph leads back to a previous view.
 	 *
-	 * context: Show Member View in courses.
+	 * context:
+     *      - Show Member View in courses.
 	 *
 	 * rules:
 	 *   usage:
@@ -510,7 +513,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
-	 * context: Show timeline in groups and courses.
+	 * context:
+     *       - Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -535,7 +539,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
-	 * context: Show timeline in groups and courses.
+	 * context:
+     *       - Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -560,7 +565,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
-	 * context: Show timeline in groups and courses.
+	 * context:
+     *       - Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -585,7 +591,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
-	 * context: Show timeline in groups and courses.
+	 * context:
+     *       - Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -610,7 +617,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
-	 * context: Show timeline in groups and courses.
+	 * context:
+     *       - Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -635,7 +643,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
-	 * context: Show timeline in groups and courses.
+	 * context:
+     *       - Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -660,7 +669,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
-	 * context: Show timeline in groups and courses.
+	 * context:
+     *       - Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -687,7 +697,8 @@ interface Factory {
 	 *   effect: >
 	 *       When clicked, the password-field is masked, thus hiding the input.
 	 *
-	 * context: Used with password-fields to toggle mask/revealed mode.
+	 * context:
+     *       - Used with password-fields to toggle mask/revealed mode.
 	 *
 	 * rules:
 	 *   composition:
@@ -713,7 +724,8 @@ interface Factory {
 	 *   effect: >
 	 *       When clicked, the password-field is unmasked, thus revealing the input.
 	 *
-	 * context: Used with password-fields to toggle mask/revealed mode.
+	 * context:
+     *       - Used with password-fields to toggle mask/revealed mode.
 	 *
 	 * rules:
 	 *   composition:
@@ -738,7 +750,8 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking executes an action which delivers these attachments to the actor or initiates a process to add new attachments.
 	 *
-	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 * context:
+     *       - Impose the information whether or not files have been attached to emails in the folder view.
 	 *
 	 * rules:
 	 *   composition:

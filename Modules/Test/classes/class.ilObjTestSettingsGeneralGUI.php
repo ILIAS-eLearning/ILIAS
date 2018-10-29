@@ -445,6 +445,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		$this->addGeneralProperties($form);
 		$this->addAvailabilityProperties($form);
+		$this->addPresentationProperties($form);
 		$this->addTestIntroProperties($form);
 		$this->addTestAccessProperties($form);
 		$this->addTestRunProperties($form);
@@ -497,6 +498,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
 		$this->saveGeneralProperties($form);
+		$this->savePresentationProperties($form);
 		$this->saveAvailabilityProperties($form);
 		$this->saveTestIntroProperties($form);
 		$this->saveTestAccessProperties($form);
@@ -731,6 +733,30 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		{
 			$this->testOBJ->setActivationLimited(false);
 		}
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function addPresentationProperties(ilPropertyFormGUI $form)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('tst_presentation_settings_section'));
+		$form->addItem($section);
+		
+		$DIC->object()->commonSettings()->legacyForm($form, $this->testOBJ)->addTileImage();
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function savePresentationProperties(ilPropertyFormGUI $form)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$DIC->object()->commonSettings()->legacyForm($form, $this->testOBJ)->saveTileImage();
 	}
 
 	/**

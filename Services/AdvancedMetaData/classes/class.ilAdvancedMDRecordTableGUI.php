@@ -39,6 +39,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
 	 	$this->addColumn('','',1);
+	 	$this->addColumn($this->lng->txt('md_adv_col_presentation_ordering'),'sort');
 	 	$this->addColumn($this->lng->txt('title'),'title');
 	 	$this->addColumn($this->lng->txt('md_fields'),'fields');
 		$this->addColumn($this->lng->txt('md_adv_scope'),'scope');
@@ -49,8 +50,8 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_records_row.html","Services/AdvancedMetaData");
-		$this->setDefaultOrderField("title");
-		$this->setDefaultOrderDirection("desc");
+		$this->setDefaultOrderField('position');
+		$this->setDefaultOrderDirection('asc');
 	}
 	
 	/**
@@ -97,11 +98,12 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 				continue;
 			}
 			
-			$this->tpl->setCurrentBlock('ass_obj_types');
-			$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
-			
+
 			if($do_select)
 			{
+				$this->tpl->setCurrentBlock('ass_obj_types');
+				$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
+
 				$type_options = $options;
 				switch($obj_type["obj_type"])
 				{
@@ -130,9 +132,16 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 						$disabled
 				);			
 				$this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				// only show object type
+				$this->tpl->setCurrentBlock('ass_obj_only');
+				$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
+				$this->tpl->parseCurrentBlock();
 			}
 			
-			$this->tpl->parseCurrentBlock();
 		}
 		
 		$record = ilAdvancedMDRecord::_getInstanceByRecordId($a_set['id']);
@@ -159,9 +168,14 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 		
 		if(!$a_set["readonly"] || $a_set["local"])
 		{
+			$this->tpl->setCurrentBlock('check_bl');
 			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+			$this->tpl->parseCurrentBlock();
 		}
-		
+
+
+		$this->tpl->setVariable('R_ID', $a_set['id']);
+		$this->tpl->setVariable('VAL_POS', $a_set['position']);
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		if(strlen($a_set['description']))
 		{

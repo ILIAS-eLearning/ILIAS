@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class ilDclPluginFieldRepresentation
  *
@@ -14,15 +15,15 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$opt = parent::buildFieldCreationInput($dcl, $mode);
 
 		// only show, when element is created
-		if(get_called_class() == 'ilDclPluginFieldRepresentation') {
+		if (get_called_class() == 'ilDclPluginFieldRepresentation') {
 			$plugins = ilPluginAdmin::getActivePluginsForSlot(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID);
 			$options = array();
-			foreach($plugins as $plugin_name) {
+			foreach ($plugins as $plugin_name) {
 				$plugin_data = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID, $plugin_name);
 				$options[$plugin_data->getPluginName()] = $plugin_data->getPluginName();
 			}
 
-			if(count($options) > 0) {
+			if (count($options) > 0) {
 				$plugin_selection = new ilSelectInputGUI($this->lng->txt('dcl_plugin_hooks'), 'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME);
 				$plugin_selection->setOptions($options);
 				$opt->addSubItem($plugin_selection);
@@ -39,6 +40,4 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation {
 
 		return $opt;
 	}
-
-
 }

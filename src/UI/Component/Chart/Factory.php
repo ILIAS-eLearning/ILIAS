@@ -16,8 +16,8 @@ interface Factory {
 	 *     bar contains a title. The highlighted elements
 	 *     differ from the others through their darkened background.
 	 *
-	 * context: >
-	 *   Scale Bars are are used in the Competence Management on the Personal Desktop.
+	 * context:
+	 *   - Scale Bars are are used in the Competence Management on the Personal Desktop.
 	 *
 	 * rules:
 	 *   composition:
@@ -42,8 +42,8 @@ interface Factory {
      *     The bars change between two colors, to identify a specific reached value. It
      *     additionally may show a percentage of the values and also an identifying text.
      *
-     * context: >
-     *     Progress Meters are used inside courses on the content view.
+     * context:
+     *     - Progress Meters are used inside courses on the content view.
      *
      * rules:
      *   composition:

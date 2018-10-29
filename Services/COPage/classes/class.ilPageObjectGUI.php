@@ -114,6 +114,11 @@ class ilPageObjectGUI
 	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
 	var $pl_start = "{{{{{";
 	var $pl_end = "}}}}}";
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 	
 	/**
 	 * Constructor
@@ -138,6 +143,7 @@ class ilPageObjectGUI
 		$this->access = $DIC->access();
 		$this->user = $DIC->user();
 		$this->help = $DIC["ilHelp"];
+		$this->ui = $DIC->ui();
 
 		$this->setParentType($a_parent_type);
 		$this->setId($a_id);		
@@ -1762,6 +1768,7 @@ return;
 						 'enable_verification' =>  $cfg->getEnablePCType("Verification") ? "y" : "n",
 						 'enable_blog' =>  $cfg->getEnablePCType("Blog") ? "y" : "n",
 						 'enable_skills' =>  $cfg->getEnablePCType("Skills") ? "y" : "n",
+						 'enable_learning_history' =>  $cfg->getEnablePCType("LearningHistory") ? "y" : "n",
 						 'enable_qover' =>  $cfg->getEnablePCType("QuestionOverview") ? "y" : "n",
 						 'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
 						 'enable_my_courses' =>  $cfg->getEnablePCType("MyCourses") ? "y" : "n",
@@ -2541,13 +2548,18 @@ return;
 							$back = $this->getProfileBackUrl();
 							//var_dump($back); exit;
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-								rawurlencode($back));
+							if (strlen($back)) {
+								$this->ctrl->setParameterByClass(
+									"ilpublicuserprofilegui",
+									"back_url",
+									rawurlencode($back)
+								);
+							}
 							$href = "";
 							include_once("./Services/User/classes/class.ilUserUtil.php");
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
-								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+								$href = $this->ctrl->getLinkTargetByClass(["ilpersonaldesktopgui", "ilpublicuserprofilegui"], "getHTML");
 							}
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
 							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
@@ -2962,20 +2974,7 @@ return;
 		{
 			if($this->getPageObject()->getEffectiveEditLockTime() > 0)
 			{
-				include_once("./Services/User/classes/class.ilUserUtil.php");
-				$lock = $this->getPageObject()->getEditLockInfo();
-				$info = $this->lng->txt("cont_got_lock_until");
-				$info = str_replace("%1", ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX)), $info);
-				//$info.= "</br>".$this->lng->txt("content_until").": ".
-				//	ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
-				//$info.= "</br>".$this->lng->txt("obj_usr").": ".
-				//	ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-				include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
-				$but = ilLinkButton::getInstance();
-				$but->setCaption("cont_finish_editing");
-				$but->setUrl($this->ctrl->getLinkTarget($this, "releasePageLock"));
-				$info = str_replace("%2", $but->render(), $info);
-				ilUtil::sendInfo($info);
+				$mess = $this->getBlockingInfoMessage();
 			}
 		}
 		
@@ -2988,8 +2987,30 @@ return;
 			$html.= "<br /><br />".$this->getNotesHTML();
 		}	
 	
-		return $html;
+		return $mess.$html;
 	}
+
+	/**
+	 * Get block info message
+	 * @return string
+	 */
+	protected function getBlockingInfoMessage(): string
+	{
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+		$ui = $this->ui;
+
+		$lock = $this->getPageObject()->getEditLockInfo();
+		$info = $this->lng->txt("cont_got_lock_release");
+		$info = str_replace("%1", ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX)), $info);
+
+		$mbox = $ui->factory()->messageBox()->info($info)
+			->withButtons([$ui->factory()->button()->standard($lng->txt("cont_finish_editing"), $ctrl->getLinkTarget($this, "releasePageLock"))]);
+
+		return $ui->renderer()->render($mbox);
+
+	}
+
 	
 	/**
 	 * InsertJS at placeholder
