@@ -6,37 +6,80 @@
  */
 class ilCertificateMigrationValidator
 {
-	/**
-	 * @var ilSetting
-	 */
+	/** @var \ilSetting */
 	private $certificateSettings;
 
 	/**
-	 * @param ilSetting $certificateSettings
+	 * @param \ilSetting $certificateSettings
 	 */
-	public function __construct(ilSetting $certificateSettings)
+	public function __construct(\ilSetting $certificateSettings)
 	{
 		$this->certificateSettings = $certificateSettings;
+	}
+
+	/**
+	 * @param \ilObjUser $user
+	 * @param \ilCertificateMigration $migrationHelper
+	 * @return bool
+	 */
+	public function isMigrationAvailable(\ilObjUser $user, \ilCertificateMigration $migrationHelper): bool
+	{
+		if (!$this->areCertificatesGloballyEnabled()) {
+			return false;
+		}
+
+		if ($this->isMigrationFinishedForUser($user)) {
+			return false;
+		}
+
+		if ($migrationHelper->isTaskRunning() || $migrationHelper->isTaskFinished()) {
+			return false;
+		}
+
+		$isUserCreatedAfterFeatureIntroduction = $this->isUserCreatedAfterFeatureIntroduction($user);
+
+		return $isUserCreatedAfterFeatureIntroduction;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function areCertificatesGloballyEnabled(): bool
+	{
+		$certificatesGloballyEnabled = \ilCertificate::isActive();
+
+		return $certificatesGloballyEnabled;
 	}
 
 	/**
 	 * @param ilObjUser $user
 	 * @return bool
 	 */
-	public function isMigrationAvailable(ilObjUser $user) : bool
+	protected function isMigrationFinishedForUser(\ilObjUser $user): bool
 	{
-		$userCreationDate = $user->getCreateDate();
+		 $migrationFinished = $user->getPref('cert_migr_finished') == 1;
 
-		$showMigrationBox = false;
+		 return $migrationFinished;
+	}
+
+	/**
+	 * @param \ilObjUser $user
+	 * @return bool
+	 */
+	protected function isUserCreatedAfterFeatureIntroduction(\ilObjUser $user): bool
+	{
+		$createdBeforeFeatureIntroduction = false;
+
+		$userCreationDate = $user->getCreateDate();
 		if (null !== $userCreationDate) {
 			$userCreatedTimestamp = strtotime($userCreationDate);
 			$introducedTimestamp = $this->certificateSettings->get('persisting_cers_introduced_ts', 0);
 
 			if ($userCreatedTimestamp < $introducedTimestamp) {
-				$showMigrationBox = true;
+				$createdBeforeFeatureIntroduction = true;
 			}
 		}
 
-		return $showMigrationBox;
+		return $createdBeforeFeatureIntroduction;
 	}
 }

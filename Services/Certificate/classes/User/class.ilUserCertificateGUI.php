@@ -195,10 +195,9 @@ class ilUserCertificateGUI
 
 		switch ($nextClass) {
 			case 'ilcertificatemigrationgui':
-				$cert_migration_gui = new \ilCertificateMigrationGUI();
-				$ret = $this->controller->forwardCommand($cert_migration_gui);
-				/** @var ilTemplate $tpl */
-				$this->template->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$migrationGui = new \ilCertificateMigrationGUI();
+				$resultMessageString = $this->controller->forwardCommand($migrationGui);
+				$this->template->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $resultMessageString, true);
 				$this->listCertificates(true);
 				break;
 
@@ -226,18 +225,21 @@ class ilUserCertificateGUI
 			return;
 		}
 
-		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable($this->user);
-
+		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable(
+			$this->user,
+			new \ilCertificateMigration($this->user->getId())
+		);
 		if (!$migrationWasStarted && true === $showMigrationBox) {
-			$cert_ui_elements = new \ilCertificateMigrationUIElements();
-			$messageBoxLink = $this->controller->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-			$messageBox = $cert_ui_elements->getMigrationMessageBox($messageBoxLink);
+			$migrationUiEl = new \ilCertificateMigrationUIElements();
+			$startMigrationCommand = $this->controller->getLinkTargetByClass(
+				['ilCertificateMigrationGUI'], 'startMigrationAndReturnMessage',
+				false, true, false
+			);
+			$messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);
 
-			if (strlen($messageBox) > 0) {
-				$this->template->setCurrentBlock('mess');
-				$this->template->setVariable('MESSAGE', $messageBox);
-				$this->template->parseCurrentBlock('mess');
-			}
+			$this->template->setCurrentBlock('mess');
+			$this->template->setVariable('MESSAGE', $messageBoxHtml);
+			$this->template->parseCurrentBlock('mess');
 		}
 
 		$provider = new ilUserCertificateTableProvider(
