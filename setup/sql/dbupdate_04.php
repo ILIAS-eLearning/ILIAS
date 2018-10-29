@@ -24561,3 +24561,8 @@ if(!$ilDB->tableColumnExists('event_participants', 'contact'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5397>
+<?php
+$ilSetting = new ilSetting('certificate');
+$setting = $ilSetting->set('persisting_cers_introduced_ts', time());
+?>

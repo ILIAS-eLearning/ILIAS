@@ -3494,6 +3494,7 @@ return array(
     'ilCertificateMigrationReducedInteraction' => $baseDir . '/../../Services/Certificate/classes/BackgroundTasks/class.ilCertificateMigrationReducedInteraction.php',
     'ilCertificateMigrationRepository' => $baseDir . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationRepository.php',
     'ilCertificateMigrationUIElements' => $baseDir . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationUIElements.php',
+    'ilCertificateMigrationValidator' => $baseDir . '/../../Services/Certificate/classes/Migration/class.ilCertificateMigrationValidator.php',
     'ilCertificateNotObtainedException' => $baseDir . '/../../Services/Certificate/classes/Exception/class.ilCertificateNotObtainedException.php',
     'ilCertificateObjUserTrackingHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateObjUserTrackingHelper.php',
     'ilCertificateObjectHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateObjectHelper.php',
