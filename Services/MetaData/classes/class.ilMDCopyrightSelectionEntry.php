@@ -41,6 +41,17 @@ class ilMDCopyrightSelectionEntry
 	private $costs;
 	private $language;
 	private $copyright_and_other_restrictions;
+
+	/**
+	 * @var integer
+	 */
+	protected $outdated;
+
+	/**
+	 * order position in the MDCopyrightTableGUI
+	 * @var integer
+	 */
+	protected $order_position;
 	
 
 	/**
@@ -64,6 +75,7 @@ class ilMDCopyrightSelectionEntry
 	/**
 	 * get entries
 	 *
+	 * @return ilMDCopyrightSelectionEntry[]
 	 * @access public
 	 * @static
 	 *
@@ -74,13 +86,16 @@ class ilMDCopyrightSelectionEntry
 
 		$ilDB = $DIC['ilDB'];
 		
-		$query = "SELECT entry_id FROM il_md_cpr_selections ";
+		$query = "SELECT entry_id FROM il_md_cpr_selections ORDER BY is_default DESC, position ASC";
 		$res = $ilDB->query($query);
+
+		$entries = [];
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$entries[] = new ilMDCopyrightSelectionEntry($row->entry_id);
 		}
-		return $entries ? $entries : array();
+		return $entries;
+
 	}
 	
 	/**
@@ -132,6 +147,27 @@ class ilMDCopyrightSelectionEntry
 		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return $row->copyright ? $row->copyright : '';
 	}
+
+	/**
+	 * @param $copyright_text
+	 * @return int
+	 * @throws ilDatabaseException
+	 */
+	public static function lookupCopyrightByText($copyright_text)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$query = 'SELECT entry_id FROM il_md_cpr_selections '.
+			'WHERE copyright = '.$db->quote($copyright_text,'text');
+		$res = $db->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			return $row->entry_id;
+		}
+		return 0;
+	}
 	
 	/**
 	 * extract entry id
@@ -140,6 +176,7 @@ class ilMDCopyrightSelectionEntry
 	 * @static
 	 *
 	 * @param
+	 * @return integer
 	 */
 	public static function _extractEntryId($a_cp_string)
 	{
@@ -176,6 +213,56 @@ class ilMDCopyrightSelectionEntry
 	public function getEntryId()
 	{
 	 	return $this->entry_id;
+	}
+
+	/**
+	 * Get if the entry is default
+	 * No setter for this.
+	 */
+	public function getIsDefault()
+	{
+		$query = "SELECT is_default FROM il_md_cpr_selections ".
+			"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer');
+
+		$res = $this->db->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
+		
+		return $row['is_default'];
+	}
+
+	/**
+	 * Set copyright element as outdated and not usable anymore
+	 * @param $a_value
+	 */
+	public function setOutdated($a_value)
+	{
+		$this->outdated = (int)$a_value;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOutdated()
+	{
+		return $this->outdated;
+	}
+
+	/**
+	 * Get default
+	 */
+	public static function getDefault()
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$query = "SELECT entry_id FROM il_md_cpr_selections ".
+			"WHERE is_default = ".$db->quote(1 ,'integer');
+
+		$res = $db->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
+
+		return $row['entry_id'];
 	}
 	
 	/**
@@ -313,7 +400,34 @@ class ilMDCopyrightSelectionEntry
 	 	// Fixed
 	 	return true;
 	}
-	
+
+	/**
+	 * Set the order position in the table of copyrights.
+	 * @param $a_position integer
+	 */
+	public function setOrderPosition($a_position)
+	{
+		$this->order_position = (int)$a_position;
+	}
+
+	/**
+	 * Get the order position in the table of copyrights.
+	 * @return int
+	 */
+	public function getOrderPosition()
+	{
+		return $this->order_position;
+	}
+
+	protected function getNextOrderPosition()
+	{
+		$query = "SELECT count(entry_id) total FROM il_md_cpr_selections";
+		$res = $this->db->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+
+		return $row['total'] + 1;
+	}
+
 	/**
 	 * Add entry
 	 *
@@ -334,7 +448,8 @@ class ilMDCopyrightSelectionEntry
 	 		'copyright'			=> array('clob',$this->getCopyright()),
 	 		'language'			=> array('text',$this->getLanguage()),
 	 		'costs'				=> array('integer',$this->getCosts()),
-	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions())
+	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions()),
+			'position'			=> array('integer', $this->getNextOrderPosition())
 	 	));
 	 	$this->entry_id = $next_id;
 		return true;
@@ -358,7 +473,9 @@ class ilMDCopyrightSelectionEntry
 	 		'copyright'			=> array('clob',$this->getCopyright()),
 	 		'language'			=> array('text',$this->getLanguage()),
 	 		'costs'				=> array('integer',$this->getCosts()),
-	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions())
+	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions()),
+			'outdated'			=> array('integer',$this->getOutdated()),
+			'position'			=> array('integer',$this->getOrderPosition())
 		 	),array(
 		 		'entry_id'			=> array('integer',$this->getEntryId())
 	 	));
@@ -413,7 +530,9 @@ class ilMDCopyrightSelectionEntry
 	 	$ilDB = $DIC['ilDB'];
 	 	
 	 	$query = "SELECT * FROM il_md_cpr_selections ".
-	 		"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer')." ";
+	 		"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer')." ".
+			"ORDER BY is_default DESC, position ASC ";
+
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
@@ -422,6 +541,8 @@ class ilMDCopyrightSelectionEntry
 	 		$this->setCopyright($row->copyright);
 	 		$this->setLanguage($row->language);
 	 		$this->setCosts($row->costs);
+	 		$this->setOutdated($row->outdated);
+	 		$this->setOrderPosition($row->position);
 	 		// Fixed
 	 		$this->setCopyrightAndOtherRestrictions(true);
 	 	}
@@ -429,11 +550,19 @@ class ilMDCopyrightSelectionEntry
 	 	$query = "SELECT count(meta_rights_id) used FROM il_meta_rights ".
 	 		"WHERE description = ".$ilDB->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->getEntryId(),'text');
 		
-		$this->logger->debug($query);
-		
 	 	$res = $this->db->query($query);
 	 	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	 	$this->usage = $row->used;
+	}
+
+	/**
+	 * Create identifier for entry id
+	 * @param $a_entry_id
+	 * @return string
+	 */
+	public static function createIdentifier($a_entry_id)
+	{
+		return 'il_copyright_entry__' . IL_INST_ID.'__'.$a_entry_id;
 	}
 }
 ?>

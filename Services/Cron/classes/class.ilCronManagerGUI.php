@@ -10,7 +10,7 @@ include_once "Services/Cron/classes/class.ilCronManager.php";
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
  *
- * @ilCtrl_Calls ilCronManagerGUI:
+ * @ilCtrl_Calls ilCronManagerGUI: ilPropertyFormGUI
  * @ingroup ServicesCron
  */
 class ilCronManagerGUI 
@@ -51,7 +51,16 @@ class ilCronManagerGUI
 	}
 
 	public function executeCommand()
-	{	
+	{
+		$class = $this->ctrl->getNextClass($this);
+
+		switch($class)
+		{
+			case "ilpropertyformgui":
+				$form = $this->initEditForm();
+				$this->ctrl->forwardCommand($form);
+				break;
+		}
 		$cmd = $this->ctrl->getCmd("render");
 		$this->$cmd();
 
@@ -234,11 +243,11 @@ class ilCronManagerGUI
 		{
 			$this->ctrl->redirect($this, "render");
 		}
-		
+
 		$form = $this->initEditForm($id);
 		if($form->checkInput())
-		{			
-			$job = ilCronManager::getJobInstanceById($id);					
+		{
+			$job = ilCronManager::getJobInstanceById($id);
 			if($job)
 			{
 				$valid = true;

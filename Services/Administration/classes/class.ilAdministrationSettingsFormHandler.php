@@ -25,6 +25,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_WSP = 12;
 	const FORM_TAGGING = 13;
 	const FORM_CERTIFICATE = 14;
+	const FORM_META_COPYRIGHT = 15;
 
 
 	const SETTINGS_USER                 = "usrf";

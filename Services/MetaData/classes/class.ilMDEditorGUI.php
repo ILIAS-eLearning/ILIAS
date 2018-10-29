@@ -1,6 +1,9 @@
 <?php
-
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+// @FIXME
+define('IL_TLT_MAX_HOURS',99);
+
 
 /**
 * Meta Data class (element general)
@@ -11,12 +14,6 @@
 * 
 * @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
 */
-include_once 'Services/MetaData/classes/class.ilMD.php';
-include_once 'Services/MetaData/classes/class.ilMDUtilSelect.php';
-
-define('IL_TLT_MAX_HOURS',99);
-
-
 class ilMDEditorGUI
 {
 	var $ctrl = null;
@@ -34,24 +31,20 @@ class ilMDEditorGUI
 	{
 		global $DIC;
 
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC['tpl'];
+		$this->tabs_gui = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
 
 		$this->md_obj = new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
-		$this->ctrl = $ilCtrl;
 
-		$this->lng = $lng;
 		$this->lng->loadLanguageModule('meta');
 		
 		include_once('Services/MetaData/classes/class.ilMDSettings.php');
 		$this->md_settings = ilMDSettings::_getInstance();
-
-		$this->tpl = $tpl;
-
-		$this->tabs_gui = $ilTabs;
-
 	}
 
 	function executeCommand()
@@ -102,9 +95,9 @@ class ilMDEditorGUI
 
 		return true;
 	}
-	
-	/*
-	 * list quick edit screen
+
+	/**
+	 * @deprecated with release 5_3
 	 */
 	function listQuickEdit_scorm()
 	{
@@ -332,33 +325,9 @@ class ilMDEditorGUI
 		}
 
 		// Rights...
-		// Copyright 
-		
-		include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php');
-		
-		$copyright_gui = new ilMDCopyrightSelectionGUI(ilMDCopyrightSelectionGUI::MODE_QUICKEDIT,
-			$this->md_obj->getRBACId(),
-			$this->md_obj->getObjId());
-		$copyright_gui->fillTemplate();
-		
-		
-		/*
-		if(is_object($this->md_section = $this->md_obj->getRights()))
-		{
-			$this->tpl->setVariable("COPYRIGHT_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
-		}
-		$this->tpl->setVariable("TXT_COPYRIGHT",$this->lng->txt('meta_copyright'));
-		*/
+		// Copyright
+		// smeyer 2018-09-14 not supported
 
-		// Educational...
-		// Typical learning time
-		// creates entries like 2H59M12S. If entry is not parsable => warning.
-
-		#if(is_object($this->md_section = $this->md_obj->getEducational()))
-		#{
-		#	$this->tpl->setVariable("VAL_TYPICAL_LEARN_TIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
-		#}
-		
 		$tlt = array(0,0,0,0,0);
 		$valid = true;
 		if(is_object($this->md_section = $this->md_obj->getEducational()))
@@ -405,7 +374,7 @@ class ilMDEditorGUI
 		global $DIC;
 
 		$tpl = $DIC['tpl'];
-		
+
 		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
 		{
 			$this->md_section = $this->md_obj->addGeneral();
@@ -413,14 +382,27 @@ class ilMDEditorGUI
 		}
 		
 		$this->__setTabs('meta_quickedit');
-		$form = $this->initQuickEditForm();
-		$tpl->setContent($form->getHTML());
+
+
+		$interruptive_modal = $this->getChangeCopyrightModal();
+		$interruptive_signal = '';
+		if($interruptive_modal != null)
+		{
+			$interruptive_signal = $interruptive_modal->getShowSignal();
+		}
+
+		$form = $this->initQuickEditForm($interruptive_signal);
+
+		$tpl->setContent(
+			$this->ui_renderer->render($interruptive_modal).
+			$form->getHTML()
+		);
 	}
 
 	/**
 	 * Init quick edit form.
 	 */
-	public function initQuickEditForm()
+	public function initQuickEditForm($a_signal_id)
 	{
 		global $DIC;
 
@@ -430,6 +412,8 @@ class ilMDEditorGUI
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setId('ilquickeditform');
+		$this->form->setShowTopButtons(false);
 	
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "gen_title");
@@ -546,16 +530,9 @@ class ilMDEditorGUI
 		$this->form->addItem($ta);
 
 		// copyright
-		include_once("./Services/MetaData/classes/class.ilCopyrightInputGUI.php"); 
-		$cp = new ilCopyrightInputGUI($this->lng->txt("meta_copyright"), "copyright");
-		$cp->setCols(50);
-		$cp->setRows(3);
-		$desc = ilMDRights::_lookupDescription($this->md_obj->getRBACId(),
-			$this->md_obj->getObjId());
-		$val["ta"] = $desc;
-		$cp->setValue($val);
-		$this->form->addItem($cp);
-		
+		$this->listQuickEditCopyright($this->form);
+
+
 		// typical learning time
 		include_once("./Services/MetaData/classes/class.ilTypicalLearningTimeInputGUI.php");
 		$tlt = new ilTypicalLearningTimeInputGUI($this->lng->txt("meta_typical_learning_time"), "tlt");
@@ -565,24 +542,121 @@ class ilMDEditorGUI
 			$tlt->setValueByLOMDuration($edu->getTypicalLearningTime());
 		}
 		$this->form->addItem($tlt);
-		
-		// #18563
-		/*
-		if(!$_REQUEST["wsp_id"])
-		{
-			// (parent) container taxonomies?
-			include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
-			$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
-			$tax_gui->addToMDForm($this->form);
-		}*/
-		
-		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
+
+		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"),'button_ilquickeditform');
 		$this->form->setTitle($this->lng->txt("meta_quickedit"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	 
+
+
+		if(ilMDSettings::_getInstance()->isCopyrightSelectionActive())
+		{
+			$DIC->ui()->mainTemplate()->addJavaScript(
+				'Services/MetaData/js/ilMetaCopyrightListener.js'
+			);
+			$DIC->ui()->mainTemplate()->addOnLoadCode(
+				'il.MetaDataCopyrightListener.init("'.
+				$a_signal_id.'","copyright","form_ilquickeditform","button_ilquickeditform");');
+		}
+
+
+
 		return $this->form;
 	}
-	
+
+	/**
+	 * Show copyright selecetion
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function listQuickEditCopyright(ilPropertyFormGUI $form)
+	{
+		$md_settings = ilMDSettings::_getInstance();
+		$oer_settings = ilOerHarvesterSettings::getInstance();
+
+		$cp_entries = ilMDCopyrightSelectionEntry::_getEntries();
+		$description = ilMDRights::_lookupDescription(
+			$this->md_obj->getRBACId(),
+			$this->md_obj->getObjId()
+		);
+
+		//current id can be 0 for non predefined copyright.
+		//Todo add new DB column with copyright id instead of parse descriptions to get entry ID.
+		if($description) {
+			$current_id = ilMDCopyrightSelectionEntry::_extractEntryId($description);
+		} else {
+			$current_id = ilMDCopyrightSelectionEntry::getDefault();
+		}
+
+		if(
+			!$this->md_settings->isCopyrightSelectionActive() ||
+			!count($cp_entries)
+		)
+		{
+			return true;
+		}
+
+		$copyright = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright'),'copyright');
+		$copyright->setValue($current_id);
+
+
+		foreach($cp_entries as $copyright_entry)
+		{
+			$radio_entry = new ilRadioOption(
+				$copyright_entry->getTitle(),
+				$copyright_entry->getEntryId(),
+				$copyright_entry->getDescription()
+			);
+
+			if($copyright_entry->getOutdated())
+			{
+				$radio_entry->setTitle("(".$this->lng->txt('meta_copyright_outdated').") ".$radio_entry->getTitle());
+				$radio_entry->setDisabled(true);
+			}
+
+			if(
+				$oer_settings->supportsHarvesting($this->md_obj->getObjType()) &&
+				$oer_settings->isActiveCopyrightTemplate($copyright_entry->getEntryId())
+			)
+			{
+				// block harvesting
+				$blocked = new ilCheckboxInputGUI(
+					$this->lng->txt('meta_oer_blocked'),
+					'copyright_oer_blocked_'.$copyright_entry->getEntryId()
+				);
+				$blocked->setInfo($this->lng->txt('meta_oer_blocked_info'));
+				$blocked->setValue(1);
+				$status = new ilOerHarvesterObjectStatus($this->md_obj->getRBACId());
+				if($status->isBlocked())
+				{
+					$blocked->setChecked(true);
+				}
+				$radio_entry->addSubItem($blocked);
+			}
+
+
+			$copyright->addOption($radio_entry);
+		}
+
+		// add own selection
+		$own_selection = new ilRadioOption(
+			$this->lng->txt('meta_cp_own'),
+			'copyright_text'
+		);
+		$own_selection->setValue(0);
+
+		// copyright text
+		$own_copyright = new ilTextAreaInputGUI(
+			'',
+			'copyright_text'
+		);
+		if($current_id == 0)
+		{
+			$own_copyright->setValue($description);
+		}
+		$own_selection->addSubItem($own_copyright);
+		$copyright->addOption($own_selection);
+		$form->addItem($copyright);
+	}
+
 	/**
 	 * Keyword list for autocomplete
 	 *
@@ -621,8 +695,9 @@ class ilMDEditorGUI
 	*/
 	function updateQuickEdit()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
-		
+		ilLoggerFactory::getLogger('root')->dump($_REQUEST);
+
+
 		if(!trim($_POST['gen_title']))
 		{
 			if($this->md_obj->getObjType() != 'sess')
@@ -679,25 +754,36 @@ class ilMDEditorGUI
 		$this->callListeners('General');
 		
 		// Copyright
-		//if($_POST['copyright_id'] or $_POST['rights_copyright'])
-		if($_POST['copyright']['sel'] || $_POST['copyright']['ta'])
+		if($_POST['copyright'] || $_POST['copyright_text'])
 		{
 			if(!is_object($this->md_section = $this->md_obj->getRights()))
 			{
 				$this->md_section = $this->md_obj->addRights();
 				$this->md_section->save();
 			}
-			if($_POST['copyright']['sel'])
+			if($_POST['copyright'] > 0)
 			{
 				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
-				$this->md_section->setDescription('il_copyright_entry__'.IL_INST_ID.'__'.(int) $_POST['copyright']['sel']);
+				$this->md_section->setDescription('il_copyright_entry__'.IL_INST_ID.'__'.(int) $_POST['copyright']);
 			}
 			else
 			{
 				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
-				$this->md_section->setDescription(ilUtil::stripSlashes($_POST['copyright']['ta']));
+				$this->md_section->setDescription(ilUtil::stripSlashes($_POST['copyright_text']));
 			}
 			$this->md_section->update();
+
+			// update oer status
+
+			$oer_settings = ilOerHarvesterSettings::getInstance();
+			if($oer_settings->supportsHarvesting($this->md_obj->getObjType()))
+			{
+				$chosen_copyright = (int) $_POST['copyright'];
+
+				$status = new ilOerHarvesterObjectStatus($this->md_obj->getRBACId());
+				$status->setBlocked((int) $_POST['copyright_oer_blocked_' . $chosen_copyright] ? true : false);
+				$status->save();
+			}
 		}
 		else
 		{
@@ -3516,7 +3602,28 @@ class ilMDEditorGUI
 		}
 		return false;
 	}
-			
 
+	/**
+	 * Get cnange copyright modal
+	 *
+	 * @return \ILIAS\UI\Component\Modal\Interruptive
+	 */
+	protected function getChangeCopyrightModal()
+	{
+		$md_settings = ilMDSettings::_getInstance();
+		if(!$md_settings->isCopyrightSelectionActive())
+		{
+			return null;
+		}
+
+		$link = $this->ctrl->getLinkTarget($this,'updateQuickEdit');
+		return $this->ui_factory
+			->modal()
+			->interruptive(
+				$this->lng->txt("meta_copyright_change_warning_title"),
+				$this->lng->txt("meta_copyright_change_info"),
+				$link
+			);
+	}
 }
 ?>
