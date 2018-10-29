@@ -21,16 +21,30 @@ class ilUIServiceDependencies
 	protected $session;
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	 * Constructor
 	 * @param ilUIFilterRequestAdapter $request
 	 * @param ilUIFilterServiceSessionGateway|null $session
 	 */
-	public function __construct(ilUIFilterRequestAdapter $request, ilUIFilterServiceSessionGateway $session = null)
+	public function __construct(\ILIAS\DI\UIServices $ui, ilUIFilterRequestAdapter $request, ilUIFilterServiceSessionGateway $session = null)
 	{
+		$this->ui = $ui;
 		$this->request_adapter = $request;
 		$this->session = (is_null($session))
 			? new ilUIFilterServiceSessionGateway()
 			: $session;
+	}
+
+	/**
+	 * @return \ILIAS\DI\UIServices
+	 */
+	public function ui()
+	{
+		return $this->ui;
 	}
 
 	/**
