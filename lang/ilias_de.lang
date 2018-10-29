@@ -14,22 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-crs#:#crs_shorten_breadcrumb#:#Breadcrumb
-crs#:#crs_sys_default#:#System Default
-crs#:#crs_breadcrumb_crs_only#:#Start with Course
-crs#:#crs_breadcrumb_full_path#:#Full Path
-rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
-rep#:#rep_default#:#Default
-rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
-rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
-obj#:#obj_show_title_and_icon#:#Title und Icon anzeigen
-obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
-cont#:#cont_list_presentation#:#Anzeige der Objekte
-cont#:#cont_item_list#:#Liste
-cont#:#cont_tile_view#:#Kacheln
-fold#:#fold_presentation#:#Präsentation
-obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachebild wird genutzt, wenn der übergeordnete Container (Kurs, Gruppe, Ordner) die Kachelansicht aktiviert.
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 commocommon#:#lti_outcome#:#Übermittlung LTI-Lernfortschritt
@@ -14804,3 +14788,14 @@ lso#:#completed_steps#:#Bestandene Schritte
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#members_gallery#:#Mitglieder-Gallerie
 lso#:#lso_show_members_info#:#Mitglieder-Gallerie für Benutzer sichtbar
+crs#:#crs_shorten_breadcrumb#:#Breadcrumb
+crs#:#crs_sys_default#:#System Default
+crs#:#crs_breadcrumb_crs_only#:#Start with Course
+crs#:#crs_breadcrumb_full_path#:#Full Path
+rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
+rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
+rep#:#rep_tree_limit_number#:#Maximale Anzahl
+rep#:#rep_tree_limit_number_info#:#Maximale Anzahl an Kindelementen, die initial für einen Knoten angezeigt wird. Falls mehr Kindelemente existieren, wird ein Sucheingabefeld angezeigt, mit dem die Kindelemente nach Titeln gefiltert werden können.
+cont#:#cont_show_more#:#Mehr anzeigen
+cont#:#cont_block_limit#:#Einträge per Block begrenzen
+cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".

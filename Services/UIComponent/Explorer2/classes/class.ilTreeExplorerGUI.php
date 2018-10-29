@@ -223,7 +223,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getChildsOfNode($a_parent_node_id)
 	{
-		if ($this->preloaded)
+		if ($this->preloaded && $this->getSearchTerm() == "")
 		{
 			if (is_array($this->childs[$a_parent_node_id]))
 			{
@@ -249,16 +249,42 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 			$bl_childs = array();
 			foreach($childs as $k => $c)
 			{
-				if (!in_array($c["type"], $bl))
+				if (!in_array($c["type"], $bl) && $this->matches($c))
 				{
 					$bl_childs[$k] = $c;
 				}
 			}
 			return $bl_childs; 
 		}
+
+		$final_childs = [];
+		foreach($childs as $k => $c)
+		{
+			if ($this->matches($c))
+			{
+				$final_childs[$k] = $c;
+			}
+		}
 		
-		return $childs;
+		return $final_childs;
 	}
+
+	/**
+	 * Does a node match a search term (or is search term empty)
+	 *
+	 * @param array
+	 * @return bool
+	 */
+	protected function matches($node): bool
+	{
+		if ($this->getSearchTerm() == "" ||
+			is_int(stripos($this->getNodeContent($node), $this->getSearchTerm())))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	
 	/**
 	 * Get id for node
