@@ -199,11 +199,11 @@ class ilStartUpGUI
 		self::initStartUpTemplate("tpl.login.html");
 		
 		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
 		$page_editor_html = $this->showLoginInformation($page_editor_html);
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
-		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
 		$page_editor_html = $this->showSamlLoginForm($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
@@ -2409,7 +2409,7 @@ class ilStartUpGUI
 				$DIC->ui()->mainTemplate(),
 				$page_editor_html,
 				$tpl->get(),
-				['list-openidconnect-login-form'],
+				'[list-openid-connect-login]',
 				'OPEN_ID_CONNECT_LOGIN_FORM'
 			);
 
