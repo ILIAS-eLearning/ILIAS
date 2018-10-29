@@ -30,7 +30,7 @@ class ilCertificateMigrationValidator
 		$showMigrationBox = false;
 		if (null !== $userCreationDate) {
 			$userCreatedTimestamp = strtotime($userCreationDate);
-			$introducedTimestamp = $this->certificateSettings->get('persisting_cers_introduced_ts');
+			$introducedTimestamp = $this->certificateSettings->get('persisting_cers_introduced_ts', 0);
 
 			if ($userCreatedTimestamp < $introducedTimestamp) {
 				$showMigrationBox = true;
