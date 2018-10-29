@@ -407,8 +407,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		// activation
 		if($this->object->getActivationUnlimitedStatus())
 		{
-			$info->addProperty($this->lng->txt("rep_activation_access"),
-				$this->lng->txt('crs_visibility_limitless'));
+			$info->addProperty(
+				$this->lng->txt("rep_activation_access"),
+				$this->lng->txt('crs_visibility_limitless')
+			);
 		}
 		else
 		{
@@ -883,14 +885,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$period = $form->getItemByPostVar("access_period");
 		if($period->getStart() && $period->getEnd())
 		{
-			$this->object->setActivationType(IL_CRS_ACTIVATION_LIMITED);
 			$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
 			$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
 			$this->object->setActivationVisibility((int) $form->getInput('activation_visibility'));
 		}
 		else
 		{
-			$this->object->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 			$this->object->setActivationStart(null);
 			$this->object->setActivationEnd(null);			
 		}
@@ -1170,11 +1170,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$online->setChecked(!$this->object->getOfflineStatus());
 		$online->setInfo($this->lng->txt('crs_activation_online_info'));
 		$form->addItem($online);				
-		
-		// $act_type = new ilCheckboxInputGUI($this->lng->txt('crs_visibility_until'), 'activation_type');
-		// $act_type->setInfo($this->lng->txt('crs_visibility_until_info'));
-		// $act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
-		// $form->addItem($act_type);
 		
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");

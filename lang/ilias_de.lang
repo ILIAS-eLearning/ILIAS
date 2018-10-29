@@ -376,6 +376,7 @@ assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
 assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#for#:#für
+assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s
 assessment#:#tst_pass_waiting_enabled#:#Wartezeit zwischen Durchläufen erzwingen
 assessment#:#tst_pass_waiting_info#:#Mit dieser Option können erneute Durchläufe erst gestartet werden, wenn die definierte Zeitspanne seit dem vorherigen Durchlauf abgelaufen ist.
@@ -5489,7 +5490,7 @@ crs#:#event_date_time#:#Datum und Zeit
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Sitzung
 crs#:#event_digit#:#Ziffer
-crs#:#event_edit_members#:#Sitzungsteilnehmer verwalten
+crs#:#event_edit_members#:#Teilnehmer
 crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
 crs#:#event_file#:#Datei
 crs#:#event_files#:#Zugeordnete Dateien
@@ -9633,7 +9634,8 @@ help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Online-Hilfe öffnen
-help#:#help_toggle_tooltips#:#Hilfe-Tooltips an-/ausschalten
+help#:#help_toggle_tooltips#:#Hilfe-Tooltips
+help#:#help_toggle_tooltips_info#:#Hilfe-Tooltips zu Menüs und Reitern anzeigen.
 rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsverwaltung bearbeiten
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
@@ -14437,6 +14439,73 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
+mme#:#main#:#Hauptmenu
+mme#:#subtab_topitems#:#Haupteinträge
+mme#:#subtab_subitems#:#Einträge
+mme#:#tab_back#:#Zurück
+mme#:#topitem_add#:#Haupteintrag hinzufügen
+mme#:#topitem_edit#:#Bearbeiten
+mme#:#topitem_delete#:#Löschen
+mme#:#topitem_translate#:#Übersetzen
+mme#:#topitem_position#:#Position
+mme#:#topitem_title#:#Title
+mme#:#topitem_active#:#Aktiv
+mme#:#topitem_subentries#:#Einträge
+mme#:#topitem_provider#:#Provider
+mme#:#topitem_actions#:#Aktionen
+mme#:#topitem_type_parent#:#Haupteintrag
+mme#:#topitem_type_link#:#Link
+mme#:#topitem_title_default#:#Titel (Standard-Sprache)
+mme#:#topitem_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#topitem_active_byline#:#Aktiviere diesen Haupteintrag.
+mme#:#topitem_type#:#Typ
+mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enhalten oder direkt als Link zu einer Seite angelegt werden.
+mme#:#subitem_add#:#Eintrag hinzufügen
+mme#:#subitem_edit#:#Bearbeiten
+mme#:#subitem_delete#:#Löschen
+mme#:#subitem_translate#:#Übersetzen
+mme#:#sub_parent#:#Haupteintrag
+mme#:#sub_position#:#Position
+mme#:#sub_title#:#Titel
+mme#:#sub_type#:#Typ
+mme#:#sub_active#:#Aktiv
+mme#:#sub_status#:#Status
+mme#:#sub_provider#:#Provider
+mme#:#sub_actions#:#Aktionen
+mme#:#button_save#:#Speichern
+mme#:#table_show_inactive#:#Inaktive anzeigen
+mme#:#sub_title_default#:#Titel (Standard-Sprache)
+mme#:#sub_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#sub_type_byline#:#Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig.
+mme#:#sub_active_byline#:#Aktiviere diesen Eintrag.
+mme#:#add_languages#:#Sprache hinzufügen
+mme#:#mm_translation_lang#:#Sprache
+mme#:#mm_translation_trans#:#Übersetzung
+mme#:#additional_langs#:#ZusätzlicheSprachen
+mme#:#msg_languages_added#:#Sprachen hinzugefügt
+mme#:#msg_translations_saved#:#Übersetzungen gespeichert
+mme#:#topitem_css_id#:#CSS-ID
+common#:#deleted_item#:#Keine Zuordnung
+mme#:#component_not_active#:#Komponente ist nicht aktiviert.
+mme#:#item_must_be_always_active#:#Eintrag muss aktiv sein.
+mme#:#msg_subitem_deleted#:#Eintrag gelöscht.
+mme#:#msg_topitem_deleted#:#Eintrag gelöscht.
+mme#:#subitem_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
+mme#:#topitem_confirm_delete#:#Möchten Sie den folgenden Eintrag wirklich löschen?
+mme#:#field_external#:#Externer Link
+mme#:#field_external_info#:#Link wird in einem neuen Fenster geöffnet.
+mme#:#field_url#:#URL
+mme#:#field_url_info#:#Link zu der gewünschten Website, beginnend mit http(s)://
+mme#:#field_ref_id#:#ILIAS Referenz-ID
+mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin, Sie finden die Referenz-ID in der URL eines Onjektes (...?ref_id=123)
+common#:#obj_mme#:#Hauptmenu
+mme#:#type_top_parent_item#:#Container
+mme#:#type_top_link_item#:#Link
+mme#:#type_separator#:#Trenner
+mme#:#type_link#:#Link
+mme#:#type_link_list#:#Link Liste
+mme#:#type_complex#:#Komplex
+mme#:#type_repository_link#:#Magazin-Link
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
@@ -14596,3 +14665,27 @@ exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
 exc#:#exc_start_assignment#:#Übungseinheit starten
 exc#:#exc_needs_fixed_deadline#:#Diese Funktion benötigt ein festes Abgabedatum.
 exc#:#exc_tbl_calculated_deadline#:#Errechneter Abgabetermin
+rbac#:#sess_manage_members#:#Teilnehmer einer Sitzung verwalten
+rbac#:#sess_manage_materials#:#Materialzuordnungen verwalten
+rbac#:#manage_materials#:#Materialien verwalten
+meta#:#md_adv_col_presentation_ordering#:#Position
+sess#:#sess_show_members#:#Teilnehmergalerie
+sess#:#sess_show_participants_info#:#Alle Teilnehmer können im Reiter "Teilnehmer" die Teilnehmergalerie einsehen.
+sess#:#sess_member_administration#:#Teilnehmerverwaltung
+sess#:#sess_members_gallery#:#Teilnehmergalerie
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Teilnehmer
+sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten einer Sitzung
+sess#:#mail_sess_roles#:#Verschicke Mail an folgende Rollen der Sitzung
+sess#:#send_mail_participants#:#Alle Teilnehmer der Sitzung
+sess#:#il_sess_participant#:#Sitzungsteilnehmer
+sess#:#sess_mail_type#:#Mail an Teilnehmer
+sess#:#sess_mail_admins_only#:#Nur für Administratoren
+sess#:#sess_mail_admins_only_info#:#Nur Administratoren können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
+sess#:#sess_mail_all#:#Für alle Teilnehmer
+sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
+sess#:#sess_contact#:#Kontakt
+sess#:#sess_mem_contacts#:#Tutorielle Betreuung
+dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
+sess#:#sess_members#:#Teilnehmer
+grp#:#grp_contact#:#Kontakt
+grp#:#grp_mem_contacts#:#Tutorielle Betreuung

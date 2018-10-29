@@ -111,4 +111,19 @@ class MainMenuItemFactory {
 	public function linkList(IdentificationInterface $identification): LinkList {
 		return new LinkList($identification);
 	}
+
+
+	/**
+	 * @param string                  $class_name
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return isItem
+	 */
+	public function custom(string $class_name, IdentificationInterface $identification): isItem {
+		if (!class_exists($class_name)) {
+			throw new \InvalidArgumentException("Unknown Classname '$class_name' provided. Cannot provide type.");
+		}
+
+		return new $class_name($identification);
+	}
 }

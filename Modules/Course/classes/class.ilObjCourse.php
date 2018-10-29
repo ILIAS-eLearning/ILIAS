@@ -245,24 +245,14 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->contact_responsibility = $a_value;
 	}
-	function getActivationType()
-	{
-		return (int) $this->activation_type;
-	}
-	function setActivationType($a_type)
-	{
-		// offline is separate property now
-		if($a_type == IL_CRS_ACTIVATION_OFFLINE)
-		{
-			$this->setOfflineStatus(true);
-			$a_type = IL_CRS_ACTIVATION_UNLIMITED;
-		}
-		
-		$this->activation_type = $a_type;
-	}
+	/**
+	 * get activation unlimited no start or no end
+	 *
+	 * @return bool
+	 */
 	function getActivationUnlimitedStatus()
 	{
-		return $this->activation_type == IL_CRS_ACTIVATION_UNLIMITED;		
+		return !$this->getActivationStart() || !$this->getActivationEnd();
 	} 	
 	function getActivationStart()
 	{
@@ -279,14 +269,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	function setActivationEnd($a_value)
 	{
 		$this->activation_end = $a_value;
-	}
-	function getOfflineStatus()
-	{
-		return (bool)$this->activation_offline;
-	}
-	function setOfflineStatus($a_value)
-	{
-		$this->activation_offline = (bool) $a_value;
 	}
 	function setActivationVisibility($a_value)
 	{
@@ -716,6 +698,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->message .= $a_message;
 	}
 
+	/**
+	 * Check if course is active and not offline
+	 * @return bool
+	 */
 	function isActivated()
 	{
 		if($this->getOfflineStatus())
@@ -1096,32 +1082,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->setMessage('');
 
-		#if(($this->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED) and
-		#   $this->getSubscriptionType() == )
-		#{
-		#	$this->appendMessage($this->lng->txt('crs_select_registration_type'));
-		#}
-
-		if(($this->getActivationType() == IL_CRS_ACTIVATION_LIMITED) and
-		   $this->getActivationEnd() < $this->getActivationStart())
-		{
-			$this->appendMessage($this->lng->txt("activation_times_not_valid"));
-		}
 		if(($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED) and
 		   $this->getSubscriptionStart() > $this->getSubscriptionEnd())
 		{
 			$this->appendMessage($this->lng->txt("subscription_times_not_valid"));
 		}
-		#if((!$this->getActivationUnlimitedStatus() and
-		#	!$this->getSubscriptionUnlimitedStatus()) and
-		#	($this->getSubscriptionStart() > $this->getActivationEnd() or
-		#	 $this->getSubscriptionStart() < $this->getActivationStart() or
-		#	 $this->getSubscriptionEnd() > $this->getActivationEnd() or
-		#	 $this->getSubscriptionEnd() <  $this->getActivationStart()))
-		#   
-		#{
-		#	$this->appendMessage($this->lng->txt("subscription_time_not_within_activation"));
-		#}
 		if($this->getSubscriptionType() == IL_CRS_SUBSCRIPTION_PASSWORD and !$this->getSubscriptionPassword())
 		{
 			$this->appendMessage($this->lng->txt("crs_password_required"));
@@ -1333,7 +1298,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			ilObjectActivation::getItem($this->ref_id);
 			
 			$item = new ilObjectActivation;			
-			if($this->getActivationUnlimitedStatus())
+			if(!$this->getActivationStart() || !$this->getActivationEnd())
 			{
 				$item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
 			}
@@ -1365,7 +1330,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setContactEmail($this->getContactEmail());
 		$new_obj->setContactConsultation($this->getContactConsultation());
 		$new_obj->setOfflineStatus($this->getOfflineStatus()); // #9914
-		$new_obj->setActivationType($this->getActivationType());
 		$new_obj->setActivationStart($this->getActivationStart());
 		$new_obj->setActivationEnd($this->getActivationEnd());
 		$new_obj->setActivationVisibility($this->getActivationVisibility());
@@ -1420,8 +1384,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
 
 		$query = "INSERT INTO crs_settings (obj_id,syllabus,contact_name,contact_responsibility,".
-			"contact_phone,contact_email,contact_consultation,activation_type,activation_start,".
-			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
+			"contact_phone,contact_email,contact_consultation,".
+			"sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,abo," .
 			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members,show_members_export, ".
 			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_notification, status_dt,mail_members_type) ".
@@ -1433,9 +1397,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getContactPhone() ,'text').", ".
 			$ilDB->quote($this->getContactEmail() ,'text').", ".
 			$ilDB->quote($this->getContactConsultation() ,'text').", ".
-			$ilDB->quote(0 ,'integer').", ".
-			$ilDB->quote($this->getActivationStart() ,'integer').", ".
-			$ilDB->quote($this->getActivationEnd() ,'integer').", ".
 			$ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED ,'integer').", ".
 			$ilDB->quote($this->getSubscriptionStart() ,'integer').", ".
 			$ilDB->quote($this->getSubscriptionEnd() ,'integer').", ".
@@ -1533,23 +1494,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			switch($activation["timing_type"])
 			{				
 				case ilObjectActivation::TIMINGS_ACTIVATION:
-					$this->setActivationType(IL_CRS_ACTIVATION_LIMITED);					
 					$this->setActivationStart($activation["timing_start"]);
 					$this->setActivationEnd($activation["timing_end"]);
 					$this->setActivationVisibility($activation["visible"]);
 					break;
-				
-				default:
-					$this->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
-					break;							
-			}
 		}
-		else
-		{
-			// #13176 - there should always be default
-			$this->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 		}
-		
 		return true;
 	}
 

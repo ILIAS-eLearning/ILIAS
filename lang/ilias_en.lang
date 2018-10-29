@@ -290,6 +290,7 @@ assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
+assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
 assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
 assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
@@ -4712,7 +4713,7 @@ crs#:#event_date_time#:#Date and Time
 crs#:#event_desc#:#Description
 crs#:#event_details_workflow#:#Details/Workflow
 crs#:#event_digit#:#Digit
-crs#:#event_edit_members#:#Edit Participants
+crs#:#event_edit_members#:#Participants
 crs#:#event_etime_smaller_stime#:#The finish time is earlier than the start time. Please enter a valid time span.
 crs#:#event_file#:#File
 crs#:#event_files#:#Assigned Files
@@ -9690,7 +9691,8 @@ help#:#help_all#:#All
 help#:#help_component#:#Component
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Open Online Help
-help#:#help_toggle_tooltips#:#Toggle Help Tooltips
+help#:#help_toggle_tooltips#:#Help Tooltips
+help#:#help_toggle_tooltips_info#:#Show Help Tooltips for menues and tabs.
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Copy Blog
 blog#:#blog_copy#:#Copy Blog
@@ -12421,7 +12423,7 @@ crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
 content#:#cont_download#:#Download
 exc#:#exc_assignment_type#:#Type of Submission
-trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Edit Participants'-tab.
+trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Participants'-tab.
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created. 
 glo#:#glo_copy#:#Copy Glossary
@@ -14440,6 +14442,73 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
+mme#:#main#:#Main Menu
+mme#:#subtab_topitems#:#Top Items
+mme#:#subtab_subitems#:#Items
+mme#:#tab_back#:#Back
+mme#:#topitem_add#:#Add Top Item
+mme#:#topitem_edit#:#Edit
+mme#:#topitem_delete#:#Delete
+mme#:#topitem_translate#:#Translate
+mme#:#topitem_position#:#Position
+mme#:#topitem_title#:#Title
+mme#:#topitem_active#:#Active
+mme#:#topitem_subentries#:#Items
+mme#:#topitem_provider#:#Provider
+mme#:#topitem_actions#:#Actions
+mme#:#topitem_type_parent#:#Top Item
+mme#:#topitem_type_link#:#Link
+mme#:#topitem_title_default#:#Title (Default Language)
+mme#:#topitem_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#topitem_active_byline#:#Activate this Top Item for all users.
+mme#:#topitem_type#:#Type
+mme#:#topitem_type_byline#:#Top Items can be links directly or can contain Items.
+mme#:#subitem_add#:#Add Item
+mme#:#subitem_edit#:#Edit
+mme#:#subitem_delete#:#Delete
+mme#:#subitem_translate#:#Translate
+mme#:#sub_parent#:#Top Item
+mme#:#sub_position#:#Position
+mme#:#sub_title#:#Title
+mme#:#sub_type#:#Type
+mme#:#sub_active#:#Active
+mme#:#sub_status#:#Status
+mme#:#sub_provider#:#Provider
+mme#:#sub_actions#:#Actions
+mme#:#button_save#:#Save
+mme#:#table_show_inactive#:#Show inactive
+mme#:#sub_title_default#:#Title (Default Language)
+mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#sub_type_byline#:#Specific type for the Item additional configuration may be needed.
+mme#:#sub_active_byline#:#Activate this Item for all users.
+mme#:#add_languages#:#Add Language
+mme#:#mm_translation_lang#:#Language
+mme#:#mm_translation_trans#:#Translation
+mme#:#additional_langs#:#Additional Languages
+mme#:#msg_languages_added#:#Added languages
+mme#:#msg_translations_saved#:#Translations saved
+mme#:#topitem_css_id#:#CSS-ID
+common#:#deleted_item#:#Deleted Item
+mme#:#component_not_active#:#Component is not activated.
+mme#:#item_must_be_always_active#:#Item must be active.
+mme#:#msg_subitem_deleted#:#Item deleted.
+mme#:#msg_topitem_deleted#:#Item deleted.
+mme#:#subitem_confirm_delete#:#Do you really want to delete the following Item?
+mme#:#topitem_confirm_delete#:#Do you really want to delete the following Item?
+mme#:#field_external#:#External Link
+mme#:#field_external_info#:#Link will be opnened in a separate Window.
+mme#:#field_url#:#URL
+mme#:#field_url_info#:#Link to the desired website, lead by http(s)://
+mme#:#field_ref_id#:#ILIAS Reference-ID
+mme#:#field_ref_id_info#:#The Reference-ID of the desired ILIAS-Object from the Repository, you find the Reference-ID in the URL of a object (...?ref_id=123)
+common#:#obj_mme#:#Main Menu
+mme#:#type_top_parent_item#:#Container
+mme#:#type_top_link_item#:#Link
+mme#:#type_separator#:#Separator
+mme#:#type_link#:#Link
+mme#:#type_link_list#:#Link List
+mme#:#type_complex#:#Complex
+mme#:#type_repository_link#:#Repository-Link
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Learning History
 pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
@@ -14621,3 +14690,27 @@ exc#:#exc_rem_time_after_start#:#Remaining Time after Start
 exc#:#exc_start_assignment#:#Start Assignment
 exc#:#exc_needs_fixed_deadline#:#This feature only works with a fixed deadline.
 exc#:#exc_tbl_calculated_deadline#:#Calculated Deadline
+rbac#:#sess_manage_members#:#Manage Participants of a Session
+rbac#:#manage_materials#:#Manage Materials
+rbac#:#sess_manage_materials#:#Manage Session Materials
+meta#:#md_adv_col_presentation_ordering#:#Position
+sess#:#sess_show_members#:#Show Participants
+sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery
+sess#:#sess_member_administration#:#Edit Participants
+sess#:#sess_members_gallery#:#Session Gallery
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail to Participants
+sess#:#sess_mail_context_participant_info#:#For the participant e-mails on the participants and learning progress screens of a session
+sess#:#mail_sess_roles#:#Send Mail to Session Roles
+sess#:#send_mail_participants#:#All Participants of Session
+sess#:#il_sess_participant#:#Session Participants
+sess#:#sess_mail_type#:#Mail to Participants
+sess#:#sess_mail_admins_only#:#For Administrators only
+sess#:#sess_mail_admins_only_info#:#Only administrators can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.
+sess#:#sess_mail_all#:#For all Participants
+sess#:#sess_mail_all_info#:#All participants can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.
+sess#:#sess_contact#:#Contact
+sess#:#sess_mem_contacts#:#Tutorial Support
+dateplaner#:#cal_calendar_subscription_modal_title#:#Calendar Subscription
+sess#:#sess_members#:#Participants
+grp#:#grp_contact#:#Contact
+grp#:#grp_mem_contacts#:#Tutorial Support

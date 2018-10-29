@@ -24115,8 +24115,450 @@ if(!$ilDB->tableColumnExists('exc_idl','starting_ts'))
 }
 ?>
 <#5367>
+// BEGIN MME
+$fields = array(
+	'identification' => array(
+		'type' => 'text',
+		'length' => '64',
+		
+	),
+	'active' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	),
+	'position' => array(
+		'type' => 'integer',
+		'length' => '4',
+		
+	),
+	'parent_identification' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	)
+);
+if (! $ilDB->tableExists('il_mm_items')) {
+	$ilDB->createTable('il_mm_items', $fields);
+	$ilDB->addPrimaryKey('il_mm_items', array( 'identification' ));
+	
+}
+?>
+<#5368>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'identification' => array(
+		'type' => 'text',
+		'length' => '256',
+	),
+	'translation' => array(
+		'type' => 'text',
+		'length' => '4000',
+		
+	),
+	'language_key' => array(
+		'type' => 'text',
+		'length' => '8',
+		
+	),
+);
+if (! $ilDB->tableExists('il_mm_translation')) {
+	$ilDB->createTable('il_mm_translation', $fields);
+	$ilDB->addPrimaryKey('il_mm_translation', array( 'id' ));
+	
+}
+?>
+<#5369>
+<?php
+$fields = array(
+	'provider_class' => array(
+		'type'   => 'text',
+		'length' => '256',
+
+	),
+	'purpose'        => array(
+		'type'   => 'text',
+		'length' => '256',
+
+	),
+	'dynamic'        => array(
+		'type'   => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (!$ilDB->tableExists('il_gs_providers')) {
+	$ilDB->createTable('il_gs_providers', $fields);
+	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
+}
+?>
+<#5370>
+<?php
+$fields = array(
+	'identification' => array(
+		'type'   => 'text',
+		'length' => '64',
+
+	),
+	'provider_class' => array(
+		'type'   => 'text',
+		'length' => '256',
+
+	),
+	'active'         => array(
+		'type'   => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (!$ilDB->tableExists('il_gs_identifications')) {
+	$ilDB->createTable('il_gs_identifications', $fields);
+	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
+}
+?>
+<#5371>
+<?php
+$fields = array(
+	'identifier' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'type' => array(
+		'type' => 'text',
+		'length' => '128',
+		
+	),
+	'action' => array(
+		'type' => 'text',
+		'length' => '4000',
+		
+	),
+	'top_item' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	),
+	'default_title' => array(
+		'type' => 'text',
+		'length' => '4000',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_mm_custom_items')) {
+	$ilDB->createTable('il_mm_custom_items', $fields);
+	$ilDB->addPrimaryKey('il_mm_custom_items', array( 'identifier' ));
+	
+}
+?>
+<#5372>
+<?php
+$fields = array(
+	'identification' => array(
+		'type' => 'text',
+		'length' => '256',
+		
+	),
+	'action' => array(
+		'type' => 'text',
+		'length' => '4000',
+		
+	),
+	'external' => array(
+		'type' => 'integer',
+		'length' => '1',
+		
+	)
+);
+if (! $ilDB->tableExists('il_mm_actions')) {
+	$ilDB->createTable('il_mm_actions', $fields);
+	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
+	
+}
+?>
+<#5373>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('mme', 'Main Menu');
+
+$ilCtrlStructureReader->getStructure();
+// END MME
+?>
+<#5374>
+<?php
+if(!$ilDB->tableColumnExists("il_object_def", "offline_handling"))
+{
+	$def = array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	);
+	$ilDB->addTableColumn("il_object_def", "offline_handling", $def);
+}
+?>
+<#5375>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5376>
+<?php
+if(!$ilDB->tableColumnExists('object_data', 'offline'))
+{
+	$def = [
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	];
+	$ilDB->addTableColumn('object_data', 'offline', $def);
+}
+?>
+
+<#5377>
+<?php
+
+// migration of course offline status
+$query = 'update object_data od set offline = '.
+	'(select if( activation_type = 0,1,0) from crs_settings '.
+	'where obj_id = od.obj_id) where type = '.$ilDB->quote('crs','text');
+$ilDB->manipulate($query);
+?>
+
+<#5378>
+<?php
+
+// migration of lm offline status
+$query = 'update object_data od set offline = '.
+	'(select if( is_online = '.$ilDB->quote('n','text').',1,0) from content_object '.
+	'where id = od.obj_id) where type = '.$ilDB->quote('lm','text');
+$ilDB->manipulate($query);
+
+?>
+<#5379>
+<?php
+
+// migration of lm offline status
+$query = 'update object_data od set offline = '.
+	'(select if( is_online = '.$ilDB->quote('n','text').',1,0) from file_based_lm '.
+	'where id = od.obj_id) where type = '.$ilDB->quote('htlm','text');
+$ilDB->manipulate($query);
+
+?>
+<#5380>
+<?php
+
+// migration of svy offline status
+$query = 'update object_data od set offline = '.
+	'(select if( status = 0,1,0) from svy_svy '.
+	'where obj_fi = od.obj_id) where type = '.$ilDB->quote('svy','text');
+$ilDB->manipulate($query);
+?>
+<#5381>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#5382>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+
+if($type_id && $tgt_ops_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+?>
+<#5383>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+
+?>
+
+<#5384>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addCustomRBACOperation(
+	'manage_materials',
+	'Manage Materials',
+	'object',
+	6500
+);
+?>
+<#5385>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_materials');
+
+if($tgt_ops_id && $type_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+
+?>
+<#5386>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_materials');
+ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+?>
+
+
+<#5387>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addCustomRBACOperation(
+	'edit_metadata',
+	'Edit Metadata',
+	'object',
+	5800
+);
+?>
+
+
+<#5388>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_metadata');
+
+if($tgt_ops_id && $type_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+
+?>
+<#5389>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_metadata');
+ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+?>
+
+<#5390>
+<?php
+if(!$ilDB->tableColumnExists('adv_md_record','gpos'))
+{
+	$ilDB->addTableColumn('adv_md_record', 'gpos',
+		array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		)
+	);
+}
+?>
+<#5391>
+<?php
+if (!$ilDB->tableExists('adv_md_record_obj_ord'))
+{
+	$ilDB->createTable(
+		'adv_md_record_obj_ord',
+		[
+			'record_id' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			],
+			'obj_id' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			],
+			'position' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			]
+		]
+	);
+	$ilDB->addPrimaryKey(
+		'adv_md_record_obj_ord',
+		[
+			'record_id',
+			'obj_id'
+		]
+	);
+}
+?>
+
+<#5392>
+<?php
+if(!$ilDB->tableColumnExists('event', 'show_members'))
+{
+	$ilDB->addTableColumn(
+		'event',
+		'show_members',
+		[
+			"notnull" => true,
+			"length" => 1,
+			"type" => "integer",
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5393>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#5394>
+<?php
+if(!$ilDB->tableColumnExists('event', 'mail_members'))
+{
+	$ilDB->addTableColumn(
+		'event',
+		'mail_members',
+		[
+			"notnull" => true,
+			"length" => 1,
+			"type" => "integer",
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5395>
+<?php
+if(!$ilDB->tableColumnExists('event_participants', 'contact'))
+{
+	$ilDB->addTableColumn(
+		'event_participants',
+		'contact',
+		[
+			"notnull" => true,
+			"length" => 1,
+			"type" => "integer",
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5396>
 <?php
 $ilSetting = new ilSetting('certificate');
 $setting = $ilSetting->set('persisting_cers_introduced_ts', time());
 ?>
-

@@ -23,7 +23,7 @@ class ilECSLearningModuleSettings extends ilECSObjectSettings
 	{			
 		$json = $this->getJsonCore('application/ecs-learningmodule');
 		
-		$json->availability = $this->content_obj->getOnline() ? 'online' : 'offline';
+		$json->availability = $this->content_obj->getOfflineStatus() ? 'offline' : 'online';
 		
 		return $json;
 	}

@@ -6901,13 +6901,19 @@ button.close {
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 47px;
   padding: 0 6px;
+}
+.il-card .il-card-repository-head .icon.outlined {
+  filter: brightness(1);
+}
+.il-card .il-card-repository-head .icon.outlined.disabled {
+  filter: brightness(1);
 }
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
@@ -6919,7 +6925,7 @@ button.close {
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button {
   background-color: inherit;
-  border: #b0b0b0 1px solid;
+  border: #e0e0e0 1px solid;
   width: 29px;
   height: 29px;
 }
@@ -12744,6 +12750,16 @@ span.calminiinactive {
   float: right;
   visibility: hidden;
 }
+
+span.ilIcalIcon {
+  text-align: left;
+}
+span.ilIcalIcon > button,
+span.ilIcalIcon > button:hover,
+span.ilIcalIcon > button:visited {
+  background-color: #ea6705;
+}
+
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
 a.ilWikiPageMissing:visited {

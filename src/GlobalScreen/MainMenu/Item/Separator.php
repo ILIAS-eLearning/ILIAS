@@ -11,9 +11,13 @@ use ILIAS\GlobalScreen\MainMenu\hasTitle;
 class Separator extends AbstractChildItem implements hasTitle {
 
 	/**
+	 * @var  bool
+	 */
+	protected $visible_title = false;
+	/**
 	 * @var string
 	 */
-	protected $title;
+	protected $title = '';
 
 
 	/**
@@ -34,5 +38,26 @@ class Separator extends AbstractChildItem implements hasTitle {
 	 */
 	public function getTitle(): string {
 		return $this->title;
+	}
+
+
+	/**
+	 * @param bool $visible_title
+	 *
+	 * @return Separator
+	 */
+	public function withVisibleTitle(bool $visible_title): Separator {
+		$clone = clone($this);
+		$clone->visible_title = $visible_title;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isTitleVisible(): bool {
+		return $this->visible_title;
 	}
 }

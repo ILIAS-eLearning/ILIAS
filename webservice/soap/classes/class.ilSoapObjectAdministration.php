@@ -35,6 +35,133 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
+	/**
+	 * Add desktop items for user
+	 * @param string $sid
+	 * @param int $user_id
+	 * @param int[] $reference_ids
+	 * @return bool
+	 *
+	 */
+	public function addDesktopItems($sid, $user_id, $reference_ids)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+
+		global $DIC;
+
+		$access = $DIC->rbac()->system();
+		$logger = $DIC->logger()->wsrv();
+
+		if(!$access->checkAccess('edit_userassignment', ROLE_FOLDER_ID))
+		{
+			$logger->warning('Missing permission "edit_userassignment".');
+			return $this->__raiseError(
+				'Missing permission "edit_userassignment".',
+				'Client'
+			);
+		}
+
+		$user = ilObjectFactory::getInstanceByObjId($user_id, false);
+		if(!$user instanceof ilObjUser)
+		{
+			$logger->warning('Invalid user id given. Cannot instantiate user for id: ' . $user_id);
+			return $this->__raiseError(
+				'Invalid user id given. Cannot instantiate user for id: ' . $user_id,
+				'Client'
+			);
+		}
+		$num_added = 0;
+		foreach($reference_ids as $ref_id)
+		{
+			// short "validation" of reference id
+			$ref_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
+			if(!$ref_obj instanceof ilObject)
+			{
+				$logger->warning('Invalid reference id passed to SOAP::addDesktopItems: ' . $ref_id);
+				continue;
+			}
+
+			$num_added++;
+			ilObjUser::_addDesktopItem(
+				$user->getId(),
+				$ref_id,
+				ilObject::_lookupType($ref_id,true)
+			);
+
+		}
+		return $num_added;
+	}
+
+	/**
+	 * Remove desktop items for user
+	 * @param string $sid
+	 * @param int $user_id
+	 * @param int[] $reference_ids
+	 * @return bool
+	 *
+	 */
+	public function removeDesktopItems($sid, $user_id, $reference_ids)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+
+		global $DIC;
+
+		$access = $DIC->rbac()->system();
+		$logger = $DIC->logger()->wsrv();
+
+		if(!$access->checkAccess('edit_userassignment', ROLE_FOLDER_ID))
+		{
+			$logger->warning('Missing permission "edit_userassignment".');
+			return $this->__raiseError(
+				'Missing permission "edit_userassignment".',
+				'Client'
+			);
+		}
+
+		$user = ilObjectFactory::getInstanceByObjId($user_id, false);
+		if(!$user instanceof ilObjUser)
+		{
+			$logger->warning('Invalid user id given. Cannot instantiate user for id: ' . $user_id);
+			return $this->__raiseError(
+				'Invalid user id given. Cannot instantiate user for id: ' . $user_id,
+				'Client'
+			);
+		}
+		$num_removed = 0;
+		foreach($reference_ids as $ref_id)
+		{
+			// short "validation" of reference id
+			$ref_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
+			if(!$ref_obj instanceof ilObject)
+			{
+				$logger->warning('Invalid reference id passed to SOAP::removeDesktopItems: ' . $ref_id);
+				continue;
+			}
+
+			$num_added++;
+			ilObjUser::_dropDesktopItem(
+				$user->getId(),
+				$ref_id,
+				ilObject::_lookupType($ref_id,true)
+			);
+
+		}
+		return $num_removed;
+	}
+
+
 	function getObjIdByImportId($sid,$import_id)
 	{
 		$this->initAuth($sid);
@@ -702,6 +829,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			{
 				$newObj->setImportId($object_data['import_id']);
 			}
+
+			if($objDefinition->supportsOfflineHandling($newObj->getType()))
+			{
+				$newObj->setOfflineStatus((bool) $object_data['offline']);
+			}
 			$newObj->setTitle($object_data['title']);
 			$newObj->setDescription($object_data['description']);
 			$newObj->create(); // true for upload
@@ -1007,6 +1139,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$rbacsystem = $DIC['rbacsystem'];
 		$lng = $DIC['lng'];
 		$ilAccess = $DIC['ilAccess'];
+		$objDefinition = $DIC['objDefinition'];
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
 		$xml_parser = new ilObjectXMLParser($a_xml, true);
@@ -1105,13 +1238,17 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			{
 				$this->updateReferences($object_data);
 				
+				/**
+				 * @var ilObject
+				 */
 				$tmp_obj = $object_data["instance"];
 				$tmp_obj->setTitle($object_data['title']);
 				$tmp_obj->setDescription($object_data['description']);
 
-				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': type is '. $object_data['type']);
-				#$GLOBALS['DIC']['ilLog']->write(__METHOD__.': type is '. $a_xml);
-
+				if($objDefinition->supportsOfflineHandling($tmp_obj->getType()))
+				{
+					$tmp_obj->setOfflineStatus($object_data['offline']);
+				}
 
 				switch ($object_data['type']) 
 				{

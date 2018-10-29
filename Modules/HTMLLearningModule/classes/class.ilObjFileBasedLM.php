@@ -58,8 +58,7 @@ class ilObjFileBasedLM extends ilObject
 		parent::update();
 
 		$ilDB->manipulate($q = "UPDATE file_based_lm SET ".
-			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").
-			", startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
+			" startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		return true;
 	}
@@ -76,7 +75,6 @@ class ilObjFileBasedLM extends ilObject
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
-		$this->setOnline(ilUtil::yn2tf($lm_rec["is_online"]));
 		$this->setStartFile((string) $lm_rec["startfile"]);
 	}
 
@@ -92,9 +90,8 @@ class ilObjFileBasedLM extends ilObject
 		parent::create();
 		$this->createDataDirectory();
 
-		$ilDB->manipulate("INSERT INTO file_based_lm (id, is_online, startfile) VALUES ".
+		$ilDB->manipulate("INSERT INTO file_based_lm (id, startfile) VALUES ".
 			" (".$ilDB->quote($this->getID(), "integer").",".
-			$ilDB->quote("n", "text").",".
 			$ilDB->quote($this->getStartfile(), "text").")");
 		if (!$a_skip_meta)
 		{
@@ -127,32 +124,6 @@ class ilObjFileBasedLM extends ilObject
 		{				
 			$this->start_file = $a_file;
 		}
-	}
-
-	function setOnline($a_online)
-	{
-		$this->online = $a_online;
-	}
-
-	function getOnline()
-	{
-		return $this->online;
-	}
-
-	/**
-	* check wether content object is online
-	*/
-	static function _lookupOnline($a_id)
-	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-		
-		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
-		$lm_set = $ilDB->query($q);
-		$lm_rec = $ilDB->fetchAssoc($lm_set);
-
-		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 
 	/**
@@ -238,7 +209,7 @@ class ilObjFileBasedLM extends ilObject
 
 		if(!$cp_options->isRootNode($this->getRefId()))
 		{
-			$new_obj->setOnline($this->getOnline());
+			$new_obj->setOfflineStatus($this->getOfflineStatus());
 		}
 	 	
 		$new_obj->setTitle($this->getTitle());

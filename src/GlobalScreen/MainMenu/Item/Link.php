@@ -17,19 +17,19 @@ class Link extends AbstractChildItem implements hasTitle, hasAction {
 	/**
 	 * @var bool
 	 */
-	protected $is_external_action;
+	protected $is_external_action = false;
 	/**
 	 * @var string
 	 */
-	protected $action;
+	protected $action = "";
 	/**
 	 * @var string
 	 */
-	protected $alt_text;
+	protected $alt_text = "";
 	/**
 	 * @var string
 	 */
-	protected $title;
+	protected $title = "";
 
 
 	/**
@@ -100,7 +100,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction {
 	 *
 	 * @return Link
 	 */
-	public function withIsLinkToExternalAction(bool $is_external): Link {
+	public function withIsLinkToExternalAction(bool $is_external): hasAction {
 		$clone = clone $this;
 		$clone->is_external_action = $is_external;
 

@@ -148,7 +148,7 @@ class ilLMPresentationGUI
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
-			if (!$this->lm->getOnline())
+			if ($this->lm->getOfflineStatus())
 			{
 				$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 			}

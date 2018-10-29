@@ -1221,6 +1221,17 @@ class ilObjectListGUI
 		// #8280: WebDav is only supported in repository
 		if($this->context == self::CONTEXT_REPOSITORY)
 		{
+			// add centralized offline status
+			if(ilObject::lookupOfflineStatus($this->obj_id))
+			{
+				$props[] =
+					[
+						'alert' => true,
+						'property' => $lng->txt("status"),
+						'value' => $lng->txt("offline")
+					];
+			}
+
 			// BEGIN WebDAV Display locking information
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 			if (ilDAVActivationChecker::_isActive())
@@ -1810,7 +1821,6 @@ class ilObjectListGUI
 			$note_ref_id = $this->reference_ref_id;
 			$note_obj_id = $this->reference_obj_id;
 		}
-
 		$redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
 
 		// add common properties (comments, notes, tags)

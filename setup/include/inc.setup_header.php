@@ -169,6 +169,156 @@ $DIC["http"] = function ($c) {
 		$c['http.response_factory']
 	);
 };
+
+// UI Services
+$c = $DIC;
+$c["ui.factory"] = function ($c) {
+	return new ILIAS\UI\Implementation\Factory(
+		$c["ui.factory.counter"],
+		$c["ui.factory.glyph"],
+		$c["ui.factory.button"],
+		$c["ui.factory.listing"],
+		$c["ui.factory.image"],
+		$c["ui.factory.panel"],
+		$c["ui.factory.modal"],
+		$c["ui.factory.dropzone"],
+		$c["ui.factory.popover"],
+		$c["ui.factory.divider"],
+		$c["ui.factory.link"],
+		$c["ui.factory.dropdown"],
+		$c["ui.factory.item"],
+		$c["ui.factory.icon"],
+		$c["ui.factory.viewcontrol"],
+		$c["ui.factory.chart"],
+		$c["ui.factory.input"],
+		$c["ui.factory.table"],
+		$c["ui.factory.messagebox"],
+		$c["ui.factory.card"]
+	);
+};
+$c["ui.signal_generator"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\SignalGenerator;
+};
+$c["ui.factory.counter"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Counter\Factory();
+};
+$c["ui.factory.glyph"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Glyph\Factory();
+};
+$c["ui.factory.button"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Button\Factory();
+};
+$c["ui.factory.listing"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Listing\Factory();
+};
+$c["ui.factory.image"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Image\Factory();
+};
+$c["ui.factory.panel"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Panel\Factory($c["ui.factory.panel.listing"]);
+};
+$c["ui.factory.modal"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Modal\Factory($c["ui.signal_generator"]);
+};
+$c["ui.factory.dropzone"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Dropzone\Factory($c["ui.factory.dropzone.file"]);
+};
+$c["ui.factory.popover"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Popover\Factory($c["ui.signal_generator"]);
+};
+$c["ui.factory.divider"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Divider\Factory();
+};
+$c["ui.factory.link"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Link\Factory();
+};
+$c["ui.factory.dropdown"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Dropdown\Factory();
+};
+$c["ui.factory.item"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Item\Factory();
+};
+$c["ui.factory.icon"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Icon\Factory();
+};
+$c["ui.factory.viewcontrol"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
+};
+$c["ui.factory.chart"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
+};
+$c["ui.factory.input"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Input\Factory(
+		$c["ui.signal_generator"],
+		$c["ui.factory.input.field"],
+		$c["ui.factory.input.container"]
+	);
+};
+$c["ui.factory.table"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Table\Factory($c["ui.signal_generator"]);
+};
+$c["ui.factory.messagebox"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MessageBox\Factory();
+};
+$c["ui.factory.card"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Card\Factory();
+};
+$c["ui.factory.progressmeter"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
+};
+$c["ui.factory.dropzone.file"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
+};
+$c["ui.factory.input.field"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Input\Field\Factory($c["ui.signal_generator"]);
+};
+$c["ui.factory.input.container"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Input\Container\Factory();
+};
+$c["ui.factory.panel.listing"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
+};
+
+$c["ui.renderer"] = function($c) {
+	return new ILIAS\UI\Implementation\DefaultRenderer
+	( $c["ui.component_renderer_loader"]
+	);
+};
+$c["ui.component_renderer_loader"] = function($c) {
+	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper
+	( new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper
+		( $c["ui.resource_registry"]
+			, new ILIAS\UI\Implementation\Render\FSLoader
+			( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
+			($c["ui.factory"]
+				, $c["ui.template_factory"]
+				, $c["lng"]
+				, $c["ui.javascript_binding"]
+			),
+				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
+				($c["ui.factory"]
+					, $c["ui.template_factory"]
+					, $c["lng"]
+					, $c["ui.javascript_binding"]
+				)
+			)
+		)
+	);
+};
+$c["ui.template_factory"] = function($c) {
+	return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory
+	( $c["tpl"]
+	);
+};
+$c["ui.resource_registry"] = function($c) {
+	return new ILIAS\UI\Implementation\Render\ilResourceRegistry($c["tpl"]);
+};
+$c["ui.javascript_binding"] = function($c) {
+	return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
+};
+
+
+// Other Services
 $DIC['ilCtrl'] = new ilCtrl();
 
 $DIC["ilIliasIniFile"] = function($c) { return $GLOBALS["ilIliasIniFile"]; };

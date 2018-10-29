@@ -1,7 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\MainMenu;
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * Class AbstractBaseItem
@@ -10,6 +11,10 @@ use ILIAS\UI\Implementation\Component\Legacy\Legacy;
  */
 abstract class AbstractBaseItem implements isItem {
 
+	/**
+	 * @var int
+	 */
+	protected $position = 0;
 	/**
 	 * @var Legacy
 	 */
@@ -30,6 +35,14 @@ abstract class AbstractBaseItem implements isItem {
 	 * @var callable
 	 */
 	protected $visiblility_callable;
+	/**
+	 * @var bool
+	 */
+	protected $is_always_available = false;
+	/**
+	 * @var
+	 */
+	protected $type_information;
 
 
 	/**
@@ -122,6 +135,9 @@ abstract class AbstractBaseItem implements isItem {
 	 * @inheritDoc
 	 */
 	public function isAvailable(): bool {
+		if ($this->isAlwaysAvailable() === true) {
+			return true;
+		}
 		if (is_callable($this->available_callable)) {
 			$callable = $this->available_callable;
 
@@ -149,6 +165,64 @@ abstract class AbstractBaseItem implements isItem {
 	 * @inheritDoc
 	 */
 	public function getNonAvailableReason(): Legacy {
-		return $this->non_available_reason;
+		global $DIC;
+
+		return $this->non_available_reason instanceof Legacy ? $this->non_available_reason : $DIC->ui()->factory()->legacy("");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isAlwaysAvailable(): bool {
+		return $this->is_always_available;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withAlwaysAvailable(bool $always_active): isItem {
+		$clone = clone($this);
+		$clone->is_always_available = $always_active;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getPosition(): int {
+		return $this->position;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withPosition(int $position): isItem {
+		$clone = clone($this);
+		$clone->position = $position;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTypeInformation(TypeInformation $information): isItem {
+		$this->type_information = $information;
+
+		return $this;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getTypeInformation(): TypeInformation {
+		return $this->type_information;
 	}
 }
