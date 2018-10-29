@@ -162,11 +162,7 @@ class ilUserCertificateGUI
 		$this->filesystem = $filesystem;
 
 		if (null === $migrationVisibleValidator) {
-			$migrationVisibleValidator = new ilCertificateMigrationValidator(
-				$this->user,
-				$this->certificateSettings,
-				new \ilCertificateMigration($user->getId())
-			);
+			$migrationVisibleValidator = new ilCertificateMigrationValidator($this->certificateSettings);
 		}
 		$this->migrationVisibleValidator = $migrationVisibleValidator;
 
@@ -229,11 +225,14 @@ class ilUserCertificateGUI
 			return;
 		}
 
-		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable();
+		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable(
+			$this->user,
+			new \ilCertificateMigration($this->user->getId())
+		);
 		if (!$migrationWasStarted && true === $showMigrationBox) {
 			$migrationUiEl = new \ilCertificateMigrationUIElements();
 			$startMigrationCommand = $this->controller->getLinkTargetByClass(
-				['ilCertificateMigrationGUI'], 'startMigration',
+				['ilCertificateMigrationGUI'], 'startMigrationAndReturnMessage',
 				false, true, false
 			);
 			$messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);

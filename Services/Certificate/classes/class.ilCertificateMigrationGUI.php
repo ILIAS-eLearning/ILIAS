@@ -81,11 +81,7 @@ class ilCertificateMigrationGUI
 		}
 
 		if (null === $migrationValidator) {
-			$migrationValidator = new \ilCertificateMigrationValidator(
-				$user,
-				$certificateSettings,
-				new \ilCertificateMigration($user->getId())
-			);
+			$migrationValidator = new \ilCertificateMigrationValidator($certificateSettings);
 		}
 		$this->migrationValidator = $migrationValidator;
 
@@ -132,9 +128,12 @@ class ilCertificateMigrationGUI
 	 * @return string
 	 * @throws \ilException
 	 */
-	public function startMigration(): string
+	public function startMigrationAndReturnMessage(): string
 	{
-		if (false === $this->migrationValidator->isMigrationAvailable()) {
+		$isMigrationAvailable = $this->migrationValidator->isMigrationAvailable(
+			$this->user, new \ilCertificateMigration($this->user->getId())
+		);
+		if (false === $isMigrationAvailable) {
 			throw new \ilException('User is not allowed to start migration');
 		}
 

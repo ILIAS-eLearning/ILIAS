@@ -6,45 +6,37 @@
  */
 class ilCertificateMigrationValidator
 {
-	/** @var \ilObjUser */
-	private $user;
-
 	/** @var \ilSetting */
 	private $certificateSettings;
 
-	/** @var \ilCertificateMigration */
-	private $migrationHelper;
-
 	/**
-	 * @param \ilObjUser $user
 	 * @param \ilSetting $certificateSettings
-	 * @param \ilCertificateMigration $migrationHelper
 	 */
-	public function __construct(\ilObjUser $user, ilSetting $certificateSettings, \ilCertificateMigration $migrationHelper)
+	public function __construct(\ilSetting $certificateSettings)
 	{
-		$this->user = $user;
 		$this->certificateSettings = $certificateSettings;
-		$this->migrationHelper = $migrationHelper;
 	}
 
 	/**
+	 * @param \ilObjUser $user
+	 * @param \ilCertificateMigration $migrationHelper
 	 * @return bool
 	 */
-	public function isMigrationAvailable(): bool
+	public function isMigrationAvailable(\ilObjUser $user, \ilCertificateMigration $migrationHelper): bool
 	{
 		if (!$this->areCertificatesGloballyEnabled()) {
 			return false;
 		}
 
-		if ($this->isMigrationFinishedForUser($this->user)) {
+		if ($this->isMigrationFinishedForUser($user)) {
 			return false;
 		}
 
-		if ($this->migrationHelper->isTaskRunning() || $this->migrationHelper->isTaskFinished()) {
+		if ($migrationHelper->isTaskRunning() || $migrationHelper->isTaskFinished()) {
 			return false;
 		}
 
-		$isUserCreatedAfterFeatureIntroduction = $this->isUserCreatedAfterFeatureIntroduction($this->user);
+		$isUserCreatedAfterFeatureIntroduction = $this->isUserCreatedAfterFeatureIntroduction($user);
 
 		return $isUserCreatedAfterFeatureIntroduction;
 	}

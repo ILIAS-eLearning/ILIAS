@@ -1602,19 +1602,17 @@ class ilPersonalProfileGUI
 	 */
 	protected function renderCertificateMigration(\ilObjUser $user, bool $migrationIsStartedInRequest)
 	{
-		$certificateSettings = new ilSetting('certificate');
-		$migrationVisibleValidator = new ilCertificateMigrationValidator(
+		$migrationVisibleValidator = new ilCertificateMigrationValidator(new \ilSetting('certificate'));
+
+		$showMigrationBox = $migrationVisibleValidator->isMigrationAvailable(
 			$user,
-			$certificateSettings,
 			new \ilCertificateMigration($user->getId())
 		);
-
-		$showMigrationBox = $migrationVisibleValidator->isMigrationAvailable();
 		if (!$migrationIsStartedInRequest && true === $showMigrationBox) {
 			$migrationUiEl = new \ilCertificateMigrationUIElements();
 
 			$startMigrationCommand = $this->ctrl->getLinkTargetByClass(
-				['ilCertificateMigrationGUI'], 'startMigration',
+				['ilCertificateMigrationGUI'], 'startMigrationAndReturnMessage',
 				false,true, false
 			);
 			$messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);
