@@ -416,12 +416,13 @@ class ilObjectActivation
 		if($item['changeable'] &&  
 			$item['timing_type'] == self::TIMINGS_PRESETTING)
 		{
-			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
-			$user_data = ilTimingPlaned::_getPlanedTimings($ilUser->getId(), $a_item['ref_id']);			
-			if($user_data['planed_start'])
+			// cognos-blu-patch: begin
+			include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
+			$user_data = new ilTimingUser($a_item['ref_id'], $ilUser->getId());
+			if($user_data->isScheduled())
 			{
-				$a_item['start'] = $user_data['planed_start'];
-				$a_item['end'] = $user_data['planed_end'];
+				$a_item['start'] = $user_data->getStart()->get(IL_CAL_UNIX);
+				$a_item['end'] = $user_data->getEnd()->get(IL_CAL_UNIX);
 				$a_item['activation_info'] = 'crs_timings_planed_info';
 			}
 			else
@@ -430,6 +431,7 @@ class ilObjectActivation
 				$a_item['end'] = $item['suggestion_end'];
 				$a_item['activation_info'] = 'crs_timings_suggested_info';
 			}
+			// cognos-blu-patch: end
 		}
 		elseif($item['timing_type'] == self::TIMINGS_PRESETTING)
 		{

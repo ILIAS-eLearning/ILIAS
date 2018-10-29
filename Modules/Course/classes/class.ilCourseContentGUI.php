@@ -1404,6 +1404,14 @@ class ilCourseContentGUI
 				}
 				$item_obj->setSuggestionStartRelative($data['sug_start_rel']);
 				$item_obj->setSuggestionEndRelative($data['sug_start_rel'] + $data['duration_a']);
+
+				// add default values for start/end (relative to now)
+				$start = new ilDate(time(),IL_CAL_UNIX);
+				$start->increment(IL_CAL_DAY, $data['sug_start_rel']);
+				$item_obj->setSuggestionStart($start->get(IL_CAL_UNIX));
+				
+				$start->increment(IL_CAL_DAY, $data['duration_a']);
+				$item_obj->setSuggestionEnd($start->get(IL_CAL_UNIX));
 			}
 			
 			$item_obj->update($ref_id);

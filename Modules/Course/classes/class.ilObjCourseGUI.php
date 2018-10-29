@@ -928,6 +928,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			$this->object->setTimingMode((int) $form->getInput('timing_mode'));
 		}
+		$this->object->setTimingMode($form->getInput('timing_mode'));
 		$this->object->setOrderType($form->getInput('sorting'));
 		$this->saveSortingSettings($form);
 		
