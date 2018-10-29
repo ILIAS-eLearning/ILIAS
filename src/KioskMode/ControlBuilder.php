@@ -43,7 +43,7 @@ interface ControlBuilder {
 	 * The $parameter can be used to pass additional information to View::updateGet
 	 * if required, e.g. about a chapter in the content.
 	 *
-	 * @throws \LogicException if view wants to introduce a second previous button.
+	 * @throws \LogicException if view wants to introduce a second done button.
 	 */
 	public function done(string $command, int $parameter = null) : ControlBuilder;
 
@@ -88,6 +88,6 @@ interface ControlBuilder {
 	 * @throws \LogicException if view wants to introduce a second TOC.
 	 * @param	mixed $state one of the STATE_ constants from TOCBuilder
 	 */
-	public function tableOfContent(string $command, int $parameter = null, $state = null) : TOCBuilder;
+	public function tableOfContent(string $label, string $command, int $parameter = null, $state = null) : TOCBuilder;
 }
 

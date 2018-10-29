@@ -273,23 +273,18 @@ class ilMembershipGUI
 			
 			
 			case 'ilmailmembersearchgui':
-
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget(
 					$this->lng->txt('btn_back'),
 					$this->ctrl->getLinkTarget($this,$this->getDefaultCommand())
 				);
-				
-				include_once 'Services/Mail/classes/class.ilMail.php';
+
 				$mail = new ilMail($ilUser->getId());
-				include_once 'Modules/Course/classes/class.ilCourseConstants.php';
-				if(
-					!(
-						$this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
-						$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId())
-					) ||  !$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId())
-				)
-				{
+				if(!(
+					$this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+					$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId())) ||
+					!$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()
+				)) {
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
 				
@@ -303,7 +298,7 @@ class ilMembershipGUI
 				);
 				$this->ctrl->forwardCommand($mail_search);
 				break;
-				
+
 			case 'ilusersgallerygui':
 				
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
@@ -771,6 +766,9 @@ class ilMembershipGUI
 					case 'grp':
 						include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 						$mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
+						break;
+					case 'lso':
+						$mail_type = ilLearningSequenceMembershipMailNotification::TYPE_DISMISS_MEMBER;
 						break;
 				}
 				$this->getMembersObject()->sendNotification($mail_type, $usr_id);
@@ -1346,6 +1344,12 @@ class ilMembershipGUI
 					$noti->setRecipients(array($usr_id));
 					$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
 					$noti->send();
+				}
+				if ($this instanceof ilLearningSequenceMembershipGUI) {
+					$this->getMembersObject()->sendNotification(
+						ilLearningSequenceMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
+						$user_id
+					);
 				}
 			}
 		}

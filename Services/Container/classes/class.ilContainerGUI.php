@@ -3481,6 +3481,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
 			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+			if(method_exists($this, 'getAdditionalWhitelistTypes')) {
+				$whitelist = array_merge (
+					$exp->getTypeWhiteList(),
+					$this->getAdditionalWhitelistTypes()
+				);
+				$exp->setTypeWhiteList($whitelist);
+			}
+
 			if (!$exp->handleCommand())
 			{
 				$tpl->setLeftNavContent($exp->getHTML());
@@ -3880,6 +3888,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// parent-child-relations and not the dynamic relationsships
 		// required for the SP (see #16909).
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+
+		// Not all types are allowed in the LearningSequence
+		// Extend whitelist, if all selected types are possible subojects of LSO
+		if(in_array($_SESSION["clipboard"]["cmd"], ["link", "cut"])) {
+			$lso_types = array_keys($this->obj_definition->getSubObjects('lso'));
+			$refs = $_SESSION["clipboard"]["ref_ids"];
+			$allow_lso = true;
+			foreach ($refs as $item_ref_id) {
+				$type = ilObject::_lookupType($item_ref_id, true);
+				if (! in_array($type, $lso_types)) {
+					$allow_lso = false;
+				}
+			}
+			if ($allow_lso) {
+				$whiltelist = $exp->getTypeWhiteList();
+				$whitelist[] = 'lso';
+				$exp->setTypeWhiteList($whiltelist);
+			}
+		}
+
 		if ($cmd == "link") {
 			$exp->setSelectMode("nodes", true);
 			return $exp;

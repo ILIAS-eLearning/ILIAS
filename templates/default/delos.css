@@ -8338,6 +8338,9 @@ hr.il-divider-with-label {
 .icon.outlined.iass {
   background-image: url("images/outlined/icon_iass.svg");
 }
+.icon.copa {
+  background-image: url("images/icon_copa.svg");
+}
 .il-viewcontrol-mode .ilSubmitInactive,
 .il-viewcontrol-mode .ilSubmitInactive:hover {
   background-color: #557196;
@@ -12750,16 +12753,6 @@ span.calminiinactive {
   float: right;
   visibility: hidden;
 }
-
-span.ilIcalIcon {
-  text-align: left;
-}
-span.ilIcalIcon > button,
-span.ilIcalIcon > button:hover,
-span.ilIcalIcon > button:visited {
-  background-color: #ea6705;
-}
-
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
 a.ilWikiPageMissing:visited {
@@ -16608,6 +16601,63 @@ span.ilProfileBadge {
 .ilLike .il-item img {
   max-width: 50%;
   float: right;
+}
+.ilLSOLearnerView {
+  /*ILIAS-GUI, "startpage" of LSO*/
+}
+.ilLSOLearnerView .il-workflow-step-label,
+.ilLSOLearnerView .il-workflow-step-label .btn {
+  color: #333333 !important;
+  cursor: default !important;
+  text-decoration: none !important;
+}
+.ilLSOKioskMode #mainspacekeeper {
+  padding-top: 25px;
+}
+.ilLSOKioskMode .ilLeftNav {
+  top: 40px;
+  margin-left: 0px;
+  bottom: 5px !important;
+}
+.ilLSOKioskMode .ilLeftNav.disabled {
+  display: none;
+}
+.ilLSOKioskMode #il_right_col {
+  background-color: #e0e0e0;
+  margin-top: 20px;
+  padding: 5px;
+}
+.ilLSOKioskModeObjectHeader .il_HeaderInner {
+  padding-bottom: 5px;
+}
+.ilLSOKioskModeNavigation {
+  margin-bottom: 10px;
+  background-color: #e0e0e0;
+}
+.ilLSOKioskTopBarControls {
+  float: left;
+  display: block;
+  line-height: 40px;
+}
+.ilLSOKioskTopBarControls .btn-link {
+  color: white;
+  text-decoration: none;
+}
+.ilLSOKioskTopBarTitle {
+  text-align: center;
+}
+.ilLSOKioskTopBarTitle .ilTopTitle {
+  float: none;
+  padding: none;
+}
+.ilLSOKioskModeContent .panel-primary .panel-heading {
+  display: none;
+}
+.ilLSOKioskModeCurriculum {
+  background-color: #f9f9f9;
+}
+.ilLSOKioskModeCurriculum .il-workflow-container {
+  padding: 5px;
 }
 .noMargin {
   margin: 0;

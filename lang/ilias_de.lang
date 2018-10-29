@@ -14700,3 +14700,107 @@ dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
 sess#:#sess_members#:#Teilnehmer
 grp#:#grp_contact#:#Kontakt
 grp#:#grp_mem_contacts#:#Tutorielle Betreuung
+common#:#lso_new#:#Neue Lernsequenz
+common#:#lso_add#:#Lernsequenz hinzufügen
+common#:#lso_edit#:#Lernsequenz bearbeiten
+common#:#obj_lso#:#Lernsequenz
+common#:#objs_lso#:#Lernsequenzen
+common#:#obj_lso_duplicate#:#Lernsequenz kopieren
+common#:#lso_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Lernsequenz kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#lso_wizard_page#:#Lernsequenz kopieren
+rbac#:#lso_visible#:#Lernsequenz sichtbar
+rbac#:#lso_copy#:#Lernsequenz kopieren
+rbac#:#lso_write#:#Lernsequenz bearbeiten
+rbac#:#lso_delete#:#Lernsequenz löschen
+lso#:#learner_view#:#Übersicht
+lso#:#manage_content#:#Verwalten
+lso#:#manage_content_maintab#:#Inhalt
+lso#:#show_summary#:#Info
+lso#:#table_sequence_content#:#Inhaltsverwaltung
+lso#:#table_position#:#Position
+lso#:#table_title#:#Titel
+lso#:#table_online#:#Online
+lso#:#table_may_proceed#:#Benutzer darf fortfahren
+lso#:#table_actions#:#Aktionen
+lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
+lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
+lso#:#no_entries_selected_for_delete#:#Es muss mindestens ein Listeneintrag ausgewählt werden.
+lso#:#lso_member_administration#:#Teilnehmerverwaltung
+lso#:#lso_members_gallery#:#Mitgliedergalerie
+lso#:#lso_search_users#:#Benutzer suchen
+lso#:#lso_print_list#:#Liste erstellen
+lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
+lso#:#il_lso_member#:#Teilnehmer
+lso#:#il_lso_admin#:#Administrator
+lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
+lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
+lso#:#lso_notification#:#Benachrichtigung
+lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
+lso#:#lso_members_print_title#:#Lernsequenzmitglieder
+lso#:#mail_lso_roles#:#Verschicke Mail an folgende Rollen der Lernsequenz
+lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens ein Administrator zugeordnet sein.
+lso#:#lso_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Lernsequenz ausgetragen
+lso#:#lso_min_one_admin#:#Dieser Lernsequenz muß mindestens ein Administrator zugeordnet bleiben.
+lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
+common#:#lso_import#:#Lernsequenz importieren
+common#:#lso_copy#:#Lernsequenz kopieren
+lso#:#abstract#:#Einleitung
+lso#:#abstract_img#:#Bild für die Einleitungsseite
+lso#:#extro#:#Abschlussseite
+lso#:#extro_img#:#Bild für die Abschlussseite
+lso#:#lso_player_start#:#Lernsequenz starten
+lso#:#lso_player_review#:#Lernsequenz überarbeiten
+lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
+lso#:#lso_player_abstract#:#Zur Einleitung
+lso#:#lso_player_extro#:#Zur Abschlussseite
+lso#:#lso_player_finish#:#Beenden
+lso#:#lso_player_suspend#:#Unterbrechen
+lso#:#lso_player_previous#:#Zurück
+lso#:#lso_player_next#:#Weiter
+lso#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+lso#:#lso_read#:#Lesezugriff auf Learning Sequence
+lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
+lso#:#condition_always#:#Immer
+lso#:#condition_completed#:#Abgeschlossen
+lso#:#condition_failed#:#Durchgefallen
+rbac#:#rbac_create_lso#:#Lernsequenz erstellen
+lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
+lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
+lso#:#lso_notify_on#:#Benachrichtigungen über Neuanmeldungen aktiviert
+lso#:#lso_notify_off#:#Benachrichtigungen über Neuanmeldungen deaktiviert
+lso#:#lso_new_status#:#Ihr neuer Status:
+lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz "%s"
+lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz "%s" als Mitglied aufgenommen worden.
+lso#:#lso_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt der Lernsequenz zuzugreifen:
+lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz "%s" beendet
+lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz "%s" wurde beendet.
+lso#:#lso_mail_notification_reg_sub#:#Neue Mitgliedschaft in Lernsequenz "%s"
+lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
+lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuer die Benachrichtigungen aktiviert sind.
+lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz "%s"
+lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Lernsequenz "%s".
+lso#:#lso_mail_notification_unsub_sub#:#Austritt aus der Lernsequenz "%s"
+lso#:#lso_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer "%s" hat die Mitgliedschaft in der Lernsequenz "%s" beendet.
+lso#:#lso_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Lernsequenz eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+lso#:#lso_mail_subscribe_member_sub#:#Ihre Anmeldung für Lernsequenz "%s"
+lso#:#lso_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Lernsequenz "%s" erfolgt ist.
+lso#:#lso_mail_notification_reg_req_sub#:#Aufnahmeantrag für Lernsequenz "%s"
+lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
+lso#:#lso_mail_notification_reg_req_bod2#:#Um den Benutzer zur Lernsequenz zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\nWählen Sie dazu bitte folgenden Link:
+lso#:#lso_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Lernsequenz "%s"
+lso#:#lso_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Lernsequenz "%s" ist abgelehnt worden.
+lso#:#lso_mail_sub_acc_sub#:#Aufnahme in Lernsequenz "%s"
+lso#:#lso_mail_sub_acc_bod#:#Sie sind in die Lernsequenz "%s" aufgenommen worden.
+lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz "%s"
+lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+lso#:#lso_mail_status_sub#:#Status in Lernsequenz "%s"
+lso#:#lso_mail_status_bod#:#Ihr Status in Lernsequenz "%s" wurde geändert.
+lso#:#first_access#:#Erster Zugriff
+lso#:#last_access#:#Letzter Zugriff
+lso#:#lso_settings_availability#:#Verfügbarkeit
+lso#:#avail_time_period#:#Zeitraum
+lso#:#lso_settings_misc#:#Weitere Einstelleungen
+lso#:#completed_steps#:#Bestandene Schritte
+lso#:#last_visited_step#:#Zuletzt besuchter Schritt
+lso#:#members_gallery#:#Mitglieder-Gallerie
+lso#:#lso_show_members_info#:#Mitglieder-Gallerie für Benutzer sichtbar
