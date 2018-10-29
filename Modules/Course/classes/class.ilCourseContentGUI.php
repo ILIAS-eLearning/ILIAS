@@ -497,38 +497,6 @@ class ilCourseContentGUI
 	/**
 	 * Manage personal timings
 	 */
-	protected function managePersonalTimings()
-	{
-		global $ilErr, $ilAccess;
-		
-		if(!$ilAccess->checkAccess('read','',$this->container_obj->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
-		}
-		$GLOBALS['ilTabs']->setTabActive('timings_timings');
-		$GLOBALS['ilTabs']->clearSubTabs();
-		
-		include_once './Modules/Course/classes/Timings/class.ilTimingsPersonalTableGUI.php';
-		$table = new ilTimingsPersonalTableGUI(
-				$this,
-				'managePersonalTimings',
-				$this->getContainerObject(),
-				$this->course_obj
-		);
-		$table->setUserId($GLOBALS['ilUser']->getId());
-		$table->init();
-		$table->parse(
-			ilObjectActivation::getItems(
-					$this->getContainerObject()->getRefId(),
-					FALSE
-			)
-		);
-		$GLOBALS['tpl']->setContent($table->getHTML());
-	}
-
-	/**
-	 * Manage personal timings
-	 */
 	protected function managePersonalTimings($failed = array())
 	{
 		global $ilErr, $ilAccess;
@@ -581,8 +549,8 @@ class ilCourseContentGUI
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
 		foreach((array) $_POST['item'] as $ref_id => $data)
 		{
-			$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']['date']);
-			$sug_end_dt = ilCalendarUtil::dateFromUserSetting($data['sug_end']['date']);
+			$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']);
+			$sug_end_dt = ilCalendarUtil::dateFromUserSetting($data['sug_end']);
 			
 			if(($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate))
 			{
@@ -626,56 +594,7 @@ class ilCourseContentGUI
 	
 
 	
-	/**
-	 * Update personal timings
-	 * @global type $ilAccess
-	 * @global type $ilErr
-	 */
-	protected function updatePersonalTimings()
-	{
-		global $ilAccess,$ilErr;
 
-		if(!$ilAccess->checkAccess('read','',$this->container_obj->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
-		}
-		
-		$this->tabs_gui->clearSubTabs();
-		
-		$failed = array();
-		$all_items = array();
-		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
-		foreach((array) $_POST['item'] as $ref_id => $data)
-		{
-			$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']['date']);
-			
-			if($sug_start_dt instanceof ilDate)
-			{
-				// update user date
-				include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
-				$tu = new ilTimingUser($ref_id, $GLOBALS['ilUser']->getId());
-				$tu->getStart()->setDate($sug_start_dt->get(IL_CAL_UNIX),IL_CAL_UNIX);
-				$sug_start_dt->increment(IL_CAL_DAY, abs($data['duration']));
-				
-				$tu->getEnd()->setDate($sug_start_dt->get(IL_CAL_UNIX), IL_CAL_UNIX);
-				$tu->update();
-			}
-		}
-		if(!$failed)
-		{
-			ilUtil::sendSuccess($GLOBALS['lng']->txt('settings_saved'));
-			$this->managePersonalTimings();
-			return TRUE;
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt('err_check_input'));
-			$this->managePersonalTimings();
-			return TRUE;
-		}
-
-	}
-	
 
 	function editTimings()
 	{

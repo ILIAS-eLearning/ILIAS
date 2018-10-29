@@ -170,7 +170,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 			$dt_input->setDate(new ilDate($set['item']['suggestion_start'],IL_CAL_UNIX));
 			if($this->getFailureStatus())
 			{
-				$dt_input->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_start']['date'], IL_CAL_DATE));
+				$dt_input->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_start'], IL_CAL_DATE));
 			}
 			
 			$this->tpl->setVariable('start_abs');
@@ -211,12 +211,10 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 		{
 			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 			$dt_end = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_end]');
-			$dt_end->setMode(ilDateTimeInputGUI::MODE_INPUT);
-			$dt_end->setShowEmpty(TRUE);
 			$dt_end->setDate(new ilDate($set['item']['suggestion_end'],IL_CAL_UNIX));
 			if($this->getFailureStatus())
 			{
-				$dt_end->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_end']['date'], IL_CAL_DATE));
+				$dt_end->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_end'], IL_CAL_DATE));
 			}
 			
 			$this->tpl->setVariable('end_abs');

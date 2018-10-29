@@ -146,12 +146,10 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 		// start
 		include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 		$dt_input = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_start]');
-		$dt_input->setMode(ilDateTimeInputGUI::MODE_INPUT);
-		$dt_input->setShowEmpty(TRUE);
 		$dt_input->setDate(new ilDate($set['item']['suggestion_start'],IL_CAL_UNIX));
 		if($this->getFailureStatus())
 		{
-			$dt_input->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_start']['date'], IL_CAL_DATE));
+			$dt_input->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_start'], IL_CAL_DATE));
 		}
 		
 		if(!$set['item']['changeable'])
@@ -166,12 +164,10 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 		// end
 		include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 		$dt_end = new ilDateTimeInputGUI('', 'item['.$set['ref_id'].'][sug_end]');
-		$dt_end->setMode(ilDateTimeInputGUI::MODE_INPUT);
-		$dt_end->setShowEmpty(TRUE);
 		$dt_end->setDate(new ilDate($set['item']['suggestion_end'],IL_CAL_UNIX));
 		if($this->getFailureStatus())
 		{
-			$dt_end->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_end']['date'], IL_CAL_DATE));
+			$dt_end->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_end'], IL_CAL_DATE));
 		}
 		
 		if(!$set['item']['changeable'])
