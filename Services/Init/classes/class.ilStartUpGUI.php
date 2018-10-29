@@ -130,10 +130,12 @@ class ilStartUpGUI
 	 */
 	protected function showLoginPageOrStartupPage()
 	{
+
 		/**
 		 * @var ilAuthSession
 		 */
 		$auth_session = $GLOBALS['DIC']['ilAuthSession'];
+		$ilAppEventHandler = $GLOBALS['DIC']['ilAppEventHandler'];
 
 		$force_login = false;
 		if(
@@ -150,10 +152,10 @@ class ilStartUpGUI
 			if($auth_session->isValid())
 			{
 				$this->logger->debug('Valid session -> logout current user');
-				ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
+				ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 				$auth_session->logout();
 
-				$GLOBALS['ilAppEventHandler']->raise(
+				$ilAppEventHandler->raise(
 					'Services/Authentication', 
 					'afterLogout',
 					array(
@@ -197,6 +199,7 @@ class ilStartUpGUI
 		self::initStartUpTemplate("tpl.login.html");
 		
 		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
 		$page_editor_html = $this->showLoginInformation($page_editor_html);
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
@@ -1548,9 +1551,24 @@ class ilStartUpGUI
 	*/
 	function showLogout()
 	{
-		global $tpl, $ilSetting, $lng, $ilIliasIniFile;
-		
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
+		global $DIC;
+
+
+		$tpl = $DIC->ui()->mainTemplate();
+		$ilSetting = $DIC->settings();
+		$lng = $DIC->language();
+		$ilIliasIniFile = $DIC['ilIliasIniFile'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+
+		$ilAppEventHandler->raise(
+			'Services/Authentication',
+			'beforeLogout',
+			[
+				'user_id' => $this->user->getId()
+			]
+		);
+
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 		$GLOBALS['DIC']['ilAuthSession']->logout();
 		
 		$GLOBALS['ilAppEventHandler']->raise(
@@ -2362,6 +2380,97 @@ class ilStartUpGUI
 
 		return $page_editor_html;
 	}
+
+	/**
+	 * @param $page_editor_html
+	 * @return string
+	 */
+	protected function showOpenIdConnectLoginForm($page_editor_html)
+	{
+		global $DIC;
+
+		$oidc_settings = ilOpenIdConnectSettings::getInstance();
+		if($oidc_settings->getActive())
+		{
+			$tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
+
+			switch($oidc_settings->getLoginElementType())
+			{
+				case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT:
+
+					$tpl->setVariable('SCRIPT_OIDCONNECT_T',ILIAS_HTTP_PATH.'/openidconnect.php');
+					$tpl->setVariable('TXT_OIDC',$oidc_settings->getLoginElemenText());
+					break;
+
+				case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG:
+					$tpl->setVariable('SCRIPT_OIDCONNECT_I',ILIAS_HTTP_PATH.'/openidconnect.php');
+					$tpl->setVariable('IMG_SOURCE', $oidc_settings->getImageFilePath());
+					break;
+			}
+
+			return $this->substituteLoginPageElements(
+				$DIC->ui()->mainTemplate(),
+				$page_editor_html,
+				$tpl->get(),
+				'[list-openid-connect-login]',
+				'OPEN_ID_CONNECT_LOGIN_FORM'
+			);
+
+		}
+
+		return $page_editor_html;
+	}
+
+	/**
+	 * do open id connect authentication
+	 */
+	protected function doOpenIdConnectAuthentication()
+	{
+		global $DIC;
+
+		$this->getLogger()->debug('Trying openid connect authentication');
+
+		$credentials = new ilAuthFrontendCredentialsOpenIdConnect();
+		$credentials->initFromRequest();
+
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_OPENID_CONNECT);
+
+		$status = ilAuthStatus::getInstance();
+
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+
+		$frontend->authenticate();
+
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+				include_once './Services/Init/classes/class.ilInitialisation.php';
+				ilInitialisation::redirectToStartingPage();
+				return;
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
+				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				return false;
+		}
+
+		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		$this->showLoginPage();
+		return false;
+
+
+
+	}
+
 
 	/**
 	 * @return bool
