@@ -26,12 +26,12 @@ class ilSCORMPresentationGUI
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->lng->loadLanguageModule('cert');
-
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
+
+		$this->lng->loadLanguageModule('cert');
 
 		// Todo: check lm id
 		$this->slm = new ilObjSCORMLearningModule($_GET["ref_id"], true);
@@ -49,7 +49,7 @@ class ilSCORMPresentationGUI
 
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
 			(!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) ||
-			!$this->slm->getOnline()))
+			$this->object->getOfflineStatus()))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}

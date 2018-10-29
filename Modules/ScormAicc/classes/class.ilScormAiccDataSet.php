@@ -37,7 +37,6 @@ class ilScormAiccDataSet extends ilDataSet
 			"NoMenu" => ["db_col" => "no_menu", "db_type" => "text"],
 			"Objectives" => ["db_col" => "objectives", "db_type" => "text"],
 			"OfflineMode" => ["db_col" => "offline_mode", "db_type" => "text"],
-			"Online" => ["db_col" => "c_online", "db_type" => "text"],
 			"OpenMode" => ["db_col" => "open_mode", "db_type" => "integer"],
 			"Sequencing" => ["db_col" => "sequencing", "db_type" => "text"],
 			"SequencingExpertMode" => ["db_col" => "seq_exp_mode", "db_type" => "integer"],
