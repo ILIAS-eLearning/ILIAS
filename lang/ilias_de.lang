@@ -45,7 +45,6 @@ lti#:#lti_member#:#LTI-Member
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 crs#:#crs_timings_activate_optional#:#Freiwilligen-Modus des studyplans des Benutzers
 crs#:#crs_timings_activate_optional_own#:#Freiwilligen-Modus meines studyplans
-crs#:#crs_timings_changeable#:#Lernplanung änderbar
 crs#:#crs_timings_days_after_subsription#:#Tag(e) nach Kursbeitritt
 crs#:#crs_timings_edit_personal#:#Persönlichen Lernplan bearbeiten
 crs#:#crs_timings_optional_checked#:#Der Freiwilligen-Modus wurde für diesen Benutzer aktiviert.
@@ -53,21 +52,16 @@ crs#:#crs_timings_optional_off#:#Der Freiwilligen-Modus ist nicht aktiv.
 crs#:#crs_timings_optional_on#:#Der Freiwilligen-Modus ist aktiv.
 crs#:#crs_timings_optional_on_and_passed#:#Der Freiwilligen-Modus ist aktiv und kann nicht geändert werden, da der Nutzer den Status "Bestanden" hat.
 crs#:#crs_timings_optional_unchecked#:#Der Freiwilligen-Modus wurde für diesen Benutzer deaktiviert.
-crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
 crs#:#crs_timings_presetting_tbl#:#Lernplaung
-crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_active_tt#:#Lernplanung aktivieren
 crs#:#crs_timings_short_changeable_tt#:#Lernplaung änderbar durch Teilnehmer
 crs#:#crs_timings_short_end#:#Enddatum
 crs#:#crs_timings_short_limit_start_end_tt#:#Spätestes Ende
 crs#:#crs_timings_short_limit_start_end_tt_rel#:#Spätestes Ende in Tagen nach Kursbeitritt
-crs#:#crs_timings_short_start_end#:#Startdatum
 crs#:#crs_timings_short_start_end_rel#:#Start nach Kursbeginn (in Tagen)
 crs#:#crs_timings_short_start_end_tt#:#Empfohlener Start
 crs#:#crs_timings_short_start_end_tt_rel#:#Empfohlener Start in Tagen nach Kursbeitritt
-crs#:#crs_timings_time_frame#:#Bearbeitungsdauer (in Tagen)
 crs#:#crs_timings_time_frame_tt#:#Bearbeitungsdauer in Tagen
-crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien widerspricht dem angegebenen spätestmöglichen Lernzeitpunkt.
 crs#:#crs_timings_warning_timing_exists#:#Achtung: für dieses Objekt existiert ein  aktiver Lernplan. Wenn sie die zeitlich begrenzte Verfügbarkeit aktivieren, werden die Lernplanungszeiten zurückgesetzt.
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
