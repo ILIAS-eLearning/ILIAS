@@ -7251,6 +7251,12 @@ a.btn-link.ilSubmitInactive:hover {
 .btn-bulky {
   width: 100%;
 }
+.il-btn-with-loading-animation {
+  background-image: url("images/loader.svg");
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 18px;
+}
 .btn-tag {
   display: inline-block;
   white-space: nowrap;
