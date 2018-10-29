@@ -175,7 +175,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</div>
  		</div>
         <input class="il-filter-field-status" type="hidden" name="__filter_status_0" value="1" />
-        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="1" />
+        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="0" />
     </form>
 </div>
 EOT;
@@ -254,7 +254,7 @@ EOT;
             </div>
         </div>
         <input class="il-filter-field-status" type="hidden" name="__filter_status_0" value="1" />
-        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="1" />
+        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="0" />
     </form>
 </div>
 EOT;
@@ -344,7 +344,7 @@ EOT;
             </div>
         </div>
         <input class="il-filter-field-status" type="hidden" name="__filter_status_0" value="1" />
-        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="1" />
+        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="0" />
     </form>
 </div>
 EOT;
@@ -421,7 +421,7 @@ EOT;
             </div>
         </div>
         <input class="il-filter-field-status" type="hidden" name="__filter_status_0" value="1" />
-        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="1" />
+        <input class="il-filter-field-status" type="hidden" name="__filter_status_1" value="0" />
     </form>
 </div>
 EOT;
