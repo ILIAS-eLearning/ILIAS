@@ -842,6 +842,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 				$this->object->saveToDb();
 
+				ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+					$this->object->getId(),
+					$form,
+					array(
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+					)
+				);
+
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
 					ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
@@ -1437,6 +1445,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$form->addItem($skill_service);
 		}
 				
+		$position_settings = ilOrgUnitGlobalSettings::getInstance()
+			->getObjectPositionSettingsByType($this->object->getType());
+
+		if($position_settings->isActive())
+		{
+			// add additional feature section
+			$feat = new ilFormSectionHeaderGUI();
+			$feat->setTitle($this->lng->txt('obj_features'));
+			$form->addItem($feat);
+
+			// add orgunit settings
+			ilObjectServiceSettingsGUI::initServiceSettingsForm(
+					$this->object->getId(),
+					$form,
+					array(
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+					)
+				);
+		}
 		
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
 
