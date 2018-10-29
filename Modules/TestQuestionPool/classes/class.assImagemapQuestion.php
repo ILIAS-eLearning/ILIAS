@@ -144,6 +144,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		foreach ($this->answers as $key => $value)
 		{
 			$answer_obj   = $this->answers[$key];
+			$answer_obj->setOrder($key);
 			$next_id      = $ilDB->nextId( 'qpl_a_imagemap' );
 			$ilDB->manipulateF( "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 									array( "integer", "integer", "text", "float", "integer", "text", "text", "float" ),

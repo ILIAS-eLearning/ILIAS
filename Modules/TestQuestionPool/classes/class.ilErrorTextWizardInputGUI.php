@@ -210,7 +210,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 			{
 				foreach ($foundvalues['key'] as $val)
 				{
-					if ($this->getRequired() && (strlen($val)) == 0) 
+					if ($this->getRequired() && (strlen($val)) == 0)
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -218,7 +218,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 				}
 				foreach ($foundvalues['value'] as $val)
 				{
-					if ($this->getRequired() && (strlen($val)) == 0) 
+					if ($this->getRequired() && (strlen($val)) == 0)
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -226,7 +226,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 				}
 				foreach ($foundvalues['points'] as $val)
 				{
-					if ($this->getRequired() && (strlen($val)) == 0) 
+					if ($this->getRequired() && (strlen($val)) == 0)
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;

@@ -1535,6 +1535,7 @@ abstract class assQuestion
 			
 			$row = $ilDB->fetchAssoc($result);
 			
+			if( $row['reachedpoints'] === null ) $row['reachedpoints'] = 0;
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
 
@@ -5308,6 +5309,26 @@ abstract class assQuestion
 	}
 // fau.
 
+	public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+	{
+		return false;
+	}
+	
+	public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+	{
+		
+	}
+
+	public function removeAllExistingSolutions()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$query = "DELETE FROM tst_solutions WHERE question_fi = %s";
+		
+		$DIC->database()->manipulateF($query, array('integer'), array($this->getId()));
+		
+	}
+	
 	public function removeExistingSolutions($activeId, $pass)
 	{
 		global $ilDB;

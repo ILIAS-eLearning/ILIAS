@@ -588,4 +588,53 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		}
 		return $tpl;
 	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answers = array();
+		
+		foreach($relevantAnswers as $ans)
+		{
+			$md5 = md5($ans['value1']);
+			
+			if( !isset($answers[$md5]) )
+			{
+				$answer = str_replace(
+					$this->object->getAnswerSeparator(),
+					'&nbsp;&nbsp;-&nbsp;&nbsp;',
+					$ans['value1']
+				);
+				
+				$answers[$md5] = array(
+					'answer' => $answer, 'frequency' => 0
+				);
+			}
+			
+			$answers[$md5]['frequency']++;
+		}
+		
+		return $answers;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		
+		$points->allowDecimals( true );
+		$points->setValue( $this->object->getPoints() );
+		$points->setRequired( TRUE );
+		$points->setSize( 3 );
+		$points->setMinValue( 0.0 );
+		$points->setMinvalueShouldBeGreater( true );
+		$form->addItem( $points );
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->object->setPoints((float)$form->getInput('points'));
+	}
 }
