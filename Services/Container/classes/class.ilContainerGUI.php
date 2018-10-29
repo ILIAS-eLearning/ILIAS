@@ -609,6 +609,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
+	 * render the object
+	 */
+	function renderBlockAsynchObject()
+	{
+		$container_view = $this->getContentGUI();
+		echo $container_view->getSingleTypeBlockAsynch($_GET["type"]);
+		exit;
+	}
+
+
+	/**
 	* Set content sub tabs
 	*/
 	function setContentSubTabs()

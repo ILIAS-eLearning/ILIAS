@@ -756,6 +756,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 					ilContainer::SORT_MANUAL
 				)
 		);
+
+		// block limit
+		$bl = new ilNumberInputGUI($this->lng->txt("cont_block_limit"), "block_limit");
+		$bl->setInfo($this->lng->txt("cont_block_limit_info"));
+		$bl->setValue(ilContainer::_lookupContainerSetting($this->object->getId(), "block_limit"));
+		$form->addItem($bl);
 				
 		// icon settings
 
@@ -853,7 +859,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::CUSTOM_METADATA
 					)
 				);
-				
+
+				// block limit
+				if ((int) $form->getInput("block_limit") > 0)
+				{
+					ilContainer::_writeContainerSetting($this->object->getId(), "block_limit", (int) $form->getInput("block_limit"));
+				}
+				else
+				{
+					ilContainer::_deleteContainerSettings($this->object->getId(), "block_limit");
+				}
 				// Update ecs export settings
 				include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';	
 				$ecs = new ilECSCategorySettings($this->object);			
