@@ -14801,3 +14801,6 @@ cont#:#cont_block_limit#:#Einträge per Block begrenzen
 cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 crs#:#crs_lobj_pm_score#:#Ihr Ergebnis
 crs#:#crs_lobj_pm_min_goal#:#Benötigter Wert
+dateplaner#:#back_to_crs#:#Kursinhalt
+dateplaner#:#back_to_grp#:#Gruppeninhalt
+dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
