@@ -69,20 +69,6 @@ class ilCertificateMigrationUIElements
 	 */
 	public function getMigrationMessageBox(string $link): string
 	{
-		if (!\ilCertificate::isActive()) {
-			return '';
-		}
-		if ($this->user->getPref('cert_migr_finished') === 1) {
-			return '';
-		}
-		$migrationHelper = new \ilCertificateMigration($this->user->getId());
-		if (
-			$migrationHelper->isTaskRunning() ||
-			$migrationHelper->isTaskFinished()
-		) {
-			return '';
-		}
-
 		$ui_factory = $this->ui->factory();
 		$ui_renderer = $this->ui->renderer();
 
@@ -90,16 +76,17 @@ class ilCertificateMigrationUIElements
 			$ui_factory->button()->standard($this->lng->txt("certificate_migration_go"), $link),
 		];
 
+		$migrationHelper = new \ilCertificateMigration($this->user->getId());
 		if ($migrationHelper->isTaskFailed()) {
-			$messagebox = $ui_factory->messageBox()
+			$messageBox = $ui_factory->messageBox()
 				->failure($this->lng->txt('certificate_migration_lastrun_failed'))
 				->withButtons($message_buttons);
 		} else {
-			$messagebox = $ui_factory->messageBox()
+			$messageBox = $ui_factory->messageBox()
 				->confirmation($this->lng->txt('certificate_migration_confirm_start'))
 				->withButtons($message_buttons);
 		}
 
-		return $ui_renderer->render($messagebox);
+		return $ui_renderer->render($messageBox);
 	}
 }

@@ -1,25 +1,5 @@
 <?php
-/*
-  +----------------------------------------------------------------------------+
-  | ILIAS open source                                                          |
-  +----------------------------------------------------------------------------+
-  | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-  |                                                                            |
-  | This program is free software; you can redistribute it and/or              |
-  | modify it under the terms of the GNU General Public License                |
-  | as published by the Free Software Foundation; either version 2             |
-  | of the License, or (at your option) any later version.                     |
-  |                                                                            |
-  | This program is distributed in the hope that it will be useful,            |
-  | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-  | GNU General Public License for more details.                               |
-  |                                                                            |
-  | You should have received a copy of the GNU General Public License          |
-  | along with this program; if not, write to the Free Software                |
-  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-  +----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilCertificateMigrationGUI
@@ -30,30 +10,28 @@
  */
 class ilCertificateMigrationGUI
 {
-	/** @var \ilCtrl */
+	/** @var \ilCtrl|null */
 	protected $ctrl;
 
-	/** @var \ilLanguage */
+	/** @var \ilLanguage|null */
 	protected $lng;
 
-	/** @var ilAccessHandler */
+	/** @var ilAccessHandler|null */
 	protected $access;
 
-	/** @var \ilTemplate */
+	/** @var \ilTemplate|null */
 	protected $tpl;
 
-	/** @var \ilObjUser */
+	/** @var \ilObjUser|null */
 	protected $user;
 
-	/** @var \ILIAS\DI\BackgroundTaskServices */
+	/** @var \ILIAS\DI\BackgroundTaskServices|null */
 	protected $backgroundTasks;
 	
-	/** @var \ilLearningHistoryService */
+	/** @var \ilLearningHistoryService|null */
 	protected $learningHistoryService;
 
-	/**
-	 * @var ilCertificateMigrationValidator|null
-	 */
+	/** @var ilCertificateMigrationValidator|null */
 	private $migrationValidator;
 
 	/**
@@ -103,7 +81,11 @@ class ilCertificateMigrationGUI
 		}
 
 		if (null === $migrationValidator) {
-			$migrationValidator = new ilCertificateMigrationValidator($certificateSettings);
+			$migrationValidator = new \ilCertificateMigrationValidator(
+				$user,
+				$certificateSettings,
+				new \ilCertificateMigration($user->getId())
+			);
 		}
 		$this->migrationValidator = $migrationValidator;
 
@@ -132,6 +114,7 @@ class ilCertificateMigrationGUI
 				$ret = $this->$cmd();
 				break;
 		}
+
 		return $ret;
 	}
 
@@ -140,19 +123,19 @@ class ilCertificateMigrationGUI
 	 * @param string $cmd
 	 * @return mixed
 	 */
-	public function getCommand(string $cmd)
+	public function getCommand(string $cmd): string
 	{
 		return $cmd;
 	}
 
 	/**
 	 * @return string
-	 * @throws ilException
+	 * @throws \ilException
 	 */
 	public function startMigration(): string
 	{
-		if (false === $this->migrationValidator->isMigrationAvailable($this->user)) {
-			throw new ilException('User is not allowed to start migration');
+		if (false === $this->migrationValidator->isMigrationAvailable()) {
+			throw new \ilException('User is not allowed to start migration');
 		}
 
 		$factory = $this->backgroundTasks->taskFactory();
