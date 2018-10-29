@@ -167,7 +167,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 			$this->validation_factory->custom(
 				function ($value) use ($clone) {
 					return (0 == count(array_diff($value, $clone->getTags())));
-				}, function ($value) use ($clone) {
+				}, function ($txt, $value) use ($clone) {
 				return "user created tags are not allowed: " . implode(", ", array_diff($value, $clone->getTags()));
 			}
 			)

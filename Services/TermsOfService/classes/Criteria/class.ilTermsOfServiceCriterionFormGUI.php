@@ -146,7 +146,8 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		$uniqueAssignmentConstraint = new ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$this->criterionTypeFactory,
 			$this->document,
-			new \ILIAS\Data\Factory()
+			new \ILIAS\Data\Factory(),
+			$this->lng
 		);
 
 		if (!$uniqueAssignmentConstraint->accepts($this->assignment)) {

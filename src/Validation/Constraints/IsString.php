@@ -18,14 +18,17 @@ class IsString extends Custom implements Constraint {
 
 	/**
 	 * IsString constructor.
-	 *
-	 * @param \ILIAS\Data\Factory $data_factory
 	 */
-	public function __construct(Data\Factory $data_factory) {
-		parent::__construct(function ($value) {
-			return is_string($value);
-		}, function ($value) {
-			return "'" . gettype($value) . "' is not a string.";
-		}, $data_factory);
+	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
+		parent::__construct(
+			function ($value) {
+				return is_string($value);
+			},
+			function ($txt, $value) {
+				return $txt("not_a_string", gettype($value));
+			},
+			$data_factory,
+			$lng
+		);
 	}
 }

@@ -86,7 +86,7 @@ class InputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
 		$this->data_factory = new DataFactory();
 		$this->transformation_factory = new TransformationFactory();
-		$this->validation_factory = new ValidationFactory($this->data_factory);
+		$this->validation_factory = new ValidationFactory($this->data_factory, $this->createMock(\ilLanguage::class));
 		$this->input = new DefInput($this->data_factory, $this->validation_factory, $this->transformation_factory, "label", "byline");
 		$this->name_source = new DefNamesource();
 	}

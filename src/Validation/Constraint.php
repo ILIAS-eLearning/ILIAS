@@ -60,7 +60,10 @@ interface Constraint {
 	 * problemWith() must return an error message according to the new builder for
 	 * the new constraint.
 	 *
-	 * @param   callable  $builder  mixed -> string
+	 * The builder needs to be callable that takes two parameters:
+	 * 
+	 *
+	 * @param   callable  $builder
 	 * @return  Constraint
 	 */
 	public function withProblemBuilder(callable $builder);

@@ -20,7 +20,7 @@ class Sequential extends Custom implements Constraint {
 	 */
 	protected $failed_constraint;
 
-	public function __construct(array $constraints, Data\Factory $data_factory) {
+	public function __construct(array $constraints, Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->constraints = $constraints;
 		parent::__construct(
 			function($value) {
@@ -33,10 +33,11 @@ class Sequential extends Custom implements Constraint {
 
 				return true;
 			},
-			function($value) {
+			function($txt, $value) {
 				return $this->failed_constraint->getErrorMessage($value);
 			},
-			$data_factory
+			$data_factory,
+			$lng
 		);
 	}
 }
