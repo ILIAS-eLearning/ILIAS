@@ -202,13 +202,10 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	 * @inheritdocs
 	 */
 	public function withRequest(ServerRequestInterface $request) {
-		if (!$this->isSanePostRequest($request)) {
-			throw new \LogicException("Server request is not a valid post request.");
-		}
-		$post_data = $this->extractPostData($request);
+		$param_data = $this->extractParamData($request);
 
 		$clone = clone $this;
-		$clone->input_group = $this->getInputGroup()->withInput($post_data);
+		$clone->input_group = $this->getInputGroup()->withInput($param_data);
 
 		return $clone;
 	}
@@ -226,26 +223,13 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	}
 
 	/**
-	 * Check the request for sanity.
-	 *
-	 * TODO: implement me!
-	 *
-	 * @param    ServerRequestInterface $request
-	 *
-	 * @return    bool
-	 */
-	protected function isSanePostRequest(ServerRequestInterface $request) {
-		return true;
-	}
-
-	/**
 	 * Extract post data from request.
 	 *
 	 * @param    ServerRequestInterface $request
 	 *
 	 * @return    PostData
 	 */
-	protected function extractPostData(ServerRequestInterface $request) {
+	protected function extractParamData(ServerRequestInterface $request) {
 		return new PostDataFromServerRequest($request);
 	}
 

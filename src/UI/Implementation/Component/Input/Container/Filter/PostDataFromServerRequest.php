@@ -17,11 +17,11 @@ class PostDataFromServerRequest implements PostData {
 	/**
 	 * @var    array
 	 */
-	protected $parsed_body;
+	protected $query_params;
 
 
 	public function __construct(ServerRequestInterface $request) {
-		$this->parsed_body = $request->getParsedBody();
+		$this->query_params = $request->getQueryParams();
 	}
 
 
@@ -29,11 +29,11 @@ class PostDataFromServerRequest implements PostData {
 	 * @inheritdocs
 	 */
 	public function get($name) {
-		if (!isset($this->parsed_body[$name])) {
+		if (!isset($this->query_params[$name])) {
 			throw new \LogicException("'$name' is not contained in posted data.");
 		}
 
-		return $this->parsed_body[$name];
+		return $this->query_params[$name];
 	}
 
 
@@ -45,6 +45,6 @@ class PostDataFromServerRequest implements PostData {
 			return $default;
 		}
 
-		return $this->parsed_body[$name];
+		return $this->query_params[$name];
 	}
 }

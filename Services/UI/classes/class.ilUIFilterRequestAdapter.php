@@ -60,6 +60,7 @@ class ilUIFilterRequestAdapter
 	 */
 	public function isPost(): bool
 	{
+		return true;
 		return ($this->request->getMethod() == "POST");
 	}
 
@@ -71,8 +72,8 @@ class ilUIFilterRequestAdapter
 	 */
 	public function isInputRendered($input_id): bool
 	{
-		if (isset($this->post["__filter_status_" . $input_id]) &&
-			$this->post["__filter_status_" . $input_id] === "1")
+		if (isset($this->params[self::RENDER_INPUT_BASE . $input_id]) &&
+			$this->params[self::RENDER_INPUT_BASE . $input_id] === "1")
 		{
 			return true;
 		}
