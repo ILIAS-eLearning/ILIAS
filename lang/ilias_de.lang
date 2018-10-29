@@ -5507,7 +5507,6 @@ crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
 crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_changeable#:#Änderbar
 crs#:#crs_timings_short_limit_start_end#:#Spätestes Ende
-crs#:#crs_timings_short_start_end#:#Empfehlung
 crs#:#crs_timings_start#:#Startzeit
 crs#:#crs_timings_start_end_info#:#(Start/Ende)
 crs#:#crs_timings_sug_begin#:#Empfohlener Start
@@ -14882,4 +14881,3 @@ dateplaner#:#back_to_crs#:#Kursinhalt
 dateplaner#:#back_to_grp#:#Gruppeninhalt
 dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
 crs#:#crs_timings_short_start_end#:#Startdatum
-crs#:#crs_timings_time_frame_tt#:#Bearbeitungsdauer in Tagen

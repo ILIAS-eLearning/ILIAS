@@ -14925,5 +14925,3 @@ crs#:#crs_lobj_pm_min_goal#:#Required Score
 dateplaner#:#back_to_crs#:#Go to Course
 dateplaner#:#back_to_grp#:#Go to Group
 dateplaner#:#back_to_pd#:#Back to Personal Desktop
-crs#:#crs_timings_short_start_end#:#Starting Date
-crs#:#crs_timings_time_frame_tt#:#Duration in days
