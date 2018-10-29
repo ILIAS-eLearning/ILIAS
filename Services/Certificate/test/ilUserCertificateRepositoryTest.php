@@ -396,7 +396,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$userId = 10;
 		$objectIds = array(200, 300, 400);
 
-		$results = $repository->fetchObjectWithCertificateForUser($userId, $objectIds);
+		$results = $repository->fetchObjectIdsWithCertificateForUser($userId, $objectIds);
 
 		$this->assertEquals(array(100, 300), $results);
 	}

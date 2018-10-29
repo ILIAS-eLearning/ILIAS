@@ -15,17 +15,15 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjCourseListGUI extends ilObjectListGUI
 {
 	/**
-	 * @var ilCertificateObjectsForUserPreloader
+	 * @var \ilCertificateObjectsForUserPreloader
 	 */
-	private $preloader;
+	private $certificatePreloader;
 
 	/**
 	* initialisation
 	*/
 	function init()
 	{
-		global $DIC;
-
 		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
@@ -44,9 +42,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 		// general commands array
 		$this->commands = ilObjCourseAccess::_getCommands();
-
-		$repository = new ilUserCertificateRepository();
-		$this->preloader = new ilCertificateObjectsForUserPreloader($repository);
 	}
 	
 	/**
@@ -64,6 +59,18 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);
 	}
 
+	/**
+	 * @return \ilCertificateObjectsForUserPreloader
+	 */
+	protected function getCertificatePreloader(): \ilCertificateObjectsForUserPreloader
+	{
+		if (null === $this->certificatePreloader) {
+			$repository = new ilUserCertificateRepository();
+			$this->certificatePreloader = new ilCertificateObjectsForUserPreloader($repository);
+		}
+		
+		return $this->certificatePreloader;
+	}
 
 	/**
 	* Get item properties
@@ -155,14 +162,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}				
 		
 		// check for certificates
-		global $DIC;
-		$database = $DIC->database();
-
-
-		$hasCertificate = $this->preloader->isPreloaded($ilUser->getId(), $this->obj_id);
-
-		if(true === $hasCertificate)
-		{
+		$hasCertificate = $this->getCertificatePreloader()->isPreloaded($ilUser->getId(), $this->obj_id);
+		if (true === $hasCertificate) {
 			$lng->loadLanguageModule('certificate');
 			$cmd_link = "ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=".$this->ref_id.
 					"&amp;cmd=deliverCertificate";

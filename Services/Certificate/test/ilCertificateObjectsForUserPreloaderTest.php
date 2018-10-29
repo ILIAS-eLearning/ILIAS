@@ -12,7 +12,7 @@ class ilCertificateObjectsForUserPreloaderTest extends PHPUnit_Framework_TestCas
 			->disableOriginalConstructor()
 			->getMock();
 
-		$userCertificateRepository->method('fetchObjectWithCertificateForUser')
+		$userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
 			->willReturn(array(1, 2, 3));
 
 		$preloader = new ilCertificateObjectsForUserPreloader($userCertificateRepository);
@@ -30,7 +30,7 @@ class ilCertificateObjectsForUserPreloaderTest extends PHPUnit_Framework_TestCas
 			->disableOriginalConstructor()
 			->getMock();
 
-		$userCertificateRepository->method('fetchObjectWithCertificateForUser')
+		$userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
 			->willReturn(array(1, 2, 3));
 
 		$preloader = new ilCertificateObjectsForUserPreloader($userCertificateRepository);
@@ -48,7 +48,7 @@ class ilCertificateObjectsForUserPreloaderTest extends PHPUnit_Framework_TestCas
 			->disableOriginalConstructor()
 			->getMock();
 
-		$userCertificateRepository->method('fetchObjectWithCertificateForUser')
+		$userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
 			->willReturn(array(1, 2, 3));
 
 		$preloader = new ilCertificateObjectsForUserPreloader($userCertificateRepository);
