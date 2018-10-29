@@ -2,24 +2,29 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 il.Explorer2 = {
-	
+
+	current_search_term: '',
+
 	selects: {},
 	
 	configs: {},
 	
 	init: function (config, js_tree_config) {
-//console.log(js_tree_config);
 		if (config.ajax) {
-			js_tree_config.html_data.ajax = {url: config.url + "&exp_cmd=getNodeAsync",
+			js_tree_config.core.data = {url: config.url + "&exp_cmd=getNodeAsync",
 				data: function(n) {
-					//console.log(this); // exp_cont missing
-					return {node_id: n.attr ? n.attr("id") : "",
-						exp_cont: config.container_id
+					var id = n.id;
+					if (n.id === "#") {
+						id = "";
+					}
+					return {node_id: id,
+						exp_cont: config.container_id,
+						searchterm: il.Explorer2.current_search_term
 					};
 			}};
-			
-			js_tree_config.html_data.data = $("#" + config.container_id).html();
 		}
+		config.js_tree_config = js_tree_config;
+		console.log(js_tree_config);
 		il.Explorer2.configs[config.container_id] = config;
 		$("#" + config.container_id).on("loaded.jstree", function (event, data) {
 				var i;
@@ -27,27 +32,70 @@ il.Explorer2 = {
 				for (i = 0; i < config.second_hnodes.length; i++) {
 					$("#" + config.second_hnodes[i]).addClass("ilExplSecHighlight");
 				}
-			}).on("open_node.jstree close_node.jstree", function (event, data) {
+				console.log("loaded jstree");
+
+		}).on("open_node.jstree close_node.jstree", function (event, data) {
 				il.Explorer2.toggle(event, data);
-			}).jstree(js_tree_config);
+			}).jstree(js_tree_config).bind("select_node.jstree", function (e, data) {
+			// not working, if node is disabled by data attribute us on click above
+			//var href = data.node.a_attr.href;
+			//document.location.href = href;
+		}).on('ready.jstree', function (e, data) {
+			data.instance.open_node(js_tree_config.core.initially_open);
+
+			il.Explorer2.setEvents("#" + config.container_id, config.container_id);
+
+		}).on('load_node.jstree', function (e, data) {
+			var cid = data.node.id, p;
+			if (cid !== "#") {
+				p = "#" + cid;
+				setTimeout(function() {
+					il.Explorer2.setEvents(p, config.container_id);
+				}, 500);
+			}
+		}).on('refresh_node.jstree', function (e, data) {
+			var cid = data.node.id, p;
+			if (cid !== "#") {
+				p = "#" + cid;
+				setTimeout(function() {
+					il.Explorer2.setEvents(p, config.container_id);
+				}, 500);
+			}
+		});
 	},
-	
+
+	setEvents: function(p, cid) {
+		$(p).find("a").on("click", function (e) {
+			var href = $(this).attr("href");
+			document.location.href = href;
+		});
+		$(p + " .ilExpSearchInput").parent("a").replaceWith(function() { return $('input:first', this); });
+
+		$(p + " .ilExpSearchInput").on("keydown", function(e) {
+			if(e.keyCode === 13) {
+				var pid = $(e.target).parents("li").parents("li").attr("id");
+				il.Explorer2.current_search_term = $(e.target).val();
+				$("#" + cid).jstree('refresh_node', pid);
+			}
+		});
+
+	},
+
 	toggle: function(event, data) {
+
 		var type = event.type, // "open_node" or "close_node"
-			id = data.rslt.obj[0].id, // id of li element
+			id = data.node.id, // id of li element
 			container_id = event.target.id,
 			t = il.Explorer2, url;
 			
 		// the args[2] parameter is true for the initially
 		// opened nodes, but not, if manually opened
 		// this is somhow undocumented, but it works
-		if (type == "open_node" && data.args[2]) {
+		if (type == "open_node" &&
+			typeof t.configs[container_id].js_tree_config.core.initially_open[id] !== 'undefined') {
 			return;
 		}
 		
-		//console.log(event.target.id);
-		//console.log(type + ": " + id);
-		//console.log(t.configs[container_id].url);
 		url = t.configs[container_id].url;
 		if (url == '') {
 			return;
