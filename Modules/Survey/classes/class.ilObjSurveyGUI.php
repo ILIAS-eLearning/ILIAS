@@ -248,7 +248,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$ilTabs->activateTab("survey_360_appraisees");
 				}
 				include_once("./Modules/Survey/classes/class.ilSurveyParticipantsGUI.php");
-				$gui = new ilSurveyParticipantsGUI($this, $this->checkPermissionBool("write"));
+				//$gui = new ilSurveyParticipantsGUI($this, $this->checkPermissionBool("write"));
+				$gui = new ilSurveyParticipantsGUI($this, $this->checkRbacOrPositionPermission('read_results', 'access_results'));
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
@@ -483,7 +484,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					break;
 			}
 		}
-			
+
 		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
 		if(
 			$this->checkRbacOrPositionPermission('read_results','access_results') ||

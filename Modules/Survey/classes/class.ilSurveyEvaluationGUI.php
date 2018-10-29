@@ -1419,7 +1419,8 @@ class ilSurveyEvaluationGUI
 			}
 		}
 				
-		$participants = $this->object->getSurveyParticipants($finished_ids);
+		//$participants = $this->object->getSurveyParticipants($finished_ids);
+		$participants = $this->filterSurveyParticipantsByAccess($finished_ids);
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";	
 		foreach($participants as $user)
@@ -1577,10 +1578,8 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setContent($table_gui->getHTML().$modal);			
 	}
 	
-	protected function parseUserSpecificResults(array $a_finished_ids = null)
+	protected function filterSurveyParticipantsByAccess($a_finished_ids)
 	{				
-		$data = array();		
-		
 		$all_participants = $this->object->getSurveyParticipants($a_finished_ids);
 		$participant_ids = [];
 		foreach($all_participants as $participant)
@@ -1595,7 +1594,6 @@ class ilSurveyEvaluationGUI
 			$this->object->getRefId(),
 			$participant_ids
 		);
-		$this->log->dump($filtered_participant_ids);
 		$participants = [];
 		foreach($all_participants as $username => $user_data)
 		{
@@ -1608,8 +1606,16 @@ class ilSurveyEvaluationGUI
 				$participants[$username] = $user_data;
 			}
 		}
-		$this->log->dump($$participants);
+		return $participants;
+	}
+
+
+
+	protected function parseUserSpecificResults(array $a_finished_ids = null)
+	{				
+		$data = array();		
 		
+		$participants = $this->filterSurveyParticipantsByAccess($a_finished_ids);
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 		foreach($this->object->getSurveyQuestions() as $qdata)
