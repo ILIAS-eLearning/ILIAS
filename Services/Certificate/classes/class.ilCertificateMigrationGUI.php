@@ -33,17 +33,21 @@ class ilCertificateMigrationGUI
 
 	/** @var ilCertificateMigrationValidator|null */
 	private $migrationValidator;
+	
+	/** @var ilErrorHandling|null */
+	private $errorHandler;
 
 	/**
 	 * ilCertificateMigrationGUI constructor.
-	 * @param \ilCtrl $ctrl
-	 * @param \ilLanguage $lng
-	 * @param ilAccessHandler|null $access
-	 * @param \ILIAS\DI\BackgroundTaskServices $backgroundTasks
-	 * @param \ilObjUser $user
-	 * @param \ilLearningHistoryService $learningHistoryService
-	 * @param ilSetting|null $certificateSettings
+	 * @param \ilCtrl                              $ctrl
+	 * @param \ilLanguage                          $lng
+	 * @param ilAccessHandler|null                 $access
+	 * @param \ILIAS\DI\BackgroundTaskServices     $backgroundTasks
+	 * @param \ilObjUser                           $user
+	 * @param \ilLearningHistoryService            $learningHistoryService
+	 * @param ilSetting|null                       $certificateSettings
 	 * @param ilCertificateMigrationValidator|null $migrationValidator
+	 * @param ilErrorHandling|null                 $errorHandler
 	 */
 	public function __construct(
 		\ilCtrl $ctrl = null,
@@ -53,7 +57,8 @@ class ilCertificateMigrationGUI
 		\ilObjUser $user = null,
 		\ilLearningHistoryService $learningHistoryService = null,
 		\ilSetting $certificateSettings = null,
-		\ilCertificateMigrationValidator $migrationValidator = null
+		\ilCertificateMigrationValidator $migrationValidator = null,
+		\ilErrorHandling $errorHandler = null
 	) {
 		global $DIC;
 
@@ -84,6 +89,11 @@ class ilCertificateMigrationGUI
 			$migrationValidator = new \ilCertificateMigrationValidator($certificateSettings);
 		}
 		$this->migrationValidator = $migrationValidator;
+
+		if (null === $errorHandler) {
+			$errorHandler = $DIC['ilErr'];
+		}
+		$this->errorHandler = $errorHandler;
 
 		$this->ctrl = $ctrl;
 		$lng->loadLanguageModule('cert');
@@ -134,7 +144,7 @@ class ilCertificateMigrationGUI
 			$this->user, new \ilCertificateMigration($this->user->getId())
 		);
 		if (false === $isMigrationAvailable) {
-			throw new \ilException('User is not allowed to start migration');
+			$this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
 		}
 
 		$factory = $this->backgroundTasks->taskFactory();
