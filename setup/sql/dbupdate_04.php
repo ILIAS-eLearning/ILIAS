@@ -24367,7 +24367,206 @@ $ilDB->manipulate($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
 <#5382>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+
+if($type_id && $tgt_ops_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+?>
+<#5383>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+
+?>
+
+<#5384>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addCustomRBACOperation(
+	'manage_materials',
+	'Manage Materials',
+	'object',
+	6500
+);
+?>
+<#5385>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_materials');
+
+if($tgt_ops_id && $type_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+
+?>
+<#5386>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_materials');
+ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+?>
+
+
+<#5387>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addCustomRBACOperation(
+	'edit_metadata',
+	'Edit Metadata',
+	'object',
+	5800
+);
+?>
+
+
+<#5388>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_metadata');
+
+if($tgt_ops_id && $type_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $tgt_ops_id);
+}
+
+?>
+<#5389>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_metadata');
+ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+?>
+
+<#5390>
+<?php
+if(!$ilDB->tableColumnExists('adv_md_record','gpos'))
+{
+	$ilDB->addTableColumn('adv_md_record', 'gpos',
+		array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		)
+	);
+}
+?>
+<#5391>
+<?php
+if (!$ilDB->tableExists('adv_md_record_obj_ord'))
+{
+	$ilDB->createTable(
+		'adv_md_record_obj_ord',
+		[
+			'record_id' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			],
+			'obj_id' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			],
+			'position' => [
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			]
+		]
+	);
+	$ilDB->addPrimaryKey(
+		'adv_md_record_obj_ord',
+		[
+			'record_id',
+			'obj_id'
+		]
+	);
+}
+?>
+
+<#5392>
+<?php
+if(!$ilDB->tableColumnExists('event', 'show_members'))
+{
+	$ilDB->addTableColumn(
+		'event',
+		'show_members',
+		[
+			"notnull" => true,
+			"length" => 1,
+			"type" => "integer",
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5393>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#5394>
+<?php
+if(!$ilDB->tableColumnExists('event', 'mail_members'))
+{
+	$ilDB->addTableColumn(
+		'event',
+		'mail_members',
+		[
+			"notnull" => true,
+			"length" => 1,
+			"type" => "integer",
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5395>
+<?php
+if(!$ilDB->tableColumnExists('event_participants', 'contact'))
+{
+	$ilDB->addTableColumn(
+		'event_participants',
+		'contact',
+		[
+			"notnull" => true,
+			"length" => 1,
+			"type" => "integer",
+			'default' => 0
+		]
+	);
+}
+?>
+<#5396>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5397>
+<?php
+$ilSetting = new ilSetting('certificate');
+$setting = $ilSetting->set('persisting_cers_introduced_ts', time());
+?>
+<#5398>
 <?php
 
 // migration of svy offline status

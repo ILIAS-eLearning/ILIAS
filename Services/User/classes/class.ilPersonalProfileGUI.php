@@ -74,12 +74,11 @@ class ilPersonalProfileGUI
 				$tpl->show();
 				break;
 
-			case "ilcertificatemigrationgui":
-				include_once("./Services/Certificate/classes/class.ilCertificateMigrationGUI.php");
-				$cert_migration_gui = new \ilCertificateMigrationGUI();
-				$ret = $ilCtrl->forwardCommand($cert_migration_gui);
+			case 'ilcertificatemigrationgui':
+				$migrationGui = new \ilCertificateMigrationGUI();
+				$resultMessageString = $ilCtrl->forwardCommand($migrationGui);
 				/** @var ilTemplate $tpl */
-				$tpl->setMessage(ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$tpl->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $resultMessageString, true);
 				$this->setTabs();
 				$this->showPersonalData(false, true);
 				break;
@@ -791,14 +790,7 @@ class ilPersonalProfileGUI
 			}
 		}
 
-		if (!$a_migration_started) {
-		    $cert_ui_elements = new \ilCertificateMigrationUIElements();
-			$messagebox_link = $this->ctrl->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-			$messagebox = $cert_ui_elements->getMigrationMessageBox($messagebox_link);
-			$this->tpl->setCurrentBlock('mess');
-			$this->tpl->setVariable('MESSAGE', $messagebox);
-			$this->tpl->parseCurrentBlock('mess');
-		}
+		$this->renderCertificateMigration($ilUser, $a_migration_started);
 
 		$this->tpl->setContent($this->form->getHTML());
 
@@ -1603,7 +1595,31 @@ class ilPersonalProfileGUI
 			$tpl->show();
 		}
 	}
-	
-}
 
-?>
+	/**
+	 * @param \ilObjUser
+	 * @param bool $migrationIsStartedInRequest
+	 */
+	protected function renderCertificateMigration(\ilObjUser $user, bool $migrationIsStartedInRequest)
+	{
+		$migrationVisibleValidator = new ilCertificateMigrationValidator(new \ilSetting('certificate'));
+
+		$showMigrationBox = $migrationVisibleValidator->isMigrationAvailable(
+			$user,
+			new \ilCertificateMigration($user->getId())
+		);
+		if (!$migrationIsStartedInRequest && true === $showMigrationBox) {
+			$migrationUiEl = new \ilCertificateMigrationUIElements();
+
+			$startMigrationCommand = $this->ctrl->getLinkTargetByClass(
+				['ilCertificateMigrationGUI'], 'startMigrationAndReturnMessage',
+				false,true, false
+			);
+			$messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);
+
+			$this->tpl->setCurrentBlock('mess');
+			$this->tpl->setVariable('MESSAGE', $messageBoxHtml);
+			$this->tpl->parseCurrentBlock('mess');
+		}
+	}
+}

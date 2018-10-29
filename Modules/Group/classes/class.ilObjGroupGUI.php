@@ -492,6 +492,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$members_obj = ilGroupParticipants::_getInstanceByObjId($new_object->getId());
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
+		$members_obj->updateContact($ilUser->getId(),true);
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		if ($a_redirect)
@@ -930,6 +931,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tmp_data['lastname'] = $name['lastname'];
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 			$tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
+			$tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 			
@@ -1278,6 +1280,22 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		// meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+
+
+		// support contacts
+		$parts = ilParticipants::getInstance($this->object->getRefId());
+		$contacts = $parts->getContacts();
+		if (count($contacts) > 0)
+		{
+			$info->addSection($this->lng->txt("grp_mem_contacts"));
+			foreach ($contacts as $c)
+			{
+				$pgui = new ilPublicUserProfileGUI($c);
+				$pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
+				$pgui->setEmbedded(true);
+				$info->addProperty("", $pgui->getHTML());
+			}
+		}
 
 
 		$info->addSection($this->lng->txt('group_registration'));
@@ -1776,10 +1794,6 @@ class ilObjGroupGUI extends ilContainerGUI
 					)
 				);
 
-			// Notification Settings
-			/*$notification = new ilFormSectionHeaderGUI();
-			$notification->setTitle($this->lng->txt('grp_notification'));
-			$form->addItem($notification);*/
 
 			$mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'),'show_members');
 			$mem->setChecked($this->object->getShowMembers());

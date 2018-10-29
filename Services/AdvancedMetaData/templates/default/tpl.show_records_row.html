@@ -5,6 +5,9 @@
 		<!-- END check_bl -->
 	</td>
 	<td class="std">
+		<input type="text" class="form-control" name="pos[{R_ID}]" value="{VAL_POS}" size="3" maxlength="3" />
+	</td>
+	<td class="std">
 		{VAL_TITLE}
 		<!-- BEGIN record_desc -->
 		<br />{VAL_DESCRIPTION}
@@ -32,10 +35,15 @@
 	</td>
 	<!-- END ass_scope -->
 	<!-- BEGIN ass_obj_types_col -->
-	<td class="std">	
-		<!-- BEGIN ass_obj_types -->
-		{VAL_OBJ_TYPE_STATUS}&nbsp;&nbsp;{VAL_OBJ_TYPE}<br />
-		<!-- END ass_obj_types -->
+	<td class="std">
+		<ul class="std">
+			<!-- BEGIN ass_obj_types -->
+			<li class="std">{VAL_OBJ_TYPE_STATUS} <br /><font class="small">{VAL_OBJ_TYPE}</font></br></br></li>
+			<!-- END ass_obj_types -->
+			<!-- BEGIN ass_obj_only -->
+			<li class="std">{VAL_OBJ_TYPE}</font></li>
+			<!-- END ass_obj_only -->
+		</ul>
 	</td>
 	<!-- END ass_obj_types_col -->
 	<td class="std">

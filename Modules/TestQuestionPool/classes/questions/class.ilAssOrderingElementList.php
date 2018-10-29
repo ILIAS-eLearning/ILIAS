@@ -1003,4 +1003,21 @@ class ilAssOrderingElementList implements Iterator
 		
 		return $elementList;
 	}
+	
+	public function getHash()
+	{
+		$items = array();
+		
+		foreach($this as $element)
+		{
+			$items[] = implode(':', array(
+				$element->getSolutionIdentifier(),
+				$element->getRandomIdentifier(),
+				$element->getIndentation()
+			));
+		}
+		
+		return md5(serialize($items));
+	}
+		
 }

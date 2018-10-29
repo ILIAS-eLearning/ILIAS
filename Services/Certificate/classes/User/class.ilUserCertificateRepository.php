@@ -337,9 +337,13 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 		throw new ilException('No certificate found for user certificate id: ' . $id);
 	}
 
-	public function fetchObjectWithCertificateForUser(int $userId, array $objectIds)
+	public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds)
 	{
 		$this->logger->info(sprintf('START - Fetch certificate for user("%s") and ids: "%s"', $userId, json_encode($objectIds)));
+
+		if (0 === count($objectIds)) {
+			return [];
+		}
 
 		$inStatementObjectIds = $this->database->in(
 			'obj_id',
