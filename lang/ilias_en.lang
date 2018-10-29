@@ -14847,5 +14847,4 @@ validation#:#not_generic#:#It is not the case that: %s
 validation#:#not_max_length#:#The entered text has a length more than '%s'.
 validation#:#not_less_than#:#'%s' is not less than '%s'.
 validation#:#not_an_array#:#'%s' is not an array.
-validation#:#not_an_array_of#:#'%s' is not an array.
 validation#:#not_an_array_of#:#The elements of the array fail constraints: %s
