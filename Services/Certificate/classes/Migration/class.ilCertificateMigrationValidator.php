@@ -23,7 +23,7 @@ class ilCertificateMigrationValidator
 	 * @param ilObjUser $user
 	 * @return bool
 	 */
-	public function isMigrationAvailable(ilObjUser $user)
+	public function isMigrationAvailable(ilObjUser $user) : bool
 	{
 		$userCreationDate = $user->getCreateDate();
 
