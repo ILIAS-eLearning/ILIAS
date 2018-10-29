@@ -27,8 +27,15 @@ class ilCertificateObjectsForUserPreloader
 	 */
 	public function preLoad(int $userId, array $objIds)
 	{
+		if (!array_key_exists($userId, self::$certificates)) {
+			self::$certificates[$userId] = [];
+		} 
+
 		$objectIdsWithUserCertificate = $this->userCertificateRepository->fetchObjectWithCertificateForUser($userId, $objIds);
-		self::$certificates[$userId] = $objectIdsWithUserCertificate;
+		self::$certificates[$userId] = array_unique(array_merge(
+			$objectIdsWithUserCertificate,
+			self::$certificates[$userId]
+		));
 	}
 
 	/**
