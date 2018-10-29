@@ -69,20 +69,14 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component->isActive()) {
 			// The actions might also be a list of signals, these will be appended by
 			// bindJavascript in maybeRenderId.
-			if (is_string($action) && $action != "") {
+			if (is_string($action)) {
 				$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
 					$action = str_replace("&amp;", "&", $action);
 
 					return "$('#$id').on('click', function(event) {
 							window.location = '{$action}';
-							return false;
+							return false; // stop event propagation
 					});";
-				});
-			}
-
-			if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()){
-				$component = $component->withAdditionalOnLoadCode(function ($id) {
-					return "$('#$id').click(function(e) { $('#$id').addClass('il-btn-with-loading-animation'); $('#$id').addClass('disabled');});";
 				});
 			}
 		} else {
@@ -108,7 +102,6 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Bulky) {
 			$this->additionalRenderBulky($component, $default_renderer, $tpl);
 		}
-
 
 		return $tpl->get();
 	}

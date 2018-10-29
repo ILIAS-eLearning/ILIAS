@@ -19,20 +19,12 @@ interface Factory {
 	 *       is the one that should be used.
 	 *   composition: >
 	 *       The standard button uses the primary color as background.
-	 *   effect: >
-	 *       If the loading animation is activated, the button shows a spinner wheel
-	 *       on-click and automatically switches to a deactivated state.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
 	 *          Standard buttons MUST be used if there is no good reason using
 	 *          another instance.
-	 *       2: >
-	 *          The loading animation SHOULD be activated if the Buttons starts
-	 *          any background process (e.g. ajax calls) without any other immediate
-	 *          feedback for the user. After the process finished, the button MUST be
-	 *          removed from/replaced in the DOM.
 	 *   ordering:
 	 *       1: >
 	 *          The most important standard button SHOULD be first in reading
@@ -71,9 +63,7 @@ interface Factory {
 	 *       attention while there are several buttons competing for attention.
 	 *   effect: >
 	 *      In toolbars the primary button are required to be sticky, meaning
-	 *      they stay in view in the responsive view. If the loading animation
-	 *      is activated, the button shows a spinner wheel on-click and automatically
-	 *      switches to a deactivated state.
+	 *      they stay in view in the responsive view.
 	 *
 	 * background: >
 	 *      Tiddwell refers to the primary button as “prominent done button” and
@@ -100,8 +90,6 @@ interface Factory {
 	 *       3: >
 	 *           The decision to make a Button a Primary Button MUST be confirmed
 	 *           by the JF.
-	 *       4: >
-	 *           The loading animation rules of the Standard Button MUST be respected.
 	 * ---
 	 * @param	string		$label
 	 * @param	string|Signal		$action		will be triggered on click
