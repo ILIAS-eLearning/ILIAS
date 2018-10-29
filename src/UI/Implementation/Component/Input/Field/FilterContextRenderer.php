@@ -103,7 +103,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
 					});";
-				//var_dump($code); exit;
 				return $code;
 			});
 		}
