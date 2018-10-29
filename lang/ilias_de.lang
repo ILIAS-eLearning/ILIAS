@@ -14519,4 +14519,4 @@ auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
-content#:#cont_lpe_auth_oidc_login_pg_element#:#OpenId Connect Login
+content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
