@@ -199,21 +199,13 @@ EOT;
 		<div>
 			<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
     <div class="il-chart-progressmeter-mini-container">
-        <div class="il-chart-progressmeter-marker-box hidden" style="transform: rotate(0deg)">
-            <div class="il-chart-progressmeter-mini-marker"></div>
-        </div>
-        <div class="il-chart-progressmeter-outerbox
-
- il-chart-progressmeter-bar-no-success
-
-">
-            <div class="il-chart-progressmeter-pointer pointer-1" style="transform: rotate(-25deg) skew(28.584deg)"></div>
-            <div class="il-chart-progressmeter-pointer pointer-2" style="transform: rotate(35.416deg) skew(28.584deg)"></div>
-            <div class="il-chart-progressmeter-pointer pointer-3" style="transform: rotate(95.832deg) skew(28.584deg)"></div>
-            <div class="il-chart-progressmeter-cover">
-                <div class="il-chart-progressmeter-text-container"></div>
-            </div>
-        </div>
+        <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
+            <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066">
+            </path>
+            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066">
+            </path>
+            <path class="il-chart-progressmeter-needle-mini no-needle" stroke-dasharray="100, 100" d="M25,10 l0,15" style="transform: rotate(deg)"></path>
+        </svg>
     </div>
 </div>
 		</div>
