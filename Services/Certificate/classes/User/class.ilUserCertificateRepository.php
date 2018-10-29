@@ -341,6 +341,10 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	{
 		$this->logger->info(sprintf('START - Fetch certificate for user("%s") and ids: "%s"', $userId, json_encode($objectIds)));
 
+		if (0 === count($objectIds)) {
+			return [];
+		}
+
 		$inStatementObjectIds = $this->database->in(
 			'obj_id',
 			$objectIds,
