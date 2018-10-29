@@ -24815,5 +24815,13 @@ foreach ($op_ids as $op_id) {
 
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5408>
+<?php
+$ilCtrlStructureReader->getStructure();
+// migration of scorm offline status
+$query = 'update object_data od set offline = '.
+	'(select if( c_online = '.$ilDB->quote('n','text').',1,0) from sahs_lm '.
+	'where id = od.obj_id) where type = '.$ilDB->quote('sahs','text');
+$ilDB->manipulate($query);
 
-
+?>
