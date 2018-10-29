@@ -14499,3 +14499,5 @@ noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
+crs#:#crs_timings_short_start_end#:#Startdatum
+crs#:#crs_timings_time_frame_tt#:#Bearbeitungsdauer in Tagen
