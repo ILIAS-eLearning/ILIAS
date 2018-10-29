@@ -7,6 +7,9 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 /**
  * Class TagInputTest
@@ -27,7 +30,13 @@ class TagInputTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
