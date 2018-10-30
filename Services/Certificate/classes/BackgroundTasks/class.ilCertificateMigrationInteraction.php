@@ -78,7 +78,6 @@ class ilCertificateMigrationInteraction extends AbstractUserInteraction
 		$DIC->ctrl()->redirectByClass([
 			'ilPersonalDesktopGUI',
 			'ilAchievementsGUI',
-			'ilLearningHistoryGUI',
 			'ilUserCertificateGUI'
 		], 'listCertificates');
 
