@@ -3318,6 +3318,7 @@ class ilObjSurvey extends ilObject
 				else
 				{
 					$user = new ilObjUser($row["user_fi"]);
+					$userdata['usr_id'] = $row['user_fi'];
 					$userdata["fullname"] = $user->getFullname();
 					$gender = $user->getGender();
 					if (strlen($gender) == 1) $gender = $this->lng->txt("gender_$gender");

@@ -1160,7 +1160,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// question type
 		
 		$options = array();
-		foreach( $this->object->getQuestionTypes(false, true) as $translation => $data )
+		foreach( $this->object->getQuestionTypes(false, true, false) as $translation => $data )
 		{
 			$options[$data['type_tag']] = $translation;
 		}

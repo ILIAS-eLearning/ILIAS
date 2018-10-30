@@ -95,6 +95,10 @@ class ilCalendarPresentationGUI
 		$this->ref_id = $a_ref_id;
 		$this->category_id = $_GET["category_id"];
 		$this->ctrl->saveParameter($this, "category_id");
+
+
+		// show back to pd
+		$this->ctrl->saveParameter($this, 'backpd');
 		
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
@@ -620,7 +624,29 @@ class ilCalendarPresentationGUI
 		if ($this->getRepositoryMode())
 		{
 			$this->tabs_gui->clearTargets();
-			$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getParentReturn($this));
+
+			$this->lng->loadLanguageModule('dateplaner');
+			if($_REQUEST['backpd'])
+			{
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt('back_to_pd'),
+					$this->ctrl->getLinkTargetByClass(ilPersonalDesktopGUI::class, 'jumpToCalendar')
+				);
+				switch(ilObject::_lookupType($this->ref_id, true))
+				{
+					case 'crs':
+					case 'grp':
+						$label = $this->lng->txt('back_to_'. ilObject::_lookupType($this->ref_id,true));
+						break;
+					default:
+						$label = $this->lng->txt('back');
+				}
+				$this->tabs_gui->setBack2Target($label, $this->ctrl->getParentReturn($this));
+			}
+			else
+			{
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getParentReturn($this));
+			}
 		}
 		else
 		{

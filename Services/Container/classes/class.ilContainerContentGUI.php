@@ -319,8 +319,9 @@ abstract class ilContainerContentGUI
 			,$this->getContainerGUI()->isMultiDownloadEnabled()
 			,$this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view		
 			,$sorting->getBlockPositions()
+			,$this->container_gui
 			,$this->getViewMode()
-		);				
+		);
 	}
 	
 	/**
@@ -856,6 +857,65 @@ abstract class ilContainerContentGUI
 		}
 
 		return $a_output_html;
+	}
+
+	/**
+	 * Render single block
+	 *
+	 * @param string block id
+	 * @return string
+	 */
+	public function getSingleTypeBlockAsynch($type)
+	{
+		$this->initRenderer();
+		// get all sub items
+		$this->items = $this->getContainerObject()->getSubItems(
+			$this->getContainerGUI()->isActiveAdministrationPanel());
+
+
+		$ref_ids = array_map(function($i) {
+			$parts = explode("_", $i);
+			return $parts[2];
+		}, $_POST["ids"]);
+
+		// iterate all types
+		if(is_array($this->items[$type]) &&
+			$this->renderer->addTypeBlock($type))
+		{
+			//$this->renderer->setBlockPosition($type, ++$pos);
+
+			$position = 1;
+			foreach($this->items[$type] as $item_data)
+			{
+				$item_ref_id = $item_data["child"];
+
+				if (in_array($item_ref_id, $ref_ids))
+				{
+					continue;
+				}
+
+				if ($this->block_limit > 0 && $position == $this->block_limit + 1)
+				{
+					if ($position == $this->block_limit + 1)
+					{
+						// render more button
+						$this->renderer->addShowMoreButton($type);
+					}
+					continue;
+				}
+
+				if(!$this->renderer->hasItem($item_ref_id))
+				{
+					$html = $this->renderItem($item_data, $position++);
+					if ($html != "")
+					{
+						$this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
+					}
+				}
+			}
+		}
+
+		return $this->renderer->renderSingleTypeBlock($type);
 	}
 	
 	/**

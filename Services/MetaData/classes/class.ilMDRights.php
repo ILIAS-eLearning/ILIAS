@@ -32,6 +32,34 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRights extends ilMDBase
 {
+	/**
+	 * @param string[] $a_types
+	 * @param string[] $a_copyright
+	 * @return int[]
+	 */
+	public static function lookupRightsByTypeAndCopyright(array $a_types, array $a_copyright)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$query = 'SELECT rbac_id FROM il_meta_rights '.
+			'WHERE '.$db->in('obj_type', $a_types, false, 'text').' '.
+			'AND '.$db->in('description', $a_copyright, false, 'text');
+		$res = $db->query($query);
+
+		ilLoggerFactory::getLogger('meta')->info($query);
+
+		$obj_ids = [];
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->rbac_id;
+		}
+		return $obj_ids;
+	}
+	
+	
+	
 	// SET/GET
 	function setCosts($a_costs)
 	{
@@ -203,12 +231,30 @@ class ilMDRights extends ilMDBase
 											: 'No'));
 		include_once './Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php';
 		$writer->xmlElement(
-			'Description',array('Language' => $this->getDescriptionLanguageCode()
-												? $this->getDescriptionLanguageCode()
-												: 'en'),
-			ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($this->getDescription())
+			'Description',
+			[
+				'Language' => $this->getDescriptionLanguageCode()
+					? $this->getDescriptionLanguageCode()
+					: 'en'
+			],
+			ilMDCopyrightSelectionEntry::_lookupCopyright($this->getDescription())
 		);
 		$writer->xmlEndTag('Rights');
+	}
+
+	/**
+	 * @param $a_description
+	 * @throws ilDatabaseException
+	 */
+	public function parseDescriptionFromImport($a_description)
+	{
+		$entry_id = ilMDCopyrightSelectionEntry::lookupCopyrightByText($a_description);
+		if(!$entry_id)
+		{
+			$this->setDescription($a_description);
+		}
+
+		$this->setDescription(ilMDCopyrightSelectionEntry::createIdentifier($entry_id));
 	}
 	
 	/**

@@ -29,7 +29,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI
+* @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI, ilMDCopyrightUsageGUI
 *
 * @ingroup ServicesMetaData
 */
@@ -94,6 +94,14 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
+			case 'ilmdcopyrightusagegui':
+				// this command is used if copyrightUsageGUI calls getParentReturn (see ...UsageGUI->setTabs)
+				$this->ctrl->setReturn($this, 'showCopyrightSettings');
+				$copyright_id = $_GET['entry_id'];
+				$gui = new ilMDCopyrightUsageGUI((int) $copyright_id);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				$this->initMDSettings();
 				if(!$cmd || $cmd == 'view')
@@ -106,6 +114,32 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		}
 		return true;
 	}
+
+	/**
+	 * @return string
+	 */
+	protected function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getParentObjType()
+	{
+		return 'meta';
+	}
+
+
+	/**
+	 * @return int
+	 */
+	protected function getAdministrationFormId()
+	{
+		return ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT;
+	}
+
 
 	/**
 	 * Get tabs
@@ -240,7 +274,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$table_gui = new ilMDCopyrightTableGUI($this,'showCopyrightSettings', $has_write);
 		$table_gui->setTitle($this->lng->txt("md_copyright_selection"));
 		$table_gui->parseSelections();
-		
+
 		if($has_write)
 		{
 	//		$table_gui->addCommandButton("updateCopyrightSelection", $this->lng->txt("save"));
@@ -271,7 +305,12 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->showCopyrightSettings();
 	}
-	
+
+	public function showCopyrightUsages()
+	{
+		$this->ctrl->setParameterByClass('ilmdcopyrightusagegui','entry_id',$_GET['entry_id']);
+		$this->ctrl->redirectByClass('ilmdcopyrightusagegui', "showUsageTable");
+	}
 	
 	/**
 	 * edit one selection
@@ -321,6 +360,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$this->entry->setLanguage('en');
 		$this->entry->setCopyrightAndOtherRestrictions(true);
 		$this->entry->setCosts(false);
+		$this->entry->setOutdated((int)$_POST['outdated']);
 		
 		if(!$this->entry->validate())
 		{
@@ -413,6 +453,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$this->entry->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->entry->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->entry->setCopyright($this->stripSlashes($_POST['copyright']));
+		$this->entry->setOutdated((int)$_POST['outdated']);
 		
 		if(!$this->entry->validate())
 		{
@@ -446,7 +487,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt('md_copyright_settings'));
-		
+
+
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$this->form->addCommandButton('saveCopyrightSettings',$this->lng->txt('save'));
@@ -458,6 +500,12 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$check->setValue(1);
 		$check->setInfo($this->lng->txt('md_copyright_enable_info'));
 		$this->form->addItem($check);
+
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			$this->getAdministrationFormId(),
+			$this->form,
+			$this
+		);
 	}
 	
 	/**
@@ -499,6 +547,14 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$cop->setValue($this->entry->getCopyright());
 		$cop->setRows(5);
 		$this->form->addItem($cop);
+
+		$usage = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright_usage'),'outdated');
+		$use = new ilRadioOption($this->lng->txt('meta_copyright_in_use'), 0);
+		$out = new ilRadioOption($this->lng->txt('meta_copyright_outdated'),1);
+		$usage->addOption($use);
+		$usage->addOption($out);
+		$usage->setValue($this->entry->getOutdated());
+		$this->form->addItem($usage);
 		
 		switch($a_mode)
 		{
@@ -540,6 +596,31 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 			$a_str = stripslashes($a_str);
 		}
 		return $a_str;		
+	}
+
+	/**
+	 * Save the order position to display the copyrights in the GUI table.
+	 */
+	public function saveCopyrightPosition()
+	{
+		if(!isset($_POST['order']))
+		{
+			$this->ctrl->redirect($this,'showCopyrightSettings');
+			return false;
+		}
+
+		$positions = $_POST['order'];
+		asort($positions);
+		$position = 0;
+		foreach($positions as $entry_id => $position_ignored)
+		{
+			$copyright = new ilMDCopyrightSelectionEntry($entry_id);
+			$copyright->setOrderPosition($position++);
+			$copyright->update();
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->ctrl->redirect($this,'showCopyrightSettings');
+		return false;
 	}
 }
 ?>

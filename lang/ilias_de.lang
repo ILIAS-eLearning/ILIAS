@@ -14,22 +14,63 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-crs#:#crs_shorten_breadcrumb#:#Breadcrumb
-crs#:#crs_sys_default#:#System Default
-crs#:#crs_breadcrumb_crs_only#:#Start with Course
-crs#:#crs_breadcrumb_full_path#:#Full Path
-rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
-rep#:#rep_default#:#Default
-rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
-rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
-obj#:#obj_show_title_and_icon#:#Title und Icon anzeigen
-obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
-cont#:#cont_list_presentation#:#Anzeige der Objekte
-cont#:#cont_item_list#:#Liste
-cont#:#cont_tile_view#:#Kacheln
-fold#:#fold_presentation#:#Präsentation
-obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachebild wird genutzt, wenn der übergeordnete Container (Kurs, Gruppe, Ordner) die Kachelansicht aktiviert.
+meta#:#meta_oer_harvester#:#OER Harvester
+meta#:#meta_oer_harvester_desc#:#OER Harvester
+meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
+meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
+meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
+meta#:#meta_oer_blocked#:#Ignored by OER Harvester
+meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
+meta#:#meta_copyright_show_usages#:#Show usages
+meta#:#meta_copyright_sub_items#:#Sub Items
+meta#:#meta_copyright_outdated#:#Outdated
+meta#:#meta_copyright_in_use#:#In use
+meta#:#meta_copyright_usage#:#Usage
+meta#:#meta_copyright_status#:#Status
+meta#:#meta_save_order#:#Save Order
+meta#:#meta_order#:#Order
+meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
+meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+auth#:#auth_oidconnect#:#OpenID Connect
+auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
+auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
+auth#:#auth_oidc_settings_provider#:#Provider-Url
+auth#:#auth_oidc_settings_client_id#:#Client-ID
+auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
+auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
+auth#:#auth_oidc_settings_txt#:#Text
+auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_img#:#Bild
+auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
+auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
+auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
+auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
+auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet. 
+auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
+auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
+auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
+auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
+auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
+auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
+auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
+auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
+auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
+auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
+auth#:#auth_oidc_settings_session_duration#:#Dauer
+auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  
+auth#:#auth_oidc_settings#:#Server-Einstellungen
+auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
+auth#:#auth_oidc_roles#:#Rollenzuordnung
+auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
+auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
+auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
+content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 commocommon#:#lti_outcome#:#Übermittlung LTI-Lernfortschritt
@@ -59,6 +100,26 @@ lti#:#lti_admin#:#LTI-Administrator
 lti#:#lti_tutor#:#LTI-Tutor
 lti#:#lti_member#:#LTI-Member
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
+crs#:#crs_timings_activate_optional#:#Freiwilligen-Modus des studyplans des Benutzers
+crs#:#crs_timings_activate_optional_own#:#Freiwilligen-Modus meines studyplans
+crs#:#crs_timings_days_after_subsription#:#Tag(e) nach Kursbeitritt
+crs#:#crs_timings_edit_personal#:#Persönlichen Lernplan bearbeiten
+crs#:#crs_timings_optional_checked#:#Der Freiwilligen-Modus wurde für diesen Benutzer aktiviert.
+crs#:#crs_timings_optional_off#:#Der Freiwilligen-Modus ist nicht aktiv.
+crs#:#crs_timings_optional_on#:#Der Freiwilligen-Modus ist aktiv.
+crs#:#crs_timings_optional_on_and_passed#:#Der Freiwilligen-Modus ist aktiv und kann nicht geändert werden, da der Nutzer den Status "Bestanden" hat.
+crs#:#crs_timings_optional_unchecked#:#Der Freiwilligen-Modus wurde für diesen Benutzer deaktiviert.
+crs#:#crs_timings_presetting_tbl#:#Lernplaung
+crs#:#crs_timings_short_active_tt#:#Lernplanung aktivieren
+crs#:#crs_timings_short_changeable_tt#:#Lernplaung änderbar durch Teilnehmer
+crs#:#crs_timings_short_end#:#Enddatum
+crs#:#crs_timings_short_limit_start_end_tt#:#Spätestes Ende
+crs#:#crs_timings_short_limit_start_end_tt_rel#:#Spätestes Ende in Tagen nach Kursbeitritt
+crs#:#crs_timings_short_start_end_rel#:#Start nach Kursbeginn (in Tagen)
+crs#:#crs_timings_short_start_end_tt#:#Empfohlener Start
+crs#:#crs_timings_short_start_end_tt_rel#:#Empfohlener Start in Tagen nach Kursbeitritt
+crs#:#crs_timings_time_frame_tt#:#Bearbeitungsdauer in Tagen
+crs#:#crs_timings_warning_timing_exists#:#Achtung: für dieses Objekt existiert ein  aktiver Lernplan. Wenn sie die zeitlich begrenzte Verfügbarkeit aktivieren, werden die Lernplanungszeiten zurückgesetzt.
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_launch_url#:#URL
@@ -5446,7 +5507,6 @@ crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
 crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_changeable#:#Änderbar
 crs#:#crs_timings_short_limit_start_end#:#Spätestes Ende
-crs#:#crs_timings_short_start_end#:#Empfehlung
 crs#:#crs_timings_start#:#Startzeit
 crs#:#crs_timings_start_end_info#:#(Start/Ende)
 crs#:#crs_timings_sug_begin#:#Empfohlener Start
@@ -14700,3 +14760,124 @@ dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
 sess#:#sess_members#:#Teilnehmer
 grp#:#grp_contact#:#Kontakt
 grp#:#grp_mem_contacts#:#Tutorielle Betreuung
+common#:#lso_new#:#Neue Lernsequenz
+common#:#lso_add#:#Lernsequenz hinzufügen
+common#:#lso_edit#:#Lernsequenz bearbeiten
+common#:#obj_lso#:#Lernsequenz
+common#:#objs_lso#:#Lernsequenzen
+common#:#obj_lso_duplicate#:#Lernsequenz kopieren
+common#:#lso_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Lernsequenz kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#lso_wizard_page#:#Lernsequenz kopieren
+rbac#:#lso_visible#:#Lernsequenz sichtbar
+rbac#:#lso_copy#:#Lernsequenz kopieren
+rbac#:#lso_write#:#Lernsequenz bearbeiten
+rbac#:#lso_delete#:#Lernsequenz löschen
+lso#:#learner_view#:#Übersicht
+lso#:#manage_content#:#Verwalten
+lso#:#manage_content_maintab#:#Inhalt
+lso#:#show_summary#:#Info
+lso#:#table_sequence_content#:#Inhaltsverwaltung
+lso#:#table_position#:#Position
+lso#:#table_title#:#Titel
+lso#:#table_online#:#Online
+lso#:#table_may_proceed#:#Benutzer darf fortfahren
+lso#:#table_actions#:#Aktionen
+lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
+lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
+lso#:#no_entries_selected_for_delete#:#Es muss mindestens ein Listeneintrag ausgewählt werden.
+lso#:#lso_member_administration#:#Teilnehmerverwaltung
+lso#:#lso_members_gallery#:#Mitgliedergalerie
+lso#:#lso_search_users#:#Benutzer suchen
+lso#:#lso_print_list#:#Liste erstellen
+lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
+lso#:#il_lso_member#:#Teilnehmer
+lso#:#il_lso_admin#:#Administrator
+lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
+lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
+lso#:#lso_notification#:#Benachrichtigung
+lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
+lso#:#lso_members_print_title#:#Lernsequenzmitglieder
+lso#:#mail_lso_roles#:#Verschicke Mail an folgende Rollen der Lernsequenz
+lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens ein Administrator zugeordnet sein.
+lso#:#lso_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Lernsequenz ausgetragen
+lso#:#lso_min_one_admin#:#Dieser Lernsequenz muß mindestens ein Administrator zugeordnet bleiben.
+lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
+common#:#lso_import#:#Lernsequenz importieren
+common#:#lso_copy#:#Lernsequenz kopieren
+lso#:#abstract#:#Einleitung
+lso#:#abstract_img#:#Bild für die Einleitungsseite
+lso#:#extro#:#Abschlussseite
+lso#:#extro_img#:#Bild für die Abschlussseite
+lso#:#lso_player_start#:#Lernsequenz starten
+lso#:#lso_player_review#:#Lernsequenz überarbeiten
+lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
+lso#:#lso_player_abstract#:#Zur Einleitung
+lso#:#lso_player_extro#:#Zur Abschlussseite
+lso#:#lso_player_finish#:#Beenden
+lso#:#lso_player_suspend#:#Unterbrechen
+lso#:#lso_player_previous#:#Zurück
+lso#:#lso_player_next#:#Weiter
+lso#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+lso#:#lso_read#:#Lesezugriff auf Learning Sequence
+lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
+lso#:#condition_always#:#Immer
+lso#:#condition_completed#:#Abgeschlossen
+lso#:#condition_failed#:#Durchgefallen
+rbac#:#rbac_create_lso#:#Lernsequenz erstellen
+lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
+lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
+lso#:#lso_notify_on#:#Benachrichtigungen über Neuanmeldungen aktiviert
+lso#:#lso_notify_off#:#Benachrichtigungen über Neuanmeldungen deaktiviert
+lso#:#lso_new_status#:#Ihr neuer Status:
+lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz "%s"
+lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz "%s" als Mitglied aufgenommen worden.
+lso#:#lso_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt der Lernsequenz zuzugreifen:
+lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz "%s" beendet
+lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz "%s" wurde beendet.
+lso#:#lso_mail_notification_reg_sub#:#Neue Mitgliedschaft in Lernsequenz "%s"
+lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
+lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuer die Benachrichtigungen aktiviert sind.
+lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz "%s"
+lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Lernsequenz "%s".
+lso#:#lso_mail_notification_unsub_sub#:#Austritt aus der Lernsequenz "%s"
+lso#:#lso_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer "%s" hat die Mitgliedschaft in der Lernsequenz "%s" beendet.
+lso#:#lso_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Lernsequenz eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+lso#:#lso_mail_subscribe_member_sub#:#Ihre Anmeldung für Lernsequenz "%s"
+lso#:#lso_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Lernsequenz "%s" erfolgt ist.
+lso#:#lso_mail_notification_reg_req_sub#:#Aufnahmeantrag für Lernsequenz "%s"
+lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
+lso#:#lso_mail_notification_reg_req_bod2#:#Um den Benutzer zur Lernsequenz zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\nWählen Sie dazu bitte folgenden Link:
+lso#:#lso_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Lernsequenz "%s"
+lso#:#lso_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Lernsequenz "%s" ist abgelehnt worden.
+lso#:#lso_mail_sub_acc_sub#:#Aufnahme in Lernsequenz "%s"
+lso#:#lso_mail_sub_acc_bod#:#Sie sind in die Lernsequenz "%s" aufgenommen worden.
+lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz "%s"
+lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+lso#:#lso_mail_status_sub#:#Status in Lernsequenz "%s"
+lso#:#lso_mail_status_bod#:#Ihr Status in Lernsequenz "%s" wurde geändert.
+lso#:#first_access#:#Erster Zugriff
+lso#:#last_access#:#Letzter Zugriff
+lso#:#lso_settings_availability#:#Verfügbarkeit
+lso#:#avail_time_period#:#Zeitraum
+lso#:#lso_settings_misc#:#Weitere Einstelleungen
+lso#:#completed_steps#:#Bestandene Schritte
+lso#:#last_visited_step#:#Zuletzt besuchter Schritt
+lso#:#members_gallery#:#Mitglieder-Gallerie
+lso#:#lso_show_members_info#:#Mitglieder-Gallerie für Benutzer sichtbar
+crs#:#crs_shorten_breadcrumb#:#Breadcrumb
+crs#:#crs_sys_default#:#System Default
+crs#:#crs_breadcrumb_crs_only#:#Start with Course
+crs#:#crs_breadcrumb_full_path#:#Full Path
+rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
+rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
+rep#:#rep_tree_limit_number#:#Maximale Anzahl
+rep#:#rep_tree_limit_number_info#:#Maximale Anzahl an Kindelementen, die initial für einen Knoten angezeigt wird. Falls mehr Kindelemente existieren, wird ein Sucheingabefeld angezeigt, mit dem die Kindelemente nach Titeln gefiltert werden können.
+cont#:#cont_show_more#:#Mehr anzeigen
+cont#:#cont_block_limit#:#Einträge per Block begrenzen
+cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
+crs#:#crs_lobj_pm_score#:#Ihr Ergebnis
+crs#:#crs_lobj_pm_min_goal#:#Benötigter Wert
+dateplaner#:#back_to_crs#:#Kursinhalt
+dateplaner#:#back_to_grp#:#Gruppeninhalt
+dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
+crs#:#crs_timings_short_start_end#:#Startdatum

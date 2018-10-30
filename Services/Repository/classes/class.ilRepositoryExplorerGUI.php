@@ -126,6 +126,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		{
 			$this->setPathOpen((int) $_GET["ref_id"]);
 		}
+
+		$this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
 	}
 		
 	/**

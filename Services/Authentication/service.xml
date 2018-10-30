@@ -11,6 +11,8 @@
 	</objects>
 	<events>		
 		<event type="raise" id="afterLogin" />
+		<event type="raise" id="beforeLogout" />
+		<event type="raise" id="afterLogout" />
 		<event type="raise" id="expiredSessionDetected" />
 		<event type="raise" id="reachedSessionPoolLimit" />
 	</events>

@@ -1467,12 +1467,12 @@ class ilObjQuestionPool extends ilObject
 		return $newObj;
 	}
 
-	function getQuestionTypes($all_tags = FALSE, $fixOrder = false)
+	function getQuestionTypes($all_tags = FALSE, $fixOrder = false, $withDeprecatedTypes = true)
 	{
-		return self::_getQuestionTypes($all_tags, $fixOrder);
+		return self::_getQuestionTypes($all_tags, $fixOrder, $withDeprecatedTypes);
 	}
 
-	public static function _getQuestionTypes($all_tags = FALSE, $fixOrder = false)
+	public static function _getQuestionTypes($all_tags = FALSE, $fixOrder = false, $withDeprecatedTypes = true)
 	{
 		global $ilDB;
 		global $lng;
@@ -1511,7 +1511,7 @@ class ilObjQuestionPool extends ilObject
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionTypeOrderer.php';
 		$orderMode = ($fixOrder ? ilAssQuestionTypeOrderer::ORDER_MODE_FIX : ilAssQuestionTypeOrderer::ORDER_MODE_ALPHA);
 		$orderer = new ilAssQuestionTypeOrderer($types, $orderMode);
-		$types = $orderer->getOrderedTypes();
+		$types = $orderer->getOrderedTypes($withDeprecatedTypes);
 		
 		return $types;
 	}

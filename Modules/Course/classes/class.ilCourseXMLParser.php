@@ -664,7 +664,15 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				{
 					$this->course_obj->setSubscriptionMinMembers((int)$this->cdata);
 				}
-				break;						
+				break;
+
+			case 'ViewMode':
+				$this->course_obj->setViewMode((int)$this->cdata);
+				break;
+
+			case 'TimingMode':
+				$this->course_obj->setTimingMode((int)$this->cdata);
+				break;
 		}
 		$this->cdata = '';
 

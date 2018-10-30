@@ -12,15 +12,17 @@ class GreaterThan extends Custom implements Constraint {
 	 */
 	protected $min;
 
-	public function __construct($min, Data\Factory $data_factory) {
+	public function __construct($min, Data\Factory $data_factory, \ilLanguage $lng) {
 		assert(is_int($min));
 		$this->min = $min;
 		parent::__construct( function ($value) {
 				return $value > $this->min;
 			}, 
-			function ($value) {
-				return "'$value' is not greater than '{$this->min}'.";
+			function ($txt, $value) {
+				return $txt("not_greater_than", $value, $this->min);
 			},
-			$data_factory);
+			$data_factory,
+			$lng
+		);
 	}
 }

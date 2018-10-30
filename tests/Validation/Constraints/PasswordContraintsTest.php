@@ -20,8 +20,9 @@ class PasswordContraintsTest extends PHPUnit_Framework_TestCase {
 	 * @return array[[$constraint,$ok_values,$error_values]]
 	 */
 	public function constraintsProvider() {
+		$lng = $this->createMock(\ilLanguage::class);
 		$d = new \ILIAS\Data\Factory();
-		$validation = new \ILIAS\Validation\Factory($d);
+		$validation = new \ILIAS\Validation\Factory($d, $lng);
 		$v = $validation->password();
 
 		return array(

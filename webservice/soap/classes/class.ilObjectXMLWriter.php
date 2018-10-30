@@ -309,22 +309,12 @@ class ilObjectXMLWriter extends ilXmlWriter
 		}
 #		if($type == self::TIMING_PRESETTING)
 		{
-			if($time_targets['changeable'] or 1)
-			{
 				$this->xmlElement('Suggestion',
-					array('starting_time' => $time_targets['suggestion_start'],
+				array(
+					'starting_time' => $time_targets['suggestion_start'],
 						'ending_time' => $time_targets['suggestion_end'],
-						'changeable' => $time_targets['changeable'],
-						'earliest_start' => $time_targets['earliest_start'],
-						'latest_end' => $time_targets['latest_end']));
-			}
-			else
-			{
-				$this->xmlElement('Suggestion',
-					array('starting_time' => $time_targets['suggestion_start'],
-						'ending_time' => $time_targets['suggestion_end'],
-						'changeable' => $time_targets['changeable']));
-			}
+					'changeable' => $time_targets['changeable'])
+			);
 		}
 		$this->xmlEndTag('TimeTarget');
 		return;		

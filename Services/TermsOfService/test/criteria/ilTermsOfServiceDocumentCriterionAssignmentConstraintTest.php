@@ -190,7 +190,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$this->getTypeMockForConstraint(),
 			$document1,
-			new Factory()
+			new Factory(),
+			$this->getLanguageMock()
 		);
 
 		$this->assertTrue($constraint->accepts($criterionAssignment1));
@@ -227,7 +228,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$this->getTypeMockForConstraint(),
 			$document1,
-			new Factory()
+			new Factory(),
+			$this->getLanguageMock()
 		);
 
 		$raised = false;
@@ -279,7 +281,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$this->getTypeMockForConstraint(),
 			$document1,
-			new Factory()
+			new Factory(),
+			$this->getLanguageMock()
 		);
 
 		$this->assertNull($constraint->problemWith($criterionAssignment1));
@@ -318,7 +321,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$this->getTypeMockForConstraint(),
 			$document1,
-			$dataFavtgory
+			$dataFavtgory,
+			$this->getLanguageMock()
 		);
 
 		$ok = $dataFavtgory->ok($criterionAssignment1);
@@ -363,7 +367,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$this->getTypeMockForConstraint(),
 			$document1,
-			new Factory()
+			new Factory(),
+			$this->getLanguageMock()
 		);
 
 		$newConstraint = $constraint->withProblemBuilder(function () {
@@ -400,7 +405,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$this->getTypeMockForConstraint(),
 			$document1,
-			new Factory()
+			new Factory(),
+			$this->getLanguageMock()
 		);
 
 		$criterionAssignment5 = clone $criterionAssignment3;
@@ -463,7 +469,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$constraint = new \ilTermsOfServiceDocumentCriterionAssignmentConstraint(
 			$criterionTypeFactory,
 			$document,
-			new Factory()
+			new Factory(),
+			$this->getLanguageMock()
 		);
 
 		$criterionWithSameNature = $this

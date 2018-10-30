@@ -18,7 +18,8 @@ class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
 	protected $f = null;
 
 	protected function setUp() {
-		$this->f = new Validation\Factory(new Data\Factory());
+		$this->lng = $this->createMock(\ilLanguage::class);
+		$this->f = new Validation\Factory(new Data\Factory(), $this->lng);
 	}
 
 	protected function tearDown() {
@@ -79,5 +80,16 @@ class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
 		$constraint = $this->f->greaterThan(5);
 		$not = $this->f->not($constraint);
 		$this->assertInstanceOf(Validation\Constraint::class, $not);
+	}
+
+	public function testLoadsLanguageModule() {
+		$lng = $this->createMock(\ilLanguage::class);
+
+		$lng
+			->expects($this->once())
+			->method("loadLanguageModule")
+			->with(Validation\Factory::LANGUAGE_MODULE);
+
+		new Validation\Factory(new Data\Factory(), $lng);
 	}
 }

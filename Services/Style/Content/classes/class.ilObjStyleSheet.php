@@ -542,6 +542,7 @@ class ilObjStyleSheet extends ilObject
 
 	// basic style xml file, image directory and dom
 	protected static $basic_style_file = "./libs/ilias/Style/basic_style/style.xml";
+	protected static $basic_style_zip = "./libs/ilias/Style/basic_style/style.zip";
 	protected static $basic_style_image_dir = "./libs/ilias/Style/basic_style/images";
 	protected static $basic_style_dom;
 	
@@ -565,6 +566,16 @@ class ilObjStyleSheet extends ilObject
 		}
 
 		parent::__construct($a_id, false);
+	}
+
+	/**
+	 * Get basic zip path
+	 *
+	 * @return string
+	 */
+	static public function getBasicZipPath(): string
+	{
+		return self::$basic_style_zip;
 	}
 
 	/**
@@ -2619,7 +2630,7 @@ class ilObjStyleSheet extends ilObject
 		
 		return $pars;
 	}
-	
+
 	
 	/**
 	* Add missing style classes to all styles

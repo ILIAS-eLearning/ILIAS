@@ -137,25 +137,26 @@ a.ilTreeViewRight:hover {
 }
 
 /* Explorer2, jsTree */
-.jstree a {
+.jstree.jstree-default a {
 	color: @link-color !important;
 }
 
-.jstree a.disabled {
+.jstree.jstree-default a.disabled {
 	color: #303030 !important;
 	cursor: default !important;
 }
 
-.jstree a {
+.jstree.jstree-default a {
 	font-size: 90%;
 	min-height: 22px;
 }
 
-.jstree li, .jstree ins {
+.jstree li, .jstree.jstree-default li i {
 	background: url("@{background-images-path}jstree.svg") no-repeat;
 	vertical-align: top;
 }
 
+/*
 .jstree li {
 	background-position: -90px 0;
 	background-repeat: repeat-y;
@@ -164,15 +165,17 @@ a.ilTreeViewRight:hover {
 .jstree li.jstree-last {
 	background: transparent;
 }
+*/
 
-.jstree .jstree-open > ins {
-	background-position: -72px 0;
+.jstree.jstree-default .jstree-open > i {
+	background-position: -15px 0 !important;
 }
 
-.jstree .jstree-closed > ins {
-	background-position: -54px 0;
+.jstree.jstree-default .jstree-closed > i {
+	background-position: 3px 0 !important;
 }
 
+/*
 .jstree .jstree-leaf > ins {
 	background-position: -36px 0;
 }
@@ -287,7 +290,7 @@ a.ilTreeViewRight:hover {
 	color: silver;
 	cursor: default;
 }
-
+*/
 #vakata-contextmenu.jstree-context,
 #vakata-contextmenu.jstree-context li ul {
 	background: none #f0f0f0;

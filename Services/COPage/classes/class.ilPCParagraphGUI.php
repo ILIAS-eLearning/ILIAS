@@ -55,9 +55,30 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"Mnemonic" => $lng->txt("cont_Mnemonic"),
 			"Example" => $lng->txt("cont_Example"),
 			"Additional" => $lng->txt("cont_Additional"),
+			"Attention" => $lng->txt("cont_Attention"),
+			"Confirmation" => $lng->txt("cont_Confirmation"),
+			"Information" => $lng->txt("cont_Information"),
+			"Link" => $lng->txt("cont_Link"),
+			"Literature" => $lng->txt("cont_Literature"),
+			"Separator" => $lng->txt("cont_Separator"),
+			"StandardCenter" => $lng->txt("cont_StandardCenter"),
 			"Remark" => $lng->txt("cont_Remark"),
 			"List" => $lng->txt("cont_List"),
 			"TableContent" => $lng->txt("cont_TableContent")
+		);
+	}
+
+	/**
+	 * Get standard characteristics
+	 */
+	static function _getStandardTextCharacteristics()
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		return ["Mnemonic", "Attention"];
+		return array("Mnemonic" => $lng->txt("cont_Mnemonic"),
+			"Attention" => $lng->txt("cont_Attention")
 		);
 	}
 
@@ -120,6 +141,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			{
 				$chars = array_merge($chars, $style->getCharacteristics($t, false, $a_include_core));
 			}
+		}
+		else
+		{
+			return self::_getStandardTextCharacteristics();
 		}
 
 		return $chars;
@@ -650,14 +675,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"Code" => array("code" => "code", "txt" => $lng->txt("cont_char_style_code"))
 			);
 
-		if ($a_style_id > 0 )
+		foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id) as $c)
 		{
-			foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id) as $c)
+			if (!isset($chars[$c]))
 			{
-				if (!isset($chars[$c]))
-				{
-					$chars[$c] = array("code" => "", "txt" => $c);
-				}
+				$chars[$c] = array("code" => "", "txt" => $c);
 			}
 		}
 
