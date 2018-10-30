@@ -60,7 +60,7 @@ class LSItemOnlineStatus
 				return !$obj->getOfflineStatus();
 				break;
 			case self::S_SURVEY:
-				return (bool)$obj->getStatus();
+				return !$obj->getOfflineStatus();
 				break;
 			default:
 				return true;
