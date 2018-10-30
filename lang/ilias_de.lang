@@ -14881,3 +14881,8 @@ dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
 crs#:#crs_timings_short_start_end#:#Startdatum
 common#:#il_lso_admin#:#Lernsequenzadministrator
 common#:#il_lso_member#:#Lernsequenzmitglied
+lso#:#entries_updated#:#Einträge gespeichert
+lso#:#curriculum#:#Curriculum
+lso#:#unparticipate#:#Abmelden
+lso#:#participate#:#Anmelden
+lso#:#lso_player_unsubscribe#:#Abmelden
