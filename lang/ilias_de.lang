@@ -14790,8 +14790,6 @@ lso#:#lso_members_gallery#:#Mitgliedergalerie
 lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
-lso#:#il_lso_member#:#Teilnehmer
-lso#:#il_lso_admin#:#Administrator
 lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lernsequenz
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
 lso#:#lso_notification#:#Benachrichtigung
