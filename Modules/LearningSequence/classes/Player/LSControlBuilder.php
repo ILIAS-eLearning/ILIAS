@@ -140,9 +140,9 @@ class LSControlBuilder implements ControlBuilder
 		}
 		$cmd = $this->url_builder->getHref($command);
 
-		$label = $this->lng->txt('lso_player_suspend');
+		$label = 'lso_player_suspend';
 		if ($command === ilLSPlayer::LSO_CMD_FINISH) {
-			$label = $this->lng->txt('lso_player_finish');
+			$label = 'lso_player_finish';
 		}
 
 		$exit_button = $this->ui_factory->button()->shy(
