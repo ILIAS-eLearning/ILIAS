@@ -8411,16 +8411,14 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
-.il-chart-progressmeter-container,
-.il-chart-progressmeter-mini-container {
+.il-chart-progressmeter-container {
   display: block;
   position: relative;
   background-color: transparent;
   height: 130%;
   width: 100%;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
   height: 100%;
   width: 100%;
   border-radius: 50%;
@@ -8429,24 +8427,20 @@ ul.breadcrumb li:hover {
   z-index: 1;
   background-color: #dddddd;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer {
   position: absolute;
   transform-origin: 100% 100%;
   transform: rotate(-25deg) skew(90deg);
   width: 50%;
   height: 50%;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer {
   background-color: #6ea03c;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer {
   background-color: #d9534f;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-innerbox {
+.il-chart-progressmeter-container .il-chart-progressmeter-innerbox {
   position: absolute;
   width: 94%;
   height: 94%;
@@ -8457,8 +8451,7 @@ ul.breadcrumb li:hover {
   border: 5px solid transparent;
   overflow: hidden;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer {
   position: absolute;
   transform-origin: 100% 100%;
   transform: rotate(-24deg) skew(90deg);
@@ -8467,26 +8460,22 @@ ul.breadcrumb li:hover {
   background-color: #aaaaaa;
   top: -1px;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer {
   background-color: #f0ad4e;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover {
   position: absolute;
   border-radius: 50%;
   background-color: #f0f0f0;
   overflow: hidden;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container {
   width: 100%;
   height: 100%;
   position: relative;
   color: #000;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text {
   position: absolute;
   left: 25%;
   top: 22%;
@@ -8495,16 +8484,14 @@ ul.breadcrumb li:hover {
   color: #aaaaaa;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
   position: absolute;
   left: 20%;
   top: 28%;
   text-align: center;
   font-weight: bold;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore {
   position: absolute;
   left: 25%;
   top: 58%;
@@ -8512,8 +8499,7 @@ ul.breadcrumb li:hover {
   text-align: center;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text {
   position: absolute;
   left: 25%;
   top: 66%;
@@ -8522,13 +8508,11 @@ ul.breadcrumb li:hover {
   color: #aaaaaa;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score {
   display: none;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box {
+.il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
   position: absolute;
   width: 93.3334%;
   height: 93.3334%;
@@ -8537,8 +8521,7 @@ ul.breadcrumb li:hover {
   background: transparent;
   z-index: 3;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
+.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
   position: absolute;
   left: 50%;
   margin-left: -8px;
@@ -8548,8 +8531,7 @@ ul.breadcrumb li:hover {
   width: 1px;
   height: 1px;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
+.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
   position: relative;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
@@ -8558,27 +8540,6 @@ ul.breadcrumb li:hover {
   height: 1px;
   top: -14px;
   left: -10.5px;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box {
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  transform: rotate(115deg);
-  pointer-events: none;
-  background: transparent;
-  z-index: 2;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-mini-marker {
-  transform-origin: 100% 100%;
-  width: 50%;
-  height: 50%;
-  transform: rotate(90deg) skew(85deg);
-  background-color: #bcbcbc;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover {
-  z-index: 3;
 }
 .il-chart-progressmeter-container {
   padding: 10px;
@@ -8605,23 +8566,10 @@ ul.breadcrumb li:hover {
   width: 60%;
   font-size: 3em;
 }
-.il-chart-progressmeter-mini-container {
-  padding: 5px;
-  font-size: 1rem;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox {
-  border: 2px solid transparent;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-  width: 80%;
-  height: 80%;
-  top: 10%;
-  left: 10%;
-  border: 2px solid #dddddd;
-}
 .il-chart-progressmeter-box {
   overflow: hidden;
   position: relative;
+  /* new SVG styles */
 }
 .il-chart-progressmeter-box:before,
 .il-chart-progressmeter-box:after {
@@ -8643,8 +8591,7 @@ ul.breadcrumb li:hover {
   right: 30px;
   z-index: 2;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-container:after,
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container:after {
+.il-chart-progressmeter-box .il-chart-progressmeter-container:after {
   content: " ";
   display: block;
   position: absolute;
@@ -8658,19 +8605,6 @@ ul.breadcrumb li:hover {
 .il-chart-progressmeter-box.il-chart-progressmeter-fixed-size {
   width: 300px;
   height: 230px;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini {
-  width: 50px;
-  height: 35px;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:before,
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:after {
-  background-color: transparent;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-mini-container:after {
-  width: 80%;
-  height: 93%;
-  bottom: -57%;
 }
 @media (min-width: 1200px) {
   .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
@@ -8839,6 +8773,50 @@ ul.breadcrumb li:hover {
     width: 60%;
     font-size: 3em;
   }
+}
+.il-chart-progressmeter-box.il-chart-progressmeter-mini:before,
+.il-chart-progressmeter-box.il-chart-progressmeter-mini:after {
+  content: none;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container {
+  position: relative;
+  min-width: 20px;
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox {
+  display: block;
+  max-width: 80%;
+  min-width: 20px;
+  max-height: 250px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
+  stroke: #dddddd;
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
+  stroke: #d9534f;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
+  stroke: #6ea03c;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini {
+  stroke: #bcbcbc;
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transform-origin: 25px 23.25px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini.no-needle {
+  stroke: transparent;
 }
 .il-standard-form {
   background-color: #fdfdfd;
@@ -14618,6 +14596,12 @@ div#ilContRepIntro img {
 }
 .ilContainerTileRows .card-no-highlight {
   height: 0px;
+}
+.ilContainerShowMore {
+  padding: 15px 10px;
+  background-color: white;
+  text-align: center;
+  margin: 0 -15px;
 }
 /* Modules/LearningModule */
 .ilLMMenu {
