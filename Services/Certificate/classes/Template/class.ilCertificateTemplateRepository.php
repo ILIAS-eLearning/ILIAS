@@ -66,17 +66,17 @@ class ilCertificateTemplateRepository
 		$columns = array(
 			'id'                    => array('integer', $id),
 			'obj_id'                => array('integer', $objId),
-			'obj_type'              => array('clob', $certificateTemplate->getObjType()),
+			'obj_type'              => array('text', $certificateTemplate->getObjType()),
 			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
 			'certificate_hash'      => array('text', $certificateTemplate->getCertificateHash()),
 			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
-			'version'               => array('clob', $certificateTemplate->getVersion()),
-			'ilias_version'         => array('clob', $certificateTemplate->getIliasVersion()),
+			'version'               => array('text', $certificateTemplate->getVersion()),
+			'ilias_version'         => array('text', $certificateTemplate->getIliasVersion()),
 			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
 			'currently_active'      => array('integer', (integer)$certificateTemplate->isCurrentlyActive()),
-			'background_image_path' => array('clob', $certificateTemplate->getBackgroundImagePath()),
+			'background_image_path' => array('text', $certificateTemplate->getBackgroundImagePath()),
 			'deleted'               => array('integer', (integer) $certificateTemplate->isDeleted()),
-			'thumbnail_image_path'  => array('clob', $certificateTemplate->getThumbnailImagePath())
+			'thumbnail_image_path'  => array('text', $certificateTemplate->getThumbnailImagePath())
 		);
 
 		$this->database->insert('il_cert_template', $columns);
