@@ -306,8 +306,9 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 
 			if ($this->current_filter['org_units']) {
 				$org_unit = $this->current_filter['org_units'];
-				$assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);
-				if (!in_array($org_unit, $assigned)) {
+				$title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
+				$user_units = (string)ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+				if (strpos($user_units, $title) === false) {
 					continue;
 				}
 			}
