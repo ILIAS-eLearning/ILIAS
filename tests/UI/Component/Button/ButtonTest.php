@@ -134,6 +134,22 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	/**
+	 * test loading animation
+	 */
+	public function test_button_with_loading_animation() {
+		$f = $this->getButtonFactory();
+		foreach (["standard", "primary"] as $method) {
+			$b = $f->$method("label", "http://www.ilias.de");
+
+			$this->assertFalse($b->hasLoadingAnimationOnClick());
+
+			$b = $b->withLoadingAnimationOnClick(true);
+
+			$this->assertTrue($b->hasLoadingAnimationOnClick());
+		}
+	}
+
+	/**
 	 * @dataProvider button_type_provider
 	 */
 	public function test_render_button_label($factory_method) {
@@ -429,6 +445,29 @@ class ButtonTest extends ILIAS_UI_TestBase {
 					"</button>";
 		$this->assertHTMLEquals($expected, $html);
 	}
+
+	/**
+	 * test rendering with on click animation
+	 */
+	public function test_render_button_with_on_click_animation() {
+		foreach (["primary", "standard"] as $method)
+		{
+			$ln = "http://www.ilias.de";
+			$f = $this->getButtonFactory();
+			$r = $this->getDefaultRenderer();
+			$b = $f->$method("label", $ln)
+				->withLoadingAnimationOnClick(true);
+
+			$html = $this->normalizeHTML($r->render($b));
+
+			$css_classes = self::$canonical_css_classes[$method];
+			$expected = "<button class=\"$css_classes\" data-action=\"$ln\" id=\"id_1\">" .
+				"label" .
+				"</button>";
+			$this->assertHTMLEquals($expected, $html);
+		}
+	}
+
 
 	// TODO: We are missing a test for the rendering of a button with an signal
 	// here. Does it still render the action js?

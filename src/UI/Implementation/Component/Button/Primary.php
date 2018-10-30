@@ -5,6 +5,8 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\LoadingAnimationOnClick;
 
 class Primary extends Button implements C\Button\Primary {
+	use LoadingAnimationOnClick;
 }
