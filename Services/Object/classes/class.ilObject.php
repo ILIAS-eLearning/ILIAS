@@ -715,18 +715,19 @@ class ilObject
 			$owner = 0;
 		}
 		$this->id = $ilDB->nextId("object_data");
-		$q = "INSERT INTO object_data ".
-			 "(obj_id,type,title,description,owner,create_date,last_update,import_id) ".
-			 "VALUES ".
-			 "(".
-			 $ilDB->quote($this->id, "integer").",".
-			 $ilDB->quote($this->type, "text").",".
-			 $ilDB->quote($this->getTitle(), "text").",".
-			 $ilDB->quote($this->getDescription(), "text").",".
-			 $ilDB->quote($owner, "integer").",".
-			 $ilDB->now().",".
-			 $ilDB->now().",".
-			 $ilDB->quote($this->getImportId(), "text").")";
+		$q = "INSERT INTO object_data " .
+			"(obj_id,type,title,description,offline,owner,create_date,last_update,import_id) " .
+			"VALUES " .
+			"(" .
+			$ilDB->quote($this->id, "integer") . "," .
+			$ilDB->quote($this->type, "text") . "," .
+			$ilDB->quote($this->getTitle(), "text") . "," .
+			$ilDB->quote($this->getDescription(), "text") . "," .
+			$ilDB->quote($this->supportsOfflineHandling() ? $this->getOfflineStatus() : null, 'integer').', '.
+			$ilDB->quote($owner, "integer") . "," .
+			$ilDB->now() . "," .
+			$ilDB->now() . "," .
+			$ilDB->quote($this->getImportId(), "text") . ")";
 
 		$ilDB->manipulate($q);
 
