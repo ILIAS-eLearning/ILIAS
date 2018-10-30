@@ -86,7 +86,6 @@ class ilLearningHistoryGUI
 		switch ($next_class)
 		{
 			case 'ilusercertificategui':
-				$this->setTabs(self::TAB_ID_MY_CERTIFICATES);
 				$gui = new \ilUserCertificateGUI(
 					$this->main_tpl, $ctrl, $this->lng
 				);
@@ -96,34 +95,12 @@ class ilLearningHistoryGUI
 			default:
 				if (in_array($cmd, array("show")))
 				{
-					$this->setTabs(self::TAB_ID_LEARNING_HISTORY);
 					$this->$cmd();
 				}
 		}
 	}
 
-	/**
-	 * @param string $activeTab
-	 */
-	protected function setTabs(string $activeTab)
-	{
-		$this->tabs->addTab(
-			self::TAB_ID_LEARNING_HISTORY,
-			$this->lng->txt('lhist_learning_history'),
-			$this->ctrl->getLinkTarget($this)
-		);
 
-		if ($this->certificateSettings->get('active')) {
-			$this->tabs->addTab(
-				self::TAB_ID_MY_CERTIFICATES,
-				$this->lng->txt('obj_cert'),
-				$this->ctrl->getLinkTargetByClass('ilUserCertificateGUI')
-			);
-		}
-
-		$this->tabs->activateTab($activeTab);
-	}
-	
 	/**
 	 * Show
 	 */

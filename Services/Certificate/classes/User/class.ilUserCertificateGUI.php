@@ -7,7 +7,7 @@ use ILIAS\UI\Renderer;
 /**
  * @ingroup ServicesCertificate
  * @author  Niels Theen <ntheen@databay.de>
- * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilLearningHistoryGUI
+ * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
  */
 class ilUserCertificateGUI
 {

@@ -46,6 +46,8 @@ class ilBadgeGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 * @inheritDoc
 	 */
 	public function getStaticSubItems(): array {
+		return [];
+		/*
 		return [$this->mainmenu->link($this->if->identifier('mm_pd_badges'))
 			        ->withTitle($this->dic->language()->txt("obj_bdga"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges")
@@ -55,6 +57,6 @@ class ilBadgeGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 				        function () {
 					        return (bool)(ilBadgeHandler::getInstance()->isActive());
 				        }
-			        )];
+			        )];*/
 	}
 }

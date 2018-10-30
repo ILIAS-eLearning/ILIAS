@@ -94,6 +94,13 @@ class ilAchievementsGUI
 				$this->main_tpl->show();
 				break;
 
+			case 'ilusercertificategui':
+				$this->setTabs(ilAchievements::SERV_CERTIFICATES);
+				$cgui = new ilUserCertificateGUI();
+				$ctrl->forwardCommand($cgui);
+				$this->main_tpl->show();
+				break;
+
 			default:
 				if (in_array($cmd, array("show")))
 				{
@@ -160,10 +167,10 @@ class ilAchievementsGUI
 			],
 			ilAchievements::SERV_BADGES => [
 				"txt" => $lng->txt('obj_bdga')
-			]/*,
+			],
 			ilAchievements::SERV_CERTIFICATES => [
-				"txt" => $lng->txt("")
-			]*/
+				"txt" => $lng->txt("obj_cert")
+			]
 		];
 
 		foreach ($links as $k => $v)
@@ -187,7 +194,7 @@ class ilAchievementsGUI
 			ilAchievements::SERV_COMPETENCES => "ilpersonalskillsgui",
 			ilAchievements::SERV_LEARNING_PROGRESS => "illearningprogressgui",
 			ilAchievements::SERV_BADGES => "ilbadgeprofilegui",
-			ilAchievements::SERV_CERTIFICATES =>  "",
+			ilAchievements::SERV_CERTIFICATES =>  "ilusercertificategui"
 		];
 
 		return $gui_classes;

@@ -46,6 +46,8 @@ class ilLPGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 * @inheritDoc
 	 */
 	public function getStaticSubItems(): array {
+		return [];
+		/*
 		return [$this->mainmenu->link($this->if->identifier('mm_pd_lp'))
 			        ->withTitle($this->dic->language()->txt("learning_progress"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP")
@@ -58,5 +60,6 @@ class ilLPGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 							        || ilObjUserTracking::_hasLearningProgressLearner()));
 				        }
 			        )];
+		*/
 	}
 }
