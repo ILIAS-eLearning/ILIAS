@@ -476,39 +476,40 @@
 
   .il-chart-progressmeter-mini-container {
     position: relative;
-    min-width: 20px;
-    max-width: 250px;
+    min-width: @il-chart-progressmeter-mini-min-width;
+    max-width: @il-chart-progressmeter-mini-max-width;
     width: 100%;
     height: auto;
 
     .il-chart-progressmeter-viewbox {
       display: block;
       max-width: 80%;
-      min-width: 20px;
-      max-height: 250px;
+      min-width: @il-chart-progressmeter-mini-min-width;
+      max-height: @il-chart-progressmeter-mini-max-width;
 
       .il-chart-progressmeter-circle-bg {
-        stroke: @il-chart-progressmeter-background;
+        stroke: @il-chart-progressmeter-mini-bg-color;
         fill: none;
-        stroke-width: 5;
+        stroke-width: @il-chart-progressmeter-mini-bg-stroke-width;
         stroke-linecap: round;
       }
       .il-chart-progressmeter-circle {
         fill: none;
-        stroke-width: 5;
+        stroke-width: @il-chart-progressmeter-mini-stroke-width;
         stroke-linecap: round;
       }
       .il-chart-progressmeter-circle.no-success {
-        stroke: @il-chart-progressmeter-bar-no-success;
+        stroke: @il-chart-progressmeter-mini-no-success;
       }
       .il-chart-progressmeter-circle.success {
-        stroke: @il-chart-progressmeter-bar-success;
+        stroke: @il-chart-progressmeter-mini-success;
       }
       .il-chart-progressmeter-needle-mini {
         stroke: @il-chart-progressmeter-mini-marker-color;
         fill: none;
-        stroke-width: 4px;
+        stroke-width: @il-chart-progressmeter-mini-marker-stroke-width;
         stroke-linecap: round;
+        // below are coordinates inside the svg and should not be changed
         transform-origin: 25px 23.25px;
       }
       .il-chart-progressmeter-needle-mini.no-needle {
