@@ -245,4 +245,36 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 	{
 		return new ilMailMemberLearningSequenceRoles();
 	}
+
+	protected function setSubTabs(ilTabsGUI $tabs)
+	{
+		$access = $this->checkRbacOrPositionAccessBool(
+			'manage_members',
+			'manage_members',
+			$this->getParentObject()->getRefId()
+		);
+
+		if ($access) {
+			$tabs->addSubTabTarget(
+				$this->getParentObject()->getType()."_member_administration",
+				$this->ctrl->getLinkTarget($this,'participants'),
+				"members",
+				get_class($this)
+			);
+
+			$tabs->addSubTabTarget(
+				$this->getParentObject()->getType().'_members_gallery',
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilUsersGalleryGUI')),
+				'view',
+				'ilUsersGalleryGUI'
+			);
+		} else if ($this->getParentObject()->getShowMembers()) {
+			$tabs->addSubTabTarget(
+				$this->getParentObject()->getType().'_members_gallery',
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilUsersGalleryGUI')),
+				'view',
+				'ilUsersGalleryGUI'
+			);
+		}
+	}
 }

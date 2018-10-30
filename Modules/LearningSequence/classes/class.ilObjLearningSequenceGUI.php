@@ -656,4 +656,20 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 		return $types;
 	}
+
+	public function addCustomData($a_data)
+	{
+		$res_data = array();
+		foreach($a_data as $usr_id => $user_data) {
+			$res_data[$usr_id] = $user_data;
+			$udf_data = new ilUserDefinedData($usr_id);
+
+			foreach($udf_data->getAll() as $field => $value) {
+				list($f,$field_id) = explode('_', $field);
+				$res_data[$usr_id]['udf_'.$field_id] = (string) $value;
+			}
+		}
+
+		return $res_data;
+	}
 }
