@@ -129,10 +129,12 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 			(int)$this->lp_settings->getMode()
 		);
 
-		$items = $collection->getItems();
+		if (!is_null($collection)) {
+			$items = $collection->getItems();
 
-		foreach ($items as $item) {
-			$this->xmlElement("lp_item_ref_id", null, $item);
+			foreach ($items as $item) {
+				$this->xmlElement("lp_item_ref_id", null, $item);
+			}
 		}
 
 		$this->xmlElement("lp_type", null, $this->lp_settings->getObjType());
