@@ -397,11 +397,10 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 
 	protected function isNotificationTypeEnabled(int $type): bool
 	{
-		return
+		return (
 			$this->force_sending_mail ||
-			$this->setting->get(
-				'mail_lso_member_notification',true) ||
-				in_array($type, $this->permanent_enabled_notifications)
+			$this->settings->get('mail_lso_member_notification',true) ||
+			in_array($type, $this->permanent_enabled_notifications)
 			);
 	}
 }
