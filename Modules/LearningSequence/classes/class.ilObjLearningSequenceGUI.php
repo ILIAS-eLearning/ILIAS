@@ -264,7 +264,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	protected function info(string $cmd = self::CMD_INFO)
 	{
 		$this->tabs->setTabActive(self::TAB_INFO);
-		$this->ctrl->setCmd('showSummary');
 		$this->ctrl->setCmdClass('ilinfoscreengui');
 		$info = new ilInfoScreenGUI($this);
 		$this->ctrl->forwardCommand($info);
