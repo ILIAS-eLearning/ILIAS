@@ -41,7 +41,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 	 */
 	protected $logger;
 
-	public function __construct(ilLogger $logger, ilSetting $setting)
+	public function __construct(ilLogger $logger, ilSetting $settings)
 	{
 		parent::__construct();
 
