@@ -14814,8 +14814,6 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_search_users#:#Search user
 lso#:#lso_print_list#:#Print list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
-lso#:#il_lso_member#:#Member
-lso#:#il_lso_admin#:#Administrator
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
 lso#:#lso_notification#:#Notification
@@ -14925,3 +14923,5 @@ crs#:#crs_lobj_pm_min_goal#:#Required Score
 dateplaner#:#back_to_crs#:#Go to Course
 dateplaner#:#back_to_grp#:#Go to Group
 dateplaner#:#back_to_pd#:#Back to Personal Desktop
+common#:#il_lso_admin#:#Learning Sequence Admin
+common#:#il_lso_member#:#Learning Sequence Member
