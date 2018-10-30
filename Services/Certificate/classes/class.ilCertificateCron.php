@@ -214,7 +214,7 @@ class ilCertificateCron extends \ilCronJob
 				$type,
 				$userId,
 				$userObject->getFullname(),
-				$entry->getStartedTimestamp(),
+				(int)$entry->getStartedTimestamp(),
 				$certificateContent,
 				json_encode($placeholderValues),
 				null,
