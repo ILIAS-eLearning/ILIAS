@@ -504,7 +504,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
 			$row['obj_type'],
 			$row['user_id'],
 			$row['user_name'],
-			$row['acquired_timestamp'],
+			(int)$row['acquired_timestamp'],
 			$row['certificate_content'],
 			$row['template_values'],
 			$row['valid_until'],
