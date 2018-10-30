@@ -223,6 +223,6 @@ abstract class AbstractBaseItem implements isItem {
 	 * @inheritDoc
 	 */
 	public function getTypeInformation(): TypeInformation {
-		return $this->type_information;
+		return $this->type_information instanceof TypeInformation ? $this->type_information : new TypeInformation(get_class($this), get_class($this));
 	}
 }
