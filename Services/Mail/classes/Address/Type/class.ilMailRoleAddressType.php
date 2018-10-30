@@ -9,74 +9,102 @@
  */
 class ilMailRoleAddressType extends \ilBaseMailAddressType
 {
-	/**
-	 * @var array
-	 */
-	protected static $role_ids_by_address = [];
+	/** @var \ilRbacSystem */
+	protected $rbacsystem;
+
+	/** @var \ilRbacReview */
+	protected $rbacreview;
 
 	/**
-	 * @var array
+	 * ilMailRoleAddressType constructor.
+	 * @param \ilMailAddressTypeHelper $typeHelper
+	 * @param \ilMailAddress           $address
+	 * @param \ilLogger                $logger
+	 * @param \ilRbacSystem            $rbacsystem
+	 * @param \ilRbacReview            $rbacreview
 	 */
-	protected static $may_send_to_global_roles = [];
-
-	/**
-	 * @param \ilMailAddress $a_address
-	 * @return array
-	 */
-	protected static function getRoleIdsByAddress(\ilMailAddress $a_address): array
+	public function __construct(
+		\ilMailAddressTypeHelper $typeHelper,
+		\ilMailAddress $address,
+		\ilLogger $logger,
+		\ilRbacSystem $rbacsystem,
+		\ilRbacReview $rbacreview
+	)
 	{
-		$address = $a_address->getMailbox() . '@' . $a_address->getHost();
+		parent::__construct($typeHelper, $address, $logger);
 
-		if (!isset(self::$role_ids_by_address[$address])) {
-			self::$role_ids_by_address[$address] = self::searchRolesByMailboxAddressList($address);
-		}
-
-		return self::$role_ids_by_address[$address];
+		$this->rbacsystem = $rbacsystem;
+		$this->rbacreview = $rbacreview;
 	}
 
 	/**
-	 * @param int $a_sender_id
+	 * @var int[]
+	 */
+	protected static $roleIdsByAddress = [];
+
+	/**
+	 * @var bool[]
+	 */
+	protected static $maySendToGlobalRoles = [];
+
+	/**
+	 * @param \ilMailAddress $address
+	 * @return int[]
+	 */
+	protected function getRoleIdsByAddress(\ilMailAddress $address): array
+	{
+		$combinedAddress = $address->getMailbox() . '@' . $address->getHost();
+
+		if (!isset(self::$roleIdsByAddress[$combinedAddress])) {
+			self::$roleIdsByAddress[$combinedAddress] = self::searchRolesByMailboxAddressList($combinedAddress);
+		}
+
+		return self::$roleIdsByAddress[$combinedAddress];
+	}
+
+	/**
+	 * @param int $senderId
 	 * @return bool
 	 */
-	protected function maySendToGlobalRole(int $a_sender_id): bool
+	protected function maySendToGlobalRole(int $senderId): bool
 	{
-		if (!isset(self::$may_send_to_global_roles[$a_sender_id])) {
-			if ($a_sender_id == ANONYMOUS_USER_ID) {
-				self::$may_send_to_global_roles[$a_sender_id] = true;
+		if (!isset(self::$maySendToGlobalRoles[$senderId])) {
+			if ($senderId == ANONYMOUS_USER_ID) {
+				self::$maySendToGlobalRoles[$senderId] = true;
 			} else {
-				self::$may_send_to_global_roles[$a_sender_id] = $this->rbacsystem->checkAccessOfUser(
-					$a_sender_id, 'mail_to_global_roles', \ilMailGlobalServices::getMailObjectRefId()
+				self::$maySendToGlobalRoles[$senderId] = $this->rbacsystem->checkAccessOfUser(
+					$senderId, 'mail_to_global_roles', $this->typeHelper->getGlobalMailSystemId()
 				);
 			}
 		}
 
-		return self::$may_send_to_global_roles[$a_sender_id];
+		return self::$maySendToGlobalRoles[$senderId];
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function isValid(int $a_sender_id): bool
+	protected function isValid(int $senderId): bool
 	{
-		$role_ids = self::getRoleIdsByAddress($this->address);
-		if (!self::maySendToGlobalRole($a_sender_id)) {
-			foreach ($role_ids as $role_id) {
-				if ($this->rbacreview->isGlobalRole($role_id)) {
+		$roleIds = $this->getRoleIdsByAddress($this->address);
+		if (!$this->maySendToGlobalRole($senderId)) {
+			foreach ($roleIds as $roleId) {
+				if ($this->rbacreview->isGlobalRole($roleId)) {
 					$this->errors[] = array('mail_to_global_roles_not_allowed', $this->address->getMailbox());
 					return false;
 				}
 			}
 		}
 
-		if (count($role_ids) == 0) {
+		if (count($roleIds) == 0) {
 			$this->errors[] = ['mail_recipient_not_found', $this->address->getMailbox()];
 			return false;
 		} else {
-			if (count($role_ids) > 1) {
+			if (count($roleIds) > 1) {
 				$this->errors[] = [
 					'mail_multiple_role_recipients_found',
 					$this->address->getMailbox(),
-					implode(',', $role_ids)
+					implode(',', $roleIds)
 				];
 				return false;
 			}
@@ -90,42 +118,42 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 	 */
 	public function resolve(): array
 	{
-		$usr_ids = [];
+		$usrIds = [];
 
-		$role_ids = self::getRoleIdsByAddress($this->address);
+		$roleIds = $this->getRoleIdsByAddress($this->address);
 
-		if (count($role_ids) > 0) {
-			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
+		if (count($roleIds) > 0) {
+			$this->logger->debug(sprintf(
 				"Found the following role ids for address '%s': %s",
-				$this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($role_ids))
+				$this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($roleIds))
 			));
 
-			foreach ($role_ids as $role_id) {
-				foreach ($this->rbacreview->assignedUsers($role_id) as $usr_id) {
-					$usr_ids[] = $usr_id;
+			foreach ($roleIds as $roleId) {
+				foreach ($this->rbacreview->assignedUsers($roleId) as $usrId) {
+					$usrIds[] = $usrId;
 				}
 			}
 
-			if (count($usr_ids) > 0) {
-				\ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			if (count($usrIds) > 0) {
+				$this->logger->debug(sprintf(
 					"Found the following user ids for roles determined by address '%s': %s",
 					$this->address->getMailbox() . '@' . $this->address->getHost(),
-					implode(', ', array_unique($usr_ids))
+					implode(', ', array_unique($usrIds))
 				));
 			} else {
-				\ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				$this->logger->debug(sprintf(
 					"Did not find any assigned users for roles determined by '%s'",
 					$this->address->getMailbox() . '@' . $this->address->getHost()
 				));
 			}
 		} else {
-			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			$this->logger->debug(sprintf(
 				"Did not find any role (and user ids) for address '%s'",
 				$this->address->getMailbox() . '@' . $this->address->getHost()
 			));
 		}
 
-		return array_unique($usr_ids);
+		return array_unique($usrIds);
 	}
 
 	/**

@@ -14,21 +14,42 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 	{
 		parent::setUp();
 
-		$user = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
-		$user->expects($this->any())->method('getId')->will($this->returnValue(6));
-
-		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
-		$rbacreview = $this->getMockBuilder(\ilRbacReview::class)->disableOriginalConstructor()->getMock();
-
-		$this->setGlobalVariable('rbacreview', $rbacreview);
-		$this->setGlobalVariable('rbacsystem', $rbacsystem);
-		$this->setGlobalVariable('ilUser', $user);
-
 		$database = $this->getMockBuilder(\ilDBInterface::class)->getMock();
 		$result = $this->getMockBuilder(\ilDBStatement::class)->getMock();
 		$result->expects($this->any())->method('numRows')->will($this->returnValue(1));
 		$database->expects($this->any())->method('query')->will($this->returnValue($result));
 		$this->setGlobalVariable('ilDB', $database);
+	}
+
+	/**
+	 * @return PHPUnit_Framework_MockObject_MockObject|\ilGroupNameAsMailValidator
+	 */
+	private function createGroupNameAsValidatorMock()
+	{
+		return $this->getMockBuilder(\ilGroupNameAsMailValidator::class)
+		            ->disableOriginalConstructor()
+		            ->setMethods(array('validate'))
+		            ->getMock();
+	}
+
+	/**
+	 * @param $groupNameValidatorMock
+	 * @return \ilMailAddressTypeFactory
+	 */
+	private function getAddressTypeFactory($groupNameValidatorMock): \ilMailAddressTypeFactory
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$rbacreview = $this->getMockBuilder(\ilRbacReview::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+		$mailingLists = $this->getMockBuilder(\ilMailingLists::class)->disableOriginalConstructor()->getMock();
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory(
+			$groupNameValidatorMock, $logger, $rbacsystem,
+			$rbacreview, $addressTypeHelper, $mailingLists
+		);
+
+		return $mailAddressTypeFactory;
 	}
 
 	/**
@@ -39,9 +60,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(true);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_ml_4711', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('#il_ml_4711', ''));
 
 		$this->assertInstanceOf('ilMailMailingListAddressType', $result);
 	}
@@ -54,9 +75,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(true);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#MyGroup', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('#MyGroup', ''));
 
 		$this->assertInstanceOf('ilMailGroupAddressType', $result);
 	}
@@ -69,9 +90,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(false);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('phpunit', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('phpunit', ''));
 
 		$this->assertInstanceOf('ilMailLoginOrEmailAddressAddressType', $result);
 	}
@@ -84,9 +105,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(false);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#member', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('#member', ''));
 
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
@@ -99,9 +120,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(false);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_grp_admin_98', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('#il_grp_admin_98', ''));
 
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
@@ -114,9 +135,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(false);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_grp_member_98', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('#il_grp_member_98', ''));
 
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
@@ -129,9 +150,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(false);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_crs_admin_98', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('#il_crs_admin_98', ''));
 
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
@@ -144,21 +165,257 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(false);
 
-		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+		$mailAddressTypeFactory = $this->getAddressTypeFactory($groupNameValidatorMock);
 
-		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_crs_member_98', ''));
+		$result = $mailAddressTypeFactory->getByPrefix(new \ilMailAddress('#il_crs_member_98', ''));
 
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
 
 	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilGroupNameAsMailValidator
+	 * 
 	 */
-	private function createGroupNameAsValidatorMock()
+	public function testUserIdCanBeResolvedFromLoginAddress()
 	{
-		return $this->getMockBuilder(\ilGroupNameAsMailValidator::class)
-			->disableOriginalConstructor()
-			->setMethods(array('validate'))
-			->getMock();
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$addressTypeHelper->expects($this->once())->method('getInstallationHost')->willReturn('ilias');
+		$addressTypeHelper->expects($this->once())->method('getUserIdByLogin')->willReturn(4711);
+
+		$type = new \ilMailLoginOrEmailAddressAddressType(
+			$addressTypeHelper, new \ilMailAddress('phpunit', 'ilias'), $logger, $rbacsystem
+		);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(1, $usrIds);
+		$this->assertArrayHasKey(0, $usrIds);
+		$this->assertEquals(4711, $usrIds[0]);
+	}
+
+	/**
+	 *
+	 */
+	public function testNoUserIdCanBeResolvedFromLoginAddress()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$addressTypeHelper->expects($this->once())->method('getInstallationHost')->willReturn('ilias');
+		$addressTypeHelper->expects($this->once())->method('getUserIdByLogin')->willReturn(0);
+
+		$type = new \ilMailLoginOrEmailAddressAddressType(
+			$addressTypeHelper, new \ilMailAddress('phpunit', 'ilias'), $logger, $rbacsystem
+		);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(0, $usrIds);
+	}
+
+	/**
+	 *
+	 */
+	public function testNoUserIdCanBeResolvedFromEmailAddress()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$addressTypeHelper->expects($this->once())->method('getInstallationHost')->willReturn('ilias');
+		$addressTypeHelper->expects($this->once())->method('getUserIdByLogin')->willReturn(0);
+
+		$type = new \ilMailLoginOrEmailAddressAddressType(
+			$addressTypeHelper, new \ilMailAddress('mjansen', 'databay.de'), $logger, $rbacsystem
+		);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(0, $usrIds);
+	}
+
+	/**
+	 *
+	 */
+	public function testAddressCanBeValidatedFromLoginOrEmailAddressType()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$addressTypeHelper->expects($this->atLeast(3))->method('getInstallationHost')->willReturn('ilias');
+		$addressTypeHelper->expects($this->exactly(2))->method('getUserIdByLogin')->willReturnOnConsecutiveCalls(
+			4711, 4711, 0
+		);
+
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$rbacsystem->expects($this->exactly(2))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(
+			true, false
+		);
+
+		$type = new \ilMailLoginOrEmailAddressAddressType(
+			$addressTypeHelper, new \ilMailAddress('phpunit', 'ilias'), $logger, $rbacsystem
+		);
+		$this->assertTrue($type->validate(666));
+		$this->assertCount(0, $type->getErrors());
+
+		$this->assertFalse($type->validate(666));
+		$this->assertArrayHasKey(0, $type->getErrors());
+		$this->assertEquals('user_cant_receive_mail', $type->getErrors()[0][0]);
+
+		$type = new \ilMailLoginOrEmailAddressAddressType(
+			$addressTypeHelper, new \ilMailAddress('mjansen', 'databay.de'), $logger, $rbacsystem
+		);
+		$this->assertTrue($type->validate(666));
+		$this->assertCount(0, $type->getErrors());
+	}
+
+	/**
+	 *
+	 */
+	public function testUserIdsCanBeResolvedFromGroupNameAddress()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$group = $this->getMockBuilder(\ilObjGroup::class)->disableOriginalConstructor()->setMethods(['getGroupMemberIds'])->getMock();
+		$group->expects($this->once())->method('getGroupMemberIds')->willReturn([666, 777]);
+
+		$addressTypeHelper->expects($this->once())->method('getGroupObjIdByTitle')->willReturn(1);
+		$addressTypeHelper->expects($this->once())->method('getAllRefIdsForObjId')->with(1)->willReturn([2]);
+		$addressTypeHelper->expects($this->once())->method('getInstanceByRefId')->with(2)->willReturn($group);
+
+		$type = new \ilMailGroupAddressType(
+			$addressTypeHelper, new \ilMailAddress('#PhpUnit', ''), $logger
+		);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(2, $usrIds);
+	}
+
+	/**
+	 * 
+	 */
+	public function testUserIdsCannotBeResolvedFromNonExistingGroupNameAddress()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$group = $this->getMockBuilder(\ilObjGroup::class)->disableOriginalConstructor()->setMethods(['getGroupMemberIds'])->getMock();
+		$group->expects($this->never())->method('getGroupMemberIds');
+
+		$addressTypeHelper->expects($this->once())->method('getGroupObjIdByTitle')->willReturn(0);
+		$addressTypeHelper->expects($this->once())->method('getAllRefIdsForObjId')->with(0)->willReturn([]);
+		$addressTypeHelper->expects($this->never())->method('getInstanceByRefId');
+
+		$type = new \ilMailGroupAddressType(
+			$addressTypeHelper, new \ilMailAddress('#PhpUnit', ''), $logger
+		);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(0, $usrIds);
+	}
+
+	/**
+	 *
+	 */
+	public function testValidationFailsForNonExistingGroupNameAddress()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$addressTypeHelper->expects($this->once())->method('doesGroupNameExists')->with('PhpUnit')->willReturn(false);
+
+		$type = new \ilMailGroupAddressType(
+			$addressTypeHelper, new \ilMailAddress('#PhpUnit', ''), $logger
+		);
+		$this->assertFalse($type->validate(666));
+	}
+
+	/**
+	 *
+	 */
+	public function testValidationSucceedsForExistingGroupName()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$addressTypeHelper->expects($this->once())->method('doesGroupNameExists')->with('PhpUnit')->willReturn(true);
+
+		$type = new \ilMailGroupAddressType(
+			$addressTypeHelper, new \ilMailAddress('#PhpUnit', ''), $logger
+		);
+		$this->assertTrue($type->validate(666));
+	}
+
+	/**
+	 *
+	 */
+	public function testUserIdsCanBeResolvedFromMailingListAddress()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$list = $this->getMockBuilder(\ilMailingList::class)->disableOriginalConstructor()->setMethods([
+			'getAssignedEntries'
+		])->getMock();
+		$list->expects($this->exactly(2))->method('getAssignedEntries')->willReturnOnConsecutiveCalls(
+			[['usr_id' => 1], ['usr_id' => 2], ['usr_id' => 3]], []
+		);
+
+		$lists = $this->getMockBuilder(\ilMailingLists::class)->disableOriginalConstructor()->setMethods([
+			'mailingListExists', 'getCurrentMailingList'
+		])->getMock();
+		$lists->expects($this->exactly(3))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
+			true, true, false
+		);
+		$lists->expects($this->exactly(2))->method('getCurrentMailingList')->willReturn($list);
+
+		$type = new \ilMailMailingListAddressType(
+			$addressTypeHelper, new \ilMailAddress('#il_ml_4711', ''), $logger, $lists 
+		);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(3, $usrIds);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(0, $usrIds);
+
+		$usrIds = $type->resolve();
+
+		$this->assertCount(0, $usrIds);
+	}
+
+	/**
+	 *
+	 */
+	public function testMailingListAddressCanBeValidated()
+	{
+		$lists = $this->getMockBuilder(\ilMailingLists::class)->disableOriginalConstructor()->setMethods([
+			'mailingListExists'
+		])->getMock();
+		$lists->expects($this->exactly(2))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
+			true, false
+		);
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+
+		$type = new \ilMailMailingListAddressType(
+			$addressTypeHelper, new \ilMailAddress('#il_ml_4711', ''), $logger, $lists
+		);
+
+		$this->assertTrue($type->validate(666));
+		$this->assertCount(0, $type->getErrors());
+
+		$this->assertFalse($type->validate(666));
+		$this->assertCount(1, $type->getErrors());
+		$this->assertArrayHasKey(0, $type->getErrors());
+		$this->assertEquals('mail_no_valid_mailing_list', $type->getErrors()[0][0]);
 	}
 }
