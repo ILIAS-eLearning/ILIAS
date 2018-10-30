@@ -149,7 +149,7 @@ class ilObjLearningSequenceLearnerGUI
 			$may_unsubscribe = $this->ls_object->userMayUnparticipate();
 			if ($may_unsubscribe) {
 				$this->toolbar->addButton(
-					$this->lng->txt("lso_player_unsubscribe"),
+					$this->lng->txt("unparticipate"),
 					$this->ctrl->getLinkTarget($this, self::CMD_UNSUBSCRIBE)
 				);
 			}
