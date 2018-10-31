@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class ilWebDAVMountInstructions
+ *
+ * This class creates the page and links for the WebDAV mount instruction page
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ */
 class ilWebDAVMountInstructions
 {
     protected $user_agent;

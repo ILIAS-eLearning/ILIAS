@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Class ilWebDAVDBManager
+ *
+ * According to the repository pattern, this class manages the DB actions from other WebDAV classes. At the moment, the
+ * only direct interaction between WebDAV and the DB is for the locking mechanism.
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ */
 class ilWebDAVDBManager
 {
     /**

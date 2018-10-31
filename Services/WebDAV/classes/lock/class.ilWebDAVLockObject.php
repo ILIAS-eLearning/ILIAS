@@ -5,7 +5,8 @@ require_once('Services/ActiveRecord/Connector/class.arConnectorSession.php');
 /**
  * Represents a lock on an ilias object. Objects from this class are immutable!
  * 
- * @author faheer
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
  *
  */
 class ilWebDAVLockObject
