@@ -12,6 +12,10 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 	 */
 	public function setUp()
 	{
+		if (!defined('ANONYMOUS_USER_ID')) {
+			define('ANONYMOUS_USER_ID', 13);
+		}
+
 		parent::setUp();
 	}
 
@@ -482,5 +486,67 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$usrIds = $type->resolve();
 
 		$this->assertCount(0, $usrIds);
+	}
+
+	/**
+	 *
+	 */
+	public function testValidationForAnonymousUserAsSystemActorSucceedsAlwaysForGlobalRoleAddresses()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+		$rbacreview = $this->getMockBuilder(\ilRbacReview::class)->disableOriginalConstructor()->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+		$roleMailboxSearch = $this->getMockBuilder(\ilRoleMailboxSearch::class)->disableOriginalConstructor()->setMethods(['searchRoleIdsByAddressString'])->getMock();
+
+		$roleMailboxSearch->expects($this->once())->method('searchRoleIdsByAddressString')->willReturnOnConsecutiveCalls([1]);
+		$rbacsystem->expects($this->never())->method('checkAccessOfUser');
+
+		$type = new \ilMailRoleAddressType(
+			$addressTypeHelper, new \ilMailAddress('phpunit', 'ilias'), $roleMailboxSearch, $logger, $rbacsystem, $rbacreview
+		);
+
+		$this->assertTrue($type->validate(ANONYMOUS_USER_ID));
+		$this->assertCount(0, $type->getErrors());
+	}
+
+	/**
+	 *
+	 */
+	public function testPermissionsAreCheckedForRegularUsersWhenValidatingGlobalRoleAddresses()
+	{
+		$logger = $this->getMockBuilder(\ilLogger::class)->disableOriginalConstructor()->getMock();
+		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->setMethods(['checkAccessOfUser'])->getMock();
+		$rbacreview = $this->getMockBuilder(\ilRbacReview::class)->disableOriginalConstructor()->setMethods(['isGlobalRole'])->getMock();
+		$addressTypeHelper = $this->getMockBuilder(\ilMailAddressTypeHelper::class)->getMock();
+		$roleMailboxSearch = $this->getMockBuilder(\ilRoleMailboxSearch::class)->disableOriginalConstructor()->setMethods(['searchRoleIdsByAddressString'])->getMock();
+
+		$roleMailboxSearch->expects($this->exactly(4))->method('searchRoleIdsByAddressString')->willReturnOnConsecutiveCalls(
+			[1], [], [1, 2], [1]
+		);
+		$rbacsystem->expects($this->exactly(4))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(false, true, true, true);
+		$rbacreview->expects($this->once())->method('isGlobalRole')->with(1)->willReturn(true);
+
+		$type = new \ilMailRoleAddressType(
+			$addressTypeHelper, new \ilMailAddress('phpunit', 'ilias'), $roleMailboxSearch, $logger, $rbacsystem, $rbacreview
+		);
+
+		$this->assertFalse($type->validate(4711));
+		$this->assertCount(1, $type->getErrors());
+		$this->assertArrayHasKey(0, $type->getErrors());
+		$this->assertEquals('mail_to_global_roles_not_allowed', $type->getErrors()[0][0]);
+
+		$this->assertFalse($type->validate(4711));
+		$this->assertCount(1, $type->getErrors());
+		$this->assertArrayHasKey(0, $type->getErrors());
+		$this->assertEquals('mail_recipient_not_found', $type->getErrors()[0][0]);
+
+		$this->assertFalse($type->validate(4711));
+		$this->assertCount(1, $type->getErrors());
+		$this->assertArrayHasKey(0, $type->getErrors());
+		$this->assertEquals('mail_multiple_role_recipients_found', $type->getErrors()[0][0]);
+
+		$this->assertTrue($type->validate(4711));
+		$this->assertCount(0, $type->getErrors());
 	}
 }
