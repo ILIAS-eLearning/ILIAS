@@ -510,7 +510,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			);
 		}
 
-
 		if ($this->checkAccess("write")) {
 			$this->tabs->addTab(
 				self::TAB_EXPORT,
