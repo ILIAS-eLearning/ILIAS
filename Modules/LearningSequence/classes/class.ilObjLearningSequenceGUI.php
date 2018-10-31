@@ -529,13 +529,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 	public function renderObject()
 	{
-		$this->tabs->activateTab(self::TAB_CONTENT_MAIN);
-		parent::renderObject();
-	}
-
-	public function setContentSubTabs()
-	{
-		$this->addSubTabsForContent();
+		// disables this method in ilContainerGUI
 	}
 
 	protected function addSubTabsForContent()
