@@ -527,18 +527,29 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 	}
 
+	public function renderObject()
+	{
+		$this->tabs->activateTab(self::TAB_CONTENT_MAIN);
+		parent::renderObject();
+	}
+
+	public function setContentSubTabs()
+	{
+		$this->addSubTabsForContent();
+	}
+
 	protected function addSubTabsForContent()
 	{
 		$this->tabs->addSubTab(
-			self::TAB_LEARNER_VIEW
-			, $this->lng->txt(self::TAB_LEARNER_VIEW)
+			self::TAB_VIEW_CONTENT
+			, $this->lng->txt(self::TAB_VIEW_CONTENT)
 			, $this->getLinkTarget(self::CMD_LEARNER_VIEW)
 		);
 
 		if ($this->checkAccess("edit_permission")) {
 			$this->tabs->addSubTab(
-				self::TAB_CONTENT
-				, $this->lng->txt(self::TAB_CONTENT)
+				self::TAB_MANAGE
+				, $this->lng->txt(self::TAB_MANAGE)
 				, $this->getLinkTarget(self::CMD_CONTENT)
 			);
 		}
