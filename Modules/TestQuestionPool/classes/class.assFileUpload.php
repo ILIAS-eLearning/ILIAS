@@ -86,7 +86,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 							array( "integer" ),
 							array( $this->getId() )
@@ -110,7 +111,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
 			array($question_id)
@@ -299,7 +301,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (is_null($pass))
 		{
@@ -452,7 +455,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	public function getUploadedFiles($active_id, $pass = null, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (is_null($pass))
 		{
@@ -486,7 +490,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	public function getUploadedFilesForWeb($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found = $this->getUploadedFiles($active_id, $pass);
 		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
@@ -513,7 +518,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$pass = null;
 		$active_id = null;
@@ -810,7 +816,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function removeIntermediateSolution($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = parent::removeIntermediateSolution($active_id, $pass);
 
@@ -1157,7 +1164,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function hasFileUploads($test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$query  = "
 		SELECT tst_solutions.solution_id 
 		FROM tst_solutions, tst_active, qpl_questions 
@@ -1185,7 +1193,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function deliverFileUploadZIPFile($ref_id, $test_id, $test_title)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssFileUploadUploadsExporter.php';
 		$exporter = new ilAssFileUploadUploadsExporter($ilDB, $lng);

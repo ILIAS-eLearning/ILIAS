@@ -33,7 +33,11 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_FORM);
 		$nextClass = $ilCtrl->getNextClass($this);
@@ -67,7 +71,12 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function showFormCmd(ilPropertyFormGUI $form = null)
 	{
-		global $ilCtrl, $tpl, $ilToolbar, $lng, $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if( $form instanceof ilPropertyFormGUI )
 		{
@@ -102,7 +111,10 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function saveFormCmd()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 		
 		$form = $this->buildForm();
 		
@@ -169,7 +181,8 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function cancelFormCmd()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$ilCtrl->redirectByClass('ilAssQuestionHintsGUI');
 	}
@@ -184,7 +197,9 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function buildForm(ilAssQuestionHint $questionHint = null)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';

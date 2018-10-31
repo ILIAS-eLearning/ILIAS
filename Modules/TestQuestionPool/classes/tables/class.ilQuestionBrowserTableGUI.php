@@ -53,7 +53,9 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -196,7 +198,8 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
 	function getSelectableColumns()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$cols["description"] = array(
 			"txt" => $lng->txt("description"),
 			"default" => true
@@ -247,7 +250,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 		
 		// title
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
@@ -351,7 +357,9 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $ilUser,$ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$class = strtolower(assQuestionGUI::_getGUIClassNameForId($data["question_id"]));

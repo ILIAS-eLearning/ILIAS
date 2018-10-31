@@ -188,7 +188,8 @@ class ilAssQuestionHint
 	 */
 	public function load($id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT	qht_hint_id,
@@ -241,7 +242,8 @@ class ilAssQuestionHint
 	 */
 	private function update()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		return $ilDB->update(
 				'qpl_hints',
@@ -267,7 +269,8 @@ class ilAssQuestionHint
 	 */
 	private function insert()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$this->setId($ilDB->nextId('qpl_hints'));
 		
@@ -329,7 +332,8 @@ class ilAssQuestionHint
 	 */
 	public static function deleteById($hintId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			DELETE FROM		qpl_hints

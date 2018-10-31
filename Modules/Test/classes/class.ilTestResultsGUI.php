@@ -239,21 +239,22 @@ class ilTestResultsGUI
 				
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_SKILL_RESULTS);
 				
+				global $DIC; /* @var ILIAS\DI\Container $DIC */
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 				if( $this->getTestObj()->isDynamicTest() )
 				{
 					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-						$DIC->repositoryTree(), $DIC->database(), $GLOBALS['ilPluginAdmin'], $this->getTestObj()
+						$DIC->repositoryTree(), $DIC->database(), $DIC['ilPluginAdmin'], $this->getTestObj()
 					);
 					$dynamicQuestionSetConfig->loadFromDb();
-					$questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $GLOBALS['ilPluginAdmin']);
+					$questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['ilPluginAdmin']);
 					$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
 					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 				}
 				else
 				{
-					$questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $GLOBALS['ilPluginAdmin']);
+					$questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['ilPluginAdmin']);
 					$questionList->setParentObjId($this->getTestObj()->getId());
 					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 				}

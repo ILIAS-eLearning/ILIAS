@@ -24,7 +24,8 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$this->setId('ucats_' . $controller->getUniqueId());
 
@@ -66,7 +67,8 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$row['chb'] = ilUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 

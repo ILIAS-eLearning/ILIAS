@@ -44,7 +44,11 @@ class ilMarkSchemaGUI
 		 * @var $tpl       ilTemplate
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $ilCtrl, $lng, $tpl, $ilToolbar;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
 
 		$this->ctrl    = $ilCtrl;
 		$this->lng     = $lng;

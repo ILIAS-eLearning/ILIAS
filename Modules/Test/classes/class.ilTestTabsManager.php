@@ -91,10 +91,11 @@ class ilTestTabsManager
 	public function __construct(ilTestAccess $testAccess)
 	{
 		$this->testAccess = $testAccess;
-
-		$this->tabs = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilTabs'] : $GLOBALS['ilTabs'];
-		$this->access = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilAccess'] : $GLOBALS['ilAccess'];
-		$this->lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->tabs = $DIC['ilTabs'];
+		$this->access = $DIC['ilAccess'];
+		$this->lng = $DIC['lng'];
 	}
 	
 	/**

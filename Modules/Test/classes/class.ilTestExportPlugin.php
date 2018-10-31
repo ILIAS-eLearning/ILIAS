@@ -145,7 +145,9 @@ abstract class ilTestExportPlugin extends ilPlugin
 		 * @var $lng;
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(!$this->getTest() instanceof ilObjTest)
 		{

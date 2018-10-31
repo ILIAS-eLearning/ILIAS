@@ -620,8 +620,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
 		$solutions = is_object($this->getPreviewSession()) ? (array)$this->getPreviewSession()->getParticipantsSolution() : array();
-
-		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
 		{
 			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 			iljQueryUtil::initjQuery();
@@ -795,7 +796,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
 	// hey.
 	{
-		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
 		{
 			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 			iljQueryUtil::initjQuery();
@@ -987,7 +989,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		

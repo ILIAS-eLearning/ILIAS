@@ -74,7 +74,8 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$tpl = new ilTemplate("tpl.prop_randomtestroinput.html", true, true, "Modules/Test");
 		$i = 0;

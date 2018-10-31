@@ -147,7 +147,8 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$_POST[$this->getPostVar()] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
@@ -167,7 +168,8 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$template = new ilTemplate("tpl.prop_suggestedsolutionselector.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		

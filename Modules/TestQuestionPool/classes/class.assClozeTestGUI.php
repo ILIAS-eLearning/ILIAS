@@ -1397,7 +1397,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	public function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		
@@ -1480,7 +1482,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			return '';
 		}
 				
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$feedback = '<table class="test_specific_feedback"><tbody>';
 

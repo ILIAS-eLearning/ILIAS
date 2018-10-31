@@ -23,7 +23,8 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 	{
 		parent::__construct($parentObj, $parentCmd);
 
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->setPrefix('manScorePassesTable');
 
@@ -42,7 +43,8 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 	
 	private function initColumns()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$this->addColumn($lng->txt("scored_pass"),'', '150');
 		$this->addColumn($lng->txt("pass"),'pass', '');
@@ -70,7 +72,9 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 	{
 		//vd($row);
 		
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$ilCtrl->setParameter($this->parent_obj, 'active_id', $row['active_id']);
 		$ilCtrl->setParameter($this->parent_obj, 'pass', $row['pass']);

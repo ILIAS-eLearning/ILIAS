@@ -4,7 +4,8 @@ class assClozeGapCombination
 {
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF('
 									SELECT 	combinations.combination_id,
 											combinations.gap_fi,
@@ -63,7 +64,8 @@ class assClozeGapCombination
 	
 	public function saveGapCombinationToDb($question_id, $gap_combinations, $gap_values)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$best_solutions = array();
 		for($i = 0; $i < count($gap_combinations['points']); $i++)
 		{
@@ -118,7 +120,8 @@ class assClozeGapCombination
 	}
 	public static function importGapCombinationToDb($question_id, $gap_combinations)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		foreach($gap_combinations as $key => $row)
 		{
@@ -155,7 +158,8 @@ class assClozeGapCombination
 
 	public static function clearGapCombinationsFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulateF( 'DELETE FROM qpl_a_cloze_combi_res WHERE question_fi = %s',
 			array( 'integer' ),
@@ -165,7 +169,8 @@ class assClozeGapCombination
 
 	public function combinationExistsForQid($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF('SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s ORDER BY gap_fi ASC',
 			array('integer'),
@@ -183,7 +188,8 @@ class assClozeGapCombination
 
 	public function getGapsWhichAreUsedInCombination($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF('SELECT gap_fi, combination_id FROM ' . $ilDB->quoteIdentifier('qpl_a_cloze_combi_res') . ' WHERE question_fi = %s GROUP BY gap_fi, combination_id',
 			array('integer'),
@@ -202,7 +208,8 @@ class assClozeGapCombination
 	
 	public function getMaxPointsForCombination($question_id, $combination_id = -1)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if($combination_id == -1)
 		{
@@ -241,7 +248,9 @@ class assClozeGapCombination
 
 	public function getBestSolutionCombination($question_id)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 
 		$result = $ilDB->queryF('SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 ORDER BY gap_fi',
 			array('integer'),

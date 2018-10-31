@@ -251,7 +251,8 @@ class ilAssQuestionFeedbackEditingGUI
 	 */
 	private function isSyncAfterSaveRequired()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		if( !$_GET["calling_test"] )
 		{

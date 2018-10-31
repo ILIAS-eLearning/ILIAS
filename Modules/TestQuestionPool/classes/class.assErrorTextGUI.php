@@ -393,7 +393,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 

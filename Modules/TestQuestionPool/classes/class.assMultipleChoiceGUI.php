@@ -741,7 +741,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	 */
 	public function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		

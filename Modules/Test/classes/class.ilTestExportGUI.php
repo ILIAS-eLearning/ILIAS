@@ -19,7 +19,8 @@ class ilTestExportGUI extends ilExportGUI
 {
 	public function __construct($a_parent_gui, $a_main_obj = null)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		parent::__construct($a_parent_gui, $a_main_obj);
 
@@ -64,7 +65,9 @@ class ilTestExportGUI extends ilExportGUI
 		 * @var $lng ilLanguage
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
 		$expFactory = new ilTestExportFactory($this->obj);
@@ -84,7 +87,9 @@ class ilTestExportGUI extends ilExportGUI
 		 * @var $lng ilLanguage
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
 		$expFactory = new ilTestExportFactory($this->obj);
@@ -96,7 +101,11 @@ class ilTestExportGUI extends ilExportGUI
 
 	function createTestArchiveExport()
 	{
-		global $ilAccess, $ilCtrl, $ilDB, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 
 		if ($ilAccess->checkAccess("write", "", $this->obj->ref_id))
 		{
@@ -153,7 +162,11 @@ class ilTestExportGUI extends ilExportGUI
 
 	public function listExportFiles()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
@@ -240,7 +253,9 @@ class ilTestExportGUI extends ilExportGUI
 		 * @var $lng ilLanguage
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(isset($_GET['file']) && $_GET['file'])
 		{
@@ -288,7 +303,9 @@ class ilTestExportGUI extends ilExportGUI
 		 * @var $lng ilLanguage
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once 'class.ilTestArchiver.php';
 		$archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
