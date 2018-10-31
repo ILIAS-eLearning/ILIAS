@@ -14804,7 +14804,7 @@ rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
 rbac#:#lso_delete#:#User can delete Learning Sequence
 lso#:#learner_view#:#Overview
-lso#:#manage_content#:#Manage
+lso#:#manage#:#Manage
 lso#:#manage_content_maintab#:#Content
 lso#:#show_summary#:#Info
 lso#:#table_sequence_content#:#Content Management
