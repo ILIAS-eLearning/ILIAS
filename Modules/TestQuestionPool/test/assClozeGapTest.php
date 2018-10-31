@@ -8,7 +8,7 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assClozeGapTest extends PHPUnit_Framework_TestCase
+class assClozeGapTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
@@ -24,14 +24,14 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 			chdir( dirname( __FILE__ ) );
 			chdir('../../../');
 		}
+
+		parent::setUp();
+
 		require_once './Services/Utilities/classes/class.ilUtil.php';
 		require_once './Services/Randomization/classes/class.ilArrayElementShuffler.php';
 		$util_mock = $this->createMock('ilUtil', array('stripSlashes'), array(), '', false);
 		$util_mock->expects( $this->any() )->method( 'stripSlashes' )->will( $this->returnArgument(0) );
-		global $DIC;
-		unset($DIC['ilUtils']);
-		$DIC['ilUtils'] = $util_mock;
-		$GLOBALS['ilUtils'] = $DIC['ilUtils'];
+		$this->setGlobalVariable('ilUtils', $util_mock);
 	}
 
 	public function test_instantiateObject_shouldReturnInstance()
