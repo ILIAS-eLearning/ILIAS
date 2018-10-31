@@ -551,8 +551,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		return $this->access->checkAccess($which, "", $this->ref_id);
 	}
 
-	protected function checkLPAccess()
+	protected function checkLPAccess(): bool
 	{
+		if (!$this->settings->get("enable_tracking")) {
+			return false;
+		}
+
 		$ref_id = $this->getObject()->getRefId();
 		$is_participant = ilLearningSequenceParticipants::_isParticipant($ref_id, $this->user->getId());
 
