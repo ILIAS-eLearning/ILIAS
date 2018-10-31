@@ -137,9 +137,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$next_class === 'ilobjlearningsequencelearnergui'
 			&& $cmd === 'view'
 		);
-		if (! $in_player) {
-			$this->addHeaderAction();
-		}
 
 		switch ($next_class) {
 			case "ilcommonactiondispatchergui":
@@ -192,7 +189,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 					case self::CMD_INFO_SCREEN:
 						$this->info();
 						break;
-
 					case self::CMD_VIEW:
 					case self::CMD_LEARNER_VIEW:
 					case self::CMD_CONTENT:
@@ -204,7 +200,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 					case self::CMD_UNPARTICIPATE:
 						$this->$cmd();
 						break;
-
 					case self::CMD_CANCEL:
 						if ($this->getCreationMode()) {
 							$this->cancelCreation();
@@ -247,6 +242,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 				break;
 			default:
 				throw new ilException("ilObjLearningSequenceGUI: Can't forward to next class $next_class");
+		}
+
+		if (! $in_player) {
+			$this->addHeaderAction();
 		}
 	}
 
