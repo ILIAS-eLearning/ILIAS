@@ -58,6 +58,9 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	public function getStaticSubItems(): array {
 		$dic = $this->dic;
 
+
+		$dic->language()->loadLanguageModule("pd");
+
 		// overview
 		$entries[] = $this->mainmenu->link($this->if->identifier('mm_pd_sel_items'))
 			->withTitle($this->dic->language()->txt("overview"))
@@ -74,6 +77,18 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 					$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 
 					return (bool)$pdItemsViewSettings->allViewsEnabled();
+				}
+			);
+
+		// achievements
+		$entries[] = $this->mainmenu->link($this->if->identifier('mm_pd_achiev'))
+			->withTitle($this->dic->language()->txt("pd_achievements"))
+			->withAction($dic->ctrl()->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI"], ""))
+			->withParent($this->getTopItem())
+			->withVisibilityCallable(
+				function () use ($dic) {
+					$achievements = new ilAchievements();
+					return (bool) $achievements->isAnyActive();
 				}
 			);
 

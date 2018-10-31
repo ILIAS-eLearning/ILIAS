@@ -52,15 +52,15 @@ class LSItemOnlineStatus
 
 		switch ($obj->getType()) {
 			case self::S_TEST:
-				return $obj->isOnline();
+				return !$obj->getOfflineStatus();
 				break;
 			case self::S_LEARNMODULE_IL:
 			case self::S_LEARNMODULE_HTML:
 			case self::S_SAHS:
-				return $obj->getOnline();
+				return !$obj->getOfflineStatus();
 				break;
 			case self::S_SURVEY:
-				return (bool)$obj->getStatus();
+				return !$obj->getOfflineStatus();
 				break;
 			default:
 				return true;

@@ -46,6 +46,8 @@ class ilSkillGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 * @inheritDoc
 	 */
 	public function getStaticSubItems(): array {
+		return [];
+		/*
 		return [$this->mainmenu->link($this->if->identifier('mm_pd_skill'))
 			        ->withTitle($this->dic->language()->txt("skills"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills")
@@ -57,6 +59,6 @@ class ilSkillGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 
 					        return (bool)($skmg_set->get("enable_skmg"));
 				        }
-			        )];
+			        )];*/
 	}
 }

@@ -72,9 +72,9 @@ class ilUserCertificateRepository
 			'id'                     => array('integer', $id),
 			'pattern_certificate_id' => array('integer', $userCertificate->getPatternCertificateId()),
 			'obj_id'                 => array('integer', $objId),
-			'obj_type'               => array('clob', $userCertificate->getObjType()),
+			'obj_type'               => array('text', $userCertificate->getObjType()),
 			'user_id'                => array('integer', $userId),
-			'user_name'              => array('string', $userCertificate->getUserName()),
+			'user_name'              => array('text', $userCertificate->getUserName()),
 			'acquired_timestamp'     => array('integer', $userCertificate->getAcquiredTimestamp()),
 			'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
 			'template_values'        => array('clob', $userCertificate->getTemplateValues()),
@@ -82,8 +82,8 @@ class ilUserCertificateRepository
 			'version'                => array('text', $version),
 			'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
 			'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
-			'background_image_path'  => array('clob', $userCertificate->getBackgroundImagePath()),
-			'thumbnail_image_path'   => array('clob', $userCertificate->getThumbnailImagePath())
+			'background_image_path'  => array('text', $userCertificate->getBackgroundImagePath()),
+			'thumbnail_image_path'   => array('text', $userCertificate->getThumbnailImagePath())
 		);
 
 		$this->logger->debug(sprintf('END - Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));
@@ -504,7 +504,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
 			$row['obj_type'],
 			$row['user_id'],
 			$row['user_name'],
-			$row['acquired_timestamp'],
+			(int)$row['acquired_timestamp'],
 			$row['certificate_content'],
 			$row['template_values'],
 			$row['valid_until'],

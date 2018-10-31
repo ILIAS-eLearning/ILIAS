@@ -25066,3 +25066,7 @@ $src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 $tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_results');
 ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
 ?>
+<#5422>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
