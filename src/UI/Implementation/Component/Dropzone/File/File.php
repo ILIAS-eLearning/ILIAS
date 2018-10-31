@@ -55,7 +55,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @var string
 	 */
-	protected $error_message = "";
+	protected $type_error_message = "";
 
 
 	/**
@@ -223,10 +223,10 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function withErrorMessage($error_message) {
-		$this->checkStringArg("error_message", $error_message);
+	public function withTypeErrorMessage($type_error_message) {
+		$this->checkStringArg("error_message", $type_error_message);
 		$clone = clone $this;
-		$clone->error_message = $error_message;
+		$clone->type_error_message = $type_error_message;
 
 		return $clone;
 	}
@@ -235,7 +235,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	/**
 	 * @inheritdoc
 	 */
-	public function getErrorMessage() {
-		return $this->error_message;
+	public function getTypeErrorMessage() {
+		return $this->type_error_message;
 	}
 }

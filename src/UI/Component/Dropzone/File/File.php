@@ -131,20 +131,20 @@ interface File extends Component, Droppable {
 
 
 	/**
-	 * Get a dropzone like this, displaying the given error message on failure.
+	 * Get a dropzone like this, displaying the given type error message if a file with not allowed suffix gets uploaded.
 	 *
-	 * @param string $error_message
+	 * @param string $type_error_message
 	 *
 	 * @return $this
 	 */
-	public function withErrorMessage($error_message);
+	public function withTypeErrorMessage($type_error_message);
 
 
 	/**
-	 * Get error message of of this dropzone.
+	 * Get type error message of of this dropzone.
 	 *
 	 * @return string
 	 */
-	public function getErrorMessage();
+	public function getTypeErrorMessage();
 
 }

@@ -57,9 +57,9 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	 */
 	protected $dropzone_message = '';
 	/**
-	 * @var string The error message which will be rendered if an upload error occurs.
+	 * @var string The type error message which will be rendered if a file with not allowed suffix gets uploaded.
 	 */
-	protected $error_message = '';
+	protected $type_error_message = '';
 
 	/**
 	 * @return string the URL where the form will be sent to.
@@ -137,18 +137,18 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
-	 * @return string The error message which will be rendered if an upload error occurs.
+	 * @return string The type error message which will be rendered if a file with not allowed suffix gets uploaded.
 	 */
-	public function getErrorMessage() {
-		return $this->error_message;
+	public function getTypeErrorMessage() {
+		return $this->type_error_message;
 	}
 
 
 	/**
-	 * @param string $error_message The error message which will be rendered if an upload error occurs.
+	 * @param string $type_error_message The type error message which will be rendered if a file with not allowed suffix gets uploaded.
 	 */
-	public function setErrorMessage($error_message) {
-		$this->error_message = $error_message;
+	public function setTypeErrorMessage($type_error_message) {
+		$this->type_error_message = $type_error_message;
 	}
 
 	/**
@@ -170,7 +170,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 		              ->withMaxFiles($this->getMaxFiles())
 		              ->withMessage($this->getDropzoneMessage())
 		              ->withAllowedFileTypes($this->getSuffixes())
-		              ->withErrorMessage($this->getErrorMessage());
+		              ->withTypeErrorMessage($this->getTypeErrorMessage());
 		$dropzone = $this->handleMaxFileSize($dropzone);
 		if ($this->isFileNameSelectionEnabled()) {
 			$dropzone = $dropzone->withUserDefinedFileNamesEnabled(true);
