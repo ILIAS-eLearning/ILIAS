@@ -28,21 +28,27 @@ class assClozeTestGUITest extends PHPUnit_Framework_TestCase
 			$ilCtrl_mock = $this->createMock('ilCtrl');
 			$ilCtrl_mock->expects( $this->any() )->method( 'saveParameter' );
 			$ilCtrl_mock->expects( $this->any() )->method( 'saveParameterByClass' );
-			global $ilCtrl;
-			$ilCtrl = $ilCtrl_mock;
+			global $DIC;
+			unset($DIC['ilCtrl']);
+			$DIC['ilCtrl'] = $ilCtrl_mock;
+			$GLOBALS['ilCtrl'] = $DIC['ilCtrl'];
 
 			require_once './Services/Language/classes/class.ilLanguage.php';
 			$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 			$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
-			global $lng;
-			$lng = $lng_mock;
+			global $DIC;
+			unset($DIC['lng']);
+			$DIC['lng'] = $lng_mock;
+			$GLOBALS['lng'] = $DIC['lng'];
 
 			$ilias_mock = new stdClass();
 			$ilias_mock->account = new stdClass();
 			$ilias_mock->account->id = 6;
 			$ilias_mock->account->fullname = 'Esther Tester';
-			global $ilias;
-			$ilias = $ilias_mock;
+			global $DIC;
+			unset($DIC['ilias']);
+			$DIC['ilias'] = $ilias_mock;
+			$GLOBALS['ilias'] = $DIC['ilias'];
 		}
 	}
 
