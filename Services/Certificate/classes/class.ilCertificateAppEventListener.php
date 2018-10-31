@@ -307,7 +307,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			return;
 		}
 
-		if ('' === $acquiredTimestamp) {
+		if ('' === $acquiredTimestamp || $acquiredTimestamp <= 0) {
 			$this->logger->error('Acquired Timestamp is empty. Abort.');
 			return;
 		}
