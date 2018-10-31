@@ -111,7 +111,7 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         $title = 'Test';
 
         $this->mocked_dav_repo_helper->shouldReceive('checkAccess')->withAnyArgs()->andReturn(true);
-        $this->mocked_dav_obj_helper->shouldReceive('isDAVableObjTitle')->with($title)->andReturn(true);
+        $this->mocked_dav_obj_helper->shouldReceive('isDAVableObjTitle')->with($title)->andReturn(false);
 
         $this->mocked_obj = \Mockery::mock('ilObject');
         $this->mocked_obj->shouldNotReceive('setTitle');
@@ -144,7 +144,7 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         $title = 'Test';
 
         $this->mocked_dav_repo_helper->shouldReceive('checkAccess')->withAnyArgs()->andReturn(true);
-        $this->mocked_dav_obj_helper->shouldReceive('isDAVableObjTitle')->with($title)->andReturn(false);
+        $this->mocked_dav_obj_helper->shouldReceive('isDAVableObjTitle')->with($title)->andReturn(true);
 
         $this->mocked_obj->shouldReceive('setTitle')->withArgs([$title]);
         $this->mocked_obj->shouldReceive('update');
