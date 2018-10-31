@@ -59,14 +59,17 @@ interface Factory {
 
     /**
      * ---
-     * description:
-     *   purpose: >
-     *     The Mini Progress Meter is used, if it needs to be as small as possible, like in an heading. It
-     *     is used to display only a single Progress or performance indicator.
-     *   composition: >
-     *     Other than the Standard and Fixed Size Progress Meter it does not allow a comparison value and
-     *     only displays a single bar. It also does not display any text.
-     *
+	 * description:
+	 *   purpose: >
+	 *     The Mini Progress Meter is used, if it needs to be rendered in a minimalistic way. It
+	 *     is used to display only a single progress or performance indicator.
+	 *   composition: >
+	 *     Other than the Standard and Fixed Size Progress Meter it does not allow a comparison value and
+	 *     only displays a single bar. It also does not display any text.
+	 *   effect: >
+	 *     They always fit to their parent element to get full responsibility. So that if the parent element has no
+	 *     fixed size, they grow and shrink with the screen size, to a maximum width of 250px and a minimum of 20px.
+	 *
      * rules:
      *   composition:
      *     1: See composition rules for Progress Meter.
