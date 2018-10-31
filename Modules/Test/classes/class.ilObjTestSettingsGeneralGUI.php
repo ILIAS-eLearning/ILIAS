@@ -181,7 +181,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				$title = $this->lng->txt($title);
 			}
 			
-			global $tpl;
+			global $DIC;
+			$tpl = $DIC['tpl'];
 
 			$link = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_RESET_TPL_CONFIRM);
 			$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
@@ -428,7 +429,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 	private function isCharSelectorPropertyRequired()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 
 		return $ilSetting->get('char_selector_availability') > 0;
 	}

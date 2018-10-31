@@ -61,7 +61,8 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	
 	public function init()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$ilCtrl->setParameter($this->parent_obj, 'active_id', $this->getActiveId());
 		
@@ -327,7 +328,8 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	
 	private function buildActionsHtml($actions, $pass)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if( !count($actions) )
 		{

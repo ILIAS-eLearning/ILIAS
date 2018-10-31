@@ -34,7 +34,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		parent::__construct($a_title, $a_postvar);
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
@@ -172,7 +173,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if (is_array($_POST[$this->getPostVar()]))
 		{
@@ -287,7 +289,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$tpl = new ilTemplate("tpl.prop_matchingwizardinput.html", true, true, "Modules/TestQuestionPool");
 		$i = 0;

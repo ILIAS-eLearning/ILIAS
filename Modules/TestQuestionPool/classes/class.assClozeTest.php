@@ -174,7 +174,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
 			array($question_id)
@@ -306,7 +307,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function saveAnswerSpecificDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->manipulateF( "DELETE FROM qpl_a_cloze WHERE question_fi = %s",
 							array( "integer" ),
@@ -352,7 +354,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	protected function saveClozeGapItemsToDb($gap, $key)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		foreach ($gap->getItems($this->getShuffler()) as $item)
 		{
 			$query   = "";
@@ -382,7 +385,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	protected function saveClozeTextGapRecordToDb($next_id, $key, $item, $gap)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, gap_size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer",
@@ -417,7 +421,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	protected function saveClozeSelectGapRecordToDb($next_id, $key, $item, $gap)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer",
@@ -452,7 +457,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	protected function saveClozeNumericGapRecordToDb($next_id, $key, $item, $gap)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
@@ -1258,7 +1264,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function calculateReachedPoints($active_id, $pass = NULL, $authorized = true, $returndetails = FALSE)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (is_null($pass))
 		{
@@ -1366,8 +1373,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true) 
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		if (is_null($pass))
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -1752,7 +1760,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

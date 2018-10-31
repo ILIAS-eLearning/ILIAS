@@ -101,7 +101,9 @@ class ilObjTestListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		$props = parent::getProperties();
 
@@ -126,7 +128,8 @@ class ilObjTestListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$a_cmd = explode('::', $a_cmd);
 		
@@ -160,7 +163,8 @@ class ilObjTestListGUI extends ilObjectListGUI
 	
 	private function handleUserResultsCommand($commands)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		if( !$this->isObjectiveTest() )
 		{

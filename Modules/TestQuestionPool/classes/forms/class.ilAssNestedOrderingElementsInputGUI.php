@@ -279,7 +279,8 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 	 */
 	public function getCorrectnessText($correctness)
 	{
-		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$lng = $DIC['lng'];
 		return $lng->txt( $this->correctnessLngVars[(bool)$correctness] );
 	}
 	

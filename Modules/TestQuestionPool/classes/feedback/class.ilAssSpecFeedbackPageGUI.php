@@ -22,7 +22,8 @@ class ilAssSpecFeedbackPageGUI extends ilPageObjectGUI
 	 */
 	function __construct($a_id = 0, $a_old_nr = 0)
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		parent::__construct("qfbs", $a_id, $a_old_nr);
 		$this->setTemplateTargetVar('ADM_CONTENT');

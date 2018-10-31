@@ -34,7 +34,8 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 	
 	public function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));

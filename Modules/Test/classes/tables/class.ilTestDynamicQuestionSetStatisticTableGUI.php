@@ -44,7 +44,9 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;

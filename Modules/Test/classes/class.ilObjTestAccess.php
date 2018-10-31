@@ -36,7 +36,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		if ($a_user_id == "")
 		{
@@ -84,7 +88,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	public static function _isPassed($user_id, $a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
 			array('integer','integer'),
 			array($user_id, $a_obj_id)
@@ -184,7 +189,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function isFailed($user_id, $a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ret = self::updateTestResultCache($user_id, $a_obj_id);
 
@@ -270,7 +276,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	protected static function updateTestResultCache($a_user_id, $a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF(
 				"SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests ".
@@ -387,7 +394,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	public static function _lookupCreationComplete($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT complete FROM tst_tests WHERE obj_fi=%s",
 			array('integer'),
@@ -423,7 +431,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 			require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 			require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
 			
-			global $ilDB, $lng;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
+			$lng = $DIC['lng'];
 			
 			$testOBJ = ilObjectFactory::getInstanceByObjId($a_obj_id);
 			
@@ -455,7 +465,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 */
 	public static function _getTestIDFromObjectID($object_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$test_id = FALSE;
 		$result = $ilDB->queryF("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
 			array('integer'),
@@ -477,7 +488,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _lookupObjIdForTestId($a_test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
 			array('integer'),
@@ -497,7 +509,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	public static function _getRandomTestsForQuestionPool($qpl_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 	
 		$query = "
 			SELECT DISTINCT t.obj_fi
@@ -527,7 +540,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 */
 	public static function _lookupOnlineTestAccess($a_test_id, $a_user_id)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		$result = $ilDB->queryF("SELECT tst_tests.* FROM tst_tests WHERE tst_tests.obj_fi = %s",
 			array('integer'),
@@ -590,7 +605,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	public static function _getParticipantData($active_id)
 	{
-		global $lng, $ilDB;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT * FROM tst_active WHERE active_id = %s",
 			array("integer"),
@@ -649,7 +666,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function _getParticipantId($active_id)
 	{
-		global $lng, $ilDB;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT user_fi FROM tst_active WHERE active_id = %s",
 			array("integer"),
@@ -676,7 +695,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 */
 	public static function _getPassedUsers($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$passed_users = array();
 		// Maybe SELECT DISTINCT(tst_active.user_fi)... ?
@@ -761,7 +781,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		
 		$t_arr = explode("_", $a_target);
 
@@ -787,7 +808,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	static function _isOffline($a_obj_id)
 	{
-//		global $ilUser;
+//		global $DIC;
+//		$ilUser = $DIC['ilUser'];
 //		return (self::_lookupOnlineTestAccess($a_obj_id, $ilUser->getId()) !== true) ||
 //			(!ilObjTestAccess::_lookupCreationComplete($a_obj_id));
 		return !self::_isOnline($a_obj_id);

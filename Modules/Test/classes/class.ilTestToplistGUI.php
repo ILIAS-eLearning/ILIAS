@@ -51,10 +51,11 @@ class ilTestToplistGUI
 	 */
 	public function __construct(ilObjTest $testOBJ)
 	{
-		$this->ctrl = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilCtrl'] : $GLOBALS['ilCtrl'];
-		$this->tpl = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
-		$this->lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
-		$this->user = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilUser'] : $GLOBALS['ilUser'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->ctrl = $DIC['ilCtrl'];
+		$this->tpl = $DIC['tpl'];
+		$this->lng = $DIC['lng'];
+		$this->user = $DIC['ilUser'];
 		
 		$this->object = $testOBJ;
 		$this->toplist = new ilTestTopList($testOBJ);

@@ -107,7 +107,16 @@ class ilTestServiceGUI
 	 */
 	public function __construct(ilObjTest $a_object)
 	{
-		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB, $ilPluginAdmin, $ilTabs, $ilObjDataCache;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilias = $DIC['ilias'];
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$lng->loadLanguageModule('cert');
 
@@ -742,7 +751,8 @@ class ilTestServiceGUI
 	 */
 	function getCorrectSolutionOutput($question_id, $active_id, $pass, ilTestQuestionRelatedObjectivesList $objectivesList = null)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$test_id = $this->object->getTestId();
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
@@ -814,7 +824,8 @@ class ilTestServiceGUI
 	 */
 	function getResultsOfUserOutput($testSession, $active_id, $pass, $targetGUI, $show_pass_details = TRUE, $show_answers = TRUE, $show_question_only = FALSE, $show_reached_points = FALSE)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
@@ -1107,7 +1118,9 @@ class ilTestServiceGUI
 
 	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions)
 	{
-		global $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
 		$table_gui->initFilter();
@@ -1239,7 +1252,8 @@ class ilTestServiceGUI
 			$objectivesList = null;
 		}
 
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		if($this instanceof ilTestEvalObjectiveOrientedGUI)
 		{

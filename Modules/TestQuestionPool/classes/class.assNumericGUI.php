@@ -331,7 +331,9 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	{
 		/** @var $rbacsystem ilRbacSystem */
 		/** @var $ilTabs ilTabsGUI */
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		
