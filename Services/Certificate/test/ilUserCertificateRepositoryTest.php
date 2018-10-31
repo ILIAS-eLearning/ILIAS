@@ -20,9 +20,9 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'id'                     => array('integer', 141),
 				'pattern_certificate_id' => array('integer', 1),
 				'obj_id'                 => array('integer', 20),
-				'obj_type'               => array('clob',  'crs'),
+				'obj_type'               => array('text',  'crs'),
 				'user_id'                => array('integer', 400),
-				'user_name'              => array('string', 'Niels Theen'),
+				'user_name'              => array('text', 'Niels Theen'),
 				'acquired_timestamp'     => array('integer', 123456789),
 				'certificate_content'    => array('clob', '<xml>Some Content</xml>'),
 				'template_values'        => array('clob', '[]'),
@@ -30,8 +30,8 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'version'                => array('text', '1'),
 				'ilias_version'          => array('text', 'v5.4.0'),
 				'currently_active'       => array('integer', true),
-				'background_image_path'  => array('clob', '/some/where/background.jpg'),
-				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
+				'background_image_path'  => array('text', '/some/where/background.jpg'),
+				'thumbnail_image_path'   => array('text', '/some/where/thumbnail.svg'),
 			)
 		);
 
