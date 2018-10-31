@@ -60,10 +60,18 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	}
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function getErrors(): array
 	{
 		return $this->errors;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAddress(): \ilMailAddress
+	{
+		return $this->address;
 	}
 }

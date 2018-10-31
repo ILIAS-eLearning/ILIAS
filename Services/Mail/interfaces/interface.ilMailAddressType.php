@@ -18,4 +18,12 @@ interface ilMailAddressType
 	 * @return bool
 	 */
 	public function validate(int $senderId): bool;
+	
+	/** @return array */
+	public function getErrors(): array;
+
+	/**
+	 * @return \ilMailAddress
+	 */
+	public function getAddress(): \ilMailAddress;
 }
