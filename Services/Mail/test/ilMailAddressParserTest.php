@@ -39,7 +39,7 @@ class ilMailAddressParserTest extends \ilMailBaseTest
 			['#il_crs_member_998', [
 				new \ilMailAddress('#il_crs_member_998', self::DEFAULT_HOST)
 			]],
-			/*['#member@[French Course]', [
+			['#member@[French Course]', [
 				new \ilMailAddress('#member', '[French Course]')
 			]],
 			['Course Administrator <#admin@[Math Course]>', [
@@ -47,7 +47,7 @@ class ilMailAddressParserTest extends \ilMailBaseTest
 			]],
 			['Course Administrator <#il_crs_admin_2581>', [
 				new \ilMailAddress('#il_crs_admin_2581', self::DEFAULT_HOST)
-			]],*/
+			]],
 		];
 	}
 
