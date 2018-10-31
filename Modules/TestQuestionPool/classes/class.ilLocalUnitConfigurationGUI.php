@@ -75,7 +75,8 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
 		/**
 		 * @var $ilHelp ilHelpGUI
 		 */
-		global $ilHelp;
+		global $DIC;
+		$ilHelp = $DIC['ilHelp'];
 
 		$this->ctrl->saveParameter($this, self::REQUEST_PARAM_SUB_CONTEXT_ID);
 
@@ -91,7 +92,8 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
 		/**
 		 * @var $ilTabs ilTabsGUI
 		 */
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		$this->ctrl->setParameter($this, self::REQUEST_PARAM_SUB_CONTEXT_ID, $this->repository->getConsumerId());
 		$ilTabs->addSubTab('view_unit_ctx_local', $this->lng->txt('un_local_units'), $this->ctrl->getLinkTarget($this, 'showLocalUnitCategories'));
@@ -117,7 +119,8 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $ilToolbar;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
 
 		$ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
 

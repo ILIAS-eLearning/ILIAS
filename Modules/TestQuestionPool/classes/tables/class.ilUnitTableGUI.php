@@ -26,7 +26,9 @@ class ilUnitTableGUI extends ilTable2GUI
 		 * @var $ilCtrl ilCtrl
 		 * @var $lng    ilLanguage
 		 */
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$this->setId('units_' . $controller->getUniqueId());
 
@@ -67,7 +69,8 @@ class ilUnitTableGUI extends ilTable2GUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if($this->getParentObject()->isCRUDContext())
 		{

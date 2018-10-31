@@ -105,7 +105,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->saveQuestionDataToDb($original_id);
 		$this->saveAdditionalQuestionDataToDb();
@@ -123,7 +124,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
@@ -540,7 +542,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		
 		if (is_null($pass))
@@ -592,8 +595,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		if (is_null($pass))
 		{
@@ -642,7 +646,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// save additional data
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -664,7 +669,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	public function saveAnswerSpecificDataToDb()
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "DELETE FROM qpl_a_textsubset WHERE question_fi = %s",
 							array( 'integer' ),
 							array( $this->getId() )
@@ -924,7 +930,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

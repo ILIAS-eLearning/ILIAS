@@ -36,7 +36,9 @@ class ilSolutionExplorer extends ilExplorer
 */
 	public function __construct($a_target, $a_target_class)
 	{
-		global $tree,$ilCtrl;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ctrl = $ilCtrl;
 		$this->target_class = $a_target_class;
@@ -66,7 +68,8 @@ class ilSolutionExplorer extends ilExplorer
 		/**
 		 * @var $tree ilTree
 		 */
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		if(!$_SESSION[$this->expand_variable])
 		{
@@ -120,7 +123,8 @@ class ilSolutionExplorer extends ilExplorer
 
 	function showChilds($a_ref_id)
 	{
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if ($a_ref_id == 0)
 		{

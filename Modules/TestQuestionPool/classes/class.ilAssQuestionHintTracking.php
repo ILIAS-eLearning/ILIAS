@@ -84,7 +84,8 @@ class ilAssQuestionHintTracking
 	 */
 	public function getNumExistingRequests()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		COUNT(qhtr_track_id) cnt
@@ -116,7 +117,8 @@ class ilAssQuestionHintTracking
 	 */
 	public function requestsPossible()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		COUNT(qht_hint_id) cnt_available,
@@ -158,7 +160,8 @@ class ilAssQuestionHintTracking
 	 */
 	public function isRequested($hintId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		COUNT(qhtr_track_id) cnt
@@ -195,7 +198,8 @@ class ilAssQuestionHintTracking
 	 */
 	public function getNextRequestableHint()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		qht_hint_id
@@ -245,7 +249,8 @@ class ilAssQuestionHintTracking
 	 */
 	public function getRequestedHintsList()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		qhtr_hint_fi
@@ -284,7 +289,8 @@ class ilAssQuestionHintTracking
 	 */
 	public function storeRequest(ilAssQuestionHint $questionHint)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$trackId = $ilDB->nextId('qpl_hint_tracking');
 		
@@ -310,7 +316,8 @@ class ilAssQuestionHintTracking
 	 */
 	public function getRequestStatisticDataByQuestionAndTestpass()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		COUNT(qhtr_track_id) requests_count,
@@ -406,7 +413,8 @@ class ilAssQuestionHintTracking
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$__question_fi__IN__questionIds = $ilDB->in('qhtr_question_fi', $questionIds, false, 'integer');
 
@@ -427,7 +435,8 @@ class ilAssQuestionHintTracking
 	 */
 	public static function deleteRequestsByActiveIds($activeIds)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$__active_fi__IN__activeIds = $ilDB->in('qhtr_active_fi', $activeIds, false, 'integer');
 		

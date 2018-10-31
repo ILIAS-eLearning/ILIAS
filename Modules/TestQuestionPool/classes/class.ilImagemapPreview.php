@@ -33,7 +33,8 @@ class ilImagemapPreview
 	*/
 	public function __construct($imagemap_filename = "")
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->lng =& $lng;
 		$this->imagemap_filename = $imagemap_filename;
 		$this->preview_filename = $preview_filename;

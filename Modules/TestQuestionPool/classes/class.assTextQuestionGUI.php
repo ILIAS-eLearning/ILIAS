@@ -491,7 +491,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		

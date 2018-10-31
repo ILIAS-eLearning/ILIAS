@@ -66,7 +66,9 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 			ilAssQuestionHintAbstractGUI $parentGUI, $parentCmd, $tableMode = self::TBL_MODE_TESTOUTPUT,
 			ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard = null)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->questionOBJ = $questionOBJ;
 		$this->tableMode = $tableMode;
@@ -130,7 +132,9 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 */
 	private function initAdministrationCommands($rowCount)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->setFormAction( $ilCtrl->getFormAction($this->parent_obj) );
 		
@@ -175,7 +179,9 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 */
 	private function initTestoutputCommands()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->setFormAction( $ilCtrl->getFormAction($this->parent_obj) );
 		
@@ -195,7 +201,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 */
 	private function initAdministrationColumns($rowCount)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$this->addColumn( '', '', '30', true );
 		
@@ -223,7 +230,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 */
 	private function initTestoutputColumns()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$this->addColumn( $lng->txt('tst_question_hints_table_column_hint_index'), 'hint_index', '200');
 		$this->addColumn( $lng->txt('tst_question_hints_table_column_hint_text'), 'hint_text');
@@ -264,7 +272,9 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($rowData)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		if( $this->tableMode == self::TBL_MODE_ADMINISTRATION )
 		{

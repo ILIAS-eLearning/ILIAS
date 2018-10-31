@@ -120,7 +120,8 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		$foundvalues = $_POST[$this->getPostVar()];
@@ -188,7 +189,8 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "Modules/TestQuestionPool");
 		$i = 0;
@@ -287,7 +289,8 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingpairwizard.js");
 	}
