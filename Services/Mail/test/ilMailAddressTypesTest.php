@@ -58,19 +58,15 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 	 */
 	private function getWrappedAddressType(\ilMailAddressType $type): \ilMailAddressType
 	{
-		try {
+		if ($type instanceof \ilMailCachedAddressType) {
 			$refl = new \ReflectionObject($type);
 			$inner = $refl->getProperty('inner');
 			$inner->setAccessible(true);
 
 			return $inner->getValue($type);
-		} catch (\ReflectionException $e) {
-			// Will throw a PhpUnit framework exception
-			$this->fail(sprintf(
-				'Cannot determine wrapped address type of type %s: %s',
-				get_class($type), $e->getMessage()
-			));
 		}
+
+		return $type;
 	}
 
 	/**
