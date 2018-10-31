@@ -56,7 +56,10 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	 * @var string The message which will be rendered within the dropzone.
 	 */
 	protected $dropzone_message = '';
-
+	/**
+	 * @var string The error message which will be rendered if an upload error occurs.
+	 */
+	protected $error_message = '';
 
 	/**
 	 * @return string the URL where the form will be sent to.
@@ -134,6 +137,21 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
 	/**
+	 * @return string The error message which will be rendered if an upload error occurs.
+	 */
+	public function getErrorMessage() {
+		return $this->error_message;
+	}
+
+
+	/**
+	 * @param string $error_message The error message which will be rendered if an upload error occurs.
+	 */
+	public function setErrorMessage($error_message) {
+		$this->error_message = $error_message;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function render($a_mode = "") {
@@ -151,7 +169,8 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 		              ->withParameterName($this->getPostVar())
 		              ->withMaxFiles($this->getMaxFiles())
 		              ->withMessage($this->getDropzoneMessage())
-		              ->withAllowedFileTypes($this->getSuffixes());
+		              ->withAllowedFileTypes($this->getSuffixes())
+		              ->withErrorMessage($this->getErrorMessage());
 		$dropzone = $this->handleMaxFileSize($dropzone);
 		if ($this->isFileNameSelectionEnabled()) {
 			$dropzone = $dropzone->withUserDefinedFileNamesEnabled(true);

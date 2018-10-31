@@ -129,4 +129,22 @@ interface File extends Component, Droppable {
 	 */
 	public function getParametername();
 
+
+	/**
+	 * Get a dropzone like this, displaying the given error message on failure.
+	 *
+	 * @param string $error_message
+	 *
+	 * @return $this
+	 */
+	public function withErrorMessage($error_message);
+
+
+	/**
+	 * Get error message of of this dropzone.
+	 *
+	 * @return string
+	 */
+	public function getErrorMessage();
+
 }

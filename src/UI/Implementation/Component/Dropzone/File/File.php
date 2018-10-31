@@ -52,6 +52,10 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	 * @var string
 	 */
 	protected $parameter_name = 'files';
+	/**
+	 * @var string
+	 */
+	protected $error_message = "";
 
 
 	/**
@@ -213,5 +217,25 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File {
 	 */
 	public function withAdditionalDrop(Signal $signal) {
 		return $this->appendTriggeredSignal($signal, self::DROP_EVENT);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withErrorMessage($error_message) {
+		$this->checkStringArg("error_message", $error_message);
+		$clone = clone $this;
+		$clone->error_message = $error_message;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getErrorMessage() {
+		return $this->error_message;
 	}
 }
