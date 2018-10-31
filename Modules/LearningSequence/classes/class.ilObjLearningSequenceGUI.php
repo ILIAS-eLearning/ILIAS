@@ -65,8 +65,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	const CMD_DELETE_CONFIRMED = "confirmedDelete";
 	const CMD_PERFORM_PASTE = 'performPasteIntoMultipleObjects';
 
-	const TAB_LEARNER_VIEW = "learner_view";
-	const TAB_CONTENT = "manage_content";
+	const TAB_VIEW_CONTENT = "view_content";
+	const TAB_MANAGE = "manage";
 	const TAB_CONTENT_MAIN = "manage_content_maintab";
 	const TAB_INFO = "show_summary";
 	const TAB_SETTINGS = "settings";
@@ -316,7 +316,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		$this->tabs->activateTab(self::TAB_CONTENT_MAIN);
 		$this->addSubTabsForContent($cmd);
-		$this->tabs->activateSubTab(self::TAB_CONTENT);
+		$this->tabs->activateSubTab(self::TAB_MANAGE);
 
 		$gui = new ilObjLearningSequenceContentGUI(
 			$this,
@@ -335,7 +335,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		$this->tabs->activateTab(self::TAB_CONTENT_MAIN);
 		$this->addSubTabsForContent($cmd);
-		$this->tabs->activateSubTab(self::TAB_LEARNER_VIEW);
+		$this->tabs->activateSubTab(self::TAB_VIEW_CONTENT);
 
 		$usr_id = (int)$this->user->getId();
 		$items = $this->getLearnerItems($usr_id);
