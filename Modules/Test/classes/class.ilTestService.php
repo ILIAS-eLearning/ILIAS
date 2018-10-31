@@ -37,7 +37,8 @@ class ilTestService
 	{
 		$passOverwiewData = array();
 		
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$scoredPass = $this->object->_getResultPass($active_id);
 		$lastPass = ilObjTest::_getPass($active_id);
@@ -191,7 +192,10 @@ class ilTestService
 	
 	public function buildVirtualSequence(ilTestSession $testSession)
 	{
-		global $ilDB, $lng, $ilPluginAdmin;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);

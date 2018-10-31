@@ -75,7 +75,8 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		require_once 'Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';

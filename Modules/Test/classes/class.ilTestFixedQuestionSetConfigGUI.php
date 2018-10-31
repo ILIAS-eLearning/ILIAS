@@ -78,7 +78,8 @@ class ilTestFixedQuestionSetConfigGUI
 	 */
 	public function executeCommand()
 	{
-		$ctrl = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilCtrl'] : $GLOBALS['ilCtrl']; /* @var ilCtrl $ctrl */
-		switch( $ctrl->getNextClass() )
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ctrl = $DIC['ilCtrl']; /* @var ilCtrl $ctrl */
+		//switch( $ctrl->getNextClass() )
 	}	
 }

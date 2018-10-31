@@ -18,7 +18,9 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
 
 	public function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		

@@ -43,7 +43,9 @@ class ilTestResultsToXML extends ilXmlWriter
 	
 	protected function exportActiveIDs()
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
 
 		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 		$assessmentSetting = new ilSetting("assessment");
@@ -92,7 +94,8 @@ class ilTestResultsToXML extends ilXmlWriter
 
 	protected function exportPassResult()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM tst_pass_result WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi, pass";
 		$result = $ilDB->query($query);
@@ -116,7 +119,8 @@ class ilTestResultsToXML extends ilXmlWriter
 
 	protected function exportResultCache()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM tst_result_cache WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
 		$result = $ilDB->query($query);
@@ -141,7 +145,8 @@ class ilTestResultsToXML extends ilXmlWriter
 
 	protected function exportTestSequence()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM tst_sequence WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi, pass";
 		$result = $ilDB->query($query);
@@ -163,7 +168,8 @@ class ilTestResultsToXML extends ilXmlWriter
 
 	protected function exportTestSolutions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM tst_solutions WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY solution_id";
 		$result = $ilDB->query($query);
@@ -187,7 +193,8 @@ class ilTestResultsToXML extends ilXmlWriter
 
 	protected function exportRandomTestQuestions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->query("
 			  SELECT * FROM tst_test_rnd_qst
@@ -213,7 +220,8 @@ class ilTestResultsToXML extends ilXmlWriter
 
 	protected function exportTestResults()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM tst_test_result WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
 		$result = $ilDB->query($query);
@@ -236,7 +244,8 @@ class ilTestResultsToXML extends ilXmlWriter
 	
 	protected function exportTestTimes()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT * FROM tst_times WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
 		$result = $ilDB->query($query);

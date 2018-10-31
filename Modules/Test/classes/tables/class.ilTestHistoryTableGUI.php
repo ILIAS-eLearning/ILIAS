@@ -27,7 +27,9 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -61,7 +63,9 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $ilUser,$ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$username = $this->tstObject->userLookupFullName($data["user_fi"], TRUE);
 		$this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($data["tstamp"],IL_CAL_UNIX)));

@@ -36,7 +36,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->object = $object;
 		$this->ctrl   = $ilCtrl;

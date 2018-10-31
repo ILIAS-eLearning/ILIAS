@@ -23,7 +23,8 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 {
 	protected function buildTestPassQuestionList()
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);
