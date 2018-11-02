@@ -33,21 +33,6 @@ class ilMailDiffAddressList implements \ilMailAddressList
 		$leftAddresses = $this->left->value();
 		$rightAddresses = $this->right->value();
 
-		/*foreach ($addresses as $address) {
-			if (substr($address->getMailbox(), 0, 1) != '#') {
-				if (
-					trim($address->getMailbox()) == trim($newRecipient) ||
-					trim($address->getMailbox() . '@' . $address->getHost()) == trim($newRecipient)
-				) {
-					return true;
-				}
-			} else {
-				if (trim($address->getMailbox() . '@' . $address->getHost()) == trim($newRecipient)) {
-					return true;
-				}
-			}
-		}*/
-
 		return array_diff($leftAddresses, $rightAddresses);
 	}
 }

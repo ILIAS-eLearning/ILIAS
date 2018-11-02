@@ -187,9 +187,9 @@ class ilMail
 
 		$list = new \ilMailDiffAddressList($newAddresses, $addresses);
 
-		$diffedList = $list->value();
+		$diffedAddresses = $list->value();
 
-		return count($diffedList) === 0;
+		return count($diffedAddresses) === 0;
 	}
 
 	/**
