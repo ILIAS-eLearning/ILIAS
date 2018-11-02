@@ -321,12 +321,15 @@ class ilCronManager implements \ilCronManagerInterface
 		{										
 			include_once $class_file;
 			if(class_exists($a_class))
-			{				
-				$job = new $a_class();				
-				if($job instanceof ilCronJob)
-				{
-					if($job->getId() == $a_id)
-					{
+			{
+				$refl = new \ReflectionClass($a_class);
+				$job = $refl->newInstanceWithoutConstructor();
+				if ($refl->isSubclassOf(\ilCronJob::class)) {
+					if (0 === strlen($job->getId())) {
+						$job = new $a_class;
+					}
+
+					if ($job->getId() === $a_id) {
 						return $job;
 					}
 					else

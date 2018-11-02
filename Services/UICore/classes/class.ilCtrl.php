@@ -83,6 +83,12 @@ class ilCtrl
 	protected $rtoken = false;
 
 	/**
+	 * Base script for link targets, reloads and so on
+	 * @var string
+	 */
+	protected $target_script = "ilias.php";
+
+	/**
 	 * control class constructor
 	 */
 	function __construct()
@@ -897,13 +903,24 @@ class ilCtrl
 	}
 
 	/**
-	 * Get target script name.
+	 * set target script name
+	 *
+	 * @param	string		$a_target_script		target script name
+	 */
+	public function setTargetScript(string $a_target_script)
+	{
+		$this->target_script = $a_target_script;
+	}
+
+
+	/**
+	 * Get target script name
 	 *
 	 * @return	string		target script name
 	 */
-	protected function getTargetScript()
+	public function getTargetScript(): string
 	{
-		return "ilias.php";
+		return $this->target_script;
 	}
 
 
