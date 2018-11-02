@@ -323,8 +323,8 @@ class ilCronManager implements \ilCronManagerInterface
 			if(class_exists($a_class))
 			{
 				$refl = new \ReflectionClass($a_class);
+				$job = $refl->newInstanceWithoutConstructor();
 				if ($refl->isSubclassOf(\ilCronJob::class)) {
-					$job = $refl->newInstanceWithoutConstructor();
 					if (0 === strlen($job->getId())) {
 						$job = new $a_class;
 					}
