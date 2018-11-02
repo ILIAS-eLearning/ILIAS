@@ -699,9 +699,4 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
 		$ilCtrl->redirect($this, "listPlugins");
 	}
-<<<<<<< HEAD
 }
-=======
-}
-?>
->>>>>>> cdda29ba92... remove ilCtrl::setTargetScript
