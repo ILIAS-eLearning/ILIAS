@@ -96,7 +96,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
 		$this->tpl->setVariable('PARENT', $this->getSelect($item_facade)->render());
 		$this->tpl->setVariable('STATUS', $item_facade->getStatus());
-		if ($item_facade->isAvailable()) {
+		if ($item_facade->isActivated()) {
 			$this->tpl->touchBlock('is_active');
 		}
 		if ($item_facade->item()->isAlwaysAvailable() || !$item_facade->item()->isAvailable()) {

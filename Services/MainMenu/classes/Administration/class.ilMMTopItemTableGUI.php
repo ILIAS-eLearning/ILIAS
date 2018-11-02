@@ -64,7 +64,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
 		$this->tpl->setVariable('CSS_ID', "mm_" . $item_facade->identification()->getInternalIdentifier());
 		$this->tpl->setVariable('POSITION', $position * 10);
-		if ($item_facade->isAvailable()) {
+		if ($item_facade->isActivated()) {
 			$this->tpl->touchBlock('is_active');
 		}
 		if ($item_facade->isAlwaysAvailable() || !$item_facade->isAvailable()) {

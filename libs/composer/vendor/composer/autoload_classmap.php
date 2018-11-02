@@ -4935,6 +4935,7 @@ return array(
     'ilMMItemTranslationGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMItemTranslationGUI.php',
     'ilMMItemTranslationStorage' => $baseDir . '/../../Services/MainMenu/classes/Items/class.ilMMItemTranslationStorage.php',
     'ilMMItemTranslationTableGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMItemTranslationTableGUI.php',
+    'ilMMLostItemRenderer' => $baseDir . '/../../Services/MainMenu/classes/Renderer/class.ilMMLostItemRenderer.php',
     'ilMMNullItemFacade' => $baseDir . '/../../Services/MainMenu/classes/Items/Facade/class.ilMMNullItemFacade.php',
     'ilMMSubItemGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
     'ilMMSubItemTableGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemTableGUI.php',

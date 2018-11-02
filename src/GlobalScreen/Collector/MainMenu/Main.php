@@ -105,6 +105,7 @@ class Main {
 			}
 			if ($top_item instanceof isTopItem && $this->information) {
 				if ($top_item instanceof isParent) {
+					$has_always_available_item = false;
 					$children = [];
 					/**
 					 * @var $top_item  isParent
@@ -121,10 +122,16 @@ class Main {
 							$position_of_sub_item = max(array_keys($children)) + 1;
 						}
 						$children[$position_of_sub_item] = $child;
+						if ($child->isAlwaysAvailable() === true) {
+							$has_always_available_item = true;
+						}
 					}
 					ksort($children);
 					$children = $this->handleDoubleDividers($children);
 					$top_item = $top_item->withChildren($children);
+					if ($has_always_available_item === true) {
+						$top_item = $top_item->withAlwaysAvailable(true);
+					}
 				}
 				$top_item = $this->applyTypeHandler($top_item);
 				$position_of_top_item = $this->information->getPositionOfTopItem($top_item);
@@ -180,19 +187,14 @@ class Main {
 		global $DIC;
 
 		return $DIC->globalScreen()->mainmenu()->custom(Lost::class, new NullIdentification($identification))
-			->withTitle($DIC->language()->txt("deleted_item"))
 			->withAlwaysAvailable(true)
-			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('component_not_active')}"))
+			->setTypeInformation($this->type_information_collection->get(Lost::class))
+			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('deleted_item')}"))
 			->withVisibilityCallable(
 				function () use ($DIC) {
 					return (bool)($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
 				}
-			);
-	}
-
-
-	public function addItemToMap() {
-
+			)->withTitle($DIC->language()->txt("deleted_item"));
 	}
 
 
@@ -233,8 +235,9 @@ class Main {
 				if ($top_item instanceof isItem) {
 					$top_item->setTypeInformation($this->type_information_collection->get(get_class($top_item)));
 				}
-				self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
-				self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
+				$this->addItemToMap($top_item);
+				// self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
+				// self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
 			}
 		}
 
@@ -252,17 +255,25 @@ class Main {
 					$new_parent_identification = $this->information->getParent($sub_item);
 					$parent_item = $this->getSingleItem($new_parent_identification);
 					if ($parent_item->getProviderIdentification() instanceof NullIdentification) {
-						self::$items[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
-						self::$topitems[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
+						$this->addItemToMap($parent_item);
+						// self::$items[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
+						// self::$topitems[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
 						$sub_item->overrideParent($parent_item->getProviderIdentification());
 					} else {
 						$sub_item->overrideParent($new_parent_identification);
 					}
-					if (isset(self::$topitems[$sub_item->getParent()->serialize()]) && self::$topitems[$sub_item->getParent()->serialize()] instanceof isParent) {
-						self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
+					if ($this->itemExistsInMap($sub_item->getParent()) && $this->getItemFromMap($sub_item->getParent()) instanceof isParent) {
+						$this->getItemFromMap($sub_item->getParent())->appendChild($sub_item);
+						// self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
+						if ($sub_item->isAlwaysAvailable()) {
+							$parent = $this->getItemFromMap($sub_item->getParent())->withAlwaysAvailable(true);
+							$this->addItemToMap($parent);
+							// self::$topitems[$sub_item->getParent()->serialize()] = self::$topitems[$sub_item->getParent()->serialize()]->withAlwaysAvailable(true);
+						}
 					}
 				}
-				self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item; // register them always since they could be lost
+				$this->addItemToMap($sub_item);
+				// self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item; // register them always since they could be lost
 			}
 		}
 	}
@@ -336,5 +347,40 @@ class Main {
 				$this->type_information_collection->append($provider->provideTypeInformation());
 			}
 		}
+	}
+
+
+	/**
+	 * @param isItem $item
+	 */
+	private function addItemToMap(isItem $item) {
+		if ($item instanceof isTopItem) {
+			self::$topitems[$item->getProviderIdentification()->serialize()] = $item;
+		}
+		self::$items[$item->getProviderIdentification()->serialize()] = $item;
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return bool
+	 */
+	private function itemExistsInMap(IdentificationInterface $identification): bool {
+		return isset(self::$items[$identification->serialize()]);
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return isItem|mixed
+	 */
+	private function getItemFromMap(IdentificationInterface $identification) {
+		if (!$this->itemExistsInMap($identification)) {
+			// Exception?
+		}
+
+		return self::$items[$identification->serialize()];
 	}
 }

@@ -5243,6 +5243,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMMItemTranslationGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMItemTranslationGUI.php',
         'ilMMItemTranslationStorage' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Items/class.ilMMItemTranslationStorage.php',
         'ilMMItemTranslationTableGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMItemTranslationTableGUI.php',
+        'ilMMLostItemRenderer' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Renderer/class.ilMMLostItemRenderer.php',
         'ilMMNullItemFacade' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Items/Facade/class.ilMMNullItemFacade.php',
         'ilMMSubItemGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
         'ilMMSubItemTableGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemTableGUI.php',
