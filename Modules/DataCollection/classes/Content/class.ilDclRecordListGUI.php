@@ -312,10 +312,9 @@ class ilDclRecordListGUI {
 	 */
 	protected function resetFilter() {
 		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
-		$table->initFilter();
 		$table->resetOffset();
 		$table->resetFilter();
-		$this->ctrl->redirect($this, 'listRecords');
+		$this->listRecords(true);
 	}
 
 
