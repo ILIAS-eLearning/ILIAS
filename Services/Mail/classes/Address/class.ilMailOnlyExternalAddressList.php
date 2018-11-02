@@ -30,9 +30,9 @@ class ilMailOnlyExternalAddressList implements \ilMailAddressList
 	public function value(): array
 	{
 		$addresses = $this->origin->value();
-		
+
 		$filteredAddresses = array_filter($addresses, function(\ilMailAddress $address) {
-			if (\ilObjUser::_lookupId($address->getMailbox() . '@' . $address->getHost())) {
+			if (\ilObjUser::_lookupId((string)$address)) {
 				// Fixed mantis bug #5875
 				return false;
 			}

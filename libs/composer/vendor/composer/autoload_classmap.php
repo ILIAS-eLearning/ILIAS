@@ -4992,6 +4992,7 @@ return array(
     'ilMailCronOrphanedMailsNotificationCollectionObj' => $baseDir . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollectionObj.php',
     'ilMailCronOrphanedMailsNotificationCollector' => $baseDir . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollector.php',
     'ilMailCronOrphanedMailsNotifier' => $baseDir . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotifier.php',
+    'ilMailDiffAddressList' => $baseDir . '/../../Services/Mail/classes/Address/class.ilMailDiffAddressList.php',
     'ilMailException' => $baseDir . '/../../Services/Mail/exceptions/class.ilMailException.php',
     'ilMailExplorer' => $baseDir . '/../../Services/Mail/classes/class.ilMailExplorer.php',
     'ilMailFolderGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFolderGUI.php',

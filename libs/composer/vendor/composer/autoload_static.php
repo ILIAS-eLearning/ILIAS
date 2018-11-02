@@ -5300,6 +5300,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMailCronOrphanedMailsNotificationCollectionObj' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollectionObj.php',
         'ilMailCronOrphanedMailsNotificationCollector' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollector.php',
         'ilMailCronOrphanedMailsNotifier' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotifier.php',
+        'ilMailDiffAddressList' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Address/class.ilMailDiffAddressList.php',
         'ilMailException' => __DIR__ . '/../..' . '/../../Services/Mail/exceptions/class.ilMailException.php',
         'ilMailExplorer' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailExplorer.php',
         'ilMailFolderGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFolderGUI.php',

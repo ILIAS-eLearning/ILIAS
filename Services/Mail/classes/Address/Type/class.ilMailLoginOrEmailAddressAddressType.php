@@ -64,7 +64,7 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 			$address = $this->address->getMailbox();
 
 		} else {
-			$address = $this->address->getMailbox() . '@' . $this->address->getHost();
+			$address = (string)$this->address;
 		}
 
 		$usrIds = array_filter([

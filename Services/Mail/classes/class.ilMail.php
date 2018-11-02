@@ -176,39 +176,18 @@ class ilMail
 	}
 
 	/**
-	 * @param string $a_recipient
-	 * @param string $a_existing_recipients
+	 * @param string $newRecipient
+	 * @param string $existingRecipients
 	 * @return bool
 	 */
-	public function existsRecipient($a_recipient, $a_existing_recipients)
+	public function existsRecipient(string $newRecipient, string $existingRecipients): bool
 	{
-		$recipients = $this->parseAddresses($a_existing_recipients);
-		foreach($recipients as $rcp)
-		{
-			if(substr($rcp->getMailbox(), 0, 1) != '#')
-			{
-				if(trim($rcp->getMailbox()) == trim($a_recipient) || trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
-				{
-					return true;
-				}
-			}
-			else if(substr($rcp->getMailbox(), 0, 7) == '#il_ml_')
-			{
-				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
-				{
-					return true;
-				}
-			}
-		}
+		$newAddresses = new \ilMailAddressListImpl($this->parseAddresses($newRecipient));
+		$addresses = new \ilMailAddressListImpl($this->parseAddresses($existingRecipients));
 
-		return false;
+		$list = new \ilMailDiffAddressList($newAddresses, $addresses);
+
+		return count($list->value()) === 0;
 	}
 
 	/**
@@ -1168,10 +1147,11 @@ class ilMail
 		$rcp_cc = $a_rcp_cc;
 		$rcp_bc = $a_rcp_bc;
 
-		$c_emails = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
+		$numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
 
 		if(
-			$c_emails && !$this->isSystemMail() &&
+			$numberOfExternalAddresses > 0 &&
+			!$this->isSystemMail() &&
 			!$DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
 		)
 		{
@@ -1191,8 +1171,7 @@ class ilMail
 			$this->mfile->saveFiles($sent_id, $a_attachment);
 		}
 
-		if($c_emails)
-		{
+		if($numberOfExternalAddresses > 0) {
 			$externalMailRecipientsTo  = $this->getEmailRecipients($rcp_to);
 			$externalMailRecipientsCc  = $this->getEmailRecipients($rcp_cc);
 			$externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
@@ -1214,10 +1193,8 @@ class ilMail
 				$a_attachment,
 				0
 			);
-		}
-		else
-		{
-			ilLoggerFactory::getLogger('mail')->debug("No external email addresses given in recipient string");
+		} else {
+			ilLoggerFactory::getLogger('mail')->debug('No external email addresses given in recipient string');
 		}
 
 		if(in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders))
@@ -1415,7 +1392,7 @@ class ilMail
 		if (strlen($addresses) > 0) {
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Parsed addresses: %s", implode(',', array_map(function (ilMailAddress $address) {
-					return $address->getMailbox() . '@' . $address->getHost();
+					return (string)$address;
 				}, $parsedAddresses))
 			));
 		}
@@ -1470,7 +1447,7 @@ class ilMail
 		);
 
 		$emailRecipients = array_map(function(\ilMailAddress $address) {
-			return $address->getMailbox() . '@' . $address->getHost();
+			return (string)$address;
 		}, $addresses->value());
 
 		return implode(',', $emailRecipients);

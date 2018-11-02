@@ -47,7 +47,7 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 	 */
 	protected function getRoleIdsByAddress(\ilMailAddress $address): array
 	{
-		$combinedAddress = $address->getMailbox() . '@' . $address->getHost();
+		$combinedAddress = (string)$address;
 
 		$roleIds = $this->roleMailboxSearch->searchRoleIdsByAddressString($combinedAddress);
 
@@ -115,7 +115,7 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 		if (count($roleIds) > 0) {
 			$this->logger->debug(sprintf(
 				"Found the following role ids for address '%s': %s",
-				$this->address->getMailbox() . '@' . $this->address->getHost(), implode(', ', array_unique($roleIds))
+				(string)$this->address, implode(', ', array_unique($roleIds))
 			));
 
 			foreach ($roleIds as $roleId) {
@@ -127,19 +127,19 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 			if (count($usrIds) > 0) {
 				$this->logger->debug(sprintf(
 					"Found the following user ids for roles determined by address '%s': %s",
-					$this->address->getMailbox() . '@' . $this->address->getHost(),
+					(string)$this->address,
 					implode(', ', array_unique($usrIds))
 				));
 			} else {
 				$this->logger->debug(sprintf(
 					"Did not find any assigned users for roles determined by '%s'",
-					$this->address->getMailbox() . '@' . $this->address->getHost()
+					(string)$this->address
 				));
 			}
 		} else {
 			$this->logger->debug(sprintf(
 				"Did not find any role (and user ids) for address '%s'",
-				$this->address->getMailbox() . '@' . $this->address->getHost()
+				(string)$this->address
 			));
 		}
 
