@@ -107,9 +107,11 @@ class Renderer extends AbstractComponentRenderer {
 			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), "")
 			->withUnavailableAction(true);
 		} else {
+
 			$apply = $apply->withOnLoadCode(function ($id) use ($component) {
-				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '".$component->getApplyAction()."').submit();" . "});";
+				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '".$component->getApplyAction()."').find('input[name=cmdFilter]').attr('value', 'apply').submit();" . "});";
 			});
+
 			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), $component->getResetAction());
 		}
 		$tpl->setVariable("APPLY", $default_renderer->render($apply));
@@ -136,6 +138,14 @@ class Renderer extends AbstractComponentRenderer {
 			->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
 				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').submit();" . "});";
 			});
+		/*
+		foreach ($_GET as $name => $value) {
+			$tpl->setCurrentBlock("base_url");
+			$tpl->setVariable("CMD", $name);
+			$tpl->setVariable("CMD_VAL", $value);
+			$tpl->parseCurrentBlock();
+		}
+		*/
 		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
 	}
 
