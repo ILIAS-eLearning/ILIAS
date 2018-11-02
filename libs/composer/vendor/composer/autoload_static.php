@@ -4671,6 +4671,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilForumAppEventListener' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumAppEventListener.php',
         'ilForumAuthorInformation' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumAuthorInformation.php',
         'ilForumAuthorInformationCache' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumAuthorInformationCache.php',
+        'ilForumAutoSaveAsyncDraftAction' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/Actions/class.ilForumAutoSaveAsyncDraftAction.php',
         'ilForumCronNotification' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumCronNotification.php',
         'ilForumCronNotificationDataProvider' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumCronNotificationDataProvider.php',
         'ilForumDraftsHistory' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumDraftsHistory.php',
