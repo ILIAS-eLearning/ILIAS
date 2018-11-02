@@ -62,7 +62,7 @@ class ilMailCachedAddressType implements \ilMailAddressType
 	public function resolve(): array
 	{
 		$address = $this->getAddress();
-		$cacheKey = $address->getMailbox() . '@' . $address->getHost();
+		$cacheKey = (string)$address;
 
 		if (!$this->useCache || !isset(self::$usrIdsByAddressCache[$cacheKey])) {
 			self::$usrIdsByAddressCache[$cacheKey] = $this->inner->resolve();
