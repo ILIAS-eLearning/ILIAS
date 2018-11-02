@@ -42,18 +42,18 @@ class ilMailAddressListTest extends \ilMailBaseTest
 	/**
 	 * @param array $leftAddresses
 	 * @param array $rightAddresses
-	 * @param int $numberOfExpcectedItems
+	 * @param int $numberOfExpectedItems
 	 * @dataProvider addressProvider
 	 */
 	public function testDiffAddressListCanCalculateTheDifferenceOfTwoLists(
 		array $leftAddresses,
 		array $rightAddresses,
-		int $numberOfExpcectedItems
+		int $numberOfExpectedItems
 	) {
 		$left = new \ilMailAddressListImpl($leftAddresses);
 		$right = new \ilMailAddressListImpl($rightAddresses);
 
 		$list = new \ilMailDiffAddressList($left, $right);
-		$this->assertCount($numberOfExpcectedItems, $list->value());
+		$this->assertCount($numberOfExpectedItems, $list->value());
 	}
 }
