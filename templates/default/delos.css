@@ -12847,6 +12847,12 @@ div.ilProfile {
   border: 1px solid #d0d5ea;
   padding: 15px;
 }
+div.ilProfile + div.ilPermalinkContainer {
+  margin-top: 20px;
+}
+div.ilProfile + div.ilPermalinkContainer .input-group-btn {
+  vertical-align: bottom;
+}
 h3.ilProfileName {
   margin: 0 0 10px;
   padding: 0;
