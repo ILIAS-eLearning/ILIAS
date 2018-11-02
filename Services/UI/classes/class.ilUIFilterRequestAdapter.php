@@ -60,8 +60,8 @@ class ilUIFilterRequestAdapter
 	 */
 	public function isPost(): bool
 	{
-		return true;
-		return ($this->request->getMethod() == "POST");
+		return true;            // remove this method and its usages
+		//return ($this->request->getMethod() == "POST");
 	}
 
 	/**

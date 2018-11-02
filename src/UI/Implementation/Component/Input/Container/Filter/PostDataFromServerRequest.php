@@ -22,6 +22,13 @@ class PostDataFromServerRequest implements PostData {
 
 	public function __construct(ServerRequestInterface $request) {
 		$this->query_params = $request->getQueryParams();
+		$ar = array();
+		foreach ($this->query_params as $name => $value) {
+			if (strpos($name, "filter") !== false) {  // only the inputs from GET
+				$ar[$name] = $value;
+			}
+		}
+		$this->query_params = $ar;
 	}
 
 
@@ -41,7 +48,7 @@ class PostDataFromServerRequest implements PostData {
 	 * @inheritdocs
 	 */
 	public function getOr($name, $default) {
-		if (!isset($this->parsed_body[$name])) {
+		if (!isset($this->query_params[$name])) {
 			return $default;
 		}
 
