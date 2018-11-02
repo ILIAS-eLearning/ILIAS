@@ -23,7 +23,7 @@ class LogicalOr extends Custom implements Constraint
 	 * @param Constraint[] $other
 	 * @param Data\Factory $data_factory
 	 */
-	public function __construct(array $other, Data\Factory $data_factory)
+	public function __construct(array $other, Data\Factory $data_factory, \ilLanguage $lng)
 	{
 		$this->other = $other;
 
@@ -46,7 +46,8 @@ class LogicalOr extends Custom implements Constraint
 
 				return 'Please fix one of these: ' . implode(', ', array_filter($problems));
 			},
-			$data_factory
+			$data_factory,
+			$lng
 		);
 	}
 }
