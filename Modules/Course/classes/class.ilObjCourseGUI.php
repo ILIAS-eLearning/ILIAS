@@ -2212,17 +2212,6 @@ class ilObjCourseGUI extends ilContainerGUI
 								 array("perm","info","owner"), 'ilpermissiongui');
 		}
 
-		if ($this->ctrl->getTargetScript() == "adm_object.php")
-		{
-			$this->tabs_gui->addTarget("show_owner",
-								 $this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
-			
-			if ($this->tree->getSavedNodeData($this->ref_id))
-			{
-				$this->tabs_gui->addTarget("trash",
-									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
-			}
-		}
 		// Join/Leave
 		if($ilAccess->checkAccess('join','',$this->ref_id)
 			and !$this->object->getMemberObject()->isAssigned())

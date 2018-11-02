@@ -20,7 +20,6 @@ ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass('ilStartUpGUI');
 $ilCtrl->setCmd('confirmRegistration');
-$ilCtrl->setTargetScript('ilias.php');
 $ilCtrl->callBaseClass();
 
 exit();
