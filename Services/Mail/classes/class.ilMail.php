@@ -44,7 +44,6 @@ class ilMail
 	protected $save_in_sentbox;
 
 	protected $soap_enabled = true;
-	protected $mail_to_global_roles = 0;
 	protected $appendInstallationSignature = false;
 
 	/**
@@ -1140,12 +1139,6 @@ class ilMail
 			" | BCC: " . $a_rcp_bc .
 			" | Subject: " . $a_m_subject
 		);
-
-		$this->mail_to_global_roles = true;
-		if(!$this->isSystemMail())
-		{
-			$this->mail_to_global_roles = $DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
-		}
 
 		if(in_array('system', $a_type))
 		{
