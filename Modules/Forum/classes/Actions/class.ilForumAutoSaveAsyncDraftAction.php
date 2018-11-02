@@ -87,12 +87,7 @@ class ilForumAutoSaveAsyncDraftAction
 
 		$this->form->checkInput();
 
-		$inputValues = [];
-		$inputValues['subject'] = (string)$this->form->getInput('subject');
-		$inputValues['message'] = (string)$this->form->getInput('message');
-		$inputValues['notify'] = (int)$this->form->getInput('notify');
-		$inputValues['alias'] = (string)$this->form->getInput('alias');
-		$usrAlias = ilForumUtil::getPublicUserAlias($inputValues['alias'], $this->forumProperties->isAnonymized());
+		$inputValues = $this->getInputValuesFromForm();
 
 		if ($this->relatedDraftId > 0) {
 			$draftId = $this->relatedDraftId;
@@ -107,7 +102,7 @@ class ilForumAutoSaveAsyncDraftAction
 				$draftObj = \ilForumPostDraft::newInstanceByDraftId($draftId);
 				$draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
 				$draftObj->setPostMessage(\ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
-				$draftObj->setPostUserAlias($usrAlias);
+				$draftObj->setPostUserAlias($inputValues['alias']);
 				$draftObj->setNotify($inputValues['notify']);
 				$draftObj->setUpdateUserId($this->actor->getId());
 				$draftObj->setPostAuthorId($this->actor->getId());
@@ -145,7 +140,7 @@ class ilForumAutoSaveAsyncDraftAction
 			$draftObj->setPostId($this->relatedPostId);
 			$draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
 			$draftObj->setPostMessage(\ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
-			$draftObj->setPostUserAlias($usrAlias);
+			$draftObj->setPostUserAlias($inputValues['alias']);
 			$draftObj->setNotify($inputValues['notify']);
 			$draftObj->setPostAuthorId($this->actor->getId());
 			$draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
@@ -192,5 +187,23 @@ class ilForumAutoSaveAsyncDraftAction
 		foreach ($curMediaObjects as $mob) {
 			\ilObjMediaObject::_saveUsage($mob, $type, $draftId);
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getInputValuesFromForm(): array
+	{
+		$inputValues = [];
+
+		$inputValues['subject'] = (string)$this->form->getInput('subject');
+		$inputValues['message'] = (string)$this->form->getInput('message');
+		$inputValues['notify'] = (int)$this->form->getInput('notify');
+		$inputValues['alias'] = \ilForumUtil::getPublicUserAlias(
+			(string)$this->form->getInput('alias'),
+			$this->forumProperties->isAnonymized()
+		);
+
+		return $inputValues;
 	}
 }
