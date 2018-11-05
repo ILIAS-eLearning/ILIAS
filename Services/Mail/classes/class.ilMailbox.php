@@ -204,7 +204,6 @@ class ilMailbox
 
 			if ($folder_data["type"] == "user_folder" or $folder_data["type"] == "local")
 			{
-				#return array_merge($this->actions,array("add" => $this->lng->txt("mail_add_subfolder")));
 				return $this->actions;
 			}
 		}
@@ -531,5 +530,16 @@ class ilMailbox
 			array('integer', 'text', 'integer'),
 			array(0, $nameToShow, $this->user_id)
 		);
+	}
+
+	/**
+	 * @param int $folderId
+	 * @return bool
+	 */
+	public function isOwnedFolder(int $folderId): bool
+	{
+		$folderData = $this->getFolderData($folderId);
+
+		return $folderData['obj_id'] == $folderId;
 	}
 }
