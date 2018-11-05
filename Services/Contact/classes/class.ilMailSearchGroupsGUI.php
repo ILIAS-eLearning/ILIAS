@@ -200,7 +200,7 @@ class ilMailSearchGroupsGUI
 						   trim($old_mail_data['rcp_to']) != '')
 						{
 							$rcpt = (new \ilRoleMailboxAddress($role['obj_id']))->value();
-							if(!$this->umail->existsRecipient($rcpt, $old_mail_data['rcp_to']))
+							if(!$this->umail->existsRecipient($rcpt, (string)$old_mail_data['rcp_to']))
 							{
 								array_push($members, $rcpt);
 							}
