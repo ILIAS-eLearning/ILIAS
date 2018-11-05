@@ -462,7 +462,7 @@ abstract class ilExplorerBaseGUI
 	final protected function getSelectOnClick($a_node)
 	{
 		$dn_id = $this->getDomNodeIdForNodeId($this->getNodeId($a_node));
-		$oc = "il.Explorer2.selectOnClick('".$dn_id."'); return false;";
+		$oc = "il.Explorer2.selectOnClick(event, '".$dn_id."'); return false;";
 		return $oc;
 	}	
 	
