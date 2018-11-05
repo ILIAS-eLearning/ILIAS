@@ -75,6 +75,8 @@ il.Explorer2 = {
 
 		$(p + " .ilExpSearchInput").on("keydown", function(e) {
 			if(e.keyCode === 13) {
+				e.stopPropagation();
+				e.preventDefault();
 				var pid = $(e.target).parents("li").parents("li").attr("id");
 				il.Explorer2.current_search_term = $(e.target).val();
 				$("#" + cid).jstree('refresh_node', pid);

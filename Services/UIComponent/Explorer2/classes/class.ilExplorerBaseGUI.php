@@ -65,7 +65,6 @@ abstract class ilExplorerBaseGUI
 		$this->id = $a_expl_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->parent_cmd = $a_parent_cmd;
-
 		// get open nodes
 		include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
 		$this->store = new ilSessionIStorage("expl2");
