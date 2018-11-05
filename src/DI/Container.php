@@ -3,122 +3,174 @@
 
 namespace ILIAS\DI;
 
+use ilAccessHandler;
+use ilAppEventHandler;
+use ilConditionObjectAdapter;
+use ilConditionService;
+use ilCtrl;
+use ilDBInterface;
+use ilHelpGUI;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
+use ilIniFile;
+use ilLanguage;
+use ilLearningHistoryService;
+use ilNewsService;
+use ilObjectService;
+use ilObjUser;
+use ilSetting;
+use ilStyleDefinition;
+use ilTabsGUI;
+use ilToolbarGUI;
+use ilTree;
+use InvalidArgumentException;
+use Pimple\Container as PimpleContainer;
 
 /**
+ * Class Container
+ *
  * Customizing of pimple-DIC for ILIAS.
  *
  * This just exposes some of the services in the container as plain methods
  * to help IDEs when using ILIAS.
+ *
+ * @package ILIAS\DI
+ *
+ * @author  Richard Klees <richard.klees@concepts-and-training.de>
+ *
+ * @since   5.2
  */
-class Container extends \Pimple\Container {
+final class Container extends PimpleContainer {
+
+	/**
+	 * Container constructor
+	 *
+	 * @param array $values
+	 */
+	public function __construct(array $values = []) {
+		parent::__construct($values);
+	}
+
+
 	/**
 	 * Get interface to the Database.
 	 *
-	 * @return	\ilDBInterface
+	 * @return ilDBInterface
 	 */
-	public function database() {
+	public function database(): ilDBInterface {
 		return $this["ilDB"];
 	}
+
 
 	/**
 	 * Get interface to get interfaces to all things rbac.
 	 *
-	 * @return	RBACServices
+	 * @return RBACServices
 	 */
-	public function rbac() {
+	public function rbac(): RBACServices {
 		return new RBACServices($this);
 	}
+
 
 	/**
 	 * Get the interface to the control structure.
 	 *
-	 * @return	\ilCtrl
+	 * @return ilCtrl
 	 */
-	public function ctrl() {
+	public function ctrl(): ilCtrl {
 		return $this["ilCtrl"];
 	}
+
 
 	/**
 	 * Get the current user.
 	 *
-	 * @return	\ilObjUser
+	 * @return ilObjUser
 	 */
-	public function user() {
+	public function user(): ilObjUser {
 		return $this["ilUser"];
 	}
+
 
 	/**
 	 * Get interface for access checks.
 	 *
-	 * @return	\ilAccessHandler
+	 * @return ilAccessHandler
 	 */
-	public function access() {
+	public function access(): ilAccessHandler {
 		return $this["ilAccess"];
 	}
+
 
 	/**
 	 * Get interface to the repository tree.
 	 *
-	 * @return	\ilTree
+	 * @return ilTree
 	 */
-	public function repositoryTree() {
+	public function repositoryTree(): ilTree {
 		return $this["tree"];
 	}
+
 
 	/**
 	 * Get interface to the i18n service.
 	 *
-	 * @return	\ilLanguage
+	 * @return ilLanguage
 	 */
-	public function language() {
+	public function language(): ilLanguage {
 		return $this["lng"];
 	}
+
 
 	/**
 	 * Get interface to get interfaces to different loggers.
 	 *
-	 * @return	LoggingServices
+	 * @return LoggingServices
 	 */
-	public function logger() {
+	public function logger(): LoggingServices {
 		return new LoggingServices($this);
 	}
+
 
 	/**
 	 * Get interface to the toolbar.
 	 *
-	 * @return	\ilToolbarGUI
+	 * @return ilToolbarGUI
 	 */
-	public function toolbar() {
+	public function toolbar(): ilToolbarGUI {
 		return $this["ilToolbar"];
 	}
+
 
 	/**
 	 * Get interface to the tabs
 	 *
-	 * @return	\ilTabsGUI
+	 * @return ilTabsGUI
 	 */
-	public function tabs() {
+	public function tabs(): ilTabsGUI {
 		return $this["ilTabs"];
 	}
+
 
 	/**
 	 * Get the interface to get services from UI framework.
 	 *
-	 * @return	UIServices
+	 * @return UIServices
 	 */
-	public function ui() {
+	public function ui(): UIServices {
 		return new UIServices($this);
 	}
+
 
 	/**
 	 * Get the interface to the settings
 	 *
-	 * @return \ilSetting
+	 * @return ilSetting
+	 *
+	 * @since 5.3
 	 */
-	public function settings() {
+	public function settings(): ilSetting {
 		return $this["ilSetting"];
 	}
 
@@ -127,8 +179,10 @@ class Container extends \Pimple\Container {
 	 * Get the Filesystem service interface.
 	 *
 	 * @return Filesystems
+	 *
+	 * @since 5.3
 	 */
-	public function filesystem() {
+	public function filesystem(): Filesystems {
 		return $this['filesystem'];
 	}
 
@@ -137,106 +191,133 @@ class Container extends \Pimple\Container {
 	 * Gets the file upload interface.
 	 *
 	 * @return FileUpload
+	 *
+	 * @since 5.3
 	 */
-	public function upload() {
+	public function upload(): FileUpload {
 		return $this['upload'];
 	}
 
 
 	/**
 	 * @return BackgroundTaskServices
+	 *
+	 * @since 5.3
 	 */
-	public function backgroundTasks() {
+	public function backgroundTasks(): BackgroundTaskServices {
 		return new BackgroundTaskServices($this);
 	}
 
 
 	/**
-	 * @return Services
+	 * @return HTTPServices
+	 *
+	 * @since 5.3
 	 */
-	public function globalScreen() {
+	public function http(): HTTPServices {
+		return $this['http'];
+	}
+
+
+	/**
+	 * @return ilAppEventHandler
+	 *
+	 * @since 5.3
+	 */
+	public function event(): ilAppEventHandler {
+		return $this['ilAppEventHandler'];
+	}
+
+
+	/**
+	 * @return ilIniFile
+	 *
+	 * @since 5.4
+	 */
+	public function iliasIni(): ilIniFile {
+		return $this['ilIliasIniFile'];
+	}
+
+
+	/**
+	 * @return ilIniFile
+	 *
+	 * @since 5.4
+	 */
+	public function clientIni(): ilIniFile {
+		return $this['ilClientIniFile'];
+	}
+
+
+	/**
+	 * @return ilStyleDefinition
+	 *
+	 * @since 5.4
+	 */
+	public function systemStyle(): ilStyleDefinition {
+		return $this['styleDefinition'];
+	}
+
+
+	/**
+	 * @return ilHelpGUI
+	 *
+	 * @since 5.4
+	 */
+	public function help(): ilHelpGUI {
+		return $this['ilHelp'];
+	}
+
+
+	/**
+	 * @return Services
+	 *
+	 * @since 5.4
+	 */
+	public function globalScreen(): Services {
 		return new Services();
 	}
 
 
 	/**
-	 * @return HTTPServices
-	 */
-	public function http() {
-		return $this['http'];
-	}
-
-	/**
-	 * @return \ilAppEventHandler
-	 */
-	public function event() {
-		return $this['ilAppEventHandler'];
-	}
-
-	/**
-	 * @return \ilIniFile
-	 */
-	public function iliasIni() {
-		return $this['ilIliasIniFile'];
-	}
-
-	/**
-	 * @return \ilIniFile
-	 */
-	public function clientIni() {
-		return $this['ilClientIniFile'];
-	}
-
-	/**
-	 *  @return \ilStyleDefinition
-	 */
-	public function systemStyle(){
-		return $this['styleDefinition'];
-	}
-
-	/**
-	 *  @return \ilHelpGUI
-	 */
-	public function help(){
-		return $this['ilHelp'];
-	}
-
-	/**
 	 * Get conditions service
 	 *
-	 * @return	\ilConditionService
+	 * @return ilConditionService
+	 *
+	 * @since 5.4
 	 */
-	public function conditions() {
-
-		return \ilConditionService::getInstance(new \ilConditionObjectAdapter());
+	public function conditions(): ilConditionService {
+		return ilConditionService::getInstance(new ilConditionObjectAdapter());
 	}
 
-	/**
-	 * @return \ilLearningHistoryService
-	 */
-	public function learningHistory()
-	{
-		return new \ilLearningHistoryService(
-			$this->user(),
-			$this->language(),
-			$this->ui(),
-			$this->access(),
-			$this->repositoryTree()
-		);
-	}
 
 	/**
-	 * @return \ilNewsService
+	 * @return ilLearningHistoryService
+	 *
+	 * @since 5.4
 	 */
-	public function news() {
-		return new \ilNewsService($this->language(), $this->settings(), $this->user());
+	public function learningHistory(): ilLearningHistoryService {
+		return new ilLearningHistoryService($this->user(), $this->language(), $this->ui(), $this->access(), $this->repositoryTree());
 	}
 
+
 	/**
-	 * @return \ilObjectService
+	 * @return ilNewsService
+	 *
+	 * @since 5.4
 	 */
-	public function object() {
-		return new \ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
+	public function news(): ilNewsService {
+		return new ilNewsService($this->language(), $this->settings(), $this->user());
+	}
+
+
+	/**
+	 * @return ilObjectService
+	 *
+	 * @since 5.4
+	 */
+	public function object(): ilObjectService {
+		return new ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
 	}
 
 
@@ -257,15 +338,19 @@ class Container extends \Pimple\Container {
 	 * //interface of the component
 	 * $DIC->isDependencyAvailable("systemStyle")
 	 *
-	 * @param $name
+	 * @param string $name
+	 *
 	 * @return bool
+	 *
+	 * @since 5.4
 	 */
-	public function isDependencyAvailable($name){
-		try{
-			$this->$name();
-		}catch(\InvalidArgumentException $e){
+	public function isDependencyAvailable(string $name): bool {
+		try {
+			$this->{$name}();
+		} catch (InvalidArgumentException $e) {
 			return false;
 		}
+
 		return true;
 	}
 }

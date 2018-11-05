@@ -2,20 +2,33 @@
 
 namespace ILIAS\DI;
 
+use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
 
 /**
+ * Class BackgroundTaskServices
+ *
+ * @package ILIAS\DI
+ *
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * @since   5.3
  */
-class BackgroundTaskServices {
+final class BackgroundTaskServices {
 
 	/**
-	 * @var    Container
+	 * @var Container
 	 */
 	protected $container;
 
 
+	/**
+	 * BackgroundTaskServices constructor
+	 *
+	 * @param Container $container
+	 */
 	public function __construct(Container $container) {
 		$this->container = $container;
 	}
@@ -24,7 +37,7 @@ class BackgroundTaskServices {
 	/**
 	 * @return TaskFactory
 	 */
-	public function taskFactory() {
+	public function taskFactory(): TaskFactory {
 		return $this->container['bt.task_factory'];
 	}
 
@@ -32,7 +45,7 @@ class BackgroundTaskServices {
 	/**
 	 * @return Persistence
 	 */
-	public function persistence() {
+	public function persistence(): Persistence {
 		return $this->container['bt.persistence'];
 	}
 
@@ -40,15 +53,15 @@ class BackgroundTaskServices {
 	/**
 	 * @return TaskManager
 	 */
-	public function taskManager() {
+	public function taskManager(): TaskManager {
 		return $this->container['bt.task_manager'];
 	}
 
 
 	/**
-	 * @return \ILIAS\BackgroundTasks\Dependencies\Injector
+	 * @return Injector
 	 */
-	public function injector() {
+	public function injector(): Injector {
 		return $this->container['bt.injector'];
 	}
 }

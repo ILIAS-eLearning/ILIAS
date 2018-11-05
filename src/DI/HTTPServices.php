@@ -3,6 +3,7 @@
 
 namespace ILIAS\DI;
 
+use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Request\RequestFactory;
@@ -12,11 +13,17 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
+ * Class HTTPServices
+ *
  * Provides an interface to the ILIAS HTTP services.
  *
+ * @package ILIAS\DI
+ *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ *
+ * @since   5.3
  */
-class HTTPServices implements GlobalHttpState {
+final class HTTPServices implements GlobalHttpState {
 
 	/**
 	 * @var ResponseSenderStrategy
@@ -45,7 +52,7 @@ class HTTPServices implements GlobalHttpState {
 
 
 	/**
-	 * HTTPServices constructor.
+	 * HTTPServices constructor
 	 *
 	 * @param ResponseSenderStrategy $senderStrategy   A response sender strategy.
 	 * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
@@ -62,19 +69,17 @@ class HTTPServices implements GlobalHttpState {
 
 
 	/**
-	 * Creates a new cookie jar from the current known request.
-	 *
-	 * @return \ILIAS\HTTP\Cookies\CookieJar
+	 * @inheritdoc
 	 */
-	public function cookieJar() {
+	public function cookieJar(): CookieJar {
 		return $this->cookieJarFactory->fromResponse($this->response());
 	}
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
-	public function request() {
+	public function request(): ServerRequestInterface {
 		if ($this->request === NULL) {
 			$this->request = $this->requestFactory->create();
 		}
@@ -84,9 +89,9 @@ class HTTPServices implements GlobalHttpState {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
-	public function response() {
+	public function response(): ResponseInterface {
 		if ($this->response === NULL) {
 			$this->response = $this->responseFactory->create();
 		}
@@ -96,7 +101,7 @@ class HTTPServices implements GlobalHttpState {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function saveRequest(ServerRequestInterface $request) {
 		$this->request = $request;
@@ -104,7 +109,7 @@ class HTTPServices implements GlobalHttpState {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function saveResponse(ResponseInterface $response) {
 		$this->response = $response;
@@ -112,7 +117,7 @@ class HTTPServices implements GlobalHttpState {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function sendResponse() {
 		$this->sender->sendResponse($this->response());

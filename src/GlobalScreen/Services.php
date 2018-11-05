@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen;
+<?php
+
+namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
@@ -9,7 +11,11 @@ use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 /**
  * Class Services
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @package ILIAS\GlobalScreen
+ *
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ *
+ * @since   5.4
  */
 class Services {
 
@@ -20,7 +26,7 @@ class Services {
 
 
 	/**
-	 * Services constructor.
+	 * Services constructor
 	 */
 	public function __construct() {
 		if (self::$constructed === true) {

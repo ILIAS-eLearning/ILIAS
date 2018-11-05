@@ -5,18 +5,21 @@ namespace ILIAS\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
+use InvalidArgumentException;
 
 /**
- * Class FileUpload
+ * Interface FileUpload
  *
  * This interface provides the public operations for the
  * rest of ILIAS.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since   5.3
- * @version 1.0
+ * @package ILIAS\FileUpload
  *
- * @public
+ * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ *
+ * @since   5.3
+ *
+ * @version 1.0
  */
 interface FileUpload {
 
@@ -35,36 +38,40 @@ interface FileUpload {
 	 *
 	 * @throws IllegalStateException        Thrown if the files are not processed before invoking
 	 *                                      the moveFilesTo method.
-	 * @throws \InvalidArgumentException    Thrown if the location is invalid.
+	 * @throws InvalidArgumentException    Thrown if the location is invalid.
+	 *
 	 * @since 5.3
 	 *
 	 * @see   Location
 	 */
-	public function moveFilesTo($destination, $location = Location::STORAGE);
+	public function moveFilesTo(string $destination, int $location = Location::STORAGE);
 
 
 	/**
 	 * Moves a single File (the attributes, metadata and upload-status of which are contained in UploadResult)
 	 * to the given destination. The destination is a relative path which refers to the path of the location.
 	 *
-	 * @param UploadResult $UploadResult Which upload result do you want to move?
-	 * @param string       $destination  Where do you want to move the file?
-	 * @param int          $location     Location::[STORAGE|WEB|CUSTOMIZING]
-	 * @param string       $file_name    Do you want to rename the file?
+	 * @param UploadResult $UploadResult      Which upload result do you want to move?
+	 * @param string       $destination       Where do you want to move the file?
+	 * @param int          $location          Location::[STORAGE|WEB|CUSTOMIZING]
+	 * @param string       $file_name         Do you want to rename the file?
 	 * @param bool         $override_existing Override existing file with same name
 	 *
 	 * @return void
+	 *
+	 * @since 5.3
 	 */
-	public function moveOneFileTo(UploadResult $UploadResult, $destination, $location = Location::STORAGE, $file_name = '', $override_existing = false);
+	public function moveOneFileTo(UploadResult $UploadResult, string $destination, int $location = Location::STORAGE, string $file_name = '', bool $override_existing = false);
 
 
 	/**
 	 * Returns the current upload size limit in bytes.
 	 *
 	 * @return int
+	 *
 	 * @since 5.3
 	 */
-	public function uploadSizeLimit();
+	public function uploadSizeLimit(): int;
 
 
 	/**
@@ -91,6 +98,7 @@ interface FileUpload {
 	 * @return void
 	 *
 	 * @throws IllegalStateException If the files already got processed.
+	 *
 	 * @since 5.3
 	 */
 	public function process();
@@ -102,9 +110,10 @@ interface FileUpload {
 	 * @return UploadResult[]
 	 *
 	 * @throws IllegalStateException If the method is called before the files are processed.
+	 *
 	 * @since 5.3
 	 */
-	public function getResults();
+	public function getResults(): array;
 
 
 	/**
@@ -114,7 +123,8 @@ interface FileUpload {
 	 *
 	 * @since 5.3
 	 */
-	public function hasUploads();
+	public function hasUploads(): bool;
+
 
 	/**
 	 * Return (bool)true if the current upload has already been processed
@@ -123,5 +133,5 @@ interface FileUpload {
 	 *
 	 * @since 5.3
 	 */
-	public function hasBeenProcessed();
+	public function hasBeenProcessed(): bool;
 }

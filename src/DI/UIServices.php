@@ -3,43 +3,65 @@
 
 namespace ILIAS\DI;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ilTemplate;
+
 /**
+ * Class UIServices
+ *
  * Provides fluid interface to RBAC services.
+ *
+ * @package ILIAS\DI
+ *
+ * @author  Richard Klees <richard.klees@concepts-and-training.de>
+ *
+ * @since   5.2
  */
-class UIServices {
+final class UIServices {
+
 	/**
-	 * @var	Container
+	 * @var Container
 	 */
 	protected $container;
 
+
+	/**
+	 * UIServices constructor
+	 *
+	 * @param Container $container
+	 */
 	public function __construct(Container $container) {
 		$this->container = $container;
 	}
 
+
 	/**
 	 * Get the factory that crafts UI components.
- 	 *
-	 * @return \ILIAS\UI\Factory
+	 *
+	 * @return Factory
 	 */
-	public function factory() {
+	public function factory(): Factory {
 		return $this->container["ui.factory"];
 	}
 
+
 	/**
 	 * Get a renderer for UI components.
- 	 *
-	 * @return \ILIAS\UI\Renderer
+	 *
+	 * @return Renderer
 	 */
-	public function renderer() {
+	public function renderer(): Renderer {
 		return $this->container["ui.renderer"];
 	}
+
 
 	/**
 	 * Get the ILIAS main template.
 	 *
-	 * @return	\ilTemplate
+	 * @return ilTemplate
 	 */
-	public function mainTemplate() {
+	public function mainTemplate(): ilTemplate {
 		return $this->container["tpl"];
 	}
 }
