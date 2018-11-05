@@ -502,53 +502,60 @@ class ilMail
 	}
 
 	/**
-	* @param array $a_mail_ids
-	* @param int $a_folder_id
+	* @param int[] $mailIds
+	* @param int   $folderId
 	* @return bool
 	*/
-	public function moveMailsToFolder(array $a_mail_ids, $a_folder_id)
+	public function moveMailsToFolder(array $mailIds, $folderId): bool
 	{
-		$data       = array();
-		$data_types = array();
+		$values = [];
+		$dataTypes = [];
 
-		$query = "UPDATE {$this->table_mail} SET folder_id = %s WHERE user_id = %s ";
-		array_push($data_types, 'text', 'integer');
-		array_push($data, $a_folder_id, $this->user_id);
+		$mailIds = array_filter(array_map('intval', $mailIds));
 
-		if(count($a_mail_ids) > 0)
-		{
-			$in = 'mail_id IN (';
-			$counter = 0;
-			foreach($a_mail_ids as $a_mail_id)
-			{
-				array_push($data, $a_mail_id);
-				array_push($data_types, 'integer');
-
-				if($counter > 0) $in .= ',';
-				$in .= '%s';
-				++$counter;
-			}
-			$in .= ')';
-
-			$query .= ' AND '.$in;
+		if (0 === count($mailIds)) {
+			return false;
 		}
 
-		$this->db->manipulateF($query, $data_types, $data);
+		$query = "
+			UPDATE {$this->table_mail}
+			INNER JOIN mail_obj_data
+				ON mail_obj_data.obj_id = %s AND mail_obj_data.user_id = %s 
+			SET {$this->table_mail}.folder_id = mail_obj_data.obj_id
+			WHERE {$this->table_mail}.user_id = %s
+		";
+		array_push($dataTypes, 'integer', 'integer', 'integer');
+		array_push($values, $folderId, $this->user_id, $this->user_id);
 
-		return true;
+		$in = 'mail_id IN (';
+		$counter = 0;
+		foreach ($mailIds as $mailId) {
+			array_push($values, $mailId);
+			array_push($dataTypes, 'integer');
+
+			if($counter > 0) $in .= ',';
+			$in .= '%s';
+			++$counter;
+		}
+		$in .= ')';
+
+		$query .= ' AND ' . $in;
+
+		$affectedRows = $this->db->manipulateF($query, $dataTypes, $values);
+
+		return $affectedRows > 0;
 	}
 
 	/**
-	 * @param array $a_mail_ids
+	 * @param int[] $mailIds
 	 * @return bool
 	 */
-	public function deleteMails(array $a_mail_ids)
+	public function deleteMails(array $mailIds)
 	{
-		foreach($a_mail_ids as $id)
-		{
+		$mailIds = array_filter(array_map('intval', $mailIds));
+		foreach($mailIds as $id) {
 			$this->db->manipulateF("
-				DELETE FROM {$this->table_mail}
-				WHERE user_id = %s AND mail_id = %s ",
+				DELETE FROM {$this->table_mail} WHERE user_id = %s AND mail_id = %s",
 				array('integer', 'integer'),
 				array($this->user_id, $id)
 			);
