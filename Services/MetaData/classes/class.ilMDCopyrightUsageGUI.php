@@ -93,6 +93,8 @@ class ilMDCopyrightUsageGUI
 		$tabs = $DIC->tabs();
 		$lng = $DIC->language();
 
+		ilUtil::sendInfo($this->lng->txt("meta_info_only_repository_objects"));
+
 		$table_gui = new ilMDCopyrightUsageTableGUI(
 			$this,
 			self::DEFAULT_CMD,
