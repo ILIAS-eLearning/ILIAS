@@ -506,7 +506,7 @@ class ilMail
 	* @param int   $folderId
 	* @return bool
 	*/
-	public function moveMailsToFolder(array $mailIds, $folderId): bool
+	public function moveMailsToFolder(array $mailIds, int $folderId): bool
 	{
 		$values = [];
 		$dataTypes = [];
