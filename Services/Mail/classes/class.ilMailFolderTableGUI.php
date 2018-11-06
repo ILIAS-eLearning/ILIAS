@@ -444,7 +444,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 		try {
 			if ($this->isLuceneSearchEnabled()) {
-				include_once 'Services/Mail/classes/class.ilMailLuceneQueryParser.php';
 				$query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
 				$query_parser->setFields(array(
 					'title' => (bool)$this->filter['mail_filter_subject'],
