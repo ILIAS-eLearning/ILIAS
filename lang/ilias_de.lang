@@ -3170,8 +3170,6 @@ common#:#ldap_tls#:#Benutze TLS
 common#:#ldap_version#:#Protokollversion
 common#:#learning module#:#Lernmodul
 common#:#learning_progress#:#Lernfortschritt
-common#:#learning_resource#:#Lernmaterial
-common#:#learning_resources#:#Lernmaterialien
 common#:#leave_waiting_list#:#Von der Warteliste abmelden
 common#:#legend#:#Legende
 common#:#level#:#Stufe
@@ -3553,7 +3551,7 @@ common#:#obj_lm_duplicate#:#Lernmodul kopieren
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachen
 common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
-common#:#obj_lrss#:#Lernressourcen
+common#:#obj_lrss#:#Lernmodule
 common#:#obj_lrss_desc#:#Lernmodule usw. konfigurieren.
 common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Globale Mailkonfiguration

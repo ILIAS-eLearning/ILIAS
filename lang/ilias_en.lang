@@ -2683,8 +2683,6 @@ common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap#:#LDAP
 common#:#learning module#:#Learning Module
 common#:#learning_progress#:#Learning Progress
-common#:#learning_resource#:#Learning Resource
-common#:#learning_resources#:#Learning Resources
 common#:#leave_waiting_list#:#Leave Waiting List
 common#:#legend#:#Legend
 common#:#level#:#Level
@@ -3056,7 +3054,7 @@ common#:#obj_lng#:#Language
 common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lngf#:#Languages
 common#:#obj_lrss_desc#:#Configure all types of learning modules.
-common#:#obj_lrss#:#Learning Resources
+common#:#obj_lrss#:#Learning Modules
 common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mail#:#Mail
 common#:#obj_mcst#:#Mediacast

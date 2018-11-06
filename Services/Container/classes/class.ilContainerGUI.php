@@ -1076,7 +1076,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{
-				$tpl->setVariable("TYPE", $lng->txt("learning_resources").
+				$tpl->setVariable("TYPE", $lng->txt("obj_lrss").
 					" (".((int)$cnt["lres"]).")");
 			}
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
