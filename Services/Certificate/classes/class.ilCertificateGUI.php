@@ -29,6 +29,7 @@ include_once("./Services/Certificate/classes/class.ilCertificate.php");
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup Services
+* @ilCtrl_Calls: ilCertificateGUI: ilPropertyFormGUI          
 */
 class ilCertificateGUI
 {
@@ -317,6 +318,11 @@ class ilCertificateGUI
 		$cmd = $this->getCommand($cmd);
 		switch($next_class)
 		{
+			case 'ilpropertyformgui':
+				$form = $this->getEditorForm();
+				$this->ctrl->forwardCommand($form);
+				break;
+
 			default:
 				$ret = $this->$cmd();
 				break;
@@ -429,9 +435,9 @@ class ilCertificateGUI
 	}
 
 	/**
-	* Shows the certificate editor for ILIAS tests
-	*/
-	public function certificateEditor()
+	 * @return ilPropertyFormGUI
+	 */
+	private function getEditorForm(): \ilPropertyFormGUI
 	{
 		$certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -445,6 +451,15 @@ class ilCertificateGUI
 
 		$form->setValuesByArray($form_fields);
 
+		return $form;
+	}
+
+	/**
+	* Shows the certificate editor for ILIAS tests
+	*/
+	public function certificateEditor()
+	{
+		$form = $this->getEditorForm();
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 
