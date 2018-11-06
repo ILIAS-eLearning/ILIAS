@@ -200,9 +200,9 @@ class ilMailFormGUI
 		$files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
 		if($errors = $this->umail->validateRecipients(
-			ilUtil::securePlainString($_POST['rcp_to']),
-			ilUtil::securePlainString($_POST['rcp_cc']),
-			ilUtil::securePlainString($_POST['rcp_bcc'])
+			(string)\ilUtil::securePlainString($_POST['rcp_to']),
+			(string)\ilUtil::securePlainString($_POST['rcp_cc']),
+			(string)\ilUtil::securePlainString($_POST['rcp_bcc'])
 		))
 		{
 			$_POST['attachments'] = $files;
@@ -874,65 +874,15 @@ class ilMailFormGUI
 	}
 
 	/**
-	 * @param array $errors
+	 * @param $errors \ilMailError[]
 	 */
 	protected function showSubmissionErrors(array $errors)
 	{
-		$errors_to_display = array();
+		$formatter = new \ilMailErrorFormatter($this->lng);
+		$formattedErrors = $formatter->format($errors);
 
-		foreach($errors as $error)
-		{
-			$error       = array_values($error);
-			$first_error = array_shift($error);
-
-			$translation = $this->lng->txt($first_error);
-			if($translation == '-' . $first_error . '-')
-			{
-				$translation = $first_error;
-			}
-
-			if(count($error) == 0 || $translation == $first_error)
-			{
-				$errors_to_display[] = $translation;
-			}
-			else
-			{
-				// We expect all other parts of this error array are recipient addresses = input parameters
-				$error = array_map(function($address) {
-					return ilUtil::prepareFormOutput($address);
-				}, $error);
-
-				array_unshift($error, $translation);
-				$errors_to_display[] = call_user_func_array('sprintf', $error);
-			}
-		}
-
-		if(count($errors_to_display) > 0)
-		{
-			$tpl = new ilTemplate('tpl.mail_new_submission_errors.html', true, true, 'Services/Mail');
-			if(count($errors_to_display) == 1)
-			{
-				$tpl->setCurrentBlock('single_error');
-				$tpl->setVariable('SINGLE_ERROR', current($errors_to_display));
-				$tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$first_error = array_shift($errors_to_display);
-
-				foreach($errors_to_display as $error)
-				{
-					$tpl->setCurrentBlock('error_loop');
-					$tpl->setVariable('ERROR', $error);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock('multiple_errors');
-				$tpl->setVariable('FIRST_ERROR', $first_error);
-				$tpl->parseCurrentBlock();
-			}
-
-			ilUtil::sendInfo($tpl->get());
+		if (strlen($formattedErrors) > 0) {
+			\ilUtil::sendInfo($formattedErrors);
 		}
 	}
 }

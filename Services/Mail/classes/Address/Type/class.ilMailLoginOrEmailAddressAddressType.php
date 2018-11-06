@@ -40,7 +40,7 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 		}
 
 		if (!$usrId && $this->address->getHost() == $this->typeHelper->getInstallationHost()) {
-			$this->errors[] = ['mail_recipient_not_found', $this->address->getMailbox()];
+			$this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
 			return false;
 		}
 
@@ -48,7 +48,7 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 			$usrId, 'internal_mail',
 			$this->typeHelper->getGlobalMailSystemId()
 		)) {
-			$this->errors[] = ['user_cant_receive_mail', $this->address->getMailbox()];
+			$this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
 			return false;
 		}
 

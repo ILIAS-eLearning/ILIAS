@@ -280,7 +280,7 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 
 		$this->assertFalse($type->validate(666));
 		$this->assertArrayHasKey(0, $type->getErrors());
-		$this->assertEquals('user_cant_receive_mail', $type->getErrors()[0][0]);
+		$this->assertEquals('user_cant_receive_mail', $type->getErrors()[0]->getLanguageVariable());
 
 		$type = new \ilMailLoginOrEmailAddressAddressType(
 			$addressTypeHelper, new \ilMailAddress('mjansen', 'databay.de'), $logger, $rbacsystem
@@ -433,7 +433,7 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertFalse($type->validate(666));
 		$this->assertCount(1, $type->getErrors());
 		$this->assertArrayHasKey(0, $type->getErrors());
-		$this->assertEquals('mail_no_valid_mailing_list', $type->getErrors()[0][0]);
+		$this->assertEquals('mail_no_valid_mailing_list', $type->getErrors()[0]->getLanguageVariable());
 	}
 
 	/**
@@ -530,19 +530,57 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->assertFalse($type->validate(4711));
 		$this->assertCount(1, $type->getErrors());
 		$this->assertArrayHasKey(0, $type->getErrors());
-		$this->assertEquals('mail_to_global_roles_not_allowed', $type->getErrors()[0][0]);
+		$this->assertEquals('mail_to_global_roles_not_allowed', $type->getErrors()[0]->getLanguageVariable());
 
 		$this->assertFalse($type->validate(4711));
 		$this->assertCount(1, $type->getErrors());
 		$this->assertArrayHasKey(0, $type->getErrors());
-		$this->assertEquals('mail_recipient_not_found', $type->getErrors()[0][0]);
+		$this->assertEquals('mail_recipient_not_found', $type->getErrors()[0]->getLanguageVariable());
 
 		$this->assertFalse($type->validate(4711));
 		$this->assertCount(1, $type->getErrors());
 		$this->assertArrayHasKey(0, $type->getErrors());
-		$this->assertEquals('mail_multiple_role_recipients_found', $type->getErrors()[0][0]);
+		$this->assertEquals('mail_multiple_role_recipients_found', $type->getErrors()[0]->getLanguageVariable());
 
 		$this->assertTrue($type->validate(4711));
 		$this->assertCount(0, $type->getErrors());
+	}
+
+	/**
+	 * 
+	 */
+	public function testCacheOnlyResolvesAndValidatesRecipientsOnceIfCachingIsEnabled()
+	{
+		$origin = $this->getMockBuilder(\ilMailAddressType::class)->getMock();
+
+		$origin->expects($this->once())->method('resolve');
+		$origin->expects($this->once())->method('validate');
+
+		$type = new \ilMailCachedAddressType($origin, true);
+		$type->resolve();
+		$type->resolve();
+
+		$type->validate(6);
+		$type->validate(6);
+	}
+
+	/**
+	 *
+	 */
+	public function testCacheResolvesAndValidatesRecipientsOnEveryCallIfCachingIsDisabled()
+	{
+		$origin = $this->getMockBuilder(\ilMailAddressType::class)->getMock();
+
+		$origin->expects($this->exactly(3))->method('resolve');
+		$origin->expects($this->exactly(3))->method('validate');
+
+		$type = new \ilMailCachedAddressType($origin, false);
+		$type->resolve();
+		$type->resolve();
+		$type->resolve();
+
+		$type->validate(6);
+		$type->validate(6);
+		$type->validate(6);
 	}
 }
