@@ -146,13 +146,81 @@ il.UI = il.UI || {};
 			$el.parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").find(".il-popover").hide();
         };
 
+        /**
+         *
+         * @param event
+         * @param id
+         */
+        var onCmd = function(event, id, cmd) {
+        	//Get the URL for GET-request, put the components of the query string into hidden inputs and submit the filter
+            var $el = $("#" + id);
+            var action = $el.parents('form').attr("data-cmd-" + cmd);
+            var url = parse_url(action);
+            var url_params = url['query_params'];
+            for (var param in url_params) {
+                console.log(param + " = " + url_params[param]);
+                var input = "<input type=\"hidden\" name=\"" + param + "\" value=\"" + url_params[param] + "\">";
+                $el.parents('form').prepend(input);
+            }
+            $el.parents('form').submit();
+        };
+
+        /**
+         * parse url, based on https://github.com/hirak/phpjs/blob/master/functions/url/parse_url.js
+         * @param str
+         * @returns {{}}
+         */
+        function parse_url(str) {
+            var query;
+            var key = [
+                'source',
+                'scheme',
+                'authority',
+                'userInfo',
+                'user',
+                'pass',
+                'host',
+                'port',
+                'relative',
+                'path',
+                'directory',
+                'file',
+                'query',
+                'fragment'
+            ];
+            var reg_ex = /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@\/]*):?([^:@\/]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/;
+
+            var m = reg_ex.exec(str);
+            var uri = {};
+            var i = 14;
+
+            while (i--) {
+                if (m[i]) {
+                    uri[key[i]] = m[i];
+                }
+            }
+
+            var parser = /(?:^|&)([^&=]*)=?([^&]*)/g;
+            uri['query_params'] = {};
+            query = uri[key[12]] || '';
+            query.replace(parser, function($0, $1, $2) {
+                if ($1) {
+                    uri['query_params'][$1] = $2;
+                }
+            });
+
+            delete uri.source;
+            return uri;
+        }
+
 		/**
 		 * Public interface
 		 */
 		return {
 			onFieldUpdate: onFieldUpdate,
 			onRemoveClick: onRemoveClick,
-			onAddClick: onAddClick
+			onAddClick: onAddClick,
+			onCmd: onCmd
 		};
 
 	})($);
