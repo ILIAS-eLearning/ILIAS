@@ -792,16 +792,6 @@ abstract class ilExplorerBaseGUI
 
 		$content = $etpl->get();
 
-		$content2 = '<div id="'.$container_outer_id.'"><div id="'.$container_id.'">
-<ul>
-    <li>Root node 1
-      <ul>
-        <li>Child node 1</li>
-        <li><a href="#">Child node 2</a></li>
-      </ul>
-    </li>
-  </ul></div></div>';
-
 		return $content.$add;
 	}
 	
@@ -813,76 +803,80 @@ abstract class ilExplorerBaseGUI
 	 */
 	function renderNode($a_node, $tpl)
 	{
-		$this->listItemStart($tpl, $a_node);
-		
-		// select mode?
-		if ($this->select_postvar != "" && $this->isNodeSelectable($a_node))
+		$skip = ($this->getSkipRootNode()
+			&& $this->getNodeId($this->getRootNode()) == $this->getNodeId($a_node));
+		if (!$skip)
 		{
-			if ($this->select_multi)
-			{
-				$tpl->setCurrentBlock("cb");
-				if (in_array($this->getNodeId($a_node), $this->selected_nodes))
-				{
-					$tpl->setVariable("CHECKED", 'checked="checked"');
-				}
-				$tpl->setVariable("CB_VAL", $this->getNodeId($a_node));
-				$tpl->setVariable("CB_NAME", $this->select_postvar."[]");
-				$tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$tpl->setCurrentBlock("rd");
-				if (in_array($this->getNodeId($a_node), $this->selected_nodes))
-				{
-					$tpl->setVariable("SELECTED", 'checked="checked"');
-				}
-				$tpl->setVariable("RD_VAL", $this->getNodeId($a_node));
-				$tpl->setVariable("RD_NAME", $this->select_postvar);
-				$tpl->parseCurrentBlock();
-			}
-		}
-		
-		
-		if ($this->isNodeHighlighted($a_node))
-		{
-			$tpl->touchBlock("hl");
-		}
-		$tpl->setCurrentBlock("content");
-		if ($this->getNodeIcon($a_node) != "")
-		{
-			$tpl->setVariable("ICON", ilUtil::img($this->getNodeIcon($a_node), $this->getNodeIconAlt($a_node))." ");
-		}
-		$tpl->setVariable("CONTENT", $this->getNodeContent($a_node));
-		$tpl->setVariable("HREF", $this->getNodeHref($a_node));
-		$target = $this->getNodeTarget($a_node);
-		if ($target != "")
-		{
-			$targetRelatedParams = array(
-				'target="' . $target . '"'
-			);
+			$this->listItemStart($tpl, $a_node);
 
-			if ('_blank' === $target) {
-				$targetRelatedParams[] = 'rel="noopener"';
+			// select mode?
+			if ($this->select_postvar != "" && $this->isNodeSelectable($a_node))
+			{
+				if ($this->select_multi)
+				{
+					$tpl->setCurrentBlock("cb");
+					if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+					{
+						$tpl->setVariable("CHECKED", 'checked="checked"');
+					}
+					$tpl->setVariable("CB_VAL", $this->getNodeId($a_node));
+					$tpl->setVariable("CB_NAME", $this->select_postvar . "[]");
+					$tpl->parseCurrentBlock();
+				} else
+				{
+					$tpl->setCurrentBlock("rd");
+					if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+					{
+						$tpl->setVariable("SELECTED", 'checked="checked"');
+					}
+					$tpl->setVariable("RD_VAL", $this->getNodeId($a_node));
+					$tpl->setVariable("RD_NAME", $this->select_postvar);
+					$tpl->parseCurrentBlock();
+				}
 			}
 
-			$tpl->setVariable('TARGET', implode(' ', $targetRelatedParams));
-		}
-		if (!$this->isNodeOnclickEnabled() || !$this->isNodeClickable($a_node))
-		{
-			$tpl->setVariable("ONCLICK", 'onclick="return false;"');
-			$tpl->setVariable("A_CLASS", 'class="disabled"');
-		}
-		else
-		{
-			$onclick = $this->getNodeOnClick($a_node);
-			if ($onclick != "")
+
+			if ($this->isNodeHighlighted($a_node))
 			{
-				$tpl->setVariable("ONCLICK", 'onclick="'.$onclick.'"');
+				$tpl->touchBlock("hl");
 			}
+			$tpl->setCurrentBlock("content");
+			if ($this->getNodeIcon($a_node) != "")
+			{
+				$tpl->setVariable("ICON", ilUtil::img($this->getNodeIcon($a_node), $this->getNodeIconAlt($a_node)) . " ");
+			}
+			$tpl->setVariable("CONTENT", $this->getNodeContent($a_node));
+			$tpl->setVariable("HREF", $this->getNodeHref($a_node));
+			$target = $this->getNodeTarget($a_node);
+			if ($target != "")
+			{
+				$targetRelatedParams = array(
+					'target="' . $target . '"'
+				);
+
+				if ('_blank' === $target)
+				{
+					$targetRelatedParams[] = 'rel="noopener"';
+				}
+
+				$tpl->setVariable('TARGET', implode(' ', $targetRelatedParams));
+			}
+			if (!$this->isNodeOnclickEnabled() || !$this->isNodeClickable($a_node))
+			{
+				$tpl->setVariable("ONCLICK", 'onclick="return false;"');
+				$tpl->setVariable("A_CLASS", 'class="disabled"');
+			} else
+			{
+				$onclick = $this->getNodeOnClick($a_node);
+				if ($onclick != "")
+				{
+					$tpl->setVariable("ONCLICK", 'onclick="' . $onclick . '"');
+				}
+			}
+			$tpl->parseCurrentBlock();
+
+			$tpl->touchBlock("tag");
 		}
-		$tpl->parseCurrentBlock();
-		
-		$tpl->touchBlock("tag");
 		
 		if (!$this->getAjax() || in_array($this->getNodeId($a_node), $this->open_nodes)
 			|| in_array($this->getNodeId($a_node), $this->custom_open_nodes))
@@ -890,7 +884,10 @@ abstract class ilExplorerBaseGUI
 			$this->renderChilds($this->getNodeId($a_node), $tpl);
 		}
 		
-		$this->listItemEnd($tpl);
+		if (!$skip)
+		{
+			$this->listItemEnd($tpl);
+		}
 	}
 	
 	/**
