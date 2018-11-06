@@ -347,12 +347,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 			if($a_set["nr_items"] <= $cnt || ($this->overall_limit && $this->current_bookings && $this->current_bookings >= $this->overall_limit))
 			{
-				$assign_possible = false;
 				$booking_possible = false;
 			}
 			if($has_booking){
 				$booking_possible = false;
 			}
+			if($a_set["nr_items"] <= $cnt
+				|| empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"])))
+			{
+				$assign_possible = false;
+			}
+
 		}
 		else if(!$this->may_edit)
 		{							
