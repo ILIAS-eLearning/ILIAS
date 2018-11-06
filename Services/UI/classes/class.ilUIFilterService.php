@@ -129,7 +129,7 @@ class ilUIFilterService
 	{
 		$result = null;
 		if (in_array($this->request->getFilterCmd(),
-				[self::CMD_APPLY, self::CMD_TOGGLE_ON, self::CMD_EXPAND, self::CMD_COLLAPSE]) && $this->request->isPost()) {
+				[self::CMD_APPLY, self::CMD_TOGGLE_ON, self::CMD_EXPAND, self::CMD_COLLAPSE]) && $filter->isActivated()) {
 			$filter = $this->request->getFilterWithRequest($filter);
 			$result = $filter->getData();
 		}
@@ -199,8 +199,7 @@ class ilUIFilterService
 	 */
 	protected function handleApply(string $filter_id, \ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
-		if ($this->request->getFilterCmd() == self::CMD_APPLY &&
-			$this->request->isPost())
+		if ($this->request->getFilterCmd() == self::CMD_APPLY)
 		{
 			$filter = $this->request->getFilterWithRequest($filter);
 			foreach ($filter->getInputs() as $input_id => $i)
