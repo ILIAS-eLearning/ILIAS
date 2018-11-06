@@ -487,6 +487,28 @@ class ilBookingObject
 		return $rec["count"];
 	}
 
+	/**
+	 * Get all booking pool object ids from an specific booking pool.
+	 * @param int $a_pool_id
+	 * @return array
+	 */
+	static function getObjectsForPool(int $a_pool_id):array
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT booking_object_id".
+			" FROM booking_object".
+			" WHERE pool_id = ".$ilDB->quote($a_pool_id, 'integer'));
+
+		$objects = array();
+		while($row = $ilDB->fetchAssoc($set)) {
+			$objects[] = $row['booking_object_id'];
+		}
+
+		return $objects;
+	}
+
 	
 	/**
 	 * Delete single entry
