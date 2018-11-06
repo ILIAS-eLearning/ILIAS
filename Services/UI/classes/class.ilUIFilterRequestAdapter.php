@@ -54,17 +54,6 @@ class ilUIFilterRequestAdapter
 	}
 
 	/**
-	 * Is post send?
-	 *
-	 * @return bool
-	 */
-	public function isPost(): bool
-	{
-		return true;            // remove this method and its usages
-		//return ($this->request->getMethod() == "POST");
-	}
-
-	/**
 	 * Has an input field been rendered in current post request?
 	 *
 	 * @param $input_id

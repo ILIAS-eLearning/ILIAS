@@ -60,7 +60,7 @@ class Renderer extends AbstractComponentRenderer {
 			{
 				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
 					->withOnLoadCode(function ($id) use ($component) {
-						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getExpandAction() . "').submit();" . "});";
+						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getExpandAction() . "').find('input[name=cmdFilter]').attr('value', 'expand').submit();" . "});";
 					});
 			} else {
 				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), $component->getExpandAction());
@@ -74,7 +74,7 @@ class Renderer extends AbstractComponentRenderer {
 			if ($component->isActivated()) {
 				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
 					->withOnLoadCode(function ($id) use ($component) {
-						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getCollapseAction() . "').submit();" . "});";
+						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getCollapseAction() . "').find('input[name=cmdFilter]').attr('value', 'collapse').submit();" . "});";
 					});
 			} else {
 				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), $component->getCollapseAction());
@@ -98,6 +98,15 @@ class Renderer extends AbstractComponentRenderer {
 										   Component\Input\Container\Filter\Standard $component, RendererInterface$default_renderer)
 	{
 		$f = $this->getUIFactory();
+
+		parse_str(parse_url($component->getApplyAction(), PHP_URL_QUERY), $url);
+		unset($url["cmdFilter"]);
+		foreach ($url as $name => $value) {
+			$tpl->setCurrentBlock("base_url");
+			$tpl->setVariable("QUERY_NAME", $name);
+			$tpl->setVariable("QUERY_VALUE", $value);
+			$tpl->parseCurrentBlock();
+		}
 
 		// render apply and reset buttons
 		$apply = $f->button()->bulky($f->glyph()->apply(), $this->txt("apply"), "");
@@ -136,7 +145,7 @@ class Renderer extends AbstractComponentRenderer {
 		$toggle_on_action = $component->getToggleOnAction();
 		$toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
 			->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
-				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').submit();" . "});";
+				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').find('input[name=cmdFilter]').attr('value', 'toggleOn').submit();" . "});";
 			});
 		/*
 		foreach ($_GET as $name => $value) {
