@@ -222,7 +222,8 @@ class ilPublicUserProfileGUI
 					$gui = new ilObjPortfolioGUI($portfolio_id); // #11876		
 					$gui->setAdditional($this->getAdditional());
 					$gui->setPermaLink($this->getUserId(), "usr");
-					$ilCtrl->forwardCommand($gui);	
+					$ilCtrl->forwardCommand($gui);
+					$tpl->show();
 					break;
 				}							
 			case 'ilbuddysystemgui':
