@@ -80,22 +80,21 @@ class ilMailRoleAddressType extends \ilBaseMailAddressType
 		if (!$this->maySendToGlobalRole($senderId)) {
 			foreach ($roleIds as $roleId) {
 				if ($this->rbacreview->isGlobalRole($roleId)) {
-					$this->errors[] = array('mail_to_global_roles_not_allowed', $this->address->getMailbox());
+					$this->pushError('mail_to_global_roles_not_allowed', [$this->address->getMailbox()]);
 					return false;
 				}
 			}
 		}
 
 		if (count($roleIds) == 0) {
-			$this->errors[] = ['mail_recipient_not_found', $this->address->getMailbox()];
+			$this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
 			return false;
 		} else {
 			if (count($roleIds) > 1) {
-				$this->errors[] = [
-					'mail_multiple_role_recipients_found',
+				$this->pushError('mail_multiple_role_recipients_found', [
 					$this->address->getMailbox(),
-					implode(',', $roleIds)
-				];
+					implode(',', $roleIds),
+				]);
 				return false;
 			}
 		}

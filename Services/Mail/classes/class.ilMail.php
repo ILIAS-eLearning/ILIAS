@@ -956,10 +956,10 @@ class ilMail
 	}
 
 	/**
-	 * @param  string[] $recipients
+	 * @param string[] $recipients
 	 * @return int[]
 	 */
-	protected function getUserIds(array $recipients)
+	protected function getUserIds(array $recipients): array
 	{
 		$usrIds = array();
 
@@ -975,23 +975,22 @@ class ilMail
 	}
 
 	/**
-	 * @param    string $a_rcp_to
-	 * @param    string $a_rcp_cc
-	 * @param    string $a_rcp_bcc
-	 * @param    string $a_m_subject
-	 * @return   array message
+	 * @param    string $to
+	 * @param    string $cc
+	 * @param    string $bcc
+	 * @param    string $subject
+	 * @return   \ilMailError[] An array of errors determined on validation
 	 */
-	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject)
+	protected function checkMail(string $to, string $cc, string $bcc, string $subject): array
 	{
-		$errors =  array();
-		foreach(array(
-			$a_m_subject => array('mail_add_subject'),
-			$a_rcp_to    => array('mail_add_recipient')
-		) as $string => $e)
-		{
-			if(strlen($string) === 0)
-			{
-				$errors[] = $e;
+		$errors = [];
+
+		foreach (array(
+			$subject => 'mail_add_subject',
+			$to      => 'mail_add_recipient'
+		) as $string => $error) {
+			if (0 === strlen($string)) {
+				$errors[] = new \ilMailError($error);
 			}
 		}
 
@@ -1000,26 +999,27 @@ class ilMail
 
 	/**
 	 * Check if recipients are valid
-	 * @param  string $a_recipients string with login names or group names (start with #)
-	 * @return array Returns an empty array, if all recipients are okay. Returns an array with invalid recipients, if some are not okay.
+	 * @param  string $recipients
+	 * @return \ilMailError[] An array of errors determined on validation
 	 * @throws \ilMailException
 	 */
-	protected function checkRecipients($a_recipients)
+	protected function checkRecipients(string $recipients): array
 	{
 		$errors = [];
 
 		try {
-			$recipients = $this->parseAddresses($a_recipients);
-			foreach ($recipients as $recipient) {
-				$addressType = $this->mailAddressTypeFactory->getByPrefix($recipient);
+			$addresses = $this->parseAddresses($recipients);
+			foreach ($addresses as $address) {
+				$addressType = $this->mailAddressTypeFactory->getByPrefix($address);
 				if (!$addressType->validate($this->user_id)) {
-					$errors = array_merge($errors, $addressType->getErrors());
+					$newErrors = $addressType->getErrors();
+					$errors = array_merge($errors, $newErrors);
 				}
 			}
 		} catch (\ilException $e) {
-			$colon_pos = strpos($e->getMessage(), ':');
+			$colonPosition = strpos($e->getMessage(), ':');
 			throw new \ilMailException(
-				($colon_pos === false) ? $e->getMessage() : substr($e->getMessage(), $colon_pos + 2)
+				($colonPosition === false) ? $e->getMessage() : substr($e->getMessage(), $colonPosition + 2)
 			);
 		}
 
@@ -1109,9 +1109,9 @@ class ilMail
 	 * @param array    $a_attachment
 	 * @param array    $a_type (normal and/or system and/or email)
 	 * @param bool|int $a_use_placeholders
-	 * @return array
+	 * @return \ilMailError[] 
 	 */
-	public function sendMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0)
+	public function sendMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0): array
 	{
 		global $DIC;
 
@@ -1123,25 +1123,21 @@ class ilMail
 			" | Subject: " . $a_m_subject
 		);
 
-		if(in_array('system', $a_type))
-		{
+		if (in_array('system', $a_type)) {
 			$a_type = array('system');
 		}
 
-		if($a_attachment && !$this->mfile->checkFilesExist($a_attachment))
-		{
-			return array(array('mail_attachment_file_not_exist', $a_attachment));
+		if ($a_attachment && !$this->mfile->checkFilesExist($a_attachment)) {
+			return [new \ilMailError('mail_attachment_file_not_exist', [$a_attachment])];
 		}
 
-		$errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject);
-		if(count($errors) > 0)
-		{
+		$errors = $this->checkMail((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bc, (string)$a_m_subject);
+		if (count($errors) > 0) {
 			return $errors;
 		}
 
-		$errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc);
-		if(count($errors) > 0)
-		{
+		$errors = $this->validateRecipients((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bc);
+		if (count($errors) > 0) {
 			return $errors;
 		}
 
@@ -1155,20 +1151,17 @@ class ilMail
 			$numberOfExternalAddresses > 0 &&
 			!$this->isSystemMail() &&
 			!$DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
-		)
-		{
-			return array(array('mail_no_permissions_write_smtp'));
+		) {
+			return [new \ilMailError('mail_no_permissions_write_smtp')];
 		}
 
-		if($this->appendInstallationSignature())
-		{
+		if ($this->appendInstallationSignature()) {
 			$a_m_message .= self::_getInstallationSignature();
 		}
 
 		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type, $a_m_subject, $a_m_message);
 
-		if($a_attachment)
-		{
+		if ($a_attachment) {
 			$this->mfile->assignAttachmentsToDirectory($sent_id, $sent_id);
 			$this->mfile->saveFiles($sent_id, $a_attachment);
 		}
@@ -1199,50 +1192,43 @@ class ilMail
 			ilLoggerFactory::getLogger('mail')->debug('No external email addresses given in recipient string');
 		}
 
-		if(in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders))
-		{
-			return array(array('mail_send_error'));
+		if (in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders)) {
+			return [new \ilMailError('mail_send_error')];
 		}
 
-		if(in_array('normal', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'normal', $a_use_placeholders))
-		{
-			return array(array('mail_send_error'));
+		if (in_array('normal', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'normal', $a_use_placeholders)) {
+			return [new \ilMailError('mail_send_error')];
 		}
 
-		if(!$this->getSaveInSentbox())
-		{
-			$this->deleteMails(array($sent_id));
+		if(!$this->getSaveInSentbox()) {
+			$this->deleteMails([$sent_id]);
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
-	 * @param string $a_rcp_to
-	 * @param string $a_rcp_cc
-	 * @param string $a_rcp_bc
-	 * @return array Returns an empty array if there is no validation issue
+	 * @param string $to
+	 * @param string $cc
+	 * @param string $bcc
+	 * @return \ilMailError[] An array of errors determined on validation
 	 */
-	public function validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc)
+	public function validateRecipients(string $to, string $cc, string $bcc): array
 	{
-		try
-		{
+		try {
 			$errors = array();
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_to));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_cc));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_bc));
+			$errors = array_merge($errors, $this->checkRecipients($to));
+			$errors = array_merge($errors, $this->checkRecipients($cc));
+			$errors = array_merge($errors, $this->checkRecipients($bcc));
 
-			if(count($errors) > 0)
-			{
-				return array_merge(array(array('mail_following_rcp_not_valid')), $errors);
+			if (count($errors) > 0) {
+				return array_merge([new \ilMailError('mail_following_rcp_not_valid')], $errors);
 			}
-		}
-		catch(ilMailException $e)
-		{
-			return array(array('mail_generic_rcp_error', $e->getMessage()));
+		} catch (\ilMailException $e) {
+			return [new \ilMailError('mail_generic_rcp_error', [$e->getMessage()])];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
