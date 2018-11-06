@@ -13,10 +13,15 @@ class ilLogComponentLevel
 	private $compontent_id  = '';
 	private $component_level = null;
 	
-	public  function __construct($a_component_id)
+	public  function __construct($a_component_id, $a_level = null)
 	{
 		$this->compontent_id = $a_component_id;
-		$this->read();
+		if ($a_level === null) {
+			$this->read();
+		}
+		else {
+			$this->setLevel($a_level);
+		}
 	}
 	
 	public function getComponentId()

@@ -27,7 +27,8 @@ class ilTestQuestionConfig
 	 */
 	public function __construct()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->useUnchangedAnswerLabel = $lng->txt('tst_unchanged_answer_is_correct');
 	}
 

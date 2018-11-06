@@ -12,15 +12,18 @@ class HasMinLength extends Custom implements Constraint {
 	 */
 	protected $min_length;
 
-	public function __construct($min_length, Data\Factory $data_factory) {
+	public function __construct($min_length, Data\Factory $data_factory, \ilLanguage $lng) {
 		assert('is_int($min_length)');
 		$this->min_length = $min_length;
 		parent::__construct( function ($value) {
 				return strlen($value) >= $this->min_length;
 			},
-			function ($value) {
-				return "'$value' has a length less than '{$this->min_length}'.";
+			function ($txt, $value) {
+				$len = strlen($value);
+				return $txt("not_min_length", $len, $this->min_length);
 			},
-			$data_factory);
+			$data_factory,
+			$lng
+		);
 	}
 }

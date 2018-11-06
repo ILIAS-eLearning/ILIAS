@@ -50,7 +50,7 @@ class ilBiblFieldFilterPresentationGUI {
 			case ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT:
 				$filter = new ilSelectInputGUI($translated, $field->getIdentifier());
 				$options[null] = $this->lng()->txt("please_select");
-				$options = array_merge($options, $f->getPossibleValuesForFieldAndObject($field, $obj_id));
+				$options = $options + $f->getPossibleValuesForFieldAndObject($field, $obj_id);
 				$filter->setOptions($options);
 				break;
 			case ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT:

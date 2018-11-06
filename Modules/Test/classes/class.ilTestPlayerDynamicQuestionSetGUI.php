@@ -48,7 +48,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	 */
 	function executeCommand()
 	{
-		global $ilDB, $lng, $ilPluginAdmin, $ilTabs, $tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$ilTabs = $DIC['ilTabs'];
+		$tree = $DIC['tree'];
 
 		$ilTabs->clearTargets();
 		
@@ -344,7 +349,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function markQuestionCmd()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->object->setQuestionSetSolved(1, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -352,7 +358,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	protected function unmarkQuestionCmd()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->object->setQuestionSetSolved(0, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -1108,7 +1115,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	protected function buildTestPassQuestionList()
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);

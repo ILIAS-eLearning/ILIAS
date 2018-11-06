@@ -105,7 +105,8 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	public function loadFromDb()
 	{
-		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF(
 			"SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY position ASC",
@@ -1003,4 +1004,21 @@ class ilAssOrderingElementList implements Iterator
 		
 		return $elementList;
 	}
+	
+	public function getHash()
+	{
+		$items = array();
+		
+		foreach($this as $element)
+		{
+			$items[] = implode(':', array(
+				$element->getSolutionIdentifier(),
+				$element->getRandomIdentifier(),
+				$element->getIndentation()
+			));
+		}
+		
+		return md5(serialize($items));
+	}
+		
 }

@@ -79,8 +79,14 @@ class ilSurveySkillDeterminationGUI
 
 //		$ilToolbar->addButton($lng->txt("survey_write_skills"),
 //			$ilCtrl->getLinkTarget($this, "writeSkills"));
-		
-		$apps = $this->survey->getAppraiseesData();
+		if($this->survey->get360Mode())
+		{
+			$apps = $this->survey->getAppraiseesData();
+		}
+		else // Mode self evaluation, No Appraisee and Rater involved.
+		{
+			$apps = $this->survey->getSurveyParticipants();
+		}
 		$ctpl = new ilTemplate("tpl.svy_skill_list_changes.html", true, true, "Modules/Survey");
 		foreach ($apps as $app)
 		{

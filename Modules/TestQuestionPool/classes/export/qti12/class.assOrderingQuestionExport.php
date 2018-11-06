@@ -30,9 +30,10 @@ class assOrderingQuestionExport extends assQuestionExport
 	*/
 	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
-		global $ilDB;
-		global $ilUser;
-		global $ilias;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+		$ilias = $DIC['ilias'];
 		
 		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;

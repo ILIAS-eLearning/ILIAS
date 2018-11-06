@@ -3,7 +3,9 @@
     "first_maintainer": "rklees(34047)",
     "second_maintainer": "dkloepfer(42712)",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "miriamhoelscher(25370)",
     "testcase_writer": "rklees(34047)",
     "path": "Services/Maps",

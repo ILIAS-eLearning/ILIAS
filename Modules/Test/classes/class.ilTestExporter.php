@@ -40,7 +40,8 @@ class ilTestExporter extends ilXmlExporter
 		$testExport = $expFactory->getExporter('xml');
 		$zip = $testExport->buildExportFile();
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Created zip file '.$zip);
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC['ilLog']->write(__METHOD__.': Created zip file '.$zip);
 	}
 
 	/**

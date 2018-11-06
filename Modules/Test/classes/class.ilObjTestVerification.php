@@ -39,10 +39,15 @@ class ilObjTestVerification extends ilVerificationObject
 	 */
 	public static function createFromTest(ilObjTest $a_test, $a_user_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
 		
 		$lng->loadLanguageModule("wsp");
-		
+		$lng->loadLanguageModule('cert');
+
 		$newObj = new self();
 		$newObj->setTitle($a_test->getTitle());
 		$newObj->setDescription($a_test->getDescription());
@@ -54,10 +59,16 @@ class ilObjTestVerification extends ilVerificationObject
 		$newObj->setProperty("issued_on", new ilDate($date, IL_CAL_UNIX));
 
 		// create certificate
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		include_once "Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilTestCertificateAdapter($a_test));
-		$certificate = $certificate->outCertificate(array("active_id" => $active_id, "pass" => $pass), false);
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$lng->txt('error_creating_certificate_pdf')
+		);
+
+		$certificate = $pdfAction->createPDF($a_user_id, $a_test->getid());
 		
 		// save pdf file
 		if($certificate)

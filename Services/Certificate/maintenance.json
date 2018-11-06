@@ -3,7 +3,9 @@
     "first_maintainer": "mjansen(8784)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "christian.hueser(41129)",
     "testcase_writer": "christian.hueser(41129)",
     "path": "Services/Certificate",

@@ -48,22 +48,24 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		else
 		{
 			// Shouldn't happen
-			$GLOBALS['ilLog']->write(__METHOD__.': non container and no tax mapping, perhaps old qpl export' );
+			global $DIC; /* @var ILIAS\DI\Container $DIC */
+			$DIC['ilLog']->write(__METHOD__.': non container and no tax mapping, perhaps old qpl export' );
 			return false;
 		}
 
 		
 
 		list($xml_file,$qti_file) = $this->parseXmlFileNames();
-
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		if(!@file_exists($xml_file))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $xml_file);
+			$DIC['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $xml_file);
 			return false;
 		}
 		if(!@file_exists($qti_file))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find qti definition: '. $qti_file);
+			$DIC['ilLog']->write(__METHOD__.': Cannot find qti definition: '. $qti_file);
 			return false;
 		}
 		
@@ -83,8 +85,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		// FIXME: Copied from ilObjQuestionPoolGUI::importVerifiedFileObject
 		// TODO: move all logic to ilObjQuestionPoolGUI::importVerifiedFile and call 
 		// this method from ilObjQuestionPoolGUI and ilTestImporter 
-
-		$GLOBALS['ilLog']->write(__METHOD__.': xml file: '. $xml_file . ", qti file:" . $qti_file);
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC['ilLog']->write(__METHOD__.': xml file: '. $xml_file . ", qti file:" . $qti_file);
 		
 		if( isset($_SESSION["qpl_import_idents"]) )
 		{
@@ -184,7 +187,8 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	 */
 	protected function parseXmlFileNames()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->getImportDirectory());
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC['ilLog']->write(__METHOD__.': '.$this->getImportDirectory());
 		
 		$basename = basename($this->getImportDirectory());
 

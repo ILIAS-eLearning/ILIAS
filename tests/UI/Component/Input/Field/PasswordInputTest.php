@@ -10,6 +10,9 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\Data\Password as PWD;
 use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class _PWDPostData implements PostData {
 	public function get($name) {
@@ -29,7 +32,13 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
@@ -82,7 +91,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 					." </div>"
 					." <div class=\"help-block\">$byline</div>"
 					." <div class=\"help-block alert alert-danger\" role=\"alert\">"
-						." <img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">"
+						." <img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />"
 						." $error"
 					." </div>"
 				." </div>"

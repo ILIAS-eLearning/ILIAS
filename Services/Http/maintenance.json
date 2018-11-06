@@ -5,7 +5,9 @@
     "implicit_maintainers": [
         "smeyer(191)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/Http",

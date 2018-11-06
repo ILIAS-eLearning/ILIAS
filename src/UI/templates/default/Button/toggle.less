@@ -1,0 +1,34 @@
+.il-toggle-button {
+  position: relative;
+  display: inline-block;
+  height: @il-btn-toggle-height;
+  padding-left: @il-btn-toggle-padding;
+  padding-right: @il-btn-toggle-padding;
+  border: @il-btn-toggle-border @il-btn-toggle-border-color;
+  border-radius: @il-btn-toggle-border-radius;
+  background: @il-disabled-btn-toggle-bg;
+  cursor: pointer;
+}
+
+.il-toggle-button .il-toggle-switch {
+  position: absolute;
+  top: @il-btn-toggle-switch-position-top;
+  left: @il-disabled-btn-toggle-switch-position-left;
+  width: @il-btn-toggle-switch-size;
+  height: @il-btn-toggle-switch-size;
+  border: @il-btn-toggle-border @il-btn-toggle-switch-border-color;
+  border-radius: @il-btn-toggle-border-radius;
+  background: @il-disabled-btn-toggle-switch-color;
+
+  -webkit-transition: @il-btn-toggle-switch-transition; /* Safari */
+  transition: @il-btn-toggle-switch-transition;
+}
+
+.il-toggle-button.on {
+  background: @il-enabled-btn-toggle-bg;
+}
+
+.il-toggle-button.on .il-toggle-switch {
+  left: @il-enabled-btn-toggle-switch-position-left;
+  background: @il-enabled-btn-toggle-switch-color;
+}

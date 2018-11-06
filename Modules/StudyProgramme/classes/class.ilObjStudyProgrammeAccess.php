@@ -4,7 +4,7 @@
 
 require_once('./Services/Object/classes/class.ilObjectAccess.php');
 require_once('./Services/User/classes/class.ilUserAccountSettings.php');
-require_once('./Services/AccessControl/interfaces/interface.ilConditionHandling.php');
+require_once('./Services/Conditions/interfaces/interface.ilConditionHandling.php');
 
 
 /**

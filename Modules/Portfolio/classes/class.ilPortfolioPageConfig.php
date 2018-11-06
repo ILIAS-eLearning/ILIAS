@@ -79,6 +79,8 @@ class ilPortfolioPageConfig extends ilPageConfig
 		{
 			$this->setEnablePCType("ContentInclude", true);
 		}
+
+		$this->setEnablePCType("LearningHistory", true);
 	}	
 }
 

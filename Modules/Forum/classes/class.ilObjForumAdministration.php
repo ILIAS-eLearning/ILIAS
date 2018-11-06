@@ -11,8 +11,6 @@
 * @package ilias-core
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 class ilObjForumAdministration extends ilObject
 {
 	/**

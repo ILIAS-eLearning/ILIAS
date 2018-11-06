@@ -34,7 +34,8 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->setId('man_scor_by_qst_' . $parentObj->object->getId());
 
@@ -129,7 +130,8 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if(!$this->first_row_rendered)
 		{

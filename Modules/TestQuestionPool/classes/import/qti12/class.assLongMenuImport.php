@@ -8,7 +8,8 @@ class assLongMenuImport extends assQuestionImport
 
 	public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		unset($_SESSION["import_mob_xhtml"]);
 

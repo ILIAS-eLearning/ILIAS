@@ -96,6 +96,15 @@ class ilObjIndividualAssessment extends ilObject {
 	}
 
 	/**
+	 * Get the members as single object associated with this.
+	 *
+	 * @return	ilIndividualAssessmentMember[]
+	 */
+	public function loadMembersAsSingleObjects(string $filter = null, string $sort = null) {
+		return $this->members_storage->loadMembersAsSingleObjects($this, $filter, $sort);
+	}
+
+	/**
 	 * Get the members object associated with this and visible by the current user.
 	 *
 	 * @return	ilIndividualAssessmentMembers

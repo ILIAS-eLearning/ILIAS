@@ -1,10 +1,19 @@
 <?php
 
-
-
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\BadRequest;
 
+/**
+ * Class ilWebDAVTree
+ *
+ * This class is used for manual tree traversal from a WebDAV-Request if it isn't handled by Sabre\DAV\Tree
+ *
+ * Mostly used for lock and unlock calls. Might be refactored to be a substitute for Sabre\DAV\Tree in a future
+ * version.
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ */
 class ilWebDAVTree
 {
     protected static $instance;
@@ -17,15 +26,19 @@ class ilWebDAVTree
         }
         return self::$instance;
     }
-    
+
     /**
      * Returns the ref_id of the given webdav path. Path starts without php-script
      *
      * Examples
      *
      *  Path starts at a ref: <client_name>/ref_<ref_id>/folder1/folder2
-     *  Path starts at root:  <client_name>/ilias/foo_container1/course1/
-     * @param string $uri
+     *  Path starts at root:  <client_name>/ILIAS/foo_container1/course1/
+     *
+     * @param $a_uri
+     * @return int|mixed
+     * @throws BadRequest
+     * @throws NotFound
      */
     public static function getRefIdForWebDAVPath($a_uri)
     {
@@ -89,34 +102,51 @@ class ilWebDAVTree
         
         return $ref_id;
     }
-    
+
+    /**
+     * @param int $start_ref
+     * @param string $path_from_startnode
+     * @return int
+     */
     public static function getRefIdForGivenRootAndPath(int $start_ref, string $path_from_startnode)
     {
         return self::iterateRecursiveThroughTree(explode('/',$path_from_startnode), 0, $start_ref);
     }
-    
-    protected static function iterateRecursiveThroughTree($path_title_array, $current_path_element, $parent_ref_id)
+
+    /**
+     * Recursive function to iterate through tree with given path
+     *
+     * @param $path_title_array        Array with all object titles in this path
+     * @param $searched_element_index  Index for the path_title_array which points to the searched obj title
+     * @param $parent_ref_id           Ref ID of parent of the searched element
+     * @return int
+     */
+    protected static function iterateRecursiveThroughTree($path_title_array, $searched_element_index, $parent_ref_id)
     {
         global $DIC;
-        
-        if($path_title_array[$current_path_element] == '' || count($path_title_array) == $current_path_element)
+
+        // Check if last element was already found
+        if($path_title_array[$searched_element_index] == '' || count($path_title_array) == $searched_element_index)
         {
             return $parent_ref_id;
         }
-        
+
+        // Search if any child of the given ref has the name of the given searched element
         foreach($DIC->repositoryTree()->getChildIds($parent_ref_id) as $child_ref)
         {
             $child_obj_id = ilObject::_lookupObjectId($child_ref);
             $child_title = strtolower(ilObject::_lookupTitle($child_obj_id));
-            if($path_title_array[$current_path_element] == $child_title)
+            if($path_title_array[$searched_element_index] == $child_title)
             {
-                if(count($path_title_array)-1 == $current_path_element)
+                if(count($path_title_array)-1 == $searched_element_index)
                 {
+                    // Last element found. Return ref_id
                     return $child_ref;
                 }
                 else 
                 {
-                    return self::iterateRecursiveThroughTree($path_title_array, $current_path_element+1, $child_ref);
+                    // Search next element in path
+                    return self::iterateRecursiveThroughTree($path_title_array, $searched_element_index+1, $child_ref);
                 }
             }
         }

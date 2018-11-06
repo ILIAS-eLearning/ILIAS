@@ -14,7 +14,9 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 

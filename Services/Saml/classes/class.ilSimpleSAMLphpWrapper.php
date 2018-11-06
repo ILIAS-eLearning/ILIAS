@@ -23,6 +23,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 	 * ilSimpleSAMLphpWrapper constructor.
 	 * @param string $authSourceName
 	 * @param string $configurationPath
+	 * @throws Exception
 	 */
 	public function __construct($authSourceName, $configurationPath)
 	{

@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
 
 /**
 * Class ilExAssignmentEditorGUI
@@ -50,10 +51,26 @@ class ilExAssignmentEditorGUI
 	 */
 	protected $help;
 
-	protected $exercise_id; // [int]
-	protected $assignment; // [ilExAssignment]
-	protected $enable_peer_review_completion; // [bool]
-	
+	/**
+	 * @var int
+	 */
+	protected $exercise_id;
+
+	/**
+	 * @var ilExAssignment
+	 */
+	protected $assignment;
+
+	/**
+	 * @var bool
+	 */
+	protected $enable_peer_review_completion;
+
+	/**
+	 * @var ilExAssignmentTypes
+	 */
+	protected $types;
+
 	/**
 	 * Constructor
 	 * 
@@ -76,6 +93,10 @@ class ilExAssignmentEditorGUI
 		$this->exercise_id = $a_exercise_id;
 		$this->assignment = $a_ass;
 		$this->enable_peer_review_completion = (bool)$a_enable_peer_review_completion_settings;
+		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
+		$this->types = ilExAssignmentTypes::getInstance();
+		include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php");
+		$this->type_guis = ilExAssignmentTypesGUI::getInstance();
 	}
 	
 	public function executeCommand()
@@ -90,7 +111,7 @@ class ilExAssignmentEditorGUI
 		switch($class)
 		{
 			case "ilpropertyformgui":
-				$form = $this->initAssignmentForm(ilExAssignment::TYPE_PORTFOLIO);
+				$form = $this->initAssignmentForm($_GET["ass_type"]);
 				$ilCtrl->forwardCommand($form);
 				break;
 
@@ -181,22 +202,14 @@ class ilExAssignmentEditorGUI
 	 */
 	protected function getTypeDropdown()
 	{
-		$ilSetting = $this->settings;
 		$lng = $this->lng;
-		
-		$types = array(
-			ilExAssignment::TYPE_UPLOAD => $lng->txt("exc_type_upload"),
-			ilExAssignment::TYPE_UPLOAD_TEAM => $lng->txt("exc_type_upload_team"),
-			ilExAssignment::TYPE_TEXT => $lng->txt("exc_type_text")
-		);
-		if(!$ilSetting->get('disable_wsp_blogs'))
+
+		$types = [];
+		foreach ($this->types->getAllActivated() as $k => $t)
 		{
-			$types[ilExAssignment::TYPE_BLOG] = $lng->txt("exc_type_blog");
+			$types[$k] = $t->getTitle();
 		}
-		if($ilSetting->get('user_portfolios'))
-		{
-			$types[ilExAssignment::TYPE_PORTFOLIO] = $lng->txt("exc_type_portfolio");
-		}		
+
 		$ty = new ilSelectInputGUI($lng->txt("exc_assignment_type"), "type");
 		$ty->setOptions($types);
 		$ty->setRequired(true);
@@ -213,11 +226,14 @@ class ilExAssignmentEditorGUI
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+
+		$ass_type = $this->types->getById($a_type);
+		$ass_type_gui = $this->type_guis->getById($a_type);
+		$ilCtrl->setParameter($this, "ass_type", $a_type);
 		
 		$lng->loadLanguageModule("form");
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
-		$form->setTableWidth("600px");
 		if ($a_mode == "edit")
 		{
 			$form->setTitle($lng->txt("exc_edit_assignment"));
@@ -240,6 +256,13 @@ class ilExAssignmentEditorGUI
 		$ty->setDisabled(true);
 		$form->addItem($ty);
 
+		//
+		// type specific start
+		//
+
+		$ass_type_gui->addEditFormCustomProperties($form);
+
+		/*
 		if($a_type == ilExAssignment::TYPE_TEXT)
 		{
 			$rb_limit_chars = new ilCheckboxInputGUI($lng->txt("exc_limit_characters"),"limit_characters");
@@ -259,9 +282,10 @@ class ilExAssignmentEditorGUI
 			$rb_limit_chars->addSubItem($max_char_limit);
 
 			$form->addItem($rb_limit_chars);
-		}
+		}*/
 
 		// portfolio template
+		/*
 		if($a_type == ilExAssignment::TYPE_PORTFOLIO)
 		{
 			$rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
@@ -283,6 +307,120 @@ class ilExAssignmentEditorGUI
 			$rd_template->addOption($radio_no_template);
 			$rd_template->addOption($radio_with_template);
 			$form->addItem($rd_template);
+		}*/
+
+		//
+		// type specific end
+		//
+
+
+		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			if($a_mode == "edit") {
+				$has_teams = (bool)count(ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId()));
+			} else {
+				$has_teams = false;
+			}
+
+			// Radio for creators
+			$rd_team = new ilRadioGroupInputGUI($lng->txt("exc_team_formation"), "team_creator");
+			$rd_team->setRequired(true);
+
+			$radio_participants = new ilRadioOption(
+				$lng->txt("exc_team_by_participants"),
+				ilExAssignment::TEAMS_FORMED_BY_PARTICIPANTS,
+				$lng->txt("exc_team_by_participants_info")
+			);
+
+			$radio_tutors = new ilRadioOption(
+				$lng->txt("exc_team_by_tutors"),
+				ilExAssignment::TEAMS_FORMED_BY_TUTOR,
+				$lng->txt("exc_team_by_tutors_info")
+			);
+
+			#23679
+			if(!$has_teams)
+			{
+				// Creation options
+				$rd_creation_method = new ilRadioGroupInputGUI($lng->txt("exc_team_creation"), "team_creation");
+				$rd_creation_method->setRequired(true);
+
+				//manual
+				$rd_creation_manual = new ilRadioOption(
+					$lng->txt("exc_team_by_tutors_manual"),
+					0,
+					$lng->txt("exc_team_by_tutors_manual_info")
+				);
+				$rd_creation_method->addOption($rd_creation_manual);
+
+				//random options
+				$rd_creation_random = new ilRadioOption(
+					$lng->txt("exc_team_by_random"),
+					ilExAssignment::TEAMS_FORMED_BY_RANDOM,
+						$lng->txt("exc_team_by_random_info")."<br>".$lng->txt("exc_total_members").": ".$this->getExerciseTotalMembers()
+				);
+				$rd_creation_method->addOption($rd_creation_random);
+
+				$number_teams = new ilNumberInputGUI($lng->txt("exc_num_teams"), "number_teams");
+				$number_teams->setSize(3);
+				$number_teams->setMinValue(1);
+				$number_teams->setMaxValue($this->getExerciseTotalMembers());
+				$number_teams->setRequired(true);
+				$number_teams->setSuffix($lng->txt("exc_team_assignment_adopt_teams"));
+				$rd_creation_random->addSubItem($number_teams);
+
+				$min_team_participants = new ilNumberInputGUI($lng->txt("exc_min_team_participants"), "min_participants_team");
+				$min_team_participants->setSize(3);
+				$min_team_participants->setMinValue(1);
+				$min_team_participants->setMaxValue($this->getExerciseTotalMembers());
+				$min_team_participants->setRequired(true);
+				$min_team_participants->setSuffix($lng->txt("exc_participants"));
+				$rd_creation_random->addSubItem($min_team_participants);
+
+				$max_team_participants = new ilNumberInputGUI($lng->txt("exc_max_team_participants"), "max_participants_team");
+				$max_team_participants->setSize(3);
+				$max_team_participants->setMinValue(1);
+				$max_team_participants->setMaxValue($this->getExerciseTotalMembers());
+				$max_team_participants->setRequired(true);
+				$max_team_participants->setSuffix($lng->txt("exc_participants"));
+				$rd_creation_random->addSubItem($max_team_participants);
+
+				$options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->exercise_id);
+				if(count($options))
+				{
+					$radio_assignment = new ilRadioOption(
+						$lng->txt("exc_team_by_assignment"),
+						ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT,
+						$lng->txt("exc_team_by_assignment_info")
+					);
+
+					$radio_assignment_adopt = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
+					$radio_assignment_adopt->setRequired(true);
+					$radio_assignment_adopt->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none"), -1));
+
+					foreach($options as $id => $item)
+					{
+						$option = new ilRadioOption($item["title"], $id);
+						$option->setInfo($lng->txt("exc_team_assignment_adopt_teams").": ".$item["teams"]);
+						$radio_assignment_adopt->addOption($option);
+					}
+					$radio_assignment->addSubItem($radio_assignment_adopt);
+					$rd_creation_method->addOption($radio_assignment);
+				}
+
+				$radio_tutors->addSubItem($rd_creation_method);
+			}
+			$rd_team->addOption($radio_participants);
+			$rd_team->addOption($radio_tutors);
+			/*if(!$has_teams) {
+				$rd_team->addOption($radio_assignment);
+			}*/
+			$form->addItem($rd_team);
+
+			if($has_teams)
+			{
+				$rd_team->setDisabled(true);
+			}
 		}
 
 		// mandatory
@@ -319,11 +457,20 @@ class ilExAssignmentEditorGUI
 		$start_date = new ilDateTimeInputGUI($lng->txt("exc_start_time"), "start_time");
 		$start_date->setShowTime(true);
 		$form->addItem($start_date);
-		
-		// Deadline
-		$deadline = new ilDateTimeInputGUI($lng->txt("exc_deadline"), "deadline");
+
+		// Deadline Mode
+		$radg = new ilRadioGroupInputGUI($lng->txt("exc_deadline"), "deadline_mode");
+		$radg->setValue(0);
+		$op1 = new ilRadioOption($lng->txt("exc_fixed_date"), 0, $lng->txt("exc_fixed_date_info"));
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("exc_relative_date"), 1, $lng->txt("exc_relative_date_info"));
+		$radg->addOption($op2);
+		$form->addItem($radg);
+
+		// Deadline fixed date
+		$deadline = new ilDateTimeInputGUI($lng->txt("date"), "deadline");
 		$deadline->setShowTime(true);
-		$form->addItem($deadline);
+		$op1->addSubItem($deadline);
 		
 		// extended Deadline
 		$deadline2 = new ilDateTimeInputGUI($lng->txt("exc_deadline_extended"), "deadline2");				
@@ -332,22 +479,70 @@ class ilExAssignmentEditorGUI
 		$deadline->addSubItem($deadline2);
 
 
-		// max number of files
-		if($a_type == ilExAssignment::TYPE_UPLOAD ||
-			$a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
-		{
-			if($a_type == ilExAssignment::TYPE_UPLOAD)
-			{
-				$type_name = $lng->txt("exc_type_upload");
-			}
-			if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
-			{
-				$type_name = $lng->txt("exc_type_upload_team");
-			}
+		// submit reminder
+		$rmd_submit = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_submit_setting"), "rmd_submit_status");
 
-			// custom section depending of assignment type
+		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_start"), "rmd_submit_start");
+		$rmd_submit_start->setSize(3);
+		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setSuffix($lng->txt('days'));
+		$rmd_submit_start->setInfo($this->lng->txt("exc_reminder_start_info"));
+		$rmd_submit_start->setRequired(true);
+		$rmd_submit_start->setMinValue(1);
+		$rmd_submit->addSubItem($rmd_submit_start);
+
+		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_submit_freq");
+		$rmd_submit_frequency->setSize(3);
+		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setSuffix($lng->txt('days'));
+		$rmd_submit_frequency->setRequired(true);
+		$rmd_submit_frequency->setMinValue(1);
+		$rmd_submit->addSubItem($rmd_submit_frequency);
+
+		$rmd_submit_end = new ilDateTimeInputGUI($lng->txt("exc_reminder_end"), "rmd_submit_end");
+		$rmd_submit_end->setRequired(true);
+		$rmd_submit->addSubItem($rmd_submit_end);
+
+		$rmd_submit->addSubItem($this->addMailTemplatesRadio(ilExAssignmentReminder::SUBMIT_REMINDER));
+
+		// grade reminder
+		$rmd_grade = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_grade_setting"), "rmd_grade_status");
+
+		$rmd_grade_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_grade_freq");
+		$rmd_grade_frequency->setSize(3);
+		$rmd_grade_frequency->setMaxLength(3);
+		$rmd_grade_frequency->setSuffix($lng->txt('days'));
+		$rmd_grade_frequency->setRequired(true);
+		$rmd_grade_frequency->setMinValue(1);
+		$rmd_grade->addSubItem($rmd_grade_frequency);
+
+		$rmd_grade_end = new ilDateTimeInputGUI($lng->txt("exc_reminder_end"), "rmd_grade_end");
+		$rmd_grade_end->setRequired(true);
+		$rmd_grade->addSubItem($rmd_grade_end);
+
+		$rmd_grade->addSubItem($this->addMailTemplatesRadio(ilExAssignmentReminder::GRADE_REMINDER));
+
+		$form->addItem($rmd_submit);
+		$form->addItem($rmd_grade);
+
+		// relative deadline
+		$ti = new ilNumberInputGUI($lng->txt("days"), "relative_deadline");
+		$ti->setMaxLength(3);
+		$ti->setSize(3);
+		$op2->addSubItem($ti);
+
+		// mandatory
+		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
+		$cb->setInfo($lng->txt("exc_mandatory_info"));
+		$cb->setChecked(true);
+		$form->addItem($cb);
+
+
+		// max number of files
+		if($ass_type->usesFileUpload())
+		{
 			$sub_header = new ilFormSectionHeaderGUI();
-			$sub_header->setTitle($type_name);
+			$sub_header->setTitle($ass_type->getTitle());
 			$form->addItem($sub_header);
 			$max_file_tgl = new ilCheckboxInputGUI($lng->txt("exc_max_file_tgl"), "max_file_tgl");
 			$form->addItem($max_file_tgl);
@@ -360,7 +555,7 @@ class ilExAssignmentEditorGUI
 			$max_file_tgl->addSubItem($max_file);
 		}
 
-		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($ass_type->usesTeams())
 		{
 			$cbtut = new ilCheckboxInputGUI($lng->txt("exc_team_management_tutor"), "team_tutor");
 			$cbtut->setInfo($lng->txt("exc_team_management_tutor_info"));
@@ -371,7 +566,7 @@ class ilExAssignmentEditorGUI
 		$sub_header = new ilFormSectionHeaderGUI();
 		$sub_header->setTitle($lng->txt("exc_after_submission"), "after_submission");
 		$form->addItem($sub_header);
-		if($a_type != ilExAssignment::TYPE_UPLOAD_TEAM)
+		if (!$ass_type->usesTeams())
 		{
 			// peer review
 			$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
@@ -394,7 +589,17 @@ class ilExAssignmentEditorGUI
 			$fb_date->setRequired(true);
 			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_deadline"), ilExAssignment::FEEDBACK_DATE_DEADLINE));
 			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_upload"), ilExAssignment::FEEDBACK_DATE_SUBMISSION));
-			$fb->addSubItem($fb_date);
+
+			//Extra radio option with date selection
+			$fb_date_custom_date = new ilDateTimeInputGUI($lng->txt("date"),"fb_date_custom");
+			$fb_date_custom_date->setRequired(true);
+			$fb_date_custom_date->setShowTime(true);
+			$fb_date_custom_option = new ilRadioOption($lng->txt("exc_global_feedback_file_after_date"), ilExAssignment::FEEDBACK_DATE_CUSTOM);
+			$fb_date_custom_option->addSubItem($fb_date_custom_date);
+			$fb_date->addOption($fb_date_custom_option);
+
+
+		$fb->addSubItem($fb_date);
 
 			$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
 			$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
@@ -413,6 +618,43 @@ class ilExAssignmentEditorGUI
 		}
 		
 		return $form;
+	}
+
+	public function addMailTemplatesRadio($a_reminder_type)
+	{
+		global $DIC;
+
+		$post_var = "rmd_".$a_reminder_type."_template_id";
+
+		$r_group = new ilRadioGroupInputGUI($this->lng->txt("exc_reminder_mail_template"), $post_var);
+		$r_group->setRequired(true);
+		$r_group->addOption(new ilRadioOption($this->lng->txt("exc_reminder_mail_no_tpl"), 0));
+
+		switch ($a_reminder_type)
+		{
+			case ilExAssignmentReminder::SUBMIT_REMINDER:
+				include_once "Modules/Exercise/classes/class.ilExcMailTemplateSubmitReminderContext.php";
+				$context = new ilExcMailTemplateSubmitReminderContext();
+				break;
+			case ilExAssignmentReminder::GRADE_REMINDER:
+				include_once "Modules/Exercise/classes/class.ilExcMailTemplateGradeReminderContext.php";
+				$context = new ilExcMailTemplateGradeReminderContext();
+				break;
+			case ilExAssignmentReminder::FEEDBACK_REMINDER:
+				include_once "Modules/Exercise/classes/class.ilExcMailTemplatePeerReminderContext.php";
+				$context = new ilExcMailTemplatePeerReminderContext();
+				break;
+			default:
+				exit();
+		}
+
+		/** @var \ilMailTemplateService $templateService */
+		$templateService = $DIC['mail.texttemplates.service'];
+		foreach ($templateService->loadTemplatesForContextId((string)$context->getId()) as $template) {
+			$r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
+		}
+
+		return $r_group;
 	}
 
 	/**
@@ -462,6 +704,7 @@ class ilExAssignmentEditorGUI
 			$time_start = $time_start
 				? $time_start->get(IL_CAL_UNIX)
 				: null;
+
 			$time_deadline = $a_form->getItemByPostVar("deadline")->getDate();
 			$time_deadline = $time_deadline
 				? $time_deadline->get(IL_CAL_UNIX)
@@ -469,8 +712,38 @@ class ilExAssignmentEditorGUI
 			$time_deadline_ext = $a_form->getItemByPostVar("deadline2")->getDate();
 			$time_deadline_ext = $time_deadline_ext
 				? $time_deadline_ext->get(IL_CAL_UNIX)
-				: null;			
-			
+				: null;
+			$time_fb_custom_date = $a_form->getItemByPostVar("fb_date_custom")->getDate();
+			$time_fb_custom_date = $time_fb_custom_date
+				? $time_fb_custom_date->get(IL_CAL_UNIX)
+				: null;
+
+			$reminder_submit_end_date = $a_form->getItemByPostVar("rmd_submit_end")->getDate();
+			$reminder_submit_end_date = $reminder_submit_end_date
+				? $reminder_submit_end_date->get(IL_CAL_UNIX)
+				: null;
+
+			$reminder_grade_end_date = $a_form->getItemByPostVar("rmd_grade_end")->getDate();
+			$reminder_grade_end_date = $reminder_grade_end_date
+				? $reminder_grade_end_date->get(IL_CAL_UNIX)
+				: null;
+
+			$time_deadline = null;
+			$time_deadline_ext = null;
+
+			if ((int) $a_form->getInput("deadline_mode") == ilExAssignment::DEADLINE_ABSOLUTE)
+			{
+				$time_deadline = $a_form->getItemByPostVar("deadline")->getDate();
+				$time_deadline = $time_deadline
+					? $time_deadline->get(IL_CAL_UNIX)
+					: null;
+				$time_deadline_ext = $a_form->getItemByPostVar("deadline2")->getDate();
+				$time_deadline_ext = $time_deadline_ext
+					? $time_deadline_ext->get(IL_CAL_UNIX)
+					: null;
+			}
+
+
 			// handle disabled elements
 			if($protected_peer_review_groups)
 			{									
@@ -486,7 +759,7 @@ class ilExAssignmentEditorGUI
 					$a_form->getInput("peer"))
 				{
 					$a_form->getItemByPostVar("peer")
-						->setAlert($lng->txt("exc_needs_deadline"));
+						->setAlert($lng->txt("exc_needs_fixed_deadline"));
 					$valid = false;
 				}			
 				// global feedback
@@ -537,7 +810,24 @@ class ilExAssignmentEditorGUI
 					$valid = false;						
 				}				
 			}
-			
+
+			if($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_RANDOM &&
+				$a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
+			{
+				$team_validation = $this->validationTeamsFormation(
+					$a_form->getInput("number_teams"),
+					$a_form->getInput("min_participants_team"),
+					$a_form->getInput("max_participants_team")
+				);
+				if($team_validation['status'] == 'error') {
+					$a_form->getItemByPostVar("team_creation")
+						->setAlert($team_validation['msg']);
+					$a_form->getItemByPostVar($team_validation["field"])
+						->setAlert($lng->txt("exc_value_can_not_set"));
+					$valid = false;
+				}
+			}
+
 			if($valid)
 			{
 				$res = array(
@@ -553,15 +843,33 @@ class ilExAssignmentEditorGUI
 					,"max_file" => $a_form->getInput("max_file_tgl")
 						? $a_form->getInput("max_file")
 						: null
-					,"team_tutor" => $a_form->getInput("team_tutor")							
 				);
-				// portfolio template
-				if($a_form->getInput("template_id") && $a_form->getInput("template"))
+
+				if($a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
 				{
-					$res['template_id'] = $a_form->getInput("template_id");
+					$res['team_creator'] = $a_form->getInput("team_creator");
+					$res["team_creation"] = $a_form->getInput("team_creation");
+
+					if($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_RANDOM)
+					{
+						$res["number_teams"] = $a_form->getInput("number_teams");
+						$res["min_participants_team"] = $a_form->getInput("min_participants_team");
+						$res["max_participants_team"] = $a_form->getInput("max_participants_team");
+					}
+					else if($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT)
+					{
+						$res['ass_adpt'] = $a_form->getInput("ass_adpt");
+					}
 				}
 
+				// portfolio template
+				//if($a_form->getInput("template_id") && $a_form->getInput("template"))
+				//{
+				//	$res['template_id'] = $a_form->getInput("template_id");
+				//}
+
 				// text limitations
+				/*
 				if($a_form->getInput("limit_characters"))
 				{
 					$res['limit_characters'] = $a_form->getInput("limit_characters");
@@ -574,6 +882,14 @@ class ilExAssignmentEditorGUI
 				{
 					$res['min_char_limit'] = $a_form->getInput("min_char_limit");
 
+				}*/
+
+
+				$res["deadline_mode"] = $a_form->getInput("deadline_mode");
+
+				if ($res["deadline_mode"] == ilExAssignment::DEADLINE_RELATIVE)
+				{
+					$res["relative_deadline"] = $a_form->getInput("relative_deadline");
 				}
 
 				// peer
@@ -596,11 +912,28 @@ class ilExAssignmentEditorGUI
 				{
 					$res["fb"] = true;
 					$res["fb_cron"] = $a_form->getInput("fb_cron");
-					$res["fb_date"] = $a_form->getInput("fb_date");	
+					$res["fb_date"] = $a_form->getInput("fb_date");
+					$res["fb_date_custom"] = $time_fb_custom_date;
+
 					if($_FILES["fb_file"]["tmp_name"])
 					{
 						$res["fb_file"] = $_FILES["fb_file"];
 					}						
+				}
+				if($a_form->getInput("rmd_submit_status"))
+				{
+					$res["rmd_submit_status"] = true;
+					$res["rmd_submit_start"] = $a_form->getInput("rmd_submit_start");
+					$res["rmd_submit_freq"] = $a_form->getInput("rmd_submit_freq");
+					$res["rmd_submit_end"] = $reminder_submit_end_date;
+					$res["rmd_submit_template_id"] = $a_form->getInput("rmd_submit_template_id");
+				}
+				if($a_form->getInput("rmd_grade_status"))
+				{
+					$res["rmd_grade_status"] = true;
+					$res["rmd_grade_freq"] = $a_form->getInput("rmd_grade_freq");
+					$res["rmd_grade_end"] = $reminder_grade_end_date;
+					$res["rmd_grade_template_id"] = $a_form->getInput("rmd_grade_template_id");
 				}
 				
 				return $res;
@@ -619,7 +952,7 @@ class ilExAssignmentEditorGUI
 	 * @param array $a_input
 	 */
 	protected function importFormToAssignment(ilExAssignment $a_ass, array $a_input)
-	{			
+	{
 		$is_create = !(bool)$a_ass->getId();
 		
 		$a_ass->setTitle($a_input["title"]);
@@ -629,14 +962,16 @@ class ilExAssignmentEditorGUI
 		$a_ass->setStartTime($a_input["start"]);
 		$a_ass->setDeadline($a_input["deadline"]);
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
+		$a_ass->setDeadlineMode($a_input["deadline_mode"]);
+		$a_ass->setRelativeDeadline($a_input["relative_deadline"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
-		$a_ass->setTeamTutor($a_input["team_tutor"]);
+		$a_ass->setTeamTutor($a_input["team_creator"]);
 
-		$a_ass->setPortfolioTemplateId($a_input['template_id']);
+		//$a_ass->setPortfolioTemplateId($a_input['template_id']);
 
-		$a_ass->setMinCharLimit($a_input['min_char_limit']);
-		$a_ass->setMaxCharLimit($a_input['max_char_limit']);
+		//$a_ass->setMinCharLimit($a_input['min_char_limit']);
+		//$a_ass->setMaxCharLimit($a_input['max_char_limit']);
 
 		$a_ass->setPeerReview((bool)$a_input["peer"]);
 		
@@ -656,6 +991,7 @@ class ilExAssignmentEditorGUI
 		{
 			$a_ass->setFeedbackCron($a_input["fb_cron"]); // #13380
 			$a_ass->setFeedbackDate($a_input["fb_date"]);
+			$a_ass->setFeedbackDateCustom($a_input["fb_date_custom"]);
 		}
 		
 		// id needed for file handling
@@ -689,7 +1025,41 @@ class ilExAssignmentEditorGUI
 				$a_ass->handleGlobalFeedbackFileUpload($a_input["fb_file"]);
 				$a_ass->update();
 			}	
-		}		
+		}
+		$this->importFormToAssignmentReminders($a_input, $a_ass->getId());
+	}
+
+	protected function importFormToAssignmentReminders($a_input, $a_ass_id)
+	{
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::SUBMIT_REMINDER);
+		$this->saveReminderData($reminder, $a_input);
+
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::GRADE_REMINDER);
+		$this->saveReminderData($reminder, $a_input);
+
+	}
+
+	//todo maybe we can refactor this method to use only one importFormToReminders
+	protected function importPeerReviewFormToAssignmentReminders($a_input, $a_ass_id)
+	{
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::FEEDBACK_REMINDER);
+		$this->saveReminderData($reminder, $a_input);
+	}
+
+	protected function saveReminderData(ilExAssignmentReminder $reminder, $a_input)
+	{
+		if($reminder->getReminderStatus() == NULL) {
+			$action = "save";
+		} else {
+			$action = "update";
+		}
+		$type = $reminder->getReminderType();
+		$reminder->setReminderStatus((bool)$a_input["rmd_".$type."_status"]);
+		$reminder->setReminderStart((int)$a_input["rmd_".$type."_start"]);
+		$reminder->setReminderEnd((int)$a_input["rmd_".$type."_end"]);
+		$reminder->setReminderFrequency((int)$a_input["rmd_".$type."_freq"]);
+		$reminder->setReminderMailTemplate((int)$a_input["rmd_".$type."_template_id"]);
+		$reminder->{$action}();
 	}
 	
 	/**
@@ -711,13 +1081,22 @@ class ilExAssignmentEditorGUI
 		{								
 			$ass = new ilExAssignment();
 			$ass->setExerciseId($this->exercise_id);
-			$ass->setType($input["type"]);	
-			
-			$this->importFormToAssignment($ass, $input);			
+			$ass->setType($input["type"]);
+			$ass_type = $ass->getAssignmentType();
+			$ass_type_gui = $this->type_guis->getById($ass->getType());
+
+			$this->importFormToAssignment($ass, $input);
+
+			$this->generateTeams($ass, $input);
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+			$ass_type_gui->importFormToAssignment($ass, $form);
+			$ass->update();
+
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 						
 			// adopt teams for team upload?
-			if($ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+			if ($ass_type->usesTeams())
 			{				
 				include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
 				if(sizeof(ilExAssignmentTeam::getAdoptableTeamAssignments($this->exercise_id, $ass->getId())))
@@ -762,20 +1141,22 @@ class ilExAssignmentEditorGUI
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		
+
+		$ass_type_gui = $this->type_guis->getById($this->assignment->getType());
+
 		$values = array();	
 		$values["type"] = $this->assignment->getType();
 		$values["title"] = $this->assignment->getTitle();
 		$values["mandatory"] = $this->assignment->getMandatory();
 		$values["instruction"] = $this->assignment->getInstruction();
-		$values['template_id'] = $this->assignment->getPortfolioTemplateId();
+		//$values['template_id'] = $this->assignment->getPortfolioTemplateId();
 
-		if($this->assignment->getPortfolioTemplateId())
-		{
-			$values["template"] = 1;
-		}
+		//if($this->assignment->getPortfolioTemplateId())
+		//{
+		//	$values["template"] = 1;
+		//}
 
-		if($this->assignment->getMinCharLimit())
+		/*if($this->assignment->getMinCharLimit())
 		{
 			$values['limit_characters'] = 1;
 			$values['min_char_limit'] = $this->assignment->getMinCharLimit();
@@ -784,15 +1165,14 @@ class ilExAssignmentEditorGUI
 		{
 			$values['limit_characters'] = 1;
 			$values['max_char_limit'] = $this->assignment->getMaxCharLimit();
-		}
+		}*/
 
 		if ($this->assignment->getStartTime())
 		{			
 			$values["start_time"] = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);		
 		}
 		
-		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD ||
-			$this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if ($this->assignment->getAssignmentType()->usesFileUpload())
 		{
 			if ($this->assignment->getMaxFile())
 			{
@@ -801,11 +1181,43 @@ class ilExAssignmentEditorGUI
 			}
 		}
 					
-		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($this->assignment->getAssignmentType()->usesTeams())
 		{		
-			$values["team_tutor"] = $this->assignment->getTeamTutor();
-		}		
-		
+			$values["team_creator"] = $this->assignment->getTeamTutor();
+		}
+
+		if ($this->assignment->getFeedbackDateCustom())
+		{
+			$values["fb_date_custom"] = new ilDateTime($this->assignment->getFeedbackDateCustom(), IL_CAL_UNIX);
+		}
+
+		//Reminders
+		$rmd_sub = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::SUBMIT_REMINDER);
+		if($rmd_sub->getReminderStatus())
+		{
+			$values["rmd_submit_status"] = $rmd_sub->getReminderStatus();
+			$values["rmd_submit_start"] = $rmd_sub->getReminderStart();
+			$values["rmd_submit_end"] = new ilDateTime($rmd_sub->getReminderEnd(), IL_CAL_UNIX);
+			$values["rmd_submit_freq"] = $rmd_sub->getReminderFrequency();
+			$values["rmd_submit_template_id"] = $rmd_sub->getReminderMailTemplate();
+		}
+
+		$rmd_grade = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::GRADE_REMINDER);
+		if($rmd_grade->getReminderStatus())
+		{
+			$values["rmd_grade_status"] = $rmd_grade->getReminderStatus();
+			$values["rmd_grade_end"] = new ilDateTime($rmd_grade->getReminderEnd(), IL_CAL_UNIX);
+			$values["rmd_grade_freq"] = $rmd_grade->getReminderFrequency();
+			$values["rmd_grade_template_id"] = $rmd_grade->getReminderMailTemplate();
+		}
+
+		$type_values = $ass_type_gui->getFormValuesArray($this->assignment);
+		$values = array_merge($values, $type_values);
+
+
+		$values["deadline_mode"] = $this->assignment->getDeadlineMode();
+		$values["relative_deadline"] = $this->assignment->getRelativeDeadline();
+
 		$a_form->setValuesByArray($values);
 		
 		// global feedback		
@@ -828,7 +1240,7 @@ class ilExAssignmentEditorGUI
 	
 	protected function setDisabledFieldValues(ilPropertyFormGUI $a_form)
 	{				
-		// dates		
+		// dates
 		if($this->assignment->getDeadline() > 0)
 		{			
 			$edit_date = new ilDateTime($this->assignment->getDeadline(), IL_CAL_UNIX);
@@ -856,7 +1268,7 @@ class ilExAssignmentEditorGUI
 		
 		// team assignments do not support peer review			
 		// with no active peer review there is nothing to protect		
-		if($this->assignment->getType() != ilExAssignment::TYPE_UPLOAD_TEAM &&
+		if(!$this->assignment->getAssignmentType()->usesTeams() &&
 			$this->assignment->getPeerReview())
 		{		
 			// #14450 
@@ -866,9 +1278,11 @@ class ilExAssignmentEditorGUI
 			{
 				// deadline(s) are past and must not change					
 				$a_form->getItemByPostVar("deadline")->setDisabled(true);				
-				$a_form->getItemByPostVar("deadline2")->setDisabled(true);	
+				$a_form->getItemByPostVar("deadline2")->setDisabled(true);
 
-				$a_form->getItemByPostVar("peer")->setDisabled(true);			   
+				$a_form->getItemByPostVar("peer")->setDisabled(true);
+
+				$a_form->getItemByPostVar("deadline_mode")->setDisabled(true);
 			}			 	
 		}
 		
@@ -892,13 +1306,21 @@ class ilExAssignmentEditorGUI
 		
 		$form = $this->initAssignmentForm($this->assignment->getType(), "edit");
 		$input = $this->processForm($form);
+
+		$ass_type = $this->assignment->getType();
+		$ass_type_gui = $this->type_guis->getById($ass_type);
+
 		if(is_array($input))
 		{							
 			$old_deadline = $this->assignment->getDeadline();
 			$old_ext_deadline = $this->assignment->getExtendedDeadline();
-			
+
 			$this->importFormToAssignment($this->assignment, $input);
-			
+			$this->generateTeams($this->assignment, $input);
+
+			$ass_type_gui->importFormToAssignment($this->assignment, $form);
+			$this->assignment->update();
+
 			$new_deadline = $this->assignment->getDeadline();
 			$new_ext_deadline = $this->assignment->getExtendedDeadline();
 			
@@ -1034,7 +1456,7 @@ class ilExAssignmentEditorGUI
 			$lng->txt("settings"),
 			$ilCtrl->getLinkTarget($this, "editAssignment"));
 
-		if($this->assignment->getType() != ilExAssignment::TYPE_UPLOAD_TEAM &&
+		if(!$this->assignment->getAssignmentType()->usesTeams() &&
 			$this->assignment->getPeerReview())
 		{
 			$ilTabs->addTab("peer_settings",
@@ -1114,8 +1536,34 @@ class ilExAssignmentEditorGUI
 		$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
 		$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
 		$form->addItem($peer_prsl);
-		
-		
+
+		//feedback reminders
+		$rmd_feedback = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_feedback_setting"), "rmd_peer_status");
+
+		$rmd_submit_start = new ilNumberInputGUI($this->lng->txt("exc_reminder_feedback_start"), "rmd_peer_start");
+		$rmd_submit_start->setSize(3);
+		$rmd_submit_start->setMaxLength(3);
+		$rmd_submit_start->setSuffix($lng->txt('days'));
+		$rmd_submit_start->setRequired(true);
+		$rmd_submit_start->setMinValue(1);
+		$rmd_feedback->addSubItem($rmd_submit_start);
+
+		$rmd_submit_frequency = new ilNumberInputGUI($this->lng->txt("exc_reminder_frequency"), "rmd_peer_freq");
+		$rmd_submit_frequency->setSize(3);
+		$rmd_submit_frequency->setMaxLength(3);
+		$rmd_submit_frequency->setSuffix($lng->txt('days'));
+		$rmd_submit_frequency->setRequired(true);
+		$rmd_submit_frequency->setMinValue(1);
+		$rmd_feedback->addSubItem($rmd_submit_frequency);
+
+		$rmd_submit_end = new ilDateTimeInputGUI($lng->txt("exc_reminder_end"), "rmd_peer_end");
+		$rmd_submit_end->setRequired(true);
+		$rmd_feedback->addSubItem($rmd_submit_end);
+
+		$rmd_feedback->addSubItem($this->addMailTemplatesRadio(ilExAssignmentReminder::FEEDBACK_REMINDER));
+
+		$form->addItem($rmd_feedback);
+
 		// criteria
 		
 		$cats = new ilRadioGroupInputGUI($lng->txt("exc_criteria_catalogues"), "crit_cat");
@@ -1178,7 +1626,7 @@ class ilExAssignmentEditorGUI
 		
 		$form->addCommandButton("updatePeerReview", $lng->txt("save"));
 		$form->addCommandButton("editAssignment", $lng->txt("cancel"));
-		
+
 		return $form;
 	}
 			
@@ -1206,7 +1654,19 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getPeerReviewDeadline() > 0)
 		{
 			$values["peer_dl"] = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);		
-		}				
+		}
+
+		$this->assignment->getId();
+		$this->exercise_id;
+		$reminder = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::FEEDBACK_REMINDER);
+		if($reminder->getReminderStatus())
+		{
+			$values["rmd_peer_status"] = $reminder->getReminderStatus();
+			$values["rmd_peer_start"] = $reminder->getReminderStart();
+			$values["rmd_peer_end"] = 	new ilDateTime($reminder->getReminderEnd(), IL_CAL_UNIX);
+			$values["rmd_peer_freq"] = $reminder->getReminderFrequency();
+			$values["rmd_peer_template_id"] = $reminder->getReminderMailTemplate();
+		}
 
 		$a_form->setValuesByArray($values);
 		
@@ -1302,7 +1762,12 @@ class ilExAssignmentEditorGUI
 			$date = $a_form->getItemByPostVar("peer_dl")->getDate();
 			$time_peer = $date
 				? $date->get(IL_CAL_UNIX)
-				: null;		
+				: null;
+
+			$reminder_date = $a_form->getItemByPostVar("rmd_peer_end")->getDate();
+			$reminder_date = $reminder_date
+				? $reminder_date->get(IL_CAL_UNIX)
+				: null;
 			
 			// peer < any deadline?							
 			if($time_peer && $time_deadline_max && $time_peer < $time_deadline_max)
@@ -1360,6 +1825,14 @@ class ilExAssignmentEditorGUI
 					$res["peer_char"] = $a_form->getInput("peer_char");
 					$res["crit_cat"] = $a_form->getInput("crit_cat");	
 				}
+				if($a_form->getInput("rmd_peer_status"))
+				{
+					$res["rmd_peer_status"] = $a_form->getInput("rmd_peer_status");
+					$res["rmd_peer_start"] = $a_form->getInput("rmd_peer_start");
+					$res["rmd_peer_end"] = $reminder_date;
+					$res["rmd_peer_freq"] = $a_form->getInput("rmd_peer_freq");
+					$res["rmd_peer_template_id"] = $a_form->getInput("rmd_peer_template_id");
+				}
 
 				return $res;
 			}
@@ -1371,7 +1844,7 @@ class ilExAssignmentEditorGUI
 	}
 	
 	protected function importPeerReviewFormToAssignment(ilExAssignment $a_ass, array $a_input)
-	{					
+	{
 		$a_ass->setPeerReviewMin($a_input["peer_min"]);
 		$a_ass->setPeerReviewDeadline($a_input["peer_dl"]);			
 		$a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);		
@@ -1381,7 +1854,7 @@ class ilExAssignmentEditorGUI
 		$a_ass->setPeerReviewValid($a_input["peer_valid"]
 			? $a_input["peer_valid"]
 			: ilExAssignment::PEER_REVIEW_VALID_NONE);
-		
+
 		$a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
 		$a_ass->setPeerReviewChars($a_input["peer_char"]);
 		$a_ass->setPeerReviewText($a_input["peer_text"]);
@@ -1390,7 +1863,9 @@ class ilExAssignmentEditorGUI
 			? $a_input["crit_cat"]
 			: null);
 	
-		$a_ass->update();				
+		$a_ass->update();
+
+		$this->importPeerReviewFormToAssignmentReminders($a_input, $a_ass->getId());
 	}
 	
 	protected function updatePeerReviewObject()
@@ -1405,7 +1880,6 @@ class ilExAssignmentEditorGUI
 		if(is_array($input))
 		{										
 			$this->importPeerReviewFormToAssignment($this->assignment, $input);
-						
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editPeerReview");
 		}
@@ -1424,73 +1898,92 @@ class ilExAssignmentEditorGUI
 	//
 	// TEAM
 	// 
-	
-	public function adoptTeamAssignmentsFormObject()
-	{
-		$ilCtrl = $this->ctrl;
-		$ilTabs = $this->tabs;
-		$lng = $this->lng;
-		$tpl = $this->tpl;
-		
-		if(!$this->assignment)
-		{
-			$ilCtrl->redirect($this, "listAssignments");
-		}
-		
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listAssignments"));
-		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();		         
-		$form->setTitle($lng->txt("exc_team_assignment_adopt"));
-		$form->setFormAction($ilCtrl->getFormAction($this, "adoptTeamAssignments"));
-		
-		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-		$options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId());
-		
-		// we must not have existing teams in assignment
-		if(array_key_exists($this->assignment->getId(), $options))
-		{
-			$ilCtrl->redirect($this, "listAssignments");
-		}
-		
-		$teams = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
-		$teams->setValue(-1);
-		
-		$teams->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none"), -1));
-		
-		foreach($options as $id => $item)
-		{
-			$option = new ilRadioOption($item["title"], $id);
-			$option->setInfo($lng->txt("exc_team_assignment_adopt_teams").": ".$item["teams"]);
-			$teams->addOption($option);
-		}
-		
-		$form->addItem($teams);
-	
-		$form->addCommandButton("adoptTeamAssignments", $lng->txt("save"));
-		$form->addCommandButton("listAssignments", $lng->txt("cancel"));
 
-		$tpl->setContent($form->getHTML());
-	}
-	
-	public function adoptTeamAssignmentsObject()
+	/**
+	 * @param $a_num_teams integer
+	 * @param $a_min_participants integer
+	 * @param $a_max_participants integer
+	 * @return array
+	 */
+	function validationTeamsFormation($a_num_teams, $a_min_participants, $a_max_participants)
 	{
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
-		
-		$src_ass_id = (int)$_POST["ass_adpt"];
-		
-		if($this->assignment && 
-			$src_ass_id > 0)
-		{
-			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-			ilExAssignmentTeam::adoptTeams($src_ass_id, $this->assignment->getId());			
-			
-			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$total_members = $this->getExerciseTotalMembers();
+		$number_of_teams = $a_num_teams;
+
+		if($number_of_teams){
+			$members_per_team = round($total_members / $a_num_teams);
+		} else {
+			if($a_min_participants)
+			{
+				$number_of_teams = round($total_members / $a_min_participants);
+				$participants_extra_team =  $total_members % $a_min_participants;
+				if($participants_extra_team > $number_of_teams)
+				{
+					//Can't create teams with this minimum of participants.
+					$message = sprintf($this->lng->txt("exc_team_minimal_too_big"),$a_min_participants);
+					return array("status" => "error", "msg" => $message, "field" => "min_participants_team");
+				}
+			}
+			$members_per_team = 0;
 		}
-							
-		$ilCtrl->redirect($this, "listAssignments");		
+
+		if($a_min_participants > $a_max_participants)
+		{
+			$message = $this->lng->txt("exc_team_min_big_than_max");
+			return array("status" => "error", "msg" => $message, "field" => "max_participants_team");
+		}
+
+		if( $a_max_participants > 0 && $members_per_team > $a_max_participants)
+		{
+			$message = sprintf($this->lng->txt("exc_team_max_small_than_members"),$a_max_participants, $members_per_team);
+			return array("status" => "error", "msg" => $message, "field" => "max_participants_team");
+		}
+
+		if($members_per_team > 0 && $members_per_team < $a_min_participants)
+		{
+			$message = sprintf($this->lng->txt("exc_team_min_small_than_members"),$a_min_participants, $members_per_team);
+			return array("status" => "error", "msg" => $message, "field" => "min_participants_team");
+		}
+
+		return array("status" => "success", "msg" => "");
+	}
+
+	/**
+	 * Get the total number of exercise members
+	 * @return int
+	 */
+	function getExerciseTotalMembers()
+	{
+		$exercise = new ilObjExercise($this->exercise_id, false);
+		$exc_members = new ilExerciseMembers($exercise);
+
+		return count($exc_members->getMembers());
+	}
+
+	/**
+	 * @param ilExAssignment $a_assignment
+	 * @param array $a_input
+	 */
+	function generateTeams(ilExAssignment $a_assignment, $a_input)
+	{
+		if($a_assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM &&
+			$a_input['team_creator'] == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
+		{
+			if($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_RANDOM)
+			{
+				$number_teams = $a_input['number_teams'];
+				if(count(ilExAssignmentTeam::getAssignmentTeamMap($a_assignment->getId())) == 0)
+				{
+					$ass_team = new ilExAssignmentTeam();
+					$ass_team->createRandomTeams($this->exercise_id, $a_assignment->getId(), $number_teams, $a_input['min_participants_team']);
+				}
+			}
+			elseif ($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT)
+			{
+				ilExAssignmentTeam::adoptTeams($a_input["ass_adpt"], $a_assignment->getId());
+				ilUtil::sendInfo($this->lng->txt("exc_teams_assignment_adopted"), true);
+			}
+		}
+
 	}
 }

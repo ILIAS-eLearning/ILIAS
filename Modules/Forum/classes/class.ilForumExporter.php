@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
-
 /**
  * Exporter class for sessions
  *
@@ -35,7 +33,6 @@ class ilForumExporter extends ilXmlExporter
 	{
 		$xml = '';
 
-		include_once 'Modules/Forum/classes/class.ilForumXMLWriter.php';
 		if(ilObject::_lookupType($a_id) == 'frm')
 		{
 			$writer = new ilForumXMLWriter();

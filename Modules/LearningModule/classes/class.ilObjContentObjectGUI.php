@@ -481,6 +481,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function initPropertiesForm()
 	{
+		$obj_service = $this->object_service;
+
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
@@ -516,6 +518,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('cont_presentation'));
 		$this->form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 
 		// default layout
 		$layout = self::getLayoutOption($lng->txt("cont_def_layout"), "lm_layout");
@@ -638,7 +643,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		$values["title"] = $title;
 		$values["description"] = $description;
-		if ($this->object->getOnline())
+		if(!$this->object->getOfflineStatus())
 		{
 			$values["cobj_online"] = true;
 		}
@@ -685,6 +690,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilSetting = $this->settings;
+		$obj_service = $this->object_service;
 
 		$valid = false;
 		$this->initPropertiesForm();
@@ -704,7 +710,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setLayout($_POST["lm_layout"]);
 			$this->object->setPageHeader($_POST["lm_pg_header"]);
 			$this->object->setTOCMode($_POST["toc_mode"]);
-			$this->object->setOnline($_POST["cobj_online"]);
+			$this->object->setOfflineStatus(!($_POST['cobj_online']));
 			$this->object->setActiveNumbering($_POST["cobj_act_number"]);
 			$this->object->setCleanFrames($_POST["cobj_clean_frames"]);
 			if (!$ilSetting->get('disable_comments'))
@@ -731,6 +737,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setRestrictForwardNavigation((int) $_POST["restrict_forw_nav"]);
 			$this->object->updateProperties();
 			$this->object->update();
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
 
 			include_once "./Services/Notification/classes/class.ilNotification.php";
 			ilNotification::setNotification(ilNotification::TYPE_LM_BLOCKED_USERS,
@@ -4193,7 +4202,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		$glo_ref_id = (int) $_GET["glo_ref_id"];
 		$glo_id = ilObject::_lookupObjId($glo_ref_id);
-		$this->object->autoLinkGlossaryTerms($glo_id);
+		$this->object->autoLinkGlossaryTerms($glo_ref_id);
 		$this->selectLMGlossary();
 	}
 	

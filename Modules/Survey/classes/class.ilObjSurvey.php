@@ -29,9 +29,6 @@ class ilObjSurvey extends ilObject
 	 */
 	protected $plugin_admin;
 
-	const STATUS_OFFLINE = 0;
-	const STATUS_ONLINE = 1;	
-	
 	const EVALUATION_ACCESS_OFF = 0;
 	const EVALUATION_ACCESS_ALL = 1;
 	const EVALUATION_ACCESS_PARTICIPANTS = 2;
@@ -84,12 +81,6 @@ class ilObjSurvey extends ilObject
 	*/
 	var $outro;
 
-	/**
-	* Survey status (online/offline)
-	*
-	* @var integer
-	*/
-	var $status;
 
 	/**
 	* Indicates the evaluation access for learners
@@ -167,13 +158,12 @@ class ilObjSurvey extends ilObject
 	protected $activation_starting_time;
 	protected $activation_ending_time;
 	
-	// 360° 
-	protected $mode_360; // [bool]
+	// 360°
 	protected $mode_360_self_eval; // [bool]
 	protected $mode_360_self_appr; // [bool]
 	protected $mode_360_self_rate; // [bool]
 	protected $mode_360_results; // [int]
-	protected $mode_360_skill_service; // [bool]
+	protected $mode_skill_service; // [bool]
 	
 	const RESULTS_360_NONE = 0;
 	const RESULTS_360_OWN = 1;
@@ -202,6 +192,19 @@ class ilObjSurvey extends ilObject
 	const NOTIFICATION_APPRAISEES = 3;
 	const NOTIFICATION_RATERS = 4;
 	const NOTIFICATION_APPRAISEES_AND_RATERS = 5;
+
+	protected $mode; //[int]
+	protected $mode_self_eval_results; //[int]
+
+	//MODE TYPES
+	const MODE_STANDARD = 0;
+	const MODE_360 = 1;
+	const MODE_SELF_EVAL = 2;
+
+	//self evaluation only access to results
+	const RESULTS_SELF_EVAL_NONE = 0;
+	const RESULTS_SELF_EVAL_OWN = 1;
+	const RESULTS_SELF_EVAL_ALL = 2;
 	
 
 	/**
@@ -229,7 +232,6 @@ class ilObjSurvey extends ilObject
 		$this->introduction = "";
 		$this->outro = $lng->txt("survey_finished");
 		$this->author = $ilUser->getFullname();
-		$this->status = self::STATUS_OFFLINE;
 		$this->evaluation_access = self::EVALUATION_ACCESS_OFF;
 		$this->questions = array();
 		$this->invitation = self::INVITATION_OFF;
@@ -240,6 +242,8 @@ class ilObjSurvey extends ilObject
 		$this->template_id = NULL;
 		$this->pool_usage = true;
 		$this->log = ilLoggerFactory::getLogger("svy");
+		$this->mode = self::MODE_STANDARD;
+		$this->mode_self_eval_results = self::RESULTS_SELF_EVAL_OWN;
 
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -742,7 +746,7 @@ class ilObjSurvey extends ilObject
 	function saveToDb()
 	{
 		$ilDB = $this->db;
-		
+
 		// date handling
 		$rmd_start = $this->getReminderStart();
 		if(is_object($rmd_start))
@@ -765,7 +769,6 @@ class ilObjSurvey extends ilObject
 				"author" => array("text", $this->getAuthor()),
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
-				"status" => array("text", $this->getStatus()),
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
@@ -781,13 +784,17 @@ class ilObjSurvey extends ilObject
 				"tstamp" => array("integer", time()),
 				"template_id" => array("integer", $this->getTemplate()),
 				"pool_usage" => array("integer", $this->getPoolUsage()),
+				// Mode type
+				"mode" => array("integer", $this->getMode()),
 				// 360°
-				"mode_360" => array("integer", $this->get360Mode()),
 				"mode_360_self_eval" => array("integer", $this->get360SelfEvaluation()),
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
-				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				// competences
+				"mode_skill_service" => array("integer", (int) $this->getSkillService()),
+				// Self Evaluation Only
+				"mode_self_eval_results" => array("integer", ilObjSurvey::RESULTS_SELF_EVAL_OWN),
 				// reminder/notification
 				"reminder_status" => array("integer", (int)$this->getReminderStatus()),
 				"reminder_start" => array("datetime", $rmd_start),
@@ -795,7 +802,7 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", (int)$this->getReminderFrequency()),				
 				"reminder_target" => array("integer", (int)$this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
-				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate(true)),
 				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
@@ -812,7 +819,6 @@ class ilObjSurvey extends ilObject
 				"author" => array("text", $this->getAuthor()),
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
-				"status" => array("text", $this->getStatus()),
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
@@ -827,13 +833,17 @@ class ilObjSurvey extends ilObject
 				"tstamp" => array("integer", time()),
 				"template_id" => array("integer", $this->getTemplate()),
 				"pool_usage" => array("integer", $this->getPoolUsage()),
+				//MODE TYPE
+				"mode" => array("integer", $this->getMode()),
 				// 360°
-				"mode_360" => array("integer", $this->get360Mode()),
 				"mode_360_self_eval" => array("integer", $this->get360SelfEvaluation()),
 				"mode_360_self_rate" => array("integer", $this->get360SelfRaters()),
 				"mode_360_self_appr" => array("integer", $this->get360SelfAppraisee()),
 				"mode_360_results" => array("integer", $this->get360Results()),
-				"mode_360_skill_service" => array("integer", (int) $this->get360SkillService()),
+				// Competences
+				"mode_skill_service" => array("integer", (int) $this->getSkillService()),
+				// Self Evaluation Only
+				"mode_self_eval_results" => array("integer", $this->getSelfEvaluationResults()),
 				// reminder/notification
 				"reminder_status" => array("integer", $this->getReminderStatus()),
 				"reminder_start" => array("datetime", $rmd_start),
@@ -1126,19 +1136,22 @@ class ilObjSurvey extends ilObject
 			$this->setAnonymize($data["anonymize"]);
 			$this->setEvaluationAccess($data["evaluation_access"]);
 			$this->loadQuestionsFromDb();
-			$this->setStatus($data["status"]);
 			$this->setMailNotification($data['mailnotification']);
 			$this->setMailAddresses($data['mailaddresses']);
 			$this->setMailParticipantData($data['mailparticipantdata']);
 			$this->setTemplate($data['template_id']);
 			$this->setPoolUsage($data['pool_usage']);
+			// Mode
+			$this->setMode($data['mode']);
 			// 360°
-			$this->set360Mode($data['mode_360']);
 			$this->set360SelfEvaluation($data['mode_360_self_eval']);
 			$this->set360SelfRaters($data['mode_360_self_rate']);
 			$this->set360SelfAppraisee($data['mode_360_self_appr']);
 			$this->set360Results($data['mode_360_results']);
-			$this->set360SkillService($data['mode_360_skill_service']);
+			// Mode self evaluated
+			$this->setSelfEvaluationResults($data['mode_self_eval_results']);
+			// Competences
+			$this->setSkillService($data['mode_skill_service']);
 			// reminder/notification
 			$this->setReminderStatus($data["reminder_status"]);
 			$this->setReminderStart($data["reminder_start"] ? new ilDate($data["reminder_start"], IL_CAL_DATE) : null);
@@ -1495,65 +1508,6 @@ class ilObjSurvey extends ilObject
 	}
 
 /**
-* Gets the survey status
-*
-* @return integer Survey status
-* @access public
-* @see $status
-*/
-	function getStatus() 
-	{
-		return ($this->status) ? $this->status : self::STATUS_OFFLINE;
-	}
-
-/**
-* Gets the survey status
-*
-* @return integer true if status is online, false otherwise
-* @access public
-* @see $status
-*/
-	function isOnline() 
-	{
-		return ($this->status == self::STATUS_ONLINE) ? true : false;
-	}
-
-/**
-* Gets the survey status
-*
-* @return integer true if status is online, false otherwise
-* @access public
-* @see $status
-*/
-	function isOffline() 
-	{
-		return ($this->status == self::STATUS_OFFLINE) ? true : false;
-	}
-
-/**
-* Sets the survey status
-*
-* @param integer $status Survey status
-* @return string An error message, if the status cannot be set, otherwise an empty string
-* @access public
-* @see $status
-*/
-	function setStatus($status = self::STATUS_OFFLINE) 
-	{
-		$result = "";
-		if (($status == self::STATUS_ONLINE) && (count($this->questions) == 0))
-		{
-			$this->status = self::STATUS_OFFLINE;
-			$result = $this->lng->txt("cannot_switch_to_online_no_questions");
-		}
-		else
-		{
-			$this->status = $status;
-		}
-		return $result;
-	}
-
-/**
 * Gets the start date of the survey
 *
 * @return string Survey start date (YYYY-MM-DD)
@@ -1606,7 +1560,7 @@ class ilObjSurvey extends ilObject
 		}
 		
 		// check online status
-		if ($this->getStatus() == self::STATUS_OFFLINE)
+		if($this->getOfflineStatus())
 		{
 			array_push($messages, $this->lng->txt("survey_is_offline"));
 			$result = FALSE;
@@ -3364,6 +3318,7 @@ class ilObjSurvey extends ilObject
 				else
 				{
 					$user = new ilObjUser($row["user_fi"]);
+					$userdata['usr_id'] = $row['user_fi'];
 					$userdata["fullname"] = $user->getFullname();
 					$gender = $user->getGender();
 					if (strlen($gender) == 1) $gender = $this->lng->txt("gender_$gender");
@@ -3686,7 +3641,7 @@ class ilObjSurvey extends ilObject
 
 		$custom_properties = array();
 		$custom_properties["evaluation_access"] = $this->getEvaluationAccess();
-		$custom_properties["status"] = $this->getStatus();
+		$custom_properties["status"] = !$this->getOfflineStatus();
 		$custom_properties["display_question_titles"] = $this->getShowQuestionTitles();
 		$custom_properties["pool_usage"] = (int)$this->getPoolUsage();
 		
@@ -3695,13 +3650,13 @@ class ilObjSurvey extends ilObject
 		$custom_properties["confirmation_mail"] = (int)$this->hasMailConfirmation();
 		
 		$custom_properties["anon_user_list"] = (int)$this->hasAnonymousUserList();
-		
-		$custom_properties["mode_360"] = (int)$this->get360Mode();
+		$custom_properties["mode"] = (int)$this->getMode();
 		$custom_properties["mode_360_self_eval"] = (int)$this->get360SelfEvaluation();
 		$custom_properties["mode_360_self_rate"] = (int)$this->get360SelfRaters();
 		$custom_properties["mode_360_self_appr"] = (int)$this->get360SelfAppraisee();
 		$custom_properties["mode_360_results"] = $this->get360Results();
-		$custom_properties["mode_360_skill_service"] = (int)$this->get360SkillService();
+		$custom_properties["mode_skill_service"] = (int)$this->getSkillService();
+		$custom_properties["mode_self_eval_results"] = (int)$this->getSelfEvaluationResults();
 		
 		
 		// :TODO: skills?
@@ -4028,7 +3983,10 @@ class ilObjSurvey extends ilObject
 		$ilDB = $this->db;
 		
 		$this->loadFromDb();
-		
+
+		//survey mode
+		$svy_type = $this->getMode();
+
 		// Copy settings
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($newObj);
@@ -4054,12 +4012,19 @@ class ilObjSurvey extends ilObject
 		// #12661
 		if($this->get360Mode())
 		{
-			$newObj->set360Mode(true);
+			$newObj->setMode(ilObjSurvey::MODE_360);
 			$newObj->set360SelfEvaluation($this->get360SelfEvaluation());
 			$newObj->set360SelfAppraisee($this->get360SelfAppraisee());
 			$newObj->set360SelfRaters($this->get360SelfRaters());
 			$newObj->set360Results($this->get360Results());
-			$newObj->set360SkillService($this->get360SkillService());			
+			$newObj->setSkillService($this->getSkillService());
+		}
+		//svy mode self eval: skills + view results
+		if($svy_type == ilObjSurvey::MODE_SELF_EVAL)
+		{
+			$newObj->setMode(ilObjSurvey::MODE_SELF_EVAL);
+			$newObj->setSkillService($this->getSkillService());
+			$newObj->setSelfEvaluationResults($this->getSelfEvaluationResults());
 		}
 				
 		// reminder/notification
@@ -4098,15 +4063,15 @@ class ilObjSurvey extends ilObject
 
 		if(!$cp_options->isRootNode($this->getRefId()))
 		{
-			$newObj->setStatus($this->isOnline()?self::STATUS_ONLINE: self::STATUS_OFFLINE);
+			$newObj->setOfflineStatus($this->getOfflineStatus());
 		}
 
 		$newObj->saveToDb();		
 		$newObj->cloneTextblocks($mapping);
 		
 		// #14929
-		if($this->get360Mode() &&
-			$this->get360SkillService())
+		if(($svy_type == ilObjSurvey::MODE_360 || $svy_type == ilObjSurvey::MODE_SELF_EVAL) &&
+			$this->getSkillService())
 		{
 			include_once "./Modules/Survey/classes/class.ilSurveySkill.php";
 			$src_skills = new ilSurveySkill($this);
@@ -5335,16 +5300,14 @@ class ilObjSurvey extends ilObject
 	
 	//
 	// 360° 
-	// 
-	
-	public function set360Mode($a_value)
-	{
-		$this->mode_360 = (bool)$a_value;
-	}
-	
+	//
+
 	public function get360Mode()
 	{
-		return (bool)$this->mode_360;
+		if($this->getMode() == ilObjSurvey::MODE_360){
+			return true;
+		}
+		return false;
 	}
 	
 	public function set360SelfEvaluation($a_value)
@@ -5936,9 +5899,9 @@ class ilObjSurvey extends ilObject
 	 *
 	 * @param bool $a_val activate skill service	
 	 */
-	function set360SkillService($a_val)
+	function setSkillService($a_val)
 	{
-		$this->mode_360_skill_service = $a_val;
+		$this->mode_skill_service = $a_val;
 	}
 	
 	/**
@@ -5946,9 +5909,9 @@ class ilObjSurvey extends ilObject
 	 *
 	 * @return bool activate skill service
 	 */
-	function get360SkillService()
+	function getSkillService()
 	{
-		return $this->mode_360_skill_service;
+		return $this->mode_skill_service;
 	}
 	
 	function set360RaterSent($a_appraisee_id, $a_user_id, $a_anonymous_id, $a_tstamp = null)
@@ -5984,7 +5947,7 @@ class ilObjSurvey extends ilObject
 		// write competences
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
-		if ($this->get360SkillService() && $skmg_set->isActivated())
+		if ($this->getSkillService() && $skmg_set->isActivated())
 		{
 			include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 			$sskill = new ilSurveySkill($this);
@@ -6100,9 +6063,22 @@ class ilObjSurvey extends ilObject
 	{
 		$this->reminder_last_sent = $a_value;
 	}
-	
-	public function getReminderTemplate()
+
+	/**
+	 * @param bool $selectDefault
+	 * @return mixed
+	 */
+	public function getReminderTemplate($selectDefault = false)
 	{
+		if ($selectDefault) {
+			$defaultTemplateId = 0;
+			$this->getReminderMailTemplates($defaultTemplateId);
+
+			if ($defaultTemplateId > 0) {
+				return $defaultTemplateId;
+			}
+		}
+
 		return $this->reminder_tmpl;
 	}
 	
@@ -6349,7 +6325,8 @@ class ilObjSurvey extends ilObject
 		$this->log->debug("Check status and dates.");
 		
 		// object settings / participation period
-		if($this->isOffline() ||
+		if(
+			$this->getOfflineStatus() ||
 			!$this->getReminderStatus() ||
 			($this->getStartDate() && $now_with_format < $this->getStartDate()) ||
 			($this->getEndDate() && $now_with_format > $this->getEndDate()))
@@ -6453,14 +6430,15 @@ class ilObjSurvey extends ilObject
 	
 	protected function sentReminder(array $a_recipient_ids)
 	{
-		include_once "./Services/Mail/classes/class.ilMail.php";
-			
+		global $DIC;
+
 		// use mail template		
 		if($this->getReminderTemplate() &&
 			array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates()))
 		{
-			$prov = new ilMailTemplateDataProvider();
-			$tmpl = $prov->getTemplateById($this->getReminderTemplate());
+			/** @var \ilMailTemplateService $templateService */
+			$templateService = $DIC['mail.texttemplates.service'];
+			$tmpl = $templateService->loadTemplateForId((int)$this->getReminderTemplate());
 
 			$tmpl_params = array(				
 				"ref_id" => $this->getRefId(),
@@ -6586,47 +6564,64 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	public function getReminderMailTemplates()
-	{	
+	/**
+	 * @param int $defaultTemplateId
+	 * @return array
+	 */
+	public function getReminderMailTemplates(&$defaultTemplateId = null)
+	{
+		global $DIC;
+
 		$res = array();
-		
-		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-		$mprov = new ilMailTemplateDataProvider();
-		foreach($mprov->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
-		{
+
+		/** @var \ilMailTemplateService $templateService */
+		$templateService = $DIC['mail.texttemplates.service'];
+		foreach ($templateService->loadTemplatesForContextId((string)ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
+			if (null !== $defaultTemplateId && $tmpl->isDefault()) {
+				$defaultTemplateId = $tmpl->getTplId();
+			}
 		}
-		
+
 		return $res;
 	}
 		
 	protected function sentReminderPlaceholders($a_message, $a_user_id, array $a_context_params)
 	{
 		// see ilMail::replacePlaceholders()
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-				
-		try
-		{			
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
+		try {
+			$context = \ilMailTemplateContextService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
 
-			$user = new ilObjUser($a_user_id);
+			$user = new \ilObjUser($a_user_id);
 
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
-			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
-			
-		}
-		catch(Exception $e)
-		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			$processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, \ilMailFormCall::getContextParameters());
+		} catch (\Exception $e) {
 			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
 		}
-		
+
 		return $a_message;
-	}	
+	}
+
+	public function setMode($a_value)
+	{
+		$this->mode = $a_value;
+	}
+
+	public function getMode()
+	{
+		return $this->mode;
+	}
+
+	public function setSelfEvaluationResults($a_value)
+	{
+		$this->mode_self_eval_results = $a_value;
+	}
+
+	public function getSelfEvaluationResults()
+	{
+		return $this->mode_self_eval_results;
+	}
 	
 } // END class.ilObjSurvey
 

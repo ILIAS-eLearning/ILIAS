@@ -9,7 +9,7 @@ use ILIAS\UI\Component as C;
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component
  */
-class TriggeredSignal implements TriggeredSignalInterface {
+class TriggeredSignal {
 
 	/**
 	 * @var C\Signal

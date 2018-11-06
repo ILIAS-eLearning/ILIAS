@@ -19,6 +19,8 @@ define ("AUTH_ECS",9);
 define ("AUTH_APACHE",11);
 define ("AUTH_SAML", 12);
 
+define ('AUTH_OPENID_CONNECT',15);
+
 define ("AUTH_INACTIVE",18);
 
 define('AUTH_MULTIPLE',20);
@@ -236,6 +238,10 @@ class ilAuthUtils
 				return AUTH_SHIBBOLETH;
 				break;
 
+			case 'oidc':
+				return AUTH_OPENID_CONNECT;
+				break;
+
 			case 'saml':
 				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 				return ilSamlIdp::getKeyByAuthMode($a_auth_mode);
@@ -317,6 +323,10 @@ class ilAuthUtils
 				return "lti";
 				break;
 
+			case AUTH_OPENID_CONNECT:
+				return 'oidc';
+				break;
+
 			default:
 				return "default";
 				break;	
@@ -335,7 +345,6 @@ class ilAuthUtils
 						'local'		=> AUTH_LOCAL
 						);
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-		// begin-patch ldap_multiple
 		foreach(ilLDAPServer::_getActiveServerList() as $sid)
 		{
 			$modes['ldap_'.$sid] = (AUTH_LDAP.'_'.$sid);
@@ -346,8 +355,12 @@ class ilAuthUtils
 		{
 			$modes['lti_'.$sid] = (AUTH_PROVIDER_LTI.'_'.$sid);
 		}
-		
-		// end-patch ldap_multiple
+
+		if(ilOpenIdConnectSettings::getInstance()->getActive())
+		{
+			$modes['oidc'] = AUTH_OPENID_CONNECT;
+		}
+
 		if ($ilSetting->get("radius_active")) $modes['radius'] = AUTH_RADIUS;
 		if ($ilSetting->get("shib_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
 		if ($ilSetting->get("script_active")) $modes['script'] = AUTH_SCRIPT;
@@ -394,7 +407,7 @@ class ilAuthUtils
 			AUTH_RADIUS,
 			AUTH_ECS,
 			AUTH_PROVIDER_LTI,
-			AUTH_OPENID,
+			AUTH_OPENID_CONNECT,
 			AUTH_APACHE
 		);
 		$ret = array();
@@ -634,6 +647,11 @@ class ilAuthUtils
 			return true;
 		}
 
+		if(ilOpenIdConnectSettings::getInstance()->getActive())
+		{
+			return true;
+		}
+
 		// begin-path auth_plugin
 		foreach(self::getAuthPlugins() as $pl)
 		{
@@ -660,14 +678,13 @@ class ilAuthUtils
 	 */
 	public static function _allowPasswordModificationByAuthMode($a_auth_mode)
 	{
-		// begin-patch ldap_multiple
-		// cast to int
 		switch((int) $a_auth_mode)
 		{
 			case AUTH_LDAP:
 			case AUTH_RADIUS:
 			case AUTH_ECS:
 			case AUTH_PROVIDER_LTI:
+			case AUTH_OPENID_CONNECT:
 				return false;
 			default:
 				return true;
@@ -736,6 +753,7 @@ class ilAuthUtils
 			case AUTH_ECS:
 			case AUTH_SCRIPT:
 			case AUTH_PROVIDER_LTI:
+			case AUTH_OPENID_CONNECT:
 				return false;
 
 			case AUTH_SAML:
@@ -775,6 +793,7 @@ class ilAuthUtils
 				return ilAuthUtils::LOCAL_PWV_FULL;
 			
 			case AUTH_SHIBBOLETH:
+			case AUTH_OPENID_CONNECT:
 			case AUTH_SAML:
 			case AUTH_SOAP:
 			case AUTH_CAS:

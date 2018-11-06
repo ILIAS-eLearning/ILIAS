@@ -4,6 +4,9 @@ require_once 'tests/UI/AbstractFactoryTest.php';
 
 use \ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class FieldFactoryTest extends AbstractFactoryTest {
 
@@ -28,13 +31,28 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		),
 		"select"		=> array(
 			"context" => false,
+		),
+		"textarea"	=> array(
+			"context" => false,
+		),
+		"radio"			=> array(
+			"context" => false,
+		),
+		"multiSelect"	=> array(
+			"context" => false,
 		)
 	);
 	public $factory_title = 'ILIAS\\UI\\Component\\Input\\Field\\Factory';
 
 
 	final public function buildFactory() {
-		return new \ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 

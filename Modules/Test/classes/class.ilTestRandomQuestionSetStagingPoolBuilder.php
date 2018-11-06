@@ -78,7 +78,8 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 			}
 			else
 			{
-				$GLOBALS['ilLog']->warning(
+				global $DIC; /* @var ILIAS\DI\Container $DIC */
+				$DIC['ilLog']->warning(
 					"could not delete staged random question (ref={$this->testOBJ->getRefId()} / qst={$row['qst_fi']})"
 				);
 			}

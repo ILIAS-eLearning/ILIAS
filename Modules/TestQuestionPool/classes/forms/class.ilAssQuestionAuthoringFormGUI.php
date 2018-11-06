@@ -20,7 +20,8 @@ class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
 	 */
 	public function __construct()
 	{
-		$this->lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->lng = $DIC['lng'];
 		
 		parent::__construct();
 	}

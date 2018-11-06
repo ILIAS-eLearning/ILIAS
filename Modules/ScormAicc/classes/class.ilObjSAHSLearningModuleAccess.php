@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
-include_once 'Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+include_once 'Services/Conditions/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjContentObjectAccess
@@ -22,7 +22,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_FINISHED,
 			ilConditionHandler::OPERATOR_FAILED
@@ -71,7 +71,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     *
     * @return    boolean        true, if everything is ok
     */
-    function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") //UK weg?
     {
         global $ilUser, $lng, $rbacsystem, $ilAccess;
 
@@ -80,30 +80,30 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
             $a_user_id = $ilUser->getId();
         }
 
-        switch ($a_cmd)
-        {
-            case "view":
+        // switch ($a_cmd)
+        // {
+            // case "view":
 
-                if(!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id)
-                    && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
-                {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                    return false;
-                }
-                break;
-        }
+                // if(!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id)
+                    // && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+                // {
+                    // $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    // return false;
+                // }
+                // break;
+        // }
 
-        switch ($a_permission)
-        {
-            case "visible":
-                if (!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id) &&
-                    (!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
-                {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                    return false;
-                }
-                break;
-        }
+        // switch ($a_permission)
+        // {
+            // case "visible":
+                // if (!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id) &&
+                    // (!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
+                // {
+                    // $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    // return false;
+                // }
+                // break;
+        // }
 
 
         return true;
@@ -148,19 +148,6 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     // access relevant methods
     //
 
-    /**
-    * check wether learning module is online
-    */
-	static function _lookupOnline($a_id)
-    {
-        global $ilDB;
-
-        $set = $ilDB->queryF('SELECT c_online FROM sahs_lm WHERE id = %s', 
-        array('integer'), array($a_id));
-        $rec = $ilDB->fetchAssoc($set);
-        
-        return ilUtil::yn2tf($rec["c_online"]);
-    }
     
     /**
     * Lookup editable
@@ -261,18 +248,6 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 		return $completed;
 	}
 
-	/**
-	 * Type-specific implementation of general status
-	 *
-	 * Used in ListGUI and Learning Progress
-	 *
-	 * @param int $a_obj_id
-	 * @return bool
-	 */
-	static function _isOffline($a_obj_id)
-	{
-		return !self::_lookupOnline($a_obj_id);
-	}
 	
 	/**
 		* Checks offlineMode and returns false if 

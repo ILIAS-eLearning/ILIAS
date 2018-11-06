@@ -192,8 +192,6 @@ class ilContainerXmlParser
 					break;
 
 				case 'LatestEnd':
-					$dt = new ilDateTime((string) $sub,IL_CAL_DATETIME,ilTimeZone::UTC);
-					$crs_item->setLatestEnd($dt->get(IL_CAL_UNIX));
 					break;
 			}
 		}

@@ -8,13 +8,15 @@ require_once 'Services/WebDAV/classes/db/class.ilWebDAVDBManager.php';
 require_once 'Services/WebDAV/classes/class.ilWebDAVTree.php';
 
 /**
- * TODO: Implement this class
+ * Class ilWebDAVLockBackend
  *
- * Definition of ilias lock
+ * Implementation for WebDAV locking mechanism. Extends the LockBackend from sabreDAV and saves sabreDAV locks as ILIAS
+ * locks to DB and returns ILIAS locks in DB as sabreDAV locks. Also removes existing locks
  *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
  *
- *
- * @author faheer
+ * @extends Sabre\DAV\Locks\Backend\AbstractBackend
  */
 class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
 {

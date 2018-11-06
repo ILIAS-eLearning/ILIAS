@@ -338,7 +338,15 @@ class ilAccess implements ilAccessHandler {
 		}
 
 		// Check object activation
-		$act_check = $this->doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
+		$act_check = $this->doActivationCheck(
+			$a_permission,
+			$a_cmd,
+			$a_ref_id,
+			$a_user_id,
+			$a_obj_id,
+			$a_type
+		);
+
 		if(!$act_check)
 		{
 			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt('status_no_permission'));
@@ -615,31 +623,30 @@ class ilAccess implements ilAccessHandler {
 	/**
 	 * @inheritdoc
 	 */
-	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
+	public function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type)
 	{
 		global $DIC;
 
-		$ilBench = $DIC['ilBench'];
 		$ilUser = $DIC['ilUser'];
+		/**
+		 * @var ilObjectDefinition
+		 */
+		$objDefinition = $DIC['objDefinition'];
 
-		$ilBench->start("AccessControl", "3150_checkAccess_check_course_activation");
 
 		$cache_perm = ($a_permission == "visible")
 			? "visible"
 			: "other";
 
-//echo "<br>doActivationCheck-$cache_perm-$a_ref_id-$a_user_id-".$ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
 
 		if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id]))
 		{
-			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id];
 		}
 
 		// nothings needs to be done if current permission is write permission
 		if($a_permission == 'write')
 		{
-			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
 
@@ -656,6 +663,23 @@ class ilAccess implements ilAccessHandler {
 			}
 		}
 
+		// in any case, if user has write permission return true
+		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
+		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
+			return true;
+		}
+
+		// no write access => check centralized offline status
+		if(
+			$objDefinition->supportsOfflineHandling($a_type) &&
+			ilObject::lookupOfflineStatus($a_obj_id)
+		)
+		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
+			return false;
+		}
+
 		include_once 'Services/Object/classes/class.ilObjectActivation.php';
 		$item_data = ilObjectActivation::getItem($a_ref_id);
 
@@ -664,7 +688,6 @@ class ilAccess implements ilAccessHandler {
 			$item_data['timing_type'] != ilObjectActivation::TIMINGS_ACTIVATION)
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
-			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
 
@@ -673,27 +696,17 @@ class ilAccess implements ilAccessHandler {
 		   (time() <= $item_data['timing_end']))
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
-			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
 
-		// if user has write permission
-		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
-		{
-			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
-			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
-			return true;
-		}
 		// if current permission is visible and visible is set in activation
 		if($a_permission == 'visible' and $item_data['visible'])
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
-			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
 		// no access
 		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
-		$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 		return false;
 	}
 
@@ -713,11 +726,11 @@ class ilAccess implements ilAccessHandler {
 			!$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id)
 		)
 		{
-			if(ilConditionHandler::lookupHiddenStatusByTarget($a_ref_id))
+			if(ilConditionHandler::lookupEffectiveHiddenStatusByTarget($a_ref_id))
 			{
 				if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id,$a_type,$a_user_id))
 				{
-					$conditions = ilConditionHandler::_getConditionsOfTarget($a_ref_id,$a_obj_id, $a_type);
+					$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($a_ref_id,$a_obj_id, $a_type);
 					foreach ($conditions as $condition)
 					{
 						$this->current_info->addInfoItem(IL_MISSING_PRECONDITION,
@@ -739,7 +752,7 @@ class ilAccess implements ilAccessHandler {
 			$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
 			if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id,$a_type,$a_user_id))
 			{
-				$conditions = ilConditionHandler::_getConditionsOfTarget($a_ref_id,$a_obj_id, $a_type);
+				$conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($a_ref_id,$a_obj_id, $a_type);
 				foreach ($conditions as $condition)
 				{
 					$this->current_info->addInfoItem(IL_MISSING_PRECONDITION,

@@ -559,4 +559,19 @@ class ilPluginAdmin {
 			$pdata['component_type'], $pdata['component_name'], $pdata['slot_id'], $pdata['name']
 		);
 	}
+
+
+	/**
+	 * @return \ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticPluginMainMenuProvider[]
+	 */
+	public static function getAllGlobalScreenProviders(): array {
+		$providers = array();
+		return array(); // current fix
+		foreach (self::getActivePlugins() as $plugin) {
+			$pl = self::getPluginObjectById($plugin['plugin_id']);
+			array_push($providers, $pl->promoteGlobalScreenProvider());
+		}
+
+		return $providers;
+	}
 }

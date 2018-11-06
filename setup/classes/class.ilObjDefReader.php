@@ -141,10 +141,12 @@ class ilObjDefReader extends ilSaxParser
 					$this->current_object = $a_attribs["id"];
 					$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
 						"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,".
-						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration,amet,orgunit_permissions,lti_provider) VALUES ".
-						"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration,".
+						"amet,orgunit_permissions,lti_provider,offline_handling) VALUES ".
+						"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
 						array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
-							"integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer",'integer','integer','integer','integer'),
+							"integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer",
+							'integer','integer','integer','integer','integer'),
 						array(
 							$a_attribs["id"],
 							$a_attribs["class_name"],
@@ -168,7 +170,8 @@ class ilObjDefReader extends ilSaxParser
 							(int) $a_attribs['administration'],
 							(int) $a_attribs['amet'],
 							(int) $a_attribs['orgunit_permissions'],
-							(int) $a_attribs['lti_provider']
+							(int) $a_attribs['lti_provider'],
+							(int) $a_attribs['offline_handling']
 						));
 					break;
 				
@@ -239,8 +242,7 @@ class ilObjDefReader extends ilSaxParser
 						$component = $this->current_component;
 					}
 
-					require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-					ilMailTemplateService::insertFromXML(
+					ilMailTemplateContextService::insertFromXML(
 						$component,
 						$a_attribs['id'],
 						$a_attribs['class'],
@@ -303,6 +305,10 @@ class ilObjDefReader extends ilSaxParser
 					require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
 					ilPDFCompInstaller::updateFromXML($this->current_component, $a_attribs['name'], $a_attribs['preferred']);
 					break;
+				case 'gsprovider':
+					// ilGSProviderStorage::installDB();
+					ilGSProviderStorage::registerIdentifications($a_attribs['class_name'], $a_attribs['purpose']);
+					break;
 			}
 		}
 	}
@@ -326,10 +332,9 @@ class ilObjDefReader extends ilSaxParser
 			{
 				include_once "Services/Cron/classes/class.ilCronManager.php";
 				ilCronManager::clearFromXML($this->current_component, 
-					(array)$this->has_cron[$this->current_component]);				
+					(array)$this->has_cron[$this->current_component]);
 
-				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-				ilMailTemplateService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
+				ilMailTemplateContextService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
 				
 				if(!in_array($this->getComponentId(), (array)$this->has_badges))
 				{

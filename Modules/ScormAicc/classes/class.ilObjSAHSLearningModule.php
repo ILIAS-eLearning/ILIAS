@@ -46,11 +46,11 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createMetaData();
 
 		$this->createDataDirectory();
-
+		$this->setOfflineStatus(true);
 		$ilDB->manipulateF('
-			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable, seq_exp_mode,localization) 
-			VALUES (%s,%s,%s,%s,%s,%s,%s)', 
-			array('integer', 'text', 'text', 'text', 'integer','integer','text'), 
+			INSERT INTO sahs_lm (id, api_adapter, c_type, editable, seq_exp_mode,localization) 
+			VALUES (%s,%s,%s,%s,%s,%s)', 
+			array('integer', 'text', 'text', 'integer','integer','text'), 
 			array($this->getId(),'n','API', $this->getSubType(),(int)$this->getEditable(),
 				(int)$this->getSequencingExpertMode(), $this->getLocalization()
 				));
@@ -70,7 +70,6 @@ class ilObjSAHSLearningModule extends ilObject
 		
 		while($lm_rec = $ilDB->fetchAssoc($lm_set))
 		{
-			$this->setOnline(ilUtil::yn2tf($lm_rec["c_online"]));
 			$this->setAutoReviewChar($lm_rec["auto_review"]);
 			$this->setAPIAdapterName($lm_rec["api_adapter"]);
 			$this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
@@ -117,19 +116,6 @@ class ilObjSAHSLearningModule extends ilObject
 		}
 	}
 
-	/**
-	* check wether scorm module is online
-	*/
-	static function _lookupOnline($a_id)
-	{
-		global $ilDB;
-		
-		$lm_set = $ilDB->queryF('SELECT c_online FROM sahs_lm WHERE id = %s', 
-		array('integer'), array($a_id));
-		$lm_rec = $ilDB->fetchAssoc($lm_set);
-		
-		return ilUtil::yn2tf($lm_rec["c_online"]);
-	}
 	
 	/**
 	 * Get affective localization
@@ -936,8 +922,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$statement = $ilDB->manipulateF('
 			UPDATE sahs_lm  
-			SET c_online = %s, 
-				api_adapter = %s, 
+			SET api_adapter = %s, 
 				api_func_prefix = %s,
 				auto_review = %s,
 				default_lesson_mode = %s,
@@ -980,7 +965,6 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
-				'text',
 				'integer',
 				'integer',
 				'integer',
@@ -1015,8 +999,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer'
 				), 
-		array(	ilUtil::tf2yn($this->getOnline()),
-				$this->getAPIAdapterName(),
+		array(	$this->getAPIAdapterName(),
 				$this->getAPIFunctionsPrefix(),
 				$this->getAutoReviewChar(),
 				$this->getDefaultLessonMode(),
@@ -1103,21 +1086,6 @@ class ilObjSAHSLearningModule extends ilObject
 		return 0;
 	}
 
-	/**
-	* get online
-	*/
-	function setOnline($a_online)
-	{
-		$this->online = $a_online;
-	}
-
-	/**
-	* set online
-	*/
-	function getOnline()
-	{
-		return $this->online;
-	}
 
 	/**
 	* get sub type
@@ -1332,7 +1300,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 		if(!$cp_options->isRootNode($this->getRefId()))
 		{
-			$new_obj->setOnline($this->getOnline());
+			$new_obj->setOfflineStatus($this->getOfflineStatus());
 		}
 
 		// copy properties
@@ -1469,6 +1437,10 @@ class ilObjSAHSLearningModule extends ilObject
 
 					case 'm':
 						$studentName = $lng->txt('salutation_m');
+						break;
+
+					case 'n':
+						$studentName = $lng->txt('salutation_n');
 						break;
 
 					default:

@@ -48,27 +48,28 @@ class ilMailMemberSearchDataProvider
 	{
 		$members = $this->objParticipants->getMembers();
 		$admins = $this->objParticipants->getAdmins();
-		
-		$participants['il_'.$this->type.'_member'] = $members;
-		$participants['il_'.$this->type.'_admin'] = $admins;
-		if($this->type == 'crs')
-		{
+
+		$participants['il_' . $this->type . '_member'] = $members;
+		$participants['il_' . $this->type . '_admin'] = $admins;
+		if ($this->type == 'crs') {
 			$tutors = $this->objParticipants->getTutors();
 			$participants['il_crs_tutor'] = $tutors;
 		}
-		
-		foreach($participants as $role => $users )
-		{
-			foreach($users as $user_id)
-			{
-				$name  = ilObjUser::_lookupName($user_id);
+
+		foreach ($participants as $role => $users) {
+			foreach ($users as $user_id) {
+				$name = ilObjUser::_lookupName($user_id);
 				$login = ilObjUser::_lookupLogin($user_id);
-				$fullname = $name['lastname'] . ', ' . $name['firstname'];
+
+				$publicName = '';
+				if (in_array(ilObjUser::_lookupPref($user_id, 'public_profile'), array('g', 'y'))) {
+					$publicName = $name['lastname'] . ', ' . $name['firstname'];
+				}
 
 				$this->data[$user_id]['user_id'] = $user_id;
-				$this->data[$user_id]['login']   = $login;
-				$this->data[$user_id]['name']    = $fullname;
-				$this->data[$user_id]['role']    = $this->lng->txt($role);
+				$this->data[$user_id]['login'] = $login;
+				$this->data[$user_id]['name'] = $publicName;
+				$this->data[$user_id]['role'] = $this->lng->txt($role);
 			}
 		}
 	}

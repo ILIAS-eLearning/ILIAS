@@ -24,7 +24,8 @@ interface Factory {
 	 *   effect: >
 	 *     A Step MAY have an action; when clicked, the action is triggered.
 	 *
-	 * context: A Step MUST be used within a Workflow.
+	 * context:
+     *     - A Step MUST be used within a Workflow.
 	 *
 	 * ----
 	 *

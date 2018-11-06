@@ -34,7 +34,8 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 	 */
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if (is_array( $_POST[$this->getPostVar()] ))
@@ -98,7 +99,8 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 	 */
 	function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$tpl = new ilTemplate("tpl.prop_essaykeywordswizardinput.html", true, true, "Modules/TestQuestionPool");
 		$i   = 0;
@@ -170,7 +172,8 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		$a_tpl->setVariable( "PROP_GENERIC", $tpl->get() );
 		$a_tpl->parseCurrentBlock();
 
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/essaykeywordwizard.js");
 	}

@@ -42,7 +42,8 @@ class ilTestExportTableGUI extends ilExportTableGUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setListTitle($this->lng->txt('actions'));

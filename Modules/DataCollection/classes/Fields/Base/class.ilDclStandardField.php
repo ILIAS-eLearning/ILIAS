@@ -143,18 +143,22 @@ class ilDclStandardField extends ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$identifiers = '';
-		foreach (array(
-			         'dcl_id',
-			         'dcl_creation_date',
-			         'dcl_last_update',
-			         'dcl_last_edited_by',
-			         'dcl_comments',
-		         ) as $id) {
+		foreach (
+			array(
+				'dcl_id',
+				'dcl_creation_date',
+				'dcl_last_update',
+				'dcl_last_edited_by',
+				'dcl_comments',
+			) as $id
+		) {
 			$identifiers .= $ilDB->quote($id, 'text') . ',';
 		}
 		$identifiers = rtrim($identifiers, ',');
-		$sql = $ilDB->query('SELECT value FROM lng_data WHERE identifier IN (' . $identifiers
-		                    . ')');
+		$sql = $ilDB->query(
+			'SELECT value FROM lng_data WHERE identifier IN (' . $identifiers
+			. ')'
+		);
 		$titles = array();
 		while ($rec = $ilDB->fetchAssoc($sql)) {
 			$titles[] = $rec['value'];
@@ -172,12 +176,14 @@ class ilDclStandardField extends ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$identifiers = '';
-		foreach (array( 'dcl_owner' ) as $id) {
+		foreach (array('dcl_owner') as $id) {
 			$identifiers .= $ilDB->quote($id, 'text') . ',';
 		}
 		$identifiers = rtrim($identifiers, ',');
-		$sql = $ilDB->query('SELECT value, identifier FROM lng_data WHERE identifier IN ('
-		                    . $identifiers . ')');
+		$sql = $ilDB->query(
+			'SELECT value, identifier FROM lng_data WHERE identifier IN ('
+			. $identifiers . ')'
+		);
 		$titles = array();
 		while ($rec = $ilDB->fetchAssoc($sql)) {
 			$titles[$rec['identifier']][] = $rec['value'];
@@ -286,35 +292,35 @@ class ilDclStandardField extends ilDclBaseFieldModel {
 		$join_str = "";
 		if ($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_TEXT) {
 			$join_str = "INNER JOIN usr_data AS filter_usr_data_{$this->getId()} ON (filter_usr_data_{$this->getId()}.usr_id = record.{$this->getId()} AND filter_usr_data_{$this->getId()}.login LIKE "
-			            . $ilDB->quote("%$filter_value%", 'text') . ") ";
+				. $ilDB->quote("%$filter_value%", 'text') . ") ";
 		} else {
 			if ($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_NUMBER) {
 				$from = (isset($filter_value['from'])) ? $filter_value['from'] : null;
 				$to = (isset($filter_value['to'])) ? $filter_value['to'] : null;
 				if (is_numeric($from)) {
 					$where_additions .= " AND record.{$this->getId()} >= "
-					                    . $ilDB->quote($from, 'integer');
+						. $ilDB->quote($from, 'integer');
 				}
 				if (is_numeric($to)) {
 					$where_additions .= " AND record.{$this->getId()} <= "
-					                    . $ilDB->quote($to, 'integer');
+						. $ilDB->quote($to, 'integer');
 				}
 			} else {
 				if ($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
 					$date_from = (isset($filter_value['from'])
-					              && is_object($filter_value['from'])) ? $filter_value['from'] : null;
+						&& is_object($filter_value['from'])) ? $filter_value['from'] : null;
 					$date_to = (isset($filter_value['to'])
-					            && is_object($filter_value['to'])) ? $filter_value['to'] : null;
+						&& is_object($filter_value['to'])) ? $filter_value['to'] : null;
 
 					// db->quote(.. date) at some point invokes ilDate->_toString, which adds a <br /> to the string,
 					// that's why strip_tags is used
 					if ($date_from) {
 						$where_additions .= " AND (record.{$this->getId()} >= "
-						                    . strip_tags($ilDB->quote($date_from, 'date')) . ")";
+							. strip_tags($ilDB->quote($date_from, 'date')) . ")";
 					}
 					if ($date_to) {
 						$where_additions .= " AND (record.{$this->getId()} <= "
-						                    . strip_tags($ilDB->quote($date_to, 'date')) . ")";
+							. strip_tags($ilDB->quote($date_to, 'date')) . ")";
 					}
 				}
 			}
@@ -356,7 +362,7 @@ class ilDclStandardField extends ilDclBaseFieldModel {
 	public function allowFilterInListView() {
 		//comments are filterable if they are enabled in the tables settings
 		return $this->id != 'comments'
-		       || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
+			|| ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
 	}
 
 
@@ -371,7 +377,7 @@ class ilDclStandardField extends ilDclBaseFieldModel {
 			global $DIC;
 			$lng = $DIC['lng'];
 			$worksheet->setCell($row, $col, $lng->txt("dcl_owner_name"));
-			$col ++;
+			$col++;
 		}
 	}
 

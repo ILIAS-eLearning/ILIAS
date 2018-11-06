@@ -46,6 +46,6 @@ class Factory implements Component\Input\Factory {
 	 * @inheritdoc
 	 */
 	public function container() {
-		return $this->input_factory;
+		return $this->container_factory;
 	}
 }

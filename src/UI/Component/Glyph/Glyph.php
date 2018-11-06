@@ -41,6 +41,8 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	const EYEOPEN = "eyeopen";
 	const EYECLOSED = "eyeclosed";
 	const ATTACHMENT = "attachment";
+	const RESET = "reset";
+	const APPLY = "apply";
 
 
 	/**
@@ -90,4 +92,21 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	 * @return mixed
 	 */
 	public function withHighlight();
+
+	/**
+	 * Get to know if the glyph is activated.
+	 *
+	 * @return 	bool
+	 */
+	public function isActive();
+
+	/**
+	 * Get a glyph like this, but action should be unavailable atm.
+	 *
+	 * The glyph will still have an action afterwards, this might be useful
+	 * at some point where we want to reactivate the glyph client side.
+	 *
+	 * @return Glyph
+	 */
+	public function withUnavailableAction();
 }

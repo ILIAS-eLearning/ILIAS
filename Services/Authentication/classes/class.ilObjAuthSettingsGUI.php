@@ -2,20 +2,17 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjAuthSettingsGUI
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de> 
-* @version $Id$
-* 
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI, ilSamlSettingsGUI
-* 
-* @extends ilObjectGUI
-*/
-
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-
+ * Class ilObjAuthSettingsGUI
+ *
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * @version $Id$
+ *
+ * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
+ * @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI
+ * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
+ *
+ * @extends ilObjectGUI
+ */
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {
 	/**
@@ -28,6 +25,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule('registration');
+		$this->lng->loadLanguageModule('auth');
 
 		define('LDAP_DEFAULT_PORT',389);
 		define('RADIUS_DEFAULT_PORT',1812);
@@ -875,6 +873,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		switch($next_class)
 		{
+			case 'ilopenidconnectsettingsgui':
+
+				$this->tabs_gui->activateTab('auth_oidconnect');
+
+				$oid = new ilOpenIdConnectSettingsGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($oid);
+				break;
+
 			case 'ilsamlsettingsgui':
 				$this->tabs_gui->setTabActive('auth_saml');
 
@@ -1019,6 +1025,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				'',
 				''
 			);
+
+			$this->tabs_gui->addTab(
+				'auth_oidconnect',
+				$this->lng->txt('auth_oidconnect'),
+				$this->ctrl->getLinkTargetByClass('ilopenidconnectsettingsgui')
+			);
+
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

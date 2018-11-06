@@ -29,7 +29,8 @@ class assClozeTestImport extends assQuestionImport
 	*/
 	function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		// empty session variable for imported xhtml mobs
 		unset($_SESSION["import_mob_xhtml"]);
@@ -376,8 +377,8 @@ class assClozeTestImport extends assQuestionImport
 				{
 					$importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
 				}
-				
-				$GLOBALS['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
+				global $DIC; /* @var ILIAS\DI\Container $DIC */
+				$DIC['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
 				
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);

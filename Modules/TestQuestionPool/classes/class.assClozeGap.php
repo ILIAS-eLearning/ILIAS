@@ -370,7 +370,8 @@ class assClozeGap
 	 */
 	function getBestSolutionOutput(ilArrayElementShuffler $shuffler, $combinations = null)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		switch ($this->getType())
 		{
 			case CLOZE_TEXT:

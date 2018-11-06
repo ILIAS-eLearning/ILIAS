@@ -7,6 +7,10 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class TextInputTest extends ILIAS_UI_TestBase {
 
@@ -16,7 +20,13 @@ class TextInputTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
@@ -24,6 +34,9 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$f = $this->buildFactory();
 
 		$text = $f->text("label", "byline");
+
+        $this->assertInstanceOf(Field\Input::class, $text);
+        $this->assertInstanceOf(Field\Text::class, $text);
 	}
 
 
@@ -58,7 +71,7 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
 		            . "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />"
 		            . "		<div class=\"help-block\">$byline</div>" . "		<div class=\"help-block alert alert-danger\" role=\"alert\">"
-		            . "			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">" . "			$error"
+		            . "			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />" . "			$error"
 		            . "		</div>" . "	</div>" . "</div>";
 		$this->assertEquals($expected, $html);
 	}
@@ -129,5 +142,16 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$text2 = $text->withInput(new DefPostData([$name => ""]));
 		$value2 = $text2->getContent();
 		$this->assertTrue($value2->isError());
+	}
+
+	public function test_stripsTags() {
+		$f = $this->buildFactory();
+		$name = "name_0";
+		$text = $f->text("")
+			->withNameFrom($this->name_source)
+			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+
+		$content = $text->getContent();
+		$this->assertEquals("alert()", $content->value());
 	}
 }

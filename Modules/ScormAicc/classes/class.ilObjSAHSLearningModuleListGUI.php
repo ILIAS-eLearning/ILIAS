@@ -181,19 +181,11 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	function getProperties()
 	{
 		global $lng, $rbacsystem;
-
-		$props = array();
-
-		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
-
+		$props = parent::getProperties();
+		
 		$editable = ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id);
 		
-		if (!$editable && ilObjSAHSLearningModuleAccess::_isOffline($this->obj_id))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
-		}
-		else if ($editable)
+		if ($editable)
 		{
 			$props[] = array("alert" => true,
 				"value" => $lng->txt("authoring_mode"));

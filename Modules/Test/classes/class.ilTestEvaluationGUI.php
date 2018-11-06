@@ -33,6 +33,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	protected $testAccess;
 	
 	/**
+	 * @var ilTestProcessLockerFactory
+	 */
+	protected $processLockerFactory;
+	
+	/**
 	 * ilTestEvaluationGUI constructor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the 
@@ -43,6 +48,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function __construct(ilObjTest $a_object)
 	{
 		parent::__construct($a_object);
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
+		$this->processLockerFactory = new ilTestProcessLockerFactory(
+			new ilSetting('assessment'), $DIC->database()
+		);
 	}
 	
 	/**
@@ -178,7 +190,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	/**
 	* Creates the evaluation output for the test
-	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
@@ -186,12 +197,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$ilToolbar = $DIC->toolbar();
-		ilObjTestGUI::accessViolationRedirect(); // method deprecated
+
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
-
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
+		
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
 		
 		$table_gui = new ilEvaluationAllTableGUI(
@@ -335,12 +348,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				'csv'   => $this->lng->txt('exp_type_spss')
 			);
 			
-			if(!$this->object->getAnonymity())
-			{
-				include_once 'Services/Certificate/classes/class.ilCertificate.php';
-				include_once 'Modules/Test/classes/class.ilTestCertificateAdapter.php';
-				if(ilCertificate::_isComplete(new ilTestCertificateAdapter($this->object)))
-				{
+			if(!$this->object->getAnonymity()) {
+				$factory = new ilCertificateFactory();
+
+				$certificate = $factory->create($this->object);
+
+				if($certificate->isComplete(new ilTestCertificateAdapter($this->object))) {
 					$options['certificate'] = $this->lng->txt('exp_type_certificate');
 				}
 			}
@@ -369,19 +382,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	* Creates the detailed evaluation output for a selected participant
 	*
 	* Creates the detailed evaluation output for a selected participant
-	 * 
-	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
 	function detailedEvaluation()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		ilObjTestGUI::accessViolationRedirect(); // method deprecated
+		
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
 
 		$active_id = $_GET['active_id'];
 		
@@ -576,8 +589,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$tables[] = $table->getHTML();
 			}
 		}
-
-		$GLOBALS['tpl']->setContent($form->getHTML() . implode('', $tables));
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC['tpl']->setContent($form->getHTML() . implode('', $tables));
 	}
 	
 	/**
@@ -851,33 +865,40 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	public function exportCertificate()
 	{
-		global $ilUser;
-		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilTestCertificateAdapter($this->object));
+		global $DIC;
+
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
+		$factory = new ilCertificateFactory();
+
+		$certificate = $factory->create($this->object);
+
 		$archive_dir = $certificate->createArchiveDirectory();
 		$total_users = array();
 		
 		$this->object->setAccessFilteredParticipantList(
 			$this->object->buildStatisticsAccessFilteredParticipantList()
 		);
-		
+
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+
 		$total_users =& $this->object->evalTotalPersonsArray();
 		if (count($total_users))
 		{
 			foreach ($total_users as $active_id => $name)
 			{
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
-				$pdf = $certificate->outCertificate(
-					array(
-						"active_id" => $active_id,
-						"userfilter" => $userfilter,
-						"passedonly" => $passedonly
-					),
-					FALSE
+
+				$pdfAction = new ilCertificatePdfAction(
+					$logger,
+					$pdfGenerator,
+					new ilCertificateUtilHelper(),
+					$this->lng->txt('error_creating_certificate_pdf')
 				);
+
+				$pdf = $pdfAction->createPDF($user_id, $this->object->getid());
 				if (strlen($pdf))
 				{
 					$certificate->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
@@ -915,7 +936,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsPassDetails()
 	{
-		global $ilTabs, $ilAccess, $ilObjDataCache;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$active_id = (int)$_GET["active_id"];
 		
@@ -1088,7 +1112,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
-		global $ilTabs, $ilObjDataCache;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$active_id = (int)$_GET["active_id"];
 		
@@ -1145,8 +1171,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 		}
 		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($testSession->getActiveId());
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
@@ -1237,7 +1264,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	function outUserPassDetails()
 	{
-		global $ilTabs, $ilUser, $ilObjDataCache;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->handleTabs('results_pass_oriented');
 		
@@ -1322,9 +1352,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserPassDetails') );
 			$this->ctrl->setParameter($this, 'pdf', '');
 
-			include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-			if( $this->object->canShowCertificate($testSession, $user_id, $active_id) )
-			{
+			$validator = new ilCertificateDownloadValidator();
+			if($validator->isCertificateDownloadable($user_id, $this->object->getId())) {
 				$toolbar->setCertificateLinkTarget($this->ctrl->getLinkTarget($this, 'outCertificate'));
 			}
 
@@ -1418,7 +1447,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	function outUserResultsOverview()
 	{
-		global $ilUser, $ilObjDataCache;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->handleTabs('results_pass_oriented');
 
@@ -1448,9 +1479,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserResultsOverview') );
 		$this->ctrl->setParameter($this, 'pdf', '');
 
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if( $this->object->canShowCertificate($testSession, $user_id, $active_id) )
-		{
+		$validator = new ilCertificateDownloadValidator();
+		if($validator->isCertificateDownloadable($user_id, $this->object->getId())) {
 			$toolbar->setCertificateLinkTarget($this->ctrl->getLinkTarget($this, 'outCertificate'));
 		}
 
@@ -1477,9 +1507,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$template->setCurrentBlock("pass_overview");
-
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($testSession->getActiveId());
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
@@ -1564,7 +1595,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	function outUserListOfAnswerPasses()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		global $ilUser, $ilObjDataCache;
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if (!$this->object->getShowSolutionPrintview())
 		{
@@ -1585,9 +1617,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$active_id = $testSession->getActiveId();
 		
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
-
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($testSession->getActiveId());
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 		
@@ -1783,19 +1816,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	public function outCertificate()
 	{
-		$testSession = $this->testSessionFactory->getSession();
-		
-		require_once './Services/Certificate/classes/class.ilCertificate.php';
-		require_once './Modules/Test/classes/class.ilTestCertificateAdapter.php';
-		$certificate = new ilCertificate(new ilTestCertificateAdapter( $this->object ) );
-		$certificate->outCertificate(
-			array(
-				"active_id" => $testSession->getActiveId(), 
-				"pass" 		=> ilObjTest::_getResultPass( $testSession->getActiveId() ) 
-			)
+		global $DIC;
+
+		$user = $DIC->user();
+		$database = $DIC->database();
+		$logger = $DIC->logger()->root();
+
+		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
+		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+
+		$pdfAction = new ilCertificatePdfAction(
+			$logger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
 		);
+
+		$pdfAction->downloadPdf((int) $user->getId(), (int) $this->object->getId());
 	}
-	
+
 	public function confirmDeletePass()
 	{
 		if( isset($_GET['context']) && strlen($_GET['context']) )
@@ -1817,7 +1856,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$confirm = new ilTestPassDeletionConfirmationGUI($this->ctrl, $this->lng, $this);
 		$confirm->build((int)$_GET['active_id'], (int)$_GET['pass'], $context);
 
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->setContent($this->ctrl->getHTML($confirm));
 	}
 
@@ -1862,7 +1902,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->redirectToPassDeletionContext($context);
 		}
 			/** @var ilDBInterface $ilDB */
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 
 		$active_fi = null;
 		$pass = null;
@@ -2130,7 +2171,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions)
 	{
-		global $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
 		$questionIds = array();
@@ -2290,10 +2333,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	protected function finishTestPass($active_id, $obj_id)
 	{
+		$this->processLockerFactory->setActiveId($active_id);
+		$processLocker = $this->processLockerFactory->getLocker();
+		
 		$test_pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
-		$test_pass_finisher->performFinishTasksBeforeArchiving();
-		//Todo Archiving?
-		$test_pass_finisher->performFinishTasksAfterArchiving();
+		$test_pass_finisher->performFinishTasks($processLocker);
 	}
 	
 	protected function redirectBackToParticipantsScreen()

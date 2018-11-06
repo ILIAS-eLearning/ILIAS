@@ -86,7 +86,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "DELETE FROM qpl_a_errortext WHERE question_fi = %s",
 							array( 'integer' ),
 							array( $this->getId() )
@@ -117,7 +118,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		// save additional data
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 							array( "integer" ),
@@ -143,7 +145,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
@@ -351,7 +354,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		/* First get the positions which were selected by the user. */
 		$positions = array();
@@ -382,8 +386,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		if (is_null($pass))
 		{
@@ -1302,7 +1307,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$data = $ilDB->queryF(

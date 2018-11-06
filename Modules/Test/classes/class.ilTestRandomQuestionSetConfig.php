@@ -445,7 +445,8 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	private function registerClonedSourcePoolDefinitionIdMapping(ilObjTest $cloneTestOBJ, $definitionIdMap)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		require_once 'Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		$cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getTmpCopyWizardCopyId());

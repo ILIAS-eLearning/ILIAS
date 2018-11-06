@@ -24,6 +24,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 */
 	protected $dcl_obj_id;
 
+
 	/**
 	 * @param ilDclBaseRecordModel $record
 	 * @param ilDclBaseFieldModel  $field
@@ -33,6 +34,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
 		$this->dcl_obj_id = $dclTable->getObjId();
 	}
+
 
 	/**
 	 * @return int|string
@@ -48,20 +50,20 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 					if ($val) {
 						$ref_rec = ilDclCache::getRecordCache($val);
 						$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-						if($ref_record_field) {
+						if ($ref_record_field) {
 							$exp_value = $ref_record_field->getExportValue();
 							$names[] = is_array($exp_value) ? array_shift($exp_value) : $exp_value;
 						}
-
 					}
 				}
+
 				return implode('; ', $names);
 			} else {
 				$ref_rec = ilDclCache::getRecordCache($this->getValue());
 				$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 
 				$exp_value = "";
-				if($ref_record_field) {
+				if ($ref_record_field) {
 					$exp_value = $ref_record_field->getExportValue();
 				}
 
@@ -72,7 +74,8 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		}
 	}
 
-	public function getValueFromExcel($excel, $row, $col){
+
+	public function getValueFromExcel($excel, $row, $col) {
 		global $DIC;
 		$lng = $DIC['lng'];
 		$value = parent::getValueFromExcel($excel, $row, $col);
@@ -86,19 +89,23 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		}
 
 		if (!$has_value && $old) {
-			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col+1) . ") " . $lng->txt("dcl_no_such_reference") . " "
+			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $lng->txt("dcl_no_such_reference") . " "
 				. $old;
+
 			return array('warning' => $warning);
 		}
-		
+
 		return $value;
 	}
+
 
 	/**
 	 * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
 	 * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
 	 * Will mess with it.
+	 *
 	 * @param $stringValues string
+	 *
 	 * @return int[]
 	 */
 	protected function getReferencesFromString($stringValues) {
@@ -106,11 +113,11 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$slicedStrings = explode($delimiter, $stringValues);
 		$slicedReferences = array();
 		$resolved = 0;
-		for($i = 0; $i < count($slicedStrings); $i++) {
+		for ($i = 0; $i < count($slicedStrings); $i++) {
 			//try to find a reference since the last resolved value separated by a comma.
 			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "hello, world".
 			$searchString = implode(array_slice($slicedStrings, $resolved, $i - $resolved + 1));
-			if($ref = $this->getReferenceFromValue($searchString)){
+			if ($ref = $this->getReferenceFromValue($searchString)) {
 				$slicedReferences[] = $ref;
 				$resolved = $i;
 				continue;
@@ -119,14 +126,16 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 			//try to find a reference with the current index.
 			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "world".
 			$searchString = $slicedStrings[$i];
-			if($ref = $this->getReferenceFromValue($searchString)){
+			if ($ref = $this->getReferenceFromValue($searchString)) {
 				$slicedReferences[] = $ref;
 				$resolved = $i;
 				continue;
 			}
 		}
+
 		return $slicedReferences;
 	}
+
 
 	/**
 	 * @param $field ilDclBaseFieldModel

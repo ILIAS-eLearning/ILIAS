@@ -452,7 +452,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 	 * @param ilObjPortfolioBase $a_target
 	 * @param array $a_recipe
 	 */
-	public static function clonePagesAndSettings(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target, array $a_recipe = null)
+	public static function clonePagesAndSettings(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target, array $a_recipe = null, $copy_all = false)
 	{
 		global $DIC;
 
@@ -531,28 +531,36 @@ abstract class ilObjPortfolioBase extends ilObject2
 				
 				// blog template => blog (needs recipe)
 				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:					
-					if($direction == "t2p" && is_array($page_recipe))
+					if($direction == "t2p" && (is_array($page_recipe) || $copy_all))
 					{						
 						$page_type = ilPortfolioPage::TYPE_BLOG;
-						if($page_recipe[0] == "blog")
+						if ($copy_all)
 						{
-							switch($page_recipe[1])
+							$page_title = self::createBlogInPersonalWorkspace($page_title);
+							$valid = true;
+						}
+						else
+						{
+							if ($page_recipe[0] == "blog")
 							{
-								case "create":																		
-									$page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
-									$valid = true;
-									break;
-								
-								case "reuse":
-									$page_title = $page_recipe[2];
-									$valid = true;
-									break;
-								
-								case "ignore":
-									// do nothing
-									break;								
-							}							
-						}												
+								switch ($page_recipe[1])
+								{
+									case "create":
+										$page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
+										$valid = true;
+										break;
+
+									case "reuse":
+										$page_title = $page_recipe[2];
+										$valid = true;
+										break;
+
+									case "ignore":
+										// do nothing
+										break;
+								}
+							}
+						}
 					}
 					break;	
 
@@ -590,7 +598,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 								$node->setAttribute("User", $ilUser->getId());									
 							}
 							// new skill
-							else if(in_array($skill_id, $a_recipe["skills"]))
+							else if(in_array($skill_id, $a_recipe["skills"]) || $copy_all)
 							{
 								include_once "Services/Skill/classes/class.ilPersonalSkill.php";
 								ilPersonalSkill::addPersonalSkill($ilUser->getId(), $skill_id);

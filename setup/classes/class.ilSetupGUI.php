@@ -1767,12 +1767,8 @@ class ilSetupGUI
 
 		// db name
 		require_once('./Services/Database/classes/class.ilDBConstants.php');
-		if (!in_array($_SESSION["db_type"], array( ilDBConstants::TYPE_ORACLE ))) {
-			$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
-			$ti->setRequired(true);
-		} else {
-			$ti = new ilTextInputGUI($lng->txt("db_service_name"), "db_name");
-		}
+		$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
+		$ti->setRequired(true);
 		$ti->setMaxLength(40);
 		$this->form->addItem($ti);
 
@@ -3724,6 +3720,8 @@ class ilSetupGUI
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 
+		$ilCtrlStructureReader->readStructure(true);
+
 		// clear tables
 		$mr = new ilModuleReader("", "", "");
 		$mr->clearTables();
@@ -3747,7 +3745,6 @@ class ilSetupGUI
 		}
 // END WebDAV
 
-		$ilCtrlStructureReader->readStructure(true);
 		ilUtil::sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
 		$this->displayTools();
 	}

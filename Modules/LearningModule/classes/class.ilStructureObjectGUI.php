@@ -106,7 +106,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 			case "ilconditionhandlergui":
 		$ilTabs = $this->tabs;
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
+				include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
 
 				$this->setTabs();
 				$this->initConditionHandlerInterface();
@@ -606,7 +606,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 	function initConditionHandlerInterface()
 	{
-		include_once("./Services/AccessControl/classes/class.ilConditionHandlerGUI.php");
+		include_once("./Services/Conditions/classes/class.ilConditionHandlerGUI.php");
 
 		$this->condHI = new ilConditionHandlerGUI($this);
 		$this->condHI->setBackButtons(array());

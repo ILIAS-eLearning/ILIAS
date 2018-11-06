@@ -30,18 +30,47 @@ class ilExAssignment
 	 */
 	protected $app_event_handler;
 
+	/**
+	 * @deprecated direct checks against const should be avoided, use type objects instead
+	 */
 	const TYPE_UPLOAD = 1;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_BLOG = 2;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_PORTFOLIO = 3;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_UPLOAD_TEAM = 4;
+	/**
+	 * @deprecated
+	 */
 	const TYPE_TEXT = 5;
+	/**
+	 * @deprecated
+	 */
+	const TYPE_WIKI_TEAM = 6;
 	
 	const FEEDBACK_DATE_DEADLINE = 1;
 	const FEEDBACK_DATE_SUBMISSION = 2;
+	const FEEDBACK_DATE_CUSTOM = 3;
 	
 	const PEER_REVIEW_VALID_NONE = 1;
 	const PEER_REVIEW_VALID_ONE = 2;
 	const PEER_REVIEW_VALID_ALL = 3;
+
+	const TEAMS_FORMED_BY_PARTICIPANTS = 0;
+	const TEAMS_FORMED_BY_TUTOR = 1;
+	const TEAMS_FORMED_BY_RANDOM = 2;
+	const TEAMS_FORMED_BY_ASSIGNMENT = 3;
+
+	const DEADLINE_ABSOLUTE = 0;
+	const DEADLINE_RELATIVE = 1;
+
 	
 	protected $id;
 	protected $exc_id;
@@ -67,11 +96,25 @@ class ilExAssignment
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
+	protected $feedback_date_custom;
 	protected $team_tutor = false;
 	protected $max_file;
+
 	protected $portfolio_template;
 	protected $min_char_limit;
 	protected $max_char_limit;
+
+	protected $types = null;
+
+	/**
+	 * @var ilExAssignmentTypeInterface
+	 */
+	protected $ass_type;
+
+	protected $deadline_mode = 0;
+	protected $relative_deadline = 0;
+	protected $starting_timestamp = null;
+
 	
 	protected $member_status = array(); // [array]
 
@@ -88,6 +131,9 @@ class ilExAssignment
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
+		$this->types = ilExAssignmentTypes::getInstance();
+
 		$this->setType(self::TYPE_UPLOAD);
 		$this->setFeedbackDate(self::FEEDBACK_DATE_DEADLINE);
 
@@ -157,7 +203,7 @@ class ilExAssignment
 
 	public function hasTeam()
 	{
-		return $this->type == self::TYPE_UPLOAD_TEAM;
+		return $this->ass_type->usesTeams();
 	}
 	
 	/**
@@ -239,9 +285,49 @@ class ilExAssignment
 	{
 		return $this->deadline;
 	}
+
+	/**
+	 * Set deadline mode
+	 *
+	 * @param int $a_val deadline mode	
+	 */
+	function setDeadlineMode($a_val)
+	{
+		$this->deadline_mode = $a_val;
+	}
 	
 	/**
-	 * Get individual deadline
+	 * Get deadline mode
+	 *
+	 * @return int deadline mode
+	 */
+	function getDeadlineMode()
+	{
+		return $this->deadline_mode;
+	}
+	
+	/**
+	 * Set relative deadline
+	 *
+	 * @param int $a_val relative deadline	
+	 */
+	function setRelativeDeadline($a_val)
+	{
+		$this->relative_deadline = $a_val;
+	}
+	
+	/**
+	 * Get relative deadline
+	 *
+	 * @return int relative deadline
+	 */
+	function getRelativeDeadline()
+	{
+		return $this->relative_deadline;
+	}
+	
+	/**
+	 * Get individual deadline (max of common or idl (team) deadline = Official Deadline)
 	 * @param int $a_user_id
 	 * @return int
 	 */
@@ -250,14 +336,14 @@ class ilExAssignment
 		$ilDB = $this->db;
 		
 		$is_team = false;
-		if($this->getType() == self::TYPE_UPLOAD_TEAM)
+		if($this->ass_type->usesTeams())
 		{
 			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
 			$team_id = ilExAssignmentTeam::getTeamId($this->getId(), $a_user_id);
 			if(!$team_id)
 			{
 				// #0021043
-				$this->getDeadline();
+				return $this->getDeadline();
 			}
 			$a_user_id = $team_id;
 			$is_team = true;
@@ -278,7 +364,7 @@ class ilExAssignment
 	 * 
 	 * @return int
 	 */
-	protected function getLastPersonalDeadline()
+	public function getLastPersonalDeadline()
 	{
 		$ilDB = $this->db;
 		
@@ -395,25 +481,41 @@ class ilExAssignment
 	/**
 	 * Set type
 	 * 
-	 * @param int $a_value 
+	 * @param int $a_value
+	 * @deprecated this will most probably become an non public function in the future (or become obsolete)
 	 */
 	function setType($a_value)
 	{
 		if($this->isValidType($a_value))
 		{
 			$this->type = (int)$a_value;
-			
-			if($this->type == self::TYPE_UPLOAD_TEAM)
+
+			$this->ass_type = $this->types->getById($a_value);
+
+			if($this->ass_type->usesTeams())
 			{
 				$this->setPeerReview(false);
 			}
 		}
 	}
+
+	/**
+	 * Get assignment type
+	 *
+	 * @param
+	 * @return null|ilExAssignmentTypeInterface
+	 */
+	public function getAssignmentType()
+	{
+		return $this->ass_type;
+	}
+
 	
 	/**
 	 * Get type
 	 * 
 	 * @return int
+	 * @deprecated this will most probably become an non public function in the future (or become obsolete)
 	 */
 	function getType()
 	{
@@ -428,12 +530,7 @@ class ilExAssignment
 	 */
 	function isValidType($a_value)
 	{
-		if(in_array((int)$a_value, array(self::TYPE_UPLOAD, self::TYPE_BLOG, 
-			self::TYPE_PORTFOLIO, self::TYPE_UPLOAD_TEAM, self::TYPE_TEXT)))
-		{
-			return true;
-		}
-		return false;
+		return $this->types->isValidId($a_value);
 	}
 	
 	/**
@@ -757,7 +854,25 @@ class ilExAssignment
 	{
 		return (int)$this->feedback_date;
 	}
-	
+
+	/**
+	 * Set (global) feedback file availability using a custom date.
+	 * @param int $a_value timestamp
+	 */
+	function setFeedbackDateCustom($a_value)
+	{
+		$this->feedback_date_custom = $a_value;
+	}
+
+	/**
+	 * Get feedback file availability using custom date.
+	 * @return string timestamp
+	 */
+	function getFeedbackDateCustom()
+	{
+		return $this->feedback_date_custom;
+	}
+
 	/**
 	 * Set team management by tutor
 	 * 
@@ -805,7 +920,7 @@ class ilExAssignment
 	/**
 	 * Set portfolio template id
 	 *
-	 * @param	int		portfolio id
+	 * @param int $a_val
 	 */
 	function setPortfolioTemplateId($a_val)
 	{
@@ -873,12 +988,15 @@ class ilExAssignment
 		$this->setPeerReviewCriteriaCatalogue($a_set["peer_crit_cat"]);
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
+		$this->setFeedbackDateCustom($a_set["fb_date_custom"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
 		$this->setTeamTutor($a_set["team_tutor"]);
 		$this->setMaxFile($a_set["max_file"]);
 		$this->setPortfolioTemplateId($a_set["portfolio_template"]);
 		$this->setMinCharLimit($a_set["min_char_limit"]);
 		$this->setMaxCharLimit($a_set["max_char_limit"]);
+		$this->setDeadlineMode($a_set["deadline_mode"]);
+		$this->setRelativeDeadline($a_set["relative_deadline"]);
 	}
 	
 	/**
@@ -920,12 +1038,15 @@ class ilExAssignment
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
+			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
 			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
-			"max_char_limit" => array("integer", $this->getMaxCharLimit())
+			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
+			"relative_deadline" => array("integer", $this->getRelativeDeadline()),
+			"deadline_mode" => array("integer", $this->getDeadlineMode())
 			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -941,7 +1062,7 @@ class ilExAssignment
 	function update()
 	{		
 		$ilDB = $this->db;
-		
+
 		$ilDB->update("exc_assignment",
 			array(
 			"exc_id" => array("integer", $this->getExerciseId()),
@@ -966,12 +1087,15 @@ class ilExAssignment
 			"peer_crit_cat" => array("integer", $this->getPeerReviewCriteriaCatalogue()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
+			"fb_date_custom" => array("integer", $this->getFeedbackDateCustom()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()),
 			"team_tutor" => array("integer", $this->getTeamTutor()),
 			"max_file" => array("integer", $this->getMaxFile()),
 			"portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
-			"max_char_limit" => array("integer", $this->getMaxCharLimit())
+			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
+			"deadline_mode" => array("integer", $this->getDeadlineMode()),
+			"relative_deadline" => array("integer", $this->getRelativeDeadline())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -998,6 +1122,9 @@ class ilExAssignment
 		$exc->updateAllUsersStatus();
 		
 		$this->handleCalendarEntries("delete");
+
+		$reminder = new ilExAssignmentReminder();
+		$reminder->deleteReminders($this->getId());
 	}
 	
 	
@@ -1040,6 +1167,8 @@ class ilExAssignment
 				"fb_file" => $rec["fb_file"],
 				"fb_date" => $rec["fb_date"],
 				"fb_cron" => $rec["fb_cron"],
+				"deadline_mode" => $rec["deadline_mode"],
+				"relative_deadline" => $rec["relative_deadline"]
 				);
 			$order_val += 10;
 		}
@@ -1048,7 +1177,6 @@ class ilExAssignment
 	
 	/**
 	 * Clone assignments of exercise
-	 *
 	 * @param
 	 * @return
 	 */
@@ -1081,14 +1209,16 @@ class ilExAssignment
 			$new_ass->setPeerReviewSimpleUnlock($d->getPeerReviewSimpleUnlock());
 			$new_ass->setFeedbackFile($d->getFeedbackFile());
 			$new_ass->setFeedbackDate($d->getFeedbackDate());
+			$new_ass->setFeedbackDateCustom($d->getFeedbackDateCustom());
 			$new_ass->setFeedbackCron($d->hasFeedbackCron()); // #16295
 			$new_ass->setTeamTutor($d->getTeamTutor());
 			$new_ass->setMaxFile($d->getMaxFile());
 			$new_ass->setMinCharLimit($d->getMinCharLimit());
 			$new_ass->setMaxCharLimit($d->getMaxCharLimit());
 			$new_ass->setPortfolioTemplateId($d->getPortfolioTemplateId());
-
-
+			$new_ass->setDeadlineMode($d->getDeadlineMode());
+			$new_ass->setRelativeDeadline($d->getRelativeDeadline());
+			
 			// criteria catalogue(s)
 			if($d->getPeerReviewCriteriaCatalogue() &&
 				array_key_exists($d->getPeerReviewCriteriaCatalogue(), $a_crit_cat_map))
@@ -1254,9 +1384,10 @@ class ilExAssignment
 	/**
 	 * Order assignments by deadline date
 	 */
-	function orderAssByDeadline($a_ex_id)
+	static function orderAssByDeadline($a_ex_id)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT id FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_ex_id, "integer").
@@ -1382,7 +1513,51 @@ class ilExAssignment
 		}
 		return $mem;
 	}
-	
+
+	/**
+	 * Get submission data for an specific user,exercise and assignment.
+	 * todo we can refactor a bit the method getMemberListData to use this and remove duplicate code.
+	 * @param $a_user_id
+	 * @param $a_grade
+	 * @return array
+	 */
+	public function getExerciseMemberAssignmentData($a_user_id, $a_grade = "")
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+
+		if(in_array($a_grade, array("notgraded", "passed", "failed")))
+		{
+			$and_grade = " AND status = ".$ilDB->quote($a_grade, "text");
+		}
+
+		$q = "SELECT * FROM exc_mem_ass_status ".
+			"WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+			$and_grade;
+
+		$set = $ilDB->query($q);
+
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$sub = new ilExSubmission($this, $a_user_id);
+
+			$data["sent_time"] = $rec["sent_time"];
+			$data["submission"] = $sub->getLastSubmission();
+			$data["status_time"] = $rec["status_time"];
+			$data["feedback_time"] = $rec["feedback_time"];
+			$data["notice"] = $rec["notice"];
+			$data["status"] = $rec["status"];
+			$data["mark"] = $rec["mark"];
+			$data["comment"] = $rec["u_comment"];
+		}
+
+		return $data;
+
+	}
+
 	/**
 	 * Create member status record for a new participant for all assignments
 	 */
@@ -1762,24 +1937,41 @@ class ilExAssignment
 		$ilDB = $DIC->database();
 		
 		$res = array();
-		
-		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2 FROM exc_assignment".
+
+		$set = $ilDB->query("SELECT id,fb_file,time_stamp,deadline2,fb_date FROM exc_assignment".
 			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
-			" AND fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
-			" AND time_stamp IS NOT NULL".
-			" AND time_stamp > ".$ilDB->quote(0, "integer").			
-			" AND time_stamp < ".$ilDB->quote(time(), "integer").
-			" AND fb_cron_done = ".$ilDB->quote(0, "integer"));
+			" AND (fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
+				" AND time_stamp IS NOT NULL".
+				" AND time_stamp > ".$ilDB->quote(0, "integer").
+				" AND time_stamp < ".$ilDB->quote(time(), "integer").
+				" AND fb_cron_done = ".$ilDB->quote(0, "integer").
+			") OR (fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_CUSTOM, "integer").
+				" AND fb_date_custom IS NOT NULL".
+				" AND fb_date_custom > ".$ilDB->quote(0, "integer").
+				" AND fb_date_custom < ".$ilDB->quote(time(), "integer").
+				" AND fb_cron_done = ".$ilDB->quote(0, "integer").")");
+
+
+
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$max = max($row['time_stamp'], $row['deadline2']);
-
-			if(trim($row["fb_file"]) && $max <= time())
+			if($row['fb_date'] == self::FEEDBACK_DATE_DEADLINE)
 			{
-				$res[] = $row["id"];			
+				$max = max($row['time_stamp'], $row['deadline2']);
+				if (trim($row["fb_file"]) && $max <= time())
+				{
+					$res[] = $row["id"];
+				}
 			}
-		}		
-	
+			elseif($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM)
+			{
+				if(trim($row["fb_file"]) && $row['fb_date_custom'] <= time())
+				{
+					$res[] = $row["id"];
+				}
+			}
+		}
+
 		return $res;
 	}
 	
@@ -1840,15 +2032,15 @@ class ilExAssignment
 	
 	// status
 	
-	public function afterDeadline()
+	public function afterDeadline()									// like: after effective deadline (for single user), no deadline: true
 	{
 		$ilUser = $this->user;
 				
 		// :TODO: always current user?
-		$idl = $this->getPersonalDeadline($ilUser->getId());
+		$idl = $this->getPersonalDeadline($ilUser->getId());		// official deadline
 		
 		// no deadline === true
-		$deadline = max($this->deadline, $this->deadline2, $idl);
+		$deadline = max($this->deadline, $this->deadline2, $idl);	// includes grace period
 		return ($deadline - time() <= 0);
 	}
 	
@@ -1865,16 +2057,30 @@ class ilExAssignment
 		$deadline = max($this->deadline, $this->deadline2, $idl);		
 		
 		// #18271 - afterDeadline() does not handle last personal deadline
-		if($idl && $deadline == $idl)
+		if($idl && $deadline == $idl)								// after effective deadline of all users
 		{
 			return ($deadline - time() <= 0);
 		}
 		
-		return ($deadline > 0 && 
+		return ($deadline > 0 && 									// like: after effective deadline (for single user), except: no deadline false
 			$this->afterDeadline());	
 	}
+
+	/**
+	 * @return bool return if sample solution is available using a custom date.
+	 */
+	public function afterCustomDate()
+	{
+		$date_custom = $this->getFeedbackDateCustom();
+
+		//if the solution will be displayed only after reach all the deadlines.
+		//$final_deadline = $this->afterDeadlineStrict();
+		//$dl = max($final_deadline, time());
+		//return ($date_custom - $dl <= 0);
+		return ($date_custom - time() <= 0);
+	}
 	
-	public function beforeDeadline()
+	public function beforeDeadline()								// like: before effective deadline (for all users), no deadline: true
 	{
 		// no deadline === true
 		return !$this->afterDeadlineStrict();
@@ -2009,7 +2215,13 @@ class ilExAssignment
 			$id = substr($id, 1);
 			$is_team = true;
 		}
-		
+
+		include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
+		$idl = ilExcIndividualDeadline::getInstance($this->getId(), $id, $is_team);
+		$idl->setIndividualDeadline($date->get(IL_CAL_UNIX));
+		$idl->save();
+
+		/*
 		$ilDB->replace("exc_idl",
 			array(
 				"ass_id" => array("integer", $this->getId()),
@@ -2019,7 +2231,7 @@ class ilExAssignment
 			array(
 				"tstamp" => array("integer", $date->get(IL_CAL_UNIX))
 			)
-		);
+		);*/
 	}
 	
 	public function getIndividualDeadlines()
@@ -2050,7 +2262,7 @@ class ilExAssignment
 	
 	public function hasReadOnlyIDl()
 	{
-		if($this->getType() != ilExAssignment::TYPE_UPLOAD_TEAM &&
+		if(!$this->ass_type->usesTeams() &&
 			$this->getPeerReview())
 		{		
 			// all deadlines are read-only if we have peer feedback
@@ -2324,6 +2536,36 @@ class ilExAssignment
 		return $this->max_char_limit;
 	}
 
+	/**
+	 * Get calculated deadlines for user/team members. These arrays will contain no entries, if team or user
+	 * has not started the assignment yet.
+	 *
+	 * @return array[array] contains two arrays one with key "user", second with key "team", each one has
+	 * 						member id as keys and calculated deadline as value
+	 */
+	public function getCalculatedDeadlines()
+	{
+		$calculated_deadlines = array(
+			"user" => array(),
+			"team" => array()
+		);
+
+		if ($this->getRelativeDeadline() && $this->getDeadlineMode() == self::DEADLINE_RELATIVE)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
+			foreach (ilExcIndividualDeadline::getStartingTimestamps($this->getId()) as $ts)
+			{
+				$type = $ts["is_team"]
+					? "team"
+					: "user";
+
+				$calculated_deadlines[$type][$ts["member_id"]] = array(
+					"calculated_deadline" => $ts["starting_ts"] + ($this->getRelativeDeadline() * 24 * 60 * 60)
+				);
+			}
+		}
+		return $calculated_deadlines;
+	}
 }
 
 ?>

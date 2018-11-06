@@ -23,7 +23,9 @@ class ilQuestionEditGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		if ($_GET["qpool_ref_id"])
 		{
@@ -122,7 +124,9 @@ class ilQuestionEditGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl,$lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$cmd = $ilCtrl->getCmd();
 		$next_class = $ilCtrl->getNextClass();
@@ -162,7 +166,8 @@ class ilQuestionEditGUI
 				$count = $q_gui->object->isInUse();
 				if ($count > 0)
 				{
-					global $rbacsystem;
+					global $DIC;
+					$rbacsystem = $DIC['rbacsystem'];
 					if ($rbacsystem->checkAccess("write", $this->pool_ref_id))
 					{
 						ilUtil::sendInfo(sprintf($lng->txt("qpl_question_is_in_use"), $count));

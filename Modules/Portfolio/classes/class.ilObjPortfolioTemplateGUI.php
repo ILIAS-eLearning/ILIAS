@@ -302,7 +302,8 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	}
 		
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
-	{			
+	{
+		$obj_service = $this->object_service;
 		// activation/availability
 		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
@@ -335,10 +336,17 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$dur->addSubItem($visible);										
 		
 		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('properties'));
+		$section->setTitle($this->lng->txt('obj_presentation'));
 		$a_form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+
 	
 		parent::initEditCustomForm($a_form);
+
+		$tit = $a_form->getItemByPostVar("title");
+		$tit->setInfo($this->lng->txt('prtt_title_info'));
 	}
 	
 	protected function getEditFormCustomValues(array &$a_values)
@@ -356,7 +364,9 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	public function updateCustom(ilPropertyFormGUI $a_form)
-	{				
+	{
+		$obj_service = $this->object_service;
+
 		$this->object->setOnline($a_form->getInput("online"));
 		
 		// activation
@@ -366,14 +376,17 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$this->object->setActivationLimited(true);								    			
 			$this->object->setActivationVisibility($a_form->getInput("access_visiblity"));															
 			$this->object->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
-			$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));										
+			$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));
 		}
 		else
 		{
 			$this->object->setActivationLimited(false);
 		}
 
-		parent::updateCustom($a_form);		
+		parent::updateCustom($a_form);
+
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
 	}			
 	
 	
@@ -522,12 +535,18 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		return parent::preview($a_return , $a_content, $a_show_notes);
 	}
 	
-	public function createFromTemplate()
+	public function createFromTemplateOld()
 	{		
 		$this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());
 		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create");		
-	}	
-		
+	}
+
+	public function createFromTemplate()
+	{
+		$this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());
+		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "createFromTemplateDirect");
+	}
+
 	public static function _goto($a_target)
 	{		
 		$id = explode("_", $a_target);

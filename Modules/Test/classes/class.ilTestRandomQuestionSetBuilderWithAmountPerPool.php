@@ -17,7 +17,8 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 	 */
 	public function checkBuildableNewer()
 	{
-		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$lng = $DIC['lng'];
 			
 		$isBuildable = true;
 		
@@ -92,7 +93,9 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 				// fau: fixRandomTestBuildable - log missing questions for a random test rule
 				if( $actualQuestionStage->isSmallerThan($requiredQuestionAmount) )
 				{
-					global $ilDB, $ilLog;
+					global $DIC;
+					$ilDB = $DIC['ilDB'];
+					$ilLog = $DIC['ilLog'];
 					if (!isset($translator))
 					{
 						require_once("./Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php");

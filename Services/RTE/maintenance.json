@@ -5,7 +5,9 @@
     "implicit_maintainers": [
         "mjansen(8784)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/RTE",

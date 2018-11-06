@@ -239,12 +239,24 @@ class ilInitialisation
 			return $delegatingFactory->getLocal($customizingConfiguration);
 		};
 
+		$DIC['filesystem.libs'] = function ($c) {
+			//customizing
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
+			$customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'libs');
+			return $delegatingFactory->getLocal($customizingConfiguration, true);
+		};
+
 		$DIC['filesystem'] = function($c) {
 			return new \ILIAS\Filesystem\FilesystemsImpl(
 				$c['filesystem.storage'],
 				$c['filesystem.web'],
 				$c['filesystem.temp'],
-				$c['filesystem.customizing']
+				$c['filesystem.customizing'],
+				$c['filesystem.libs']
 			);
 		};
 	}
@@ -268,6 +280,8 @@ class ilInitialisation
 			if (IL_VIRUS_SCANNER != "None") {
 				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
+
+			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor());
 
 			return $fileUploadImpl;
 		};
@@ -612,12 +626,13 @@ class ilInitialisation
 	protected static function initMail(\ILIAS\DI\Container $c)
 	{
 		$c["mail.mime.transport.factory"] = function ($c) {
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
-			return new ilMailMimeTransportFactory($c["ilSetting"]);
+			return new \ilMailMimeTransportFactory($c["ilSetting"]);
 		};
 		$c["mail.mime.sender.factory"] = function ($c) {
-			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
-			return new ilMailMimeSenderFactory($c["ilSetting"]);
+			return new \ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+		$c["mail.texttemplates.service"] = function ($c) {
+			return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
 		};
 	}
 
@@ -628,7 +643,11 @@ class ilInitialisation
 	{
 		$c["object.customicons.factory"] = function ($c) {
 			require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconFactory.php';
-			return new ilObjectCustomIconFactory($c->filesystem()->web(), $c->upload(), $c['ilObjDataCache']);
+			return new ilObjectCustomIconFactory(
+				$c->filesystem()->web(),
+				$c->upload(),
+				$c['ilObjDataCache']
+			);
 		};
 	}
 
@@ -638,8 +657,28 @@ class ilInitialisation
 	protected static function initAvatar(\ILIAS\DI\Container $c)
 	{
 		$c["user.avatar.factory"] = function ($c) {
-			require_once 'Services/User/Avatar/classes/class.ilUserAvatarFactory.php';
-			return new ilUserAvatarFactory($c);
+			return new \ilUserAvatarFactory($c);
+		};
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initTermsOfService(\ILIAS\DI\Container $c)
+	{
+		$c['tos.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
+			return new ilTermsOfServiceCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
+		};
+
+		$c['tos.document.evaluator'] = function (\ILIAS\DI\Container $c) {
+			return new ilTermsOfServiceSequentialDocumentEvaluation(
+				new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
+					$c['tos.criteria.type.factory'], $c->user(), $c->logger()->tos()
+				),
+				$c->user(),
+				$c->logger()->tos(),
+				\ilTermsOfServiceDocument::orderBy('sorting')->get()
+			);
 		};
 	}
 
@@ -689,7 +728,7 @@ class ilInitialisation
 	 */
 	protected static function initStyle()
 	{
-		global $styleDefinition, $ilPluginAdmin;
+		global $DIC, $ilPluginAdmin;
 
 		// load style definitions
 		self::initGlobal("styleDefinition", "ilStyleDefinition",
@@ -701,7 +740,7 @@ class ilInitialisation
 		{
 			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
 			$gui_class = $ui_plugin->getUIClassInstance();
-			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $styleDefinition));
+			$gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
 		}
 	}
 
@@ -912,7 +951,7 @@ class ilInitialisation
 		self::initGlobal("ilAccess", "ilAccess",
 			 "./Services/AccessControl/classes/class.ilAccess.php");
 		
-		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
+		require_once "./Services/Conditions/classes/class.ilConditionHandler.php";
 	}
 	
 	/**
@@ -1058,6 +1097,7 @@ class ilInitialisation
 
 			self::initInjector($GLOBALS['DIC']);
 			self::initBackgroundTasks($GLOBALS['DIC']);
+			self::initKioskMode($GLOBALS['DIC']);
 
 			if(ilContext::hasHTML())
 			{													
@@ -1193,6 +1233,7 @@ class ilInitialisation
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
 		self::initCustomObjectIcons($GLOBALS['DIC']);
+		self::initTermsOfService($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1431,7 +1472,8 @@ class ilInitialisation
 				$c["ui.factory.chart"],
 				$c["ui.factory.input"],
 				$c["ui.factory.table"],
-				$c["ui.factory.messagebox"]
+				$c["ui.factory.messagebox"],
+				$c["ui.factory.card"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1498,6 +1540,9 @@ class ilInitialisation
 		$c["ui.factory.messagebox"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\MessageBox\Factory();
 		};
+		$c["ui.factory.card"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Card\Factory();
+		};
 		$c["ui.factory.progressmeter"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
 		};
@@ -1505,10 +1550,25 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
 		};
 		$c["ui.factory.input.field"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Field\Factory($c["ui.signal_generator"]);
+			$data_factory = new ILIAS\Data\Factory();
+			$validation_factory = new ILIAS\Validation\Factory($data_factory, $c["lng"]);
+			$transformation_factory = new ILIAS\Transformation\Factory();
+			return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+				$c["ui.signal_generator"],
+				$data_factory,
+				$validation_factory,
+				$transformation_factory
+			);
 		};
 		$c["ui.factory.input.container"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Container\Factory();
+			return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
+				$c["ui.factory.input.container.form"]
+			);
+		};
+		$c["ui.factory.input.container.form"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
+				$c["ui.factory.input.field"]
+			);
 		};
 		$c["ui.factory.panel.listing"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
@@ -1649,6 +1709,8 @@ class ilInitialisation
 			{
 				$_GET['offset'] = (int) $_GET['offset'];		// old code
 			}
+
+			self::initKioskMode($GLOBALS["DIC"]);
 		}
 		else
 		{
@@ -1757,7 +1819,7 @@ class ilInitialisation
 		}
 
 		if($a_current_script == 'goto.php' && in_array($_GET['target'], array(
-			'usr_registration', 'usr_nameassist', 'usr_pwassist'
+			'usr_registration', 'usr_nameassist', 'usr_pwassist', 'usr_agreement'
 		)))
 		{
 			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);
@@ -1976,6 +2038,17 @@ class ilInitialisation
 
 		$c["di.injector"] = function ($c) {
 			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
+		};
+	}
+
+	private static function initKioskMode(\ILIAS\DI\Container $c) {
+		$c["service.kiosk_mode"] = function ($c) {
+			return new ilKioskModeService(
+				$c['ilCtrl'],
+				$c['lng'],
+				$c['ilAccess'],
+				$c['objDefinition']
+			);
 		};
 	}
 }

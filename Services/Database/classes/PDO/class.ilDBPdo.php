@@ -1,14 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
-require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
-require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
-require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
-require_once('./Services/Database/interfaces/interface.ilDBInterface.php');
-require_once('./Services/Database/classes/class.ilDBConstants.php');
-require_once('./Services/Database/interfaces/interface.ilDBLegacyInterface.php');
-
 /**
  * Class pdoDB
  *
@@ -924,8 +916,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * Determine contraint name by table name and constraint name.
-	 * In MySQL these are "unique" per table, but they
-	 * must be "globally" unique in oracle. (so this one is overwritten there)
+	 * In MySQL these are "unique" per table
 	 */
 	public function constraintName($a_table, $a_constraint) {
 		return $a_constraint;
@@ -1933,18 +1924,18 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param string $tablename of the table
 	 * @param array $fields ($key=>$value) where $key is a field name and $value its value
 	 * @param int $mode of query to build
-	 *                          ilDBConstants::MDB2_AUTOQUERY_INSERT
-	 *                          ilDBConstants::MDB2_AUTOQUERY_UPDATE
-	 *                          ilDBConstants::MDB2_AUTOQUERY_DELETE
-	 *                          ilDBConstants::MDB2_AUTOQUERY_SELECT
+	 *                          ilDBConstants::AUTOQUERY_INSERT
+	 *                          ilDBConstants::AUTOQUERY_UPDATE
+	 *                          ilDBConstants::AUTOQUERY_DELETE
+	 *                          ilDBConstants::AUTOQUERY_SELECT
 	 * @param bool $where (in case of update and delete queries, this string will be put after the sql WHERE statement)
 	 *
 	 * @deprecated Will be removed in ILIAS 5.3
 	 * @return bool
 	 */
-	public function autoExecute($tablename, $fields, $mode = ilDBConstants::MDB2_AUTOQUERY_INSERT, $where = false) {
+	public function autoExecute($tablename, $fields, $mode = ilDBConstants::AUTOQUERY_INSERT, $where = false) {
 		$fields_values = (array)$fields;
-		if ($mode == ilDBConstants::MDB2_AUTOQUERY_INSERT) {
+		if ($mode == ilDBConstants::AUTOQUERY_INSERT) {
 			if (!empty($fields_values)) {
 				$keys = $fields_values;
 			} else {
@@ -1977,7 +1968,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param bool $result_types
 	 * @return string
 	 */
-	protected function autoPrepare($table, $table_fields, $mode = ilDBConstants::MDB2_AUTOQUERY_INSERT, $where = false, $types = null, $result_types = ilDBConstants::MDB2_PREPARE_MANIP) {
+	protected function autoPrepare($table, $table_fields, $mode = ilDBConstants::AUTOQUERY_INSERT, $where = false, $types = null, $result_types = ilDBConstants::PREPARE_MANIP) {
 		$query = $this->buildManipSQL($table, $table_fields, $mode, $where);
 
 		return $this->prepare($query, $types, $result_types);
@@ -2011,7 +2002,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 
 		switch ($mode) {
-			case ilDBConstants::MDB2_AUTOQUERY_INSERT:
+			case ilDBConstants::AUTOQUERY_INSERT:
 				if (empty($table_fields)) {
 					throw new ilDatabaseException('Insert requires table fields');
 				}
@@ -2020,7 +2011,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 				return 'INSERT INTO ' . $table . ' (' . $cols . ') VALUES (' . $values . ')';
 				break;
-			case ilDBConstants::MDB2_AUTOQUERY_UPDATE:
+			case ilDBConstants::AUTOQUERY_UPDATE:
 				if (empty($table_fields)) {
 					throw new ilDatabaseException('Update requires table fields');
 				}
@@ -2029,12 +2020,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 				return $sql;
 				break;
-			case ilDBConstants::MDB2_AUTOQUERY_DELETE:
+			case ilDBConstants::AUTOQUERY_DELETE:
 				$sql = 'DELETE FROM ' . $table . $where;
 
 				return $sql;
 				break;
-			case ilDBConstants::MDB2_AUTOQUERY_SELECT:
+			case ilDBConstants::AUTOQUERY_SELECT:
 				$cols = !empty($table_fields) ? implode(', ', $table_fields) : '*';
 				$sql = 'SELECT ' . $cols . ' FROM ' . $table . $where;
 
@@ -2063,9 +2054,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function sanitizeMB4StringIfNotSupported($query)
 	{
 		if (!$this->doesCollationSupportMB4Strings()) {
-			$query = preg_replace(
+			$query_replaced = preg_replace(
 				'/[\x{10000}-\x{10FFFF}]/u', ilDBConstants::MB4_REPLACEMENT, $query
 			);
+			if (!empty($query_replaced)) {
+				return $query_replaced;
+			}
 		}
 
 		return $query;

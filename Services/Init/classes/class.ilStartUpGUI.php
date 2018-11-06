@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -21,19 +19,52 @@ class ilStartUpGUI
 	protected $lng;
 	protected $logger;
 
-	/**
-	* constructor
-	*/
-	public function __construct()
-	{
-		global $ilCtrl, $lng;
+	/** @var \ilTemplate */
+	protected $mainTemplate;
 
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
+	/** @var \ilObjUser */
+	protected $user;
+
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
+
+	/**
+	 * ilStartUpGUI constructor.
+	 * @param \ilObjUser|null $user
+	 * @param \ilTermsOfServiceDocumentEvaluation|null
+	 * @param \ilTemplate|null $mainTemplate
+	 */
+	public function __construct(
+		\ilObjUser $user = null,
+		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
+		\ilTemplate $mainTemplate = null
+	)
+	{
+		global $DIC;
+
+		if ($user === null) {
+			$user = $DIC->user();
+		}
+		$this->user = $user;
+
+		if ($termsOfServiceEvaluation === null) {
+			$termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
+		}
+		$this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
+
+		if ($mainTemplate === null) {
+			$mainTemplate = $DIC->ui()->mainTemplate();
+		}
+		$this->mainTemplate = $mainTemplate;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('auth');
 		$this->logger = ilLoggerFactory::getLogger('init');
 
-		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
+		$this->ctrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
+
+		$this->user->setLanguage($this->lng->getLangKey());
 	}
 
 	/**
@@ -99,10 +130,12 @@ class ilStartUpGUI
 	 */
 	protected function showLoginPageOrStartupPage()
 	{
+
 		/**
 		 * @var ilAuthSession
 		 */
 		$auth_session = $GLOBALS['DIC']['ilAuthSession'];
+		$ilAppEventHandler = $GLOBALS['DIC']['ilAppEventHandler'];
 
 		$force_login = false;
 		if(
@@ -119,14 +152,14 @@ class ilStartUpGUI
 			if($auth_session->isValid())
 			{
 				$this->logger->debug('Valid session -> logout current user');
-				ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);	
+				ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 				$auth_session->logout();
 
-				$GLOBALS['ilAppEventHandler']->raise(
+				$ilAppEventHandler->raise(
 					'Services/Authentication', 
 					'afterLogout',
 					array(
-						'username' => $GLOBALS['DIC']->user()->getLogin()
+						'username' => $this->user->getLogin()
 					)
 				);
 			}
@@ -166,6 +199,7 @@ class ilStartUpGUI
 		self::initStartUpTemplate("tpl.login.html");
 		
 		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
 		$page_editor_html = $this->showLoginInformation($page_editor_html);
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
@@ -179,8 +213,6 @@ class ilStartUpGUI
 		// not controlled by login page editor
 		$tpl->setVariable("PAGETITLE",  "- ".$this->lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-		
-		$this->ctrl->setTargetScript("ilias.php");
 		
 		// check expired session and send message
 		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
@@ -440,7 +472,6 @@ class ilStartUpGUI
 		$tpl->setVariable("PAGETITLE",  "- ".$lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
-		$this->ctrl->setTargetScript("ilias.php");
 		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 
 		// browser does not accept cookies
@@ -1241,24 +1272,19 @@ class ilStartUpGUI
 	}
 
 	/**
-	 * Show terms of service link 
-	 * @global ilLanguage $lng
-	 * @param string $page_editor_html 
+	 * Show terms of service link
+	 * @param string $page_editor_html
+	 * @return string
 	 */
-	protected function showTermsOfServiceLink($page_editor_html)
+	protected function showTermsOfServiceLink(string $page_editor_html): string
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		if (!$this->user->getId()) {
+			$this->user->setId(ANONYMOUS_USER_ID);
+		}
 
-
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-		if(ilTermsOfServiceHelper::isEnabled() && $document->exists())
-		{
+		if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
 			$utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
-			$utpl->setVariable('TXT_TERMS_OF_SERVICE', $lng->txt('usr_agreement'));
+			$utpl->setVariable('TXT_TERMS_OF_SERVICE', $this->lng->txt('usr_agreement'));
 			$utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
 
 			return $this->substituteLoginPageElements(
@@ -1522,16 +1548,31 @@ class ilStartUpGUI
 	*/
 	function showLogout()
 	{
-		global $tpl, $ilSetting, $lng, $ilIliasIniFile;
-		
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
+		global $DIC;
+
+
+		$tpl = $DIC->ui()->mainTemplate();
+		$ilSetting = $DIC->settings();
+		$lng = $DIC->language();
+		$ilIliasIniFile = $DIC['ilIliasIniFile'];
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+
+		$ilAppEventHandler->raise(
+			'Services/Authentication',
+			'beforeLogout',
+			[
+				'user_id' => $this->user->getId()
+			]
+		);
+
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 		$GLOBALS['DIC']['ilAuthSession']->logout();
 		
 		$GLOBALS['ilAppEventHandler']->raise(
 			'Services/Authentication', 
 			'afterLogout',
 			array(
-				'username' => $GLOBALS['DIC']->user()->getLogin()
+				'username' => $this->user->getLogin()
 			)
 		);
 
@@ -1539,7 +1580,7 @@ class ilStartUpGUI
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
 
-		if((int)$GLOBALS['DIC']->user()->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth'))
+		if((int)$this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth'))
 		{
 			ilUtil::redirect('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
 		}
@@ -1793,57 +1834,52 @@ class ilStartUpGUI
 	 */
 	protected function showTermsOfService()
 	{
-		/**
-		 * @var $lng       ilLanguage
-		 * @var $tpl       ilTemplate
-		 * @var $ilUser    ilObjUser
-		 * @var $ilSetting ilSetting
-		 */
-		global $lng, $tpl, $ilUser, $ilSetting;
-
 		$back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
+		if (!$this->user->getId()) {
+			$this->user->setId(ANONYMOUS_USER_ID);
+		}
+
 		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
-		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
+		$this->mainTemplate->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('usr_agreement'));
 
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
-		$document = ilTermsOfServiceSignableDocumentFactory::getByLanguageObject($lng);
-		if($document->exists())
-		{
-			if('getAcceptance' == $this->ctrl->getCmd())
-			{
-				if(isset($_POST['status']) && 'accepted' == $_POST['status'])
-				{
-					require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-					ilTermsOfServiceHelper::trackAcceptance($ilUser, $document);
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$document = $this->termsOfServiceEvaluation->document();
+			if ('getAcceptance' == $this->ctrl->getCmd()) {
+				if (isset($_POST['status']) && 'accepted' == $_POST['status']) {
+					$helper = new \ilTermsOfServiceHelper();
 
-					if(ilSession::get('orig_request_target'))
-					{
+					$helper->trackAcceptance($this->user, $document);
+
+					if (ilSession::get('orig_request_target')) {
 						$target = ilSession::get('orig_request_target');
 						ilSession::set('orig_request_target', '');
 						ilUtil::redirect($target);
-					}
-					else
-					{
+					} else {
 						ilUtil::redirect('index.php?target=' . $_GET['target'] . '&client_id=' . CLIENT_ID);
 					}
 				}
 
-				$tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-				$tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
-				$tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $lng->txt('accept_usr_agreement'));
-				$tpl->setVariable('TXT_SUBMIT', $lng->txt('submit'));
+				$this->mainTemplate->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+				$this->mainTemplate->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+				$this->mainTemplate->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
+				$this->mainTemplate->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 			}
 
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->getContent());
-		}
-		else
-		{
-			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())));
+			$this->mainTemplate->setPermanentLink('usr', null, 'agreement');
+			$this->mainTemplate->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+		} else {
+			$this->mainTemplate->setVariable(
+				'TERMS_OF_SERVICE_CONTENT',
+				sprintf(
+					$this->lng->txt('no_agreement_description'),
+					'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+				)
+			);
 		}
 
-		$tpl->show();
+		$this->mainTemplate->show();
 	}
 
 	/**
@@ -1982,8 +2018,11 @@ class ilStartUpGUI
 				$pobj_id = ilObject::_lookupObjId($path_ref_id);		
 					
 				// core checks: timings/object-specific
-				if(!$ilAccess->doActivationCheck("read", "", $path_ref_id, $ilUser->getId(), $pobj_id, $ptype) ||
-					!$ilAccess->doStatusCheck("read", "", $path_ref_id, $ilUser->getId(), $pobj_id, $ptype))
+				if(!$ilAccess->checkAccess(
+					'read',
+					'',
+					$path_ref_id
+				))
 				{
 					// object in path is inaccessible - aborting
 					return false;
@@ -2189,7 +2228,7 @@ class ilStartUpGUI
 				'deleteExpiredDualOptInUserObjects',
 				array
 				(
-					$_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'], // session id and client id, not used for checking access -> not possible for anonymous
+					$_COOKIE[session_name()].'::'.$_COOKIE['ilClientId'], // session id and client id, not used for checking access -> not possible for anonymous
 					$exception->getCode() // user id
 				)
 			);
@@ -2338,6 +2377,97 @@ class ilStartUpGUI
 
 		return $page_editor_html;
 	}
+
+	/**
+	 * @param $page_editor_html
+	 * @return string
+	 */
+	protected function showOpenIdConnectLoginForm($page_editor_html)
+	{
+		global $DIC;
+
+		$oidc_settings = ilOpenIdConnectSettings::getInstance();
+		if($oidc_settings->getActive())
+		{
+			$tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
+
+			switch($oidc_settings->getLoginElementType())
+			{
+				case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT:
+
+					$tpl->setVariable('SCRIPT_OIDCONNECT_T',ILIAS_HTTP_PATH.'/openidconnect.php');
+					$tpl->setVariable('TXT_OIDC',$oidc_settings->getLoginElemenText());
+					break;
+
+				case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG:
+					$tpl->setVariable('SCRIPT_OIDCONNECT_I',ILIAS_HTTP_PATH.'/openidconnect.php');
+					$tpl->setVariable('IMG_SOURCE', $oidc_settings->getImageFilePath());
+					break;
+			}
+
+			return $this->substituteLoginPageElements(
+				$DIC->ui()->mainTemplate(),
+				$page_editor_html,
+				$tpl->get(),
+				'[list-openid-connect-login]',
+				'OPEN_ID_CONNECT_LOGIN_FORM'
+			);
+
+		}
+
+		return $page_editor_html;
+	}
+
+	/**
+	 * do open id connect authentication
+	 */
+	protected function doOpenIdConnectAuthentication()
+	{
+		global $DIC;
+
+		$this->getLogger()->debug('Trying openid connect authentication');
+
+		$credentials = new ilAuthFrontendCredentialsOpenIdConnect();
+		$credentials->initFromRequest();
+
+		$provider_factory = new ilAuthProviderFactory();
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_OPENID_CONNECT);
+
+		$status = ilAuthStatus::getInstance();
+
+		$frontend_factory = new ilAuthFrontendFactory();
+		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend = $frontend_factory->getFrontend(
+			$GLOBALS['DIC']['ilAuthSession'],
+			$status,
+			$credentials,
+			array($provider)
+		);
+
+		$frontend->authenticate();
+
+		switch($status->getStatus())
+		{
+			case ilAuthStatus::STATUS_AUTHENTICATED:
+				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
+				include_once './Services/Init/classes/class.ilInitialisation.php';
+				ilInitialisation::redirectToStartingPage();
+				return;
+
+			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				ilUtil::sendFailure($status->getTranslatedReason(),true);
+				$GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
+				return false;
+		}
+
+		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		$this->showLoginPage();
+		return false;
+
+
+
+	}
+
 
 	/**
 	 * @return bool

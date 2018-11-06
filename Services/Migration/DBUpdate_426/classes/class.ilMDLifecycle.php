@@ -116,7 +116,7 @@ class ilMDLifecycle extends ilMDBase
 	{
 		if($this->db->autoExecute('il_meta_lifecycle',
 								  $this->__getFields(),
-								  ilDBConstants::MDB2_AUTOQUERY_INSERT))
+								  ilDBConstants::AUTOQUERY_INSERT))
 		{
 			$this->setMetaId($this->db->getLastInsertId());
 
@@ -133,7 +133,7 @@ class ilMDLifecycle extends ilMDBase
 		{
 			if($this->db->autoExecute('il_meta_lifecycle',
 									  $this->__getFields(),
-									  ilDBConstants::MDB2_AUTOQUERY_UPDATE,
+									  ilDBConstants::AUTOQUERY_UPDATE,
 									  "meta_lifecycle_id = ".$ilDB->quote($this->getMetaId())))
 			{
 				return true;

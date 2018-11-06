@@ -30,7 +30,10 @@ abstract class ilExplorerBaseGUI
 	 */
 	protected $tpl;
 
-	protected static $js_tree_path = "./libs/bower/bower_components/jstree/jquery.jstree.js";
+	//protected static $js_tree_path = "./libs/bower/bower_components/jstree/jquery.jstree.js";
+	protected static $js_tree_path = "./libs/bower/bower_components/jstree/dist/jstree.js";
+	protected static $js_tree_path_css = "./libs/bower/bower_components/jstree/dist/themes/default/style.min.css";
+
 	protected static $js_expl_path = "./Services/UIComponent/Explorer2/js/Explorer2.js";
 	protected $skip_root_node = false;
 	protected $ajax = false;
@@ -40,6 +43,12 @@ abstract class ilExplorerBaseGUI
 	protected $offline_mode = false;
 	protected $sec_highl_nodes = array();
 	protected $enable_dnd = false;
+	protected $search_term = "";
+
+	/**
+	 * @var int 
+	 */
+	protected $child_limit = 0;
 
 	private $nodeOnclickEnabled;
 
@@ -56,7 +65,6 @@ abstract class ilExplorerBaseGUI
 		$this->id = $a_expl_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->parent_cmd = $a_parent_cmd;
-
 		// get open nodes
 		include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
 		$this->store = new ilSessionIStorage("expl2");
@@ -69,6 +77,47 @@ abstract class ilExplorerBaseGUI
 
 		$this->nodeOnclickEnabled = true;
 	}
+	
+	/**
+	 * Set child limit
+	 *
+	 * @param int $a_val child limit	
+	 */
+	function setChildLimit($a_val)
+	{
+		$this->child_limit = $a_val;
+	}
+	
+	/**
+	 * Get child limit
+	 *
+	 * @return int child limit
+	 */
+	function getChildLimit()
+	{
+		return $this->child_limit;
+	}
+	
+	/**
+	 * Set search term
+	 *
+	 * @param string $a_val search term	
+	 */
+	function setSearchTerm($a_val)
+	{
+		$this->search_term = $a_val;
+	}
+	
+	/**
+	 * Get search term
+	 *
+	 * @return string search term
+	 */
+	function getSearchTerm()
+	{
+		return $this->search_term;
+	}
+	
 	
 	/**
 	 * Set main template (that is responsible for adding js/css)
@@ -95,6 +144,14 @@ abstract class ilExplorerBaseGUI
 	static function getLocalJsTreeJsPath()
 	{
 		return self::$js_tree_path;
+	}
+
+	/**
+	 * Get local path of jsTree js
+	 */
+	static function getLocalJsTreeCssPath()
+	{
+		return self::$js_tree_path_css;
 	}
 
 	/**
@@ -404,7 +461,7 @@ abstract class ilExplorerBaseGUI
 	final protected function getSelectOnClick($a_node)
 	{
 		$dn_id = $this->getDomNodeIdForNodeId($this->getNodeId($a_node));
-		$oc = "il.Explorer2.selectOnClick('".$dn_id."'); return false;";
+		$oc = "il.Explorer2.selectOnClick(event, '".$dn_id."'); return false;";
 		return $oc;
 	}	
 	
@@ -531,17 +588,19 @@ abstract class ilExplorerBaseGUI
 	{
 		$this->beforeRendering();
 
+		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
+
 		if ($_GET["node_id"] != "")
 		{
 			$id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
+			$this->setSearchTerm(ilUtil::stripSlashes($_GET["searchterm"]));
+			$this->renderChilds($id, $etpl);
 		}
 		else
 		{
 			$id = $this->getNodeId($this->getRootNode());
+			$this->renderNode($this->getRootNode(), $etpl);
 		}
-		
-		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
-		$this->renderChilds($id, $etpl);
 		echo $etpl->get("tag");
 		exit;
 	}
@@ -614,13 +673,13 @@ abstract class ilExplorerBaseGUI
 		// jstree config options
 		$js_tree_config = array(
 			"core" => array(
-				"animation" => 300,
+				"animation" => 0,
 				"initially_open" => $open_nodes,
 				"open_parents" => false,
-				"strings" => array("loading" => "Loading ...", "new_node" => "New node")
+				"strings" => array("loading" => "Loading ...", "new_node" => "New node"),
+				"themes" => array("dots" => false, "icons" => false, "theme" => "")
 			),
 			"plugins" => $this->getJSTreePlugins(),
-			"themes" => array("dots" => false, "icons" => false, "theme" => ""),
 			"html_data" => array()
 		);
 
@@ -658,6 +717,7 @@ abstract class ilExplorerBaseGUI
 
 		$tpl->addJavascript(self::getLocalExplorerJsPath());
 		$tpl->addJavascript(self::getLocalJsTreeJsPath());
+		$tpl->addCss(self::getLocalJsTreeCssPath());
 	}
 	
 	
@@ -730,7 +790,19 @@ abstract class ilExplorerBaseGUI
 			$add = "<script>".$this->getOnLoadCode()."</script>";
 		}
 
-		return $etpl->get().$add;
+		$content = $etpl->get();
+
+		$content2 = '<div id="'.$container_outer_id.'"><div id="'.$container_id.'">
+<ul>
+    <li>Root node 1
+      <ul>
+        <li>Child node 1</li>
+        <li><a href="#">Child node 2</a></li>
+      </ul>
+    </li>
+  </ul></div></div>';
+
+		return $content.$add;
 	}
 	
 	/**
@@ -832,11 +904,50 @@ abstract class ilExplorerBaseGUI
 		$childs = $this->getChildsOfNode($a_node_id);
 		$childs = $this->sortChilds($childs, $a_node_id);
 
-		if (count($childs) > 0)
+		if (count($childs) > 0 || $this->getSearchTerm() != "")
 		{
-			$any = false;
+			// collect visible childs
+
+			$visible_childs = [];
+			$cnt_child = 0;
+
 			foreach ($childs as $child)
 			{
+				$cnt_child++;
+				if ($this->getChildLimit() > 0 && $this->getChildLimit() < $cnt_child)
+				{
+					continue;
+				}
+
+				if ($this->isNodeVisible($child))
+				{
+					$visible_childs[] = $child;
+				}
+			}
+
+			// search field, if too many childs
+			$any = false;
+			if ($this->getChildLimit() > 0 && $this->getChildLimit() < $cnt_child
+				|| $this->getSearchTerm() != "")
+			{
+				if (!$any)
+				{
+					$this->listStart($tpl);
+					$any = true;
+				}
+				$tpl->setCurrentBlock("list_search");
+				$tpl->setVariable("SEARCH_CONTAINER_ID", $a_node_id);
+				$tpl->setVariable("SEARCH_VAL", $this->getSearchTerm());
+				$tpl->parseCurrentBlock();
+				$tpl->touchBlock("tag");
+			}
+
+			// render visible childs
+			foreach ($visible_childs as $child)
+			{
+				// check child limit
+				$cnt_child++;
+
 				if ($this->isNodeVisible($child))
 				{
 					if (!$any)

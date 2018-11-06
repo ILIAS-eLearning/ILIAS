@@ -180,17 +180,18 @@ interface ilRBACAccessHandler {
 
 
 	/**
-	 * check for course activation
+	 * check for activation and centralized offline status.
 	 *
 	 * @param      string $a_permission
 	 * @param      string $a_cmd
 	 * @param      int    $a_ref_id
 	 * @param      int    $a_user_id
-	 * @param bool        $a_all
+	 * @param      int    $a_obj_id
+	 * @param      string $a_type
 	 *
 	 * @return bool
 	 */
-	public function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false);
+	public function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type);
 
 
 	/**

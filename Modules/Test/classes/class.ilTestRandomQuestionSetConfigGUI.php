@@ -752,8 +752,9 @@ class ilTestRandomQuestionSetConfigGUI
 
 		if( isset($_GET['quest_pool_ref']) && (int)$_GET['quest_pool_ref'] )
 		{
+			global $DIC; /* @var ILIAS\DI\Container $DIC */
 			/* @var ilObjectDataCache $objCache */
-			$objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
+			$objCache = $DIC['ilObjDataCache'];
 			
 			return $objCache->lookupObjId( (int)$_GET['quest_pool_ref'] );
 		}

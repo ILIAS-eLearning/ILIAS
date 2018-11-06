@@ -15,7 +15,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$join_str = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
+		$join_str
+			= "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value LIKE "
 			. $ilDB->quote("%$filter_value%", 'text') . ") ";
@@ -26,12 +27,13 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 		return $sql_obj;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
 	public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false) {
 		// use custom record sorting for url-fields
-		if($this->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+		if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
 			return new ilDclTextRecordQueryObject();
 		} else {
 			return parent::getRecordQuerySortObject($direction, $sort_by_status);
@@ -43,12 +45,12 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	 * @param ilPropertyFormGUI $form
 	 * @param null              $record_id
 	 */
-	public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = NULL) {
+	public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = null) {
 		$has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
 		if ($has_url_property) {
 			$values = array(
-				'link' => $form->getInput("field_" . $this->getId()),
-				'title' => $form->getInput("field_" . $this->getId() . "_title")
+				'link'  => $form->getInput("field_" . $this->getId()),
+				'title' => $form->getInput("field_" . $this->getId() . "_title"),
 			);
 			$this->checkValidityOfURLField($values, $record_id);
 		} else {
@@ -60,14 +62,14 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	/**
 	 * @inheritdoc
 	 */
-	public function checkValidity($value, $record_id = NULL) {
+	public function checkValidity($value, $record_id = null) {
 		$has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
 		if ($has_url_property) {
 			return $this->checkValidityOfURLField($value, $record_id);
 		}
 
 		//Don't check empty values
-		if ($value == NULL) {
+		if ($value == null) {
 			return true;
 		}
 
@@ -100,7 +102,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	protected function checkValidityOfURLField($value, $record_id) {
 		// TODO: value should always be an array with url fields, can we remove the check & json_decode?
 		if (!is_array($value)) {
-			$value = array( 'link' => $value, 'title' => '');
+			$value = array('link' => $value, 'title' => '');
 		}
 
 		//Don't check empty values
@@ -112,7 +114,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 
 		//check url/email
 		$link = (substr($value['link'], 0, 3) === 'www') ? 'http://' . $value['link'] : $value['link'];
-		if (! filter_var($link, FILTER_VALIDATE_URL) && ! filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
+		if (!filter_var($link, FILTER_VALIDATE_URL) && !filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
 			throw new ilDclInputException(ilDclInputException::NOT_URL);
 		}
 
@@ -130,6 +132,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			}
 		}
 	}
+
 
 	/**
 	 * @inheritDoc
@@ -168,7 +171,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 		if (substr($regex, 0, 1) != "/") {
 			$regex = "/" . $regex;
 		}
-		if (substr($regex, - 1) != "/") {
+		if (substr($regex, -1) != "/") {
 			$regex .= "/";
 		}
 
@@ -178,7 +181,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);
 		}
 
-		if ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) != NULL) {
+		if ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) != null) {
 			try {
 				$preg_match = preg_match($regex, $value);
 			} catch (ErrorException $e) {
@@ -193,8 +196,9 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 
 
 	/**
-	 * @param $value
+	 * @param        $value
 	 * @param string $encoding
+	 *
 	 * @return int
 	 */
 	public function strlen($value, $encoding = 'UTF-8') {
@@ -208,6 +212,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 		}
 	}
 
+
 	public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col) {
 		parent::fillHeaderExcel($worksheet, $row, $col);
 		if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -215,6 +220,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			$col++;
 		}
 	}
+
 
 	/**
 	 * @param array $titles
@@ -227,11 +233,10 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 			}
 			if ($title == $this->getTitle()) {
 				$import_fields[$k] = $this;
-				if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL) && $titles[$k+1] == $this->getTitle().'_title') {
-					unset($titles[$k+1]);
+				if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL) && $titles[$k + 1] == $this->getTitle() . '_title') {
+					unset($titles[$k + 1]);
 				}
 			}
 		}
-
 	}
 }

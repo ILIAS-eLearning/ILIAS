@@ -76,7 +76,6 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 		}
 		//		echo phpversion() . "\n";
 		$this->error_reporting_backup = error_reporting();
-		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING & ~E_STRICT); // Due to PEAR Lib MDB2
 
 		PHPUnit_Framework_Error_Notice::$enabled = false;
 		PHPUnit_Framework_Error_Deprecated::$enabled = false;
@@ -173,17 +172,13 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 
 
 	public function testConnection() {
-		//		$this->assertFalse($this->connect($this->getDBInstance(), true)); // Currently MDB2 Postgres doesn't check if connections possible
 		$this->assertTrue($this->connect($this->getDBInstance()));
-		if ($this->db->supportsEngineMigration()) {
-			//			$this->db->migrateAllTablesToEngine($this->db->getStorageEngine());
-		}
 	}
 
 
 	public function testCompareCreateTableQueries() {
 		/**
-		 * @var $manager MDB2_Driver_Manager_pgsql|ilDBPdoManagerPostgres|ilDBPdoManager
+		 * @var $manager ilDBPdoManagerPostgres|ilDBPdoManager
 		 */
 		$manager = $this->db->loadModule(ilDBConstants::MODULE_MANAGER);
 		$query = $manager->getTableCreationQuery($this->getTableName(), $this->mock->getDBFields(), array());
@@ -375,7 +370,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 	 */
 	public function testReverse() {
 		/**
-		 * @var $reverse  ilDBPdoReverse|MDB2_Driver_Reverse_mysqli|MDB2_Driver_Reverse_pgsql
+		 * @var $reverse  ilDBPdoReverse
 		 */
 		$reverse = $this->db->loadModule(ilDBConstants::MODULE_REVERSE);
 
@@ -398,7 +393,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 	 */
 	public function testManager() {
 		/**
-		 * @var $manager  ilDBPdomanager|MDB2_Driver_Manager_mysqli|MDB2_Driver_Manager_pgsql|ilDBPdoManagerPostgres
+		 * @var $manager  ilDBPdomanager|ilDBPdoManagerPostgres
 		 */
 		$manager = $this->db->loadModule(ilDBConstants::MODULE_MANAGER);
 

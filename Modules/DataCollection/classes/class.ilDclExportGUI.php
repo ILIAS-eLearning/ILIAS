@@ -3,18 +3,18 @@
 
 /**
  * Export User Interface Class
- * 
+ *
  * @author       Michael Herren <mh@studer-raimann.ch>
  */
-class ilDclExportGUI extends ilExportGUI
-{
+class ilDclExportGUI extends ilExportGUI {
+
 	/**
 	 * @return ilTestExportTableGUI
 	 */
-	protected function buildExportTableGUI()
-	{
+	protected function buildExportTableGUI() {
 
 		$table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
+
 		return $table;
 	}
 
@@ -49,8 +49,7 @@ class ilDclExportGUI extends ilExportGUI
 			}
 		}
 
-		ilUtil::sendFailure($lng->txt('dcl_no_export_data_available'),true);
+		ilUtil::sendFailure($lng->txt('dcl_no_export_data_available'), true);
 		$ilCtrl->redirect($this, "listExportFiles");
 	}
-
 }

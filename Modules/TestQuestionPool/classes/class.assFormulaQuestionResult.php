@@ -73,7 +73,8 @@ class assFormulaQuestionResult
 
 	public function substituteFormula($variables, $results)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$formula = $this->getFormula();
 
@@ -292,7 +293,7 @@ class assFormulaQuestionResult
 		}
 
 		$math                  = new EvalMath();
-		$math->suppress_errors = false;
+		$math->suppress_errors = true;
 		$result                = $math->evaluate($formula); // baseunit-result!!
 
 		$resultWithRespectedUnit = ilMath::_round($result, $this->getPrecision());
@@ -488,7 +489,8 @@ class assFormulaQuestionResult
 
 	public function getReachedPoints($variables, $results, $value, $unit, $units)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		if($this->getRatingSimple())
 		{
 			if($this->isCorrect($variables, $results, $value, $units[$unit]))
@@ -922,7 +924,8 @@ class assFormulaQuestionResult
 
 	public static function getResultTypeByQstId($a_qst_id, $a_result)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF('
 			SELECT result_type
@@ -1009,7 +1012,8 @@ class assFormulaQuestionResult
 	
 	public function getAvailableResultUnits($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$res = $ilDB->queryF('
 			SELECT * FROM il_qpl_qst_fq_res_unit 

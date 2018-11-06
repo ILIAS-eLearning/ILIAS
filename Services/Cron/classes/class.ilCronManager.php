@@ -321,12 +321,15 @@ class ilCronManager implements \ilCronManagerInterface
 		{										
 			include_once $class_file;
 			if(class_exists($a_class))
-			{				
-				$job = new $a_class();				
-				if($job instanceof ilCronJob)
-				{
-					if($job->getId() == $a_id)
-					{
+			{
+				$refl = new \ReflectionClass($a_class);
+				$job = $refl->newInstanceWithoutConstructor();
+				if ($refl->isSubclassOf(\ilCronJob::class)) {
+					if (0 === strlen($job->getId())) {
+						$job = new $a_class;
+					}
+
+					if ($job->getId() === $a_id) {
 						return $job;
 					}
 					else
@@ -643,10 +646,13 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
-		$ilUser = $DIC->user();
 
-		$user_id = $a_manual ? $ilUser->getId() : 0;
-		
+		$user_id = 0;
+		if ($DIC->isDependencyAvailable('user')) {
+			$user = $DIC->user();
+			$user_id = $a_manual ? $user->getId() : 0;
+		}
+
 		$sql = "UPDATE cron_job SET ".
 			" job_status = ".$ilDB->quote(1, "integer").
 			" , job_status_user_id = ".$ilDB->quote($user_id, "integer").

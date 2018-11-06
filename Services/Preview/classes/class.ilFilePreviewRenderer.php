@@ -38,7 +38,19 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
 		// get file extension
 		require_once("./Modules/File/classes/class.ilObjFile.php");
 		include_once './Modules/File/classes/class.ilObjFileAccess.php';
-		$filename = ilObjFile::_lookupFileName($preview->getObjId());
+		// bugfix mantis 23293
+		if (isset($_FILES['file']['name']))
+		{
+			$filename = $_FILES['file']['name'];
+		}
+		elseif (isset($_FILES['upload_files']['name']))
+		{
+			$filename = $_FILES['upload_files']['name'];
+		}
+		else
+		{
+			$filename = ilObjFile::_lookupFileName($preview->getObjId());
+		}
 		$ext = ilObjFileAccess::_getFileExtension($filename);
 		
 		// contains that extension?
@@ -60,14 +72,14 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
 		
 		// if the file path contains any characters that could cause problems
 		// we copy the file to a temporary file
-		$normName = preg_replace("/[^A-Za-z0-9.\- +_&]/", "", $name);
-		if ($normName != $name)
-		{
-			$tempPath = ilUtil::ilTempnam();
-			if (copy($filepath, $tempPath))
-				return $tempPath;
-		}
-		
+		// $normName = preg_replace("/[^A-Za-z0-9.\- +_&]/", "", $name);
+		// if ($normName != $name)
+		// {
+		// 	$tempPath = ilUtil::ilTempnam();
+		// 	if (copy($filepath, $tempPath))
+		// 		return $tempPath;
+		// }
+		//
 		return $filepath;
 	}
 	

@@ -263,7 +263,6 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	{
 		return $this->object->_getUserIdFromActiveId($a_params["active_id"]);
 	}
-
 }
 
 ?>

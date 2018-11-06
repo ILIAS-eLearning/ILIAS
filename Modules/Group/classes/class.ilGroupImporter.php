@@ -52,8 +52,7 @@ class ilGroupImporter extends ilXmlImporter
 
 		try 
 		{
-			$parser = new ilGroupXMLParser($a_xml,0);
-			$parser->setGroup($this->group);
+			$parser = new ilGroupXMLParser($this->group,$a_xml, 0);
 			$parser->setMode(ilGroupXMLParser::$UPDATE);
 			$parser->startParsing();
 			$a_mapping->addMapping('Modules/Group','grp',$a_id,$this->group->getId());

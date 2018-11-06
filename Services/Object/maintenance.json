@@ -6,7 +6,9 @@
         "akill(149)",
         "smeyer(191)"
     ],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/Object",

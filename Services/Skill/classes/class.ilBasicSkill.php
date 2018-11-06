@@ -501,17 +501,27 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 * @param string $a_timestamp
 	 * @return array
 	 */
-	static function getNewAchievementsPerUser($a_timestamp)
+	static function getNewAchievementsPerUser($a_timestamp, $a_timestamp_to = null, $a_user_id = 0)
 	{
 		global $DIC;
 
 		$db = $DIC->database();
+
+		$to = (!is_null($a_timestamp_to))
+			? " AND status_date <= ".$db->quote($a_timestamp_to, "timestamp")
+			: "";
+
+		$user = ($a_user_id > 0)
+			? " AND user_id = ".$db->quote($a_user_id, "integer")
+			: "";
 
 		$set = $db->query("SELECT * FROM skl_user_skill_level ".
 			" WHERE status_date >= ".$db->quote($a_timestamp, "timestamp").
 			" AND valid = ".$db->quote(1, "integer").
 			" AND status = ".$db->quote(ilBasicSkill::ACHIEVED, "integer").
 			" AND self_eval = ".$db->quote(0, "integer").
+			$to.
+			$user.
 			" ORDER BY user_id, status_date ASC ");
 		$achievments = array();
 		while ($rec = $db->fetchAssoc($set))

@@ -14,8 +14,11 @@ include_once("./Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php"
  */
 class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 {
+	/**
+	 * @var ilExAssignment
+	 */
+	protected $ass;
 
-	protected $ass; // [ilExAssignment]
 	protected $teams = array();
 
 	protected function initMode($a_item_id)
@@ -55,7 +58,8 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 		}
 		
 		
-		$idl = $this->ass->getIndividualDeadlines();			
+		$idl = $this->ass->getIndividualDeadlines();
+		$calc_deadline = $this->ass->getCalculatedDeadlines();
 		
 		// team upload?  (1 row == 1 team)
 		if($this->ass->hasTeam())
@@ -106,7 +110,19 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 					{
 						$tmp[$team_id]["idl"] = $idl[$idl_team_id];	
 					}
-				}				
+
+					if (isset($calc_deadline["team"][$team_id]))
+					{
+						$tmp[$team_id]["calc_deadline"] = $calc_deadline["team"][$team_id]["calculated_deadline"];
+					}
+				}
+				else
+				{
+					if (isset($calc_deadline["user"][$item["usr_id"]]))
+					{
+						$tmp["nty".$item["usr_id"]]["calc_deadline"] = $calc_deadline["user"][$item["usr_id"]]["calculated_deadline"];
+					}
+				}
 			}
 			
 			// filter (team-wide)
@@ -186,6 +202,12 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 				{
 					$data[$idx]["idl"] = $idl[$item["usr_id"]];	
 				}
+
+				if (isset($calc_deadline["user"][$item["usr_id"]]))
+				{
+					$data[$idx]["calc_deadline"] = $calc_deadline["user"][$item["usr_id"]]["calculated_deadline"];
+				}
+
 			}
 		}
 		
@@ -223,7 +245,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 	protected function parseModeColumns()
 	{
 		$cols = array();
-						
+
 		if(!$this->ass->hasTeam())
 		{			
 			$cols["image"] = array($this->lng->txt("image"));			
@@ -239,7 +261,12 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 		{
 			$cols["idl"] = array($this->lng->txt("exc_tbl_individual_deadline"), "idl");	
 		}
-		
+
+		if($this->ass->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE && $this->ass->getRelativeDeadline())
+		{
+			$cols["calc_deadline"] = array($this->lng->txt("exc_tbl_calculated_deadline"), "calc_deadline");
+		}
+
 		return $cols;
 	}
 	

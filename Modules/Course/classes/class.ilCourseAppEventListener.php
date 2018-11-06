@@ -12,7 +12,9 @@
 class ilCourseAppEventListener
 {
 	private $logger = null;
-	
+
+	protected static $timings_mode = null;
+
 	static protected $course_mode = array();
 	static protected $blocked_for_lp;
 
@@ -101,6 +103,50 @@ class ilCourseAppEventListener
 	}	
 
 	/**
+	 * initialize timings
+	 */
+	public static function initializeTimings($a_obj_id, $a_usr_id, $a_role_id)
+	{
+		static $timing_mode = array();
+		
+		if(!array_key_exists($a_obj_id, $timing_mode))
+		{
+			$timing_mode[$a_obj_id] = (
+					(ilObjCourse::lookupTimingMode($a_obj_id) == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE) ? 
+					TRUE : 
+					FALSE
+			);
+		}
+		if(!$timing_mode[$a_obj_id])
+		{
+			return TRUE;
+		}
+		
+		$user_timings = ilTimingsUser::getInstanceByContainerId($a_obj_id);
+		$user_timings->init();
+		$user_timings->handleNewMembership($a_usr_id, new ilDateTime(time(), IL_CAL_UNIX));
+		return TRUE;
+	}
+
+	/**
+	 * Delete timings for user
+	 * @param int $a_obj_id
+	 * @param int $a_usr_id
+	 * @return boolean
+	 */
+	public static function destroyTimings($a_obj_id, $a_usr_id)
+	{
+		include_once './Modules/Course/classes/Timings/class.ilTimingsUser.php';
+		$user_timings = ilTimingsUser::getInstanceByContainerId($a_obj_id);
+		$user_timings->init();
+		$user_timings->handleUnsubscribe($a_usr_id);
+		return TRUE;
+		
+	}
+
+	// cognos-blu-patch: end
+		
+	/**
 	* Handle an event in a listener.
 	*
 	* @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
@@ -115,6 +161,22 @@ class ilCourseAppEventListener
 			$listener->handleUserAssignments($a_event, $a_parameter);
 		}
 	
+		switch($a_component)
+		{
+			case 'Modules/Course':
+				if($a_event == 'addParticipant')
+				{
+					self::initializeTimings($a_parameter['obj_id'], $a_parameter['usr_id'], $a_parameter['role_id']);
+					return TRUE;
+				}
+				if($a_event == 'deleteParticipant')
+				{
+					self::destroyTimings($a_parameter['obj_id'], $a_parameter['usr_id']);
+					return TRUE;
+				}
+				break;
+		}
+
 		if($a_component == "Services/Tracking" && $a_event == "updateStatus")
 		{
 			// see ilObjCourseGUI::updateLPFromStatus()

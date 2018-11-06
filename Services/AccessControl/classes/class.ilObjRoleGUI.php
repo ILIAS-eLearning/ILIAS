@@ -1639,8 +1639,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
-			require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
-			$_SESSION['mail_roles'][] = ilMailRoleAddressType::getRoleMailboxAddress($this->object->getId());
+			$_SESSION['mail_roles'][] = (new \ilRoleMailboxAddress($this->object->getId()))->value();
 		}
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';

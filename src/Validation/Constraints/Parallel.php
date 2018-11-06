@@ -20,7 +20,7 @@ class Parallel extends Custom implements Constraint {
 	 */
 	protected $failed_constraints;
 
-	public function __construct(array $constraints, Data\Factory $data_factory) {
+	public function __construct(array $constraints, Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->constraints = $constraints;
 		parent::__construct(
 			function($value) {
@@ -35,15 +35,16 @@ class Parallel extends Custom implements Constraint {
 
 				return $ret;
 			},
-			function($value) {
-				$message = "";
+			function($txt, $value) {
+				$messages = [];
 				foreach ($this->failed_constraints as $key => $constraint) {
-					$message .= $constraint->getErrorMessage($value);
+					$messages[] = $constraint->getErrorMessage($value);
 				}
 
-				return $message;
+				return implode(" ", $messages);
 			},
-			$data_factory
+			$data_factory,
+			$lng
 		);
 	}
 }

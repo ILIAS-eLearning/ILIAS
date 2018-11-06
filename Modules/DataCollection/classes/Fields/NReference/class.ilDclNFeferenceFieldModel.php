@@ -7,5 +7,6 @@
  * @version 1.0.0
  */
 class ilDclNReferenceFieldModel extends ilDclReferenceRecordFieldModel {
+
 	// handled in ilDclReferenceFieldModel
 }

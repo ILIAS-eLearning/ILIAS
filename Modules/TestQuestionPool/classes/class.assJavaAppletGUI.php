@@ -343,7 +343,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "session_id");
-		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
+		$template->setVariable("PARAM_VALUE", $_COOKIE[session_name()]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "client");
@@ -479,7 +479,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "session_id");
-		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
+		$template->setVariable("PARAM_VALUE", $_COOKIE[session_name()]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "client");
@@ -573,7 +573,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "session_id");
-		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
+		$template->setVariable("PARAM_VALUE", $_COOKIE[session_name()]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "client");
@@ -671,7 +671,9 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		

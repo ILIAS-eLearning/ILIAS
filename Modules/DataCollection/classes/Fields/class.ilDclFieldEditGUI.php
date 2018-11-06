@@ -15,30 +15,27 @@
  * @ingroup ModulesDataCollection
  */
 class ilDclFieldEditGUI {
-    /**
-     * @var int
-     */
+
+	/**
+	 * @var int
+	 */
 	protected $obj_id;
-
-    /**
-     * @var int
-     */
-    protected $table_id;
-
-    /**
-     * @var ilObjDataCollectionGUI|object
-     */
-    protected $parent_obj;
-
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
-
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
+	/**
+	 * @var int
+	 */
+	protected $table_id;
+	/**
+	 * @var ilObjDataCollectionGUI|object
+	 */
+	protected $parent_obj;
+	/**
+	 * @var ilDclTable
+	 */
+	protected $table;
+	/**
+	 * @var ilPropertyFormGUI
+	 */
+	protected $form;
 	/**
 	 * @var ilDclBaseFieldModel
 	 */
@@ -49,8 +46,8 @@ class ilDclFieldEditGUI {
 	 * Constructor
 	 *
 	 * @param ilDclTableListGUI $a_parent_obj
-	 * @param    int                   $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
-	 * @param    int                   $field_id The field_id of a existing fiel (edit mode)
+	 * @param    int            $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
+	 * @param    int            $field_id The field_id of a existing fiel (edit mode)
 	 */
 	public function __construct(ilDclTableListGUI $a_parent_obj) {
 		global $DIC;
@@ -66,7 +63,7 @@ class ilDclFieldEditGUI {
 			$this->field_obj = ilDclCache::getFieldCache($this->field_id);
 		} else {
 			$datatype = null;
-			if(isset($_POST['datatype']) && in_array($_POST['datatype'], array_keys(ilDclDatatype::getAllDatatype()))) {
+			if (isset($_POST['datatype']) && in_array($_POST['datatype'], array_keys(ilDclDatatype::getAllDatatype()))) {
 				$datatype = $_POST['datatype'];
 			}
 			$this->field_obj = ilDclFieldFactory::getFieldModelInstance($this->field_id, $datatype);
@@ -242,17 +239,17 @@ class ilDclFieldEditGUI {
 		$text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars(true));
 		$this->form->addItem($text_prop);
 
-        // Description
-        $text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
-        $this->form->addItem($text_prop);
+		// Description
+		$text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
+		$this->form->addItem($text_prop);
 
-        $edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
+		$edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
 
 		foreach (ilDclDatatype::getAllDatatype() as $datatype) {
 			$model = new ilDclBaseFieldModel();
 			$model->setDatatypeId($datatype->getId());
 
-			if($a_mode == 'edit' && $datatype->getId() == $this->field_obj->getDatatypeId()) {
+			if ($a_mode == 'edit' && $datatype->getId() == $this->field_obj->getDatatypeId()) {
 				$model = $this->field_obj;
 			}
 
@@ -273,7 +270,7 @@ class ilDclFieldEditGUI {
 
 		//Unique
 		$cb = new ilCheckboxInputGUI($lng->txt("dcl_unique"), "unique");
-        $cb->setInfo($lng->txt('dcl_unique_desc'));
+		$cb->setInfo($lng->txt('dcl_unique_desc'));
 		$this->form->addItem($cb);
 	}
 
@@ -304,6 +301,7 @@ class ilDclFieldEditGUI {
 			if (($a_mode == "update") && !($this->form->getInput('confirmed')) && $this->field_obj->isConfirmationRequired($this->form)) {
 				$ilConfirmationGUI = $this->field_obj->getConfirmationGUI($this->form);
 				$tpl->setContent($ilConfirmationGUI->getHTML());
+
 				return;
 			}
 
@@ -327,7 +325,6 @@ class ilDclFieldEditGUI {
 
 			// Get possible properties and save them
 			$this->field_obj->storePropertiesFromForm($this->form);
-
 
 			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
 
@@ -360,12 +357,12 @@ class ilDclFieldEditGUI {
 
 		// load specific model for input checking
 		$datatype_id = $this->form->getInput('datatype');
-		if($datatype_id != null && is_numeric($datatype_id)) {
+		if ($datatype_id != null && is_numeric($datatype_id)) {
 			$base_model = new ilDclBaseFieldModel();
 			$base_model->setDatatypeId($datatype_id);
 			$field_validation_class = ilDclFieldFactory::getFieldModelInstanceByClass($base_model);
 
-			if(!$field_validation_class->checkFieldCreationInput($this->form)) {
+			if (!$field_validation_class->checkFieldCreationInput($this->form)) {
 				$return = false;
 			}
 		}
