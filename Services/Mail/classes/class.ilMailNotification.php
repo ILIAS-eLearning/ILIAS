@@ -367,7 +367,7 @@ abstract class ilMailNotification
 			}
 		}
 		$recipients = implode(',',$recipients);
-		$error = $this->getMail()->sendMail(
+		$errors = $this->getMail()->sendMail(
 			$recipients,
 			'',
 			'',
@@ -377,10 +377,9 @@ abstract class ilMailNotification
 			$a_type
 		);
 		// smeyer: 19.5.16 fixed strlen warning, since $error is of type array
-		if($error)
-		{
+		if (count($errors) > 0) {
 			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-			ilLoggerFactory::getLogger('mail')->dump($error, ilLogLevel::ERROR);
+			ilLoggerFactory::getLogger('mail')->dump($errors, ilLogLevel::ERROR);
 			//ilLoggerFactory::getLogger('mail')->error($error);
 		}
 	}
