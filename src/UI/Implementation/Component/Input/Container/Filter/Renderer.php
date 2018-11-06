@@ -56,11 +56,20 @@ class Renderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		if ($component->isExpanded() == false) {
 
+			$tpl->setCurrentBlock("action");
+			$tpl->setVariable("ACTION_NAME", "expand");
+			$tpl->setVariable("ACTION", $component->getExpandAction());
+			$tpl->parseCurrentBlock();
+
 			if ($component->isActivated())
 			{
 				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
-					->withOnLoadCode(function ($id) use ($component) {
-						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getExpandAction() . "').find('input[name=cmdFilter]').attr('value', 'expand').submit();" . "});";
+					->withOnLoadCode(function ($id) {
+						$code = "$('#$id').on('click', function(event) {
+							il.UI.filter.onCmd(event, '$id', 'expand');
+							return false; // stop event propagation
+					});";
+						return $code;
 					});
 			} else {
 				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), $component->getExpandAction());
@@ -71,10 +80,19 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		else {
 
+			$tpl->setCurrentBlock("action");
+			$tpl->setVariable("ACTION_NAME", "collapse");
+			$tpl->setVariable("ACTION", $component->getCollapseAction());
+			$tpl->parseCurrentBlock();
+
 			if ($component->isActivated()) {
 				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
-					->withOnLoadCode(function ($id) use ($component) {
-						return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '" . $component->getCollapseAction() . "').find('input[name=cmdFilter]').attr('value', 'collapse').submit();" . "});";
+					->withOnLoadCode(function ($id) {
+						$code = "$('#$id').on('click', function(event) {
+							il.UI.filter.onCmd(event, '$id', 'collapse');
+							return false; // stop event propagation
+					});";
+						return $code;
 					});
 			} else {
 				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), $component->getCollapseAction());
@@ -99,14 +117,17 @@ class Renderer extends AbstractComponentRenderer {
 	{
 		$f = $this->getUIFactory();
 
-		parse_str(parse_url($component->getApplyAction(), PHP_URL_QUERY), $url);
-		unset($url["cmdFilter"]);
-		foreach ($url as $name => $value) {
-			$tpl->setCurrentBlock("base_url");
-			$tpl->setVariable("QUERY_NAME", $name);
-			$tpl->setVariable("QUERY_VALUE", $value);
-			$tpl->parseCurrentBlock();
-		}
+		$tpl->setCurrentBlock("action");
+		$tpl->setVariable("ACTION_NAME", "apply");
+		$tpl->setVariable("ACTION", $component->getApplyAction());
+		$tpl->parseCurrentBlock();
+
+		/*
+		$tpl->setCurrentBlock("url");
+		$tpl->setVariable("ACTION_NAME", "reset");
+		$tpl->setVariable("ACTION", $component->getResetAction());
+		$tpl->parseCurrentBlock();
+		*/
 
 		// render apply and reset buttons
 		$apply = $f->button()->bulky($f->glyph()->apply(), $this->txt("apply"), "");
@@ -117,8 +138,12 @@ class Renderer extends AbstractComponentRenderer {
 			->withUnavailableAction(true);
 		} else {
 
-			$apply = $apply->withOnLoadCode(function ($id) use ($component) {
-				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').attr('action', '".$component->getApplyAction()."').find('input[name=cmdFilter]').attr('value', 'apply').submit();" . "});";
+			$apply = $apply->withOnLoadCode(function ($id) {
+				$code = "$('#$id').on('click', function(event) {
+							il.UI.filter.onCmd(event, '$id', 'apply');
+							return false; // stop event propagation
+					});";
+				return $code;
 			});
 
 			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), $component->getResetAction());
@@ -139,22 +164,20 @@ class Renderer extends AbstractComponentRenderer {
 	{
 		$f = $this->getUIFactory();
 
+		$tpl->setCurrentBlock("action");
+		$tpl->setVariable("ACTION_NAME", "toggleOn");
+		$tpl->setVariable("ACTION", $component->getToggleOnAction());
+		$tpl->parseCurrentBlock();
+
 		$component->getToggleOnAction();
 		$signal_generator = new I\Component\SignalGenerator();
 		$toggle_on_signal = $signal_generator->create();
 		$toggle_on_action = $component->getToggleOnAction();
 		$toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
 			->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
-				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').find('input[name=cmdFilter]').attr('value', 'toggleOn').submit();" . "});";
+				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').submit();" . "});";
 			});
-		/*
-		foreach ($_GET as $name => $value) {
-			$tpl->setCurrentBlock("base_url");
-			$tpl->setVariable("CMD", $name);
-			$tpl->setVariable("CMD_VAL", $value);
-			$tpl->parseCurrentBlock();
-		}
-		*/
+
 		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
 	}
 
