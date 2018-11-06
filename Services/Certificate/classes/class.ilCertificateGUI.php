@@ -177,7 +177,6 @@ class ilCertificateGUI
 	 * @param ilCertificateTemplateExportAction|null $exportAction
 	 * @param ilCertificateBackgroundImageUpload|null $upload
 	 * @param ilCertificateTemplatePreviewAction|null $previewAction
-	 * @param ilCertificateThumbnailImageUpload|null $thumbnailImageUpload
 	 * @param \ILIAS\FileUpload\FileUpload|null $fileUpload
 	 * @access public
 	 */
@@ -196,7 +195,6 @@ class ilCertificateGUI
 		ilCertificateTemplateExportAction $exportAction = null,
 		ilCertificateBackgroundImageUpload $upload = null,
 		ilCertificateTemplatePreviewAction $previewAction = null,
-		ilCertificateThumbnailImageUpload $thumbnailImageUpload = null,
 		\ILIAS\FileUpload\FileUpload $fileUpload = null
 	) {
 		global $DIC;
@@ -301,9 +299,7 @@ class ilCertificateGUI
 			$fileUpload = $DIC->upload();
 		}
 		$this->fileUpload = $fileUpload;
-		
-		$this->thumbnailImageUpload = $thumbnailImageUpload;
-		
+
 		$this->certificatePath = $certificatePath;
 	}
 
