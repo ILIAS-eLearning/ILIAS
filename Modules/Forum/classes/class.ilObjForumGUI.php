@@ -5154,54 +5154,49 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	}
 	
 	/**
-	 * @param $draft_id
+	 * @param $draftId
 	 */
-	public function doHistoryCheck($draft_id)
+	private function doHistoryCheck($draftId)
 	{
-	
-		iljQueryUtil::initjQuery();
-		
-		$modal = '';
-		if(ilForumPostDraft::isAutoSavePostDraftAllowed())
-		{
-			$history_instances = ilForumDraftsHistory::getInstancesByDraftId($draft_id);
-			if(is_array($history_instances) && sizeof($history_instances) > 0)
-			{
-				$modal = ilModalGUI::getInstance();
-				$modal->setHeading($this->lng->txt('restore_draft_from_autosave'));
-				$modal->setId('frm_autosave_restore');
-				$form_tpl = new ilTemplate('tpl.restore_thread_draft.html', true, true, 'Modules/Forum');
+		if (!\ilForumPostDraft::isAutoSavePostDraftAllowed()) {
+			return;
+		}
 
-				foreach($history_instances as $key => $history_instance)
-				{
-					$acc_autosave = new ilAccordionGUI();
-					$acc_autosave->setId('acc_'.$history_instance->getHistoryId());
-					
-					$form_tpl->setCurrentBlock('list_item');
-					$post_message = ilRTE::_replaceMediaObjectImageSrc($history_instance->getPostMessage(), 1);
-					
-					$history_date = ilDatePresentation::formatDate(new ilDateTime($history_instance->getDraftDate(), IL_CAL_DATETIME));
-					$restore_btn = ilLinkButton::getInstance();
-					$restore_btn->addCSSClass('restore_btn');
-					$this->ctrl->setParameter($this, 'history_id', $history_instance->getHistoryId());
-					$restore_btn->setUrl($this->ctrl->getLinkTarget($this, 'restoreFromHistory'));
-					$restore_btn->setCaption($this->lng->txt('restore'), false);
-				
-					$acc_autosave->addItem($history_date.' - '. $history_instance->getPostSubject(), $post_message . $restore_btn->render());
-					
-					$form_tpl->setVariable('ACC_AUTO_SAVE', $acc_autosave->getHtml());
-					$form_tpl->parseCurrentBlock();
-				}
+		\iljQueryUtil::initjQuery();
+		$draftsFromHistory = \ilForumDraftsHistory::getInstancesByDraftId($draftId);
+		if (is_array($draftsFromHistory) && sizeof($draftsFromHistory) > 0) {
+			$modal = \ilModalGUI::getInstance();
+			$modal->setHeading($this->lng->txt('restore_draft_from_autosave'));
+			$modal->setId('frm_autosave_restore');
+			$form_tpl = new \ilTemplate('tpl.restore_thread_draft.html', true, true, 'Modules/Forum');
 
-				$form_tpl->setVariable('RESTORE_DATA_EXISTS', 'found_threat_history_to_restore');
-				$modal->setBody($form_tpl->get());
-				$modal->initJS();
-				$this->modal_history = $modal->getHTML();
+			foreach ($draftsFromHistory as $key => $history_instance) {
+				$accordion = new ilAccordionGUI();
+				$accordion->setId('acc_'.$history_instance->getHistoryId());
+
+				$form_tpl->setCurrentBlock('list_item');
+				$message = \ilRTE::_replaceMediaObjectImageSrc($history_instance->getPostMessage(), 1);
+
+				$history_date = ilDatePresentation::formatDate(new ilDateTime($history_instance->getDraftDate(), IL_CAL_DATETIME));
+				$this->ctrl->setParameter($this, 'history_id', $history_instance->getHistoryId());
+				$header = $history_date . ' - ' . $history_instance->getPostSubject();
+				$accordion->addItem($header, $message . $this->uiRenderer->render(
+					$this->uiFactory->button()->standard(
+						$this->lng->txt('restore'),
+						$this->ctrl->getLinkTarget($this, 'restoreFromHistory')
+					)
+				));
+
+				$form_tpl->setVariable('ACC_AUTO_SAVE', $accordion->getHtml());
+				$form_tpl->parseCurrentBlock();
 			}
-			else
-			{
-				ilForumPostDraft::createDraftBackup($draft_id);
-			}
+
+			$form_tpl->setVariable('RESTORE_DATA_EXISTS', 'found_threat_history_to_restore');
+			$modal->setBody($form_tpl->get());
+			$modal->initJS();
+			$this->modal_history = $modal->getHTML();
+		} else {
+			ilForumPostDraft::createDraftBackup($draftId);
 		}
 	}
 
