@@ -719,7 +719,9 @@ class ilCertificateMigrationJob extends AbstractJob
 				$xsl_path = $cert_path . "certificate.xml";
 
 				if (file_exists($xsl_path) && (filesize($xsl_path) > 0)) {
-					$this->logMessage('Found certificate with id: ' . $objectId, 'debug');
+					$type = $object->getType();
+
+					$this->logMessage(sprintf('Found certificate for object id "%s" (type: "%s") and user id "%s"', $objectId, $type, $this->user_id), 'debug');
 
 					$webdir = $cert_path . "background.jpg";
 
@@ -733,7 +735,7 @@ class ilCertificateMigrationJob extends AbstractJob
 						"obj_id" => $objectId,
 						"user_id" => $this->user_id,
 						"certificate_path" => $cert_path,
-						"certificate_type" => $object->getType(),
+						"certificate_type" => $type,
 						"background_image_path" => $background_image_path,
 						"acquired_timestamp" => null,
 						"ilias_version" => ILIAS_VERSION_NUMERIC,
