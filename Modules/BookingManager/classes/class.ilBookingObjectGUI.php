@@ -528,6 +528,9 @@ class ilBookingObjectGUI
 		if($this->user_to_deasign) {
 			$conf->addHiddenItem('bkusr', $this->user_to_deasign);
 		}
+		if($_GET['part_view'] == ilBookingParticipantGUI::PARTICIPANT_VIEW) {
+			$conf->addHiddenItem('part_view',ilBookingParticipantGUI::PARTICIPANT_VIEW);
+		}
 		$conf->setConfirm($lng->txt('book_set_cancel'), 'rsvCancelUser');
 		$conf->setCancel($lng->txt('cancel'), 'render');
 
@@ -563,7 +566,11 @@ class ilBookingObjectGUI
 		$obj->update();
 
 		ilUtil::sendSuccess($lng->txt('settings_saved'));
-	    $ilCtrl->redirect($this, 'render');
+		if($_POST['part_view'] == ilBookingParticipantGUI::PARTICIPANT_VIEW) {
+			$this->ctrl->redirectByClass('ilbookingparticipantgui', 'render');
+		} else {
+			$ilCtrl->redirect($this, 'render');
+		}
 	}
 	
 	function deliverInfo()
