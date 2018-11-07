@@ -175,7 +175,11 @@ class Renderer extends AbstractComponentRenderer {
 		$toggle_on_action = $component->getToggleOnAction();
 		$toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
 			->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
-				return "$(document).on('{$toggle_on_signal}',function(ev) {" . "	$('#{$id}').parents('form').attr('action', '$toggle_on_action').submit();" . "});";
+				$code = "$(document).on('{$toggle_on_signal}',function(event) {
+							il.UI.filter.onCmd(event, '$id', 'toggleOn');
+							return false; // stop event propagation
+				});";
+				return $code;
 			});
 
 		$tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
