@@ -160,7 +160,7 @@ il.UI = il.UI || {};
             for (var param in url_params) {
                 console.log(param + " = " + url_params[param]);
                 var input = "<input type=\"hidden\" name=\"" + param + "\" value=\"" + url_params[param] + "\">";
-                $el.parents('form').prepend(input);
+                $el.parents('form').find('.il-filter-bar').before(input);
             }
             $el.parents('form').submit();
         };
