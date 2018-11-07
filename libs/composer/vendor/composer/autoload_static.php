@@ -4698,6 +4698,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilForumSearch' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilForumSearch.php',
         'ilForumSettingsGUI' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumSettingsGUI.php',
         'ilForumStatisticsTableGUI' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumStatisticsTableGUI.php',
+        'ilForumThreadFormGUI' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/GUI/class.ilForumThreadFormGUI.php',
         'ilForumTopic' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumTopic.php',
         'ilForumTopicTableGUI' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumTopicTableGUI.php',
         'ilForumUtil' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumUtil.php',

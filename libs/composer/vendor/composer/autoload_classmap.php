@@ -4390,6 +4390,7 @@ return array(
     'ilForumSearch' => $baseDir . '/../../Services/Search/classes/class.ilForumSearch.php',
     'ilForumSettingsGUI' => $baseDir . '/../../Modules/Forum/classes/class.ilForumSettingsGUI.php',
     'ilForumStatisticsTableGUI' => $baseDir . '/../../Modules/Forum/classes/class.ilForumStatisticsTableGUI.php',
+    'ilForumThreadFormGUI' => $baseDir . '/../../Modules/Forum/classes/GUI/class.ilForumThreadFormGUI.php',
     'ilForumTopic' => $baseDir . '/../../Modules/Forum/classes/class.ilForumTopic.php',
     'ilForumTopicTableGUI' => $baseDir . '/../../Modules/Forum/classes/class.ilForumTopicTableGUI.php',
     'ilForumUtil' => $baseDir . '/../../Modules/Forum/classes/class.ilForumUtil.php',

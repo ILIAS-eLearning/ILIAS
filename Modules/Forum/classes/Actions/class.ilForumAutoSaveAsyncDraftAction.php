@@ -10,9 +10,6 @@ class ilForumAutoSaveAsyncDraftAction
 	/** @var \ilObjUser */
 	private $actor;
 
-	/** @var \ilAccessHandler */
-	private $access;
-
 	/** @var \ilPropertyFormGUI */
 	private $form;
 
@@ -40,7 +37,6 @@ class ilForumAutoSaveAsyncDraftAction
 	/**
 	 * ilForumAutoSaveAsyncDraftAction constructor.
 	 * @param \ilObjUser         $actor
-	 * @param \ilAccessHandler   $access
 	 * @param \ilPropertyFormGUI $form
 	 * @param \ilForumProperties $forumProperties
 	 * @param \ilForumTopic      $thread
@@ -52,7 +48,6 @@ class ilForumAutoSaveAsyncDraftAction
 	 */
 	public function __construct(
 		\ilObjUser $actor,
-		\ilAccessHandler $access,
 		\ilPropertyFormGUI $form,
 		\ilForumProperties $forumProperties,
 		\ilForumTopic $thread,
@@ -63,7 +58,6 @@ class ilForumAutoSaveAsyncDraftAction
 		string $action
 	) {
 		$this->actor = $actor;
-		$this->access = $access;
 		$this->form = $form;
 		$this->forumProperties = $forumProperties;
 		$this->thread = $thread;
