@@ -706,7 +706,7 @@ class ilCertificateMigrationJob extends AbstractJob
 	 * @param $data
 	 * @return array
 	 */
-	protected function createCertificateData(
+	private function createCertificateData(
 		$objectId,
 		\ilCertificateAdapter $adapter,
 		\ilObject $object,
