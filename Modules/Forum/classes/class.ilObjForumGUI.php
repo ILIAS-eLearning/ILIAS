@@ -19,59 +19,37 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
 	
 	public $modal_history = '';
-	/**
-	 * @var ilForumProperties
-	 */
+	/** @var ilForumProperties */
 	public $objProperties;
 
-	/**
-	 * @var ilForumTopic
-	 */
+	/** @var ilForumTopic */
 	private $objCurrentTopic;
 
-	/**
-	 * @var ilForumPost
-	 */
+	/** @var ilForumPost */
 	private $objCurrentPost;
 	
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $display_confirm_post_activation = 0;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $is_moderator = false;
 
-	/**
-	 * @var ilPropertyFormGUI
-	 */
+	/** @var ilPropertyFormGUI */
 	private $create_form_gui;
 
-	/**
-	 * @var ilPropertyFormGUI
-	 */
+	/** @var ilPropertyFormGUI */
 	private $create_topic_form_gui;
 	
-	/**
-	 * @var ilPropertyFormGUI
-	 */
+	/** @var ilPropertyFormGUI */
 	private $replyEditForm;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $hideToolbar = false;
 	
-	/**
-	 * @var null|string
-	 */
+	/** @var null|string */
 	private $forum_overview_setting = null;
 	
-	/**
-	 * @var ilObjForum
-	 */
+	/** @var ilObjForum */
 	public $object;
 
 	/**
@@ -93,6 +71,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public $ilObjDataCache;
 	public $tabs;
 	public $error;
+	/** @var \ilNavigationHistory */
 	public $ilNavigationHistory;
 	public $user;
 	public $settings;
@@ -180,9 +159,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}	
 			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 			$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-			$draft_id = $_GET['draft_id'] > 0 ?  $_GET['draft_id']: 0;
+			$draft_id = (int)$_GET['draft_id'] > 0 ?  (int)$_GET['draft_id'] : 0;
 			$this->ctrl->setParameter($this, 'draft_id',  $draft_id );
-			$this->ctrl->setParameter($this, 'action', $_GET['action']);
+			$this->ctrl->setParameter($this, 'action', \ilUtil::stripSlashes($_GET['action']));
 			$this->tpl->addOnLoadCode("il.Language.setLangVar('saving', " . json_encode($this->lng->txt('saving')) . ");");
 
 			$this->tpl->addOnLoadCode('il.ForumDraftsAutosave.init(' . json_encode(array(
@@ -238,20 +217,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'publishThreadDraft', 'deleteThreadDrafts'
 		);
 
-		if(!in_array($cmd, $exclude_cmds))
-		{
+		if (!in_array($cmd, $exclude_cmds)) {
 			$this->prepareOutput();
 		}
 
-		// add entry to navigation history
-		if(!$this->getCreationMode() && !$this->ctrl->isAsynch() && $this->access->checkAccess('read', '', $_GET['ref_id']))
-		{
-			$this->ilNavigationHistory->addItem($_GET['ref_id'],
-				'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=showThreads&amp;ref_id='.$_GET['ref_id'], 'frm');
+		if (!$this->getCreationMode() && !$this->ctrl->isAsynch() && $this->access->checkAccess('read', '', $_GET['ref_id'])) {
+			$this->ilNavigationHistory->addItem(
+				(int)$_GET['ref_id'], \ilLink::_getLink((int)$_GET['ref_id'], 'frm'), 'frm'
+			);
 		}
-		
-		switch ($next_class)
-		{
+
+		switch ($next_class) {
 			case 'ilforumsettingsgui':
 				$forum_settings_gui = new ilForumSettingsGUI($this);
 				$this->ctrl->forwardCommand($forum_settings_gui);
@@ -2683,14 +2659,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->lng->loadLanguageModule('forum');
 
-		// add entry to navigation history
-		if (!$this->getCreationMode() &&
-			$this->access->checkAccess('read', '', $this->object->getRefId()))
-		{
-			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-			$this->ilNavigationHistory->addItem($this->object->getRefId(), $this->ctrl->getLinkTarget($this, 'showThreads'), 'frm');
+		if (!$this->getCreationMode() && $this->access->checkAccess('read', '', $this->object->getRefId())) {
+			$this->ilNavigationHistory->addItem(
+				(int)$this->object->getRefId(), \ilLink::_getLink((int)$this->object->getRefId(), 'frm'), 'frm'
+			);
 		}
-		
+
 		// save last access
 		$forumObj->updateLastAccess($this->user->getId(), (int) $this->objCurrentTopic->getId());
 		
