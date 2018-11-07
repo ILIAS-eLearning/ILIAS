@@ -38,7 +38,7 @@ class ilDclTableHelper {
 	 * @param ilObjUser     $user
 	 * @param ilDBInterface $database
 	 */
-	public function __construct(int $obj_id, int $ref_id, ilRbacReview $rbac_review, ilObjUser $user, ilDBInterface $database) {
+	public function __construct($obj_id, $ref_id, ilRbacReview $rbac_review, ilObjUser $user, ilDBInterface $database) {
 		$this->obj_id = $obj_id;
 		$this->ref_id = $ref_id;
 		$this->rbac_review = $rbac_review;

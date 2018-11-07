@@ -261,9 +261,13 @@ class ilSystemStyleMainGUI
 		$ilHelp->setScreenIdComponent("sty");
 		$ilHelp->setScreenId("system_styles");
 		$this->tabs->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
-		$this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
-		$this->tabs->addTab('less', $this->lng->txt('less'), $this->ctrl->getLinkTargetByClass('ilsystemstylelessgui'));
-		$this->tabs->addTab('icons', $this->lng->txt('icons'), $this->ctrl->getLinkTargetByClass('ilsystemstyleiconsgui'));
+        $config = new ilSystemStyleConfig();
+        if ($_GET["skin_id"] != $config->getDefaultSkinId()) {
+            $this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
+            $this->tabs->addTab('less', $this->lng->txt('less'), $this->ctrl->getLinkTargetByClass('ilsystemstylelessgui'));
+            $this->tabs->addTab('icons', $this->lng->txt('icons'), $this->ctrl->getLinkTargetByClass('ilsystemstyleiconsgui'));
+        }
+
 		$this->tabs->addTab('documentation', $this->lng->txt('documentation'), $this->ctrl->getLinkTargetByClass('ilsystemstyledocumentationgui'));
 
 		$this->tabs->activateTab($active);

@@ -186,21 +186,21 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 
 		$counter = 0;
 		foreach ($a_tables as $table) {
-			$lock = 'LOCK TABLE ';
+			if (!isset($table['sequence']) && $table['sequence']) {
+				$lock = 'LOCK TABLE ' . $table['name'];
 
-			$lock .= ($table['name'] . ' ');
+				switch ($table['type']) {
+					case ilDBConstants::LOCK_READ:
+						$lock .= ' IN SHARE MODE ';
+						break;
 
-			switch ($table['type']) {
-				case ilDBConstants::LOCK_READ:
-					$lock .= ' IN SHARE MODE ';
-					break;
+					case ilDBConstants::LOCK_WRITE:
+						$lock .= ' IN EXCLUSIVE MODE ';
+						break;
+				}
 
-				case ilDBConstants::LOCK_WRITE:
-					$lock .= ' IN EXCLUSIVE MODE ';
-					break;
+				$locks[] = $lock;
 			}
-
-			$locks[] = $lock;
 		}
 
 		// @TODO use and store a unique identifier to allow nested lock/unlocks

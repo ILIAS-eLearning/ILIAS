@@ -611,9 +611,15 @@ class ilCalendarUtil
 		self::initDateTimePicker();
 		
 		// weekStart is currently governed by locale and cannot be changed
-	 			
+
+		// fix for mantis 22994 => default to english language
+		$language = 'en';
+		if($ilUser->getLanguage() != 'ar')
+		{
+			$language = $ilUser->getLanguage();
+		}
 		$default = array(
-			'locale' => $ilUser->getLanguage()
+			'locale' => $language
 			,'stepping' => 5
 			,'useCurrent' => false
 			,'calendarWeeks' => true

@@ -2096,17 +2096,27 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 	public function publishDraftObject($use_replyform = true)
 	{
-		if(!$this->access->checkAccess('add_reply', '', (int)$_GET['ref_id']))
-		{
+		if (!$this->access->checkAccess('add_reply', '', (int)$_GET['ref_id'])) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->getMessage());
 		}
-		
-		if($this->objCurrentTopic->isClosed())
-		{
-			$_GET['action'] = '';
-			return $this->viewThreadObject();
+
+		if (!$this->objCurrentTopic->getId()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_deleted'), true);
+			$this->ctrl->redirect($this);
 		}
-		
+
+		if ($this->objCurrentTopic->isClosed()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_closed'), true);
+			$this->ctrl->redirect($this);
+		}
+
+		if (!$this->objCurrentPost->getId()) {
+			$_GET['action'] = '';
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
+			$this->viewThreadObject();
+			return;
+		}
+
 		$post_id = $this->objCurrentPost->getId();
 		
 		$draft_obj = new ilForumPostDraft($this->user->getId(), $post_id, (int)$_GET['draft_id']);
@@ -2245,19 +2255,27 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function savePostObject()
 	{
-		
-	
-		if(!isset($_POST['del_file']) || !is_array($_POST['del_file'])) $_POST['del_file'] = array();
-
-		if($this->objCurrentTopic->isClosed())
-		{
-			$_GET['action'] = '';
-			return $this->viewThreadObject();
+		if (!$this->objCurrentTopic->getId()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_deleted'), true);
+			$this->ctrl->redirect($this);
 		}
 
+		if ($this->objCurrentTopic->isClosed()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_closed'), true);
+			$this->ctrl->redirect($this);
+		}
+
+		if(!isset($_POST['del_file']) || !is_array($_POST['del_file'])) $_POST['del_file'] = array();
+
 		$oReplyEditForm = $this->getReplyEditForm();
-		if($oReplyEditForm->checkInput())
-		{
+		if ($oReplyEditForm->checkInput()) {
+			if (!$this->objCurrentPost->getId()) {
+				$_GET['action'] = '';
+				\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
+				$this->viewThreadObject();
+				return;
+			}
+
 			$this->doCaptchaCheck();
 
 			// init objects
@@ -4400,7 +4418,7 @@ $this->doCaptchaCheck();
 					{
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
 					}
-					else
+					else if(!$frm_notificiation_enabled)
 					{
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");
 					}
@@ -4475,7 +4493,7 @@ $this->doCaptchaCheck();
 			$frm_noti->setUserId($this->user->getId());
 			
 			$user_toggle = (int)$frm_noti->isUserToggleNotification();
-			if($user_toggle == 0) 
+			if($user_toggle == 0 && $this->objProperties->isUserToggleNoti() == 0) 
 			{	
 				return true;
 			}
@@ -5005,7 +5023,18 @@ $this->doCaptchaCheck();
 	
 	public function saveAsDraftObject()
 	{
+		if (!$this->objCurrentTopic->getId()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_deleted'), true);
+			$this->ctrl->redirect($this);
+		}
+
+		if ($this->objCurrentTopic->isClosed()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_closed'), true);
+			$this->ctrl->redirect($this);
+		}
+
 		if(!isset($_POST['del_file']) || !is_array($_POST['del_file'])) $_POST['del_file'] = array();
+
 		$autosave_draft_id = 0;
 		if(ilForumPostDraft::isAutoSavePostDraftAllowed() && isset($_POST['draft_id']))
 		{
@@ -5014,8 +5043,15 @@ $this->doCaptchaCheck();
 		$oReplyEditForm = $this->getReplyEditForm();
 		if($oReplyEditForm->checkInput())
 		{
-$this->doCaptchaCheck();
-			
+			if (!$this->objCurrentPost->getId()) {
+				$_GET['action'] = '';
+				\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
+				$this->viewThreadObject();
+				return;
+			}
+
+			$this->doCaptchaCheck();
+
 			// init objects
 			$oForumObjects = $this->getForumObjects();
 			/**
@@ -5131,14 +5167,30 @@ $this->doCaptchaCheck();
 	 */
 	public function updateDraftObject()
 	{
+		if (!$this->objCurrentTopic->getId()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_deleted'), true);
+			$this->ctrl->redirect($this);
+		}
+
+		if ($this->objCurrentTopic->isClosed()) {
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_closed'), true);
+			$this->ctrl->redirect($this);
+		}
+
+		if (!$this->objCurrentPost->getId()) {
+			$_GET['action'] = '';
+			\ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
+			$this->viewThreadObject();
+			return;
+		}
 
 		if(!isset($_POST['del_file']) || !is_array($_POST['del_file'])) $_POST['del_file'] = array();
 
 		$oReplyEditForm = $this->getReplyEditForm();
 		if($oReplyEditForm->checkInput())
 		{
-$this->doCaptchaCheck();
-			
+			$this->doCaptchaCheck();
+
 			// init objects
 			$oForumObjects = $this->getForumObjects();
 			/**

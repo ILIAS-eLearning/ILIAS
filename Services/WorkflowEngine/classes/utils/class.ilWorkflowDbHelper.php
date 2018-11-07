@@ -377,10 +377,15 @@ class ilWorkflowDbHelper
 		require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 		$path = rtrim($workflow['workflow_location'], '/') . '/' . $workflow['workflow_class'];
 
-		require_once $path;
-
-		$instance = unserialize($workflow['workflow_instance']);
-
+		if(file_exists($path) && $path != '/')
+		{
+			require_once $path;
+			$instance = unserialize($workflow['workflow_instance']);
+		}
+		else
+		{
+			$instance = null;
+		}
 		return $instance;
 	}
 
@@ -443,15 +448,8 @@ class ilWorkflowDbHelper
 		type = '".$component."' AND content = '".$event."' AND subject_type = '".$params->getSubjectType()."'
 		AND context_type = '".$params->getContextType()."' ";
 
-		if($params->getSubjectId() != 0)
-		{
-			$query .= "AND subject_id = '".$params->getSubjectId()."' ";
-		}
-
-		if($params->getContextId() != 0)
-		{
-			$query .= "AND context_id = '".$params->getContextId()."'";
-		}
+		$query .= "AND ( subject_id = '".$params->getSubjectId()."' OR subject_id ='0' ) ";
+		$query .= "AND ( context_id = '".$params->getContextId()."' OR context_id ='0' ) ";
 
 		global $DIC;
 		/** @var ilDB $ilDB */

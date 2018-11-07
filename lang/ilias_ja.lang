@@ -14199,3 +14199,5 @@ cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result###29 0
 dcl#:#dcl_title_standardview#:#Standard View###29 08 2018 new variable
 chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. ###29 08 2018 new variable
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.###29 08 2018 new variable
+cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###29 09 2018 new variable
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###29 09 2018 new variable

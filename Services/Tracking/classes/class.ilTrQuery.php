@@ -1243,7 +1243,7 @@ class ilTrQuery
 							}
 							else
 							{
-								$a_fields[] = "value ".$field;
+								$a_fields[] = "value as ".$field;
 							}
 							break;
 						

@@ -2,6 +2,7 @@
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 
@@ -17,7 +18,7 @@ class FlySystemFilesystemFactory implements FilesystemFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function getLocal(LocalConfig $config) {
+	public function getLocal(LocalConfig $config, $read_only = false) {
 		$localFactory = new FlySystemLocalFilesystemFactory();
 		return $localFactory->getInstance($config);
 	}
