@@ -155,7 +155,7 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
 
 		if (\ilForumPostDraft::isSavePostDraftAllowed()) {
 			$this->ctrl->setParameter($this->delegatingGui, 'draft_id', $this->draftId);
-			if ('editThreadDraft' === $this->ctrl->getCmd()) {
+			if (in_array($this->ctrl->getCmd(), ['publishThreadDraft', 'editThreadDraft', 'updateThreadDraft'])) {
 				$this->addCommandButton('publishThreadDraft', $this->lng->txt('publish'));
 				$this->addCommandButton('updateThreadDraft', $this->lng->txt('save_message'));
 				$this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'updateThreadDraft'));

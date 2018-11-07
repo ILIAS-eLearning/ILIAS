@@ -212,7 +212,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createTopLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch',
 			'autosaveDraftAsync', 'autosaveThreadDraftAsync',
 			'saveAsDraft', 'editDraft', 'updateDraft', 'deliverDraftZipFile', 'deliverZipFile', 'cancelDraft',
-			'publishThreadDraft', 'deleteThreadDrafts'
+			'deleteThreadDrafts'
 		);
 
 		if (!in_array($cmd, $exclude_cmds)) {
@@ -3647,7 +3647,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		$topicData = $frm->getOneTopic();
 
-		$form = $this->buildThreadForm();
+		$form = $this->buildThreadForm($createFromDraft);
 		if ($form->checkInput()) {
 			$this->doCaptchaCheck();
 
@@ -4307,7 +4307,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		}
 
 		$historyCheck = (int)($this->httpRequest->getQueryParams()['hist_check'] ?? 1);
-		if ($historyCheck  > 0) {
+		if (!($form instanceof \ilPropertyFormGUI) && $historyCheck  > 0) {
 			$this->doHistoryCheck($draft->getDraftId());
 		}
 
@@ -4448,7 +4448,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$form = $this->buildThreadForm();
+		$form = $this->buildThreadForm(true);
 		if ($form->checkInput()) {
 			$this->doCaptchaCheck();
 
