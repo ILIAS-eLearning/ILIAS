@@ -614,6 +614,20 @@ abstract class ilExplorerBaseGUI
 	}
 
 	/**
+	 * Get all open nodes
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function isNodeOpen($node_id)
+	{
+		return ($this->getNodeId($this->getRootNode()) == $node_id
+			|| in_array($node_id, $this->open_nodes)
+			|| in_array($node_id, $this->custom_open_nodes));
+	}
+
+
+	/**
 	 * Get on load code
 	 *
 	 * @param
@@ -791,7 +805,7 @@ abstract class ilExplorerBaseGUI
 		}
 
 		$content = $etpl->get();
-
+//echo $content.$add; exit;
 		return $content.$add;
 	}
 	
@@ -994,10 +1008,15 @@ abstract class ilExplorerBaseGUI
 	function listItemStart($tpl, $a_node)
 	{
 		$tpl->setCurrentBlock("list_item_start");
-		if ($this->getAjax() && $this->nodeHasVisibleChilds($a_node))
+		if ($this->getAjax() && $this->nodeHasVisibleChilds($a_node) && !$this->isNodeOpen($this->getNodeId($a_node)))
 		{
 			$tpl->touchBlock("li_closed");
 		}
+		if ($this->isNodeOpen($this->getNodeId($a_node)))
+		{
+			$tpl->touchBlock("li_opened");
+		}
+
 		$tpl->setVariable("DOM_NODE_ID",
 			$this->getDomNodeIdForNodeId($this->getNodeId($a_node)));
 		$tpl->parseCurrentBlock();
