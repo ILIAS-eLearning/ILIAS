@@ -4363,6 +4363,7 @@ return array(
     'ilForumAppEventListener' => $baseDir . '/../../Modules/Forum/classes/class.ilForumAppEventListener.php',
     'ilForumAuthorInformation' => $baseDir . '/../../Modules/Forum/classes/class.ilForumAuthorInformation.php',
     'ilForumAuthorInformationCache' => $baseDir . '/../../Modules/Forum/classes/class.ilForumAuthorInformationCache.php',
+    'ilForumAutoSaveAsyncDraftAction' => $baseDir . '/../../Modules/Forum/classes/Actions/class.ilForumAutoSaveAsyncDraftAction.php',
     'ilForumCronNotification' => $baseDir . '/../../Modules/Forum/classes/class.ilForumCronNotification.php',
     'ilForumCronNotificationDataProvider' => $baseDir . '/../../Modules/Forum/classes/class.ilForumCronNotificationDataProvider.php',
     'ilForumDraftsHistory' => $baseDir . '/../../Modules/Forum/classes/class.ilForumDraftsHistory.php',

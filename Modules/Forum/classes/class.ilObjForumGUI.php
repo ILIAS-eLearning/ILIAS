@@ -5271,286 +5271,50 @@ $this->doCaptchaCheck();
 
 	public function autosaveDraftAsyncObject()
 	{
-		
-		if($this->user->isAnonymous() || $_GET['action'] == 'ready_showreply')
-		{
-			exit();
+		if (!isset($_GET['action']) || $_GET['action'] !== 'ready_showreply') {
+			$action = new ilForumAutoSaveAsyncDraftAction(
+				$this->user,
+				$this->getReplyEditForm(),
+				$this->objProperties,
+				$this->objCurrentTopic,
+				function(string $message): string {
+					return $this->handleFormInput($message);
+				},
+				$this->objCurrentPost->getId(),
+				(int)($_GET['draft_id'] ?? 0),
+				(int)\ilObjForum::lookupForumIdByRefId($this->ref_id),
+				$this->objCurrentPost->getId(),
+				$_GET['action'] ?? ''
+			);
+
+			echo json_encode($action->executeAndGetResponseObject());
 		}
-		
-		$reponse           = new stdClass();
-		$reponse->draft_id = 0;
-		
-		if(ilForumPostDraft::isAutoSavePostDraftAllowed())
-		{
-			$replyform = $this->getReplyEditForm();
-			$current_post_id =$this->objCurrentPost->getId();
 
-			$replyform->checkInput();
-
-			$form_autosave_values['subject'] = $replyform->getInput('subject'); 
-			$form_autosave_values['message'] = $replyform->getInput('message');
-			$form_autosave_values['notify']  = $replyform->getInput('notify');
-			$form_autosave_values['alias']   = $replyform->getInput('alias');
-				
-			if(isset($_GET['draft_id']) && (int)$_GET['draft_id'] > 0)
-			{
-				$draft_id = (int)$_GET['draft_id'];
-			}
-			else
-			{
-				$draft_id = $replyform->getInput('draft_id');
-			}
-			$user_alias = ilForumUtil::getPublicUserAlias($form_autosave_values['alias'], $this->objProperties->isAnonymized());
-			
-			if((int)$draft_id > 0)
-			{
-				if($_GET['action'] == 'showreply')
-				{
-					$draftObj = ilForumPostDraft::newInstanceByDraftId((int)$draft_id);
-					$draftObj->setPostSubject($this->handleFormInput($form_autosave_values['subject'], false));
-					$draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($form_autosave_values['message'], 0));
-					
-					$draftObj->setPostUserAlias($user_alias);
-					$draftObj->setNotify((int)$form_autosave_values['notify']);
-					$draftObj->setUpdateUserId($this->user->getId());
-					$draftObj->setPostAuthorId($this->user->getId());
-					$draftObj->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
-					
-					$draftObj->updateDraft();
-					
-					$uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
-					$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-					$curMediaObjects = ilRTE::_getMediaObjects($form_autosave_values['message'], 0);
-					
-					foreach($uploadedObjects as $mob)
-					{
-						ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->user->getId());
-						ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-					}
-					
-					foreach($oldMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-					}
-					
-					foreach($curMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-					}
-				}	
-				else
-				{
-					$draftObj = new ilForumDraftsHistory();
-					$draftObj->setDraftId((int)$draft_id);
-					$draftObj->setPostSubject($this->handleFormInput($form_autosave_values['subject'], false));
-					$draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($form_autosave_values['message'], 0));
-					$draftObj->addDraftToHistory();
-					
-					$uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
-					$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-					$curMediaObjects = ilRTE::_getMediaObjects($form_autosave_values['message'], 0);
-					
-					foreach($uploadedObjects as $mob)
-					{
-						ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->user->getId());
-						ilObjMediaObject::_saveUsage($mob, ilForumDraftsHistory::MEDIAOBJECT_TYPE, $draftObj->getHistoryId());
-					}
-					
-					foreach($oldMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumDraftsHistory::MEDIAOBJECT_TYPE, $draftObj->getHistoryId());
-					}
-					
-					foreach($curMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumDraftsHistory::MEDIAOBJECT_TYPE, $draftObj->getHistoryId());
-					}
-				}
-			}
-			else
-			{
-				$draftObj = new ilForumPostDraft();
-				$draftObj->setForumId(ilObjForum::lookupForumIdByRefId($this->ref_id));
-				$draftObj->setThreadId($this->objCurrentTopic->getId());
-				$draftObj->setPostId($current_post_id);
-
-				$draftObj->setPostSubject($this->handleFormInput($form_autosave_values['subject'], false));
-				$draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($form_autosave_values['message'], 0));
-
-				$draftObj->setPostUserAlias($user_alias);
-				$draftObj->setNotify((int)$form_autosave_values['notify']);
-				$draftObj->setPostAuthorId($this->user->getId());
-				$draftObj->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
-				$draftObj->saveDraft();
-				
-				$uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
-				$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-				$curMediaObjects = ilRTE::_getMediaObjects($form_autosave_values['message'], 0);
-				
-				foreach($uploadedObjects as $mob)
-				{
-					ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->user->getId());
-					ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-				}
-				
-				foreach($oldMediaObjects as $mob)
-				{
-					ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-				}
-				
-				foreach($curMediaObjects as $mob)
-				{
-					ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-				}
-			}
-		}
-		
-		$reponse->draft_id = $draftObj->getDraftId();
-		echo json_encode($reponse);
 		exit();
 	}
 	
 	public function autosaveThreadDraftAsyncObject()
 	{
-		
-		if($this->user->isAnonymous() || $_GET['action'] == 'ready_showreply')
-		{
-			exit();
+		if (!isset($_GET['action']) || $_GET['action'] !== 'ready_showreply') {
+			$this->initTopicCreateForm();
+
+			$action = new ilForumAutoSaveAsyncDraftAction(
+				$this->user,
+				$this->create_topic_form_gui,
+				$this->objProperties,
+				$this->objCurrentTopic,
+				function(string $message): string {
+					return $this->handleFormInput($message, false);
+				},
+				(int)($_GET['draft_id'] ?? 0),
+				(int)\ilObjForum::lookupForumIdByRefId($this->ref_id),
+				0,
+				$_GET['action'] ?? ''
+			);
+
+			echo json_encode($action->executeAndGetResponseObject());
 		}
-		
-		$reponse           = new stdClass();
-		$reponse->draft_id = 0;
-		
-		if(ilForumPostDraft::isAutoSavePostDraftAllowed())
-		{
-				$this->initTopicCreateForm();
-				$replyform = $this->create_topic_form_gui;
-				$current_post_id = 0;
-		
-			
-			$replyform->checkInput();
-			
-			$form_autosave_values['subject'] = $replyform->getInput('subject');
-			$form_autosave_values['message'] = $replyform->getInput('message');
-			$form_autosave_values['notify']  = $replyform->getInput('notify');
-			$form_autosave_values['alias']   = $replyform->getInput('alias');
-			
-			if(isset($_GET['draft_id']) && (int)$_GET['draft_id'] > 0)
-			{
-				$draft_id = (int)$_GET['draft_id'];
-			}
-			else
-			{
-				$draft_id = $replyform->getInput('draft_id');
-			}
-			$user_alias = ilForumUtil::getPublicUserAlias($form_autosave_values['alias'], $this->objProperties->isAnonymized());
-			if((int)$draft_id > 0)
-			{
-				if($_GET['action'] == 'showreply')
-				{
-					$draftObj = ilForumPostDraft::newInstanceByDraftId((int)$draft_id);
-					$draftObj->setPostSubject($this->handleFormInput($form_autosave_values['subject'], false));
-					$draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($form_autosave_values['message'], 0));
-					$draftObj->setPostUserAlias($user_alias);
-					$draftObj->setNotify((int)$form_autosave_values['notify']);
-					$draftObj->setUpdateUserId($this->user->getId());
-					$draftObj->setPostAuthorId($this->user->getId());
-					$draftObj->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
-					
-					$draftObj->updateDraft();
-					
-					$uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
-					$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-					$curMediaObjects = ilRTE::_getMediaObjects($form_autosave_values['message'], 0);
-					
-					foreach($uploadedObjects as $mob)
-					{
-						ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->user->getId());
-						ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-					}
-					
-					foreach($oldMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-					}
-					
-					foreach($curMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-					}
-					
-				}
-				else
-				{
-					$draftObj = new ilForumDraftsHistory();
-					$draftObj->setDraftId((int)$draft_id);
-					$draftObj->setPostSubject($this->handleFormInput($form_autosave_values['subject'], false));
-					$draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($form_autosave_values['message'], 0));
-					$draftObj->addDraftToHistory();
-					
-					$uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
-					$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-					$curMediaObjects = ilRTE::_getMediaObjects($form_autosave_values['message'], 0);
-					
-					foreach($uploadedObjects as $mob)
-					{
-						ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->user->getId());
-						ilObjMediaObject::_saveUsage($mob, ilForumDraftsHistory::MEDIAOBJECT_TYPE, $draftObj->getHistoryId());
-					}
-					
-					foreach($oldMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumDraftsHistory::MEDIAOBJECT_TYPE, $draftObj->getHistoryId());
-					}
-					
-					foreach($curMediaObjects as $mob)
-					{
-						ilObjMediaObject::_saveUsage($mob, ilForumDraftsHistory::MEDIAOBJECT_TYPE, $draftObj->getHistoryId());
-					}
-					
-				}
-			}
-			else
-			{
-				$draftObj = new ilForumPostDraft();
-				$draftObj->setForumId(ilObjForum::lookupForumIdByRefId($this->ref_id));
-				$draftObj->setThreadId($this->objCurrentTopic->getId());
-				$draftObj->setPostId($current_post_id);
-				
-				$draftObj->setPostSubject($this->handleFormInput($form_autosave_values['subject'], false));
-				$draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($form_autosave_values['message'], 0));
-				
-				$draftObj->setPostUserAlias($user_alias);
-				$draftObj->setNotify((int)$form_autosave_values['notify']);
-				$draftObj->setPostAuthorId($this->user->getId());
-				$draftObj->setPostDisplayUserId(($this->objProperties->isAnonymized() ? 0 : $this->user->getId()));
-				$draftObj->saveDraft();
-				
-				$uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
-				$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-				$curMediaObjects = ilRTE::_getMediaObjects($form_autosave_values['message'], 0);
-				
-				foreach($uploadedObjects as $mob)
-				{
-					ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->user->getId());
-					ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-				}
-				
-				foreach($oldMediaObjects as $mob)
-				{
-					ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-				}
-				
-				foreach($curMediaObjects as $mob)
-				{
-					ilObjMediaObject::_saveUsage($mob, ilForumPostDraft::MEDIAOBJECT_TYPE, $draftObj->getDraftId());
-				}
-				
-			}
-		}
-		
-		$reponse->draft_id = $draftObj->getDraftId();
-		echo json_encode($reponse);
+
 		exit();
 	}
 	
