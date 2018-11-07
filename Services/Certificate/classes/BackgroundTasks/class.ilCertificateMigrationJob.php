@@ -455,52 +455,21 @@ class ilCertificateMigrationJob extends AbstractJob
 			if ($obj_ids)
 			{
 
-				foreach(\ilCertificate::areObjectsActive($obj_ids) as $obj_id => $active)
+				foreach(\ilCertificate::areObjectsActive($obj_ids) as $objectId => $active)
 				{
 					if ($active)
 					{
-						$type = \ilObjSAHSLearningModule::_lookupSubType($obj_id);
+						$type = \ilObjSAHSLearningModule::_lookupSubType($objectId);
 
-						$lm = \ilObjectFactory::getInstanceByObjId($obj_id, false);
-						if (!$lm || !($lm instanceof \ilObjSAHSLearningModule)) {
-							$this->logMessage('Found inconsistent object, skipped migration: ' . $obj_id, 'debug');
+						$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+						if (!$object || !($object instanceof \ilObjSAHSLearningModule)) {
+							$this->logMessage('Found inconsistent object, skipped migration: ' . $objectId, 'debug');
 							continue;
 						}
-						$lm->setSubType($type);
+						$object->setSubType($type);
 
-						$adapter = new \ilSCORMCertificateAdapter($lm);
-
-						$obj_id = $adapter->getCertificateID();
-						if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-						{
-							if (file_exists($adapter->getCertificatePath()))
-							{
-								$cert_path = $adapter->getCertificatePath();
-								$xsl_path = $cert_path . "certificate.xml";
-
-								if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-								{
-									$this->logMessage('Found scorm certificate with id: ' . $obj_id, 'debug');
-									$webdir = $cert_path . "background.jpg";
-
-									$background_image_path = str_replace(
-										\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-										'',
-										$webdir
-									);
-
-									$data[] = array(
-										"obj_id" => $obj_id,
-										"user_id" => $this->user_id,
-										"certificate_type" => 'sahs',
-										"background_image_path" => $background_image_path,
-										"acquired_timestamp" => null,
-										"ilias_version" => ILIAS_VERSION_NUMERIC,
-										"certificate_content" => null,
-									);
-								}
-							}
-						}
+						$adapter = new \ilSCORMCertificateAdapter($object);
+						$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 					}
 				}
 			}
@@ -520,50 +489,20 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		$data = array();
 
-		foreach(\ilObjTest::getTestObjIdsWithActiveForUserId($this->user_id) as $test_id)
+		foreach(\ilObjTest::getTestObjIdsWithActiveForUserId($this->user_id) as $objectId)
 		{
-			$test = \ilObjectFactory::getInstanceByObjId($test_id, false);
-			if (!$test || !($test instanceof \ilObjTest)) {
-				$this->logMessage('Found inconsistent object, skipped migration: ' . $test_id, 'debug');
+			$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+			if (!$object || !($object instanceof \ilObjTest)) {
+				$this->logMessage('Found inconsistent object, skipped migration: ' . $objectId, 'debug');
 				continue;
 			}
 
-			$session = new \ilTestSessionFactory($test);
+			$session = new \ilTestSessionFactory($object);
 			$session = $session->getSession(null);
-			if ($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
+			if ($object->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
 			{
-
-				$adapter = new \ilTestCertificateAdapter($test);
-
-				$obj_id = $adapter->getCertificateID();
-				if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-				{
-					if (file_exists($adapter->getCertificatePath()))
-					{
-						$cert_path = $adapter->getCertificatePath();
-						$xsl_path = $cert_path . "certificate.xml";
-						if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-						{
-							$this->logMessage('Found test certificate with id: ' . $test_id, 'debug');
-							$webdir = $cert_path . "background.jpg";
-							$background_image_path = str_replace(
-								\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-								'',
-								$webdir
-							);
-							$data[] = array(
-								"obj_id" => $test_id,
-								"user_id" => $this->user_id,
-								"certificate_path" => $cert_path,
-								"certificate_type" => 'tst',
-								"background_image_path" => $background_image_path,
-								"acquired_timestamp" => null,
-								"ilias_version" => ILIAS_VERSION_NUMERIC,
-								"certificate_content" => null,
-							);
-						}
-					}
-				}
+				$adapter = new \ilTestCertificateAdapter($object);
+				$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 			}
 		}
 
@@ -581,47 +520,18 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		$data = array();
 
-		foreach(\ilObjExercise::_lookupFinishedUserExercises($this->user_id) as $exercise_id => $passed)
+		foreach(\ilObjExercise::_lookupFinishedUserExercises($this->user_id) as $objectId => $passed)
 		{
-			$exc = \ilObjectFactory::getInstanceByObjId($exercise_id, false);
-			if (!$exc || !($exc instanceof \ilObjExercise)) {
-				$this->logMessage('Found inconsistent object, skipped migration: ' . $exercise_id, 'debug');
+			$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+			if (!$object || !($object instanceof \ilObjExercise)) {
+				$this->logMessage('Found inconsistent object, skipped migration: ' . $objectId, 'debug');
 				continue;
 			}
 
-			if ($exc->hasUserCertificate($this->user_id))
+			if ($object->hasUserCertificate($this->user_id))
 			{
-				$adapter = new \ilExerciseCertificateAdapter($exc);
-
-				$obj_id = $adapter->getCertificateID();
-				if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-				{
-					if (file_exists($adapter->getCertificatePath()))
-					{
-						$cert_path = $adapter->getCertificatePath();
-						$xsl_path = $cert_path . "certificate.xml";
-						if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-						{
-							$this->logMessage('Found exercise certificate with id: ' . $obj_id, 'debug');
-							$webdir = $cert_path . "background.jpg";
-							$background_image_path = str_replace(
-								\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-								'',
-								$webdir
-							);
-							$data[] = array(
-								"obj_id" => $exercise_id,
-								"user_id" => $this->user_id,
-								"certificate_path" => $cert_path,
-								"certificate_type" => 'exc',
-								"background_image_path" => $background_image_path,
-								"acquired_timestamp" => null,
-								"ilias_version" => ILIAS_VERSION_NUMERIC,
-								"certificate_content" => null,
-							);
-						}
-					}
-				}
+				$adapter = new \ilExerciseCertificateAdapter($object);
+				$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 			}
 		}
 
@@ -644,46 +554,18 @@ class ilCertificateMigrationJob extends AbstractJob
 		{
 			\ilCourseCertificateAdapter::_preloadListData([$this->user_id], $obj_ids);
 
-			foreach($obj_ids as $crs_id)
+			foreach($obj_ids as $objectId)
 			{
-				if (\ilCourseCertificateAdapter::_hasUserCertificate($this->user_id, $crs_id))
+				if (\ilCourseCertificateAdapter::_hasUserCertificate($this->user_id, $objectId))
 				{
-					$crs = \ilObjectFactory::getInstanceByObjId($crs_id, false);
-					if (!$crs || !($crs instanceof \ilObjCourse)) {
-						$this->logMessage('Found inconsistent object, skipped migration: ' . $crs_id, 'debug');
+					$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+					if (!$object || !($object instanceof \ilObjCourse)) {
+						$this->logMessage('Found inconsistent object, skipped migration: ' . $objectId, 'debug');
 						continue;
 					}
 
-					$adapter = new \ilCourseCertificateAdapter($crs);
-					$obj_id = $adapter->getCertificateID();
-					if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-					{
-						if (file_exists($adapter->getCertificatePath()))
-						{
-							$cert_path = $adapter->getCertificatePath();
-							$xsl_path = $cert_path . "certificate.xml";
-							if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-							{
-								$this->logMessage('Found course certificate with id: ' . $crs_id, 'debug');
-								$webdir = $cert_path . "background.jpg";
-								$background_image_path = str_replace(
-									\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-									'',
-									$webdir
-								);
-								$data[] = array(
-									"obj_id" => $crs_id,
-									"user_id" => $this->user_id,
-									"certificate_path" => $cert_path,
-									"certificate_type" => 'crs',
-									"background_image_path" => $background_image_path,
-									"acquired_timestamp" => null,
-									"ilias_version" => ILIAS_VERSION_NUMERIC,
-									"certificate_content" => null,
-								);
-							}
-						}
-					}
+					$adapter = new \ilCourseCertificateAdapter($object);
+					$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 				}
 			}
 		}
@@ -815,5 +697,54 @@ class ilCertificateMigrationJob extends AbstractJob
 		\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
 		return $xslfo;
+	}
+
+	/**
+	 * @param $objectId
+	 * @param $adapter
+	 * @param $object
+	 * @param $data
+	 * @return array
+	 */
+	private function createCertificateData(
+		$objectId,
+		\ilCertificateAdapter $adapter,
+		\ilObject $object,
+		array $data
+	): array
+	{
+		if (\ilCertificate::isActive() && \ilCertificate::isObjectActive($objectId)) {
+			if (file_exists($adapter->getCertificatePath())) {
+				$cert_path = $adapter->getCertificatePath();
+				$xsl_path = $cert_path . "certificate.xml";
+
+				if (file_exists($xsl_path) && (filesize($xsl_path) > 0)) {
+					$type = $object->getType();
+
+					$this->logMessage(sprintf('Found certificate for object id "%s" (type: "%s") and user id "%s"', $objectId, $type, $this->user_id), 'debug');
+
+					$webdir = $cert_path . "background.jpg";
+
+					$background_image_path = str_replace(
+						\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
+						'',
+						$webdir
+					);
+
+					$data[] = array(
+						"obj_id" => $objectId,
+						"user_id" => $this->user_id,
+						"certificate_path" => $cert_path,
+						"certificate_type" => $type,
+						"background_image_path" => $background_image_path,
+						"acquired_timestamp" => null,
+						"ilias_version" => ILIAS_VERSION_NUMERIC,
+						"certificate_content" => null,
+					);
+				}
+			}
+		}
+
+		return $data;
 	}
 }
