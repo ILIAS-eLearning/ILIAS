@@ -1688,7 +1688,7 @@ class ilSurveyEvaluationGUI
 
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
 		
-		if($this->object->get360Mode() || ilObjSurvey::MODE_SELF_EVAL)
+		if($this->object->get360Mode() || $survey->getMode() == ilObjSurvey::MODE_SELF_EVAL)
 		{				
 			$appr_id = $this->getAppraiseeId();
 			$this->addApprSelectionToToolbar();
@@ -1800,7 +1800,10 @@ class ilSurveyEvaluationGUI
 		{
 			include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
 			$pskills_gui = new ilPersonalSkillsGUI();
-			$pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
+			#23743
+			if($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
+				$pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
+			}
 			if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0)
 			{
 				$sskill = new ilSurveySkill($survey);
