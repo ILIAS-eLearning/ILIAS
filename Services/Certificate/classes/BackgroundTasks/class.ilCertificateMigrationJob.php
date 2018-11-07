@@ -122,7 +122,7 @@ class ilCertificateMigrationJob extends AbstractJob
 			$observer->heartbeat();
 
 			$this->updateTask(['found_items' => $found_items]);
-			$this->logger->debug('Found overall ' . $found_items . ' items for user with id: ' . $this->user_id, 'debug');
+			$this->logger->debug('Found overall ' . $found_items . ' items for user with id: ' . $this->user_id);
 			$this->logger->info('Finished collecting certificate data for user: ' . $this->user_id);
 
 		} catch (\Exception $e) {
@@ -341,7 +341,7 @@ class ilCertificateMigrationJob extends AbstractJob
 	 */
 	protected function initTask()
 	{
-		$this->logger->debug('Insert new entry for user with id: ' . $this->user_id, 'debug');
+		$this->logger->debug('Insert new entry for user with id: ' . $this->user_id);
 		$this->db->insert($this->db_table, [
 			'id' => ['integer', $this->db->nextId($this->db_table)],
 			'usr_id' => ['integer', $this->user_id],
