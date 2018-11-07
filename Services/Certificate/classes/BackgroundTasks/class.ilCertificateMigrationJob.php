@@ -469,7 +469,6 @@ class ilCertificateMigrationJob extends AbstractJob
 						$object->setSubType($type);
 
 						$adapter = new \ilSCORMCertificateAdapter($object);
-
 						$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 					}
 				}
@@ -502,9 +501,7 @@ class ilCertificateMigrationJob extends AbstractJob
 			$session = $session->getSession(null);
 			if ($object->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
 			{
-
 				$adapter = new \ilTestCertificateAdapter($object);
-
 				$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 			}
 		}
@@ -534,7 +531,6 @@ class ilCertificateMigrationJob extends AbstractJob
 			if ($object->hasUserCertificate($this->user_id))
 			{
 				$adapter = new \ilExerciseCertificateAdapter($object);
-
 				$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 			}
 		}
