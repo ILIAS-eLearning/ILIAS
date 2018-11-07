@@ -4200,12 +4200,14 @@ $this->doCaptchaCheck();
 	 	}
  		$this->tpl->setVariable('BTN_BACK', $this->lng->txt('btn_back'));
 	}
-	
-	public function addLocatorItems()
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function addLocatorItems()
 	{
-		if($this->object instanceof ilObject)
-		{
-			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ''), '', $this->object->getRefId());
+		if ($this->object instanceof \ilObjForum) {
+			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this), '', $this->object->getRefId());
 		}
 	}
 
@@ -4227,52 +4229,50 @@ $this->doCaptchaCheck();
 		return $a_text;
 	}
 
-//	/**
-//	 * this one is called from the info button in the repository
-//	 * not very nice to set cmdClass/Cmd manually, if everything
-//	 * works through ilCtrl in the future this may be changed
-//	 */
-//	public function infoScreenObject()
-//	{
-//		$this->ctrl->setCmd('showSummary');
-//		$this->ctrl->setCmdClass('ilinfoscreengui');
-//		$this->infoScreen();
-//	}
-
-	public function infoScreen()
+	protected function infoScreen()
 	{
 		if(
 			!$this->access->checkAccess('visible', '', $this->object->getRefId()) &&
 			!$this->access->checkAccess('read', '', $this->object->getRefId())
-		)
-		{
+		) {
 			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
 
-		$info = new ilInfoScreenGUI($this);
-
+		$info = new \ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
-
-		// standard meta data
 		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
-
-		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}
 
-	public function markPostUnreadObject()
+	/**
+	 * 
+	 */
+	protected function markPostUnreadObject()
 	{
-		if(isset($_GET['pos_pk']))
-		{
-			$this->object->markPostUnread($this->user->getId(), (int) $_GET['pos_pk']);
+		if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
-		
+
+		if ((int)$this->objCurrentPost->getId() > 0) {
+			$this->object->markPostUnread($this->user->getId(), (int)$this->objCurrentPost->getId());
+		}
 		$this->viewThreadObject();
 	}
 
-	public function markPostReadObject()
+	/**
+	 * 
+	 */
+	protected function markPostReadObject()
 	{
-		$this->object->markPostRead($this->user->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
+		if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		if ((int)$this->objCurrentTopic->getId() > 0 && (int)$this->objCurrentPost->getId() > 0) {
+			$this->object->markPostRead(
+				$this->user->getId(), (int)$this->objCurrentTopic->getId(), (int)$this->objCurrentPost->getId()
+			);
+		}
 		$this->viewThreadObject();
 	}
 
@@ -4410,34 +4410,28 @@ $this->doCaptchaCheck();
 	}
 
 	/**
-	 * @see ilDesktopItemHandling::addToDesk()
+	 * @inheritdoc
 	 */
 	public function addToDeskObject()
 	{
-		if((int)$this->settings->get('disable_my_offers'))
-		{
-			$this->showThreadsObject();
-			return;
+		if (!(int)$this->settings->get('disable_my_offers')) {
+			\ilDesktopItemGUI::addToDesktop();
+			\ilUtil::sendSuccess($this->lng->txt('added_to_desktop'));
 		}
 
-		ilDesktopItemGUI::addToDesktop();
-		ilUtil::sendSuccess($this->lng->txt("added_to_desktop"));
 		$this->showThreadsObject();
 	}
 
 	/**
-	 * @see ilDesktopItemHandling::removeFromDesk()
+	 * @inheritdoc
 	 */
 	public function removeFromDeskObject()
 	{
-		if((int)$this->settings->get('disable_my_offers'))
-		{
-			$this->showThreadsObject();
-			return;
+		if (!(int)$this->settings->get('disable_my_offers')) {
+			\ilDesktopItemGUI::removeFromDesktop();
+			\ilUtil::sendSuccess($this->lng->txt('removed_from_desktop'));
 		}
 
-		ilDesktopItemGUI::removeFromDesktop();
-		ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"));
 		$this->showThreadsObject();
 	}
 
