@@ -488,6 +488,7 @@ class ilCertificateMigrationJob extends AbstractJob
 									$data[] = array(
 										"obj_id" => $objectId,
 										"user_id" => $this->user_id,
+										"certificate_path" => $cert_path,
 										"certificate_type" => $object->getType(),
 										"background_image_path" => $background_image_path,
 										"acquired_timestamp" => null,
