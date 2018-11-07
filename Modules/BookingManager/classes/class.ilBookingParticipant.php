@@ -221,12 +221,16 @@ class ilBookingParticipant
 			{
 				$ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $row['user_id']);
 				$ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $row['object_id']);
+				$ctrl->setParameterByClass('ilbookingobjectgui', 'part_view',ilBookingParticipantGUI::PARTICIPANT_VIEW);
+
 				$actions[] = array(
 					'text' => $lng->txt("book_deassign"),
 					'url' => $ctrl->getLinkTargetByClass("ilbookingobjectgui", 'rsvConfirmCancelUser')
 				);
+
 				$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
 				$ctrl->setParameterByClass('ilbookingparticipantgui', 'object_id', '');
+				$ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', '');
 			}
 			else if($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $res[$index]['obj_count'] > 1)
 			{
