@@ -10,6 +10,9 @@ class ilForumAutoSaveAsyncDraftAction
 	/** @var \ilObjUser */
 	private $actor;
 
+	/** @var \ilAccessHandler */
+	private $access;
+
 	/** @var \ilPropertyFormGUI */
 	private $form;
 
@@ -18,6 +21,9 @@ class ilForumAutoSaveAsyncDraftAction
 
 	/** @var \ilForumTopic */
 	private $thread;
+
+	/** @var \ilForumPost|null */
+	private $relatedPost;
 	
 	/** @var callable */
 	private $subjectFormatterCallable;
@@ -26,9 +32,6 @@ class ilForumAutoSaveAsyncDraftAction
 	private $relatedDraftId = 0;
 
 	/** @var int */
-	private $relatedPostId;
-	
-	/** @var int */
 	private $relatedForumId;
 
 	/** @var string */
@@ -36,35 +39,38 @@ class ilForumAutoSaveAsyncDraftAction
 
 	/**
 	 * ilForumAutoSaveAsyncDraftAction constructor.
-	 * @param ilObjUser $actor
-	 * @param ilPropertyFormGUI $form
-	 * @param ilForumProperties $forumProperties
-	 * @param ilForumTopic $thread
-	 * @param callable $subjectFormatterCallable
-	 * @param int $relatedDraftId
-	 * @param int $relatedForumId
-	 * @param int $relatedPostId
-	 * @param string $action
+	 * @param \ilObjUser         $actor
+	 * @param \ilAccessHandler   $access
+	 * @param \ilPropertyFormGUI $form
+	 * @param \ilForumProperties $forumProperties
+	 * @param \ilForumTopic      $thread
+	 * @param \ilForumPost|null  $relatedPost
+	 * @param callable           $subjectFormatterCallable
+	 * @param int                $relatedDraftId
+	 * @param int                $relatedForumId
+	 * @param string             $action
 	 */
 	public function __construct(
 		\ilObjUser $actor,
+		\ilAccessHandler $access,
 		\ilPropertyFormGUI $form,
 		\ilForumProperties $forumProperties,
 		\ilForumTopic $thread,
+		$relatedPost,
 		callable $subjectFormatterCallable,
 		int $relatedDraftId,
 		int $relatedForumId,
-		int $relatedPostId,
 		string $action
 	) {
 		$this->actor = $actor;
+		$this->access = $access;
 		$this->form = $form;
 		$this->forumProperties = $forumProperties;
 		$this->thread = $thread;
+		$this->relatedPost = $relatedPost;
 		$this->subjectFormatterCallable = $subjectFormatterCallable;
 
 		$this->relatedDraftId = $relatedDraftId;
-		$this->relatedPostId = $relatedPostId;
 		$this->relatedForumId = $relatedForumId;
 		$this->action = $action;
 	}
@@ -81,12 +87,28 @@ class ilForumAutoSaveAsyncDraftAction
 			return $response;
 		}
 
+		if ($this->thread->getId() > 0 && $this->thread->isClosed()) {
+			return $response;
+		}
+
 		if (!\ilForumPostDraft::isAutoSavePostDraftAllowed()) {
 			return $response;
 		}
 
-		$this->form->checkInput();
+		if (
+			$this->relatedPost instanceof \ilForumPost && (
+				!$this->relatedPost->isActivated() || $this->relatedPost->isCensored()
+			)
+		) {
+			return $response;
+		}
 
+		$relatedPostId = 0;
+		if ($this->relatedPost instanceof \ilForumPost) {
+			$relatedPostId = $this->relatedPost->getId();
+		}
+
+		$this->form->checkInput();
 		$inputValues = $this->getInputValuesFromForm();
 
 		if ($this->relatedDraftId > 0) {
@@ -137,7 +159,7 @@ class ilForumAutoSaveAsyncDraftAction
 			$draftObj = new \ilForumPostDraft();
 			$draftObj->setForumId($this->relatedForumId);
 			$draftObj->setThreadId($this->thread->getId());
-			$draftObj->setPostId($this->relatedPostId);
+			$draftObj->setPostId($relatedPostId);
 			$draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
 			$draftObj->setPostMessage(\ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
 			$draftObj->setPostUserAlias($inputValues['alias']);
