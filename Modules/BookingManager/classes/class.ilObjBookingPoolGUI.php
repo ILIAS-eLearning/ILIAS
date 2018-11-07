@@ -473,7 +473,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$cgui->setCancel($this->lng->txt("cancel"), "render");
 			$cgui->setConfirm($this->lng->txt("confirm"), "confirmedBooking");
 
-			$cgui->addItem("object_id", $obj->getId(), $obj->getTitle());		
+			$cgui->addItem("object_id", $obj->getId(), $obj->getTitle());
+
+			if($_GET['part_view'] == ilBookingParticipantGUI::PARTICIPANT_VIEW) {
+				$cgui->addHiddenItem("part_view", ilBookingParticipantGUI::PARTICIPANT_VIEW);
+			}
 
 			$tpl->setContent($cgui->getHTML());
 		}
@@ -938,8 +942,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$this->ctrl->redirectByClass('ilbookingobjectgui', 'displayPostInfo');
 		}
 		else
-		{				
-			$this->ctrl->redirect($this, 'render');
+		{
+			if($_POST['part_view'] == ilBookingParticipantGUI::PARTICIPANT_VIEW) {
+				$this->ctrl->redirectByClass('ilbookingparticipantgui','render');
+			} else {
+				$this->ctrl->redirect($this, 'render');
+			}
 		}
 	}
 	
