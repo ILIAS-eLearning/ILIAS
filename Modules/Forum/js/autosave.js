@@ -78,13 +78,12 @@
 		}
 
 		$(function() {
-			alert("Set");
-				draft_as_handle = root.setTimeout(saveDraftCallback, settings.interval);
+			draft_as_handle = root.setTimeout(saveDraftCallback, settings.interval);
 
-				$form.on("submit", function() {
-					root.clearTimeout(draft_as_handle);
-					draft_as_handle = null;	
-				});
+			$form.on("submit", function() {
+				root.clearTimeout(draft_as_handle);
+				draft_as_handle = null;	
+			});
 		});
 	};
 
