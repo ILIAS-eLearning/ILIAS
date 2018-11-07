@@ -31,7 +31,7 @@
 		var $form = $(settings.selectors.form);
 
 		var saveDraftCallback = function saveDraftCallback() {
-			if (typeof tinyMCE != "undefined") {
+			if (typeof tinyMCE !== "undefined") {
 				if (tinyMCE) tinyMCE.triggerSave();
 			}
 
