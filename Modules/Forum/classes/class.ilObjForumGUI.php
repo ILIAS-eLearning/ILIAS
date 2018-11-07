@@ -136,8 +136,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			\ilSession::set('frm', $forumValues);
 		}
 
-		$threadId = $this->httpRequest->getQueryParams()['thr_fk'] ?? 0;
-		if ($threadId > 0 && !is_array($forumValues[(int)$threadId])) {
+		$threadId = $this->httpRequest->getQueryParams()['thr_pk'] ?? 0;
+		if ((int)$threadId > 0 && !is_array($forumValues[(int)$threadId])) {
 			$forumValues[(int)$threadId] = [];
 			\ilSession::set('frm', $forumValues);
 		}
@@ -1505,36 +1505,33 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		return $this->display_confirm_post_activation;
 	}
 
-	public function toggleThreadNotificationObject()
+	protected function toggleThreadNotificationObject()
 	{
-		if($this->objCurrentTopic->isNotificationEnabled($this->user->getId()))
-		{
+		if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+
+		if ($this->objCurrentTopic->isNotificationEnabled($this->user->getId())) {
 			$this->objCurrentTopic->disableNotification($this->user->getId());
-			ilUtil::sendInfo($this->lng->txt('forums_notification_disabled'), true);
-		}
-		else
-		{
+			\ilUtil::sendInfo($this->lng->txt('forums_notification_disabled'));
+		} else {
 			$this->objCurrentTopic->enableNotification($this->user->getId());
-			ilUtil::sendInfo($this->lng->txt('forums_notification_enabled'), true);
+			\ilUtil::sendInfo($this->lng->txt('forums_notification_enabled'));
 		}
-		
+
 		$this->viewThreadObject();
 	}
-	
-	public function toggleStickinessObject()
+
+	protected function toggleStickinessObject()
 	{
-		if($this->is_moderator)
-		{
-			if($this->objCurrentTopic->isSticky())
-			{
-				$this->objCurrentTopic->unmakeSticky();	
-			}
-			else
-			{
+		if ($this->is_moderator) {
+			if ($this->objCurrentTopic->isSticky()) {
+				$this->objCurrentTopic->unmakeSticky();
+			} else {
 				$this->objCurrentTopic->makeSticky();
 			}
 		}
-		
+
 		$this->viewThreadObject();
 	}
 
@@ -4080,125 +4077,62 @@ $this->doCaptchaCheck();
 		}
 	}
 	
-	public function enableForumNotificationObject()
+	protected function enableForumNotificationObject()
 	{
+		if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
 
- 
 		$frm = $this->object->Forum;
 		$frm->setForumId($this->object->getId());
 		$frm->enableForumNotification($this->user->getId());
-		
-		if(!$this->objCurrentTopic->getId())
-		{
-			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_enabled'));
-			$this->showThreadsObject();
-		}
-		else
-		{
+
+		if ((int)$this->objCurrentTopic->getId() > 0) {
 			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_enabled'), true);
+			\ilUtil::sendInfo($this->lng->txt('forums_forum_notification_enabled'), true);
 			$this->ctrl->redirect($this, 'viewThread');
 		}
+
+		\ilUtil::sendInfo($this->lng->txt('forums_forum_notification_enabled'));
+		$this->showThreadsObject();
 	}
 
-	public function disableForumNotificationObject()
+	protected function disableForumNotificationObject()
 	{
+		if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
 
-		
 		$frm = $this->object->Forum;
 		$frm->setForumId($this->object->getId());
 		$frm->disableForumNotification($this->user->getId());
-		
-		if(!$this->objCurrentTopic->getId())
-		{
-			$this->showThreadsObject();
-			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'));
-		}
-		else
-		{
+
+		if ((int)$this->objCurrentTopic->getId() > 0) {
 			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'), true);
+			\ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'), true);
 			$this->ctrl->redirect($this, 'viewThread');
 		}
-	}
-	
-	public function checkEnableColumnEdit()
-	{
-		return false;
+
+		\ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'));
+		$this->showThreadsObject();
 	}
 
-	public function setColumnSettings(ilColumnGUI $column_gui)
+	/**
+	 * @inheritdoc
+	 */
+	protected function setColumnSettings(ilColumnGUI $column_gui)
 	{
-
-
 		$column_gui->setBlockProperty('news', 'title', $this->lng->txt('frm_latest_postings'));
 		$column_gui->setBlockProperty('news', 'prevent_aggregation', true);
 		$column_gui->setRepositoryMode(true);
 		
-		if($this->access->checkAccess('write', '', $this->object->getRefId()))
-		{
-			$news_set = new ilSetting('news');
-			$enable_internal_rss = $news_set->get('enable_rss_for_internal');
-			if($enable_internal_rss)
-			{
+		if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+			$news_set = new \ilSetting('news');
+			if ($news_set->get('enable_rss_for_internal')) {
 				$column_gui->setBlockProperty('news', 'settings', true);
 				$column_gui->setBlockProperty('news', 'public_notifications_option', true);
 			}
 		}
-	}
-	
-	
-	public function cloneWizardPageObject()
-	{
-		
-	 	if (!$_POST['clone_source'])
-	 	{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
-			if (isset($_SESSION['wizard_search_title']))
-			{
-				$this->searchCloneSourceObject();
-			}
-			else
-			{
-				$this->createObject();
-			}
-			return false;
-	 	}
-		$source_id = $_POST['clone_source'];
-
-	 	$new_type = $_REQUEST['new_type'];
-	 	$this->ctrl->setParameter($this, 'clone_source', (int) $_POST['clone_source']);
-	 	$this->ctrl->setParameter($this, 'new_type', $new_type);
-	 	
-	 	$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.frm_wizard_page.html', 'Modules/Forum');
-	 	$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
-	 	$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_'.$new_type.'.svg'));
-	 	$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_'.$new_type));
-	 	$this->tpl->setVariable('TXT_DUPLICATE', $this->lng->txt('frm_wizard_page'));
-	 	$this->tpl->setVariable('INFO_THREADS', $this->lng->txt('fmr_copy_threads_info'));
-	 	$this->tpl->setVariable('THREADS', $this->lng->txt('forums_threads'));
-	 	
-	 	$forum_id = $this->ilObjDataCache->lookupObjId((int) $_POST['clone_source']);
-	 	$threads = ilForum::_getThreads($forum_id, ilForum::SORT_TITLE);
-	 	foreach ($threads as $thread_id => $title)
-	 	{
-	 		$this->tpl->setCurrentBlock('thread_row');
-	 		$this->tpl->setVariable('CHECK_THREAD', ilUtil::formCheckbox(0, 'cp_options['.$source_id.'][threads][]', $thread_id));
-	 		$this->tpl->setVariable('NAME_THREAD', $title);
-	 		$this->tpl->parseCurrentBlock();
-	 	}
-	 	$this->tpl->setVariable('SELECT_ALL', $this->lng->txt('select_all'));
-	 	$this->tpl->setVariable('JS_FIELD', 'cp_options['.$source_id.'][threads]');
-	 	$this->tpl->setVariable('BTN_COPY', $this->lng->txt('obj_'.$new_type.'_duplicate'));
-	 	if (isset($_SESSION['wizard_search_title']))
-	 	{
-	 		$this->tpl->setVariable('BACK_CMD', 'searchCloneSource');
-	 	}
-	 	else
-	 	{
-	 		$this->tpl->setVariable('BACK_CMD', 'create');
-	 	}
- 		$this->tpl->setVariable('BTN_BACK', $this->lng->txt('btn_back'));
 	}
 
 	/**
@@ -4276,93 +4210,86 @@ $this->doCaptchaCheck();
 		$this->viewThreadObject();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
 	{
 		$lg = parent::initHeaderAction();
 
-		// Workaround: Do not show "desktop actions" in thread view
-		if($this->objCurrentTopic->getId())
-		{
-			$container_obj = null;
+		if ((int)$this->objCurrentTopic->getId() > 0) {
+			$container_obj = null; // Workaround: Do not show "desktop actions" in thread view
 			$lg->setContainerObject($container_obj);
 		}
 
-		if($lg instanceof ilObjForumListGUI)
-		{
-			if($this->user->getId() != ANONYMOUS_USER_ID && $this->settings->get('forum_notification') != 0 )
-			{
-				$is_user_allowed_to_deactivate_notification = $this->isUserAllowedToDeactivateNotification();
+		if (!($lg instanceof \ilObjForumListGUI) || !$this->settings->get('forum_notification')) {
+			return $lg;
+		}
 
-				$frm = $this->object->Forum;
-				$frm->setForumId($this->object->getId());
-				$frm->setForumRefId($this->object->getRefId());
-				$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
-				$frm_notificiation_enabled = $frm->isForumNotificationEnabled($this->user->getId());
-				
-				if($this->objCurrentTopic->getId())
-				{
-					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-				}
+		if ($this->user->isAnonymous() || !$this->access->checkAccess('read', '', $this->object->getRefId())) {
+			return $lg;
+		}
 
-				if($this->isParentObjectCrsOrGrp())
-				{
-					// special behaviour for CRS/GRP-Forum notification!!
-					if(
-						$frm_notificiation_enabled &&
-						$is_user_allowed_to_deactivate_notification
-					)
-					{
-						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
-					}
-					else if(!$frm_notificiation_enabled)
-					{
-						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");
-					}
-				}
-				else
-				{
-					if($frm_notificiation_enabled)
-					{
-						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
-					}
-					else
-					{
-						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");
-					}
-				}
+		$frm = $this->object->Forum;
+		$frm->setForumId($this->object->getId());
+		$frm->setForumRefId($this->object->getRefId());
+		$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 
-				$topic_notification_enabled = false;
-				if($this->objCurrentTopic->getId())
-				{
-					$topic_notification_enabled = $this->objCurrentTopic->isNotificationEnabled($this->user->getId());
-					if($topic_notification_enabled)
-					{
-						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), "forums_disable_notification");
-					}
-					else
-					{
-						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), "forums_enable_notification");
-					}
-				}
-				$this->ctrl->setParameter($this, 'thr_pk', '');
-	
-				if($frm_notificiation_enabled || $topic_notification_enabled)
-				{
-					$lg->addHeaderIcon(
-						"not_icon",
-						ilUtil::getImagePath("notification_on.svg"),
-						$this->lng->txt("frm_notification_activated")
-					);
-				}
-				else
-				{
-					$lg->addHeaderIcon(
-						"not_icon",
-						ilUtil::getImagePath("notification_off.svg"),
-						$this->lng->txt("frm_notification_deactivated")
-					);
-				}
+		$isForumNotificationEnabled = $frm->isForumNotificationEnabled($this->user->getId());
+		$userMayDisableNotifications = $this->isUserAllowedToDeactivateNotification();
+
+		if ((int)$this->objCurrentTopic->getId() > 0) {
+			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+		}
+
+		if ($this->isParentObjectCrsOrGrp()) {
+			// special behaviour for CRS/GRP-Forum notification!!
+			if ($isForumNotificationEnabled && $userMayDisableNotifications) {
+				$lg->addCustomCommand(
+					$this->ctrl->getLinkTarget($this, 'disableForumNotification'), 'forums_disable_forum_notification'
+				);
+			} elseif (!$isForumNotificationEnabled) {
+				$lg->addCustomCommand(
+					$this->ctrl->getLinkTarget($this, 'enableForumNotification'), 'forums_enable_forum_notification'
+				);
 			}
+		} elseif ($isForumNotificationEnabled) {
+			$lg->addCustomCommand(
+				$this->ctrl->getLinkTarget($this, 'disableForumNotification'), 'forums_disable_forum_notification'
+			);
+		} else {
+			$lg->addCustomCommand(
+				$this->ctrl->getLinkTarget($this, 'enableForumNotification'), 'forums_enable_forum_notification'
+			);
+		}
+
+		$isThreadNotificationEnabled = false;
+		if ((int)$this->objCurrentTopic->getId() > 0) {
+			$isThreadNotificationEnabled = $this->objCurrentTopic->isNotificationEnabled($this->user->getId());
+			if ($isThreadNotificationEnabled) {
+				$lg->addCustomCommand(
+					$this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), 'forums_disable_notification'
+				);
+			} else {
+				$lg->addCustomCommand(
+					$this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), 'forums_enable_notification'
+				);
+			}
+		}
+		$this->ctrl->setParameter($this, 'thr_pk', '');
+
+		if ($isForumNotificationEnabled || $isThreadNotificationEnabled) {
+			$lg->addHeaderIcon(
+				'not_icon',
+				ilUtil::getImagePath('notification_on.svg'),
+				$this->lng->txt('frm_notification_activated')
+			);
+		} else {
+			$lg->addHeaderIcon(
+				'not_icon',
+				ilUtil::getImagePath('notification_off.svg'),
+				$this->lng->txt('frm_notification_deactivated')
+			);
 		}
 
 		return $lg;
@@ -4395,18 +4322,13 @@ $this->doCaptchaCheck();
 		
 		return false;
 	}
-	
-	public function isParentObjectCrsOrGrp()
+
+	public function isParentObjectCrsOrGrp(): bool
 	{
-		// check if there a parent-node is a grp or crs
-		$grp_ref_id = $this->repositoryTree->checkForParentType($this->object->getRefId(), 'grp');
-		$crs_ref_id = $this->repositoryTree->checkForParentType($this->object->getRefId(), 'crs');
-		
-		if($grp_ref_id == 0 && $crs_ref_id == 0)
-		{
-			return false;
-		}
-		return true;
+		$grpRefId = $this->repositoryTree->checkForParentType($this->object->getRefId(), 'grp');
+		$crsRefId = $this->repositoryTree->checkForParentType($this->object->getRefId(), 'crs');
+
+		return ($grpRefId > 0 || $crsRefId > 0);
 	}
 
 	/**
@@ -5255,20 +5177,22 @@ $this->doCaptchaCheck();
 
 	public function autosaveDraftAsyncObject()
 	{
-		if (!isset($_GET['action']) || $_GET['action'] !== 'ready_showreply') {
-			$action = new ilForumAutoSaveAsyncDraftAction(
+		$requestedAction = (string)$this->httpRequest->getQueryParams()['action'] ?? '';
+		$draftId = (int)($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
+		if ($requestedAction !== 'ready_showreply') {
+			$action = new \ilForumAutoSaveAsyncDraftAction(
 				$this->user,
+				$this->access,
 				$this->getReplyEditForm(),
 				$this->objProperties,
 				$this->objCurrentTopic,
+				$this->objCurrentPost,
 				function(string $message): string {
 					return $this->handleFormInput($message);
 				},
-				$this->objCurrentPost->getId(),
-				(int)($_GET['draft_id'] ?? 0),
+				$draftId,
 				(int)\ilObjForum::lookupForumIdByRefId($this->ref_id),
-				$this->objCurrentPost->getId(),
-				$_GET['action'] ?? ''
+				\ilUtil::stripSlashes($requestedAction)
 			);
 
 			echo json_encode($action->executeAndGetResponseObject());
@@ -5279,21 +5203,24 @@ $this->doCaptchaCheck();
 	
 	public function autosaveThreadDraftAsyncObject()
 	{
-		if (!isset($_GET['action']) || $_GET['action'] !== 'ready_showreply') {
+		$requestedAction = (string)$this->httpRequest->getQueryParams()['action'] ?? '';
+		$draftId = (int)($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
+		if ($requestedAction !== 'ready_showreply') {
 			$this->initTopicCreateForm();
 
-			$action = new ilForumAutoSaveAsyncDraftAction(
+			$action = new \ilForumAutoSaveAsyncDraftAction(
 				$this->user,
+				$this->access,
 				$this->create_topic_form_gui,
 				$this->objProperties,
 				$this->objCurrentTopic,
+				$this->objCurrentPost,
 				function(string $message): string {
 					return $this->handleFormInput($message, false);
 				},
-				(int)($_GET['draft_id'] ?? 0),
+				$draftId,
 				(int)\ilObjForum::lookupForumIdByRefId($this->ref_id),
-				0,
-				$_GET['action'] ?? ''
+				\ilUtil::stripSlashes($requestedAction)
 			);
 
 			echo json_encode($action->executeAndGetResponseObject());
