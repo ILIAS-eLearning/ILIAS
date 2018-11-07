@@ -16104,6 +16104,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   overflow-x: hidden;
   color: #606060;
 }
+.ilOnScreenChatMenuItem .media-body p.lastMessage img {
+  max-width: 15px;
+  max-height: 15px;
+}
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
 }
