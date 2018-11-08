@@ -1,8 +1,5 @@
 <?php
-
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
 
 /**
  * Adds link to chat
@@ -115,46 +112,32 @@ class ilChatUserActionProvider extends ilUserActionProvider
 	function collectActionsForTargetUser($a_target_user)
 	{
 		$coll = ilUserActionCollection::getInstance();
-		include_once("./Services/User/Actions/classes/class.ilUserAction.php");
 
-		require_once 'Services/User/classes/class.ilObjUser.php';
-
-		if(!$this->chat_enabled)
-		{
+		if (!$this->chat_enabled) {
 			return $coll;
 		}
 
-		if($this->checkUserChatAccess($this->getUserId()))
-		{
-			// no chat with user him/herself
-			if ($a_target_user != $this->getUserId())
-			{
-				if($this->checkUserChatAccess($a_target_user))
-				{
-					$f = new ilUserAction();
-					$f->setType("invite");
-					$f->setText($this->lng->txt('chat_invite_public_room'));
-					$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $this->pub_ref_id . '&amp;usr_id=' . $a_target_user . '&amp;cmd=view-invitePD');
-					$coll->addAction($f);
-				}
+		if ($this->checkUserChatAccess($this->getUserId()) && $a_target_user != $this->getUserId()) {
+			if($this->checkUserChatAccess($a_target_user)) {
+				$f = new ilUserAction();
+				$f->setType("invite");
+				$f->setText($this->lng->txt('chat_invite_public_room'));
+				$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $this->pub_ref_id . '&amp;usr_id=' . $a_target_user . '&amp;cmd=view-invitePD');
+				$coll->addAction($f);
 			}
 		}
 
-		if($this->osc_enabled)
-		{
+		if ($this->osc_enabled && $a_target_user != $this->getUserId()) {
 			$f = new ilUserAction();
 			$f->setHref('#');
 			$f->setType("invite_osd");
-			if($this->acceptsMessages($a_target_user))
-			{
+			if ($this->acceptsMessages($a_target_user)) {
 				$f->setText($this->lng->txt('chat_osc_start_conversation'));
 				$f->setData(array(
 					'onscreenchat-userid'   => $a_target_user,
 					'onscreenchat-username' => ilObjUser::_lookupLogin($a_target_user)
 				));
-			}
-			else
-			{
+			} else {
 				$f->setText($this->lng->txt('chat_osc_doesnt_accept_msg'));
 				$f->setData(array(
 					'onscreenchat-inact-userid'   => $a_target_user
@@ -166,4 +149,3 @@ class ilChatUserActionProvider extends ilUserActionProvider
 		return $coll;
 	}
 }
-?>
