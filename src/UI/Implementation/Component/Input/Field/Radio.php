@@ -13,7 +13,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 /**
  * This implements the radio input.
  */
-class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
+class Radio extends Input implements C\Input\Field\Radio {
 
 	use JavaScriptBindable;
 	use Triggerer;
