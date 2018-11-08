@@ -7,11 +7,7 @@
 var il = il || {};
 il.UI = il.UI || {};
 
-(function($, UI) {
-
-	$("*").on("il.ui.popover.show", function(e){
-		//
-	});
+il.UI.filter = (function ($) {
 
 	// init the filter fields (hide hidden stuff)
 	var init = function() {
@@ -28,11 +24,35 @@ il.UI = il.UI || {};
 				cnt++;
 			});
 		});
+
+        //Popover of Add-Button always at the bottom
+        $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
+
+        //Hide Add-Button when all Input Fields are shown in the Filter at the beginning
+        var addableInputs = $(".il-popover-container:hidden").length;
+        if (addableInputs == 0) {
+            $(".btn-bulky").parents(".il-popover-container").hide();
+        }
+
+        //Focus on the element (input, select,...) in the Popover when an Input Field is clicked.
+        //This does not work. Why?
+        /*
+        $(".il-filter-field").click(function() {
+            $(this).parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
+        });
+        */
+
+        //Accessibility for Input Fields
+        $(".il-filter-field").keydown(function (event) {
+            var key = event.which;
+            if ((key === 13) || (key === 32)) {	// 13 = Return, 32 = Space
+                $(this).click().parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
+                event.preventDefault();
+            }
+        });
 	};
 
 	$(init);
-
-	UI.filter = (function ($) {
 
 		/**
 		 * Store filter status (hidden or shown) in hidden input fields
@@ -150,6 +170,7 @@ il.UI = il.UI || {};
          *
          * @param event
          * @param id
+         * @param cmd
          */
         var onCmd = function(event, id, cmd) {
         	//Get the URL for GET-request, put the components of the query string into hidden inputs and submit the filter
@@ -223,24 +244,4 @@ il.UI = il.UI || {};
 			onCmd: onCmd
 		};
 
-	})($);
-})($, il.UI);
-
-$(document).ready(function() {
-    //Popover of Add-Button always at the bottom
-    $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
-
-    //Hide Add-Button when all Input Fields are shown in the Filter at the beginning
-    var addableInputs = $(".il-popover-container:hidden").length;
-    if (addableInputs == 0) {
-        $(".btn-bulky").parents(".il-popover-container").hide();
-    }
-
-    //Accessibility for Input Fields
-    $(".il-filter-field").keydown(function (event) {
-        var key = event.which;
-        if ((key === 13) || (key === 32)) {	// 13 = Return, 32 = Space
-            $(this).click();
-        }
-    });
-});
+})($);
