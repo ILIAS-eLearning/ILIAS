@@ -184,7 +184,7 @@
 
 		updateBadges: function() {
 			var conversations = getModule().conversations.filter(function(conversation){
-				return conversation.latestMessage != null && (conversation.open === false || conversation.open == undefined);
+				return conversation.latestMessage != null && (conversation.open === false || conversation.open === undefined);
 			});
 			var numConversations = conversations.length;
 			var numMessages = getModule().countUnreadMessages();
@@ -193,14 +193,14 @@
 			var conversationsBadge = $('[data-onscreenchat-header-menu] .il-counter-status');
 
 			conversationsBadge.html(numConversations);
-			if (numConversations == 0) {
+			if (numConversations === 0) {
 				conversationsBadge.addClass('iosOnScreenChatHidden').removeClass('iosOnScreenChatShown');
 			} else {
 				conversationsBadge.removeClass('iosOnScreenChatHidden').addClass('iosOnScreenChatShown');
 			}
 
 			messagesBadge.html(numMessages);
-			if(numMessages == 0) {
+			if(numMessages === 0) {
 				messagesBadge.addClass('iosOnScreenChatHidden').removeClass('iosOnScreenChatShown');
 			} else {
 				messagesBadge.removeClass('iosOnScreenChatHidden').addClass('iosOnScreenChatShown');
