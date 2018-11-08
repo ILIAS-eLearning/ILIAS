@@ -84,6 +84,7 @@ class ilSoapUtils extends ilSoapAdministration
 
 		if ($attach) {
 			$authUserFileData = new \ilFileDataMail($DIC->user()->getId());
+			$senderFileData = new \ilFileDataMail($senderId);
 
 			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
 			// for backward compatibility we have to check if the substring "#:#" exists as leading separator
@@ -108,7 +109,6 @@ class ilSoapUtils extends ilSoapAdministration
 				];
 
 				if ($senderId == ANONYMOUS_USER_ID) {
-					$senderFileData = new \ilFileDataMail($senderId);
 					$allowedPathPrefixes[] = $senderFileData->getAbsoluteAttachmentPoolPathPrefix();
 				}
 
