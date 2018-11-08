@@ -424,7 +424,7 @@
 			var conversation = getModule().storage.get(messageObject.conversationId);
 			conversation.open = true;
 
-			if(getModule().historyTimestamps[conversation.id] == undefined) {
+			if(getModule().historyTimestamps[conversation.id] === undefined) {
 				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
 			}
 
@@ -511,11 +511,15 @@
 		},
 
 		onConversationInit: function(conversation){
+			conversation.lastActivity = (new Date).getTime();
+			conversation.open = true;
+
+			// Directly save the conversation on storage to prevent race conditions
+			getModule().storage.save(conversation);
+
 			$
 				.when(getModule().requestUserProfileData(conversation))
 				.then(function() {
-					conversation.lastActivity = (new Date).getTime();
-					conversation.open = true;
 					$menu.add(conversation);
 					getModule().storage.save(conversation);
 				});
@@ -629,6 +633,9 @@
 		},
 
 		onConversation: function(conversation) {
+			// Directly save the conversation on storage to prevent race conditions
+			getModule().storage.save(conversation);
+
 			var chatWindow = $('[data-onscreenchat-window='+conversation.id+']');
 
 			$
@@ -931,7 +938,7 @@
 			var oldValue = this.get(conversation.id);
 			conversation.messages = [];
 
-			if(conversation.open == undefined && oldValue != null) {
+			if(conversation.open === undefined && oldValue != null) {
 				conversation.open = oldValue.open;
 			}
 
