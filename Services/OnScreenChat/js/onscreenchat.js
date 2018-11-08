@@ -156,7 +156,8 @@
 
 			$(window).on('storage', function(e){
 				var conversation = e.originalEvent.newValue;
-				if(typeof conversation == "string") {
+
+				if(typeof conversation === "string") {
 					conversation = JSON.parse(conversation);
 				}
 
@@ -235,7 +236,7 @@
 			var participant = { id: $(link).attr('data-onscreenchat-userid'), name: $(link).attr('data-onscreenchat-username') };
 			var conversation = getModule().storage.get(conversationId);
 
-			if (typeof il.Awareness != "undefined") {
+			if (typeof il.Awareness !== "undefined") {
 				il.Awareness.close();
 			}
 
@@ -399,7 +400,7 @@
 			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
 			var message = input.text();
 
-			if(message != "") {
+			if(message !== "") {
 				$chat.sendMessage(conversationId, message);
 				input.html('');
 				getModule().onMessageInput.call(input);
@@ -597,7 +598,10 @@
 		},
 
 		onWindowClicked: function(e) {
-			if ($(e.target).closest('[data-onscreenchat-header]').length == 0 && $(e.target).parent('[data-onscreenchat-body-msg]').length == 0) {
+			if (
+				$(e.target).closest('[data-onscreenchat-header]').length === 0 &&
+				$(e.target).parent('[data-onscreenchat-body-msg]').length === 0
+			) {
 				e.preventDefault();
 				e.stopPropagation();
 
@@ -679,7 +683,10 @@
 				}
 			}
 
-			if (undefined == getModule().historyTimestamps[conversation.id] || conversation.oldestMessageTimestamp < getModule().historyTimestamps[conversation.id]) {
+			if (
+				undefined === getModule().historyTimestamps[conversation.id] ||
+				conversation.oldestMessageTimestamp < getModule().historyTimestamps[conversation.id]
+			) {
 				var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 				container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
 				getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
@@ -694,7 +701,7 @@
 			var container = $(this).closest('[data-onscreenchat-window]');
 			var conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
 
-			if($(this).scrollTop() == 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
+			if($(this).scrollTop() === 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
 				getModule().historyBlocked = true;
 				$(this).prepend(
 					$('<div></div>').css('text-align', 'center').css('margin-top', '-10px').append(
@@ -845,7 +852,7 @@
 				.addClass('clearfix')
 				.append(template);
 
-			if(prepend == true) {
+			if(prepend === true) {
 				chatBody.prepend(item);
 			} else {
 				chatBody.append(item);
@@ -853,7 +860,7 @@
 
 			il.ExtLink.autolink(chatBody.find('[data-onscreenchat-body-msg]'));
 
-			if(prepend == false) {
+			if(prepend === false) {
 				getModule().scrollBottom(chatWindow);
 				getModule().historyBlocked = false;
 			}
@@ -1113,7 +1120,7 @@
 	 */
 	var Smileys = function Smileys(_smileys) {
 
-		if (_smileys.length != 0) {
+		if (_smileys.length !== 0) {
 			// Fetch them directly to prevent issues with the ILIAS WAC
 			for (var i in _smileys) {
 				var img = new Image();
@@ -1128,12 +1135,12 @@
 		 * @returns {string}
 		 */
 		this.replace = function (message) {
-			if (typeof _smileys == "string") {
+			if (typeof _smileys === "string") {
 				return message;
 			}
 
 			for (var i in _smileys) {
-				while (message.indexOf(i) != -1) {
+				while (message.indexOf(i) !== -1) {
 					message = message.replace(i, '<img src="' + _smileys[i] + '" />');
 				}
 			}
@@ -1142,8 +1149,8 @@
 		};
 
 		this.getHtml = function() {
-			if (typeof _smileys == "object") {
-				if (_smileys.length == 0) {
+			if (typeof _smileys === "object") {
+				if (_smileys.length === 0) {
 					return $("");
 				}
 
