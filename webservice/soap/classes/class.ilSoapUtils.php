@@ -47,6 +47,8 @@ class ilSoapUtils extends ilSoapAdministration
 	
 	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 	{
+		global $DIC;
+
 		$this->initAuth($sid);
 		$this->initIlias();
 
@@ -80,6 +82,10 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 		if($attach)
 		{
+			require_once 'Services/Mail/classes/class.ilFileDataMail.php';
+			$authUserFileData = new \ilFileDataMail($DIC->user()->getId());
+			$senderFileData = new \ilFileDataMail(ANONYMOUS_USER_ID);
+
 			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
 			// for backward compatibility we have to check if the substring "#:#" exists as leading separator
 			// otherwise we should use ";" 
@@ -102,7 +108,27 @@ class ilSoapUtils extends ilSoapAdministration
 					// #17740
 					$final_filename = preg_replace('/^(\d+?_)(.*)/', '$2', $filename);
 				}
-				$mmail->Attach($attachment, '', 'inline', $final_filename);
+				$allowedPathPrefixes = [
+					$authUserFileData->getAbsoluteAttachmentPoolPathPrefix(),
+					$senderFileData->getAbsoluteAttachmentPoolPathPrefix()
+				];
+
+				$absoluteAttachmentPath = realpath($attachment);
+
+				$matchedPathPrefixes = array_filter($allowedPathPrefixes, function($path) use ($absoluteAttachmentPath) {
+					return strpos($absoluteAttachmentPath, $path) === 0;
+				});
+
+				if (count($matchedPathPrefixes) > 0) {
+					$mmail->Attach($attachment, '', 'inline', $final_filename);
+					$DIC->logger()->mail()->debug(sprintf("Accepted attachment: %s", $attachment));
+				} else {
+					$DIC->logger()->mail()->warning(sprintf(
+						"Ignored attachment when sending message via SOAP: Given path '%s' is not in allowed prefix list: %s",
+						$absoluteAttachmentPath,
+						implode(', ', $allowedPathPrefixes)
+					));
+				}
 			}
 		}
 
