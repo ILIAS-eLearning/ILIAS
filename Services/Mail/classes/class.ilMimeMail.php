@@ -453,7 +453,7 @@ class ilMimeMail
 			++$i;
 		}
 
-		ilLoggerFactory::getLogger('mail')->debug(
+		ilLoggerFactory::getLogger('mail')->info(
 			"Trying to delegate external email delivery:" .
 			" Initiated by: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")" .
 			" | From: " . $this->xheaders['From'] .
@@ -469,20 +469,20 @@ class ilMimeMail
 
 			if($result)
 			{
-				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				ilLoggerFactory::getLogger('mail')->info(sprintf(
 					'Successfully delegated external mail delivery'
 				));
 			}
 			else
 			{
-				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				ilLoggerFactory::getLogger('mail')->info(sprintf(
 					'Could not deliver external email: %s', $mail->ErrorInfo
 				));
 			}
 		}
 		else
 		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			ilLoggerFactory::getLogger('mail')->info(sprintf(
 				'Suppressed delegation of email delivery according to global setting ( prevent_smtp_globally ).'
 			));
 		}
