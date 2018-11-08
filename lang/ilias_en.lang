@@ -13740,6 +13740,7 @@ chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would 
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 common#:#chtr_import#:#Import Chatroom
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action

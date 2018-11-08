@@ -330,7 +330,7 @@
 			var inputHeight = $(inputWrapper).outerHeight();
 			var bodyHeight = wrapperHeight - inputHeight - headingHeight;
 
-			if($(this).html() == "<br>") {
+			if($(this).html() === "<br>") {
 				$(this).html("");
 			}
 
@@ -339,9 +339,20 @@
 
 		createWindow: function(conversation) {
 			var template = getModule().config.chatWindowTemplate;
-			var participantsNames = getParticipantsNames(conversation)
+			if (conversation.isGroup) {
+				var participantsNames = getParticipantsNames(conversation, false);
 
-			template = template.replace(/\[\[participants\]\]/g, participantsNames.join(', '));
+				template = template.replace(/\[\[participants-tt\]\]/g, participantsNames.join(', '));
+				template = template.replace(
+					/\[\[participants-header\]\]/g,
+					il.Language.txt('chat_osc_head_grp_x_persons', participantsNames.length)
+				);
+			} else {
+				var participantsNames = getParticipantsNames(conversation);
+
+				template = template.replace(/\[\[participants-tt\]\]/g, participantsNames.join(', '));
+				template = template.replace(/\[\[participants-header\]\]/g, participantsNames.join(', '));
+			}
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
@@ -624,9 +635,21 @@
 				.when(getModule().requestUserProfileData(conversation))
 				.then(function() {
 					if(chatWindow.length !== 0) {
-						chatWindow.find('[data-onscreenchat-window-participants]').html(
-							getParticipantsNames(conversation).join(', ')
-						);
+						var participantsNames, header, tooltip;
+						if (conversation.isGroup) {
+							participantsNames = getParticipantsNames(conversation, false);
+
+							header = il.Language.txt('chat_osc_head_grp_x_persons', participantsNames.length)
+							tooltip = participantsNames.join(', ');
+						} else {
+							participantsNames = getParticipantsNames(conversation);
+							tooltip = header = participantsNames.join(', ');
+						}
+
+						chatWindow
+							.find('[data-onscreenchat-window-participants]')
+							.html(header)
+							.attr("title", tooltip);
 					}
 
 					$menu.add(conversation);
@@ -1007,11 +1030,16 @@
 		return ids;
 	};
 
-	var getParticipantsNames = function(conversation) {
+	var getParticipantsNames = function(conversation, ignoreMySelf) {
 		var names = [];
 
-		for(var key in conversation.participants) {
-			if(getModule().user.id != conversation.participants[key].id) {
+		for (var key in conversation.participants) {
+			if (
+				conversation.participants.hasOwnProperty(key) && (
+					getModule().user.id != conversation.participants[key].id ||
+					ignoreMySelf === false
+				)
+			) {
 				if (getModule().participantsNames.hasOwnProperty(conversation.participants[key].id)) {
 					names.push(getModule().participantsNames[conversation.participants[key].id]);
 					continue;
