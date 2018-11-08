@@ -1878,6 +1878,94 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		include_once ("./Modules/BookingManager/classes/class.ilBookingParticipant.php");
 		$participant = new ilBookingParticipant($this->user_id_to_book, $this->object->getId());
 	}
+
+	/**
+	 * Create reservations for a bunch of booking pool participants.
+	 */
+	function bookMultipleParticipantsObject()
+	{
+		if($_POST["mass"]) {
+			$participants = $_POST["mass"];
+		} else {
+			$this->ctrl->redirectByClass('ilbookingobjectgui', 'render');
+		}
+
+		$this->tabs->clearTargets();
+		$this->ctrl->setParameterByClass('ilbookingobjectgui','object_id',$this->book_obj_id);
+		$this->tabs->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass('ilbookingobjectgui','assignparticipants'));
+		$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id','');
+
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+
+		//add user list as items.
+		foreach($participants as $id)
+		{
+			$name = ilObjUser::_lookupFullname($id);
+			$conf->addItem("participants[]", $id, $name);
+		}
+
+		$available = ilBookingReservation::numAvailableFromObjectNoSchedule($this->book_obj_id);
+		if(sizeof($participants) > $available)
+		{
+			$obj = new ilBookingObject($this->book_obj_id);
+			$conf->setHeaderText(
+				sprintf(
+					$this->lng->txt('book_limit_objects_available'),
+					sizeof($participants),
+					$obj->getTitle(),
+					$available
+				)
+			);
+		}
+		else
+		{
+			$conf->setHeaderText($this->lng->txt('book_confirm_booking_no_schedule'));
+			$conf->addHiddenItem("object_id", $this->book_obj_id);
+			$conf->setConfirm($this->lng->txt("assign"), "saveMultipleBookings");
+		}
+
+		$conf->setCancel($this->lng->txt("cancel"), 'redirectToList');
+		$this->tpl->setContent($conf->getHTML());
+	}
+
+	public function redirectToListObject()
+	{
+		$this->ctrl->setParameterByClass('ilbookingobjectgui','object_id',$this->book_obj_id);
+		$this->ctrl->redirectByClass('ilbookingobjectgui', 'assignParticipants');
+	}
+
+	/**
+	 * Save multiple users reservations for one booking pool object.
+	 * //TODO check if object/user exist in the DB,
+	 */
+	public function saveMultipleBookingsObject()
+	{
+		if($_POST["participants"] && $_POST['object_id']) {
+			$participants = $_POST["participants"];
+			$this->book_obj_id = $_POST['object_id'];
+		} else {
+			$this->ctrl->redirectByClass('ilbookingobjectgui', 'render');
+		}
+		$rsv_ids = array();
+		foreach($participants as $id)
+		{
+			$this->user_id_to_book = $id;
+			$rsv_ids[] = $this->processBooking($this->book_obj_id);
+		}
+
+		if(sizeof($rsv_ids))
+		{
+			ilUtil::sendSuccess("booking_multiple_succesfully");
+			$this->ctrl->redirectByClass('ilbookingobjectgui', 'render');
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('book_reservation_failed_overbooked'), true);
+			$this->ctrl->redirect($this, 'render');
+		}
+
+	}
 }
 
 ?>
