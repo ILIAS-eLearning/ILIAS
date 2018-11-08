@@ -133,7 +133,21 @@ class ilBookmarkExplorerGUI extends ilTreeExplorerGUI
 			// dummy root
 			case "dum":
 				$ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "bmf_id", $a_node["child"]);
+
 				$ret = $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "");
+				if (isset($_GET['bm_link'])) {
+					$this->ctrl->setParameterByClass(
+						"ilbookmarkadministrationgui", 'bm_link', urlencode(\ilUtil::stripSlashes($_GET['bm_link']))
+					);
+					if (isset($_GET['bm_title'])) {
+						$this->ctrl->setParameterByClass(
+							"ilbookmarkadministrationgui", 'bm_title',
+							urlencode(\ilUtil::stripSlashes($_GET['bm_title']))
+						);
+					}
+					$ret = $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "newFormBookmark");
+				}
+
 				$ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "bmf_id", $_GET["bmf_id"]);
 				return $ret;
 				break;
