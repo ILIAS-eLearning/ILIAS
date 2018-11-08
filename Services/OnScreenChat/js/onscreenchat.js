@@ -29,7 +29,7 @@
 	$scope.il.OnScreenChatJQueryTriggers = {
 		triggers: {
 			participantEvent: function(){},
-			closeEvent: function(){},
+			onEmitCloseConversation: function(){},
 			submitEvent: function(){},
 			addEvent: function(){},
 			resizeChatWindow: function() {},
@@ -47,8 +47,8 @@
 			if (triggers.hasOwnProperty('participantEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent = triggers.participantEvent;
 			}
-			if (triggers.hasOwnProperty('closeEvent')) {
-				$scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent = triggers.closeEvent;
+			if (triggers.hasOwnProperty('onEmitCloseConversation')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation = triggers.onEmitCloseConversation;
 			}
 			if (triggers.hasOwnProperty('submitEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent = triggers.submitEvent;
@@ -92,7 +92,7 @@
 
 			$('body')
 				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
-				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.closeEvent)
+				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
 				.on('click', '[data-action="onscreenchat-submit"]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
 				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
@@ -170,12 +170,10 @@
 				}
 
 				if (conversation instanceof Object && conversation.hasOwnProperty('type') && conversation.type === TYPE_CONSTANT) {
-					var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
-
-					if (conversation.open && !chatWindow.is(':visible')) {
+					if (conversation.open) {
 						getModule().open(conversation);
 					} else if (!conversation.open) {
-						chatWindow.hide();
+						getModule().onCloseConversation(conversation);
 					}
 
 					if ($.isFunction(conversation.callback)) {
@@ -206,20 +204,21 @@
 			$chat.onGroupConversation(getModule().onConversationInit);
 			$chat.onGroupConversationLeft(getModule().onConversationLeft);
 			$chat.onConverstionInit(getModule().onConversationInit);
+
 			$scope.il.OnScreenChatJQueryTriggers.setTriggers({
-				participantEvent:       getModule().startConversation,
-				closeEvent:             getModule().close,
-				submitEvent:            getModule().handleSubmit,
-				addEvent:               getModule().openInviteUser,
-				resizeChatWindow:       getModule().resizeMessageInput,
-				focusOut:               getModule().onFocusOut,
-				messageInput:           getModule().onMessageInput,
-				menuItemRemovalRequest: getModule().onMenuItemRemovalRequest,
-				emoticonClicked:        getModule().onEmoticonClicked,
-				messageContentPasted:   getModule().onMessageContentPasted,
-				windowClicked:          getModule().onWindowClicked,
-				menuItemClicked:        getModule().onMenuItemClicked,
-				updatePlaceholder:      getModule().updatePlaceholder
+				participantEvent:        getModule().startConversation,
+				onEmitCloseConversation: getModule().onEmitCloseConversation,
+				submitEvent:             getModule().handleSubmit,
+				addEvent:                getModule().openInviteUser,
+				resizeChatWindow:        getModule().resizeMessageInput,
+				focusOut:                getModule().onFocusOut,
+				messageInput:            getModule().onMessageInput,
+				menuItemRemovalRequest:  getModule().onMenuItemRemovalRequest,
+				emoticonClicked:         getModule().onEmoticonClicked,
+				messageContentPasted:    getModule().onMessageContentPasted,
+				windowClicked:           getModule().onWindowClicked,
+				menuItemClicked:         getModule().onMenuItemClicked,
+				updatePlaceholder:       getModule().updatePlaceholder
 			}).init();
 
 			$('body').append(
@@ -255,11 +254,16 @@
 			conversation.open = true;
 			conversation.numNewMessages = 0;
 			conversation.lastActivity = (new Date).getTime();
+
 			getModule().storage.save(conversation);
 		},
 
 		open: function(conversation) {
 			var conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
+
+			if (conversationWindow.is(':visible')) {
+				return;
+			}
 
 			if (conversationWindow.length === 0) {
 				conversationWindow = $(getModule().createWindow(conversation));
@@ -383,19 +387,36 @@
 			return $template;
 		},
 
-		close: function(e) {
+		/**
+		 * Is called (for each browser tab) if an 'Conversation Close' event was emitted
+		 * @param conversation
+		 */
+		onCloseConversation: function(conversation) {
+			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
+
+			if (conversation.updateInMenu !== undefined && conversation.updateInMenu) {
+				$menu.add(conversation);
+			}
+		},
+
+		/**
+		 * Triggered if a conversation window should be closed by an UI event in any tab
+		 * Triggers itself a localStorage event, which results in a call to onCloseConversation for ALL browser tabs
+		 * @param e
+		 */
+		onEmitCloseConversation: function(e) {
 			e.preventDefault();
 			e.stopPropagation();
 
-			var button = $(this);
-			var conversation = getModule().storage.get($(button).attr('data-onscreenchat-close'));
+			var conversation = getModule().storage.get($(this).attr('data-onscreenchat-close'));
 			conversation.open = false;
-			$menu.add(conversation);
+			conversation.updateInMenu = true;
+
 			getModule().storage.save(conversation);
 		},
 
 		handleSubmit: function(e) {
-			if ((e.keyCode == 13 && !e.shiftKey) || e.type == 'click') {
+			if ((e.keyCode === 13 && !e.shiftKey) || e.type === 'click') {
 				e.preventDefault();
 				var conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 				getModule().send(conversationId);
@@ -952,11 +973,11 @@
 			var oldValue = this.get(conversation.id);
 			conversation.messages = [];
 
-			if(conversation.open === undefined && oldValue != null) {
+			if (conversation.open === undefined && oldValue != null) {
 				conversation.open = oldValue.open;
 			}
 
-			if(conversation.open) {
+			if (conversation.open) {
 				conversation.numNewMessages = 0;
 			}
 
