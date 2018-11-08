@@ -3271,8 +3271,15 @@ class ilObjUser extends ilObject
 						//}
 						//else
 						//{
-							$node = $tree->getNodeData($parent_ref);						
-							$all_parent_path[$parent_ref] = $node["title"];
+							if ($parent_ref > 0)	// workaround for #0023176
+							{
+								$node = $tree->getNodeData($parent_ref);
+								$all_parent_path[$parent_ref] = $node["title"];
+							}
+							else
+							{
+								$all_parent_path[$parent_ref] = "";
+							}
 						//}
 					}
 					
