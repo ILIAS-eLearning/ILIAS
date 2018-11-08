@@ -154,19 +154,23 @@
 			$menu.syncPublicNames(getModule().participantsNames);
 			$menu.syncProfileImages(getModule().participantsImages);
 
-			$(window).on('storage', function(e){
+			$(window).on('storage', function(e) {
+				if (
+					typeof e.originalEvent.key !== "string" ||
+					e.originalEvent.key.indexOf(PREFIX_CONSTANT) !== 0
+				) {
+					console.log("Ignored storage event not being in namespace: " + PREFIX_CONSTANT);
+					return;
+				}
+
 				var conversation = e.originalEvent.newValue;
 
-				if(typeof conversation === "string") {
+				if (typeof conversation === "string") {
 					conversation = JSON.parse(conversation);
 				}
 
-				if (conversation && conversation.hasOwnProperty('type') && conversation.type === TYPE_CONSTANT) {
+				if (conversation instanceof Object && conversation.hasOwnProperty('type') && conversation.type === TYPE_CONSTANT) {
 					var chatWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
-
-					if (!(conversation instanceof Object)) {
-						conversation = JSON.parse(conversation);
-					}
 
 					if (conversation.open && !chatWindow.is(':visible')) {
 						getModule().open(conversation);
@@ -233,7 +237,10 @@
 
 			var link = $(this);
 			var conversationId = $(link).attr('data-onscreenchat-conversation');
-			var participant = { id: $(link).attr('data-onscreenchat-userid'), name: $(link).attr('data-onscreenchat-username') };
+			var participant = {
+				id: $(link).attr('data-onscreenchat-userid'),
+				name: $(link).attr('data-onscreenchat-username')
+			};
 			var conversation = getModule().storage.get(conversationId);
 
 			if (typeof il.Awareness !== "undefined") {
@@ -960,7 +967,7 @@
 
 			var e = $.Event('storage');
 			e.originalEvent = {
-				key: conversation.id,
+				key: PREFIX_CONSTANT + conversation.id,
 				oldValue: oldValue,
 				newValue: conversation
 			};
