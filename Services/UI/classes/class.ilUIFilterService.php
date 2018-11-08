@@ -112,8 +112,8 @@ class ilUIFilterService
 			$is_activated,
 			$is_expanded);
 
-		// handle apply command
-		$filter = $this->handleApply($filter_id, $filter);
+		// handle apply and collapse command
+		$filter = $this->handleApplyAndCollapse($filter_id, $filter);
 
 		return $filter;
 
@@ -197,9 +197,10 @@ class ilUIFilterService
 	 * @param \ILIAS\UI\Component\Input\Container\Filter\Standard $filter
 	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
 	 */
-	protected function handleApply(string $filter_id, \ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
+	protected function handleApplyAndCollapse(string $filter_id, \ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
-		if ($this->request->getFilterCmd() == self::CMD_APPLY)
+		if ((in_array($this->request->getFilterCmd(),
+			[self::CMD_APPLY, self::CMD_COLLAPSE])))
 		{
 			$filter = $this->request->getFilterWithRequest($filter);
 			foreach ($filter->getInputs() as $input_id => $i)
