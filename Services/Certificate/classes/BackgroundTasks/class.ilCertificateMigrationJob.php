@@ -556,17 +556,16 @@ class ilCertificateMigrationJob extends AbstractJob
 			$cert_path = $cert_data['certificate_path'] . "certificate.xml";
 			if (file_exists($cert_path) && (filesize($cert_path) > 0))
 			{
-				$cert_data = $this->addContentToCertificateData($cert_data);
-				$cert_data['acquired_timestamp'] = filemtime($cert_path);
+				$cert_data = $this->addContentAndTimestampToCertificateData($cert_data);
 			}
 		}
 	}
 
 	/**
 	 * @param array $cert_data
-	 * @return string
+	 * @return array
 	 */
-	private function addContentToCertificateData(array $cert_data): string
+	private function addContentAndTimestampToCertificateData(array $cert_data): array
 	{
 		$oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
 		\ilDatePresentation::setUseRelativeDates(false);
@@ -662,6 +661,11 @@ class ilCertificateMigrationJob extends AbstractJob
 		$this->logger->debug(
 			'Successful renedered certificate for (type, obj_id, usr_id): ' . $cert_data['certificate_type'] . ', ' . $cert_data['obj_id'] . ', ' . $this->user_id
 		);
+
+		$cert_data['acquired_timestamp'] = 0;
+		if (true === isset($insert_tags['[DATETIME_COMPLETED_UNIX]'])) {
+			$cert_data['acquired_timestamp'] = $insert_tags['[DATETIME_COMPLETED_UNIX]'];
+		}
 
 		\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
