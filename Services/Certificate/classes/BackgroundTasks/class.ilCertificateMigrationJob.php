@@ -101,29 +101,32 @@ class ilCertificateMigrationJob extends AbstractJob
 		]);
 
 		$found_items = 0;
-		$testType = 'test';
-		$scormType = 'scorm';
-		$exerciseType = 'exercise';
-		$courseType = 'course';
+
+		$types = array(
+			'test',
+			'scorm',
+			'exercise',
+			'course'
+		);
+
 		try {
 			// collect all data
 			$this->logger->info('Start collection certificate data for user: ' . $this->user_id);
 
-			$certificates[$scormType] = $this->getScormCertificates();
-			$found_items += count($certificates[$scormType]);
-			$observer->heartbeat();
+			foreach ($types as $type) {
+				if ($type === 'scorm') {
+					$certificates[$type] = $this->getScormCertificates();
+				} elseif ($type === 'test') {
+					$certificates[$type] = $this->getTestCertificates();
+				} elseif ($type === 'exercise') {
+					$certificates[$type] = $this->getExerciseCertificates();
+				} elseif ($type === 'course') {
+					$certificates[$type] = $this->getCourseCertificates();
+				}
 
-			$certificates[$testType] = $this->getTestCertificates();
-			$found_items += count($certificates[$testType]);
-			$observer->heartbeat();
-
-			$certificates[$exerciseType] = $this->getExerciseCertificates();
-			$found_items += count($certificates[$exerciseType]);
-			$observer->heartbeat();
-
-			$certificates[$courseType] = $this->getCourseCertificates();
-			$found_items += count($certificates[$courseType]);
-			$observer->heartbeat();
+				$found_items += count($certificates[$type]);
+				$observer->heartbeat();
+			}
 
 			$this->updateTask(['found_items' => $found_items]);
 			$this->logger->debug('Found overall ' . $found_items . ' items for user with id: ' . $this->user_id);
@@ -145,37 +148,15 @@ class ilCertificateMigrationJob extends AbstractJob
 			// prepare all data
 			$this->logger->info('Start preparing certificate informations for user: ' . $this->user_id);
 
-			$processed_items = $this->prepareCertificate(
-				$observer,
-				$certificates,
-				$scormType,
-				$processed_items,
-				$found_items
-			);
-
-			$processed_items = $this->prepareCertificate(
-				$observer,
-				$certificates,
-				$testType,
-				$processed_items,
-				$found_items
-			);
-
-			$processed_items = $this->prepareCertificate(
-				$observer,
-				$certificates,
-				$exerciseType,
-				$processed_items,
-				$found_items
-			);
-
-			$processed_items = $this->prepareCertificate(
-				$observer,
-				$certificates,
-				$courseType,
-				$processed_items,
-				$found_items
-			);
+			foreach ($types as $type) {
+				$processed_items = $this->prepareCertificate(
+					$observer,
+					$certificates,
+					$type,
+					$processed_items,
+					$found_items
+				);
+			}
 
 			$this->logger->info('Finished preparing certificate informations for user: ' . $this->user_id);
 
