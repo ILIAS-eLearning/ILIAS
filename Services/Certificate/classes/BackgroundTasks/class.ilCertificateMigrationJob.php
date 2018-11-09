@@ -556,8 +556,8 @@ class ilCertificateMigrationJob extends AbstractJob
 			$cert_path = $cert_data['certificate_path'] . "certificate.xml";
 			if (file_exists($cert_path) && (filesize($cert_path) > 0))
 			{
+				$cert_data = $this->addContentToCertificateData($cert_data);
 				$cert_data['acquired_timestamp'] = filemtime($cert_path);
-				$cert_data['certificate_content'] = $this->renderCertificate($cert_data);
 			}
 		}
 	}
@@ -566,7 +566,7 @@ class ilCertificateMigrationJob extends AbstractJob
 	 * @param array $cert_data
 	 * @return string
 	 */
-	protected function renderCertificate(array $cert_data): string
+	private function addContentToCertificateData(array $cert_data): string
 	{
 		$oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
 		\ilDatePresentation::setUseRelativeDates(false);
@@ -665,7 +665,9 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
-		return $xslfo;
+		$cert_data['certificate_content'] = $xslfo;
+
+		return $cert_data;
 	}
 
 	/**
