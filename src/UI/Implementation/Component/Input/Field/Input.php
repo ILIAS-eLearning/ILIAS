@@ -50,6 +50,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	protected $is_required = false;
 	/**
+	 * @var    bool
+	 */
+	protected $is_disabled = false;
+	/**
 	 * This is the value contained in the input as displayed
 	 * client side.
 	 *
@@ -178,6 +182,26 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @return    Constraint|null
 	 */
 	abstract protected function getConstraintForRequirement();
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isDisabled() {
+		return $this->is_disabled;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDisabled($is_disabled) {
+		$this->checkBoolArg("is_disabled", $is_disabled);
+		$clone = clone $this;
+		$clone->is_disabled = $is_disabled;
+
+		return $clone;
+	}
 
 
 	/**

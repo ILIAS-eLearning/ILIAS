@@ -85,6 +85,24 @@ interface Input extends Component, JavaScriptBindable {
 
 
 	/**
+	 * Is this input disabled?
+	 *
+	 * @return    bool
+	 */
+	public function isDisabled();
+
+
+	/**
+	 * Get an input like this, but set it to a disabled state.
+	 *
+	 * @param    bool $is_disabled
+	 *
+	 * @return    Input
+	 */
+	public function withDisabled($is_disabled);
+
+
+	/**
 	 * Get the value that is displayed in the input client side.
 	 *
 	 * @return    mixed

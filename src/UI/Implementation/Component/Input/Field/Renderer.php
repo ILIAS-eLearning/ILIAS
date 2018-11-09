@@ -296,6 +296,11 @@ class Renderer extends AbstractComponentRenderer {
 					$tpl->setVariable("VALUE", $input->getValue());
 					$tpl->parseCurrentBlock();
 				}
+				if ($input->isDisabled()) {
+					$tpl->setCurrentBlock("disabled");
+					$tpl->setVariable("DISABLED", "disabled");
+					$tpl->parseCurrentBlock();
+				}
 				if ($id) {
 					$tpl->setCurrentBlock("id");
 					$tpl->setVariable("ID", $id);
@@ -324,6 +329,11 @@ class Renderer extends AbstractComponentRenderer {
 				 */
 				$tpl->setVariable("ID", $id);
 				$tpl->setVariable("NAME", $input->getName());
+				if ($input->isDisabled()) {
+					$tpl->setCurrentBlock("disabled");
+					$tpl->setVariable("DISABLED", "disabled");
+					$tpl->parseCurrentBlock();
+				}
 				if ($input->getValue()) {
 					$value = $input->getValue();
 					$tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
@@ -343,6 +353,11 @@ class Renderer extends AbstractComponentRenderer {
 
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
+		if ($input->isDisabled()) {
+			$tpl->setCurrentBlock("disabled");
+			$tpl->setVariable("DISABLED", "disabled");
+			$tpl->parseCurrentBlock();
+		}
 		$value = $input->getValue();
 		//disable first option if required.
 		$tpl->setCurrentBlock("options");
@@ -350,7 +365,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("SELECTED", "selected");
 		}
 		if($input->isRequired()) {
-			$tpl->setVariable("DISABLED", "disabled");
+			$tpl->setVariable("DISABLED_OPTION", "disabled");
 			$tpl->setVariable("HIDDEN", "hidden");
 		}
 		$tpl->setVariable("VALUE", NULL);
@@ -383,6 +398,9 @@ class Renderer extends AbstractComponentRenderer {
 
 			if($value && in_array($opt_value, $value)) {
 				$tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+			if ($input->isDisabled()) {
+				$tpl->setVariable("DISABLED", "disabled");
 			}
 
 			$tpl->parseCurrentBlock();
@@ -488,6 +506,9 @@ class Renderer extends AbstractComponentRenderer {
 
 			if ($input->getValue() !== null && $input->getValue()===$value) {
 				$input_tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+			if ($input->isDisabled()) {
+				$input_tpl->setVariable("DISABLED", "disabled");
 			}
 
 			//dependant fields
