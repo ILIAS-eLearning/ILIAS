@@ -752,8 +752,11 @@ class ilObjMediaObject extends ilObject
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
 
 					// Location
+					$loc = ($item->getLocationType() == "Reference")
+						? ilUtil::secureUrl($item->getLocation())
+						: $item->getLocation();
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
-						$this->handleAmps($item->getLocation())."</Location>";
+						$this->handleAmps($loc)."</Location>";
 
 					// Format
 					$xml.= "<Format>".$item->getFormat()."</Format>";
