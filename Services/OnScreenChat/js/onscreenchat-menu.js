@@ -160,7 +160,7 @@
 			return getModule().content.html();
 		},
 
-		add: function(conversation) {
+		addOrUpdate: function(conversation) {
 			var index = getModule().hasConversation(conversation);
 			if (index === false) {
 				getModule().conversations.push(conversation);
