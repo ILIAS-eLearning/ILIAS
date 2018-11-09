@@ -101,24 +101,28 @@ class ilCertificateMigrationJob extends AbstractJob
 		]);
 
 		$found_items = 0;
+		$testType = 'test';
+		$scormType = 'scorm';
+		$exerciseType = 'exercise';
+		$courseType = 'course';
 		try {
 			// collect all data
 			$this->logger->info('Start collection certificate data for user: ' . $this->user_id);
 
-			$certificates['scorm'] = $this->getScormCertificates();
-			$found_items += count($certificates['scorm']);
+			$certificates[$scormType] = $this->getScormCertificates();
+			$found_items += count($certificates[$scormType]);
 			$observer->heartbeat();
 
-			$certificates['test'] = $this->getTestCertificates();
-			$found_items += count($certificates['test']);
+			$certificates[$testType] = $this->getTestCertificates();
+			$found_items += count($certificates[$testType]);
 			$observer->heartbeat();
 
-			$certificates['exercise'] = $this->getExerciseCertificates();
-			$found_items += count($certificates['exercise']);
+			$certificates[$exerciseType] = $this->getExerciseCertificates();
+			$found_items += count($certificates[$exerciseType]);
 			$observer->heartbeat();
 
-			$certificates['course'] = $this->getCourseCertificates();
-			$found_items += count($certificates['course']);
+			$certificates[$courseType] = $this->getCourseCertificates();
+			$found_items += count($certificates[$courseType]);
 			$observer->heartbeat();
 
 			$this->updateTask(['found_items' => $found_items]);
@@ -141,61 +145,37 @@ class ilCertificateMigrationJob extends AbstractJob
 			// prepare all data
 			$this->logger->info('Start preparing certificate informations for user: ' . $this->user_id);
 
-			if(!empty($certificates['scorm'])) {
-				$this->logger->info('Start preparing scorm certificates');
-				foreach ($certificates['scorm'] as &$scorm) {
-					$this->getCertificateInformations($scorm);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logger->info('Finished preparing scorm certificates');
-			}
+			$processed_items = $this->prepareCertificate(
+				$observer,
+				$certificates,
+				$scormType,
+				$processed_items,
+				$found_items
+			);
 
-			if(!empty($certificates['test'])) {
-				$this->logger->info('Start preparing test certificates');
-				foreach ($certificates['test'] as &$test) {
-					$this->getCertificateInformations($test);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logger->info('Finished preparing test certificates');
-			}
+			$processed_items = $this->prepareCertificate(
+				$observer,
+				$certificates,
+				$testType,
+				$processed_items,
+				$found_items
+			);
 
-			if(!empty($certificates['exercise'])) {
-				$this->logger->info('Start preparing exercise certificates');
-				foreach ($certificates['exercise'] as &$exercise) {
-					$this->getCertificateInformations($exercise);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logger->info('Finished preparing exercise certificates');
-			}
+			$processed_items = $this->prepareCertificate(
+				$observer,
+				$certificates,
+				$exerciseType,
+				$processed_items,
+				$found_items
+			);
 
-			if(!empty($certificates['course'])) {
-				$this->logger->info('Start preparing course certificates');
-				foreach ($certificates['course'] as &$course) {
-					$this->getCertificateInformations($course);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logger->info('Finished preparing course certificates');
-			}
+			$processed_items = $this->prepareCertificate(
+				$observer,
+				$certificates,
+				$courseType,
+				$processed_items,
+				$found_items
+			);
 
 			$this->logger->info('Finished preparing certificate informations for user: ' . $this->user_id);
 
@@ -721,5 +701,35 @@ class ilCertificateMigrationJob extends AbstractJob
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param Observer $observer
+	 * @param $certificates
+	 * @param $type
+	 * @param $processed_items
+	 * @param $found_items
+	 * @return array
+	 */
+	protected function prepareCertificate(Observer $observer, $certificates, $type, $processed_items, $found_items): array
+	{
+		if (!empty($certificates[$type])) {
+			$this->logger->info(sprintf('Start preparing "%s" certificates', $type));
+
+			foreach ($certificates[$type] as &$object) {
+				$this->getCertificateInformations($object);
+				$processed_items++;
+			}
+
+			$this->updateTask([
+				'processed_items' => $processed_items,
+				'progress' => $this->measureProgress($found_items, $processed_items)
+			]);
+
+			$observer->heartbeat();
+			$this->logger->info(sprintf('Finished preparing "%s" certificates', $type));
+		}
+
+		return $processed_items;
 	}
 }
