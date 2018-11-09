@@ -148,8 +148,8 @@ class ilMailFolderGUI
 				$ret = $this->ctrl->forwardCommand($profileGui);
 				if ($ret != '') {
 					$this->tpl->setContent($ret);
-					$this->tpl->show();
 				}
+				$this->tpl->show();
 				break;
 
 			default:
