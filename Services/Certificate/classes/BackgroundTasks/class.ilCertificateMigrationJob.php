@@ -662,7 +662,7 @@ class ilCertificateMigrationJob extends AbstractJob
 			'Successful renedered certificate for (type, obj_id, usr_id): ' . $cert_data['certificate_type'] . ', ' . $cert_data['obj_id'] . ', ' . $this->user_id
 		);
 
-		$cert_data['acquired_timestamp'] = 0;
+		$cert_data['acquired_timestamp'] = time();
 		if (true === isset($insert_tags['[DATETIME_COMPLETED_UNIX]'])) {
 			$cert_data['acquired_timestamp'] = $insert_tags['[DATETIME_COMPLETED_UNIX]'];
 		}
