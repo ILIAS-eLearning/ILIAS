@@ -802,25 +802,23 @@ class ilMail
 				}
 			}
 
-			$to  = array();
-			$bcc = array();
-			
 			$as_email = array_unique($as_email);
-			if(count($as_email) == 1)
-			{
-				$to[] = $as_email[0];
-			}
-			else
-			{
-				foreach ($as_email as $email)
-				{
-					$bcc[] = $email;
-				}
-			}
+			if (1 === count($as_email)) {
+				$this->sendMimeMail(
+					implode(',', $as_email), '', '',
+					$a_subject, $this->formatLinebreakMessage($a_message), (array)$a_attachments
+				);
+			} elseif (count($as_email) > 1) {
+				$offset = 0;
+				$limit = 25;
+				while ($bccSliced = array_slice($as_email, $offset, $limit, true)) {
+					$this->sendMimeMail(
+						'', '', implode(',', $bccSliced),
+						$a_subject, $this->formatLinebreakMessage($a_message), (array)$a_attachments
+					);
 
-			if(count($to) > 0 || count($bcc) > 0)
-			{
-				$this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $this->formatLinebreakMessage($a_message), $a_attachments);
+					$offset += $limit;
+				}
 			}
 		}
 		else
@@ -882,17 +880,16 @@ class ilMail
 				}
 			}
 
-			if(count($as_email))
-			{
-				foreach($as_email as $id => $emails)
-				{
-					if(0 == count($emails))
-					{
+			if (count($as_email) > 0) {
+				foreach ($as_email as $id => $emails) {
+					if (0 == count($emails)) {
 						continue;
 					}
 
-					$toEmailAddresses = implode(',', $emails);
-					$this->sendMimeMail($toEmailAddresses, '', '', $a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), $a_attachments);
+					$this->sendMimeMail(
+						implode(',', $emails), '', '',
+						$a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), (array)$a_attachments
+					);
 				}
 			}
 
@@ -946,9 +943,23 @@ class ilMail
 				}
 			}
 
-			if(count($as_email))
-			{
-				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $this->formatLinebreakMessage($cc_and_bcc_message), $a_attachments);
+			$as_email = array_unique($as_email);
+			if (1 === count($as_email)) {
+				$this->sendMimeMail(
+					implode(',', $as_email), '', '',
+					$a_subject, $this->formatLinebreakMessage($cc_and_bcc_message), (array)$a_attachments
+				);
+			} elseif (count($as_email) > 1) {
+				$offset = 0;
+				$limit = 25;
+				while ($bccSliced = array_slice($as_email, $offset, $limit, true)) {
+					$this->sendMimeMail(
+						'', '', implode(',', $bccSliced),
+						$a_subject, $this->formatLinebreakMessage($cc_and_bcc_message), (array)$a_attachments
+					);
+
+					$offset += $limit;
+				}
 			}
 		}
 
@@ -1259,82 +1270,72 @@ class ilMail
 
 	/**
 	 * Send mime mail using class.ilMimeMail.php. All external mails are send to SOAP::sendMail (if enabled) starting a kind of background process
-	 * @param string $a_rcp_to
-	 * @param string $a_rcp_cc
-	 * @param string $a_rcp_bcc
-	 * @param string $a_m_subject
-	 * @param string $a_m_message
-	 * @param array  $a_attachments
-	 * @param bool   $a_no_soap
-	 * @deprecated Should not be called from consumers, please use sendMail()
+	 * @param string $to
+	 * @param string $cc
+	 * @param string $bcc
+	 * @param string   $subject
+	 * @param string   $message
+	 * @param array    $a_attachments
+	 * @param bool     $suppressSoap
 	 */
-	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments, $a_no_soap = false)
+	private function sendMimeMail(string $to, string $cc, string $bcc, $subject, $message, array $a_attachments, bool $suppressSoap = false)
 	{
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
-
-		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
+		$subject = self::getSubjectPrefix() . ' ' . $subject;
 
 		// #10854
-		if($this->isSOAPEnabled() && !$a_no_soap)
-		{
-			require_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+		if ($this->isSOAPEnabled() && !$suppressSoap) {
 			$soap_client = new ilSoapClient();
 			$soap_client->setResponseTimeout(5);
 			$soap_client->enableWSDL(true);
 			$soap_client->init();
 
-			$attachments   = array();
+			$attachments = array();
 			$a_attachments = $a_attachments ? $a_attachments : array();
-			foreach($a_attachments as $attachment)
-			{
+			foreach ($a_attachments as $attachment) {
 				$attachments[] = $this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment);
 			}
 
 			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
 			$attachments = implode('#:#', $attachments);
 			// mjansen: use "#:#" as leading delimiter
-			if(strlen($attachments))
-			{
+			if (strlen($attachments)) {
 				$attachments = "#:#" . $attachments;
 			}
 
 			$soap_client->call('sendMail', array(
 				session_id() . '::' . $_COOKIE['ilClientId'],
-				$a_rcp_to,
-				$a_rcp_cc,
-				$a_rcp_bcc,
+				$to,
+				$cc,
+				$bcc,
 				$this->user_id,
-				$a_m_subject,
-				$a_m_message,
+				$subject,
+				$message,
 				$attachments
 			));
-		}
-		else
-		{
+		} else {
 			/** @var ilMailMimeSenderFactory $senderFactory */
 			$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
 			$mmail = new ilMimeMail();
 			$mmail->From($senderFactory->getSenderByUsrId($this->user_id));
-			$mmail->To($a_rcp_to);
-			$mmail->Subject($a_m_subject);
-			$mmail->Body($a_m_message);
+			$mmail->To($to);
+			$mmail->Subject($subject);
+			$mmail->Body($message);
 
-			if($a_rcp_cc)
-			{
-				$mmail->Cc($a_rcp_cc);
+			if ($cc) {
+				$mmail->Cc($cc);
 			}
 
-			if($a_rcp_bcc)
-			{
-				$mmail->Bcc($a_rcp_bcc);
+			if ($bcc) {
+				$mmail->Bcc($bcc);
 			}
 
-			if(is_array($a_attachments))
-			{
-				foreach($a_attachments as $attachment)
-				{
-					$mmail->Attach($this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '', 'inline', $attachment);
+			if (is_array($a_attachments)) {
+				foreach ($a_attachments as $attachment) {
+					$mmail->Attach(
+						$this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '',
+						'inline', 	$attachment
+					);
 				}
 			}
 

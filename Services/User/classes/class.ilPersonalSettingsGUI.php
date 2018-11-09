@@ -1076,22 +1076,29 @@ class ilPersonalSettingsGUI
 		
 		
 		// send notification
-		
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail(ANONYMOUS_USER_ID);
-		
-		$user_email = $ilUser->getEmail();		
-		$admin_mail = $ilSetting->get("user_delete_own_account_email");		
-		
+		$user_email = $ilUser->getEmail();
+		$admin_mail = $ilSetting->get("user_delete_own_account_email");
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
+		$mmail = new ilMimeMail();
+		$mmail->From($senderFactory->system());
 		// to user, admin as bcc
 		if($user_email)
-		{											
-			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null, true);		
+		{
+			$mmail->To($user_email);
+			$mmail->Bcc($admin_mail);
+			$mmail->Subject($subject);
+			$mmail->Body($message);
+			$mmail->Send();
 		}
 		// admin only
 		else if($admin_mail)
 		{
-			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null, true);		
+			$mmail->To($admin_mail);
+			$mmail->Subject($subject);
+			$mmail->Body($message);
+			$mmail->Send();
 		}
 		
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");
