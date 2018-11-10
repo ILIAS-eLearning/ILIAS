@@ -23101,7 +23101,7 @@ if (!$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 		With ILIAS 5.4.x user agreement documents can be managed in the global ILIAS administration.
 		The contents of a document can be uploaded as text or HTML file and will be stored (after purification) in the database.
 
-		If you reload this page, the migration will be executed. The files will NOT be deleted.
+		If you reload this page (e.g. by pressing the F5 key), the migration process will be started. The agreement files will NOT be deleted.
 		</pre>";
 
 	$ilSetting->set('dbupwarn_tos_migr_54x', 1);
