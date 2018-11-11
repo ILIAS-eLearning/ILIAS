@@ -8441,7 +8441,7 @@ style#:#sty_added_characteristic#:#Neuen Style hinzugefügt.
 style#:#sty_all#:#Alle
 style#:#sty_all_styles_obligatory#:#Alle ausgewählten Styleklassen müssen immer vorhanden sein und können nicht gelöscht werden.
 style#:#sty_background#:#Hintergrund
-style#:#sty_background_attachment#:#Wasserzeichen
+style#:#sty_background_attachment#:#Verhalten Hintergrund
 style#:#sty_background_color#:#Hintergrundfarbe
 style#:#sty_background_image#:#Hintergrundbild
 style#:#sty_background_position#:#Hintergrundposition
