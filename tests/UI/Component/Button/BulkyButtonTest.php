@@ -95,7 +95,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 		$b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
 
 		$expected = ''
-			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" aria-pressed="undefined">'
+			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
 			.'	<span class="glyph" aria-label="briefcase">'
 			.'		<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'
 			.'	</span>'
@@ -131,7 +131,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 		$b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de");
 
 		$expected = ''
-			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" aria-pressed="undefined">'
+			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
 			.'	<div class="icon someExample small" aria-label="Example"></div>'
 			.'	<div><span class="bulky-label">label</span></div>'
 			.'</button>';

@@ -342,12 +342,28 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	/**
 	 * @dataProvider button_type_provider
 	 */
-	public function test_button_with_aria_checked($factory_method) {
+	public function test_button_with_engageable($factory_method) {
 		$f = $this->getButtonFactory();
 		$b = $f->$factory_method("label", "http://www.ilias.de");
-		$this->assertEquals(false, $b->isAriaChecked());
-		$b2 = $f->$factory_method("label", "http://www.ilias.de")->withAriaChecked();
-		$this->assertEquals(true,$b2->isAriaChecked());
+		if($b instanceof C\Button\Engageable) {
+			$this->assertEquals(false, $b->isEngageable());
+			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(false);
+			$this->assertEquals(true,$b2->isEngageable());
+		}
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_button_with_engaged($factory_method) {
+		$f = $this->getButtonFactory();
+		$b = $f->$factory_method("label", "http://www.ilias.de");
+		if($b instanceof C\Button\Engageable) {
+			$b = $b->withEngagedState(false);
+			$this->assertEquals(false, $b->isEngaged());
+			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(true);
+			$this->assertEquals(true,$b2->isEngaged());
+		}
 	}
 
 	/**
@@ -384,11 +400,12 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			$ln = "http://www.ilias.de";
 			$f = $this->getButtonFactory();
 			$r = $this->getDefaultRenderer();
-			$b = $f->$factory_method("label", $ln)->withAriaChecked();
+			$b = $f->$factory_method("label", $ln)->withEngagedState(true);
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<button class=\"$css_classes\" aria-checked=\"true\" data-action=\"$ln\" id=\"id_1\">".
+			$css_classes .= ' engaged';
+			$expected = "<button class=\"$css_classes\" aria-pressed=\"true\" data-action=\"$ln\" id=\"id_1\">".
 				"label".
 				"</button>";
 			$this->assertHTMLEquals($expected, $html);

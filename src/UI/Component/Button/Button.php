@@ -11,7 +11,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 
 /**
- * This describes commonalities between standard and primary buttons. 
+ * This describes commonalities between standard and primary buttons.
  */
 interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	/**
@@ -68,20 +68,6 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * @return	string
 	 */
 	public function getAriaLabel();
-
-	/**
-	 * Get a button like this, but setting the aria-checked value as true
-	 *
-	 * @return Button
-	 */
-	public function withAriaChecked();
-
-	/**
-	 * Get to know if the button has the aria-checked attribute
-	 *
-	 * @return 	bool
-	 */
-	public function isAriaChecked();
 
 	/**
 	 * @inheritdocs
