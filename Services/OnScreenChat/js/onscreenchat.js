@@ -570,6 +570,7 @@
 		 * @param conversation
 		 */
 		onConversationInit: function(conversation){
+			// Directly save the conversation on storage to prevent race conditions
 			conversation.action = ACTION_STORE_CONV;
 			conversation.lastActivity = (new Date).getTime();
 			getModule().storage.save(conversation);
@@ -999,18 +1000,26 @@
 
 	var ConversationStorage = function ConversationStorage() {
 
-		this.get = function(id) {
+		this.get = function get(id) {
 			return JSON.parse(window.localStorage.getItem(PREFIX_CONSTANT + id));
 		};
 
-		this.save = function(conversation, callback) {
+		this.syncUIStateWithStored = function mergeWithStored(conversation) {
+			var oldValue = this.get(conversation.id);
+
+			if (oldValue != null && oldValue.open !== undefined && (conversation.open === undefined || conversation.open !== oldValue.open)) {
+				conversation.open = oldValue.open;
+			}
+
+			return conversation;
+		}; 
+
+		this.save = function save(conversation, callback) {
 			var oldValue = this.get(conversation.id);
 
 			conversation.messages = [];
 
-			if (conversation.open === undefined && oldValue != null) {
-				conversation.open = oldValue.open;
-			}
+			conversation = getModule().storage.syncUIStateWithStored(conversation);
 
 			if (conversation.action !== undefined) {
 				if (ACTION_DERIVED_FROM_CONV_OPEN_STATUS === conversation.action) {
