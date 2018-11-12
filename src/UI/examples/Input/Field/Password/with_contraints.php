@@ -6,10 +6,11 @@ function with_contraints() {
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
+    $lng = $DIC->language();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Validation\Factory($data);
+    $validation = new \ILIAS\Validation\Factory($data, $lng);
     $pw_validation = $validation->password();
 
     //Step 1: Define the input field
