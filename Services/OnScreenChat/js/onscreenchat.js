@@ -289,6 +289,11 @@
 					container: 'body',
 					viewport: { selector: 'body', padding: 10 }
 				});
+				conversationWindow.find('[data-toggle="participants-tooltip"]').tooltip({
+					container: 'body',
+					viewport: { selector: 'body', padding: 10 },
+					template: '<div class="tooltip ilOnScreenChatWindowHeaderTooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+				});
 
 				var emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
 					messageField = conversationWindow.find('[data-onscreenchat-message]');
@@ -359,8 +364,8 @@
 			var template = getModule().config.chatWindowTemplate;
 			if (conversation.isGroup) {
 				var participantsNames = getParticipantsNames(conversation, false);
-
-				template = template.replace(/\[\[participants-tt\]\]/g, participantsNames.join(', '));
+				var partTooltipFormatter = new ParticipantsTooltipFormatter(participantsNames);
+				template = template.replace(/\[\[participants-tt\]\]/g, partTooltipFormatter.format());
 				template = template.replace(
 					/\[\[participants-header\]\]/g,
 					il.Language.txt('chat_osc_head_grp_x_persons', participantsNames.length)
@@ -705,7 +710,8 @@
 							participantsNames = getParticipantsNames(conversation, false);
 
 							header = il.Language.txt('chat_osc_head_grp_x_persons', participantsNames.length);
-							tooltip = participantsNames.join(', ');
+							var partTooltipFormatter = new ParticipantsTooltipFormatter(participantsNames);
+							tooltip = partTooltipFormatter.format();
 						} else {
 							participantsNames = getParticipantsNames(conversation);
 							tooltip = header = participantsNames.join(', ');
@@ -1125,6 +1131,16 @@
 		}
 
 		return names;
+	};
+
+	var ParticipantsTooltipFormatter = function ParticipantsTooltipFormatter(participants) {
+		var _participants = participants;
+
+		this.format = function () {
+			return $("<ul/>").append(_participants.map(function(elm) {
+				return $("<li/>").html("&raquo; "  + elm);
+			})).wrap("<div/>").parent().html();
+		};
 	};
 
 	var getProfileImage = function(userId) {
