@@ -692,7 +692,13 @@ class ilCertificateMigrationJob extends AbstractJob
 	 * @param $found_items
 	 * @return array
 	 */
-	protected function prepareCertificate(Observer $observer, $certificates, $type, $processed_items, $found_items): array
+	protected function prepareCertificate(
+		Observer $observer,
+		array $certificates,
+		string $type,
+		int $processed_items,
+		int $found_items
+	): array
 	{
 		if (!empty($certificates[$type])) {
 			$this->logger->info(sprintf('Start preparing "%s" certificates', $type));
