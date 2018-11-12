@@ -149,13 +149,16 @@ class ilCertificateMigrationJob extends AbstractJob
 			$this->logger->info('Start preparing certificate informations for user: ' . $this->user_id);
 
 			foreach ($types as $type) {
-				$processed_items = $this->prepareCertificate(
+				$data = $this->prepareCertificate(
 					$observer,
 					$certificates,
 					$type,
 					$processed_items,
 					$found_items
 				);
+
+				$processed_items = $data['processed_items'];
+				$certificates    = $data['certificates_data'];
 			}
 
 			$this->logger->info('Finished preparing certificate informations for user: ' . $this->user_id);
@@ -510,7 +513,7 @@ class ilCertificateMigrationJob extends AbstractJob
 	 * @param array $cert_data
 	 * @return void
 	 */
-	protected function getCertificateInformations(array &$cert_data)
+	protected function addCertificateInformation(array $cert_data)
 	{
 		if(array_key_exists('certificate_path', $cert_data))
 		{
@@ -520,6 +523,8 @@ class ilCertificateMigrationJob extends AbstractJob
 				$cert_data = $this->addContentAndTimestampToCertificateData($cert_data);
 			}
 		}
+
+		return $cert_data;
 	}
 
 	/**
@@ -686,15 +691,15 @@ class ilCertificateMigrationJob extends AbstractJob
 
 	/**
 	 * @param Observer $observer
-	 * @param $certificates
-	 * @param $type
-	 * @param $processed_items
-	 * @param $found_items
+	 * @param array $certificates
+	 * @param string $type
+	 * @param int $processed_items
+	 * @param int $found_items
 	 * @return array
 	 */
 	protected function prepareCertificate(
 		Observer $observer,
-		array &$certificates,
+		array $certificates,
 		string $type,
 		int $processed_items,
 		int $found_items
@@ -703,8 +708,8 @@ class ilCertificateMigrationJob extends AbstractJob
 		if (!empty($certificates[$type])) {
 			$this->logger->info(sprintf('Start preparing "%s" certificates', $type));
 
-			foreach ($certificates[$type] as &$object) {
-				$this->getCertificateInformations($object);
+			foreach ($certificates[$type] as $id => $certificateData) {
+				$certificates[$type][$id] = $this->addCertificateInformation($certificateData);
 				$processed_items++;
 			}
 
@@ -717,6 +722,9 @@ class ilCertificateMigrationJob extends AbstractJob
 			$this->logger->info(sprintf('Finished preparing "%s" certificates', $type));
 		}
 
-		return $processed_items;
+		return array(
+			'processed_items'   => $processed_items,
+			'certificates_data' => $certificates
+		);
 	}
 }
