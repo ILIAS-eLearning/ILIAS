@@ -720,7 +720,8 @@
 						chatWindow
 							.find('[data-onscreenchat-window-participants]')
 							.html(header)
-							.attr("title", tooltip);
+							.attr("title", tooltip)
+							.attr("data-original-title", tooltip);
 					}
 
 					conversation.action = ACTION_DERIVED_FROM_CONV_OPEN_STATUS;
