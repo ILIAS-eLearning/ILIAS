@@ -694,7 +694,7 @@ class ilCertificateMigrationJob extends AbstractJob
 	 */
 	protected function prepareCertificate(
 		Observer $observer,
-		array $certificates,
+		array &$certificates,
 		string $type,
 		int $processed_items,
 		int $found_items
