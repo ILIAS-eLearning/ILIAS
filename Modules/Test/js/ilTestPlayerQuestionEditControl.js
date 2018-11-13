@@ -258,6 +258,10 @@ il.TestPlayerQuestionEditControl = new function() {
             autoSaver = 0;
         }
 
+        // guard against race condition from delayed startTimers, i.e.
+        // if startTimers is scheduled, but hasn't run at this point.
+        config.autosaveInterval = 0;
+
         if (autoSaveInCommit) {
             onAutoSaveDone = then;
         } else {
@@ -616,6 +620,12 @@ il.TestPlayerQuestionEditControl = new function() {
      * Handle the form submission
      */
     function handleFormSubmit() {
+
+        if (autoSaveInCommit) {
+            alert("Please try again after autosave has finished.");
+            return false;
+        }
+
         //var submitBtn = $(this).find("input[type=submit]:focus"); // perhaps neccessary anytime
         
         // add the 'answer changed' parameter to the url
@@ -684,6 +694,7 @@ il.TestPlayerQuestionEditControl = new function() {
                 })
             .done(function(responseText) {
                 autoSaveInCommit = false;
+                autoSavedData = newData;
                 autoSaveSuccess(responseText);
                 autoSaveDone();
             })
@@ -692,8 +703,6 @@ il.TestPlayerQuestionEditControl = new function() {
                 autoSaveFailure(responseText);
                 autoSaveDone();
             });
-
-            autoSavedData = newData;
         }
     }
 
