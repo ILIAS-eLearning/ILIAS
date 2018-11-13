@@ -89,6 +89,20 @@ the required elements need to be implemented in the UI-framework, on the other
 hand the components need to use the UI-framework for their actual rendering. 
 
 
+### Introduce Bootstrap 4 and Create a System for SASS-Variables
+
+Currently ILIAS (and hence the UI-Framework) uses Bootstrap 3 as CSS-framework.
+In the meantime, [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+was published. It comes with a new language for writing stylesheets (SASS) and
+a new system for its SASS-variables.
+
+The UI-Framework should switch to using Bootstrap 4. In this process, a system
+to use Bootraps new set of variables together with a possible set of special
+variables should be designed, documented and implemented. The switch to Bootstrap 4
+needs to be coordinated with the components of ILIAS that currently do use features
+of Bootstrap but do not use the UI-Framework.
+
+
 ## Ideas and Food for Thought
 
 * The names `Triggerer` and `Signal` for client side interaction in the UI-framework
