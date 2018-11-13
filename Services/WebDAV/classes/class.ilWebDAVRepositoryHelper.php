@@ -20,10 +20,10 @@ class ilWebDAVRepositoryHelper
     /**
      * ilWebDAVRepositoryHelper constructor.
      *
-     * @param ilAccess $access
+     * @param ilAccessHandler $access
      * @param ilTree $tree
      */
-    public function __construct(ilAccess $access, ilTree $tree)
+    public function __construct(ilAccessHandler $access, ilTree $tree)
     {
         $this->access = $access;
         $this->tree = $tree;
@@ -67,7 +67,7 @@ class ilWebDAVRepositoryHelper
     }
 
     /**
-     * Just a redirect to the ilObject::_lookupObjectId
+     * Just a redirect to the ilObject::_lookupObjectId function
      *
      * @param $a_ref_id
      * @return int+
@@ -75,6 +75,17 @@ class ilWebDAVRepositoryHelper
     public function getObjectIdFromRefId($a_ref_id)
     {
         return ilObject::_lookupObjectId($a_ref_id);
+    }
+
+    /**
+     * Just a redirect to the ilObject::_lookupTitle function
+     *
+     * @param $a_obj_id
+     * @return
+     */
+    public function getObjectTitleFromObjId($a_obj_id)
+    {
+        return ilObject::_lookupTitle($a_obj_id);
     }
 
     /**
@@ -90,7 +101,7 @@ class ilWebDAVRepositoryHelper
     }
 
     /**
-     * Just a redirect to the ilObject::_lookupType
+     * Just a redirect to the ilObject::_lookupType function
      *
      * @param $a_ref_id
      * @return mixed
