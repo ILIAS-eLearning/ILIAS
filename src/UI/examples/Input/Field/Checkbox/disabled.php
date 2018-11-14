@@ -16,8 +16,8 @@ function disabled() {
 	//Step 2: define form and form actions
 	$DIC->ctrl()->setParameterByClass(
 		'ilsystemstyledocumentationgui',
-		'example_name_disabled',
-		'checkbox'
+		'example_name',
+		'checkbox_disabled'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
 	$form = $ui->input()->container()->form()->standard($form_action, [ $checkbox_input]);
@@ -25,7 +25,7 @@ function disabled() {
 	//Step 3: implement some form data processing. Note, the value of the checkbox will
 	// be 'checked' if checked and null if unchecked.
 	if ($request->getMethod() == "POST"
-		&& $request->getQueryParams()['example_name_disabled'] =='checkbox') {
+		&& $request->getQueryParams()['example_name'] =='checkbox_disabled') {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
 	}
