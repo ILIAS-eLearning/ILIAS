@@ -2580,12 +2580,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilcontainernewssettingsgui":
-
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateTab('settings');
 				$this->tabs_gui->activateSubTab('obj_news_settings');
-				include_once("./Services/Container/classes/class.ilContainerNewsSettingsGUI.php");
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$news_set_gui->setTimeline(true);
+				$news_set_gui->setCronNotifications(true);
+				$news_set_gui->setHideByDate(true);
 				$this->ctrl->forwardCommand($news_set_gui);
 				break;
 
