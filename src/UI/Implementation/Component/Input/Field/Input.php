@@ -390,8 +390,15 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 
 		//TODO: Discuss, is this correct here. If there is no input contained in this post
 		//We assign null. Note that unset checkboxes are not contained in POST.
-		$value = $input->getOr($this->getName(), null);
-		$clone = $this->withValue($value);
+		if (!$this->isDisabled()) {
+			$value = $input->getOr($this->getName(), null);
+			$clone = $this->withValue($value);
+		}
+		else {
+			$value = $this->getValue();
+			$clone = $this;
+		}
+
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());

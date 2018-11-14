@@ -27,15 +27,15 @@ function disabled() {
 	//Step 2: define form and form actions
 	$ctrl->setParameterByClass(
 		'ilsystemstyledocumentationgui',
-		'example_name_disabled',
-		'select'
+		'example_name',
+		'select_disabled'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
 	$form = $ui->input()->container()->form()->standard($form_action, [$select]);
 
 	//Step 3: implement some form data processing.
 	if ($request->getMethod() == "POST"
-		&& $request->getQueryParams()['example_name_disabled'] == "select") {
+		&& $request->getQueryParams()['example_name'] == "select_disabled") {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
 	}
