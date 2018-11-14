@@ -2,36 +2,52 @@
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\LoggingServices;
+
 /**
  * Class ilSystemStyleLoggerMock
+ *
+ * @since 5.3
  */
-class ilSystemStyleLoggerMock {
+class ilSystemStyleLoggerMock extends LoggingServices {
 
 	/**
-	 * ilSystemStyleLoggerMock constructor.
+	 * ilSystemStyleLoggerMock constructor
+	 *
+	 * @param ilSystemStyleDICMock $container
 	 */
-	public function __construct() {}
+	public function __construct(ilSystemStyleDICMock $container) {
+		parent::__construct($container);
+	}
+
 
 	/**
-	 * @return mixed
+	 * @inheritdoc
 	 */
-	public function root() {
+	public function root(): ilLogger {
 		return new ilSystemStyleRootLoggerMock();
 	}
 }
 
 /**
  * Class ilSystemStyleLoggerMock
+ *
+ * @since 5.3
  */
-class ilSystemStyleRootLoggerMock {
+class ilSystemStyleRootLoggerMock extends ilLogger {
 
 	/**
-	 * ilSystemStyleLoggerMock constructor.
+	 * ilSystemStyleLoggerMock constructor
 	 */
-	public function __construct() {}
+	public function __construct() {
+		parent::__construct(NULL);
+	}
+
 
 	/**
-	 * @return mixed
+	 * @inheritdoc
 	 */
-	public function debug($message) {}
+	public function debug($a_message, $a_context = array()) {
+
+	}
 }

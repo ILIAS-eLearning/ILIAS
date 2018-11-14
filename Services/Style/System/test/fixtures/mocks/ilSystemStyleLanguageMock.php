@@ -6,20 +6,28 @@
 /**
  * Class ilSystemStylesLanguageMock
  */
-class ilSystemStyleLanguageMock {
-	public $requested = array();
+class ilSystemStyleLanguageMock extends ilLanguage {
 
 	/**
-	 * ilLanguageMock constructor.
+	 * @var array
 	 */
-	public function __construct() {}
+	public $requested = [];
+
 
 	/**
-	 * @param $a_topic
-	 * @return mixed
+	 * ilLanguageMock constructor
 	 */
-	public function txt($a_topic) {
+	public function __construct() {
+		parent::__construct("en");
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	function txt($a_topic, $a_default_lang_fallback_mod = "") {
 		$this->requested[] = $a_topic;
+
 		return $a_topic;
 	}
 }

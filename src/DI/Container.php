@@ -41,7 +41,7 @@ use Pimple\Container as PimpleContainer;
  *
  * @since   5.2
  */
-final class Container extends PimpleContainer {
+class Container extends PimpleContainer {
 
 	/**
 	 * Container constructor

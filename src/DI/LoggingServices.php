@@ -15,7 +15,7 @@ use ilLoggerFactory;
  *
  * @since   5.3
  */
-final class LoggingServices {
+class LoggingServices {
 
 	/**
 	 * @var Container
