@@ -250,6 +250,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($this->getObjectMetadataGUI());
 				break;
 
+			case "ilcontainernewssettingsgui":
+				$this->prepareOutput();
+				$this->tabs_gui->activateSubTab('obj_news_settings');
+				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$this->ctrl->forwardCommand($news_set_gui);
+				break;
+
 			default:
 				if ($cmd == "infoScreen")
 				{
@@ -704,6 +711,19 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->tabs_gui->addSubTab("settings_trans",
 			$this->lng->txt("obj_multilinguality"),
 			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
+
+		//news tab
+		$news_active = ilContainer::_lookupContainerSetting(
+			$this->object->getId(),
+			ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+			true);
+
+		if($news_active)
+		{
+			$this->tabs_gui->addSubTab('obj_news_settings',
+				$this->lng->txt("cont_news_settings"),
+				$this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'));
+		}
 
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab($active_tab);
