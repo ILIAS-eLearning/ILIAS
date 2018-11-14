@@ -289,9 +289,27 @@ class ilContainerNewsSettingsGUI
 	 * Get if the container has a configurable cron job to send notifications.
 	 * @return mixed
 	 */
-	public function getCronNotifications()
+	public function getCronNotifications(): bool
 	{
 		return $this->getCronNotifications();
+	}
+
+	/**
+	 * Set if the container can hide news created before a date
+	 * @param bool $a_value
+	 */
+	public function setHideByDate(bool $a_value)
+	{
+		$this->has_hide_by_date = $a_value;
+	}
+
+	/**
+	 * Get if the container can hide news created before a date.
+	 * @return bool
+	 */
+	public function getHideByDate() : bool
+	{
+		return $this->has_hide_by_date;
 	}
 
 }
