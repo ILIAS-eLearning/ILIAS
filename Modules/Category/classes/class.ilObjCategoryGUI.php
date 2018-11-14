@@ -252,6 +252,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 			case "ilcontainernewssettingsgui":
 				$this->prepareOutput();
+				$this->tabs_gui->setTabActive('settings');
+				$this->setEditTabs();
 				$this->tabs_gui->activateSubTab('obj_news_settings');
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
 				$this->ctrl->forwardCommand($news_set_gui);
