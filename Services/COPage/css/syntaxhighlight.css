@@ -10,10 +10,16 @@ div.ilc_Code {
 	font-size: 80%;
 }
 
+#printViewPageContainer div.ilc_Code {
+	max-width: none;
+	max-height: none;
+	overflow: visible;
+}
+
 @media print {
 	div.ilc_Code {
-		max-width: auto;
-		max-height: auto;
+		max-width: none;
+		max-height: none;
 		overflow: visible;
 	}
 }
