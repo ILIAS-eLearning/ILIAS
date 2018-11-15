@@ -864,7 +864,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			default:							
+			default:
 				if($cmd != "gethtml")
 				{
 					// desktop item handling, must be toggled before header action
@@ -1750,7 +1750,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$wtpl->setVariable("URL_TITLE", $preview);
 			$wtpl->setVariable("TITLE", $item["title"]);
 			$wtpl->setVariable("DATETIME", $author.
-				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));		
+				ilDatePresentation::formatDate($item["created"]));
 
 			// content			
 			$wtpl->setVariable("CONTENT", $snippet);			
