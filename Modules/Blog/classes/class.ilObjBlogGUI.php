@@ -534,7 +534,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			if(!$this->getCreationMode() &&
 				$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 			{
-				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset");				
+				// see #22067
+				$link = $ilCtrl->getLinkTargetByClass(["ilrepositorygui", "ilObjBlogGUI"], "preview");
 				$ilNavigationHistory->addItem($this->node_id, $link, "blog");
 			}
 		}
