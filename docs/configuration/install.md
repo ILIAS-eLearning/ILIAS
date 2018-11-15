@@ -1,4 +1,4 @@
-# ILIAS Installation
+# ILIAS 5.4 Installation
 
 ILIAS is a powerful Open Source Learning Management System for developing and realising web-based e-learning. The software was developed to reduce the costs of using new media in education and further training and to ensure the maximum level of customer influence in the implementation of the software. ILIAS is published by ILIAS open source e-Learning e.V. under the General Public Licence and free of charge.
 
@@ -90,11 +90,11 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 For best results we RECOMMEND:
 
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
-  * MySQL 5.5 / MariaDB
-  * PHP 5.6+
+  * MySQL 5.6+ / MariaDB
+  * PHP 7.1+
   * Apache 2.2+ with mod_php
   * ImageMagick 6.8+
-  * php5-gd, php5-xsl, php5-mysql
+  * php7.1-gd, php7.1-xsl, php7.1-mysql
   * OpenJDK 7+
   * zip, unzip
   * git
@@ -110,7 +110,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
-  * PHP: Version 5.6, 7.0 and 7.1 are supported
+  * PHP: Version 7.0 and 7.1 are supported
   
 <a name="client"></a>
 ### Client
@@ -225,14 +225,9 @@ systemctl restart httpd.service
 <a name="php-installationconfiguration"></a>
 ## PHP Installation/Configuration
 
-On Debian/Ubuntu 14.04 execute:
+On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php5
-```
-
-On Ubuntu 16.04 execute:
-```
-apt-get install libapache2-mod-php7.0
+apt-get install libapache2-mod-php7.1
 ```
 
 On RHEL/CentOS execute: 
@@ -390,12 +385,12 @@ FromLineOverride=YES
 
 On Debian/Ubuntu 14.04 execute:
 ```
-apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
+apt-get install zip unzip php7.1-gd php7.1-mysql php7.1-mbstring php-xsl imagemagick openjdk-7-jdk
 ```
 
 On Ubuntu 16.04 execute:
 ```
-apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk
+apt-get install zip unzip php7.1-gd php7.1-mysql php7.1-mbstring php7.1-xsl php7.1-zip imagemagick openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute: 
@@ -410,7 +405,6 @@ Depending on your use case, you MAY want to install further dependencies (exact 
 * php-xmlrpc
 * php-soap
 * php-ldap
-* php-mbstring
 * ffmpeg
 * mimetex
 * phantomjs
@@ -669,6 +663,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
+| 5.4.x           | 7.0.x, 7.1.x, 7.2.x                   |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
@@ -718,13 +713,13 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (http://ilias.de/test53) is currently configured as follows:
+The ILIAS Testserver (http://ilias.de/test54) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
-| Distribution   | Ubuntu 14.04.5 LTS          |
+| Distribution   | Ubuntu 16.04.1 LTS          |
 | MySQL          | MySQL 5.5.58                |
-| PHP            | 5.5.9                       |
+| PHP            | 7.1.20                      |
 | Apache         | 2.4.7                       |
 | Nginx          | 1.4.6                       |
 | zip            | 3.0                         |
