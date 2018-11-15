@@ -256,6 +256,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->setEditTabs();
 				$this->tabs_gui->activateSubTab('obj_news_settings');
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$news_set_gui->setHideByDate(true);
 				$this->ctrl->forwardCommand($news_set_gui);
 				break;
 
