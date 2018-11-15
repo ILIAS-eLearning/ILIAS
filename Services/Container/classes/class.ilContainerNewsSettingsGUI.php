@@ -129,6 +129,7 @@ class ilContainerNewsSettingsGUI
 			$news->setValue(1);
 			if($this->has_block_forced){
 				$news->setChecked(true);
+				$news->setDisabled(true);
 			} else {
 				$news->setChecked($this->object->getNewsBlockActivated());
 			}
