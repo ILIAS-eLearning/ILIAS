@@ -316,6 +316,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 				$this->tabs_gui->setTabActive('settings');
 				$this->tabs_gui->activateSubTab('obj_news_settings');
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$news_set_gui->setNewsBlockForced(true);
 				$news_set_gui->setPublicNotification(true);
 				$this->ctrl->forwardCommand($news_set_gui);
 				break;

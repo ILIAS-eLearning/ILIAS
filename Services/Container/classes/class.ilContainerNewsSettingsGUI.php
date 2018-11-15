@@ -57,9 +57,14 @@ class ilContainerNewsSettingsGUI
 	protected $has_hide_by_date;
 
 	/**
-	 * @var
+	 * @var bool
 	 */
 	protected $has_public_notification;
+
+	/**
+	 * @var bool
+	 */
+	protected $has_block_forced;
 
 	/**
 	 * Constructor
@@ -117,24 +122,20 @@ class ilContainerNewsSettingsGUI
 		$form = new ilPropertyFormGUI();
 
 		//from crs/grp/cat settings - additional feature - news
-		//TODO uncomment conditionals.
-		//if($this->setting->get('block_activated_news'))
-		//{
-			// Container tools (calendar, news, ... activation)
-			//TODO THIS METHOD BELONGS TO CONTAINER NOT OBJECTS(forum,wiki) from classes which do not extend ilContainer we should
-			// call another gui class. Or create a new one more generic with the code of this class and remove this ilContainerNewsSettingsGUI class.
 
-			//if(method_exists($this->object, 'getNewsBlockActivated')){
-				$news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
-				$news->setValue(1);
-				//TODO FIX THIS/MOVE THIS SETTING
-				//$news->setChecked($this->object->getNewsBlockActivated());
-				$news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
-				ilNewsForContextBlockGUI::addToSettingsForm($news);
-				$form->addItem($news);
-			//}
-
-		//}
+		if($this->setting->get('block_activated_news'))
+		{
+			$news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
+			$news->setValue(1);
+			if($this->has_block_forced){
+				$news->setChecked(true);
+			} else {
+				$news->setChecked($this->object->getNewsBlockActivated());
+			}
+			$news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
+			ilNewsForContextBlockGUI::addToSettingsForm($news);
+			$form->addItem($news);
+		}
 
 		// Timeline (courses and groups)
 		if($this->has_timeline)
@@ -167,19 +168,19 @@ class ilContainerNewsSettingsGUI
 				include_once 'Services/Membership/classes/class.ilMembershipNotifications.php';
 				ilMembershipNotifications::addToSettingsForm($ref_id, $form, null);
 			}
+		}
 
-			$block_id = $this->ctrl->getContextObjId();
+		$block_id = $this->ctrl->getContextObjId();
 
-			// Visibility by date
-			$hide_news_per_date = ilBlockSetting::_lookup(ilNewsForContextBlockGUI::$block_type, "hide_news_per_date",
-				0, $block_id);
-			$hide_news_date = ilBlockSetting::_lookup(ilNewsForContextBlockGUI::$block_type, "hide_news_date",
-				0, $block_id);
+		// Visibility by date
+		$hide_news_per_date = ilBlockSetting::_lookup(ilNewsForContextBlockGUI::$block_type, "hide_news_per_date",
+			0, $block_id);
+		$hide_news_date = ilBlockSetting::_lookup(ilNewsForContextBlockGUI::$block_type, "hide_news_date",
+			0, $block_id);
 
-			if ($hide_news_date != "")
-			{
-				$hide_news_date = explode(" ", $hide_news_date);
-			}
+		if ($hide_news_date != "")
+		{
+			$hide_news_date = explode(" ", $hide_news_date);
 		}
 
 		// Hide news before a date (courses, groups and categories)
@@ -207,17 +208,14 @@ class ilContainerNewsSettingsGUI
 		}
 
 		// public notifications (forums)
-		//TODO -> difference with has_cron_notifications (crs,grp)?¿
-		/**
-		 * TODO Working here. Add the logic
-		 */
 		if($this->has_public_notification)
 		{
-			//$public = ilBlockSetting::_lookup($this->getBlockType(), "public_notifications", 0, $this->block_id);
+			$public = ilBlockSetting::_lookup("news", "public_notifications", 0, $block_id);
+
 			$ch = new ilCheckboxInputGUI($this->lng->txt("news_notifications_public"),
-				"notifications_public");
+				"public_notifications");
 			$ch->setInfo($this->lng->txt("news_notifications_public_info"));
-			//$ch->setChecked($public);
+			$ch->setChecked($public);
 			$form->addItem($ch);
 		}
 
@@ -237,10 +235,15 @@ class ilContainerNewsSettingsGUI
 		if ($form->checkInput())
 		{
 			include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
-			$this->object->setNewsBlockActivated($form->getInput(ilObjectServiceSettingsGUI::NEWS_VISIBILITY));
-			$this->object->setNewsTimeline($form->getInput("news_timeline"));
-			$this->object->setNewsTimelineAutoEntries($form->getInput("news_timeline_auto_entries"));
-			$this->object->setNewsTimelineLandingPage($form->getInput("news_timeline_landing_page"));
+			//non container objects force this news block (forums etc.)
+			if(!$this->has_block_forced){
+				$this->object->setNewsBlockActivated($form->getInput(ilObjectServiceSettingsGUI::NEWS_VISIBILITY));
+			}
+			if($this->has_timeline) {
+				$this->object->setNewsTimeline($form->getInput("news_timeline"));
+				$this->object->setNewsTimelineAutoEntries($form->getInput("news_timeline_auto_entries"));
+				$this->object->setNewsTimelineLandingPage($form->getInput("news_timeline_landing_page"));
+			}
 
 			if($this->setting->get('block_activated_news'))
 			{
@@ -251,6 +254,10 @@ class ilContainerNewsSettingsGUI
 					"hide_news_per_date" => $_POST["hide_news_per_date"],
 					"hide_news_date" => $_POST["hide_news_date"]
 				);
+				if($this->has_public_notification) {
+					$context_block_settings["public_notifications"] = $_POST['public_notifications'];
+				}
+
 				ilNewsForContextBlockGUI::writeSettings($context_block_settings);
 
 				if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp')))
@@ -281,6 +288,7 @@ class ilContainerNewsSettingsGUI
 		$this->has_timeline = false;
 		$this->has_cron_notifications = false;
 		$this->has_hide_by_date = false;
+		$this->has_block_forced = false;
 	}
 
 	/**
@@ -353,6 +361,24 @@ class ilContainerNewsSettingsGUI
 	public function getPublicNotification()
 	{
 		return $this->has_public_notification;
+	}
+
+	/**
+	 * Set if the News block is forced
+	 * @param bool $a_value
+	 */
+	public function setNewsBlockForced(bool $a_value)
+	{
+		$this->has_block_forced = $a_value;
+	}
+
+	/**
+	 * Get if the repository object has the news block forced
+	 * @return bool
+	 */
+	public function getNewsBlockForced():bool
+	{
+		return $this->has_block_forced;
 	}
 
 }
