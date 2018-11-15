@@ -57,6 +57,11 @@ class ilContainerNewsSettingsGUI
 	protected $has_hide_by_date;
 
 	/**
+	 * @var
+	 */
+	protected $has_public_notification;
+
+	/**
 	 * Constructor
 	 */
 	function __construct(ilObjectGUI $a_parent_gui)
@@ -109,23 +114,27 @@ class ilContainerNewsSettingsGUI
 	 */
 	public function initForm()
 	{
-		//include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
-		//include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
 		$form = new ilPropertyFormGUI();
 
-		if($this->setting->get('block_activated_news'))
-		{
+		//from crs/grp/cat settings - additional feature - news
+		//TODO uncomment conditionals.
+		//if($this->setting->get('block_activated_news'))
+		//{
 			// Container tools (calendar, news, ... activation)
-			$news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
-			$news->setValue(1);
-			$news->setChecked($this->object->getNewsBlockActivated());
-			$news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
+			//TODO THIS METHOD BELONGS TO CONTAINER NOT OBJECTS(forum,wiki) from classes which do not extend ilContainer we should
+			// call another gui class. Or create a new one more generic with the code of this class and remove this ilContainerNewsSettingsGUI class.
 
-			ilNewsForContextBlockGUI::addToSettingsForm($news);
+			//if(method_exists($this->object, 'getNewsBlockActivated')){
+				$news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
+				$news->setValue(1);
+				//TODO FIX THIS/MOVE THIS SETTING
+				//$news->setChecked($this->object->getNewsBlockActivated());
+				$news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
+				ilNewsForContextBlockGUI::addToSettingsForm($news);
+				$form->addItem($news);
+			//}
 
-			$form->addItem($news);
-		}
+		//}
 
 		// Timeline (courses and groups)
 		if($this->has_timeline)
@@ -173,6 +182,7 @@ class ilContainerNewsSettingsGUI
 			}
 		}
 
+		// Hide news before a date (courses, groups and categories)
 		if($this->has_hide_by_date)
 		{
 			//Hide news per date
@@ -194,6 +204,21 @@ class ilContainerNewsSettingsGUI
 			$hnpd->addSubItem($dt_prop);
 
 			$form->addItem($hnpd);
+		}
+
+		// public notifications (forums)
+		//TODO -> difference with has_cron_notifications (crs,grp)?¿
+		/**
+		 * TODO Working here. Add the logic
+		 */
+		if($this->has_public_notification)
+		{
+			//$public = ilBlockSetting::_lookup($this->getBlockType(), "public_notifications", 0, $this->block_id);
+			$ch = new ilCheckboxInputGUI($this->lng->txt("news_notifications_public"),
+				"notifications_public");
+			$ch->setInfo($this->lng->txt("news_notifications_public_info"));
+			//$ch->setChecked($public);
+			$form->addItem($ch);
 		}
 
 		$form->setTitle($this->lng->txt("cont_news_settings"));
@@ -310,6 +335,24 @@ class ilContainerNewsSettingsGUI
 	public function getHideByDate() : bool
 	{
 		return $this->has_hide_by_date;
+	}
+
+	/**
+	 * Set if this repository object has public notifications
+	 * @param bool $a_value
+	 */
+	public function setPublicNotification(bool $a_value)
+	{
+		$this->has_public_notification = $a_value;
+	}
+
+	/**
+	 * Get if this repository object has public notifications available.
+	 * @return bool
+	 */
+	public function getPublicNotification()
+	{
+		return $this->has_public_notification;
 	}
 
 }
