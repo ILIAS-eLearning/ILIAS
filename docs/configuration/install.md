@@ -234,7 +234,7 @@ systemctl restart httpd.service
 
 On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php7.1
+apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php-xsl
 ```
 
 On RHEL/CentOS execute: 
@@ -392,17 +392,17 @@ FromLineOverride=YES
 
 On Debian/Ubuntu 14.04 execute:
 ```
-apt-get install zip unzip php7.1-gd php7.1-mysql php7.1-mbstring php-xsl imagemagick openjdk-7-jdk
+apt-get install zip unzip imagemagick openjdk-7-jdk
 ```
 
 On Ubuntu 16.04 execute:
 ```
-apt-get install zip unzip php7.1-gd php7.1-mysql php7.1-mbstring php7.1-xsl php7.1-zip imagemagick openjdk-8-jdk
+apt-get install zip unzip imagemagick openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute: 
 ```
-yum install zip unzip php-gd libxslt ImageMagick java-1.8.0-openjdk
+yum install zip unzip libxslt ImageMagick java-1.8.0-openjdk
 ```
 ### Optional Dependencies
 
