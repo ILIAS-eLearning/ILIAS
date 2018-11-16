@@ -90,9 +90,10 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 For best results we RECOMMEND:
 
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
-  * MySQL 5.6+ / MariaDB
-  * PHP 7.1+
-  * Apache 2.2+ with mod_php
+  * MySQL 5.6+
+  * MariaDB 10+
+  * PHP 7.1
+  * Apache 2.4+ with mod_php
   * ImageMagick 6.8+
   * php7.1-gd, php7.1-xsl, php7.1-mysql
   * OpenJDK 7+
@@ -108,9 +109,15 @@ Please note that different configurations SHOULD be possible, but it might be ha
 ### Server
 
   * Server OS: Linux
-  * Web Server: Apache 2 (mod_php, php-fpm)
-  * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
-  * PHP: Version 7.0 and 7.1 are supported
+  * Web Server: Apache 2.4 (mod_php, php-fpm)
+  * Databases: MySQL/MariaDB 5.6 and 5.7 and Galera (experimental), PostgreSQL 9.x
+  * PHP: Version 7.0, 7.1 and 7.2 are supported
+  * zip: 3.0+
+  * unzip: 6.0+
+  * Imagemagick: 6.8.9-9+
+  * PhantomJS: 2.0.0+
+  * NodeJS: 8.9.4 (TLS) - 9.7.1
+  * Java: Version 7 and 8 are suported
   
 <a name="client"></a>
 ### Client
@@ -395,7 +402,7 @@ apt-get install zip unzip php7.1-gd php7.1-mysql php7.1-mbstring php7.1-xsl php7
 
 On RHEL/CentOS execute: 
 ```
-yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
+yum install zip unzip php-gd libxslt ImageMagick java-1.8.0-openjdk
 ```
 ### Optional Dependencies
 
@@ -678,7 +685,8 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | MySQL Version                         |
 |-----------------|---------------------------------------|
-| 5.3.x - x.x.x   | 5.5.x, 5.6.x, 5.7.x                   |
+| 5.4.x - x.x.x   | 5.6.x, 5.7.x                          |
+| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                   |
 | 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
 | 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
 | 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
@@ -719,11 +727,13 @@ The ILIAS Testserver (http://ilias.de/test54) is currently configured as follows
 |----------------|-----------------------------|
 | Distribution   | Ubuntu 16.04.1 LTS          |
 | MySQL          | MySQL 5.5.58                |
+| MariaDB        | 10.1                        |
 | PHP            | 7.1.20                      |
 | Apache         | 2.4.7                       |
 | Nginx          | 1.4.6                       |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
 | JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
+| NodeJS         | 8.9.4 LTS                   |
 
 Please note: Shibboleth won't work with Nginx.
