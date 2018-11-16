@@ -51,7 +51,7 @@ class ilObjSAHSLearningModule extends ilObject
 			INSERT INTO sahs_lm (id, api_adapter, c_type, editable, seq_exp_mode,localization) 
 			VALUES (%s,%s,%s,%s,%s,%s)', 
 			array('integer', 'text', 'text', 'integer','integer','text'), 
-			array($this->getId(),'n','API', $this->getSubType(),(int)$this->getEditable(),
+			array($this->getId(),'API', $this->getSubType(),(int)$this->getEditable(),
 				(int)$this->getSequencingExpertMode(), $this->getLocalization()
 				));
 	}
