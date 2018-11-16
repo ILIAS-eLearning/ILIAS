@@ -70,11 +70,10 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$inputs = "";
 		$input_labels = array();
 		foreach ($group->getInputs() as $input) {
-			$input = $input->withByLine($group->getLabel());
 			$inputs .= $default_renderer->render($input);
 			$input_labels[] = $input->getLabel();
 		}
-		if ($group->getLabel() != "disabled")
+		if (!$group->isDisabled())
 		{
 			$inputs .= $this->renderAddField($input_labels, $default_renderer);
 		}
@@ -95,7 +94,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
-		if ($input->getByline() == "disabled") {
+		if ($input->isDisabled()) {
 			$remove_glyph = $f->glyph()->remove()->withUnavailableAction(true);
 		} else {
 			$remove_glyph = $f->glyph()->remove()->withAdditionalOnLoadCode(function ($id) {
@@ -138,7 +137,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
 
 		$prox = new ProxyFilterField();
-		if ($input->getByline() != "disabled")
+		if (!$input->isDisabled())
 		{
 			$prox = $prox->withOnClick($popover->getShowSignal());
 			$tpl->touchBlock("tabindex");
@@ -178,6 +177,11 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 					$tpl->setVariable("VALUE", $input->getValue());
 					$tpl->parseCurrentBlock();
 				}
+				if ($input->isDisabled()) {
+					$tpl->setCurrentBlock("disabled");
+					$tpl->setVariable("DISABLED", "disabled");
+					$tpl->parseCurrentBlock();
+				}
 				break;
 
 			case ($input instanceof Select):
@@ -194,6 +198,11 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
+		if ($input->isDisabled()) {
+			$tpl->setCurrentBlock("disabled");
+			$tpl->setVariable("DISABLED", "disabled");
+			$tpl->parseCurrentBlock();
+		}
 		$value = $input->getValue();
 		//disable first option if required.
 		$tpl->setCurrentBlock("options");
@@ -201,7 +210,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 			$tpl->setVariable("SELECTED", "selected");
 		}
 		if($input->isRequired()) {
-			$tpl->setVariable("DISABLED", "disabled");
+			$tpl->setVariable("DISABLED_OPTION", "disabled");
 			$tpl->setVariable("HIDDEN", "hidden");
 		}
 		$tpl->setVariable("VALUE", NULL);

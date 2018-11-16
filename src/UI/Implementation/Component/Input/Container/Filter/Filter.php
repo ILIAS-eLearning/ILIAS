@@ -205,7 +205,12 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 		$param_data = $this->extractParamData($request);
 
 		$clone = clone $this;
-		$clone->input_group = $this->getInputGroup()->withInput($param_data);
+		if (!$this->isActivated()) {
+			$clone->input_group = $this->getInputGroup()->withDisabled(true)->withInput($param_data);  //check if this is needed
+		}
+		else {
+			$clone->input_group = $this->getInputGroup()->withInput($param_data);
+		}
 
 		return $clone;
 	}
