@@ -219,8 +219,7 @@ class ilLinkChecker
 	function __txt($language,$key,$module = 'common')
 	{
 		global $ilDB;
-		
-		include_once './Services/Language/classes/class.ilLanguage.php';
+
 		return ilLanguage::_lookupEntry($language, $module, $key);
 	}
 
@@ -272,7 +271,7 @@ class ilLinkChecker
 			return true;
 		}
 
-		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
+
 		$body = "";
 		$obj_name = "";
 
@@ -317,7 +316,7 @@ class ilLinkChecker
 			}
 			if($counter)
 			{
-				include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+
 				$ntf = new ilSystemNotification();
 				$ntf->setLangModules(array("mail", "common"));
 				$ntf->setSubjectLangId("link_check_subject");
@@ -358,7 +357,7 @@ class ilLinkChecker
 			return false;
 		}
 
-		include_once './Services/Link/classes/class.ilLink.php';
+
 		return ilLink::_getLink($ref_id, $a_obj_type);
 	}
 
@@ -426,7 +425,7 @@ class ilLinkChecker
 	{
 		global $objDefinition;
 		
-		include_once 'Modules/WebResource/classes/class.ilLinkResourceItems.php';
+
 
 		$link_res_obj = new ilLinkResourceItems($this->getObjId());
 
@@ -490,8 +489,6 @@ class ilLinkChecker
 	function __validateLinks($a_links)
 	{
 		global $tree;
-		include_once('./Services/Logging/classes/public/class.ilLoggerFactory.php');
-		include_once('./Services/WebServices/Curl/classes/class.ilCurlConnection.php');
 		if(!ilCurlConnection::_isCurlExtensionLoaded())
 		{
 			$this->__appendLogMessage('LinkChecker: Pear HTTP_Request is not installed. Aborting');
@@ -516,13 +513,14 @@ class ilLinkChecker
 			// external
 			else
 			{
+				//ilLoggerFactory::getLogger('lchk')->debug('Check: '.$link['complete']);
+
 				if($link['scheme'] !== 'http' and $link['scheme'] !== 'https')
 				{
 					ilLoggerFactory::getLogger('lchk')->error('LinkChecker: Unkown link sheme "' . $link['scheme'] . '". Continue check');
 					continue;
 				}
 
-				require_once './Services/Http/classes/class.ilProxySettings.php';
 				$http_code = 0;
 				$c_error_no = 0;
 				try
