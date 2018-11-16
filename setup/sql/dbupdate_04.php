@@ -18579,8 +18579,14 @@ while ($rec = $ilDB->fetchAssoc($set))
 ?>
 <#5086>
 <?php
-	// fix 20706
-	$ilDB->dropPrimaryKey('page_question');
+	// fix 20706 (and 22921)
+	require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
+	$analyzer = new ilDBAnalyzer();
+	$cons = $analyzer->getPrimaryKeyInformation('page_question');
+	if (is_array($cons["fields"]) && count($cons["fields"]) > 0)
+	{
+		$ilDB->dropPrimaryKey('page_question');
+	}
 	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
 ?>
 <#5087>
