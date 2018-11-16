@@ -488,18 +488,6 @@ class ilCertificate
 	}
 
 	/**
-	 * @param $a_value bool
-	 */
-	public function writeActive($a_value)
-	{
-		if((bool)$a_value) {
-			$this->db->replace("il_certificate", array("obj_id" => array("integer", $this->objectId)), array());
-		} else {
-			$this->db->manipulate("DELETE FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
-		}
-	}
-
-	/**
 	 * Get custom certificate fields
 	 */
 	static function getCustomCertificateFields()
