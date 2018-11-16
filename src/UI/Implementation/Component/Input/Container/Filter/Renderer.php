@@ -122,13 +122,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ACTION", $component->getApplyAction());
 		$tpl->parseCurrentBlock();
 
-		/*
-		$tpl->setCurrentBlock("url");
-		$tpl->setVariable("ACTION_NAME", "reset");
-		$tpl->setVariable("ACTION", $component->getResetAction());
-		$tpl->parseCurrentBlock();
-		*/
-
 		// render apply and reset buttons
 		$apply = $f->button()->bulky($f->glyph()->apply(), $this->txt("apply"), "");
 
@@ -225,7 +218,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("enabled");
 		} else {
 			$tpl->touchBlock("disabled");
-			$input_group = $input_group->withLabel("disabled");
+			$input_group = $input_group->withDisabled(true);
 		}
 
 		$renderer = $default_renderer->withAdditionalContext($component);
