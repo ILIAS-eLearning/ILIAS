@@ -430,10 +430,13 @@ class ilTemplate extends HTML_Template_ITX
 		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)		
 		return (isset($this->blockvariables["content"][$a_blockname]) ? true : false) | (isset($this->blockvariables[$a_blockname]) ? true : false);
 	}
-	
+
+
 	/**
-	* Add a javascript file that should be included in the header.
-	*/
+	 * Add a javascript file that should be included in the header.
+	 *
+	 * @param string $a_js_file
+	 */
 	function addJavaScript($a_js_file)
 	{
 		if (!in_array($a_js_file, $this->js_files))
@@ -442,51 +445,57 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 
-	function fillJavaScriptFiles()
-	{
-		global $ilias,$ilTabs;
-		if ($this->blockExists("js_file"))
-		{
-			foreach($this->js_files as $file)
-			{
-				if (is_file($file) || substr($file, 0, 4) == "http")
-				{
-					$this->setCurrentBlock("js_file");
-					$this->setVariable("JS_FILE", $file);
-					$this->parseCurrentBlock();
-				}
+
+	/**
+	 * Fill in the js file tags
+	 *
+	 * @param bool $a_force
+	 */
+	public function fillJavaScriptFiles($a_force) {
+		if (!$this->blockExists("js_file")) {
+			return;
+		}
+		foreach ($this->js_files as $file) {
+			if (strpos($file, "?") > 0) {
+				$file = substr($file, 0, strpos($file, "?"));
+			}
+			if (is_file($file) || substr($file, 0, 4) == "http" || $a_force) {
+				$this->setCurrentBlock("js_file");
+				$this->setVariable("JS_FILE", $file);
+				$this->parseCurrentBlock();
 			}
 		}
 	}
 
+
 	/**
 	 * Add a css file that should be included in the header.
+	 *
+	 * @param string $a_css_file
+	 * @param string $media
 	 */
-	function addCss($a_css_file, $media = "screen")
-	{
-		if (!array_key_exists($a_css_file . $media, $this->css_files))
-		{
-			$this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
+	public function addCss($a_css_file, $media = "screen") {
+		if (!array_key_exists($a_css_file . $media, $this->css_files)) {
+			$this->css_files[$a_css_file . $media] = array( "file" => $a_css_file, "media" => $media );
 		}
 	}
+
 
 	/**
 	 * Fill in the css file tags
 	 *
-	 * @param boolean $a_force
+	 * @param bool $a_force
 	 */
-	function fillCssFiles($a_force = false)
-	{
-		if (!$this->blockExists("css_file"))
-		{
+	public function fillCssFiles($a_force = false) {
+		if (!$this->blockExists("css_file")) {
 			return;
 		}
-		foreach($this->css_files as $css)
-		{
+		foreach ($this->css_files as $css) {
 			$filename = $css["file"];
-			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
-			if (is_file($filename) || $a_force)
-			{
+			if (strpos($filename, "?") > 0) {
+				$filename = substr($filename, 0, strpos($filename, "?"));
+			}
+			if (is_file($filename) || substr($filename, 0, 4) == "http" || $a_force) {
 				$this->setCurrentBlock("css_file");
 				$this->setVariable("CSS_FILE", $css["file"]);
 				$this->setVariable("CSS_MEDIA", $css["media"]);
