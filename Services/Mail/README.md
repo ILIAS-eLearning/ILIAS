@@ -243,7 +243,7 @@ Role object mailbox address:
 * If the object title identifies an object that is not an ILIAS role, then the local-part is used to identify a local role for that object.
 * The local part can be a substring of the role name. For example, "#member" can be used instead of "#il_crs_member_1234".
 * Examples: \#il_role_1000 / \#il_crs_member_998 / \#member@\[French Course\]
-* Such addresses can be created via `\ilMailRoleAddressType::getRoleMailboxAddress($roleObjId);`
+* Such addresses can be created by `\ilRoleMailboxAddress`
 
 External email address:
 * The local part MUST NOT start with a "#" character.

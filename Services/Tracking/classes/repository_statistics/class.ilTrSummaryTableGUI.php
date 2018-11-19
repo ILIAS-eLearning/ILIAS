@@ -566,7 +566,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			{
 				$perc = round($others_sum/$overall*100);
 				$result[] = array(
-					"caption" => $otherss_counter."  ".$lng->txt("trac_others"),
+					"caption" => $others_counter."  ".$lng->txt("trac_others"),
 					"absolute" => $others_sum, // ." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
 					"percentage" => $perc
 					);

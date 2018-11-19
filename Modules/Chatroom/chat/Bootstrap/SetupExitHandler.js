@@ -4,7 +4,7 @@ var async = require('async');
 /**
  *
  */
-module.exports = function SetupExitHandler(callback) {
+module.exports = function SetupExitHandler(result, callback) {
 
 	var CONST_NO_CLEANUP_CODE = 99;
 

@@ -10,7 +10,6 @@
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
 
-
 /*
 /* rtl-review */
 /* with specifics imports
@@ -19,6 +18,7 @@ to elements with different left/right margin, padding, border, position, float, 
 In theory, you should also invert shadow... but i think we could postpone this to another release...
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
+
 
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
@@ -43,6 +43,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{bsbase}tables.less";
 @import "@{bsbase}forms.less";
 @import "@{bsbase}buttons.less";
+
 
 // Components
 @import "@{bsbase}component-animations.less";
@@ -87,6 +88,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Dropzone/dropzone.less";
 @import "@{uibase}Button/button.less";
 @import "@{uibase}Button/tag.less";
+@import "@{uibase}Button/toggle.less";
 @import "@{uibase}Divider/divider.less";
 @import "@{uibase}Dropdown/dropdown.less";
 @import "@{uibase}Item/item.less";
@@ -1835,7 +1837,8 @@ img.ilSmallIcon {
 @import "less/Services/BackgroundTasks/delos.less";
 @import "less/Modules/OrgUnit/delos.less";
 @import "less/Services/Like/delos.less";
-
+@import "less/Modules/LearningSequence/delos.less";
+@import "less/Services/LearningHistory/delos.less";
 
 .noMargin {
 	margin: 0;

@@ -92,7 +92,8 @@ class ilObjectDefinition// extends ilSaxParser
 				'administration' => $rec['administration'],
 				'amet' => $rec['amet'],
 				'orgunit_permissions' => $rec['orgunit_permissions'],
-				'lti_provider' => $rec['lti_provider']
+				'lti_provider' => $rec['lti_provider'],
+				'offline_handling' => $rec['offline_handling']
 			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -155,7 +156,8 @@ class ilObjectDefinition// extends ilSaxParser
 				'administration' => $rec['administration'],
 				'amet' => $rec['amet'],
 				'orgunit_permissions' => $rec['orgunit_permissions'],
-				'lti_provider' => $rec['lti_provider']
+				'lti_provider' => $rec['lti_provider'],
+				'offline_handling' => $rec['offline_handling']
 			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -1172,6 +1174,20 @@ class ilObjectDefinition// extends ilSaxParser
 	}
 
 	/**
+	 * check whether obj_type supports centralised offline handling
+	 *
+	 * @param $a_obj_type
+	 * @return bool
+	 */
+	public function supportsOfflineHandling($a_obj_type)
+	{
+		return
+			isset($this->obj_data[$a_obj_type]) &&
+			(bool) $this->obj_data[$a_obj_type]['offline_handling'];
+	}
+
+
+	/**
 	 * Loads the different plugins into the object definition.
 	 * @internal param $ilPluginAdmin
 	 * @internal param $rec
@@ -1220,7 +1236,8 @@ class ilObjectDefinition// extends ilSaxParser
 					'workspace' => '0',
 					'administration' => $isInAdministration?'1':'0',
 					"sideblock" => "0",
-					'export' => $ilPluginAdmin->supportsExport($component, $slotName, $slotId, $pl_name)
+					'export' => $ilPluginAdmin->supportsExport($component, $slotName, $slotId, $pl_name),
+					'offline_handling' => '0'
 				);
 				$parent_types = $pl->getParentTypes();
 				foreach($parent_types as $parent_type) {

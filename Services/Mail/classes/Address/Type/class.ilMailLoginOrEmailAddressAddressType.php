@@ -7,26 +7,48 @@
  */
 class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 {
+	/** @var \ilRbacSystem */
+	protected $rbacsystem;
+
+	/**
+	 * ilMailMailingListAddressType constructor.
+	 * @param \ilMailAddressTypeHelper $typeHelper
+	 * @param \ilMailAddress           $address
+	 * @param \ilLogger                $logger
+	 * @param \ilRbacSystem            $rbacsystem
+	 */
+	public function __construct(
+		\ilMailAddressTypeHelper $typeHelper,
+		\ilMailAddress $address,
+		\ilLogger $logger,
+		\ilRbacSystem $rbacsystem
+	) {
+		parent::__construct($typeHelper, $address, $logger);
+
+		$this->rbacsystem = $rbacsystem;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
-	protected function isValid(int $a_sender_id): bool
+	protected function isValid(int $senderId): bool
 	{
-		if ($this->address->getHost() == ilMail::ILIAS_HOST) {
-			$usr_id = ilObjUser::getUserIdByLogin($this->address->getMailbox());
+		if ($this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+			$usrId = $this->typeHelper->getUserIdByLogin($this->address->getMailbox());
 		} else {
-			$usr_id = false;
+			$usrId = false;
 		}
 
-		if (!$usr_id && $this->address->getHost() == ilMail::ILIAS_HOST) {
-			$this->errors[] = ['mail_recipient_not_found', $this->address->getMailbox()];
+		if (!$usrId && $this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+			$this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
 			return false;
 		}
 
-		if (
-			$usr_id &&
-			!$this->rbacsystem->checkAccessOfUser($usr_id, 'internal_mail', \ilMailGlobalServices::getMailObjectRefId())) {
-			$this->errors[] = ['user_cant_receive_mail', $this->address->getMailbox()];
+		if ($usrId && !$this->rbacsystem->checkAccessOfUser(
+			$usrId, 'internal_mail',
+			$this->typeHelper->getGlobalMailSystemId()
+		)) {
+			$this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
 			return false;
 		}
 
@@ -38,30 +60,30 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 	 */
 	public function resolve(): array
 	{
-		if ($this->address->getHost() == \ilMail::ILIAS_HOST) {
+		if ($this->address->getHost() == $this->typeHelper->getInstallationHost()) {
 			$address = $this->address->getMailbox();
 
 		} else {
-			$address = $this->address->getMailbox() . '@' . $this->address->getHost();
+			$address = (string)$this->address;
 		}
 
-		$usr_ids = array_filter([
-			\ilObjUser::getUserIdByLogin($address)
+		$usrIds = array_filter([
+			$this->typeHelper->getUserIdByLogin($address)
 		]);
 
-		if (count($usr_ids) > 0) {
-			\ilLoggerFactory::getLogger('mail')->debug(sprintf(
+		if (count($usrIds) > 0) {
+			$this->logger->debug(sprintf(
 				"Found the following user ids for address (login) '%s': %s", $address,
-				implode(', ', array_unique($usr_ids))
+				implode(', ', array_unique($usrIds))
 			));
 		} else {
 			if (strlen($address) > 0) {
-				\ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				$this->logger->debug(sprintf(
 					"Did not find any user account for address (login) '%s'", $address
 				));
 			}
 		}
 
-		return $usr_ids;
+		return $usrIds;
 	}
 }

@@ -25,7 +25,8 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 */
 	public function create()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
@@ -53,16 +54,21 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		$test_id = $_REQUEST["tst_id"];
 		if($test_id)
 		{
-			include_once "Modules/Test/classes/class.ilObjTest.php";
 			$test = new ilObjTest($test_id, false);
 
-			include_once "Modules/Test/classes/class.ilObjTestVerification.php";
-			$newObj = ilObjTestVerification::createFromTest($test, $ilUser->getId());
+			try {
+				$newObj = ilObjTestVerification::createFromTest($test, $ilUser->getId());
+			} catch (\Exception $exception) {
+				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+				return $this->create();
+			}
+
 			if($newObj)
 			{				
 				$parent_id = $this->node_id;
@@ -100,7 +106,9 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 */
 	public function render($a_return = false, $a_url = false)
 	{
-		global $ilUser, $lng;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		
 		if(!$a_return)
 		{					
@@ -146,7 +154,8 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	
 	function downloadFromPortfolioPage(ilPortfolioPage $a_page)
 	{		
-		global $ilErr;
+		global $DIC;
+		$ilErr = $DIC['ilErr'];
 		
 		include_once "Services/COPage/classes/class.ilPCVerification.php";
 		if(ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId()))

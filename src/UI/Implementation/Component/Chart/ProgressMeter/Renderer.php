@@ -143,19 +143,31 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.progressmeter_mini.html", true, true);
 
-        // set skew and rotation for process bars
-        $tpl = $this->modifyProgressBar($tpl, $component->getMainValueAsPercent(), 'MAIN');
+        // new vars
+		/*
+		 * COLOR_ONE_CLASS
+		 * BAR_ONE_WIDTH
+		 * ROTATE_ONE
+		 * NEEDLE_ONE_CLASS
+		 */
+
+		$main_percentage = $component->getMainValueAsPercent();
 
         // set progress bar color class
-        $tpl = $this->modifyProgressBarClasses($tpl, $component);
-
+		$color_class = 'no-success';
+		if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+			$color_class = 'success';
+		}
+		$tpl->setVariable('COLOR_ONE_CLASS', $color_class);
+        // set width for process bars
+		$tpl->setVariable('BAR_ONE_WIDTH', (86.5 * ($main_percentage / 100)));
         // set marker position
+		$needle_class = 'no-needle';
         if($component->getRequired() != $component->getMaximum()) {
-            $tpl->setVariable("MARKER_POS", $this->getMarkerPos($component->getRequiredAsPercent()));
-        } else {
-            $tpl->setVariable("MARKER_POS",'0');
-            $tpl->touchBlock('marker-hidden');
-        }
+			$needle_class = 'needle_color';
+			$tpl->setVariable('ROTATE_ONE', $this->getMarkerPos($component->getRequiredAsPercent()));
+		}
+		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
 
         $tpl->parseCurrentBlock();
 

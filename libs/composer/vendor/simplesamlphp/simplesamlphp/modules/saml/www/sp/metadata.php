@@ -164,6 +164,14 @@ if ($name !== null && !empty($attributes)) {
     if ($nameFormat !== null) {
         $metaArray20['attributes.NameFormat'] = $nameFormat;
     }
+
+    if ($spconfig->hasValue('attributes.index')) {
+        $metaArray20['attributes.index'] = $spconfig->getInteger('attributes.index', 0);
+    }
+
+    if ($spconfig->hasValue('attributes.isDefault')) {
+        $metaArray20['attributes.isDefault'] = $spconfig->getBoolean('attributes.isDefault', false);
+    }
 }
 
 // add organization info
@@ -190,7 +198,7 @@ if ($spconfig->hasValue('contacts')) {
 }
 
 // add technical contact
-$email = $config->getString('technicalcontact_email', 'na@example.org', false);
+$email = $config->getString('technicalcontact_email', 'na@example.org');
 if ($email && $email !== 'na@example.org') {
     $techcontact['emailAddress'] = $email;
     $techcontact['name'] = $config->getString('technicalcontact_name', null);
@@ -257,7 +265,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
 
     $t->data['clipboard.js'] = true;
     $t->data['header'] = 'saml20-sp'; // TODO: Replace with headerString in 2.0
-    $t->data['headerString'] = $t->noop('metadata_saml20-sp');
+    $t->data['headerString'] = \SimpleSAML\Locale\Translate::noop('metadata_saml20-sp');
     $t->data['metadata'] = htmlspecialchars($xml);
     $t->data['metadataflat'] = '$metadata['.var_export($entityId, true).'] = '.var_export($metaArray20, true).';';
     $t->data['metaurl'] = $source->getMetadataURL();

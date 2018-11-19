@@ -1,7 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
 use ILIAS\GlobalScreen\Identification\CoreIdentification;
+use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 
 /**
  * Class CoreSerializer
@@ -26,10 +28,13 @@ class CoreSerializer implements SerializerInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function unserialize(string $serialized_string): IdentificationInterface {
+	public function unserialize(string $serialized_string, IdentificationMap $map): IdentificationInterface {
+		global $DIC;
 		list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-		return new CoreIdentification($internal_identifier, $class_name, $this);
+		$f = new CoreIdentificationProvider(new $class_name($DIC), $this, $map);
+
+		return $f->identifier($internal_identifier);
 	}
 
 

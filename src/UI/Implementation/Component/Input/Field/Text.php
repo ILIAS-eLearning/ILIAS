@@ -5,11 +5,29 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
  * This implements the text input.
  */
 class Text extends Input implements C\Input\Field\Text {
+	/**
+	 * @inheritdoc
+	 */
+	public function __construct(
+		DataFactory $data_factory,
+		ValidationFactory $validation_factory,
+		TransformationFactory $transformation_factory,
+		$label,
+		$byline
+	) {
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		$this->setAdditionalTransformation($transformation_factory->custom(function($v) {
+			return strip_tags($v);
+		}));
+	}
 
 	/**
 	 * @inheritdoc

@@ -1,26 +1,38 @@
 <tr class="{CSS_ROW}">
 	<!-- BEGIN cb_bl -->
-	<td class="std" style="vertical-align:top;">
-		<input type="checkbox" name="entry_id[]" value="{VAL_ID}" />
+	<td class="std">
+		<input type="checkbox" name="entry_id[]" value="{VAL_ID}" {DISABLED}/>
 	</td>
 	<!-- END cb_bl -->
-	<td class="std"  style="vertical-align:top;">
+	<td class="std">
+		<!-- BEGIN order_by_position -->
+		<input type="text" class="form-control" name="order[{ORDER_ID}]" value="{ORDER_VALUE}" maxlength="3" size="3" {ORDER_DISABLED} />
+		<!-- END order_by_position -->
+	</td>
+	<td class="std">
 		{VAL_TITLE}
 		<!-- BEGIN record_desc -->
 		<br /><font class="small">{VAL_DESCRIPTION}</font>
 		<!-- END record_desc -->
 	</td>
-	<td class="std" style="vertical-align:top;">
+	<td class="std">
 		<div align="center">
 			{VAL_USAGE}
 		</div>
 	</td>
-	<td class="std" style="vertical-align:top;">
+	<td class="std">
 		{VAL_PREVIEW}
 	</td>
+	<td class="std">
+		{VAL_STATUS}
+	</td>
 	<!-- BEGIN link_bl -->
-	<td class="std" style="vertical-align:top;">
+	<td class="std">
 		<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
+		<!-- BEGIN link_usage -->
+		<br />
+		<a class="il_ContainerItemCommand" href="{USAGE_LINK}">{TXT_USAGE}</a>
+		<!-- END link_usage -->
 	</td>
 	<!-- END link_bl -->
 </tr>

@@ -101,17 +101,11 @@ class ilObjTestListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
-		$props = array();
-		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-
-		if (!ilObjTestAccess::_isOnline($this->obj_id))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
-		}
-
+		$props = parent::getProperties();
 
 		// we cannot use ilObjTestAccess::_isOffline() because of text messages
 		$onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->id);
@@ -134,7 +128,8 @@ class ilObjTestListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$a_cmd = explode('::', $a_cmd);
 		
@@ -168,7 +163,8 @@ class ilObjTestListGUI extends ilObjectListGUI
 	
 	private function handleUserResultsCommand($commands)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		if( !$this->isObjectiveTest() )
 		{

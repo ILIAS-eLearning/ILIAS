@@ -419,7 +419,16 @@ class ilTemplate extends HTML_Template_ITX
 
 			if ($txt != "")
 			{
-				$out.= $this->getMessageHTML($txt, $m);
+				// this is a workaround that allows to send rendered message boxes directly
+				// should be removed if we have a decent place for messages in a new ks layout
+				if (strpos($txt, 'role="alert"') > 0)
+				{
+					$out.= $txt;
+				}
+				else
+				{
+					$out.= $this->getMessageHTML($txt, $m);
+				}
 			}
 		
 			if ($m == self::MESSAGE_TYPE_QUESTION)
@@ -1051,14 +1060,6 @@ class ilTemplate extends HTML_Template_ITX
 				$ftpl->setCurrentBlock("call_history");
 				$ftpl->parseCurrentBlock();
 				
-				// debug hack
-				$debug = $ilCtrl->getDebug();
-				foreach($debug as $d)
-				{
-					$ftpl->setCurrentBlock("c_entry");
-					$ftpl->setVariable("C_ENTRY", $d);
-					$ftpl->parseCurrentBlock();
-				}
 				$ftpl->setCurrentBlock("call_history");
 				$ftpl->parseCurrentBlock();
 			}

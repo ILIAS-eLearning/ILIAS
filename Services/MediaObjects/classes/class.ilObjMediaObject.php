@@ -795,10 +795,9 @@ class ilObjMediaObject extends ilObject
 					}
 					else
 					{
-						$location = $item->getLocation();
+						$location = ilUtil::secureUrl($item->getLocation());
 					}
 
-					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
 						$this->handleAmps($location)."</Location>";
 

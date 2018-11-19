@@ -17,7 +17,7 @@ class ilMailPearRfc822WrapperAddressParser extends \ilBaseMailRfc822AddressParse
 		}
 
 		$parser           = new \Mail_RFC822();
-		$parsed_addresses = $parser->parseAddressList($a_addresses, \ilMail::ILIAS_HOST, false, true);
+		$parsed_addresses = $parser->parseAddressList($a_addresses, $this->installationHost, false, true);
 
 		return array_map(function ($address) {
 			return new \ilMailAddress($address->mailbox, $address->host);

@@ -31,6 +31,8 @@ class ilSCORMPresentationGUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 
+		$this->lng->loadLanguageModule('cert');
+
 		// Todo: check lm id
 		$this->slm = new ilObjSCORMLearningModule($_GET["ref_id"], true);
 	}
@@ -47,7 +49,7 @@ class ilSCORMPresentationGUI
 
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
 			(!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) ||
-			!$this->slm->getOnline()))
+			$this->object->getOfflineStatus()))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
@@ -821,7 +823,11 @@ class ilSCORMPresentationGUI
 	*/
 	public function downloadCertificate()
 	{
-		global $ilUser, $tree, $ilCtrl;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$tree = $DIC['tree'];
+		$ilCtrl = $DIC->ctrl();
 
 		$allowed = false;
 		$last_access = 0;
@@ -850,14 +856,19 @@ class ilSCORMPresentationGUI
 		
 		if ($allowed)
 		{
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";
-			include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-			$certificate = new ilCertificate(new ilSCORMCertificateAdapter($this->slm));
-			$params = array(
-				"user_data" => ilObjUser::_lookupFields($ilUser->getId()),
-				"last_access" => $last_access
+			$certificateLogger = $DIC->logger()->cert();
+
+			$ilUserCertificateRepository = new ilUserCertificateRepository();
+			$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $certificateLogger);
+
+			$pdfAction = new ilCertificatePdfAction(
+				$certificateLogger,
+				$pdfGenerator,
+				new ilCertificateUtilHelper(),
+				$this->lng->txt('error_creating_certificate_pdf')
 			);
-			$certificate->outCertificate($params, true);
+
+			$pdfAction->downloadPdf($ilUser->getId(), $obj_id);
 			exit;
 		}
 		// redirect to parent category if certificate is not accessible

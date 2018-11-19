@@ -33,7 +33,8 @@ class PaginationTest extends ILIAS_UI_TestBase {
 			$this->createMock(C\Chart\Factory::class),
 			$this->createMock(C\Input\Factory::class),
 			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class)
+			$this->createMock(C\MessageBox\Factory::class),
+			$this->createMock(C\Card\Factory::class)
 		);
 	}
 

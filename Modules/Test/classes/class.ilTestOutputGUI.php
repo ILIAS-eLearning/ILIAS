@@ -29,7 +29,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilDB, $ilPluginAdmin, $lng, $ilTabs;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$lng = $DIC['lng'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$this->checkReadAccess();
 
@@ -148,7 +152,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function startTestCmd()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$_SESSION['tst_pass_finish'] = 0;
 
@@ -227,7 +232,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	
 	protected function updateLearningProgressOnTestStart()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		require_once ('./Modules/Test/classes/class.ilObjTestAccess.php');
 		require_once('./Services/Tracking/classes/class.ilLPStatusWrapper.php');
@@ -747,7 +753,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				// Something went wrong. Maybe the user pressed the start button twice
 				// Questions already exist so there is no need to create new questions
 
-				global $ilLog, $ilUser;
+				global $DIC;
+				$ilLog = $DIC['ilLog'];
+				$ilUser = $DIC['ilUser'];
 
 				$ilLog->write(
 					__METHOD__.' Random Questions allready exists for user '.
@@ -761,7 +769,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			// This may not happen! If it happens, raise a fatal error...
 
-			global $ilLog, $ilUser;
+			global $DIC;
+			$ilLog = $DIC['ilLog'];
+			$ilUser = $DIC['ilUser'];
 
 			$ilLog->write(__METHOD__.' '.sprintf(
 				$this->lng->txt("error_random_question_generation"), $ilUser->getId(), $this->object->getTestId()
@@ -775,7 +785,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function generateRandomTestPassForActiveUser()
 	{
-		global $tree, $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
@@ -861,7 +874,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function adoptUserSolutionsFromPreviousPass()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$assSettings = new ilSetting('assessment');
 

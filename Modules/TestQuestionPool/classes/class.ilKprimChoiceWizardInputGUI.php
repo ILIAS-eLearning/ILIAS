@@ -37,7 +37,9 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		
-		global $lng, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -99,7 +101,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if( is_array($_POST[$this->getPostVar()]) )

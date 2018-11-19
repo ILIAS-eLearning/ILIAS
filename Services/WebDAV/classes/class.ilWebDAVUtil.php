@@ -2,9 +2,10 @@
 
 /**
  * This class contains some functions from the old ilDAVServer.
- * To be refactored...
+ * Sadly I wasn't able to refactor all of it. Some functions are still used in other classes. Will be refactored
  * 
- * @author faheer
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
  *
  * TODO: Check for refactoring potential
  */
@@ -568,7 +569,7 @@ class ilWebDAVUtil
         global $ilClientIniFile;
         return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
     }
-    
+
     /**
      * TODO: Check if needed and refactor
      * Gets the maximum permitted upload filesize from php.ini in bytes.
@@ -577,7 +578,7 @@ class ilWebDAVUtil
      */
     private function getUploadMaxFilesize() {
         $val = ini_get('upload_max_filesize');
-        
+
         $val = trim($val);
         $last = strtolower($val[strlen($val)-1]);
         switch($last) {
@@ -589,23 +590,23 @@ class ilWebDAVUtil
             case 'k':
                 $val *= 1024;
         }
-        
+
         return $val;
     }
-    
+
     private static $instance = null;
-    
+
     private $pwd_instruction = null;
-    
+
     /**
      * Singleton constructor
      * @return
      */
     private function __construct()
     {
-        
+
     }
-    
+
     /**
      * Get singleton instance
      * @return object ilDAVUtils
@@ -618,7 +619,7 @@ class ilWebDAVUtil
         }
         return self::$instance = new ilWebDAVUtil();
     }
-    
+
     /**
      *
      * @return
@@ -627,7 +628,7 @@ class ilWebDAVUtil
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        
+
         if($this->pwd_instruction !== NULL)
         {
             return $this->pwd_instruction;

@@ -74,7 +74,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
     function executeCommand()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-        global $ilCtrl, $ilTabs, $ilUser, $lng;
+        $ilCtrl = $DIC['ilCtrl'];
+        $ilTabs = $DIC['ilTabs'];
+        $ilUser = $DIC['ilUser'];
+        $lng = $DIC['lng'];
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -165,9 +168,20 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		    
 					if( $total != 0 )
 					{
-						$link = $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
-						$link = "<a href=\"".$link."\">".$lng->txt("test_has_datasets_warning_page_view_link")."</a>";
-						ilUtil::sendInfo($lng->txt("test_has_datasets_warning_page_view")." ".$link);
+						$link = $DIC->ui()->factory()->link()->standard(
+							$DIC->language()->txt("test_has_datasets_warning_page_view_link"),
+							$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'))
+						);
+						
+						$message = $DIC->language()->txt("test_has_datasets_warning_page_view");
+						
+						$msgBox = $DIC->ui()->factory()->messageBox()->info($message)->withLinks(array($link));
+						
+						$DIC->ui()->mainTemplate()->setCurrentBlock('mess');
+						$DIC->ui()->mainTemplate()->setVariable('MESSAGE',
+							$DIC->ui()->renderer()->render($msgBox)
+						);
+						$DIC->ui()->mainTemplate()->parseCurrentBlock();
 					}
 		    
                     if( (in_array($cmd, array('view', 'showPage')) || $cmd == 'edit') && $this->test_object->evalTotalPersons() )
@@ -213,7 +227,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function addPageOfQuestions($type = '')
 	{
-        global $ilCtrl;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
         
 		if( !$type )
 		{
@@ -236,7 +251,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function handleToolbarCommand()
 	{
-  		global $ilCtrl;
+  		global $DIC;
+  		$ilCtrl = $DIC['ilCtrl'];
 		
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		
@@ -338,7 +354,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function addQuestion()
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
@@ -353,7 +372,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 		$pool = new ilObjQuestionPool();
-		$questionTypes = $pool->getQuestionTypes(false, true);
+		$questionTypes = $pool->getQuestionTypes(false, true, false);
 		$options = array();
 
 		// question type
@@ -447,7 +466,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function questions()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$ilCtrl->saveParameterByClass('ilobjtestgui', 'q_id');
 		
@@ -499,7 +519,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$manscoring = FALSE;
 				
-			global $tree, $ilDB, $ilPluginAdmin;
+			global $DIC;
+			$tree = $DIC['tree'];
+			$ilDB = $DIC['ilDB'];
+			$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 			require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 			$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this->test_object);

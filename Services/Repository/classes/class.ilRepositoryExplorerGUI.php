@@ -126,6 +126,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		{
 			$this->setPathOpen((int) $_GET["ref_id"]);
 		}
+
+		$this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
 	}
 		
 	/**
@@ -645,7 +647,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 					{
 						include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 						$lm_obj = new ilObjLearningModule($a_node["child"]);
-						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write', $a_node["child"])))
+						if(($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $a_node["child"])))
 						{
 							return false;
 						}
@@ -655,7 +657,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 					{
 						include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
 						$lm_obj = new ilObjFileBasedLM($a_node["child"]);
-						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write', $a_node["child"])))
+						if(($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $a_node["child"])))
 						{
 							return false;
 						}
@@ -665,7 +667,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 					{
 						include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 						$lm_obj = new ilObjSAHSLearningModule($a_node["child"]);
-						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write', $a_node["child"])))
+						if(($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $a_node["child"])))
 						{
 							return false;
 						}

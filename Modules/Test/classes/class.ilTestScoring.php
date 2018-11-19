@@ -24,9 +24,6 @@ class ilTestScoring
 {
 	/** @var ilObjTest $test */
 	protected $test;
-	
-	/** @var ilObjTestGUI $testGUI*/
-	protected $testGUI;
 
 	/** @var bool $preserve_manual_scores */
 	protected $preserve_manual_scores;
@@ -39,9 +36,6 @@ class ilTestScoring
 		$this->preserve_manual_scores = false;
 		
 		$this->recalculatedPasses = array();
-
-		require_once './Modules/Test/classes/class.ilObjTestGUI.php';
-		$this->testGUI = new ilObjTestGUI();
 	}
 
 	/**
@@ -183,5 +177,31 @@ class ilTestScoring
 		}
 
 		$this->recalculatedPasses[$activeId][] = $pass;
+	}
+	
+	public function removeAllQuestionResults($questionId)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$query = "DELETE FROM tst_test_result WHERE question_fi = %s";
+		$DIC->database()->manipulateF($query, array('integer'), array($questionId));
+	}
+	
+	public function updatePassAndTestResults($activeIds)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		foreach($activeIds as $activeId)
+		{
+			$passSelector = new ilTestPassesSelector($DIC->database(), $this->test);
+			$passSelector->setActiveId($activeId);
+			
+			foreach($passSelector->getExistingPasses() as $pass)
+			{
+				assQuestion::_updateTestPassResults($activeId, $pass, $this->test->areObligationsEnabled());
+			}
+			
+			assQuestion::_updateTestResultCache($activeId);
+		}
 	}
 }

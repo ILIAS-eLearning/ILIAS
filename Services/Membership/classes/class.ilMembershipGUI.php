@@ -119,8 +119,15 @@ class ilMembershipGUI
 		{
 			return $this->participants;
 		}
-		include_once './Services/Membership/classes/class.ilParticipants.php';
-		return $this->participants = ilParticipants::getInstanceByObjId($this->getParentObject()->getId());
+		return $this->participants = ilParticipants::getInstance($this->getParentObject()->getRefId());
+	}
+
+	/**
+	 * @return null
+	 */
+	protected function getMailMemberRoles()
+	{
+		return null;
 	}
 	
 	/**
@@ -266,49 +273,32 @@ class ilMembershipGUI
 			
 			
 			case 'ilmailmembersearchgui':
-
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget(
 					$this->lng->txt('btn_back'),
 					$this->ctrl->getLinkTarget($this,$this->getDefaultCommand())
 				);
-				
-				include_once 'Services/Mail/classes/class.ilMail.php';
+
 				$mail = new ilMail($ilUser->getId());
-				include_once 'Modules/Course/classes/class.ilCourseConstants.php';
-				if(
-					!(
-						$this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
-						$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId())
-					) ||  !$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId())
-				)
-				{
+				if(!(
+					$this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+					$ilAccess->checkAccess('manage_members',"",$this->getParentObject()->getRefId())) ||
+					!$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()
+				)) {
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
 				
-				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
-				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
-
-
-				switch($this->getParentObject()->getType())
-				{
-					case 'grp':
-						$objroles = new ilMailMemberGroupRoles();
-						break;
-
-					default:
-						$objroles = new ilMailMemberCourseRoles();
-						break;
-				}
-
-				// @todo: fix mail course roles object
-				$mail_search = new ilMailMemberSearchGUI($this, $this->getParentObject()->getRefId(), $objroles);
+				$mail_search = new ilMailMemberSearchGUI(
+					$this,
+					$this->getParentObject()->getRefId(),
+					$this->getMailMemberRoles()
+				);
 				$mail_search->setObjParticipants(
-					ilParticipants::getInstanceByObjId($this->getParentObject()->getId())
+					ilParticipants::getInstance($this->getParentObject()->getRefId())
 				);
 				$this->ctrl->forwardCommand($mail_search);
 				break;
-				
+
 			case 'ilusersgallerygui':
 				
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
@@ -777,6 +767,9 @@ class ilMembershipGUI
 						include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 						$mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
 						break;
+					case 'lso':
+						$mail_type = ilLearningSequenceMembershipMailNotification::TYPE_DISMISS_MEMBER;
+						break;
 				}
 				$this->getMembersObject()->sendNotification($mail_type, $usr_id);
 			}
@@ -821,22 +814,8 @@ class ilMembershipGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
-		
-		$context_options = [];
-		
-		// @todo refactor
-		if($this->getParentObject()->getType() == 'crs')
-		{
-			$context_options = 
-				array(
-					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-					'ref_id' => $this->getParentObject()->getRefId(),
-					'ts'     => time()
-			);
-		}
-		
+
+		$context_options = $this->getMailContextOptions();
 
 		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(
@@ -852,6 +831,17 @@ class ilMembershipGUI
 			)
 		);		
 	}
+
+	/**
+	 * Get mail context options
+	 * @return array
+	 */
+	protected function getMailContextOptions()
+	{
+		$context_options = [];
+		return $context_options;
+	}
+
 	
 	/**
 	 * Members map
@@ -1068,7 +1058,9 @@ class ilMembershipGUI
 		
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
-		
+
+		$member_tab_name = $this->getMemberTabName();
+
 		$has_manage_members_permission = $this->checkRbacOrPositionAccessBool(
 			'manage_members', 
 			'manage_members', 
@@ -1079,7 +1071,7 @@ class ilMembershipGUI
 		{
 			$tabs->addTab(
 				'members',
-				$this->lng->txt('members'),
+				$member_tab_name,
 				$this->ctrl->getLinkTarget($this,'')
 			);
 		}
@@ -1089,7 +1081,7 @@ class ilMembershipGUI
 		{
 			$tabs->addTab(
 				'members',
-				$this->lng->txt('members'),
+				$member_tab_name,
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilusersgallerygui'), 'view')
 			);
 		}
@@ -1101,10 +1093,19 @@ class ilMembershipGUI
 		{
 			$tabs->addTab(
 				'members',
-				$this->lng->txt('members'),
+				$member_tab_name,
 				$this->ctrl->getLinkTarget($this, "mailMembersBtn")
 			);
 		}
+	}
+
+	/**
+	 * Get member tab name
+	 * @return string
+	 */
+	protected function getMemberTabName()
+	{
+		return $this->lng->txt('members');
 	}
 	
 	/**
@@ -1343,6 +1344,12 @@ class ilMembershipGUI
 					$noti->setRecipients(array($usr_id));
 					$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
 					$noti->send();
+				}
+				if ($this instanceof ilLearningSequenceMembershipGUI) {
+					$this->getMembersObject()->sendNotification(
+						ilLearningSequenceMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
+						$user_id
+					);
 				}
 			}
 		}

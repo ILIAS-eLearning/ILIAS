@@ -39,7 +39,7 @@ class Key implements \ArrayAccess
      */
     public function canBeUsedFor($usage)
     {
-        if (!in_array($usage, static::getValidKeyUsages())) {
+        if (!in_array($usage, static::getValidKeyUsages(), true)) {
             throw new InvalidKeyUsageException($usage);
         }
 

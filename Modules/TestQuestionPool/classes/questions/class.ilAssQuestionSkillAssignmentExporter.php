@@ -84,7 +84,8 @@ class ilAssQuestionSkillAssignmentExporter
 
 	public function export()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->getXmlWriter()->xmlStartTag('QuestionSkillAssignments');
 		

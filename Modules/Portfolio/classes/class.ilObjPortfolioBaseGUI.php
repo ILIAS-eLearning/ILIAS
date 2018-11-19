@@ -203,9 +203,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{							
 		$this->setSettingsSubTabs("properties");
 		
-		// comments
-		$comments = new ilCheckboxInputGUI($this->lng->txt("prtf_public_comments"), "comments");
-		$a_form->addItem($comments);
 
 		// profile picture
 		$ppic = new ilCheckboxInputGUI($this->lng->txt("prtf_profile_picture"), "ppic");
@@ -230,6 +227,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				$img->setImage($file);
 			}		
 		}
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_features'));
+		$a_form->addItem($section);
+
+		// comments
+		$comments = new ilCheckboxInputGUI($this->lng->txt("prtf_public_comments"), "comments");
+		$a_form->addItem($comments);
 
 		/* #15000
 		$bg_color = new ilColorPickerInputGUI($this->lng->txt("prtf_background_color"), "bg_color");
@@ -333,14 +338,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$table = new ilPortfolioPageTableGUI($this, "view");
 		
 		// exercise portfolio?			
-		include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";			
-		$exercises = ilPortfolioExerciseGUI::checkExercise($this->user_id, $this->object->getId(), $table->dataExists());
-		if($exercises)
-		{			
-			ilUtil::sendInfo($exercises);												
-		}
+		include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";
+		$message = ilPortfolioExerciseGUI::checkExercise($this->user_id, $this->object->getId(), $table->dataExists());
 		
-		$this->tpl->setContent($table->getHTML());
+		$this->tpl->setContent($message.$table->getHTML());
 	}
 	
 	/**
@@ -520,8 +521,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Confirm portfolio deletion
 	 */
 	function confirmPortfolioPageDeletion()
-	{		
-		if (!is_array($_POST["prtf_pages"]) || count($_POST["prtf_pages"]) == 0)
+	{
+		$prtf_pages = $_REQUEST["prtf_pages"];
+
+		if (!is_array($prtf_pages) || count($prtf_pages) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "view");
@@ -537,9 +540,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$cgui->setCancel($this->lng->txt("cancel"), "view");
 			$cgui->setConfirm($this->lng->txt("delete"), "deletePortfolioPages");
 
-			foreach ($_POST["prtf_pages"] as $id)
+			foreach ($prtf_pages as $id)
 			{
-				$page = $this->getPageInstance($id);
+				$page = $this->getPageInstance((int) $id);
+				if ($page->getPortfolioId() != $this->object->getId())
+				{
+					continue;
+				}
+
 				$title = $page->getTitle();
 				if($page->getType() == ilPortfolioPage::TYPE_BLOG)
 				{
@@ -880,8 +888,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Select target portfolio for page(s) copy
 	 */
 	function copyPageForm($a_form = null)
-	{		
-		if (!is_array($_POST["prtf_pages"]) || count($_POST["prtf_pages"]) == 0)
+	{
+		$prtf_pages = $_REQUEST["prtf_pages"];
+
+		if (!is_array($prtf_pages) || count($prtf_pages) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "view");
@@ -895,10 +905,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				$a_form = $this->initCopyPageForm();
 			}
 		
-			foreach($_POST["prtf_pages"] as $page_id)
+			foreach($prtf_pages as $page_id)
 			{
 				$item = new ilHiddenInputGUI("prtf_pages[]");
-				$item->setValue($page_id);
+				$item->setValue((int) $page_id);
 				$a_form->addItem($item);
 			}
 			

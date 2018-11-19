@@ -1,12 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/classes/class.ilObjUser.php';
-require_once 'Services/Mail/classes/class.ilMailbox.php';
-require_once 'Services/Mail/classes/class.ilFormatMail.php';
-require_once './Services/Mail/classes/class.ilFileDataMail.php';
-require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-
 /**
 * @author Jens Conze
 * @version $Id$
@@ -16,54 +10,34 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 */
 class ilMailFormGUI
 {
-	/**
-	 * @var \ilTemplate
-	 */
+	/** @var \ilTemplate */
 	private $tpl;
 
-	/**
-	 * @var \ilCtrl
-	 */
+	/** @var \ilCtrl */
 	private $ctrl;
 
-	/**
-	 * @var \ilLanguage
-	 */
+	/** @var \ilLanguage */
 	private $lng;
 
-	/**
-	 * @var \ilObjUser
-	 */
+	/** @var \ilObjUser */
 	private $user;
 
-	/**
-	 * @var \ilTabsGUI
-	 */
+	/** @var \ilTabsGUI */
 	private $tabs;
 
-	/**
-	 * @var \ilToolbarGUI
-	 */
+	/** @var \ilToolbarGUI */
 	private $toolbar;
 
-	/**
-	 * @var \ilRbacSystem
-	 */
+	/** @var \ilRbacSystem */
 	private $rbacsystem;
 
-	/**
-	 * @var \ilFormatMail
-	 */
+	/** @var \ilFormatMail */
 	private $umail;
 
-	/**
-	 * @var \ilMailBox
-	 */
+	/** @var \ilMailBox*/
 	private $mbox;
 
-	/**
-	 * @var \ilFileDataMail
-	 */
+	/** @var \ilFileDataMail */
 	private $mfile;
 
 	/** @var ilMailTemplateService */
@@ -114,42 +88,30 @@ class ilMailFormGUI
 		switch($forward_class)
 		{
 			case 'ilmailfoldergui':
-				include_once 'Services/Mail/classes/class.ilMailFolderGUI.php';
-
 				$this->ctrl->forwardCommand(new ilMailFolderGUI());
 				break;
 
 			case 'ilmailattachmentgui':
-				include_once 'Services/Mail/classes/class.ilMailAttachmentGUI.php';
-
 				$this->ctrl->setReturn($this, "returnFromAttachments");
 				$this->ctrl->forwardCommand(new ilMailAttachmentGUI());
 				break;
 
 			case 'ilmailsearchgui':
-				include_once 'Services/Contact/classes/class.ilMailSearchGUI.php';
-
 				$this->ctrl->setReturn($this, "searchResults");
 				$this->ctrl->forwardCommand(new ilMailSearchGUI());
 				break;
 
 			case 'ilmailsearchcoursesgui':
-				include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
-
 				$this->ctrl->setReturn($this, "searchResults");
 				$this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
 				break;
 			
 			case 'ilmailinglistsgui':
-				include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
-
 				$this->ctrl->setReturn($this, 'searchResults');
 				$this->ctrl->forwardCommand(new ilMailingListsGUI());
 				break;
 
 			case 'ilmailsearchgroupsgui':
-				include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
-
 				$this->ctrl->setReturn($this, "searchResults");
 				$this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
 				break;
@@ -163,7 +125,6 @@ class ilMailFormGUI
 				$this->$cmd();
 				break;
 		}
-		return true;
 	}
 
 	/**
@@ -239,9 +200,9 @@ class ilMailFormGUI
 		$files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
 		if($errors = $this->umail->validateRecipients(
-			ilUtil::securePlainString($_POST['rcp_to']),
-			ilUtil::securePlainString($_POST['rcp_cc']),
-			ilUtil::securePlainString($_POST['rcp_bcc'])
+			(string)\ilUtil::securePlainString($_POST['rcp_to']),
+			(string)\ilUtil::securePlainString($_POST['rcp_cc']),
+			(string)\ilUtil::securePlainString($_POST['rcp_bcc'])
 		))
 		{
 			$_POST['attachments'] = $files;
@@ -315,7 +276,7 @@ class ilMailFormGUI
 										 ilMailFormCall::getContextParameters()
 									);
 		}
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
 		$form = new ilPropertyFormGUI();
 		$form->setId('search_rcp');
 		$form->setTitle($this->lng->txt('search_recipients'));
@@ -653,8 +614,6 @@ class ilMailFormGUI
 				break;
 		}
 
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-
 		$form_gui = new ilPropertyFormGUI();
 		$form_gui->setTitle($this->lng->txt('compose'));
 		$form_gui->setId('mail_compose_form');
@@ -663,7 +622,6 @@ class ilMailFormGUI
 
 		$this->tpl->setVariable('FORM_ID', $form_gui->getId());
 
-		require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
 		$btn = ilButton::getInstance();
 		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT);
 		$btn->setForm('form_' . $form_gui->getName())
@@ -694,7 +652,6 @@ class ilMailFormGUI
 
 		$dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
 		
-		// RECIPIENT
 		$inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
 		$inp->setRequired(true);
 		$inp->setSize(50);
@@ -703,7 +660,6 @@ class ilMailFormGUI
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
-		// CC
 		$inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_cc"]);
@@ -711,7 +667,6 @@ class ilMailFormGUI
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
-		// BCC
 		$inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_bcc"]);
@@ -719,15 +674,12 @@ class ilMailFormGUI
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
-		// SUBJECT
 		$inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
 		$inp->setSize(50);
 		$inp->setRequired(true);
 		$inp->setValue($mailData["m_subject"]);
 		$form_gui->addItem($inp);
 
-		// Attachments
-		include_once 'Services/Mail/classes/class.ilMailFormAttachmentFormPropertyGUI.php';
 		$att = new ilMailFormAttachmentPropertyGUI($this->lng->txt( ($mailData["attachments"]) ? 'edit' : 'add' ));
 		
 		if (is_array($mailData["attachments"]) && count($mailData["attachments"]))
@@ -825,8 +777,7 @@ class ilMailFormGUI
 		{
 			$chb->setChecked(true);
 		}
-		
-		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
+
 		$placeholders = new ilManualPlaceholderInputGUI('m_message');
 		$placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
 		$placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
@@ -852,9 +803,6 @@ class ilMailFormGUI
 
 	public function lookupRecipientAsync()
 	{
-		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-		include_once 'Services/Mail/classes/class.ilMailForm.php';
-		
 		$search = $_REQUEST["term"];
 		$result = array();
 		if (!$search)
@@ -926,65 +874,15 @@ class ilMailFormGUI
 	}
 
 	/**
-	 * @param array $errors
+	 * @param $errors \ilMailError[]
 	 */
 	protected function showSubmissionErrors(array $errors)
 	{
-		$errors_to_display = array();
+		$formatter = new \ilMailErrorFormatter($this->lng);
+		$formattedErrors = $formatter->format($errors);
 
-		foreach($errors as $error)
-		{
-			$error       = array_values($error);
-			$first_error = array_shift($error);
-
-			$translation = $this->lng->txt($first_error);
-			if($translation == '-' . $first_error . '-')
-			{
-				$translation = $first_error;
-			}
-
-			if(count($error) == 0 || $translation == $first_error)
-			{
-				$errors_to_display[] = $translation;
-			}
-			else
-			{
-				// We expect all other parts of this error array are recipient addresses = input parameters
-				$error = array_map(function($address) {
-					return ilUtil::prepareFormOutput($address);
-				}, $error);
-
-				array_unshift($error, $translation);
-				$errors_to_display[] = call_user_func_array('sprintf', $error);
-			}
-		}
-
-		if(count($errors_to_display) > 0)
-		{
-			$tpl = new ilTemplate('tpl.mail_new_submission_errors.html', true, true, 'Services/Mail');
-			if(count($errors_to_display) == 1)
-			{
-				$tpl->setCurrentBlock('single_error');
-				$tpl->setVariable('SINGLE_ERROR', current($errors_to_display));
-				$tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$first_error = array_shift($errors_to_display);
-
-				foreach($errors_to_display as $error)
-				{
-					$tpl->setCurrentBlock('error_loop');
-					$tpl->setVariable('ERROR', $error);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock('multiple_errors');
-				$tpl->setVariable('FIRST_ERROR', $first_error);
-				$tpl->parseCurrentBlock();
-			}
-
-			ilUtil::sendInfo($tpl->get());
+		if (strlen($formattedErrors) > 0) {
+			\ilUtil::sendInfo($formattedErrors);
 		}
 	}
 }

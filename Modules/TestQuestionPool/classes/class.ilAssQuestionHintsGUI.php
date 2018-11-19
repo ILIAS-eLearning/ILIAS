@@ -64,7 +64,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);
 		$nextClass = $ilCtrl->getNextClass($this);
@@ -102,7 +105,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function showListCmd()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		
 		$this->initHintOrderingClipboardNotification();
 		
@@ -148,7 +154,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function confirmDeleteCmd()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		
 		$hintIds = self::fetchHintIdsParameter();
 
@@ -192,7 +201,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function performDeleteCmd()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		
 		$hintIds = self::fetchHintIdsParameter();
 		
@@ -226,7 +238,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
 		$originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId()))
 		{
 			$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
@@ -245,7 +258,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function saveListOrderCmd()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$hintIndexes = self::orderHintIndexes(
 			self::fetchHintIndexesParameter()
@@ -280,7 +295,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
 		$originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId()))
 		{
 			$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
@@ -297,7 +313,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function cutToOrderingClipboardCmd()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$moveHintIds = self::fetchHintIdsParameter();
 		$this->checkForSingleHintIdAndRedirectOnFailure($moveHintIds);
@@ -320,7 +337,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function pasteFromOrderingClipboardBeforeCmd()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$targetHintIds = self::fetchHintIdsParameter();
 		$this->checkForSingleHintIdAndRedirectOnFailure($targetHintIds);
@@ -376,7 +395,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function pasteFromOrderingClipboardAfterCmd()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$targetHintIds = self::fetchHintIdsParameter();
 		$this->checkForSingleHintIdAndRedirectOnFailure($targetHintIds);
@@ -432,7 +453,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function resetOrderingClipboardCmd()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->hintOrderingClipboard->resetStored();
 		
@@ -449,7 +472,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function initHintOrderingClipboardNotification()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		if( !$this->hintOrderingClipboard->hasStored() )
 		{
@@ -517,7 +541,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function checkForSingleHintIdAndRedirectOnFailure($hintIds)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		if( !count($hintIds) )
 		{

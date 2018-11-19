@@ -197,7 +197,8 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		$foundvalues = $_POST[$this->getPostVar()];
@@ -210,7 +211,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 			{
 				foreach ($foundvalues['key'] as $val)
 				{
-					if ($this->getRequired() && (strlen($val)) == 0) 
+					if ($this->getRequired() && (strlen($val)) == 0)
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -218,7 +219,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 				}
 				foreach ($foundvalues['value'] as $val)
 				{
-					if ($this->getRequired() && (strlen($val)) == 0) 
+					if ($this->getRequired() && (strlen($val)) == 0)
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -226,7 +227,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 				}
 				foreach ($foundvalues['points'] as $val)
 				{
-					if ($this->getRequired() && (strlen($val)) == 0) 
+					if ($this->getRequired() && (strlen($val)) == 0)
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -271,7 +272,8 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$tpl = new ilTemplate("tpl.prop_errortextwizardinput.html", true, true, "Modules/TestQuestionPool");
 		$i = 0;

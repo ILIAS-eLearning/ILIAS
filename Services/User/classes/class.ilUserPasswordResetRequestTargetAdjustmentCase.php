@@ -56,7 +56,6 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
 	public function adjust()
 	{
 		$_GET['baseClass'] = 'ilpersonaldesktopgui';
-		$this->ctrl->setTargetScript('ilias.php');
 		ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('ilpersonaldesktopgui', 'ilpersonalsettingsgui'), 'showPassword', '', false, false));
 	}
 }

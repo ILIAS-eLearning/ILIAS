@@ -22,11 +22,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom imple
 	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
 	 * @param \ilTermsOfServiceDocument $document
 	 * @param Factory $dataFactory
+	 * @param \ilLanguage $lng
 	 */
 	public function __construct(
 		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
 		\ilTermsOfServiceDocument $document,
-		Factory $dataFactory
+		Factory $dataFactory,
+		\ilLanguage $lng
 	) {
 		$this->criterionTypeFactory = $criterionTypeFactory;
 		$this->document = $document;
@@ -35,10 +37,11 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom imple
 			function (\ilTermsOfServiceDocumentCriterionAssignment $value) {
 				return 0 === count($this->filterEqualValues($value));
 			},
-			function ($value) {
+			function ($txt, $value) {
 				return "The passed assignment must be unique for the document!";
 			},
-			$dataFactory
+			$dataFactory,
+			$lng
 		);
 	}
 

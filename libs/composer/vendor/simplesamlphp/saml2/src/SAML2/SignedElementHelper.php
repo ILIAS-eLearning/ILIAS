@@ -181,7 +181,7 @@ class SignedElementHelper implements SignedElement
                 "-----END CERTIFICATE-----\n";
 
             /* Extract the public key from the certificate for validation. */
-            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA1, array('type'=>'public'));
+            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type'=>'public'));
             $key->loadKey($pemCert);
 
             try {

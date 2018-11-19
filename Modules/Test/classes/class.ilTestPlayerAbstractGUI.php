@@ -71,7 +71,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		parent::__construct($a_object);
 		$this->ref_id = $_GET["ref_id"];
 		
-		global $rbacsystem, $ilUser, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		require_once 'Modules/Test/classes/class.ilTestPasswordChecker.php';
 		$this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object, $lng);
 		
@@ -82,7 +85,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function checkReadAccess()
 	{
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 
 		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
 		{
@@ -109,7 +113,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return;
 		}
 
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		$testSession->setUserId($ilUser->getId());
 
@@ -128,7 +133,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function initProcessLocker($activeId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
 		$processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB);
@@ -203,7 +209,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	public function isMaxProcessingTimeReached() 
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$active_id = $this->testSession->getActiveId();
 		$starting_time = $this->object->getStartingTimeOfUser($active_id);
 		if ($starting_time === FALSE)
@@ -522,7 +529,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	public function handleUserSettings()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		if ($_POST["chb_javascript"])
 		{
@@ -657,7 +665,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	public function toggleSideListCmd()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$show_side_list = $ilUser->getPref('side_list_of_questions');
 		$ilUser->writePref('side_list_of_questions', !$show_side_list);
@@ -724,7 +733,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		/**
 		 * @var $ilUser ilObjUser
 		 */
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirmation = new ilConfirmationGUI();
@@ -738,7 +748,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function finishTestCmd($requires_confirmation = true)
 	{
-		global $ilAuth;
+		global $DIC;
+		$ilAuth = $DIC['ilAuth'];
 
 		unset($_SESSION["tst_next"]);
 
@@ -892,7 +903,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return false;
 		}
 
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$activePlugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
 
@@ -911,7 +923,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function archiveParticipantSubmission( $active, $pass )
 	{
-		global $ilObjDataCache;
+		global $DIC;
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
@@ -948,7 +961,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		);
 
 		require_once './Modules/Test/classes/class.ilTestArchiver.php';
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		$inst_id = $ilSetting->get('inst_id', null);
 		$archiver = new ilTestArchiver($this->object->getId());
 
@@ -968,7 +982,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		//$archiver->handInParticipantMisc( $active, $pass, 'signature_gedoens.sig', $filename );
 		//$archiver->handInParticipantQuestionMaterial( $active, $pass, 123, 'file_upload.pdf', $filename );
 
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		$questions = $this->object->getQuestions();
 		foreach ($questions as $question_id)
 		{
@@ -1024,8 +1039,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	public function redirectBackCmd()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($this->testSession->getActiveId());
 		$testPassesSelector->setLastFinishedPass($this->testSession->getLastFinishedPass());
 
@@ -1057,7 +1073,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	public function getKioskHead()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		$template = new ilTemplate('tpl.il_as_tst_kiosk_head.html', true, true, 'Modules/Test');
 		if ($this->object->getShowKioskModeTitle())
@@ -1095,7 +1112,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function prepareTestPage($presentationMode, $sequenceElement, $questionId)
 	{
-		global $ilUser, $ilNavigationHistory;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
 
 		$ilNavigationHistory->addItem($this->testSession->getRefId(),
 			$this->ctrl->getLinkTarget($this, ilTestPlayerCommands::RESUME_PLAYER), 'tst'
@@ -1355,7 +1374,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 */
 	function checkOnlineTestAccess() 
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		// check if user is invited to participate
 		$user = $this->object->getInvitedUsers($ilUser->getId());
@@ -1448,7 +1468,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	function outProcessingTime($active_id) 
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$starting_time = $this->object->getStartingTimeOfUser($active_id);
 		$processing_time = $this->object->getProcessingTimeInSeconds($active_id);
@@ -1533,7 +1554,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function showSideList($presentationMode, $currentSequenceElement)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$sideListActive = $ilUser->getPref('side_list_of_questions');
 
@@ -1691,7 +1713,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	function showListOfAnswers($active_id, $pass = NULL, $top_data = "", $bottom_data = "")
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "Modules/Test");
 
@@ -1995,7 +2018,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function populateCharSelectorIfRequired()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		
 		if ($ilSetting->get('char_selector_availability') > 0)
 		{
@@ -2017,7 +2041,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function getTestNavigationToolbarGUI()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		require_once 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php';
 		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
@@ -2487,7 +2512,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function getQuestionGuiInstance($questionId, $fromCache = true)
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		
 		if( !$fromCache || !isset($this->cachedQuestionGuis[$questionId]) )
 		{
@@ -2520,7 +2546,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function getQuestionInstance($questionId, $fromCache = true)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		if( !$fromCache || !isset($this->cachedQuestionObjects[$questionId]) )
 		{
@@ -2579,7 +2607,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$ilLog->write("INV SEQ:"
 			."active={$this->testSession->getActiveId()} "

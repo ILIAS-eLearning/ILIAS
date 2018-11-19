@@ -91,10 +91,11 @@ class ilTestTabsManager
 	public function __construct(ilTestAccess $testAccess)
 	{
 		$this->testAccess = $testAccess;
-
-		$this->tabs = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilTabs'] : $GLOBALS['ilTabs'];
-		$this->access = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilAccess'] : $GLOBALS['ilAccess'];
-		$this->lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->tabs = $DIC['ilTabs'];
+		$this->access = $DIC['ilAccess'];
+		$this->lng = $DIC['lng'];
 	}
 	
 	/**
@@ -637,19 +638,13 @@ class ilTestTabsManager
 			}
 		}
 		
-		// Scoring Adjustment
+		// NEW CORRECTIONS TAB
 		$setting = new ilSetting('assessment');
 		$scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', false);
-		if ($this->isWriteAccessGranted() && $scoring_adjust_active && !$this->isHiddenTab('scoringadjust'))
+		if( $this->isWriteAccessGranted() && $scoring_adjust_active && !$this->isHiddenTab(self::TAB_ID_CORRECTION) )
 		{
-			// scoring tab
-			$this->tabs->addTarget(
-				self::TAB_ID_CORRECTION, $DIC->ctrl()->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
-				array(
-					'showquestionlist',
-					'savescoringfortest',
-					'adjustscoringfortest'
-				), ''
+			$this->tabs->addTab(self::TAB_ID_CORRECTION, $DIC->language()->txt(self::TAB_ID_CORRECTION),
+				$DIC->ctrl()->getLinkTargetByClass('ilTestCorrectionsGUI')
 			);
 		}
 		

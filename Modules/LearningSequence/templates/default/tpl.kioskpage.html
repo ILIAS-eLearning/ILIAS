@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+	<title>{HTML_PAGE_TITLE}</title>
+
+	<base href="{BASE}" />
+
+	<style type="text/css">
+		{CSS_INLINE}
+	</style>
+
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" />
+	<!-- END css_file -->
+
+	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="{JS_FILE}"></script>
+	<!-- END js_file -->
+</head>
+
+<body class="std">
+	<div class="ilAll ilLSOKioskMode">
+
+		<div id="ilTopBar" class="ilTopBar ilTopFixed hidden-print">
+			<div class="container-fluid ilContainerWidth">
+				<div class="row">
+					<div class="ilLSOKioskTopBarControls">{TOPBAR_CONTROLS}</div>
+					<div class="ilLSOKioskTopBarTitle">
+						<div class="ilTopTitle">{TOPBAR_TITLE}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="mainspacekeeper" class="container-fluid ilContainerWidth">
+			<div class="row" style="position: relative;">
+
+				<div id="left_nav" class="ilLeftNav hidden-print<!-- BEGIN sidebar_disabled --> disabled<!-- END sidebar_disabled -->">
+					{SIDEBAR}
+				</div>
+
+				<div id="fixed_content" class="<!-- BEGIN sidebar_space -->ilLeftNavSpace <!-- END sidebar_space -->ilContentFixed">
+					<div id="mainscrolldiv">
+
+						<div class="ilClearFloat"></div>
+
+						<div class="container-fluid" id="ilContentContainer">
+							<div class="row">
+								<div id="il_center_col" class="col-sm-9">
+
+									<div class="ilLSOKioskModeObjectHeader">
+										<div class="media il_HeaderInner">
+											<div id="headerimage" class="media-object">
+												{OBJECT_ICON}
+											</div>
+											<h1 class="media-heading ilHeader">
+												<a class="ilAccAnchor" id="il_mhead_t_focus">
+													{OBJECT_TITLE}
+												</a>
+											</h1>
+										</div>
+									</div>
+
+									<nav class="ilToolbar navbar-default ilLSOKioskModeNavigation" role="navigation" id="2">
+										<div class="container-fluid">
+											<div class="navbar-header">
+													<div class="navbar-form">
+														{PLAYER_NAVIGATION} | {OBJ_NAVIGATION}
+													</div>
+
+													<div class="ilLSOKioskModeViewModes">
+														{VIEW_MODES}
+													</div>
+											</div>
+
+
+										</div>
+									</nav>
+
+									<div class="ilLSOKioskModeLocator">
+										{LOCATOR}
+									</div>
+
+									<div class="ilLSOKioskModeContent">
+										{CONTENT}
+									</div>
+
+								</div> <!-- il_center_col -->
+
+								<div id="il_right_col" class="col-sm-3">
+
+									<div class="ilLSOKioskModeCurriculum">
+										{CURRICULUM}
+									</div>
+
+								</div> <!-- il_right_col -->
+
+							</div>
+						</div><!-- #ilContentContainer -->
+
+					</div><!--mainscrolldiv -->
+				</div><!--fixed_content -->
+
+			</div><!-- row -->
+		</div><!-- mainspacekeeper -->
+
+	</div> <!-- ilAll -->
+
+	<!-- BEGIN on_load_code -->
+	<script type="text/javascript">
+		il.Util.addOnLoad(function() {
+		<!-- BEGIN on_load_code_inner -->
+			{OLCODE}
+		<!-- END on_load_code_inner -->
+	});
+	</script>
+	<!-- END on_load_code -->
+
+</body>
+</html>
+

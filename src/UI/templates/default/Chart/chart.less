@@ -35,8 +35,7 @@
   background-color: @il-chart-item-active-bg;
 }
 
-.il-chart-progressmeter-container,
-.il-chart-progressmeter-mini-container {
+.il-chart-progressmeter-container {
   display: block;
   position: relative;
   background-color: transparent;
@@ -189,31 +188,6 @@
   }
 }
 
-.il-chart-progressmeter-mini-container {
-  .il-chart-progressmeter-marker-box {
-    position: absolute;
-    width: 80%;
-    height: 80%;
-    transform: rotate(115deg);
-    pointer-events: none;
-    background: transparent;
-    z-index: 2;
-    border-radius: 50%;
-    overflow: hidden;
-
-    .il-chart-progressmeter-mini-marker {
-      transform-origin: 100% 100%;
-      width: 50%;
-      height: 50%;
-      transform: rotate(90deg) skew(85deg);
-      background-color: @il-chart-progressmeter-mini-marker-color; // get own color var
-    }
-  }
-  .il-chart-progressmeter-cover {
-    z-index: 3;
-  }
-}
-
 .il-chart-progressmeter-container {
   padding: 10px;
   font-size: 1.25rem;
@@ -246,23 +220,6 @@
   }
 }
 
-.il-chart-progressmeter-mini-container {
-  padding: 5px;
-  font-size: 1rem;
-
-  .il-chart-progressmeter-outerbox {
-    border: 2px solid transparent;
-
-    .il-chart-progressmeter-cover {
-      width: 80%;
-      height: 80%;
-      top: 10%;
-      left: 10%;
-      border: 2px solid @il-chart-progressmeter-background;
-    }
-  }
-}
-
 .il-chart-progressmeter-box {
   overflow: hidden;
   position: relative;
@@ -287,8 +244,7 @@
     z-index: 2;
   }
 
-  .il-chart-progressmeter-container:after,
-  .il-chart-progressmeter-mini-container:after {
+  .il-chart-progressmeter-container:after {
     content: " ";
     display: block;
     position: absolute;
@@ -305,20 +261,6 @@
     height: 230px;
 
   }
-  &.il-chart-progressmeter-mini {
-    width: 50px;
-    height: 35px;
-
-    &:before, &:after {
-      background-color: transparent;
-    }
-    .il-chart-progressmeter-mini-container:after {
-      width: 80%;
-      height: 93%;
-      bottom: -57%;
-    }
-  }
-
   @media (min-width: @screen-lg) {
     &.il-chart-progressmeter-responsive {
       width: 300px;
@@ -524,4 +466,56 @@
       }
     }
   }
+
+  /* new SVG styles */
+  &.il-chart-progressmeter-mini {
+    &:before, &:after {
+      content: none;
+    }
+  }
+
+  .il-chart-progressmeter-mini-container {
+    position: relative;
+    min-width: @il-chart-progressmeter-mini-min-width;
+    max-width: @il-chart-progressmeter-mini-max-width;
+    width: 100%;
+    height: auto;
+
+    .il-chart-progressmeter-viewbox {
+      display: block;
+      max-width: 80%;
+      min-width: @il-chart-progressmeter-mini-min-width;
+      max-height: @il-chart-progressmeter-mini-max-width;
+
+      .il-chart-progressmeter-circle-bg {
+        stroke: @il-chart-progressmeter-mini-bg-color;
+        fill: none;
+        stroke-width: @il-chart-progressmeter-mini-bg-stroke-width;
+        stroke-linecap: round;
+      }
+      .il-chart-progressmeter-circle {
+        fill: none;
+        stroke-width: @il-chart-progressmeter-mini-stroke-width;
+        stroke-linecap: round;
+      }
+      .il-chart-progressmeter-circle.no-success {
+        stroke: @il-chart-progressmeter-mini-no-success;
+      }
+      .il-chart-progressmeter-circle.success {
+        stroke: @il-chart-progressmeter-mini-success;
+      }
+      .il-chart-progressmeter-needle-mini {
+        stroke: @il-chart-progressmeter-mini-marker-color;
+        fill: none;
+        stroke-width: @il-chart-progressmeter-mini-marker-stroke-width;
+        stroke-linecap: round;
+        // below are coordinates inside the svg and should not be changed
+        transform-origin: 25px 23.25px;
+      }
+      .il-chart-progressmeter-needle-mini.no-needle {
+        stroke: transparent;
+      }
+    }
+  }
+
 }

@@ -15,9 +15,8 @@ client side someday.
 
 ```php
 
-require_once(__DIR__."/Factory.php");
-
-$f = new Validation/Factory;
+// In reality this has dependencies that need to be satisfied...
+$f = new ILIAS\Validation\Factory;
 
 // Build some basic constraints
 $gt0 = $f->greaterThan(0);
@@ -51,8 +50,11 @@ $also_between_0_10 = $f->par([$gt0, $lt10]);
 // One can also create a new error message by supplying a builder for an error
 // message:
 
-$between_0_10->withProblemBuilder(function($value) {
+$between_0_10->withProblemBuilder(function($txt, $value) {
 	return "Value must be between 0 and 10, but is '$value'.";
 });
+
+// To perform internationalisation, the provided $txt could be used, please
+// see `ILIAS\Validation\Constraint::withProblemBuilder` for further information.
 
 ```

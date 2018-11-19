@@ -49,7 +49,10 @@ abstract class ilUnitConfigurationGUI
 		 * @var $ilCtrl ilCtrl
 		 * @var $tpl    ilTemplate
 		 */
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		$this->repository = $repository;
 		$this->lng        = $lng;
@@ -569,7 +572,8 @@ abstract class ilUnitConfigurationGUI
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $ilToolbar;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
 
 		$category = $this->getCategoryById((int)$_GET['category_id'], false);
 

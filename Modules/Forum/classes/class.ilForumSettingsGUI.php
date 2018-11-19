@@ -42,6 +42,7 @@ class ilForumSettingsGUI
 		$this->tabs = $DIC->tabs();
 		$this->access = $DIC->access();
 		$this->tree = $DIC->repositoryTree();
+		$this->obj_service = $DIC->object();
 	}
 
 	/**
@@ -136,6 +137,8 @@ class ilForumSettingsGUI
 			$frm_upload->setInfo($this->lng->txt('allow_file_upload_desc'));
 			$a_form->addItem($frm_upload);
 		}
+
+		$this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->addTileImage();
 	}
 	
 	/**
@@ -236,6 +239,7 @@ class ilForumSettingsGUI
 			$this->parent_obj->objProperties->setFileUploadAllowed((bool)$a_form->getInput('file_upload_allowed'));
 		}
 		$this->parent_obj->objProperties->update();
+		$this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->saveTileImage();
 	}
 
 	public function showMembers()

@@ -22,7 +22,14 @@ include_once "Services/WebDAV/classes/dav/class.ilMountPointDAV.php";
 include_once "Services/WebDAV/classes/dav/class.ilClientNodeDAV.php";
 include_once "Services/WebDAV/classes/dav/class.ilObjRepositoryRootDAV.php";
 
-
+/**
+ * Class ilWebDAVRequestHandler
+ *
+ * This class handles the WebDAV requests on webdav.php. It sets up the sabreDAV server with its necessary plugins.
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ */
 class ilWebDAVRequestHandler
 {
     private static $instance;
@@ -32,23 +39,26 @@ class ilWebDAVRequestHandler
         return self::$instance ? self::$instance : self::$instance = new ilWebDAVRequestHandler();
     }
 
+    /**
+     * For the case there might be more to handle as just running the server. So we won't make any breaking changes
+     *
+     * @throws \Sabre\DAV\Exception
+     */
     public function handleRequest()
     {
         $this->runWebDAVServer();
     }
-    
+
+    /**
+     * Creates and runs SabreDAV Server
+     *
+     * @throws \Sabre\DAV\Exception
+     */
     protected function runWebDAVServer()
     {
-        try {
-            $server = new Sabre\DAV\Server($this->getRootDir());
-            $this->setPlugins($server);
-            $server->exec();
-        } catch (Exception $e)
-        {
-            echo "Something went wrong with setting up the server: '" . $e->getMessage() . "' in File " . $e->getFile() . ':' . $e->getLine();
-            exit;
-        }
-
+        $server = new Sabre\DAV\Server($this->getRootDir());
+        $this->setPlugins($server);
+        $server->exec();
     }
     
     

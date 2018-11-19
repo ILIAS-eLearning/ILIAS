@@ -671,7 +671,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$ilErr = $DIC['ilErr'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$id = explode("_", $a_target);
-		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->initBaseClass("ilRepositoryGUI");
 		$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $id[0]);
 

@@ -16,5 +16,5 @@ module.exports = function SetupExpressApi(callback) {
 
 	Container.setApi(api);
 
-	callback();
+	callback(null);
 };

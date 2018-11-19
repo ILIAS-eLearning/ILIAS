@@ -11,7 +11,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI, ilRepositoryGUI, ilObjCourseGUI, ilContainerNewsSettingsGUI
+* @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI
 *
 * @ingroup ServicesNews
 */
@@ -153,23 +153,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 //var_dump($news_data);
 		return $news_data;
 	}
-		
+
 	/**
-	* Get block type
-	*
-	* @return	string	Block type.
-	*/
-	static function getBlockType()
+	 * @inheritdoc
+	 */
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
 
 	/**
-	* Is this a repository object
-	*
-	* @return	string	Block type.
-	*/
-	static function isRepositoryObject()
+	 * @inheritdoc
+	 */
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -345,16 +341,25 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$ref_id = $_GET["ref_id"];
 			$obj_def = $DIC["objDefinition"];
-			$obj_id = ilObject::_lookupObjectId($re_id);
+			$obj_id = ilObject::_lookupObjectId($ref_id);
 			$obj_type = ilObject::_lookupType($ref_id, true);
 			$obj_class= strtolower($obj_def->getClassName($obj_type));
 			$parent_gui = "ilobj".$obj_class."gui";
 
 			$ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
 
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui",$parent_gui,"ilcontainernewssettingsgui"), "show"),
-				$lng->txt("settings"));
+			if (in_array($obj_class, ["category", "course", "group"]))
+			{
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"), "show"),
+					$lng->txt("settings"));
+			}
+			else
+			{
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTarget($this, "editSettings"),
+					$lng->txt("settings"));
+			}
 		}
 		
 		// do not display hidden repository news blocks for users

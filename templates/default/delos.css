@@ -6869,6 +6869,7 @@ button.close {
 .il-card {
   padding: 0;
   width: 100%;
+  position: relative;
   background-color: white;
 }
 .il-card img {
@@ -6898,6 +6899,40 @@ button.close {
   color: #909090;
   font-size: 12px;
   padding-top: 6px;
+}
+.il-card .il-card-repository-head {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 47px;
+  padding: 0 6px;
+}
+.il-card .il-card-repository-head .icon.outlined {
+  filter: brightness(1);
+}
+.il-card .il-card-repository-head .icon.outlined.disabled {
+  filter: brightness(1);
+}
+.il-card .il-card-repository-head > div {
+  padding: 6px 6px;
+  float: left;
+}
+.il-card .il-card-repository-head > div.il-card-repository-dropdown {
+  float: right;
+  padding: 9px 6px;
+}
+.il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button {
+  background-color: inherit;
+  border: #e0e0e0 1px solid;
+  width: 29px;
+  height: 29px;
+}
+.il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button span.caret {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .il-panel-report .il-card {
   background-color: #f9f9f9;
@@ -7216,6 +7251,12 @@ a.btn-link.ilSubmitInactive:hover {
 .btn-bulky {
   width: 100%;
 }
+.il-btn-with-loading-animation {
+  background-image: url("images/loader.svg");
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 18px;
+}
 .btn-tag {
   display: inline-block;
   white-space: nowrap;
@@ -7245,6 +7286,37 @@ a.btn-link.ilSubmitInactive:hover {
 .btn-tag.btn-tag-relevance-veryhigh {
   background-color: #75deea;
   color: #000000;
+}
+.il-toggle-button {
+  position: relative;
+  display: inline-block;
+  height: 19px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 40px;
+  background: #cdcdcd;
+  cursor: pointer;
+}
+.il-toggle-button .il-toggle-switch {
+  position: absolute;
+  top: -4px;
+  left: -6%;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  background: #808080;
+  -webkit-transition: all 0.25s ease-in-out;
+  /* Safari */
+  transition: all 0.25s ease-in-out;
+}
+.il-toggle-button.on {
+  background: #a1b3ca;
+}
+.il-toggle-button.on .il-toggle-switch {
+  left: 53%;
+  background: #4c6586;
 }
 h6.il-divider {
   padding: 3px 6px;
@@ -7427,6 +7499,11 @@ hr.il-divider-with-label {
 .il-narrow-content .il-item button.dropdown-toggle > span {
   display: none;
 }
+/* otherwise dropdowns in items with icon do not work */
+.il-std-item .media .media-body,
+.il-std-item .media {
+  overflow: visible;
+}
 @media only screen and (max-width: 767px) {
   .il-item div.col-sm-3 > h5 {
     font-size: 14px;
@@ -7495,6 +7572,18 @@ hr.il-divider-with-label {
 .icon.large img {
   width: 45px;
   height: 45px;
+}
+.icon.responsive {
+  width: 100%;
+  line-height: 35px;
+}
+.icon.responsive .abbreviation {
+  font-size: 14px;
+  width: 35px;
+}
+.icon.responsive img {
+  width: 100%;
+  height: auto;
 }
 .icon.disabled {
   -webkit-filter: grayscale(100%);
@@ -7931,6 +8020,333 @@ hr.il-divider-with-label {
 .icon.iass {
   background-image: url("images/icon_iass.svg");
 }
+.icon.outlined {
+  filter: brightness(0);
+}
+.icon.outlined.disabled {
+  filter: brightness(0.3);
+}
+.icon.outlined.grp {
+  background-image: url("images/outlined/icon_grp.svg");
+}
+.icon.outlined.cat {
+  background-image: url("images/outlined/icon_cat.svg");
+}
+.icon.outlined.crs {
+  background-image: url("images/outlined/icon_crs.svg");
+}
+.icon.outlined.mob {
+  background-image: url("images/outlined/icon_mob.svg");
+}
+.icon.outlined.mail {
+  background-image: url("images/outlined/icon_mail.svg");
+}
+.icon.outlined.sahs {
+  background-image: url("images/outlined/icon_sahs.svg");
+}
+.icon.outlined.adm {
+  background-image: url("images/outlined/icon_adm.svg");
+}
+.icon.outlined.usrf {
+  background-image: url("images/outlined/icon_usrf.svg");
+}
+.icon.outlined.rolf {
+  background-image: url("images/outlined/icon_rolf.svg");
+}
+.icon.outlined.objf {
+  background-image: url("images/outlined/icon_objf.svg");
+}
+.icon.outlined.usr {
+  background-image: url("images/outlined/icon_usr.svg");
+}
+.icon.outlined.rolt {
+  background-image: url("images/outlined/icon_rolt.svg");
+}
+.icon.outlined.lngf {
+  background-image: url("images/outlined/icon_lngf.svg");
+}
+.icon.outlined.lng {
+  background-image: url("images/outlined/icon_lng.svg");
+}
+.icon.outlined.role {
+  background-image: url("images/outlined/icon_role.svg");
+}
+.icon.outlined.dbk {
+  background-image: url("images/outlined/icon_dbk.svg");
+}
+.icon.outlined.glo {
+  background-image: url("images/outlined/icon_glo.svg");
+}
+.icon.outlined.root {
+  background-image: url("images/outlined/icon_root.svg");
+}
+.icon.outlined.lm {
+  background-image: url("images/outlined/icon_lm.svg");
+}
+.icon.outlined.notf {
+  background-image: url("images/outlined/icon_notf.svg");
+}
+.icon.outlined.note {
+  background-image: url("images/outlined/icon_note.svg");
+}
+.icon.outlined.frm {
+  background-image: url("images/outlined/icon_frm.svg");
+}
+.icon.outlined.exc {
+  background-image: url("images/outlined/icon_exc.svg");
+}
+.icon.outlined.auth {
+  background-image: url("images/outlined/icon_auth.svg");
+}
+.icon.outlined.fold {
+  background-image: url("images/outlined/icon_fold.svg");
+}
+.icon.outlined.file {
+  background-image: url("images/outlined/icon_file.svg");
+}
+.icon.outlined.tst {
+  background-image: url("images/outlined/icon_tst.svg");
+}
+.icon.outlined.qpl {
+  background-image: url("images/outlined/icon_qpl.svg");
+}
+.icon.outlined.recf {
+  background-image: url("images/outlined/icon_recf.svg");
+}
+.icon.outlined.mep {
+  background-image: url("images/outlined/icon_mep.svg");
+}
+.icon.outlined.htlm {
+  background-image: url("images/outlined/icon_htlm.svg");
+}
+.icon.outlined.svy {
+  background-image: url("images/outlined/icon_svy.svg");
+}
+.icon.outlined.spl {
+  background-image: url("images/outlined/icon_spl.svg");
+}
+.icon.outlined.cals {
+  background-image: url("images/outlined/icon_cals.svg");
+}
+.icon.outlined.trac {
+  background-image: url("images/outlined/icon_trac.svg");
+}
+.icon.outlined.assf {
+  background-image: url("images/outlined/icon_assf.svg");
+}
+.icon.outlined.stys {
+  background-image: url("images/outlined/icon_stys.svg");
+}
+.icon.outlined.crsg {
+  background-image: url("images/outlined/icon_crsg.svg");
+}
+.icon.outlined.webr {
+  background-image: url("images/outlined/icon_webr.svg");
+}
+.icon.outlined.seas {
+  background-image: url("images/outlined/icon_seas.svg");
+}
+.icon.outlined.extt {
+  background-image: url("images/outlined/icon_extt.svg");
+}
+.icon.outlined.adve {
+  background-image: url("images/outlined/icon_adve.svg");
+}
+.icon.outlined.ps {
+  background-image: url("images/outlined/icon_ps.svg");
+}
+.icon.outlined.nwss {
+  background-image: url("images/outlined/icon_nwss.svg");
+}
+.icon.outlined.feed {
+  background-image: url("images/outlined/icon_feed.svg");
+}
+.icon.outlined.mcst {
+  background-image: url("images/outlined/icon_mcst.svg");
+}
+.icon.outlined.pdts {
+  background-image: url("images/outlined/icon_pdts.svg");
+}
+.icon.outlined.rcrs {
+  background-image: url("images/outlined/icon_rcrs.svg");
+}
+.icon.outlined.mds {
+  background-image: url("images/outlined/icon_mds.svg");
+}
+.icon.outlined.cmps {
+  background-image: url("images/outlined/icon_cmps.svg");
+}
+.icon.outlined.facs {
+  background-image: url("images/outlined/icon_facs.svg");
+}
+.icon.outlined.svyf {
+  background-image: url("images/outlined/icon_svyf.svg");
+}
+.icon.outlined.sess {
+  background-image: url("images/outlined/icon_sess.svg");
+}
+.icon.outlined.mcts {
+  background-image: url("images/outlined/icon_mcts.svg");
+}
+.icon.outlined.wiki {
+  background-image: url("images/outlined/icon_wiki.svg");
+}
+.icon.outlined.crsr {
+  background-image: url("images/outlined/icon_crsr.svg");
+}
+.icon.outlined.catr {
+  background-image: url("images/outlined/icon_catr.svg");
+}
+.icon.outlined.tags {
+  background-image: url("images/outlined/icon_tags.svg");
+}
+.icon.outlined.cert {
+  background-image: url("images/outlined/icon_cert.svg");
+}
+.icon.outlined.lrss {
+  background-image: url("images/outlined/icon_lrss.svg");
+}
+.icon.outlined.accs {
+  background-image: url("images/outlined/icon_accs.svg");
+}
+.icon.outlined.mobs {
+  background-image: url("images/outlined/icon_mobs.svg");
+}
+.icon.outlined.frma {
+  background-image: url("images/outlined/icon_frma.svg");
+}
+.icon.outlined.book {
+  background-image: url("images/outlined/icon_book.svg");
+}
+.icon.outlined.skmg {
+  background-image: url("images/outlined/icon_skmg.svg");
+}
+.icon.outlined.blga {
+  background-image: url("images/outlined/icon_blga.svg");
+}
+.icon.outlined.prfa {
+  background-image: url("images/outlined/icon_prfa.svg");
+}
+.icon.outlined.chtr {
+  background-image: url("images/outlined/icon_chtr.svg");
+}
+.icon.outlined.chta {
+  background-image: url("images/outlined/icon_chta.svg");
+}
+.icon.outlined.otpl {
+  background-image: url("images/outlined/icon_otpl.svg");
+}
+.icon.outlined.blog {
+  background-image: url("images/outlined/icon_blog.svg");
+}
+.icon.outlined.dcl {
+  background-image: url("images/outlined/icon_dcl.svg");
+}
+.icon.outlined.poll {
+  background-image: url("images/outlined/icon_poll.svg");
+}
+.icon.outlined.hlps {
+  background-image: url("images/outlined/icon_hlps.svg");
+}
+.icon.outlined.itgr {
+  background-image: url("images/outlined/icon_itgr.svg");
+}
+.icon.outlined.rcat {
+  background-image: url("images/outlined/icon_rcat.svg");
+}
+.icon.outlined.rwik {
+  background-image: url("images/outlined/icon_rwik.svg");
+}
+.icon.outlined.rlm {
+  background-image: url("images/outlined/icon_rlm.svg");
+}
+.icon.outlined.rglo {
+  background-image: url("images/outlined/icon_rglo.svg");
+}
+.icon.outlined.rfil {
+  background-image: url("images/outlined/icon_rfil.svg");
+}
+.icon.outlined.rgrp {
+  background-image: url("images/outlined/icon_rgrp.svg");
+}
+.icon.outlined.rtst {
+  background-image: url("images/outlined/icon_rtst.svg");
+}
+.icon.outlined.ecss {
+  background-image: url("images/outlined/icon_ecss.svg");
+}
+.icon.outlined.tos {
+  background-image: url("images/outlined/icon_tos.svg");
+}
+.icon.outlined.bibl {
+  background-image: url("images/outlined/icon_bibl.svg");
+}
+.icon.outlined.sysc {
+  background-image: url("images/outlined/icon_sysc.svg");
+}
+.icon.outlined.cld {
+  background-image: url("images/outlined/icon_cld.svg");
+}
+.icon.outlined.reps {
+  background-image: url("images/outlined/icon_reps.svg");
+}
+.icon.outlined.crss {
+  background-image: url("images/outlined/icon_crss.svg");
+}
+.icon.outlined.grps {
+  background-image: url("images/outlined/icon_grps.svg");
+}
+.icon.outlined.wbrs {
+  background-image: url("images/outlined/icon_wbrs.svg");
+}
+.icon.outlined.prtt {
+  background-image: url("images/outlined/icon_prtt.svg");
+}
+.icon.outlined.orgu {
+  background-image: url("images/outlined/icon_orgu.svg");
+}
+.icon.outlined.wiks {
+  background-image: url("images/outlined/icon_wiks.svg");
+}
+.icon.outlined.excs {
+  background-image: url("images/outlined/icon_excs.svg");
+}
+.icon.outlined.taxs {
+  background-image: url("images/outlined/icon_taxs.svg");
+}
+.icon.outlined.bibs {
+  background-image: url("images/outlined/icon_bibs.svg");
+}
+.icon.outlined.awra {
+  background-image: url("images/outlined/icon_awra.svg");
+}
+.icon.outlined.logs {
+  background-image: url("images/outlined/icon_logs.svg");
+}
+.icon.outlined.prg {
+  background-image: url("images/outlined/icon_prg.svg");
+}
+.icon.outlined.prgs {
+  background-image: url("images/outlined/icon_prgs.svg");
+}
+.icon.outlined.cadm {
+  background-image: url("images/outlined/icon_cadm.svg");
+}
+.icon.outlined.grpr {
+  background-image: url("images/outlined/icon_grpr.svg");
+}
+.icon.outlined.bdga {
+  background-image: url("images/outlined/icon_bdga.svg");
+}
+.icon.outlined.wfe {
+  background-image: url("images/outlined/icon_wfe.svg");
+}
+.icon.outlined.iass {
+  background-image: url("images/outlined/icon_iass.svg");
+}
+.icon.copa {
+  background-image: url("images/icon_copa.svg");
+}
 .il-viewcontrol-mode .ilSubmitInactive,
 .il-viewcontrol-mode .ilSubmitInactive:hover {
   background-color: #557196;
@@ -8001,16 +8417,14 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
-.il-chart-progressmeter-container,
-.il-chart-progressmeter-mini-container {
+.il-chart-progressmeter-container {
   display: block;
   position: relative;
   background-color: transparent;
   height: 130%;
   width: 100%;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
   height: 100%;
   width: 100%;
   border-radius: 50%;
@@ -8019,24 +8433,20 @@ ul.breadcrumb li:hover {
   z-index: 1;
   background-color: #dddddd;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer {
   position: absolute;
   transform-origin: 100% 100%;
   transform: rotate(-25deg) skew(90deg);
   width: 50%;
   height: 50%;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer {
   background-color: #6ea03c;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer {
   background-color: #d9534f;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-innerbox {
+.il-chart-progressmeter-container .il-chart-progressmeter-innerbox {
   position: absolute;
   width: 94%;
   height: 94%;
@@ -8047,8 +8457,7 @@ ul.breadcrumb li:hover {
   border: 5px solid transparent;
   overflow: hidden;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer {
   position: absolute;
   transform-origin: 100% 100%;
   transform: rotate(-24deg) skew(90deg);
@@ -8057,26 +8466,22 @@ ul.breadcrumb li:hover {
   background-color: #aaaaaa;
   top: -1px;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer {
+.il-chart-progressmeter-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer {
   background-color: #f0ad4e;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover {
   position: absolute;
   border-radius: 50%;
   background-color: #f0f0f0;
   overflow: hidden;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container {
   width: 100%;
   height: 100%;
   position: relative;
   color: #000;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text {
   position: absolute;
   left: 25%;
   top: 22%;
@@ -8085,16 +8490,14 @@ ul.breadcrumb li:hover {
   color: #aaaaaa;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
   position: absolute;
   left: 20%;
   top: 28%;
   text-align: center;
   font-weight: bold;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore {
   position: absolute;
   left: 25%;
   top: 58%;
@@ -8102,8 +8505,7 @@ ul.breadcrumb li:hover {
   text-align: center;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text {
   position: absolute;
   left: 25%;
   top: 66%;
@@ -8112,13 +8514,11 @@ ul.breadcrumb li:hover {
   color: #aaaaaa;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score {
+.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score {
   display: none;
   font-size: 1em;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box {
+.il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
   position: absolute;
   width: 93.3334%;
   height: 93.3334%;
@@ -8127,8 +8527,7 @@ ul.breadcrumb li:hover {
   background: transparent;
   z-index: 3;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
+.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
   position: absolute;
   left: 50%;
   margin-left: -8px;
@@ -8138,8 +8537,7 @@ ul.breadcrumb li:hover {
   width: 1px;
   height: 1px;
 }
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow,
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
+.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
   position: relative;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
@@ -8148,27 +8546,6 @@ ul.breadcrumb li:hover {
   height: 1px;
   top: -14px;
   left: -10.5px;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box {
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  transform: rotate(115deg);
-  pointer-events: none;
-  background: transparent;
-  z-index: 2;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-mini-marker {
-  transform-origin: 100% 100%;
-  width: 50%;
-  height: 50%;
-  transform: rotate(90deg) skew(85deg);
-  background-color: #bcbcbc;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-cover {
-  z-index: 3;
 }
 .il-chart-progressmeter-container {
   padding: 10px;
@@ -8195,23 +8572,10 @@ ul.breadcrumb li:hover {
   width: 60%;
   font-size: 3em;
 }
-.il-chart-progressmeter-mini-container {
-  padding: 5px;
-  font-size: 1rem;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox {
-  border: 2px solid transparent;
-}
-.il-chart-progressmeter-mini-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-  width: 80%;
-  height: 80%;
-  top: 10%;
-  left: 10%;
-  border: 2px solid #dddddd;
-}
 .il-chart-progressmeter-box {
   overflow: hidden;
   position: relative;
+  /* new SVG styles */
 }
 .il-chart-progressmeter-box:before,
 .il-chart-progressmeter-box:after {
@@ -8233,8 +8597,7 @@ ul.breadcrumb li:hover {
   right: 30px;
   z-index: 2;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-container:after,
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container:after {
+.il-chart-progressmeter-box .il-chart-progressmeter-container:after {
   content: " ";
   display: block;
   position: absolute;
@@ -8248,19 +8611,6 @@ ul.breadcrumb li:hover {
 .il-chart-progressmeter-box.il-chart-progressmeter-fixed-size {
   width: 300px;
   height: 230px;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini {
-  width: 50px;
-  height: 35px;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:before,
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:after {
-  background-color: transparent;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-mini-container:after {
-  width: 80%;
-  height: 93%;
-  bottom: -57%;
 }
 @media (min-width: 1200px) {
   .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
@@ -8429,6 +8779,50 @@ ul.breadcrumb li:hover {
     width: 60%;
     font-size: 3em;
   }
+}
+.il-chart-progressmeter-box.il-chart-progressmeter-mini:before,
+.il-chart-progressmeter-box.il-chart-progressmeter-mini:after {
+  content: none;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container {
+  position: relative;
+  min-width: 20px;
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox {
+  display: block;
+  max-width: 80%;
+  min-width: 20px;
+  max-height: 250px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
+  stroke: #dddddd;
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
+  stroke: #d9534f;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
+  stroke: #6ea03c;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini {
+  stroke: #bcbcbc;
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transform-origin: 25px 23.25px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini.no-needle {
+  stroke: transparent;
 }
 .il-standard-form {
   background-color: #fdfdfd;
@@ -11161,123 +11555,154 @@ a.ilTreeView:focus {
   margin-right: 0;
 }
 /* Explorer2, jsTree */
-.jstree a {
+.jstree.jstree-default a {
   color: #557196 !important;
 }
-.jstree a.disabled {
+.jstree.jstree-default a.disabled {
   color: #303030 !important;
   cursor: default !important;
 }
-.jstree a {
+.jstree.jstree-default a {
   font-size: 90%;
   min-height: 22px;
 }
 .jstree li,
-.jstree ins {
+.jstree.jstree-default li i {
   background: url("images/jstree.svg") no-repeat;
   vertical-align: top;
 }
+/*
 .jstree li {
-  background-position: -90px 0;
-  background-repeat: repeat-y;
+	background-position: -90px 0;
+	background-repeat: repeat-y;
 }
+
 .jstree li.jstree-last {
-  background: transparent;
+	background: transparent;
 }
-.jstree .jstree-open > ins {
-  background-position: -72px 0;
+*/
+.jstree.jstree-default .jstree-open > i {
+  background-position: -15px 0 !important;
 }
-.jstree .jstree-closed > ins {
-  background-position: -54px 0;
+.jstree.jstree-default .jstree-closed > i {
+  background-position: 3px 0 !important;
 }
+/*
 .jstree .jstree-leaf > ins {
-  background-position: -36px 0;
+	background-position: -36px 0;
 }
+
 .jstree .jstree-hovered {
-  background: #e7f4f9;
-  border: 1px solid #d8f0fa;
-  padding: 0 2px 0 1px;
+	background: #e7f4f9;
+	border: 1px solid #d8f0fa;
+	padding:0 2px 0 1px;
 }
+
 .jstree .jstree-clicked {
-  background: none #beebff;
-  border: 1px solid #99defd;
-  padding: 0 2px 0 1px;
+	background: none #beebff;
+	border: 1px solid #99defd;
+	padding:0 2px 0 1px;
 }
+
 .jstree a .jstree-icon {
-  background-position: -56px -19px;
+	background-position: -56px -19px;
 }
+
 .jstree a.jstree-loading .jstree-icon {
-  background: url("images/throbber.gif") no-repeat center !important;
+	background: url("@{background-images-path}throbber.gif") no-repeat center !important;
 }
+
 .jstree a.jstree-loading .loader {
-  display: block;
-  position: absolute;
-  left: 0;
-  margin-top: -25px;
-  width: 30px;
-  height: 30px;
-  background: url("images/loader.svg") no-repeat center !important;
+	display: block;
+	position: absolute;
+	left: 0;
+	margin-top: -25px;
+	width: 30px;
+	height: 30px;
+	background: url("@{background-images-path}loader.svg") no-repeat center !important;
 }
+
+.jstree.jstree-focused {}
+
 .jstree .jstree-no-dots li,
 .jstree .jstree-no-dots .jstree-leaf > ins {
-  background: none transparent;
+	background: none transparent;
 }
+
 .jstree .jstree-no-dots .jstree-open > ins {
-  background-position: -18px 0;
+	background-position: -18px 0;
 }
+
 .jstree .jstree-no-dots .jstree-closed > ins {
-  background-position: 0 0;
+	background-position: 0 0;
 }
+
 .jstree .jstree-no-icons a .jstree-icon {
-  display: none;
+	display: none;
 }
+
 .jstree .jstree-search {
-  font-style: italic;
+	font-style: italic;
 }
+
 .jstree .jstree-no-icons .jstree-checkbox {
-  display: inline-block;
+	display: inline-block;
 }
+
 .jstree .jstree-no-checkboxes .jstree-checkbox {
-  display: none !important;
+	display: none !important;
 }
+
 .jstree .jstree-checked > a > .jstree-checkbox {
-  background-position: -38px -19px;
+	background-position: -38px -19px;
 }
+
 .jstree .jstree-unchecked > a > .jstree-checkbox {
-  background-position: -2px -19px;
+	background-position: -2px -19px;
 }
+
 .jstree .jstree-undetermined > a > .jstree-checkbox {
-  background-position: -20px -19px;
+	background-position: -20px -19px;
 }
+
 .jstree .jstree-checked > a > .jstree-checkbox:hover {
-  background-position: -38px -37px;
+	background-position: -38px -37px;
 }
+
 .jstree .jstree-unchecked > a > .jstree-checkbox:hover {
-  background-position: -2px -37px;
+	background-position: -2px -37px;
 }
+
 .jstree .jstree-undetermined > a > .jstree-checkbox:hover {
-  background-position: -20px -37px;
+	background-position: -20px -37px;
 }
+
 #vakata-dragged.jstree ins {
-  background: none transparent !important;
+	background: none transparent !important;
 }
+
 #vakata-dragged.jstree .jstree-ok {
-  background: url("images/jstree.svg") no-repeat -2px -53px !important;
+	background: url("@{background-images-path}jstree.svg") no-repeat -2px -53px !important;
 }
+
 #vakata-dragged.jstree .jstree-invalid {
-  background: url("images/jstree.svg") no-repeat -18px -53px !important;
+	background: url("@{background-images-path}jstree.svg") no-repeat -18px -53px !important;
 }
+
 #jstree-marker.jstree {
-  background: url("images/jstree.svg") no-repeat -41px -57px !important;
-  text-indent: -100px;
+	background: url("@{background-images-path}jstree.svg") no-repeat -41px -57px !important;
+	text-indent: -100px;
 }
+
 .jstree a.jstree-search {
-  color: aqua;
+	color: aqua;
 }
+
 .jstree .jstree-locked a {
-  color: silver;
-  cursor: default;
+	color: silver;
+	cursor: default;
 }
+*/
 #vakata-contextmenu.jstree-context,
 #vakata-contextmenu.jstree-context li ul {
   background: none #f0f0f0;
@@ -11319,6 +11744,13 @@ a.ilTreeView:focus {
 img.il_ExplorerIcon {
   height: 20px;
   width: 20px;
+}
+.ilExplorerContainer .jstree-default .jstree-anchor {
+  height: auto;
+}
+.jstree-default .jstree-node,
+.jstree-default .jstree-anchor {
+  line-height: inherit;
 }
 /* Modules/Forum */
 a.postread,
@@ -13364,6 +13796,9 @@ th.ilSkillEntryHead {
 .ilSkillEvalItem > .row > .ilSkillEvalType3 {
   color: #6ea03c;
 }
+.ilSkillFilter .ilToolbar select.form-control {
+  display: block;
+}
 /* Modules/Poll */
 .ilPollDescription {
   margin: 5px;
@@ -13680,6 +14115,12 @@ div.ilProfile {
   background-color: #f6f6f6;
   border: 1px solid #d0d5ea;
   padding: 15px;
+}
+div.ilProfile + div.ilPermalinkContainer {
+  margin-top: 20px;
+}
+div.ilProfile + div.ilPermalinkContainer .input-group-btn {
+  vertical-align: bottom;
 }
 h3.ilProfileName {
   margin: 0 0 10px;
@@ -14168,6 +14609,18 @@ div#ilContRepIntro img {
 .ilContObjectivesViewTestItem {
   background-color: white;
   margin-bottom: 10px;
+}
+.ilContainerTileRows {
+  margin: 10px -20px 0 -20px;
+}
+.ilContainerTileRows .card-no-highlight {
+  height: 0px;
+}
+.ilContainerShowMore {
+  padding: 15px 10px;
+  background-color: white;
+  text-align: center;
+  margin: 0 -15px;
 }
 /* Modules/LearningModule */
 .ilLMMenu {
@@ -15348,6 +15801,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 [data-onscreenchat-inact-userid] {
   opacity: .3 !important;
 }
+.ilOnScreenChatWindowHeaderTooltip ul {
+  text-align: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 #onscreenchat-container {
   position: fixed;
   bottom: 0;
@@ -15650,6 +16109,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   text-overflow: ellipsis;
   overflow-x: hidden;
   color: #606060;
+}
+.ilOnScreenChatMenuItem .media-body p.lastMessage img {
+  max-width: 15px;
+  max-height: 15px;
 }
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
@@ -16182,6 +16645,66 @@ span.ilProfileBadge {
 .ilLike .il-item img {
   max-width: 50%;
   float: right;
+}
+.ilLSOLearnerView {
+  /*ILIAS-GUI, "startpage" of LSO*/
+}
+.ilLSOLearnerView .il-workflow-step-label,
+.ilLSOLearnerView .il-workflow-step-label .btn {
+  color: #333333 !important;
+  cursor: default !important;
+  text-decoration: none !important;
+}
+.ilLSOKioskMode #mainspacekeeper {
+  padding-top: 25px;
+}
+.ilLSOKioskMode .ilLeftNav {
+  top: 40px;
+  margin-left: 0px;
+  bottom: 5px !important;
+}
+.ilLSOKioskMode .ilLeftNav.disabled {
+  display: none;
+}
+.ilLSOKioskMode #il_right_col {
+  background-color: #e0e0e0;
+  margin-top: 20px;
+  padding: 5px;
+}
+.ilLSOKioskModeObjectHeader .il_HeaderInner {
+  padding-bottom: 5px;
+}
+.ilLSOKioskModeNavigation {
+  margin-bottom: 10px;
+  background-color: #e0e0e0;
+}
+.ilLSOKioskTopBarControls {
+  float: left;
+  display: block;
+  line-height: 40px;
+}
+.ilLSOKioskTopBarControls .btn-link {
+  color: white;
+  text-decoration: none;
+}
+.ilLSOKioskTopBarTitle {
+  text-align: center;
+}
+.ilLSOKioskTopBarTitle .ilTopTitle {
+  float: none;
+  padding: none;
+}
+.ilLSOKioskModeContent .panel-primary .panel-heading {
+  display: none;
+}
+.ilLSOKioskModeCurriculum {
+  background-color: #f9f9f9;
+}
+.ilLSOKioskModeCurriculum .il-workflow-container {
+  padding: 5px;
+}
+.ilLearningHistoryShowMore {
+  text-align: center;
 }
 .noMargin {
   margin: 0;

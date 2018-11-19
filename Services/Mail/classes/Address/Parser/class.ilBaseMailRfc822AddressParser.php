@@ -7,17 +7,20 @@
  */
 abstract class ilBaseMailRfc822AddressParser implements \ilMailRecipientParser
 {
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $addresses = '';
+
+	/** @var string */
+	protected $installationHost = '';
 
 	/**
 	 * @param string $a_addresses A comma separated list of email addresses
+	 * @param string $installationHost
 	 */
-	public function __construct(string $a_addresses)
+	public function __construct(string $a_addresses, string $installationHost = \ilMail::ILIAS_HOST)
 	{
 		$this->addresses = $a_addresses;
+		$this->installationHost = $installationHost;
 	}
 
 	/**

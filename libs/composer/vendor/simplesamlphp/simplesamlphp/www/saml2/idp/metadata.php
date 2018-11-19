@@ -55,7 +55,7 @@ try {
 
     if ($idpmeta->hasValue('https.certificate')) {
         $httpsCert = Crypto::loadPublicKey($idpmeta, true, 'https.');
-        assert('isset($httpsCert["certData"])');
+        assert(isset($httpsCert['certData']));
         $availableCerts['https.crt'] = $httpsCert;
         $keys[] = array(
             'type'            => 'X509Certificate',
@@ -125,6 +125,14 @@ try {
             'Binding'                => Constants::BINDING_HOK_SSO,
             'Location'               => HTTP::getBaseURL().'saml2/idp/SSOService.php'
         ));
+    }
+
+    if ($idpmeta->getBoolean('saml20.ecp', false)) {
+        $metaArray['SingleSignOnService'][] = array(
+            'index' => 0,
+            'Binding'  => Constants::BINDING_SOAP,
+            'Location' => HTTP::getBaseURL().'saml2/idp/SSOService.php',
+        );
     }
 
     $metaArray['NameIDFormat'] = $idpmeta->getString(
@@ -212,7 +220,7 @@ try {
         $t->data['clipboard.js'] = true;
         $t->data['available_certs'] = $availableCerts;
         $t->data['header'] = 'saml20-idp'; // TODO: Replace with headerString in 2.0
-        $t->data['headerString'] = $t->noop('metadata_saml20-idp');
+        $t->data['headerString'] = \SimpleSAML\Locale\Translate::noop('metadata_saml20-idp');
         $t->data['metaurl'] = HTTP::getSelfURLNoQuery();
         $t->data['metadata'] = htmlspecialchars($metaxml);
         $t->data['metadataflat'] = htmlspecialchars($metaflat);

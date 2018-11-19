@@ -53,6 +53,34 @@ also be examples on the "Buttons" Page for the complete Buttons family.
 
 ## Long Term
 
+### Balance or Unify Cards and Items
+
+The Cards were introduced as one of the first elements in the UI-framework to
+implement the "Member Galery" in the group or course together with the Deck of
+Cards. Key property of the cards seem to that they show chunks of structured data.
+
+The Items on the other hand where introduced in an attempt to start to redesign
+the commonly known ListGUIs of ILIAS. Key feature of an item is that it displays
+a unique entity within the system.
+
+While the Card seem to focus on a certain format of data, the Items focus on the
+semantical coherence of the displayed data set.
+
+ILIAS 5.4 introduces the Repository Card as an element that is rendered like a
+Card but actually displays a repository object, which is an entity in the sense
+of the Item and also actually used to render a repository view. It thus seems to
+be unclear why the element is implemented as a "Repository Card" instead of a
+"Cardlike Item". Also the current usage of the Card for displaying users in the
+members gallery could well be understood as displaying entities in the sense of
+an Item.
+
+This implies that there is a conceptual tension between the two concepts Card
+and Item. This tension should be resolved by clearifing the roles of the two
+elements Item and Card or unify them into a common concept. This will help
+developers to pick the right tool for their job as well as clarify the future
+development of the two concepts.
+
+
 ### All UI-Elements
 
 The UI-Framework attempts to be the source for all visual elements in ILIAS and

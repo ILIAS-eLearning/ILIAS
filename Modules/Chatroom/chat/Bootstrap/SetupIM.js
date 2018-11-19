@@ -3,7 +3,7 @@ var Handler = require('../Handler/NamespaceHandler');
 var async = require('async');
 var PreloadConversations = require('./PreloadConversations');
 
-module.exports = function SetupIM(callback) {
+module.exports = function SetupIM(result, callback) {
 
 	function setupIMNamespace(namespace, nextLoop) {
 		function createIMNamespace(callback) {

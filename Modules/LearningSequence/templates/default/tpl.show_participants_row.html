@@ -1,0 +1,49 @@
+<tr class="{CSS_ROW}">
+	<td class="std">
+		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />		
+	</td>
+	<td class="std">
+		{VAL_NAME}
+		<!-- BEGIN access_warning -->
+		<br />
+		<font class="smallred">
+			{PARENT_ACCESS}
+		</font>
+		<!-- END access_warning -->
+	</td>
+	<!-- BEGIN custom_fields -->
+	<td class="std">
+		{VAL_CUST}
+	</td>
+	<!-- END custom_fields -->
+	<td class="std">
+		{FIRST_ACCESS}
+	</td>
+	<td class="std">
+		{LAST_ACCESS}
+	</td>
+	<td class="std">
+		{COMPLETED_STEPS}
+	</td>
+	<td class="std">
+		{LAST_VISITED_STEP}
+	</td>
+	<td class="std">
+			<!-- BEGIN with_notification -->
+			<input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
+			<!-- END with_notification -->
+	</td>
+	<td class="std">
+		<!-- BEGIN as_link -->
+		<div class="il_ContainerItemCommands2">
+		<!-- BEGIN link -->
+			<a class="il_ContainerItemCommand2" href="{LINK_NAME}">{LINK_TXT}</a><br />
+		<!-- END link -->
+			<!-- BEGIN as_menu -->
+			{ACTION_USER}
+			<!-- END as_menu -->
+		</div>
+		<!-- END as_link -->
+	</td>
+</tr>

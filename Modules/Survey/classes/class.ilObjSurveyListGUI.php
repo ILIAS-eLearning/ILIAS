@@ -130,20 +130,17 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		$ilUser = $this->user;
 		$rbacsystem = $this->rbacsystem;
 
-		$props = array();
+		$props = [];
 
 		if (!$rbacsystem->checkAccess("visible,read", $this->ref_id))
 		{
 			return $props;
 		}
+
+		$props = parent::getProperties();
 		
 		include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
-		if (!ilObjSurveyAccess::_lookupOnline($this->obj_id))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
-		}
-		else
+		if(!ilObject::lookupOfflineStatus($this->obj_id))
 		{
 			// BEGIN Usability Distinguish between status and participation
 			if (!ilObjSurveyAccess::_lookupCreationComplete($this->obj_id))

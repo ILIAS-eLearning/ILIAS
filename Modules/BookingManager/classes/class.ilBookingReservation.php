@@ -23,6 +23,7 @@ class ilBookingReservation
 	protected $to;			// timestamp
 	protected $status;		// status
 	protected $group_id;	// int
+	protected $assigner_id;	// int
 
 	const STATUS_IN_USE = 2;
 	const STATUS_CANCELLED = 5;
@@ -86,6 +87,24 @@ class ilBookingReservation
 	function getUserId()
 	{
 		return $this->user_id;
+	}
+
+	/**
+	 * Set assigner user id
+	 * @param $a_assigner_id
+	 */
+	function setAssignerId($a_assigner_id)
+	{
+		$this->assigner_id = (int)$a_assigner_id;
+	}
+
+	/**
+	 * Get assigner user id
+	 * @return int
+	 */
+	function getAssignerId()
+	{
+		return $this->assigner_id;
 	}
 
 	/**
@@ -195,6 +214,7 @@ class ilBookingReservation
 				' WHERE booking_reservation_id = '.$ilDB->quote($this->id, 'integer'));
 			$row = $ilDB->fetchAssoc($set);
 			$this->setUserId($row['user_id']);
+			$this->setAssignerId($row['assigner_id']);
 			$this->setObjectId($row['object_id']);
 			$this->setFrom($row['date_from']);
 			$this->setTo($row['date_to']);
@@ -219,9 +239,10 @@ class ilBookingReservation
 		$this->id = $ilDB->nextId('booking_reservation');
 		
 		return $ilDB->manipulate('INSERT INTO booking_reservation'.
-			' (booking_reservation_id,user_id,object_id,date_from,date_to,status,group_id)'.
+			' (booking_reservation_id,user_id,assigner_id,object_id,date_from,date_to,status,group_id)'.
 			' VALUES ('.$ilDB->quote($this->id, 'integer').
 			','.$ilDB->quote($this->getUserId(), 'integer').
+			','.$ilDB->quote($this->getAssignerId(), 'integer').
 			','.$ilDB->quote($this->getObjectId(), 'integer').
 			','.$ilDB->quote($this->getFrom(), 'integer').
 			','.$ilDB->quote($this->getTo(), 'integer').
@@ -255,6 +276,7 @@ class ilBookingReservation
 		return $ilDB->manipulate('UPDATE booking_reservation'.
 			' SET object_id = '.$ilDB->quote($this->getObjectId(), 'text').
 			', user_id = '.$ilDB->quote($this->getUserId(), 'integer').
+			', assigner_id = '.$ilDB->quote($this->getAssignerId(), 'integer').
 			', date_from = '.$ilDB->quote($this->getFrom(), 'integer').
 			', date_to = '.$ilDB->quote($this->getTo(), 'integer').
 			', status = '.$ilDB->quote($this->getStatus(), 'integer').
@@ -465,25 +487,79 @@ class ilBookingReservation
 				
 		return (bool)($available_in_period-$booked_in_period);
 	}
+
+	//check if the user reached the limit of bookings in this booking pool.
+	static function isBookingPoolLimitReachedByUser(int $a_user_id, int $a_pool_id): int
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$booking_pool_objects = ilBookingObject::getObjectsForPool($a_pool_id);
+
+		$query = "SELECT count(user_id) total".
+			" FROM booking_reservation".
+			" WHERE ".$ilDB->in('object_id', $booking_pool_objects,false,'integer').
+			" AND user_id = ".$a_user_id.
+			" AND (status IS NULL OR status <> ".ilBookingReservation::STATUS_CANCELLED.')';
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+
+		return (int) $row['total'];
+	}
+
+	static function getMembersWithoutReservation(int $a_object_id): array
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$res = array();
+		$query = 'SELECT DISTINCT bm.user_id user_id'.
+			' FROM booking_member bm'.
+			' WHERE bm.user_id NOT IN ('.
+			'SELECT user_id'.
+			' FROM booking_reservation'.
+			' WHERE object_id = '.$ilDB->quote($a_object_id, 'integer').
+			' AND (status IS NULL OR status <> '.ilBookingReservation::STATUS_CANCELLED.'))';
+
+		$set = $ilDB->query($query);
+
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row['user_id'];
+		}
+
+		return $res;
+	}
 	
 	static function isObjectAvailableNoSchedule($a_obj_id)
+	{
+		$available = self::getNumAvailablesNoSchedule($a_obj_id);
+		return (bool)$available; // #11864
+	}
+	static function numAvailableFromObjectNoSchedule($a_obj_id)
+	{
+		$available = self::getNumAvailablesNoSchedule($a_obj_id);
+		return (int)$available;
+	}
+
+	public static function getNumAvailablesNoSchedule($a_obj_id)
 	{
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
+
 		$all = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
 		$all = (int)$all[$a_obj_id];
-		
+
 		$set = $ilDB->query('SELECT COUNT(*) cnt'.
 			' FROM booking_reservation r'.
 			' JOIN booking_object o ON (o.booking_object_id = r.object_id)'.
 			' WHERE (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
-			' AND r.object_id = '.$ilDB->quote($a_obj_id, 'integer'));		
+			' AND r.object_id = '.$ilDB->quote($a_obj_id, 'integer'));
 		$cnt = $ilDB->fetchAssoc($set);
 		$cnt = (int)$cnt['cnt'];
-		
-		return (bool)($all-$cnt); // #11864
+
+		return (int)$all-$cnt; // #11864
 	}
 
 	/**

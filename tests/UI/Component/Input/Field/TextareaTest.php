@@ -8,6 +8,9 @@ require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class TextareaTest extends ILIAS_UI_TestBase {
 
@@ -22,7 +25,13 @@ class TextareaTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
@@ -244,5 +253,16 @@ class TextareaTest extends ILIAS_UI_TestBase {
 		$html = trim(preg_replace('/\t+/', '', $html));
 		$expected = trim(preg_replace('/\t+/', '', $expected));
 		$this->assertEquals($expected, $html);
+	}
+
+	public function test_stripsTags() {
+		$f = $this->buildFactory();
+		$name = "name_0";
+		$text = $f->textarea("")
+			->withNameFrom($this->name_source)
+			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+
+		$content = $text->getContent();
+		$this->assertEquals("alert()", $content->value());
 	}
 }

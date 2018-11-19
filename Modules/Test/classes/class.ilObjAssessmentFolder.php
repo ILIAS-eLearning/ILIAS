@@ -212,7 +212,8 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	public static function _getManualScoringTypes()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->query("SELECT * FROM qpl_qst_type");
 		$dbtypes = array();
@@ -293,7 +294,9 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	public static function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = FALSE, $test_ref_id = NULL)
 	{
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 		if (strlen($question_id) == 0) $question_id = NULL;
 		if (strlen($original_id) == 0) $original_id = NULL;
 		if (strlen($test_ref_id) == 0) $test_ref_id = NULL;
@@ -325,7 +328,8 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	public static function getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$log = array();
 		if ($test_only == TRUE)
@@ -382,7 +386,8 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	public static function _getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$log = array();
 		if ($test_only == TRUE)
@@ -446,7 +451,8 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function getNrOfLogEntries($test_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
 			array('integer'),
 			array($test_obj_id)
@@ -470,7 +476,8 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function getFullPath($ref_id)
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$path = $tree->getPathFull($ref_id);
 		$pathelements = array();
 		foreach ($path as $id => $data)
@@ -495,8 +502,9 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function deleteLogEntries($a_array)
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		foreach ($a_array as $object_id)
 		{
@@ -518,7 +526,8 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 		
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		
 		$isPageEditorEnabled = $ilSetting->get(
 				'enable_tst_page_edit', self::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED

@@ -30,7 +30,9 @@
 			if (pos === -1) 
 			{
 				pub.ids.push(id);
+				console.log(pub.terms);
 			}
+			
 		};
 
 		pub.appendTerms = function(id, terms)
@@ -48,13 +50,14 @@
 
 		pub.Init = function() {
 			$.each(pub.ids, function(key, element){
+			    console.log(key, element);
 				$(element).tagsinput({
 					typeaheadjs: [{
 						minLength: parseInt({MIN_LENGTH}, 10),
 						highlight: {HIGHLIGHT}
 					},{
 						limit: parseInt({LIMIT}, 10),
-						source: pri.substringMatcher(pub.terms[key], key)
+						source: pri.substringMatcher(pub.terms, key)
 
 					}],
 					freeInput : false,

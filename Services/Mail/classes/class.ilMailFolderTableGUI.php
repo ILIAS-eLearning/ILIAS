@@ -4,10 +4,6 @@
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Mail/classes/class.ilMailUserCache.php';
-require_once 'Services/Mail/classes/class.ilMailBoxQuery.php';
-
 /**
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
@@ -97,7 +93,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->setFormAction($this->ctrl->getFormAction($this->_parentObject, 'showFolder'));
+		$this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
+		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showFolder'));
+		$this->ctrl->clearParameters($this->getParentObject());
 
 		$this->setEnableTitle(true);
 		$this->setSelectAllCheckbox('mail_id[]');
@@ -362,8 +360,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 */
 	private function initCommandButtons(): self
 	{
-		if ($this->_folderNode['m_type'] == 'trash' && $this->getNumberOfMails() > 0) {
-			$this->addCommandButton('askForEmptyTrash', $this->lng->txt('mail_empty_trash'));
+		if ($this->_folderNode['m_type'] === 'trash' && $this->getNumberOfMails() > 0) {
+			$this->addCommandButton('confirmEmptyTrash', $this->lng->txt('mail_empty_trash'));
 		}
 
 		return $this;
@@ -382,10 +380,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
 					if ($folder['type'] !== 'trash' || !$this->isTrashFolder()) {
 						if ($folder['type'] !== 'user_folder') {
 							$label = $action . ' ' . $this->lng->txt('mail_' . $folder['title']) .
-								($folder['type'] == 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
-							$this->addMultiCommand($folder['obj_id'], $label);
+								($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
+							$this->addMultiCommand($key . '_' . $folder['obj_id'], $label);
 						} else {
-							$this->addMultiCommand($folder['obj_id'], $action . ' ' . $folder['title']);
+							$this->addMultiCommand($key . '_' . $folder['obj_id'], $action . ' ' . $folder['title']);
 						}
 					}
 				}
@@ -446,7 +444,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 		try {
 			if ($this->isLuceneSearchEnabled()) {
-				include_once 'Services/Mail/classes/class.ilMailLuceneQueryParser.php';
 				$query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
 				$query_parser->setFields(array(
 					'title' => (bool)$this->filter['mail_filter_subject'],
@@ -457,8 +454,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				));
 				$query_parser->parse();
 
-				require_once 'Services/Mail/classes/class.ilMailLuceneSearcher.php';
-				require_once 'Services/Mail/classes/class.ilMailSearchResult.php';
 				$result = new ilMailSearchResult();
 				$searcher = new ilMailLuceneSearcher($query_parser, $result);
 				$searcher->search($this->user->getId(), $this->_currentFolderId);
@@ -552,13 +547,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			if ($this->isDraftFolder()) {
 				$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', $mail['mail_id']);
+				$this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
 				$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'draft');
 				$link_mark_as_read = $this->ctrl->getLinkTargetByClass('ilmailformgui');
 				$this->ctrl->clearParametersByClass('ilmailformgui');
 			} else {
-				$this->ctrl->setParameter($this->_parentObject, 'mail_id', $mail['mail_id']);
-				$link_mark_as_read = $this->ctrl->getLinkTarget($this->_parentObject, 'showMail');
-				$this->ctrl->clearParameters($this->_parentObject);
+				$this->ctrl->setParameter($this->getParentObject(), 'mail_id', $mail['mail_id']);
+				$this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
+				$link_mark_as_read = $this->ctrl->getLinkTarget($this->getParentObject(), 'showMail');
+				$this->ctrl->clearParameters($this->getParentObject());
 			}
 			$css_class = $mail['m_status'] == 'read' ? 'mailread' : 'mailunread';
 
@@ -592,16 +589,17 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			$mail['attachment_indicator'] = '';
 			if (is_array($mail['attachments']) && count($mail['attachments']) > 0) {
-				$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+				$this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int)$mail['mail_id']);
 				if ($this->isDraftFolder()) {
-					$this->ctrl->setParameter($this->_parentObject, 'type', 'draft');
+					$this->ctrl->setParameter($this->getParentObject(), 'type', 'draft');
 				}
+				$this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
 				$mail['attachment_indicator'] = $this->uiRenderer->render(
 					$this->uiFactory->glyph()->attachment(
-						$this->ctrl->getLinkTarget($this->_parentObject, 'deliverAttachments')
+						$this->ctrl->getLinkTarget($this->getParentObject(), 'deliverAttachments')
 					)
 				);
-				$this->ctrl->clearParameters($this->_parentObject);
+				$this->ctrl->clearParameters($this->getParentObject());
 			}
 
 			$mail['actions'] = $this->formatActionsDropDown($mail);
@@ -822,6 +820,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	{
 		if ($this->isDraftFolder()) {
 			$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$mail['mail_id']);
+			$this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
 			$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'draft');
 			$viewButton = $this->uiFactory
 				->button()
@@ -831,14 +830,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				);
 			$this->ctrl->clearParametersByClass('ilmailformgui');
 		} else {
-			$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+			$this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int)$mail['mail_id']);
+			$this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
 			$viewButton = $this->uiFactory
 				->button()
 				->shy(
 					$this->lng->txt('view'),
-					$this->ctrl->getLinkTarget($this->_parentObject, 'showMail')
+					$this->ctrl->getLinkTarget($this->getParentObject(), 'showMail')
 				);
-			$this->ctrl->clearParameters($this->_parentObject);
+			$this->ctrl->clearParameters($this->getParentObject());
 		}
 
 		$buttons[] = $viewButton;
@@ -852,6 +852,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	{
 		if (!$this->isDraftFolder()) {
 			if (isset($mail['sender_id']) && $mail['sender_id'] > 0 && $mail['sender_id'] != ANONYMOUS_USER_ID) {
+				$this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
 				$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$mail['mail_id']);
 				$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
 				$replyButton = $this->uiFactory
@@ -874,6 +875,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	protected function addForwardRowAction(array $mail, array &$buttons)
 	{
 		if (!$this->isDraftFolder()) {
+			$this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
 			$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$mail['mail_id']);
 			$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'forward');
 			$forwardButton = $this->uiFactory
@@ -895,16 +897,29 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	protected function addPrintRowAction(array $mail, array &$buttons)
 	{
 		if (!$this->isDraftFolder()) {
-			$this->ctrl->setParameter($this->_parentObject, 'mail_id', (int)$mail['mail_id']);
+			$this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
+			$this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int)$mail['mail_id']);
 			$printButton = $this->uiFactory
 				->button()
 				->shy(
 					$this->lng->txt('print'),
-					$this->ctrl->getLinkTarget($this->_parentObject, 'printMail')
+					$this->ctrl->getLinkTarget($this->getParentObject(), 'printMail')
 				);
-			$this->ctrl->clearParameters($this->_parentObject);
+			$this->ctrl->clearParameters($this->getParentObject());
 
 			$buttons[] = $printButton;
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getHTML()
+	{
+		$this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
+		$html = parent::getHTML();
+		$this->ctrl->clearParameters($this->getParentObject());
+
+		return $html;
 	}
 }

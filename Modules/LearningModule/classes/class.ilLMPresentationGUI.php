@@ -148,7 +148,7 @@ class ilLMPresentationGUI
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
-			if (!$this->lm->getOnline())
+			if ($this->lm->getOfflineStatus())
 			{
 				$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 			}
@@ -4101,7 +4101,11 @@ class ilLMPresentationGUI
 		{
 			if ($_GET["from_page"] == "")
 			{
-				$this->ctrl->setParameter($this, "from_page", $cur_page_id);
+				// added if due to #23216 (from page has been set in lots of usual navigation links)
+				if (!in_array($a_frame, array("", "_blank")))
+				{
+					$this->ctrl->setParameter($this, "from_page", $cur_page_id);
+				}
 			}
 			else
 			{

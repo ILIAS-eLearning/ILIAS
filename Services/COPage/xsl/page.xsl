@@ -76,6 +76,7 @@
 <xsl:param name="enable_blog"/>
 <xsl:param name="enable_qover"/>
 <xsl:param name="enable_skills"/>
+<xsl:param name="enable_learning_history"/>
 <xsl:param name="flv_video_player"/>
 <xsl:param name="enable_placeholder"/>
 <xsl:param name="enable_consultation_hours"/>
@@ -763,6 +764,14 @@
 		</xsl:call-template>
 	</xsl:if>
 	
+	<!-- insert learning history -->
+	<xsl:if test = "$enable_learning_history = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_lhist</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_learning_history</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<!-- insert consultation hours -->
 	<xsl:if test = "$enable_consultation_hours = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -4234,6 +4243,28 @@
 <!-- Skills data -->
 <xsl:template match="Skills">
 	{{{{{Skills<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>#<xsl:value-of select="@Id"/>}}}}}
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test="$javascript='disable'">
+			<br />
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
+			<xsl:with-param name="edit">y</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
+<!-- Learning History -->
+<xsl:template match="LearningHistory">
+	{{{{{LearningHistory#<xsl:value-of select="@From"/>#<xsl:value-of select="@To"/>#<xsl:for-each select="LearningHistoryProvider">
+		<xsl:value-of select="@Name"/>;
+	</xsl:for-each>}}}}}
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">

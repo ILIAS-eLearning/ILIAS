@@ -67,7 +67,8 @@ class ilTestSessionFactory
 			}
 			else
 			{
-				global $ilUser;
+				global $DIC;
+				$ilUser = $DIC['ilUser'];
 
 				$testSession->loadTestSession(
 					$this->testOBJ->getTestId(), $ilUser->getId(), $testSession->getAccessCodeFromSession()

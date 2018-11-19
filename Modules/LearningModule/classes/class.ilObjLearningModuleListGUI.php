@@ -152,15 +152,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		$lng = $this->lng;
 		$rbacsystem = $this->rbacsystem;
 
-		$props = array();
-
-		include_once("./Modules/LearningModule/classes/class.ilObjLearningModuleAccess.php");
-
-		if (ilObjLearningModuleAccess::_isOffline($this->obj_id))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
-		}
+		$props = parent::getProperties();
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
