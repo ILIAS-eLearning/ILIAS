@@ -437,7 +437,7 @@ class ilTemplate extends HTML_Template_ITX
 	 *
 	 * @param string $a_js_file
 	 */
-	function addJavaScript($a_js_file)
+	public function addJavaScript($a_js_file)
 	{
 		if (!in_array($a_js_file, $this->js_files))
 		{
