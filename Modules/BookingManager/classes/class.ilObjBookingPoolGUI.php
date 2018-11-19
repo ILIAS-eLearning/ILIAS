@@ -251,6 +251,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$fixed->setInfo($this->lng->txt("book_schedule_type_fixed_info"));
 		$type->addOption($fixed);
 
+		#23637
+		//period
+		$period = new ilNumberInputGUI($this->lng->txt("book_reservation_filter_period"), "period");
+		$period->setInfo($this->lng->txt("book_reservation_filter_period_info"));
+		$period->setSuffix($this->lng->txt("days"));
+		$period->setSize(3);
+		$period->setMinValue(0);
+		$fixed->addSubItem($period);
+
 		// reminder
 		$rmd = new ilCheckboxInputGUI($this->lng->txt("book_reminder_setting"), "rmd");
 		$rmd->setChecked($this->object->getReminderStatus());
@@ -277,14 +286,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
 		$public->setInfo($this->lng->txt("book_public_log_info"));
-		$a_form->addItem($public);		
-		
-		$period = new ilNumberInputGUI($this->lng->txt("book_reservation_filter_period"), "period");
-		$period->setInfo($this->lng->txt("book_reservation_filter_period_info"));
-		$period->setSuffix($this->lng->txt("days"));
-		$period->setSize(3);
-		$period->setMinValue(0);
-		$a_form->addItem($period);
+		$a_form->addItem($public);
 
 		// presentation
 		$pres = new ilFormSectionHeaderGUI();
