@@ -51,7 +51,7 @@ interface Factory {
 	 *          does not provide enough information about the action.
 	 *       2: >
 	 *          Some Buttons can be stateful; when engaged, the state MUST be
-	 *          refelected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
 	 *          If the Button is not stateful (which is the default), the
 	 *          aria-attribute SHOULD be omitted.
 	 * ---
@@ -108,7 +108,7 @@ interface Factory {
 	 *   accessibility:
 	 *       1: >
 	 *          Some Buttons can be stateful; when engaged, the state MUST be
-	 *          refelected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
 	 *          If the Button is not stateful (which is the default), the
 	 *          aria-attribute SHOULD be omitted.
 	 *
@@ -273,7 +273,7 @@ interface Factory {
 	 *       readers by an aria-label.
 	 *     2: >
 	 *        Some Buttons can be stateful; when engaged, the state MUST be
-	 *        refelected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *        reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
 	 *        If the Button is not stateful (which is the default), the
 	 *        aria-attribute SHOULD be omitted.
 	 *
