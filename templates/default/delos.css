@@ -7846,7 +7846,9 @@ hr.il-divider-with-label {
   background-image: url("images/icon_iass.svg");
 }
 .il-viewcontrol-mode .ilSubmitInactive,
-.il-viewcontrol-mode .ilSubmitInactive:hover {
+.il-viewcontrol-section .ilSubmitInactive,
+.il-viewcontrol-mode .ilSubmitInactive:hover,
+.il-viewcontrol-section .ilSubmitInactive:hover {
   background-color: #557196;
   color: white;
   border-color: transparent;
