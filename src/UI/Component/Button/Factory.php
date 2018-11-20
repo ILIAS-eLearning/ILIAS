@@ -47,10 +47,13 @@ interface Factory {
 	 *   accessibility:
 	 *       1: >
 	 *          Standard buttons MAY define aria-label attribute. Use it in cases
-	 *          where a text label is not visible on the screen or when the label does not provide enough information
-	 *          about the action.
+	 *          where a text label is not visible on the screen or when the label
+	 *          does not provide enough information about the action.
 	 *       2: >
-	 *          Standard buttons MAY define aria-checked attribute. Use it to inform which is the currently active button.
+	 *          Some Buttons can be stateful; when engaged, the state MUST be
+	 *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *          If the Button is not stateful (which is the default), the
+	 *          aria-attribute SHOULD be omitted.
 	 * ---
 	 * @param	string				$label
 	 * @param	string|Signal		$action		will be triggered on click
@@ -102,6 +105,13 @@ interface Factory {
 	 *           by the JF.
 	 *       4: >
 	 *           The loading animation rules of the Standard Button MUST be respected.
+	 *   accessibility:
+	 *       1: >
+	 *          Some Buttons can be stateful; when engaged, the state MUST be
+	 *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *          If the Button is not stateful (which is the default), the
+	 *          aria-attribute SHOULD be omitted.
+	 *
 	 * ---
 	 * @param	string		$label
 	 * @param	string|Signal		$action		will be triggered on click
@@ -261,7 +271,11 @@ interface Factory {
 	 *     1: >
 	 *       The functionality of the Bulky Button MUST be indicated for screen
 	 *       readers by an aria-label.
-	 *     2: Bulky Buttons MUST define aria-pressed attribute.
+	 *     2: >
+	 *        Some Buttons can be stateful; when engaged, the state MUST be
+	 *        reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *        If the Button is not stateful (which is the default), the
+	 *        aria-attribute SHOULD be omitted.
 	 *
 	 * ---
 	 * @param	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph

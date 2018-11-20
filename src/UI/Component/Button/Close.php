@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\Button;
 
 use \ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Clickable;
 
 /**
  * This describes a close button. 
@@ -13,5 +14,6 @@ use ILIAS\UI\Component\JavaScriptBindable;
  * This does not implement the Button interface as there seem to be not many
  * commonalities between the standard/primary buttons and the close button.
  */
-interface Close extends \ILIAS\UI\Component\Component, JavaScriptBindable {
+interface Close extends \ILIAS\UI\Component\Component, JavaScriptBindable, Clickable {
+
 }
