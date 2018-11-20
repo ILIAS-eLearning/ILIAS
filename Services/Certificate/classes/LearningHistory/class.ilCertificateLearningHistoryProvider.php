@@ -33,6 +33,9 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	/** @var ilCertificateUtilHelper|null */
 	private $utilHelper;
 
+	/** @var ilAccess|ilAccessHandler|null */
+	private $access;
+
 	/**
 	 * @param int $user_id
 	 * @param ilLearningHistoryFactory $factory
@@ -45,6 +48,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 * @param Factory|null $uiFactory
 	 * @param Renderer|null $uiRenderer
 	 * @param ilCertificateUtilHelper|null $utilHelper
+	 * @param ilAccess|null $access
 	 */
 	public function __construct(
 		int $user_id,
@@ -57,7 +61,8 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 		ilSetting $certificateSettings = null,
 		Factory $uiFactory = null,
 		Renderer $uiRenderer = null,
-		ilCertificateUtilHelper $utilHelper = null
+		ilCertificateUtilHelper $utilHelper = null,
+		ilAccess $access = null
 	) {
 		$lng->loadLanguageModule("cert");
 
@@ -99,6 +104,11 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 			$utilHelper = new ilCertificateUtilHelper();
 		}
 		$this->utilHelper = $utilHelper;
+
+		if (null === $access) {
+			$access = $dic->access();
+		}
+		$this->access = $access;
 	}
 
 	/**
@@ -132,25 +142,15 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 				'certificate_id',
 				$certificate->getUserCertificate()->getId()
 			);
-			$href = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
+
+			$certificateDownloadHref = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
 			$this->controller->clearParametersByClass('ilUserCertificateGUI');
 
-			$text = sprintf(
-				$this->lng->txt('certificate_achievement_sub_obj'),
-				$this->getEmphasizedTitle($certificate->getObjectTitle())
-			);
-
-			$link = $this->uiFactory->link()->standard($text, $href);
-			$link = $this->uiRenderer->render($link);
-
-			$text = sprintf(
-				$this->lng->txt('certificate_achievement'),
-				$link
-			);
+			$displayText = $this->createDisplayText($objectId, $certificate, $certificateDownloadHref);
 
 			$entries[] = new ilLearningHistoryEntry(
-				$text,
-				$text,
+				$displayText,
+				$displayText,
 				$this->utilHelper->getImagePath("icon_cert.svg"),
 				$certificate->getUserCertificate()->getAcquiredTimestamp(),
 				$objectId
@@ -168,4 +168,72 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	{
 		return $this->lng->txt('certificates');
 	}
+
+
+	/**
+	 * @param $objectId
+	 * @param $certificate
+	 * @param $certificateDownloadHref
+	 * @return string
+	 */
+	protected function createDisplayText(int $objectId, ilUserCertificatePresentation $certificate, string $certificateDownloadHref): string
+	{
+		$allRefIds = ilObject::_getAllReferences($objectId);
+		$ref_id = (int) array_shift($allRefIds);
+
+		if ($this->access->checkAccess("read", "", $ref_id)) {
+			return $this->createDisplayTextForKnownObject($ref_id, $certificate, $certificateDownloadHref);
+		}
+
+		return $this->createDisplayTextForUnknownObject($certificate->getObjectTitle(), $certificateDownloadHref);
+	}
+
+	/**
+	 * @param $ref_id
+	 * @param $certificate
+	 * @param $certificateDownloadHref
+	 * @return string
+	 */
+	private function createDisplayTextForKnownObject(int $ref_id, ilUserCertificatePresentation $certificate, string $certificateDownloadHref)
+	{
+		$objectUrl = ilLink::_getLink($ref_id);
+
+		$label = sprintf('%1$s', $certificate->getObjectTitle());
+		$objectLink = $this->uiFactory->link()->standard($label, $objectUrl);
+		$objectLink = $this->uiRenderer->render($objectLink);
+
+		$certificateLink = $this->uiFactory->link()->standard($this->lng->txt('certificate'), $certificateDownloadHref);
+		$certificateLink = $this->uiRenderer->render($certificateLink);
+
+		$text = sprintf(
+			$this->lng->txt('certificate_achievement_object_exists'),
+			$certificateLink,
+			$this->getEmphasizedTitle($objectLink)
+		);
+
+		return $text;
+	}
+
+	/**
+	 * @param $objectText
+	 * @param $certificateDownloadHref
+	 * @return string
+	 */
+	protected function createDisplayTextForUnknownObject($objectText, $certificateDownloadHref): string
+	{
+		$text = sprintf(
+			$this->lng->txt('certificate_achievement_sub_obj'),
+			$this->getEmphasizedTitle($objectText)
+		);
+
+		$link = $this->uiFactory->link()->standard($text, $certificateDownloadHref);
+		$link = $this->uiRenderer->render($link);
+
+		$displayText = sprintf(
+			$this->lng->txt('certificate_achievement'),
+			$link
+		);
+		return $displayText;
+	}
+
 }

@@ -14683,6 +14683,7 @@ cert#:#certificate_same_not_saved#:#No new version of certificate template was s
 common#:#my_certificates#:#My Certificates
 cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
 cert#:#certificate_achievement#:#%1$s achieved.
+cert#:#certificate_achievement_object_exists#:#%1$s for %2$s achieved.
 cert#:#certificate_no_object_title#:#No object title available
 cert#:#certificate_no_object_desc#:#No object description available
 cert#:#cert_sortable_by_title_asc#:#Title Ascending
