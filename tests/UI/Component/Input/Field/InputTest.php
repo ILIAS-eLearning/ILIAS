@@ -123,6 +123,15 @@ class InputTest extends ILIAS_UI_TestBase {
 	}
 
 
+	public function test_withDisabled() {
+		$this->assertFalse($this->input->isDisabled());
+		$input = $this->input->withDisabled(true);
+		$this->assertTrue($input->isDisabled());
+		$input = $input->withDisabled(false);
+		$this->assertFalse($input->isDisabled());
+	}
+
+
 	public function test_withValue() {
 		$value = "some value";
 		$input = $this->input->withValue($value);
