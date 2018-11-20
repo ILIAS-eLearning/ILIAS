@@ -161,6 +161,28 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 	}
 
 
+	public function test_render_disabled() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$pwd = $f->password($label)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $r->render($pwd);
+
+		$expected = ""
+		."<div class=\"form-group row\">"
+			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+			."<div class=\"col-sm-9\">"
+				."<div class=\"il-input-password\">"
+					."<input type=\"password\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />"
+				."</div>"
+			."</div>"
+		."</div>";
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+
 	public function test_value_required() {
 		$f = $this->buildFactory();
 		$label = "label";

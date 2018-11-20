@@ -245,4 +245,37 @@ class TextareaTest extends ILIAS_UI_TestBase {
 		$expected = trim(preg_replace('/\t+/', '', $expected));
 		$this->assertEquals($expected, $html);
 	}
+
+	public function test_renderer_with_disabled()
+	{
+		$f = $this->buildFactory();
+		$r = $this->getDefaultRenderer();
+		$label = "label";
+		$byline = "byline";
+		$name = "name_0";
+		$textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$expected = "<div class=\"form-group row\">"
+			."<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+			."<div class=\"col-sm-9\">"
+			."<textarea name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" id=\"\"></textarea>"
+			."<div id=\"textarea_feedback_\" data-maxchars=\"\"></div>"
+			."<div class=\"help-block\">byline</div>"
+			."</div>"
+			."</div>";
+
+		$html = $this->normalizeHTML($r->render($textarea));
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+	public function test_stripsTags() {
+		$f = $this->buildFactory();
+		$name = "name_0";
+		$text = $f->textarea("")
+			->withNameFrom($this->name_source)
+			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+
+		$content = $text->getContent();
+		$this->assertEquals("alert()", $content->value());
+	}
 }

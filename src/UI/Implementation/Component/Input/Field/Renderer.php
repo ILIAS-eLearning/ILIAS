@@ -298,7 +298,7 @@ class Renderer extends AbstractComponentRenderer {
 				}
 				if ($input->isDisabled()) {
 					$tpl->setCurrentBlock("disabled");
-					$tpl->setVariable("DISABLED", "disabled");
+					$tpl->setVariable("DISABLED", 'disabled="disabled"');
 					$tpl->parseCurrentBlock();
 				}
 				if ($id) {
@@ -331,7 +331,7 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setVariable("NAME", $input->getName());
 				if ($input->isDisabled()) {
 					$tpl->setCurrentBlock("disabled");
-					$tpl->setVariable("DISABLED", "disabled");
+					$tpl->setVariable("DISABLED", 'disabled="disabled"');
 					$tpl->parseCurrentBlock();
 				}
 				if ($input->getValue()) {
@@ -355,7 +355,7 @@ class Renderer extends AbstractComponentRenderer {
 	{
 		if ($input->isDisabled()) {
 			$tpl->setCurrentBlock("disabled");
-			$tpl->setVariable("DISABLED", "disabled");
+			$tpl->setVariable("DISABLED", 'disabled="disabled"');
 			$tpl->parseCurrentBlock();
 		}
 		$value = $input->getValue();
@@ -400,7 +400,7 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setVariable("CHECKED", 'checked="checked"');
 			}
 			if ($input->isDisabled()) {
-				$tpl->setVariable("DISABLED", "disabled");
+				$tpl->setVariable("DISABLED", 'disabled="disabled"');
 			}
 
 			$tpl->parseCurrentBlock();
@@ -508,7 +508,7 @@ class Renderer extends AbstractComponentRenderer {
 				$input_tpl->setVariable("CHECKED", 'checked="checked"');
 			}
 			if ($input->isDisabled()) {
-				$input_tpl->setVariable("DISABLED", "disabled");
+				$input_tpl->setVariable("DISABLED", 'disabled="disabled"');
 			}
 
 			//dependant fields
