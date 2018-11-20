@@ -43,4 +43,13 @@ class ilCertificateObjectHelper
 	{
 		return ilObject::_lookupTitle($objectId);
 	}
+
+	/**
+	 * @param int $objectId
+	 * @return string
+	 */
+	public function getAllReferences(int $objectId) : array
+	{
+		return ilObject::_getAllReferences($objectId);
+	}
 }

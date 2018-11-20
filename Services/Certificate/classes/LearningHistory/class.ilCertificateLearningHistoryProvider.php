@@ -36,6 +36,9 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	/** @var ilAccess|ilAccessHandler|null */
 	private $access;
 
+	/** @var ilCertificateObjectHelper|null */
+	private $objectHelper;
+
 	/**
 	 * @param int $user_id
 	 * @param ilLearningHistoryFactory $factory
@@ -48,6 +51,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 * @param Factory|null $uiFactory
 	 * @param Renderer|null $uiRenderer
 	 * @param ilCertificateUtilHelper|null $utilHelper
+	 * @param ilCertificateObjectHelper|null $objectHelper
 	 * @param ilAccess|null $access
 	 */
 	public function __construct(
@@ -62,6 +66,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 		Factory $uiFactory = null,
 		Renderer $uiRenderer = null,
 		ilCertificateUtilHelper $utilHelper = null,
+		ilCertificateObjectHelper $objectHelper = null,
 		ilAccess $access = null
 	) {
 		$lng->loadLanguageModule("cert");
@@ -104,6 +109,11 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 			$utilHelper = new ilCertificateUtilHelper();
 		}
 		$this->utilHelper = $utilHelper;
+
+		if (null === $objectHelper) {
+			$objectHelper = new ilCertificateObjectHelper();
+		}
+		$this->objectHelper = $objectHelper;
 
 		if (null === $access) {
 			$access = $dic->access();
@@ -178,7 +188,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 */
 	protected function createDisplayText(int $objectId, ilUserCertificatePresentation $certificate, string $certificateDownloadHref): string
 	{
-		$allRefIds = ilObject::_getAllReferences($objectId);
+		$allRefIds = $this->objectHelper->getAllReferences($objectId);
 		$ref_id = (int) array_shift($allRefIds);
 
 		if ($this->access->checkAccess("read", "", $ref_id)) {

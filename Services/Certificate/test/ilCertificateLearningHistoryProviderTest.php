@@ -189,6 +189,14 @@ class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCas
 			->disableOriginalConstructor()
 			->getMock();
 
+		$objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$access = $this->getMockBuilder('ilAccess')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$utilHelper->method('getImagePath')
 			->willReturn('/some/acutal/image/path/background.png');
 
@@ -203,7 +211,9 @@ class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCas
 			$certificateSettings,
 			$uiFactory,
 			$uiRenderer,
-			$utilHelper
+			$utilHelper,
+			$objectHelper,
+			$access
 		);
 
 		$expectedEntries = array(
