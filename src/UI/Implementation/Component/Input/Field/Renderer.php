@@ -331,7 +331,7 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setVariable("NAME", $input->getName());
 				if ($input->isDisabled()) {
 					$tpl->setCurrentBlock("disabled");
-					$tpl->setVariable("DISABLED", 'disabled="disabled"');
+					$tpl->setVariable("DISABLED", "disabled");
 					$tpl->parseCurrentBlock();
 				}
 				if ($input->getValue()) {
