@@ -357,7 +357,7 @@ class ilContObjectManifestBuilder
 					{
 						include_once("./Modules/File/classes/class.ilObjFile.php");
 						$file_obj = new ilObjFile($file_id, false);
-						$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_file_".$file_id."/".rawurlencode($file_obj->filename)), "");
+						$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_file_".$file_id."/".rawurlencode($file_obj->getFileName())), "");
 					}
 				}
 				unset($page_obj);
