@@ -140,7 +140,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
 
-		$expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" disabled=\"disabled\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>					</div></div>";
+		$expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag disabled\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>					</div></div>";
 
 		$this->assertEquals($expected, $html);
 	}

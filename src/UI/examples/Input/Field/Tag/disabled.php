@@ -15,7 +15,7 @@ function disabled() {
 		->tag("Basic Tag",
 			['Interesting', 'Boring', 'Animating', 'Repetitious'],
 			"Just some tags"
-		)->withDisabled(true);
+		)->withDisabled(true)->withValue(["Boring, Animating"]);
 
 	//Step 2: Define the form and attach the section.
 	$form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);
