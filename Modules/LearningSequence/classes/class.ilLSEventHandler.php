@@ -26,7 +26,10 @@ class ilLSEventHandler
 	public function handleObjectDeletion(array $parameter)
 	{
 		$obj_deleted = $parameter['object'];
-		$parent_lso = $this->getParentLSOInfo((int)$obj_deleted->getRefId());
+		$parent_lso = false;
+		if(!empty($obj_deleted->getRefId())) {
+			$parent_lso = $this->getParentLSOInfo((int)$obj_deleted->getRefId());
+		}
 		if ($parent_lso !== false) {
 			$lso = $this->getInstanceByRefId((int)$parent_lso['ref_id']);
 			$lso->getStateDB()->deleteForItem(
