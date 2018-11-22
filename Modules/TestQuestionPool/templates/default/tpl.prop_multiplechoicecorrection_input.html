@@ -3,7 +3,9 @@
         <thead>
         <tr>
             <th>{ANSWER_TEXT}</th>
-            <th class="imagecolumn"><!-- BEGIN image_heading -->{ANSWER_IMAGE}<!-- END image_heading --></th>
+            <!-- BEGIN image_heading -->
+            <th class="imagecolumn">{ANSWER_IMAGE}</th>
+            <!-- END image_heading -->
             <!-- BEGIN points_heading -->
             <th>{POINTS_CHECKED_TEXT}</th>
             <th>{POINTS_UNCHECKED_TEXT}</th>
@@ -14,6 +16,7 @@
         <!-- BEGIN row -->
         <tr class="scwzd">
             <td><!-- BEGIN answer -->{ANSWER}<!-- END answer --></td>
+            <!-- BEGIN image_col -->
             <td class="imagecolumn">
                 <!-- BEGIN addimage -->
                 <div class="imageselection">
@@ -25,6 +28,7 @@
                 </div>
                 <!-- END addimage -->
             </td>
+            <!-- END image_col -->
             <td class="ilValignTop">
                 <input type="text" class="form-control text-right" size="5" id="{POINTS_CHECKED_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" value="{PROPERTY_VALUE_CHECKED}"/>
             </td>
