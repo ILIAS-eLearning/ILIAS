@@ -14933,3 +14933,4 @@ meta#:#meta_info_only_repository_objects#:#Only repository objects are listed be
 book#:#book_objects_available#:#Objects available %s
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
 book#:#booking_multiple_succesfully#:#Bookings created successfully.
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
