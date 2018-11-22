@@ -758,7 +758,8 @@ class ilUserProfile
 					{
 						if(!$registration_settings->passwordGenerationEnabled())
 						{
-							$ta = new ilPasswordInputGUI($lng->txt($lv), "usr_".$f);							
+							$ta = new ilPasswordInputGUI($lng->txt($lv), "usr_".$f);
+							$ta->setUseStripSlashes(false);
 							$ta->setRequired(true);
 							$ta->setInfo(ilUtil::getPasswordRequirementsInfo());
 							// $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
