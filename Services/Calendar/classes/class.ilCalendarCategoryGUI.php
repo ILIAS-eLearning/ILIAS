@@ -1684,10 +1684,10 @@ class ilCalendarCategoryGUI
 		$table = new ilCalendarInboxSharedTableGUI($this,'inbox');
 		$table->setCalendars(ilCalendarShared::getSharedCalendarsForUser());
 
-		if($table->parse())
-		{
+		//if($table->parse())
+		//{
 			$this->tpl->setContent($table->getHTML());
-		}
+		//}
 	}
 
 	/**
