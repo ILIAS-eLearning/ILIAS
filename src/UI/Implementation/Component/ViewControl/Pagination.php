@@ -3,13 +3,14 @@
 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
-use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\ViewControl\Pagination as PaginationInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
-class Pagination implements C\ViewControl\Pagination  {
+class Pagination implements PaginationInterface  {
 	use ComponentHelper;
 	use JavaScriptBindable;
 	use Triggerer;
@@ -35,7 +36,7 @@ class Pagination implements C\ViewControl\Pagination  {
 	protected $internal_signal;
 
 	/**
-	 * @var string
+	 * @var string | null
 	 */
 	protected $target_url;
 
@@ -54,16 +55,23 @@ class Pagination implements C\ViewControl\Pagination  {
 	 */
 	protected $dd_threshold;
 
+	/**
+	 * @var string
+	 */
+	protected $dropdown_label;
+
 
 	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();
+		$this->dropdown_label = '%1$d';
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withResetSignals() {
+	public function withResetSignals()
+	{
 		$clone = clone $this;
 		$clone->initSignals();
 		return $clone;
@@ -74,23 +82,24 @@ class Pagination implements C\ViewControl\Pagination  {
 	 *
 	 * @return void
 	 */
-	protected function initSignals() {
+	protected function initSignals()
+	{
 		$this->internal_signal = $this->signal_generator->create();
 	}
 
 	/**
-	 * get the internal signal that is triggered on click of a button
-	 *
-	 * @return Signal
+	 * Get the internal signal that is triggered on click of a button.
 	 */
-	public function getInternalSignal() {
+	public function getInternalSignal(): Signal
+	{
 		return $this->internal_signal;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withTargetURL($url, $paramter_name) {
+	public function withTargetURL(string $url, string $paramter_name): PaginationInterface
+	{
 		$this->checkStringArg("url", $url);
 		$this->checkStringArg("paramter_name", $paramter_name);
 		$clone = clone $this;
@@ -102,21 +111,24 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function getTargetURL() {
+	public function getTargetURL()
+	{
 		return $this->target_url;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getParameterName() {
+	public function getParameterName(): string
+	{
 		return $this->paramter_name;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withTotalEntries($total) {
+	public function withTotalEntries(int $total): PaginationInterface
+	{
 		$this->checkIntArg("total", $total);
 		$clone = clone $this;
 		$clone->total_entries = $total;
@@ -126,7 +138,8 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withPageSize($size) {
+	public function withPageSize(int $size): PaginationInterface
+	{
 		$this->checkIntArg("size", $size);
 		//raise, if size < 1
 		$clone = clone $this;
@@ -137,14 +150,16 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function getPageSize() {
+	public function getPageSize(): int
+	{
 		return $this->page_size;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withCurrentPage($page) {
+	public function withCurrentPage(int $page): PaginationInterface
+	{
 		$this->checkIntArg("page", $page);
 		$clone = clone $this;
 		$clone->current_page = $page;
@@ -154,14 +169,16 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function getCurrentPage() {
+	public function getCurrentPage(): int
+	 {
 		return $this->current_page;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getOffset() {
+	public function getOffset():int
+	{
 		$offset = $this->page_size * $this->current_page;
 		return $offset;
 	}
@@ -169,14 +186,16 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withOnSelect(C\Signal $signal) {
+	public function withOnSelect(Signal $signal): PaginationInterface
+	{
 		return $this->withTriggeredSignal($signal, 'select');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getNumberOfPages() {
+	public function getNumberOfPages(): int
+	{
 		$pages = ceil($this->total_entries / $this->page_size);
 		return (int)$pages;
 	}
@@ -184,7 +203,8 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxPaginationButtons($amount) {
+	public function withMaxPaginationButtons(int $amount): PaginationInterface
+	{
 		$this->checkIntArg("amount", $amount);
 		$clone = clone $this;
 		$clone->max_pages_shown = $amount;
@@ -194,16 +214,15 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMaxPaginationButtons() {
+	public function getMaxPaginationButtons()
+	{
 		return $this->max_pages_shown;
 	}
 
 	/**
 	 * Calculate the total number of pages.
-	 *
-	 * @return int
 	 */
-	public function getPageLength() {
+	public function getPageLength(): int {
 		if($this->getOffset() + $this->page_size > $this->total_entries) {
 			return $this->total_entries - $this->getOffset();
 		}
@@ -213,7 +232,8 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withDropdownAt($amount) {
+	public function withDropdownAt(int $amount): PaginationInterface
+	{
 		$this->checkIntArg("amount", $amount);
 		$clone = clone $this;
 		$clone->dd_threshold = $amount;
@@ -223,8 +243,27 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function getDropdownAt() {
+	public function getDropdownAt()
+	{
 		return $this->dd_threshold;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDropdownLabel(string $template): PaginationInterface
+	{
+		$clone = clone $this;
+		$clone->dropdown_label = $template;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDropdownLabel(): string
+	{
+		return $this->dropdown_label;
 	}
 
 }

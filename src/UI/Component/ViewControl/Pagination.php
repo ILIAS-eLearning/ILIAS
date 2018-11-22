@@ -8,132 +8,107 @@ use ILIAS\UI\Component\Triggerer;
 /**
  * This describes a Pagination Control
  */
-interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
-
+interface Pagination extends C\Component, JavaScriptBindable, Triggerer
+{
 	/**
 	 * Get a Pagination with this target-url.
 	 * Shy-Buttons in this control will link to this url
 	 * and add $parameter_name with the selected value.
-	 *
-	 * @param 	string 	$url
-	 * @param 	string 	$paramer_name
-	 *
-	 * @return \Pagination
 	 */
-	public function withTargetURL($url, $paramter_name);
+	public function withTargetURL(string $url, string $paramter_name): Pagination;
 
 	/**
 	 * Get the url this instance should trigger.
 	 *
-	 * @return 	string
+	 * @return string|null
 	 */
 	public function getTargetURL();
 
 	/**
 	 * Get the parameter this instance uses.
-	 *
-	 * @return 	string
 	 */
-	public function getParameterName();
+	public function getParameterName(): string;
 
 	/**
 	 * Initialize with the total amount of entries
 	 * of the controlled data-list
-	 *
-	 * @param 	int 	$total
-	 *
-	 * @return \Pagination
 	 */
-	public function withTotalEntries($total);
+	public function withTotalEntries(int $total): Pagination;
 
 	/**
 	 * Set the amount of entries per page.
-	 *
-	 * @param 	int 	$size
-	 *
-	 * @return \Pagination
 	 */
-	public function withPageSize($size);
+	public function withPageSize(int $size): Pagination;
 
 	/**
 	 * Get the numebr of entries per page.
-	 *
-	 * @return int
 	 */
-	public function getPageSize();
+	public function getPageSize(): int;
 
 	/**
 	 * Set the selected page.
-	 *
-	 * @param 	int 	$page
-	 *
-	 * @return \Pagination
 	 */
-	public function withCurrentPage($page);
+	public function withCurrentPage(int $page): Pagination;
 
 	/**
 	 * Get the currently slected page.
-	 *
-	 * @return int
 	 */
-	public function getCurrentPage();
+	public function getCurrentPage(): int;
 
 	/**
 	 * Get the data's offset according to current page and page size.
-	 *
-	 * @return int
 	 */
-	public function getOffset();
+	public function getOffset(): int;
 
 	/**
 	 * Register a signal with the control.
-	 *
-	 * @param ILIAS\UI\Component\Signal $signal
-	 *
-	 * @return \Pagination
 	 */
-	public function withOnSelect(C\Signal $signal);
+	public function withOnSelect(C\Signal $signal): Pagination;
 
 	/**
 	 * Calculate the total number of pages.
-	 *
-	 * @return int
 	 */
-	public function getNumberOfPages();
+	public function getNumberOfPages(): int;
 
 	/**
 	 * Layout; define, how many page-options are shown (max).
-	 *
-	 * @param int 	$amount
-	 *
-	 * @return \Pagination
 	 */
-	public function withMaxPaginationButtons($amount);
+	public function withMaxPaginationButtons(int $amount): Pagination;
 
 	/**
 	 * Get the maximum amount of page-entries (not records per page!)
 	 * to be shown.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getMaxPaginationButtons();
 
 	/**
 	 * Layout; when number of page-entries reaches $amount,
 	 * the options will be rendered as dropdown.
-	 *
-	 * @param int 	$amount
-	 *
-	 * @return \Pagination
 	 */
-	public function withDropdownAt($amount);
+	public function withDropdownAt(int $amount): Pagination;
 
 	/**
 	 * Below this value, the options are directly rendered as shy-buttons,
-	 * on and above thist value a dropdown is beeing used.
+	 * on and above this value a dropdown is beeing used.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getDropdownAt();
 
+	/**
+	 * Layout; set the label for dropdown. By default, the dropdown will
+	 * simply state the page-number.
+	 * If need (or wish) arises, you can give a template-string
+	 * with variables for current and total page numbers.
+	 * The string will be filled with sprintf($template, $current_page, $total_pages),
+	 * so, e.g.: "page %1$d of %2$d" or "from %2$d, this is %1$d".
+	 */
+	public function withDropdownLabel(string $template): Pagination;
+
+	/**
+	 * Get the template for the label of the dropdown.
+	 */
+	public function getDropdownLabel(): string;
 }

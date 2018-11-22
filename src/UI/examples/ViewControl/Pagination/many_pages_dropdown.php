@@ -14,7 +14,8 @@ function many_pages_dropdown() {
 		->withTotalEntries(102)
 		->withPageSize(10)
 		->withDropdownAt(5)
-		->withCurrentPage($current_page);
+		->withCurrentPage($current_page)
+		->withDropdownLabel('page %1$d of %2$d');
 
 	$start = $pagination->getOffset();
 	$stop = $start + $pagination->getPageLength();
