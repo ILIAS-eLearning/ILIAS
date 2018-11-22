@@ -14208,3 +14208,4 @@ file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file 
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
