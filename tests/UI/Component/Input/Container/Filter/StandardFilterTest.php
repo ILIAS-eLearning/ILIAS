@@ -105,7 +105,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 
 		$expected = <<<EOT
 <div class="il-filter  enabled  collapsed">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="post" novalidate="novalidate">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
             <span class="il-filter-bar-opener"  aria-expanded="false">
             	<button class="btn btn-bulky" data-action="" id="id_1"   aria-pressed="undefined" >
@@ -198,7 +198,7 @@ EOT;
 
 		$expected = <<<EOT
 <div class="il-filter disabled   collapsed">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="post" novalidate="novalidate">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
             <span class="il-filter-bar-opener"  aria-expanded="false">
                 <button class="btn btn-bulky" data-action="#" id="id_1"   aria-pressed="undefined" >
@@ -277,7 +277,7 @@ EOT;
 
 		$expected = <<<EOT
 <div class="il-filter  enabled expanded ">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="post" novalidate="novalidate">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
             <span class="il-filter-bar-opener"  aria-expanded="false">
                 <button class="btn btn-bulky" data-action="" id="id_1"   aria-pressed="undefined" >
@@ -367,7 +367,7 @@ EOT;
 
 		$expected = <<<EOT
 <div class="il-filter disabled  expanded ">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="post" novalidate="novalidate">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
             <span class="il-filter-bar-opener"  aria-expanded="false">
                 <button class="btn btn-bulky" data-action="#" id="id_1"   aria-pressed="undefined" >
