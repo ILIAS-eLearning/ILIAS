@@ -472,12 +472,22 @@ class ilCalendarViewGUI
 			case self::CAL_PRESENTATION_WEEK:
 				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$user_settings->getWeekStart())->get();
 				$start = current($weekday_list);
-				$char = strtolower(mb_substr($this->lng->txt("week"),0,1));
+				if(function_exists('mb_substr')) {
+					$char = strtolower(mb_substr($this->lng->txt("week"),0,1));
+				} else {
+					$char = strtolower(substr($this->lng->txt("week"),0,1));
+				}
+
 				$bucket_title .= " ".$start->get(IL_CAL_DATE)." 1$char";
 				break;
 			case self::CAL_PRESENTATION_MONTH:
 				$year_month = $this->seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
-				$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+				if(function_exists('mb_substr')) {
+					$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+				} else {
+					$char = strtolower(substr($this->lng->txt("month"),0,1));
+				}
+
 				$bucket_title .= " ".$year_month." 1".$char;
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
@@ -488,16 +498,28 @@ class ilCalendarViewGUI
 					case ilCalendarAgendaListGUI::PERIOD_DAY:
 						break;
 					case ilCalendarAgendaListGUI::PERIOD_MONTH:
-						$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+						if(function_exists('mb_substr')) {
+							$char = strtolower(mb_substr($this->lng->txt("month"), 0, 1));
+						} else {
+							$char = strtolower(substr($this->lng->txt("month"), 0, 1));
+						}
 						$bucket_title .= " 1$char";
 						break;
 					case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
-						$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+						if(function_exists('mb_substr')) {
+							$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+						} else {
+							$char = strtolower(substr($this->lng->txt("month"),0,1));
+						}
 						$bucket_title .= " 6$char";
 						break;
 					case ilCalendarAgendaListGUI::PERIOD_WEEK:
 					default:
-						$char = strtolower(mb_substr($this->lng->txt("week"),0,1));
+						if(function_exists('mb_substr')) {
+							$char = strtolower(mb_substr($this->lng->txt("week"),0,1));
+						} else {
+							$char = strtolower(substr($this->lng->txt("week"),0,1));
+						}
 						$bucket_title .= " 1$char";
 						break;
 				}

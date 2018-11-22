@@ -267,8 +267,26 @@ class ilPermanentLinkGUI
 
 		if(!$GLOBALS['DIC']['ilUser']->isAnonymous() && !$GLOBALS['DIC']['ilSetting']->get('disable_bookmarks'))
 		{
-			$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title=' . urlencode(urlencode($title)) . '&param_bm_link=' . urlencode(urlencode($href)) . "&param_return_to_url=" . urlencode(urlencode($_SERVER['REQUEST_URI']));
-			$current_selection_list->addItem($GLOBALS['DIC']['lng']->txt("bm_add_to_ilias"), '', $linktpl, '' , $GLOBALS['DIC']['lng']->txt('bm_add_to_ilias'), '_top');
+			$GLOBALS['DIC']->ctrl()->setParameterByClass(
+				'ilbookmarkadministrationgui', 'bmf_id', 1
+			);
+			$GLOBALS['DIC']->ctrl()->setParameterByClass(
+				'ilbookmarkadministrationgui', 'return_to', 'true'
+			);
+			$GLOBALS['DIC']->ctrl()->setParameterByClass(
+				'ilbookmarkadministrationgui', 'bm_title', urlencode($title)
+			);
+			$GLOBALS['DIC']->ctrl()->setParameterByClass(
+				'ilbookmarkadministrationgui', 'bm_link', urlencode($href)
+			);
+			$GLOBALS['DIC']->ctrl()->setParameterByClass(
+				'ilbookmarkadministrationgui', 'return_to_url', urlencode($_SERVER['REQUEST_URI'])
+			);
+			$link = $GLOBALS['DIC']->ctrl()->getLinkTargetByClass(
+				['ilPersonalDesktopGUI', 'ilbookmarkadministrationgui'],
+				'newFormBookmark'
+			);
+			$current_selection_list->addItem($GLOBALS['DIC']['lng']->txt("bm_add_to_ilias"), '', $link, '' , $GLOBALS['DIC']['lng']->txt('bm_add_to_ilias'), '_top');
 			$html = $current_selection_list->getHTML();
 		}
 

@@ -162,8 +162,8 @@ class ilMailFolderGUI
 				if ($ret != "")
 				{
 					$this->tpl->setContent($ret);
-					$this->tpl->show();
 				}
+				$this->tpl->show();
 				break;
 
 			default:

@@ -7846,7 +7846,9 @@ hr.il-divider-with-label {
   background-image: url("images/icon_iass.svg");
 }
 .il-viewcontrol-mode .ilSubmitInactive,
-.il-viewcontrol-mode .ilSubmitInactive:hover {
+.il-viewcontrol-section .ilSubmitInactive,
+.il-viewcontrol-mode .ilSubmitInactive:hover,
+.il-viewcontrol-section .ilSubmitInactive:hover {
   background-color: #557196;
   color: white;
   border-color: transparent;
@@ -12847,6 +12849,12 @@ div.ilProfile {
   border: 1px solid #d0d5ea;
   padding: 15px;
 }
+div.ilProfile + div.ilPermalinkContainer {
+  margin-top: 20px;
+}
+div.ilProfile + div.ilPermalinkContainer .input-group-btn {
+  vertical-align: bottom;
+}
 h3.ilProfileName {
   margin: 0 0 10px;
   padding: 0;
@@ -14485,6 +14493,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 [data-onscreenchat-inact-userid] {
   opacity: .3 !important;
 }
+.ilOnScreenChatWindowHeaderTooltip ul {
+  text-align: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 #onscreenchat-container {
   position: fixed;
   bottom: 0;
@@ -14787,6 +14801,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   text-overflow: ellipsis;
   overflow-x: hidden;
   color: #606060;
+}
+.ilOnScreenChatMenuItem .media-body p.lastMessage img {
+  max-width: 15px;
+  max-height: 15px;
 }
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
