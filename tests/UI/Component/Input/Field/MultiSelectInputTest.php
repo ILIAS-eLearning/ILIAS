@@ -143,8 +143,6 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase {
 		$ms = $f->multiSelect("label", $options, "byline")
 			->withNameFrom($this->name_source)->withDisabled(true);
 
-		//echo $r->render($ms); exit;
-
 		$name = $ms->getName();
 		$label = $ms->getLabel();
 		$byline = $ms->getByline();
