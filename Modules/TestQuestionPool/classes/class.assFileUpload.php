@@ -723,11 +723,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 					$newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
 					
 					include_once 'Services/Utilities/classes/class.ilFileUtils.php';
+					$dispoFilename = ilFileUtils::getValidFilename($_FILES['upload']['name']);
 					$newfile = ilFileUtils::getValidFilename($newfile);
 					
 					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 					
-					$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false,
+					$this->saveCurrentSolution($active_id, $pass, $newfile, $dispoFilename, false,
 						$solutionFileVersioningUploadTS
 					);
 
