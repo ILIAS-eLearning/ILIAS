@@ -1246,6 +1246,7 @@ class ilObjUserGUI extends ilObjectGUI
 // allows password setting
 		{
 			$pw = new ilPasswordInputGUI($lng->txt("passwd"), "passwd");
+			$pw->setUseStripSlashes(false);
 			$pw->setSize(32);
 			$pw->setMaxLength(80); // #17221
 			$pw->setValidateAuthPost("auth_mode");
