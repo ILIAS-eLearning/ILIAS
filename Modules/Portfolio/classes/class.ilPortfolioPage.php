@@ -446,22 +446,6 @@ class ilPortfolioPage extends ilPageObject
 		}
 	}
 
-	/**
-	 * Fix internal portfolio links
-	 *
-	 * @param array
-	 */
-	static function fixLinksOnTitleChange($a_port_id, $a_title_changes)
-	{
-		foreach(ilPortfolioPage::getAllPortfolioPages($a_port_id) as $port_page)
-		{
-			$page = new ilPortfolioPage($port_page["id"]);
-			if ($page->renameLinksOnTitleChange($a_title_changes))
-			{
-				$page->update(true, true);
-			}
-		}
-	}
 
 	/**
 	 * @param $a_title_changes

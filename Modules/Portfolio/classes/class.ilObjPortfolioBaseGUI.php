@@ -510,7 +510,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			ilPortfolioPage::fixOrdering($this->object->getId());
 		}
 
-		ilPortfolioPage::fixLinksOnTitleChange($this->object->getId(), $title_changes);
+		$this->object->fixLinksOnTitleChange($title_changes);
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "view");
