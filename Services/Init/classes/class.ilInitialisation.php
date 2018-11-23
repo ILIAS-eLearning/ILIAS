@@ -332,12 +332,11 @@ class ilInitialisation
 			$path = dirname($rq_uri);
 
 			// dirname cuts the last directory from a directory path e.g content/classes return content
-
 			$module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
 
 			$dirs = explode('/',$module);
 			$uri = $path;
-			if (count($dirs) > 0)
+			foreach($dirs as $dir)
 			{
 				$uri = dirname($uri);
 			}
