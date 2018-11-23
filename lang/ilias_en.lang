@@ -14936,3 +14936,8 @@ book#:#booking_multiple_succesfully#:#Bookings created successfully.
 survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
 rbac#:#sess_edit_metadata#:#Edit Metadata
+crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_view_timing_absolute#:#Absolute Dates
+crs#:#crs_view_info_timing_absolute#:#Start and end date will be set absolute.
+crs#:#crs_view_timing_relative#:#Relative Dates
+crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to the subscription date.
