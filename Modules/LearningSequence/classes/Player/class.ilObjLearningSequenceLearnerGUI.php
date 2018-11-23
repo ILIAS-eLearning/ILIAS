@@ -119,9 +119,20 @@ class ilObjLearningSequenceLearnerGUI
 
 			if (! $completed) {
 				if ($has_items) {
-					//TODO: if user did never start, label the button with "start"
+					$state_db =  $this->ls_object->getStateDB();
+					$obj_ref_id = (int)$this->ls_object->getRefId();
+					$first_access = $state_db->getFirstAccessFor(
+						$obj_ref_id,
+						array($this->usr_id)
+					)[$this->usr_id];
+
+					$label = "lso_player_resume";
+					if($first_access === -1) {
+						$label = "lso_player_start";
+					}
+
 					$this->toolbar->addButton(
-						$this->lng->txt("lso_player_resume"),
+						$this->lng->txt($label),
 						$this->ctrl->getLinkTarget($this, self::CMD_VIEW)
 					);
 				}
