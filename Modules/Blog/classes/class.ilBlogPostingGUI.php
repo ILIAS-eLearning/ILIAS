@@ -608,9 +608,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function deactivatePage($a_to_list = false)
 	{
-		$this->getBlogPosting()->setApproved(false);
-		$this->getBlogPosting()->setActive(false);
-		$this->getBlogPosting()->update(true, false, false);
+		$this->getBlogPosting()->unpublish();
+
 		if(!$a_to_list)
 		{
 			$this->ctrl->redirect($this, "edit");
