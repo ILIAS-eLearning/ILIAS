@@ -50,7 +50,7 @@ auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet. 
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
@@ -63,7 +63,7 @@ auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rol
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_roles#:#Rollenzuordnung
@@ -14935,6 +14935,12 @@ book#:#book_limit_objects_available#:#You can not assign %s participants to "%s"
 book#:#booking_multiple_succesfully#:#Bookings created successfully.
 survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
+rbac#:#sess_edit_metadata#:#Edit Metadata
+crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_view_timing_absolute#:#Absolute Dates
+crs#:#crs_view_info_timing_absolute#:#Start and end date will be set absolute.
+crs#:#crs_view_timing_relative#:#Relative Dates
+crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to the subscription date.
 rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
 rbac#:#lso_read#:#Users can access the Learning Sequence
 rbac#:#lso_manage_members#:#Manage members of Learning Sequence
