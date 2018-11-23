@@ -90,7 +90,10 @@ class ilObjLearningSequenceLearnerGUI
 
 	protected function addMember(int $usr_id)
 	{
-		$this->ls_object->join($usr_id);
+		$admins = $this->ls_object->getLearningSequenceAdminIds();
+		if(! in_array($usr_id, $admins)) {
+			$this->ls_object->join($usr_id);
+		}
 	}
 
 	protected function removeMember(int $usr_id)
