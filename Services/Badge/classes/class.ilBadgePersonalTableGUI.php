@@ -79,7 +79,10 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 				
 		$this->addMultiCommand("activate", $lng->txt("badge_add_to_profile"));
 		$this->addMultiCommand("deactivate", $lng->txt("badge_remove_from_profile"));
-		$this->addMultiCommand("addToBackpackMulti", $lng->txt("badge_add_to_backpack"));
+		if(ilBadgeHandler::getInstance()->isObiActive())
+		{
+			$this->addMultiCommand("addToBackpackMulti", $lng->txt("badge_add_to_backpack"));
+		}
 		$this->setSelectAllCheckbox("badge_id");
 		
 		$this->getItems($a_user_id);		
