@@ -14935,3 +14935,4 @@ book#:#book_limit_objects_available#:#You can not assign %s participants to "%s"
 book#:#booking_multiple_succesfully#:#Bookings created successfully.
 survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
 rbac#:#sess_edit_metadata#:#Edit Metadata
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
