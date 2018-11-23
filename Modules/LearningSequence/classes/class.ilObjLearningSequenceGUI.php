@@ -511,7 +511,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			}
 		}
 
-		if ($this->checkLPAccess()) {
+		if (ilObjUserTracking::_enabledLearningProgress() && $this->checkLPAccess()) {
 			$this->tabs->addTab(
 				self::TAB_LP
 				, $this->lng->txt(self::TAB_LP)
