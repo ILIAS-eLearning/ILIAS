@@ -14936,3 +14936,8 @@ validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
 rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
+crs#:#crs_view_timings#:#Lernplanungstyp
+crs#:#crs_view_timing_absolute#:#Absolutes Datum
+crs#:#crs_view_timing_relative#:#Relatives Datum
+crs#:#crs_view_info_timing_absolute#:#Das Start- und Enddatum wird absolut gesetzt.
+crs#:#crs_view_info_timing_relative#:#Das Start- und Enddatum wird anhand von Zeitangaben relativ zum Kursbeitrittsdatum gesetzt.
