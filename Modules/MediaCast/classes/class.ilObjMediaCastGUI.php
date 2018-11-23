@@ -204,8 +204,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		
 		$tpl->setContent($table_gui->getHTML());
-
-		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
 	}
 	
 	/**
@@ -1527,6 +1525,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$this->listItemsObject(true);
 		}
+		global $tpl;
+		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
 	}
 	
 	function showGallery()
