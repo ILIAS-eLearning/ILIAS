@@ -131,7 +131,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 			$this->getMailer()->Body    = $mail->getFinalBody();
 		}
 
-		ilLoggerFactory::getLogger('mail')->debug(sprintf(
+		ilLoggerFactory::getLogger('mail')->info(sprintf(
 			"Trying to delegate external email delivery:" .
 			" Initiated by: %s (%s) " .
 			"| To: %s | CC: %s | BCC: %s | Subject: %s " .
@@ -156,7 +156,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 		$result = $this->getMailer()->Send();
 		if($result)
 		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			ilLoggerFactory::getLogger('mail')->info(sprintf(
 				'Successfully delegated external mail delivery'
 			));
 		}
