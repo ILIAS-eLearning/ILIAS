@@ -1145,6 +1145,14 @@ class ilMail
 		$rcp_cc = $a_rcp_cc;
 		$rcp_bc = $a_rcp_bc;
 
+		if (null === $rcp_cc) {
+			$rcp_cc = '';
+		}
+
+		if (null === $rcp_bc) {
+			$rcp_bc = '';
+		}
+
 		$numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
 
 		if(
