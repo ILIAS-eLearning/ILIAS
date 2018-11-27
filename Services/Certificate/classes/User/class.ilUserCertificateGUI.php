@@ -225,6 +225,8 @@ class ilUserCertificateGUI
 			return;
 		}
 
+		$this->template->setBodyClass('iosMyCertificates');
+
 		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable(
 			$this->user,
 			new \ilCertificateMigration($this->user->getId())
