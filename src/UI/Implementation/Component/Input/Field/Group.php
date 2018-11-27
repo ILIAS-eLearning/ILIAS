@@ -42,15 +42,14 @@ class Group extends Input implements C\Input\Field\Group {
 		$this->inputs = $inputs;
 	}
 
-	function withDisabled($is_disabled) {
+	public function withDisabled($is_disabled) {
+		$clone = parent::withDisabled($is_disabled);
 		$inputs = [];
 		foreach ($this->inputs as $key => $input)
 		{
 			$inputs[$key] = $input->withDisabled($is_disabled);
 		}
-		$this->inputs = $inputs;
-		return parent::withDisabled($is_disabled);
+		$clone->inputs = $inputs;
+		return $clone;
 	}
-
-
 }
