@@ -137,7 +137,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 
 			$prefixTextWithLink = sprintf(
 				$this->lng->txt('certificate_achievement_sub_obj'),
-				$this->uiRenderer->render( $this->uiFactory->link()->standard($this->getEmphasizedTitle($certificate->getObjectTitle()), $href))
+				$this->uiRenderer->render($this->uiFactory->link()->standard($this->getEmphasizedTitle($certificate->getObjectTitle()), $href))
 			);
 
 			$text = sprintf(

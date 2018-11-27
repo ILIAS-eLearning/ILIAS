@@ -70,7 +70,10 @@ class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCas
 			->getMock();
 
 		$language->method('txt')
-			->willReturn('someTranslation %s');
+			->willReturnOnConsecutiveCalls(
+				'Certificate for %1$s', '%1$s achieved.',
+				'Certificate for %1$s','%1$s achieved.'
+			);
 
 		$dic = $this->getMockBuilder('\ILIAS\DI\Container')
 			->disableOriginalConstructor()
@@ -169,8 +172,8 @@ class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCas
 
 		$link->method('standard')
 			->withConsecutive(
-				array('someTranslation Course Title', '<a href> </a>'),
-				array('someTranslation Test Title', '<a href> </a>')
+				array('Course Title', '<a href> </a>'),
+				array('Test Title', '<a href> </a>')
 			)
 			->willReturn('<link rel="stylesheet" href="">');
 
@@ -208,15 +211,15 @@ class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCas
 
 		$expectedEntries = array(
 			new ilLearningHistoryEntry(
-				'someTranslation link',
-				'someTranslation link',
+				'Certificate for link achieved.',
+				'Certificate for link achieved.',
 				'/some/acutal/image/path/background.png',
 				123456789,
 				200
 			),
 			new ilLearningHistoryEntry(
-				'someTranslation link',
-				'someTranslation link',
+				'Certificate for link achieved.',
+				'Certificate for link achieved.',
 				'/some/acutal/image/path/background.png',
 				987654321,
 				500
