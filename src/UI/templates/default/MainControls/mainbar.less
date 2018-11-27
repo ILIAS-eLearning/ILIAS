@@ -1,0 +1,55 @@
+
+// mainbar triggers
+.il-mainbar-triggers {
+	.shadow-right;
+	background: @bg-mainbar;
+	position: relative;
+	width: @trigger-width;
+	z-index: 1;
+	.btn-bulky {
+		height: @trigger-height;
+		width: @trigger-height;
+		justify-content: center;
+		font-size: 70%;
+		padding: 0;
+		display: inline-flex;
+		flex-flow: column wrap;
+		align-items: center;
+		width: 100%;
+		border: 0;
+		background: @bg-mainbar;
+		border-bottom: @trigger-border;
+		color: @bg-mainbar-engaged;
+		&.engaged {
+			/*
+			background-color: @bg-mainbar-engaged;
+			background-color: @il-glyph-highlighted-hover-color;
+			background-color: @brand-primary;
+			background-color: @il-secondary-container-bg;
+			*/
+			background-color: #cecece;
+			color: @bg-mainbar;
+		}
+		&:focus {
+			outline: none;
+		}
+	}
+
+	&.engaged {
+		background: #ffffff;
+	}
+}
+
+// mainbar slates
+.il-mainbar-slates {
+	.shadow-right;
+	width: @slate-width;
+	display: none;
+}
+
+.il-mainbar-tools-entries {
+	display:none;
+	&.engaged {
+		display: block;
+	}
+}

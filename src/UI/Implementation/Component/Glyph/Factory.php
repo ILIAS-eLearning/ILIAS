@@ -217,11 +217,25 @@ class Factory implements G\Factory {
 	public function reset($action = null) {
 		return new Glyph(G\Glyph::RESET, "reset", $action);
 	}
-    
-    /**
+
+	/**
 	 * @inheritdoc
-	 */  
+	 */
 	public function apply($action = null) {
 		return new Glyph(G\Glyph::APPLY, "apply", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function search($action = null) {
+		return new Glyph(G\Glyph::SEARCH, "search", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function help($action = null) {
+		return new Glyph(G\Glyph::HELP, "help", $action);
 	}
 }

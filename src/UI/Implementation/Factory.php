@@ -339,4 +339,20 @@ class Factory implements \ILIAS\UI\Factory
 	{
         return $this->messagebox_factory;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function layout()
+	{
+		return new Component\Layout\Factory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function mainControls()
+	{
+		return new Component\MainControls\Factory(new SignalGenerator());
+	}
 }
