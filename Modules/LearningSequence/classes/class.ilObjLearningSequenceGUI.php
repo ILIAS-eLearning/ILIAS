@@ -58,6 +58,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	const CMD_CANCEL_LINK = "cancelMoveLink";
 	const CMD_CUT = "cut";
 	const CMD_CANCEL_CUT = "cancelCut";
+	const CMD_CUT_SHOWTREE = "showPasteTree";
+	const CMD_CUT_CLIPBOARD = "keepObjectsInClipboard";
 	const CMD_DELETE = "delete";
 	const CMD_CANCEL_DELETE = "cancelDelete";
 	const CMD_DELETE_CONFIRMED = "confirmedDelete";
@@ -220,6 +222,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 						break;
 					case self::CMD_CUT:
 						$this->cutObject();
+						break;
+					case self::CMD_CUT_SHOWTREE:
+						$this->showPasteTreeObject();
+						break;
+					case self::CMD_CUT_CLIPBOARD:
+						$this->keepObjectsInClipboardObject();
 						break;
 					case self::CMD_LINK:
 						$this->linkObject();
@@ -503,7 +511,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			}
 		}
 
-		if ($this->checkLPAccess()) {
+		if (ilObjUserTracking::_enabledLearningProgress() && $this->checkLPAccess()) {
 			$this->tabs->addTab(
 				self::TAB_LP
 				, $this->lng->txt(self::TAB_LP)
