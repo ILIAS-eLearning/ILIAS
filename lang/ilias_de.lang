@@ -14941,3 +14941,13 @@ crs#:#crs_view_timing_absolute#:#Absolutes Datum
 crs#:#crs_view_timing_relative#:#Relatives Datum
 crs#:#crs_view_info_timing_absolute#:#Das Start- und Enddatum wird absolut gesetzt.
 crs#:#crs_view_info_timing_relative#:#Das Start- und Enddatum wird anhand von Zeitangaben relativ zum Kursbeitrittsdatum gesetzt.
+rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
+rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
+rbac#:#lso_manage_members#:#Mitglieder bearbeiten
+rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
+common#:#unparticipate#:#Abmelden
+common#:#participate#:#Anmelden
+rbac#:#lso_participate#:#An der Lernsequenz anmelden
+rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
+rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
