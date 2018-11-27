@@ -799,12 +799,12 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function reset($action = null);
-  
+
 	/**
 	 * ---
 	 * description:
-	 *   purpose: >  
-     *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
+	 *   purpose: >
+	 *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
 	 *      within a control, i.e. a filter.
 	 *   composition: >
 	 *      The Apply Glyph uses the glyphicon-ok.
@@ -833,5 +833,56 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function apply($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Search Glyph is used to trigger a search-dialog.
+	 *   composition: >
+	 *       The Search Glyph uses the glyphicon-search.
+	 *   effect: >
+	 *       Clicking this glyph will open a search dialog.
+	 *       Since the context for the Search Glyph primarily is the Metabar,
+	 *       the according search dialog will be opened as Tool in the Sidebar.
+	 *
+	 * context:
+	 *    - The Search Glyph appears in the Metabar.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Search'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function search($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Help Glyph is used to open a context-sensitive help screen.
+	 *   composition: >
+	 *       The Help Glyph uses the glyphicon-question-sign.
+	 *   effect: >
+	 *       When clicked, the user is provided with explanations or
+	 *       instructions for the usage of the current context.
+	 *       When used in the Metabar, the help is displayed as tool in the
+	 *       Sidebar.
+	 *
+	 * context:
+	 *    - The Search Glyph appears in the Metabar.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Help'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function help($action = null);
 
 }

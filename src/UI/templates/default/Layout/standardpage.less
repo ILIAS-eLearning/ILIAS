@@ -1,0 +1,164 @@
+// variables
+@height-header: 75px;
+@height-footer: 75px;
+
+/*
+height of areas outside mainbar -
+important for calculating the scrollable area inside mainbar slates
+*/
+@height-header-footer: ((@height-header + @height-footer)*1);
+
+@trigger-height: 80px;
+@trigger-width: 80px;
+@trigger-border: 1px solid rgba(255, 255, 255, .2);
+@slate-width: 400px;
+@bg-mainbar: #4a4a4a;
+@bg-mainbar-engaged: #fff;
+@logo-height: 45px;
+@logo-width: 45px;
+
+// shadows
+@shadow-color: #ccc;
+@inner-top-shadow: inset 0 5px 9px -5px @shadow-color;
+@shadow-right: 1px 0 1px @shadow-color;
+@shadow-bottom: 0 1px 1px @shadow-color;
+
+
+// mixins
+.inner-top-shadow {
+	box-shadow: @inner-top-shadow;
+}
+
+.shadow-right {
+	box-shadow: @shadow-right;
+}
+
+.shadow-bottom {
+	box-shadow: @shadow-bottom;
+}
+
+/* IE10+ not supported */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	.il-layout-page {
+		&:before {
+			content: "Microsoft Internet Explorer is not supported in this ILIAS Version :("
+		}
+		header,
+		footer,
+		nav,
+		main,
+		.layout-page-content {
+			display:none;
+		}
+
+	}
+}
+
+
+* {
+	box-sizing: border-box;
+}
+
+menu,
+article,
+aside,
+details,
+footer,
+header,
+nav,
+section {
+    display: block;
+}
+
+/*
+*********************
+grid-based layout
+*********************
+*/
+
+.il-layout-page {
+	display: grid;
+	grid-gap: 0px;
+    grid-template-columns: 80px 1fr;
+    grid-template-rows: @height-header 1fr @height-footer;
+    grid-template-areas:
+    "header header"
+    "mainbar content"
+    "footer footer"; // not supported IE
+    height: 100%;
+	overflow: hidden;
+	width: 100%;
+	&.with-engaged-slates {
+		grid-template-columns: @slate-width + @trigger-width 1fr;
+		.il-maincontrols-mainbar {
+			width: @slate-width + @trigger-width;
+			// slate
+			.il-mainbar-slates {
+				display: flex;
+				flex-direction: column;
+				// height: ~"calc(100vh - 150px)";
+				height: calc(~"100vh - " @height-header-footer);
+				overflow-y: auto;
+			}
+		}
+	}
+}
+
+/* Metabar */
+header {
+	grid-area: header;
+}
+
+.header-inner {
+	.shadow-bottom;
+	align-items: center;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+	grid-area: header;
+	height: @height-header;
+	padding: 0 15px;
+	position: fixed;
+	width: 100%;
+	z-index: 2;
+}
+
+
+/* mainbar */
+
+nav {
+	z-index: 1;
+}
+
+.il-maincontrols-mainbar {
+	background: #fff;
+	display: flex;
+	grid-area: mainbar;
+	height: 100%;
+	width: @trigger-width;
+}
+
+
+/*
+main-tag is important for screenreader
+fix due to main-tag is not supported in IE
+*/
+
+/* Content */
+main {
+	display: block;
+}
+
+.il-layout-page-content {
+	display: grid;
+	grid-area: content;
+	overflow: auto;
+	padding: 20px;
+}
+
+/* Footer */
+footer {
+	background-color: @brand-primary;
+	grid-area: footer;
+	z-index: 2;
+}
