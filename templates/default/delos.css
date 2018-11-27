@@ -16117,6 +16117,9 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
 }
+body.iosMyCertificates div.icon.small {
+  vertical-align: middle;
+}
 #tos_documents td.std .dropdown {
   display: inline-block;
 }
