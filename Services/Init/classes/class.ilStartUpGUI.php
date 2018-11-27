@@ -1922,6 +1922,9 @@ class ilStartUpGUI
 	{
 		global $objDefinition, $ilPluginAdmin, $ilUser;
 
+
+		ilLoggerFactory::getLogger('root')->warning('Check goto called.');
+
 		if (is_object($ilPluginAdmin))
 		{
 			// get user interface plugins
@@ -1943,6 +1946,7 @@ class ilStartUpGUI
 
 		if ($a_target == "")
 		{
+			ilLoggerFactory::getLogger('root')->warning('No target given');
 			return false;
 		}
 
@@ -1962,6 +1966,7 @@ class ilStartUpGUI
 		$class = $objDefinition->getClassName($type);
 		if ($class == "")
 		{
+			ilLoggerFactory::getLogger('root')->warning('No class given');
 			return false;
 		}
 		
@@ -2098,7 +2103,9 @@ class ilStartUpGUI
 						return false;
 					}
 				}
-			}	
+			}
+
+			ilLoggerFactory::getLogger('root')->dump($block_obj);
 			
 			// check if access will be possible with all (possible) member roles added
 			$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
