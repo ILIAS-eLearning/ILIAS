@@ -52,7 +52,10 @@ class ilGlossaryExporter extends ilXmlExporter
 			$page_ids = array();
 			foreach ($a_ids as $id)
 			{
-				$terms = ilGlossaryTerm::getTermList($id);
+				// workaround for #0023923
+				$all_refs = ilObject::_getAllReferences($id);
+				$ref_id = current($all_refs);
+				$terms = ilGlossaryTerm::getTermList($ref_id);
 				foreach ($terms as $t)
 				{
 					$defs = ilGlossaryDefinition::getDefinitionList($t["id"]);
