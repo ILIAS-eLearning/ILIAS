@@ -950,6 +950,15 @@ class ilObjSession extends ilObject
 		}
 		return $this->members_obj;
 	}
+
+	/**
+	 * ALways disabled
+	 * @return bool
+	 */
+	public function getEnableMap()
+	{
+		return false;
+	}
 }
 
 ?>
