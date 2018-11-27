@@ -121,4 +121,17 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 		$expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label> <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" class=\"form-control form-control-sm\" />                                  </div></div>";
 		$this->assertHTMLEquals($expected, $html);
 	}
+
+	public function test_render_disabled() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $r->render($checkbox);
+
+		$expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label</label>        <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" disabled=\"disabled\" class=\"form-control form-control-sm\" />                                  </div></div>";
+		$this->assertHTMLEquals($expected, $html);
+
+	}
 }

@@ -46,6 +46,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	protected $is_required = false;
 	/**
+	 * @var    bool
+	 */
+	protected $is_disabled = false;
+	/**
 	 * This is the value contained in the input as displayed
 	 * client side.
 	 *
@@ -174,6 +178,26 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @return    Constraint|null
 	 */
 	abstract protected function getConstraintForRequirement();
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isDisabled() {
+		return $this->is_disabled;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDisabled($is_disabled) {
+		$this->checkBoolArg("is_disabled", $is_disabled);
+		$clone = clone $this;
+		$clone->is_disabled = $is_disabled;
+
+		return $clone;
+	}
 
 
 	/**
@@ -362,8 +386,15 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 
 		//TODO: Discuss, is this correct here. If there is no input contained in this post
 		//We assign null. Note that unset checkboxes are not contained in POST.
-		$value = $input->getOr($this->getName(), null);
-		$clone = $this->withValue($value);
+		if (!$this->isDisabled()) {
+			$value = $input->getOr($this->getName(), null);
+			$clone = $this->withValue($value);
+		}
+		else {
+			$value = $this->getValue();
+			$clone = $this;
+		}
+
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());
