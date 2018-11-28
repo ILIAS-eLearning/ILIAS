@@ -18,15 +18,15 @@ acc#:#acc_access_key#:#Chave de acesso###30 04 2009 new variable
 acc#:#acc_access_keys#:#Chaves de acesso###30 04 2009 new variable
 acc#:#acc_comp_frm#:#Fórum ###30 04 2009 new variable
 acc#:#acc_comp_global#:#Global
-acc#:#acc_comp_mail#:#Correio###30 04 2009 new variable
+acc#:#acc_comp_mail#:#E-Mail###30 04 2009 new variable
 acc#:#acc_component#:#Componente###30 04 2009 new variable
 acc#:#acc_delete#:#Suprimir###30 04 2009 new variable
-acc#:#acc_forward_mail#:#Encaminhar correio###30 04 2009 new variable
+acc#:#acc_forward_mail#:#Encaminhar E-Mail###30 04 2009 new variable
 acc#:#acc_function#:#Função###30 04 2009 new variable
-acc#:#acc_last_rep_visited#:#Repository/Last Visited
+acc#:#acc_last_rep_visited#:#Repositório / Última Visita
 acc#:#acc_mark_all_read#:#Marcar todas como lidas
-acc#:#acc_next#:#próximo###30 04 2009 new variable
-acc#:#acc_personal_desktop#:#Personal Desktop
+acc#:#acc_next#:#Próximo###30 04 2009 new variable
+acc#:#acc_personal_desktop#:#Área de trabalho pessoal
 acc#:#acc_previous#:#Anterior###30 04 2009 new variable
 acc#:#acc_reply#:#Resposta###30 04 2009 new variable
 acc#:#acc_tree_off#:#Árvore Off###30 04 2009 new variable
@@ -229,55 +229,55 @@ administration#:#user_criteria_desc#:#Unique user criteria that is used for test
 administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.
 administration#:#view_last_log#:#Veja o último scan log 
 administration#:#view_log#:#Veja os detalhes###07 Apr 2005 content changed
-adve#:#adve_activation#:#Activation
-adve#:#adve_grp_glo#:#Glossaries
-adve#:#adve_grp_lm#:#ILIAS Learning Modules
-adve#:#adve_grp_rep#:#Repository Pages
-adve#:#adve_grp_scorm#:#SCORM Editing
-adve#:#adve_grp_test#:#Test & Assessment
+adve#:#adve_activation#:#Ativação
+adve#:#adve_grp_glo#:#Glossários
+adve#:#adve_grp_lm#:#Módulos de Aprendizagem ILIAS
+adve#:#adve_grp_rep#:#Páginas de Repositório
+adve#:#adve_grp_scorm#:#edição SCORM
+adve#:#adve_grp_test#:#Teste e Avaliação
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings
-adve#:#adve_pe_general#:#General
-adve#:#adve_rte_settings#:#Rich Text Editor Settings
-adve#:#adve_text_content_features#:#Text Content Menu
-adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
-adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
-adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
-assessment#:#action#:#Action
-assessment#:#add_circle#:#Add circle area
-assessment#:#add_gap#:#Add Gap Text
-assessment#:#add_imagemap#:#Add imagemap
-assessment#:#add_poly#:#Add polygon area
-assessment#:#add_rect#:#Add rectangle area
-assessment#:#addSuggestedSolution#:#Add suggested solution
-assessment#:#adm_settings_templates#:#Settings Templates
-assessment#:#all_available_question_pools#:#All available question pools
-assessment#:#allow_images#:#Image Support for Answers
-assessment#:#allowedextensions#:#Allowed File Extensions
-assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
-assessment#:#analyze_errortext#:#Analyze Error Text
+adve#:#adve_page_editor_settings#:#Configurações do editor de página do ILIAS
+adve#:#adve_pe_general#:#Geral
+adve#:#adve_rte_settings#:#Configurações do Rich Text Editor
+adve#:#adve_text_content_features#:#Menu de conteúdo de texto
+adve#:#adve_use_physical#:#Use b/i/u em vez de str/emp/imp
+adve#:#adve_use_physical_info#:#Essa configuração substitui os botões de classe de estilo semântico (negrito/bold), i (itálico) e u (sublinhado/underlined). Observe que isso pode resultar em inconsistências, se o editor de estilo for usado e outros atributos físicais forem atribuídos às classes de estilo forte / enfático / importante.
+adve#:#adve_use_tiny_mce#:#Ativar o TinyMCE para edição WYSIWYG
+assessment#:#action#:#Ação
+assessment#:#add_circle#:#Adicionar área de círculo
+assessment#:#add_gap#:#Adicionar texto lacunas
+assessment#:#add_imagemap#:#Adicionar mapa de imagem
+assessment#:#add_poly#:#Adicionar área de polígono
+assessment#:#add_rect#:#Adicionar área de retângulo
+assessment#:#addSuggestedSolution#:#Adicionar solução sugerida
+assessment#:#adm_settings_templates#:#Modelos de Configurações
+assessment#:#all_available_question_pools#:#Todos os pools de perguntas disponíveis
+assessment#:#allow_images#:#Suporte de imagem para respostas
+assessment#:#allowedextensions#:#Extensões de arquivos permitidas
+assessment#:#allowedextensions_info#:#Insira uma lista separada por vírgulas de extensões de arquivo permitidas se você quiser restringir o upload a um determinado conjunto de extensões de arquivo (por exemplo, doc, xls, odt).
+assessment#:#analyze_errortext#:#Analisar o texto do erro
 assessment#:#answer#:#Resposta
-assessment#:#answer_image#:#Answer Image
-assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
-assessment#:#answer_is_right#:#Your solution is right
-assessment#:#answer_is_wrong#:#Your solution is wrong
+assessment#:#answer_image#:#Imagem da Resposta
+assessment#:#answer_is_not_correct_but_positive#:#Você recebeu pontos para a sua solução, mas não é a melhor solução
+assessment#:#answer_is_right#:#Sua solução está certa
+assessment#:#answer_is_wrong#:#Sua solução está errada
 assessment#:#answer_text#:#Texto de resposta
-assessment#:#answer_types#:#Answer Types
-assessment#:#answers_multiline#:#Multi Line Answers
-assessment#:#answers_singleline#:#Single Line Answers
-assessment#:#applet_attributes#:#Applet attributes
-assessment#:#applet_parameter#:#Parameter
-assessment#:#applet_parameters#:#Applet parameters
+assessment#:#answer_types#:#Tipos de Resposta
+assessment#:#answers_multiline#:#Respostas de várias linhas
+assessment#:#answers_singleline#:#Respostas de linha única
+assessment#:#applet_attributes#:#Atributos do applet
+assessment#:#applet_parameter#:#Parâmetro
+assessment#:#applet_parameters#:#Parâmetros do applet
 assessment#:#apply#:#Aplicar
-assessment#:#ass_completion_by_submission#:#Completed by Submission
-assessment#:#ass_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
-assessment#:#ass_create_export_file#:#Create export file
-assessment#:#ass_create_export_test_results#:#Export test results
-assessment#:#ass_question#:#Question
-assessment#:#ass_size#:#Size
-assessment#:#assClozeTest#:#Cloze Question
-assessment#:#assErrorText#:#Error Text
-assessment#:#assessment_existing_pool#:#Use existing question pool
+assessment#:#ass_completion_by_submission#:#Concluído pela submissão
+assessment#:#ass_completion_by_submission_info#:#Se ativado, o envio de pelo menos um arquivo faz com que a conclusão desta questão. A pontuação poderia ser alterada mais tarde. A mudança dessa configuração não afeta as soluções já enviadas.
+assessment#:#ass_create_export_file#:#Criar arquivo de exportação
+assessment#:#ass_create_export_test_results#:#Exportar resultados de teste
+assessment#:#ass_question#:#Questão
+assessment#:#ass_size#:#Tamanho
+assessment#:#assClozeTest#:#Pergunta Cloze
+assessment#:#assErrorText#:#Texto do erro
+assessment#:#assessment_existing_pool#:#Use o pool de perguntas existente
 assessment#:#assessment_new_pool#:#Create new question pool
 assessment#:#assessment_no_pool#:#Do not use question pool
 assessment#:#assessment_pool_selection#:#Pool Selection
