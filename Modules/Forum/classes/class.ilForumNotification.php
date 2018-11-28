@@ -469,7 +469,7 @@ class ilForumNotification
 	/**
 	 * @param int $sourceRefId
 	 */
-	public function cloneFromSource(int $sourceRefId)
+	public function cloneFromSource($sourceRefId)
 	{
 		$sourceNotificationSettings = new self($sourceRefId);
 		$records = $sourceNotificationSettings->read();
