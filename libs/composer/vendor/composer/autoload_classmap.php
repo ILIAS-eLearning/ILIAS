@@ -7163,6 +7163,7 @@ return array(
     'ilWebDAVRequestHandler' => $baseDir . '/../../Services/WebDAV/classes/class.ilWebDAVRequestHandler.php',
     'ilWebDAVSabreBrowserPlugin' => $baseDir . '/../../Services/WebDAV/classes/browser/class.ilWebDAVSabreBrowserPlugin.php',
     'ilWebDAVTree' => $baseDir . '/../../Services/WebDAV/classes/class.ilWebDAVTree.php',
+    'ilWebDAVUriPathResolver' => $baseDir . '/../../Services/WebDAV/classes/tree/class.ilWebDAVUriPathResolver.php',
     'ilWebDAVUtil' => $baseDir . '/../../Services/WebDAV/classes/class.ilWebDAVUtil.php',
     'ilWebLinkXmlParser' => $baseDir . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParser.php',
     'ilWebLinkXmlParserException' => $baseDir . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParserException.php',

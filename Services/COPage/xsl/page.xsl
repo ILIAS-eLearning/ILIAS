@@ -1154,7 +1154,7 @@
 
 	<!-- Code -->
 <xsl:template match="Code">
-	<code><xsl:apply-templates/></code>
+	<code class="ilc_code_inline_CodeInline"><xsl:apply-templates/></code>
 </xsl:template>
 
 <!-- Sup -->

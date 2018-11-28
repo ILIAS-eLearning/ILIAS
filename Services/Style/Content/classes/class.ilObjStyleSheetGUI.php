@@ -1029,6 +1029,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$newObj->setDescription(ilUtil::stripSlashes($_POST["style_description"]));
 		$newObj->update();
 
+		ilObjStyleSheet::_addMissingStyleClassesToStyle($newObj->getId());
+
 		// assign style to style sheet folder,
 		// if parent is style sheet folder
 		if ($_GET["ref_id"] > 0)
