@@ -695,7 +695,8 @@ class ilMailFolderGUI
 		/**
 		 * @var $sender ilObjUser
 		 */
-		$sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
+		$sender   = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
+		$replyBtn = null;
 		if ($sender && $sender->getId() && !$sender->isAnonymous()) {
 			$replyBtn = \ilLinkButton::getInstance();
 			$replyBtn->setCaption('reply');
@@ -705,7 +706,8 @@ class ilMailFolderGUI
 			$replyBtn->setUrl($this->ctrl->getLinkTargetByClass('ilmailformgui'));
 			$this->ctrl->clearParametersByClass('ilmailformgui');
 			$replyBtn->setAccessKey(\ilAccessKey::REPLY);
-			$this->toolbar->addButtonInstance($replyBtn);
+			$replyBtn->setPrimary(true);
+			$this->toolbar->addStickyItem($replyBtn);
 		}
 
 		$fwdBtn = \ilLinkButton::getInstance();
@@ -716,7 +718,12 @@ class ilMailFolderGUI
 		$fwdBtn->setUrl($this->ctrl->getLinkTargetByClass('ilmailformgui'));
 		$this->ctrl->clearParametersByClass('ilmailformgui');
 		$fwdBtn->setAccessKey(\ilAccessKey::FORWARD_MAIL);
-		$this->toolbar->addButtonInstance($fwdBtn);
+		if (!$replyBtn) {
+			$fwdBtn->setPrimary(true);
+			$this->toolbar->addStickyItem($fwdBtn);
+		} else {
+			$this->toolbar->addButtonInstance($fwdBtn);
+		}
 
 		$printBtn = \ilLinkButton::getInstance();
 		$printBtn->setCaption('print');
