@@ -150,8 +150,17 @@ class ilMailFormGUI
 	{
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
-		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
-		$message = str_replace("\r", '', $message);
+		$message = $_POST['m_message'];
+		$sanitizedMessage = \ilUtil::stripSlashes($message);
+		/*
+		 * See: \ilFormPropertyGUI::stripSlashesAddSpaceFallback
+		 * https://mantis.ilias.de/view.php?id=19727
+		 * https://mantis.ilias.de/view.php?id=24133
+		 */
+		if ($sanitizedMessage !== $message) {
+			$sanitizedMessage = \ilUtil::stripSlashes(str_replace('<', '< ', $message));
+		}
+		$sanitizedMessage = str_replace("\r", '', $sanitizedMessage);
 
 		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
@@ -165,7 +174,7 @@ class ilMailFormGUI
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
-			ilUtil::securePlainString($_POST['m_subject']), $message,
+			ilUtil::securePlainString($_POST['m_subject']), $sanitizedMessage,
 			$files,
 			$m_type,
 			(int)$_POST['use_placeholders']
