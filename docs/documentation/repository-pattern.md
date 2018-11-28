@@ -1,29 +1,40 @@
-# Repository Pattern
+# Repository Patterno
 
 ## What, why and how?
 
 ### Architectural Perspective
 
+From the perspective of an architect of the application, a repository can be
+defined as such:
+
 **A repository is the single source of truth for a domain of an application.**
 
-* *Repository* is the name of the entity in question
-* *single source of truth*
-	* *single* means that not other entity may tell or acknowledge facts
-	* *truth* can be understood as facts and state in the application
-* The *domain* is the area of expertise or knowledge the application (or component
-of the application cares about.
+`Repository` here is a name that classifies the entities we want to create and
+that fullfil a special purpose in our application design. The role is, to be a
+`single source of truth`. `Single` here is crucial. It means, that only the
+`Repository` and no other entity may tell or acknowledge facts. A `truth` or
+`fact` here can be understood as some information or a state of the application.
+The `Repository` does not need to know every truth about the application, but
+rather specializes on one `domain` in the application. A `domain` can be understood
+as a field of expertise or knowledge the application (or a component of the
+application) cares about. So in fact, an application most likely won't have one
+repository but rather many of them, that all take care of one domain in the
+application.
 
 ### Technical Perspectice
 
-A repository...
+This rather abstract perspective can be complemented with a more technical one.
+Here, we can see, that a `Repository` in fact abstract the underlying database.
+Via its interface it captures common patterns of access, may it be read or write,
+to the knowledge in the domain it is reponsible for. Since it is a single entity
+that mediates all access to the database, we can control where, if and when
+persistence to the database actually happens.
 
-* ...abstracts the database.
-* ...captures patterns of requests to the database.
-* ...mediates all access to the database.
-* ...controls where and when persistence happens.
-
-Although a repository is a database from a technical perspective, it is not an SQL-
-abstraction.
+Although a `Repository` can be understood as a database from a technical perspective
+we should not confuse it with a database (as we will see later on) in general.
+It is thus not the goal of a `Repository` to be a SQL-abstraction. An implementation
+of a `Repository` over a relational database might rather use an SQL-abstraction
+to implement the required access patterns.
 
 ### Alternatives
 
