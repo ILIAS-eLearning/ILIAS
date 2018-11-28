@@ -263,7 +263,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		}
 
 		$html = parent::getHTML();
-		return $html;
+
 		$this->tpl->addOnLoadCode('il.ForumExplorer.init(' . json_encode(array(
 			'selectors' => array(
 				'container'        => '#' . $this->getContainerId(),
