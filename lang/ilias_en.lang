@@ -14941,3 +14941,4 @@ crs#:#crs_view_timing_absolute#:#Absolute Dates
 crs#:#crs_view_info_timing_absolute#:#Start and end date will be set absolute.
 crs#:#crs_view_timing_relative#:#Relative Dates
 crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to the subscription date.
+dateplaner#:#btn_ical#:#iCal

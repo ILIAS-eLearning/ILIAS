@@ -14941,3 +14941,4 @@ crs#:#crs_view_timing_absolute#:#Absolutes Datum
 crs#:#crs_view_timing_relative#:#Relatives Datum
 crs#:#crs_view_info_timing_absolute#:#Das Start- und Enddatum wird absolut gesetzt.
 crs#:#crs_view_info_timing_relative#:#Das Start- und Enddatum wird anhand von Zeitangaben relativ zum Kursbeitrittsdatum gesetzt.
+dateplaner#:#btn_ical#:#iCal
