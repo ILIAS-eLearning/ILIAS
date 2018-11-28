@@ -841,7 +841,7 @@ class ilMailFolderGUI
 			$this->toolbar->addInputItem($actions);
 
 			$moveBtn = \ilSubmitButton::getInstance();
-			$moveBtn->setCaption('submit');
+			$moveBtn->setCaption('execute');
 			$moveBtn->setCommand('moveSingleMail');
 			$this->toolbar->addButtonInstance($moveBtn);
 		}
