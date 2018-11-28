@@ -578,7 +578,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$roundtrip = $ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
-		$standard_button = $ui_factory->button()->standard('Ical', '')->withOnClick(
+		$standard_button = $ui_factory->button()->standard($lng->txt('btn_ical'), '')->withOnClick(
 			$roundtrip->getShowSignal()
 		);
 		$components = [
