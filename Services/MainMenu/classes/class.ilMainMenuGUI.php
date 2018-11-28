@@ -462,7 +462,7 @@ class ilMainMenuGUI {
 		// the main menu does not need the YUI connection, but many other
 		// features since they rely on il.Util.sendAjaxGetRequestToUrl (see Services/Javascript)
 		// which still uses YUI. This should be migrated to jQuery with a future major release
-		ilYUIUtil::initConnection();
+		ilYuiUtil::initConnection();
 
 		$this->setTemplateVars();
 

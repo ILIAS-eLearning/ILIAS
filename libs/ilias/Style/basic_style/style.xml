@@ -676,8 +676,11 @@
 	<StyleParameter Name="margin-right" Value="0px"/>
 	<StyleParameter Name="margin-left" Value="0px"/>
 </Style>
+<Style Tag="pre" Type="code_block" Class="Code">
+</Style>
 
-<!-- Text (inline) -->
+
+	<!-- Text (inline) -->
 <Style Tag="span" Type="text_inline" Class="Comment">
 	<StyleParameter Name="color" Value="green"/>
 </Style>
@@ -701,8 +704,11 @@
 </Style>
 <Style Tag="sub" Type="sub" Class="Sub">
 </Style>
+<Style Tag="code" Type="code_inline" Class="CodeInline">
+</Style>
 
-<!-- Tabs -->
+
+	<!-- Tabs -->
 <Style Tag="div" Type="va_cntr" Class="VAccordCntr">
 	<StyleParameter Name="margin-top" Value="5px"/>
 </Style>

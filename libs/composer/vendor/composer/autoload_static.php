@@ -7473,6 +7473,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilWebDAVRequestHandler' => __DIR__ . '/../..' . '/../../Services/WebDAV/classes/class.ilWebDAVRequestHandler.php',
         'ilWebDAVSabreBrowserPlugin' => __DIR__ . '/../..' . '/../../Services/WebDAV/classes/browser/class.ilWebDAVSabreBrowserPlugin.php',
         'ilWebDAVTree' => __DIR__ . '/../..' . '/../../Services/WebDAV/classes/class.ilWebDAVTree.php',
+        'ilWebDAVUriPathResolver' => __DIR__ . '/../..' . '/../../Services/WebDAV/classes/tree/class.ilWebDAVUriPathResolver.php',
         'ilWebDAVUtil' => __DIR__ . '/../..' . '/../../Services/WebDAV/classes/class.ilWebDAVUtil.php',
         'ilWebLinkXmlParser' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParser.php',
         'ilWebLinkXmlParserException' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParserException.php',

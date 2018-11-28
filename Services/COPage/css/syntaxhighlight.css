@@ -80,10 +80,7 @@ span.ilc_CodeSelect {
 
 }
 
-pre.ilc_Code {
+.ilc_Code {
 	font-size: 1em;	
 }
 
-span.ilc_LineNumber {
-	font-size: 1em;
-}
