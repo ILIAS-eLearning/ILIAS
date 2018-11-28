@@ -727,6 +727,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	*/
 	function create()
 	{
+		$this->setOfflineStatus(true);
 		parent::create();
 
 		// meta data will be created by
