@@ -1,32 +1,35 @@
 <?php
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Layout\Page;
-use ILIAS\UI\Component as C;
+
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MainControls\Metabar;
+use ILIAS\UI\Component\MainControls\Mainbar;
+use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\UI\Component\Image\Image;
 
 /**
- * This describes the Page
+ * This describes the Page.
  */
-interface Standard extends C\Component {
-
+interface Standard extends Component
+{
 	/**
-	 * @return 	Component|Component[]
+	 * @return Component|Component[]
 	 */
 	public function getContent();
 
-	/**
-	 * @return 	ILIAS\UI\Component\Layout\Metabar | null
-	 */
-	public function getMetabar();
+	public function getMetabar(): Metabar;
+
+	public function getMainbar(): Mainbar;
 
 	/**
-	 * @return 	ILIAS\UI\Component\Layout\Sidebar | null
-	 */
-	public function getMainbar();
-
-	/**
-	 * @return 	ILIAS\UI\Component\Breadcrumbs | null
+	 * @return Breadcrumbs|null
 	 */
 	public function getBreadcrumbs();
 
+	/**
+	 * @return Image|null
+	 */
+	public function getLogo();
 }

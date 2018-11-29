@@ -6,7 +6,6 @@ namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\MainControls;
-use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -27,11 +26,6 @@ class Metabar implements MainControls\Metabar
 	private $signal_generator;
 
 	/**
-	 * @var Image
-	 */
-	private $logo;
-
-	/**
 	 * @var Signal
 	 */
 	private $entry_click_signal;
@@ -42,20 +36,10 @@ class Metabar implements MainControls\Metabar
 	protected $entries;
 
 	public function __construct(
-		SignalGeneratorInterface $signal_generator,
-		Image $logo
+		SignalGeneratorInterface $signal_generator
 	) {
 		$this->signal_generator = $signal_generator;
-		$this->logo = $logo;
 		$this->initSignals();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getLogo(): Image
-	{
-		return $this->logo;
 	}
 
 	/**
@@ -87,7 +71,6 @@ class Metabar implements MainControls\Metabar
 	{
 		return $this->entry_click_signal;
 	}
-
 
 	/**
 	 * Set the signals for this component

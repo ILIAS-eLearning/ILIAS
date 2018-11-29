@@ -5,7 +5,6 @@ namespace ILIAS\UI\Component\MainControls;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
@@ -13,8 +12,6 @@ use ILIAS\UI\Component\JavaScriptBindable;
  */
 interface Metabar extends Component, JavaScriptBindable
 {
-	public function getLogo(): Image;
-
 	/**
 	 * Append an entry.
 	 *

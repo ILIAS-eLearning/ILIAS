@@ -5,6 +5,7 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Layout\Page;
 use \ILIAS\UI\Component\MainControls;
+use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements Page\Factory {
@@ -15,8 +16,9 @@ class Factory implements Page\Factory {
 		MainControls\Metabar $metabar,
 		MainControls\Mainbar $mainbar,
 		$content,
-		$locator = null
+		$locator = null,
+		Image $logo = null
 	): Page\Standard {
-		return new Standard($metabar, $mainbar, $content, $locator);
+		return new Standard($metabar, $mainbar, $content, $locator, $logo);
 	}
 }
