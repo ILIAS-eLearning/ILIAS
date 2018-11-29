@@ -13,6 +13,11 @@ class ilDownloadSubmissionsBackgroundTask
 	/**
 	 * @var int
 	 */
+	protected $exc_ref_id;
+
+	/**
+	 * @var int
+	 */
 	protected $exc_id;
 
 	/**
@@ -33,15 +38,17 @@ class ilDownloadSubmissionsBackgroundTask
 	/**
 	 * Constructor
 	 * @param integer $a_usr_id
+	 * @param integer $a_exc_ref_id
 	 * @param integer $a_exc_id
 	 * @param integer $a_ass_id
 	 * @param integer $a_participant_id
 	 */
-	public function __construct($a_usr_id, $a_exc_id, $a_ass_id, $a_participant_id)
+	public function __construct($a_usr_id, $a_exc_ref_id, $a_exc_id, $a_ass_id, $a_participant_id)
 	{
 		global $DIC;
 
 		$this->user_id = $a_usr_id;
+		$this->exc_ref_id = $a_exc_ref_id;
 		$this->exc_id = $a_exc_id;
 		$this->ass_id = $a_ass_id;
 		$this->participant_id = $a_participant_id;
@@ -60,7 +67,15 @@ class ilDownloadSubmissionsBackgroundTask
 		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilSubmissionsZipJob.php';
 		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilExDownloadSubmissionsZipInteraction.php';
 
-		$collect_data_job = $this->task_factory->createTask(ilExerciseManagementCollectFilesJob::class,[$this->exc_id, (int)$this->ass_id, (int)$this->participant_id]);
+		$collect_data_job = $this->task_factory->createTask(ilExerciseManagementCollectFilesJob::class,
+			[
+				$this->exc_id,
+				$this->exc_ref_id,
+				(int)$this->ass_id,
+				(int)$this->participant_id,
+				(int) $this->user_id
+			]
+		);
 
 		$zip_job = $this->task_factory->createTask(ilSubmissionsZipJob::class, [$collect_data_job]);
 

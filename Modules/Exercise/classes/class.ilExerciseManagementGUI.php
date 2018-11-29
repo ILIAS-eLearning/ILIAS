@@ -448,7 +448,12 @@ class ilExerciseManagementGUI
 
 		$participant_id = $_REQUEST['part_id'];
 
-		$download_task = new ilDownloadSubmissionsBackgroundTask($GLOBALS['DIC']->user()->getId(), $this->exercise->getId(), (int)$this->ass_id, (int)$participant_id);
+		$download_task = new ilDownloadSubmissionsBackgroundTask(
+			$GLOBALS['DIC']->user()->getId(),
+			$this->exercise->getRefId(),
+			$this->exercise->getId(),
+			(int)$this->ass_id,
+			(int)$participant_id);
 
 		if($download_task->run()) {
 			ilUtil::sendSuccess($this->lng->txt('exc_down_files_started'),true);
