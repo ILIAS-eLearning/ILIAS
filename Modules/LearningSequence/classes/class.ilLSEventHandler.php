@@ -27,15 +27,15 @@ class ilLSEventHandler
 	{
 		$obj_deleted = $parameter['object'];
 		$obj_ref_id = $obj_deleted->getRefId();
-		$parent_lso = false;
-		if(!empty($obj_ref_id) && $this->tree->isInTree($obj_ref_id)) {
-			$parent_lso = $this->getParentLSOInfo((int)$obj_ref_id);
+		if(empty($obj_ref_id) || !$this->tree->isInTree($obj_ref_id)) {
+			return;
 		}
-		if ($parent_lso !== false) {
+		$parent_lso = $this->getParentLSOInfo((int)$obj_ref_id);
+		if($parent_lso) {
 			$lso = $this->getInstanceByRefId((int)$parent_lso['ref_id']);
 			$lso->getStateDB()->deleteForItem(
 				(int)$parent_lso['ref_id'],
-				(int)$obj_deleted->getRefId()
+				(int)$obj_ref_id
 			);
 		}
 	}
