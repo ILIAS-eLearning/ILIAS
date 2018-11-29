@@ -54,27 +54,49 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
-		global $ilUser;
+		global $DIC;
 
-		$lm_id = $_REQUEST["lm_id"];
-		if($lm_id)
+		$ilUser = $DIC->user();
+
+		$objectId = $_REQUEST["lm_id"];
+		if($objectId)
 		{
-			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-			$type = ilObjSAHSLearningModule::_lookupSubType($lm_id);
+			$type = ilObjSAHSLearningModule::_lookupSubType($objectId);
 			if($type == "scorm")
 			{
-				include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-				$lm = new ilObjSCORMLearningModule($lm_id, false);
+				$lm = new ilObjSCORMLearningModule($objectId, false);
 			}
 			else
 			{
-				include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-				$lm = new ilObjSCORM2004LearningModule($lm_id, false);
+				$lm = new ilObjSCORM2004LearningModule($objectId, false);
 			}
-			include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
+
+			// create certificate
+			if(!stristr(get_class($lm), "2004"))
+			{
+				$last_access = ilObjSCORMLearningModule::_lookupLastAccess($lm->getId(), $ilUser->getId());
+			}
+			else
+			{
+				$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($lm->getId(), $ilUser->getId());
+			}
+
+
+			$certificateVerificationFileService = new ilCertificateVerificationFileService(
+				$DIC->language(),
+				$DIC->database(),
+				$DIC->logger()->root()
+			);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+				(int) $ilUser->getId(),
+				(int) $objectId
+			);
 
 			try {
-				$newObj = ilObjSCORMVerification::createFromSCORMLM($lm, $ilUser->getId());
+				$newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
 			} catch (\Exception $exception) {
 				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
 				return $this->create();
