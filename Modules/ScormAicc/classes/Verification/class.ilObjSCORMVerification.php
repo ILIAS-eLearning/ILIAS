@@ -59,13 +59,9 @@ class ilObjSCORMVerification extends ilVerificationObject
 			$last_access = ilObjSCORMLearningModule::_lookupLastAccess($a_lm->getId(), $a_user_id);
 		}
 		else
-		{				
+		{
 			$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($a_lm->getId(), $a_user_id);
-		}			
-		$params = array(
-			"user_data" => ilObjUser::_lookupFields($a_user_id),
-			"last_access" => $last_access
-		);
+		}
 
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
