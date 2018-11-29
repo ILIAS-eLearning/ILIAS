@@ -23,7 +23,7 @@ class ilMailBody
 	/**
 	 * @return mixed|null|string|string[]
 	 */
-	public function getContent() :string
+	public function getContent() : string
 	{
 		return $this->bodyContent;
 	}
