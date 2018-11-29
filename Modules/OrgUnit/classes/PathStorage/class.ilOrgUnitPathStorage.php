@@ -115,8 +115,8 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			return self::$text_representation_of_org_onits['sort_by_title'];
 		} else {
 
-			if (!is_array(self::$text_representation_of_org_onits['sort_by_undefined'] = ilOrgUnitPathStorage::getArray('ref_id', 'path'))) {
-				self::$text_representation_of_org_onits['sort_by_undefined'] = ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
+			if (!is_array(self::$text_representation_of_org_onits['sort_by_undefined'])) {
+				self::$text_representation_of_org_onits['sort_by_undefined'] = ilOrgUnitPathStorage::getArray('ref_id', 'path');
 			}
 
 			return self::$text_representation_of_org_onits['sort_by_undefined'];
