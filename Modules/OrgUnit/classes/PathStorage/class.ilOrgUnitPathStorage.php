@@ -108,23 +108,18 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 */
 	public static function getTextRepresentationOfOrgUnits($sort_by_title = true) {
 
-		if (is_array(self::$text_representation_of_org_onits[$sort_by_title])) {
-			return self::$text_representation_of_org_onits[$sort_by_title];
-		}
-
 		if ($sort_by_title) {
 			if (!is_array(self::$text_representation_of_org_onits['sort_by_title'])) {
 				self::$text_representation_of_org_onits['sort_by_title'] = ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
 			}
-
 			return self::$text_representation_of_org_onits['sort_by_title'];
 		} else {
 
-			if (!is_array(self::$text_representation_of_org_onits['sort_by_ref_id'] = ilOrgUnitPathStorage::getArray('ref_id', 'path'))) {
-				self::$text_representation_of_org_onits['sort_by_ref_id'] = ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
+			if (!is_array(self::$text_representation_of_org_onits['sort_by_undefined'] = ilOrgUnitPathStorage::getArray('ref_id', 'path'))) {
+				self::$text_representation_of_org_onits['sort_by_undefined'] = ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
 			}
 
-			return self::$text_representation_of_org_onits['sort_by_ref_id'];
+			return self::$text_representation_of_org_onits['sort_by_undefined'];
 		}
 	}
 
