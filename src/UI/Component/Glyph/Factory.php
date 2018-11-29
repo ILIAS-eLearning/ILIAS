@@ -844,7 +844,7 @@ interface Factory {
 	 *   effect: >
 	 *       Clicking this glyph will open a search dialog.
 	 *       Since the context for the Search Glyph primarily is the Metabar,
-	 *       the according search dialog will be opened as Tool in the Sidebar.
+	 *       the according search dialog will be opened as Tool in the Mainbar.
 	 *
 	 * context:
 	 *    - The Search Glyph appears in the Metabar.
