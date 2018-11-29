@@ -23,10 +23,6 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @var bool
-	 */
-	protected $recursive;
-	/**
 	 * ilOrgUnitUserAssignmentTableGUI constructor.
 	 *
 	 * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
@@ -64,15 +60,18 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 		$this->addColumn($this->lng->txt("action"));
 	}
 
-
+	/**
+	 * @return array
+	 */
 	public function loadData()
 	{
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
+		$access = $DIC['ilAccess'];
 		$orgu_tree = ilObjOrgUnitTree::_getInstance();
 		$data = [];
 		foreach ($orgu_tree->getAllChildren($this->orgu_ref_id) as $ref_id) {
-			$permission_view_lp = $ilAccess->checkAccess("view_learning_progress", "", $ref_id);
+			$ref_id = (int)$ref_id;
+			$permission_view_lp = $this->mayViewLPIn($ref_id, $access, $orgu_tree);
 			foreach($orgu_tree->getAssignements($ref_id,$this->ilOrgUnitPosition) as $usr_id) {
 				$usr_id = (int)$usr_id;
 				if(!array_key_exists($usr_id, $data)) {
@@ -89,6 +88,38 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 			}
 		}
 		return $data;
+	}
+
+
+	private static $permission_view_lp_recursive = [];
+	/**
+	 * @return bool
+	 */
+	private function mayViewLPIn($ref_id, ilAccess $access, ilObjOrgUnitTree $orgu_tree)
+	{
+		if($access->checkAccess("view_learning_progress", "", $ref_id)) { // admission by local
+			return true;
+		}
+		$current = (int)$ref_id;
+		$root = (int)ilObjOrgUnit::getRootOrgRefId();
+		$checked_children = [];
+		while($current !== $root) {
+			if(!array_key_exists($current, self::$permission_view_lp_recursive)) {
+				self::$permission_view_lp_recursive[$current] =
+					$access->checkAccess("view_learning_progress_rec", "", $current);
+
+			}
+			if(self::$permission_view_lp_recursive[$current]) {
+				// if an orgu may be viewed recursively, same holds for all of its children. lets cache this.
+				foreach ($checked_children as $child) {
+					self::$permission_view_lp_recursive[$child] = true;
+				}
+				return true;
+			}
+			$checked_children[] = $current;
+			$current = (int)$orgu_tree->getParent($current);
+		}
+		return false;
 	}
 
 
