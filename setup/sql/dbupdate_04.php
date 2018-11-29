@@ -25269,3 +25269,11 @@ include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.ph
 ilDBUpdate3136::addStyleClass("Code", "code_block", "pre",
 	array());
 ?>
+<#5430>
+<?php
+$ilDB->update("style_data", array(
+	"uptodate" => array("integer", 0)
+), array(
+	"1" => array("integer", 1)
+));
+?>
