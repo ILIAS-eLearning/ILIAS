@@ -28,7 +28,7 @@ interface Slate extends Component, JavaScriptBindable
 	public function getToggleSignal(): Signal;
 
 	/**
-	 * Signal that enagages the slate when tiriggered.
+	 * Signal that engages the slate when triggered.
 	 */
 	public function getShowSignal(): Signal;
 

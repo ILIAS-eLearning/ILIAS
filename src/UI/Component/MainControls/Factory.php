@@ -25,7 +25,7 @@ interface Factory {
 	 *   composition: >
 	 *     The Metabar is rendered horizontally at the very top of the page. It
 	 *     is always visible and available (except in some specialized view modes
-	 *     like an exam mode) as a static screen element and is unaffected by
+	 *     like an kiosk mode) as a static screen element and is unaffected by
 	 *     scrolling.
 	 *
 	 *     The Metabar always features the logo on the left hand side, while
@@ -106,10 +106,11 @@ interface Factory {
 	 *
 	 *     The Mainbar is always visible and available (except in specialized views
 	 *     like the exam mode) as a static screen element unaffected by scrolling.
-     *
+	 *
 	 *   effect: >
-     *     Clicking an entry will carry out its configured action. For slates, this
-	 *     is expanding the slate, while for links an according page opens.
+	 *     Clicking an entry will carry out its configured action. For slates, this
+	 *     is expanding the slate, while for Bulky Buttons this might be just
+	 *     changing the page, e.g.
 	 *
 	 *     Buttons in the Mainbar are stateful, i.e. they have a pressed-status
 	 *     that can either be toggled by clicking the same button again or by
@@ -125,8 +126,8 @@ interface Factory {
 	 *     slate is opened above (like in overlay, not "on top of") the content.
 	 *
 	 *     The slates height equals that of the Mainbar. Also, their position will
-	 *     remain static when the page is scrolled. A button to close a slate is
-	 *     rendered underneath the slate. It will  close all visible Slates and reset
+	 *     remain fixed when the page is scrolled. A button to close a slate is
+	 *     rendered underneath the slate. It will close all visible Slates and reset
 	 *     the states of all mainbar-entries.
 	 *
 	 *     When a tool (such as the help), whose contents are displayed in a slate,
@@ -183,7 +184,7 @@ interface Factory {
 	 *        Operating elements in the bar MUST either lead to further navigational
 	 *        options within the bar (open a slate) OR actually invoke navigation, i.e.
 	 *        change the location/content of the current page.
-	 *     2: Elements in the bar MUST NOT open a modal or window.
+	 *     2: Elements in the bar MUST NOT open a modal or new Viewport.
 	 *
 	 * ----
 	 *
