@@ -247,7 +247,7 @@ class ilMailMemberSearchGUI
 		
 		$this->tpl->getStandardTemplate();
 		$tbl = new ilMailMemberSearchTableGUI($this, 'showSelectableUsers');
-		$provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(), $this->ref_id);
+		$provider = new ilMailMemberSearchDataProvider($this->getObjParticipants());
 		$tbl->setData($provider->getData());
 
 		$this->tpl->setContent($tbl->getHTML());
