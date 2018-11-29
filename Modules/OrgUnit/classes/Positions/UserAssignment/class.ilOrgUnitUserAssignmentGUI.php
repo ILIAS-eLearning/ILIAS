@@ -11,6 +11,11 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
+	const CMD_ASSIGNMENTS_RECURSIVE = 'assignmentsRecursive';
+
+	const SUBTAB_ASSIGNMENTS = 'user_assignments';
+	const SUBTAB_ASSIGNMENTS_RECURSIVE = 'user_assignments_recursive';
+
 	public function executeCommand() {
 		$r = $this->http()->request();
 		switch ($this->ctrl()->getNextClass()) {
@@ -36,6 +41,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 
 	protected function index() {
+		$this->addSubTabs();
+		$this->activeSubTab(self::SUBTAB_ASSIGNMENTS);
 		// Header
 		$types = ilOrgUnitPosition::getArray('id', 'title');
 		//$types = array();
@@ -55,6 +62,22 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 		$this->setContent($html);
 	}
 
+
+	protected function assignmentsRecursive()
+	{
+		$this->addSubTabs();
+		$this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
+		// Tables
+		$html = '';
+		foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
+			$ilOrgUnitRecursiveUserAssignmentTableGUI =
+				new ilOrgUnitRecursiveUserAssignmentTableGUI($this,
+				self::CMD_ASSIGNMENTS_RECURSIVE,
+				$ilOrgUnitPosition);
+			$html .= $ilOrgUnitRecursiveUserAssignmentTableGUI->getHTML();
+		}
+		$this->setContent($html);
+	}
 
 	protected function confirm() {
 		$this->ctrl()->saveParameter($this, 'position_id');
@@ -121,6 +144,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 		ilUtil::sendSuccess($this->txt("users_successfuly_added"), true);
 		$this->ctrl()->redirect($this, self::CMD_INDEX);
+	}
+
+	public function addSubTabs()
+	{
+		$this->pushSubTab(self::SUBTAB_ASSIGNMENTS, $this->ctrl()
+		                                              ->getLinkTarget($this, self::CMD_INDEX));
+		$this->pushSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE, $this->ctrl()
+		                                                 ->getLinkTarget($this, self::CMD_ASSIGNMENTS_RECURSIVE));
 	}
 }
 
