@@ -138,8 +138,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 */
 	protected function filterParticipantsByAccess(array $participants_ids)
 	{
-		$this->logger->dump($participants_ids);
-
 		if($this->access->checkAccessOfUser(
 			$this->user_id,
 			'edit_submissions_grades',
@@ -150,11 +148,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			// if access by rbac granted => return all
 			return $participants_ids;
 		}
-
-		return $this->access->filterUserIdsForUsersPositionsAndPermission(
-			$participants_ids,
+		return $this->access->filterUserIdsByPositionOfUser(
 			$this->user_id,
-			'edit_submissions_grades'
+			'edit_submissions_grades',
+			$this->exercise_ref_id,
+			$participants_ids
 		);
 	}
 
