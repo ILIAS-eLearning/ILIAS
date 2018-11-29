@@ -20,13 +20,17 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 */
 	private $logger = null;
 
+	private $access = null;
+
 	/**
 	 * @var string
 	 */
 	protected $target_directory;
 	protected $submissions_directory;
 	protected $assignment;
+	protected $user_id;
 	protected $exercise_id;
+	protected $exercise_ref_id;
 	protected $temp_dir;
 	protected $lng;
 	protected $sanitized_title; //sanitized file name/sheet title
@@ -59,6 +63,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			ilExAssignment::TYPE_PORTFOLIO
 		);
 		$this->logger = $DIC->logger()->exc();
+		$this->access = $DIC->access();
 	}
 
 	/**
@@ -95,8 +100,10 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	public function run(array $input, Observer $observer)
 	{
 		$this->exercise_id = $input[0]->getValue();
-		$assignment_id = $input[1]->getValue();
-		$participant_id = $input[2]->getValue();
+		$this->exercise_ref_id = $input[1]->getValue();
+		$assignment_id = $input[2]->getValue();
+		$participant_id = $input[3]->getValue();
+		$this->user_id = $input[4]->getValue();
 
 		//if we have assignment
 		if($assignment_id > 0)
@@ -121,6 +128,34 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 		$out->setValue($final_directory);
 		return $out;
 
+	}
+
+
+	/**
+	 * Filter manageable participants by position or rbac access
+	 * @param int[] $participants_ids
+	 * @return int[]
+	 */
+	protected function filterParticipantsByAccess(array $participants_ids)
+	{
+		$this->logger->dump($participants_ids);
+
+		if($this->access->checkAccessOfUser(
+			$this->user_id,
+			'edit_submissions_grades',
+			'',
+			$this->exercise_ref_id
+		))
+		{
+			// if access by rbac granted => return all
+			return $participants_ids;
+		}
+
+		return $this->access->filterUserIdsForUsersPositionsAndPermission(
+			$participants_ids,
+			$this->user_id,
+			'edit_submissions_grades'
+		);
 	}
 
 	/**
@@ -216,6 +251,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 		} else {
 			$exc_members_id = $exercise->members_obj->getMembers();
 		}
+
+		$exc_members_id = $this->filterParticipantsByAccess($exc_members_id);
 
 		foreach( $exc_members_id as $member_id)
 		{
@@ -506,6 +543,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			} else {
 				$participants = $this->getAssignmentMembersIds();
 			}
+
+			$participants = $this->filterParticipantsByAccess($participants);
 
 			$row = 2;
 			// Fill the excel
