@@ -71,6 +71,10 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 		$data = [];
 		foreach ($orgu_tree->getAllChildren($this->orgu_ref_id) as $ref_id) {
 			$ref_id = (int)$ref_id;
+			if(!ilObjOrgUnitAccess::_checkAccessStaff($ref_id)) {
+				// skip orgus in which one may not view the staff
+				continue;
+			}
 			$permission_view_lp = $this->mayViewLPIn($ref_id, $access, $orgu_tree);
 			foreach($orgu_tree->getAssignements($ref_id,$this->ilOrgUnitPosition) as $usr_id) {
 				$usr_id = (int)$usr_id;
