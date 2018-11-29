@@ -379,3 +379,11 @@ if ($media_cont_mig == 1)
 	$setting->set('sty_media_cont_mig', 2);
 }
 ?>
+<#24>
+<?php
+	$ilDB->update("style_data", array(
+			"uptodate" => array("integer", 0)
+		), array(
+			"1" => array("integer", 1)
+		));
+?>
