@@ -72,14 +72,13 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 		$orgu_tree = ilObjOrgUnitTree::_getInstance();
 		$data = [];
 		foreach ($orgu_tree->getAllChildren($this->orgu_ref_id) as $ref_id) {
-			$permission_view_lp = $ilAccess->checkAccess("view_learning_progress", "", $ref);
+			$permission_view_lp = $ilAccess->checkAccess("view_learning_progress", "", $ref_id);
 			foreach($orgu_tree->getAssignements($ref_id,$this->ilOrgUnitPosition) as $usr_id) {
 				$usr_id = (int)$usr_id;
 				if(!array_key_exists($usr_id, $data)) {
 					$user = new ilObjUser($usr_id);
 					$set["first_name"] = $user->getFirstname();
 					$set["last_name"] = $user->getLastname();
-					$set["user_object"] = $user;
 					$set["user_id"] = $user_id;
 					$set["orgu_assignments"] = [];
 					$set['view_lp'] = false;
@@ -113,15 +112,17 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setListTitle($lng->txt("Actions"));
 		$selection->setId("selection_list_user_lp_" . $set["user_id"]);
-
-		if ($set['view_lp']) {
+		if ($set['view_lp'] &&
+			ilObjUserTracking::_enabledLearningProgress() &&
+			ilObjUserTracking::_enabledUserRelatedData()
+		) {
 			$selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array(
 				ilAdministrationGUI::class,
 				ilObjOrgUnitGUI::class,
 				ilLearningProgressGUI::class,
 			), ""));
 		}
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive) {
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
 			$this->addActions($selection);
 		}
 		$this->tpl->setVariable("ACTIONS", $selection->getHTML());
