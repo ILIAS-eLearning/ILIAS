@@ -11,6 +11,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	const GLUE_SIMPLE = ' - ';
 	const ORG_SEPARATOR = ' | ';
 	const TABLE_NAME = 'orgu_path_storage';
+	protected static $text_representation_of_org_onits = array();
 	/**
 	 * @var int
 	 *
@@ -65,9 +66,9 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 * Format comma seperated ref_ids into comma seperated string representation (also filters out deleted orgunits).
 	 * Return "-" if $string is empty
 	 *
-	 * @param int $user_id
+	 * @param int    $user_id
 	 * @param string $separator
-	 * @param bool $using_tmp_table second implementation
+	 * @param bool   $using_tmp_table second implementation
 	 *
 	 * @return string   comma seperated string representations of format: [OrgUnit Title] - [OrgUnits corresponding Level 1 Title]
 	 */
@@ -80,7 +81,8 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			$ilDB = $DIC['ilDB'];
 			ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
 
-			$res = $ilDB->queryF("SELECT " . $ilDB->groupConcat("path", $separator) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;", array( 'integer' ), array( $user_id ));
+			$res = $ilDB->queryF("SELECT " . $ilDB->groupConcat("path", $separator)
+				. " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;", array( 'integer' ), array( $user_id ));
 			$dat = $ilDB->fetchObject($res);
 
 			return $dat->orgus ? $dat->orgus : '-';
@@ -90,7 +92,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			if (!$array_of_org_ids) {
 				return '-';
 			}
-			$paths = ilOrgUnitPathStorage::where(array( 'ref_id' => $array_of_org_ids ))->getArray(null, 'path');
+			$paths = ilOrgUnitPathStorage::where(array( 'ref_id' => $array_of_org_ids ))->getArray(NULL, 'path');
 
 			return implode($separator, $paths);
 		}
@@ -105,16 +107,31 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	 * @return array
 	 */
 	public static function getTextRepresentationOfOrgUnits($sort_by_title = true) {
+
+		if (is_array(self::$text_representation_of_org_onits[$sort_by_title])) {
+			return self::$text_representation_of_org_onits[$sort_by_title];
+		}
+
 		if ($sort_by_title) {
-			return ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
+			if (!is_array(self::$text_representation_of_org_onits['sort_by_title'])) {
+				self::$text_representation_of_org_onits['sort_by_title'] = ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
+			}
+
+			return self::$text_representation_of_org_onits['sort_by_title'];
 		} else {
-			return ilOrgUnitPathStorage::getArray('ref_id', 'path');
+
+			if (!is_array(self::$text_representation_of_org_onits['sort_by_ref_id'] = ilOrgUnitPathStorage::getArray('ref_id', 'path'))) {
+				self::$text_representation_of_org_onits['sort_by_ref_id'] = ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
+			}
+
+			return self::$text_representation_of_org_onits['sort_by_ref_id'];
 		}
 	}
 
 
 	/**
 	 * @param $ref_id
+	 *
 	 * @return bool
 	 */
 	public static function writePathByRefId($ref_id) {
@@ -161,6 +178,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 
 	/**
 	 * @param $ref_id
+	 *
 	 * @return bool
 	 * @currently_unused
 	 */
@@ -198,9 +216,10 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 
 	/**
 	 * @param null $lng_key
+	 *
 	 * @return array
 	 */
-	public static function getAllOrguNames($lng_key = null) {
+	public static function getAllOrguNames($lng_key = NULL) {
 		if (count(self::$orgu_names) == 0) {
 			global $DIC;
 			/**
