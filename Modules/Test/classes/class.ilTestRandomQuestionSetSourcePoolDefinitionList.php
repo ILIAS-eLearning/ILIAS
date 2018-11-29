@@ -118,6 +118,49 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		$this->trashedPools = $trashedPools;
 	}
 	
+	// hey: fixRandomTestBuildable - provide single definitions, quantities distribution likes to deal with objects
+	
+	public function hasDefinition($sourcePoolDefinitionId)
+	{
+		return $this->getDefinition($sourcePoolDefinitionId) !== null;
+	}
+	
+	public function getDefinition($sourcePoolDefinitionId)
+	{
+		if( isset($this->sourcePoolDefinitions[$sourcePoolDefinitionId]) )
+		{
+			return $this->sourcePoolDefinitions[$sourcePoolDefinitionId];
+		}
+		
+		return null;
+	}
+	
+	public function getDefinitionBySourcePoolId($sourcePoolId)
+	{
+		foreach($this as $definition)
+		{
+			if($definition->getPoolId() != $sourcePoolId)
+			{
+				continue;
+			}
+			
+			return $definition;
+		}
+		
+		throw new InvalidArgumentException('invalid source pool id given');
+	}
+	
+	public function getDefinitionIds()
+	{
+		return array_keys($this->sourcePoolDefinitions);
+	}
+	
+	public function getDefinitionCount()
+	{
+		return count($this->sourcePoolDefinitions);
+	}
+	// hey.
+	
 	public function loadDefinitions()
 	{
 		$query = "
@@ -363,17 +406,5 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	{
 		echo get_class($this->getTrashedPools()[0]);
 		return array_merge($this->getTrashedPools(), $this->getLostPools());
-	}
-	
-	public function updateSourceQuestionPoolId($oldPoolId, $newPoolId)
-	{
-		foreach($this as $definition)
-		{
-			if($definition->getPoolId() == $oldPoolId)
-			{
-				$definition->setPoolId($newPoolId);
-				$definition->saveToDb();
-			}
-		}
 	}
 }
