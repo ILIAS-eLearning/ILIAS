@@ -135,7 +135,7 @@ class ilUserSearchOptions
 					asort($fields[$counter]['values']);					
 					break;
 					
-				case 'org_units':
+				/*case 'org_units':
 					$fields[$counter]['type'] = FIELD_TYPE_SELECT;
 
 					include_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
@@ -154,7 +154,7 @@ class ilUserSearchOptions
 					}
 					
 					$fields[$counter]['values'] = $options;
-					break;
+					break;*/
 						
 					
 				// begin-patch lok
