@@ -1290,7 +1290,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
-		if ($active_id)
+		if($use_post_solutions !== false)
+		{
+			$indexedSolution = $this->object->fetchSolutionSubmit($use_post_solutions);
+			$user_solution = $this->object->fetchValuePairsFromIndexedValues($indexedSolution);
+		}
+		elseif ($active_id)
 		{
 			// hey: prevPassSolutions - obsolete due to central check
 			#include_once "./Modules/Test/classes/class.ilObjTest.php";

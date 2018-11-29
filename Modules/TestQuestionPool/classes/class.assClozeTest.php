@@ -1333,11 +1333,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		return true;
 	}
 	
-	public function getSolutionSubmit()
+	public function fetchSolutionSubmit($submit)
 	{
 		$solutionSubmit = array();
 		
-		foreach ($_POST as $key => $value)
+		foreach ($submit as $key => $value)
 		{
 			if (preg_match("/^gap_(\d+)/", $key, $matches))
 			{
@@ -1361,6 +1361,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		
 		return $solutionSubmit;
+		
+	}
+	
+	public function getSolutionSubmit()
+	{
+		return $this->fetchSolutionSubmit($_POST);
 	}
 	
 	/**
