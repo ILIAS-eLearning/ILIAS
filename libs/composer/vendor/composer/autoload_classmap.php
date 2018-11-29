@@ -5215,6 +5215,7 @@ return array(
     'ilOrgUnitPositionFormGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionFormGUI.php',
     'ilOrgUnitPositionGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionGUI.php',
     'ilOrgUnitPositionTableGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionTableGUI.php',
+    'ilOrgUnitRecursiveUserAssignmentTableGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitRecusiveUserAsignmenTableGUI.php',
     'ilOrgUnitSimpleImport' => $baseDir . '/../../Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImport.php',
     'ilOrgUnitSimpleImportGUI' => $baseDir . '/../../Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php',
     'ilOrgUnitSimpleUserImport' => $baseDir . '/../../Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImport.php',
