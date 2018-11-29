@@ -6,14 +6,24 @@
  */
 class ilMailBody
 {
+	/**
+	 * @var mixed|null|string|string[]
+	 */
 	private $bodyContent;
 
+	/**
+	 * @param string $content
+	 * @param ilMailBodyPurifier $purifier
+	 */
 	public function __construct(string $content, ilMailBodyPurifier $purifier)
 	{
 		$this->bodyContent = $purifier->purify($content);
 	}
 
-	public function getContent()
+	/**
+	 * @return mixed|null|string|string[]
+	 */
+	public function getContent() :string
 	{
 		return $this->bodyContent;
 	}
