@@ -159,8 +159,6 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderMetabar(Metabar $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.metabar.html", true, true);
 
-		$tpl->setVariable("LOGO", $default_renderer->render($component->getLogo()));
-
 		$entry_signal = $component->getEntryClickSignal();
 		$active ='';
 		$this->renderTriggerButtonsAndSlates(

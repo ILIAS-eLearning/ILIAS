@@ -5,6 +5,10 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\MainControls\Metabar;
+use ILIAS\UI\Component\MainControls\Mainbar;
+use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\UI\Component\Image\Image;
 
 /**
  * Page
@@ -13,41 +17,47 @@ class Standard implements Page\Standard {
 	use ComponentHelper;
 
 	/**
-	 * @var 	mixed
+	 * @var mixed
 	 */
 	private $content;
 
 	/**
-	 * @var 	ILIAS\UI\Component\Layout\Metabar
+	 * @var Metabar
 	 */
 	private $metabar;
 
 	/**
-	 * @var 	ILIAS\UI\Component\Layout\Sidebar
+	 * @var	Mainbar
 	 */
 	private $mainbar;
 
 	/**
-	 * @var 	ILIAS\UI\Component\Breadcrumbs
+	 * @var	Breadcrumbs
 	 */
 	private $breadcrumbs;
 
 	/**
-	 * @var 	bool
+	 * @var Image
+	 */
+	private $logo;
+
+	/**
+	 * @var	bool
 	 */
 	private $with_headers = true;
 
-
 	public function __construct(
-		$metabar,
-		$mainbar,
+		Metabar $metabar,
+		Mainbar $mainbar,
 		$content,
-		$locator = null
+		Breadcrumbs $locator = null,
+		Image $logo = null
 	) {
 		$this->metabar = $metabar;
 		$this->mainbar = $mainbar;
 		$this->content = $content;
 		$this->breadcrumbs = $locator;
+		$this->logo = $logo;
 	}
 
 	/**
@@ -61,7 +71,7 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMetabar()
+	public function getMetabar(): Metabar
 	{
 		return $this->metabar;
 	}
@@ -69,7 +79,7 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMainbar()
+	public function getMainbar(): Mainbar
 	{
 		return $this->mainbar;
 	}
@@ -82,12 +92,19 @@ class Standard implements Page\Standard {
 		return $this->breadcrumbs;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getLogo()
+	{
+		return $this->logo;
+	}
 
 	/**
 	 * @param 	bool 	$use_headers
 	 * @return 	Page
 	 */
-	public function withHeaders($use_headers): C\Layout\Page
+	public function withHeaders($use_headers): Page
 	{
 		$clone = clone $this;
 		$clone->with_headers = $use_headers;
@@ -101,6 +118,5 @@ class Standard implements Page\Standard {
 	{
 		return $this->with_headers;
 	}
-
 
 }

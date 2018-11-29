@@ -28,13 +28,13 @@ interface Factory {
 	 *     like an kiosk mode) as a static screen element and is unaffected by
 	 *     scrolling.
 	 *
-	 *     The Metabar always features the logo on the left hand side, while
-	 *     further elements are placed on the right hand side. Currently, these
-	 *     are "Search", "Help", "Notifications", "Awareness" and "User"
+	 *     Elements in the Metabar are always placed on the right hand side.
+	 *     Currently, these are "Search", "Help", "Notifications", "Awareness"
+	 *     and "User".
 	 *
 	 *     Especially in mobile context, the total width of all entries may exceed
 	 *     the availble width of the screen. In this case, all entries are
-	 *     summarized under a "..."-Button. The logo remains.
+	 *     summarized under a "..."-Button.
 	 *
 	 *     Elements are rendered as Bulky Buttons. Prompts in the Metabar may be
 	 *     marked with counters for new/existing notifications.
@@ -69,7 +69,7 @@ interface Factory {
 	 *
 	 * @return  \ILIAS\UI\Component\MainControls\Metabar
 	 */
-	public function metabar(Image $logo): Metabar;
+	public function metabar(): Metabar;
 
 	/**
 	 * ---

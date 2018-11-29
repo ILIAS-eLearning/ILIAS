@@ -26,18 +26,21 @@ if ($_GET['new_ui'] == '1') {
 	);
 	$breadcrumbs = $f->breadcrumbs($crumbs);
 
+	$logo = $f->image()
+		->responsive("src/UI/examples/Image/HeaderIconLarge.svg", "ILIAS");
+
 	$content = pagedemoContent($f);
 	$metabar = buildMetabar($f);
 	$mainbar = buildMainbar($f)
 		->withActive("tool1");
 		//->withActive("example2");
 
-
 	$page = $f->layout()->page()->standard(
 		$metabar,
 		$mainbar,
 		$content,
-		$breadcrumbs
+		$breadcrumbs,
+		$logo
 	);
 
 	echo $renderer->render($page);

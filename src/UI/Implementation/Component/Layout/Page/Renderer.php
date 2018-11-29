@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
@@ -9,6 +9,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper as UITemplateWrapper;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Image\Image;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
@@ -18,21 +19,22 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 
 		if ($component instanceof Component\Layout\Page\Standard) {
-			return $this->renderPage($component, $default_renderer);
+			return $this->renderStandardPage($component, $default_renderer);
 		}
 	}
 
-	protected function renderPage(Component\Layout\Page\Standard $component, RendererInterface $default_renderer) {
+	protected function renderStandardPage(Component\Layout\Page\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
-		if($metabar = $component->getMetabar()) {
-			$tpl->setVariable('METABAR', $default_renderer->render($metabar));
-		}
-		if($sidebar = $component->getMainbar()) {
-			$tpl->setVariable('SIDEBAR', $default_renderer->render($sidebar));
-		}
+		$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
+		$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
+
 		if($breadcrumbs = $component->getBreadcrumbs()) {
 			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+		}
+
+		if($logo = $component->getLogo()) {
+			$tpl->setVariable("LOGO", $default_renderer->render($logo));
 		}
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));

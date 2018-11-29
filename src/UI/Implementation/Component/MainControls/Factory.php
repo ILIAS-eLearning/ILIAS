@@ -25,9 +25,9 @@ class Factory implements IMainControls\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function metabar(Image $logo): IMainControls\Metabar
+	public function metabar(): IMainControls\Metabar
 	{
-		return new Metabar($this->signal_generator, $logo);
+		return new Metabar($this->signal_generator);
 	}
 
 	/**
