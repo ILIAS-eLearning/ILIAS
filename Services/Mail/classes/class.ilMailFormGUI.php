@@ -74,7 +74,10 @@ class ilMailFormGUI
 		$this->mfile = new ilFileDataMail($this->user->getId());
 		$this->mbox  = new ilMailbox($this->user->getId());
 
-		$this->purifier = new ilMailBodyPurifier();
+		if (null === $bodyPurifier) {
+			$bodyPurifier = new ilMailBodyPurifier();
+		}
+		$this->purifier = $bodyPurifier;
 
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
