@@ -114,8 +114,8 @@ interface Factory {
 	 *
 	 *     Buttons in the Mainbar are stateful, i.e. they have a pressed-status
 	 *     that can either be toggled by clicking the same button again or by
-	 *     clicking a different button. This does not apply to Buttons that direcly
-	 *     change the page.
+	 *     clicking a different button. This does not apply to Buttons directly
+	 *     changing the context.
 	 *
 	 *     Opening a slate by clicking an entry will close all other slates in the
 	 *     Mainbar. On desktop, slates open on the right hand of the Mainbar, between
@@ -167,14 +167,24 @@ interface Factory {
 	 *   usage:
 	 *     1: There SHOULD be a Mainbar on the page.
 	 *     2: If there is a Mainbar, it MUST be unique for the page.
+	 *     3: >
+	 *       Entries and Tools in the Mainbar, or for that matter, their respective
+	 *       slate-contents, MUST NOT be used to reflect the outcome of a user's
+	 *       action, e.g., display a success-message.
+	 *     4: >
+	 *       Contents of the slates, both in Entries and Tools, MUST NOT be used
+	 *       to provide information of a content object if that information
+	 *       cannot be found in the content itself. They MUST NOT be used as
+	 *       a "second screen" to the content-part of the Page.
 	 *
 	 *   composition:
 	 *     1: The bar MUST NOT contain items other than Bulky Buttons or Slates.
 	 *     2: The bar MUST contain at least one Entry.
 	 *     3: The bar SHOULD NOT contain more than five Entries.
-	 *     4: >
-	 *       Entries in the Mainbar MUST NOT be enhanced with counters or
-	 *       other notifications drawing the user's attention.
+	 *     4: The bar SHOULD NOT contain more than five Tool-Entries.
+	 *     5: >
+	 *       Entries and Tools in the Mainbar MUST NOT be enhanced with counters
+	 *       or other notifications drawing the user's attention.
 	 *
 	 *   style:
 	 *     1: The bar MUST have a fixed width (desktop).
@@ -209,7 +219,7 @@ interface Factory {
 	 *     In contrast to purely receptive components, Slates usually provide a form
 	 *     of interaction, whereas this interaction may trigger a navigation or alter
 	 *     the contents of the slate itself. However, slates are not meant to modify
-	 *     state of entities in the system in anyway.
+	 *     states of entities in the system in any way.
 	 *
 	 *     E.g.: A Help-Screen, where the user can read a certain text and also search
 	 *     available topics via a text-input, or a drill-down navigation, where all
@@ -248,13 +258,16 @@ interface Factory {
 	 *     2: There MUST be only one Slate visible at the same time per triggering Component.
 	 *     3: Elements in the Slate MUST NOT modify entities in the system.
 	 *     4: Slates MUST be closeable/expandable without changing context.
+	 *     5: >
+	 *        Slates MUST NOT be used to provide additional information of content-objects
+	 *        that cannot be found anywhere else.
 	 *
 	 *   style:
 	 *     1: Slates MUST have a fixed width.
 	 *     2: Slates MUST NOT use horizontal scrollbars.
 	 *     3: Slates SHOULD NOT use vertical scrollbars.
 	 *     4: Slates MUST visually relate to their triggering Component.
-	 *     4: Slates SHOULD NOT be affected by scrolling the page.
+	 *     5: Slates SHOULD NOT be affected by scrolling the page.
 	 *
 	 *   accessibility:
 	 *     1: The Slate MUST be closeable by only using the keyboard
