@@ -60,13 +60,9 @@ class ilCertificateVerificationFileService
 		$objectId = $userCertificate->getObjId();
 		$userId = $userCertificate->getUserId();
 
-		$lpMarks = new ilLPMarks($objectId, $userId);
+		$issueDate = new ilDate($userCertificate->getAcquiredTimestamp(), IL_CAL_UNIX);
 
-		$verificationObject->setProperty('issued_on',
-			new ilDate($lpMarks->getStatusChanged(),
-				IL_CAL_DATETIME
-			)
-		);
+		$verificationObject->setProperty('issued_on', $issueDate);
 
 		$ilUserCertificateRepository = new ilUserCertificateRepository($this->database, $this->logger);
 		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $this->logger);
