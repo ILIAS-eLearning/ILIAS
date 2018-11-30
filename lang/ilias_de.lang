@@ -7638,6 +7638,7 @@ form#:#form_msg_file_partially_uploaded#:#Die Datei konnte nicht vollständig ho
 form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die maximale Dateigröße.
 form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen.
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
+form#:#form_msg_file_missing_file_ext#:#Die hochegeladene Datei hat keine Dateityp Erweiterung.
 form#:#form_msg_file_wrong_file_type#:#Falscher Dateityp
 form#:#form_msg_formula_is_required#:#Bitte geben Sie eine korrekte Formel an.
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
