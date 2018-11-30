@@ -2007,6 +2007,12 @@ class ilObjMediaObject extends ilObject
 	 */
 	function uploadVideoPreviewPic($a_prevpic)
 	{
+		// remove old one
+		if ($this->getVideoPreviewPic(true) != "")
+		{
+			$this->removeAdditionalFile($this->getVideoPreviewPic(true));
+		}
+
 		$pi = pathinfo($a_prevpic["name"]);
 		$ext = $pi["extension"];
 		if (in_array($ext, array("jpg", "jpeg", "png")))
