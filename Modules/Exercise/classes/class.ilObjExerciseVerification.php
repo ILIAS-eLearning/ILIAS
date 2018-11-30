@@ -26,71 +26,9 @@ class ilObjExerciseVerification extends ilVerificationObject
 			/*
 			"success" => self::TYPE_BOOL,
 			"mark" => self::TYPE_STRING,
-			"comment" => self::TYPE_STRING			 
+			"comment" => self::TYPE_STRING
 			*/
 			);
-	}
-
-	/**
-	 * Import relevant properties from given exercise
-	 *
-	 * @param ilObjExercise $a_test
-	 * @return object
-	 */
-	public static function createFromExercise(ilObjExercise $a_exercise, $a_user_id)
-	{
-		global $DIC;
-
-		$lng = $DIC->language();
-		$database = $DIC->database();
-		$logger = $DIC->logger()->root();
-
-		$lng->loadLanguageModule("exercise");
-		$lng->loadLanguageModule('cert');
-
-		$newObj = new self();
-		$newObj->setTitle($a_exercise->getTitle());
-		$newObj->setDescription($a_exercise->getDescription());
-
-		include_once "Services/Tracking/classes/class.ilLPMarks.php";
-		$lp_marks = new ilLPMarks($a_exercise->getId(), $a_user_id);
-		$newObj->setProperty("issued_on", 
-			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
-		
-		// create certificate
-
-		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
-		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
-
-		$pdfAction = new ilCertificatePdfAction(
-			$logger,
-			$pdfGenerator,
-			new ilCertificateUtilHelper(),
-			$lng->txt('error_creating_certificate_pdf')
-		);
-
-		$certificate = $pdfAction->createPDF($a_user_id, $a_exercise->getId());
-		
-		// save pdf file
-		if($certificate)
-		{
-			// we need the object id for storing the certificate file
-			$newObj->create();
-			
-			$path = self::initStorage($newObj->getId(), "certificate");
-			
-			$file_name = "exc_".$a_exercise->getId()."_".$a_user_id.".pdf";			
-			if(file_put_contents($path.$file_name, $certificate))
-			{							
-				$newObj->setProperty("file", $file_name);
-				$newObj->update();
-				
-				return $newObj;
-			}
-		
-			// file creation failed, so remove to object, too
-			$newObj->delete();
-		}
 	}
 }
 
