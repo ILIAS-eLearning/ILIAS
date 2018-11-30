@@ -158,7 +158,7 @@ class ilMailFormGUI
 	{
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
-		$message = $_POST['m_message'];
+		$message = (string) $_POST['m_message'];
 
 		$mailBody = new ilMailBody($message, $this->purifier);
 
