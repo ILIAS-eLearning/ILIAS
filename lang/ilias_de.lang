@@ -6608,6 +6608,7 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
+chatroom#:#chatviewer_no_rooms#:#Noch kein Chatraum auswählbar.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
