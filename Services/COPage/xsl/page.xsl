@@ -64,6 +64,7 @@
 <xsl:param name="enable_split_next"/>
 <xsl:param name="paragraph_plugins"/>
 <xsl:param name="pagebreak"/>
+<xsl:param name="compare_mode"/>
 <xsl:param name="page"/>
 <xsl:param name="citate_from"/>
 <xsl:param name="citate_to"/>
@@ -3630,10 +3631,13 @@
 		</xsl:if>
 		<xsl:if test="$mode != 'edit'">
 			<xsl:variable name="beh">
-				<xsl:if test="$mode != 'print'"><xsl:value-of select="@Behavior"/></xsl:if>
-				<xsl:if test="$mode = 'print'">ForceAllOpen</xsl:if>
+				<xsl:choose>
+					<xsl:when test="$mode = 'print'">ForceAllOpen</xsl:when>
+					<xsl:when test="$compare_mode = 'y'">ForceAllOpen</xsl:when>
+					<xsl:otherwise><xsl:value-of select="@Behavior"/></xsl:otherwise>
+				</xsl:choose>
 			</xsl:variable>
-			<xsl:if test="@Type = 'VerticalAccordion' and $mode != 'print'">
+			<xsl:if test="@Type = 'VerticalAccordion' and $mode != 'print' and $compare_mode = 'n'">
 				<xsl:variable name="aheadclass">
 					<xsl:choose>
 						<xsl:when test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value">ilc_va_iheada_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value"/></xsl:when>
@@ -3659,7 +3663,7 @@
 						});
 				</script>
 			</xsl:if>
-			<xsl:if test="@Type = 'HorizontalAccordion' and $mode != 'print'">
+			<xsl:if test="@Type = 'HorizontalAccordion' and $mode != 'print' and $compare_mode = 'n'">
 				<xsl:variable name="aheadclass">
 					<xsl:choose>
 						<xsl:when test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_iheada']/@Value">ilc_ha_iheada_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_iheada']/@Value"/></xsl:when>
@@ -3685,7 +3689,7 @@
 						});
 				</script>
 			</xsl:if>
-			<xsl:if test="@Type = 'Carousel' and $mode != 'print'">
+			<xsl:if test="@Type = 'Carousel' and $mode != 'print' and $compare_mode = 'n'">
 				<script type="text/javascript">
 					$(function () {
 					il.Accordion.add({
@@ -3846,10 +3850,10 @@
 	<div>
 		<xsl:choose>
 		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
-			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
+			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen' and $compare_mode = 'n'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		<xsl:when test="../@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
+			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen' and $compare_mode = 'n'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
 		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and ../@Behavior = 'ForceAllOpen'">
