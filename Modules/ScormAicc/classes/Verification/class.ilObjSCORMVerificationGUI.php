@@ -54,27 +54,29 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
-		global $ilUser;
+		global $DIC;
 
-		$lm_id = $_REQUEST["lm_id"];
-		if($lm_id)
+		$ilUser = $DIC->user();
+
+		$objectId = $_REQUEST["lm_id"];
+		if($objectId)
 		{
-			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-			$type = ilObjSAHSLearningModule::_lookupSubType($lm_id);
-			if($type == "scorm")
-			{
-				include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-				$lm = new ilObjSCORMLearningModule($lm_id, false);
-			}
-			else
-			{
-				include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-				$lm = new ilObjSCORM2004LearningModule($lm_id, false);
-			}
-			include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
+			$certificateVerificationFileService = new ilCertificateVerificationFileService(
+				$DIC->language(),
+				$DIC->database(),
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
+			);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+				(int) $ilUser->getId(),
+				(int) $objectId
+			);
 
 			try {
-				$newObj = ilObjSCORMVerification::createFromSCORMLM($lm, $ilUser->getId());
+				$newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
 			} catch (\Exception $exception) {
 				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
 				return $this->create();

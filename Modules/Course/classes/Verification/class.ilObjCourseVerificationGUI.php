@@ -59,13 +59,25 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
 		$ilUser = $DIC['ilUser'];
 		
-		$course_id = $_REQUEST["crs_id"];
-		if($course_id)
+		$objectId = $_REQUEST["crs_id"];
+		if($objectId)
 		{
-			$course = new ilObjCourse($course_id, false);
+			$certificateVerificationFileService = new ilCertificateVerificationFileService(
+				$DIC->language(),
+				$DIC->database(),
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
+			);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+				(int) $ilUser->getId(),
+				(int) $objectId
+			);
 
 			try {
-				$newObj = ilObjCourseVerification::createFromCourse($course, $ilUser->getId());
+				$newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
 			} catch (\Exception $exception) {
 				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
 				return $this->create();
