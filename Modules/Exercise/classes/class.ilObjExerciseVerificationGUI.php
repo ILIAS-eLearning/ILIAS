@@ -64,7 +64,8 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 			$certificateVerificationFileService = new ilCertificateVerificationFileService(
 				$DIC->language(),
 				$DIC->database(),
-				$DIC->logger()->root()
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
 			);
 
 			$userCertificateRepository = new ilUserCertificateRepository();

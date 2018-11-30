@@ -22,18 +22,26 @@ class ilCertificateVerificationFileService
 	private $logger;
 
 	/**
+	 * @var ilCertificateVerificationClassMap
+	 */
+	private $classMap;
+
+	/**
 	 * @param ilLanguage $language
 	 * @param ilDBInterface $database
 	 * @param ilLogger $logger
+	 * @param ilCertificateVerificationClassMap $classMap
 	 */
 	public function __construct(
 		ilLanguage $language,
 		ilDBInterface $database,
-		ilLogger $logger
+		ilLogger $logger,
+		ilCertificateVerificationClassMap $classMap
 	) {
 		$this->language = $language;
 		$this->database = $database;
 		$this->logger   = $logger;
+		$this->classMap = $classMap;
 	}
 
 	public function createFile(ilUserCertificatePresentation $userCertificatePresentation)
@@ -43,7 +51,7 @@ class ilCertificateVerificationFileService
 
 		$this->language->loadLanguageModule('cert');
 
-		$verificationObjectType = $objectType . 'v';
+		$verificationObjectType = $this->classMap->getVerificationTypeByType($objectType);
 
 		$verificationObject = new ilCertificateVerificationObject($verificationObjectType);
 		$verificationObject->setTitle($userCertificatePresentation->getObjectTitle());

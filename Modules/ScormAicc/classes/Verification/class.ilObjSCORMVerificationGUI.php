@@ -61,31 +61,11 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 		$objectId = $_REQUEST["lm_id"];
 		if($objectId)
 		{
-			$type = ilObjSAHSLearningModule::_lookupSubType($objectId);
-			if($type == "scorm")
-			{
-				$lm = new ilObjSCORMLearningModule($objectId, false);
-			}
-			else
-			{
-				$lm = new ilObjSCORM2004LearningModule($objectId, false);
-			}
-
-			// create certificate
-			if(!stristr(get_class($lm), "2004"))
-			{
-				$last_access = ilObjSCORMLearningModule::_lookupLastAccess($lm->getId(), $ilUser->getId());
-			}
-			else
-			{
-				$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($lm->getId(), $ilUser->getId());
-			}
-
-
 			$certificateVerificationFileService = new ilCertificateVerificationFileService(
 				$DIC->language(),
 				$DIC->database(),
-				$DIC->logger()->root()
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
 			);
 
 			$userCertificateRepository = new ilUserCertificateRepository();
