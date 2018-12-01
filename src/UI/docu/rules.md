@@ -28,9 +28,6 @@ rules and propose changes.
   github. The code in the pull request SHOULD obay the rules given in **Interfaces
   to Factories** and **Interfaces to UI components**. The existing unit tests for
   the UI framework SHOULD pass.
-* The pull request MAY be made from the edge branch in the ILIAS-repo. If the new
-  component is already implemented, the edge installation of ILIAS MAY be used
-  for showcasing the component.
 * The new method MUST be backed with a stub implementation down to the methods
   that represent concrete UI components, where said methods MUST raise
   ILIAS\UI\NotImplementedException upon call, if the UI component is not already
