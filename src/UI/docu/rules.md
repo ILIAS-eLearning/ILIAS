@@ -28,6 +28,10 @@ rules and propose changes.
   github. The code in the pull request SHOULD obay the rules given in **Interfaces
   to Factories** and **Interfaces to UI components**. The existing unit tests for
   the UI framework SHOULD pass.
+* You SHOULD only propose one component per PR. If it simplifies the discussion
+  and/or makes the PR a lot easier to read and understand, you MAY bundle multiple
+  new components in one PR. Note that this implies, that they can only be accepted, 
+  if every single one is passes the requirements. This might be a potential risk.
 * The new method MUST be backed with a stub implementation down to the methods
   that represent concrete UI components, where said methods MUST raise
   ILIAS\UI\NotImplementedException upon call, if the UI component is not already
