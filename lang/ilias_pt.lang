@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (Local changes merged into the global language file)
 *
@@ -178,7 +178,7 @@ administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Setti
 administration#:#obj_otpl#:#Object Templates
 administration#:#obj_otpl_desc#:#Template para a criação de novos objetos###14 09 2011 new variable
 administration#:#obj_prfa#:#Portfolio
-administration#:#obj_prfa_desc#:#Global Portfolio Settings
+administration#:#obj_prfa_desc#:#Configurações Globais do Portfólio
 administration#:#options#:#Opções
 administration#:#output_options#:#Output options
 administration#:#path_to_mkisofs#:#Caminho para mkisofs###18 08 2009 new variable
@@ -278,29 +278,29 @@ assessment#:#ass_size#:#Tamanho
 assessment#:#assClozeTest#:#Pergunta Cloze
 assessment#:#assErrorText#:#Texto do erro
 assessment#:#assessment_existing_pool#:#Use o pool de perguntas existente
-assessment#:#assessment_new_pool#:#Create new question pool
-assessment#:#assessment_no_pool#:#Do not use question pool
-assessment#:#assessment_pool_selection#:#Pool Selection
-assessment#:#assFileUpload#:#File Upload Question
-assessment#:#assFlashQuestion#:#Flash Question
-assessment#:#assImagemapQuestion#:#Image Map Question
-assessment#:#assJavaApplet#:#Java Applet Question
-assessment#:#assMatchingQuestion#:#Matching Question
-assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Response)
-assessment#:#assNumeric#:#Numeric Question
-assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)
-assessment#:#assOrderingQuestion#:#Ordering Question
-assessment#:#assQuestions#:#Questions
-assessment#:#assSingleChoice#:#Multiple Choice Question (Single Response)
-assessment#:#assTextQuestion#:#Essay Question
-assessment#:#assTextSubset#:#Text Subset Question
-assessment#:#autosave_failed#:#Autosave failed!
-assessment#:#autosave_success#:#Autosave successful...
-assessment#:#average_reached_points#:#Average reached points
-assessment#:#backtocallingtest#:#Back to the calling test
+assessment#:#assessment_new_pool#:#Criar novo pool de perguntas
+assessment#:#assessment_no_pool#:#Não use o pool de perguntas
+assessment#:#assessment_pool_selection#:#Selecção de pools
+assessment#:#assFileUpload#:# Upload Arquivo de Pergunta
+assessment#:#assFlashQuestion#:#Pergunta Flash
+assessment#:#assImagemapQuestion#:#Pergunta do Mapa de Imagem
+assessment#:#assJavaApplet#:#Pergunta do Applet Java
+assessment#:#assMatchingQuestion#:#Pergunta de Correspondência
+assessment#:#assMultipleChoice#:#Pergunta de Múltipla Escolha (Múltipla Resposta)
+assessment#:#assNumeric#:#Pergunta Numérica
+assessment#:#assOrderingHorizontal#:#Pergunta de Ordenação (horizontal)
+assessment#:#assOrderingQuestion#:#Pergunta de Ordenação
+assessment#:#assQuestions#:#Perguntas
+assessment#:#assSingleChoice#:#Pergunta de Múltipla Escolha (Única Resposta)
+assessment#:#assTextQuestion#:#Pergunta de Ensaio
+assessment#:#assTextSubset#:#Pergunta de subconjunto de texto
+assessment#:#autosave_failed#:#Autosave falhou!
+assessment#:#autosave_success#:#Autosave bem sucedido...
+assessment#:#average_reached_points#:#Média Pontos Atingidos
+assessment#:#backtocallingtest#:#Voltar ao teste de chamada
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar o teste###07 Oct 2004 new variable
-assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
+assessment#:#cannot_edit_marks#:#Já existem alunos que realizaram o teste. Só é possível alterar as notas se uma data de relatório de pontuação estiver ativada e a data do relatório ainda não tiver sido atingida.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!
