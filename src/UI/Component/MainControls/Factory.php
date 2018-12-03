@@ -62,6 +62,10 @@ interface Factory {
 	 *     1: The Metabar is unique for the page - there MUST be at most one.
 	 *     2: Elements in the Metabar MUST NOT vary according to context.
 	 *     3: New elements in the Metabar MUST be approved by JF.
+	 *     4: >
+	 *       Since mainly items that pitch the user are placed in the Metabar,
+	 *       you SHOULD only propose items for this section that have the nature
+	 *       of informing the user.
 	 *
 	 *   style:
 	 *     1: The bar MUST have a fixed height.
@@ -82,7 +86,7 @@ interface Factory {
 	 *
 	 *     Since the controls necessary for theses purposes might be quite complex,
 	 *     they are summed up in an easy to grasp Icon or Glyph in conjunction with
-	 *     a short text. Theses reductions form the entries for the mainbar, which
+	 *     a short text. Theses reductions form the entries for the Mainbar, which
 	 *     thus is the primary list of navigational options for the user and the
 	 *     usual starting point for the user to explore the system.
 	 *
@@ -91,6 +95,16 @@ interface Factory {
 	 *     of the installation. There also is the tools-section of entries in the bar
 	 *     that is used to show tools that are opened on request of the user, e.g. the
 	 *     help, or depending on requirements of the content, e.g. a local navigation.
+	 *
+	 *     However, content actions, like  "new item"-actions, the actions-menu (with
+	 *     comments, notes and tags), moving, linking or deleting objects and the like
+	 *     are NOT part of the Mainbar.
+	 *
+	 *     Also, there should be a differentiation between elements of the Mainbar
+	 *     and elements of e.g., the Personal Dekstop: The Personal Desktop provides
+	 *     access to services and tools and displays further information at first
+	 *     glance (e.g. the calendar). The Mainbar may reference those tools as well,
+	 *     but rather in form of a link than a widget.
 	 *
 	 *   composition: >
 	 *     The Mainbar holds Slates and Bulky Buttons.
@@ -109,8 +123,8 @@ interface Factory {
 	 *
 	 *   effect: >
 	 *     Clicking an entry will carry out its configured action. For slates, this
-	 *     is expanding the slate, while for Bulky Buttons this might be just
-	 *     changing the page, e.g.
+	 *     is expanding the slate, while for Bulky Buttons this might be, e.g., just
+	 *     changing the page.
 	 *
 	 *     Buttons in the Mainbar are stateful, i.e. they have a pressed-status
 	 *     that can either be toggled by clicking the same button again or by
@@ -141,17 +155,6 @@ interface Factory {
 	 *       The Mainbar (and its components) shall not be used to substitute
 	 *       functionality available at objects, such as settings, members or
 	 *       learning progress. Those remain in the Tab Bar.
-	 *
-	 *     Content Actions: >
-	 *       "New item"-actions, the actions-menu (with comments, notes and tags),
-	 *       moving, linking or deleting objects and the like are NOT part of
-	 *       the Mainbar.
-	 *
-	 *     Personal Desktop: >
-	 *       The Personal Desktop provides access to services and tools and
-	 *       displays further information at first glance (e.g. the calendar).
-	 *       The Mainbar may reference those tools as well, but rather in form
-	 *       of a link than a widget.
 	 *
 	 *     Metabar: >
 	 *       Notifications from the system to the user, e.g. new Mail, are placed

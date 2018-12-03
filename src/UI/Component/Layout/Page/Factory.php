@@ -19,7 +19,9 @@ interface Factory
 	 *   composition: >
 	 *      The main parts of a Page are the Metabar, the Mainbar providing
 	 *      main navigation, the logo, breadcrumbs and, of course, the pages's
-	 *      content.
+	 *      content. "Content" in this case is the part of the page that is
+	 *      not Mainbar, Metabar, Footer or Locator, but e.g. the Repository-Listing,
+	 *      an object's view or edit form, etc.
 	 *      The locator (in form of breadcrumbs) and the logo are optional.
 	 *
 	 * featurewiki:
@@ -28,11 +30,11 @@ interface Factory
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: The page MUST be rendered with content.
-	 *     2: The page MUST be rendered with a Metabar.
-	 *     3: The page MUST be rendered with a Mainbar.
-	 *     4: The page SHOULD be rendered with Breadcrumbs.
-	 *     5: The page SHOULD be rendered with a Logo.
+	 *     1: The Standard Page MUST be rendered with content, i.e. the actual view on the context.
+	 *     2: The Standard Page MUST be rendered with a Metabar.
+	 *     3: The Standard Page MUST be rendered with a Mainbar.
+	 *     4: The Standard Page SHOULD be rendered with Breadcrumbs.
+	 *     5: The Standard Page SHOULD be rendered with a Logo.
 	 *
 	 * ----
 	 *
