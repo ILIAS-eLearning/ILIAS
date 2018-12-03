@@ -12,5 +12,5 @@ interface Combined extends Slate
 	/**
 	 * @param Slate|Bulky $entry
 	 */
-	public function withEntry($entry): Combined;
+	public function withAdditionalEntry($entry): Combined;
 }

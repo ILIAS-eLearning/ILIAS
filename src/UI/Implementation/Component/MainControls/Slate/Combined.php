@@ -30,7 +30,7 @@ class Combined extends Slate implements ISlate\Combined
 	/**
 	 * @inheritdoc
 	 */
-	public function withEntry($entry): ISlate\Combined
+	public function withAdditionalEntry($entry): ISlate\Combined
 	{
 
 		$classes = [IBulky::class, ISlate\Slate::class];

@@ -81,7 +81,7 @@ class Mainbar implements MainControls\Mainbar
 	/**
 	 * @inheritdoc
 	 */
-	public function withEntry(string $id, $entry): MainControls\Mainbar
+	public function withAdditionalEntry(string $id, $entry): MainControls\Mainbar
 	{
 		$classes = [Button\Bulky::class, MainControls\Slate\Slate::class];
 		$check = [$entry];
@@ -103,7 +103,7 @@ class Mainbar implements MainControls\Mainbar
 	/**
 	 * @inheritdoc
 	 */
-	public function withToolEntry(string $id, $entry): MainControls\Mainbar
+	public function withAdditionalToolEntry(string $id, $entry): MainControls\Mainbar
 	{
 		$class = MainControls\Slate\Slate::class;
 		$this->checkArgInstanceOf("Tools must be Slates", $entry, $class);
