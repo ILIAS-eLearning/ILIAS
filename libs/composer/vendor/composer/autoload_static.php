@@ -4583,6 +4583,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMailAutoCompleteSearch' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailAutoCompleteSearch.php',
         'ilMailAutoCompleteSentMailsRecipientsProvider' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailAutoCompleteSentMailsRecipientsProvider.php',
         'ilMailAutoCompleteUserProvider' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailAutoCompleteUserProvider.php',
+        'ilMailBody' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Message/class.ilMailBody.php',
+        'ilMailBodyPurifier' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Message/class.ilMailBodyPurifier.php',
         'ilMailBoxQuery' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailBoxQuery.php',
         'ilMailCronNotification' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronNotification.php',
         'ilMailCronOrphanedMails' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMails.php',

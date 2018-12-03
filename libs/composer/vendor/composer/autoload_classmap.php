@@ -4391,6 +4391,8 @@ return array(
     'ilMailAutoCompleteSearch' => $baseDir . '/../../Services/Mail/classes/class.ilMailAutoCompleteSearch.php',
     'ilMailAutoCompleteSentMailsRecipientsProvider' => $baseDir . '/../../Services/Mail/classes/class.ilMailAutoCompleteSentMailsRecipientsProvider.php',
     'ilMailAutoCompleteUserProvider' => $baseDir . '/../../Services/Mail/classes/class.ilMailAutoCompleteUserProvider.php',
+    'ilMailBody' => $baseDir . '/../../Services/Mail/classes/Message/class.ilMailBody.php',
+    'ilMailBodyPurifier' => $baseDir . '/../../Services/Mail/classes/Message/class.ilMailBodyPurifier.php',
     'ilMailBoxQuery' => $baseDir . '/../../Services/Mail/classes/class.ilMailBoxQuery.php',
     'ilMailCronNotification' => $baseDir . '/../../Services/Mail/classes/class.ilMailCronNotification.php',
     'ilMailCronOrphanedMails' => $baseDir . '/../../Services/Mail/classes/class.ilMailCronOrphanedMails.php',
