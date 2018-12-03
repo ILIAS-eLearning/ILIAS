@@ -132,26 +132,6 @@ class Card implements C\Card {
 	/**
 	 * @inheritdoc
 	 */
-	public function withImageAction($url) {
-		$this->checkStringArg("title_url", $url);
-
-		$clone = clone $this;
-		$clone->image_url = $url;
-
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getImageAction() {
-		return $this->image_url;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
 	public function withHighlight($status) {
 		$clone = clone $this;
 		$clone->highlight = $status;
