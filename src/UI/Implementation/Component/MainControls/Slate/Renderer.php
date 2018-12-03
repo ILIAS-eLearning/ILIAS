@@ -26,12 +26,10 @@ class Renderer extends AbstractComponentRenderer
 		$tpl = $this->getTemplate("Slate/tpl.slate.html", true, true);
 
 		if ($component instanceof ISlate\Combined) {
-			//render triggers for the content-slates
 			$f = $this->getUIFactory();
 			$contents = [];
 			foreach ($component->getContents() as $entry) {
 				if($entry instanceof ISlate\Slate) {
-					//build the triggerer
 					$triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
 						->withOnClick($entry->getToggleSignal());
 					$contents[] = $triggerer;

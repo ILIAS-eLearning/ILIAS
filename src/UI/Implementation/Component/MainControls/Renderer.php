@@ -49,7 +49,6 @@ class Renderer extends AbstractComponentRenderer {
 			->withOnClick($close_slates_signal);
 		$tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
 
-		//"regular" entries
 		$this->renderTriggerButtonsAndSlates(
 			$tpl, $default_renderer, $entry_signal,
 			static::BLOCK_MAINBAR_ENTRIES,
