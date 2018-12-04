@@ -36,11 +36,6 @@ class Card implements C\Card {
 	protected $title_url = '';
 
 	/**
-	 * @var string
-	 */
-	protected $image_url = '';
-
-	/**
 	 * @var boolean
 	 */
 	protected $highlight = false;
