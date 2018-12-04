@@ -19,9 +19,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 * @var ilLogger
 	 */
 	private $logger = null;
-
-	private $access = null;
-
 	/**
 	 * @var string
 	 */
@@ -63,7 +60,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			ilExAssignment::TYPE_PORTFOLIO
 		);
 		$this->logger = $DIC->logger()->exc();
-		$this->access = $DIC->access();
 	}
 
 	/**
@@ -128,32 +124,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 		$out->setValue($final_directory);
 		return $out;
 
-	}
-
-
-	/**
-	 * Filter manageable participants by position or rbac access
-	 * @param int[] $participants_ids
-	 * @return int[]
-	 */
-	protected function filterParticipantsByAccess(array $participants_ids)
-	{
-		if($this->access->checkAccessOfUser(
-			$this->user_id,
-			'edit_submissions_grades',
-			'',
-			$this->exercise_ref_id
-		))
-		{
-			// if access by rbac granted => return all
-			return $participants_ids;
-		}
-		return $this->access->filterUserIdsByPositionOfUser(
-			$this->user_id,
-			'edit_submissions_grades',
-			$this->exercise_ref_id,
-			$participants_ids
-		);
 	}
 
 	/**
@@ -250,7 +220,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			$exc_members_id = $exercise->members_obj->getMembers();
 		}
 
-		$exc_members_id = $this->filterParticipantsByAccess($exc_members_id);
+		$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $exc_members_id);
+		$exc_members_id = $filter->filterParticipantsByAccess();
 
 		foreach( $exc_members_id as $member_id)
 		{
@@ -542,7 +513,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 				$participants = $this->getAssignmentMembersIds();
 			}
 
-			$participants = $this->filterParticipantsByAccess($participants);
+			$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $participants);
+			$participants = $filter->filterParticipantsByAccess();
 
 			$row = 2;
 			// Fill the excel
