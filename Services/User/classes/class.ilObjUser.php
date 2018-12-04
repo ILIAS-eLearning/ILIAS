@@ -2647,7 +2647,6 @@ class ilObjUser extends ilObject
 	{
 		global $DIC;
 
-		$ilAuth = $DIC['ilAuth'];
 		$ilSetting = $DIC['ilSetting'];
 
 		$login = ilObjUser::getLoginFromAuth();
@@ -2709,7 +2708,6 @@ class ilObjUser extends ilObject
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$ilAuth = $DIC['ilAuth'];
 
 		$login = ilObjUser::getLoginFromAuth();
 		$set = $ilDB->queryF("SELECT active FROM usr_data WHERE login= %s",
