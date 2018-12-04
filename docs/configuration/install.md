@@ -91,11 +91,11 @@ For best results we RECOMMEND:
 
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
   * MySQL 5.6+
-  * MariaDB 10+
+  * MariaDB 10.2
   * PHP 7.1
-  * Apache 2.4+ with mod_php
+  * Apache 2.4.18 with mod_php
   * ImageMagick 6.8+
-  * php7.1-gd, php7.1-xsl, php7.1-mysql
+  * php-gd, php-xml, php-mysql, php-mbstring
   * OpenJDK 7+
   * zip, unzip
   * git
@@ -234,7 +234,7 @@ systemctl restart httpd.service
 
 On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php-xsl
+apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php-xml
 ```
 
 On RHEL/CentOS execute: 
@@ -721,7 +721,7 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (http://ilias.de/test54) is currently configured as follows:
+The ILIAS Testserver (https://test54.ilias.de) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
