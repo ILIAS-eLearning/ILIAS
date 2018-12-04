@@ -100,6 +100,8 @@ For best results we RECOMMEND:
   * zip, unzip
   * git
 
+Package names may vary depending on the Linux distribution.
+
 <a name="supported-platforms"></a>
 ## Supported Platforms
 
