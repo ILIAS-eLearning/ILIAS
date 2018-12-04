@@ -201,16 +201,6 @@ class ilCertificate
 	}
 
 	/**
-	* Returns the filesystem path of the XSL-FO file
-	*
-	* @return string The filesystem path of the XSL-FO file
-	*/
-	public function getXSLPath()
-	{
-		return CLIENT_WEB_DIR . $this->certificatePath . $this->getXSLName();
-	}
-
-	/**
 	* Returns the filename of the XSL-FO file
 	*
 	* @return string The filename of the XSL-FO file
