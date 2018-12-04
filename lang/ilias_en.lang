@@ -10049,6 +10049,7 @@ pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
 pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
