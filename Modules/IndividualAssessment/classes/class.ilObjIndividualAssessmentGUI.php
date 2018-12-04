@@ -158,6 +158,8 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 			$record_gui->setInfoObject($info);
 			$record_gui->parse();
 
+			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+
 			$info = $this->addGeneralDataToInfo($info);
 			if($this->object->loadMembers()->userAllreadyMember($this->usr)) {
 				$info = $this->addMemberDataToInfo($info);
