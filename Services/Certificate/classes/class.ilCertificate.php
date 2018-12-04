@@ -287,26 +287,6 @@ class ilCertificate
 	}
 
 	/**
-	* Saves the XSL-FO code to a file
-	*
-	* @param string $xslfo XSL-FO code
-	*/
-	public function createCertificateFile($xslfo, $filename = '')
-	{
-		if (!file_exists($this->certificatePath)) {
-			ilUtil::makeDirParents($this->certificatePath);
-		}
-
-		if (strlen($filename) == 0) {
-			$filename = $this->getXSLPath();
-		}
-
-		$fileHandle = fopen($filename, "w");
-		fwrite($fileHandle, $xslfo);
-		fclose($fileHandle);
-	}
-
-	/**
 	 * Checks for the background image of the certificate
 	 *
 	 * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
@@ -357,16 +337,6 @@ class ilCertificate
 	public function getAdapter()
 	{
 		return $this->adapter;
-	}
-
-	/**
-	* Sets the adapter
-	*
-	* @param object $adapter Adapter
-	*/
-	public function setAdapter($adapter)
-	{
-		$this->adapter =& $adapter;
 	}
 
 	/***************************************
