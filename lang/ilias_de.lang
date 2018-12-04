@@ -9929,6 +9929,7 @@ pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
+pd#:#block_show_pdfrmpostdraft#:#Beitragsentwürfe anzeigen
 pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
 pd#:#block_show_x#:#%s anzeigen
 common#:#crs_list_reg_start#:#Anmeldungsbeginn
