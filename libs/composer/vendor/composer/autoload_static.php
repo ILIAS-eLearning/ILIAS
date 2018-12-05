@@ -5217,6 +5217,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilLearningModuleImporter' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLearningModuleImporter.php',
         'ilLearningModuleLP' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLearningModuleLP.php',
         'ilLearningModuleNewsRendererGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLearningModuleNewsRendererGUI.php',
+        'ilLearningModuleNotification' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLearningModuleNotification.php',
         'ilLearningModulePageCollector' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilLearningModulePageCollector.php',
         'ilLearningProgress' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLearningProgress.php',
         'ilLearningProgressAccess' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLearningProgressAccess.php',

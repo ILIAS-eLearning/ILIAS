@@ -4880,6 +4880,7 @@ return array(
     'ilLearningModuleImporter' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLearningModuleImporter.php',
     'ilLearningModuleLP' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLearningModuleLP.php',
     'ilLearningModuleNewsRendererGUI' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLearningModuleNewsRendererGUI.php',
+    'ilLearningModuleNotification' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLearningModuleNotification.php',
     'ilLearningModulePageCollector' => $baseDir . '/../../Modules/LearningModule/classes/class.ilLearningModulePageCollector.php',
     'ilLearningProgress' => $baseDir . '/../../Services/Tracking/classes/class.ilLearningProgress.php',
     'ilLearningProgressAccess' => $baseDir . '/../../Services/Tracking/classes/class.ilLearningProgressAccess.php',
