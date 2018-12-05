@@ -95,7 +95,6 @@ class ilMMTabHandling {
 		}
 		if ($backtab) {
 			$this->tabs->clearTargets();
-		//	$calling_hist = $this->ctrl->getCallHistory();
 			if($calling_class == ilMMSubItemGUI::class) {
 				$this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, $subtab));
 			} else {
