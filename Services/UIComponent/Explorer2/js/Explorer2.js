@@ -59,7 +59,7 @@ il.Explorer2 = {
 		$(p).find("a").on("click", function (e) {
 			var href = $(this).attr("href");
 			var target = $(this).attr("target");
-			if (href != "#" && href != "") {
+			if (href != "#" && href != "" && href != "ilias.php") {
 				if (target == "_blank") {
 					window.open(href, '_blank');
 				} else {
