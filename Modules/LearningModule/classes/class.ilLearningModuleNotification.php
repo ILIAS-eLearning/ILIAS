@@ -82,6 +82,9 @@ class ilLearningModuleNotification
 		$this->comment = $a_comment;
 	}
 
+	/**
+	 * Generate notifications and send them if necessary
+	 */
 	public function send()
 	{
 		//currently only notifications from new comments are implemented

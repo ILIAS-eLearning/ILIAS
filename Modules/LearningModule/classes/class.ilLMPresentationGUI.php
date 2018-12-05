@@ -259,7 +259,6 @@ class ilLMPresentationGUI
 							break;
 
 						case 3:
-							//PAGE ID page id related to the learning module.
 							ilNotification::setNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $this->getCurrentPageId(), false);
 							break;
 
@@ -1082,7 +1081,6 @@ class ilLMPresentationGUI
 		$pg_id = $this->getCurrentPageId();
 
 		$this->lng->loadLanguageModule("content");
-
 
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
@@ -4473,6 +4471,14 @@ class ilLMPresentationGUI
 		exit;
 	}
 
+	/**
+	 * Generate new ilNote and send Notifications to the users informing that there are new comments in the LM
+	 * @param $a_lm_id
+	 * @param $a_page_id
+	 * @param $a_type
+	 * @param $a_action
+	 * @param $a_note_id
+	 */
 	function observeNoteAction($a_lm_id, $a_page_id, $a_type, $a_action, $a_note_id)
 	{
 		$note = new ilNote($a_note_id);
