@@ -82,7 +82,7 @@ class ilLearningModuleNotification
 		$this->comment = $a_comment;
 	}
 
-	protected function send()
+	public function send()
 	{
 		//currently only notifications from new comments are implemented
 		if($this->action != "comment")
