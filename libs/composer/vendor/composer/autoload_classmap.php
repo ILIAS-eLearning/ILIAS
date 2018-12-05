@@ -5010,7 +5010,7 @@ return array(
     'ilMailFolderGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFolderGUI.php',
     'ilMailFolderTableGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFolderTableGUI.php',
     'ilMailForm' => $baseDir . '/../../Services/Mail/classes/class.ilMailForm.php',
-    'ilMailFormAttachmentPropertyGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFormAttachmentFormPropertyGUI.php',
+    'ilMailFormAttachmentPropertyGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFormAttachmentPropertyGUI.php',
     'ilMailFormCall' => $baseDir . '/../../Services/Mail/classes/class.ilMailFormCall.php',
     'ilMailFormGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFormGUI.php',
     'ilMailFormPlaceholdersPropertyGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFormPlaceholdersPropertyGUI.php',

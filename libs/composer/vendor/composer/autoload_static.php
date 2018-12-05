@@ -5318,7 +5318,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMailFolderGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFolderGUI.php',
         'ilMailFolderTableGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFolderTableGUI.php',
         'ilMailForm' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailForm.php',
-        'ilMailFormAttachmentPropertyGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFormAttachmentFormPropertyGUI.php',
+        'ilMailFormAttachmentPropertyGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFormAttachmentPropertyGUI.php',
         'ilMailFormCall' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFormCall.php',
         'ilMailFormGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFormGUI.php',
         'ilMailFormPlaceholdersPropertyGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFormPlaceholdersPropertyGUI.php',
