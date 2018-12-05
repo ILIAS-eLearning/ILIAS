@@ -709,6 +709,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
+		$dur->setRequired(true);
 		$dur->setShowTime(true);
 		$date = $this->testOBJ->getActivationStartingTime();
 		$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
