@@ -703,7 +703,7 @@ class ilWikiUtil
 		// "fake" new (to enable snippet - if any)
 		$current_version = array_shift($page->getHistoryEntries());
 		$current_version = $current_version["nr"];
-		if(!$current_version)
+		if(!$current_version && $a_action != "comment")
 		{				
 			$a_type = ilNotification::TYPE_WIKI;
 			$a_action = "new";
