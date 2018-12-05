@@ -86,19 +86,19 @@ class ilMMSubItemGUI {
 		global $DIC;
 		switch ($cmd) {
 			case self::CMD_ADD:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
 
 				return $this->add($DIC);
 			case self::CMD_CREATE:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
 				$this->create($DIC);
 				break;
 			case self::CMD_EDIT:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
 
 				return $this->edit($DIC);
 			case self::CMD_UPDATE:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
 				$this->update($DIC);
 				break;
 			case self::CMD_APPLY_FILTER:
@@ -168,7 +168,7 @@ class ilMMSubItemGUI {
 
 		switch ($next_class) {
 			case strtolower(ilMMItemTranslationGUI::class):
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2]['class'] ? $this->ctrl->getCallHistory()[2]['class'] : "");
 				$g = new ilMMItemTranslationGUI($this->getMMItemFromRequest(), $this->repository);
 				$this->ctrl->forwardCommand($g);
 				break;
