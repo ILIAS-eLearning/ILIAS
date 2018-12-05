@@ -183,7 +183,7 @@ class ilMMTopItemGUI {
 
 		// TABLE
 		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
-
+		$table->setShowRowsSelector(false);
 		return $table->getHTML();
 	}
 
