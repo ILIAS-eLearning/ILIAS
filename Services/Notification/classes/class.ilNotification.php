@@ -22,6 +22,8 @@ class ilNotification
     const TYPE_POLL = 6;
 	const TYPE_LM_BLOCKED_USERS = 7;
 	const TYPE_BOOK = 8;
+	const TYPE_LM = 9;
+	const TYPE_LM_PAGE = 10;
 
 	const THRESHOLD = 180; // time between mails in minutes
 

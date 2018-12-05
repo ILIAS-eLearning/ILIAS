@@ -709,7 +709,6 @@ class ilWikiUtil
 			$a_action = "new";
 		}
 		
-
 		foreach(array_unique($users) as $idx => $user_id)
 		{
 			if($user_id != $ilUser->getId() &&					 
@@ -719,17 +718,16 @@ class ilWikiUtil
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
 				$ulng->loadLanguageModule('wiki');
 
-				$subject = sprintf($ulng->txt('wiki_change_notification_subject'), $wiki->getTitle(), $page->getTitle());
-				$message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
-
-				if($a_type == ilNotification::TYPE_WIKI_PAGE)
+				if($a_action == "comment")
 				{
-					// update/delete
-					$message .= $ulng->txt('wiki_change_notification_page_body_'.$a_action).":\n\n";
+					$subject = sprintf($ulng->txt('wiki_notification_comment_subject'), $wiki->getTitle(), $page->getTitle());
+					$message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+					$message .= $ulng->txt('wiki_notification_'.$a_action).":\n\n";
 					$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
 					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
-					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n";
-					
+					$message .= $ulng->txt('wiki_commented_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n";
+
 					if($snippet)
 					{
 						$message .= "\n".$ulng->txt('content')."\n".
@@ -737,32 +735,62 @@ class ilWikiUtil
 							$snippet."\n".
 							"----------------------------------------\n";
 					}
-					
+
 					// include comment/note text
 					if($a_comment)
-					{	
+					{
 						$message .= "\n".$ulng->txt('comment').":\n\"".trim($a_comment)."\"\n";
-					}		
-					
+					}
+
 					$message .= "\n".$ulng->txt('wiki_change_notification_page_link').": ".$link;
 				}
 				else
 				{
-					// new
-					$message .= $ulng->txt('wiki_change_notification_body_'.$a_action).":\n\n";
-					$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
-					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
-					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
-					
-					if($snippet)
+					$subject = sprintf($ulng->txt('wiki_change_notification_subject'), $wiki->getTitle(), $page->getTitle());
+					$message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+					if($a_type == ilNotification::TYPE_WIKI_PAGE)
 					{
-						$message .= $ulng->txt('content')."\n".
-							"----------------------------------------\n".
-							$snippet."\n".
-							"----------------------------------------\n\n";
+						// update/delete
+						$message .= $ulng->txt('wiki_change_notification_page_body_'.$a_action).":\n\n";
+						$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
+						$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
+						$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n";
+
+						if($snippet)
+						{
+							$message .= "\n".$ulng->txt('content')."\n".
+								"----------------------------------------\n".
+								$snippet."\n".
+								"----------------------------------------\n";
+						}
+
+						// include comment/note text
+						if($a_comment)
+						{
+							$message .= "\n".$ulng->txt('comment').":\n\"".trim($a_comment)."\"\n";
+						}
+
+						$message .= "\n".$ulng->txt('wiki_change_notification_page_link').": ".$link;
 					}
-					
-					$message .= $ulng->txt('wiki_change_notification_link').": ".$link;
+					else
+					{
+						// new
+						$message .= $ulng->txt('wiki_change_notification_body_'.$a_action).":\n\n";
+						$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
+						$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
+						$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
+
+						if($snippet)
+						{
+							$message .= $ulng->txt('content')."\n".
+								"----------------------------------------\n".
+								$snippet."\n".
+								"----------------------------------------\n\n";
+						}
+
+						$message .= $ulng->txt('wiki_change_notification_link').": ".$link;
+					}
 				}
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);

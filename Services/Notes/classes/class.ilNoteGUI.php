@@ -1804,6 +1804,8 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		if (is_array($this->observer) && count($this->observer) > 0) {
 			foreach ($this->observer as $item) {
 				$param = $a_note->getObject();
+				//TODO refactor this, check what is this news_id from getObject
+				unset($param['news_id']);
 				$param["action"] = $a_action;
 				$param["note_id"] = $a_note->getId();
 

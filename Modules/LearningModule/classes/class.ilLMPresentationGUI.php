@@ -246,6 +246,29 @@ class ilLMPresentationGUI
 				break;
 
 			default:
+				if($_GET["ntf"])
+				{
+					switch($_GET["ntf"])
+					{
+						case 1:
+							ilNotification::setNotification(ilNotification::TYPE_LM, $this->user->getId(), $this->lm->getId(), false);
+							break;
+
+						case 2:
+							ilNotification::setNotification(ilNotification::TYPE_LM, $this->user->getId(), $this->lm->getId(), true);
+							break;
+
+						case 3:
+							//PAGE ID page id related to the learning module.
+							ilNotification::setNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $this->getCurrentPageId(), false);
+							break;
+
+						case 4:
+							ilNotification::setNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $this->getCurrentPageId(), true);
+							break;
+					}
+					$ilCtrl->redirect($this,"layout");
+				}
 				$ret = $this->$cmd();
 				break;
 		}
@@ -1054,7 +1077,13 @@ class ilLMPresentationGUI
 	{			
 		$ilAccess = $this->access;
 		$tpl = $this->tpl;
-		
+
+		$lm_id = $this->lm->getId();
+		$pg_id = $this->getCurrentPageId();
+
+		$this->lng->loadLanguageModule("content");
+
+
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
 			$ilAccess, $this->lm->getType(), $_GET["ref_id"], $this->lm->getId());
@@ -1074,7 +1103,49 @@ class ilLMPresentationGUI
 		{
 			$lg->enableRating(true, $this->lng->txt("lm_rating"), false,
 				array("ilcommonactiondispatchergui", "ilratinggui"));
-		}		
+		}
+
+		// notification
+		if ($this->user->getId() != ANONYMOUS_USER_ID)
+		{
+			if(ilNotification::hasNotification(ilNotification::TYPE_LM, $this->user->getId(), $lm_id))
+			{
+				$this->ctrl->setParameter($this, "ntf", 1);
+				if (ilNotification::hasOptOut($lm_id))
+				{
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_deactivate_lm");
+				}
+
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_on.svg"),
+					$this->lng->txt("cont_notification_activated"));
+			}
+			else
+			{
+				$this->ctrl->setParameter($this, "ntf", 2);
+				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_activate_lm");
+
+				if(ilNotification::hasNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $page_id))
+				{
+					$this->ctrl->setParameter($this, "ntf", 3);
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_deactivate_page");
+
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_on.svg"),
+						$this->lng->txt("cont_page_notification_activated"));
+				}
+				else
+				{
+					$this->ctrl->setParameter($this, "ntf", 4);
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_activate_page");
+
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_off.svg"),
+						$this->lng->txt("cont_notification_deactivated"));
+				}
+			}
+			$this->ctrl->setParameter($this, "ntf", "");
+		}
 		
 		if(!$a_redraw)
 		{
@@ -1147,6 +1218,9 @@ class ilLMPresentationGUI
 		{
 			$notes_gui->enablePublicNotes();
 		}
+
+		$callback = array($this, "observeNoteAction");
+		$notes_gui->addObserver($callback);
 
 		if ($next_class == "ilnotegui")
 		{
@@ -4397,6 +4471,16 @@ class ilLMPresentationGUI
 		echo $exp->getHTML().
 			"<script>".$exp->getOnLoadCode()."</script>";
 		exit;
+	}
+
+	function observeNoteAction($a_lm_id, $a_page_id, $a_type, $a_action, $a_note_id)
+	{
+		$note = new ilNote($a_note_id);
+		$note = $note->getText();
+
+		include_once "./Modules/LearningModule/classes/class.ilLearningModuleNotification.php";
+		$notification = new ilLearningModuleNotification("comment", ilNotification::TYPE_LM_PAGE, $this->lm, $a_page_id,note);
+		$notification->send();
 	}
 
 }
