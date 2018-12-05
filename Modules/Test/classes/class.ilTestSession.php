@@ -413,8 +413,26 @@ class ilTestSession
 		return $this->pass;
 	}
 
+	private function checkIsValidPass($pass)
+	{
+		// check that the new pass index is actually a valid one.
+		$query = "SELECT nr_of_tries FROM tst_tests WHERE test_fi = %s";
+		global $ilDB;
+		$result = $ilDB->queryF(
+			$query, array('integer'), array($this->getTestId())
+		);
+		$row = $ilDB->fetchAssoc($result);
+		$nr_of_tries = intval($row['nr_of_tries']);
+
+		if ($nr_of_tries > 0 && $pass > $nr_of_tries) {
+			require_once 'Modules/Test/exceptions/class.ilTestException.php';
+			throw new ilTestException('illegal call to increasePass!');
+		}
+	}
+
 	function increasePass()
 	{
+		$this->checkIsValidPass($this->pass + 1);
 		$this->pass += 1;
 	}
 
