@@ -260,6 +260,7 @@ class ilMMSubItemGUI {
 
 		// TABLE
 		$table = new ilMMSubItemTableGUI($this, $this->repository);
+		$table->setShowRowsSelector(false);
 
 		return $table->getHTML();
 	}
