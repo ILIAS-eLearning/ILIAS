@@ -1125,7 +1125,7 @@ class ilLMPresentationGUI
 				$this->ctrl->setParameter($this, "ntf", 2);
 				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_activate_lm");
 
-				if(ilNotification::hasNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $page_id))
+				if(ilNotification::hasNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $pg_id))
 				{
 					$this->ctrl->setParameter($this, "ntf", 3);
 					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_deactivate_page");
