@@ -20,7 +20,10 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 * @inheritDoc
 	 */
 	const IDENTIFIER = 'identifier';
-	const F_TABLE_SHOW_INACTIVE = 'table_show_inactive';
+	const F_TABLE_ENTRY_STATUS = 'entry_status';
+	const F_TABLE_ALL_VALUE = 1;
+	const F_TABLE_ONLY_ACTIVE_VALUE = 2;
+	const F_TABLE_ONLY_INACTIVE_VALUE = 3;
 
 
 	public function __construct(ilMMSubItemGUI $a_parent_obj, ilMMItemRepository $item_repository) {
@@ -40,7 +43,13 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 
 
 	protected function addFilterItems() {
-		$this->addAndReadFilterItem(new ilCheckboxInputGUI($this->lng->txt(self::F_TABLE_SHOW_INACTIVE), self::F_TABLE_SHOW_INACTIVE));
+		$table_entry_status = new ilSelectInputGUI($this->lng->txt(self::F_TABLE_ENTRY_STATUS), self::F_TABLE_ENTRY_STATUS);
+		$table_entry_status->setOptions(array(
+			self::F_TABLE_ALL_VALUE => $this->lng->txt("all"),
+			self::F_TABLE_ONLY_ACTIVE_VALUE => $this->lng->txt("only_active"),
+			self::F_TABLE_ONLY_INACTIVE_VALUE => $this->lng->txt("only_inactive")
+		));
+		$this->addAndReadFilterItem($table_entry_status);
 	}
 
 
@@ -154,8 +163,10 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		foreach ($sub_items_for_table as $k => $item) {
 			$item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']));
 			$sub_items_for_table[$k]['facade'] = $item_facade;
-			if ((!isset($this->filter[self::F_TABLE_SHOW_INACTIVE]) && $this->filter[self::F_TABLE_SHOW_INACTIVE] == false) && !$item_facade->isAvailable()) {
-				unset($sub_items_for_table[$k]);
+			if(isset($this->filter[self::F_TABLE_ENTRY_STATUS]) && $this->filter[self::F_TABLE_ENTRY_STATUS] !== self::F_TABLE_ALL_VALUE) {
+				if(($this->filter[self::F_TABLE_ENTRY_STATUS] == self::F_TABLE_ONLY_ACTIVE_VALUE && !$item_facade->isActivated()) || ($this->filter[self::F_TABLE_ENTRY_STATUS] == self::F_TABLE_ONLY_INACTIVE_VALUE && $item_facade->isActivated())) {
+					unset($sub_items_for_table[$k]);
+				}
 			}
 		}
 

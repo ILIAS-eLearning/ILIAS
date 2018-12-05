@@ -2794,6 +2794,10 @@ common#:#mails_pl#:#Mail(s)
 common#:#mails#:#Mails
 common#:#main_menu#:#Main Menu
 common#:#add_remove_edit_entries_of_main_menu#:#Add, remove or edit entries of the main menu
+common#:#all#:#All
+common#:#only_active#:#Only Active
+common#:#only_inactive#:#Only Inactive
+common#:#entry_status#:#Entry status
 common#:#manage_members#:#Manage Members
 common#:#marked_entries#:#Marked Entries
 common#:#matriculation#:#Matriculation number

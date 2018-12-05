@@ -3279,6 +3279,10 @@ common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben
 common#:#mails_pl#:#Mail(s)
 common#:#main_menu#:#Hauptmenü
 common#:#add_remove_edit_entries_of_main_menu#:#Hinzufügen, entfernen oder bearbeiten von Hauptmenü Einträgen.
+common#:#all#:#Alle
+common#:#only_active#:#Nur aktive
+common#:#only_inactive#:#Nur inaktive
+common#:#entry_status#:#Eintragsstatus
 common#:#marked_entries#:#Markierte Einträge
 common#:#matriculation#:#Matrikelnummer
 common#:#mcst#:#Mediacast
