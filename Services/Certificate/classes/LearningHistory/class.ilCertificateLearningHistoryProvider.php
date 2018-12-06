@@ -135,17 +135,14 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 			$href = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
 			$this->controller->clearParametersByClass('ilUserCertificateGUI');
 
-			$text = sprintf(
+			$prefixTextWithLink = sprintf(
 				$this->lng->txt('certificate_achievement_sub_obj'),
-				$this->getEmphasizedTitle($certificate->getObjectTitle())
+				$this->uiRenderer->render($this->uiFactory->link()->standard($this->getEmphasizedTitle($certificate->getObjectTitle()), $href))
 			);
-
-			$link = $this->uiFactory->link()->standard($text, $href);
-			$link = $this->uiRenderer->render($link);
 
 			$text = sprintf(
 				$this->lng->txt('certificate_achievement'),
-				$link
+				$prefixTextWithLink
 			);
 
 			$entries[] = new ilLearningHistoryEntry(

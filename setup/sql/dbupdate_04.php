@@ -25257,3 +25257,28 @@ if ($media_cont_mig == 1)
 	$setting->set('sty_media_cont_mig', 2);
 }
 ?>
+<#5428>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("CodeInline", "code_inline", "code",
+	array());
+?>
+<#5429>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("Code", "code_block", "pre",
+	array());
+?>
+<#5430>
+<?php
+$ilDB->update("style_data", array(
+	"uptodate" => array("integer", 0)
+), array(
+	"1" => array("integer", 1)
+));
+?>
+<#5431>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

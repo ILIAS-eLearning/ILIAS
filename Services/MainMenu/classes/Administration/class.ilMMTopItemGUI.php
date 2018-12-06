@@ -13,6 +13,7 @@ class ilMMTopItemGUI {
 	use ilMMHasher;
 	const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
 	const CMD_ADD = 'topitem_add';
+	const CMD_RESTORE = 'restore';
 	const CMD_CREATE = 'topitem_create';
 	const CMD_EDIT = 'topitem_edit';
 	const CMD_DELETE = 'topitem_delete';
@@ -129,6 +130,9 @@ class ilMMTopItemGUI {
 			case self::CMD_CANCEL:
 				$this->cancel();
 				break;
+			case self::CMD_RESTORE:
+				// $this->restore();
+				break;
 		}
 
 		return "";
@@ -180,6 +184,12 @@ class ilMMTopItemGUI {
 		$b->setCaption($this->lng->txt(self::CMD_ADD), false);
 		$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
 		$this->toolbar->addButtonInstance($b);
+
+		// RESTORE
+		$b = ilLinkButton::getInstance();
+		$b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
+		$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_RESTORE));
+		// $this->toolbar->addButtonInstance($b);
 
 		// TABLE
 		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
@@ -270,5 +280,37 @@ class ilMMTopItemGUI {
 		$c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
 
 		return $c->getHTML();
+	}
+
+
+	private function restore() {
+		return;
+		ilGSProviderStorage::flushDB();
+		ilGSIdentificationStorage::flushDB();
+		$r = function ($path, $xml_name) {
+			foreach (new DirectoryIterator($path) as $fileInfo) {
+				$filename = $fileInfo->getPathname() . $xml_name;
+				if ($fileInfo->isDir() && !$fileInfo->isDot() && file_exists($filename)) {
+					$xml = simplexml_load_file($filename);
+					if (isset($xml->gsproviders)) {
+						foreach ($xml->gsproviders as $item) {
+							if (isset($item->gsprovider)) {
+								foreach ($item->gsprovider as $provider) {
+									$attributes = $provider->attributes();
+									if ($attributes->purpose == 'mainmenu') {
+										$classname = $attributes->class_name;
+										ilGSProviderStorage::registerIdentifications($classname, 'mainmenu');
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		$r("./Services", "/service.xml");
+		$r("./Modules", "/module.xml");
+
+		$this->cancel();
 	}
 }

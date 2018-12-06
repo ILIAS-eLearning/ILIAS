@@ -11,25 +11,36 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 class ilChatroomBlock
 {
 	/**
+	 * @param stdClass $response
 	 * @return string
+	 * @throws ilTemplateException
 	 */
-	public function getRoomSelect()
+	public function getRoomSelect(stdClass $response)
 	{
 		global $DIC;
 
 		$readable = $this->getReadableAreas();
+
 		$tpl      = new ilTemplate('tpl.chatroom_block_room_select.html', true, true, 'Modules/Chatroom');
-		$tpl->setVariable('TXT_SELECT_ROOM', $DIC->language()->txt('chat_select_room'));
-		foreach($readable as $room)
-		{
-			$tpl->setCurrentBlock('select_room_row');
-			$tpl->setVariable('ROW_VALUE', $room['ref_id']);
-			$tpl->setVariable('ROW_CAPTION', sprintf($DIC->language()->txt('room_in_container'), $room['title'], $room['parent_title']));
 
-			if($DIC->user()->getPref('chatviewer_last_selected_room') == $room['ref_id'])
-				$tpl->setVariable('ROW_SELECTED', 'selected="selected"');
+		if (count($readable) > 0) {
+			$response->has_records = true;
+			$tpl->setVariable('TXT_SELECT_ROOM', $DIC->language()->txt('chat_select_room'));
 
-			$tpl->parseCurrentBlock();
+			foreach ($readable as $room) {
+				$tpl->setCurrentBlock('select_room_row');
+				$tpl->setVariable('ROW_VALUE', $room['ref_id']);
+				$tpl->setVariable('ROW_CAPTION',
+					sprintf($DIC->language()->txt('room_in_container'), $room['title'], $room['parent_title']));
+
+				if ($DIC->user()->getPref('chatviewer_last_selected_room') == $room['ref_id']) {
+					$tpl->setVariable('ROW_SELECTED', 'selected="selected"');
+				}
+
+				$tpl->parseCurrentBlock();
+			}
+		} else {
+			$tpl->setVariable('TXT_NO_ROOMS', $DIC->language()->txt('chatviewer_no_rooms'));
 		}
 
 		return $tpl->get();

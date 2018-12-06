@@ -386,9 +386,15 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		
 		// check suffixes
-		if (strlen($suffix) && count($this->getAllowedExtensionsArray()))
+		if( count($this->getAllowedExtensionsArray()) )
 		{
-			if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray()))
+			if( !strlen($suffix) )
+			{
+				ilUtil::sendFailure($this->lng->txt("form_msg_file_missing_file_ext"), true);
+				return false;
+			}
+			
+			if( !in_array(strtolower($suffix), $this->getAllowedExtensionsArray()) )
 			{
 				ilUtil::sendFailure($this->lng->txt("form_msg_file_wrong_file_type"), true);
 				return false;
@@ -730,9 +736,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 					$extension = $filename_arr["extension"];
 					$newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
 					
+					include_once 'Services/Utilities/classes/class.ilFileUtils.php';
+					$dispoFilename = ilFileUtils::getValidFilename($_FILES['upload']['name']);
+					$newfile = ilFileUtils::getValidFilename($newfile);
+					
 					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 					
-					$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false,
+					$this->saveCurrentSolution($active_id, $pass, $newfile, $dispoFilename, false,
 						$solutionFileVersioningUploadTS
 					);
 

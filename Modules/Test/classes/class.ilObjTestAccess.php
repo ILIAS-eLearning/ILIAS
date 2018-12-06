@@ -812,7 +812,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 //		$ilUser = $DIC['ilUser'];
 //		return (self::_lookupOnlineTestAccess($a_obj_id, $ilUser->getId()) !== true) ||
 //			(!ilObjTestAccess::_lookupCreationComplete($a_obj_id));
-		return !self::_isOnline($a_obj_id);
+		return ilObject::lookupOfflineStatus($a_obj_id);
 	}
 
 

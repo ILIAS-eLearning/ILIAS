@@ -30,67 +30,6 @@ class ilObjTestVerification extends ilVerificationObject
 			*/
 			);			
 	}
-
-	/**
-	 * Import relevant properties from given test
-	 *
-	 * @param ilObjTest $a_test
-	 * @return object
-	 */
-	public static function createFromTest(ilObjTest $a_test, $a_user_id)
-	{
-		global $DIC;
-
-		$lng = $DIC->language();
-		$database = $DIC->database();
-		$logger = $DIC->logger()->root();
-		
-		$lng->loadLanguageModule("wsp");
-		$lng->loadLanguageModule('cert');
-
-		$newObj = new self();
-		$newObj->setTitle($a_test->getTitle());
-		$newObj->setDescription($a_test->getDescription());
-
-		$active_id = $a_test->getActiveIdOfUser($a_user_id);
-		$pass = ilObjTest::_getResultPass($active_id);
-		
-		$date = $a_test->getPassFinishDate($active_id, $pass);
-		$newObj->setProperty("issued_on", new ilDate($date, IL_CAL_UNIX));
-
-		// create certificate
-		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
-		$pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
-		$pdfAction = new ilCertificatePdfAction(
-			$logger,
-			$pdfGenerator,
-			new ilCertificateUtilHelper(),
-			$lng->txt('error_creating_certificate_pdf')
-		);
-
-		$certificate = $pdfAction->createPDF($a_user_id, $a_test->getid());
-		
-		// save pdf file
-		if($certificate)
-		{
-			// we need the object id for storing the certificate file
-			$newObj->create();
-			
-			$path = self::initStorage($newObj->getId(), "certificate");
-			
-			$file_name = "tst_".$a_test->getId()."_".$a_user_id."_".$active_id.".pdf";			
-			if(file_put_contents($path.$file_name, $certificate))
-			{							
-				$newObj->setProperty("file", $file_name);
-				$newObj->update();
-				
-				return $newObj;
-			}
-		
-			// file creation failed, so remove to object, too
-			$newObj->delete();
-		}
-	}
 }
 
 ?>

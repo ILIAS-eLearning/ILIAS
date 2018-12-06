@@ -11,7 +11,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
- * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI
+ * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI
  *
  * @ingroup ModulesForum
  */
@@ -310,6 +310,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			case 'ilcommonactiondispatchergui':
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+
+			case "ilcontainernewssettingsgui":
+				$this->tabs_gui->setTabActive('settings');
+				$this->tabs_gui->activateSubTab('obj_news_settings');
+				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$news_set_gui->setNewsBlockForced(true);
+				$news_set_gui->setPublicNotification(true);
+				$this->ctrl->forwardCommand($news_set_gui);
 				break;
 
 			default:

@@ -94,16 +94,26 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 		if ($this->getName() === null) {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
-		$value = $post_input->getOr($this->getName(), "");
-
-		$clone = $this->withValue($value);
+		if (!$this->isDisabled()) {
+			$value = $post_input->getOr($this->getName(), "");
+			$clone = $this->withValue($value);
+		}
+		else {
+			$value = $this->getValue();
+			$clone = $this;
+		}
 
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());
 		}
 
-		$dep_fields = $this->getDependantFieldsFor($value);
+		if (is_null($value)) {
+			$dep_fields = $this->getDependantFieldsFor("");
+		}
+		else {
+			$dep_fields = $this->getDependantFieldsFor($value);
+		}
 		if(is_null($dep_fields)) {
 			$clone->content = $this->applyOperationsTo($value);
 		} else {

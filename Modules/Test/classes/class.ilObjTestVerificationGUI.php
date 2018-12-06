@@ -56,14 +56,26 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	{
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		
-		$test_id = $_REQUEST["tst_id"];
-		if($test_id)
+
+		$objectId = $_REQUEST["tst_id"];
+		if($objectId)
 		{
-			$test = new ilObjTest($test_id, false);
+			$certificateVerificationFileService = new ilCertificateVerificationFileService(
+				$DIC->language(),
+				$DIC->database(),
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
+			);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+				(int) $ilUser->getId(),
+				(int) $objectId
+			);
 
 			try {
-				$newObj = ilObjTestVerification::createFromTest($test, $ilUser->getId());
+				$newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
 			} catch (\Exception $exception) {
 				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
 				return $this->create();

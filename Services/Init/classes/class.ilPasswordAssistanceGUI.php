@@ -637,7 +637,7 @@ class ilPasswordAssistanceGUI
 		}
 
 		$email = $form->getInput('email');
-		$logins = ilObjUser::_getUserIdsByEmail($email);
+		$logins = ilObjUser::getUserLoginsByEmail($email);
 
 		if (is_array($logins) && count($logins) > 0) {
 			$this->sendUsernameAssistanceMail($email, $logins);

@@ -2918,11 +2918,13 @@ class ilObjSurvey extends ilObject
 		);
 	}
 
-	function sendNotificationMail($user_id, $anonymize_id, $appr_id)
-	{		
-		include_once "./Services/User/classes/class.ilObjUser.php";
-		include_once "./Services/User/classes/class.ilUserUtil.php";	
-		
+	/**
+	 * @param $a_user_id user who did the survey
+	 * @param $a_anonymize_id
+	 * @param $a_appr_id
+	 */
+	function sendNotificationMail($a_user_id, $a_anonymize_id, $a_appr_id)
+	{
 		// #12755
 		$placeholders = array(
 			"FIRST_NAME" => "firstname",
@@ -2932,11 +2934,12 @@ class ilObjSurvey extends ilObject
 			"firstname" => "firstname"
 		);		
 
+		//mailaddresses is just text split by commas.
+		//sendMail can send emails if it gets an user id or an email as first parameter.
 		$recipients = preg_split('/,/', $this->mailaddresses);
 		foreach ($recipients as $recipient)
 		{						
-			// #11298		
-			include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+			// #11298
 			$ntf = new ilSystemNotification();
 			$ntf->setLangModules(array("survey"));
 			$ntf->setRefId($this->getRefId());
@@ -2947,7 +2950,7 @@ class ilObjSurvey extends ilObject
 			{				
 				if (!$this->hasAnonymizedResults())
 				{
-					$data = ilObjUser::_getUserData(array($user_id));
+					$data = ilObjUser::_getUserData(array($a_user_id));
 					$data = $data[0];
 				}
 				foreach ($placeholders as $key => $mapping)
@@ -2969,20 +2972,43 @@ class ilObjSurvey extends ilObject
 			}
 						
 			// 360°? add appraisee data
-			if($appr_id)
+			if($a_appr_id)
 			{										
 				$ntf->addAdditionalInfo('survey_360_appraisee', 
-					ilUserUtil::getNamePresentation($appr_id));
+					ilUserUtil::getNamePresentation($a_appr_id));
 			}
 			
-			$active_id = $this->getActiveID($user_id, $anonymize_id, $appr_id);
+			$active_id = $this->getActiveID($a_user_id, $a_anonymize_id, $a_appr_id);
 			$ntf->addAdditionalInfo('results', 
 				$this->getParticipantTextResults($active_id), true);
 									
 			$ntf->setGotoLangId('survey_notification_tutor_link');				
-			$ntf->setReasonLangId('survey_notification_finished_reason');	
+			$ntf->setReasonLangId('survey_notification_finished_reason');
 
-			$ntf->sendMail(array($recipient), null, null);		
+			if(is_numeric($recipient))
+			{
+				$lng = $ntf->getUserLanguage($recipient);
+				$ntf->sendMail(array($recipient), null, null);
+			}
+			else
+			{
+				$recipient = trim($recipient);
+				$user_ids = ilObjUser::getUserIdsByEmail($recipient);
+				if(empty($user_ids))
+				{
+					$ntf->sendMail(array($recipient), null, null);
+				}
+				else
+				{
+					foreach($user_ids as $user_id)
+					{
+						$lng = $ntf->getUserLanguage($user_id);
+						$ntf->sendMail(array($user_id), null, null);
+					}
+				}
+
+			}
+
 		}															
 	}
 

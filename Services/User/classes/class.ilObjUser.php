@@ -2647,7 +2647,6 @@ class ilObjUser extends ilObject
 	{
 		global $DIC;
 
-		$ilAuth = $DIC['ilAuth'];
 		$ilSetting = $DIC['ilSetting'];
 
 		$login = ilObjUser::getLoginFromAuth();
@@ -2709,7 +2708,6 @@ class ilObjUser extends ilObject
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$ilAuth = $DIC['ilAuth'];
 
 		$login = ilObjUser::getLoginFromAuth();
 		$set = $ilDB->queryF("SELECT active FROM usr_data WHERE login= %s",
@@ -2744,51 +2742,54 @@ class ilObjUser extends ilObject
 	 * STATIC METHOD
 	 * get all user_ids of an email address
 	 * @param	string email of user
-	 * @return  integer id of user
+	 * @return  array of user ids
 	 * @static
 	 * @access	public
 	 */
-	static function _getUserIdsByEmail($a_email)
+	static function getUserIdsByEmail($a_email): array
 	{
 		global $DIC;
 
 		$ilias = $DIC['ilias'];
 		$ilDB = $DIC['ilDB'];
 
-		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
 			"WHERE email = %s and active = 1",
 			array("text"),
 			array($a_email));
  		$ids = array ();
-        while($row = $ilDB->fetchObject($res))
-        {
-            $ids[] = $row->login;
-        }
+ 		while($row = $ilDB->fetchObject($res))
+		{
+			$ids[] = $row->usr_id;
+		}
 
 		return $ids;
 	}
 
 
-
 	/**
-	 * STATIC METHOD
-	 * get the user_id of an email address
+	 * get all user login names of an email address
 	 * @param	string email of user
-	 * @return  integer id of user
-	 * @static
+	 * @return  array with all user login names
 	 * @access	public
 	 */
-	function getUserIdByEmail($a_email)
+	static function getUserLoginsByEmail($a_email): array
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
 
-		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
-			"WHERE email = %s", array("text"), array($a_email));
+		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			"WHERE email = %s and active = 1",
+			array("text"),
+			array($a_email));
+		$ids = array ();
+		while($row = $ilDB->fetchObject($res))
+		{
+			$ids[] = $row->login;
+		}
 
-		$row = $ilDB->fetchObject($res);
-		return $row->usr_id ? $row->usr_id : 0;
+		return $ids;
 	}
 
     /*
