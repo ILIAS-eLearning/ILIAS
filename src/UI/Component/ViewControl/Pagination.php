@@ -1,15 +1,19 @@
 <?php
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Component\ViewControl;
 
 use \ILIAS\UI\Component as C;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
+
 /**
  * This describes a Pagination Control
  */
 interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 {
+	const DEFAULT_DROPDOWN_LABEL = 'pagination_label_x_of_y';
+
 	/**
 	 * Get a Pagination with this target-url.
 	 * Shy-Buttons in this control will link to this url
@@ -98,8 +102,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 	public function getDropdownAt();
 
 	/**
-	 * Layout; set the label for dropdown. By default, the dropdown will
-	 * simply state the page-number.
+	 * Layout; set the label for dropdown.
 	 * If need (or wish) arises, you can give a template-string
 	 * with variables for current and total page numbers.
 	 * The string will be filled with sprintf($template, $current_page, $total_pages),
@@ -111,4 +114,10 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 	 * Get the template for the label of the dropdown.
 	 */
 	public function getDropdownLabel(): string;
+
+	/**
+	 * Get the default label (for comparison, mainly) - the default label
+	 * will be translated, a custom label will not.
+	 */
+	public function getDefaultDropdownLabel(): string;
 }

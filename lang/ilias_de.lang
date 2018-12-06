@@ -6190,6 +6190,7 @@ form#:#form_msg_file_partially_uploaded#:#Die Datei konnte nicht vollständig ho
 form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die maximale Dateigröße.
 form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen.
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
+form#:#form_msg_file_missing_file_ext#:#Die hochgeladene Datei hat keine Dateiendung.
 form#:#form_msg_file_wrong_file_type#:#Falscher Dateityp
 form#:#form_msg_formula_is_required#:#Bitte geben Sie eine korrekte Formel an.
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
@@ -6608,6 +6609,7 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
+chatroom#:#chatviewer_no_rooms#:#Noch kein Chatraum auswählbar.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
@@ -9927,6 +9929,7 @@ pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
+pd#:#block_show_pdfrmpostdraft#:#Beitragsentwürfe anzeigen
 pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
 pd#:#block_show_x#:#%s anzeigen
 common#:#crs_list_reg_start#:#Anmeldungsbeginn
@@ -14934,3 +14937,24 @@ validation#:#not_max_length#:#The entered text has a length more than '%s'.###10
 validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
 validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
+survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
+rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
+crs#:#crs_view_timings#:#Lernplanungstyp
+crs#:#crs_view_timing_absolute#:#Absolutes Datum
+crs#:#crs_view_timing_relative#:#Relatives Datum
+crs#:#crs_view_info_timing_absolute#:#Das Start- und Enddatum wird absolut gesetzt.
+crs#:#crs_view_info_timing_relative#:#Das Start- und Enddatum wird anhand von Zeitangaben relativ zum Kursbeitrittsdatum gesetzt.
+rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
+rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
+rbac#:#lso_manage_members#:#Mitglieder bearbeiten
+rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
+common#:#unparticipate#:#Abmelden
+common#:#participate#:#Anmelden
+rbac#:#lso_participate#:#An der Lernsequenz anmelden
+rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
+rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+dateplaner#:#btn_ical#:#iCal
+style#:#sty_type_code_block#:#Code (Block)
+style#:#sty_type_code_inline#:#Code (Inline)
+common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d

@@ -207,6 +207,9 @@ class Renderer extends AbstractComponentRenderer
 			$f = $this->getUIFactory();
 
 			$dd_label_template = $component->getDropdownLabel();
+			if($dd_label_template === $component->getDefaultDropdownLabel()) {
+				$dd_label_template = $this->txt($dd_label_template);
+			}
 			$dd_label = sprintf(
 				$dd_label_template,
 				$component->getCurrentPage() + 1,

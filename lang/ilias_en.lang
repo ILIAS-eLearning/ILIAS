@@ -5245,6 +5245,7 @@ form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded complet
 form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
 form#:#form_msg_file_virus_found#:#Virus found in uploaded file.
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.
 form#:#form_msg_file_wrong_file_type#:#Wrong file type.
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
@@ -5651,6 +5652,7 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
+chatroom#:#chatviewer_no_rooms#:#No Chat Room available, yet.
 mail#:#back_to_folder#:#Back to Folder
 mail#:#current_folder#:#Current Folder: %s
 mail#:#chat_users_have_been_invited#:#The following users have been invited:
@@ -10047,6 +10049,7 @@ pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
 pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
@@ -14934,3 +14937,24 @@ book#:#book_objects_available#:#Objects available %s
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
 book#:#booking_multiple_succesfully#:#Bookings created successfully.
 survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
+rbac#:#sess_edit_metadata#:#Edit Metadata
+crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_view_timing_absolute#:#Absolute Dates
+crs#:#crs_view_info_timing_absolute#:#Start and end date will be set absolute.
+crs#:#crs_view_timing_relative#:#Relative Dates
+crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to the subscription date.
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
+rbac#:#lso_read#:#Users can access the Learning Sequence
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
+common#:#unparticipate#:#Unsubscribe
+common#:#participate#:#Subscribe
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
+dateplaner#:#btn_ical#:#iCal
+style#:#sty_type_code_block#:#Code (Block)
+style#:#sty_type_code_inline#:#Code (Inline)
+common#:#pagination_label_x_of_y#:#Page %1$d of %2$d

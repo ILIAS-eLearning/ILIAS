@@ -64,7 +64,7 @@ class Pagination implements PaginationInterface  {
 	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();
-		$this->dropdown_label = '%1$d';
+		$this->dropdown_label = self::DEFAULT_DROPDOWN_LABEL;
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Pagination implements PaginationInterface  {
 	/**
 	 * @inheritdoc
 	 */
-	public function getOffset():int
+	public function getOffset(): int
 	{
 		$offset = $this->page_size * $this->current_page;
 		return $offset;
@@ -222,7 +222,8 @@ class Pagination implements PaginationInterface  {
 	/**
 	 * Calculate the total number of pages.
 	 */
-	public function getPageLength(): int {
+	public function getPageLength(): int
+	{
 		if($this->getOffset() + $this->page_size > $this->total_entries) {
 			return $this->total_entries - $this->getOffset();
 		}
@@ -264,6 +265,14 @@ class Pagination implements PaginationInterface  {
 	public function getDropdownLabel(): string
 	{
 		return $this->dropdown_label;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDefaultDropdownLabel(): string
+	{
+		return self::DEFAULT_DROPDOWN_LABEL;
 	}
 
 }
