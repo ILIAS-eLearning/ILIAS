@@ -35,7 +35,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 		{
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Address '%s' not valid. Found id %s, but user can't use mail system.",
-				$this->address->getMailbox(), $usrId
+				$this->address->getMailbox(), $usr_id
 			));
 			$this->errors[] = array('user_cant_receive_mail', $this->address->getMailbox());
 			return false;
