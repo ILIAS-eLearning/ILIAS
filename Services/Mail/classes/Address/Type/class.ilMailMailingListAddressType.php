@@ -46,6 +46,9 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 
 		if(!$valid)
 		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Mailing list not  valid: '%s'", $this->address->getMailbox()
+			));
 			$this->errors = array(
 				array('mail_no_valid_mailing_list', $this->address->getMailbox())
 			);
