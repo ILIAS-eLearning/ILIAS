@@ -268,7 +268,7 @@ EOT;
 	</span>
 
 	<div class="dropdown">
-		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1 <span class="caret"></span></button>
+		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">pagination_label_x_of_y <span class="caret"></span></button>
 		<ul class="dropdown-menu">
 			<li><button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</button></li>
 			<li><button class="btn btn-link" data-action="?pagination_offset=1" id="id_1">2</button></li>
