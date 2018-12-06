@@ -38,8 +38,10 @@ class ilExAssignmentGUI
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
+		$this->ui = $DIC->ui();
+
 		$this->exc = $a_exc;
-	}	
+	}
 	
 	/**
 	 * Get assignment header for overview
@@ -50,7 +52,10 @@ class ilExAssignmentGUI
 		$ilUser = $this->user;
 		
 		$lng->loadLanguageModule("exc");
-		
+
+		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
+
 		$tpl = new ilTemplate("tpl.assignment_head.html", true, true, "Modules/Exercise");
 		
 		// we are completely ignoring the extended deadline here
@@ -59,57 +64,69 @@ class ilExAssignmentGUI
 		
 		// :TODO: meaning of "ended on"
 		$dl = max($a_ass->getDeadline(), $idl);		
-		if ($dl &&
-			$dl < time())
+		// if ($dl &&
+		//	$dl < time())
+		if ($state->exceededOfficialDeadline())
 		{
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_ended_on"));
-			$tpl->setVariable("PROP_VAL",
-				ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX)));
+			$tpl->setVariable("PROP_VAL", $state->getCommonDeadlinePresentation());
 			$tpl->parseCurrentBlock();
 			
-			// #14077
-			if($a_ass->getPeerReview() &&
-				$a_ass->getPeerReviewDeadline())
+			// #14077						// this currently shows the feedback deadline during grace period
+			if($state->getPeerReviewDeadline())
 			{								
 				$tpl->setCurrentBlock("prop");
 				$tpl->setVariable("PROP", $lng->txt("exc_peer_review_deadline"));
-				$tpl->setVariable("PROP_VAL",
-					ilDatePresentation::formatDate(new ilDateTime($a_ass->getPeerReviewDeadline(),IL_CAL_UNIX)));
+				$tpl->setVariable("PROP_VAL", $state->getPeerReviewDeadlinePresentation());
 				$tpl->parseCurrentBlock();
 			}		
 		}
-		else if ($a_ass->notStartedYet())
+		else if (!$state->hasGenerallyStarted())
 		{
-			$tpl->setCurrentBlock("prop");
-			$tpl->setVariable("PROP", $lng->txt("exc_starting_on"));
-			$tpl->setVariable("PROP_VAL",
-				ilDatePresentation::formatDate(new ilDateTime($a_ass->getStartTime(),IL_CAL_UNIX)));
-			$tpl->parseCurrentBlock();
-		}
-		else
-		{					
-			$time_str = $this->getTimeString($idl);
-			$tpl->setCurrentBlock("prop");
-			$tpl->setVariable("PROP", $lng->txt("exc_time_to_send"));
-			$tpl->setVariable("PROP_VAL", $time_str);
-			$tpl->parseCurrentBlock();
-	
-			if ($a_ass->getDeadline())
+			if ($state->getRelativeDeadline())
 			{
 				$tpl->setCurrentBlock("prop");
-				$tpl->setVariable("PROP", $lng->txt("exc_edit_until"));
-				$tpl->setVariable("PROP_VAL",
-					ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX)));
+				$tpl->setVariable("PROP", $lng->txt("exc_earliest_start_time"));
+				$tpl->setVariable("PROP_VAL", $state->getGeneralStartPresentation());
 				$tpl->parseCurrentBlock();
 			}
-			
-			if ($idl && $idl != $a_ass->getDeadline())
+			else
+			{
+				$tpl->setCurrentBlock("prop");
+				$tpl->setVariable("PROP", $lng->txt("exc_starting_on"));
+				$tpl->setVariable("PROP_VAL", $state->getGeneralStartPresentation());
+				$tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			if ($state->getCommonDeadline() > 0)
+			{
+				$tpl->setCurrentBlock("prop");
+				$tpl->setVariable("PROP", $lng->txt("exc_time_to_send"));
+				$tpl->setVariable("PROP_VAL", $state->getRemainingTimePresentation());
+				$tpl->parseCurrentBlock();
+
+				$tpl->setCurrentBlock("prop");
+				$tpl->setVariable("PROP", $lng->txt("exc_edit_until"));
+				$tpl->setVariable("PROP_VAL", $state->getCommonDeadlinePresentation());
+				$tpl->parseCurrentBlock();
+			}
+			else if ($state->getRelativeDeadline())		// if we only have a relative deadline (not started yet)
+			{
+				$tpl->setCurrentBlock("prop");
+				$tpl->setVariable("PROP", $lng->txt("exc_rem_time_after_start"));
+				$tpl->setVariable("PROP_VAL", $state->getRelativeDeadlinePresentation());
+				$tpl->parseCurrentBlock();
+			}
+
+
+			if ($state->getIndividualDeadline() > 0)
 			{
 				$tpl->setCurrentBlock("prop");
 				$tpl->setVariable("PROP", $lng->txt("exc_individual_deadline"));
-				$tpl->setVariable("PROP_VAL",
-					ilDatePresentation::formatDate(new ilDateTime($idl,IL_CAL_UNIX)));
+				$tpl->setVariable("PROP_VAL", $state->getIndividualDeadlinePresentation());
 				$tpl->parseCurrentBlock();
 			}		
 		}
@@ -134,10 +151,17 @@ class ilExAssignmentGUI
 	 * Get assignment body for overview
 	 */
 	function getOverviewBody(ilExAssignment $a_ass)
-	{		
+	{
+		global $DIC;
+
+		$ilUser = $DIC->user();
+
 		$this->current_ass_id = $a_ass->getId();
 		
 		$tpl = new ilTemplate("tpl.assignment_body.html", true, true, "Modules/Exercise");
+
+		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
@@ -154,7 +178,12 @@ class ilExAssignmentGUI
 
 		$this->addSchedule($info, $a_ass);
 		
-		if (!$a_ass->notStartedYet())
+		if ($state->areInstructionsVisible())
+		{
+			$this->addFiles($info, $a_ass);
+		}
+
+		if ($state->hasSubmissionStarted())
 		{
 			$this->addSubmission($info, $a_ass);
 		}
@@ -166,11 +195,15 @@ class ilExAssignmentGUI
 	
 	
 	protected function addInstructions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
-	{		
+	{
+		$ilUser = $this->user;
 		$lng = $this->lng;
 		
-		if (!$a_ass->notStartedYet())
-		{			
+		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
+
+		if ($state->areInstructionsVisible())
+		{
 			$inst = $a_ass->getInstruction();	
 			if(trim($inst))
 			{				
@@ -190,46 +223,75 @@ class ilExAssignmentGUI
 	{		
 		$lng = $this->lng;
 		$ilUser = $this->user;
-		
-		$idl = $a_ass->getPersonalDeadline($ilUser->getId());		
-		
+		$ilCtrl = $this->ctrl;
+
+		$idl = $a_ass->getPersonalDeadline($ilUser->getId());
+
+		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
+
 		$a_info->addSection($lng->txt("exc_schedule"));
-		if ($a_ass->getStartTime() > 0)
+		if ($state->getGeneralStart() > 0)
 		{
-			$a_info->addProperty($lng->txt("exc_start_time"),
-				ilDatePresentation::formatDate(new ilDateTime($a_ass->getStartTime(),IL_CAL_UNIX)));
+			if ($state->getRelativeDeadline())
+			{
+				$a_info->addProperty($lng->txt("exc_earliest_start_time"), $state->getGeneralStartPresentation());
+			}
+			else
+			{
+				$a_info->addProperty($lng->txt("exc_start_time"), $state->getGeneralStartPresentation());
+			}
 		}
-		
-		// extended deadline info/warning						
+
+		// extended deadline info/warning
 		$late_dl = "";
-		if ($idl &&
-			$idl < time() &&				
-			$a_ass->beforeDeadline()) // ext dl is last deadline
+		//if ($idl &&
+		//	$idl < time() &&
+		//	$a_ass->beforeDeadline()) // ext dl is last deadline
+		if ($state->inLateSubmissionPhase())
 		{				
 			// extended deadline date should not be presented anywhere
-			$late_dl = ilDatePresentation::formatDate(new ilDateTime($idl, IL_CAL_UNIX));
+			$late_dl = $state->getOfficialDeadlinePresentation();
 			$late_dl = "<br />".sprintf($lng->txt("exc_late_submission_warning"), $late_dl);								
 			$late_dl = '<span class="warning">'.$late_dl.'</span>';									
 		}			
 		
-		if ($a_ass->getDeadline())
+		if ($state->getCommonDeadline())		// if we have a common deadline (target timestamp)
 		{
-			$until = ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX));
+			$until = $state->getCommonDeadlinePresentation();
 			
 			// add late info if no idl
 			if ($late_dl &&
-				$idl == $a_ass->getDeadline())
+				$state->getOfficialDeadline() == $state->getCommonDeadline())
 			{
 				$until .= $late_dl;
 			}
-			
-			$a_info->addProperty($lng->txt("exc_edit_until"), $until);			
+
+			$prop = $lng->txt("exc_edit_until");
+			if ($state->exceededOfficialDeadline())
+			{
+				$prop = $lng->txt("exc_ended_on");
+			}
+
+			$a_info->addProperty($prop, $until);
+		}
+		else if ($state->getRelativeDeadline())		// if we only have a relative deadline (not started yet)
+		{
+			$but = "";
+			if ($state->hasGenerallyStarted())
+			{
+				$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_ass->getId());
+				$but = $this->ui->factory()->button()->primary($lng->txt("exc_start_assignment"), $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "startAssignment"));
+				$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $_GET["ass_id"]);
+				$but = $this->ui->renderer()->render($but);
+			}
+			$a_info->addProperty($lng->txt("exc_rem_time_after_start"), $state->getRelativeDeadlinePresentation().
+				" ".$but);
 		}
 		
-		if ($idl && 
-			$idl != $a_ass->getDeadline())
+		if ($state->getOfficialDeadline() > $state->getCommonDeadline())
 		{
-			$until = ilDatePresentation::formatDate(new ilDateTime($idl,IL_CAL_UNIX));
+			$until = $state->getOfficialDeadlinePresentation();
 			
 			// add late info?
 			if ($late_dl)
@@ -240,19 +302,25 @@ class ilExAssignmentGUI
 			$a_info->addProperty($lng->txt("exc_individual_deadline"), $until);	
 		}
 				
-		if (!$a_ass->notStartedYet())
+		if ($state->hasSubmissionStarted())
 		{
 			$a_info->addProperty($lng->txt("exc_time_to_send"),
-				"<b>".$this->getTimeString($idl)."</b>");
+				"<b>".$state->getRemainingTimePresentation()."</b>");
 		}
 	}
 	
 	protected function addPublicSubmissions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
 		$lng = $this->lng;
+		$ilUser = $this->user;
 		
-		if ($a_ass->afterDeadline())
-		{				
+
+		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
+
+		// submissions are visible, even if other users may still have a larger individual deadline
+		if ($state->hasSubmissionEnded())
+		{
 			$button = ilLinkButton::getInstance();				
 			$button->setCaption("exc_list_submission");
 			$button->setUrl($this->getSubmissionLink("listPublicSubmissions"));							
@@ -348,7 +416,10 @@ class ilExAssignmentGUI
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
 
-		$a_info->addSection($lng->txt("exc_submission"));
+		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
+
+		$a_info->addSection($lng->txt("exc_your_submission"));
 
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 		$submission = new ilExSubmission($a_ass, $ilUser->getId());
@@ -378,7 +449,7 @@ class ilExAssignmentGUI
 		// global feedback / sample solution
 		if($a_ass->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE)
 		{
-			$show_global_feedback = ($a_ass->afterDeadlineStrict() && $a_ass->getFeedbackFile());
+			$show_global_feedback = ($state->hasSubmissionEndedForAllUsers() && $a_ass->getFeedbackFile());
 		}
 		//If it is not well configured...(e.g. show solution before deadline)
 		//the user can get the solution before he summit it.

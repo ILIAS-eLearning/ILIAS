@@ -51,7 +51,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase {
 		$f = $this->getFactory();
 		$button = $f->toggle("label", "action_on_string", "action_off_string", true);
 
-		$this->assertTrue($button->isOn());
+		$this->assertTrue($button->isEngaged());
 	}
 
 	public function test_append_OnAction() {

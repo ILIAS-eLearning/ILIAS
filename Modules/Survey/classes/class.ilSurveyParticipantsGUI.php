@@ -170,6 +170,38 @@ class ilSurveyParticipantsGUI
 		}					
 	}	
 	
+	protected function filterSurveyParticipantsByAccess($a_finished_ids = null)
+	{
+		$all_participants = $this->object->getSurveyParticipants($a_finished_ids);
+		$participant_ids = [];
+		foreach($all_participants as $participant)
+		{
+			$participant_ids[] = $participant['usr_id'];
+		}
+		
+		
+		$filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'read_results',
+			'access_results',
+			$this->object->getRefId(),
+			$participant_ids
+		);
+		$participants = [];
+		foreach($all_participants as $username => $user_data)
+		{
+			if(!$user_data['usr_id'])
+			{
+				$participants[$username] = $user_data;
+			}
+			if(in_array($user_data['usr_id'], $filtered_participant_ids))
+			{
+				$participants[$username] = $user_data;
+			}
+		}
+		return $participants;
+	}
+	
+	
 	/**
 	* Participants maintenance
 	*/
@@ -202,7 +234,9 @@ class ilSurveyParticipantsGUI
 
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyMaintenanceTableGUI.php";
 		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance');
-		$total =& $this->object->getSurveyParticipants();
+		
+		//$total =& $this->object->getSurveyParticipants();
+		$total = $this->filterSurveyParticipantsByAccess();
 		$data = array();
 		foreach ($total as $user_data)
 		{
@@ -296,11 +330,14 @@ class ilSurveyParticipantsGUI
 		// #12277 - invite
 		if(!in_array("invitation", $hidden_tabs))
 		{
+			if($this->access->checkAccess('write', '', $this->object->getRefId()))
+			{
 			$ilTabs->addSubTabTarget("invitation",
 				 $this->ctrl->getLinkTarget($this, 'invite'),
 				 array("invite", "saveInvitationStatus",
 				 "inviteUserGroup", "disinviteUserGroup"),
 				 "");		
+		}
 		}
 		
 		$data = $this->object->getExternalCodeRecipients();
@@ -478,7 +515,20 @@ class ilSurveyParticipantsGUI
 	*/
 	public function confirmDeleteAllUserDataObject()
 	{
+		if($this->access->checkAccess('write', '', $this->object->getRefId()))
+		{
 		$this->object->deleteAllUserData();
+		}
+		else
+		{
+			$participants = $this->filterSurveyParticipantsByAccess();
+			foreach($participants as $something => $participant_data)
+			{
+				$this->object->removeSelectedSurveyResults([$participant_data['active_id']]);
+			}
+		}
+		
+		
 		
 		// #11558 - re-open closed appraisees
 		if($this->object->get360Mode())
@@ -1541,16 +1591,22 @@ class ilSurveyParticipantsGUI
 		{			
 			// #13319
 			foreach(array_unique($a_user_ids) as $user_id)
-			{							
+			{
 				if($ilAccess->checkAccess("write", "", $this->ref_id) ||
 					$this->object->get360SelfEvaluation() ||
 					$user_id != $ilUser->getId())
-				{					
-					$this->object->addRater($appr_id, $user_id);									
+				{
+					if ($appr_id != $user_id)
+					{
+						$this->object->addRater($appr_id, $user_id);
+						ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+					}
+					else
+					{
+						ilUtil::sendFailure($this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+					}
 				}
 			}
-			
-			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);

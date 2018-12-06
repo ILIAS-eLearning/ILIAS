@@ -44,9 +44,8 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 		$this->lng->loadLanguageModule("crsv");
 
 		$ilTabs->setBackTarget($this->lng->txt("back"),
-			$this->ctrl->getLinkTarget($this, "cancel"));
+		$this->ctrl->getLinkTarget($this, "cancel"));
 
-		include_once "Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php";
 		$table = new ilCourseVerificationTableGUI($this, "create");
 		$this->tpl->setContent($table->getHTML());
 	}
@@ -60,31 +59,45 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
 		$ilUser = $DIC['ilUser'];
 		
-		$course_id = $_REQUEST["crs_id"];
-		if($course_id)
+		$objectId = $_REQUEST["crs_id"];
+		if($objectId)
 		{
-			include_once "Modules/Course/classes/class.ilObjCourse.php";
-			$course = new ilObjCourse($course_id, false);
+			$certificateVerificationFileService = new ilCertificateVerificationFileService(
+				$DIC->language(),
+				$DIC->database(),
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
+			);
 
-			include_once "Modules/Course/classes/Verification/class.ilObjCourseVerification.php";
-			$newObj = ilObjCourseVerification::createFromCourse($course, $ilUser->getId());
-			if($newObj)
-			{
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+				(int) $ilUser->getId(),
+				(int) $objectId
+			);
+
+			try {
+				$newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
+			} catch (\Exception $exception) {
+				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+				return $this->create();
+			}
+
+			if($newObj) {
 				$parent_id = $this->node_id;
 				$this->node_id = null;
 				$this->putObjectInTree($newObj, $parent_id);
-				
+
 				$this->afterSave($newObj);
 			}
-			else
-			{
+			else {
 				ilUtil::sendFailure($this->lng->txt("msg_failed"));
 			}
 		}
-		else
-		{
+		else {
 			ilUtil::sendFailure($this->lng->txt("select_one"));
 		}
+
 		$this->create();
 	}
 	

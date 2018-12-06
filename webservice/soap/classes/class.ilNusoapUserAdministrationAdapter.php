@@ -1351,6 +1351,40 @@ class ilNusoapUserAdministrationAdapter
 			'Process task in background'
 		);
 
+		$this->server->register(
+			'addDesktopItems',
+			[
+				'sid' => 'xsd:string',
+				'user_id' => 'xsd:int',
+				'reference_ids' => 'tns:intArray'
+			],
+			[
+				'num_added' => 'xsd:int'
+			],
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#addDesktopItems',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'Add desktop items for user'
+		);
+
+		$this->server->register(
+			'removeDesktopItems',
+			[
+				'sid' => 'xsd:string',
+				'user_id' => 'xsd:int',
+				'reference_ids' => 'tns:intArray'
+			],
+			[
+				'num_added' => 'xsd:int'
+			],
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#removeDesktopItems',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'Remove desktop items for user'
+		);
+
 		// If a client ID is submitted, there might be some SOAP plugins registering methods/types
 		if (isset($_GET['client_id'])) {
 			$this->handleSoapPlugins();

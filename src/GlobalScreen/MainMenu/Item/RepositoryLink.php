@@ -74,7 +74,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	/**
 	 * @return string
 	 */
-	public function getAction(): string {
+	public final function getAction(): string {
 		return ilLink::_getLink($this->ref_id);
 	}
 
@@ -85,7 +85,10 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	 * @return hasAction
 	 */
 	public function withAction(string $action): hasAction {
-		throw new \LogicException("Please use withRefId() instead");
+		$clone = clone $this;
+		$clone->ref_id = (int)$action;
+
+		return $clone;
 	}
 
 
@@ -95,7 +98,10 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	 * @return RepositoryLink
 	 */
 	public function withRefId(int $ref_id): RepositoryLink {
-		$this->ref_id = $ref_id;
+		$clone = clone $this;
+		$clone->ref_id = $ref_id;
+
+		return $clone;
 	}
 
 
@@ -104,5 +110,21 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	 */
 	public function getRefId(): int {
 		return $this->ref_id;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withIsLinkToExternalAction(bool $is_external): hasAction {
+		throw new \LogicException("Repository-Links are always internal");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isLinkWithExternalAction(): bool {
+		return false;
 	}
 }

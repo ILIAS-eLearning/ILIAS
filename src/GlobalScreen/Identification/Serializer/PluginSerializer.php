@@ -1,7 +1,11 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
+use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
 
 /**
  * Class PluginSerializer
@@ -31,10 +35,17 @@ class PluginSerializer implements SerializerInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function unserialize(string $serialized_string): IdentificationInterface {
+	public function unserialize(string $serialized_string, IdentificationMap $map): IdentificationInterface {
+		global $DIC;
 		list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-		return new PluginIdentification($internal_identifier, $class_name, $plugin_id, $this);
+		if (!class_exists($class_name)) {
+			return new NullPluginIdentification($plugin_id, $serialized_string, $internal_identifier);
+		}
+
+		$f = new PluginIdentificationProvider(new $class_name($DIC), $plugin_id, $this, $map);
+
+		return $f->identifier($internal_identifier);
 	}
 
 

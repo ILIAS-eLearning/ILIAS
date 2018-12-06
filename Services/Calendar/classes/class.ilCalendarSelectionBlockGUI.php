@@ -145,6 +145,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 
 		$ilUser = $DIC['ilUser'];
 		$tree = $DIC['tree'];
+		$access = $DIC->access();
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
@@ -178,12 +179,26 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			
 			$tmp_arr['color'] = $category['color'];
 			$tmp_arr['editable'] = $category['editable'];
-			
+
+			// reference
+			if($category['type'] == ilCalendarCategory::TYPE_OBJ)
+			{
+				foreach(ilObject::_getAllReferences($category['obj_id']) as $ref_id => $tmp_ref)
+				{
+					if($access->checkAccess('read','',$ref_id))
+					{
+						$tmp_arr['ref_id'] = $ref_id;
+					}
+				}
+			}
+
 			$categories[] = $tmp_arr;
 			
 			// count title for appending the parent container if there is more than one entry.
 			$tmp_title_counter[$category['type'].'_'.$category['title']]++;
-			
+
+
+
 		}
 		
 		$path_categories = array();
@@ -317,7 +332,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	{
 		global $DIC;
 
-		$ilCtrl = $DIC['ilCtrl'];
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 
 		if(strlen($a_set['path']))
 		{
@@ -348,13 +364,67 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 				$a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
 			}
 		}
-		$a_tpl->setVariable('VAL_TITLE',$a_set['title']);
 		$a_tpl->setVariable('BGCOLOR',$a_set['color']);
-		
-		$ilCtrl->setParameterByClass("ilcalendarpresentationgui",'category_id',$a_set['id']);
-		$a_tpl->setVariable('EDIT_LINK',$ilCtrl->getLinkTargetByClass("ilcalendarpresentationgui", ''));
-		$ilCtrl->setParameterByClass("ilcalendarpresentationgui",'category_id',$_GET["category_id"]);
-		$a_tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
+
+
+		if(
+			($a_set['type'] == ilCalendarCategory::TYPE_OBJ) &&
+			$a_set['ref_id']
+		)
+		{
+			if(
+				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP ||
+				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS
+			)
+			{
+				$ilCtrl->setParameterByClass('ilcalendarpresentationgui', 'backpd', 1);
+			}
+			$ilCtrl->setParameterByClass('ilcalendarpresentationgui','ref_id',$a_set['ref_id']);
+			switch(ilObject::_lookupType($a_set['obj_id']))
+			{
+				case 'crs':
+					$link = $ilCtrl->getLinkTargetByClass(
+						[
+							ilRepositoryGUI::class,
+							ilObjCourseGUI::class,
+							ilCalendarPresentationGUI::class
+						],
+						''
+					);
+					break;
+
+				case 'grp':
+					$link = $ilCtrl->getLinkTargetByClass(
+						[
+							ilRepositoryGUI::class,
+							ilObjGroupGUI::class,
+							ilCalendarPresentationGUI::class
+						],
+						''
+					);
+					break;
+
+				default:
+					$link = ilLink::_getLink($a_set['ref_id']);
+					break;
+			}
+
+			$a_tpl->setVariable('EDIT_LINK',$link);
+			$a_tpl->setVariable('VAL_TITLE',$a_set['title']);
+
+		}
+		elseif($a_set['type'] == ilCalendarCategory::TYPE_OBJ)
+		{
+			$a_tpl->setVariable('PLAIN_TITLE',$a_set['title']);
+		}
+		else
+		{
+			$a_tpl->setVariable('VAL_TITLE',$a_set['title']);
+			$ilCtrl->setParameterByClass("ilcalendarpresentationgui",'category_id',$a_set['id']);
+			$a_tpl->setVariable('EDIT_LINK',$ilCtrl->getLinkTargetByClass("ilcalendarpresentationgui", ''));
+			$ilCtrl->setParameterByClass("ilcalendarpresentationgui",'category_id',$_GET["category_id"]);
+			$a_tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
+		}
 
 		switch($a_set['type'])
 		{

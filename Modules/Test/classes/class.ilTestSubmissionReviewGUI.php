@@ -132,7 +132,8 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 	
 	protected function buildUserReviewOutput()
 	{
-		$ilObjDataCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
@@ -205,7 +206,8 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 	 */
 	protected function buildPdfFilename()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		
 		$inst_id = $ilSetting->get('inst_id', null);
 		

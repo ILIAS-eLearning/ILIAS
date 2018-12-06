@@ -138,5 +138,13 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 		return $tpl->get();
 	}
 
+	/**
+	 * Render footer
+	 * @throws ilCtrlException
+	 */
+	function renderFooter()
+	{
+	}
 
-}
+
+	}

@@ -40,11 +40,15 @@ class Factory implements Field\Factory {
 	 *
 	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct(SignalGeneratorInterface $signal_generator) {
-		// TODO: This is not too good. Maybe we should give a DIC container.
-		$this->data_factory = new Data\Factory;
-		$this->validation_factory = new Validation\Factory($this->data_factory);
-		$this->transformation_factory = new Transformation\Factory;
+	public function __construct(
+		SignalGeneratorInterface $signal_generator,
+		Data\Factory $data_factory,
+		Validation\Factory $validation_factory,
+		Transformation\Factory $transformation_factory
+	) {
+		$this->data_factory = $data_factory; 
+		$this->validation_factory = $validation_factory;
+		$this->transformation_factory = $transformation_factory;
 		$this->signal_generator = $signal_generator;
 	}
 

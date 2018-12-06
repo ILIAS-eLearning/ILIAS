@@ -36,7 +36,11 @@ class ilTestSignatureGUI
 
 	public function __construct(ilTestOutputGUI $testOutputGUI)
 	{
-		global $lng, $ilCtrl, $tpl, $ilPluginAdmin;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		$this->lng = $lng;
 		$this->ilCtrl = $ilCtrl;
@@ -67,7 +71,8 @@ class ilTestSignatureGUI
 	protected function dispatchCommand()
 	{
 		/** @var $ilUser ilObjUser */
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$active = $this->test->getActiveIdOfUser($ilUser->getId());
 		$pass = $this->test->_getMaxPass($active);
 		$key = 'signed_'. $active .'_'. $pass;
@@ -137,7 +142,9 @@ class ilTestSignatureGUI
 	{
 		/** @var $ilCtrl ilCtrl */
 		/** @var $ilUser ilObjUser */
-		global $ilCtrl, $ilUser;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilUser = $DIC['ilUser'];
 		$active = $this->test->getActiveIdOfUser($ilUser->getId());
 		$pass = $this->test->_getMaxPass($active);
 		$key = 'signed_'. $active .'_'. $pass;

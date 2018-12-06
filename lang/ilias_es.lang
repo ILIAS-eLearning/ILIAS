@@ -388,15 +388,7 @@ assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
 assessment#:#duplicate_order_values_entered#:#¡Ha introducido un orden de valores duplicado!
 assessment#:#ects_allow_ects_grades#:#Mostrar la nota ECTS además de la nota recibida
-assessment#:#ects_grade_a_short#:#EXCELENTE
-assessment#:#ects_grade_a#:#Un gran rendimiento con algunos errores menores
-assessment#:#ects_grade_b_short#:#MUY BIEN
-assessment#:#ects_grade_c_short#:#BIEN
-assessment#:#ects_grade_d_short#:#SATISFACTORIO
 assessment#:#ects_grade#:#nota ECTS
-assessment#:#ects_grade_e_short#:#SUFICIENTE
-assessment#:#ects_grade_f#:#se requiere un trabajo considerable
-assessment#:#ects_grade_fx#:#requiere algo más de trabajo para conseguir el reconocimiento(credit)
 assessment#:#ects_output_of_ects_grades#:#Informe de notas ECTS
 assessment#:#edit_page#:#Editar Página
 assessment#:#edit_question#:#Editar Pregunta
@@ -697,8 +689,6 @@ assessment#:#toplist_col_percentage#:#Porcentaje
 assessment#:#toplist_col_rank#:#Clasificación
 assessment#:#toplist_col_score#:#Puntuación
 assessment#:#toplist_col_wtime#:#Tiempo trabajo
-assessment#:#toplist_top_n_results#:#Mejores %s resultados
-assessment#:#toplist_your_result#:#Su clasificación
 assessment#:#true#:#Verdadero
 assessment#:#tst_access_code_created#:#Para proporcionarle acceso permanente a sus resultados de test y ofrecerle la posibilidad de retomar este test, un código de acceso único fue creado. Por favor, anote este código y úselo en acciones posteriores.
 assessment#:#tst_activation_limited_visibility_info#:#Si se activa, el test es visible incluso fuera de la disponibilidad que tenga asignada
@@ -1060,7 +1050,6 @@ blog#:#blog_finalize_blog#:#Finalizar y enviar blog
 blog#:#blog_finalized#:#El blog ha sido enviado
 blog#:#blog_import#:#Importar Blog
 blog#:#blog_keyword#:#Palabra clave
-blog#:#blog_keywords_info#:#Utiliza los iconos +/- para añadir y borrar palablas clave
 blog#:#blog_keywords#:#Palabras clave
 blog#:#blog_list_more#:#más
 blog#:#blog_navigation#:#Entradas
@@ -1157,8 +1146,6 @@ certificate#:#certificate_background_image#:#Imagen de Fondo
 certificate#:#certificate_confirm_deletion_text#:#¿Realmente quiere eliminar el informe y todos los datos relacionados?
 certificate#:#certificate_custom#:#Personalizado...
 certificate#:#certificate_edit#:#Crear/editar una plantilla de informe
-certificate#:#certificate_enabled_scorm#:#Habilitado
-certificate#:#certificate_enabled_scorm_introduction#:#Si se selecciona, el informe se ofrece para todos los usuarios que terminaron el módulo de aprendizaje SCORM.
 certificate#:#certificate_error_import#:#Ocurrió un error durante la importación de un informe
 certificate#:#certificate_error_upload_bgimage#:#Ocurrió un error durante la carga de una imagen de fondo
 certificate#:#certificate_export#:#Exportar informe
@@ -2376,8 +2363,6 @@ common#:#ldap_tls#:#Usar LDAP TLS
 common#:#ldap_version#:#versión de protocolo LDAP
 common#:#learning module#:#Módulo de aprendizaje
 common#:#learning_progress#:#Progreso de aprendizaje
-common#:#learning_resource#:#Recurso de aprendizaje
-common#:#learning_resources#:#Recursos de aprendizaje
 common#:#leave_waiting_list#:#Dejar la lista de espera
 common#:#legend#:#Leyenda
 common#:#level#:#nivel
@@ -3667,7 +3652,6 @@ content#:#cont_could_not_determine_resource_size#:#ILIAS no puede determinar aut
 content#:#cont_cp_question_diff_formats_info#:#Por favor, tenga en cuenta que algunos formatos no son compatibles con los módulos de contenido
 content#:#cont_create_link#:#Crear enlace
 content#:#cont_create_mob#:#Crear Objeto Media
-content#:#cont_credit_mode_info#:#Este ajuste solo surte efecto cuando el modo de lección es 'normal'.
 content#:#cont_credit_mode#:#Modo 'crédito' (para el modo de lección 'normal')
 content#:#cont_credit_off#:#No crédito
 content#:#cont_credit_on#:#Crédito
@@ -7157,15 +7141,10 @@ pwassist#:#password_assistance#:#Asistencia para Contraseñas
 pwassist#:#pwassist_enter_email#:#Por favor introduzca una dirección de correo electrónico y envíe el formulario.\nILIAS le enviará un correo a dicha dirección.El correo contiene todos los nombres de usuario que se han registrado con esta dirección de e-mail.\nEscoja un nombre de usuario apropiado y use el servicio de asistencia de contraseña para obtener una nueva. Si no recibe ningún correo por este servicio por favor contacte con su administrador del curso o %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.\nILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.\nEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduzca el nombre de usuario y la nueva contraseña en los siguientes campos.
-pwassist#:#pwassist_invalid_auth_mode#:#El usuario no será autenticado directamente en ILIAS. Por tanto enviar una contraseña no es posible.
-pwassist#:#pwassist_invalid_email#:#Por favor corrija su dirección de correo electrónico.\nLa dirección de correo introducida no pudo encontrarse en la base de datos
-pwassist#:#pwassist_invalid_username_or_email#:#Por favor corrija el texto en los formularios de entrada.\nEl nombre de usuario y dirección de correo electrónico que ha introducido no coinciden con las entradas en la base de datos.
 pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.\nEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.
 pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:\n\t%1$s\n\nEste mensaje ha sido generado automáticamente por el servidor ILIAS\n\t%2$s\n\nUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".\n\nPor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:\n\n- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:\nElimine este mensaje.\n\n- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:\nPor favor contacte %5$s.\n\n- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:\n\n1. Abra su navegador.\n\n2. Introduzca la siguiente dirección de correo en su navegador:\n\t%1$s\n\nImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.\n\n3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.\n\nPor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.
 pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.\nPor favor compruebe su bandeja de entrada.
 pwassist#:#pwassist_mail_subject#:#Asistencia de Contraseña ILIAS
-pwassist#:#pwassist_no_email_found#:#No puede usar la asistencia de contraseñas, ya que no hay dirección e-mail para la cuenta de usuario introducida.
-pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario. \nLa asistencia de contraseñas no está permitida para el usuario introducido.
 pwassist#:#pwassist_password_assigned#:#La contraseña ha sido asignada al usuario "%1$s".
 pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fue enviado.
 pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\n%s\n\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\n\t%s\n\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.\n\nPor favor compruebe lo siguiente y actue como se sugiere::\n\n-Usted ha solicitado este mail por accidente::\nElimine este correo.\n\n-Está seguro de que nunca solicitó este correo::\nPor favor contacte con %s.\n\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\n\n1. Ejecute su navegador de internet.\n\n2. Introduzca la siguiente URL:\n\t%s\n\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\n\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña.
@@ -9618,7 +9597,6 @@ dcl#:#dcl_in_export#:#En la exportación###24 10 2013 new variable
 common#:#obj_tos_desc#:#Configuración de los términos del servicio###24 10 2013 new variable
 common#:#obj_tos#:#Términos del servicio###24 10 2013 new variable
 tos#:#tos_last_reset_date#:#Los términos del servicio han sido restablecidos en %s###24 10 2013 new variable
-tos#:#tos_agreement_by_lng#:#Términos del servicio###24 10 2013 new variable
 tos#:#tos_agreement#:#Términos del servicio###24 10 2013 new variable
 tos#:#tos_agreement_exists#:#Existente###24 10 2013 new variable
 tos#:#tos_agreement_missing#:#Desaparecido###24 10 2013 new variable
@@ -9629,8 +9607,6 @@ tos#:#tos_status_enable#:#Activar###24 10 2013 new variable
 tos#:#tos_status_desc#:#Si está activado, los usuarios están forzado a aceptar los términos del servicio antes de que puedan entrar a ILIAS.###24 10 2013 new variable
 tos#:#tos_reset_tos_for_all_users#:#Restablecer términos del servicio###24 10 2013 new variable
 tos#:#tos_sure_reset_tos#:#¿Está seguro de que desea restablecer los términos del servicio para todos los usuarios del sistema? Esto también se aplica para los usuarios que usan los servicios web SOAP, el servidor de chat, o el trabajo crob.###24 10 2013 new variable
-tos#:#tos_reset_successfull#:#Los términos del servicio han sido restablecidos correctamente###24 10 2013 new variable
-user#:#tos_show_signed_text#:#Mostrar detalles###24 10 2013 new variable
 user#:#tos_not_accepted_yet#:#Aún no aceptado###24 10 2013 new variable
 user#:#tos_accepted_content#:#Contenido aceptado###24 10 2013 new variable
 tos#:#tos_last_modified#:#Último cambio###24 10 2013 new variable
@@ -9638,7 +9614,6 @@ tos#:#tos_acceptance_history#:#Historial de aceptación###24 10 2013 new variabl
 tos#:#tos_period#:#Período###24 10 2013 new variable
 tos#:#tos_period_from#:#Desde###24 10 2013 new variable
 tos#:#tos_period_until#:#Hasta###24 10 2013 new variable
-tos#:#tos_acceptance_datetime#:#Fecha###24 10 2013 new variable
 forum#:#sorting_manual_sticky#:#Ordenación manual de los temas resaltados###24 10 2013 new variable
 forum#:#sticky_threads_always_on_top#:#Los temas resaltados siempre se muestran en lo alto de la lista de temas. Dentro de los "temas resaltados" es posible ordenarlos de forma manual, si has elegido esa opción.###24 10 2013 new variable
 forum#:#merge#:#Combinar###24 10 2013 new variable
@@ -11850,13 +11825,6 @@ assessment#:#discard_answer_confirmation#:#Tu respuesta será descartada. La pre
 assessment#:#edit_answer#:#Editar respuesta###30 08 2015 new variable
 assessment#:#answer_question#:#Responder pregunta###30 08 2015 new variable
 assessment#:#back_to_objective_container#:#Ir al curso###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze###30 08 2015 new variable
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc###30 08 2015 new variable
 assessment#:#tst_eval_results_by_pass_lo#:#Lista de respuestas por intento %s###30 08 2015 new variable
 assessment#:#tst_eval_results_lo#:#Lista de respuestas###30 08 2015 new variable
 assessment#:#tst_instant_feedback_forced#:#Forzar comentario instantáneo###30 08 2015 new variable
@@ -12160,8 +12128,6 @@ note#:#note_comment_notification_salutation#:#Hola %s,###30 08 2015 new variable
 note#:#note_comment_notification_link#:#Enlace###30 08 2015 new variable
 lng#:#lng_enable_language_detection#:#Habilitar detección de idioma###30 08 2015 new variable
 lng#:#lng_disable_language_detection#:#Deshabilitar detección de idioma###30 08 2015 new variable
-trac#:#trac_mode_downloaded#:#Descargado###30 08 2015 new variable
-trac#:#trac_mode_downloaded_info#:#El progreso de aprendizaje está determinado por el estado de descarga del fichero.###30 08 2015 new variable
 trac#:#trac_mode_collection_mobs#:#Colección de Objetos MultiMedia.###30 08 2015 new variable
 trac#:#trac_mode_collection_mobs_info#:#El estado del progreso de aprendizaje está determinado por el estado de visulización de los objetos Multimedia seleccionados.###30 08 2015 new variable
 trac#:#trac_lp_determination_info_mob#:#Selecciona los elementos que determinan el estado del progreso de aprendizaje global del Mediacast.###30 08 2015 new variable
@@ -12478,8 +12444,6 @@ assessment#:#grading_obligations_missing_listentry#:#Abierto###08 10 2015 new va
 assessment#:#tst_pass_finished_on#:#Realización del test finalizada###08 10 2015 new variable
 assessment#:#passed_status#:#Estado de superación###08 10 2015 new variable
 assessment#:#skip_question#:#No responder y Siguiente###08 10 2015 new variable
-assessment#:#tst_instant_feedback_handling_force#:#No bloquear respuestas pero forzar sugerencias###08 10 2015 new variable
-assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc###08 10 2015 new variable
 dcl#:#dcl_locked_tooltip#:#Desactivar este campo para que los usuarios puedan editar. No incluye a los roles con permisos de "Editar configuración"###08 10 2015 new variable
 forum#:#forums_thread_deleted#:#El tema seleccionado y todos sus envíos han sido borrados.###08 10 2015 new variable
 forum#:#forums_threads_deleted#:#Los temas seleccionados y todos sus envíos han sido borrados.###08 10 2015 new variable
@@ -12636,7 +12600,6 @@ rbac#:#svy_edit_learning_progress#:#El usuario puede editar la configuración de
 rbac#:#sess_edit_learning_progress#:#El usuario puede editar la configuración del progreso de aprendizaje###23 12 2015 new variable
 assessment#:#tst_objectives_progress_header#:#Progreso de objetivos de aprendizaje###21 01 2016 new variable
 assessment#:#tst_objective_progress_header#:#Progreso de objetivo de aprendizaje###21 01 2016 new variable
-content#:#cont_got_lock_until#:#Esta página se ha bloqueado mientras que usted está editando hasta %1. Por favor, libere la página cuando haya finalizado los cambios presionando %2.###21 01 2016 new variable
 crs#:#event_user_selection_include_role#:#Incluir todos los usuarios con rol "%1$s"###21 01 2016 new variable
 crs#:#event_user_selection_include_waiting_list#:#Incluir todos los usuarios en la "Lista de espera"###21 01 2016 new variable
 crs#:#event_user_selection_include_requests#:#Incluir todos los usuarios en la lista "Solicitudes de registro"###21 01 2016 new variable
@@ -12678,9 +12641,6 @@ crs#:#event_tbl_members#:#Miembros###14 04 2016 new variable
 crs#:#event_tbl_tutors#:#Tutores###14 04 2016 new variable
 trac#:#trac_cron_info#:#Por favor, active la tarea "Estadísticas de objeto" en el Cron para recopilar datos.###20 04 2016 new variable
 assessment#:#ass_create_export_file_with_results#:#Crear fichero de exportación de Test  (incl. resultados de los participantes)###19 05 2016 new variable
-assessment#:#tst_conflict_fbh_oblig_quest#:#No se permite combinar preguntas obligatorias y respuestas bloqueadas.###19 05 2016 new variable
-assessment#:#tst_conflict_reset_non_fbh#:#La configuración de "Respuestas bloqueadas" se ha modificado a "No hay respuestas bloqueadas"###19 05 2016 new variable
-assessment#:#tst_conflict_reset_fbh_force#:#La configuración de "Respuestas bloqueadas" se ha modificado a "No hay respuestas bloquedas pero se fuerza la retroalimentación"###19 05 2016 new variable
 dcl#:#dcl_reference_link_info#:#La vista detallada debe estar activa en la tabla referenciada###19 05 2016 new variable
 buddysystem#:#buddy_bs_action_already_linked#:#Ya habías aceptado la petición de contacto del usuario '%s'.###19 05 2016 new variable
 buddysystem#:#buddy_bs_action_already_requested#:#Ya habías solicitado al usuario '%s'.###19 05 2016 new variable
@@ -13036,7 +12996,6 @@ assessment#:#save_on_navigation#:#Save on Navigation###fau: testNav
 assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.###fau: testNav
 assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.###fau: testNav
 assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.###fau: testNav
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again###fau: testNav
 assessment#:#tst_answer_status_editing#:# (editing ... )###fau: testNav
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
@@ -13525,7 +13484,6 @@ administration#:#adm_pub_section_domain_filter#:#Domain Filter###31 08 2017 new 
 administration#:#adm_pub_section_domain_filter_info#:#Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access. ###31 08 2017 new variable
 assessment#:#essay_scoring_mode#:#Scoring Mode###31 08 2017 new variable
 assessment#:#tst_msg_rand_quest_set_not_sync#:#The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules.###31 08 2017 new variable
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.###31 08 2017 new variable
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###31 08 2017 new variable
 assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###31 08 2017 new variable
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
@@ -13714,7 +13672,6 @@ ecs#:#ecs_member_auth_type#:#Course Member Auth Mode###31 08 2017 new variable
 background_tasks#:#background_tasks#:#Background Tasks###31 08 2017 new variable
 background_tasks#:#background_tasks_running#:#Running Tasks###31 08 2017 new variable
 background_tasks#:#scheduled#:#Scheduled###31 08 2017 new variable
-background_tasks#:#dismiss#:#Quit###31 08 2017 new variable
 background_tasks#:#completed#:#Completed###31 08 2017 new variable
 background_tasks#:#waiting#:#Waiting###31 08 2017 new variable
 background_tasks#:#proceed_job#:#Proceed###31 08 2017 new variable
@@ -14133,3 +14090,848 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name###
 content#:#cont_sc_name_setting_first_name#:#First name###22 11 2017 new variable
 content#:#cont_sc_name_setting_no_name#:#no name###22 11 2017 new variable
 dateplaner#:#cal_download_files_started#:#Download of calendar files has started.###22 11 2017 new variable
+meta#:#meta_oer_harvester#:#OER Harvester###10 11 2018 new variable
+meta#:#meta_oer_harvester_desc#:#OER Harvester###10 11 2018 new variable
+meta#:#meta_oer_copyright_selection#:#Lizenzauswahl###10 11 2018 new variable
+meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.###10 11 2018 new variable
+meta#:#meta_oer_target#:#Category for Release OER Content###10 11 2018 new variable
+meta#:#meta_oer_blocked#:#Ignored by OER Harvester###10 11 2018 new variable
+meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)###10 11 2018 new variable
+meta#:#meta_copyright_show_usages#:#Show usages###10 11 2018 new variable
+meta#:#meta_copyright_sub_items#:#Sub Items###10 11 2018 new variable
+meta#:#meta_copyright_outdated#:#Outdated###10 11 2018 new variable
+meta#:#meta_copyright_in_use#:#In use###10 11 2018 new variable
+meta#:#meta_copyright_usage#:#Usage###10 11 2018 new variable
+meta#:#meta_copyright_status#:#Status###10 11 2018 new variable
+meta#:#meta_save_order#:#Save Order###10 11 2018 new variable
+meta#:#meta_order#:#Order###10 11 2018 new variable
+meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings###10 11 2018 new variable
+meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.###10 11 2018 new variable
+auth#:#auth_oidconnect#:#OpenID Connect###10 11 2018 new variable
+auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren###10 11 2018 new variable
+auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren###10 11 2018 new variable
+auth#:#auth_oidc_settings_provider#:#Provider-Url###10 11 2018 new variable
+auth#:#auth_oidc_settings_client_id#:#Client-ID###10 11 2018 new variable
+auth#:#auth_oidc_settings_secret#:#Client-Schlüssel###10 11 2018 new variable
+auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite###10 11 2018 new variable
+auth#:#auth_oidc_settings_txt#:#Text###10 11 2018 new variable
+auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.###10 11 2018 new variable
+auth#:#auth_oidc_settings_img#:#Bild###10 11 2018 new variable
+auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.###10 11 2018 new variable
+auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen###10 11 2018 new variable
+auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen###10 11 2018 new variable
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.###10 11 2018 new variable
+auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen###10 11 2018 new variable
+auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.###10 11 2018 new variable
+auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden###10 11 2018 new variable
+auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden###10 11 2018 new variable
+auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden###10 11 2018 new variable
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet. ###10 11 2018 new variable
+auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.###10 11 2018 new variable
+auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer###10 11 2018 new variable
+auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer###10 11 2018 new variable
+auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer###10 11 2018 new variable
+auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung###10 11 2018 new variable
+auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung###10 11 2018 new variable
+auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.###10 11 2018 new variable
+auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung###10 11 2018 new variable
+auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer###10 11 2018 new variable
+auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge###10 11 2018 new variable
+auth#:#auth_oidc_settings_session_duration#:#Dauer###10 11 2018 new variable
+auth#:#auth_oidc#:#OpenId Connect###10 11 2018 new variable
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  ###10 11 2018 new variable
+auth#:#auth_oidc_settings#:#Server-Einstellungen###10 11 2018 new variable
+auth#:#auth_oidc_profile#:#Zuordnung der Profildaten###10 11 2018 new variable
+auth#:#auth_oidc_roles#:#Rollenzuordnung###10 11 2018 new variable
+auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren###10 11 2018 new variable
+auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen###10 11 2018 new variable
+auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden###10 11 2018 new variable
+content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login###10 11 2018 new variable
+crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription###10 11 2018 new variable
+crs#:#crs_timings_short_active_tt#:#Activate Timings###10 11 2018 new variable
+crs#:#crs_timings_short_start_end_tt_rel#:#Suggested start after course subscription###10 11 2018 new variable
+crs#:#crs_timings_time_frame_tt#:#Time frame in days###10 11 2018 new variable
+crs#:#crs_timings_short_changeable_tt#:#Timings changeable by participants###10 11 2018 new variable
+crs#:#crs_timings_short_limit_start_end_tt_rel#:#Latest end in days after course subscription###10 11 2018 new variable
+crs#:#crs_timings_short_start_end_tt#:#Suggested start###10 11 2018 new variable
+crs#:#crs_timings_short_limit_start_end_tt#:#Latest end###10 11 2018 new variable
+crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.###10 11 2018 new variable
+crs#:#crs_timings_activate_optional#:#Optional mode for course timings###10 11 2018 new variable
+crs#:#crs_timings_activate_optional_own#:#Optional mode for my course timings###10 11 2018 new variable
+crs#:#crs_timings_optional_checked#:#Optional mode was activated for this user###10 11 2018 new variable
+crs#:#crs_timings_optional_unchecked#:#Optional mode was deactivated for this user###10 11 2018 new variable
+crs#:#crs_timings_optional_on#:#Optional mode is active.###10 11 2018 new variable
+crs#:#crs_timings_optional_on_and_passed#:#Optional mode is active and cannot be changed because user is passed.###10 11 2018 new variable
+crs#:#crs_timings_optional_off#:#Optional mode is not active.###10 11 2018 new variable
+assessment#:#tst_presentation_settings_section#:#Presentation###10 11 2018 new variable
+assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?###10 11 2018 new variable
+assessment#:#tst_corrections_tab_question#:#Question###10 11 2018 new variable
+assessment#:#tst_corrections_tab_solution#:#Solution###10 11 2018 new variable
+assessment#:#tst_corrections_tab_statistics#:#Statistics###10 11 2018 new variable
+assessment#:#tst_corrections_qst_form#:#Correction of Points###10 11 2018 new variable
+assessment#:#tst_corrections_answers_tbl#:#Statistics###10 11 2018 new variable
+assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s###10 11 2018 new variable
+assessment#:#tst_corr_answ_stat_tbl_header_answer#:#Answer###10 11 2018 new variable
+assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Frequency###10 11 2018 new variable
+assessment#:#tst_corr_add_as_answer_btn#:#Add as Correct Answer###10 11 2018 new variable
+assessment#:#tst_answer_aggr_answer_header#:#Answer###10 11 2018 new variable
+assessment#:#tst_answer_aggr_frequency_header#:#Frequency###10 11 2018 new variable
+assessment#:#ass_comments#:#Comments###10 11 2018 new variable
+assessment#:#ass_commented_questions_only#:#Only Commented Questions###10 11 2018 new variable
+assessment#:#tst_proceed#:#Proceed###10 11 2018 new variable
+assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigation Without Answer###10 11 2018 new variable
+assessment#:#tst_nav_next_locks_empty_answer_confirm#:#You did not answer the current question. An empty solution will be saved and locked as answer. This answer cannot be changed later on.###10 11 2018 new variable
+assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Question###10 11 2018 new variable
+assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.###10 11 2018 new variable
+assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
+assessment#:#ass_cloze_fb_mode#:#Feedback Mode###10 11 2018 new variable
+assessment#:#ass_cloze_fb_mode_gap_qst#:#Feedback per Gap###10 11 2018 new variable
+assessment#:#ass_cloze_fb_mode_gap_qst_info#:#For every gap a single feedback can be configured.###10 11 2018 new variable
+assessment#:#ass_cloze_fb_mode_gap_answ#:#Answer specific Feedback###10 11 2018 new variable
+assessment#:#ass_cloze_fb_mode_gap_answ_info#:#For every gap separate feedbacks can be configured for different answers.###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_gap_label#:#Gap %s: <i>%s</i>###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_txt_empty_label#:#Gap %s - No Input###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Gap %s - Wrong Answer###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_txt_match_label#:#Gap %s - Given Answer: <i>%s</i>###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_sel_empty_label#:#Gap %s - No Selection###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_sel_opt_label#:#Gap %s - Select Option: <i>%s</i>###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_num_empty_label#:#Gap %s - No Input###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_num_valuehit_label#:#Gap %s - Value Hit###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_num_rangehit_label#:#Gap %s - Range Hit###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_num_toolow_label#:#Gap %s - Value too Low###10 11 2018 new variable
+assessment#:#ass_cloze_gap_fb_num_toohigh_label#:#Gap %s - Value too High###10 11 2018 new variable
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
+assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.###10 11 2018 new variable
+assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.###10 11 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###10 11 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###10 11 2018 new variable
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Open Selected Question Pools###10 11 2018 new variable
+assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#tst_answer_fixation_handling#:#Participant Answers###10 11 2018 new variable
+assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes###10 11 2018 new variable
+assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.###10 11 2018 new variable
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Lock Answers with the Presentation of Feedback###10 11 2018 new variable
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer.###10 11 2018 new variable
+assessment#:#tst_answer_fixation_on_followup_question#:#Lock Answers with the Presentation of Follow-Up Questions###10 11 2018 new variable
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer.###10 11 2018 new variable
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Lock Answers with the Presentation of Feedback or Follow-Up Questions###10 11 2018 new variable
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown.###10 11 2018 new variable
+assessment#:#tst_instant_feedback_trigger#:#Feedback Trigger###10 11 2018 new variable
+assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually###10 11 2018 new variable
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.###10 11 2018 new variable
+assessment#:#tst_instant_feedback_trigger_forced#:#The Feedback is Triggered by Answering Questions###10 11 2018 new variable
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feedback is forced to all participants with answering a question.###10 11 2018 new variable
+assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.###10 11 2018 new variable
+assessment#:#tst_instant_feedback_contents#:#Included Contents###10 11 2018 new variable
+assessment#:#tst_tbl_invited_users#:#Manually Selected Participants###10 11 2018 new variable
+assessment#:#tst_tbl_results_grades#:#Results and Grades###10 11 2018 new variable
+assessment#:#tst_report_after_passed#:#Offer test results when the test has been passed###10 11 2018 new variable
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.###10 11 2018 new variable
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.###10 11 2018 new variable
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.###10 11 2018 new variable
+assessment#:#tst_res_tab_msg_res_after_date#:#You test results will be offered here on the following date: %s###10 11 2018 new variable
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your results will be offered here on the following date: %s###10 11 2018 new variable
+assessment#:#tst_results_access_passed#:#After Test has been Passed###10 11 2018 new variable
+assessment#:#tst_results_access_passed_desc#:#ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.###10 11 2018 new variable
+assessment#:#participants_results_subtab#:#All Participants###10 11 2018 new variable
+assessment#:#results_tab#:#Results###10 11 2018 new variable
+certificate#:#cert_form_sec_availability#:#Availability###10 11 2018 new variable
+certificate#:#cert_form_sec_layout#:#Layout and Text###10 11 2018 new variable
+certificate#:#cert_form_sec_add_features#:#Additional Features###10 11 2018 new variable
+cmps#:#cmps_install#:#Install###10 11 2018 new variable
+cmps#:#cmps_must_installed#:#The component must be installed.###10 11 2018 new variable
+common#:#salutation_n#:#No salutation desired###10 11 2018 new variable
+common#:#tst_results#:#Test Results###10 11 2018 new variable
+rbac#:#tst_tst_results#:#User has access to test results###10 11 2018 new variable
+content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.###10 11 2018 new variable
+forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
+mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
+mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
+mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"###10 11 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###10 11 2018 new variable
+content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated.###10 11 2018 new variable
+content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.###10 11 2018 new variable
+chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.###10 11 2018 new variable
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.###10 11 2018 new variable
+assessment#:#tst_median_mark_panel#:#Mark of Median###10 11 2018 new variable
+assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
+help#:#help_toggle_tooltips_info#:#Show Help Tooltips for menues and tabs.###10 11 2018 new variable
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Swichting from multiple selection to single selection might lead to a loss of data in existing entries. Are you sure to continue?###10 11 2018 new variable
+common#:#crs_list_reg#:#Registration###10 11 2018 new variable
+common#:#grp_list_reg#:#Registration###10 11 2018 new variable
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted###10 11 2018 new variable
+tos#:#tos_never_reset#:#The terms of service have not been reset, yet.###10 11 2018 new variable
+tos#:#tos_agreement_documents_tab_label#:#Terms of Service###10 11 2018 new variable
+tos#:#tos_add_document_btn_label#:#Add Document###10 11 2018 new variable
+tos#:#tos_reset_successful#:#The terms of service have been reset successfully.###10 11 2018 new variable
+tos#:#tos_form_new_doc_head#:#Create Document###10 11 2018 new variable
+tos#:#tos_form_edit_doc_head#:#Edit Document###10 11 2018 new variable
+tos#:#tos_form_document_title#:#Title###10 11 2018 new variable
+tos#:#tos_form_document_title_info#:#Please enter a title for the document.###10 11 2018 new variable
+tos#:#tos_form_document#:#Document###10 11 2018 new variable
+tos#:#tos_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.###10 11 2018 new variable
+tos#:#tos_form_document_new#:#Change Content###10 11 2018 new variable
+tos#:#tos_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced, the acceptance history will not be affected.###10 11 2018 new variable
+tos#:#tos_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.###10 11 2018 new variable
+tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.###10 11 2018 new variable
+tos#:#tos_tbl_docs_title#:#Documents###10 11 2018 new variable
+tos#:#tos_tbl_docs_head_sorting#:#Sorting###10 11 2018 new variable
+tos#:#tos_tbl_docs_head_title#:#Title###10 11 2018 new variable
+tos#:#tos_tbl_docs_head_created#:#Creation Date###10 11 2018 new variable
+tos#:#tos_tbl_docs_head_last_change#:#Last Change###10 11 2018 new variable
+tos#:#tos_tbl_docs_head_criteria#:#Criteria###10 11 2018 new variable
+tos#:#tos_tbl_docs_action_add_criterion#:#Add Criterion###10 11 2018 new variable
+tos#:#tos_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?###10 11 2018 new variable
+tos#:#tos_tbl_docs_cell_not_criterion#:#No criterion assigned###10 11 2018 new variable
+tos#:#tos_tbl_hist_cell_not_criterion#:#No criterion assigned###10 11 2018 new variable
+tos#:#tos_doc_detach_crit_confirm_title#:#Detach Criterion###10 11 2018 new variable
+tos#:#tos_doc_delete#:#Delete Document###10 11 2018 new variable
+tos#:#tos_doc_crit_detached#:#The criterion has been detached.###10 11 2018 new variable
+tos#:#tos_doc_crit_attached#:#The criterion has been attached.###10 11 2018 new variable
+tos#:#tos_doc_crit_changed#:#The criterion has been changed.###10 11 2018 new variable
+tos#:#tos_form_attach_criterion_head#:#Attach Criterion###10 11 2018 new variable
+tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment###10 11 2018 new variable
+tos#:#tos_form_criterion#:#Criterion###10 11 2018 new variable
+tos#:#tos_document#:#Document###10 11 2018 new variable
+tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.###10 11 2018 new variable
+tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?###10 11 2018 new variable
+tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?###10 11 2018 new variable
+tos#:#tos_deleted_documents_s#:#The document has been deleted.###10 11 2018 new variable
+tos#:#tos_deleted_documents_p#:#The documents have been deleted.###10 11 2018 new variable
+tos#:#tos_saved_sorting#:#The sorting has been saved.###10 11 2018 new variable
+tos#:#tos_tbl_hist_head_acceptance_date#:#Date###10 11 2018 new variable
+tos#:#tos_tbl_hist_head_login#:#Login###10 11 2018 new variable
+tos#:#tos_tbl_hist_head_firstname#:#Firstname###10 11 2018 new variable
+tos#:#tos_tbl_hist_head_lastname#:#Lastname###10 11 2018 new variable
+tos#:#tos_tbl_hist_head_document#:#Document###10 11 2018 new variable
+tos#:#tos_tbl_hist_head_criteria#:#Criteria###10 11 2018 new variable
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.###10 11 2018 new variable
+tos#:#tos_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.###10 11 2018 new variable
+tos#:#tos_crit_type_usr_global_role#:#User has Global Role###10 11 2018 new variable
+tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.###10 11 2018 new variable
+tos#:#tos_crit_type_usr_language#:#Profile Language###10 11 2018 new variable
+tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.###10 11 2018 new variable
+tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.###10 11 2018 new variable
+cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result###10 11 2018 new variable
+dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###10 11 2018 new variable
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:###10 11 2018 new variable
+bibl#:#add_filter#:#Add Filter###10 11 2018 new variable
+bibl#:#filter_type#:#Filter Type###10 11 2018 new variable
+bibl#:#field#:#Field###10 11 2018 new variable
+bibl#:#custom#:#Custom###10 11 2018 new variable
+bibl#:#fields#:#Fields###10 11 2018 new variable
+bibl#:#ris#:#Ris###10 11 2018 new variable
+bibl#:#bibtex#:#Bibtex###10 11 2018 new variable
+bibl#:#order#:#Order###10 11 2018 new variable
+bibl#:#standard#:#Standard###10 11 2018 new variable
+bibl#:#translate#:#Translate###10 11 2018 new variable
+bibl#:#identifier#:#Identifier###10 11 2018 new variable
+bibl#:#filter_type_1#:#Textinput###10 11 2018 new variable
+bibl#:#filter_type_2#:#Selectinput###10 11 2018 new variable
+bibl#:#filter_type_3#:#Multi-Selectinput###10 11 2018 new variable
+bibl#:#filter_field_info#:#Please choose a field for which you want to add a filter.###10 11 2018 new variable
+bibl#:#filter_type_info#:#Please choose a filter type for the field.###10 11 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###10 11 2018 new variable
+assessment#:#fixedparticipants_subtab#:#Manually Selected Participants###10 11 2018 new variable
+orgu#:#add_position#:#Add Position###10 11 2018 new variable
+orgu#:#msg_position_udpated#:#Position aktualisiert###10 11 2018 new variable
+orgu#:#remove_successful#:#User was removed successfully.###10 11 2018 new variable
+orgu#:#org_op_access_results#:#Access Results###10 11 2018 new variable
+rbac#:#org_op_access_results#:#Access Results of Subordinated Users###10 11 2018 new variable
+orgu#:#org_op_manage_participants#:#Manage Participants###10 11 2018 new variable
+rbac#:#org_op_manage_participants#:#Manage Subordinated Participants###10 11 2018 new variable
+orgu#:#org_op_score_participants#:#Score Participants###10 11 2018 new variable
+rbac#:#org_op_score_participants#:#Score Subordinated Participants###10 11 2018 new variable
+orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:###10 11 2018 new variable
+bibl#:#filter_form_title#:#Add new filter###10 11 2018 new variable
+bibl#:#changes_saved#:#Changes were saved.###10 11 2018 new variable
+bibl#:#filter_deleted#:#The Filter was deleted.###10 11 2018 new variable
+bibl#:#bibl_translation_lang#:#Language###10 11 2018 new variable
+bibl#:#bibl_translation_trans#:#Translation###10 11 2018 new variable
+bibl#:#bibl_translation_desc#:#Description###10 11 2018 new variable
+bibl#:#bibl_msg_translations_saved#:#Translations were saved###10 11 2018 new variable
+bibl#:#bibl_msg_translations_deleted#:#Translations were deleted###10 11 2018 new variable
+bibl#:#bibl_filter#:#Filter###10 11 2018 new variable
+bibl#:#msg_confirm_delete_filter#:#Do you like to delete the following filter?###10 11 2018 new variable
+mail#:#mail_filter_only_unread#:#Only Unread###10 11 2018 new variable
+mail#:#mail_filter_only_with_attachments#:#With Attachments###10 11 2018 new variable
+mail#:#mail_filter_period#:#Period###10 11 2018 new variable
+mail#:#mail_filter_period_from#:#From###10 11 2018 new variable
+mail#:#mail_filter_period_until#:#Until###10 11 2018 new variable
+mail#:#mail_download_zip_no_attachments#:#Could not find any attachments.###10 11 2018 new variable
+content#:#offline_mode_users_info#:#Users can be manually taken from the Off-line Mode and after doing so these users can again use the online-version of the learning module. This makes sense if e.g. the laptop with the learning modules was stolen.###10 11 2018 new variable
+cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###10 11 2018 new variable
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users###10 11 2018 new variable
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###10 11 2018 new variable
+crs#:#crs_admission_link_failure_offline#:#Can't register: Course is offline.###10 11 2018 new variable
+crs#:#crs_admission_link_failure_availability#:#Can't register: Course is not online.###10 11 2018 new variable
+dcl#:#dcl_title_standardview#:#Standard Views###10 11 2018 new variable
+trac#:#trac_mode_content_visited#:#Visited###10 11 2018 new variable
+trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.###10 11 2018 new variable
+mail#:#mail_template_set_as_default#:#Set as Default###10 11 2018 new variable
+mail#:#mail_template_unset_as_default#:#Unset as Default###10 11 2018 new variable
+mail#:#mail_template_default#:# (Default)###10 11 2018 new variable
+mail#:#mail_tpl_sure_delete_entry#:#Are you sure you want to delete the text template?###10 11 2018 new variable
+mail#:#mail_tpl_sure_delete_entries#:#Are you sure you want to delete the following entries?###10 11 2018 new variable
+forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.###10 11 2018 new variable
+forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.###10 11 2018 new variable
+forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.###10 11 2018 new variable
+chatroom#:#chatroom_client_name#:#Name###10 11 2018 new variable
+chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###10 11 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###10 11 2018 new variable
+style#:#skin_version#:#Skin Version###10 11 2018 new variable
+style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.###10 11 2018 new variable
+style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.###10 11 2018 new variable
+style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.###10 11 2018 new variable
+chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened.###10 11 2018 new variable
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Users###10 11 2018 new variable
+pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.###10 11 2018 new variable
+background_tasks#:#remove#:#Remove###10 11 2018 new variable
+content#:#cont_added_cell#:#Column added###10 11 2018 new variable
+lti#:#lti_session#:#LTI Session###10 11 2018 new variable
+orgu#:#msg_success_permission_saved#:#Permissions saved.###10 11 2018 new variable
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s###10 11 2018 new variable
+common#:#usr_name_undisclosed#:#Undisclosed###10 11 2018 new variable
+common#:#obj_exc_duplicate#:#Copy Exercise###10 11 2018 new variable
+meta#:#adt_error_max_length#:#Please enter a shorter text.###10 11 2018 new variable
+form#:#form_chars_remaining#:#Characters remaining:###10 11 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###10 11 2018 new variable
+content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable
+content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
+content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###10 11 2018 new variable
+content#:#cont_lpe_openid_login_form#:#OpenId Login Form###10 11 2018 new variable
+content#:#cont_lpe_registration_link#:#New Registration Link###10 11 2018 new variable
+content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
+content#:#cont_lpe_user_agreement_link#:#User Agreement Link###10 11 2018 new variable
+common#:#obj_fold_duplicate#:#Copy Folder###10 11 2018 new variable
+common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###10 11 2018 new variable
+common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###10 11 2018 new variable
+file#:#file_suffix_default_white#:#Default Suffix Whitelist###10 11 2018 new variable
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.###10 11 2018 new variable
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist###10 11 2018 new variable
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.###10 11 2018 new variable
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###10 11 2018 new variable
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###10 11 2018 new variable
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###10 11 2018 new variable
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###10 11 2018 new variable
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
+common#:#obj_copa#:#Content Page###10 11 2018 new variable
+common#:#objs_copa#:#Content Pages###10 11 2018 new variable
+rbac#:#copa_visible#:#Content Page is visible###10 11 2018 new variable
+rbac#:#copa_read#:#User can read Content Page###10 11 2018 new variable
+rbac#:#copa_copy#:#Copy Content Page###10 11 2018 new variable
+rbac#:#copa_write#:#User can edit Content Page###10 11 2018 new variable
+rbac#:#copa_delete#:#User can move or delete Content Page###10 11 2018 new variable
+rbac#:#copa_edit_permission#:#User can change permission settings###10 11 2018 new variable
+rbac#:#rbac_create_copa#:#Create Content Page###10 11 2018 new variable
+rbac#:#copa_read_learning_progress#:#User can view learning progress of other users###10 11 2018 new variable
+rbac#:#copa_edit_learning_progress#:#User can edit learning progress settings###10 11 2018 new variable
+copa#:#copa_new#:#Create Content Page###10 11 2018 new variable
+copa#:#copa_import#:#Import Content Page###10 11 2018 new variable
+copa#:#copa_copy#:#Copy Content Page###10 11 2018 new variable
+copa#:#copa_add#:#Add Content Page###10 11 2018 new variable
+copa#:#copa_edit#:#Edit Content Page###10 11 2018 new variable
+copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
+copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed###10 11 2018 new variable
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed###10 11 2018 new variable
+adve#:#adve_grp_copa#:#Content Pages###10 11 2018 new variable
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created###10 11 2018 new variable
+mail#:#show_mail_settings#:#Show Mail Settings###10 11 2018 new variable
+mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.###10 11 2018 new variable
+mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.###10 11 2018 new variable
+common#:#presentation_table_more#:#more###10 11 2018 new variable
+ui#:#ui_chars_remaining#:#Characters remaining:###10 11 2018 new variable
+ui#:#ui_chars_min#:#Minimum:###10 11 2018 new variable
+ui#:#ui_chars_max#:#Maximum:###10 11 2018 new variable
+exc#:#exc_global_feedback_file_after_date#:#After set Date###10 11 2018 new variable
+exc#:#feedback_given#:#Feedback given###10 11 2018 new variable
+exc#:#feedback#:#Feedback###10 11 2018 new variable
+exc#:#feedback_received#:#Feedback received###10 11 2018 new variable
+exc#:#feedback_from#:#Feedback from###10 11 2018 new variable
+exc#:#text_assignment#:#Text Assignment###10 11 2018 new variable
+exc#:#not_yet#:#not yet###10 11 2018 new variable
+exc#:#grade_evaluate#:#Grade and Evaluate###10 11 2018 new variable
+exc#:#submissions_feedback#:#Submissions and Feedback###10 11 2018 new variable
+exc#:#submissions_only#:#Submissions Only###10 11 2018 new variable
+exc#:#filter#:#Filter###10 11 2018 new variable
+exc#:#fiter_no_results#:#The current filter did not match any submission.###10 11 2018 new variable
+exc#:#exc_reminder_submit_setting#:#Remind Users to Submit###10 11 2018 new variable
+exc#:#exc_reminder_start#:#Start Reminders before Deadline###10 11 2018 new variable
+exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!###10 11 2018 new variable
+exc#:#exc_reminder_frequency#:#Frequency###10 11 2018 new variable
+exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade###10 11 2018 new variable
+exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback###10 11 2018 new variable
+exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline###10 11 2018 new variable
+exc#:#exc_reminders_cron#:#Reminders for Assignments###10 11 2018 new variable
+exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.###10 11 2018 new variable
+exc#:#exc_reminder_end#:#Reminder ends###10 11 2018 new variable
+exc#:#exc_reminder_mail_template#:#Mail Template###10 11 2018 new variable
+exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template###10 11 2018 new variable
+exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder###10 11 2018 new variable
+exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment###10 11 2018 new variable
+exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder###10 11 2018 new variable
+exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment###10 11 2018 new variable
+exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder###10 11 2018 new variable
+exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment###10 11 2018 new variable
+exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title###10 11 2018 new variable
+exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title###10 11 2018 new variable
+exc#:#exc_reminder_salutation#:#Hello %s,###10 11 2018 new variable
+exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished###10 11 2018 new variable
+exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded###10 11 2018 new variable
+exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback###10 11 2018 new variable
+exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet###10 11 2018 new variable
+exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet###10 11 2018 new variable
+exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet###10 11 2018 new variable
+exc#:#exc_reminder_link#:#URL###10 11 2018 new variable
+exc#:#exc_reminder_cron_ok#:#Reminders sent:###10 11 2018 new variable
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only###10 11 2018 new variable
+survey#:#svy_self_ev_info#:#Use for self evaluation.###10 11 2018 new variable
+survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new variable
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations###10 11 2018 new variable
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants###10 11 2018 new variable
+survey#:#svy_participant#:#Participant###10 11 2018 new variable
+cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.###10 11 2018 new variable
+skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.###10 11 2018 new variable
+badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.###10 11 2018 new variable
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.###10 11 2018 new variable
+crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.###10 11 2018 new variable
+trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.###10 11 2018 new variable
+trac#:#trac_lhist_obj_completed#:#$1$ was completed.###10 11 2018 new variable
+lhist#:#lhist_learning_history#:#Learning History###10 11 2018 new variable
+mme#:#main#:#Main Menu###10 11 2018 new variable
+mme#:#subtab_topitems#:#Top Items###10 11 2018 new variable
+mme#:#subtab_subitems#:#Items###10 11 2018 new variable
+mme#:#tab_back#:#Back###10 11 2018 new variable
+mme#:#topitem_add#:#Add Top Item###10 11 2018 new variable
+mme#:#topitem_edit#:#Edit###10 11 2018 new variable
+mme#:#topitem_delete#:#Delete###10 11 2018 new variable
+mme#:#topitem_translate#:#Translate###10 11 2018 new variable
+mme#:#topitem_position#:#Position###10 11 2018 new variable
+mme#:#topitem_title#:#Title###10 11 2018 new variable
+mme#:#topitem_active#:#Active###10 11 2018 new variable
+mme#:#topitem_subentries#:#Items###10 11 2018 new variable
+mme#:#topitem_provider#:#Provider###10 11 2018 new variable
+mme#:#topitem_actions#:#Actions###10 11 2018 new variable
+mme#:#topitem_type_parent#:#Top Item###10 11 2018 new variable
+mme#:#topitem_type_link#:#Link###10 11 2018 new variable
+mme#:#topitem_title_default#:#Title (Default Language)###10 11 2018 new variable
+mme#:#topitem_title_default_byline#:#Other Translations can be added with the Translation Action after.###10 11 2018 new variable
+mme#:#topitem_active_byline#:#Activate this Top Item for all users.###10 11 2018 new variable
+mme#:#topitem_type#:#Type###10 11 2018 new variable
+mme#:#topitem_type_byline#:#Top Items can be links directly or can contain Items.###10 11 2018 new variable
+mme#:#subitem_add#:#Add Item###10 11 2018 new variable
+mme#:#subitem_edit#:#Edit###10 11 2018 new variable
+mme#:#subitem_delete#:#Delete###10 11 2018 new variable
+mme#:#subitem_translate#:#Translate###10 11 2018 new variable
+mme#:#sub_parent#:#Top Item###10 11 2018 new variable
+mme#:#sub_position#:#Position###10 11 2018 new variable
+mme#:#sub_title#:#Title###10 11 2018 new variable
+mme#:#sub_type#:#Type###10 11 2018 new variable
+mme#:#sub_active#:#Active###10 11 2018 new variable
+mme#:#sub_status#:#Status###10 11 2018 new variable
+mme#:#sub_provider#:#Provider###10 11 2018 new variable
+mme#:#sub_actions#:#Actions###10 11 2018 new variable
+mme#:#button_save#:#Save###10 11 2018 new variable
+mme#:#table_show_inactive#:#Show inactive###10 11 2018 new variable
+mme#:#sub_title_default#:#Title (Default Language)###10 11 2018 new variable
+mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.###10 11 2018 new variable
+mme#:#sub_type_byline#:#Specific type for the Item additional configuration may be needed.###10 11 2018 new variable
+mme#:#sub_active_byline#:#Activate this Item for all users.###10 11 2018 new variable
+mme#:#add_languages#:#Add Language###10 11 2018 new variable
+mme#:#mm_translation_lang#:#Language###10 11 2018 new variable
+mme#:#mm_translation_trans#:#Translation###10 11 2018 new variable
+mme#:#additional_langs#:#Additional Languages###10 11 2018 new variable
+mme#:#msg_languages_added#:#Added languages###10 11 2018 new variable
+mme#:#msg_translations_saved#:#Translations saved###10 11 2018 new variable
+mme#:#topitem_css_id#:#CSS-ID###10 11 2018 new variable
+common#:#deleted_item#:#Deleted Item###10 11 2018 new variable
+mme#:#component_not_active#:#Component is not activated.###10 11 2018 new variable
+mme#:#item_must_be_always_active#:#Item must be active.###10 11 2018 new variable
+mme#:#msg_subitem_deleted#:#Item deleted.###10 11 2018 new variable
+mme#:#msg_topitem_deleted#:#Item deleted.###10 11 2018 new variable
+mme#:#subitem_confirm_delete#:#Do you really want to delete the following Item?###10 11 2018 new variable
+mme#:#topitem_confirm_delete#:#Do you really want to delete the following Item?###10 11 2018 new variable
+mme#:#field_external#:#External Link###10 11 2018 new variable
+mme#:#field_external_info#:#Link will be opnened in a separate Window.###10 11 2018 new variable
+mme#:#field_url#:#URL###10 11 2018 new variable
+mme#:#field_url_info#:#Link to the desired website, lead by http(s)://###10 11 2018 new variable
+mme#:#field_ref_id#:#ILIAS Reference-ID###10 11 2018 new variable
+mme#:#field_ref_id_info#:#The Reference-ID of the desired ILIAS-Object from the Repository, you find the Reference-ID in the URL of a object (...?ref_id=123)###10 11 2018 new variable
+common#:#obj_mme#:#Main Menu###10 11 2018 new variable
+mme#:#type_top_parent_item#:#Container###10 11 2018 new variable
+mme#:#type_top_link_item#:#Link###10 11 2018 new variable
+mme#:#type_separator#:#Separator###10 11 2018 new variable
+mme#:#type_link#:#Link###10 11 2018 new variable
+mme#:#type_link_list#:#Link List###10 11 2018 new variable
+mme#:#type_complex#:#Complex###10 11 2018 new variable
+mme#:#type_repository_link#:#Repository-Link###10 11 2018 new variable
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.###10 11 2018 new variable
+pd#:#pd_enable_learning_history#:#Learning History###10 11 2018 new variable
+pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.###10 11 2018 new variable
+blog#:#blog_keyword_enter#:#Write a keyword and press Enter.###10 11 2018 new variable
+news#:#news_news_block#:#News Block###10 11 2018 new variable
+sess#:#sess_filter_all_types#:#All types###10 11 2018 new variable
+sess#:#sess_filter_not_assigned#:#Not Assigned###10 11 2018 new variable
+sess#:#sess_is_assigned#:#is Assigned###10 11 2018 new variable
+obj#:#obj_more_translations#:#More Translations###10 11 2018 new variable
+wiki#:#wiki_type_wiki_team#:#Team Wiki###10 11 2018 new variable
+exc#:#exc_without_wiki_template#:#Without Wiki Template###10 11 2018 new variable
+exc#:#exc_with_wiki_template#:#With Wiki Template###10 11 2018 new variable
+exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from scratch.###10 11 2018 new variable
+exc#:#exc_with_wiki_template_info#:#The template wiki will be copied to create the wikis of participants.###10 11 2018 new variable
+exc#:#exc_wiki_container#:#Wiki Container###10 11 2018 new variable
+exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.###10 11 2018 new variable
+exc#:#exc_ass_team_wiki#:#Assignment Team Wiki###10 11 2018 new variable
+exc#:#exc_create_wiki#:#Create Wiki###10 11 2018 new variable
+wiki#:#wiki_exercise_info#:#This wiki is part of the assignment "%s" of exercise "%s".###10 11 2018 new variable
+wiki#:#wiki_finalize_wiki#:#Finalize and Submit Wiki###10 11 2018 new variable
+wiki#:#wiki_finalized#:#Wiki has been finalized and submitted.###10 11 2018 new variable
+wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file.###10 11 2018 new variable
+wiki#:#wiki_team_members#:#Team Members###10 11 2018 new variable
+wiki#:#wiki_exc_wiki_created#:#Wiki has been created.###10 11 2018 new variable
+wiki#:#wiki_exc_template#:#Wiki Template###10 11 2018 new variable
+wiki#:#wiki_download_submission#:#Download Submission File###10 11 2018 new variable
+news#:#news_new_reactions#:#New reactions###10 11 2018 new variable
+news#:#news_new_comments#:#New comments###10 11 2018 new variable
+like#:#reaction#:#Reaction###10 11 2018 new variable
+common#:#like#:#Like###10 11 2018 new variable
+common#:#love#:#Love###10 11 2018 new variable
+common#:#dislike#:#Dislike###10 11 2018 new variable
+common#:#laugh#:#Laugh###10 11 2018 new variable
+common#:#astounded#:#Astounded###10 11 2018 new variable
+common#:#sad#:#Sad###10 11 2018 new variable
+common#:#angry#:#Angry###10 11 2018 new variable
+news#:#news_media#:#Media File###10 11 2018 new variable
+like#:#like#:#Like###10 11 2018 new variable
+notes#:#notes_latest_comment#:#Latest Comment###10 11 2018 new variable
+notes#:#notes_add_edit_comment#:#Add/Edit Comment###10 11 2018 new variable
+mep#:#mep_media_files#:#Media Files###10 11 2018 new variable
+mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
+mep#:#mep_mob#:#Media Object###10 11 2018 new variable
+book#:#book_booking_reminders#:#Upcoming reservations###10 11 2018 new variable
+book#:#book_rem_intro#:#This is an overview of upcoming reservations:###10 11 2018 new variable
+book#:#book_your_reservations#:#Your Reservations###10 11 2018 new variable
+book#:#book_reservation_overview#:#Reservation Overviews###10 11 2018 new variable
+book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.###10 11 2018 new variable
+book#:#book_reminder_setting#:#Reminder###10 11 2018 new variable
+book#:#book_reminder_day#:#Before Reservation###10 11 2018 new variable
+book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.###10 11 2018 new variable
+book#:#book_reminder_days#:#Day(s)###10 11 2018 new variable
+noti#:#noti_activate_notification#:#Activate Notification###10 11 2018 new variable
+noti#:#noti_deactivate_notification#:#Deactivate Notification###10 11 2018 new variable
+noti#:#noti_notification_activated#:#Notification Activated###10 11 2018 new variable
+noti#:#noti_notification_deactivated#:#Notification Deactivated###10 11 2018 new variable
+book#:#book_notification#:#Send Reservation Notifications###10 11 2018 new variable
+book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).###10 11 2018 new variable
+skmg#:#skmg_type_of_formation#:#Type of Formation###10 11 2018 new variable
+skmg#:#skmg_all#:#All###10 11 2018 new variable
+skmg#:#skmg_refresh_view#:#Refresh###10 11 2018 new variable
+prtf#:#prtf_copy_tab#:#Copy Tab###10 11 2018 new variable
+prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.###10 11 2018 new variable
+prtf#:#prtf_edit_content#:#Edit Content###10 11 2018 new variable
+prtf#:#prtf_set_online#:#Set Online###10 11 2018 new variable
+prtf#:#prtf_set_offline#:#Set Offline###10 11 2018 new variable
+prtf#:#prtf_no_submission#:#No Submission###10 11 2018 new variable
+prtf#:#prtf_submission_on#:#Submitted on $1###10 11 2018 new variable
+prtf#:#prtf_no_offline_share_info#:#A portfolio has to be online to be shared by other users.###10 11 2018 new variable
+prtf#:#prtf_has_been_set_online#:#Portfolio has been set online.###10 11 2018 new variable
+user#:#user_prompting_recurrence#:#Prompting Recurrence###10 11 2018 new variable
+user#:#user_prompting_settings#:#Prompting Settings###10 11 2018 new variable
+user#:#user_prompt_incomplete#:#Only if profile is incomplete###10 11 2018 new variable
+user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.###10 11 2018 new variable
+user#:#user_prompt_once_after_login#:#Once after specific number of days after first login###10 11 2018 new variable
+user#:#user_prompt_once_after_login_info#:#After this period the user will be prompted with the profile, if the user did not publish the profile yet.###10 11 2018 new variable
+user#:#user_prompt_repeat#:#Repeat every specific number of days###10 11 2018 new variable
+user#:#user_prompt_repeat_info#:#The user will be prompted periodically with the profile, if the user did not publish the profile yet.###10 11 2018 new variable
+user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.###10 11 2018 new variable
+lhist#:#lhist_first_login#:#First Login###10 11 2018 new variable
+prtf#:#prtf_decl_authorship#:#Declaration of Authorship###10 11 2018 new variable
+pd#:#pd_achievements#:#Achievements###10 11 2018 new variable
+content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.###10 11 2018 new variable
+prtf#:#prtf_download_submission#:#Download Submission###10 11 2018 new variable
+content#:#cont_ed_insert_learning_history#:#Insert Learning History###10 11 2018 new variable
+lhist#:#lhist_all#:#All###10 11 2018 new variable
+lhist#:#lhist_selected#:#Selected###10 11 2018 new variable
+lhist#:#lhist_manual#:#Manual###10 11 2018 new variable
+lhist#:#lhist_period#:#Period###10 11 2018 new variable
+lhist#:#lhist_type_of_achievement#:#Type of Achievement###10 11 2018 new variable
+lhist#:#cont_update_lhist#:#Edit Learning History Element###10 11 2018 new variable
+lhist#:#cont_create_lhist#:#Create Learning History Element###10 11 2018 new variable
+lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.###10 11 2018 new variable
+lhist#:#lhist_lhist#:#Learning History###10 11 2018 new variable
+skmg#:#skmg_materials_ressources#:#Resources/Materials###10 11 2018 new variable
+wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.###10 11 2018 new variable
+cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.###10 11 2018 new variable
+cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?###10 11 2018 new variable
+cert#:#certificate_migration_confirm_started#:#The migration was started.###10 11 2018 new variable
+cert#:#certificate_migration_go#:#Start Migration###10 11 2018 new variable
+cert#:#user_certificates#:#Certificates###10 11 2018 new variable
+cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.###10 11 2018 new variable
+cert#:#cert_error_no_access#:#You have no access to this certificate.###10 11 2018 new variable
+cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.###10 11 2018 new variable
+common#:#my_certificates#:#My Certificates###10 11 2018 new variable
+cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s###10 11 2018 new variable
+cert#:#certificate_achievement#:#%1$s achieved.###10 11 2018 new variable
+cert#:#certificate_no_object_title#:#No object title available###10 11 2018 new variable
+cert#:#certificate_no_object_desc#:#No object description available###10 11 2018 new variable
+cert#:#cert_sortable_by_title_asc#:#Nach Titel aufsteigend###10 11 2018 new variable
+cert#:#cert_sortable_by_title_desc#:#Nach Titel absteigend###10 11 2018 new variable
+cert#:#cert_sortable_by_issue_date_asc#:#Nach Ausstellungsdatum aufsteigend###10 11 2018 new variable
+cert#:#cert_sortable_by_issue_date_desc#:#Nach Ausstellungsdatum absteigend###10 11 2018 new variable
+cert#:#cert_issued_on_label#:#Issued On###10 11 2018 new variable
+cert#:#cert_download_label#:#Download###10 11 2018 new variable
+cert#:#cert_object_label#:#Object###10 11 2018 new variable
+cert#:#cert_description_label#:#Description###10 11 2018 new variable
+cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.###10 11 2018 new variable
+certificate#:#cert_cron_task_title#:#Certificates###10 11 2018 new variable
+certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.###10 11 2018 new variable
+certificate#:#certificate_card_thumbnail_image#:#Card Thumbnail###10 11 2018 new variable
+certificate#:#certificate_change_active_status#:#The active state of the certificate has been changed###10 11 2018 new variable
+iass#:#iass_location#:#Location###10 11 2018 new variable
+iass#:#iass_further_field_headline#:#Detailed Information###10 11 2018 new variable
+iass#:#iass_no_entries#:#No entries found.###10 11 2018 new variable
+iass#:#iass_filter_all#:#All###10 11 2018 new variable
+iass#:#iass_filter_not_started#:#Not started only###10 11 2018 new variable
+iass#:#iass_filter_not_finalized#:#Not completed only###10 11 2018 new variable
+iass#:#iass_filter_finalized#:#Completed only###10 11 2018 new variable
+iass#:#iass_filter_failed#:#Failed only###10 11 2018 new variable
+iass#:#iass_file#:#File###10 11 2018 new variable
+iass#:#iass_download#:#Download###10 11 2018 new variable
+iass#:#iass_sort#:#Sortation###10 11 2018 new variable
+iass#:#iass_sort_name_asc#:#Username ascending###10 11 2018 new variable
+iass#:#iass_sort_name_desc#:#Username descending###10 11 2018 new variable
+iass#:#iass_sort_examiner_login_asc#:#Examiner ascending###10 11 2018 new variable
+iass#:#iass_sort_examiner_login_desc#:#Examiner descending###10 11 2018 new variable
+exc#:#exc_team_formation#:#Team Formation###10 11 2018 new variable
+exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams###10 11 2018 new variable
+exc#:#exc_team_by_participants_info#:#Participants opt for teams.###10 11 2018 new variable
+exc#:#exc_team_by_tutors#:#Teams are formed by Tutors.###10 11 2018 new variable
+exc#:#exc_team_by_tutors_info#:#Tutors allocate participants to teams, participants cannot self-organize.###10 11 2018 new variable
+exc#:#exc_team_by_random#:#Teams are formed randomly and automatically.###10 11 2018 new variable
+exc#:#exc_team_by_random_info#:#ILIAS will allocate participants to a set number of teams.###10 11 2018 new variable
+exc#:#exc_team_by_assignment#:#Adopt Teams from Assignment###10 11 2018 new variable
+exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be used for this Assignment too.###10 11 2018 new variable
+exc#:#exc_num_teams#:#Number###10 11 2018 new variable
+exc#:#exc_min_team_participants#:#Minimal Number###10 11 2018 new variable
+exc#:#exc_max_team_participants#:#Maximal Number###10 11 2018 new variable
+exc#:#exc_total_members#:#Total Exercise Members###10 11 2018 new variable
+exc#:#exc_value_can_not_set#:#This value can not be set.###10 11 2018 new variable
+exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment###10 11 2018 new variable
+exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.###10 11 2018 new variable
+exc#:#exc_team_min_big_than_max#:#Maximal number of team participants can not be smaller than Minimal number of team participants.###10 11 2018 new variable
+exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.###10 11 2018 new variable
+exc#:#exc_team_min_small_than_members#:#Minimal Number of Participants can not be set as %s because teams are set with %s participants.###10 11 2018 new variable
+exc#:#exc_participants#:#Participants###10 11 2018 new variable
+exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.###10 11 2018 new variable
+exc#:#exc_team_by_tutors_manual#:#Manually###10 11 2018 new variable
+exc#:#exc_team_creation#:#Creation###10 11 2018 new variable
+exc#:#exc_ass_submission_zip#:#Submissions###10 11 2018 new variable
+exc#:#exc_submission_file#:#Submission File###10 11 2018 new variable
+exc#:#exc_submission_text#:#Submission Text###10 11 2018 new variable
+common#:#open#:#Open###10 11 2018 new variable
+exc#:#exc_down_files_started#:#Download of submission files has started.###10 11 2018 new variable
+book#:#participants#:#Participants###10 11 2018 new variable
+book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
+book#:#book_assign#:#Assign###10 11 2018 new variable
+book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
+book#:#book_deassign#:#Deassign###10 11 2018 new variable
+book#:#book_participant_assigned#:#Participant(s) assigned###10 11 2018 new variable
+book#:#book_participant_already_assigned#:#Participant(s) already assigned.###10 11 2018 new variable
+exc#:#exc_fixed_date#:#Fixed Date###10 11 2018 new variable
+exc#:#exc_fixed_date_info#:#Initially all users get the same fixed deadline.###10 11 2018 new variable
+exc#:#exc_relative_date#:#Relative Date###10 11 2018 new variable
+exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.###10 11 2018 new variable
+exc#:#exc_earliest_start_time#:#Earliest Start Time###10 11 2018 new variable
+exc#:#exc_rem_time_after_start#:#Remaining Time after Start###10 11 2018 new variable
+exc#:#exc_start_assignment#:#Start Assignment###10 11 2018 new variable
+exc#:#exc_needs_fixed_deadline#:#This feature only works with a fixed deadline.###10 11 2018 new variable
+exc#:#exc_tbl_calculated_deadline#:#Calculated Deadline###10 11 2018 new variable
+rbac#:#sess_manage_members#:#Manage Participants of a Session###10 11 2018 new variable
+rbac#:#manage_materials#:#Manage Materials###10 11 2018 new variable
+rbac#:#sess_manage_materials#:#Manage Session Materials###10 11 2018 new variable
+meta#:#md_adv_col_presentation_ordering#:#Position###10 11 2018 new variable
+sess#:#sess_show_members#:#Show Participants###10 11 2018 new variable
+sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery###10 11 2018 new variable
+sess#:#sess_member_administration#:#Edit Participants###10 11 2018 new variable
+sess#:#sess_members_gallery#:#Session Gallery###10 11 2018 new variable
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail to Participants###10 11 2018 new variable
+sess#:#sess_mail_context_participant_info#:#For the participant e-mails on the participants and learning progress screens of a session###10 11 2018 new variable
+sess#:#mail_sess_roles#:#Send Mail to Session Roles###10 11 2018 new variable
+sess#:#send_mail_participants#:#All Participants of Session###10 11 2018 new variable
+sess#:#il_sess_participant#:#Session Participants###10 11 2018 new variable
+sess#:#sess_mail_type#:#Mail to Participants###10 11 2018 new variable
+sess#:#sess_mail_admins_only#:#For Administrators only###10 11 2018 new variable
+sess#:#sess_mail_admins_only_info#:#Only administrators can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.###10 11 2018 new variable
+sess#:#sess_mail_all#:#For all Participants###10 11 2018 new variable
+sess#:#sess_mail_all_info#:#All participants can use the feature ‘Mail to Participants’ in the ‘Participants’ tab.###10 11 2018 new variable
+sess#:#sess_contact#:#Contact###10 11 2018 new variable
+sess#:#sess_mem_contacts#:#Tutorial Support###10 11 2018 new variable
+dateplaner#:#cal_calendar_subscription_modal_title#:#Calendar Subscription###10 11 2018 new variable
+sess#:#sess_members#:#Participants###10 11 2018 new variable
+grp#:#grp_contact#:#Contact###10 11 2018 new variable
+grp#:#grp_mem_contacts#:#Tutorial Support###10 11 2018 new variable
+common#:#lso_new#:#New Learning Sequence###10 11 2018 new variable
+common#:#lso_add#:#Add Learning Sequence###10 11 2018 new variable
+common#:#lso_edit#:#Edit Learning Sequence###10 11 2018 new variable
+common#:#lso_import#:#Import Learning Sequence###10 11 2018 new variable
+common#:#lso_copy#:#Copy Learning Sequence###10 11 2018 new variable
+common#:#obj_lso#:#Learning Sequence###10 11 2018 new variable
+common#:#objs_lso#:#Learning Sequences###10 11 2018 new variable
+common#:#obj_lso_duplicate#:#Copy Learning Sequence###10 11 2018 new variable
+common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.###10 11 2018 new variable
+common#:#slo_wizard_page#:#Copy Learning Sequence###10 11 2018 new variable
+rbac#:#lso_visible#:#Learning Sequence is visible###10 11 2018 new variable
+rbac#:#lso_copy#:#User can copy Learning Sequence###10 11 2018 new variable
+rbac#:#lso_write#:#User can edit settings of Learning Sequence###10 11 2018 new variable
+rbac#:#lso_delete#:#User can delete Learning Sequence###10 11 2018 new variable
+lso#:#learner_view#:#Overview###10 11 2018 new variable
+lso#:#manage_content#:#Manage###10 11 2018 new variable
+lso#:#manage_content_maintab#:#Content###10 11 2018 new variable
+lso#:#show_summary#:#Info###10 11 2018 new variable
+lso#:#table_sequence_content#:#Content Management###10 11 2018 new variable
+lso#:#table_position#:#Position###10 11 2018 new variable
+lso#:#table_title#:#Title###10 11 2018 new variable
+lso#:#table_online#:#Online###10 11 2018 new variable
+lso#:#table_may_proceed#:#User may proceed###10 11 2018 new variable
+lso#:#table_actions#:#Actions###10 11 2018 new variable
+lso#:#delete_confirmation#:#Are you sure you want to delete this objects?###10 11 2018 new variable
+lso#:#entries_deleted#:#Successfuly delete entries###10 11 2018 new variable
+lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.###10 11 2018 new variable
+lso#:#lso_member_administration#:#Edit Participants###10 11 2018 new variable
+lso#:#lso_members_gallery#:#Learning Sequence Members Gallery###10 11 2018 new variable
+lso#:#lso_search_users#:#Search user###10 11 2018 new variable
+lso#:#lso_print_list#:#Print list###10 11 2018 new variable
+lso#:#lso_mem_tbl_header#:#Learning Sequence Member###10 11 2018 new variable
+lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence###10 11 2018 new variable
+lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)###10 11 2018 new variable
+lso#:#lso_notification#:#Notification###10 11 2018 new variable
+lso#:#lso_header_edit_members#:#Edit Members###10 11 2018 new variable
+lso#:#lso_members_print_title#:#Learning sequence mebers###10 11 2018 new variable
+lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence administrator.###10 11 2018 new variable
+lso#:#lso_members_deleted#:#Deleted members###10 11 2018 new variable
+lso#:#mail_lso_roles#:#Send mails to roles of learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the learning sequence:###10 11 2018 new variable
+lso#:#lso_mail_admission_new_bod#:#we are pleased to announce your registration for the learning sequence "%s".###10 11 2018 new variable
+lso#:#lso_mail_admission_new_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_dismiss_bod#:#your membership in learning sequence "%s" has been terminated.###10 11 2018 new variable
+lso#:#lso_mail_dismiss_sub#:#Membership terminated in learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_notification_reg_bod#:#%s has registered for learning sequence "%s".###10 11 2018 new variable
+lso#:#lso_mail_notification_reg_sub#:#User registered for learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.###10 11 2018 new variable
+lso#:#lso_header_delete_members#:#Would you like to remove the following members from this learning sequence?###10 11 2018 new variable
+lso#:#abstract#:#Abstract###10 11 2018 new variable
+lso#:#abstract_img#:#Image for Abstract###10 11 2018 new variable
+lso#:#extro#:#Exitpage###10 11 2018 new variable
+lso#:#extro_img#:#Image for Exitpage###10 11 2018 new variable
+lso#:#lso_player_start#:#Start Learning Sequence###10 11 2018 new variable
+lso#:#lso_player_review#:#Review Learning Sequence###10 11 2018 new variable
+lso#:#lso_player_resume#:#Resume Learning Sequence###10 11 2018 new variable
+lso#:#lso_player_abstract#:#Show Abstract Info###10 11 2018 new variable
+lso#:#lso_player_extro#:#Show Final Page###10 11 2018 new variable
+lso#:#lso_player_finish#:#Finish###10 11 2018 new variable
+lso#:#lso_player_suspend#:#Suspend###10 11 2018 new variable
+lso#:#lso_player_previous#:#Previous###10 11 2018 new variable
+lso#:#lso_player_next#:#Next###10 11 2018 new variable
+lso#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###10 11 2018 new variable
+lso#:#lso_read#:#User has read access to Learning Sequence###10 11 2018 new variable
+lso#:#lso_edit_permission#:#User can change permission settings###10 11 2018 new variable
+lso#:#condition_always#:#Always###10 11 2018 new variable
+lso#:#condition_completed#:#Completed###10 11 2018 new variable
+lso#:#condition_failed#:#Failed###10 11 2018 new variable
+rbac#:#rbac_create_lso#:#Create Learning Sequence###10 11 2018 new variable
+lso#:#lso_settings_intro#:#Intropage Settings###10 11 2018 new variable
+lso#:#lso_settings_extro#:#Exitpage Settings###10 11 2018 new variable
+lso#:#lso_notify_on#:#Notification about new registrations enabled###10 11 2018 new variable
+lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 2018 new variable
+lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
+lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
+lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_notification_reg_req_bod#:#%s has requested membership for learning sequence "%s".###10 11 2018 new variable
+lso#:#lso_mail_notification_reg_req_bod2#:#To confirm this registration, go to:###10 11 2018 new variable
+lso#:#lso_mail_sub_dec_sub#:#Registration refused for learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been refused for learning sequence "%s".###10 11 2018 new variable
+lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
+lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
+lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
+lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
+lso#:#first_access#:#First Access###10 11 2018 new variable
+lso#:#last_access#:#Last Access###10 11 2018 new variable
+lso#:#lso_settings_availability#:#availability###10 11 2018 new variable
+lso#:#avail_time_period#:#Period###10 11 2018 new variable
+lso#:#lso_settings_misc#:#Settings###10 11 2018 new variable
+lso#:#completed_steps#:#Passed Steps###10 11 2018 new variable
+lso#:#last_visited_step#:#Last visited Step###10 11 2018 new variable
+lso#:#members_gallery#:#Member Gallery###10 11 2018 new variable
+lso#:#lso_show_members_info#:#Member Gallery available for users###10 11 2018 new variable
+crs#:#crs_shorten_breadcrumb#:#Breadcrumb###10 11 2018 new variable
+crs#:#crs_sys_default#:#System Default###10 11 2018 new variable
+crs#:#crs_breadcrumb_crs_only#:#Start with Course###10 11 2018 new variable
+crs#:#crs_breadcrumb_full_path#:#Full Path###10 11 2018 new variable
+rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
+rep#:#rep_default#:#Default###10 11 2018 new variable
+rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level###10 11 2018 new variable
+rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level###10 11 2018 new variable
+obj#:#obj_show_title_and_icon#:#Show Title and Icon###10 11 2018 new variable
+obj#:#obj_show_header_actions#:#Show Header Actions###10 11 2018 new variable
+cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
+cont#:#cont_item_list#:#List###10 11 2018 new variable
+cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
+obj#:#obj_tile_image#:#Tile Image###10 11 2018 new variable
+obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation.###10 11 2018 new variable
+fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
+rep#:#rep_tree_limit#:#Limit Items in Tree###10 11 2018 new variable
+rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.###10 11 2018 new variable
+rep#:#rep_tree_limit_number#:#Maximum Number###10 11 2018 new variable
+rep#:#rep_tree_limit_number_info#:#Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title.###10 11 2018 new variable
+cont#:#cont_show_more#:#Show More###10 11 2018 new variable
+cont#:#cont_block_limit#:#Limit Items per Block###10 11 2018 new variable
+cont#:#cont_block_limit_info#:#If a block contains more items, a "Show more" button will appear.###10 11 2018 new variable
+validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
+validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
+validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
+validation#:#not_greater_than#:#'%s' is not greater than '%s'.###10 11 2018 new variable
+validation#:#not_less_than#:#'%s' is not less than '%s'.###10 11 2018 new variable
+validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.###10 11 2018 new variable
+validation#:#not_numeric#:#'%s' is not numeric.###10 11 2018 new variable
+validation#:#not_generic#:#It is not the case that: %s###10 11 2018 new variable
+validation#:#not_max_length#:#The entered text has a length more than '%s'.###10 11 2018 new variable
+validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
+validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
+crs#:#crs_lobj_pm_score#:#Your Result###10 11 2018 new variable
+crs#:#crs_lobj_pm_min_goal#:#Required Score###10 11 2018 new variable
+dateplaner#:#back_to_crs#:#Go to Course###10 11 2018 new variable
+dateplaner#:#back_to_grp#:#Go to Group###10 11 2018 new variable
+dateplaner#:#back_to_pd#:#Back to Personal Desktop###10 11 2018 new variable
+common#:#il_lso_admin#:#Learning Sequence Admin###10 11 2018 new variable
+common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
+lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
+lso#:#curriculum#:#Curriculum###10 11 2018 new variable
+lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
+lso#:#participate#:#Subsribe###10 11 2018 new variable
+lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
+meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
+book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable
+book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.###10 11 2018 new variable
+book#:#booking_multiple_succesfully#:#Bookings created successfully.###10 11 2018 new variable

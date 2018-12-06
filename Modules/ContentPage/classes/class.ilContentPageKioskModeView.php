@@ -5,7 +5,9 @@ use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -24,6 +26,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	/** @var Factory */
 	protected $uiFactory;
 
+	/** @var Renderer */
+	protected $uiRenderer;
+
 	/** @var \ilCtrl */
 	protected $ctrl;
 
@@ -35,6 +40,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
 
 	/** @var \ilTabsGUI */
 	protected $tabs;
+
+	/** @var MessageBox */
+	protected $messages = [];
 
 	/**
 	 * @inheritDoc
@@ -56,6 +64,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
 		$this->ctrl = $DIC->ctrl();
 		$this->mainTemplate = $DIC->ui()->mainTemplate();
 		$this->uiFactory = $DIC->ui()->factory();
+		$this->uiRenderer = $DIC->ui()->renderer();
 		$this->httpRequest = $DIC->http()->request();
 		$this->tabs = $DIC->tabs();
 		$this->user = $DIC->user();
@@ -133,7 +142,10 @@ class ilContentPageKioskModeView extends ilKioskModeView
 				\ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
 				$this->lng->loadLanguageModule('trac');
-				\ilUtil::sendSuccess($this->lng->txt('trac_updated_status'), true);
+
+				$this->messages[] = $this->uiFactory->messageBox()->success(
+					$this->lng->txt('trac_updated_status')
+				);
 			}
 		}
 	}
@@ -171,9 +183,12 @@ class ilContentPageKioskModeView extends ilKioskModeView
 
 		$this->ctrl->setParameterByClass(\ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
 
-		return $factory->legacy($forwarder->forward($this->ctrl->getLinkTargetByClass([
-			\ilRepositoryGUI::class, \ilObjContentPageGUI::class, \ilContentPagePageGUI::class
-		])));
+		return $factory->legacy(implode('', [
+			$this->uiRenderer->render($this->messages),
+			$forwarder->forward($this->ctrl->getLinkTargetByClass([
+				\ilRepositoryGUI::class, \ilObjContentPageGUI::class, \ilContentPagePageGUI::class
+			]))
+		]));
 	}
 
 	/**

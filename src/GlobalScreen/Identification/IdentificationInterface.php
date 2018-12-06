@@ -17,4 +17,10 @@ interface IdentificationInterface extends \Serializable {
 	 * @return string
 	 */
 	public function getInternalIdentifier(): string;
+
+
+	/**
+	 * @return string
+	 */
+	public function getProviderNameForPresentation(): string;
 }

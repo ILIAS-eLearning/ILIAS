@@ -233,6 +233,7 @@ interface Factory {
 	 *      bear text.
 	 *   effect: >
 	 *      On-click, the action indicated by the button is carried out.
+	 *      A stateful button will indicate its state by an aria-attribute.
 	 *   rivals:
 	 *      glyph: >
 	 *          Glyphs are used if the enclosing Container Collection can not provide

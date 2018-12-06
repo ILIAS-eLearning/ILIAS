@@ -15,13 +15,14 @@ interface LocatorBuilder {
 	/**
 	 * Finish building the locator.
 	 */
-	public function end() : ControlBuilder;
+	//public function end(): ControlBuilder;
+	public function end();
 
 	/**
 	 * Build an entry in the locator.
 	 *
 	 * The parameter will be appended to the command when updating state.
 	 */
-	public function item(string $label, int $parameter) : LocatorBuilder;
+	public function item(string $label, int $parameter): LocatorBuilder;
 }
 

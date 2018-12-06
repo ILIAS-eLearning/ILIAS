@@ -29,7 +29,9 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 		$this->setId("qpl_print");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -75,7 +77,8 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 
 	function getSelectableColumns()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$cols["description"] = array(
 			"txt" => $lng->txt("description"),
 			"default" => true

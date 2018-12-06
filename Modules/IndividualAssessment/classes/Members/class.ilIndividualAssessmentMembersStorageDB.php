@@ -37,30 +37,36 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	/**
 	 * @inheritdoc
 	 */
+	public function loadMembersAsSingleObjects(ilObjIndividualAssessment $obj, string $filter = null, string $sort = null)
+	{
+		$members = [];
+		$sql = $this->loadMemberQuery();
+		$sql .= "	WHERE obj_id = ".$this->db->quote($obj->getId(), 'integer');
+
+		if(!is_null($filter)) {
+			$sql .= $this->getWhereFromFilter($filter);
+		}
+
+		if(!is_null($sort)) {
+			$sql .= $this->getOrderByFromSort($sort);
+		}
+		$res = $this->db->query($sql);
+		while($rec = $this->db->fetchAssoc($res)) {
+			$usr = new ilObjUser($rec["usr_id"]);
+			$members[] = new ilIndividualAssessmentMember($obj, $usr, $rec);
+		}
+		return $members;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function loadMember(ilObjIndividualAssessment $obj, ilObjUser $usr) {
 		$obj_id = $obj->getId();
 		$usr_id = $usr->getId();
-		$sql = "SELECT "
-				."iassme.obj_id,"
-				."iassme.usr_id,"
-				."iassme.examiner_id,"
-				."iassme.record,"
-				."iassme.internal_note,"
-				."iassme.notify,"
-				."iassme.notification_ts,"
-				."iassme.learning_progress,"
-				."iassme.finalized,"
-				."iassme.place,"
-				."iassme.event_time,"
-				."iassme.user_view_file,"
-				."iassme.file_name,"
-				."iassme.changer_id,"
-				."iassme.change_time"
-				." FROM ".self::MEMBERS_TABLE." iassme\n"
-				."	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
-				."	LEFT JOIN usr_data ex ON iassme.examiner_id = ex.usr_id\n"
-				."	WHERE obj_id = ".$this->db->quote($obj_id, 'integer')."\n"
-				."		AND iassme.usr_id = ".$this->db->quote($usr_id,'integer');
+		$sql = $this->loadMemberQuery();
+		$sql .= "	WHERE obj_id = ".$this->db->quote($obj_id, 'integer')."\n"
+			."		AND iassme.usr_id = ".$this->db->quote($usr_id,'integer');
 
 		$rec = $this->db->fetchAssoc($this->db->query($sql));
 		if($rec) {
@@ -103,6 +109,32 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	public function deleteMembers(ilObjIndividualAssessment $obj) {
 		$sql = "DELETE FROM ".self::MEMBERS_TABLE." WHERE obj_id = ".$this->db->quote($obj->getId(), 'integer');
 		$this->db->manipulate($sql);
+	}
+
+	protected function loadMemberQuery()
+	{
+		return "SELECT "
+			."iassme.obj_id,"
+			."iassme.usr_id,"
+			."iassme.examiner_id,"
+			."iassme.record,"
+			."iassme.internal_note,"
+			."iassme.notify,"
+			."iassme.notification_ts,"
+			."iassme.learning_progress,"
+			."iassme.finalized,"
+			."iassme.place,"
+			."iassme.event_time,"
+			."iassme.user_view_file,"
+			."iassme.file_name,"
+			."iassme.changer_id,"
+			."iassme.change_time,"
+			."usr.lastname AS user_lastname,"
+			."ex.login AS examiner_login"
+			." FROM ".self::MEMBERS_TABLE." iassme\n"
+			."	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
+			."	LEFT JOIN usr_data ex ON iassme.examiner_id = ex.usr_id\n"
+		;
 	}
 
 	/**
@@ -160,5 +192,34 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 				."     AND usr_id = ".$this->db->quote($record[ilIndividualAssessmentMembers::FIELD_USR_ID], 'integer');
 
 		$this->db->manipulate($sql);
+	}
+
+	/**
+	 * @param int|string
+	 */
+	protected function getWhereFromFilter($filter): string
+	{
+		switch($filter)
+		{
+			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
+				return "      AND finalized = 0 AND examiner_id IS NULL\n";
+				break;
+			case ilIndividualAssessmentMembers::LP_IN_PROGRESS:
+				return "      AND finalized = 0 AND examiner_id IS NOT NULL\n";
+				break;
+			case ilIndividualAssessmentMembers::LP_COMPLETED:
+				return "      AND finalized = 1 AND learning_progress = 2\n";
+				break;
+			case ilIndividualAssessmentMembers::LP_FAILED:
+				return "      AND finalized = 1 AND learning_progress = 3\n";
+				break;
+		}
+	}
+
+	protected function getOrderByFromSort(string $sort): string
+	{
+		$vals = explode(":", $sort);
+
+		return " ORDER BY ".$vals[0]." ".$vals[1];
 	}
 }

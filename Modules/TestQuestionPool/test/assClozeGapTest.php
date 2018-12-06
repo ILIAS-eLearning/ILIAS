@@ -8,7 +8,7 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assClozeGapTest extends PHPUnit_Framework_TestCase
+class assClozeGapTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
@@ -24,12 +24,14 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 			chdir( dirname( __FILE__ ) );
 			chdir('../../../');
 		}
+
+		parent::setUp();
+
 		require_once './Services/Utilities/classes/class.ilUtil.php';
 		require_once './Services/Randomization/classes/class.ilArrayElementShuffler.php';
 		$util_mock = $this->createMock('ilUtil', array('stripSlashes'), array(), '', false);
 		$util_mock->expects( $this->any() )->method( 'stripSlashes' )->will( $this->returnArgument(0) );
-		global $ilUtils;
-		$ilUtils = $util_mock;
+		$this->setGlobalVariable('ilUtils', $util_mock);
 	}
 
 	public function test_instantiateObject_shouldReturnInstance()
@@ -515,8 +517,10 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		require_once './Services/Language/classes/class.ilLanguage.php';
 		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
-		global $lng;
-		$lng = $lng_mock;
+		global $DIC;
+		unset($DIC['lng']);
+		$DIC['lng'] = $lng_mock;
+		$GLOBALS['lng'] = $DIC['lng'];
 
 		$instance->addItem($item1);
 		$instance->addItem($item2);
@@ -547,8 +551,10 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		require_once './Services/Language/classes/class.ilLanguage.php';
 		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('or') );
-		global $lng;
-		$lng = $lng_mock;
+		global $DIC;
+		unset($DIC['lng']);
+		$DIC['lng'] = $lng_mock;
+		$GLOBALS['lng'] = $DIC['lng'];
 		
 		$instance->setShuffle(true);
 		$instance->addItem($item1);
@@ -581,8 +587,10 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		require_once './Services/Language/classes/class.ilLanguage.php';
 		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
-		global $lng;
-		$lng = $lng_mock;
+		global $DIC;
+		unset($DIC['lng']);
+		$DIC['lng'] = $lng_mock;
+		$GLOBALS['lng'] = $DIC['lng'];
 
 		$instance->addItem($item1);
 		$instance->addItem($item2);
@@ -613,8 +621,10 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		require_once './Services/Language/classes/class.ilLanguage.php';
 		$lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
-		global $lng;
-		$lng = $lng_mock;
+		global $DIC;
+		unset($DIC['lng']);
+		$DIC['lng'] = $lng_mock;
+		$GLOBALS['lng'] = $DIC['lng'];
 
 		$instance->addItem($item1);
 		$instance->addItem($item2);

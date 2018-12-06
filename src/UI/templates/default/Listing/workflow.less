@@ -13,9 +13,9 @@
 			color: @workflow-icon-font-color;
 			content: "";
 			font-family: Glyphicons Halflings;
-			font-size: @workflow-icon-size*0.6;
+			font-size: @workflow-icon-size*0.5;
 			height: @workflow-icon-size;
-			line-height: 1.6em;
+			line-height: @workflow-icon-size*0.9;
 			margin-left: @workflow-icon-size/4;
 			padding-left: @workflow-icon-size*0.05;
 			position: absolute;
@@ -32,7 +32,7 @@
 		&:before {
 			content: "\e033";
 			color: @workflow-unavailable-text-color;
-			background-color: #f5f5f5;
+			background-color: @panel-footer-bg;
 			border: none;
 		}
 		&.in-progress {
@@ -52,8 +52,6 @@
 	.no-longer-available {
 		&:before {
 			content: "\e023";
-			font-size: 1em;
-			line-height: 1.5em;
 		}
 	}
 	//successfully,unsuccessfully
@@ -84,12 +82,18 @@
 	//active
 	.active {
 		&:before {
-			margin: @workflow-icon-size/4 0 0 0;
+			margin: 0;
 			width: @workflow-icon-size*1.5;
 			height: @workflow-icon-size*1.5;
+			font-size: @workflow-icon-size*0.75;
+		}
+		&.completed-successfully:before,
+		&.completed-unsuccessfully:before {
+	    	line-height: @workflow-icon-size*1.5;
+			background-color: @brand-primary;
 		}
 		.text {
-			padding-left: @workflow-icon-size*2;
+			padding-left: @workflow-icon-size*1.5;
 			.il-workflow-step-label,
 			.il-workflow-step-label .btn.btn-link {
 				color: @brand-primary;

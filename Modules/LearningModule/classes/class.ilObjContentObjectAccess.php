@@ -50,7 +50,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
 		$this->access = $DIC->access();
 	}
 
-	static $online;
 	static $lo_access;
 	
 	/**
@@ -79,26 +78,8 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
 		switch ($a_cmd)
 		{
-			case "view":
+			case "continue":
 
-				if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					return false;
-				}
-				break;
-				
-			case "continue":				
-				if(!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
-				{
-					if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id))
-					{
-						$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-						return false;
-					}
-				}
-				
 				// continue is now default and works all the time
 				// see ilLMPresentationGUI::resume()
 				/*
@@ -117,31 +98,13 @@ class ilObjContentObjectAccess extends ilObjectAccess
 				
 			// for permission query feature
 			case "info":
-				if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id))
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-				}
-				else
+				if(!ilObject::lookupOfflineStatus($a_obj_id))
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
 				}
 				break;
 
 		}
-
-		switch ($a_permission)
-		{
-			case "read":
-			case "visible":
-				if (!ilObjContentObjectAccess::_lookupOnline($a_obj_id) &&
-					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					return false;
-				}
-				break;
-		}
-
 
 		return true;
 	}
@@ -150,29 +113,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	// access relevant methods
 	//
 
-	/**
-	* check wether learning module is online
-	*
-	* @param	int		$a_id	learning object id
-	*/
-	static function _lookupOnline($a_id)
-	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-
-		if (isset(self::$online[$a_id]))
-		{
-			return self::$online[$a_id];
-		}
-
-		$q = "SELECT is_online FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
-		$lm_set = $ilDB->query($q);
-		$lm_rec = $ilDB->fetchAssoc($lm_set);
-
-		self::$online[$a_id] = ilUtil::yn2tf($lm_rec["is_online"]);
-		return ilUtil::yn2tf($lm_rec["is_online"]);
-	}
 
 	/**
 	* get last accessed page
@@ -275,19 +215,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	}
 	
 	/**
-	 * Type-specific implementation of general status
-	 *
-	 * Used in ListGUI and Learning Progress
-	 *
-	 * @param int $a_obj_id
-	 * @return bool
-	 */
-	static function _isOffline($a_obj_id)
-	{
-		return !self::_lookupOnline($a_obj_id);
-	}
-	
-	/**
 	 * Preload data
 	 *
 	 * @param array $a_obj_ids array of object ids
@@ -298,15 +225,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
 		$ilDB = $DIC->database();
 		$ilUser = $DIC->user();
-		
-		$q = "SELECT id, is_online FROM content_object WHERE ".
-			$ilDB->in("id", $a_obj_ids, false, "integer");
-
-		$lm_set = $ilDB->query($q);
-		while ($rec = $ilDB->fetchAssoc($lm_set))
-		{
-			self::$online[$rec["id"]] = ilUtil::yn2tf($rec["is_online"]);
-		}
 		
 		$q = "SELECT obj_id, lm_id FROM lo_access WHERE ".
 			"usr_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".

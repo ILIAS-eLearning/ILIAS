@@ -207,7 +207,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'NotAvailable':
 				if($this->in_availability)
 				{
-					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_OFFLINE);
+					$this->course_obj->setOfflineStatus(true);
 				}
 				elseif($this->in_registration)
 				{
@@ -220,7 +220,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				if($this->in_availability)
 				{
 					$this->course_obj->setOfflineStatus(false);
-					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 				}
 				elseif($this->in_registration)
 				{
@@ -232,7 +231,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				if($this->in_availability)
 				{
 					$this->course_obj->setOfflineStatus(false);
-					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_LIMITED);
 				}
 				elseif($this->in_registration)
 				{
@@ -666,7 +664,15 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				{
 					$this->course_obj->setSubscriptionMinMembers((int)$this->cdata);
 				}
-				break;						
+				break;
+
+			case 'ViewMode':
+				$this->course_obj->setViewMode((int)$this->cdata);
+				break;
+
+			case 'TimingMode':
+				$this->course_obj->setTimingMode((int)$this->cdata);
+				break;
 		}
 		$this->cdata = '';
 

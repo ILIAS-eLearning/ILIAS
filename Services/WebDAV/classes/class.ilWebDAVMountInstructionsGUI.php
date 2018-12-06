@@ -2,6 +2,15 @@
 
 include_once "Services/WebDAV/classes/class.ilWebDAVMountInstructions.php";
 
+/**
+ * Class ilWebDAVMountInstructionsGUI
+ *
+ * This class represents the GUI for the WebDAV mount instructions page. It uses the ilWebDAVMountInstructions to
+ * generate its content
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ */
 class ilWebDAVMountInstructionsGUI {
     
     /**

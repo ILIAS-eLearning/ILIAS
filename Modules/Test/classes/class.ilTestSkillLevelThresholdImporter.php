@@ -151,7 +151,8 @@ class ilTestSkillLevelThresholdImporter
 	 */
 	public function	import()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$importedLevelThresholdList = new ilTestSkillLevelThresholdList($ilDB);
 		

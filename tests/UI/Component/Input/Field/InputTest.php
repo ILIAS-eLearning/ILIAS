@@ -86,7 +86,7 @@ class InputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
 		$this->data_factory = new DataFactory();
 		$this->transformation_factory = new TransformationFactory();
-		$this->validation_factory = new ValidationFactory($this->data_factory);
+		$this->validation_factory = new ValidationFactory($this->data_factory, $this->createMock(\ilLanguage::class));
 		$this->input = new DefInput($this->data_factory, $this->validation_factory, $this->transformation_factory, "label", "byline");
 		$this->name_source = new DefNamesource();
 	}
@@ -120,6 +120,15 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertTrue($input->isRequired());
 		$input = $input->withRequired(false);
 		$this->assertFalse($input->isRequired());
+	}
+
+
+	public function test_withDisabled() {
+		$this->assertFalse($this->input->isDisabled());
+		$input = $this->input->withDisabled(true);
+		$this->assertTrue($input->isDisabled());
+		$input = $input->withDisabled(false);
+		$this->assertFalse($input->isDisabled());
 	}
 
 
@@ -166,7 +175,9 @@ class InputTest extends ILIAS_UI_TestBase {
 
 
 	public function test_getContent() {
-		$this->assertEquals(null, $this->input->getContent());
+		$this->expectException(\LogicException::class);
+
+		$this->input->getContent();
 	}
 
 

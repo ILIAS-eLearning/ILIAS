@@ -8,6 +8,9 @@ require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class TextInputTest extends ILIAS_UI_TestBase {
 
@@ -17,7 +20,13 @@ class TextInputTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
@@ -118,6 +127,22 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($expected, $html);
 	}
 
+	public function test_render_disabled() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$text = $f->text($label)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $this->normalizeHTML($r->render($text));
+
+		$expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+					. "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />" . "		"
+					. "		" . "	</div>" . "</div>";
+
+		$this->assertEquals($expected, $html);
+	}
+
 
 	public function test_value_required() {
 		$f = $this->buildFactory();
@@ -133,5 +158,16 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$text2 = $text->withInput(new DefPostData([$name => ""]));
 		$value2 = $text2->getContent();
 		$this->assertTrue($value2->isError());
+	}
+
+	public function test_stripsTags() {
+		$f = $this->buildFactory();
+		$name = "name_0";
+		$text = $f->text("")
+			->withNameFrom($this->name_source)
+			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+
+		$content = $text->getContent();
+		$this->assertEquals("alert()", $content->value());
 	}
 }

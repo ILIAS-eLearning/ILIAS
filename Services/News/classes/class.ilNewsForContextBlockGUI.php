@@ -18,6 +18,11 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 class ilNewsForContextBlockGUI extends ilBlockGUI
 {
 	/**
+	 * object type names with settings->news settings subtab
+	 */
+	const OBJECTS_WITH_NEWS_SUBTAB = ["category", "course", "group", "forum"];
+
+	/**
 	 * @var ilHelpGUI
 	 */
 	protected $help;
@@ -348,7 +353,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 			$ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
 
-			if (in_array($obj_class, ["category", "course", "group"]))
+			if (in_array($obj_class, ilNewsForContextBlockGUI::OBJECTS_WITH_NEWS_SUBTAB))
 			{
 				$this->addBlockCommand(
 					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"), "show"),

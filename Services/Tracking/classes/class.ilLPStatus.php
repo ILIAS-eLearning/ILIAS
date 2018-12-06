@@ -937,15 +937,22 @@ class ilLPStatus
 			{			
 				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
 				$text = ilLearningProgressBaseGUI::_getStatusText($status);
-				$res[$obj_id] = ilUtil::img($path, $text);			
+				$res[$obj_id] = [
+					"image" => ilUtil::img($path, $text),
+					"status" => $status
+					];
 			}
 		}
 		
 		self::$list_gui_cache = $res;		
 	}
 	
-	public static function getListGUIStatus($a_obj_id)
+	public static function getListGUIStatus($a_obj_id, $a_image_only = true)
 	{
+		if ($a_image_only)
+		{
+			return self::$list_gui_cache[$a_obj_id]["image"];
+		}
 		return self::$list_gui_cache[$a_obj_id];
 	}
 }	

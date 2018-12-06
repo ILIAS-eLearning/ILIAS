@@ -738,7 +738,8 @@ abstract class ilAssQuestionFeedback
 	 */
 	final protected function getPageObjectContent($pageObjectType, $pageObjectId)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$cl = $this->getClassNameByType($pageObjectType, true);
 		require_once 'Modules/TestQuestionPool/classes/feedback/class.'.$cl.'.php';

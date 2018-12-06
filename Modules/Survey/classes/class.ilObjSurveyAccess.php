@@ -142,13 +142,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		
 		$is_admin = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);		
 		
-		// check "global" online switch
-		if(!self::_lookupOnline($a_obj_id) && !$is_admin)
-		{
-			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-			return false;
-		}
-
 		switch ($a_permission)
 		{
 			case "visible":			
@@ -165,8 +158,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		switch ($a_cmd)
 		{
 			case "run":
-				if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)
-					|| !(ilObjSurveyAccess::_lookupOnline($a_obj_id) == 1))
+				if(!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
 					return false;
@@ -389,25 +381,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		}
 	}
 
-	/**
-	* get status
-	*/
-	static function _lookupOnline($a_obj_id)
-	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-
-		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi=%s",
-			array('integer'),
-			array($a_obj_id)
-		);
-		if ($result->numRows() == 1) {
-			$row = $ilDB->fetchAssoc($result);
-		}
-
-		return $row["status"];
-	}
 
 	/**
 	* get finished status

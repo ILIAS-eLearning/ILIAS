@@ -5,7 +5,8 @@ require_once('Services/ActiveRecord/Connector/class.arConnectorSession.php');
 /**
  * Represents a lock on an ilias object. Objects from this class are immutable!
  * 
- * @author faheer
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
  *
  */
 class ilWebDAVLockObject
@@ -125,13 +126,10 @@ class ilWebDAVLockObject
      * 
      * @param Sabre\DAV\Locks\LockInfo $lock_info
      */
-    public static function createFromSabreLock(Sabre\DAV\Locks\LockInfo $lock_info)
+    public static function createFromSabreLock(Sabre\DAV\Locks\LockInfo $lock_info, $obj_id)
     {
         global $DIC;
-        
-        $ref_id = ilWebDAVTree::getRefIdForWebDAVPath($lock_info->uri);
-        $obj_id = ilObject::_lookupObjectId($ref_id);
-        
+
         $ilias_lock = new ilWebDAVLockObject(
             $lock_info->token,                  // token
             $obj_id,                            // obj_id

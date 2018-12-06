@@ -316,7 +316,10 @@ abstract class ilCertificateAdapter
 		if($a_completion_date)
 		{
 			$vars["DATE_COMPLETED"] = ilDatePresentation::formatDate(new ilDate($a_completion_date, IL_CAL_DATETIME));
-			$vars["DATETIME_COMPLETED"] = ilDatePresentation::formatDate(new ilDateTime($a_completion_date, IL_CAL_DATETIME));
+
+			$dateTime = new ilDateTime($a_completion_date, IL_CAL_DATETIME);
+			$vars["DATETIME_COMPLETED"] = ilDatePresentation::formatDate($dateTime);
+			$vars["DATETIME_COMPLETED_UNIX"] = $dateTime->get(IL_CAL_UNIX);
 		}
 		
 		ilDatePresentation::setUseRelativeDates($old);

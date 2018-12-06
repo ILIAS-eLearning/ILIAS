@@ -1,18 +1,36 @@
 <?php
 
 /**
- * Class ilWebDAVObjectDAVFactory
+ * Class ilWebDAVObjDAVHelper
+ *
+ * This class is a helper class for WebDAV functionalities that are used from ilObj*DAV Objects. With this class, the
+ * behavior of the objects itself are unit testable.
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
  */
 class ilWebDAVObjDAVHelper
 {
     /** @var ilWebDAVRepositoryHelper */
     protected $repo_helper;
 
+    /**
+     * ilWebDAVObjDAVHelper constructor.
+     *
+     * @param ilWebDAVRepositoryHelper $repo_helper
+     */
     public function __construct(ilWebDAVRepositoryHelper $repo_helper)
     {
         $this->repo_helper = $repo_helper;
     }
 
+    /**
+     * Check if given object (either obj_id or ref_id) is compatible to be represented as a WebDAV object
+     *
+     * @param $id
+     * @param bool $is_reference
+     * @return bool
+     */
     public function isDAVableObject($id, $is_reference = true)
     {
         $ref_id = $is_reference ? $id : $this->repo_helper->getRefIdFromObjId($id);
@@ -25,6 +43,8 @@ class ilWebDAVObjDAVHelper
     }
 
     /**
+     * Check if the given object type is compatible to be represented as a WebDAV object
+     *
      * @param $type
      * @return bool
      */
@@ -45,6 +65,7 @@ class ilWebDAVObjDAVHelper
     }
 
     /**
+     * Check if title is displayable in WebDAV
      * @param $title
      * @return bool
      */
@@ -55,6 +76,8 @@ class ilWebDAVObjDAVHelper
     }
 
     /**
+     * Check for forbidden chars in title that are making trouble if displayed in WebDAV
+     *
      * @param $title
      * @return bool
      */
@@ -72,8 +95,9 @@ class ilWebDAVObjDAVHelper
     }
 
     /**
-     * Forbidden are titles that begin with a dot. There are also forbidden extensions like '.$' or '..'. But since
+     * Forbidden are titles that begin with a single dot. There are also forbidden prefixes like '.$' or '..'. But since
      * they both start with a single dot, we can aim only for that.
+     *
      * @param $title
      * @return bool
      */

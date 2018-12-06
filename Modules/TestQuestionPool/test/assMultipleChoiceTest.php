@@ -78,7 +78,8 @@ class assMultipleChoiceTest extends PHPUnit_Framework_TestCase
 	 */
 /*	public function t_e_stCreation()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
 		$insert_id = self::createSampleQuestion(null);

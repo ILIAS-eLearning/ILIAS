@@ -499,7 +499,7 @@ class ilAdvancedMDRecordGUI
 			}
 		}
 
-		ksort($array_elements);
+		// already sorted by record positions
 		return $array_elements;
 	}
 

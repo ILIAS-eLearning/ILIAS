@@ -25,7 +25,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$this->type = "assf";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -44,7 +45,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		 * @var $rbacsystem ilRbacSystem
 		 * @var $ilTabs     ilTabsGUI
 		 */
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -99,7 +102,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function saveObject()
 	{
-		global $rbacadmin;
+		global $DIC;
+		$rbacadmin = $DIC['rbacadmin'];
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
@@ -118,7 +122,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function settingsObject(ilPropertyFormGUI $form = null)
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
                 
 		$ilTabs->setTabActive('settings');
 
@@ -135,7 +140,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -269,7 +275,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function saveSettingsObject()
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) $this->ctrl->redirect($this,'settings');
 	
 		$form = $this->buildSettingsForm();
@@ -468,7 +475,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		/**
 		 * @var $ilTabs ilTabsGUI
 		 */
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->activateTab('logs');
 
@@ -574,7 +582,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function logAdminObject()
 	{
-		global $ilAccess, $ilTabs;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilTabs = $DIC['ilTabs'];
 
                 $ilTabs->activateTab('logs');
 
@@ -608,7 +618,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 	public function getLogdataSubtabs()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		// log settings
 		$ilTabs->addSubTabTarget("settings",
@@ -637,7 +648,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function getTabs()
 	{
-		global $rbacsystem, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$lng = $DIC['lng'];
 
 		switch ($this->ctrl->getCmd())
 		{
@@ -706,7 +719,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
@@ -734,7 +748,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -767,7 +782,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 	private function forwardToSettingsTemplateGUI()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->setTabActive('templates');
 
@@ -782,7 +798,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	 */
 	public static function getSettingsTemplateConfig()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		require_once 'Modules/Test/classes/class.ilTestSettingsTemplateConfig.php';
 		$config = new ilTestSettingsTemplateConfig($lng);

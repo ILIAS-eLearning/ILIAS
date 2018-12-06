@@ -27,7 +27,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
- * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilScoringAdjustmentGUI, ilTestExportGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
  * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ilTestScoringByQuestionsGUI
@@ -41,6 +41,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
@@ -56,7 +57,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	/** @var ilObjTest $object */
 	public $object = null;
-
+	
 	/** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
 	private $testQuestionSetConfigFactory = null;
 	
@@ -90,7 +91,12 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	public function __construct()
 	{
-		global $lng, $ilCtrl, $ilDB, $ilPluginAdmin, $tree;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$tree = $DIC['tree'];
 		$lng->loadLanguageModule("assessment");
 		$this->type = "tst";
 		$this->ctrl = $ilCtrl;
@@ -133,7 +139,18 @@ class ilObjTestGUI extends ilObjectGUI
 	function executeCommand()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin, $ilDB, $tree, $ilias, $ilUser;
+		$ilAccess = $DIC['ilAccess'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilErr = $DIC['ilErr'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$ilDB = $DIC['ilDB'];
+		$tree = $DIC['tree'];
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
 
 		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])))
 		{
@@ -146,7 +163,7 @@ class ilObjTestGUI extends ilObjectGUI
 			'resumePlayer', 'resumePlayer', 'outUserResultsOverview', 'outUserListOfAnswerPasses'
 		);
 
-		if(!$this->getCreationMode() && !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus))
+		if(!$this->getCreationMode() && $this->object->getOfflineStatus() && in_array($cmd, $cmdsDisabledDueToOfflineStatus))
 		{
 			$cmd = 'infoScreen';
 		}
@@ -331,9 +348,10 @@ class ilObjTestGUI extends ilObjectGUI
 			case "ilcertificategui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				require_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				require_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
+
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
+
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -539,7 +557,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$page_gui->setPresentationTitle($question->getTitle() . ' ['. $this->lng->txt('question_id_short') . ': ' . $question->getId()  . ']');
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 
-				global $ilTabs;
+				global $DIC;
+				$ilTabs = $DIC['ilTabs'];
 				$ilTabs->activateTab('assQuestions');
 
 				$this->tpl->setContent($ret);
@@ -650,10 +669,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 				break;
 
-			case 'ilscoringadjustmentgui':
+			case 'iltestcorrectionsgui':
 				$this->prepareOutput();
-				require_once './Modules/Test/classes/class.ilScoringAdjustmentGUI.php';
-				$gui = new ilScoringAdjustmentGUI($this->object);
+				require_once './Modules/Test/classes/class.ilTestCorrectionsGUI.php';
+				$gui = new ilTestCorrectionsGUI($DIC, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
@@ -839,7 +858,8 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	private function prepareSubGuiOutput()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$this->tpl->getStandardTemplate();
 
@@ -1340,7 +1360,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function createQuestionPool($name = "dummy", $description = "")
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$parent_ref = $tree->getParentId($this->object->getRefId());
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$qpl = new ilObjQuestionPool();
@@ -1361,7 +1382,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	public function randomselectObject()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->getTabsManager()->getQuestionsSubTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE);
@@ -1597,13 +1619,17 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function createQuestionObject()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->getTabsManager()->getQuestionsSubTabs();
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
 		
 		if ($this->object->getPoolUsage()) {
-		    global $lng, $ilCtrl, $tpl;
+		    global $DIC;
+		    $lng = $DIC['lng'];
+		    $ilCtrl = $DIC['ilCtrl'];
+		    $tpl = $DIC['tpl'];
 
 		    include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
@@ -1679,7 +1705,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		}
 		else {
-		    global $ilCtrl;
+		    global $DIC;
+		    $ilCtrl = $DIC['ilCtrl'];
 
 		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'sel_question_types', $_REQUEST["sel_question_types"]);
 		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'add_quest_cont_edit_mode', $_REQUEST["add_quest_cont_edit_mode"]);
@@ -1966,7 +1993,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 	public function addQuestionObject()
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
@@ -1979,7 +2009,7 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 		$pool = new ilObjQuestionPool();
-		$questionTypes = $pool->getQuestionTypes(false, true);
+		$questionTypes = $pool->getQuestionTypes(false, true, false);
 		$options = array();
 
 		// question type
@@ -2074,7 +2104,8 @@ class ilObjTestGUI extends ilObjectGUI
 	function questionsObject()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		global $ilAccess, $ilTabs;
+		$ilAccess = $DIC['ilAccess'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->activateTab('assQuestions');
 		
@@ -2153,7 +2184,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$DIC->ui()->mainTemplate()->parseCurrentBlock();
 			}
 			else {
-				global $ilToolbar;
+				global $DIC;
+				$ilToolbar = $DIC['ilToolbar'];
 
 				$ilToolbar->addButton($this->lng->txt("ass_create_question"), $this->ctrl->getLinkTarget($this, "addQuestion"));
 				
@@ -2170,7 +2202,11 @@ class ilObjTestGUI extends ilObjectGUI
 				$ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 
 
-				global $ilAccess, $ilUser, $lng, $ilCtrl;
+				global $DIC;
+				$ilAccess = $DIC['ilAccess'];
+				$ilUser = $DIC['ilUser'];
+				$lng = $DIC['lng'];
+				$ilCtrl = $DIC['ilCtrl'];
 				$online_access = false;
 				if ($this->object->getFixedParticipants())
 				{
@@ -2182,7 +2218,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 
-				if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
+				if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 				{
 					if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 					{
@@ -2228,14 +2264,30 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
+		$table_gui = new ilTestQuestionsTableGUI(
+			$this, 'questions', $this->object->getRefId()
+		);
+		
+		$table_gui->setPositionInsertCommandsEnabled(
+			is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()])
+			&& count($_SESSION['tst_qst_move_' . $this->object->getTestId()])
+		);
+		
+		$table_gui->setQuestionTitleLinksEnabled( !$total );
+		$table_gui->setQuestionPositioningEnabled( !$total );
+		$table_gui->setQuestionManagingEnabled( !$total );
+		$table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());
+
+		$table_gui->setTotalPoints($this->object->getFixedQuestionSetTotalPoints());
+		$table_gui->setTotalWorkingTime($this->object->getFixedQuestionSetTotalWorkingTime());
+		
+		$table_gui->init();
+		
+		$table_gui->setData($this->object->getTestQuestions());
+		
 		$this->tpl->setCurrentBlock("adm_content");
-		include_once "./Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php";
-		$checked_move = is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()]) && (count($_SESSION['tst_qst_move_' . $this->object->getTestId()]));
-		$table_gui = new ilTestQuestionsTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move, $total);
-		$data = $this->object->getTestQuestions();
-		$table_gui->setData($data);
-		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -2352,7 +2404,9 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function printobject() 
 	{
-		global $ilAccess, $ilias;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilias = $DIC['ilias'];
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
@@ -2387,7 +2441,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		
-		global $ilUser;		
+		global $DIC;		
+		$ilUser = $DIC['ilUser'];
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 		$max_points= 0;
 		$counter = 1;
@@ -2453,7 +2508,9 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	function reviewobject()
 	{
-		global $ilAccess, $ilias;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilias = $DIC['ilias'];
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			// allow only write access
@@ -2467,7 +2524,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$isPdfDeliveryRequest = isset($_GET['pdf']) && $_GET['pdf'];
 
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 		$max_points= 0;
 		$counter = 1;
@@ -2545,7 +2603,10 @@ class ilObjTestGUI extends ilObjectGUI
 		 * @var $ilToolbar ilToolbarGUI
 		 * @var $tpl       ilTemplage
 		 */
-		global $ilAccess, $ilToolbar, $tpl;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$tpl = $DIC['tpl'];
 
 		if(!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
@@ -2675,9 +2736,9 @@ class ilObjTestGUI extends ilObjectGUI
 				return;
 		}
 
-		if( $questionSetTypeSettingSwitched && $this->object->isOnline() )
+		if( $questionSetTypeSettingSwitched && !$this->getOfflineStatus() )
 		{
-			$this->object->setOnline(false);
+			$this->object->setOfflineStatus(true);
 
 			$info = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
 
@@ -2754,11 +2815,15 @@ class ilObjTestGUI extends ilObjectGUI
 		 * @var $ilUser    ilObjUser
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $ilAccess, $ilUser, $ilToolbar;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
+		$ilToolbar = $DIC['ilToolbar'];
 		
 		if ($_GET['createRandomSolutions'])
 		{
-			global $ilCtrl;
+			global $DIC;
+			$ilCtrl = $DIC['ilCtrl'];
 			
 			$this->object->createRandomSolutions($_GET['createRandomSolutions']);
 			
@@ -2818,8 +2883,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 			$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		}
-		if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
+		if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 		{
+			// note smeyer: $online_access is not defined here
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				if ($this->object->getShowInfo() || !$this->object->getForceJS())
@@ -2951,7 +3017,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 		switch ($this->ctrl->getCmd())
 		{
 			case "run":
@@ -3014,9 +3081,9 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
-		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-		$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
+		$guiFactory = new ilCertificateGUIFactory();
+		$output_gui = $guiFactory->create($this->object);
+
 		$output_gui->certificateEditor();
 	}
 	
@@ -3027,7 +3094,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		$help = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilHelp'] : $GLOBALS['ilHelp'];
+		global $DIC;
+		$help = $DIC['ilHelp'];
 		$help->setScreenIdComponent("tst");
 		
 		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
@@ -3059,7 +3127,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 		
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -3092,7 +3163,10 @@ class ilObjTestGUI extends ilObjectGUI
 		if($this->create_question_mode)
 			return;
 
-		global $ilToolbar, $ilCtrl, $lng;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
@@ -3253,7 +3327,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$ilToolbar->addButton($lng->txt("test_move_page"), $ilCtrl->getLinkTarget($this, "movePageForm"));
 		}
 
-		global $ilAccess, $ilUser;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilUser = $DIC['ilUser'];
 		
 		$online_access = false;
 		if($this->object->getFixedParticipants())
@@ -3266,7 +3342,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if($this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ))
+		if(!$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ))
 		{
 			if((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
@@ -3340,7 +3416,8 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	public function copyAndLinkQuestionsToPoolObject()
 	{
-		global $ilObjDataCache;
+		global $DIC;
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$qplId = $ilObjDataCache->lookupObjId($_REQUEST['sel_qpl']);
 		$result = $this->copyQuestionsToPool($_REQUEST['q_id'], $qplId);
@@ -3364,7 +3441,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 	private function getQuestionpoolCreationForm()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 
@@ -3397,7 +3475,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 	public function copyAndLinkToQuestionpoolObject()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 		
@@ -3474,7 +3553,9 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function createQuestionpoolTargetObject($cmd)
 	{
-		global $ilUser, $ilTabs;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilTabs = $DIC['ilTabs'];
 		$this->getTabsManager()->getQuestionsSubTabs();
 		$ilTabs->activateSubTab('edit_test_questions');
 
@@ -3697,7 +3778,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 	public function saveOrderAndObligationsObject()
 	{
-	    global $ilAccess;
+	    global $DIC;
+	    $ilAccess = $DIC['ilAccess'];
 	    if (!$ilAccess->checkAccess("write", "", $this->ref_id))
 	    {
 		    // allow only write access
@@ -3705,7 +3787,8 @@ class ilObjTestGUI extends ilObjectGUI
 		    $this->ctrl->redirect($this, "infoScreen");
 	    }
 
-	    global $ilCtrl;
+	    global $DIC;
+	    $ilCtrl = $DIC['ilCtrl'];
 		
 		$orders = $obligations = array();
 		
@@ -3742,7 +3825,10 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	protected function movePageFormObject()
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -3784,7 +3870,8 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	public function movePageObject() {
-	    global $ilAccess;
+	    global $DIC;
+	    $ilAccess = $DIC['ilAccess'];
 	    if (!$ilAccess->checkAccess("write", "", $this->ref_id))
 	    {
 		    // allow only write access
@@ -3797,14 +3884,16 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	public function showPageObject() {
-	    global $ilCtrl;
+	    global $DIC;
+	    $ilCtrl = $DIC['ilCtrl'];
 
 	    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $_REQUEST['q_id']);
 	    $ilCtrl->redirectByClass('iltestexpresspageobjectgui', 'showPage');
 	}
 
 	public function copyQuestionObject() {
-	    global $ilAccess;
+	    global $DIC;
+	    $ilAccess = $DIC['ilAccess'];
 	    if (!$ilAccess->checkAccess("write", "", $this->ref_id))
 	    {
 		    // allow only write access

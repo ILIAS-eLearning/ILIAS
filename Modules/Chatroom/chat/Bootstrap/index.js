@@ -20,8 +20,8 @@ var Bootstrap = function Bootstrap() {
 		}
 
 		async.auto({
-			readCommandArguments: [ ReadCommandArguments ],
-			setupExpressApi: [ SetupExpressApi ],
+			readCommandArguments: ReadCommandArguments,
+			setupExpressApi: SetupExpressApi,
 			readServerConfig: [ 'readCommandArguments', ReadServerConfig ],
 			readClientConfigs: [ 'readCommandArguments', ReadClientConfigs ],
 			setupEnvironment: [ 'readCommandArguments', 'readServerConfig', SetupEnvironment ],

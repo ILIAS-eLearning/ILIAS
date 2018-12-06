@@ -50,6 +50,16 @@ class ilPCSectionGUI extends ilPageContentGUI
 			"Example" => $lng->txt("cont_Example"),
 			"Additional" => $lng->txt("cont_Additional"),
 			"Special" => $lng->txt("cont_Special"),
+
+			"Attention" => $lng->txt("cont_Attention"),
+			"Confirmation" => $lng->txt("cont_Confirmation"),
+			"Information" => $lng->txt("cont_Information"),
+			"Interaction" => $lng->txt("cont_Interaction"),
+			"Link" => $lng->txt("cont_Link"),
+			"Literature" => $lng->txt("cont_Literature"),
+			"Separator" => $lng->txt("cont_Separator"),
+			"StandardCenter" => $lng->txt("cont_StandardCenter"),
+
 			"Excursus" => $lng->txt("cont_Excursus"),
 			"AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
 	}

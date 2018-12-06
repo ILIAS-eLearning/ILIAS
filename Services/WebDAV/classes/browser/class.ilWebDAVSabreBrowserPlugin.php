@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Class ilWebDAVSabreBrowserPlugin
+ *
  * The only purpose for this class is to redirect a browsers WebDAV-Request to the mount-instructions page
  */
 class ilWebDAVSabreBrowserPlugin extends Sabre\DAV\Browser\Plugin

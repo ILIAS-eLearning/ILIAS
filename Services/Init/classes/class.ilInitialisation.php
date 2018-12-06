@@ -332,12 +332,11 @@ class ilInitialisation
 			$path = dirname($rq_uri);
 
 			// dirname cuts the last directory from a directory path e.g content/classes return content
-
 			$module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
 
 			$dirs = explode('/',$module);
 			$uri = $path;
-			if (count($dirs) > 0)
+			foreach($dirs as $dir)
 			{
 				$uri = dirname($uri);
 			}
@@ -1097,6 +1096,7 @@ class ilInitialisation
 
 			self::initInjector($GLOBALS['DIC']);
 			self::initBackgroundTasks($GLOBALS['DIC']);
+			self::initKioskMode($GLOBALS['DIC']);
 
 			if(ilContext::hasHTML())
 			{													
@@ -1549,10 +1549,25 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
 		};
 		$c["ui.factory.input.field"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Field\Factory($c["ui.signal_generator"]);
+			$data_factory = new ILIAS\Data\Factory();
+			$validation_factory = new ILIAS\Validation\Factory($data_factory, $c["lng"]);
+			$transformation_factory = new ILIAS\Transformation\Factory();
+			return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+				$c["ui.signal_generator"],
+				$data_factory,
+				$validation_factory,
+				$transformation_factory
+			);
 		};
 		$c["ui.factory.input.container"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Container\Factory();
+			return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
+				$c["ui.factory.input.container.form"]
+			);
+		};
+		$c["ui.factory.input.container.form"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
+				$c["ui.factory.input.field"]
+			);
 		};
 		$c["ui.factory.panel.listing"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
@@ -1693,6 +1708,8 @@ class ilInitialisation
 			{
 				$_GET['offset'] = (int) $_GET['offset'];		// old code
 			}
+
+			self::initKioskMode($GLOBALS["DIC"]);
 		}
 		else
 		{
@@ -2020,6 +2037,17 @@ class ilInitialisation
 
 		$c["di.injector"] = function ($c) {
 			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
+		};
+	}
+
+	private static function initKioskMode(\ILIAS\DI\Container $c) {
+		$c["service.kiosk_mode"] = function ($c) {
+			return new ilKioskModeService(
+				$c['ilCtrl'],
+				$c['lng'],
+				$c['ilAccess'],
+				$c['objDefinition']
+			);
 		};
 	}
 }

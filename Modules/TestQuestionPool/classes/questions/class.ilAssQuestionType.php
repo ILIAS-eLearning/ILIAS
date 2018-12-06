@@ -39,7 +39,8 @@ class ilAssQuestionType
 	 */
 	public function __construct()
 	{
-		$this->pluginAdmin = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilPluginAdmin'] : $GLOBALS['ilPluginAdmin'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->pluginAdmin = $DIC['ilPluginAdmin'];
 	}
 	
 	/**

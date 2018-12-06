@@ -7,21 +7,21 @@ use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class Not extends Custom implements Constraint {
-	const ERROR_MESSAGE_PREFIX = "It is not the case that:";
-
 	/**
 	 * @var Constraint
 	 */
 	protected $constraint;
 
-	public function __construct(Constraint $constraint, Data\Factory $data_factory) {
+	public function __construct(Constraint $constraint, Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->constraint = $constraint;
 		parent::__construct( function ($value) {
 				return !$this->constraint->accepts($value);
 			}, 
-			function ($value) {
-				return self::ERROR_MESSAGE_PREFIX.": ".$this->constraint->getErrorMessage($value);
+			function ($txt, $value) {
+				return $txt("not_generic", $this->constraint->getErrorMessage($value));
 			},
-			$data_factory);
+			$data_factory,
+			$lng
+		);
 	}
 }

@@ -17,13 +17,15 @@ foreach ($_POST as $key => $value)
 $res = ilSoapFunctions::saveQuestion($_POST["session_id"]."::".$_POST["client"],$_POST["active_id"], $_POST["question_id"], $_POST["pass"], $results);
 if ($res === true)
 {
-	global $lng;
+	global $DIC;
+	$lng = $DIC['lng'];
 	$lng->loadLanguageModule("assessment");
 	echo $lng->txt("result_successful_saved");
 }	
 else
 {
-	global $lng;
+	global $DIC;
+	$lng = $DIC['lng'];
 	$lng->loadLanguageModule("assessment");
 	echo $lng->txt("result_unsuccessful_saved");
 }

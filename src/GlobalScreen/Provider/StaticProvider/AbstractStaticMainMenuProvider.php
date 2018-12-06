@@ -1,6 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Provider\StaticProvider;
 
+use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
+use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 
@@ -11,6 +15,10 @@ use ILIAS\GlobalScreen\Provider\AbstractProvider;
  */
 abstract class AbstractStaticMainMenuProvider extends AbstractProvider implements StaticMainMenuProvider {
 
+	/**
+	 * @var Container
+	 */
+	protected $dic;
 	/**
 	 * @var IdentificationProviderInterface
 	 */
@@ -24,8 +32,8 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	/**
 	 * @inheritDoc
 	 */
-	public function inject(\ILIAS\GlobalScreen\Services $services) {
-		parent::inject($services);
+	public function __construct(Container $dic) {
+		parent::__construct($dic);
 		$this->mainmenu = $this->globalScreen()->mainmenu();
 		$this->if = $this->globalScreen()->identification()->core($this);
 	}
@@ -36,13 +44,36 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	 */
 	public function getAllIdentifications(): array {
 		$ids = [];
-		foreach ($this->getStaticSlates() as $slate) {
+		foreach ($this->getStaticTopItems() as $slate) {
 			$ids[] = $slate->getProviderIdentification();
 		}
-		foreach ($this->getStaticEntries() as $entry) {
+		foreach ($this->getStaticSubItems() as $entry) {
 			$ids[] = $entry->getProviderIdentification();
 		}
 
 		return $ids;
+	}
+
+
+	/**
+	 * @return string
+	 * @throws \ReflectionException
+	 */
+	public function getProviderNameForPresentation(): string {
+		$reflector = new \ReflectionClass($this);
+
+		$re = '/.*\/(?P<provider>(Services|Modules)\/.*)\/classes/m';
+
+		preg_match($re, $reflector->getFileName(), $matches);
+
+		return $matches[1];
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function provideTypeInformation(): TypeInformationCollection {
+		return new TypeInformationCollection();
 	}
 }

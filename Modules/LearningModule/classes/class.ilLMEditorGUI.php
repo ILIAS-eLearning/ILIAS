@@ -1,24 +1,17 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once ("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
-include_once ("./Services/Utilities/classes/class.ilDOMUtil.php");
-include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
-include_once ("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-include_once ("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
-* GUI class for learning module editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilLMEditorGUI: ilObjLearningModuleGUI
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * GUI class for learning module editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilLMEditorGUI: ilObjLearningModuleGUI
+ *
+ * @ingroup ModulesIliasLearningModule
+ */
 class ilLMEditorGUI
 {
 	/**
@@ -46,14 +39,40 @@ class ilLMEditorGUI
 	 */
 	protected $help;
 
-	var $tpl;
-	var $lng;
-	var $objDefinition;
-	var $ref_id;
-	var $lm_obj;
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
 
-	var $tree;
-	var $obj_id;
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $objDefinition;
+
+	/**
+	 * @var int
+	 */
+	protected $ref_id;
+
+	/**
+	 * @var ilObjLearningModule
+	 */
+	protected $lm_obj;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var int
+	 */
+	protected $obj_id;
 
 	/**
 	* Constructor
@@ -84,10 +103,8 @@ class ilLMEditorGUI
 			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
-
 		$this->ctrl = $ilCtrl;
 
-		//$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 		$this->ctrl->saveParameter($this, array("ref_id", "transl"));
 
 		// initiate variables
@@ -104,30 +121,28 @@ class ilLMEditorGUI
 		
 		$ilNavigationHistory->addItem($_GET["ref_id"],
 			"ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"], "lm");
-
 	}
 
 	/**
-	* execute command
-	*/
+	 * execute command
+	 */
 	function executeCommand()
 	{
+		global $DIC;
 
-		$ilHelp = $this->help;
-		
+		/** @var ilLocatorGUI $loc */
+		$loc = $DIC["ilLocator"];
+		$loc->addRepositoryItems((int) $_GET["ref_id"]);
+
 		if ($_GET["to_page"]== 1)
 		{
 			$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $_GET["obj_id"]);
 			$this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
 		}
 		
-		if ($cmd != "showTree")
-		{
-			$this->showTree();
-		}
+		$this->showTree();
 
 		$next_class = $this->ctrl->getNextClass($this);
-//echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":$cmd:<br>";
 
 		if ($next_class == "" && ($cmd != "explorer")
 			&& ($cmd != "showImageMap"))
@@ -140,7 +155,6 @@ class ilLMEditorGUI
 			? false
 			: true;
 			
-// if ($this->lm_obj->getType()
 		switch($next_class)
 		{
 			case "ilobjlearningmodulegui":
@@ -148,7 +162,7 @@ class ilLMEditorGUI
 				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php");
 				$this->main_header($this->lm_obj->getType());
 				$lm_gui = new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
-				//$ret =& $lm_gui->executeCommand();
+
 				$ret = $this->ctrl->forwardCommand($lm_gui);
 				if (strcmp($cmd, "explorer") != 0)
 				{
@@ -157,11 +171,9 @@ class ilLMEditorGUI
 					// Helmut Schottmüller, 2006-07-21
 					$this->displayLocator();
 				}
-//echo "*".$this->tpl->get()."*";
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-//				$this->tpl->fillTabs();
 				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
@@ -177,9 +189,6 @@ class ilLMEditorGUI
 
 	/**
 	 * Show tree
-	 *
-	 * @param
-	 * @return
 	 */
 	function showTree()
 	{
@@ -194,12 +203,10 @@ class ilLMEditorGUI
 	}
 	
 	/**
-	* output main header (title and locator)
-	*/
-	function main_header($a_type)
+	 * output main header (title and locator)
+	 */
+	function main_header()
 	{
-		$lng = $this->lng;
-
 		$this->tpl->getStandardTemplate();
 
 		// content style
@@ -218,59 +225,11 @@ class ilLMEditorGUI
 
 
 	/**
-	* display locator
-	*/
+	 * Display locator
+	 */
 	function displayLocator()
 	{
-		$lng = $this->lng;
-
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
-
-		$modifier = 1;
-
-		$locations = $this->ctrl->getLocations();
-
-		foreach ($locations as $key => $row)
-		{
-			if ($key < count($locations)-$modifier)
-			{
-				$this->tpl->touchBlock("locator_separator");
-			}
-
-			if ($row["ref_id"]> 0 && $row["ref_id"] != ROOT_FOLDER_ID)
-			{
-				$oid = ilObject::_lookupObjId($row["ref_id"]);
-				$t = ilObject::_lookupType($oid);
-				$this->tpl->setCurrentBlock("locator_img");
-				$this->tpl->setVariable("IMG_SRC",
-					ilUtil::getImagePath("icon_".$t.".svg"));
-				$this->tpl->setVariable("IMG_ALT",
-					$lng->txt("obj_".$type));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			if ($row["link"] != "")
-			{
-				$this->tpl->setCurrentBlock("locator_item");
-				$this->tpl->setVariable("ITEM", $row["title"]);
-				$this->tpl->setVariable("LINK_ITEM", $row["link"]);
-				if ($row["target"] != "")
-				{
-					$this->tpl->setVariable("LINK_TARGET", ' target="'.$row["target"].'" ');
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("locator_item");
-				$this->tpl->setVariable("PREFIX", $row["title"]);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		$this->tpl->setCurrentBlock("locator");
-		$this->tpl->parseCurrentBlock();
-
+		$this->tpl->setLocator();
 	}
 
 }

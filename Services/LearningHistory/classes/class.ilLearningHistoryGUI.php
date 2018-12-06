@@ -10,6 +10,10 @@
  */
 class ilLearningHistoryGUI
 {
+	const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
+	const TAB_ID_MY_CERTIFICATES = 'certificates';
+	const MAX = 50;
+
 	/**
 	 * @var ilCtrl
 	 */
@@ -30,6 +34,18 @@ class ilLearningHistoryGUI
 	 */
 	protected $ui;
 
+	/** @var ilSetting */
+	protected $certificateSettings;
+
+	/** @var ilTabsGUI */
+	protected $tabs;
+
+	/** @var bool */
+	protected $show_more = false;
+
+	/** @var int */
+	protected $last_ts = 0;
+
 	/**
 	 * Constructor
 	 */
@@ -44,10 +60,20 @@ class ilLearningHistoryGUI
 		$this->main_tpl = $this->ui->mainTemplate();
 		$this->lng = $this->lhist_service->language();
 		$this->access = $this->lhist_service->access();
+		$this->tabs = $DIC->tabs();
 
 		$this->lng->loadLanguageModule("lhist");
 
 		$this->user_id = $this->lhist_service->user()->getId();
+
+		$this->certificateSettings =  new ilSetting("certificate");
+
+		$this->from = null;
+		$this->to = ((int) $_GET["to_ts"] > 0)
+			? (int) $_GET["to_ts"]
+			: null;
+
+		$this->main_tpl->addJavaScript("./Services/LearningHistory/js/LearningHistory.js");
 	}
 
 	/**
@@ -70,17 +96,18 @@ class ilLearningHistoryGUI
 		
 		$next_class = $ctrl->getNextClass($this);
 		$cmd = $ctrl->getCmd("show");
-	
+
 		switch ($next_class)
 		{
 			default:
-				if (in_array($cmd, array("show")))
+				if (in_array($cmd, array("show", "renderAsync")))
 				{
 					$this->$cmd();
 				}
 		}
 	}
-	
+
+
 	/**
 	 * Show
 	 */
@@ -91,7 +118,7 @@ class ilLearningHistoryGUI
 		$f = $this->ui->factory();
 		$renderer = $this->ui->renderer();
 
-		$html = $this->getHistoryHtml();
+		$html = $this->getHistoryHtml($this->from, $this->to);
 
 		if ($html != "")
 		{
@@ -104,6 +131,18 @@ class ilLearningHistoryGUI
 				));
 		}
 	}
+
+	/**
+	 * Render Async
+	 */
+	protected function renderAsync()
+	{
+		$response["timeline"] = $this->renderTimeline($this->from, $this->to);
+		$response["more"] = $this->show_more ? $this->renderButton() : "";
+		echo json_encode($response);
+		exit;
+	}
+
 	
 	/**
 	 * Get history html
@@ -112,32 +151,90 @@ class ilLearningHistoryGUI
 	 */
 	public function getHistoryHtml($from = null, $to = null, $classes = null)
 	{
+		$tpl = new ilTemplate("tpl.timeline.html", true, true, "Services/LearningHistory");
+
+		$tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes));
+
+		if ($this->show_more)
+		{
+			$tpl->setCurrentBlock("show_more");
+			$tpl->setVariable("SHOW_MORE_BUTTON", $this->renderButton());
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
+	}
+
+	/**
+	 * render timeline
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function renderTimeline($from = null, $to = null, $classes = null)
+	{
 		$collector = $this->lhist_service->factory()->collector();
+		$ctrl = $this->ctrl;
 
 		$to = (is_null($to))
 			? time()
 			: $to;
 		$from = (is_null($from))
-			? time() - (365 * 24 * 60 * 60)
+			? $to - (365 * 24 * 60 * 60)
 			: $from;
 
 		$entries = $collector->getEntries($from, $to, $this->user_id, $classes);
 
 		$timeline = ilTimelineGUI::getInstance();
-		foreach ($entries as $e)
-		{
+		$cnt = 0;
+
+		reset($entries);
+		/** @var ilLearningHistoryEntry $e */
+		while (($e = current($entries)) && $cnt < self::MAX) {
 			$timeline->addItem(new ilLearningHistoryTimelineItem($e, $this->ui, $this->user_id, $this->access,
 				$this->lhist_service->repositoryTree()));
+			$this->last_ts = $e->getTimestamp();
+			next($entries);
+			$cnt++;
 		}
 
 		$html = "";
 		if (count($entries) > 0)
 		{
-			$html = $timeline->render();
+			$html = $timeline->render($ctrl->isAsynch());
 		}
+
+		$this->show_more = (count($entries) > $cnt);
 
 		return $html;
 	}
+
+
+	/**
+	 * render Button
+	 */
+	protected function renderButton()
+	{
+		$ctrl = $this->ctrl;
+		$f = $this->ui->factory();
+		$renderer = $this->ui->renderer();
+		$ctrl->setParameter($this, "to_ts", $this->last_ts - 1);
+		$url = $ctrl->getLinkTarget($this, "renderAsync", "", true);
+
+		$button = $f->button()->standard($this->lng->txt("lhist_show_more"), "")
+			->withLoadingAnimationOnClick(true)
+			->withOnLoadCode(function ($id) use ($url) {
+				return "il.LearningHistory.initShowMore('$id', '" . $url . "');";
+			});
+		if ($ctrl->isAsynch())
+		{
+			return $renderer->renderAsync($button);
+		} else
+		{
+			return $renderer->render($button);
+		}
+	}
+
 	
 	
 

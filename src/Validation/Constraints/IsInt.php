@@ -7,13 +7,15 @@ use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class IsInt extends Custom implements Constraint {
-	public function __construct(Data\Factory $data_factory) {
+	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
 		parent::__construct( function ($value) {
 				return is_int($value);
 			}, 
-			function ($value) {
-				return "'".gettype($value)."' is not an integer.";
+			function ($txt, $value) {
+				return $txt("not_an_int", $value);
 			},
-			$data_factory);
+			$data_factory,
+			$lng
+		);
 	}
 }

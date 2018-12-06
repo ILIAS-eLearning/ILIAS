@@ -38,7 +38,8 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 	
 	public function loadFromDb($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT * FROM tst_active WHERE active_id = %s", 
 			array('integer'),
 			array($active_id)
@@ -64,8 +65,9 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 	
 	function loadTestSession($test_id, $user_id = "", $anonymous_id = "")
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		if (!$user_id)
 		{
@@ -125,7 +127,9 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 	
 	function saveToDb()
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
 		if ($this->active_id > 0)

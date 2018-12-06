@@ -62,7 +62,8 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
 		/**
 		 * @var $tree ilTree
 		 */
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		$path = new ilPathGUI();
 
@@ -92,7 +93,8 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		$this->tpl->setVariable('USAGE_INSTANCE_TITLE', $row['title']);
 		$this->tpl->setVariable('USAGE_AUTHOR', $row['author']);

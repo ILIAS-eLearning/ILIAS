@@ -7,9 +7,22 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\Forbidden;
 
+/**
+ * Class ilObjContainerDAV
+ *
+ * Base implementation for container objects to be represented as WebDAV collection.
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ *
+ * @extends ilObjectDAV
+ * @implements Sabre\DAV\ICollection
+ */
 abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\ICollection
 {
     /**
+     * Check if given object has valid type and calls parent constructor
+     *
      * @param ilContainer $a_obj
      */
     public function __construct(ilContainer $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
@@ -93,7 +106,6 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     {
         global $DIC;
         
-        $new_obj;
         $type = $this->getChildCollectionType();
         
         switch($type)

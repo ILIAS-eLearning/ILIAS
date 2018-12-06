@@ -6,7 +6,8 @@ class ilTestExpressPage
 {
 	public static function getReturnToPageLink($q_id = null)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$q_id  = $q_id ? $q_id : $_REQUEST['q_id'];
 		$refId = self::fetchTargetRefIdParameter();

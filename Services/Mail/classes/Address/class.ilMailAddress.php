@@ -59,4 +59,15 @@ class ilMailAddress
 	{
 		return $this->mailbox;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString(): string 
+	{
+		return implode('@', [
+			$this->getMailbox(),
+			$this->getHost(),
+		]);
+	}
 }

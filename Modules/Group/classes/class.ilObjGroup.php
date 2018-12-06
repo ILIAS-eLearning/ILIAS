@@ -944,6 +944,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$part = ilGroupParticipants::_getInstanceByObjId($new_obj->getId());
 		$part->add($ilUser->getId(),IL_GRP_ADMIN);
 		$part->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
+		$part->updateContact($ilUser->getId(), true);
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');

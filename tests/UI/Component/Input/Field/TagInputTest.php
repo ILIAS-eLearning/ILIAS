@@ -7,6 +7,9 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 /**
  * Class TagInputTest
@@ -27,7 +30,13 @@ class TagInputTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
@@ -117,6 +126,21 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($text));
 
 		$expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>					</div></div>";
+
+		$this->assertEquals($expected, $html);
+	}
+
+
+	public function test_render_disabled() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$tags = ["lorem", "ipsum", "dolor",];
+		$text = $f->tag($label, $tags)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $this->normalizeHTML($r->render($text));
+
+		$expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag disabled\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>					</div></div>";
 
 		$this->assertEquals($expected, $html);
 	}

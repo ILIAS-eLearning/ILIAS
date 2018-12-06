@@ -98,7 +98,9 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		$props = array();
 
@@ -121,7 +123,8 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$a_cmd = explode('::', $a_cmd);
 

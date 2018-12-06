@@ -545,4 +545,14 @@ class ilExcel
 		return $columnLetter . $pRow;
 	}
 
+	/**
+	 * @param $a_row int
+	 * @param $a_column int
+	 * @param $a_path
+	 */
+	function addLink($a_row, $a_column, $a_path)
+	{
+		$this->workbook->getActiveSheet()->getCellByColumnAndRow($a_column,$a_row)->getHyperlink()->setUrl($a_path);
+	}
+
 }

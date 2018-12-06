@@ -24,12 +24,16 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI
  *
  * @extends ilContainerGUI
  */
 class ilObjCourseGUI extends ilContainerGUI
 {
+	const BREADCRUMB_DEFAULT = 0;
+	const BREADCRUMB_CRS_ONLY = 1;
+	const BREADCRUMB_FULL_PATH = 2;
+
 	/**
 	 * Constructor
 	 * @access public
@@ -49,6 +53,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::__construct('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('cert');
+		$this->lng->loadLanguageModule('obj');
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
@@ -108,33 +114,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->setCmd("view");
 		$this->viewObject();
 	}
-	
-	/**
-	 * 
-	 * @param
-	 * @return
-	 */
-	protected function forwardToTimingsView()
-	{
-		if(!$this->ctrl->getCmd() and $this->object->getViewMode() == ilContainer::VIEW_TIMING)
-		{
-			if(!isset($_SESSION['crs_timings'])) {
-				$_SESSION['crs_timings'] = true;
-			}
-			
-			if($_SESSION['crs_timings'] == true) {
-				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
-				$course_content_obj = new ilCourseContentGUI($this);
-				$this->ctrl->setCmdClass(get_class($course_content_obj));
-				$this->ctrl->setCmd('editUserTimings');
-				$this->ctrl->forwardCommand($course_content_obj);
-				return true;
-			}	
-		}
-		$_SESSION['crs_timings'] = false;
-		return false;
-	}
-	
 	
 	function viewObject()
 	{
@@ -401,8 +380,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		// activation
 		if($this->object->getActivationUnlimitedStatus())
 		{
-			$info->addProperty($this->lng->txt("rep_activation_access"),
-				$this->lng->txt('crs_visibility_limitless'));
+			$info->addProperty(
+				$this->lng->txt("rep_activation_access"),
+				$this->lng->txt('crs_visibility_limitless')
+			);
 		}
 		else
 		{
@@ -834,6 +815,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
+		$obj_service = $this->getObjectService();
+		$setting = $this->settings;
+			
 		$form = $this->initEditForm();
 
 		if(!$form->checkInput())
@@ -874,14 +858,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$period = $form->getItemByPostVar("access_period");
 		if($period->getStart() && $period->getEnd())
 		{
-			$this->object->setActivationType(IL_CRS_ACTIVATION_LIMITED);
 			$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
 			$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
 			$this->object->setActivationVisibility((int) $form->getInput('activation_visibility'));
 		}
 		else
 		{
-			$this->object->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 			$this->object->setActivationStart(null);
 			$this->object->setActivationEnd(null);			
 		}
@@ -943,17 +925,38 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->setWaitingListAutoFill(false);
 				break;
 		}
-		
+
+		// title icon visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+		// top actions visibility
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
+
+		ilContainer::_writeContainerSetting($this->object->getId(), "rep_breacrumb", $form->getInput('rep_breacrumb'));
+
+		// custom icon
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+		// list presentation
+		$this->saveListPresentation($form);
+
+
 		// view mode settings
 		$this->object->setViewMode((int) $form->getInput('view_mode'));
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
+			if($form->getInput('timing_mode') != $this->object->getTimingMode())
+			{
+				ilUtil::sendInfo($this->lng->txt("crs_view_info_timing_mode"), true);
+			}
+			$this->object->setTimingMode((int) $form->getInput('timing_mode'));
 		}
-		else
-		{
-			$this->object->setOrderType($form->getInput('sorting'));
-		}
+		$this->object->setTimingMode($form->getInput('timing_mode'));
+		$this->object->setOrderType($form->getInput('sorting'));
 		$this->saveSortingSettings($form);
 		
 		$this->object->setAboStatus((int) $form->getInput('abo'));
@@ -1096,6 +1099,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function initEditForm()
 	{
+		$obj_service = $this->getObjectService();
+		$setting = $this->settings;
+
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
@@ -1140,11 +1146,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$online->setChecked(!$this->object->getOfflineStatus());
 		$online->setInfo($this->lng->txt('crs_activation_online_info'));
 		$form->addItem($online);				
-		
-		// $act_type = new ilCheckboxInputGUI($this->lng->txt('crs_visibility_until'), 'activation_type');
-		// $act_type->setInfo($this->lng->txt('crs_visibility_until_info'));
-		// $act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
-		// $form->addItem($act_type);
 		
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
@@ -1323,9 +1324,42 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
-		
-		$form->addItem($pres);		
-		
+
+		$form->addItem($pres);
+
+		// title and icon visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		// top actions visibility
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
+
+		// breadcrumbs
+		if ($setting->get("rep_breadcr_crs_overwrite"))
+		{
+			$add = $setting->get("rep_breadcr_crs_default")
+				? " (".$this->lng->txt("crs_breadcrumb_crs_only").")"
+				: " (".$this->lng->txt("crs_breadcrumb_full_path").")";
+			$options = array(
+				self::BREADCRUMB_DEFAULT => $this->lng->txt("crs_sys_default").$add,
+				self::BREADCRUMB_CRS_ONLY => $this->lng->txt("crs_breadcrumb_crs_only"),
+				self::BREADCRUMB_FULL_PATH => $this->lng->txt("crs_breadcrumb_full_path")
+			);
+			$si = new ilSelectInputGUI($this->lng->txt("crs_shorten_breadcrumb"), "rep_breacrumb");
+			$si->setValue((int) ilContainer::_lookupContainerSetting($this->object->getId(), "rep_breacrumb"));
+			$si->setOptions($options);
+			$form->addItem($si);
+		}
+
+
+		// custom icon
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
+		// tile image
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
+
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
 		$view_type->setValue($this->object->getViewMode());
@@ -1381,6 +1415,22 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			$optt = new ilRadioOption($this->lng->txt('crs_view_timing'),IL_CRS_VIEW_TIMING);
 			$optt->setInfo($this->lng->txt('crs_view_info_timing'));
+
+		// cognos-blu-patch: begin
+				$timing = new ilRadioGroupInputGUI($this->lng->txt('crs_view_timings'), "timing_mode");
+				$timing->setValue($this->object->getTimingMode());
+
+				$absolute = new ilRadioOption($this->lng->txt('crs_view_timing_absolute'), IL_CRS_VIEW_TIMING_ABSOLUTE );
+				$absolute->setInfo($this->lng->txt('crs_view_info_timing_absolute'));
+				$timing->addOption($absolute);
+
+				$relative = new ilRadioOption($this->lng->txt('crs_view_timing_relative'), IL_CRS_VIEW_TIMING_RELATIVE );
+				$relative->setInfo($this->lng->txt('crs_view_info_timing_relative'));
+				$timing->addOption($relative);
+
+			$optt->addSubItem($timing);
+		// cognos-blu-patch: end
+
 			$view_type->addOption($optt);
 
 		$form->addItem($view_type);
@@ -1557,14 +1607,6 @@ class ilObjCourseGUI extends ilContainerGUI
 					);
 				}
 
-				if ($this->ilias->getSetting('custom_icons')) {
-					$this->tabs_gui->addSubTabTarget(
-						'icon_settings',
-						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
-						'editCourseIcons', get_class($this)
-					);
-				}
-				
 				// map settings
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
 				if (ilMapUtil::isActivated())
@@ -2013,6 +2055,30 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->addContentTab();
 			}
 		}
+
+		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING and
+			$ilAccess->checkAccess('write','',$this->ref_id)
+		)
+		{
+			$this->tabs->addTab(
+				'timings_timings',
+				$lng->txt('timings_timings'),
+				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','manageTimings')
+			);
+		}
+		elseif(
+			$this->object->getViewMode() == IL_CRS_VIEW_TIMING and
+			$this->object->getMemberObject()->isParticipant() and
+			$ilAccess->checkAccess('read','',$this->ref_id))
+		{
+			$this->tabs->addTab(
+				'timings_timings',
+				$lng->txt('timings_timings'),
+				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','managePersonalTimings')
+			);
+		}
+
+
 		
 		// learning objectives
 		if($ilAccess->checkAccess('write','',$this->ref_id))
@@ -2146,17 +2212,6 @@ class ilObjCourseGUI extends ilContainerGUI
 								 array("perm","info","owner"), 'ilpermissiongui');
 		}
 
-		if ($this->ctrl->getTargetScript() == "adm_object.php")
-		{
-			$this->tabs_gui->addTarget("show_owner",
-								 $this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
-			
-			if ($this->tree->getSavedNodeData($this->ref_id))
-			{
-				$this->tabs_gui->addTarget("trash",
-									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
-			}
-		}
 		// Join/Leave
 		if($ilAccess->checkAccess('join','',$this->ref_id)
 			and !$this->object->getMemberObject()->isAssigned())
@@ -2447,10 +2502,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->activateTab("settings");
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateSubTab('certificate');
-				
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
-				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
+
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -2542,12 +2596,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilcontainernewssettingsgui":
-
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateTab('settings');
 				$this->tabs_gui->activateSubTab('obj_news_settings');
-				include_once("./Services/Container/classes/class.ilContainerNewsSettingsGUI.php");
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$news_set_gui->setTimeline(true);
+				$news_set_gui->setCronNotifications(true);
+				$news_set_gui->setHideByDate(true);
 				$this->ctrl->forwardCommand($news_set_gui);
 				break;
 
@@ -2556,6 +2611,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once("./Services/News/classes/class.ilNewsTimelineGUI.php");
 				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
 				$t->setUserEditAll($ilAccess->checkAccess('write','',$this->object->getRefId(),'grp'));
+				$this->showPermanentLink($tpl);
 				$this->ctrl->forwardCommand($t);
 				break;
 			
@@ -2576,19 +2632,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->setSubTabs('properties');
-				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('icon_settings');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
-				break;
 
 			case 'ilobjecttranslationgui':
 				$this->checkPermissionBool("write");
@@ -2673,11 +2716,8 @@ class ilObjCourseGUI extends ilContainerGUI
                     break;
                 }
 
-                // Dirty hack for course timings view
-                if($this->forwardToTimingsView())
-                {
-                    break;
-                }
+				// cognos-blu-patch: begin
+				// cognos-blu-patch: end
 
 				// if news timeline is landing page, redirect if necessary
 				if ($cmd == "" && $this->object->isNewsTimelineLandingPageEffective())
@@ -3054,11 +3094,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "disableAdministrationPanel"));
 			}
 		}
-		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
-		{
-			$this->tabs_gui->addSubTabTarget('timings_timings',
-				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','editUserTimings'));
-		}
+		// cognos-blu-patch: begin
+		// cognos-blu-patch: begin
 		
 		$this->addStandardContainerSubTabs(false);
 		
@@ -3220,30 +3257,27 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilSetting = $DIC['ilSetting'];
-		$ilUser = $DIC['ilUser'];
-		
+		$ilUser = $DIC->user();
+
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
-				
+
 		if($lg && $this->ref_id && ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
-		{							
+		{
 			// certificate
-			include_once "Services/Certificate/classes/class.ilCertificate.php";
-			if (ilCertificate::isActive() &&
-				ilCertificate::isObjectActive($this->object->getId()) && 
-				ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $ilUser->getId()))
-			{			    
+
+			$validator = new ilCertificateDownloadValidator();
+			if (true === $validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
 				$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
-				
+
 				$this->lng->loadLanguageModule("certificate");
 				$lg->addCustomCommand($cert_url, "download_certificate");
-				
+
 				$lg->addHeaderIcon("cert_icon",
-						ilUtil::getImagePath("icon_cert.svg"),
-						$this->lng->txt("download_certificate"),
-						null,
-						null,
-						$cert_url);
+					ilUtil::getImagePath("icon_cert.svg"),
+					$this->lng->txt("download_certificate"),
+					null,
+					null,
+					$cert_url);
 			}
 			
 			// notification
@@ -3281,37 +3315,48 @@ class ilObjCourseGUI extends ilContainerGUI
 		}		
 		
 		return $lg;
-	}	
-	
+	}
+
 	function deliverCertificateObject()
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
+		$ilUser   = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
-	
+		$request = $DIC->http()->request();
+
 		$user_id = null;
 		if ($ilAccess->checkAccess('manage_members','',$this->ref_id))
-		{		
+		{
 			$user_id = $_REQUEST["member_id"];
 		}
 		if(!$user_id)
 		{
 			$user_id = $ilUser->getId();
 		}
-		
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(!ilCertificate::isActive() ||
-			!ilCertificate::isObjectActive($this->object->getId()) ||
-			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
-		{
+
+		$objId = (int) $this->object->getId();
+
+		$validator = new ilCertificateDownloadValidator();
+
+		if (false === $validator->isCertificateDownloadable($user_id, $objId)) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this);
 		}
-		
-		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilCourseCertificateAdapter($this->object));
-		$certificate->outCertificate(array("user_id" => $user_id), true);				
+
+		$repository = new ilUserCertificateRepository();
+
+		$certLogger = $DIC->logger()->cert();
+		$pdfGenerator = new ilPdfGenerator($repository, $certLogger);
+
+		$pdfAction = new ilCertificatePdfAction(
+			$certLogger,
+			$pdfGenerator,
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
+
+		$pdfAction->downloadPdf((int) $user_id, $objId);
 	}
 	
 	

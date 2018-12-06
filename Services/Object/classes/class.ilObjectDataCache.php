@@ -88,6 +88,21 @@ class ilObjectDataCache
 		}
 		return @$this->object_data_cache[$a_obj_id]['last_update'];
 	}
+
+	/**
+	 * Check if supports centralized offline handling and is offline
+	 * @param $a_obj_id
+	 * @return bool
+	 */
+	public function lookupOfflineStatus($a_obj_id)
+	{
+		if(!$this->__isObjectCached($a_obj_id))
+		{
+			$this->__storeObjectData($a_obj_id);
+		}
+		return (bool) $this->object_data_cache[$a_obj_id]['offline'];
+	}
+
 	// PRIVATE
 
 	/**
@@ -188,6 +203,7 @@ class ilObjectDataCache
 			$this->object_data_cache[$a_obj_id]['type'] = $row->type;
 			$this->object_data_cache[$a_obj_id]['owner'] = $row->owner;
 			$this->object_data_cache[$a_obj_id]['last_update'] = $row->last_update;
+			$this->object_data_cache[$a_obj_id]['offline'] = $row->offline;
 			
 			if (is_object($objDefinition))
 			{
@@ -244,7 +260,6 @@ class ilObjectDataCache
 		{
 			$a_lang = $ilUser->getLanguage();
 		}
-//echo "<br>-preloading-"; var_dump($a_obj_ids);
 		if (!is_array($a_obj_ids)) return;
 		if (count($a_obj_ids) == 0) return;
 		
@@ -255,7 +270,6 @@ class ilObjectDataCache
 		$db_trans = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-//echo "<br>store_obj-".$row->obj_id."-".$row->type."-".$row->title."-";
 
 			// this if fixes #9960
 			if (!$this->trans_loaded[$row->obj_id])
@@ -266,6 +280,7 @@ class ilObjectDataCache
 			$this->object_data_cache[$row->obj_id]['type'] = $row->type;
 			$this->object_data_cache[$row->obj_id]['owner'] = $row->owner;
 			$this->object_data_cache[$row->obj_id]['last_update'] = $row->last_update;
+			$this->object_data_cache[$row->obj_id]['offline'] = $row->offline;
 
 			if (is_object($objDefinition))
 			{

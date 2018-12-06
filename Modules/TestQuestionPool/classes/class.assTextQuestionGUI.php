@@ -491,7 +491,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		
@@ -764,5 +766,32 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	public function getAggregatedAnswersView($relevant_answers)
 	{
 		return ''; //print_r($relevant_answers,true);
+	}
+	
+	public function isAnswerFreuqencyStatisticSupported()
+	{
+		return false;
+	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->populateQuestionSpecificFormPart($form);
+		$this->populateAnswerSpecificFormPart($form);
+		
+		$form->removeItemByPostVar('maxchars');
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$this->writeQuestionSpecificPostData($form);
+		$this->writeAnswerSpecificPostData($form);
 	}
 }

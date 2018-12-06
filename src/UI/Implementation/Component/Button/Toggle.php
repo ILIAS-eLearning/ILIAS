@@ -15,11 +15,7 @@ class Toggle extends Button implements C\Button\Toggle {
 	use ComponentHelper;
 	use JavaScriptBindable;
 	use Triggerer;
-
-	/**
-	 * @var bool
-	 */
-	protected $is_on;
+	use Engageable;
 
 	/**
 	 * @var string|null
@@ -59,15 +55,8 @@ class Toggle extends Button implements C\Button\Toggle {
 			$this->setTriggeredSignal($action_off, "toggle_off");
 		}
 
-		$this->is_on = $is_on;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function isOn(): bool
-	{
-		return $this->is_on;
+		$this->is_engageable = true;
+		$this->engaged = $is_on;
 	}
 
 	/**

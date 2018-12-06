@@ -7,62 +7,57 @@
  */
 abstract class ilBaseMailAddressType implements \ilMailAddressType
 {
-	/**
-	 * @var \ilMailAddress
-	 */
+	/** @var \ilMailAddressTypeHelper */
+	protected $typeHelper;
+
+	/** @var \ilMailAddress */
 	protected $address;
 
-	/**
-	 * @var \ilRbacSystem
-	 */
-	protected $rbacsystem;
+	/** @var \ilLogger */
+	protected $logger;
 
-	/**
-	 * @var \ilRbacReview
-	 */
-	protected $rbacreview;
-
-	/**
-	 * @var array
-	 */
-	protected $errors = array();
+	/** @var \ilMailError[] */
+	private $errors = [];
 
 	/**
 	 * ilBaseMailAddressType constructor.
-	 * @param \ilMailAddress $a_address
+	 * @param \ilMailAddressTypeHelper $typeHelper
+	 * @param \ilMailAddress           $address
+	 * @param \ilLogger                 $logger
 	 */
-	public function __construct(\ilMailAddress $a_address)
-	{
-		global $DIC;
-
-		$this->rbacsystem = $DIC->rbac()->system();
-		$this->rbacreview = $DIC->rbac()->review();
-
-		$this->address = $a_address;
-		$this->init();
+	public function __construct(
+		\ilMailAddressTypeHelper $typeHelper,
+		\ilMailAddress $address,
+		\ilLogger $logger
+	) {
+		$this->address    = $address;
+		$this->typeHelper = $typeHelper;
+		$this->logger = $logger;
 	}
 
 	/**
-	 *
+	 * @param $senderId integer
+	 * @return bool
 	 */
-	protected function init()
-	{
-	}
-
-	/**
-	 * @param $a_sender_id integer
-	 * @return boolean
-	 */
-	abstract protected function isValid(int $a_sender_id): bool;
+	abstract protected function isValid(int $senderId): bool;
 
 	/**
 	 * @inheritdoc
 	 */
-	public function validate(int $a_sender_id): bool
+	public function validate(int $senderId): bool
 	{
 		$this->resetErrors();
 
-		return $this->isValid($a_sender_id);
+		return $this->isValid($senderId);
+	}
+
+	/**
+	 * @param string $languageVariable
+	 * @param array $placeHolderValues
+	 */
+	protected function pushError(string $languageVariable, array $placeHolderValues = [])
+	{
+		$this->errors[] = new \ilMailError($languageVariable, $placeHolderValues);
 	}
 
 	/**
@@ -70,14 +65,22 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	 */
 	private function resetErrors()
 	{
-		$this->errors = array();
+		$this->errors = [];
 	}
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function getErrors(): array
 	{
 		return $this->errors;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAddress(): \ilMailAddress
+	{
+		return $this->address;
 	}
 }

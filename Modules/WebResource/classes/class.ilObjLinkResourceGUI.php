@@ -221,6 +221,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	{
 		global $DIC;
 
+		$obj_service = $this->object_service;
 		$ilTabs = $DIC['ilTabs'];
 		
 		$this->checkPermission('write');
@@ -237,6 +238,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			$sort = new ilContainerSortingSettings($this->object->getId());
 			$sort->setSortMode($this->form->getInput('sor'));
 			$sort->update();
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$this->ctrl->redirect($this,'settings');
@@ -254,6 +259,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 */
 	protected function initFormSettings()
 	{
+		$obj_service = $this->object_service;
+
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'saveSettings'));
@@ -273,7 +280,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$des->setCols(40);
 		$des->setRows(3);
 		$this->form->addItem($des);
-		
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_presentation'));
+		$this->form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
+
 		// Sorting
 		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 		include_once './Services/Container/classes/class.ilContainer.php';

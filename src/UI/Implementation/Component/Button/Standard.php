@@ -5,6 +5,9 @@
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\LoadingAnimationOnClick;
 
 class Standard extends Button implements C\Button\Standard {
+	use LoadingAnimationOnClick;
+	use Engageable;
 }

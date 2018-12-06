@@ -1,0 +1,40 @@
+<div class="form-inline" id="{ELEMENT_ID}">
+    <table class="singlechoicewizard table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>{ANSWER_TEXT}</th>
+            <!-- BEGIN image_heading -->
+            <th class="imagecolumn">{ANSWER_IMAGE}</th>
+            <!-- END image_heading -->
+            <!-- BEGIN points_heading -->
+            <th>{POINTS_TEXT}</th>
+            <!-- END points_heading -->
+        </tr>
+        </thead>
+        <tbody class="scwzd">
+        <!-- BEGIN row -->
+        <tr class="scwzd">
+            <td><!-- BEGIN answer -->{ANSWER}<!-- END answer --></td>
+            <!-- BEGIN image_col -->
+            <td class="imagecolumn">
+                <!-- BEGIN addimage -->
+                <div class="imageselection">
+                    <!-- BEGIN image -->
+                    <div class="imagepresentation">
+                        <img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+                    </div>
+                    <!-- END image -->
+                </div>
+                <!-- END addimage -->
+            </td>
+            <!-- END image_col -->
+            <!-- BEGIN points -->
+            <td class="ilValignTop">
+                <input type="text" class="form-control text-right" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
+            </td>
+            <!-- END points -->
+        </tr>
+        <!-- END row -->
+        </tbody>
+    </table>
+</div>
