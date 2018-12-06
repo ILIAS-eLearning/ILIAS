@@ -765,8 +765,13 @@ class ilMail
 				$user_is_active               = $tmp_user->getActive();
 				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
-				if(in_array('system', $a_type) && !$user_can_read_internal_mails)
-				{
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
+					ilLoggerFactory::getLogger('mail')->debug(sprintf(
+						"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+						$id,
+						var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
+						var_export(!$tmp_user->checkTimeLimit(), 1)
+					));
 					continue;
 				}
 
