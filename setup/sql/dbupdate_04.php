@@ -25277,3 +25277,8 @@ $ilDB->update("style_data", array(
 	"1" => array("integer", 1)
 ));
 ?>
+<#5431>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

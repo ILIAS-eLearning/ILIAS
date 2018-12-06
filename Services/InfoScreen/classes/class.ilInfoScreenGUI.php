@@ -598,7 +598,6 @@ class ilInfoScreenGUI
 		}
 
 		// disk usage
-		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
 			ilDiskQuotaActivationChecker::_isActive())
 		{
