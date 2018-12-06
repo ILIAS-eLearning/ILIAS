@@ -229,7 +229,7 @@ function ilShowUserMarker(id, j)
 function ilMapClicked(id, map, location)
 {
 	map.setCenter(location);
-    ilUpdateLocationInput(id, map, location);
+    ilUpdateLocationInput(id, map, location, "");
 }
 
 function ilLookupAddress(id, address)
@@ -237,10 +237,8 @@ function ilLookupAddress(id, address)
 	var map = ilMap[id];
 	
 	var geocoder = new google.maps.Geocoder();
-	geocoder.geocode({address: address}, function(result)
-	{
-		if (result[0]["geometry"])
-		{
+	geocoder.geocode({address: address}, function(result)  {
+		if (Array.isArray(result) && result.length > 0 && typeof result[0] === "object" && "geometry" in result[0]) {
 			map.setCenter(result[0]["geometry"]["location"]);
 			ilUpdateLocationInput(id, map, result[0]["geometry"]["location"],
 				result[0]["formatted_address"]);
