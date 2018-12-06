@@ -262,57 +262,9 @@ class ilExAssignmentEditorGUI
 
 		$ass_type_gui->addEditFormCustomProperties($form);
 
-		/*
-		if($a_type == ilExAssignment::TYPE_TEXT)
-		{
-			$rb_limit_chars = new ilCheckboxInputGUI($lng->txt("exc_limit_characters"),"limit_characters");
-
-			$min_char_limit = new ilNumberInputGUI($lng->txt("exc_min_char_limit"), "min_char_limit");
-			$min_char_limit->allowDecimals(false);
-			$min_char_limit->setMinValue(0);
-			$min_char_limit->setSize(3);
-
-			$max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
-			$max_char_limit->allowDecimals(false);
-			$max_char_limit->setMinValue((int) $_POST['min_char_limit'] + 1);
-
-			$max_char_limit->setSize(3);
-
-			$rb_limit_chars->addSubItem($min_char_limit);
-			$rb_limit_chars->addSubItem($max_char_limit);
-
-			$form->addItem($rb_limit_chars);
-		}*/
-
-		// portfolio template
-		/*
-		if($a_type == ilExAssignment::TYPE_PORTFOLIO)
-		{
-			$rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
-			$rd_template->setRequired(true);
-			$radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), 0, $lng->txt("exc_without_template_info", "without_template_info"));
-			$radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), 1 , $lng->txt("exc_with_template_info", "with_template_info"));
-
-			include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
-			$repo = new ilRepositorySelector2InputGUI($lng->txt("exc_portfolio_template"), "template_id");
-			$repo->setRequired(true);
-			if($this->assignment)
-			{
-				$repo->setValue($this->assignment->getPortfolioTemplateId());
-			}
-			$repo->getExplorerGUI()->setSelectableTypes(array("prtt"));
-			$repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp"));
-			$radio_with_template->addSubItem($repo);
-
-			$rd_template->addOption($radio_no_template);
-			$rd_template->addOption($radio_with_template);
-			$form->addItem($rd_template);
-		}*/
-
 		//
 		// type specific end
 		//
-
 
 		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
@@ -530,13 +482,7 @@ class ilExAssignmentEditorGUI
 		$ti->setMaxLength(3);
 		$ti->setSize(3);
 		$op2->addSubItem($ti);
-
-		// mandatory
-		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
-		$cb->setInfo($lng->txt("exc_mandatory_info"));
-		$cb->setChecked(true);
-		$form->addItem($cb);
-
+		
 
 		// max number of files
 		if($ass_type->usesFileUpload())
