@@ -59,12 +59,16 @@ class ilBuddySystemRelationRepository
 
 		$res = $this->db->queryF(
 			"
-			SELECT usr_id, buddy_usr_id, ts, '" . self::TYPE_APPROVED . "' rel_type FROM buddylist WHERE usr_id = %s
+			SELECT usr_id, buddy_usr_id, ts, %s rel_type FROM buddylist WHERE usr_id = %s
 			UNION
-			SELECT usr_id, buddy_usr_id, ts, (CASE WHEN ignored = 1 THEN '" . self::TYPE_IGNORED . "' ELSE '" . self::TYPE_REQUESTED . "' END) rel_type FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s
+			SELECT usr_id, buddy_usr_id, ts, (CASE WHEN ignored = 1 THEN %s ELSE %s END) rel_type FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s
 			",
-			array('integer', 'integer', 'integer'),
-			array($this->usr_id, $this->usr_id, $this->usr_id)
+			array(
+				'text', 'integer', 'text', 'text', 'integer', 'integer'
+			),
+			array(
+				self::TYPE_APPROVED, $this->usr_id, self::TYPE_IGNORED, self::TYPE_REQUESTED, $this->usr_id, $this->usr_id
+			)
 		);
 
 		while($row = $this->db->fetchAssoc($res))
