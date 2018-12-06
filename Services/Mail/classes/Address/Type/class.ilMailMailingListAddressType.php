@@ -36,6 +36,9 @@ class ilMailMailingListAddressType extends \ilBaseMailAddressType
 		$valid = $this->lists->mailingListExists($this->address->getMailbox());
 
 		if (!$valid) {
+			$this->logger->debug(sprintf(
+				"Mailing list not  valid: '%s'", $this->address->getMailbox()
+			));
 			$this->pushError('mail_no_valid_mailing_list', [$this->address->getMailbox()]);
 		}
 
