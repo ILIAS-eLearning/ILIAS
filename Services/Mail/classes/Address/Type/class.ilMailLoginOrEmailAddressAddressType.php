@@ -48,6 +48,10 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 			$usrId, 'internal_mail',
 			$this->typeHelper->getGlobalMailSystemId()
 		)) {
+			$this->logger->debug(sprintf(
+				"Address '%s' not valid. Found id %s, but user can't use mail system.",
+				$this->address->getMailbox(), $usrId
+			));
 			$this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
 			return false;
 		}
