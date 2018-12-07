@@ -78,7 +78,15 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 	protected function renderBlogTemplate()
 	{		
 		return $this->renderTeaser("blog_template", $this->lng->txt("obj_blog"));	
-	}	
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getCourseSortAction($ctrl)
+	{
+		return $ctrl->getFormActionByClass("ilobjportfoliotemplategui", "preview");
+	}
 }
 
 ?>
