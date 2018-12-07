@@ -691,7 +691,7 @@ class ilAuthUtils
 	
 	/**
 	 * Check if password modification is enabled
-	 * @param object $a_authmode
+	 * @param int $a_authmode
 	 * @return bool
 	 */
 	public static function isPasswordModificationEnabled($a_authmode)
