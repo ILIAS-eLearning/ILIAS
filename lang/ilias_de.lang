@@ -14958,3 +14958,5 @@ dateplaner#:#btn_ical#:#iCal
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
+sess#:#sess_material_assigned#:#Zugeordnet
+sess#:#sess_material_not_assigned#:#Nicht zugeordnet
