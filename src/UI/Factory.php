@@ -93,13 +93,14 @@ interface Factory {
 	 * description:
 	 *   purpose: The Image component is used to display images of various sources.
 	 *   composition: An Image is composed of the image and an alternative text for screen readers.
-	 *   effect: >
-	 *     Images may be included in interacted components. Images may also be interactive on their own. Clicking on
-	 *     an Image can e.g. provide navigation to another screen or showing a Modal on the same screen. The usage of
-	 *     an interactive Image MUST be confirmed by the JF to make sure that interactive Images will only be used
-	 *     in meaningful cases.
 	 *
 	 * rules:
+	 *   interaction:
+	 *     1: >
+	 *        Images MAY be included in interacted components. Images MAY also be interactive on their own. Clicking on
+	 *        an Image can e.g. provide navigation to another screen or showing a Modal on the same screen. The usage
+	 *        of an interactive Image MUST be confirmed by the JF to make sure that interactive Images will only be
+	 *        used in meaningful cases.
 	 *   accessibility:
 	 *     1: >
 	 *        Images MUST contain the alt attribute. This attribute MAY be left empty (alt="") if the image is of
