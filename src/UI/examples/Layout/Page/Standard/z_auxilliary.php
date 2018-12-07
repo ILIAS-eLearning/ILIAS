@@ -8,8 +8,8 @@ function _initIliasForPreview()
 {
 	chdir('../../../../../../');
 	require_once("Services/Init/classes/class.ilInitialisation.php");
-	require_once('src/UI/examples/MainControls/Metabar/metabar.php');
-	require_once('src/UI/examples/MainControls/Mainbar/mainbar.php');
+	require_once('src/UI/examples/MainControls/MetaBar/metabar.php');
+	require_once('src/UI/examples/MainControls/MainBar/mainbar.php');
 	require_once('src/UI/examples/Layout/Page/Standard/ui.php');
 	ilInitialisation::initILIAS();
 }

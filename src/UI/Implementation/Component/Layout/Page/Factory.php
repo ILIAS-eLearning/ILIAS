@@ -13,8 +13,8 @@ class Factory implements Page\Factory {
 	 * @inheritdoc
 	 */
 	public function standard(
-		MainControls\Metabar $metabar,
-		MainControls\Mainbar $mainbar,
+		MainControls\MetaBar $metabar,
+		MainControls\MainBar $mainbar,
 		$content,
 		$locator = null,
 		Image $logo = null

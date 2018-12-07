@@ -25,17 +25,17 @@ class Factory implements IMainControls\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function metabar(): IMainControls\Metabar
+	public function metabar(): IMainControls\MetaBar
 	{
-		return new Metabar($this->signal_generator);
+		return new MetaBar($this->signal_generator);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function mainbar(): IMainControls\Mainbar
+	public function mainbar(): IMainControls\MainBar
 	{
-		return new Mainbar($this->signal_generator);
+		return new MainBar($this->signal_generator);
 	}
 
 	/**
