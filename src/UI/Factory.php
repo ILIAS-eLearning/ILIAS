@@ -97,7 +97,7 @@ interface Factory {
 	 * rules:
 	 *   interaction:
 	 *     1: >
-	 *        Images MAY be included in interacted components. Images MAY also be interactive on their own. Clicking on
+	 *        Images MAY be included in interactive components. Images MAY also be interactive on their own. Clicking on
 	 *        an Image can e.g. provide navigation to another screen or showing a Modal on the same screen. The usage
 	 *        of an interactive Image MUST be confirmed by the JF to make sure that interactive Images will only be
 	 *        used in meaningful cases.
