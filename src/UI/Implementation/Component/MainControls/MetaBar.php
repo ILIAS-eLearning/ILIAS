@@ -13,9 +13,9 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
- * Metabar
+ * MetaBar
  */
-class Metabar implements MainControls\Metabar
+class MetaBar implements MainControls\MetaBar
 {
 	use ComponentHelper;
 	use JavaScriptBindable;
@@ -53,7 +53,7 @@ class Metabar implements MainControls\Metabar
 	/**
 	 * @inheritdoc
 	 */
-	public function withEntry(string $id, $entry): MainControls\Metabar
+	public function withEntry(string $id, $entry): MainControls\MetaBar
 	{
 		$classes = [Bulky::class, Slate::class];
 		$check = [$entry];

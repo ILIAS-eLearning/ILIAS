@@ -12,9 +12,9 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
- * Mainbar
+ * MainBar
  */
-class Mainbar implements MainControls\Mainbar
+class MainBar implements MainControls\MainBar
 {
 	use ComponentHelper;
 	use JavaScriptBindable;
@@ -81,7 +81,7 @@ class Mainbar implements MainControls\Mainbar
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalEntry(string $id, $entry): MainControls\Mainbar
+	public function withAdditionalEntry(string $id, $entry): MainControls\MainBar
 	{
 		$classes = [Button\Bulky::class, MainControls\Slate\Slate::class];
 		$check = [$entry];
@@ -103,7 +103,7 @@ class Mainbar implements MainControls\Mainbar
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalToolEntry(string $id, $entry): MainControls\Mainbar
+	public function withAdditionalToolEntry(string $id, $entry): MainControls\MainBar
 	{
 		$class = MainControls\Slate\Slate::class;
 		$this->checkArgInstanceOf("Tools must be Slates", $entry, $class);
@@ -116,7 +116,7 @@ class Mainbar implements MainControls\Mainbar
 	/**
 	 * @inheritdoc
 	 */
-	public function withToolsLabel(string $label): MainControls\Mainbar
+	public function withToolsLabel(string $label): MainControls\MainBar
 	{
 		$clone = clone $this;
 		$clone->tools_label = $label;
@@ -175,7 +175,7 @@ class Mainbar implements MainControls\Mainbar
 		$this->disengage_all_signal = $this->signal_generator->create();
 	}
 
-	public function withResetSignals(): MainControls\Mainbar
+	public function withResetSignals(): MainControls\MainBar
 	{
 		$clone = clone $this;
 		$clone->initSignals();
@@ -193,7 +193,7 @@ class Mainbar implements MainControls\Mainbar
 	/**
 	 * @inheritdoc
 	 */
-	public function withActive(string $active): MainControls\Mainbar
+	public function withActive(string $active): MainControls\MainBar
 	{
 		$clone = clone $this;
 		$clone->active = $active;

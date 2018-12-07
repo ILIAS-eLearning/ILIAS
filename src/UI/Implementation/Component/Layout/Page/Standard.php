@@ -5,8 +5,8 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\MainControls\Metabar;
-use ILIAS\UI\Component\MainControls\Mainbar;
+use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 
@@ -22,12 +22,12 @@ class Standard implements Page\Standard {
 	private $content;
 
 	/**
-	 * @var Metabar
+	 * @var MetaBar
 	 */
 	private $metabar;
 
 	/**
-	 * @var	Mainbar
+	 * @var	MainBar
 	 */
 	private $mainbar;
 
@@ -47,8 +47,8 @@ class Standard implements Page\Standard {
 	private $with_headers = true;
 
 	public function __construct(
-		Metabar $metabar,
-		Mainbar $mainbar,
+		MetaBar $metabar,
+		MainBar $mainbar,
 		$content,
 		Breadcrumbs $locator = null,
 		Image $logo = null
@@ -71,7 +71,7 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMetabar(): Metabar
+	public function getMetabar(): MetaBar
 	{
 		return $this->metabar;
 	}
@@ -79,7 +79,7 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMainbar(): Mainbar
+	public function getMainbar(): MainBar
 	{
 		return $this->mainbar;
 	}

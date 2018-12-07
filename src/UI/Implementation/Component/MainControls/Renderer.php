@@ -8,8 +8,8 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\MainControls\Mainbar;
-use ILIAS\UI\Component\MainControls\Metabar;
+use ILIAS\UI\Component\MainControls\MainBar;
+use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper as UITemplateWrapper;
 
@@ -25,15 +25,15 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		if ($component instanceof Mainbar) {
+		if ($component instanceof MainBar) {
 			return $this->renderMainbar($component, $default_renderer);
 		}
-		if ($component instanceof Metabar) {
+		if ($component instanceof MetaBar) {
 			return $this->renderMetabar($component, $default_renderer);
 		}
 	}
 
-	protected function renderMainbar(Mainbar $component, RendererInterface $default_renderer) {
+	protected function renderMainbar(MainBar $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.mainbar.html", true, true);
 
 		$active =  $component->getActive();
@@ -155,7 +155,7 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
-	protected function renderMetabar(Metabar $component, RendererInterface $default_renderer) {
+	protected function renderMetabar(MetaBar $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.metabar.html", true, true);
 
 		$entry_signal = $component->getEntryClickSignal();
@@ -197,7 +197,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return array(
 			MetaBar::class,
-			Mainbar::class
+			MainBar::class
 		);
 	}
 
