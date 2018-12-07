@@ -14947,3 +14947,5 @@ crs#:#crs_view_info_timing_relative#:#Das Start- und Enddatum wird anhand von Ze
 dateplaner#:#btn_ical#:#iCal
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
+sess#:#sess_material_assigned#:#Zugeordnet
+sess#:#sess_material_not_assigned#:#Nicht zugeordnet
