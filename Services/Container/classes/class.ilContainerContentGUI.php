@@ -796,7 +796,12 @@ abstract class ilContainerContentGUI
 		)->withObjectIcon(
 			$icon
 		)->withActions($dropdown
-		)->withTitleAction($def_command["link"]);
+		);
+
+		if ($def_command["link"] != "")	// #24256
+		{
+			$card = $card->withTitleAction($def_command["link"]);
+		}
 
 		// properties
 		$l = [];
