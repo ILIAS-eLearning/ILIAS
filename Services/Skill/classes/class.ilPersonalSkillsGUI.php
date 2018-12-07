@@ -536,7 +536,7 @@ class ilPersonalSkillsGUI
 				}
 			}
 
-			$sub = $this->ui_fac->panel()->sub($title, $panel_comps);
+			$sub = $this->ui_fac->panel()->sub((string) $title, $panel_comps);
 			if ($a_edit)
 			{
 				$actions = array();
@@ -559,7 +559,7 @@ class ilPersonalSkillsGUI
 			
 		}
 		
-		$panel = $this->ui_fac->panel()->standard(ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
+		$panel = $this->ui_fac->panel()->standard((string) ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
 			$sub_panels);
 
 		if ($a_edit && $this->getProfileId() == 0)
