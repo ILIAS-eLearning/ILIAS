@@ -14952,3 +14952,5 @@ crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to
 dateplaner#:#btn_ical#:#iCal
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
+sess#:#sess_material_assigned#:#Assigned
+sess#:#sess_material_not_assigned#:#Not Assigned
