@@ -2614,6 +2614,18 @@ class ilUtil
 
 		return $a_arr;
 	}
+
+	/**
+	 * @param string $clientId
+	 * @return string
+	 */
+	public static function filterClientId(string $clientId): string 
+	{
+		$clientId = self::stripSlashes($clientId);
+
+		// We allow .#_ here because of old ILIAS clients
+		return preg_replace('/[^A-Za-z0-9#_\.]/', '', $clientId);
+	}
 	
 	/**
 	* Strip slashes from array and sub-arrays
