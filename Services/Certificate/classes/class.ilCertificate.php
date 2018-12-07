@@ -201,16 +201,6 @@ class ilCertificate
 	}
 
 	/**
-	* Returns the filesystem path of the XSL-FO file
-	*
-	* @return string The filesystem path of the XSL-FO file
-	*/
-	public function getXSLPath()
-	{
-		return CLIENT_WEB_DIR . $this->certificatePath . $this->getXSLName();
-	}
-
-	/**
 	* Returns the filename of the XSL-FO file
 	*
 	* @return string The filename of the XSL-FO file
@@ -287,26 +277,6 @@ class ilCertificate
 	}
 
 	/**
-	* Saves the XSL-FO code to a file
-	*
-	* @param string $xslfo XSL-FO code
-	*/
-	public function createCertificateFile($xslfo, $filename = '')
-	{
-		if (!file_exists($this->certificatePath)) {
-			ilUtil::makeDirParents($this->certificatePath);
-		}
-
-		if (strlen($filename) == 0) {
-			$filename = $this->getXSLPath();
-		}
-
-		$fileHandle = fopen($filename, "w");
-		fwrite($fileHandle, $xslfo);
-		fclose($fileHandle);
-	}
-
-	/**
 	 * Checks for the background image of the certificate
 	 *
 	 * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
@@ -357,16 +327,6 @@ class ilCertificate
 	public function getAdapter()
 	{
 		return $this->adapter;
-	}
-
-	/**
-	* Sets the adapter
-	*
-	* @param object $adapter Adapter
-	*/
-	public function setAdapter($adapter)
-	{
-		$this->adapter =& $adapter;
 	}
 
 	/***************************************
