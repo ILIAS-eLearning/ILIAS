@@ -14523,10 +14523,10 @@ mme#:#topitem_actions#:#Aktionen
 mme#:#topitem_type_parent#:#Haupteintrag
 mme#:#topitem_type_link#:#Link
 mme#:#topitem_title_default#:#Titel (Standard-Sprache)
-mme#:#topitem_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#topitem_active_byline#:#Aktiviere diesen Haupteintrag.
 mme#:#topitem_type#:#Typ
-mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enhalten oder direkt als Link zu einer Seite angelegt werden.
+mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
 mme#:#subitem_add#:#Eintrag hinzufügen
 mme#:#subitem_edit#:#Bearbeiten
 mme#:#subitem_delete#:#Löschen
@@ -14542,7 +14542,7 @@ mme#:#sub_actions#:#Aktionen
 mme#:#button_save#:#Speichern
 mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
-mme#:#sub_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#sub_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#sub_type_byline#:#Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig.
 mme#:#sub_active_byline#:#Aktiviere diesen Eintrag.
 mme#:#add_languages#:#Sprache hinzufügen
