@@ -2586,8 +2586,6 @@ class ilUtil
 	 */
 	public static function filterClientId(string $clientId): string 
 	{
-		$clientId = self::stripSlashes($clientId);
-
 		// We allow .#_ here because of old ILIAS clients
 		return preg_replace('/[^A-Za-z0-9#_\.]/', '', $clientId);
 	}
