@@ -57,14 +57,11 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		//todo can I remove this?
 		$this->setSelectAllCheckbox('items');
 
-<<<<<<< HEAD
 		$this->setFilterCommand("applyFilter");
 		$this->setResetCommand("resetFilter");
 
 		$this->initFilter();
-=======
 		$this->lng->loadLanguageModule('sess');
->>>>>>> 13c29a6a23... Fixed 0010937: Session language variable missing
 	}
 
 	/**
@@ -197,24 +194,12 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("COLL_DESC",$a_set['description']);
 		}
-<<<<<<< HEAD
 		if(in_array($a_set['ref_id'],$this->getMaterialItems()))
 		{
 			$ass_glyph = $this->ui->glyph()->apply();
 			$this->tpl->setVariable("ASSIGNED_IMG_OK",$this->renderer->render($ass_glyph));
 		}
-=======
-		$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($a_set['ref_id'],$this->getMaterialItems()) ?
-			ilUtil::getImagePath('icon_ok.svg') :
-			ilUtil::getImagePath('icon_not_ok.svg'));
 
-		$this->tpl->setVariable(
-			'ASSIGNED_STATUS',
-			in_array($a_set['ref_id'], $this->getMaterialItems()) ?
-				$this->lng->txt('sess_material_assigned') :
-				$this->lng->txt('sess_material_not_assigned')
-		);
->>>>>>> 13c29a6a23... Fixed 0010937: Session language variable missing
 
 		include_once('./Services/Tree/classes/class.ilPathGUI.php');
 		$path = new ilPathGUI();
