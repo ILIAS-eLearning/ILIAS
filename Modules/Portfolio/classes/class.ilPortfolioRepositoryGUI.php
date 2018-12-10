@@ -201,12 +201,6 @@ class ilPortfolioRepositoryGUI
 		$button->setCaption("prtf_add_portfolio");
 		$button->setUrl($ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
 		$ilToolbar->addButtonInstance($button);
-		
-		//include_once "Modules/Portfolio/classes/class.ilPortfolioTableGUI.php";
-		//$table = new ilPortfolioTableGUI($this, "show", $this->user_id);
-
-		//include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-
 		$portfolio_list = $this->getPortfolioList();
 
 		$tpl->setContent($portfolio_list.ilDiskQuotaHandler::getStatusLegend());
@@ -247,8 +241,8 @@ class ilPortfolioRepositoryGUI
 			$action = [];
 			//	... preview
 			$ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $port["id"]);
-			$action[] = $f->button()->shy($lng->txt("user_profile_preview"),
-				$ctrl->getLinkTargetByClass($prtf_path, "preview"));
+			$preview_action = $ctrl->getLinkTargetByClass($prtf_path, "preview");
+			$action[] = $f->button()->shy($lng->txt("user_profile_preview"), $preview_action);
 			//	... edit content
 			$action[] = $f->button()->shy($lng->txt("prtf_edit_content"),
 				$ctrl->getLinkTargetByClass($prtf_path, "view"));
@@ -334,7 +328,7 @@ class ilPortfolioRepositoryGUI
 			}
 
 
-			$items[] = $f->item()->standard($port["title"])
+			$items[] = $f->item()->standard($f->button()->shy($port["title"], $preview_action))
 				->withActions($actions)
 				->withProperties($props)
 				->withLeadIcon($icon);
