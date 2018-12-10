@@ -648,7 +648,7 @@ class ilLOEditorStatus
 	protected function checkTestOnline($a_ref_id)
 	{
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-		return ilObjTestAccess::_isOnline(ilObject::_lookupObjId($a_ref_id));
+		return !ilObjTestAccess::_isOffline(ilObject::_lookupObjId($a_ref_id));
 	}
 }
 ?>
