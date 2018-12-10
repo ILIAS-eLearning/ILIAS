@@ -7429,6 +7429,7 @@ hr.il-divider-with-label {
 }
 .il-item-group-items {
   clear: both;
+  max-width: 997px;
 }
 /* this is currently experimental, could be removed */
 .il-narrow-content .il-item {
