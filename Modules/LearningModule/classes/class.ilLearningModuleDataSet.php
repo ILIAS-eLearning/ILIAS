@@ -438,7 +438,7 @@ class ilLearningModuleDataSet extends ilDataSet
 				$newObj->setPageHeader($a_rec["PageHeader"]);
 				$newObj->setActiveTOC(ilUtil::yn2tf($a_rec["TocActive"]));
 				$newObj->setActiveLMMenu(ilUtil::yn2tf($a_rec["LmMenuActive"]));
-				$newObj->setTOCMode($a_rec["TOCMode"]);
+				$newObj->setTOCMode($a_rec["TocMode"]);
 				$newObj->setActivePrintView(ilUtil::yn2tf($a_rec["PrintViewActive"]));
 				$newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
 				$newObj->setHistoryUserComments(ilUtil::yn2tf($a_rec["HistUserComments"]));
