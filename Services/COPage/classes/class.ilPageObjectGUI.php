@@ -1847,7 +1847,7 @@ return;
 		{
 			$output = $this->insertPageToc($output);
 		}
-		
+
 		// insert advanced output trigger
 		$output = $this->insertAdvTrigger($output);
 
