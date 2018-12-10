@@ -154,7 +154,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 		// In 'anonymous' context we do not need this additional conditions,
 		// because we checked the privacy setting in the condition above: profile = 'g' 
 		if ($field_conditions) {
-			$fields = implode(' OR ', $field_conditions);
+			$fields = '(' . implode(' OR ', $field_conditions) . ')';
 
 			$field_conditions = ['(' . implode(' AND ', array(
 				$fields,
