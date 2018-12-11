@@ -2686,8 +2686,6 @@ common#:#learning_progress#:#Learning Progress
 common#:#leave_waiting_list#:#Leave Waiting List
 common#:#legend#:#Legend
 common#:#level#:#Level
-common#:#license#:#License
-common#:#licenses#:#Licenses
 common#:#link_all#:#Link all
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
 common#:#link_check_message_disabled#:#Messages disabled
@@ -2978,7 +2976,6 @@ common#:#no_global_role_left#:#Every user has to be assigned to one role.
 common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#no_import_file_found#:#No import file found
 common#:#no_items#:#This object is empty and contains no items.
-common#:#no_license_available#:#No license available!
 common#:#no_limit#:#No limit
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 common#:#no_owner#:#No Owner
@@ -5632,22 +5629,6 @@ ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose ‘Sub�
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_user_sync#:#User Synchronization Settings
-license#:#arbitrary#:#arbitrary
-license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab ‘Licenses’ to see which licenses have to be extended.
-license#:#edit_license#:#Edit license
-license#:#existing_licenses#:#Existing licenses
-license#:#license_counter_info#:#Allows counting used licenses of purchased SCORM and HTML learning modules
-license#:#license_counter#:#License counter
-license#:#license_updated#:#The license data was updated.
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course.
-license#:#license_warning#:#License warning
-license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.
-license#:#potential_accesses#:#Potential accesses
-license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.
-license#:#remaining_licenses#:#Available licenses
-license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
-license#:#used_licenses#:#Consumed licenses
-license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
