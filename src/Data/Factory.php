@@ -73,4 +73,12 @@ class Factory {
 		return new Password($pass);
 	}
 
+	/**
+	 * @param string $clientId
+	 * @return ClientId
+	 */
+	public function clientId($clientId): ClientId
+	{
+		return new ClientId($clientId);
+	}
 }

@@ -4557,6 +4557,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilExerciseManagementGUI' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseManagementGUI.php',
         'ilExerciseMemberTableGUI' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php',
         'ilExerciseMembers' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseMembers.php',
+        'ilExerciseMembersFilter' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseMembersFilter.php',
         'ilExercisePlaceHolderValues' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Values/class.ilExercisePlaceHolderValues.php',
         'ilExercisePlaceholderDescription' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Description/class.ilExercisePlaceholderDescription.php',
         'ilExerciseSearch' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilExerciseSearch.php',
