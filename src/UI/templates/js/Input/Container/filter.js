@@ -9,46 +9,64 @@ il.UI = il.UI || {};
 
 il.UI.filter = (function ($) {
 
-	// init the filter fields (hide hidden stuff)
+	//Init the Filter
 	var init = function() {
 		$("div.il-filter").each(function () {
 			var $filter = this;
-			var cnt = 0;
+			var cnt_hid = 0;
+			var cnt_bar = 1;
+
+            //Filter fields (hide hidden stuff)
 			$($filter).find(".il-filter-field-status").each(function() {
 				$hidden_input = this;
 				if ($($hidden_input).val() === "0") {
-					$($("div.il-filter .il-popover-container")[cnt]).hide();
+					$($("div.il-filter .il-popover-container")[cnt_hid]).hide();
 				} else {
-					$($("div.il-filter .il-filter-add-list li")[cnt]).hide();
+					$($("div.il-filter .il-filter-add-list li")[cnt_hid]).hide();
 				}
-				cnt++;
+				cnt_hid++;
 			});
-		});
 
-        //Popover of Add-Button always at the bottom
-        $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
+            //Show labels and values in Filter Bar
+            $($filter).find(".il-popover-container").each(function() {
+                var label = $(this).find(".leftaddon").text();
+                var value = $(this).find(".il-standard-popover-content").children().val();
+                if (value === undefined || value === "") {
+                    value = "-"
+                }
+                var label_and_value = label + ": " + value;
+                $(".il-filter-inputs-active").find("span[id='" + (cnt_bar) + "']").html(label_and_value);
+                cnt_bar++;
+            });
 
-        //Hide Add-Button when all Input Fields are shown in the Filter at the beginning
-        var addableInputs = $(".il-popover-container:hidden").length;
-        if (addableInputs == 0) {
-            $(".btn-bulky").parents(".il-popover-container").hide();
-        }
+            //Popover of Add-Button always at the bottom
+            $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
 
-        //Focus on the element (input, select,...) in the Popover when an Input Field is clicked.
-        //This does not work. Why?
-        /*
-        $(".il-filter-field").click(function() {
-            $(this).parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
-        });
-        */
-
-        //Accessibility for Input Fields
-        $(".il-filter-field").keydown(function (event) {
-            var key = event.which;
-            if ((key === 13) || (key === 32)) {	// 13 = Return, 32 = Space
-                $(this).click().parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
-                event.preventDefault();
+            //Hide Add-Button when all Input Fields are shown in the Filter at the beginning
+            var addable_inputs = $(".il-popover-container:hidden").length;
+            if (addable_inputs === 0) {
+                $(".btn-bulky").parents(".il-popover-container").hide();
             }
+
+            //Focus on the element (input, select,...) in the Popover when an Input Field is clicked.
+            //This does not work. Why?
+            /*
+            $(".il-filter-field").click(function() {
+                $(this).parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
+            });
+            */
+
+            //Accessibility for Input Fields
+            $(".il-filter-field").keydown(function (event) {
+                var key = event.which;
+                //Imitate a click on the Input Field in the Fiter and focus on the element (input, select,...) in the Popover
+                if ((key === 13) || (key === 32)) {	// 13 = Return, 32 = Space
+                    $(this).click();
+                    var input_element = searchInputElement($(this));
+                    input_element.focus();
+                    event.preventDefault();
+                }
+            });
         });
 	};
 
@@ -64,6 +82,60 @@ il.UI.filter = (function ($) {
 			$($el.parents(".il-filter").find(".il-filter-field-status").get(index)).val(val);
 		};
 
+        /**
+         * Create hidden inputs for GET-request and insert them into the DOM
+         * @param $el
+         * @param url_params
+         */
+		var createHiddenInputs = function ($el, url_params) {
+            for (var param in url_params) {
+                var input = "<input type=\"hidden\" name=\"" + param + "\" value=\"" + url_params[param] + "\">";
+                $el.parents('form').find('.il-filter-bar').before(input);
+            }
+        };
+
+        /**
+         * Search for the Label of the Input which should be added to the Filter
+         * @param $el
+         * @param label
+         */
+		var searchInputLabel = function ($el, label) {
+            var input_label = $el.parents(".il-standard-form").find(".input-group-addon.leftaddon").filter(function() {
+                return $(this).text() === label;
+            });
+            return input_label;
+        };
+
+        /**
+         * Search for the Input Element (in the Popover) which have been added to the Filter
+         * @param input_label
+         */
+		var searchInputElement = function (input_field) {
+            var input_element = input_field.parents(".il-popover-container").find(".il-standard-popover-content").children();
+            return input_element;
+        };
+
+        /**
+         * Search for the Input Field which should be added to the Add-Button
+         * @param $el
+         * @param label
+         */
+		var searchInputField = function ($el, label) {
+            var input_field = $el.parents(".il-standard-form").find(".btn-link").filter(function() {
+                return $(this).text() === label;
+            }).parents("li");
+            return input_field;
+        };
+
+        /**
+         * Search for the Add-Button in the Filter
+         * @param $el
+         */
+		var searchAddButton = function ($el) {
+            var add_button = $el.parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container");
+            return add_button;
+        };
+
 		/**
 		 *
 		 * @param event
@@ -77,26 +149,7 @@ il.UI.filter = (function ($) {
 				$("span[data-target='" + pop_id + "']").html(value_as_string);
 			} else {
 				// no popover yet, we are still in the same input group and search for the il-filter-field span
-				$("#" + id).parents(".input-group").find("span.il-filter-field").html(value_as_string);
-			}
-
-			//Show labels and values in Filter Bar
-            var input_name = $el.attr("name");
-            var input_num = input_name.substring(13);
-            var input_label = $el.parents(".input-group").find(".leftaddon").html();
-            if (input_label == undefined) {
-                var old_input_label = $("#" + input_num).html();
-                var last_char = old_input_label.indexOf(":");
-                old_input_label = old_input_label.substring(0, last_char);
-				if (value_as_string != "") {
-					value_as_string = old_input_label + ": " + value_as_string;
-				}
-                $("span[id='" + input_num + "']").html(value_as_string);
-            } else {
-            	if (value_as_string != "") {
-					value_as_string = input_label + ": " + value_as_string;
-				}
-                $("span[id='" + input_num + "']").html(value_as_string);
+				$el.parents(".input-group").find("span.il-filter-field").html(value_as_string);
 			}
 		};
 
@@ -107,25 +160,29 @@ il.UI.filter = (function ($) {
          */
         var onRemoveClick = function(event, id) {
 			var $el = $("#" + id);
+
+            // Store show/hide status in hidden status inputs
 			var index = $el.parents(".il-popover-container").index();
 			storeFilterStatus($el, index, "0");
 
             //Remove Input Field from Filter
 			$el.parents(".il-popover-container").hide();
+
             //Clear Input Field when it is removed
-			$el.parents(".il-popover-container").find(".il-standard-popover-content").children().val("");
+            var input_element = searchInputElement($el);
+			input_element.val("");
 			$el.parents(".il-popover-container").find(".il-filter-field").html("");
-            var label = $el.parents(".input-group").find(".input-group-addon").html();
 
             //Add Input Field to Add-Button
-			$el.parents(".il-standard-form").find(".btn-link").filter(function() {
-                return $(this).text() === label;
-            }).parents("li").show();
+            var label = $el.parents(".input-group").find(".input-group-addon.leftaddon").html();
+            var input_field = searchInputField($el, label);
+			input_field.show();
 
             //Show Add-Button when not all Input Fields are shown in the Filter
-            var addableInputs = $el.parents(".il-standard-form").find(".il-popover-container:hidden").length;
-            if (addableInputs != 0) {
-                $("#" + id).parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").show();
+            var add_button = searchAddButton($el);
+            var addable_inputs = $el.parents(".il-standard-form").find(".il-popover-container:hidden").length;
+            if (addable_inputs != 0) {
+                add_button.show();
             }
         };
 
@@ -136,9 +193,9 @@ il.UI.filter = (function ($) {
          */
         var onAddClick = function(event, id) {
         	var $el = $("#" + id);
-            //Remove Input Field from Add-Button
-
             var label = $el.text();
+
+            //Remove Input Field from Add-Button
 			$el.parent().hide();
 
             // Store show/hide status in hidden status inputs
@@ -146,24 +203,25 @@ il.UI.filter = (function ($) {
 			storeFilterStatus($el, index, "1");
 
             // Add Input Field to Filter
-			$el.parents(".il-standard-form").find(".input-group-addon").filter(function() {
-                return $(this).text() === label;
-            }).parents(".il-popover-container").show();
+            var input_label = searchInputLabel($el, label);
+			input_label.parents(".il-popover-container").show();
 
-            //Imitate a click on the Input Field in the Fiter and focus on the element (input, select,...) in the Popover
-			$el.parents(".il-standard-form").find(".input-group-addon").filter(function() {
-                return $(this).text() === label;
-            }).parent().find(".il-filter-field").click()
-                .parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
+            //Imitate a click on the Input Field in the Fiter
+            input_label.parent().find(".il-filter-field").click();
+
+            //Focus on the element (input, select,...) in the Popover
+            var input_element = searchInputElement(input_label);
+			input_element.focus();
 
             //Hide Add-Button when all Input Fields are shown in the Filter
-            var addableInputs = $el.parents(".il-standard-form").find("li:visible").length;
-            if (addableInputs == 0) {
-                $("#" + id).parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").hide();
+            var add_button = searchAddButton($el);
+            var addable_inputs = $el.parents(".il-standard-form").find("li:visible").length;
+            if (addable_inputs === 0) {
+                add_button.hide();
             }
 
             //Hide the Popover of the Add-Button when adding Input Field
-			$el.parents(".il-standard-form").find(".btn-bulky").parents(".il-popover-container").find(".il-popover").hide();
+			add_button.find(".il-popover").hide();
         };
 
         /**
@@ -178,11 +236,7 @@ il.UI.filter = (function ($) {
             var action = $el.parents('form').attr("data-cmd-" + cmd);
             var url = parse_url(action);
             var url_params = url['query_params'];
-            for (var param in url_params) {
-                console.log(param + " = " + url_params[param]);
-                var input = "<input type=\"hidden\" name=\"" + param + "\" value=\"" + url_params[param] + "\">";
-                $el.parents('form').find('.il-filter-bar').before(input);
-            }
+            createHiddenInputs($el, url_params);
             $el.parents('form').submit();
         };
 
