@@ -26,8 +26,11 @@ if ($ilDB->tableExists('license_data')) {
 ?>
 <#5>
 <?php
-$settings = new ilSetting('license');
-$settings->deleteAll();
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE module = %s',
+	['text'],
+	['license']
+);
 ?>
 <#6>
 <?php
