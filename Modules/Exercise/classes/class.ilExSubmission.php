@@ -3,6 +3,7 @@
 
 /**
  * Exercise submission
+ * //TODO: This class has to much static methods related to delivered "files". Extract them to classes.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesExercise
@@ -13,8 +14,6 @@ class ilExSubmission
 	const TYPE_OBJECT = "Object";	// Blogs in WSP/Portfolio
 	const TYPE_TEXT = "Text";
 	const TYPE_REPO_OBJECT = "RepoObject";	// Wikis
-
-
 
 	/**
 	 * @var ilObjUser
@@ -494,6 +493,41 @@ class ilExSubmission
 			$delivered[] = $row;
 		}
 		
+		return $delivered ? $delivered : array();
+	}
+
+	public static function getAssignmentFilesByUsers(int $a_exc_id, int $a_ass_id, array $a_users) : array
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$storage = new ilFSStorageExercise($a_exc_id, $a_ass_id);
+		$path = $storage->getAbsoluteSubmissionPath();
+
+		$ass_type = ilExAssignmentTypes::getInstance()->getById(ilExAssignment::lookupType($a_ass_id));
+
+		$query = "SELECT * FROM exc_returned WHERE ass_id = ".
+			$ilDB->quote($a_ass_id, "integer") .
+			" AND user_id IN (".implode(',',$a_users).")";
+
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			if ($ass_type->isSubmissionAssignedToTeam())
+			{
+				$storage_id = $row["team_id"];
+			}
+			else
+			{
+				$storage_id = $row["user_id"];
+			}
+
+			$row["timestamp"] = $row["ts"];
+			$row["filename"] = $path."/".$storage_id."/".basename($row["filename"]);
+			$delivered[] = $row;
+		}
+
 		return $delivered ? $delivered : array();
 	}
 
@@ -1665,6 +1699,33 @@ class ilExSubmission
 		);
 
 		return $targetdir;
+	}
+
+	/**
+	 * @param $a_exercise_id
+	 * @param $a_ass_id
+	 * @return array
+	 */
+	public static function getAssignmentParticipants(int $a_exercise_id, int $a_ass_id) : array
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$participants = array();
+		$query = "SELECT user_id FROM exc_returned WHERE ass_id = ".
+			$ilDB->quote($a_ass_id, "integer") .
+			" AND obj_id = ".
+			$ilDB->quote($a_exercise_id, "integer");
+
+		$res = $ilDB->query($query);
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$participants[] = $row['user_id'];
+		}
+
+		return $participants;
 	}
 }
 
