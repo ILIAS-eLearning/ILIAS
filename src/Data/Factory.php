@@ -49,4 +49,13 @@ class Factory {
 		}
 		return $this->colorfactory->build($value);
 	}
+
+	/**
+	 * @param string $clientId
+	 * @return ClientId
+	 */
+	public function clientId($clientId): ClientId
+	{
+		return new ClientId($clientId);
+	}
 }
