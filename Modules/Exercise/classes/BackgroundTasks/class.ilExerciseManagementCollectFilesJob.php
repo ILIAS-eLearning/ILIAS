@@ -220,7 +220,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			$exc_members_id = $exercise->members_obj->getMembers();
 		}
 
-		$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $exc_members_id);
+		$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $exc_members_id, $this->user_id);
 		$exc_members_id = $filter->filterParticipantsByAccess();
 
 		foreach( $exc_members_id as $member_id)
@@ -513,7 +513,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 				$participants = $this->getAssignmentMembersIds();
 			}
 
-			$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $participants);
+			$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $participants, $this->user_id);
 			$participants = $filter->filterParticipantsByAccess();
 
 			$row = 2;
