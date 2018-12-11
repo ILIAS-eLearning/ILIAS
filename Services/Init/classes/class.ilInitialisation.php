@@ -364,7 +364,7 @@ class ilInitialisation
 		}
 
 		if (isset($_GET['client_id']) && strlen($_GET['client_id']) > 0) {
-			$_GET['client_id'] = \ilUtil::filterClientId($_GET['client_id']);
+			$_GET['client_id'] = \ilUtil::getClientIdByString((string)$_GET['client_id'])->toString();
 			if (!defined('IL_PHPUNIT_TEST')) {
 				if (ilContext::supportsPersistentSessions()) {
 					ilUtil::setCookie('ilClientId', $_GET['client_id']);
@@ -380,7 +380,7 @@ class ilInitialisation
 			$clientId = $_GET['client_id'];
 		}
 
-		define('CLIENT_ID', \ilUtil::filterClientId((string)$clientId));
+		define('CLIENT_ID', \ilUtil::getClientIdByString((string)$clientId)->toString());
 	}
 
 	/**

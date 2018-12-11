@@ -2582,12 +2582,13 @@ class ilUtil
 
 	/**
 	 * @param string $clientId
-	 * @return string
+	 * @return \ILIAS\Data\ClientId
 	 */
-	public static function filterClientId(string $clientId): string 
+	public static function getClientIdByString(string $clientId): \ILIAS\Data\ClientId 
 	{
-		// We allow .#_ here because of old ILIAS clients
-		return preg_replace('/[^A-Za-z0-9#_\.]/', '', $clientId);
+		$df = new \ILIAS\Data\Factory;
+
+		return $df->clientId($clientId);
 	}
 	
 	/**
