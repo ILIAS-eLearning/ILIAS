@@ -86,8 +86,6 @@ class ilSAHSPresentationGUI
 			$next_class != "ilscormofflinemodegui" &&
 			$next_class != "illearningprogressgui")
 		{
-			include_once("./Services/License/classes/class.ilLicense.php");
-			ilLicense::_noteAccess($obj_id, "sahs", $_GET["ref_id"]);
 			switch($type)
 			{				
 				case "scorm2004":
