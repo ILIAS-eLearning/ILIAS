@@ -210,7 +210,7 @@ class ilUIFilterService
 	protected function handleApplyAndCollapse(string $filter_id, \ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
 		if ((in_array($this->request->getFilterCmd(),
-			[self::CMD_APPLY, self::CMD_COLLAPSE, self::CMD_TOGGLE_OFF])))
+			[self::CMD_APPLY, self::CMD_COLLAPSE])))
 		{
 			$filter = $this->request->getFilterWithRequest($filter);
 			foreach ($filter->getInputs() as $input_id => $i)
