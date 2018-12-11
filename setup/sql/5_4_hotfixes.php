@@ -18,3 +18,18 @@ $ilDB->update("style_data", array(
 	"1" => array("integer", 1)
 ));
 ?>
+<#4>
+<?php
+if ($ilDB->tableExists('license_data')) {
+	$ilDB->dropTable('license_data');
+}
+?>
+<#5>
+<?php
+$settings = new ilSetting('license');
+$settings->deleteAll();
+?>
+<#6>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
