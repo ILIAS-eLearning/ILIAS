@@ -156,21 +156,31 @@ class ilUIFilterService
 		}
 
 		if ($this->request->getFilterCmd() == self::CMD_COLLAPSE) {
+			$this->handleRendering($filter_id, $inputs);
 			$this->session->writeExpanded($filter_id, false);
 		}
 
-		if ($this->request->getFilterCmd() == self::CMD_APPLY)
+		if ($this->request->getFilterCmd() == self::CMD_APPLY) {
+			$this->handleRendering($filter_id, $inputs);
+		}
+	}
+
+	/**
+	 * Handle rendering of inputs to session
+	 * @param string $filter_id
+	 * @param array $inputs
+	 */
+	protected function handleRendering($filter_id, $inputs)
+	{
+		foreach ($inputs as $input_id => $i)
 		{
-			foreach ($inputs as $input_id => $i)
+			if ($this->request->isInputRendered($input_id))
 			{
-				if ($this->request->isInputRendered($input_id))
-				{
-					$this->session->writeRendered($filter_id, $input_id, true);
-				}
-				else
-				{
-					$this->session->writeRendered($filter_id, $input_id, false);
-				}
+				$this->session->writeRendered($filter_id, $input_id, true);
+			}
+			else
+			{
+				$this->session->writeRendered($filter_id, $input_id, false);
 			}
 		}
 	}
@@ -191,7 +201,7 @@ class ilUIFilterService
 
 
 	/**
-	 * Handle apply command
+	 * Handle apply and collapse command
 	 *
 	 * @param string $filter_id
 	 * @param \ILIAS\UI\Component\Input\Container\Filter\Standard $filter
@@ -200,7 +210,7 @@ class ilUIFilterService
 	protected function handleApplyAndCollapse(string $filter_id, \ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
 		if ((in_array($this->request->getFilterCmd(),
-			[self::CMD_APPLY, self::CMD_COLLAPSE])))
+			[self::CMD_APPLY, self::CMD_COLLAPSE, self::CMD_TOGGLE_OFF])))
 		{
 			$filter = $this->request->getFilterWithRequest($filter);
 			foreach ($filter->getInputs() as $input_id => $i)
