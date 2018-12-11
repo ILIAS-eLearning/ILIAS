@@ -132,7 +132,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->saveQuestionDataToDb($original_id);
 		$this->saveAdditionalQuestionDataToDb();
@@ -149,7 +150,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
@@ -334,7 +336,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES)
 		{
 			$imagepath_original = $this->getImagePath($src_question_id, $src_object_id);
@@ -368,7 +371,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	function copyImages($question_id, $source_questionpool)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
@@ -965,7 +969,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// save additional data
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -1478,7 +1483,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function getOldLeveledOrdering()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY position ASC',
 			array('integer'), array($this->getId()));
@@ -1495,7 +1501,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function lookupSolutionOrderByRandomid($a_random_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$res = $ilDB->queryF('SELECT solution_key FROM qpl_a_ordering WHERE random_id = %s',
 		array('integer'), array($a_random_id));
@@ -1506,7 +1513,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function updateLeveledOrdering($a_index, $a_answer_text, $a_depth)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->update('qpl_a_ordering',
 		array('solution_key'=> array('integer', $a_index),
@@ -1556,7 +1564,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

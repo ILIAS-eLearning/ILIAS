@@ -540,6 +540,18 @@ class ilPersonalSettingsGUI
 			$this->form->addItem($cb);
 		}
 
+		// help tooltips
+		$module_id = (int) $ilSetting->get("help_module");
+		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
+			$ilSetting->get("help_mode") != "1")
+		{
+			$this->lng->loadLanguageModule("help");
+			$cb = new ilCheckboxInputGUI($this->lng->txt("help_toggle_tooltips"), "help_tooltips");
+			$cb->setChecked(!$ilUser->prefs["hide_help_tt"]);
+			$cb->setInfo($this->lng->txt("help_toggle_tooltips_info"));
+			$this->form->addItem($cb);
+		}
+
 		// hits per page
 		if ($this->userSettingVisible("hits_per_page"))
 		{
@@ -755,6 +767,7 @@ class ilPersonalSettingsGUI
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$ilUser = $DIC['ilUser'];
+		$ilSetting = $DIC->settings();
 	
 		$this->initGeneralSettingsForm();
 		if ($this->form->checkInput())
@@ -788,6 +801,14 @@ class ilPersonalSettingsGUI
 				{
 					$ilUser->setPref("hits_per_page",$_POST["hits_per_page"]);
 				}
+			}
+
+			// help tooltips
+			$module_id = (int) $ilSetting->get("help_module");
+			if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
+				$ilSetting->get("help_mode") != "1")
+			{
+				$ilUser->setPref("hide_help_tt",(int) !$_POST["help_tooltips"]);
 			}
 
 			// set show users online
@@ -970,7 +991,6 @@ class ilPersonalSettingsGUI
 	{
 		global $DIC;
 
-		$ilAuth = $DIC['ilAuth'];
 		$ilUser = $DIC['ilUser'];
 				
 		// we are setting the flag and ending the session in the same step
@@ -1024,7 +1044,6 @@ class ilPersonalSettingsGUI
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
-		$ilAuth = $DIC['ilAuth'];
 		$ilSetting = $DIC['ilSetting'];
 		$ilLog = $DIC['ilLog'];
 		

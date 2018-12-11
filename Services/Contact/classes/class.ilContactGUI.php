@@ -9,7 +9,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
 * @ilCtrl_Calls ilContactGUI: ilMailFormGUI, ilUsersGalleryGUI, ilPublicUserProfileGUI
 */
 class ilContactGUI
@@ -558,7 +558,7 @@ class ilContactGUI
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 		$ilChatroom = new ilChatroom();
-		$chat_rooms = $ilChatroom->getAllRooms($this->user->getId());
+		$chat_rooms = $ilChatroom->getAccessibleRoomIdByTitleMap($this->user->getId());
 		$subrooms   = array();
 
 		foreach($chat_rooms as $room_id => $title)
@@ -574,6 +574,7 @@ class ilContactGUI
 		$psel    = new ilSelectInputGUI($this->lng->txt('chat_select_room'), 'room_id');
 		$options = array();
 
+		asort($chat_rooms);
 		foreach($chat_rooms as $room_id => $room)
 		{
 			$ref_id = $room_id;

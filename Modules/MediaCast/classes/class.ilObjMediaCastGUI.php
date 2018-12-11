@@ -246,8 +246,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		
 		$tpl->setContent($table_gui->getHTML());
-
-		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
 	}
 	
 	/**
@@ -1240,6 +1238,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$tpl = $this->tpl;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$obj_service = $this->object_service;
 		
 		$lng->loadLanguageModule("mcst");
 		
@@ -1271,6 +1270,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("obj_presentation"));
 		$this->form_gui->addItem($sh);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->addTileImage();
 		
 		// Sorting
 		$sort = new ilRadioGroupInputGUI($lng->txt("mcst_ordering"), "order");
@@ -1369,6 +1371,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	{
 		$ilCtrl = $this->ctrl;
 		$ilTabs = $this->tabs;
+		$obj_service = $this->object_service;
 		
 		$this->checkPermission("write");
 		$ilTabs->activateTab("id_settings");
@@ -1385,6 +1388,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$this->object->setDownloadable($this->form_gui->getInput("downloadable"));
 			$this->object->setOrder($this->form_gui->getInput("order"));
 			$this->object->setViewMode($this->form_gui->getInput("viewmode"));
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->saveTileImage();
 			
 			if ($enable_internal_rss)
 			{
@@ -1581,6 +1587,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function showContentObject()
 	{
+		$tpl = $this->tpl;
 		$ilUser = $this->user;
 		
 		// need read events for parent for LP statistics
@@ -1596,6 +1603,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$this->listItemsObject(true);
 		}
+
+		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
 	}
 	
 	function showGallery()

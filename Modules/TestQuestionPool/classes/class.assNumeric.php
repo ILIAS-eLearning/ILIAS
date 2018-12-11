@@ -94,7 +94,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	public function loadFromDb($question_id)
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
@@ -347,7 +348,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		}
 
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$found_values = array();
 		if (is_null($pass))
@@ -450,7 +452,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (is_null($pass))
 		{
@@ -536,7 +539,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// save additional data
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -557,7 +561,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	public function saveAnswerSpecificDataToDb()
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// Write range to the database
 		$ilDB->manipulateF( "DELETE FROM qpl_num_range WHERE question_fi = %s",
@@ -692,7 +697,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

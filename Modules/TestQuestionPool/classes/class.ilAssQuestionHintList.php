@@ -218,7 +218,8 @@ class ilAssQuestionHintList implements Iterator
 	 */
 	public static function getListByQuestionId($questionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		qht_hint_id,
@@ -263,7 +264,8 @@ class ilAssQuestionHintList implements Iterator
 	 */
 	public static function getListByHintIds($hintIds)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$qht_hint_id__IN__hintIds = $ilDB->in('qht_hint_id', $hintIds, false, 'integer');
 		
@@ -310,7 +312,8 @@ class ilAssQuestionHintList implements Iterator
 	 */
 	public static function getNextIndexByQuestionId($questionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 				
 		$query = "
 			SELECT		1 + COALESCE( MAX(qht_hint_index), 0 ) next_index
@@ -337,7 +340,8 @@ class ilAssQuestionHintList implements Iterator
 	 */
 	public static function deleteHintsByQuestionIds($questionIds)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$__qht_question_fi__IN__questionIds = $ilDB->in('qht_question_fi', $questionIds, false, 'integer');
 		

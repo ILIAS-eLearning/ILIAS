@@ -49,7 +49,6 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		$this->access = $DIC->access();
 	}
 
-	static $online;
 	static $startfile;
 
 	/**
@@ -68,7 +67,6 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		$ilUser = $this->user;
 		$lng = $this->lng;
-		$rbacsystem = $this->rbacsystem;
 		$ilAccess = $this->access;
 
 		if ($a_user_id == "")
@@ -78,28 +76,15 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 
 		switch ($a_permission)
 		{
-			case "visible":
-				if (!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id) &&
-					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					return false;
-				}
-				break;
-
 			case "read":
 
-				if ((!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id)) ||
-					ilObjFileBasedLMAccess::_determineStartUrl($a_obj_id) == "")
+				if (ilObjFileBasedLMAccess::_determineStartUrl($a_obj_id) == "")
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
 				}
 				break;
 		}
-
-
 		return true;
 	}
 	
@@ -133,30 +118,8 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	//
 
 	/**
-	* check wether learning module is online
-	*/
-	static function _lookupOnline($a_id)
-	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-
-		if (isset(self::$online[$a_id]))
-		{
-			return self::$online[$a_id];
-		}
-		$q = "SELECT is_online FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
-		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
-
-		self::$online[$a_id] = ilUtil::yn2tf($rec["is_online"]);
-		
-		return self::$online[$a_id];
-	}
-
-	/**
-	* check wether learning module is online
-	*/
+	 * determine start url
+	 */
 	static function _determineStartUrl($a_id)
 	{
 		global $DIC;
@@ -232,19 +195,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		return file_exists($lm_dir) ? ilUtil::dirsize($lm_dir) : 0;		
 	}
 
-	/**
-	 * Type-specific implementation of general status
-	 *
-	 * Used in ListGUI and Learning Progress
-	 *
-	 * @param int $a_obj_id
-	 * @return bool
-	 */
-	static function _isOffline($a_obj_id)
-	{
-		return !self::_lookupOnline($a_obj_id);
-	}
-	
+
 	/**
 	 * Preload data
 	 *
@@ -255,15 +206,13 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		$ilUser = $DIC->user();
-		
-		$q = "SELECT id, is_online, startfile FROM file_based_lm WHERE ".
+
+		$q = "SELECT id, startfile FROM file_based_lm WHERE ".
 			$ilDB->in("id", $a_obj_ids, false, "integer");
 
 		$lm_set = $ilDB->query($q);
 		while ($rec = $ilDB->fetchAssoc($lm_set))
 		{
-			self::$online[$rec["id"]] = ilUtil::yn2tf($rec["is_online"]);
 			self::$startfile[$rec["id"]] = $rec["startfile"]."";
 		}
 	}

@@ -175,6 +175,10 @@ class ilObjectTranslation
 				return $l["title"];
 			}
 		}
+		if (count($this->languages) == 0)
+		{
+			return ilObject::_lookupTitle($this->getObjId());
+		}
 		return "";
 	}
 
@@ -207,6 +211,10 @@ class ilObjectTranslation
 			{
 				return $l["description"];
 			}
+		}
+		if (count($this->languages) == 0)
+		{
+			return ilObject::_lookupDescription($this->getObjId());
 		}
 		return "";
 	}

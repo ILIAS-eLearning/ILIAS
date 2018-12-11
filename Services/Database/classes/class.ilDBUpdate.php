@@ -390,6 +390,8 @@ class ilDBUpdate {
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 
+		$ilCtrlStructureReader->readStructure();
+
 		$mr = new ilModuleReader("", "", "");
 		$mr->clearTables();
 		foreach ($modules as $module) {
@@ -410,7 +412,7 @@ class ilDBUpdate {
 			unset($sr);
 		}
 
-		$ilCtrlStructureReader->readStructure();
+
 
 		return true;
 	}

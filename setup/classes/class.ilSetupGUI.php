@@ -3720,6 +3720,8 @@ class ilSetupGUI
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 
+		$ilCtrlStructureReader->readStructure(true);
+
 		// clear tables
 		$mr = new ilModuleReader("", "", "");
 		$mr->clearTables();
@@ -3743,7 +3745,6 @@ class ilSetupGUI
 		}
 // END WebDAV
 
-		$ilCtrlStructureReader->readStructure(true);
 		ilUtil::sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
 		$this->displayTools();
 	}

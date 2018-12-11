@@ -33,6 +33,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	protected $help;
 
 	/**
+	 * @var ilExAssignment
+	 */
+	protected $ass = null;
+
+	/**
 	* Constructor
 	* @access public
 	*/
@@ -231,7 +236,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->getObjectService();
+
 		$a_form->setTitle($this->lng->txt("exc_edit_exercise"));
+
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$a_form->addItem($pres);
+
+		// tile image
+		$a_form = $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('exc_passing_exc'));
@@ -379,6 +393,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
+		$obj_service = $this->getObjectService();
+
 		$ilUser = $this->user;
 		$this->object->setShowSubmissions($a_form->getInput("show_submissions"));
 		$this->object->setPassMode($a_form->getInput("pass_mode"));		
@@ -398,8 +414,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
 			$ilUser->getId(), $this->object->getId(),
 			(bool)$a_form->getInput("notification"));
-		
-		
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
 		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
 			$this->object->getId(),
 			$a_form,
@@ -887,6 +905,31 @@ class ilObjExerciseGUI extends ilObjectGUI
 		);
 
 		$pdfAction->downloadPdf((int) $ilUser->getId(), (int)$this->object->getId());
+	}
+
+	/**
+	 * Start assignment with relative deadline
+	 */
+	function startAssignmentObject()
+	{
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
+
+		if ($this->ass)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+			$state = ilExcAssMemberState::getInstanceByIds($this->ass->getId(), $ilUser->getId());
+			if (!$state->getCommonDeadline() && $state->getRelativeDeadline())
+			{
+				$idl = $state->getIndividualDeadlineObject();
+				$idl->setStartingTimestamp(time());
+				$idl->save();
+			}
+		}
+
+		$ilCtrl->redirect($this, "showOverview");
 	}
 }
 

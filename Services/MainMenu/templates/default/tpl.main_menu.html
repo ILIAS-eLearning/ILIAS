@@ -13,7 +13,7 @@
 			<!-- BEGIN topbar_icons_bl -->
 			<ul id="ilTopBarNav" class="">					
 				<!-- BEGIN status_box -->
-					<li>{GLYPH}</li>
+					<li id="{STATUS_ID}">{GLYPH}</li>
 				<!-- END status_box -->
 				<!-- BEGIN help_icon -->
 					<li><a id="help_tr" href="#" onclick="return il.Help.listHelp(event, false);"><img src="{IMG_HELP}" alt="" /></a></li>
@@ -23,13 +23,12 @@
 				<!-- END help_tt_icon -->
 				{ONSCREENCHAT}
 				{AWARENESS}
-				<li class="mm_background_tasks" refresh-uri="{BACKGROUNDTASKS_REFRESH_URI}">{BACKGROUNDTASKS}</li>
+				<li id="mm_tb_background_tasks" class="mm_background_tasks" refresh-uri="{BACKGROUNDTASKS_REFRESH_URI}">{BACKGROUNDTASKS}</li>
 				<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
 				<!-- BEGIN help -->
-				<li id="mm_help" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				<li id="mm_help"><a href="#" onclick="{HELP_CLICK}" >
 					<span class="visible-xs-inline glyphicon glyphicon-question-sign"></span>
-					<span class="hidden-xs">{TXT_HELP} <span class="caret"></span></span></a>
-					{HELP_SELECT}
+					<span class="hidden-xs">{TXT_HELP}</span></a>
 				</li>
 				<!-- END help -->
 				<!-- BEGIN userisloggedin -->

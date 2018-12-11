@@ -62,7 +62,10 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);
 		$nextClass = $ilCtrl->getNextClass($this);
@@ -92,7 +95,9 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function showListCmd()
 	{
-		global $ilCtrl, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php';
 
@@ -115,7 +120,10 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function showHintCmd()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		
 		if( !isset($_GET['hintId']) || !(int)$_GET['hintId'] )
 		{
@@ -183,7 +191,10 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function confirmRequestCmd()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		try
 		{
@@ -225,7 +236,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function performRequestCmd()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if( !isset($_GET['hintId']) || !(int)$_GET['hintId'] )
 		{
@@ -261,7 +273,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function backToQuestionCmd()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$ilCtrl->redirect($this->parentGUI, $this->parentCMD);
 	}
@@ -275,7 +288,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function populateContent($content)
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		
 		if( !$this->isQuestionPreview() && $this->parentGUI->object->getKioskMode() )
 		{
@@ -316,7 +330,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function getHintPresentationLinkTarget($hintId, $xmlStyle = true)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
 		{

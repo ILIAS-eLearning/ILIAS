@@ -32,10 +32,10 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
     protected $mocked_obj;
 
     /** @var ilWebDAVRepositoryHelper */
-    protected $mocked_dav_repo_facade;
+    protected $mocked_dav_repo_helper;
 
     /** @var ilWebDAVObjDAVHelper */
-    protected $mocked_dav_helper;
+    protected $mocked_dav_obj_helper;
 
     /** @var ilObject */
     protected $dav_obj;
@@ -54,11 +54,11 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         $this->mocked_obj = \Mockery::mock('ilObject');
         $this->mocked_obj->shouldReceive(['getRefId' => $this->ref_id]);
 
-        $this->mocked_dav_helper = \Mockery::mock('ilWebDAVObjDAVHelper');
+        $this->mocked_dav_obj_helper = \Mockery::mock('ilWebDAVObjDAVHelper');
 
-        $this->mocked_dav_repo_facade = \Mockery::mock('ilWebDAVRepositoryHelper');
+        $this->mocked_dav_repo_helper = \Mockery::mock('ilWebDAVRepositoryHelper');
 
-        $this->dav_obj = $this->setUpObjectDAV($this->mocked_obj, $this->mocked_dav_repo_facade, $this->mocked_dav_helper);
+        $this->dav_obj = $this->setUpObjectDAV($this->mocked_obj, $this->mocked_dav_repo_helper, $this->mocked_dav_obj_helper);
 
 		parent::setUp();
     }
@@ -81,7 +81,7 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         $exception_thrown = false;
         $title = 'Test';
 
-        $this->mocked_dav_repo_facade->shouldReceive('checkAccess')->withArgs(['write', $this->ref_id])->andReturn(false);
+        $this->mocked_dav_repo_helper->shouldReceive('checkAccess')->withArgs(['write', $this->ref_id])->andReturn(false);
 
         $this->mocked_obj->shouldNotReceive('setTitle');
 
@@ -110,8 +110,8 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         $exception_thrown = false;
         $title = 'Test';
 
-        $this->mocked_dav_repo_facade->shouldReceive('checkAccess')->withAnyArgs()->andReturn(true);
-        $this->mocked_dav_repo_facade->shouldReceive('isTitleContainingInvalidCharacters')->with($title)->andReturn(true);
+        $this->mocked_dav_repo_helper->shouldReceive('checkAccess')->withAnyArgs()->andReturn(true);
+        $this->mocked_dav_obj_helper->shouldReceive('isDAVableObjTitle')->with($title)->andReturn(false);
 
         $this->mocked_obj = \Mockery::mock('ilObject');
         $this->mocked_obj->shouldNotReceive('setTitle');
@@ -143,8 +143,8 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         // Arrange
         $title = 'Test';
 
-        $this->mocked_dav_repo_facade->shouldReceive('checkAccess')->withAnyArgs()->andReturn(true);
-        $this->mocked_dav_repo_facade->shouldReceive('isTitleContainingInvalidCharacters')->with($title)->andReturn(false);
+        $this->mocked_dav_repo_helper->shouldReceive('checkAccess')->withAnyArgs()->andReturn(true);
+        $this->mocked_dav_obj_helper->shouldReceive('isDAVableObjTitle')->with($title)->andReturn(true);
 
         $this->mocked_obj->shouldReceive('setTitle')->withArgs([$title]);
         $this->mocked_obj->shouldReceive('update');
@@ -166,7 +166,7 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         // Arrange
         $exception_thrown = false;
 
-        $this->mocked_dav_repo_facade->shouldReceive('checkAccess')->withAnyArgs()->andReturn(false);
+        $this->mocked_dav_repo_helper->shouldReceive('checkAccess')->withAnyArgs()->andReturn(false);
 
         // Act
         try

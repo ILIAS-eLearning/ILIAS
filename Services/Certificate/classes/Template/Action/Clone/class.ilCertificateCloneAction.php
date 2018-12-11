@@ -50,7 +50,7 @@ class ilCertificateCloneAction
 		ilCertificateFactory $certificateFactory,
 		ilCertificateTemplateRepository $templateRepository,
 		\ILIAS\Filesystem\Filesystem $fileSystem = null,
-		illLogger $logger = null,
+		ilLogger $logger = null,
 		ilCertificateObjectHelper $objectHelper = null
 	) {
 		$this->database = $database;

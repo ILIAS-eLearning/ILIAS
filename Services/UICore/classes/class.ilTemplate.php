@@ -531,6 +531,10 @@ class ilTemplate extends HTML_Template_ITX
 
 				// set standard parts (tabs and title icon)
 				$this->fillBodyClass();
+
+				// see #22992
+				$this->fillContentLanguage();
+
 				if ($a_fill_tabs)
 				{
 					if ($this->blockExists("content"))
@@ -564,7 +568,6 @@ class ilTemplate extends HTML_Template_ITX
 					// these fill just plain placeholder variables in tpl.main.html
 					$this->setCurrentBlock("DEFAULT");
 					$this->fillNewContentStyle();
-					$this->fillContentLanguage();
 					$this->fillWindowTitle();
 
 					// these fill blocks in tpl.adm_content.html
@@ -1060,14 +1063,6 @@ class ilTemplate extends HTML_Template_ITX
 				$ftpl->setCurrentBlock("call_history");
 				$ftpl->parseCurrentBlock();
 				
-				// debug hack
-				$debug = $ilCtrl->getDebug();
-				foreach($debug as $d)
-				{
-					$ftpl->setCurrentBlock("c_entry");
-					$ftpl->setVariable("C_ENTRY", $d);
-					$ftpl->parseCurrentBlock();
-				}
 				$ftpl->setCurrentBlock("call_history");
 				$ftpl->parseCurrentBlock();
 			}

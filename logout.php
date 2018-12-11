@@ -15,7 +15,6 @@ ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd("showLogout");
-$ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
 $ilBench->save();
 

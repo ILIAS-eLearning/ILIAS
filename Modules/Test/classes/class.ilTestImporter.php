@@ -36,7 +36,7 @@ class ilTestImporter extends ilXmlImporter
 			$_SESSION['tst_import_subdir'] = $this->getImportPackageName();
 			$newObj->saveToDb(); // this generates test id first time
 			$questionParentObjId = $newObj->getId();
-			$newObj->setOnline(true);
+			$newObj->setOfflineStatus(false);
 			$questionParentObjId = $newObj->getId();
 		}
 		else
@@ -58,15 +58,16 @@ class ilTestImporter extends ilXmlImporter
 		$newObj->loadFromDb();
 
 		list($xml_file,$qti_file) = $this->parseXmlFileNames();
-
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		if(!@file_exists($xml_file))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $xml_file);
+			$DIC['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $xml_file);
 			return false;
 		}
 		if(!@file_exists($qti_file))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $qti_file);
+			$DIC['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $qti_file);
 			return false;
 		}
 		
@@ -196,8 +197,8 @@ class ilTestImporter extends ilXmlImporter
 		}
 
 		// update all source pool definition's tax/taxNode ids with new mapped id
-		
-		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilDB = $DIC['ilDB'];
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 		$srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
@@ -275,7 +276,8 @@ class ilTestImporter extends ilXmlImporter
 	 */
 	protected function parseXmlFileNames()
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->getImportDirectory());
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC['ilLog']->write(__METHOD__.': '.$this->getImportDirectory());
 		
 		$basename = basename($this->getImportDirectory());
 
@@ -368,8 +370,8 @@ class ilTestImporter extends ilXmlImporter
 			require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
 			$sltImportFails = new ilTestSkillLevelThresholdImportFails($testOBJ->getId());
 			$sltImportFails->registerFailedImports($importer->getFailedThresholdImportSkillList());
-			
-			$testOBJ->setOnline(false);
+
+			$testOBJ->setOfflineStatus(true);
 		}
 	}
 }

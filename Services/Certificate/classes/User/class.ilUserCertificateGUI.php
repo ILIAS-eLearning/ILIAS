@@ -7,7 +7,7 @@ use ILIAS\UI\Renderer;
 /**
  * @ingroup ServicesCertificate
  * @author  Niels Theen <ntheen@databay.de>
- * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilLearningHistoryGUI
+ * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
  */
 class ilUserCertificateGUI
 {
@@ -63,6 +63,11 @@ class ilUserCertificateGUI
 	private $filesystem;
 
 	/**
+	 * @var ilCertificateMigrationValidator|null
+	 */
+	private $migrationVisibleValidator;
+
+	/**
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
 	 * @param ilLanguage|null $language
@@ -75,7 +80,7 @@ class ilUserCertificateGUI
 	 * @param Renderer|null $uiRenderer
 	 * @param \ilAccessHandler|null $access
 	 * @param \ILIAS\Filesystem\Filesystem|null $filesystem
-	 * @param ilSetting|null $scormSettings
+	 * @param ilCertificateMigrationValidator|null $migrationVisibleValidator
 	 */
 	public function __construct(
 		ilTemplate $template = null,
@@ -89,7 +94,8 @@ class ilUserCertificateGUI
 		Factory $uiFactory = null,
 		Renderer $uiRenderer = null,
 		\ilAccessHandler $access = null,
-		\ILIAS\Filesystem\Filesystem $filesystem = null
+		\ILIAS\Filesystem\Filesystem $filesystem = null,
+		ilCertificateMigrationValidator $migrationVisibleValidator = null
 	) {
 		global $DIC;
 
@@ -155,6 +161,11 @@ class ilUserCertificateGUI
 		}
 		$this->filesystem = $filesystem;
 
+		if (null === $migrationVisibleValidator) {
+			$migrationVisibleValidator = new ilCertificateMigrationValidator($this->certificateSettings);
+		}
+		$this->migrationVisibleValidator = $migrationVisibleValidator;
+
 		$this->language->loadLanguageModule('cert');
 	}
 
@@ -184,10 +195,9 @@ class ilUserCertificateGUI
 
 		switch ($nextClass) {
 			case 'ilcertificatemigrationgui':
-				$cert_migration_gui = new \ilCertificateMigrationGUI();
-				$ret = $this->controller->forwardCommand($cert_migration_gui);
-				/** @var ilTemplate $tpl */
-				$this->template->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $ret, true);
+				$migrationGui = new \ilCertificateMigrationGUI();
+				$resultMessageString = $this->controller->forwardCommand($migrationGui);
+				$this->template->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $resultMessageString, true);
 				$this->listCertificates(true);
 				break;
 
@@ -204,6 +214,7 @@ class ilUserCertificateGUI
 	/**
 	 * @param bool $migrationWasStarted
 	 * @throws ilDateTimeException
+	 * @throws ilWACException
 	 */
 	public function listCertificates(bool $migrationWasStarted = false)
 	{
@@ -214,16 +225,23 @@ class ilUserCertificateGUI
 			return;
 		}
 
-		if (!$migrationWasStarted) {
-			$cert_ui_elements = new \ilCertificateMigrationUIElements();
-			$messageBoxLink = $this->controller->getLinkTargetByClass(['ilCertificateMigrationGUI'], 'startMigration', false, true, false);
-			$messageBox = $cert_ui_elements->getMigrationMessageBox($messageBoxLink);
+		$this->template->setBodyClass('iosMyCertificates');
 
-			if (strlen($messageBox) > 0) {
-				$this->template->setCurrentBlock('mess');
-				$this->template->setVariable('MESSAGE', $messageBox);
-				$this->template->parseCurrentBlock('mess');
-			}
+		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable(
+			$this->user,
+			new \ilCertificateMigration($this->user->getId())
+		);
+		if (!$migrationWasStarted && true === $showMigrationBox) {
+			$migrationUiEl = new \ilCertificateMigrationUIElements();
+			$startMigrationCommand = $this->controller->getLinkTargetByClass(
+				['ilCertificateMigrationGUI'], 'startMigrationAndReturnMessage',
+				false, true, false
+			);
+			$messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);
+
+			$this->template->setCurrentBlock('mess');
+			$this->template->setVariable('MESSAGE', $messageBoxHtml);
+			$this->template->parseCurrentBlock('mess');
 		}
 
 		$provider = new ilUserCertificateTableProvider(
@@ -262,7 +280,6 @@ class ilUserCertificateGUI
 
 			foreach ($data['items'] as $certificateData) {
 				$thumbnailImagePath = $certificateData['thumbnail_image_path'];
-
 				$imagePath = ilUtil::getWebspaceDir(). $thumbnailImagePath;
 				if ($thumbnailImagePath === null
 					|| $thumbnailImagePath === ''
@@ -276,23 +293,23 @@ class ilUserCertificateGUI
 					$certificateData['title']
 				);
 
-				$listSections = [];
 
-				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
+				$sections = [];
 
-				$downloadHref = $this->controller->getLinkTarget($this, 'download');
+				if (strlen($certificateData['description']) > 0) {
+					$sections[] = $this->uiFactory->listing()->descriptive([
+						$this->language->txt('cert_description_label') => $certificateData['description']
+					]);
+				}
 
-				$this->controller->clearParameters($this);
-
-				$listSections[$this->language->txt('cert_download_label')] = $this->uiRenderer->render(
-					$this->uiFactory->button()->standard('Download', $downloadHref)
-				);
 
 				$oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
 				\ilDatePresentation::setUseRelativeDates(true);
-				$listSections[$this->language->txt('cert_issued_on_label')] = \ilDatePresentation::formatDate(
-					new \ilDateTime($certificateData['date'], \IL_CAL_UNIX)
-				);
+				$sections[] = $this->uiFactory->listing()->descriptive([
+					$this->language->txt('cert_issued_on_label') => \ilDatePresentation::formatDate(
+						new \ilDateTime($certificateData['date'], \IL_CAL_UNIX)
+					)
+				]);
 				\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
 				$objectTypeIcon = $this->uiFactory
@@ -312,19 +329,20 @@ class ilUserCertificateGUI
 					}
 				}
 
-				$listSections[$this->language->txt('cert_object_label')] = implode('', [
+				$sections[] = $this->uiFactory->listing()->descriptive([$this->language->txt('cert_object_label') => implode('', [
 					$this->uiRenderer->render($objectTypeIcon),
 					$objectTitle
-				]);
+				])]);
 
-				$listSections[$this->language->txt('cert_description_label')] = $certificateData['description'];
+				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
+				$downloadHref = $this->controller->getLinkTarget($this, 'download');
+				$this->controller->clearParameters($this);
+				$sections[] = $this->uiFactory->button()->standard('Download', $downloadHref);
 
 				$card = $this->uiFactory
 					->card()
 					->standard($certificateData['title'], $cardImage)
-					->withSections([
-						$this->uiFactory->listing()->descriptive($listSections)
-					]);
+					->withSections($sections);
 
 				$cards[] = $card;
 			}

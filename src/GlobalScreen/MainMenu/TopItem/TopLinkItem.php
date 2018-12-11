@@ -13,9 +13,13 @@ use ILIAS\GlobalScreen\MainMenu\isTopItem;
 class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTopItem {
 
 	/**
+	 * @var bool
+	 */
+	protected $is_external_action = false;
+	/**
 	 * @var string
 	 */
-	protected $title;
+	protected $title = '';
 	/**
 	 * @var string
 	 */
@@ -61,5 +65,26 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
 	 */
 	public function getAction(): string {
 		return $this->action;
+	}
+
+
+	/**
+	 * @param bool $is_external
+	 *
+	 * @return TopLinkItem
+	 */
+	public function withIsLinkToExternalAction(bool $is_external): hasAction {
+		$clone = clone $this;
+		$clone->is_external_action = $is_external;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isLinkWithExternalAction(): bool {
+		return $this->is_external_action;
 	}
 }

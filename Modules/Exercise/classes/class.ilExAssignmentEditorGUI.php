@@ -262,57 +262,9 @@ class ilExAssignmentEditorGUI
 
 		$ass_type_gui->addEditFormCustomProperties($form);
 
-		/*
-		if($a_type == ilExAssignment::TYPE_TEXT)
-		{
-			$rb_limit_chars = new ilCheckboxInputGUI($lng->txt("exc_limit_characters"),"limit_characters");
-
-			$min_char_limit = new ilNumberInputGUI($lng->txt("exc_min_char_limit"), "min_char_limit");
-			$min_char_limit->allowDecimals(false);
-			$min_char_limit->setMinValue(0);
-			$min_char_limit->setSize(3);
-
-			$max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
-			$max_char_limit->allowDecimals(false);
-			$max_char_limit->setMinValue((int) $_POST['min_char_limit'] + 1);
-
-			$max_char_limit->setSize(3);
-
-			$rb_limit_chars->addSubItem($min_char_limit);
-			$rb_limit_chars->addSubItem($max_char_limit);
-
-			$form->addItem($rb_limit_chars);
-		}*/
-
-		// portfolio template
-		/*
-		if($a_type == ilExAssignment::TYPE_PORTFOLIO)
-		{
-			$rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
-			$rd_template->setRequired(true);
-			$radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), 0, $lng->txt("exc_without_template_info", "without_template_info"));
-			$radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), 1 , $lng->txt("exc_with_template_info", "with_template_info"));
-
-			include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
-			$repo = new ilRepositorySelector2InputGUI($lng->txt("exc_portfolio_template"), "template_id");
-			$repo->setRequired(true);
-			if($this->assignment)
-			{
-				$repo->setValue($this->assignment->getPortfolioTemplateId());
-			}
-			$repo->getExplorerGUI()->setSelectableTypes(array("prtt"));
-			$repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp"));
-			$radio_with_template->addSubItem($repo);
-
-			$rd_template->addOption($radio_no_template);
-			$rd_template->addOption($radio_with_template);
-			$form->addItem($rd_template);
-		}*/
-
 		//
 		// type specific end
 		//
-
 
 		if($a_type == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
@@ -457,17 +409,27 @@ class ilExAssignmentEditorGUI
 		$start_date = new ilDateTimeInputGUI($lng->txt("exc_start_time"), "start_time");
 		$start_date->setShowTime(true);
 		$form->addItem($start_date);
-		
-		// Deadline
-		$deadline = new ilDateTimeInputGUI($lng->txt("exc_deadline"), "deadline");
+
+		// Deadline Mode
+		$radg = new ilRadioGroupInputGUI($lng->txt("exc_deadline"), "deadline_mode");
+		$radg->setValue(0);
+		$op1 = new ilRadioOption($lng->txt("exc_fixed_date"), 0, $lng->txt("exc_fixed_date_info"));
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("exc_relative_date"), 1, $lng->txt("exc_relative_date_info"));
+		$radg->addOption($op2);
+		$form->addItem($radg);
+
+		// Deadline fixed date
+		$deadline = new ilDateTimeInputGUI($lng->txt("date"), "deadline");
 		$deadline->setShowTime(true);
-		$form->addItem($deadline);
+		$op1->addSubItem($deadline);
 		
 		// extended Deadline
 		$deadline2 = new ilDateTimeInputGUI($lng->txt("exc_deadline_extended"), "deadline2");				
 		$deadline2->setInfo($lng->txt("exc_deadline_extended_info"));
 		$deadline2->setShowTime(true);
 		$deadline->addSubItem($deadline2);
+
 
 		// submit reminder
 		$rmd_submit = new ilCheckboxInputGUI($this->lng->txt("exc_reminder_submit_setting"), "rmd_submit_status");
@@ -514,6 +476,13 @@ class ilExAssignmentEditorGUI
 
 		$form->addItem($rmd_submit);
 		$form->addItem($rmd_grade);
+
+		// relative deadline
+		$ti = new ilNumberInputGUI($lng->txt("days"), "relative_deadline");
+		$ti->setMaxLength(3);
+		$ti->setSize(3);
+		$op2->addSubItem($ti);
+		
 
 		// max number of files
 		if($ass_type->usesFileUpload())
@@ -681,6 +650,7 @@ class ilExAssignmentEditorGUI
 			$time_start = $time_start
 				? $time_start->get(IL_CAL_UNIX)
 				: null;
+
 			$time_deadline = $a_form->getItemByPostVar("deadline")->getDate();
 			$time_deadline = $time_deadline
 				? $time_deadline->get(IL_CAL_UNIX)
@@ -704,6 +674,22 @@ class ilExAssignmentEditorGUI
 				? $reminder_grade_end_date->get(IL_CAL_UNIX)
 				: null;
 
+			$time_deadline = null;
+			$time_deadline_ext = null;
+
+			if ((int) $a_form->getInput("deadline_mode") == ilExAssignment::DEADLINE_ABSOLUTE)
+			{
+				$time_deadline = $a_form->getItemByPostVar("deadline")->getDate();
+				$time_deadline = $time_deadline
+					? $time_deadline->get(IL_CAL_UNIX)
+					: null;
+				$time_deadline_ext = $a_form->getItemByPostVar("deadline2")->getDate();
+				$time_deadline_ext = $time_deadline_ext
+					? $time_deadline_ext->get(IL_CAL_UNIX)
+					: null;
+			}
+
+
 			// handle disabled elements
 			if($protected_peer_review_groups)
 			{									
@@ -719,7 +705,7 @@ class ilExAssignmentEditorGUI
 					$a_form->getInput("peer"))
 				{
 					$a_form->getItemByPostVar("peer")
-						->setAlert($lng->txt("exc_needs_deadline"));
+						->setAlert($lng->txt("exc_needs_fixed_deadline"));
 					$valid = false;
 				}			
 				// global feedback
@@ -844,6 +830,14 @@ class ilExAssignmentEditorGUI
 
 				}*/
 
+
+				$res["deadline_mode"] = $a_form->getInput("deadline_mode");
+
+				if ($res["deadline_mode"] == ilExAssignment::DEADLINE_RELATIVE)
+				{
+					$res["relative_deadline"] = $a_form->getInput("relative_deadline");
+				}
+
 				// peer
 				if($a_form->getInput("peer") ||
 					$protected_peer_review_groups)
@@ -914,6 +908,8 @@ class ilExAssignmentEditorGUI
 		$a_ass->setStartTime($a_input["start"]);
 		$a_ass->setDeadline($a_input["deadline"]);
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
+		$a_ass->setDeadlineMode($a_input["deadline_mode"]);
+		$a_ass->setRelativeDeadline($a_input["relative_deadline"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
 		$a_ass->setTeamTutor($a_input["team_creator"]);
@@ -1165,6 +1161,9 @@ class ilExAssignmentEditorGUI
 		$values = array_merge($values, $type_values);
 
 
+		$values["deadline_mode"] = $this->assignment->getDeadlineMode();
+		$values["relative_deadline"] = $this->assignment->getRelativeDeadline();
+
 		$a_form->setValuesByArray($values);
 		
 		// global feedback		
@@ -1187,7 +1186,7 @@ class ilExAssignmentEditorGUI
 	
 	protected function setDisabledFieldValues(ilPropertyFormGUI $a_form)
 	{				
-		// dates		
+		// dates
 		if($this->assignment->getDeadline() > 0)
 		{			
 			$edit_date = new ilDateTime($this->assignment->getDeadline(), IL_CAL_UNIX);
@@ -1225,9 +1224,11 @@ class ilExAssignmentEditorGUI
 			{
 				// deadline(s) are past and must not change					
 				$a_form->getItemByPostVar("deadline")->setDisabled(true);				
-				$a_form->getItemByPostVar("deadline2")->setDisabled(true);	
+				$a_form->getItemByPostVar("deadline2")->setDisabled(true);
 
-				$a_form->getItemByPostVar("peer")->setDisabled(true);			   
+				$a_form->getItemByPostVar("peer")->setDisabled(true);
+
+				$a_form->getItemByPostVar("deadline_mode")->setDisabled(true);
 			}			 	
 		}
 		

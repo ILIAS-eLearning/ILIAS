@@ -25,7 +25,8 @@ class assImagemapQuestionExport extends assQuestionExport
 	*/
 	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		
 		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -129,8 +130,9 @@ class assImagemapQuestionExport extends assQuestionExport
 				$fh = fopen($imagepath, "rb");
 				if ($fh == false)
 				{
-					global $ilErr;
-					$ilErr->raiseError($GLOBALS['lng']->txt("error_open_image_file"), $ilErr->MESSAGE);
+					global $DIC;
+					$ilErr = $DIC['ilErr'];
+					$ilErr->raiseError($GLOBALS['DIC']['lng']->txt("error_open_image_file"), $ilErr->MESSAGE);
 					return;
 				}
 				$imagefile = fread($fh, filesize($imagepath));

@@ -12,15 +12,18 @@ class LessThan extends Custom implements Constraint {
 	 */
 	protected $max;
 
-	public function __construct($max, Data\Factory $data_factory) {
+	public function __construct($max, Data\Factory $data_factory, \ilLanguage $lng) {
 		assert(is_int($max));
+		assert('is_int($max)');
 		$this->max = $max;
 		parent::__construct( function ($value) {
 				return $value < $this->max;
 			}, 
-			function ($value) {
-				return "'$value' is greater than '{$this->max}'.";
+			function ($txt, $value) {
+				return $txt("not_less_than", $value, $this->max);
 			},
-			$data_factory);
+			$data_factory,
+			$lng
+		);
 	}
 }

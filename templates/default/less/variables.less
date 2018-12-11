@@ -444,6 +444,9 @@
 @ilFormBgColor: #FDFDFD;
 @input-color-placeholder: lighten(@gray-light, 30%);
 
+//** Tag Input
+@input-tag-color-disabled: #EEEEEE;
+
 //== Panels
 //
 //##
@@ -688,8 +691,6 @@
 @il-chart-progressmeter-marker: #f0f0f0;
 //** Progress Meter standard/fixedSize: marker shadow
 @il-chart-progressmeter-marker-shadow: #bcbcbc;
-//** Progress Meter mini: marker color
-@il-chart-progressmeter-mini-marker-color: #bcbcbc;
 //** Progress Meter main bar: success color
 @il-chart-progressmeter-bar-success: #6ea03c;
 //** Progress Meter main bar: no-success color
@@ -699,6 +700,24 @@
 //** Progress Meter comparision bar: user-score color
 @il-chart-progressmeter-bar-inactive: #aaaaaa;
 
+//** Progress Meter Mini: minimal width
+@il-chart-progressmeter-mini-min-width: 20px;
+//** Progress Meter Mini: maximal width / height
+@il-chart-progressmeter-mini-max-width: 250px;
+//** Progress Meter Mini: background stroke width
+@il-chart-progressmeter-mini-bg-stroke-width: 5;
+//** Progress Meter Mini: progress stroke width
+@il-chart-progressmeter-mini-stroke-width: @il-chart-progressmeter-mini-bg-stroke-width;
+//** Progress Meter Mini: marker stroke width
+@il-chart-progressmeter-mini-marker-stroke-width: 4;
+//** Progress Meter Mini: background color
+@il-chart-progressmeter-mini-bg-color: #dddddd;
+//** Progress Meter Mini: marker color
+@il-chart-progressmeter-mini-marker-color: #bcbcbc;
+//** Progress Meter Mini: progress stroke color (no success)
+@il-chart-progressmeter-mini-no-success: #d9534f;
+//** Progress Meter Mini: progress stroke color (success)
+@il-chart-progressmeter-mini-success: #6ea03c;
 
 //== Icons
 //
@@ -736,8 +755,10 @@
 @il-card-highlight-bg: @brand-warning;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
-@il-card-repository-head-color: rgba(0,0,0,0.2);
-@il-card-repository-dropdown-border: #b0b0b0 1px solid;
+@il-card-repository-head-color: rgba(0,0,0,0.3);
+@il-card-repository-dropdown-border: #e0e0e0 1px solid;
+@il-card-repository-outlined-icon-filter: brightness(1);
+@il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 
 //== Workflow
 //

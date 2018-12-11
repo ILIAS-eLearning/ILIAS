@@ -62,6 +62,11 @@ class ilExerciseManagementGUI
 
 	protected $task_factory;
 
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	const VIEW_ASSIGNMENT = 1;
 	const VIEW_PARTICIPANT = 2;	
 	const VIEW_GRADES = 3;
@@ -85,6 +90,7 @@ class ilExerciseManagementGUI
 
 		$this->ui_factory = $DIC->ui()->factory();
 		$this->ui_renderer = $DIC->ui()->renderer();
+		$this->user = $DIC->user();
 		$this->toolbar = $DIC->toolbar();
 
 		$this->ctrl = $DIC->ctrl();
@@ -448,7 +454,12 @@ class ilExerciseManagementGUI
 
 		$participant_id = $_REQUEST['part_id'];
 
-		$download_task = new ilDownloadSubmissionsBackgroundTask($GLOBALS['DIC']->user()->getId(), $this->exercise->getId(), (int)$this->ass_id, (int)$participant_id);
+		$download_task = new ilDownloadSubmissionsBackgroundTask(
+			$GLOBALS['DIC']->user()->getId(),
+			$this->exercise->getRefId(),
+			$this->exercise->getId(),
+			(int)$this->ass_id,
+			(int)$participant_id);
 
 		if($download_task->run()) {
 			ilUtil::sendSuccess($this->lng->txt('exc_down_files_started'),true);
@@ -539,7 +550,12 @@ class ilExerciseManagementGUI
 		$report_title = $this->lng->txt("exc_list_text_assignment").": ".$this->assignment->getTitle();
 		$report_html .= "<h1>".$report_title."</h1>";
 		$total_reports = 0;
-		foreach(ilExSubmission::getAllAssignmentFiles($this->assignment->getExerciseId(), $this->assignment->getId()) as $file)
+
+		$members = ilExSubmission::getAssignmentParticipants($this->exercise->getId(), $this->ass_id);
+		$members_filter = new ilExerciseMembersFilter($this->exercise->getRefId(), $members, $this->user->getId());
+		$members = $members_filter->filterParticipantsByAccess();
+
+		foreach(ilExSubmission::getAssignmentFilesByUsers($this->exercise->getId(), $this->assignment->getId(), $members) as $file)
 		{
 			if(trim($file["atext"]))
 			{

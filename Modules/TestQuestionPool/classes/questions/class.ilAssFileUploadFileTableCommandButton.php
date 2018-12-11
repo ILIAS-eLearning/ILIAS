@@ -26,8 +26,9 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
 	 */
 	public function __construct($buttonType)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		parent::__construct($buttonType);
-		$this->lng( isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'] );
+		$this->lng( $DIC['lng'] );
 	}
 	
 	/**

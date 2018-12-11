@@ -24,7 +24,6 @@ ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd('showLoginPageOrStartupPage');
-$ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
 $ilBench->save();
 

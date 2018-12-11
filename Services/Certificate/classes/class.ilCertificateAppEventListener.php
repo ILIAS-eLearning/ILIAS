@@ -290,11 +290,27 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			return;
 		}
 
+		if (false === array_key_exists('certificate_content', $this->parameters)) {
+			$this->logger->error('Certificate content is not added to the event. Abort.');
+			return;
+		}
+
 		$objId = $this->parameters['obj_id'] ?? 0;
 		$userId = $this->parameters['user_id'] ?? 0;
 		$backgroundImagePath = $this->parameters['background_image_path'] ?? '';
 		$acquiredTimestamp = $this->parameters['acquired_timestamp'] ?? '';
 		$iliasVersion = $this->parameters['ilias_version'] ?? '';
+		$certificateContent = $this->parameters['certificate_content'] ?? '';
+
+		if ('' === $certificateContent) {
+			$this->logger->error('Certificate content is empty. Abort.');
+			return;
+		}
+
+		if ('' === $acquiredTimestamp || $acquiredTimestamp <= 0) {
+			$this->logger->error('Acquired Timestamp is empty. Abort.');
+			return;
+		}
 
 		$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 		$template = $templateRepository->fetchFirstCreatedTemplate($objId);
@@ -315,17 +331,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			return;
 		}
 
-		$className = $classMap->getPlaceHolderClassNameByType($type);
-		$placeholderValuesObject = new $className();
-		$placeholderValues = $placeholderValuesObject->getPlaceholderValues($userId, $objId);
-
-		$replacementService = new \ilCertificateValueReplacement();
-		$certificateContent = $replacementService->replace(
-			$placeholderValues,
-			$template->getCertificateContent(),
-			$backgroundImagePath
-		);
-
 		$user = \ilObjectFactory::getInstanceByObjId($userId, false);
 		if (!$user || !($user instanceof \ilObjUser)) {
 			throw new \ilException(sprintf('The given user ID("%s") is not a user', $userId));
@@ -344,7 +349,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			1,
 			$iliasVersion,
 			true,
-			$backgroundImagePath
+			$backgroundImagePath,
+			''
 		);
 
 		$this->userCertificateRepository->save($userCertificate);

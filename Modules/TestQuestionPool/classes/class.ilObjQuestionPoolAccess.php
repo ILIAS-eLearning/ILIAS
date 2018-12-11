@@ -52,9 +52,15 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
 	 */
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $lng, $ilAccess;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
 
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if ($a_user_id == "")
 		{
@@ -89,7 +95,8 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
 	 */
 	public static function isOnline($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			SELECT		COUNT(id_questionpool) cnt

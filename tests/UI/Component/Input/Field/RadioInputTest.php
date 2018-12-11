@@ -9,6 +9,9 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\Data\Password as PWD;
 use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class RadioInputTest extends ILIAS_UI_TestBase {
 
@@ -17,7 +20,13 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 	}
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 	protected function buildRadio() {
@@ -104,6 +113,37 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 				."</div>"
 			."</div>";
 
+		$this->assertHTMLEquals($expected, $r->render($radio));
+	}
+
+
+	public function test_render_disabled() {
+		$r = $this->getDefaultRenderer();
+		$radio = $this->buildRadio()->withDisabled(true);
+		$name = $radio->getName();
+		$label = $radio->getLabel();
+		$byline = $radio->getByline();
+		$options = $radio->getOptions();
+
+		$expected = ""
+			."<div class=\"form-group row\">"
+			."<label for=\"\" class=\"control-label col-sm-3\">$label</label>"
+			."<div class=\"col-sm-9\">"
+			."<div id=\"id_1\" class=\"il-input-radio\">";
+
+		foreach ($options as $opt_value=>$opt_label) {
+			$expected .= ""
+				."<div class=\"form-control form-control-sm il-input-radiooption\">"
+				."<input type=\"radio\" id=\"id_1_".$opt_value."_opt\" name=\"$name\" value=\"$opt_value\" disabled=\"disabled\"/>"
+				."<label for=\"id_1_".$opt_value."_opt\">$opt_label</label>"
+				."</div>";
+		}
+
+		$expected .= ""
+			."</div>"
+			."<div class=\"help-block\">$byline</div>"
+			."</div>"
+			."</div>";
 		$this->assertHTMLEquals($expected, $r->render($radio));
 	}
 

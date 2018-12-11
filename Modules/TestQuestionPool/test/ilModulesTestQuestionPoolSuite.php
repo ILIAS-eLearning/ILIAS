@@ -16,6 +16,8 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 			chdir('../../../');
 		}
 
+		require_once("./Modules/TestQuestionPool/test/assBaseTestCase.php");
+
 		$suite = new ilModulesTestQuestionPoolSuite();
 	
 		// Questiontypes & related classes

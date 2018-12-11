@@ -72,9 +72,9 @@ class ilUserCertificateRepository
 			'id'                     => array('integer', $id),
 			'pattern_certificate_id' => array('integer', $userCertificate->getPatternCertificateId()),
 			'obj_id'                 => array('integer', $objId),
-			'obj_type'               => array('clob', $userCertificate->getObjType()),
+			'obj_type'               => array('text', $userCertificate->getObjType()),
 			'user_id'                => array('integer', $userId),
-			'user_name'              => array('string', $userCertificate->getUserName()),
+			'user_name'              => array('text', $userCertificate->getUserName()),
 			'acquired_timestamp'     => array('integer', $userCertificate->getAcquiredTimestamp()),
 			'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
 			'template_values'        => array('clob', $userCertificate->getTemplateValues()),
@@ -82,8 +82,8 @@ class ilUserCertificateRepository
 			'version'                => array('text', $version),
 			'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
 			'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
-			'background_image_path'  => array('clob', $userCertificate->getBackgroundImagePath()),
-			'thumbnail_image_path'   => array('clob', $userCertificate->getThumbnailImagePath())
+			'background_image_path'  => array('text', $userCertificate->getBackgroundImagePath()),
+			'thumbnail_image_path'   => array('text', $userCertificate->getThumbnailImagePath())
 		);
 
 		$this->logger->debug(sprintf('END - Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));
@@ -337,9 +337,13 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 		throw new ilException('No certificate found for user certificate id: ' . $id);
 	}
 
-	public function fetchObjectWithCertificateForUser(int $userId, array $objectIds)
+	public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds)
 	{
 		$this->logger->info(sprintf('START - Fetch certificate for user("%s") and ids: "%s"', $userId, json_encode($objectIds)));
+
+		if (0 === count($objectIds)) {
+			return [];
+		}
 
 		$inStatementObjectIds = $this->database->in(
 			'obj_id',
@@ -348,7 +352,10 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 			'integer'
 		);
 
-		$sql = 'SELECT obj_id FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND ' . $inStatementObjectIds;
+		$sql = 'SELECT obj_id FROM il_cert_user_cert
+ WHERE user_id = ' . $this->database->quote($userId, 'integer') .
+' AND ' . $inStatementObjectIds .
+' AND currently_active = '  .  $this->database->quote(1, 'integer');
 
 		$query = $this->database->query($sql);
 
@@ -366,7 +373,9 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 	{
 		$this->logger->info(sprintf('START - Fetch certificate for object("%s")"', $objectId));
 
-		$sql = 'SELECT user_id FROM il_cert_user_cert WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
+		$sql = 'SELECT user_id FROM il_cert_user_cert
+WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
+ AND currently_active = '  .  $this->database->quote(1, 'integer');
 
 		$query = $this->database->query($sql);
 
@@ -495,7 +504,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
 			$row['obj_type'],
 			$row['user_id'],
 			$row['user_name'],
-			$row['acquired_timestamp'],
+			(int)$row['acquired_timestamp'],
 			$row['certificate_content'],
 			$row['template_values'],
 			$row['valid_until'],

@@ -91,13 +91,6 @@ class ilCtrlStructureReader
 				$this->ini->write();
 			}
 		}
-		
-		// read module information
-		// not clear whether this is a good place for module reading info
-		// or not
-		include_once("./Services/UICore/classes/class.ilCtrl.php");
-		$ctrl = new ilCtrl();
-//		$ctrl->storeCommonStructures();
 	}
 
 	/**

@@ -446,7 +446,7 @@ class ilObjExercise extends ilObject
 		// send mail
 		include_once "Services/Mail/classes/class.ilMail.php";
 		$tmp_mail_obj = new ilMail($ilUser->getId());
-		$message = $tmp_mail_obj->sendMail(
+		$errors = $tmp_mail_obj->sendMail(
 			$recipients,
 			"",
 			"",

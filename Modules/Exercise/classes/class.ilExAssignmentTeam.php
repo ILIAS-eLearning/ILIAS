@@ -125,11 +125,23 @@ class ilExAssignmentTeam
 		if(!$id && $a_create_on_demand)
 		{
 			$id = $ilDB->nextId("il_exc_team");
+
+			// get starting timestamp (relative deadlines) from individual deadline
+			include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
+			$idl = ilExcIndividualDeadline::getInstance($a_assignment_id, $a_user_id);
 			
 			$fields = array("id" => array("integer", $id),
 				"ass_id" => array("integer", $a_assignment_id),
 				"user_id" => array("integer", $a_user_id));			
-			$ilDB->insert("il_exc_team", $fields);		
+			$ilDB->insert("il_exc_team", $fields);
+
+			// set starting timestamp for created team
+			if ($idl->getStartingTimestamp() > 0)
+			{
+				$idl_team = ilExcIndividualDeadline::getInstance($a_assignment_id, $id, true);
+				$idl_team->setStartingTimestamp($idl->getStartingTimestamp());
+				$idl_team->save();
+			}
 			
 			self::writeTeamLog($id, self::TEAM_LOG_CREATE_TEAM);						
 			self::writeTeamLog($id, self::TEAM_LOG_ADD_MEMBER, 
@@ -509,6 +521,18 @@ class ilExAssignmentTeam
 					// create new team
 					$first = array_shift($missing);			
 					$new_team = self::getInstanceByUserId($a_target_ass_id, $first, true);
+
+					// give new team starting time of original user
+					if ($a_user_id > 0 && $old_team > 0)
+					{
+						$idl = ilExcIndividualDeadline::getInstance($a_target_ass_id, $a_user_id);
+						if ($idl->getStartingTimestamp())
+						{
+							$idl_team = ilExcIndividualDeadline::getInstance($a_target_ass_id, $new_team->getId(), true);
+							$idl_team->setStartingTimestamp($idl->getStartingTimestamp());
+							$idl_team->save();
+						}
+					}
 
 					if($a_exc_ref_id)
 					{	

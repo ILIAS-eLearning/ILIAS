@@ -458,7 +458,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
 		if (is_object($cell_obj))
 		{
-			$cell_obj->$_POST["action"]();
+			$action = (string) ($_POST["action"]);
+			$cell_obj->$action();
 			$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		}
 		$ilCtrl->redirect($this, "editData");

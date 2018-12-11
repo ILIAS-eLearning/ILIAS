@@ -75,7 +75,7 @@ class ilAchievements
 				return (bool) ilBadgeHandler::getInstance()->isActive();
 				break;
 			case self::SERV_CERTIFICATES:
-				// return ;	//TODO
+				return (bool) ilCertificate::isActive();
 				break;
 		}
 		return false;

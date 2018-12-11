@@ -25,7 +25,8 @@ class assClozeTestExport extends assQuestionExport
 	*/
 	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();

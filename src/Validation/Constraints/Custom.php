@@ -13,6 +13,11 @@ class Custom implements Constraint {
 	protected $data_factory;
 
 	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @var callable
 	 */
 	protected $is_ok;
@@ -23,9 +28,15 @@ class Custom implements Constraint {
 	protected $error;
 
 	/**
-	 * @param string|callable   $error
+	 * If $error is a callable it needs to take two parameters:
+	 *      - one callback $txt($lng_id, ($value, ...)) that retrieves the lang var
+	 *        with the given id and uses sprintf to replace placeholder if more
+	 *        values are provide.
+	 *      - the $value for which the error message should be build.
+	 *
+	 * @param string|callable	$error
 	 */
-	public function __construct(callable $is_ok, $error, Data\Factory $data_factory) {
+	public function __construct(callable $is_ok, $error, Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->is_ok = $is_ok;
 
 		if(!is_callable($error)) {
@@ -35,6 +46,7 @@ class Custom implements Constraint {
 		}
 
 		$this->data_factory = $data_factory;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -98,6 +110,44 @@ class Custom implements Constraint {
 	 * @return string
 	 */
 	final public function getErrorMessage($value) {
-		return call_user_func($this->error, $value);
+		$lng_closure = $this->getLngClosure();
+		return call_user_func($this->error, $lng_closure, $value);
+	}
+
+	/**
+	 * Get the closure to be passed to the error-function that does i18n and
+	 * sprintf.
+	 *
+	 * @return	\Closure
+	 */
+	final protected function getLngClosure() {
+		return function() {
+			$args = func_get_args();
+			if (count($args) < 1) {
+				throw new \InvalidArgumentException(
+					"Expected an id of a lang var as first parameter");
+			}
+			$error = $this->lng->txt($args[0]);
+			if (count($args) > 1) {
+				$args[0] = $error;
+				for ($i = 0; $i < count ($args); $i++) {
+					$v = $args[$i];
+					if ((is_array($v) || is_object($v) || is_null($v))
+					&& !method_exists($v, "__toString")) {
+						if (is_array($v)) {
+							$args[$i] = "array";
+						}
+						else if (is_null($v)) {
+							$args[$i] = "null";
+						}
+						else {
+							$args[$i] = get_class($v);
+						}
+					}
+				}
+				$error = call_user_func_array("sprintf", $args);
+			}
+			return $error;
+		};
 	}
 }

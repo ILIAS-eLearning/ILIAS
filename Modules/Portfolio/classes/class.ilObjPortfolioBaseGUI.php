@@ -203,9 +203,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{							
 		$this->setSettingsSubTabs("properties");
 		
-		// comments
-		$comments = new ilCheckboxInputGUI($this->lng->txt("prtf_public_comments"), "comments");
-		$a_form->addItem($comments);
 
 		// profile picture
 		$ppic = new ilCheckboxInputGUI($this->lng->txt("prtf_profile_picture"), "ppic");
@@ -230,6 +227,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				$img->setImage($file);
 			}		
 		}
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_features'));
+		$a_form->addItem($section);
+
+		// comments
+		$comments = new ilCheckboxInputGUI($this->lng->txt("prtf_public_comments"), "comments");
+		$a_form->addItem($comments);
 
 		/* #15000
 		$bg_color = new ilColorPickerInputGUI($this->lng->txt("prtf_background_color"), "bg_color");
@@ -313,11 +318,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$ilToolbar->addStickyItem($button);
 		}
 
-		$ilToolbar->addSeparator();
-		
+
 		// #16571
 		if($this->getType() == "prtf")
 		{
+			$ilToolbar->addSeparator();
+
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("export_html");
 			$button->setUrl($this->ctrl->getLinkTarget($this, "export"));
@@ -506,7 +512,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			ilPortfolioPage::fixOrdering($this->object->getId());
 		}
 
-		ilPortfolioPage::fixLinksOnTitleChange($this->object->getId(), $title_changes);
+		$this->object->fixLinksOnTitleChange($title_changes);
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "view");

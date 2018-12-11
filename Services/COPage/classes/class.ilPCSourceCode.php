@@ -113,7 +113,7 @@ class ilPCSourceCode extends ilPCParagraph
 			if (strcmp($showlinenumbers,"y")==0)
 			{
 				$linenumbers = "<td nowrap=\"nowrap\" class=\"ilc_LineNumbers\" >";
-				$linenumbers .= "<pre class=\"ilc_Code\">";
+				$linenumbers .= "<pre class=\"ilc_Code ilc_code_block_Code\">";
 
 				for ($j=0; $j < $rownums; $j++)
 				{
@@ -129,7 +129,7 @@ class ilPCSourceCode extends ilPCParagraph
 				$linenumbers .= "</td>";
 			}
 
-			$rows .= $linenumbers."<td class=\"ilc_Sourcecode\"><pre class=\"ilc_Code\">".$content."</pre></td>";
+			$rows .= $linenumbers."<td class=\"ilc_Sourcecode\"><pre class=\"ilc_Code ilc_code_block_Code\">".$content."</pre></td>";
 			$rows .= "</tr>";
 
 			// fix for ie explorer which is not able to produce empty line feeds with <br /><br />;

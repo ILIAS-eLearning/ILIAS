@@ -101,6 +101,7 @@ class ilLocatorGUI
 	*/
 	function addRepositoryItems($a_ref_id = 0)
 	{
+		$setting = $this->settings;
 		$tree = $this->tree;
 		$ilCtrl = $this->ctrl;
 
@@ -123,13 +124,49 @@ class ilLocatorGUI
 		{
 			$path = $tree->getPathFull($a_ref_id,$a_start);
 
+			// check if path contains crs
+			$crs_ref_id = 0;
+			foreach ($path as $k => $v)
+			{
+				if ($v["type"] == "crs")
+				{
+					$crs_ref_id = $v["child"];
+				}
+			}
+			if (!$setting->get("rep_breadcr_crs")) // no overwrite
+			{
+				$crs_ref_id = 0;
+			}
+			else if ($setting->get("rep_breadcr_crs_overwrite")) // overwrite
+			{
+				// course wants full path
+				if (ilContainer::_lookupContainerSetting(ilObject::_lookupObjId($crs_ref_id), "rep_breacrumb") == ilObjCourseGUI::BREADCRUMB_FULL_PATH)
+				{
+					$crs_ref_id = 0;
+				}
+				// course wants default and default wants full path
+				if (ilContainer::_lookupContainerSetting(ilObject::_lookupObjId($crs_ref_id), "rep_breacrumb") == ilObjCourseGUI::BREADCRUMB_DEFAULT && !$setting->get("rep_breadcr_crs_default"))
+				{
+					$crs_ref_id = 0;
+				}
+			}
+
 			// add item for each node on path
 			foreach ((array) $path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "prg")))
+				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp", "prg", "lso")))
 				{
 					continue;
 				}
+				if ($crs_ref_id > 0 && $row["child"] == $crs_ref_id)
+				{
+					$crs_ref_id = 0;
+				}
+				if ($crs_ref_id > 0)
+				{
+					continue;
+				}
+
 				if ($row["title"] == "ILIAS" && $row["type"] == "root")
 				{
 					$row["title"] = $this->lng->txt("repository");

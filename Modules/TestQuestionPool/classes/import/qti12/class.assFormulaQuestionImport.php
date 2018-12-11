@@ -29,7 +29,8 @@ class assFormulaQuestionImport extends assQuestionImport
 	*/
 	function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		// empty session variable for imported xhtml mobs
 		unset($_SESSION["import_mob_xhtml"]);

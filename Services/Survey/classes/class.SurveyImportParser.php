@@ -461,7 +461,7 @@ class SurveyImportParser extends ilSaxParser
 			case "surveyobject":
 				if (is_object($this->survey))
 				{
-					$this->survey->setStatus($this->survey_status);
+					$this->survey->setOfflineStatus(!$this->survey_status);
 					$this->survey->saveToDb();
 
 					// write question blocks

@@ -5,6 +5,17 @@ use Sabre\DAV\Exception;
 
 require_once 'Modules/File/classes/class.ilObjFile.php';
 
+/**
+ * Class ilObjFileDAV
+ *
+ * Implementation for ILIAS File Objects represented as WebDAV File Objects
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ *
+ * @extends ilObjectDAV
+ * @implements Sabre\DAV\IFile
+ */
 class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 {
     /**

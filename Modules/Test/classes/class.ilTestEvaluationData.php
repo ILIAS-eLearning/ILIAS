@@ -292,7 +292,8 @@ class ilTestEvaluationData
 			$filteredParticipants = array();
 			$courseids = array();
 			$groupids = array();
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			if (array_key_exists('group', $this->arrFilter))
 			{
 				$ids = ilObject::_getIdsForTitle($this->arrFilter['group'], 'grp', true);

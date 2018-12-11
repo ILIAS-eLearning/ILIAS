@@ -307,15 +307,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$_GET['mobj_id'] = $mbox->getInboxFolder();
 		}
 
-		if($umail->moveMailsToFolder(array($_GET['mail_id']),
-			$mbox->getTrashFolder())
-		)
-		{
-			ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
+		if ($umail->moveMailsToFolder(array((int)$_GET['mail_id']), (int)$mbox->getTrashFolder())) {
+			\ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
+		} else {
+			\ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
 		}
 		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}

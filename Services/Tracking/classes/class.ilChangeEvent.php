@@ -251,7 +251,7 @@ class ilChangeEvent
 					$obj2_id = ilObject::_lookupObjId($p);
 					$obj2_type = ilObject::_lookupType($obj2_id);
 //echo "<br>1-$obj2_type-$p-$obj2_id-";
-					if (($p != $a_ref_id) && (in_array($obj2_type, array("crs", "fold", "grp"))))
+					if (($p != $a_ref_id) && (in_array($obj2_type, array("crs", "fold", "grp", "lso"))))
 					{
 						$query = sprintf('SELECT * FROM read_event '.
 							'WHERE obj_id = %s '.

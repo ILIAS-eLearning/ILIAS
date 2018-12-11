@@ -73,6 +73,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		$this->type = "htlm";
 		$lng->loadLanguageModule("content");
+		$lng->loadLanguageModule("obj");
 
 		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 		//$this->actions = $this->objDefinition->getActions("mep");
@@ -287,6 +288,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	 */
 	public function initSettingsForm()
 	{
+		$obj_service = $this->getObjectService();
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		$ilAccess = $this->access;
@@ -328,6 +330,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 		$this->form->addItem($ne);
 
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$this->form->addItem($pres);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
+
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 		$this->form->addCommandButton("toFilesystem", $lng->txt("cont_set_start_file"));
 
@@ -344,7 +353,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
 
 		$values = array();
-		$values["cobj_online"] = $this->object->getOnline();
+		$values['cobj_online'] = !$this->object->getOfflineStatus();
 		if ($startfile != "")
 		{
 			$startfile = basename($startfile);
@@ -354,7 +363,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$startfile = $this->lng->txt("no_start_file");
 		}
 
-		$values["cobj_online"] = $this->object->getOnline();
 		$values["startfile"] = $startfile;
 		$values["title"] = $this->object->getTitle();
 		$values["desc"] = $this->object->getDescription();
@@ -384,15 +392,20 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$tpl = $this->tpl;
 		$ilAccess = $this->access;
 		$ilTabs = $this->tabs;
+		$obj_service = $this->getObjectService();
 		
 		$this->initSettingsForm("");
 		if ($this->form->checkInput())
 		{			
 			$this->object->setTitle($this->form->getInput("title"));
 			$this->object->setDescription($this->form->getInput("desc"));
-			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+			$this->object->setOfflineStatus(! (bool) $_POST['cobj_online']);
 
 			$this->object->update();
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "properties");
 		}

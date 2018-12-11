@@ -14,8 +14,14 @@ class Factory {
 	 */
 	protected $data_factory;
 
-	public function __construct(Data\Factory $data_factory) {
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
+
+	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->data_factory = $data_factory;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -25,7 +31,7 @@ class Factory {
 	 * @return	Constraint
 	 */
 	public function hasMinLength($min_length) {
-		return new HasMinLength($min_length, $this->data_factory);
+		return new HasMinLength($min_length, $this->data_factory, $this->lng);
 	}
 
 	/**
@@ -34,7 +40,7 @@ class Factory {
 	 * @return	Constraint
 	 */
 	public function hasUpperChars() {
-		return new HasUpperChars($this->data_factory);
+		return new HasUpperChars($this->data_factory, $this->lng);
 	}
 
 	/**
@@ -43,7 +49,7 @@ class Factory {
 	 * @return	Constraint
 	 */
 	public function hasLowerChars() {
-		return new HasLowerChars($this->data_factory);
+		return new HasLowerChars($this->data_factory, $this->lng);
 	}
 
 	/**
@@ -52,7 +58,7 @@ class Factory {
 	 * @return	Constraint
 	 */
 	public function hasNumbers() {
-		return new HasNumbers($this->data_factory);
+		return new HasNumbers($this->data_factory, $this->lng);
 	}
 
 	/**
@@ -61,6 +67,6 @@ class Factory {
 	 * @return  Password
 	 */
 	public function hasSpecialChars() {
-		return new HasSpecialChars($this->data_factory);
+		return new HasSpecialChars($this->data_factory, $this->lng);
 	}
 }

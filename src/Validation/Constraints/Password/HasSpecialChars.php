@@ -12,14 +12,15 @@ class HasSpecialChars extends Constraints\Custom implements Constraint {
 
 	protected static $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/';
 
-	public function __construct(Data\Factory $data_factory) {
+	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
 		parent::__construct( function (Data\Password $value) {
 				return (bool) preg_match(static::$ALLOWED_CHARS, $value->toString());
 			},
 			function ($value) {
 				return "Password must contain special chars.";
 			},
-			$data_factory
+			$data_factory,
+			$lng
 		);
 	}
 

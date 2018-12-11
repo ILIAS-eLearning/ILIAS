@@ -609,7 +609,7 @@ class ilAssQuestionSkillAssignmentsGUI
 		);
 
 		$skillSelectorExplorerGUI->setSelectMode(self::PARAM_SKILL_SELECTION, true);
-		$skillSelectorExplorerGUI->setNodeOnclickEnabled(false);
+		//$skillSelectorExplorerGUI->setNodeOnclickEnabled(false);
 		
 		// parameter name for skill selection is actually taken from value passed to constructor,
 		// but passing a non empty name to setSelectMode is neccessary to keep input fields enabled

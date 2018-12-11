@@ -31,17 +31,17 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 				array(
 					'id'                    => array('integer', 10),
 					'obj_id'                => array('integer', 100),
-					'obj_type'              => array('clob', 'crs'),
+					'obj_type'              => array('text', 'crs'),
 					'certificate_content'   => array('clob', '<xml>Some Content</xml>'),
 					'certificate_hash'      => array('text', md5('<xml>Some Content</xml>')),
 					'template_values'       => array('clob', '[]'),
-					'version'               => array('clob', '1'),
-					'ilias_version'         => array('clob', 'v5.4.0'),
+					'version'               => array('text', '1'),
+					'ilias_version'         => array('text', 'v5.4.0'),
 					'created_timestamp'     => array('integer', 123456789),
 					'currently_active'      => array('integer', true),
-					'background_image_path' => array('clob', '/some/where/background.jpg'),
+					'background_image_path' => array('text', '/some/where/background.jpg'),
 					'deleted'               => array('integer', 0),
-					'thumbnail_image_path'  => array('clob', 'some/path/test.svg')
+					'thumbnail_image_path'  => array('text', 'some/path/test.svg')
 				)
 			);
 

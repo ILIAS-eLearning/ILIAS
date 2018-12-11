@@ -64,8 +64,11 @@ class ilAdvancedMDValues
 		$refs = ilObject::_getAllReferences($a_obj_id);
 		foreach($refs as $ref_id)
 		{
-			include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
-			foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $ref_id, $a_sub_type) as $record)
+			$records = ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $ref_id, $a_sub_type);
+			$orderings = new ilAdvancedMDRecordObjectOrderings();
+			$records = $orderings->sortRecords($records,$a_obj_id);
+
+			foreach($records as $record)
 			{
 				$id = $record->getRecordId();
 				

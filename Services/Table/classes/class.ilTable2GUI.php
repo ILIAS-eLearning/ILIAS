@@ -89,6 +89,12 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	protected $row_selector_label;
 
+	/**
+	 * @var bool
+	 */
+	protected $select_all_on_top = false;
+
+
 	const FILTER_TEXT = 1;
 	const FILTER_SELECT = 2;
 	const FILTER_DATE = 3;
@@ -1067,13 +1073,15 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
-	* Set the name of the checkbox that should be toggled with a select all button
-	*
-	* @param	string	$a_select_all_checkbox name of the checkbox
-	*/
-	function setSelectAllCheckbox($a_select_all_checkbox)
+	 * Set the name of the checkbox that should be toggled with a select all button
+	 *
+	 * @param string $a_select_all_checkbox name of the checkbox
+	 * @param bool $a_select_all_on_top Show select all on top of table
+	 */
+	function setSelectAllCheckbox($a_select_all_checkbox, $a_select_all_on_top = false)
 	{
 		$this->select_all_checkbox = $a_select_all_checkbox;
+		$this->select_all_on_top = $a_select_all_on_top;
 	}
 
 	/**
@@ -1457,7 +1465,22 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				ilTooltipGUI::addTooltip("thc_".$this->getId()."_".$ccnt, $column["tooltip"],
 					"", "bottom center", "top center", !$column["tooltip_html"]);
 			}
-			if (!$this->enabled["sort"] || $column["sort_field"] == "" || $column["is_checkbox_action_column"])
+
+			if($column['is_checkbox_action_column'] && $this->select_all_on_top)
+			{
+				$this->tpl->setCurrentBlock('tbl_header_top_select_all');
+				$this->tpl->setVariable("HEAD_SELECT_ALL_TXT_SELECT_ALL", $lng->txt("select_all"));
+				$this->tpl->setVariable("HEAD_SELECT_ALL_CHECKBOX_NAME", $this->getSelectAllCheckbox());
+				$this->tpl->setVariable("HEAD_SELECT_ALL_FORM_NAME", $this->getFormName());
+				$this->tpl->setVariable("HEAD_CHECKBOXNAME", "chb_select_all_" . $this->unique_id.'_top');
+				$this->tpl->parseCurrentBlock();
+				continue;
+			}
+			if (
+				!$this->enabled["sort"] ||
+				$column["sort_field"] == "" &&
+				!($column["is_checkbox_action_column"] && $this->select_all_on_top)
+			)
 			{
 				$this->tpl->setCurrentBlock("tbl_header_no_link");
 				if ($column["width"] != "")

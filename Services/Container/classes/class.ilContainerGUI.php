@@ -609,6 +609,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
+	 * render the object
+	 */
+	function renderBlockAsynchObject()
+	{
+		$container_view = $this->getContentGUI();
+		echo $container_view->getSingleTypeBlockAsynch($_GET["type"]);
+		exit;
+	}
+
+
+	/**
 	* Set content sub tabs
 	*/
 	function setContentSubTabs()
@@ -1065,7 +1076,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{
-				$tpl->setVariable("TYPE", $lng->txt("learning_resources").
+				$tpl->setVariable("TYPE", $lng->txt("obj_lrss").
 					" (".((int)$cnt["lres"]).")");
 			}
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
@@ -3481,6 +3492,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
 			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+			if(method_exists($this, 'getAdditionalWhitelistTypes')) {
+				$whitelist = array_merge (
+					$exp->getTypeWhiteList(),
+					$this->getAdditionalWhitelistTypes()
+				);
+				$exp->setTypeWhiteList($whitelist);
+			}
+
 			if (!$exp->handleCommand())
 			{
 				$tpl->setLeftNavContent($exp->getHTML());
@@ -3625,7 +3644,45 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		return $form;
 	}
-	
+
+	/**
+	 * Add list presentation settings to form
+	 * @param ilPropertyFormGUI $form
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initListPresentationForm(ilPropertyFormGUI $form)
+	{
+		$lpres = new ilRadioGroupInputGUI($this->lng->txt('cont_list_presentation'), "list_presentation");
+
+		$item_list = new ilRadioOption($this->lng->txt('cont_item_list'), "");
+		//$item_list->setInfo($this->lng->txt('cont_item_list_info'));
+		$lpres->addOption($item_list);
+
+		$tile_view = new ilRadioOption($this->lng->txt('cont_tile_view'), "tile");
+		//$tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
+		$lpres->addOption($tile_view);
+
+		$lpres->setValue(
+			ilContainer::_lookupContainerSetting($this->object->getId(), "list_presentation"));
+
+		$form->addItem($lpres);
+
+		return $form;
+	}
+
+	/**
+	 * Save list presentation setting
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function saveListPresentation(ilPropertyFormGUI $form)
+	{
+		$val = ($form->getInput('list_presentation') == "tile")
+			? "tile"
+			: "";
+		ilContainer::_writeContainerSetting($this->object->getId(), "list_presentation", $val);
+	}
+
+
 	/**
 	 * Add sorting direction
 	 * @param ilFormPropertyGUI $element
@@ -3842,6 +3899,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// parent-child-relations and not the dynamic relationsships
 		// required for the SP (see #16909).
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+
+		// Not all types are allowed in the LearningSequence
+		// Extend whitelist, if all selected types are possible subojects of LSO
+		if(in_array($_SESSION["clipboard"]["cmd"], ["link", "cut"])) {
+			$lso_types = array_keys($this->obj_definition->getSubObjects('lso'));
+			$refs = $_SESSION["clipboard"]["ref_ids"];
+			$allow_lso = true;
+			foreach ($refs as $item_ref_id) {
+				$type = ilObject::_lookupType($item_ref_id, true);
+				if (! in_array($type, $lso_types)) {
+					$allow_lso = false;
+				}
+			}
+			if ($allow_lso) {
+				$whiltelist = $exp->getTypeWhiteList();
+				$whitelist[] = 'lso';
+				$exp->setTypeWhiteList($whiltelist);
+			}
+		}
+
 		if ($cmd == "link") {
 			$exp->setSelectMode("nodes", true);
 			return $exp;
