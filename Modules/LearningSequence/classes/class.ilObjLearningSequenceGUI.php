@@ -65,8 +65,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	const CMD_DELETE_CONFIRMED = "confirmedDelete";
 	const CMD_PERFORM_PASTE = 'performPasteIntoMultipleObjects';
 
-	const TAB_LEARNER_VIEW = "learner_view";
-	const TAB_CONTENT = "manage_content";
+	const TAB_VIEW_CONTENT = "view_content";
+	const TAB_MANAGE = "manage";
 	const TAB_CONTENT_MAIN = "manage_content_maintab";
 	const TAB_INFO = "show_summary";
 	const TAB_SETTINGS = "settings";
@@ -139,9 +139,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$next_class === 'ilobjlearningsequencelearnergui'
 			&& $cmd === 'view'
 		);
-		if (! $in_player) {
-			$this->addHeaderAction();
-		}
 
 		switch ($next_class) {
 			case "ilcommonactiondispatchergui":
@@ -194,7 +191,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 					case self::CMD_INFO_SCREEN:
 						$this->info();
 						break;
-
 					case self::CMD_VIEW:
 					case self::CMD_LEARNER_VIEW:
 					case self::CMD_CONTENT:
@@ -206,7 +202,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 					case self::CMD_UNPARTICIPATE:
 						$this->$cmd();
 						break;
-
 					case self::CMD_CANCEL:
 						if ($this->getCreationMode()) {
 							$this->cancelCreation();
@@ -255,6 +250,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 				break;
 			default:
 				throw new ilException("ilObjLearningSequenceGUI: Can't forward to next class $next_class");
+		}
+
+		if (! $in_player) {
+			$this->addHeaderAction();
 		}
 	}
 
@@ -316,7 +315,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		$this->tabs->activateTab(self::TAB_CONTENT_MAIN);
 		$this->addSubTabsForContent($cmd);
-		$this->tabs->activateSubTab(self::TAB_CONTENT);
+		$this->tabs->activateSubTab(self::TAB_MANAGE);
 
 		$gui = new ilObjLearningSequenceContentGUI(
 			$this,
@@ -335,7 +334,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		$this->tabs->activateTab(self::TAB_CONTENT_MAIN);
 		$this->addSubTabsForContent($cmd);
-		$this->tabs->activateSubTab(self::TAB_LEARNER_VIEW);
+		$this->tabs->activateSubTab(self::TAB_VIEW_CONTENT);
 
 		$usr_id = (int)$this->user->getId();
 		$items = $this->getLearnerItems($usr_id);
@@ -519,7 +518,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			);
 		}
 
-
 		if ($this->checkAccess("write")) {
 			$this->tabs->addTab(
 				self::TAB_EXPORT,
@@ -537,18 +535,23 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 	}
 
+	public function renderObject()
+	{
+		// disables this method in ilContainerGUI
+	}
+
 	protected function addSubTabsForContent()
 	{
 		$this->tabs->addSubTab(
-			self::TAB_LEARNER_VIEW
-			, $this->lng->txt(self::TAB_LEARNER_VIEW)
+			self::TAB_VIEW_CONTENT
+			, $this->lng->txt(self::TAB_VIEW_CONTENT)
 			, $this->getLinkTarget(self::CMD_LEARNER_VIEW)
 		);
 
 		if ($this->checkAccess("edit_permission")) {
 			$this->tabs->addSubTab(
-				self::TAB_CONTENT
-				, $this->lng->txt(self::TAB_CONTENT)
+				self::TAB_MANAGE
+				, $this->lng->txt(self::TAB_MANAGE)
 				, $this->getLinkTarget(self::CMD_CONTENT)
 			);
 		}
