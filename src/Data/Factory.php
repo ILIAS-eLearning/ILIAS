@@ -77,7 +77,7 @@ class Factory {
 	 * @param string $clientId
 	 * @return ClientId
 	 */
-	public function clientId($clientId): ClientId
+	public function clientId(string $clientId): ClientId
 	{
 		return new ClientId($clientId);
 	}
