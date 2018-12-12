@@ -4246,7 +4246,6 @@ return array(
     'ilExerciseManagementGUI' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseManagementGUI.php',
     'ilExerciseMemberTableGUI' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php',
     'ilExerciseMembers' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseMembers.php',
-    'ilExerciseMembersFilter' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseMembersFilter.php',
     'ilExercisePlaceHolderValues' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Values/class.ilExercisePlaceHolderValues.php',
     'ilExercisePlaceholderDescription' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Description/class.ilExercisePlaceholderDescription.php',
     'ilExerciseSearch' => $baseDir . '/../../Services/Search/classes/class.ilExerciseSearch.php',
