@@ -25284,4 +25284,3 @@ $ilDB->update("style_data", array(
 	//
 	// USE dbupdate_05.php INSTEAD
 ?>
-
