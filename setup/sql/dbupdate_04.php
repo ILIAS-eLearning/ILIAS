@@ -25280,5 +25280,8 @@ $ilDB->update("style_data", array(
 <#5431>
 <?php
 	$ilCtrlStructureReader->getStructure();
+	// FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
+	//
+	// USE dbupdate_05.php INSTEAD
 ?>
 
