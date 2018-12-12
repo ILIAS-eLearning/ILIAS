@@ -358,38 +358,28 @@ class ilInitialisation
 		global $ilIliasIniFile;
 
 		// check whether ini file object exists
-		if (!is_object($ilIliasIniFile))
-		{
-			self::abortAndDie("Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.");
+		if (!is_object($ilIliasIniFile)) {
+			self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
 		}
-				
-		// set to default client if empty
-		if ($_GET["client_id"] != "")
-		{
-			$_GET["client_id"] = ilUtil::stripSlashes($_GET["client_id"]);
-			if (!defined("IL_PHPUNIT_TEST"))
-			{
-				if(ilContext::supportsPersistentSessions())
-				{
-					ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+
+		if (isset($_GET['client_id']) && strlen($_GET['client_id']) > 0) {
+			$_GET['client_id'] = \ilUtil::getClientIdByString((string)$_GET['client_id'])->toString();
+			if (!defined('IL_PHPUNIT_TEST')) {
+				if (ilContext::supportsPersistentSessions()) {
+					ilUtil::setCookie('ilClientId', $_GET['client_id']);
 				}
 			}
+		} elseif (!isset($_COOKIE['ilClientId'])) {
+			ilUtil::setCookie('ilClientId', $ilIliasIniFile->readVariable('clients','default'));
 		}
-		else if (!$_COOKIE["ilClientId"])
-		{
-			// to do: ilias ini raus nehmen
-			$client_id = $ilIliasIniFile->readVariable("clients","default");
-			ilUtil::setCookie("ilClientId", $client_id);
+
+		if (!defined('IL_PHPUNIT_TEST') && ilContext::supportsPersistentSessions()) {
+			$clientId = $_COOKIE['ilClientId'];
+		} else {
+			$clientId = $_GET['client_id'];
 		}
-		if (!defined("IL_PHPUNIT_TEST") && ilContext::supportsPersistentSessions())
-		{
-			
-			define ("CLIENT_ID", $_COOKIE["ilClientId"]);
-		}
-		else
-		{
-			define ("CLIENT_ID", $_GET["client_id"]);
-		}
+
+		define('CLIENT_ID', \ilUtil::getClientIdByString((string)$clientId)->toString());
 	}
 
 	/**
