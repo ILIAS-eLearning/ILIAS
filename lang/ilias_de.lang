@@ -14744,7 +14744,7 @@ rbac#:#lso_copy#:#Lernsequenz kopieren
 rbac#:#lso_write#:#Lernsequenz bearbeiten
 rbac#:#lso_delete#:#Lernsequenz löschen
 lso#:#learner_view#:#Übersicht
-lso#:#manage_content#:#Verwalten
+lso#:#manage#:#Verwalten
 lso#:#manage_content_maintab#:#Inhalt
 lso#:#show_summary#:#Info
 lso#:#table_sequence_content#:#Inhaltsverwaltung

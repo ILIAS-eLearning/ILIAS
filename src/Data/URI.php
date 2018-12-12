@@ -200,7 +200,7 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function schema() : string
+	public function getSchema() : string
 	{
 		return $this->schema;
 	}
@@ -224,13 +224,13 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function authority() : string
+	public function getAuthority() : string
 	{
-		$port = $this->port();
+		$port = $this->getPort();
 		if($port === null) {
-			return $this->host();
+			return $this->getHost();
 		}
-		return $this->host().':'.$port;
+		return $this->getHost().':'.$port;
 
 	}
 
@@ -262,7 +262,7 @@ class URI
 	/**
 	 * @return	int|null
 	 */
-	public function port()
+	public function getPort()
 	{
 		return $this->port;
 	}
@@ -284,7 +284,7 @@ class URI
 	/**
 	 * @return	string
 	 */
-	public function host() : string
+	public function getHost() : string
 	{
 		return $this->host;
 	}
@@ -307,7 +307,7 @@ class URI
 	/**
 	 * @return	string|null
 	 */
-	public function path()
+	public function getPath()
 	{
 		return $this->path;
 	}
@@ -329,7 +329,7 @@ class URI
 	/**
 	 * @return	string|null
 	 */
-	public function query()
+	public function getQuery()
 	{
 		return $this->query;
 	}
@@ -351,7 +351,7 @@ class URI
 	/**
 	 * @return	string|null
 	 */
-	public function fragment()
+	public function getFragment()
 	{
 		return $this->fragment;
 	}
@@ -377,13 +377,13 @@ class URI
 	 *
 	 * @return	string
 	 */
-	public function baseURI() : string
+	public function getBaseURI() : string
 	{
-		$path = $this->path();
+		$path = $this->getPath();
 		if($path === null) {
-			return $this->schema().'://'.$this->authority();
+			return $this->getSchema().'://'.$this->getAuthority();
 		}
-		return $this->schema().'://'.$this->authority().'/'.$path;
+		return $this->getSchema().'://'.$this->getAuthority().'/'.$path;
 	}
 
 }
