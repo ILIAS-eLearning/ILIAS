@@ -24,7 +24,7 @@ class ClientIdTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @return array[]
 	 */
-	public function clientIdProvider(): array 
+	public function clientIdProvider() 
 	{
 		return [
 			['default'],
@@ -36,7 +36,7 @@ class ClientIdTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @return array[]
 	 */
-	public function invalidClientIdProvider(): array
+	public function invalidClientIdProvider()
 	{
 		return [
 			['../../some/obscure/path'],
@@ -47,7 +47,7 @@ class ClientIdTest extends PHPUnit_Framework_TestCase
 	 * @param string $value
 	 * @dataProvider clientIdProvider
 	 */
-	public function testValidArguments(string $value)
+	public function testValidArguments($value)
 	{
 		$clientId = $this->f->clientId($value);
 		$this->assertEquals($value, $clientId->toString());
@@ -57,7 +57,7 @@ class ClientIdTest extends PHPUnit_Framework_TestCase
 	 * @param string $value
 	 * @dataProvider invalidClientIdProvider
 	 */
-	public function tesInvalidArguments(string $value)
+	public function tesInvalidArguments($value)
 	{
 		try {
 			$clientId = $this->f->clientId($value);

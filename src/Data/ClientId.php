@@ -17,10 +17,14 @@ class ClientId
 
 	/**
 	 * ClientId constructor.
-	 * @param string$clientId
+	 * @param string $clientId
 	 */
-	public function __construct(string $clientId)
+	public function __construct($clientId)
 	{
+		if (!is_string($clientId)) {
+			throw new \InvalidArgumentException('Invalid value for $clientId');
+		}
+
 		if (preg_match('/[^A-Za-z0-9#_\.]/', $clientId)) {
 			throw new \InvalidArgumentException('Invalid value for $clientId');
 		}
@@ -31,7 +35,7 @@ class ClientId
 	/**
 	 * @return string
 	 */
-	public function toString(): string
+	public function toString()
 	{
 		return $this->clientId;
 	}
@@ -39,7 +43,7 @@ class ClientId
 	/**
 	 * @return string
 	 */
-	public function __toString(): string
+	public function __toString()
 	{
 		return $this->toString();
 	}
