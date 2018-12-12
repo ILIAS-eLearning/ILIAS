@@ -9,6 +9,7 @@ namespace ILIAS\Data;
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class Factory {
 	/**
