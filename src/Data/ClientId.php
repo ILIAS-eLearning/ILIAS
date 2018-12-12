@@ -17,7 +17,7 @@ class ClientId
 
 	/**
 	 * ClientId constructor.
-	 * @param string$clientId
+	 * @param string $clientId
 	 */
 	public function __construct(string $clientId)
 	{
