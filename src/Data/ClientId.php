@@ -13,18 +13,14 @@ class ClientId
 	/**
 	 * @var string
 	 */
-	private $clientId;
+	private $clientId = '';
 
 	/**
 	 * ClientId constructor.
-	 * @param $clientId
+	 * @param string$clientId
 	 */
-	public function __construct($clientId)
+	public function __construct(string $clientId)
 	{
-		if (!is_string($clientId)) {
-			throw new \InvalidArgumentException('Invalid value for $clientId');
-		}
-
 		if (preg_match('/[^A-Za-z0-9#_\.]/', $clientId)) {
 			throw new \InvalidArgumentException('Invalid value for $clientId');
 		}
