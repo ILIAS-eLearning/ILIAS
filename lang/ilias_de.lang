@@ -14954,3 +14954,13 @@ style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
+rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
+rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
+rbac#:#lso_manage_members#:#Mitglieder bearbeiten
+rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
+common#:#unparticipate#:#Abmelden
+common#:#participate#:#Anmelden
+rbac#:#lso_participate#:#An der Lernsequenz anmelden
+rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
+rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
