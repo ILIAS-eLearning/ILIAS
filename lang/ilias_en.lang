@@ -14964,3 +14964,5 @@ rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
+user#:#msg_spoint_not_modified#:#Starting point not modified
