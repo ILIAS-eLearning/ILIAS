@@ -90,14 +90,17 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 For best results we RECOMMEND:
 
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
-  * MySQL 5.5 / MariaDB
-  * PHP 5.6+
-  * Apache 2.2+ with mod_php
+  * MySQL 5.6+
+  * MariaDB 10.2
+  * PHP 7.1
+  * Apache 2.4.18 with mod_php
   * ImageMagick 6.8+
-  * php5-gd, php5-xsl, php5-mysql
+  * php-gd, php-xml, php-mysql, php-mbstring
   * OpenJDK 7+
   * zip, unzip
   * git
+
+Package names may vary depending on the Linux distribution.
 
 <a name="supported-platforms"></a>
 ## Supported Platforms
@@ -108,9 +111,15 @@ Please note that different configurations SHOULD be possible, but it might be ha
 ### Server
 
   * Server OS: Linux
-  * Web Server: Apache 2 (mod_php, php-fpm)
-  * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
-  * PHP: Version 5.6, 7.0 and 7.1 are supported
+  * Web Server: Apache 2.4 (mod_php, php-fpm)
+  * Databases: MySQL/MariaDB 5.6 and 5.7 and Galera (experimental), PostgreSQL 9.x
+  * PHP: Version 7.0, 7.1 and 7.2 are supported
+  * zip: 3.0+
+  * unzip: 6.0+
+  * Imagemagick: 6.8.9-9+
+  * PhantomJS: 2.0.0+
+  * NodeJS: 8.9.4 (TLS) - 9.7.1
+  * Java: Version 7 and 8 are suported
   
 <a name="client"></a>
 ### Client
@@ -225,14 +234,9 @@ systemctl restart httpd.service
 <a name="php-installationconfiguration"></a>
 ## PHP Installation/Configuration
 
-On Debian/Ubuntu 14.04 execute:
+On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php5
-```
-
-On Ubuntu 16.04 execute:
-```
-apt-get install libapache2-mod-php7.0
+apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php-xml
 ```
 
 On RHEL/CentOS execute: 
@@ -390,17 +394,17 @@ FromLineOverride=YES
 
 On Debian/Ubuntu 14.04 execute:
 ```
-apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
+apt-get install zip unzip imagemagick openjdk-7-jdk
 ```
 
 On Ubuntu 16.04 execute:
 ```
-apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk
+apt-get install zip unzip imagemagick openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute: 
 ```
-yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
+yum install zip unzip libxslt ImageMagick java-1.8.0-openjdk
 ```
 ### Optional Dependencies
 
@@ -410,7 +414,6 @@ Depending on your use case, you MAY want to install further dependencies (exact 
 * php-xmlrpc
 * php-soap
 * php-ldap
-* php-mbstring
 * ffmpeg
 * mimetex
 * phantomjs
@@ -669,6 +672,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
+| 5.4.x           | 7.0.x, 7.1.x, 7.2.x                   |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
@@ -683,7 +687,8 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | MySQL Version                         |
 |-----------------|---------------------------------------|
-| 5.3.x - x.x.x   | 5.5.x, 5.6.x, 5.7.x                   |
+| 5.4.x - x.x.x   | 5.6.x, 5.7.x                          |
+| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                   |
 | 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
 | 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
 | 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
@@ -718,17 +723,19 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (http://ilias.de/test53) is currently configured as follows:
+The ILIAS Testserver (https://test54.ilias.de) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
-| Distribution   | Ubuntu 14.04.5 LTS          |
+| Distribution   | Ubuntu 16.04.1 LTS          |
 | MySQL          | MySQL 5.5.58                |
-| PHP            | 5.5.9                       |
+| MariaDB        | 10.1                        |
+| PHP            | 7.1.20                      |
 | Apache         | 2.4.7                       |
 | Nginx          | 1.4.6                       |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
 | JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
+| NodeJS         | 8.9.4 LTS                   |
 
 Please note: Shibboleth won't work with Nginx.
