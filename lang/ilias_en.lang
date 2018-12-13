@@ -14214,3 +14214,15 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
 sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
+rbac#:#lso_read#:#Users can access the Learning Sequence
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
+common#:#unparticipate#:#Unsubscribe
+common#:#participate#:#Subscribe
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
+user#:#msg_spoint_not_modified#:#Starting point not modified
