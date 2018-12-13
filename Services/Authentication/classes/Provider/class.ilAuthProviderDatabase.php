@@ -31,9 +31,10 @@ class ilAuthProviderDatabase extends ilAuthProvider implements ilAuthProviderInt
 		$this->getLogger()->debug('Trying to authenticate user: '. $this->getCredentials()->getUsername());
 		if($user instanceof ilObjUser)
 		{
-			if(!ilAuthUtils::isPasswordModificationEnabled($user->getAuthMode(true)))
+			if(!ilAuthUtils::isLocalPasswordEnabledForAuthMode($user->getAuthMode(true)))
 			{
 				$this->getLogger()->debug('DB authentication failed: current user auth mode does not allow local validation.');
+				$this->getLogger()->debug('User auth mode: ' . $user->getAuthMode(true));
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 			}
