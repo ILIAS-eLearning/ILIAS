@@ -853,7 +853,43 @@ class ilAuthUtils
 
 		return false;
 	}
-	
+
+	/**
+	 * Check if local password validation is enabled for a specific auth_mode
+	 * @param int $a_authmode
+	 * @return bool
+	 */
+	public static function isLocalPasswordEnabledForAuthMode($a_authmode)
+	{
+		global $ilSetting;
+
+		switch((int) $a_authmode)
+		{
+			// always enabled
+			case AUTH_LOCAL:
+			case AUTH_APACHE:
+				return true;
+
+			// No local passwords for these auth modes
+			case AUTH_LDAP:
+			case AUTH_RADIUS:
+			case AUTH_ECS:
+			case AUTH_SCRIPT:
+				return false;
+
+			case AUTH_SHIBBOLETH:
+				return $ilSetting->get("shib_auth_allow_local");
+			case AUTH_SOAP:
+				return $ilSetting->get("soap_auth_allow_local");
+			case AUTH_CAS:
+				return $ilSetting->get("cas_allow_local");
+
+		}
+		return false;
+	}
+
+
+
 	/**
 	 * Check if password modification is enabled
 	 * @param int $a_authmode
