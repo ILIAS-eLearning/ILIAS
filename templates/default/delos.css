@@ -8941,6 +8941,9 @@ ul.breadcrumb li:hover {
   list-style: none;
   padding-left: 0px;
 }
+.il-standard-form textarea {
+  height: 76px;
+}
 .il-table-presentation-viewcontrols {
   height: 40px;
 }
