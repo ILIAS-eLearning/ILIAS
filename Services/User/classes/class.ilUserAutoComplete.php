@@ -429,7 +429,7 @@ class ilUserAutoComplete
 			$field_conditions
 		)
 		{
-			$fields = implode(' OR ', $field_conditions);
+			$fields = '(' . implode(' OR ', $field_conditions) . ')';
 
 			$field_conditions = [
 				'(' . implode(' AND ', array(

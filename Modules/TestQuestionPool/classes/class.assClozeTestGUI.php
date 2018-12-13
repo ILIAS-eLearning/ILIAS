@@ -1571,7 +1571,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				foreach($gap->getItems($this->object->getShuffler()) as $gap_item)
 				{
 					$aggregate = $aggregation[$i];
-					$html .= '<li>' . $gap_item->getAnswerText() . ' - ' . ($aggregate[$j] ? $aggregate[$j] : 0) . '</li>';
+					$html .= '<li>' . ilUtil::prepareFormOutput($gap_item->getAnswerText()) . ' - ' . ($aggregate[$j] ? $aggregate[$j] : 0) . '</li>';
 					$j++;
 				}
 				$html .= '</ul>';
@@ -1597,8 +1597,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 						$show_mover = ' style="display: none;" ';
 					}
 
-					$html .= '<li>' . $answer . ' - ' . $count
-						. '&nbsp;<button class="clone_fields_add btn btn-link" ' . $show_mover . ' data-answer="'.$answer.'" name="add_gap_'.$i.'_0">
+					$html .= '<li>' . ilUtil::prepareFormOutput($answer) . ' - ' . $count
+						. '&nbsp;<button class="clone_fields_add btn btn-link" ' . $show_mover . ' data-answer="'.ilUtil::prepareFormOutput($answer).'" name="add_gap_'.$i.'_0">
 						<span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
 						</li>';
 				}
@@ -1615,7 +1615,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					$aggregate = (array)$aggregation[$i];
 					foreach($aggregate as $answer => $count)
 					{
-						$html .= '<li>' . $answer . ' - ' . $count . '</li>';
+						$html .= '<li>' . ilUtil::prepareFormOutput($answer) . ' - ' . $count . '</li>';
 					}
 					$j++;
 				}
