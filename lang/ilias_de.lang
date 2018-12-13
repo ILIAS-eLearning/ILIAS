@@ -14959,3 +14959,5 @@ rbac#:#lso_participate#:#An der Lernsequenz anmelden
 rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
 rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
+user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
