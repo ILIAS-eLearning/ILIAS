@@ -18,7 +18,6 @@ PHPUnit to run and create unit tests.
 - Add a new library using composer, e.g. 
 ```bash
 composer require filp/whoops --no-update
-composer update filp/whoops --no-dev
 ```
 - Document the usage and your wrapper class in composer.json, e.g.:
 ```json
