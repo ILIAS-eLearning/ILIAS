@@ -1385,15 +1385,19 @@ class ilSurveyPageGUI
 			
 			$ilCtrl->setParameter($this, "pg", $this->current_page-1);
 			$button = ilLinkButton::getInstance();
-			$button->setCaption("survey_prev_question");								
-			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
+			$button->setCaption("survey_prev_question");
+			if($this->has_previous_page){
+				$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
+			}
 			$button->setDisabled(!$this->has_previous_page);						
 			$ilToolbar->addStickyItem($button);		
 			
 			$ilCtrl->setParameter($this, "pg", $this->current_page+1);
 			$button = ilLinkButton::getInstance();
-			$button->setCaption("survey_next_question");								
-			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
+			$button->setCaption("survey_next_question");
+			if($this->has_next_page) {
+				$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
+			}
 			$button->setDisabled(!$this->has_next_page);						
 			$ilToolbar->addStickyItem($button);		
 			
