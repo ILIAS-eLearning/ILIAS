@@ -1376,11 +1376,6 @@ class ilPersonalSkillsGUI
 					}
 				}
 
-	//			$leg_labels = array("AAAAA", "BBBBB", "CCCCC");
-
-	//var_dump($this->profile_levels);
-	//var_dump($this->actual_levels);
-
 				include_once("./Services/Chart/classes/class.ilChart.php");
 				$chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart".$pkg_cnt);
 				$chart->setsize(800, 300);
@@ -1836,7 +1831,7 @@ class ilPersonalSkillsGUI
 					}
 				}
 
-				if ($this->actual_levels[$v["skill_id"]][0] == $v["id"])
+				if ($this->actual_levels[$v["skill_id"]][$a_tref_id] == $v["id"])
 				{
 					$too_low = false;
 				}
