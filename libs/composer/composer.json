@@ -25,8 +25,7 @@
 		"simplesamlphp/simplesamlphp": "1.15.3",
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
-		"james-heinrich/getid3": "^1.9",
-		"slim/slim": "^3.11"
+		"james-heinrich/getid3": "^1.9"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
@@ -271,15 +270,6 @@
 			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
 			"approved-by": "Only added to ensure PHP 5 compatibility",
 			"approved-date": "2018-01-17"
-		},
-		"slim/slim": {
-			"source": "https://github.com/slimphp/Slim",
-			"used_version": "v3.11",
-			"added_by": "Stefan Meyer <smeyer.ilias@gmx.de",
-			"wrapped_by": "Services/WebServices/Rest",
-			"last_update": "2018-12-14",
-			"approved_by": "Jour Fixe",
-			"approved_date": "2018-12-03"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
