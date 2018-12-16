@@ -73,7 +73,11 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     */
     function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") //UK weg?
     {
-        global $ilUser, $lng, $rbacsystem, $ilAccess;
+        global $DIC;
+        $ilUser = $DIC['ilUser'];
+        $lng = $DIC['lng'];
+        $rbacsystem = $DIC['rbacsystem'];
+        $ilAccess = $DIC['ilAccess'];
 
         if ($a_user_id == "")
         {
@@ -154,7 +158,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     */
     static function _lookupEditable($a_obj_id)
     {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
 			array('integer'), array($a_obj_id));
@@ -169,7 +174,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     */
     static function _checkGoto($a_target)
     {
-        global $ilAccess;
+        global $DIC;
+        $ilAccess = $DIC['ilAccess'];
         
         $t_arr = explode("_", $a_target);
 
@@ -207,7 +213,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 		*/
 	public static function _lookupUserCertificate($obj_id, $usr_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$uid = ($usr_id) ? $usr_id : $ilUser->getId();
 		
 		$completed = false;
@@ -254,7 +261,9 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 		*/
 	static function _lookupUserIsOfflineMode($a_obj_id)
 	{
-		global $ilDB,$ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		$user_id = $ilUser->getId();
 
@@ -272,7 +281,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 	*/
 	static function _lookupOfflineModeAvailable($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$set = $ilDB->queryF('SELECT offline_mode FROM sahs_lm WHERE id = %s', 
 		array('integer'), array($a_id));

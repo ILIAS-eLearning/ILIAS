@@ -45,7 +45,8 @@ class ilSCORMOfflineMode
 	*/
 	function __construct()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		$this->ilias = $ilias;
 		$this->id = $_GET['ref_id'];
 		$this->obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
@@ -72,7 +73,8 @@ class ilSCORMOfflineMode
 	}
 	
 	function getSopManifestEntries() {
-		global $log;
+		global $DIC;
+		$log = $DIC['log'];
 		$log->write("getSopManifestEntries ");
 		$manifest_string = "";
 		if (!$this->debug) {
@@ -141,7 +143,8 @@ class ilSCORMOfflineMode
 	}
 	
 	function getLmManifestEntries() { // ToDo: database support !!
-		global $log;
+		global $DIC;
+		$log = $DIC['log'];
 		$log->write("getLmManifestEntries");
 		$this->lm_dir = ilUtil::getWebspaceDir("filesystem").'/lm_data/lm_'.$this->obj_id;
 		$manifest_string = "";
@@ -162,7 +165,9 @@ class ilSCORMOfflineMode
 
 	// function il2sop() {
 	function tracking2sop() {
-		global $ilUser, $ilias;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilias = $DIC['ilias'];
 		// $this->setOfflineMode("il2sop");
 		header('Content-Type: text/javascript; charset=UTF-8');
 
@@ -241,7 +246,8 @@ class ilSCORMOfflineMode
 	}
 	
 	function il2sopUserData() {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		return array(
 			$ilUser->getLogin(),
 			"",
@@ -253,7 +259,9 @@ class ilSCORMOfflineMode
 			);
 	}
 	function il2sopSahsUser() {
-		global $ilDB,$ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$package_attempts	= 0;
 		$module_version		= 1;//if module_version in sop is different...
 		$last_visited		= "";
@@ -266,7 +274,9 @@ class ilSCORMOfflineMode
 		$percentage_completed = 0;
 		$user_data			= "";
 
-		global $ilDB,$ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$res = $ilDB->queryF('SELECT * FROM sahs_user WHERE obj_id=%s AND user_id=%s',
 			array('integer','integer'),
 			array($this->obj_id,$ilUser->getID())
@@ -300,9 +310,11 @@ class ilSCORMOfflineMode
 
 	function sop2il() {
 //		sleep(5);
-		global $ilDB,$ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$in = file_get_contents("php://input");
-		$GLOBALS['ilLog']->write($in);
+		$GLOBALS['DIC']['ilLog']->write($in);
 		$ret = array('msg'=>array(),'err'=>array());
 		
 		if (!$in || $in == "") {
@@ -325,7 +337,7 @@ class ilSCORMOfflineMode
 			}
 			include_once './Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
 			$data = json_decode($in);
-			$GLOBALS['ilLog']->write('cmi_count='.count($data->cmi));
+			$GLOBALS['DIC']['ilLog']->write('cmi_count='.count($data->cmi));
 			for ($i=0; $i<count($data->cmi); $i++) {
 				if($result==true) {
 					//$a_r=array();
@@ -366,7 +378,9 @@ class ilSCORMOfflineMode
 	}
 	
 	function scormPlayerUnloadForSop2il($data) {
-		global $ilDB,$ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$first_access=null;
 		if($data->first_access != null) $first_access=date('Y-m-d H:i:s',round($data->first_access/1000));
 		$last_access=null;
@@ -379,7 +393,7 @@ class ilSCORMOfflineMode
 		}
 		$last_status_change=null;
 		if($data->last_status_change != null) $last_status_change=date('Y-m-d H:i:s',round($data->last_status_change/1000));
-		$GLOBALS['ilLog']->write('first_access='.$first_access);
+		$GLOBALS['DIC']['ilLog']->write('first_access='.$first_access);
 		$res = $ilDB->queryF('UPDATE sahs_user SET first_access=%s, last_access=%s, last_status_change=%s, last_visited=%s, module_version=%s WHERE obj_id=%s AND user_id=%s',
 			array('timestamp','timestamp','timestamp','text','integer','integer','integer'),
 			array($first_access,$last_access,$last_status_change,$data->last_visited,$data->module_version, $this->obj_id,$ilUser->getId())
@@ -391,7 +405,9 @@ class ilSCORMOfflineMode
 
 	//offlineMode: offline, online, il2sop, sop2il
 	function setOfflineMode($a_mode) {
-		global $ilDB,$ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$res = $ilDB->queryF('UPDATE sahs_user SET offline_mode=%s WHERE obj_id=%s AND user_id=%s',
 			array('text','integer','integer'),
 			array($a_mode, $this->obj_id,$ilUser->getId())
@@ -403,7 +419,9 @@ class ilSCORMOfflineMode
 	}
 	
 	private function read() {
-		global $ilDB,$ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$res = $ilDB->queryF('SELECT offline_mode FROM sahs_user WHERE obj_id=%s AND user_id=%s',
 			array('integer','integer'),
 			array($this->obj_id,$ilUser->getId())
@@ -419,7 +437,8 @@ class ilSCORMOfflineMode
 	}
 	
 	public static function checkIfAnyoneIsInOfflineMode($obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$res = $ilDB->queryF("SELECT count(*) cnt FROM sahs_user WHERE obj_id=%s AND offline_mode = 'offline'",
 			array('integer'),
 			array($obj_id)
@@ -430,7 +449,8 @@ class ilSCORMOfflineMode
 	}
 
 	public static function usersInOfflineMode($obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$users = array();
 		$res = $ilDB->queryF("SELECT user_id, lastname, firstname FROM sahs_user, usr_data "
 							."WHERE sahs_user.obj_id=%s AND sahs_user.offline_mode = 'offline' AND sahs_user.user_id=usr_data.usr_id",
@@ -445,7 +465,8 @@ class ilSCORMOfflineMode
 	}
 
 	public static function stopOfflineModeForUser($obj_id,$user_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$res = $ilDB->queryF("UPDATE sahs_user SET offline_mode='online' WHERE obj_id=%s AND user_id=%s",
 			array('integer','integer'),
 			array($obj_id,$user_id)

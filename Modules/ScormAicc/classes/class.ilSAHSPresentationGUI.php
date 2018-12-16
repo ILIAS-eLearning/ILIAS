@@ -26,7 +26,11 @@ class ilSAHSPresentationGUI
 
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
@@ -41,7 +45,13 @@ class ilSAHSPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $lng,$ilAccess, $ilNavigationHistory, $ilCtrl, $ilLocator, $ilObjDataCache;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilLocator = $DIC['ilLocator'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		include_once "./Services/Object/classes/class.ilObjectGUI.php";
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
@@ -192,7 +202,8 @@ class ilSAHSPresentationGUI
 	*/
 	function explorer($a_target = "sahs_content")
 	{
-		global $ilBench;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 
 		$ilBench->start("SAHSExplorer", "initExplorer");
 		
@@ -258,7 +269,8 @@ class ilSAHSPresentationGUI
 
 	function api()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
@@ -279,7 +291,9 @@ class ilSAHSPresentationGUI
 	function launchSahs()
 	{
 	
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 		
 		$sco_id = ($_GET["sahs_id"] == "")
 			? $_POST["sahs_id"]
@@ -407,7 +421,8 @@ class ilSAHSPresentationGUI
 			}
 		}
 
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.svg"));
@@ -461,7 +476,8 @@ class ilSAHSPresentationGUI
 
 	function finishSahs ()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->tpl = new ilTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
@@ -492,7 +508,9 @@ class ilSAHSPresentationGUI
 
 	function launchAsset()
 	{
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$sco_id = ($_GET["asset_id"] == "")
 			? $_POST["asset_id"]
@@ -561,7 +579,10 @@ class ilSAHSPresentationGUI
 	
 	function setInfoTabs($a_active)
 	{		
-		global $ilTabs, $ilLocator, $ilAccess;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilLocator = $DIC['ilLocator'];
+		$ilAccess = $DIC['ilAccess'];
 		// $ilTabs->clearTargets();
 		// #9658 / #11753
 		include_once "Services/Tracking/classes/class.ilLearningProgressAccess.php";
@@ -606,7 +627,8 @@ class ilSAHSPresentationGUI
 	*/
 	function outputInfoScreen()
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		//$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 

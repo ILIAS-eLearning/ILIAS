@@ -36,7 +36,8 @@ class ilObjSCORMVerificationListGUI extends ilObjectListGUI
 	
 	function getProperties()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		return array(
 			array("alert" => false, "property" => $lng->txt("type"),
