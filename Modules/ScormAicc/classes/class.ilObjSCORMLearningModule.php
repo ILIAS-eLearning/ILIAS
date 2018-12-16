@@ -94,7 +94,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function readObject()
 	{
-		global $ilErr;
+		global $DIC;
+		$ilErr = $DIC['ilErr'];
 		
 		$needs_convert = false;
 
@@ -231,7 +232,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function setLearningProgressSettingsAtUpload()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		//condition 1
 		$lm_set = new ilSetting("lm");
 		if ($lm_set->get('scorm_lp_auto_activate') != 1) return;
@@ -260,7 +262,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function getTrackedItems()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$sco_set = $ilDB->queryF('
 		SELECT DISTINCT sco_id FROM scorm_tracking WHERE obj_id = %s', 
@@ -289,7 +293,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	public static function _lookupLastAccess($a_obj_id, $a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF('
 		SELECT last_access FROM sahs_user 
@@ -307,7 +312,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	function getTrackedUsers($a_search)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 //TODO: UK last_access is not correct if no Commit or last_visited_sco
 //		$query = 'SELECT user_id,MAX(c_timestamp) last_access, lastname, firstname FROM scorm_tracking st ' .
 		$query = 'SELECT user_id, last_access, lastname, firstname FROM sahs_user st ' .
@@ -336,7 +343,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 */
 	public function getAttemptsForUsers()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$query = 'SELECT user_id, package_attempts FROM sahs_user WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
 		$res = $ilDB->query($query);
 
@@ -353,7 +361,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	* get number of atttempts for a certain user and package
 	*/
 	function getAttemptsForUser($a_user_id){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
 		array('integer','integer'),
 		array($this->getId(),$a_user_id,0));
@@ -373,7 +382,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 */
 	public function getModuleVersionForUsers()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$query = 'SELECT user_id, module_version FROM sahs_user WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
 		$res = $ilDB->query($query);
 
@@ -390,7 +400,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	* get module version that tracking data for a user was recorded on
 	*/
 	function getModuleVersionForUser($a_user_id){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$val_set = $ilDB->queryF('SELECT module_version FROM sahs_user WHERE obj_id = %s AND user_id = %s',
 		array('integer','integer'),
 		array($this->getId(),$a_user_id,0));
@@ -412,7 +423,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 */
 	function getTrackingDataPerUser($a_sco_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$data_set = $ilDB->queryF('
 		SELECT * FROM scorm_tracking 
@@ -433,7 +445,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	function getTrackingDataAgg($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// get all users with any tracking data
 		$sco_set = $ilDB->queryF('
@@ -497,7 +510,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	function getTrackingDataAggSco($a_sco_id)
 	    {
-	        global $ilDB;
+	        global $DIC;
+	        $ilDB = $DIC['ilDB'];
 
 	        // get all users with any tracking data
 	        $user_set = $ilDB->queryF('
@@ -566,7 +580,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 */
 	public function exportSelected($a_all, $a_users = array())
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		include_once('./Modules/ScormAicc/classes/class.ilSCORMTrackingItems.php');
 		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
@@ -604,7 +620,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	
 	function importTrackingData($a_file)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$error = 0;
 		//echo file_get_contents($a_file);
@@ -637,7 +655,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	function importSuccess($a_file) {
 		
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		$scos = array();
 		//get all SCO's of this object ONLY RELEVANT!
@@ -757,7 +777,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	}
 
 	function importSuccessForSahsUser($user_id, $last_access, $status, $attempts=null, $percentage_completed=null, $sco_total_time_sec=null){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$statement = $ilDB->queryF('SELECT * FROM sahs_user WHERE obj_id = %s AND user_id = %s',
 							array('integer','integer'),
 							array($this->getID(),$user_id)
@@ -802,7 +823,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 */
 	private function parseUserId($il_id)
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 
 		$parts = explode('_', $il_id);
 
@@ -830,7 +852,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 */
 	private function importRaw($a_file)
 	{
-		global $ilDB, $ilUser,$lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 
 		$fhandle = fopen($a_file, "r");
@@ -993,7 +1018,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 * @param array $a_user_id
 	*/
 	function decreaseAttemptsForUser($a_user_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		foreach ($a_user_id as $user)
 		{
@@ -1023,7 +1049,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	
 	//helper function
 	function get_user_id($a_login) {
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$val_set = $ilDB->queryF('SELECT * FROM usr_data WHERE(login=%s)',
 		array('text'),array($a_login));
@@ -1041,7 +1069,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	* resolves manifest SCOID to internal ILIAS SCO ID
 	*/
 	private function lookupSCOId($a_referrer){
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		//non specific SCO entries
 		if ($a_referrer=="0") {
@@ -1064,7 +1094,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function getUserIdEmail($a_mail)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$val_set = $ilDB->queryF('SELECT usr_id FROM usr_data WHERE(email=%s)',
 		array('text'),array($a_mail));
@@ -1094,7 +1126,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	public static function _getAllScoIds($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$scos = array();
 
@@ -1134,7 +1167,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	public static function _getStatusForUser($a_id, $a_user,$a_allScoIds,$a_numerical=false)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		$scos = $a_allScoIds;
 		//check if all SCO's are completed
@@ -1176,7 +1211,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	}
 
 	function getAllScoIds(){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$scos = array();
 		//get all SCO's of this object
@@ -1207,7 +1243,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	}
 	
 	function getStatusForUser($a_user,$a_allScoIds,$a_numerical=false){
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$scos = $a_allScoIds;
 		//loook up status
 		//check if all SCO's are completed
@@ -1242,7 +1279,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	
 	//to be called from IlObjUser
 	public static function _removeTrackingDataForUser($user_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		//gobjective
 		$ilDB->manipulateF(
 			'DELETE FROM scorm_tracking WHERE user_id = %s',
@@ -1258,7 +1296,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	static function _getScoresForUser($a_item_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$retAr = array("raw" => null, "max" => null, "scaled" => null);
 		$val_set = $ilDB->queryF("
@@ -1282,7 +1321,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	public function getLastVisited($user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
 			array('integer','integer'), 
 			array($this->getID(),$user_id)
@@ -1296,7 +1336,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	function deleteTrackingDataOfUsers($a_users)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 
