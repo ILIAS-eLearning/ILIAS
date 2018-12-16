@@ -67,7 +67,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$cmd_link = null;
 		switch($a_cmd)
 		{
@@ -133,7 +134,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		
 		switch($a_cmd)
 		{
@@ -180,7 +182,9 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
 		$props = parent::getProperties();
 		
 		$editable = ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id);

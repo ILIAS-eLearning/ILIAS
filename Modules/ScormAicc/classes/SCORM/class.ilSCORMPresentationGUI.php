@@ -24,7 +24,11 @@ class ilSCORMPresentationGUI
 
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
@@ -42,7 +46,11 @@ class ilSCORMPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilLog, $ilias, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("frameset");
@@ -84,7 +92,8 @@ class ilSCORMPresentationGUI
 	* without the table of contents explorer frame on the left.
 	*/
 	function frameset()	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$javascriptAPI = true;
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
 		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
@@ -159,7 +168,9 @@ class ilSCORMPresentationGUI
 	*/
 	function get_actual_attempts() 
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
 			array('integer','integer'), array($this->slm->getId(),$ilUser->getId()));
 		$val_rec = $ilDB->fetchAssoc($val_set);
@@ -168,7 +179,9 @@ class ilSCORMPresentationGUI
 		return $attempts;
 	}
 	// function get_actual_attempts() {
-		// global $ilDB, $ilUser;
+		// global $DIC;
+		// $ilDB = $DIC['ilDB'];
+		// $ilUser = $DIC['ilUser'];
 		// $val_set = $ilDB->queryF('
 			// SELECT * FROM scorm_tracking 
 			// WHERE user_id =  %s
@@ -192,7 +205,9 @@ class ilSCORMPresentationGUI
 	* Increases attempts by one for this package
 	*/
 	// function increase_attempt() {
-		// global $ilDB, $ilUser;
+		// global $DIC;
+		// $ilDB = $DIC['ilDB'];
+		// $ilUser = $DIC['ilUser'];
 		
 		// //get existing account - sco id is always 0
 		// $val_set = $ilDB->queryF('
@@ -250,7 +265,9 @@ class ilSCORMPresentationGUI
 	*/
 	function increase_attemptAndsave_module_version()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$res = $ilDB->queryF(
 			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s GROUP BY package_attempts',
 			array('integer','integer'),
@@ -280,7 +297,9 @@ class ilSCORMPresentationGUI
 	* save the active module version to scorm_tracking
 	*/
 	// function save_module_version() {
-		// global $ilDB, $ilUser;
+		// global $DIC;
+		// $ilDB = $DIC['ilDB'];
+		// $ilUser = $DIC['ilUser'];
 
 		// $val_set = $ilDB->queryF('
 			// SELECT * FROM scorm_tracking 
@@ -330,7 +349,9 @@ class ilSCORMPresentationGUI
 	*/
 	function explorer($a_target = "sahs_content")
 	{
-		global $ilBench, $ilLog;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
+		$ilLog = $DIC['ilLog'];
 
 		$ilBench->start("SCORMExplorer", "initExplorer");
 		
@@ -398,7 +419,8 @@ class ilSCORMPresentationGUI
 	}
 
 	function contentSelect() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->tpl = new ilTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt("seq_toc"));
@@ -409,7 +431,12 @@ class ilSCORMPresentationGUI
 	* SCORM Data for Javascript-API
 	*/
 	function apiInitData() {
-//		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
+//		global $DIC;
+//		$ilias = $DIC['ilias'];
+//		$ilLog = $DIC['ilLog'];
+//		$ilUser = $DIC['ilUser'];
+//		$lng = $DIC['lng'];
+//		$ilDB = $DIC['ilDB'];
 
 		if ($_GET["ref_id"] == "") {
 			print ('alert("no start without ref_id");');
@@ -445,7 +472,8 @@ class ilSCORMPresentationGUI
 	
 	function api()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
@@ -504,7 +532,9 @@ class ilSCORMPresentationGUI
 	*/
 	function launchSahs()
 	{
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$sco_id = ($_GET["sahs_id"] == "")
 			? $_POST["sahs_id"]
@@ -631,7 +661,8 @@ class ilSCORMPresentationGUI
 			}
 		}
 
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.svg"));
@@ -694,7 +725,8 @@ class ilSCORMPresentationGUI
 
 	function finishSahs ()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->tpl = new ilTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
@@ -744,7 +776,9 @@ class ilSCORMPresentationGUI
 
 	function launchAsset()
 	{
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$sco_id = ($_GET["asset_id"] == "")
 			? $_POST["asset_id"]
@@ -778,13 +812,15 @@ class ilSCORMPresentationGUI
 	}
 
 	function logMessage() {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$logString = file_get_contents('php://input');
 		$ilLog->write("ScormAicc: ApiLog: Message: ".$logString);
 	}
 
 	function logWarning() {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$logString = file_get_contents('php://input');
 		$ilLog->write("ScormAicc: ApiLog: Warning: ".$logString,20);
 	}
