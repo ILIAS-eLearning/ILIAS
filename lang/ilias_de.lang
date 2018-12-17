@@ -2681,8 +2681,8 @@ common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) fü
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk-Quota-Erinnerungsnachrichten
 common#:#enable_disk_quota_summary_mail#:#Sende Disk-Quota-Zusammenfassungen
 common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk-Quotas zukommen zu lassen.
-common#:#enable_download_folder#:#«Ordner herunterladen» aktivieren
-common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und ihrer Binnenstrukturen als ZIP-Datei.
+common#:#enable_download_folder#:#«Herunterladen Aktion für Ordner» aktivieren
+common#:#enable_download_folder_info#:#Aktiviert eine Herunterladen-Option im Aktionen-Dropdown von Ordnern.
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
 common#:#enable_fora_statistics_desc#:#Nur wenn diese aktiviert ist, kann auf die Forenstatistik zugegriffen werden.
 common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
