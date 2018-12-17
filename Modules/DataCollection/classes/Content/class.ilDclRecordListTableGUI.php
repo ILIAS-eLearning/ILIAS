@@ -236,13 +236,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 				$content = '';
 			} // SW - This ensures to display also zeros in the table...
 
-			//TODO: move to specific class
-			switch ($field->getDatatypeId()) {
-				case ilDclDatatype::INPUTFORMAT_NUMBER:
-					$this->tpl->setVariable("ADDITIONAL_CLASS", 'text-right');
-					break;
-			}
-
 			$this->tpl->setVariable("CONTENT", $content);
 			$this->tpl->parseCurrentBlock();
 
