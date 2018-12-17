@@ -2212,8 +2212,8 @@ common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
-common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
-common#:#enable_download_folder#:#Enable Downloading Folders
+common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
+common#:#enable_download_folder#:#"Download Action for Folders" enabled
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
