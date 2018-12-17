@@ -152,21 +152,4 @@ abstract class Button implements C\Button\Button {
 		return $this->aria_label;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withAriaChecked()
-	{
-		$clone = clone $this;
-		$clone->aria_checked = true;
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function isAriaChecked()
-	{
-		return $this->aria_checked;
-	}
 }

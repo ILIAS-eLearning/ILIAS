@@ -146,13 +146,18 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		
 		ilObjUser::_writeExternalAccount($id, "ext_kabel");
 		ilObjUser::_writeAuthMode($id, "cas");
-		$ids = ilObjUser::_getUserIdsByEmail("qwe@ty.de");
+		$logins = ilObjUser::getUserLoginsByEmail("qwe@ty.de");
 //var_dump($ids);
-		if (is_array($ids) && count($ids) == 1 && $ids[0] == "aatestuser2")
+		if (is_array($logins) && count($logins) == 1 && $logins[0] == "aatestuser2")
 		{
 			$value.= "email1-";
+			$uid = ilObjUser::getUserIdByLogin($logins[0]);
 		}
-		$uid = ilObjUser::getUserIdByEmail("qwe@ty.de");
+		else
+		{
+			$uid = 0;
+		}
+
 		if ($uid == $id)
 		{
 			$value.= "email2-";

@@ -28,7 +28,9 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->setId('tst_participants_' . $a_parent_obj->getTestObj()->getRefId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -189,7 +191,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		// title/description
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");

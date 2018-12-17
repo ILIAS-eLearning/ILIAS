@@ -630,7 +630,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		
@@ -753,7 +755,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	
 	private function getOldLeveledOrdering()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF('SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC',
 			array('integer'), array($this->object->getId()));

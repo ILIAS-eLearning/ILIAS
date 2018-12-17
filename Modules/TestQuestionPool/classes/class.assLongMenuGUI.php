@@ -26,7 +26,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		{
 			$this->object->loadFromDb($id);
 		}
-		global $rbacsystem, $ilTabs, $lng;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
 		$this->rbacsystem 	= $rbacsystem;
 		$this->ilTabs		= $ilTabs;
 		$this->lng			= $lng;

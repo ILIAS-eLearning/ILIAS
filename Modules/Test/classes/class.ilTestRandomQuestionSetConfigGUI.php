@@ -752,8 +752,9 @@ class ilTestRandomQuestionSetConfigGUI
 
 		if( isset($_GET['quest_pool_ref']) && (int)$_GET['quest_pool_ref'] )
 		{
+			global $DIC; /* @var ILIAS\DI\Container $DIC */
 			/* @var ilObjectDataCache $objCache */
-			$objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
+			$objCache = $DIC['ilObjDataCache'];
 			
 			return $objCache->lookupObjId( (int)$_GET['quest_pool_ref'] );
 		}
@@ -891,14 +892,15 @@ class ilTestRandomQuestionSetConfigGUI
 				$deriver->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 				$deriver->setTargetContainerRef($targetRef);
 				$deriver->setOwnerId($GLOBALS['DIC']['ilUser']->getId());
-				$newPoolId = $deriver->derive($lostPool);
+				$newPool = $deriver->derive($lostPool);
 				
-				$this->sourcePoolDefinitionList->updateSourceQuestionPoolId(
-					$lostPool->getId(), $newPoolId
-				);
+				$srcPoolDefinition = $this->sourcePoolDefinitionList->getDefinitionBySourcePoolId($newPool->getId());
+				$srcPoolDefinition->setPoolTitle($newPool->getTitle());
+				$srcPoolDefinition->setPoolPath($this->questionSetConfig->getQuestionPoolPathString($newPool->getId()));
+				$srcPoolDefinition->saveToDb();
 				
 				ilTestRandomQuestionSetStagingPoolQuestionList::updateSourceQuestionPoolId(
-					$this->testOBJ->getTestId(), $lostPool->getId(), $newPoolId
+					$this->testOBJ->getTestId(), $lostPool->getId(), $newPool->getId()
 				);
 			}
 			

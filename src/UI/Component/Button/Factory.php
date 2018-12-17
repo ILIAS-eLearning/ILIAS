@@ -19,12 +19,20 @@ interface Factory {
 	 *       is the one that should be used.
 	 *   composition: >
 	 *       The standard button uses the primary color as background.
+	 *   effect: >
+	 *       If the loading animation is activated, the button shows a spinner wheel
+	 *       on-click and automatically switches to a deactivated state.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
 	 *          Standard buttons MUST be used if there is no good reason using
 	 *          another instance.
+	 *       2: >
+	 *          The loading animation SHOULD be activated if the Buttons starts
+	 *          any background process (e.g. ajax calls) without any other immediate
+	 *          feedback for the user. After the process finished, the button MUST be
+	 *          removed from/replaced in the DOM.
 	 *   ordering:
 	 *       1: >
 	 *          The most important standard button SHOULD be first in reading
@@ -39,10 +47,13 @@ interface Factory {
 	 *   accessibility:
 	 *       1: >
 	 *          Standard buttons MAY define aria-label attribute. Use it in cases
-	 *          where a text label is not visible on the screen or when the label does not provide enough information
-	 *          about the action.
+	 *          where a text label is not visible on the screen or when the label
+	 *          does not provide enough information about the action.
 	 *       2: >
-	 *          Standard buttons MAY define aria-checked attribute. Use it to inform which is the currently active button.
+	 *          Some Buttons can be stateful; when engaged, the state MUST be
+	 *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *          If the Button is not stateful (which is the default), the
+	 *          aria-attribute SHOULD be omitted.
 	 * ---
 	 * @param	string				$label
 	 * @param	string|Signal		$action		will be triggered on click
@@ -63,7 +74,9 @@ interface Factory {
 	 *       attention while there are several buttons competing for attention.
 	 *   effect: >
 	 *      In toolbars the primary button are required to be sticky, meaning
-	 *      they stay in view in the responsive view.
+	 *      they stay in view in the responsive view. If the loading animation
+	 *      is activated, the button shows a spinner wheel on-click and automatically
+	 *      switches to a deactivated state.
 	 *
 	 * background: >
 	 *      Tiddwell refers to the primary button as “prominent done button” and
@@ -90,6 +103,15 @@ interface Factory {
 	 *       3: >
 	 *           The decision to make a Button a Primary Button MUST be confirmed
 	 *           by the JF.
+	 *       4: >
+	 *           The loading animation rules of the Standard Button MUST be respected.
+	 *   accessibility:
+	 *       1: >
+	 *          Some Buttons can be stateful; when engaged, the state MUST be
+	 *          reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *          If the Button is not stateful (which is the default), the
+	 *          aria-attribute SHOULD be omitted.
+	 *
 	 * ---
 	 * @param	string		$label
 	 * @param	string|Signal		$action		will be triggered on click
@@ -249,7 +271,11 @@ interface Factory {
 	 *     1: >
 	 *       The functionality of the Bulky Button MUST be indicated for screen
 	 *       readers by an aria-label.
-	 *     2: Bulky Buttons MUST define aria-pressed attribute.
+	 *     2: >
+	 *        Some Buttons can be stateful; when engaged, the state MUST be
+	 *        reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
+	 *        If the Button is not stateful (which is the default), the
+	 *        aria-attribute SHOULD be omitted.
 	 *
 	 * ---
 	 * @param	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph

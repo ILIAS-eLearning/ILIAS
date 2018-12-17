@@ -291,7 +291,11 @@ abstract class assQuestion
 		$question = ""
 	)
 	{
-		global $ilias, $lng, $tpl, $ilDB;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilDB = $DIC['ilDB'];
 
 		$this->ilias = $ilias;
 		$this->lng = $lng;
@@ -455,7 +459,8 @@ abstract class assQuestion
 	 */
 	protected function lookupTestId($active_id)
 	{
-		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
 			array('integer'), array($active_id)
@@ -582,7 +587,8 @@ abstract class assQuestion
 	*/
 	function questionTitleExists($questionpool_id, $title)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
 			array('integer','text'),
@@ -946,7 +952,8 @@ abstract class assQuestion
 */
 	public static function _getMaximumPoints($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$points = 0;
 		$result = $ilDB->queryF("SELECT points FROM qpl_questions WHERE question_id = %s",
@@ -969,7 +976,8 @@ abstract class assQuestion
 	*/
 	public static function _getQuestionInfo($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
@@ -990,7 +998,8 @@ abstract class assQuestion
 	*/
 	public static function _getSuggestedSolutionCount($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT suggested_solution_id FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
@@ -1057,7 +1066,8 @@ abstract class assQuestion
 */
 	function &_getSuggestedSolution($question_id, $subquestion_index = 0)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s AND subquestion_index = %s",
 			array('integer','integer'),
@@ -1096,7 +1106,8 @@ abstract class assQuestion
 	*/
 	public static function _getReachedPoints($active_id, $question_id, $pass = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$points = 0;
 		if (is_null($pass))
@@ -1187,7 +1198,9 @@ abstract class assQuestion
 	 */
 	final public function calculateResultsFromSolution($active_id, $pass = NULL, $obligationsEnabled = false)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		if( is_null($pass) )
 		{
@@ -1384,7 +1397,8 @@ abstract class assQuestion
 	/** @TODO Move this to a proper place. */
 	public static function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		include_once "./Modules/Test/classes/class.assMarkSchema.php";
@@ -1466,7 +1480,8 @@ abstract class assQuestion
 	/** @TODO Move this to a proper place. */
 	public static function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 
@@ -1790,7 +1805,8 @@ abstract class assQuestion
 	*/
 	public function getSolutionValues($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (is_null($pass))
 		{
@@ -1848,7 +1864,8 @@ abstract class assQuestion
 	*/
 	public function isInUse($question_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if ($question_id < 1) $question_id = $this->getId();
 		$result = $ilDB->queryF("SELECT COUNT(qpl_questions.question_id) question_count FROM qpl_questions, tst_test_question WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_question.question_fi",
@@ -1881,7 +1898,8 @@ abstract class assQuestion
 	*/
 	function isClone($question_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if ($question_id < 1) $question_id = $this->id;
 		$result = $ilDB->queryF("SELECT original_id FROM qpl_questions WHERE question_id = %s",
@@ -1917,7 +1935,8 @@ abstract class assQuestion
 	*/
 	public static function getQuestionTypeFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
@@ -1957,7 +1976,8 @@ abstract class assQuestion
 	*/
 	function deleteAnswers($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$answer_table_name = $this->getAnswerTableName();
 		
 		if( !is_array($answer_table_name) )
@@ -1985,7 +2005,8 @@ abstract class assQuestion
 	*/
 	function deleteAdditionalTableData($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$additional_table_name = $this->getAdditionalTableName();
 		
@@ -2028,7 +2049,9 @@ abstract class assQuestion
 	*/
 	public function delete($question_id)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		if ($question_id < 1) return true; // nothing to do
 
@@ -2206,7 +2229,8 @@ abstract class assQuestion
 	*/
 	function _getTotalAnswers($a_q_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// get all question references to the question id
 		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
@@ -2237,7 +2261,8 @@ abstract class assQuestion
 	*/
 	public static function _getTotalRightAnswers($a_q_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
 			array('integer','integer'),
 			array($a_q_id, $a_q_id)
@@ -2284,7 +2309,8 @@ abstract class assQuestion
 	*/
 	static function _getTitle($a_q_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT title FROM qpl_questions WHERE question_id = %s",
 			array('integer'),
 			array($a_q_id)
@@ -2307,7 +2333,8 @@ abstract class assQuestion
 	*/
 	static function _getQuestionText($a_q_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT question_text FROM qpl_questions WHERE question_id = %s",
 				array('integer'),
 				array($a_q_id)
@@ -2407,7 +2434,8 @@ abstract class assQuestion
 	 */
 	public static function _getQuestionType($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if ($question_id < 1) return "";
 		$result = $ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
@@ -2434,7 +2462,8 @@ abstract class assQuestion
 */
 	public static function _getQuestionTitle($question_id) 
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if ($question_id < 1) return "";
 
@@ -2530,7 +2559,8 @@ abstract class assQuestion
 */
 	function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF(
 			"SELECT external_id FROM qpl_questions WHERE question_id = %s",
@@ -2572,7 +2602,9 @@ abstract class assQuestion
 	*/
 	public function createNewQuestion($a_create_page = true)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		
 		$complete = "0";
 		$estw_time = $this->getEstimatedWorkingTime();
@@ -2626,7 +2658,8 @@ abstract class assQuestion
 
 	public function saveQuestionDataToDb($original_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
@@ -2688,7 +2721,8 @@ abstract class assQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->updateSuggestedSolutions();
 		
@@ -2789,7 +2823,8 @@ abstract class assQuestion
 */
 	public function deleteSuggestedSolutions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		// delete the links in the qpl_sol_sug table
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
@@ -2874,7 +2909,8 @@ abstract class assQuestion
 	*/
 	protected function duplicateSuggestedSolutionFiles($parent_id, $question_id)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
@@ -2908,7 +2944,8 @@ abstract class assQuestion
 	*/
 	protected function syncSuggestedSolutionFiles($original_id)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$filepath = $this->getSuggestedSolutionPath();
 		$filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
@@ -2936,7 +2973,8 @@ abstract class assQuestion
 
 	protected function copySuggestedSolutionFiles($source_questionpool_id, $source_question_id)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
@@ -2966,7 +3004,8 @@ abstract class assQuestion
 	*/
 	public function updateSuggestedSolutions($original_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
 		include_once "./Services/Link/classes/class.ilInternalLink.php";
@@ -3011,7 +3050,8 @@ abstract class assQuestion
 	*/
 	function saveSuggestedSolution($type, $solution_id = "", $subquestion_index = 0, $value = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s AND subquestion_index = %s", 
 			array("integer", "integer"),
@@ -3086,7 +3126,8 @@ abstract class assQuestion
 	
 	function _resolveIntLinks($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$resolvedlinks = 0;
 		$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
@@ -3137,7 +3178,8 @@ abstract class assQuestion
 	
 	public static function _getInternalLinkHref($target = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$linktypes = array(
 			"lm" => "LearningModule",
 			"pg" => "PageObject",
@@ -3180,7 +3222,8 @@ abstract class assQuestion
 */
 	public static function _getOriginalId($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT * FROM qpl_questions WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
@@ -3205,7 +3248,8 @@ abstract class assQuestion
 
 	public static function originalQuestionExists($questionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			SELECT COUNT(dupl.question_id) cnt
@@ -3223,7 +3267,8 @@ abstract class assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if( !$this->getOriginalId() )
 		{
@@ -3277,7 +3322,8 @@ abstract class assQuestion
 */
 	function _questionExists($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if ($question_id < 1)
 		{
@@ -3307,7 +3353,8 @@ abstract class assQuestion
 */
 	function _questionExistsInPool($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if ($question_id < 1)
 		{
@@ -3346,7 +3393,10 @@ abstract class assQuestion
 	 */
 	public static function _instantiateQuestion($question_id)
 	{
-		global $ilCtrl, $ilDB, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		if (strcmp($question_id, "") != 0)
 		{
@@ -3420,7 +3470,8 @@ abstract class assQuestion
 		// the following code was the old solution which added the non answered
 		// questions of a pass from the answered questions of the previous pass
 		// with the above solution, only the answered questions of the last pass are counted
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
 			array('integer','integer'),
@@ -3447,7 +3498,8 @@ abstract class assQuestion
 */
 	public static function _isWriteable($question_id, $user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (($question_id < 1) || ($user_id < 1))
 		{
@@ -3479,7 +3531,8 @@ abstract class assQuestion
 	*/
 	public static function _isUsedInRandomTest($question_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if ($question_id < 1) return 0;
 		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE question_fi = %s",
@@ -3566,7 +3619,8 @@ abstract class assQuestion
 		
 		// oldschool "workedthru"
 
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$points = 0;
 		if (is_null($pass))
@@ -3597,7 +3651,8 @@ abstract class assQuestion
 	*/
 	public static function _areAnswered($a_user_id,$a_question_ids)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF("SELECT DISTINCT(question_fi) FROM tst_test_result JOIN tst_active ".
 			"ON (active_id = active_fi) ".
@@ -3741,7 +3796,8 @@ abstract class assQuestion
 	*/
 	public static function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if ($points <= $maxpoints)
 		{
@@ -3790,7 +3846,9 @@ abstract class assQuestion
 				include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 				{
-					global $lng, $ilUser;
+					global $DIC;
+					$lng = $DIC['lng'];
+					$ilUser = $DIC['ilUser'];
 					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 					$username = ilObjTestAccess::_getParticipantData($active_id);
 					assQuestion::logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
@@ -3846,7 +3904,8 @@ abstract class assQuestion
 	*/
 	function getQuestionTypeID()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT question_type_id FROM qpl_qst_type WHERE type_tag = %s",
 			array('text'),
@@ -3862,7 +3921,8 @@ abstract class assQuestion
 
 	public function syncHints()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// delete hints of the original
 		$ilDB->manipulateF("DELETE FROM qpl_hints WHERE qht_question_fi = %s",
@@ -3942,7 +4002,8 @@ abstract class assQuestion
 	*/
 	function &getInstances()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = %s",
 			array("integer"),
@@ -4007,7 +4068,8 @@ abstract class assQuestion
 	*/
 	function getActiveUserData($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT * FROM tst_active WHERE active_id = %s",
 			array('integer'),
 			array($active_id)
@@ -4084,7 +4146,8 @@ abstract class assQuestion
 
 	public static function includePluginClass($questionType, $withGuiClass)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$classes = array(
 			self::getObjectClassNameByQuestionType($questionType),
@@ -4122,12 +4185,14 @@ abstract class assQuestion
 	{
 		if (file_exists("./Modules/TestQuestionPool/classes/class.".$type_tag.".php"))
 		{
-			global $lng;
+			global $DIC;
+			$lng = $DIC['lng'];
 			return $lng->txt($type_tag);
 		}
 		else
 		{
-			global $ilPluginAdmin;
+			global $DIC;
+			$ilPluginAdmin = $DIC['ilPluginAdmin'];
 			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
 			foreach ($pl_names as $pl_name)
 			{
@@ -4164,7 +4229,11 @@ abstract class assQuestion
 	 */
 	public static function instantiateQuestionGUI($a_question_id)
 	{
-		global $ilCtrl, $ilDB, $lng, $ilUser;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilUser = $DIC['ilUser'];
 
 		if (strcmp($a_question_id, "") != 0)
 		{
@@ -4190,7 +4259,8 @@ abstract class assQuestion
 		}
 		else 
 		{
-			global $ilLog;
+			global $DIC;
+			$ilLog = $DIC['ilLog'];
 			$ilLog->write('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)', $ilLog->WARNING);
 			return null;
 		}
@@ -4361,7 +4431,8 @@ abstract class assQuestion
 
 	public static function _questionExistsInTest($question_id, $test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if ($question_id < 1)
 		{
@@ -4501,7 +4572,8 @@ abstract class assQuestion
 	 */
 	public static function lookupParentObjId($questionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "SELECT obj_fi FROM qpl_questions WHERE question_id = %s";
 
@@ -4551,7 +4623,8 @@ abstract class assQuestion
 
 	protected function duplicateSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
 		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
@@ -4571,7 +4644,8 @@ abstract class assQuestion
 
 	public function syncSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
 		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
@@ -4642,7 +4716,8 @@ abstract class assQuestion
 	 */
 	protected static function getNumExistingSolutionRecords($activeId, $pass, $questionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		count(active_fi) cnt
@@ -4826,7 +4901,8 @@ abstract class assQuestion
 	 */
 	protected function getCurrentSolutionResultSet($active_id, $pass, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if($this->getStep() !== NULL)
 		{
@@ -4870,7 +4946,8 @@ abstract class assQuestion
 	 */
 	protected function removeSolutionRecordById($solutionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
 			array('integer'), array($solutionId)
@@ -4886,7 +4963,8 @@ abstract class assQuestion
 	 */
 	protected function getSolutionRecordById($solutionId)
 	{
-		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF("SELECT * FROM tst_solutions WHERE solution_id = %s",
 			array('integer'), array($solutionId)
@@ -4922,7 +5000,8 @@ abstract class assQuestion
 	 */
 	public function removeCurrentSolution($active_id, $pass, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if($this->getStep() !== NULL)
 		{
@@ -4969,7 +5048,8 @@ abstract class assQuestion
 	 */
 	public function saveCurrentSolution($active_id, $pass, $value1, $value2, $authorized = true, $tstamp = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$next_id = $ilDB->nextId("tst_solutions");
 		
@@ -5005,7 +5085,8 @@ abstract class assQuestion
 	 */
 	public function updateCurrentSolution($solutionId, $value1, $value2, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$fieldData = array(
 			"value1" => array("clob", $value1),
@@ -5027,7 +5108,8 @@ abstract class assQuestion
 // fau: testNav - added parameter to keep the timestamp (default: false)
 	public function updateCurrentSolutionsAuthorization($activeId, $pass, $authorized, $keepTime = false)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$fieldData = array(
 			'authorized' => array('integer', (int)$authorized)
@@ -5081,7 +5163,8 @@ abstract class assQuestion
 	
 	protected function deleteSolutionRecordByValues($activeId, $passIndex, $authorized, $matchValues)
 	{
-		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilDB = $DIC['ilDB'];
 		
 		$types = array("integer", "integer", "integer", "integer");
 		$values = array($activeId, $this->getId(), $passIndex, (int)$authorized);
@@ -5245,7 +5328,8 @@ abstract class assQuestion
 	protected function lookupMaxStep($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			"SELECT MAX(step) max_step FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
@@ -5269,7 +5353,8 @@ abstract class assQuestion
 	public function lookupForExistingSolutions($activeId, $pass)
 	{
 		/** @var $ilDB \ilDBInterface  */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$return = array(
 			'authorized' => false,
@@ -5331,7 +5416,8 @@ abstract class assQuestion
 	
 	public function removeExistingSolutions($activeId, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			DELETE FROM tst_solutions
@@ -5364,7 +5450,8 @@ abstract class assQuestion
 
 	public function removeResultRecord($activeId, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			DELETE FROM tst_test_result
@@ -5385,7 +5472,8 @@ abstract class assQuestion
 	
 	public static function missingResultRecordExists($activeId, $pass, $questionIds)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$IN_questionIds = $ilDB->in('question_fi', $questionIds, false, 'integer');
 		
@@ -5406,7 +5494,8 @@ abstract class assQuestion
 	
 	public static function getQuestionsMissingResultRecord($activeId, $pass, $questionIds)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$IN_questionIds = $ilDB->in('question_fi', $questionIds, false, 'integer');
 		
@@ -5438,7 +5527,8 @@ abstract class assQuestion
 
 	public static function lookupResultRecordExist($activeId, $questionId, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			SELECT COUNT(*) cnt
@@ -5503,7 +5593,8 @@ abstract class assQuestion
 
 	public function updateTimestamp()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s  WHERE question_id = %s",
 			array('integer', 'integer'),

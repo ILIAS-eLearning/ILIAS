@@ -45,7 +45,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function __construct()
 	{
-		global $lng, $ilCtrl, $rbacsystem;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$rbacsystem = $DIC['rbacsystem'];
 		$lng->loadLanguageModule("assessment");
 		$this->type = "qpl";
 		$this->ctrl =& $ilCtrl;
@@ -76,13 +79,26 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $ilUser, $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr, $ilTabs, $lng, $ilDB, $ilPluginAdmin, $ilias;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilLocator = $DIC['ilLocator'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilErr = $DIC['ilErr'];
+		$ilTabs = $DIC['ilTabs'];
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$ilias = $DIC['ilias'];
 		
 		$writeAccess = $ilAccess->checkAccess("write", "", $_GET["ref_id"]);
 		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
-			global $ilias;
+			global $DIC;
+			$ilias = $DIC['ilias'];
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}
 		
@@ -161,7 +177,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$gui->initHintTracking();
 				$gui->initStyleSheets();
 
-				global $ilHelp;
+				global $DIC;
+				$ilHelp = $DIC['ilHelp'];
 				$ilHelp->setScreenIdComponent("qpl");
 
 				$this->ctrl->forwardCommand($gui);
@@ -255,7 +272,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
-				global $ilHelp;
+				global $DIC;
+				$ilHelp = $DIC['ilHelp'];
 				$ilHelp->setScreenIdComponent("qpl");
 				
 				if( $this->object->getType() == 'qpl' && $writeAccess )
@@ -301,7 +319,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
-				global $ilHelp;
+				global $DIC;
+				$ilHelp = $DIC['ilHelp'];
 				$ilHelp->setScreenIdComponent("qpl");
 				
 				if( $this->object->getType() == 'qpl' && $writeAccess )
@@ -376,7 +395,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					}
 				}
 				$q_gui->setQuestionTabs();
-				global $ilHelp;
+				global $DIC;
+				$ilHelp = $DIC['ilHelp'];
 				$ilHelp->setScreenIdComponent("qpl");
 				$ret = $this->ctrl->forwardCommand($q_gui);
 				break;
@@ -470,14 +490,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// create import directory
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$basedir = ilObjQuestionPool::_createImportDirectory();
-
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = $basedir."/".$_FILES["xmldoc"]["name"];
-		$GLOBALS['ilLog']->write(__METHOD__.": full path " . $full_path);
+		$DIC['ilLog']->write(__METHOD__.": full path " . $full_path);
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
-		$GLOBALS['ilLog']->write(__METHOD__.": full path " . $full_path);
+		$DIC['ilLog']->write(__METHOD__.": full path " . $full_path);
 		if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0)
 		{
 			$qti_file = $full_path;
@@ -605,7 +626,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			
 			if (strcmp($type, "-" . $item["type"] . "-") == 0)
 			{
-				global $ilPluginAdmin;
+				global $DIC;
+				$ilPluginAdmin = $DIC['ilPluginAdmin'];
 				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
 				foreach ($pl_names as $pl_name)
 				{
@@ -908,7 +930,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function deleteQuestionsObject()
 	{
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$questionIdsToDelete = isset($_POST['q_id']) ? (array)$_POST['q_id'] : array();
 		if(0 === count($questionIdsToDelete) && isset($_GET['q_id']))
@@ -1024,7 +1047,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function questionsObject()
 	{
-		global $rbacsystem, $ilUser, $ilCtrl, $ilDB, $lng, $ilPluginAdmin;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		if(get_class($this->object) == "ilObjTest")
 		{
@@ -1148,7 +1177,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	private function buildCreateQuestionForm()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		// form
 		
@@ -1215,7 +1245,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $ilToolbar;
+		global $DIC;
+		$ilToolbar = $DIC['ilToolbar'];
 
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
 		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
@@ -1327,7 +1358,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 	function createExportExcel()
 	{
-		global $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 		if ($rbacsystem->checkAccess("write", $_GET['ref_id']))
 		{
 			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
@@ -1385,7 +1417,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 		switch ($this->ctrl->getCmd())
 		{
 			case "create":
@@ -1463,7 +1496,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $ilAccess, $ilHelp;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilHelp = $DIC['ilHelp'];
 
 		$currentUserHasWriteAccess = $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
@@ -1657,7 +1692,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function infoScreenForward()
 	{
-		global $ilErr, $ilAccess;
+		global $DIC;
+		$ilErr = $DIC['ilErr'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		if(!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
@@ -1684,7 +1721,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 
 		if ($ilAccess->checkAccess("write", "", $a_target) || $ilAccess->checkAccess('read', '', $a_target))
 		{
@@ -1714,7 +1754,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	 */
 	private function buildQuestionBrowserTableGUI($taxIds)
 	{
-		global $rbacsystem, $ilDB, $lng, $ilPluginAdmin;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		$writeAccess = (bool)$rbacsystem->checkAccess('write', $_GET['ref_id']);
 		$enableCommenting = $writeAccess;

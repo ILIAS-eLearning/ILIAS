@@ -993,11 +993,8 @@ abstract class ilPlugin {
 		// load control structure
 		include_once("./setup/classes/class.ilCtrlStructureReader.php");
 		$structure_reader = new ilCtrlStructureReader();
-		$structure_reader->readStructure(
-			true, "./" . $this->getDirectory(), $this->getPrefix(),
-			$this->getDirectory()
-		);
-		//		$ilCtrl->storeCommonStructures();
+		$structure_reader->readStructure(true, "./".$this->getDirectory(), $this->getPrefix(),
+			$this->getDirectory());
 
 		// add config gui to the ctrl calls
 		$ilCtrl->insertCtrlCalls(

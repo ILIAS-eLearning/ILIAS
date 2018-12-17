@@ -73,7 +73,6 @@ auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchron
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
-commocommon#:#lti_outcome#:#Übermittlung LTI-Lernfortschritt
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
@@ -103,19 +102,15 @@ auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 crs#:#crs_timings_activate_optional#:#Freiwilligen-Modus des studyplans des Benutzers
 crs#:#crs_timings_activate_optional_own#:#Freiwilligen-Modus meines studyplans
 crs#:#crs_timings_days_after_subsription#:#Tag(e) nach Kursbeitritt
-crs#:#crs_timings_edit_personal#:#Persönlichen Lernplan bearbeiten
 crs#:#crs_timings_optional_checked#:#Der Freiwilligen-Modus wurde für diesen Benutzer aktiviert.
 crs#:#crs_timings_optional_off#:#Der Freiwilligen-Modus ist nicht aktiv.
 crs#:#crs_timings_optional_on#:#Der Freiwilligen-Modus ist aktiv.
 crs#:#crs_timings_optional_on_and_passed#:#Der Freiwilligen-Modus ist aktiv und kann nicht geändert werden, da der Nutzer den Status "Bestanden" hat.
 crs#:#crs_timings_optional_unchecked#:#Der Freiwilligen-Modus wurde für diesen Benutzer deaktiviert.
-crs#:#crs_timings_presetting_tbl#:#Lernplaung
 crs#:#crs_timings_short_active_tt#:#Lernplanung aktivieren
 crs#:#crs_timings_short_changeable_tt#:#Lernplaung änderbar durch Teilnehmer
-crs#:#crs_timings_short_end#:#Enddatum
 crs#:#crs_timings_short_limit_start_end_tt#:#Spätestes Ende
 crs#:#crs_timings_short_limit_start_end_tt_rel#:#Spätestes Ende in Tagen nach Kursbeitritt
-crs#:#crs_timings_short_start_end_rel#:#Start nach Kursbeginn (in Tagen)
 crs#:#crs_timings_short_start_end_tt#:#Empfohlener Start
 crs#:#crs_timings_short_start_end_tt_rel#:#Empfohlener Start in Tagen nach Kursbeitritt
 crs#:#crs_timings_time_frame_tt#:#Bearbeitungsdauer in Tagen
@@ -515,7 +510,6 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#tst_msg_rand_quest_set_rule_label#:#Regel %s
-assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_#:#Für Regel %s werden %s Fragen benötigt, es stehen aber nur %s Fragen zur Verfügung.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Von den vorgesehenen Fragen stehen %s Fragen zu dem auch den folgenden Regeln zur Verfügung: %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Für Regel %s werden %s Fragen benötigt und es sind %s Fragen vorgesehen.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Durch Überschneidungen mit den folgenden Regeln stehen aber nur %s Fragen garantiert zur Verfügung: %s
@@ -3170,13 +3164,9 @@ common#:#ldap_tls#:#Benutze TLS
 common#:#ldap_version#:#Protokollversion
 common#:#learning module#:#Lernmodul
 common#:#learning_progress#:#Lernfortschritt
-common#:#learning_resource#:#Lernmaterial
-common#:#learning_resources#:#Lernmaterialien
 common#:#leave_waiting_list#:#Von der Warteliste abmelden
 common#:#legend#:#Legende
 common#:#level#:#Stufe
-common#:#license#:#Lizenz
-common#:#licenses#:#Lizenzen
 common#:#link#:#Verknüpfen
 common#:#link_all#:#Alle verknüpfen
 common#:#link_check#:#Externe Links überprüfen
@@ -3472,7 +3462,6 @@ common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rol
 common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#no_import_file_found#:#Keine Importdatei gefunden
 common#:#no_items#:#Keine Einträge
-common#:#no_license_available#:#Keine Lizenz verfügbar!
 common#:#no_limit#:#Kein Limit
 common#:#no_mkisofs_configured#:#Sie müssen das mkisofs Tool im ILIAS-Setup konfigurieren, um den ISO-Export ausführen zu können.
 common#:#no_owner#:#Kein Besitzer
@@ -3553,7 +3542,7 @@ common#:#obj_lm_duplicate#:#Lernmodul kopieren
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachen
 common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
-common#:#obj_lrss#:#Lernressourcen
+common#:#obj_lrss#:#Lernmodule
 common#:#obj_lrss_desc#:#Lernmodule usw. konfigurieren.
 common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
@@ -5310,7 +5299,6 @@ crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
-grp#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
@@ -6117,10 +6105,10 @@ exc#:#exc_show_submissions_info#:#Alle Lösungsabgaben einer Übungseinheit kön
 exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
 exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
-exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
+exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung "%s" liegt vor.
 exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
-exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
+exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung "%s" liegt vor
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
 exc#:#exc_submitted_files_deleted#:#Die ausgewählten Dateien wurden gelöscht.
 exc#:#exc_total_exc#:#Gesamte Übung
@@ -6199,6 +6187,7 @@ form#:#form_msg_file_partially_uploaded#:#Die Datei konnte nicht vollständig ho
 form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die maximale Dateigröße.
 form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen.
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
+form#:#form_msg_file_missing_file_ext#:#Die hochgeladene Datei hat keine Dateiendung.
 form#:#form_msg_file_wrong_file_type#:#Falscher Dateityp
 form#:#form_msg_formula_is_required#:#Bitte geben Sie eine korrekte Formel an.
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
@@ -6597,26 +6586,11 @@ ldap#:#ldap_user_scope#:#Suchbereich
 ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zweifelsfall "Sub".
 ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
-license#:#arbitrary#:#beliebig
-license#:#course_licenses_rare#:#Warnung: für ein Kursobjekt sind nur noch %s Lizenzen vorhanden! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen.
-license#:#edit_license#:#Lizenz bearbeiten
-license#:#existing_licenses#:#Vorhandene Lizenzen
-license#:#license_counter#:#Lizenzzähler
-license#:#license_counter_info#:#Ermöglicht, den Verbrauch von Kauflizenzen für HTML- und SCORM-Lernmodule zu zählen.
-license#:#license_updated#:#Die Lizenzdaten wurden aktualisiert.
-license#:#license_warning#:#Lizenzwarnung bis
-license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Kurs wird bei der Aufnahme von Kursmitglieder eine Warnmeldung ausgegeben.
-license#:#potential_accesses#:#Potentielle Zugriffe
-license#:#potential_accesses_explanation#:#Jeder Benutzer mit Leserecht, der noch nicht zugegriffen hat, zählt als potentieller Zugriff.
-license#:#remaining_licenses#:#Verfügbare Lizenzen
-license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen errechnet sich aus der Anzahl gekaufter minus der Anzahl benutzter Lizenzen.
-license#:#used_licenses#:#Verbrauchte Lizenzen
-license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Benutzers verbraucht eine Lizenz.
-license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizenzierung zu deaktivieren.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
+chatroom#:#chatviewer_no_rooms#:#Noch kein Chatraum auswählbar.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
@@ -8450,7 +8424,7 @@ style#:#sty_added_characteristic#:#Neuen Style hinzugefügt.
 style#:#sty_all#:#Alle
 style#:#sty_all_styles_obligatory#:#Alle ausgewählten Styleklassen müssen immer vorhanden sein und können nicht gelöscht werden.
 style#:#sty_background#:#Hintergrund
-style#:#sty_background_attachment#:#Wasserzeichen
+style#:#sty_background_attachment#:#Verhalten Hintergrund
 style#:#sty_background_color#:#Hintergrundfarbe
 style#:#sty_background_image#:#Hintergrundbild
 style#:#sty_background_position#:#Hintergrundposition
@@ -9936,6 +9910,7 @@ pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
+pd#:#block_show_pdfrmpostdraft#:#Beitragsentwürfe anzeigen
 pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
 pd#:#block_show_x#:#%s anzeigen
 common#:#crs_list_reg_start#:#Anmeldungsbeginn
@@ -10457,7 +10432,6 @@ ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher al
 ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
 ecs#:#ecs_cmap_multiple_atts#:#Zuordnung nach Attributen
 ecs#:#ecs_cmap_att_organisation#:#Organisation
-ecs#:#ecs_cmpa_att_orgunit#:#Organisationseinheit
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmodus der Teilnehmer
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
@@ -11744,7 +11718,6 @@ crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er dur
 crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
 cat#:#cat_more_translations#:#Weitere Übersetzungen
-content#:#cont_got_lock_until#:#Diese Seite wurde für Ihre Bearbeitung bis %1 gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen durch klicken auf %2 wieder frei.
 content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wurde wieder freigegeben.
 orgu#:#backto_staff#:#Zurück zu Personen
@@ -13944,6 +13917,7 @@ chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nach
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
 chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
 chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
@@ -14052,7 +14026,6 @@ common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erl
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
-background_tasks#:#dismiss#:#Entfernen
 background_tasks#:#remove#:#Entfernen
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
@@ -14115,7 +14088,7 @@ dateplaner#:#cal_grp_others#:#Andere
 dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
 dateplaner#:#cal_owner#:#Eigentümer
 dateplaner#:#cal_contained_in#:#Enthalten in
-dateplaner#:#cal_app_info#:#Information zur Übungseinheit
+dateplaner#:#cal_app_info#:#Information zum Kalendertermin
 dateplaner#:#cal_crs_info#:#Course Information
 crs#:#crs_open#:#Kurs öffnen
 grp#:#grp_grp_open#:#Gruppe öffnen
@@ -14435,7 +14408,6 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
-assessment#:#not_enough_unique_answers#:#Sie haben "Identische Bewertung" deaktiviert, benutzten aber in mindestens zwei Lücken eine identische Antwort.
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
 rbac#:#copa_visible#:#Inhaltsseite ist sichtbar
@@ -14657,7 +14629,7 @@ user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den Standard-Infotext, falls der Benutzer zur Konfiguration des Profils aufgefordert wird.
 lhist#:#lhist_first_login#:#First Login
-prtf#:#prtf_decl_authorship#:#Declaration of Authorship
+prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
@@ -14767,13 +14739,12 @@ common#:#obj_lso#:#Lernsequenz
 common#:#objs_lso#:#Lernsequenzen
 common#:#obj_lso_duplicate#:#Lernsequenz kopieren
 common#:#lso_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Lernsequenz kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
-common#:#lso_wizard_page#:#Lernsequenz kopieren
 rbac#:#lso_visible#:#Lernsequenz sichtbar
 rbac#:#lso_copy#:#Lernsequenz kopieren
 rbac#:#lso_write#:#Lernsequenz bearbeiten
 rbac#:#lso_delete#:#Lernsequenz löschen
 lso#:#learner_view#:#Übersicht
-lso#:#manage_content#:#Verwalten
+lso#:#manage#:#Verwalten
 lso#:#manage_content_maintab#:#Inhalt
 lso#:#show_summary#:#Info
 lso#:#table_sequence_content#:#Inhaltsverwaltung
@@ -14881,3 +14852,106 @@ dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
 crs#:#crs_timings_short_start_end#:#Startdatum
 common#:#il_lso_admin#:#Lernsequenzadministrator
 common#:#il_lso_member#:#Lernsequenzmitglied
+lso#:#entries_updated#:#Einträge gespeichert
+lso#:#curriculum#:#Curriculum
+lso#:#unparticipate#:#Abmelden
+lso#:#participate#:#Anmelden
+lhist#:#lhist_show_more#:#Show More
+meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
+book#:#book_objects_available#:#Objects available %s
+book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
+book#:#booking_multiple_succesfully#:#Bookings created successfully.
+common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung###10 11 2018 new variable
+ui#:#ui_chars_remaining#:#Characters remaining:###10 11 2018 new variable
+ui#:#ui_chars_min#:#Minimum:###10 11 2018 new variable
+ui#:#ui_chars_max#:#Maximum:###10 11 2018 new variable
+survey#:#svy_self_ev_mode#:#Self-Evaluation Only###10 11 2018 new variable
+survey#:#svy_self_ev_info#:#Use for self evaluation.###10 11 2018 new variable
+survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new variable
+survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations###10 11 2018 new variable
+survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants###10 11 2018 new variable
+survey#:#svy_participant#:#Participant###10 11 2018 new variable
+iass#:#iass_location#:#Location###10 11 2018 new variable
+iass#:#iass_further_field_headline#:#Detailed Information###10 11 2018 new variable
+iass#:#iass_no_entries#:#No entries found.###10 11 2018 new variable
+iass#:#iass_filter_all#:#All###10 11 2018 new variable
+iass#:#iass_filter_not_started#:#Not started only###10 11 2018 new variable
+iass#:#iass_filter_not_finalized#:#Not completed only###10 11 2018 new variable
+iass#:#iass_filter_finalized#:#Completed only###10 11 2018 new variable
+iass#:#iass_filter_failed#:#Failed only###10 11 2018 new variable
+iass#:#iass_file#:#File###10 11 2018 new variable
+iass#:#iass_download#:#Download###10 11 2018 new variable
+iass#:#iass_sort#:#Sortation###10 11 2018 new variable
+iass#:#iass_sort_name_asc#:#Username ascending###10 11 2018 new variable
+iass#:#iass_sort_name_desc#:#Username descending###10 11 2018 new variable
+iass#:#iass_sort_examiner_login_asc#:#Examiner ascending###10 11 2018 new variable
+iass#:#iass_sort_examiner_login_desc#:#Examiner descending###10 11 2018 new variable
+book#:#participants#:#Participants###10 11 2018 new variable
+book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
+book#:#book_assign#:#Assign###10 11 2018 new variable
+book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
+book#:#book_deassign#:#Deassign###10 11 2018 new variable
+book#:#book_participant_assigned#:#Participant(s) assigned###10 11 2018 new variable
+book#:#book_participant_already_assigned#:#Participant(s) already assigned.###10 11 2018 new variable
+common#:#slo_wizard_page#:#Copy Learning Sequence###10 11 2018 new variable
+rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
+rep#:#rep_default#:#Default###10 11 2018 new variable
+rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level###10 11 2018 new variable
+rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level###10 11 2018 new variable
+obj#:#obj_show_title_and_icon#:#Show Title and Icon###10 11 2018 new variable
+obj#:#obj_show_header_actions#:#Show Header Actions###10 11 2018 new variable
+cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
+cont#:#cont_item_list#:#List###10 11 2018 new variable
+cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
+obj#:#obj_tile_image#:#Tile Image###10 11 2018 new variable
+obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation.###10 11 2018 new variable
+fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
+validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
+validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
+validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
+validation#:#not_greater_than#:#'%s' is not greater than '%s'.###10 11 2018 new variable
+validation#:#not_less_than#:#'%s' is not less than '%s'.###10 11 2018 new variable
+validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.###10 11 2018 new variable
+validation#:#not_numeric#:#'%s' is not numeric.###10 11 2018 new variable
+validation#:#not_generic#:#It is not the case that: %s###10 11 2018 new variable
+validation#:#not_max_length#:#The entered text has a length more than '%s'.###10 11 2018 new variable
+validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
+validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
+survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
+survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
+rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
+crs#:#crs_view_timings#:#Lernplanungstyp
+crs#:#crs_view_timing_absolute#:#Absolutes Datum
+crs#:#crs_view_timing_relative#:#Relatives Datum
+crs#:#crs_view_info_timing_absolute#:#Das Start- und Enddatum wird absolut gesetzt.
+crs#:#crs_view_info_timing_relative#:#Das Start- und Enddatum wird anhand von Zeitangaben relativ zum Kursbeitrittsdatum gesetzt.
+rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
+rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
+rbac#:#lso_manage_members#:#Mitglieder bearbeiten
+rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
+common#:#unparticipate#:#Abmelden
+common#:#participate#:#Anmelden
+rbac#:#lso_participate#:#An der Lernsequenz anmelden
+rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
+rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+dateplaner#:#btn_ical#:#iCal
+style#:#sty_type_code_block#:#Code (Block)
+style#:#sty_type_code_inline#:#Code (Inline)
+common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
+sess#:#sess_material_assigned#:#Zugeordnet
+sess#:#sess_material_not_assigned#:#Nicht zugeordnet
+rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
+rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
+rbac#:#lso_manage_members#:#Mitglieder bearbeiten
+rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
+common#:#unparticipate#:#Abmelden
+common#:#participate#:#Anmelden
+rbac#:#lso_participate#:#An der Lernsequenz anmelden
+rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
+rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
+user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.

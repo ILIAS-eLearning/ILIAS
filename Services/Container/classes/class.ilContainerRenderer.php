@@ -619,11 +619,14 @@ class ilContainerRenderer
 				{
 					$a_block_tpl->setCurrentBlock("show_more");
 
+					$ctrl->setParameter($this->container_gui, "type", $a_block_id);
 					$url = $ctrl->getLinkTarget($this->container_gui, "renderBlockAsynch", "", true);
+					$ctrl->setParameter($this->container_gui, "type", "");
 
 					$f = $this->ui->factory();
 					$renderer = $this->ui->renderer();
 					$button = $f->button()->standard($this->lng->txt("cont_show_more"), "")
+						->withLoadingAnimationOnClick(true)
 						->withOnLoadCode(function ($id) use ($a_block_id, $url) {
 							return "il.Container.initShowMore('$id', '$a_block_id', '".$url."');";
 						});

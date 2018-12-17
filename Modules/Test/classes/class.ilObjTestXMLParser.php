@@ -202,7 +202,10 @@ class ilObjTestXMLParser extends ilSaxParser
 	
 	protected function importRandomQuestionSetSettings($attr)
 	{
-		global $tree, $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->testOBJ);
@@ -225,7 +228,8 @@ class ilObjTestXMLParser extends ilSaxParser
 	
 	protected function importRandomQuestionStagingPool($attr, $cdata)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$oldPoolId = $attr['poolId'];
 		$newPoolId = $ilDB->nextId('object_data'); // yes !!
@@ -255,7 +259,8 @@ class ilObjTestXMLParser extends ilSaxParser
 	
 	protected function getRandomQuestionSourcePoolDefinitionInstance()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinition.php';
 		

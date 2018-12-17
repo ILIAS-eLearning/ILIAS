@@ -657,7 +657,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$ilCtrl->initBaseClass("ilAdministrationGUI");
-		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $ref_id);
 		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "admin_mode", self::TAB_SETTINGS);
 		$ilCtrl->setParameterByClass("IlObjPluginDispatchGUI", "admin_mode", self::TAB_SETTINGS);

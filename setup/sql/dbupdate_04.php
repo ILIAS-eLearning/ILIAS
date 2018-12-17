@@ -18579,8 +18579,14 @@ while ($rec = $ilDB->fetchAssoc($set))
 ?>
 <#5086>
 <?php
-	// fix 20706
-	$ilDB->dropPrimaryKey('page_question');
+	// fix 20706 (and 22921)
+	require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
+	$analyzer = new ilDBAnalyzer();
+	$cons = $analyzer->getPrimaryKeyInformation('page_question');
+	if (is_array($cons["fields"]) && count($cons["fields"]) > 0)
+	{
+		$ilDB->dropPrimaryKey('page_question');
+	}
 	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
 ?>
 <#5087>
@@ -23101,7 +23107,7 @@ if (!$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 		With ILIAS 5.4.x user agreement documents can be managed in the global ILIAS administration.
 		The contents of a document can be uploaded as text or HTML file and will be stored (after purification) in the database.
 
-		If you reload this page, the migration will be executed. The files will NOT be deleted.
+		If you reload this page (e.g. by pressing the F5 key), the migration process will be started. The agreement files will NOT be deleted.
 		</pre>";
 
 	$ilSetting->set('dbupwarn_tos_migr_54x', 1);
@@ -24135,7 +24141,7 @@ $fields = array(
 	),
 	'parent_identification' => array(
 		'type' => 'text',
-		'length' => '256',
+		'length' => '255',
 
 	)
 );
@@ -24150,12 +24156,12 @@ if (! $ilDB->tableExists('il_mm_items')) {
 $fields = array(
 	'id' => array(
 		'type' => 'text',
-		'length' => '256',
+		'length' => '255',
 
 	),
 	'identification' => array(
 		'type' => 'text',
-		'length' => '256',
+		'length' => '255',
 	),
 	'translation' => array(
 		'type' => 'text',
@@ -24179,12 +24185,12 @@ if (! $ilDB->tableExists('il_mm_translation')) {
 $fields = array(
 	'provider_class' => array(
 		'type'   => 'text',
-		'length' => '256',
+		'length' => '255',
 
 	),
 	'purpose'        => array(
 		'type'   => 'text',
-		'length' => '256',
+		'length' => '255',
 
 	),
 	'dynamic'        => array(
@@ -24209,7 +24215,7 @@ $fields = array(
 	),
 	'provider_class' => array(
 		'type'   => 'text',
-		'length' => '256',
+		'length' => '255',
 
 	),
 	'active'         => array(
@@ -24229,7 +24235,7 @@ if (!$ilDB->tableExists('il_gs_identifications')) {
 $fields = array(
 	'identifier' => array(
 		'type' => 'text',
-		'length' => '256',
+		'length' => '255',
 
 	),
 	'type' => array(
@@ -24265,7 +24271,7 @@ if (! $ilDB->tableExists('il_mm_custom_items')) {
 $fields = array(
 	'identification' => array(
 		'type' => 'text',
-		'length' => '256',
+		'length' => '255',
 
 	),
 	'action' => array(
@@ -25069,4 +25075,212 @@ ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
 <#5422>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#5423>
+<?php
+// Possibly missing primaries
+$ilDB->modifyTableColumn('il_mm_translation', 'identification', array(
+	'length'  => 255
+));
+
+$ilDB->modifyTableColumn('il_gs_providers', 'provider_class', array(
+	'length'  => 255
+));
+
+$ilDB->modifyTableColumn('il_gs_providers', 'purpose', array(
+	'length'  => 255
+));
+
+$ilDB->modifyTableColumn('il_gs_identifications', 'provider_class', array(
+	'length'  => 255
+));
+
+$ilDB->modifyTableColumn('il_mm_custom_items', 'identifier', array(
+	'length'  => 255
+));
+
+$ilDB->modifyTableColumn('il_mm_actions', 'identification', array(
+	'length'  => 255
+));
+
+
+$manager = $ilDB->loadModule('Manager');
+
+$const = $manager->listTableConstraints("il_mm_translation");
+if(!in_array("primary", $const)) {
+	$ilDB->addPrimaryKey('il_mm_translation', array( 'id' ));
+}
+$const = $manager->listTableConstraints("il_gs_providers");
+if(!in_array("primary", $const)) {
+	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
+}
+$const = $manager->listTableConstraints("il_gs_identifications");
+if(!in_array("primary", $const)) {
+	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
+}
+$const = $manager->listTableConstraints("il_mm_custom_items");
+if(!in_array("primary", $const)) {
+	$ilDB->addPrimaryKey('il_mm_custom_items', array( 'identifier' ));
+}
+$const = $manager->listTableConstraints("il_mm_actions");
+if(!in_array("primary", $const)) {
+	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
+}	
+	
+?>
+<#5424>
+<?php
+if (!$ilDB->tableExists('booking_member'))
+{
+	$ilDB->createTable('booking_member', array(
+		'participant_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'booking_pool_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'assigner_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('booking_member', array('participant_id', 'user_id', 'booking_pool_id'));
+	$ilDB->createSequence('booking_member');
+}
+?>
+<#5425>
+<?php
+if(!$ilDB->tableColumnExists('booking_reservation','assigner_id'))
+{
+	$ilDB->addTableColumn("booking_reservation", "assigner_id", array("type" => "integer", "length" => 4, "notnull" => true, "default" => 0));
+}
+?>
+<#5426>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5427>
+<?php
+$setting = new ilSetting();
+$media_cont_mig = $setting->get('sty_media_cont_mig', 0);
+if ($media_cont_mig == 0)
+{
+	echo "<pre>
+
+	DEAR ADMINISTRATOR !!
+
+	Please read the following instructions CAREFULLY!
+
+	-> If you are using content styles (e.g. for learning modules) style settings related
+	to media container have been lost when migrating from ILIAS 5.0/5.1 to ILIAS 5.2/5.3/5.4.
+
+	-> The following dbupdate step will fix this issue and set the media container properties to values
+	   before the upgrade to ILIAS 5.2/5.3/5.4.
+
+	-> If this issue has already been fixed manually in your content styles you may want to skip
+	   this step. If you are running ILIAS 5.2/5.3/5.4 for a longer time period you may also not want to
+	   restore old values anymore and skip this step.
+	   If you would like to skip this step you need to modify the file setup/sql/dbupdate_04.php
+	   Search for 'RUN_CONTENT_STYLE_MIGRATION' (around line 25205) and follow the instructions.
+	
+	=> To proceed the update process you now need to refresh the page (F5)
+
+	Mantis Bug Report: https://ilias.de/mantis/view.php?id=23299
+
+	</pre>";
+
+	$setting->set('sty_media_cont_mig', 1);
+	exit;
+}
+if ($media_cont_mig == 1)
+{
+	//
+	// RUN_CONTENT_STYLE_MIGRATION
+	//
+	// If you want to skip the migration of former style properties for the media container style classes
+	// set the following value of $run_migration from 'true' to 'false'.
+	//
+
+	$run_migration = true;
+
+	if ($run_migration)
+	{
+		$set = $ilDB->queryF("SELECT * FROM style_parameter " .
+			" WHERE type = %s AND tag = %s ",
+			array("text", "text"),
+			array("media_cont", "table")
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$set2 = $ilDB->queryF("SELECT * FROM style_parameter " .
+				" WHERE style_id = %s " .
+				" AND tag = %s " .
+				" AND class = %s " .
+				" AND parameter = %s " .
+				" AND type = %s " .
+				" AND mq_id = %s "
+				,
+				array("integer", "text", "text", "text", "text", "integer"),
+				array($rec["style_id"], "figure", $rec["class"], $rec["parameter"], "media_cont", $rec["mq_id"])
+			);
+			if (!($rec2 = $ilDB->fetchAssoc($set2)))
+			{
+				$id = $ilDB->nextId("style_parameter");
+				$ilDB->insert("style_parameter", array(
+					"id" => array("integer", $id),
+					"style_id" => array("integer", $rec["style_id"]),
+					"tag" => array("text", "figure"),
+					"class" => array("text", $rec["class"]),
+					"parameter" => array("text", $rec["parameter"]),
+					"value" => array("text", $rec["value"]),
+					"type" => array("text", $rec["type"]),
+					"mq_id" => array("integer", $rec["mq_id"]),
+					"custom" => array("integer", $rec["custom"]),
+				));
+			}
+
+		}
+	}
+	$setting->set('sty_media_cont_mig', 2);
+}
+?>
+<#5428>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("CodeInline", "code_inline", "code",
+	array());
+?>
+<#5429>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("Code", "code_block", "pre",
+	array());
+?>
+<#5430>
+<?php
+$ilDB->update("style_data", array(
+	"uptodate" => array("integer", 0)
+), array(
+	"1" => array("integer", 1)
+));
+?>
+<#5431>
+<?php
+	$ilCtrlStructureReader->getStructure();
+	// FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
+	//
+	// USE dbupdate_05.php INSTEAD
 ?>

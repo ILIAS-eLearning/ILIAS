@@ -1100,7 +1100,7 @@ class ilSurveyEvaluationGUI
 		$anchor_id = "svyrdq".$question->getId();
 		$title = "<span id='$anchor_id'>$qst_title</span>";
 		$panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
-			->withCard($ui_factory->card($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
+			->withCard($ui_factory->card()->standard($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
 		array_push($this->array_panels, $panel_qst_card);
 
 		// grid		
@@ -1688,7 +1688,7 @@ class ilSurveyEvaluationGUI
 
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
 		
-		if($this->object->get360Mode() || ilObjSurvey::MODE_SELF_EVAL)
+		if($this->object->get360Mode() || $survey->getMode() == ilObjSurvey::MODE_SELF_EVAL)
 		{				
 			$appr_id = $this->getAppraiseeId();
 			$this->addApprSelectionToToolbar();
@@ -1800,7 +1800,10 @@ class ilSurveyEvaluationGUI
 		{
 			include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
 			$pskills_gui = new ilPersonalSkillsGUI();
-			$pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
+			#23743
+			if($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
+				$pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
+			}
 			if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0)
 			{
 				$sskill = new ilSurveySkill($survey);

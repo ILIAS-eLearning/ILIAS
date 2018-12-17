@@ -32,7 +32,8 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 	
 	public function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if( is_array($_POST[$this->getPostVar()]) )
@@ -93,7 +94,7 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 			
 			$tpl->setCurrentBlock("row");
 
-			$tpl->setVariable("ANSWER", ilUtil::prepareFormOutput($value->getAnswertext()));
+			$tpl->setVariable("ANSWER", $value->getAnswertext());
 			
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("ROW_NUMBER", $value->getPosition());

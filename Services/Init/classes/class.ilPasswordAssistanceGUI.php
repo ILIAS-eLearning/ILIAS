@@ -257,7 +257,7 @@ class ilPasswordAssistanceGUI
 			)
 		) {
 			\ilLoggerFactory::getLogger('usr')->info(sprintf(
-				'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
+				'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
 				$username, $email
 			));
 		} else if (
@@ -265,7 +265,7 @@ class ilPasswordAssistanceGUI
 			$this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)
 		) {
 			\ilLoggerFactory::getLogger('usr')->info(sprintf(
-				'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
+				'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
 				$username, $email
 			));
 		} else {
@@ -637,7 +637,7 @@ class ilPasswordAssistanceGUI
 		}
 
 		$email = $form->getInput('email');
-		$logins = ilObjUser::_getUserIdsByEmail($email);
+		$logins = ilObjUser::getUserLoginsByEmail($email);
 
 		if (is_array($logins) && count($logins) > 0) {
 			$this->sendUsernameAssistanceMail($email, $logins);

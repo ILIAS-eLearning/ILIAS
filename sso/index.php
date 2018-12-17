@@ -33,5 +33,4 @@ ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd('doApacheAuthentication');
-$ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();

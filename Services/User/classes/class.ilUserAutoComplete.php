@@ -492,12 +492,14 @@ class ilUserAutoComplete
 			$field_conditions
 		)
 		{
-			$fields = implode(' OR ', $field_conditions);
+			$fields = '(' . implode(' OR ', $field_conditions) . ')';
 
-			$field_conditions[] = '(' . implode(' AND ', array(
+			$field_conditions = [
+				'(' . implode(' AND ', array(
 				$fields,
 				$ilDB->in('profpref.value', array('y', 'g'), false, 'text')
-			)) . ')';
+				)) . ')'
+			];
 		}
 
 		// The login field must be searchable regardless (for 'logged in' users) of any privacy settings.

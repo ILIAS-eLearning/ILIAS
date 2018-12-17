@@ -255,6 +255,14 @@
 							if (!response.ok) {
 								return;
 							}
+
+							if (!response.has_records) {
+								$(data.properties.room_selector_container).html(response.html);
+								$(data.properties.message_container_selector).hide();
+								$(data.properties.message_header_selector).hide();
+								return;
+							}
+
 							$(data.properties.room_selector_container).html(response.html);
 
 							$(data.properties.room_selector).on('change', function () {

@@ -48,8 +48,12 @@ class ilCertificateMigrationJob extends AbstractJob
 
 	/** @var ilAppEventHandler $ilAppEventHandler */
 	protected $event_handler;
+
 	/** @var \ILIAS\BackgroundTasks\Task\TaskFactory */
 	protected $task_factory;
+
+	/** @var ilLogger */
+	private $logger;
 
 	/**
 	 * @param \ILIAS\BackgroundTasks\Value[] $input
@@ -68,24 +72,25 @@ class ilCertificateMigrationJob extends AbstractJob
 		$this->db_table = \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_JOB_TABLE;
 		$this->event_handler = $DIC['ilAppEventHandler'];
 		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
+		$this->logger = $DIC->logger()->cert();
 
 		$certificates = [];
 		$output = new IntegerValue();
 
-		$this->logMessage('Startet at ' . ($st_time = date('d.m.Y H:i:s')) . ' for user with id: ' . $this->user_id, 'debug');
+		$this->logger->debug('Startet at ' . ($st_time = date('d.m.Y H:i:s')) . ' for user with id: ' . $this->user_id);
 
 		$task_informations = $this->getTaskInformations();
 		if(empty($task_informations)) {
 			$this->initTask();
 		}
 		if ($task_informations['state'] === \ilCertificateMigrationJobDefinitions::CERT_MIGRATION_STATE_RUNNING) {
-			$this->logMessage('Parallel execution protection. Stopped task for user ' . $this->user_id . ', because it is already running.');
+			$this->logger->info('Parallel execution protection. Stopped task for user ' . $this->user_id . ', because it is already running.');
 			$output->setValue(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_RETURN_ALREADY_RUNNING);
 			return $output;
 		}
 		if ($task_informations['lock'] == true) {
 			// we should never get here if no fatal error occures
-			$this->logMessage('Parallel execution protection. Stopped task for user ' . $this->user_id . ', because it is locked.');
+			$this->logger->info('Parallel execution protection. Stopped task for user ' . $this->user_id . ', because it is locked.');
 			$output->setValue(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_RETURN_LOCKED);
 			return $output;
 		}
@@ -96,32 +101,39 @@ class ilCertificateMigrationJob extends AbstractJob
 		]);
 
 		$found_items = 0;
+
+		$types = array(
+			'test',
+			'scorm',
+			'exercise',
+			'course'
+		);
+
 		try {
 			// collect all data
-			$this->logMessage('Start collection certificate data for user: ' . $this->user_id);
+			$this->logger->info('Start collection certificate data for user: ' . $this->user_id);
 
-			$certificates['scorm'] = $this->getScormCertificates();
-			$found_items += count($certificates['scorm']);
-			$observer->heartbeat();
+			foreach ($types as $type) {
+				if ($type === 'scorm') {
+					$certificates[$type] = $this->getScormCertificates();
+				} elseif ($type === 'test') {
+					$certificates[$type] = $this->getTestCertificates();
+				} elseif ($type === 'exercise') {
+					$certificates[$type] = $this->getExerciseCertificates();
+				} elseif ($type === 'course') {
+					$certificates[$type] = $this->getCourseCertificates();
+				}
 
-			$certificates['test'] = $this->getTestCertificates();
-			$found_items += count($certificates['test']);
-			$observer->heartbeat();
-
-			$certificates['exercise'] = $this->getExerciseCertificates();
-			$found_items += count($certificates['exercise']);
-			$observer->heartbeat();
-
-			$certificates['course'] = $this->getCourseCertificates();
-			$found_items += count($certificates['course']);
-			$observer->heartbeat();
+				$found_items += count($certificates[$type]);
+				$observer->heartbeat();
+			}
 
 			$this->updateTask(['found_items' => $found_items]);
-			$this->logMessage('Found overall ' . $found_items . ' items for user with id: ' . $this->user_id, 'debug');
-			$this->logMessage('Finished collecting certificate data for user: ' . $this->user_id);
+			$this->logger->debug('Found overall ' . $found_items . ' items for user with id: ' . $this->user_id);
+			$this->logger->info('Finished collecting certificate data for user: ' . $this->user_id);
 
 		} catch (\Exception $e) {
-			$this->logMessage($e->getMessage(), 'error');
+			$this->logger->error($e->getMessage());
 			$this->updateTask([
 				'lock' => false,
 				'found_items' => $found_items,
@@ -134,68 +146,25 @@ class ilCertificateMigrationJob extends AbstractJob
 		$processed_items = 0;
 		try {
 			// prepare all data
-			$this->logMessage('Start preparing certificate informations for user: ' . $this->user_id);
+			$this->logger->info('Start preparing certificate informations for user: ' . $this->user_id);
 
-			if(!empty($certificates['scorm'])) {
-				$this->logMessage('Start preparing scorm certificates');
-				foreach ($certificates['scorm'] as &$scorm) {
-					$this->getCertificateInformations($scorm);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logMessage('Finished preparing scorm certificates');
+			foreach ($types as $type) {
+				$data = $this->prepareCertificate(
+					$observer,
+					$certificates,
+					$type,
+					$processed_items,
+					$found_items
+				);
+
+				$processed_items = $data['processed_items'];
+				$certificates    = $data['certificates_data'];
 			}
 
-			if(!empty($certificates['test'])) {
-				$this->logMessage('Start preparing test certificates');
-				foreach ($certificates['test'] as &$test) {
-					$this->getCertificateInformations($test);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logMessage('Finished preparing test certificates');
-			}
-
-			if(!empty($certificates['exercise'])) {
-				$this->logMessage('Start preparing exercise certificates');
-				foreach ($certificates['exercise'] as &$exercise) {
-					$this->getCertificateInformations($exercise);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logMessage('Finished preparing exercise certificates');
-			}
-
-			if(!empty($certificates['course'])) {
-				$this->logMessage('Start preparing course certificates');
-				foreach ($certificates['course'] as &$course) {
-					$this->getCertificateInformations($course);
-					$processed_items++;
-				}
-				$this->updateTask([
-					'processed_items' => $processed_items,
-					'progress' => $this->measureProgress($found_items, $processed_items)
-				]);
-				$observer->heartbeat();
-				$this->logMessage('Finished preparing course certificates');
-			}
-
-			$this->logMessage('Finished preparing certificate informations for user: ' . $this->user_id);
+			$this->logger->info('Finished preparing certificate informations for user: ' . $this->user_id);
 
 		} catch (\Exception $e) {
-			$this->logMessage($e->getMessage(), 'error');
+			$this->logger->error($e->getMessage(), 'error');
 			$this->updateTask([
 				'lock' => false,
 				'processed_items' => $processed_items,
@@ -208,12 +177,12 @@ class ilCertificateMigrationJob extends AbstractJob
 		$migrated_items = 0;
 		try {
 			// call event for migrating certificates
-			$this->logMessage('Start migrating certificates for user: ' . $this->user_id);
+			$this->logger->info('Start migrating certificates for user: ' . $this->user_id);
 
 			foreach ($certificates as $type => $certs) {
 				if(!empty($certs)) {
 					foreach ($certs as $cert) {
-						$this->logMessage('migrate cert for truple (type, obj_id, user_id): ' . implode(
+						$this->logger->info('migrate cert for truple (type, obj_id, user_id): ' . implode(
 							', ', [$type, $cert['obj_id'], $cert['user_id']]
 							));
 						$this->event_handler->raise(
@@ -230,10 +199,10 @@ class ilCertificateMigrationJob extends AbstractJob
 				}
 			}
 
-			$this->logMessage('Finished migrating certificates for user: ' . $this->user_id);
+			$this->logger->info('Finished migrating certificates for user: ' . $this->user_id);
 
 		} catch (\Exception $e) {
-			$this->logMessage($e->getMessage(), 'error');
+			$this->logger->error($e->getMessage());
 			$this->updateTask([
 				'lock' => false,
 				'migrated_items' => $migrated_items,
@@ -245,7 +214,7 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		$output->setValue(\ilCertificateMigrationJobDefinitions::CERT_MIGRATION_RETURN_SUCCESS);
 
-		$this->logMessage('Finished at ' . ($f_time = date('d.m.Y H:i:s')) . ' after ' . (strtotime($f_time) - strtotime($st_time)) . ' seconds', 'debug');
+		$this->logger->debug('Finished at ' . ($f_time = date('d.m.Y H:i:s')) . ' after ' . (strtotime($f_time) - strtotime($st_time)) . ' seconds');
 		$this->updateTask([
 			'lock' => false,
 			'finished_ts' => $f_time,
@@ -327,7 +296,7 @@ class ilCertificateMigrationJob extends AbstractJob
 		if (empty($this->getTaskInformations())) {
 			$this->initTask();
 		}
-		$this->logMessage('Update entry for user with id: ' . $this->user_id, 'debug');
+		$this->logger->debug('Update entry for user with id: ' . $this->user_id);
 		$this->db->update($this->db_table, ['state' => ['text', $state] ], ['usr_id' => ['integer', $this->user_id] ]);
 	}
 
@@ -336,7 +305,7 @@ class ilCertificateMigrationJob extends AbstractJob
 	 */
 	protected function initTask()
 	{
-		$this->logMessage('Insert new entry for user with id: ' . $this->user_id, 'debug');
+		$this->logger->debug('Insert new entry for user with id: ' . $this->user_id);
 		$this->db->insert($this->db_table, [
 			'id' => ['integer', $this->db->nextId($this->db_table)],
 			'usr_id' => ['integer', $this->user_id],
@@ -382,9 +351,9 @@ class ilCertificateMigrationJob extends AbstractJob
 			}
 			$updata['finished_ts'] = ['integer', $data['finished_ts']];
 		}
-		$this->logMessage('Update data: ' . json_encode($updata), 'debug');
+		$this->logger->debug('Update data: ' . json_encode($updata));
 		if(!empty($updata)) {
-			$this->logMessage('Update entry for user with id: ' . $this->user_id, 'debug');
+			$this->logger->debug('Update entry for user with id: ' . $this->user_id);
 			$this->db->update($this->db_table, $updata, ['usr_id' => ['integer', $this->user_id] ]);
 		}
 	}
@@ -401,46 +370,12 @@ class ilCertificateMigrationJob extends AbstractJob
 	}
 
 	/**
-	 * @param string $message
-	 * @param string $type
-	 * @return void
-	 */
-	protected function logMessage(string $message, string $type = 'info')
-	{
-		global $DIC;
-
-		$logger = $DIC->logger()->cert();
-
-		$m_prefix = '[BackgroundTask][MigrationJob] ';
-		switch ($type) {
-			case 'critical':
-				$logger->critical($m_prefix . $message);
-				break;
-			case 'error':
-				$logger->error($m_prefix . $message);
-				break;
-			case 'warning':
-				$logger->warning($m_prefix . $message);
-				break;
-			case 'notice':
-				$logger->notice($m_prefix . $message);
-				break;
-			case 'info':
-				$logger->info($m_prefix . $message);
-				break;
-			case 'debug':
-				$logger->debug($m_prefix . $message);
-				break;
-		}
-	}
-
-	/**
 	 * Get certificates for scorm objects
 	 * @return array
 	 */
 	protected function getScormCertificates(): array
 	{
-		$this->logMessage('Trying to get scorm certificates for user: ' . $this->user_id);
+		$this->logger->info('Trying to get scorm certificates for user: ' . $this->user_id);
 
 		$data = array();
 
@@ -455,58 +390,27 @@ class ilCertificateMigrationJob extends AbstractJob
 			if ($obj_ids)
 			{
 
-				foreach(\ilCertificate::areObjectsActive($obj_ids) as $obj_id => $active)
+				foreach(\ilCertificate::areObjectsActive($obj_ids) as $objectId => $active)
 				{
 					if ($active)
 					{
-						$type = \ilObjSAHSLearningModule::_lookupSubType($obj_id);
+						$type = \ilObjSAHSLearningModule::_lookupSubType($objectId);
 
-						$lm = \ilObjectFactory::getInstanceByObjId($obj_id, false);
-						if (!$lm || !($lm instanceof \ilObjSAHSLearningModule)) {
-							$this->logMessage('Found inconsistent object, skipped migration: ' . $obj_id, 'debug');
+						$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+						if (!$object || !($object instanceof \ilObjSAHSLearningModule)) {
+							$this->logger->debug('Found inconsistent object, skipped migration: ' . $objectId);
 							continue;
 						}
-						$lm->setSubType($type);
+						$object->setSubType($type);
 
-						$adapter = new \ilSCORMCertificateAdapter($lm);
-
-						$obj_id = $adapter->getCertificateID();
-						if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-						{
-							if (file_exists($adapter->getCertificatePath()))
-							{
-								$cert_path = $adapter->getCertificatePath();
-								$xsl_path = $cert_path . "certificate.xml";
-
-								if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-								{
-									$this->logMessage('Found scorm certificate with id: ' . $obj_id, 'debug');
-									$webdir = $cert_path . "background.jpg";
-
-									$background_image_path = str_replace(
-										\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-										'',
-										$webdir
-									);
-
-									$data[] = array(
-										"obj_id" => $obj_id,
-										"user_id" => $this->user_id,
-										"certificate_type" => 'sahs',
-										"background_image_path" => $background_image_path,
-										"acquired_timestamp" => null,
-										"ilias_version" => ILIAS_VERSION_NUMERIC,
-										"certificate_content" => null,
-									);
-								}
-							}
-						}
+						$adapter = new \ilSCORMCertificateAdapter($object);
+						$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 					}
 				}
 			}
 		}
 
-		$this->logMessage('Got ' . count($data) . ' scorm certificates for user: ' . $this->user_id);
+		$this->logger->info('Got ' . count($data) . ' scorm certificates for user: ' . $this->user_id);
 		return $data;
 	}
 
@@ -516,58 +420,28 @@ class ilCertificateMigrationJob extends AbstractJob
 	 */
 	protected function getTestCertificates(): array
 	{
-		$this->logMessage('Trying to get test certificates for user: ' . $this->user_id);
+		$this->logger->info('Trying to get test certificates for user: ' . $this->user_id);
 
 		$data = array();
 
-		foreach(\ilObjTest::getTestObjIdsWithActiveForUserId($this->user_id) as $test_id)
+		foreach(\ilObjTest::getTestObjIdsWithActiveForUserId($this->user_id) as $objectId)
 		{
-			$test = \ilObjectFactory::getInstanceByObjId($test_id, false);
-			if (!$test || !($test instanceof \ilObjTest)) {
-				$this->logMessage('Found inconsistent object, skipped migration: ' . $test_id, 'debug');
+			$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+			if (!$object || !($object instanceof \ilObjTest)) {
+				$this->logger->debug('Found inconsistent object, skipped migration: ' . $objectId);
 				continue;
 			}
 
-			$session = new \ilTestSessionFactory($test);
+			$session = new \ilTestSessionFactory($object);
 			$session = $session->getSession(null);
-			if ($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
+			if ($object->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
 			{
-
-				$adapter = new \ilTestCertificateAdapter($test);
-
-				$obj_id = $adapter->getCertificateID();
-				if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-				{
-					if (file_exists($adapter->getCertificatePath()))
-					{
-						$cert_path = $adapter->getCertificatePath();
-						$xsl_path = $cert_path . "certificate.xml";
-						if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-						{
-							$this->logMessage('Found test certificate with id: ' . $test_id, 'debug');
-							$webdir = $cert_path . "background.jpg";
-							$background_image_path = str_replace(
-								\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-								'',
-								$webdir
-							);
-							$data[] = array(
-								"obj_id" => $test_id,
-								"user_id" => $this->user_id,
-								"certificate_path" => $cert_path,
-								"certificate_type" => 'tst',
-								"background_image_path" => $background_image_path,
-								"acquired_timestamp" => null,
-								"ilias_version" => ILIAS_VERSION_NUMERIC,
-								"certificate_content" => null,
-							);
-						}
-					}
-				}
+				$adapter = new \ilTestCertificateAdapter($object);
+				$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 			}
 		}
 
-		$this->logMessage('Got ' . count($data) . ' test certificates for user: ' . $this->user_id);
+		$this->logger->info('Got ' . count($data) . ' test certificates for user: ' . $this->user_id);
 		return $data;
 	}
 
@@ -577,55 +451,26 @@ class ilCertificateMigrationJob extends AbstractJob
 	 */
 	protected function getExerciseCertificates(): array
 	{
-		$this->logMessage('Trying to get exercise certificates for user: ' . $this->user_id);
+		$this->logger->info('Trying to get exercise certificates for user: ' . $this->user_id);
 
 		$data = array();
 
-		foreach(\ilObjExercise::_lookupFinishedUserExercises($this->user_id) as $exercise_id => $passed)
+		foreach(\ilObjExercise::_lookupFinishedUserExercises($this->user_id) as $objectId => $passed)
 		{
-			$exc = \ilObjectFactory::getInstanceByObjId($exercise_id, false);
-			if (!$exc || !($exc instanceof \ilObjExercise)) {
-				$this->logMessage('Found inconsistent object, skipped migration: ' . $exercise_id, 'debug');
+			$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+			if (!$object || !($object instanceof \ilObjExercise)) {
+				$this->logger->debug('Found inconsistent object, skipped migration: ' . $objectId);
 				continue;
 			}
 
-			if ($exc->hasUserCertificate($this->user_id))
+			if ($object->hasUserCertificate($this->user_id))
 			{
-				$adapter = new \ilExerciseCertificateAdapter($exc);
-
-				$obj_id = $adapter->getCertificateID();
-				if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-				{
-					if (file_exists($adapter->getCertificatePath()))
-					{
-						$cert_path = $adapter->getCertificatePath();
-						$xsl_path = $cert_path . "certificate.xml";
-						if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-						{
-							$this->logMessage('Found exercise certificate with id: ' . $obj_id, 'debug');
-							$webdir = $cert_path . "background.jpg";
-							$background_image_path = str_replace(
-								\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-								'',
-								$webdir
-							);
-							$data[] = array(
-								"obj_id" => $exercise_id,
-								"user_id" => $this->user_id,
-								"certificate_path" => $cert_path,
-								"certificate_type" => 'exc',
-								"background_image_path" => $background_image_path,
-								"acquired_timestamp" => null,
-								"ilias_version" => ILIAS_VERSION_NUMERIC,
-								"certificate_content" => null,
-							);
-						}
-					}
-				}
+				$adapter = new \ilExerciseCertificateAdapter($object);
+				$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 			}
 		}
 
-		$this->logMessage('Got ' . count($data) . ' exercise certificates for user: ' . $this->user_id);
+		$this->logger->info('Got ' . count($data) . ' exercise certificates for user: ' . $this->user_id);
 		return $data;
 	}
 
@@ -635,7 +480,7 @@ class ilCertificateMigrationJob extends AbstractJob
 	 */
 	protected function getCourseCertificates(): array
 	{
-		$this->logMessage('Trying to get course certificates for user: ' . $this->user_id);
+		$this->logger->info('Trying to get course certificates for user: ' . $this->user_id);
 
 		$data = array();
 
@@ -644,51 +489,23 @@ class ilCertificateMigrationJob extends AbstractJob
 		{
 			\ilCourseCertificateAdapter::_preloadListData([$this->user_id], $obj_ids);
 
-			foreach($obj_ids as $crs_id)
+			foreach($obj_ids as $objectId)
 			{
-				if (\ilCourseCertificateAdapter::_hasUserCertificate($this->user_id, $crs_id))
+				if (\ilCourseCertificateAdapter::_hasUserCertificate($this->user_id, $objectId))
 				{
-					$crs = \ilObjectFactory::getInstanceByObjId($crs_id, false);
-					if (!$crs || !($crs instanceof \ilObjCourse)) {
-						$this->logMessage('Found inconsistent object, skipped migration: ' . $crs_id, 'debug');
+					$object = \ilObjectFactory::getInstanceByObjId($objectId, false);
+					if (!$object || !($object instanceof \ilObjCourse)) {
+						$this->logger->debug('Found inconsistent object, skipped migration: ' . $objectId);
 						continue;
 					}
 
-					$adapter = new \ilCourseCertificateAdapter($crs);
-					$obj_id = $adapter->getCertificateID();
-					if(\ilCertificate::isActive() && isset($obj_id) && \ilCertificate::isObjectActive($obj_id))
-					{
-						if (file_exists($adapter->getCertificatePath()))
-						{
-							$cert_path = $adapter->getCertificatePath();
-							$xsl_path = $cert_path . "certificate.xml";
-							if (file_exists($xsl_path) && (filesize($xsl_path) > 0))
-							{
-								$this->logMessage('Found course certificate with id: ' . $crs_id, 'debug');
-								$webdir = $cert_path . "background.jpg";
-								$background_image_path = str_replace(
-									\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
-									'',
-									$webdir
-								);
-								$data[] = array(
-									"obj_id" => $crs_id,
-									"user_id" => $this->user_id,
-									"certificate_path" => $cert_path,
-									"certificate_type" => 'crs',
-									"background_image_path" => $background_image_path,
-									"acquired_timestamp" => null,
-									"ilias_version" => ILIAS_VERSION_NUMERIC,
-									"certificate_content" => null,
-								);
-							}
-						}
-					}
+					$adapter = new \ilCourseCertificateAdapter($object);
+					$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 				}
 			}
 		}
 
-		$this->logMessage('Got ' . count($data) . ' course certificates for user: ' . $this->user_id);
+		$this->logger->info('Got ' . count($data) . ' course certificates for user: ' . $this->user_id);
 		return $data;
 	}
 
@@ -696,31 +513,31 @@ class ilCertificateMigrationJob extends AbstractJob
 	 * @param array $cert_data
 	 * @return void
 	 */
-	protected function getCertificateInformations(array &$cert_data)
+	protected function addCertificateInformation(array $cert_data)
 	{
 		if(array_key_exists('certificate_path', $cert_data))
 		{
 			$cert_path = $cert_data['certificate_path'] . "certificate.xml";
 			if (file_exists($cert_path) && (filesize($cert_path) > 0))
 			{
-				$cert_data['acquired_timestamp'] = filemtime($cert_path);
-				$cert_data['certificate_content'] = $this->renderCertificate($cert_data);
+				$cert_data = $this->addContentAndTimestampToCertificateData($cert_data);
 			}
 		}
+
+		return $cert_data;
 	}
 
 	/**
 	 * @param array $cert_data
-	 * @return string
+	 * @return array
 	 */
-	protected function renderCertificate(array $cert_data): string
+	private function addContentAndTimestampToCertificateData(array $cert_data): array
 	{
 		$oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
 		\ilDatePresentation::setUseRelativeDates(false);
 
-		$this->logMessage(
-			'Try to render ' . $cert_data['certificate_type'] . ' certificate for obj_id: ' . $cert_data['obj_id'] . ' and user_id: ' . $this->user_id,
-			'debug'
+		$this->logger->debug(
+			'Try to render ' . $cert_data['certificate_type'] . ' certificate for obj_id: ' . $cert_data['obj_id'] . ' and user_id: ' . $this->user_id
 		);
 
 		$user_data = [];
@@ -807,13 +624,107 @@ class ilCertificateMigrationJob extends AbstractJob
 		}
 		$xslfo = str_replace('[CLIENT_WEB_DIR]', CLIENT_WEB_DIR, $xslfo);
 
-		$this->logMessage(
-			'Successful renedered certificate for (type, obj_id, usr_id): ' . $cert_data['certificate_type'] . ', ' . $cert_data['obj_id'] . ', ' . $this->user_id,
-			'debug'
+		$this->logger->debug(
+			'Successful renedered certificate for (type, obj_id, usr_id): ' . $cert_data['certificate_type'] . ', ' . $cert_data['obj_id'] . ', ' . $this->user_id
 		);
+
+		$cert_data['acquired_timestamp'] = time();
+		if (true === isset($insert_tags['[DATETIME_COMPLETED_UNIX]'])) {
+			$cert_data['acquired_timestamp'] = $insert_tags['[DATETIME_COMPLETED_UNIX]'];
+		}
 
 		\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
-		return $xslfo;
+		$cert_data['certificate_content'] = $xslfo;
+
+		return $cert_data;
+	}
+
+	/**
+	 * @param $objectId
+	 * @param $adapter
+	 * @param $object
+	 * @param $data
+	 * @return array
+	 */
+	private function createCertificateData(
+		$objectId,
+		\ilCertificateAdapter $adapter,
+		\ilObject $object,
+		array $data
+	): array
+	{
+		if (\ilCertificate::isActive() && \ilCertificate::isObjectActive($objectId)) {
+			if (file_exists($adapter->getCertificatePath())) {
+				$cert_path = $adapter->getCertificatePath();
+				$xsl_path = $cert_path . "certificate.xml";
+
+				if (file_exists($xsl_path) && (filesize($xsl_path) > 0)) {
+					$type = $object->getType();
+
+					$this->logger->debug(sprintf('Found certificate for object id "%s" (type: "%s") and user id "%s"', $objectId, $type, $this->user_id));
+
+					$webdir = $cert_path . "background.jpg";
+
+					$background_image_path = str_replace(
+						\ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR),
+						'',
+						$webdir
+					);
+
+					$data[] = array(
+						"obj_id" => $objectId,
+						"user_id" => $this->user_id,
+						"certificate_path" => $cert_path,
+						"certificate_type" => $type,
+						"background_image_path" => $background_image_path,
+						"acquired_timestamp" => null,
+						"ilias_version" => ILIAS_VERSION_NUMERIC,
+						"certificate_content" => null,
+					);
+				}
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param Observer $observer
+	 * @param array $certificates
+	 * @param string $type
+	 * @param int $processed_items
+	 * @param int $found_items
+	 * @return array
+	 */
+	protected function prepareCertificate(
+		Observer $observer,
+		array $certificates,
+		string $type,
+		int $processed_items,
+		int $found_items
+	): array
+	{
+		if (!empty($certificates[$type])) {
+			$this->logger->info(sprintf('Start preparing "%s" certificates', $type));
+
+			foreach ($certificates[$type] as $id => $certificateData) {
+				$certificates[$type][$id] = $this->addCertificateInformation($certificateData);
+				$processed_items++;
+			}
+
+			$this->updateTask([
+				'processed_items' => $processed_items,
+				'progress' => $this->measureProgress($found_items, $processed_items)
+			]);
+
+			$observer->heartbeat();
+			$this->logger->info(sprintf('Finished preparing "%s" certificates', $type));
+		}
+
+		return array(
+			'processed_items'   => $processed_items,
+			'certificates_data' => $certificates
+		);
 	}
 }

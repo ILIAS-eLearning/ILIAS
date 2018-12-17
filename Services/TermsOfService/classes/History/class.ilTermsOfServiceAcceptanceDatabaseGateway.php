@@ -82,12 +82,12 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements \ilTermsOfServiceAcce
 		$row = $this->db->fetchAssoc($res);
 
 		$entity = $entity
-			->withId($row['id'])
-			->withUserId($row['usr_id'])
+			->withId((int)$row['id'])
+			->withUserId((int)$row['usr_id'])
 			->withText($row['text'])
-			->withTimestamp($row['accepted_ts'])
+			->withTimestamp((int)$row['accepted_ts'])
 			->withHash($row['hash'])
-			->withDocumentId($row['doc_id'])
+			->withDocumentId((int)$row['doc_id'])
 			->withTitle($row['title'])
 			->withSerializedCriteria($row['criteria']);
 

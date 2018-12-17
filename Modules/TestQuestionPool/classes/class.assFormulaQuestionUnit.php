@@ -134,7 +134,8 @@ class assFormulaQuestionUnit
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$unit = $this->getUnit();
 		if(strcmp('-qpl_qst_formulaquestion_' . $unit . '-', $lng->txt('qpl_qst_formulaquestion_' . $unit)) != 0)
@@ -150,7 +151,8 @@ class assFormulaQuestionUnit
 	 */
 	public static function lookupUnitFactor($a_unit_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$res = $ilDB->queryF('SELECT factor FROM il_qpl_qst_fq_unit WHERE unit_id = %s',
 		array('integer'), array($a_unit_id));

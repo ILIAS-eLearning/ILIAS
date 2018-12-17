@@ -86,8 +86,9 @@ class ASS_MarkSchema
 	 */
   	public function saveToDb($test_id)
  	{
-		global $lng;
-		global $ilDB;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 
 		$oldmarks = array();
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
@@ -202,7 +203,8 @@ class ASS_MarkSchema
 	 */
 	public function loadFromDb($test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (!$test_id) return;
 		$result = $ilDB->queryF("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
@@ -325,7 +327,8 @@ class ASS_MarkSchema
 	 */
 	public static function _getMatchingMark($test_id, $percentage)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level DESC",
 			array('integer'),
 			array($test_id)
@@ -354,7 +357,8 @@ class ASS_MarkSchema
 	 */
 	public static function _getMatchingMarkFromObjId($a_obj_id, $percentage)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_mark.* FROM tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.obj_fi = %s ORDER BY minimum_level DESC",
 			array('integer'),
 			array($a_obj_id)
@@ -382,7 +386,8 @@ class ASS_MarkSchema
 	public static function _getMatchingMarkFromActiveId($active_id, $percentage)
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_mark.* FROM tst_active, tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY minimum_level DESC",
 			array('integer'),
 			array($active_id)
@@ -461,7 +466,8 @@ class ASS_MarkSchema
 	public function logAction($test_id, $logtext = "")
 	{
 		/** @var $ilUser ilObjUser */
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", TRUE, $_GET["ref_id"]);
 	}

@@ -252,9 +252,10 @@ class ilMDRights extends ilMDBase
 		if(!$entry_id)
 		{
 			$this->setDescription($a_description);
+		} else {
+			$this->setDescription(ilMDCopyrightSelectionEntry::createIdentifier($entry_id));
 		}
 
-		$this->setDescription(ilMDCopyrightSelectionEntry::createIdentifier($entry_id));
 	}
 	
 	/**

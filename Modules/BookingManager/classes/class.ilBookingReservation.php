@@ -487,6 +487,49 @@ class ilBookingReservation
 				
 		return (bool)($available_in_period-$booked_in_period);
 	}
+
+	//check if the user reached the limit of bookings in this booking pool.
+	static function isBookingPoolLimitReachedByUser(int $a_user_id, int $a_pool_id): int
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$booking_pool_objects = ilBookingObject::getObjectsForPool($a_pool_id);
+
+		$query = "SELECT count(user_id) total".
+			" FROM booking_reservation".
+			" WHERE ".$ilDB->in('object_id', $booking_pool_objects,false,'integer').
+			" AND user_id = ".$a_user_id.
+			" AND (status IS NULL OR status <> ".ilBookingReservation::STATUS_CANCELLED.')';
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+
+		return (int) $row['total'];
+	}
+
+	static function getMembersWithoutReservation(int $a_object_id): array
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$res = array();
+		$query = 'SELECT DISTINCT bm.user_id user_id'.
+			' FROM booking_member bm'.
+			' WHERE bm.user_id NOT IN ('.
+			'SELECT user_id'.
+			' FROM booking_reservation'.
+			' WHERE object_id = '.$ilDB->quote($a_object_id, 'integer').
+			' AND (status IS NULL OR status <> '.ilBookingReservation::STATUS_CANCELLED.'))';
+
+		$set = $ilDB->query($query);
+
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row['user_id'];
+		}
+
+		return $res;
+	}
 	
 	static function isObjectAvailableNoSchedule($a_obj_id)
 	{

@@ -92,8 +92,9 @@ class ilTestRandomQuestionsQuantitiesDistribution
 	 */
 	protected function buildSourcePoolDefinitionListInstance()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$anyTestObject = new ilObjTest();
-		$nonRequiredDb = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		$nonRequiredDb = $DIC['ilDB'];
 		$nonUsedFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($nonRequiredDb, $anyTestObject);
 		return new ilTestRandomQuestionSetSourcePoolDefinitionList($nonRequiredDb, $anyTestObject, $nonUsedFactory);
 	}

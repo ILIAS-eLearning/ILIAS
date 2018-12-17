@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\MainMenu\AbstractBaseItem;
+use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
 use ILIAS\GlobalScreen\MainMenu\hasContent;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
@@ -17,7 +18,7 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTopItem, isParent, isChild, hasTitle {
+class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTopItem, isParent, isChild, hasTitle, hasAction {
 
 	/**
 	 * @var isChild[]
@@ -163,5 +164,39 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
 	 */
 	public function hasChildren(): bool {
 		return count($this->children) > 0;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withAction(string $action): hasAction {
+		// noting to to
+		return $this;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAction(): string {
+		return "#";
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withIsLinkToExternalAction(bool $is_external): hasAction {
+		// noting to to
+		return $this;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isLinkWithExternalAction(): bool {
+		return false;
 	}
 }

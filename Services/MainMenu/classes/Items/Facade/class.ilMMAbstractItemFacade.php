@@ -112,7 +112,15 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	public function isAvailable(): bool {
-		return (bool)(($this->mm_item->isActive() && $this->gs_item->isAvailable()) || $this->item()->isAlwaysAvailable());
+		return (bool)($this->gs_item->isAvailable() || $this->item()->isAlwaysAvailable());
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isActivated(): bool {
+		return (bool)$this->mm_item->isActive() || $this->item()->isAlwaysAvailable();
 	}
 
 

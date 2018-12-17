@@ -17,7 +17,6 @@ ilInitialisation::initILIAS();
 
 global $ilCtrl, $ilBench;
 
-$ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
 $ilBench->save();
 

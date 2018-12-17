@@ -107,7 +107,8 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function constraintsProvider(): array
 	{
-		$f = new Validation\Factory(new Data\Factory());
+		$mock = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
+		$f = new Validation\Factory(new Data\Factory(), $mock);
 
 		return [
 			[$f->or([$f->isInt(), $f->isString()]), '5', []],

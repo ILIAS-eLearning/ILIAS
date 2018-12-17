@@ -35,8 +35,8 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
 					'id'                => array('integer', 20),
 					'obj_id'            => array('integer', 10),
 					'usr_id'            => array('integer', 500),
-					'adapter_class'     => array('clob', 'SomeClass'),
-					'state'             => array('clob', 'SomeState'),
+					'adapter_class'     => array('text', 'SomeClass'),
+					'state'             => array('text', 'SomeState'),
 					'started_timestamp' => array('integer', $timestamp),
 					'template_id'       => array('integer', 10000)
 				)

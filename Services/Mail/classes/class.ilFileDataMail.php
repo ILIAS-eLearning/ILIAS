@@ -127,6 +127,14 @@ class ilFileDataMail extends ilFileData
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getAbsoluteAttachmentPoolPathPrefix(): string
+	{
+		return $this->mail_path . '/' . $this->user_id . '_';
+	}
+
+	/**
 	 * @param string $md5FileHash
 	 * @param int $mailId
 	 * @return array array An array containing the 'path' and the 'filename' for the passed MD5 hash
@@ -401,7 +409,7 @@ class ilFileDataMail extends ilFileData
 	 */
 	public function getAbsoluteAttachmentPoolPathByFilename(string $fileName): string 
 	{
-		return $this->mail_path . '/' . $this->user_id . '_' . $fileName;
+		return $this->getAbsoluteAttachmentPoolPathPrefix() . $fileName;
 	}
 
 	/**

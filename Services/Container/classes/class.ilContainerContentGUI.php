@@ -747,7 +747,7 @@ abstract class ilContainerContentGUI
 	 * @param string $a_pos_prefix
 	 * @return string
 	 */
-	function renderCard($a_item_data,$a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
+	function renderCard($a_item_data, $a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
 	{
 		global $DIC;
 		$f = $DIC->ui()->factory();
@@ -782,7 +782,10 @@ abstract class ilContainerContentGUI
 			$path = ilUtil::getImagePath("empty.png");
 		}
 
-		$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
+		if ($def_command["link"] != "")	// #24256
+		{
+			$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
+		}
 
 		// card
 		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
@@ -793,7 +796,12 @@ abstract class ilContainerContentGUI
 		)->withObjectIcon(
 			$icon
 		)->withActions($dropdown
-		)->withTitleAction($def_command["link"]);
+		);
+
+		if ($def_command["link"] != "")	// #24256
+		{
+			$card = $card->withTitleAction($def_command["link"]);
+		}
 
 		// properties
 		$l = [];

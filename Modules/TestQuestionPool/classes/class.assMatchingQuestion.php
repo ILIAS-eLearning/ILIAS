@@ -125,7 +125,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->saveQuestionDataToDb($original_id);
 		$this->saveAdditionalQuestionDataToDb();
@@ -137,7 +138,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		// delete old terms
 		$ilDB->manipulateF( "DELETE FROM qpl_a_mterm WHERE question_fi = %s",
 							array( 'integer' ),
@@ -205,7 +207,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// save additional data
 
@@ -231,7 +234,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			SELECT		qpl_questions.*,
@@ -455,7 +459,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function duplicateImages($question_id, $objectId = null)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		
@@ -512,7 +517,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function copyImages($question_id, $source_questionpool)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
@@ -906,7 +912,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found_values = array();
 		if (is_null($pass))
@@ -1165,7 +1172,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
 		$submittedMatchingsValid = $this->checkSubmittedMatchings($submittedMatchings);
@@ -1525,7 +1533,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
 		
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule('assessment');
 		$result['reset_button_label'] = $lng->txt("reset_terms");
 
@@ -1613,7 +1622,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$data = $ilDB->queryF(

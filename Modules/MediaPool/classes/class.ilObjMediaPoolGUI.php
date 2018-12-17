@@ -201,7 +201,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 			case "ilobjmediaobjectgui":
 				$this->checkPermission("write");
-				//$cmd.="Object";
 				if ($cmd == "create" || $cmd == "save" || $cmd == "cancel")
 				{
 					$ret_obj = $_GET["mepitem_id"];
@@ -1473,9 +1472,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 	
-//		$ilTabs->clearTargets();
-		//$ilTabs->addTab("mep_pg_prop", $lng->txt("mep_page_properties"),
-		//	$ilCtrl->getLinkTarget($this, "editMediaPoolPage"));
 		$ilTabs->addTarget("cont_usage", $ilCtrl->getLinkTarget($this, "showMediaPoolPageUsages"),
 			array("showMediaPoolPageUsages", "showAllMediaPoolPageUsages"), get_class($this));
 		$ilTabs->addTarget("settings", $ilCtrl->getLinkTarget($this, "editMediaPoolPage"),
@@ -1587,13 +1583,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$ilTabs->addTab("content", $this->lng->txt("mep_content"), $this->ctrl->getLinkTarget($this, ""));
-			//$ilTabs->addTarget("objs_fold", $this->ctrl->getLinkTarget($this, ""),
-			//	"listMedia", "", "_top");
-
-			//$ilCtrl->setParameter($this, "mepitem_id", "");
-			//$ilTabs->addTarget("mep_all_mobs", $this->ctrl->getLinkTarget($this, "allMedia"),
-			//	"allMedia", "", "_top");
-			//$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 		}
 
 		// info tab
@@ -1605,7 +1594,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
-	//echo "-$force_active-";
 			$ilTabs->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
 				 array("ilobjmediapoolgui", "ilinfoscreengui"), "showSummary"),
@@ -1750,6 +1738,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function infoScreen()
 	{
+		$this->tabs->activateTab("info_short");
 		$ilAccess = $this->access;
 		$ilErr = $this->error;
 

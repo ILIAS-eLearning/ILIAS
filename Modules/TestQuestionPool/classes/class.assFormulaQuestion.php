@@ -620,7 +620,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 */
 	function saveToDb($original_id = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->saveQuestionDataToDb($original_id);
 		// save variables
@@ -721,7 +722,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 */
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions WHERE question_id = %s",
 			array('integer'),
@@ -1041,7 +1043,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 */
 	function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if(is_null($pass))
 		{
@@ -1149,7 +1152,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 */
 	public function lookupForExistingSolutions($activeId, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$return = array(
 			'authorized' => false,
@@ -1201,7 +1205,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 */
 	public function removeExistingSolutions($activeId, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			DELETE FROM tst_solutions
@@ -1283,7 +1288,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 */
 	function deleteAnswers($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM il_qpl_qst_fq_var WHERE question_fi = %s",
 			array('integer'),
@@ -1548,7 +1554,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

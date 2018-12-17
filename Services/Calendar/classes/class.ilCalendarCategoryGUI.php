@@ -1009,9 +1009,6 @@ class ilCalendarCategoryGUI
 		{
 			$ilHelp->setSubScreenId("create");
 		}
-
-			include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($this->category_id);
@@ -1036,8 +1033,7 @@ class ilCalendarCategoryGUI
 					}
 					$this->form->addCommandButton('confirmDelete',$this->lng->txt('delete'));
 					 */
-					
-					$this->form->addCommandButton('manage',$this->lng->txt('cancel'));
+
 				}
 				break;				
 			case 'create':
@@ -1047,10 +1043,18 @@ class ilCalendarCategoryGUI
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				$this->form->setTitle($this->lng->txt('cal_add_category'));
 				$this->form->addCommandButton('save',$this->lng->txt('save'));
-				$this->form->addCommandButton('manage',$this->lng->txt('cancel'));
 				break;
 		}
-		
+
+		if($_REQUEST['backv'] == self::VIEW_MANAGE)
+		{
+			$this->form->addCommandButton('manage',$this->lng->txt('cancel'));
+		}
+		else
+		{
+			$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
+
 		// Calendar name
 		$title = new ilTextInputGUI($this->lng->txt('cal_calendar_name'),'title');
 		if($a_mode == 'edit')

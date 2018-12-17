@@ -98,6 +98,9 @@ il.UI.Input = il.UI.Input || {};
                 _log('remove_hidden', hidden);
                 hidden.remove();
             });
+
+            // Prevent keyboard navigation when Tag is disabled
+            $(id).parents('.il-input-tag.disabled').find('.tt-input').attr('tabindex', '-1');
         };
 
         return {

@@ -589,8 +589,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$tables[] = $table->getHTML();
 			}
 		}
-
-		$GLOBALS['tpl']->setContent($form->getHTML() . implode('', $tables));
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC['tpl']->setContent($form->getHTML() . implode('', $tables));
 	}
 	
 	/**
@@ -935,7 +936,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsPassDetails()
 	{
-		global $ilTabs, $ilAccess, $ilObjDataCache;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$active_id = (int)$_GET["active_id"];
 		
@@ -1108,7 +1112,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
-		global $ilTabs, $ilObjDataCache;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$active_id = (int)$_GET["active_id"];
 		
@@ -1165,8 +1171,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 		}
 		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($testSession->getActiveId());
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
@@ -1257,7 +1264,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	function outUserPassDetails()
 	{
-		global $ilTabs, $ilUser, $ilObjDataCache;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->handleTabs('results_pass_oriented');
 		
@@ -1437,7 +1447,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	function outUserResultsOverview()
 	{
-		global $ilUser, $ilObjDataCache;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$this->handleTabs('results_pass_oriented');
 
@@ -1495,9 +1507,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$template->setCurrentBlock("pass_overview");
-
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($testSession->getActiveId());
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
@@ -1582,7 +1595,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	function outUserListOfAnswerPasses()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		global $ilUser, $ilObjDataCache;
+		$ilUser = $DIC['ilUser'];
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if (!$this->object->getShowSolutionPrintview())
 		{
@@ -1603,9 +1617,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$active_id = $testSession->getActiveId();
 		
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
-
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($testSession->getActiveId());
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 		
@@ -1841,7 +1856,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$confirm = new ilTestPassDeletionConfirmationGUI($this->ctrl, $this->lng, $this);
 		$confirm->build((int)$_GET['active_id'], (int)$_GET['pass'], $context);
 
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->setContent($this->ctrl->getHTML($confirm));
 	}
 
@@ -1886,7 +1902,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->redirectToPassDeletionContext($context);
 		}
 			/** @var ilDBInterface $ilDB */
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 
 		$active_fi = null;
 		$pass = null;
@@ -2154,7 +2171,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions)
 	{
-		global $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
 		$questionIds = array();

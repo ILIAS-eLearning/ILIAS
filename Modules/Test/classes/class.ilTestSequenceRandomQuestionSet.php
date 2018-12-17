@@ -17,7 +17,8 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
 
 	public function loadQuestions(ilTestQuestionSetConfig $testQuestionSetConfig = null, $taxonomyFilterSelection = array())
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->questions = array();
 
@@ -59,7 +60,8 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
 	 */
 	function hasRandomQuestionsForPass($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'),
 			array($active_id, $pass)

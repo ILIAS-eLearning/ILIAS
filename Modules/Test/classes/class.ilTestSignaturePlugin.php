@@ -84,7 +84,8 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	protected function getLinkTargetForCmd($cmd)
 	{
 		/** @var $ilCtrl ilCtrl */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		return 
 			'//'. $_SERVER['HTTP_HOST'] 
 			. substr($_SERVER['PHP_SELF'],0, strlen($_SERVER['PHP_SELF']) - 10) 
@@ -100,7 +101,8 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	protected function getLinkTargetForRessource($cmd, $ressource)
 	{
 		/** @var $ilCtrl ilCtrl */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$link = 'http://'. $_SERVER['HTTP_HOST']
 			. substr($_SERVER['PHP_SELF'],0, strlen($_SERVER['PHP_SELF']) - 10)
 			. '/'
@@ -116,7 +118,8 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	protected function getFormAction($default_cmd)
 	{
 		/** @var $ilCtrl ilCtrl */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		return $ilCtrl->getFormAction($this, $default_cmd);
 	}
 
@@ -126,7 +129,8 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	protected function populatePluginCanvas($content)
 	{
 		/** @var $tpl ilTemplate */
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->setVariable($this->getGUIObject()->getTestOutputGUI()->getContentBlockName(), $content );
 		return;
 	}

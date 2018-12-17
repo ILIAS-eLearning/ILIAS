@@ -1,7 +1,22 @@
 <?php
 
+/**
+ * Class ilWebDAVAuthentication
+ *
+ * Implements the callback to authenticate users. Is called by the sabreDAV Authentication Plugin
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ */
 class ilWebDAVAuthentication
 {
+    /**
+     * Callback function. Identifies user by username and password and returns if authentication was successful
+     *
+     * @param $a_username
+     * @param $a_password
+     * @return bool
+     */
     public function authenticate($a_username, $a_password)
     {
         global $DIC;

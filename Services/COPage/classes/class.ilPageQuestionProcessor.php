@@ -349,12 +349,15 @@ class ilPageQuestionProcessor
 			$and
 		);
 
-		if (is_array($a_q_id))
+		if (is_array($a_q_id) || $a_user_id == 0)
 		{
 			$recs = array();
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
-				$recs[$rec["qst_id"]] = $rec;
+				$key = ($a_user_id == 0)
+					? $rec["qst_id"].":".$rec["user_id"]
+					: $rec["qst_id"];
+				$recs[$key] = $rec;
 			}
 			return $recs;
 		}

@@ -852,7 +852,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		

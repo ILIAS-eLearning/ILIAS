@@ -29,7 +29,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		parent::__construct($a_title, $a_postvar);
 	}
@@ -136,7 +137,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		// remove trailing '/'
@@ -252,7 +254,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$template = new ilTemplate("tpl.prop_imagemap_file.html", true, true, "Modules/TestQuestionPool");
 		
@@ -365,7 +368,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $template->get());
 		$a_tpl->parseCurrentBlock();
 
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
 	}

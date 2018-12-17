@@ -83,7 +83,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt("book_assign_participant").": ".$this->bp_object->getTitle());
 
-		//$this->addColumn("", "");
+		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("name"), "name");
 		$this->addColumn($this->lng->txt("book_bobj"));
 		$this->addColumn($this->lng->txt("action"));
@@ -95,7 +95,17 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_assign_participant_row.html", "Modules/BookingManager");
 
+		$this->setSelectAllCheckbox('mass');
+		$this->addHiddenInput('object_id', $a_booking_obj_id);
+		$this->addMultiCommand("bookMultipleParticipants",$this->lng->txt("assign"));
 		$this->getItems();
+
+		ilUtil::sendInfo(
+			sprintf(
+				$this->lng->txt("book_objects_available"),
+				ilBookingReservation::numAvailableFromObjectNoSchedule($a_booking_obj_id)
+			)
+		);
 
 	}
 
@@ -116,6 +126,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		$this->tpl->setVariable("MULTI_ID", $a_set['user_id']);
 		$this->tpl->setVariable("TXT_NAME", $a_set['name']);
 		$this->tpl->setCurrentBlock('object_titles');
 		foreach($a_set['object_title'] as $obj_title)

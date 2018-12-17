@@ -251,6 +251,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$fixed->setInfo($this->lng->txt("book_schedule_type_fixed_info"));
 		$type->addOption($fixed);
 
+		#23637
+		//period
+		$period = new ilNumberInputGUI($this->lng->txt("book_reservation_filter_period"), "period");
+		$period->setInfo($this->lng->txt("book_reservation_filter_period_info"));
+		$period->setSuffix($this->lng->txt("days"));
+		$period->setSize(3);
+		$period->setMinValue(0);
+		$fixed->addSubItem($period);
+
 		// reminder
 		$rmd = new ilCheckboxInputGUI($this->lng->txt("book_reminder_setting"), "rmd");
 		$rmd->setChecked($this->object->getReminderStatus());
@@ -277,14 +286,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
 		$public->setInfo($this->lng->txt("book_public_log_info"));
-		$a_form->addItem($public);		
-		
-		$period = new ilNumberInputGUI($this->lng->txt("book_reservation_filter_period"), "period");
-		$period->setInfo($this->lng->txt("book_reservation_filter_period_info"));
-		$period->setSuffix($this->lng->txt("days"));
-		$period->setSize(3);
-		$period->setMinValue(0);
-		$a_form->addItem($period);
+		$a_form->addItem($public);
 
 		// presentation
 		$pres = new ilFormSectionHeaderGUI();
@@ -473,7 +475,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$cgui->setCancel($this->lng->txt("cancel"), "render");
 			$cgui->setConfirm($this->lng->txt("confirm"), "confirmedBooking");
 
-			$cgui->addItem("object_id", $obj->getId(), $obj->getTitle());		
+			$cgui->addItem("object_id", $obj->getId(), $obj->getTitle());
+
+			if($_GET['part_view'] == ilBookingParticipantGUI::PARTICIPANT_VIEW) {
+				$cgui->addHiddenItem("part_view", ilBookingParticipantGUI::PARTICIPANT_VIEW);
+			}
 
 			$tpl->setContent($cgui->getHTML());
 		}
@@ -938,8 +944,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$this->ctrl->redirectByClass('ilbookingobjectgui', 'displayPostInfo');
 		}
 		else
-		{				
-			$this->ctrl->redirect($this, 'render');
+		{
+			if($_POST['part_view'] == ilBookingParticipantGUI::PARTICIPANT_VIEW) {
+				$this->ctrl->redirectByClass('ilbookingparticipantgui','render');
+			} else {
+				$this->ctrl->redirect($this, 'render');
+			}
 		}
 	}
 	
@@ -1869,6 +1879,94 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	{
 		include_once ("./Modules/BookingManager/classes/class.ilBookingParticipant.php");
 		$participant = new ilBookingParticipant($this->user_id_to_book, $this->object->getId());
+	}
+
+	/**
+	 * Create reservations for a bunch of booking pool participants.
+	 */
+	function bookMultipleParticipantsObject()
+	{
+		if($_POST["mass"]) {
+			$participants = $_POST["mass"];
+		} else {
+			$this->ctrl->redirectByClass('ilbookingobjectgui', 'render');
+		}
+
+		$this->tabs->clearTargets();
+		$this->ctrl->setParameterByClass('ilbookingobjectgui','object_id',$this->book_obj_id);
+		$this->tabs->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass('ilbookingobjectgui','assignparticipants'));
+		$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id','');
+
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+
+		//add user list as items.
+		foreach($participants as $id)
+		{
+			$name = ilObjUser::_lookupFullname($id);
+			$conf->addItem("participants[]", $id, $name);
+		}
+
+		$available = ilBookingReservation::numAvailableFromObjectNoSchedule($this->book_obj_id);
+		if(sizeof($participants) > $available)
+		{
+			$obj = new ilBookingObject($this->book_obj_id);
+			$conf->setHeaderText(
+				sprintf(
+					$this->lng->txt('book_limit_objects_available'),
+					sizeof($participants),
+					$obj->getTitle(),
+					$available
+				)
+			);
+		}
+		else
+		{
+			$conf->setHeaderText($this->lng->txt('book_confirm_booking_no_schedule'));
+			$conf->addHiddenItem("object_id", $this->book_obj_id);
+			$conf->setConfirm($this->lng->txt("assign"), "saveMultipleBookings");
+		}
+
+		$conf->setCancel($this->lng->txt("cancel"), 'redirectToList');
+		$this->tpl->setContent($conf->getHTML());
+	}
+
+	public function redirectToListObject()
+	{
+		$this->ctrl->setParameterByClass('ilbookingobjectgui','object_id',$this->book_obj_id);
+		$this->ctrl->redirectByClass('ilbookingobjectgui', 'assignParticipants');
+	}
+
+	/**
+	 * Save multiple users reservations for one booking pool object.
+	 * //TODO check if object/user exist in the DB,
+	 */
+	public function saveMultipleBookingsObject()
+	{
+		if($_POST["participants"] && $_POST['object_id']) {
+			$participants = $_POST["participants"];
+			$this->book_obj_id = $_POST['object_id'];
+		} else {
+			$this->ctrl->redirectByClass('ilbookingobjectgui', 'render');
+		}
+		$rsv_ids = array();
+		foreach($participants as $id)
+		{
+			$this->user_id_to_book = $id;
+			$rsv_ids[] = $this->processBooking($this->book_obj_id);
+		}
+
+		if(sizeof($rsv_ids))
+		{
+			ilUtil::sendSuccess("booking_multiple_succesfully");
+			$this->ctrl->redirectByClass('ilbookingobjectgui', 'render');
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('book_reservation_failed_overbooked'), true);
+			$this->ctrl->redirect($this, 'render');
+		}
+
 	}
 }
 

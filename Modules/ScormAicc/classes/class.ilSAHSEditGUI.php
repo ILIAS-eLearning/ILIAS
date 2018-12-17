@@ -22,7 +22,11 @@ class ilSAHSEditGUI
 
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
@@ -37,8 +41,13 @@ class ilSAHSEditGUI
 	*/
 	function executeCommand()
 	{
-		global $lng, $ilAccess, $ilNavigationHistory, $ilias, $ilCtrl;
-		$GLOBALS["ilLog"]->write ("bc:".$_GET["baseClass"]."; nc:".$this->ctrl->getNextClass($this)."; cmd:".$this->ctrl->getCmd());
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$ilNavigationHistory = $DIC['ilNavigationHistory'];
+		$ilias = $DIC['ilias'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$GLOBALS['DIC']["ilLog"]->write ("bc:".$_GET["baseClass"]."; nc:".$this->ctrl->getNextClass($this)."; cmd:".$this->ctrl->getCmd());
 
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 

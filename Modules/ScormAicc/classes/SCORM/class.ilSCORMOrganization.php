@@ -71,7 +71,8 @@ class ilSCORMOrganization extends ilSCORMObject
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::read();
 
@@ -89,7 +90,8 @@ class ilSCORMOrganization extends ilSCORMObject
 
 	function create()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::create();
 		
@@ -103,7 +105,8 @@ class ilSCORMOrganization extends ilSCORMObject
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::update();
 		
@@ -117,7 +120,8 @@ class ilSCORMOrganization extends ilSCORMObject
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		parent::delete();
 		

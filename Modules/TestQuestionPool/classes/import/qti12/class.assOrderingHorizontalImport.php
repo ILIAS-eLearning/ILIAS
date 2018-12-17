@@ -29,7 +29,8 @@ class assOrderingHorizontalImport extends assQuestionImport
 	*/
 	function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		// empty session variable for imported xhtml mobs
 		unset($_SESSION["import_mob_xhtml"]);
@@ -76,7 +77,8 @@ class assOrderingHorizontalImport extends assQuestionImport
 					$importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
 				}
 				
-				$GLOBALS['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
+				global $DIC; /* @var ILIAS\DI\Container $DIC */
+				$DIC['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
 				
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());

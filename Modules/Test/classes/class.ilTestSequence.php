@@ -144,7 +144,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	*/
 	public function loadQuestions(ilTestQuestionSetConfig $testQuestionSetConfig = null, $taxonomyFilterSelection = array())
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->questions = array();
 
@@ -177,7 +178,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	
 	private function loadQuestionSequence()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'),
 			array($this->active_id, $this->pass)
@@ -215,7 +217,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	
 	private function loadCheckedQuestions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF("SELECT question_fi FROM tst_seq_qst_checked WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'), array($this->active_id, $this->pass)
@@ -229,7 +232,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	
 	private function loadOptionalQuestions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF("SELECT question_fi FROM tst_seq_qst_optional WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'), array($this->active_id, $this->pass)
@@ -256,7 +260,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	
 	private function saveQuestionSequence()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$postponed = NULL;
 		if ((is_array($this->sequencedata["postponed"])) && (count($this->sequencedata["postponed"])))
@@ -306,7 +311,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	{
 		if( (int)$this->newlyCheckedQuestion )
 		{
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			
 			$ilDB->replace('tst_seq_qst_checked', array(
 				'active_fi' => array('integer', (int)$this->active_id),
@@ -321,7 +327,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	 */
 	private function saveOptionalQuestions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$NOT_IN_questions = $ilDB->in('question_fi', $this->optionalQuestions, true, 'integer');
 		

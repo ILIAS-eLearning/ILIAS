@@ -106,7 +106,16 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	{
 		return $a_node["id"];
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDomNodeIdForNodeId($node_id)
+	{
+		return parent::getDomNodeIdForNodeId(str_replace(":", "_", $node_id));
+	}
+
+
 	/**
 	 * Get childs of node
 	 *
@@ -161,7 +170,6 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	function getNodeIcon($a_node)
 	{
 		$a_id_parts = explode(":", $a_node["id"]);
-		$a_skl_tree_id = $a_parent_id_parts[0];
 		$a_skl_template_tree_id = $a_id_parts[1];
 
 		// root?
