@@ -6,7 +6,7 @@
  *
  * @ingroup ModulesTestQuestionPool
  */
-class assKprimChoiceTest  extends PHPUnit_Framework_TestCase
+class assKprimChoiceTest  extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

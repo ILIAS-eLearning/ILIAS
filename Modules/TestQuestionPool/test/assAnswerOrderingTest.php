@@ -8,7 +8,7 @@ require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
+class assAnswerOrderingTest extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

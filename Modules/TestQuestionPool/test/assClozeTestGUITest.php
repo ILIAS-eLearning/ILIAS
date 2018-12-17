@@ -8,7 +8,7 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assClozeTestGUITest extends PHPUnit_Framework_TestCase
+class assClozeTestGUITest extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = false;
 
