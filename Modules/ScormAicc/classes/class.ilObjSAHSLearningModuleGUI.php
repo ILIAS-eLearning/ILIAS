@@ -10,7 +10,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -112,12 +112,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
-				break;
-
-			case 'illicensegui':
-				include_once("./Services/License/classes/class.ilLicenseGUI.php");
-				$license_gui = new ilLicenseGUI($this);
-				$ret = $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case "ilinfoscreengui":
@@ -758,15 +752,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				}
 			}
 		}
-		include_once("Services/License/classes/class.ilLicenseAccess.php");
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
-		and ilLicenseAccess::_isEnabled())
-		{
-			$this->tabs_gui->addTarget("license",
-				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
-			"", "illicensegui");
-		}
-		
+
 		// edit meta
 		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
 		$mdgui = new ilObjectMetaDataGUI($this->object);					
