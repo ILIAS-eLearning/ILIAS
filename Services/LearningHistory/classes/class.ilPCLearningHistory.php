@@ -248,6 +248,7 @@ class ilPCLearningHistory extends ilPageContent
 		}
 		if ($user_id > 0)
 		{
+			$tpl = new ilTemplate("tpl.pc_lhist.html", true, true, "Services/LearningHistory");
 			$hist_gui = new ilLearningHistoryGUI();
 			$hist_gui->setUserId($user_id);
 			$from_unix = ($from != "")
@@ -263,7 +264,8 @@ class ilPCLearningHistory extends ilPageContent
 			{
 				$classes = null;
 			}
-			return $hist_gui->getHistoryHtml($from_unix, $to_unix, $classes);
+			$tpl->setVariable("LHIST", $hist_gui->getHistoryHtml($from_unix, $to_unix, $classes));
+			return $tpl->get();
 		}
 
 		return ilPCLearningHistoryGUI::getPlaceHolderPresentation();

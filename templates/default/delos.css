@@ -16742,6 +16742,10 @@ span.ilProfileBadge a {
 .ilLearningHistoryShowMore {
   text-align: center;
 }
+.ilPCLearnHist {
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+}
 .noMargin {
   margin: 0;
 }
