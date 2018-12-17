@@ -14648,7 +14648,7 @@ user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den Standard-Infotext, falls der Benutzer zur Konfiguration des Profils aufgefordert wird.
 lhist#:#lhist_first_login#:#First Login
-prtf#:#prtf_decl_authorship#:#Declaration of Authorship
+prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
