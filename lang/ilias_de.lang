@@ -14961,3 +14961,5 @@ rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
