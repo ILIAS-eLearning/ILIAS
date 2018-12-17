@@ -23,6 +23,7 @@ class ilMMTopItemGUI {
 	const CMD_SAVE_TABLE = 'save_table';
 	const CMD_CANCEL = 'cancel';
 	const IDENTIFIER = 'identifier';
+	const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
 	/**
 	 * @var ilMMItemRepository
 	 */
@@ -88,7 +89,12 @@ class ilMMTopItemGUI {
 	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
 		global $DIC;
 
-		$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+		if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
+			$string = $DIC->http()->request()->getParsedBody()['interruptive_items'][0];
+			$identification = $this->unhash($string);
+		} else {
+			$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+		}
 
 		return $this->repository->getItemFacadeForIdentificationString($identification);
 	}
@@ -133,6 +139,9 @@ class ilMMTopItemGUI {
 			case self::CMD_RESTORE:
 				// $this->restore();
 				break;
+			case self::CMD_RENDER_INTERRUPTIVE:
+				$this->renderInterruptiveModal();
+				break;
 		}
 
 		return "";
@@ -153,10 +162,16 @@ class ilMMTopItemGUI {
 
 
 	public function executeCommand() {
+		global $DIC;
 		$next_class = $this->ctrl->getNextClass();
 
 		if ($next_class == '') {
-			$this->tpl->setContent($this->dispatchCommand($this->ctrl->getCmd(self::CMD_VIEW_TOP_ITEMS)));
+			$cmd = $this->ctrl->getCmd(self::CMD_VIEW_TOP_ITEMS);
+
+			if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
+				$cmd = self::CMD_DELETE;
+			}
+			$this->tpl->setContent($this->dispatchCommand($cmd));
 
 			return;
 		}
@@ -312,5 +327,25 @@ class ilMMTopItemGUI {
 		$r("./Modules", "/module.xml");
 
 		$this->cancel();
+	}
+
+
+	public function renderInterruptiveModal() {
+		global $DIC;
+		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
+
+		$form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
+		$delete_modal = $f->modal()->interruptive(
+			$this->lng->txt("delete"),
+			$this->lng->txt(self::CMD_CONFIRM_DELETE),
+			$form_action
+		);
+		//->withAffectedItems(
+		//[$f->modal()->interruptiveItem($ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
+		//);
+
+		echo $r->render([$delete_modal]);
+		exit;
 	}
 }
