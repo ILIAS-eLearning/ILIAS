@@ -344,8 +344,8 @@ class SurveyTextQuestion extends SurveyQuestion
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;
-
-		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
+		
+		$entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();
 
 		include_once("./Services/Utilities/classes/class.ilStr.php");
