@@ -8,7 +8,7 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assNumericRangeTest extends PHPUnit_Framework_TestCase
+class assNumericRangeTest extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 
