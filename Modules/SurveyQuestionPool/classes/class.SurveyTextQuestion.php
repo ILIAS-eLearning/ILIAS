@@ -346,15 +346,9 @@ class SurveyTextQuestion extends SurveyQuestion
 	
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
-<<<<<<< HEAD
 		$ilDB = $this->db;
-
-		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
-=======
-		global $ilDB;
 		
 		$entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
->>>>>>> bef547ba82... fixed bug #24200: parts of text answer removed if occuring directly after smaller than character (<)
 		$maxchars = $this->getMaxChars();
 
 		include_once("./Services/Utilities/classes/class.ilStr.php");
