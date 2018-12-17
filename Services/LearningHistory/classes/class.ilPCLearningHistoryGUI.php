@@ -180,6 +180,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 			$options[get_class($p)] = $p->getName();
 		}
 		$si = new ilMultiSelectInputGUI($lng->txt(""), "class");
+		$si->setHeight(130);
 		if (!$a_insert) {
 			$si->setValue($this->content_obj->getClasses());
 			if (count($this->content_obj->getClasses()) > 0) {
