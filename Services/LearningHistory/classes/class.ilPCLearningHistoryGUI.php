@@ -143,7 +143,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		if ($a_insert)
 		{
-			$form->setTitle($this->lng->txt("cont_insert_lhist"));
+			$form->setTitle($this->lng->txt("cont_create_lhist"));
 		}
 		else
 		{
