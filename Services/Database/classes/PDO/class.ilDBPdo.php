@@ -1531,8 +1531,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			throw new ilDatabaseException("ilDB Error: renameTable(" . $a_name . "," . $a_new_name . ")<br />" . $e->getMessage());
 		}
 
-		$this->manager->alterTable($a_name, array("name" => $a_new_name), false);
-
+		$this->manager->alterTable($a_name, ["name" => $a_new_name], false);
+		if($this->sequenceExists($a_name)) {
+			$this->manager->alterTable($this->getSequenceName($a_name), ["name" => $this->getSequenceName($a_new_name)], false);
+		}
 		// The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
 		//		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
 		//		         . $this->quote($a_name, 'text');
