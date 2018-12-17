@@ -348,7 +348,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		$ilDB = $this->db;
 
-		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
+		$entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();
 
 		include_once("./Services/Utilities/classes/class.ilStr.php");

@@ -143,7 +143,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		if ($a_insert)
 		{
-			$form->setTitle($this->lng->txt("cont_insert_lhist"));
+			$form->setTitle($this->lng->txt("cont_create_lhist"));
 		}
 		else
 		{
@@ -180,6 +180,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 			$options[get_class($p)] = $p->getName();
 		}
 		$si = new ilMultiSelectInputGUI($lng->txt(""), "class");
+		$si->setHeight(130);
 		if (!$a_insert) {
 			$si->setValue($this->content_obj->getClasses());
 			if (count($this->content_obj->getClasses()) > 0) {

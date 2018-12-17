@@ -167,7 +167,7 @@ class ilQuestionExporter
 	}
 	
 	private function assMultipleChoice() {
-		$main_tpl = $GLOBALS["tpl"];
+		$main_tpl = $GLOBALS['DIC']["tpl"];
 		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($main_tpl);
 		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		

@@ -2220,7 +2220,14 @@ function editParagraph(div_id, mode, switched)
 			 * still exists in 4
 			 */
 			paste_preprocess: function (pl, o) {
-				var ed = ed = tinyMCE.activeEditor;
+
+
+				// see #23696, since tinymce4 it seems not possible to disable link conversion (even if <a> tags are not valid elements)
+				// so we paste http string "on our own" and reset the paste content
+				if (o.content.substring(0, 4) === "http") {
+					ilCOPage.addBBCode(o.content, '', true);
+					o.content = '';
+				}
 
 				if (o.wordContent)
 				{
@@ -2281,6 +2288,7 @@ function editParagraph(div_id, mode, switched)
 				tinyMCE.each(ed.dom.select('*[id!=""]', o.node), function(el) {
 					el.id = '';
 				});
+
 				ilCOPage.pasting = true;
 			},
 

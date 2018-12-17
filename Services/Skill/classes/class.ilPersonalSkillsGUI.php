@@ -1196,6 +1196,39 @@ class ilPersonalSkillsGUI
 	}
 
 	/**
+	 * Get actual levels
+	 *
+	 * @param array $skills
+	 * @param int $user_id
+	 */
+	protected function getActualLevels($skills, $user_id)
+	{
+		// get actual levels for gap analysis
+		$this->actual_levels = array();
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+		foreach ($skills as $sk)
+		{
+			$bs = new ilBasicSkill($sk["base_skill_id"]);
+			if ($this->gap_mode == "max_per_type")
+			{
+				$max = $bs->getMaxLevelPerType($sk["tref_id"], $this->gap_mode_type, $user_id);
+				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
+			}
+			else if ($this->gap_mode == "max_per_object")
+			{
+				$max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
+				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
+			}
+			else
+			{
+				$max = $bs->getMaxLevel($sk["tref_id"], $user_id);
+				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
+			}
+		}
+	}
+
+
+	/**
 	 * Get gap analysis html
 	 *
 	 * @param
@@ -1255,22 +1288,7 @@ class ilPersonalSkillsGUI
 		}
 
 		// get actual levels for gap analysis
-		$this->actual_levels = array();
-		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-		foreach ($skills as $sk)
-		{
-			$bs = new ilBasicSkill($sk["base_skill_id"]);
-			if ($this->gap_mode == "max_per_type")
-			{
-				$max = $bs->getMaxLevelPerType($sk["tref_id"], $this->gap_mode_type, $user_id);
-				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
-			}
-			else if ($this->gap_mode == "max_per_object")
-			{
-				$max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
-				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
-			}
-		}
+		$this->getActualLevels($skills, $user_id);
 
 		$incl_self_eval = false;
 		if (count($this->getGapAnalysisSelfEvalLevels() > 0))
@@ -1357,11 +1375,6 @@ class ilPersonalSkillsGUI
 						$max_cnt = max($max_cnt, $cnt);
 					}
 				}
-
-	//			$leg_labels = array("AAAAA", "BBBBB", "CCCCC");
-
-	//var_dump($this->profile_levels);
-	//var_dump($this->actual_levels);
 
 				include_once("./Services/Chart/classes/class.ilChart.php");
 				$chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart".$pkg_cnt);
@@ -1818,7 +1831,7 @@ class ilPersonalSkillsGUI
 					}
 				}
 
-				if ($this->actual_levels[$v["skill_id"]][0] == $v["id"])
+				if ($this->actual_levels[$v["skill_id"]][$a_tref_id] == $v["id"])
 				{
 					$too_low = false;
 				}
@@ -1957,8 +1970,7 @@ class ilPersonalSkillsGUI
 			}
 		}
 
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$stree = new ilSkillTree();
+		$this->getActualLevels($skills, $this->user->getId());
 
 		// render
 		$html = "";

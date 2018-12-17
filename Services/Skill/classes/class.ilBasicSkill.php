@@ -501,7 +501,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 * @param string $a_timestamp
 	 * @return array
 	 */
-	static function getNewAchievementsPerUser($a_timestamp, $a_timestamp_to = null, $a_user_id = 0)
+	static function getNewAchievementsPerUser($a_timestamp, $a_timestamp_to = null, $a_user_id = 0, $a_self_eval = 0)
 	{
 		global $DIC;
 
@@ -519,7 +519,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 			" WHERE status_date >= ".$db->quote($a_timestamp, "timestamp").
 			" AND valid = ".$db->quote(1, "integer").
 			" AND status = ".$db->quote(ilBasicSkill::ACHIEVED, "integer").
-			" AND self_eval = ".$db->quote(0, "integer").
+			" AND self_eval = ".$db->quote($a_self_eval, "integer").
 			$to.
 			$user.
 			" ORDER BY user_id, status_date ASC ");
@@ -843,6 +843,46 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 		}
 		return $max_level;
 	}
+
+	/**
+	 * Get max levels per object
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMaxLevel($a_tref_id, $a_user_id = 0, $a_self_eval = 0)
+	{
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
+			" WHERE skill_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
+		);
+
+		$has_level = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$has_level[$rec["level_id"]] = true;
+		}
+		$max_level = 0;
+		foreach ($this->getLevelData() as $l)
+		{
+			if (isset($has_level[$l["id"]]))
+			{
+				$max_level = $l["id"];
+			}
+		}
+		return $max_level;
+	}
+
 
 	/**
 	 * Has use self evaluated a skill?

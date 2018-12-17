@@ -19,14 +19,15 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 * @var ilLogger
 	 */
 	private $logger = null;
-
 	/**
 	 * @var string
 	 */
 	protected $target_directory;
 	protected $submissions_directory;
 	protected $assignment;
+	protected $user_id;
 	protected $exercise_id;
+	protected $exercise_ref_id;
 	protected $temp_dir;
 	protected $lng;
 	protected $sanitized_title; //sanitized file name/sheet title
@@ -95,8 +96,10 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	public function run(array $input, Observer $observer)
 	{
 		$this->exercise_id = $input[0]->getValue();
-		$assignment_id = $input[1]->getValue();
-		$participant_id = $input[2]->getValue();
+		$this->exercise_ref_id = $input[1]->getValue();
+		$assignment_id = $input[2]->getValue();
+		$participant_id = $input[3]->getValue();
+		$this->user_id = $input[4]->getValue();
 
 		//if we have assignment
 		if($assignment_id > 0)
@@ -216,6 +219,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 		} else {
 			$exc_members_id = $exercise->members_obj->getMembers();
 		}
+
+		$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $exc_members_id, $this->user_id);
+		$exc_members_id = $filter->filterParticipantsByAccess();
 
 		foreach( $exc_members_id as $member_id)
 		{
@@ -506,6 +512,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			} else {
 				$participants = $this->getAssignmentMembersIds();
 			}
+
+			$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $participants, $this->user_id);
+			$participants = $filter->filterParticipantsByAccess();
 
 			$row = 2;
 			// Fill the excel

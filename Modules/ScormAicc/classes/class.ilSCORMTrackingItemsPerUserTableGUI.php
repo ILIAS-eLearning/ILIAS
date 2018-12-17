@@ -75,7 +75,8 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
 	 */
 	protected function  fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->tpl->setVariable('VAL_TITLE', $a_set['title']);
 
@@ -93,7 +94,8 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
 	 */
 	protected function initTable()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
