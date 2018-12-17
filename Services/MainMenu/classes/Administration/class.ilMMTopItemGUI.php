@@ -137,7 +137,7 @@ class ilMMTopItemGUI {
 				$this->cancel();
 				break;
 			case self::CMD_RESTORE:
-				// $this->restore();
+				$this->restore();
 				break;
 			case self::CMD_RENDER_INTERRUPTIVE:
 				$this->renderInterruptiveModal();
@@ -299,9 +299,13 @@ class ilMMTopItemGUI {
 
 
 	private function restore() {
-		return;
 		ilGSProviderStorage::flushDB();
 		ilGSIdentificationStorage::flushDB();
+		ilMMItemStorage::flushDB();
+		ilMMCustomItemStorage::flushDB();
+		ilMMItemTranslationStorage::flushDB();
+		ilMMTypeActionStorage::flushDB();
+
 		$r = function ($path, $xml_name) {
 			foreach (new DirectoryIterator($path) as $fileInfo) {
 				$filename = $fileInfo->getPathname() . $xml_name;
@@ -313,7 +317,7 @@ class ilMMTopItemGUI {
 								foreach ($item->gsprovider as $provider) {
 									$attributes = $provider->attributes();
 									if ($attributes->purpose == 'mainmenu') {
-										$classname = $attributes->class_name;
+										$classname = $attributes->class_name[0];
 										ilGSProviderStorage::registerIdentifications($classname, 'mainmenu');
 									}
 								}
@@ -325,6 +329,8 @@ class ilMMTopItemGUI {
 		};
 		$r("./Services", "/service.xml");
 		$r("./Modules", "/module.xml");
+
+		ilGlobalCache::flushAll();
 
 		$this->cancel();
 	}
@@ -341,9 +347,6 @@ class ilMMTopItemGUI {
 			$this->lng->txt(self::CMD_CONFIRM_DELETE),
 			$form_action
 		);
-		//->withAffectedItems(
-		//[$f->modal()->interruptiveItem($ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
-		//);
 
 		echo $r->render([$delete_modal]);
 		exit;
