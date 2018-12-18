@@ -9,7 +9,7 @@ class ilMailBodyPurifier
 	 * @param string $content
 	 * @return string
 	 */
-	public function purify(string $content) : string
+	public function purify($content)
 	{
 		$sanitizedContent = \ilUtil::stripSlashes($content);
 		if ($sanitizedContent !== $content) {
