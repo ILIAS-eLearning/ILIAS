@@ -347,7 +347,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		$ilDB = $this->db;
-		
+
 		$entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();
 

@@ -387,3 +387,7 @@ if ($media_cont_mig == 1)
 			"1" => array("integer", 1)
 		));
 ?>
+<#25>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
