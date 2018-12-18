@@ -13,14 +13,14 @@ class ilMailBody
 	 * @param string $content
 	 * @param ilMailBodyPurifier $purifier
 	 */
-	public function __construct(string $content, ilMailBodyPurifier $purifier)
+	public function __construct($content, ilMailBodyPurifier $purifier)
 	{
 		$this->bodyContent = $purifier->purify($content);
 	}
 	/**
 	 * @return mixed|null|string|string[]
 	 */
-	public function getContent() : string
+	public function getContent()
 	{
 		return $this->bodyContent;
 	}
