@@ -91,3 +91,7 @@ $ilDB->manipulateF(
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#9>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
