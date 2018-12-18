@@ -21,7 +21,7 @@ class ClientId
 	 */
 	public function __construct(string $clientId)
 	{
-		if (preg_match('/[^A-Za-z0-9#_\.]/', $clientId)) {
+		if (preg_match('/[^A-Za-z0-9#_\.\-]/', $clientId)) {
 			throw new \InvalidArgumentException('Invalid value for $clientId');
 		}
 
