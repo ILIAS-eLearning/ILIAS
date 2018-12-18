@@ -13,10 +13,10 @@ class ilGeoLocationRepository {
     {
         $this->db->insert($this->table, array(
             'id' => array('integer', $obj->getId()),
-            'title' => array('text', $obj->getId()),
-            'lattitude' => array('float', $obj->getId()),
-            'longitude' => array('float', $obj->getId()),
-            'expiration_timestamp' => array('timestamp', $obj->getId())
+            'title' => array('text', $obj->getTitle()),
+            'lattitude' => array('float', $obj->getLattitude()),
+            'longitude' => array('float', $obj->getLongitude()),
+            'expiration_timestamp' => array('timestamp', $obj->getIExpirationTimestamp())
         ));
     }
 
