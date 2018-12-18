@@ -48,6 +48,7 @@ class ilPluginAdmin {
 	public function __construct() {
 		global $DIC;
 		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule("cmps");
 	}
 
 

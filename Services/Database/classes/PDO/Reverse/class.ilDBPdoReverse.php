@@ -190,6 +190,7 @@ class ilDBPdoReverse implements ilDBReverse {
 	 * @throws \ilDatabaseException
 	 */
 	public function getTableConstraintDefinition($table, $constraint_name) {
+		$constraint_name = strtolower($constraint_name);
 		$table = $this->db_instance->quoteIdentifier($table, true);
 		$query = "SHOW INDEX FROM $table /*!50002 WHERE Key_name = %s */";
 
@@ -200,7 +201,7 @@ class ilDBPdoReverse implements ilDBReverse {
 			if ($data) {
 				// apply 'idxname_format' only if the query succeeded, otherwise
 				// fallback to the given $index_name, without transformation
-				$constraint_name = $constraint_name_pdo;
+				$constraint_name = strtolower($constraint_name_pdo);
 			}
 		}
 
