@@ -482,5 +482,28 @@ class ilPortfolioPage extends ilPageObject
 		return $changed;
 	}
 
+	/**
+	 * Get portfolio pages for blog
+	 *
+	 * @param int $a_blog_id
+	 * @return ilPortfolioPage[]
+	 */
+	static function getPagesForBlog($a_blog_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
+			" WHERE title = ".$ilDB->quote($a_blog_id, "text").
+			" AND type = ".$ilDB->quote(self::TYPE_BLOG, "integer"));
+		$pages = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$pages[] = new ilPortfolioPage($rec["id"]);
+		}
+		return $pages;
+	}
+
 }
 ?>
