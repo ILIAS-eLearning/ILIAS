@@ -5407,7 +5407,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilOrgUnitPositionFormGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionFormGUI.php',
         'ilOrgUnitPositionGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionGUI.php',
         'ilOrgUnitPositionTableGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionTableGUI.php',
-        'ilOrgUnitRecursiveUserAssignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitRecusiveUserAsignmenTableGUI.php',
+        'ilOrgUnitRecursiveUserAssignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitRecusiveUserAsignmentTableGUI.php',
         'ilOrgUnitSimpleImport' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImport.php',
         'ilOrgUnitSimpleImportGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php',
         'ilOrgUnitSimpleUserImport' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImport.php',

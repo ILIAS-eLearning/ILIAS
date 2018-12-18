@@ -60,6 +60,8 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 		$this->addColumn($this->lng->txt("action"));
 	}
 
+	private static $permission_access_staff_recursive = [];
+
 	/**
 	 * @return array
 	 */
@@ -69,11 +71,33 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 		$access = $DIC['ilAccess'];
 		$orgu_tree = ilObjOrgUnitTree::_getInstance();
 		$data = [];
+		// maybe any parent gives us recursive permission
+		(int)$root = (int)ilObjOrgUnit::getRootOrgRefId();
+		$parent = (int)$orgu_tree->getParent($this->orgu_ref_id);
+		while($parent !== $root) {
+			if(ilObjOrgUnitAccess::_checkAccessStaffRec($parent)) {
+				self::$permission_access_staff_recursive = array_merge(
+					self::$permission_access_staff_recursive,
+					$orgu_tree->getAllChildren($parent)
+				);
+			}
+		}
 		foreach ($orgu_tree->getAllChildren($this->orgu_ref_id) as $ref_id) {
-			$ref_id = (int)$ref_id;
-			if(!ilObjOrgUnitAccess::_checkAccessStaff($ref_id)) {
-				// skip orgus in which one may not view the staff
-				continue;
+			$recursive = in_array($ref_id, self::$permission_access_staff_recursive);
+			if(!$recursive) {
+				// ok, so no permission from above, lets check local permissions
+				if(ilObjOrgUnitAccess::_checkAccessStaffRec($ref_id)) {
+					// update recursive permissions
+
+					self::$permission_access_staff_recursive = array_merge(
+						self::$permission_access_staff_recursive,
+						$orgu_tree->getAllChildren($ref_id)
+					);
+				} elseif(!ilObjOrgUnitAccess::_checkAccessStaff($ref_id)) {
+					// skip orgus in which one may not view the staff
+					continue;
+				}
+				
 			}
 			$permission_view_lp = $this->mayViewLPIn($ref_id, $access, $orgu_tree);
 			foreach($orgu_tree->getAssignements($ref_id,$this->ilOrgUnitPosition) as $usr_id) {
@@ -93,7 +117,6 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI {
 		}
 		return $data;
 	}
-
 
 	private static $permission_view_lp_recursive = [];
 	/**
