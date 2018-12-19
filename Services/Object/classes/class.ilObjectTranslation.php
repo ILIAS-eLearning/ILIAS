@@ -175,6 +175,10 @@ class ilObjectTranslation
 				return $l["title"];
 			}
 		}
+		if (count($this->languages) == 0)
+		{
+			return ilObject::_lookupTitle($this->getObjId());
+		}
 		return "";
 	}
 
@@ -208,6 +212,10 @@ class ilObjectTranslation
 				return $l["description"];
 			}
 		}
+		if (count($this->languages) == 0)
+		{
+			return ilObject::_lookupDescription($this->getObjId());
+		}
 		return "";
 	}
 
@@ -225,6 +233,23 @@ class ilObjectTranslation
 				$this->languages[$k]["description"] = $a_description;
 			}
 		}
+	}
+
+	/**
+	 * Get default language
+	 *
+	 * @return string default language
+	 */
+	function getDefaultLanguage()
+	{
+		foreach ($this->languages as $l)
+		{
+			if ($l["lang_default"])
+			{
+				return $l["lang_code"];
+			}
+		}
+		return "";
 	}
 
 

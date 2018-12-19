@@ -72,14 +72,14 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
 		
 		// if the file path contains any characters that could cause problems
 		// we copy the file to a temporary file
-		$normName = preg_replace("/[^A-Za-z0-9.\- +_&]/", "", $name);
-		if ($normName != $name)
-		{
-			$tempPath = ilUtil::ilTempnam();
-			if (copy($filepath, $tempPath))
-				return $tempPath;
-		}
-		
+		// $normName = preg_replace("/[^A-Za-z0-9.\- +_&]/", "", $name);
+		// if ($normName != $name)
+		// {
+		// 	$tempPath = ilUtil::ilTempnam();
+		// 	if (copy($filepath, $tempPath))
+		// 		return $tempPath;
+		// }
+		//
 		return $filepath;
 	}
 	

@@ -14,6 +14,10 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
  */
 class ilObjCourseListGUI extends ilObjectListGUI
 {
+	/**
+	 * @var \ilCertificateObjectsForUserPreloader
+	 */
+	private $certificatePreloader;
 
 	/**
 	* initialisation
@@ -30,7 +34,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->type = "crs";
 		$this->gui_class_name = "ilobjcoursegui";
 		
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
 		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
 		if($this->substitutions->isActive())
 		{
@@ -38,7 +41,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		// general commands array
-		include_once('Modules/Course/classes/class.ilObjCourseAccess.php');
 		$this->commands = ilObjCourseAccess::_getCommands();
 	}
 	
@@ -57,6 +59,18 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);
 	}
 
+	/**
+	 * @return \ilCertificateObjectsForUserPreloader
+	 */
+	protected function getCertificatePreloader(): \ilCertificateObjectsForUserPreloader
+	{
+		if (null === $this->certificatePreloader) {
+			$repository = new ilUserCertificateRepository();
+			$this->certificatePreloader = new ilCertificateObjectsForUserPreloader($repository);
+		}
+		
+		return $this->certificatePreloader;
+	}
 
 	/**
 	* Get item properties
@@ -75,9 +89,9 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 		$props = parent::getProperties();
 		
-		// offline
+		// check activation
 		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
-		if(ilObjCourseAccess::_isOffline($this->obj_id))
+		if(!ilObjCourseAccess::_isActivated($this->obj_id))
 		{
 			$showRegistrationInfo = false;
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
@@ -147,10 +161,9 @@ class ilObjCourseListGUI extends ilObjectListGUI
 			);
 		}				
 		
-		// check for certificates	
-		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		if(ilCourseCertificateAdapter::_hasUserCertificate($ilUser->getId(), $this->obj_id))
-		{
+		// check for certificates
+		$hasCertificate = $this->getCertificatePreloader()->isPreloaded($ilUser->getId(), $this->obj_id);
+		if (true === $hasCertificate) {
 			$lng->loadLanguageModule('certificate');
 			$cmd_link = "ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=".$this->ref_id.
 					"&amp;cmd=deliverCertificate";

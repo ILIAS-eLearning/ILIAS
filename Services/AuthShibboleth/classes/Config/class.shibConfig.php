@@ -194,7 +194,7 @@ class shibConfig {
 			}
 		}
 
-		if ($this->getGender() != 'm' OR $this->getGender() != 'w') {
+		if (!in_array(strtolower($this->getGender()), ['n', 'm', 'f'])) {
 			$this->setGender(null);
 		}
 	}

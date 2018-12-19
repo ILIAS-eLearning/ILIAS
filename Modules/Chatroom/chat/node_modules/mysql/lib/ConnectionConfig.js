@@ -38,11 +38,11 @@ function ConnectionConfig(options) {
     ? true
     : options.typeCast;
 
-  if (this.timezone[0] == " ") {
+  if (this.timezone[0] === ' ') {
     // "+" is a url encoded char for space so it
     // gets translated to space when giving a
     // connection string..
-    this.timezone = "+" + this.timezone.substr(1);
+    this.timezone = '+' + this.timezone.substr(1);
   }
 
   if (this.ssl) {
@@ -53,7 +53,7 @@ function ConnectionConfig(options) {
   this.maxPacketSize = 0;
   this.charsetNumber = (options.charset)
     ? ConnectionConfig.getCharsetNumber(options.charset)
-    : options.charsetNumber||Charsets.UTF8_GENERAL_CI;
+    : options.charsetNumber || Charsets.UTF8_GENERAL_CI;
 
   // Set the client flags
   var defaultFlags = ConnectionConfig.getDefaultFlags(options);

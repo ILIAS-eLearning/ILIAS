@@ -161,6 +161,36 @@ class ilLPMarks
 		return false;
 	}
 
+	/**
+	 * Get completions of user
+	 * @param $user_id
+	 * @param $from
+	 * @param $to
+	 * @return array
+	 */
+	public static function getCompletionsOfUser($user_id, $from, $to)
+	{
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+
+		$query = "SELECT * FROM ut_lp_marks ".
+			"WHERE usr_id = ".$ilDB->quote($user_id ,'integer').
+			" AND status = ".$ilDB->quote(ilLPStatus::LP_STATUS_COMPLETED_NUM ,'integer').
+			" AND status_changed >= ".$ilDB->quote($from, "timestamp").
+			" AND status_changed <= ".$ilDB->quote($to, "timestamp");
+
+		$set = $ilDB->query($query);
+		$completions = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$completions[] = $rec;
+		}
+
+		return $completions;
+	}
+
+
 	static function _lookupMark($a_usr_id,$a_obj_id)
 	{
 		global $DIC;

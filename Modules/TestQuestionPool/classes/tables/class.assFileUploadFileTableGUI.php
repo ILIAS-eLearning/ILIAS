@@ -27,7 +27,9 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $formname = 'test_output')
 	{
-	 	global $lng,$ilCtrl;
+	 	global $DIC;
+	 	$lng = $DIC['lng'];
+	 	$ilCtrl = $DIC['ilCtrl'];
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -108,7 +110,9 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $ilUser,$ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $DIC['ilAccess'];
 		
 		$this->tpl->setVariable('VAL_ID', $a_set['solution_id']);
 		// hey: prevPassSolutions - support file reuse with table

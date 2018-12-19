@@ -46,11 +46,7 @@ abstract class Button implements C\Button\Button {
 
 	public function __construct($label, $action) {
 		$this->checkStringArg("label", $label);
-		$this->checkArg(
-			"action",
-			is_string($action) || $action instanceof Signal,
-			$this->wrongTypeMessage("string or Signal", gettype($action))
-		);
+		$this->checkStringOrSignalArg("action", $action);
 		$this->label = $label;
 		if (is_string($action)) {
 			$this->action = $action;
@@ -156,21 +152,4 @@ abstract class Button implements C\Button\Button {
 		return $this->aria_label;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withAriaChecked()
-	{
-		$clone = clone $this;
-		$clone->aria_checked = true;
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function isAriaChecked()
-	{
-		return $this->aria_checked;
-	}
 }

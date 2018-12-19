@@ -97,7 +97,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	protected $app_event_handler;
 
 	var $bl_cnt = 1;		// block counter
-	var $multi_download_enabled = false;	
+	var $multi_download_enabled = false;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 	
 	/**
 	* Constructor
@@ -125,6 +130,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->toolbar = $DIC->toolbar();
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		$this->ui = $DIC->ui();
 		$rbacsystem = $DIC->rbac()->system();
 		$lng = $DIC->language();
 
@@ -603,6 +609,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
+	 * render the object
+	 */
+	function renderBlockAsynchObject()
+	{
+		$container_view = $this->getContentGUI();
+		echo $container_view->getSingleTypeBlockAsynch($_GET["type"]);
+		exit;
+	}
+
+
+	/**
 	* Set content sub tabs
 	*/
 	function setContentSubTabs()
@@ -778,37 +795,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
-			else if ($this->isMultiDownloadEnabled())
-			{
-				// bugfix mantis 0021272
-				$ref_id = $_GET['ref_id'];
-				$num_files = $this->tree->getChildsByType($ref_id, "file");
-				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
-				if(count($num_files) > 0 OR count($num_folders) > 0)
-				{
-					// #11843
-					$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
-
-					$toolbar = new ilToolbarGUI();
-					$this->ctrl->setParameter($this, "type", "");
-					$this->ctrl->setParameter($this, "item_ref_id", "");
-
-					$toolbar->addFormButton(
-						$this->lng->txt('download_selected_items'),
-						'download'
-					);
-
-					$main_tpl->addAdminPanelToolbar(
-						$toolbar,
-						$this->object->gotItems() ? true : false,
-						$this->object->gotItems() ? true : false
-					);
-				}
-				else
-				{
-					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
-				}
-			}		
 		}
 	}
 
@@ -1059,7 +1045,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{
-				$tpl->setVariable("TYPE", $lng->txt("learning_resources").
+				$tpl->setVariable("TYPE", $lng->txt("obj_lrss").
 					" (".((int)$cnt["lres"]).")");
 			}
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
@@ -1169,7 +1155,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				global $DIC;
 				/** @var \ilObjectCustomIconFactory $customIconFactory */
 				$customIconFactory = $DIC['object.customicons.factory'];
-				$customIcon = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
+				$customIcon = $customIconFactory->getPresenterByObjId($a_item_obj_id, $a_image_type);
 
 				if ($customIcon->exists()) {
 					$icon = $customIcon->getFullPath();
@@ -1464,12 +1450,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
-	function enableMultiDownloadObject()
-	{
-		$this->multi_download_enabled = true;
-		$this->renderObject();
-	}
 	
 	function isMultiDownloadEnabled()
 	{
@@ -1904,6 +1884,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilUser = $this->user;
 		$ilErr = $this->error;
 		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+		$ui = $this->ui;
 
 		$command = $_SESSION['clipboard']['cmd'];
 		if(!in_array($command, array('cut', 'link', 'copy')))
@@ -2083,7 +2065,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$tree->moveTree($ref_id, $folder_ref_id);
 					$rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 					
-					include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+					include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 					ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 	
 					// BEGIN ChangeEvent: Record cut event.
@@ -2154,12 +2136,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 
 			$linked_targets = array();
+			$links = [];
 			if(count($linked_to_folders))
 			{
 				require_once 'Services/Link/classes/class.ilLink.php';
 				foreach($linked_to_folders as $ref_id => $title)
 				{
 					$linked_targets[] = '<a href="' . ilLink::_getLink($ref_id) . '">' . $title . '</a>';
+					$links[] = $ui->factory()->link()->standard($title, ilLink::_getLink($ref_id));
 				}
 			}
 
@@ -2168,7 +2152,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				$suffix = 's';
 			}
-			ilUtil::sendSuccess(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix), implode(', ', $linked_targets)), true);
+			
+			$mbox = $ui->factory()->messageBox()->success($this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix))
+				->withLinks($links);
+			
+			ilUtil::sendSuccess($ui->renderer()->render($mbox), true);
 		} // END LINK
 
 		// clear clipboard
@@ -2494,7 +2482,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->tree->moveTree($ref_id,$this->object->getRefId());
 				$rbacadmin->adjustMovedObjectPermissions($ref_id,$old_parent);
 				
-				include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
+				include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
 				ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 
 				// BEGIN ChangeEvent: Record cut event.
@@ -3465,13 +3453,83 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
 			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+			if(method_exists($this, 'getAdditionalWhitelistTypes')) {
+				$whitelist = array_merge (
+					$exp->getTypeWhiteList(),
+					$this->getAdditionalWhitelistTypes()
+				);
+				$exp->setTypeWhiteList($whitelist);
+			}
+
 			if (!$exp->handleCommand())
 			{
 				$tpl->setLeftNavContent($exp->getHTML());
 			}
 		}
 	}
-	
+
+	/**
+	 * Init object edit form
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initEditForm()
+	{
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
+		$lng->loadLanguageModule($this->object->getType());
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+
+		$this->initFormTitleDescription($form);
+
+		$this->initEditCustomForm($form);
+
+		$form->addCommandButton("update", $this->lng->txt("save"));
+		//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+
+		return $form;
+	}
+
+	/**
+	 * Init title/description for edit form
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function initFormTitleDescription(ilPropertyFormGUI $form)
+	{
+		/** @var ilObjectTranslation $trans */
+		$trans = $this->object->getObjectTranslation();
+
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
+		$title->setValue($trans->getDefaultTitle());
+		$form->addItem($title);
+
+		if(sizeof($trans->getLanguages()) > 1)
+		{
+			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
+			$languages = ilMDLanguageItem::_getLanguages();
+			$title->setInfo($this->lng->txt("language").": ".$languages[$trans->getDefaultLanguage()].
+				' <a href="'.$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "").
+				'">&raquo; '.$this->lng->txt("obj_more_translations").'</a>');
+
+			unset($languages);
+		}
+
+		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$desc->setRows(2);
+		$desc->setCols(40);
+		$desc->setValue($trans->getDefaultDescription());
+		$form->addItem($desc);
+	}
+
+
 	/**
 	 * Append sorting settings to property form
 	 * @param ilPropertyFormGUI $form
@@ -3547,7 +3605,45 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		return $form;
 	}
-	
+
+	/**
+	 * Add list presentation settings to form
+	 * @param ilPropertyFormGUI $form
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initListPresentationForm(ilPropertyFormGUI $form)
+	{
+		$lpres = new ilRadioGroupInputGUI($this->lng->txt('cont_list_presentation'), "list_presentation");
+
+		$item_list = new ilRadioOption($this->lng->txt('cont_item_list'), "");
+		//$item_list->setInfo($this->lng->txt('cont_item_list_info'));
+		$lpres->addOption($item_list);
+
+		$tile_view = new ilRadioOption($this->lng->txt('cont_tile_view'), "tile");
+		//$tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
+		$lpres->addOption($tile_view);
+
+		$lpres->setValue(
+			ilContainer::_lookupContainerSetting($this->object->getId(), "list_presentation"));
+
+		$form->addItem($lpres);
+
+		return $form;
+	}
+
+	/**
+	 * Save list presentation setting
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function saveListPresentation(ilPropertyFormGUI $form)
+	{
+		$val = ($form->getInput('list_presentation') == "tile")
+			? "tile"
+			: "";
+		ilContainer::_writeContainerSetting($this->object->getId(), "list_presentation", $val);
+	}
+
+
 	/**
 	 * Add sorting direction
 	 * @param ilFormPropertyGUI $element
@@ -3764,6 +3860,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// parent-child-relations and not the dynamic relationsships
 		// required for the SP (see #16909).
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+
+		// Not all types are allowed in the LearningSequence
+		// Extend whitelist, if all selected types are possible subojects of LSO
+		if(in_array($_SESSION["clipboard"]["cmd"], ["link", "cut"])) {
+			$lso_types = array_keys($this->obj_definition->getSubObjects('lso'));
+			$refs = $_SESSION["clipboard"]["ref_ids"];
+			$allow_lso = true;
+			foreach ($refs as $item_ref_id) {
+				$type = ilObject::_lookupType($item_ref_id, true);
+				if (! in_array($type, $lso_types)) {
+					$allow_lso = false;
+				}
+			}
+			if ($allow_lso) {
+				$whiltelist = $exp->getTypeWhiteList();
+				$whitelist[] = 'lso';
+				$exp->setTypeWhiteList($whiltelist);
+			}
+		}
+
 		if ($cmd == "link") {
 			$exp->setSelectMode("nodes", true);
 			return $exp;

@@ -1,0 +1,81 @@
+@lso-dark-bg: darken(@il-secondary-container-bg, 10%);
+
+.ilLSOLearnerView { /*ILIAS-GUI, "startpage" of LSO*/
+
+	.il-workflow-step-label,
+	.il-workflow-step-label .btn, {
+		color: @text-color !important;
+		cursor: default !important;
+		text-decoration: none !important;
+	}
+}
+
+.ilLSOKioskMode {
+	#mainspacekeeper {
+		padding-top: 25px;
+	}
+
+	.ilLeftNav {
+		top: @navbar-height;
+		margin-left: 0px;
+		bottom: 5px !important;
+		&.disabled {
+			display: none;
+		}
+	}
+	#il_right_col {
+		background-color: @lso-dark-bg;
+		margin-top: 20px;
+		padding: 5px;
+	}
+}
+
+.ilLSOKioskModeObjectHeader {
+	.il_HeaderInner{
+		padding-bottom: 5px;
+	}
+}
+.ilLSOKioskModeNavigation {
+	margin-bottom: 10px;
+	background-color: @lso-dark-bg;
+}
+
+.ilLSOKioskTopBarControls {
+	float: left;
+	display: block;
+	line-height: @navbar-height;
+	.btn-link {
+		color: @panel-footer-bg;
+		font-size: 1em;
+		font-weight: 600;
+		margin-left: 15px;
+		&:before {
+			content: "« ";
+		}
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+.ilLSOKioskTopBarTitle {
+	text-align: center;
+	.ilTopTitle {
+		float: none;
+		padding: none;
+	}
+}
+.ilLSOKioskModeContent {
+	.panel-primary {
+		.panel-heading {
+			display: none;
+		}
+	}
+}
+
+.ilLSOKioskModeCurriculum {
+	background-color: @il-secondary-container-bg;
+
+	.il-workflow-container {
+		padding: 5px;
+	}
+}

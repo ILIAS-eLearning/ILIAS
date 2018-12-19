@@ -1,7 +1,7 @@
 .il-card {
 	padding: 0;
 	width: 100%;
-
+	position:relative;
 
 	background-color: @il-primary-container-bg;
 
@@ -38,6 +38,50 @@
 				color: @il-light-text-color;
 				font-size: @font-size-small;
 				padding-top: @padding-large-vertical;
+			}
+		}
+	}
+
+	.il-card-repository-head{
+		background-color:@il-card-repository-head-color;
+		position:absolute;
+		top:0;
+		left:0;
+		right:0;
+		height: @icon-size-medium + @padding-large-horizontal;
+		padding: 0 @padding-small-horizontal;
+
+		.icon.outlined{
+			filter: @il-card-repository-outlined-icon-filter;
+
+			&.disabled {
+				filter: @il-card-repository-outlined-disabled-icon-filter;
+			}
+		}
+
+		> div {
+			padding: @padding-large-vertical @padding-small-horizontal;
+			float: left;
+		}
+
+
+		> div.il-card-repository-dropdown {
+			float:right;
+			padding: (@padding-large-vertical + @padding-base-vertical) @padding-small-horizontal;
+
+			> .dropdown {
+				> button {
+					background-color: inherit;
+					border: @il-card-repository-dropdown-border;
+					width: @icon-size-medium - @padding-large-vertical;
+					height: @icon-size-medium - @padding-large-vertical;
+
+					span.caret {
+						display: block;
+						margin-left: auto;
+						margin-right: auto;
+					}
+				}
 			}
 		}
 	}

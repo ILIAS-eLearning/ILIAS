@@ -12,7 +12,6 @@
 		<tr>
 		  <th class="std"><div style="margin-left:26px">{TXT_TITLE}</div><div class="subtitle">&nbsp;</div></th>
 		  <th class="std">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
-		  <th class="std"><div class="ilValignTop">{TXT_LIMIT}</div><div class="subtitle">&nbsp;</div></th>
 		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
 		  <th class="std">{TXT_OWN_PRESETTING}<div class="subtitle">{TXT_INFO_OWN_PRESETTING}</div></th>
 		</tr>
@@ -47,9 +46,6 @@
 			{SUG_START}<br />
 			{SUG_END}
 		  </td>
-		  <td class="ilWhiteSpaceNowrap">
-			{LIM_END}
-		  </td>
 		  <td>
 			<!-- BEGIN input_duration -->
 			<input type="text" class="form-control" name="{NAME_DURATION}" value="{VAL_DURATION}" size="2" maxlength="3" />
@@ -64,7 +60,7 @@
 	  </tbody>
 	  <tfooter>
 		<tr class="tblfooter">
-		  <td class="std" colspan="6">
+		  <td class="std" colspan="5">
 			<div class="ilRight">
 			  <input class="btn btn-default" type="submit" name="cmd[updateUserTimings]" value="{TXT_BTN_UPDATE}" />
 			  <input class="btn btn-default" type="submit" name="cmd[editUserTimings]" value="{TXT_CANCEL}" />

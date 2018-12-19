@@ -74,7 +74,7 @@ class ilMDSaxParser extends ilSaxParser
 		$lng = $DIC['lng'];
 		$tree = $DIC['tree'];
 
-		$this->meta_log = ilLoggerFactory::getLogger("meta");
+		$this->meta_log = $DIC->logger()->meta();
 
 
 		// Enable parsing. E.g qpl' s will set this value to false
@@ -450,8 +450,18 @@ class ilMDSaxParser extends ilSaxParser
 				break;
 
 			case 'Description':
-				$par =& $this->__getParent();
-				if(strtolower(get_class($par)) == 'ilmddescription')
+				$par = $this->__getParent();
+
+				if($par instanceof ilMDRights)
+				{
+					$par->parseDescriptionFromImport(
+						$this->__getCharacterData()
+					);
+					$par->update();
+					$this->__popParent();
+					break;
+				}
+				elseif($par instanceof ilMDDescription)
 				{
 					$par->setDescription($this->__getCharacterData());
 					$par->update();
@@ -461,6 +471,8 @@ class ilMDSaxParser extends ilSaxParser
 				else
 				{
 					$par->setDescription($this->__getCharacterData());
+					$par->update();
+					$this->__popParent();
 					break;
 				}
 
@@ -686,14 +698,14 @@ class ilMDSaxParser extends ilSaxParser
 		#echo '<br />';
 		foreach($this->md_parent as $class)
 		{
-			#echo get_class($class).' -> ';
+			$this->meta_log->debug(get_class($class));
 		}
 	}
 	function &__popParent()
 	{
 		$class = array_pop($this->md_parent);
 		unset($class);
-		#echo '<br />DELETE '.get_class($class);
+		$this->meta_log->debug(get_class($class));
 	}
 	function &__getParent()
 	{

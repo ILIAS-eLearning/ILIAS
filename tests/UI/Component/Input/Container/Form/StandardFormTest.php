@@ -7,6 +7,9 @@ require_once(__DIR__ . "/../../../../Base.php");
 require_once(__DIR__ . "/FormTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class WithButtonNoUIFactory extends NoUIFactory {
 
@@ -29,14 +32,19 @@ class WithButtonNoUIFactory extends NoUIFactory {
 class StandardFormTest extends ILIAS_UI_TestBase {
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory($this->buildInputFactory());
 	}
 
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
-
 
 	protected function buildButtonFactory() {
 		return new ILIAS\UI\Implementation\Component\Button\Factory;

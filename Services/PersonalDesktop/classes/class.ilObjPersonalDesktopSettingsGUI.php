@@ -169,12 +169,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked(($ilSetting->get("disable_notes") ? "0" : "1"));
 		$form->addItem($cb_prop);
 		
-		// Enable notes
+		// Enable comments
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_comments"), "enable_comments");
 		$cb_prop->setValue("1");
 		$cb_prop->setChecked(($ilSetting->get("disable_comments") ? "0" : "1"));
 		$form->addItem($cb_prop);
-		
+
 		$comm_del_user =  new ilCheckboxInputGUI($lng->txt("pd_enable_comments_del_user"), "comm_del_user");		
 		$comm_del_user->setChecked($ilSetting->get("comments_del_user", 0));
 		$cb_prop->addSubItem($comm_del_user);		
@@ -189,6 +189,13 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ti->setMaxLength(200);
 		$ti->setInfo($this->lng->txt("pd_comments_notification_info"));
 		$cb_prop->addSubItem($ti);
+
+		// Enable learning history
+		$learn_hist = new ilCheckboxInputGUI($lng->txt("pd_enable_learning_history"), "enable_learning_history");
+		$learn_hist->setValue("1");
+		$learn_hist->setInfo($lng->txt("pd_enable_learning_history_info"));
+		$learn_hist->setChecked(($ilSetting->get("enable_learning_history") ? "1" : "0"));
+		$form->addItem($learn_hist);
 
 		// Enable Chatviewer
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_chatviewer"), "block_activated_chatviewer");
@@ -294,6 +301,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 
 		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));
 		$ilSetting->set("disable_comments", (int) ($_POST["enable_comments"] ? 0 : 1));
+
+		$ilSetting->set("enable_learning_history", (int) $_POST["enable_learning_history"]);
 	
 		$ilSetting->set("comments_del_user", (int) ($_POST["comm_del_user"] ? 1 : 0));
 		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
@@ -392,7 +401,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		*/
 		
 		// Load the disk quota settings object
-		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
 		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
 		
 		// Enable disk quota
@@ -451,8 +459,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		// $ilSetting->set('user_portfolios', (int)($_POST['prtf'] ? 1 : 0));
 		
 		// Load the disk quota settings object
-		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
-		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();		
+		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
 		$disk_quota_obj->setPersonalWorkspaceDiskQuotaEnabled($_POST['enable_personal_workspace_disk_quota'] == '1');
 		$disk_quota_obj->update();
 		
@@ -466,7 +473,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		{			
 			case ilAdministrationSettingsFormHandler::FORM_FILES_QUOTA:
 				
-				require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
 				$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
 				
 				$fields = array('personal_workspace_disk_quota' => array($disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL));

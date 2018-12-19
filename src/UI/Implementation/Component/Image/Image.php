@@ -6,6 +6,9 @@ namespace ILIAS\UI\Implementation\Component\Image;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * Class Image
@@ -13,6 +16,8 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  */
 class Image implements C\Image\Image {
 	use ComponentHelper;
+	use JavaScriptBindable;
+	use Triggerer;
 
 	/**
 	 * @var	string
@@ -32,7 +37,7 @@ class Image implements C\Image\Image {
 	/**
 	 * @var string
 	 */
-	protected $url = '';
+	protected $action = '';
 
 	/**
 	 * @var []
@@ -102,11 +107,16 @@ class Image implements C\Image\Image {
 	/**
 	 * @inheritdoc
 	 */
-	public function withAction($url) {
-		$this->checkStringArg("url", $url);
-
+	public function withAction($action) {
+		$this->checkStringOrSignalArg("action", $action);
 		$clone = clone $this;
-		$clone->url = $url;
+		if (is_string($action)) {
+			$clone->action = $action;
+		}
+		else {
+			$clone->action = null;
+			$clone->setTriggeredSignal($action, "click");
+		}
 
 		return $clone;
 	}
@@ -115,6 +125,23 @@ class Image implements C\Image\Image {
 	 * @inheritdoc
 	 */
 	public function getAction() {
-		return $this->url;
+		if ($this->action !== null) {
+			return $this->action;
+		}
+		return $this->getTriggeredSignalsFor("click");
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnClick(Signal $signal) {
+		return $this->withTriggeredSignal($signal, 'click');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnClick(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'click');
 	}
 }

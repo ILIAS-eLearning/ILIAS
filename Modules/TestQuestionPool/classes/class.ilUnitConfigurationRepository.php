@@ -37,7 +37,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$this->consumer_id = $consumer_id;
 		$this->lng         = $lng;
@@ -68,7 +69,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			'SELECT * FROM il_qpl_qst_fq_ucat WHERE category_id = %s',
@@ -90,7 +92,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			'SELECT category FROM il_qpl_qst_fq_ucat WHERE category_id = %s',
@@ -124,7 +127,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res   = $ilDB->queryF(
 			'SELECT * FROM il_qpl_qst_fq_unit WHERE category_fi = %s',
@@ -191,7 +195,8 @@ class ilUnitConfigurationRepository
 
 	public function getCategoryUnitCount($id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_unit WHERE category_fi = %s",
 			array('integer'),
@@ -202,7 +207,8 @@ class ilUnitConfigurationRepository
 
 	public function isUnitInUse($id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result_1 = $ilDB->queryF("SELECT unit_fi FROM il_qpl_qst_fq_res_unit WHERE unit_fi = %s",
 			array('integer'),
@@ -241,7 +247,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			'SELECT unit_id FROM il_qpl_qst_fq_unit WHERE category_fi = %s',
@@ -261,7 +268,8 @@ class ilUnitConfigurationRepository
 
 	public function deleteUnit($id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $this->checkDeleteUnit($id);
 		if(!is_null($res)) return $res;
@@ -275,7 +283,8 @@ class ilUnitConfigurationRepository
 
 	protected function loadUnits()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->query("
 			SELECT units.*, il_qpl_qst_fq_ucat.category, baseunits.unit baseunit_title
@@ -298,7 +307,8 @@ class ilUnitConfigurationRepository
 
 	public function getCategorizedUnits()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if(count($this->categorizedUnits) == 0)
 		{
@@ -358,7 +368,8 @@ class ilUnitConfigurationRepository
 
 	public function loadUnitsForCategory($category)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$units  = array();
 		$result = $ilDB->queryF("
@@ -415,7 +426,8 @@ class ilUnitConfigurationRepository
 
 	public function getUnitCategories()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$categories = array();
 		$result     = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi > %s ORDER BY category",
@@ -443,7 +455,8 @@ class ilUnitConfigurationRepository
 
 	public function getAdminUnitCategories()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$categories = array();
 		$result     = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s  ORDER BY category",
@@ -478,7 +491,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$ilDB->manipulateF('
 			UPDATE il_qpl_qst_fq_unit
@@ -492,7 +506,8 @@ class ilUnitConfigurationRepository
 
 	public function checkDeleteUnit($id, $category_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT * FROM il_qpl_qst_fq_var WHERE unit_fi = %s",
 			array('integer'),
@@ -541,7 +556,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = 'SELECT * FROM il_qpl_qst_fq_ucat WHERE category_id = ' . $ilDB->quote($id, 'integer');
 		$res   = $ilDB->query($query);
@@ -565,7 +581,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			'SELECT * FROM il_qpl_qst_fq_ucat WHERE category = %s AND question_fi = %s AND category_id != %s',
@@ -593,7 +610,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			'SELECT category FROM il_qpl_qst_fq_ucat WHERE category = %s AND question_fi = %s',
@@ -626,7 +644,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$categories = array();
 		$result     = $ilDB->queryF(
@@ -655,7 +674,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $this->checkDeleteCategory($id);
 		if(!is_null($res)) return $this->lng->txt('err_category_in_use');
@@ -688,7 +708,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$next_id = $ilDB->nextId('il_qpl_qst_fq_unit');
 		$ilDB->manipulateF(
@@ -720,7 +741,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			'SELECT unit_id FROM il_qpl_qst_fq_unit WHERE unit_id = %s',
@@ -756,7 +778,8 @@ class ilUnitConfigurationRepository
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$category_mapping = array();
 

@@ -43,6 +43,11 @@ class ilMediaItem
 	var $color1;			// map area line color 1
 	var $color2;			// map area line color 2
 
+	/**
+	 * @var string
+	 */
+	protected $upload_hash;
+
 	function __construct($a_id = 0)
 	{
 		global $DIC;
@@ -133,6 +138,26 @@ class ilMediaItem
 		return $this->text_representation;
 	}
 	
+	/**
+	 * Set upload hash
+	 *
+	 * @param string $a_val upload hash
+	 */
+	function setUploadHash($a_val)
+	{
+		$this->upload_hash = $a_val;
+	}
+
+	/**
+	 * Get upload hash
+	 *
+	 * @return string upload hash
+	 */
+	function getUploadHash()
+	{
+		return $this->upload_hash;
+	}
+
 
 	/**
 	* create persistent media item
@@ -144,7 +169,7 @@ class ilMediaItem
 		$item_id = $ilDB->nextId("media_item");
 		$query = "INSERT INTO media_item (id,mob_id, purpose, location, ".
 			"location_type, format, width, ".
-			"height, halign, caption, nr, text_representation) VALUES ".
+			"height, halign, caption, nr, text_representation, upload_hash) VALUES ".
 			"(".
 			$ilDB->quote($item_id, "integer").",".
 			$ilDB->quote($this->getMobId(), "integer").",".
@@ -157,7 +182,9 @@ class ilMediaItem
 			$ilDB->quote($this->getHAlign(), "text").",".
 			$ilDB->quote($this->getCaption(), "text").",".
 			$ilDB->quote($this->getNr(), "integer").",".
-			$ilDB->quote($this->getTextRepresentation(), "text").")";
+			$ilDB->quote($this->getTextRepresentation(), "text").",".
+			$ilDB->quote($this->getUploadHash(), "text").
+			")";
 		$ilDB->manipulate($query);
 		
 		$this->setId($item_id);
@@ -203,7 +230,8 @@ class ilMediaItem
 			" halign = ".$ilDB->quote($this->getHAlign(), "text").",".
 			" caption = ".$ilDB->quote($this->getCaption(), "text").",".
 			" nr = ".$ilDB->quote($this->getNr(), "integer").",".
-			" text_representation = ".$ilDB->quote($this->getTextRepresentation(), "text").
+			" text_representation = ".$ilDB->quote($this->getTextRepresentation(), "text").",".
+			" upload_hash = ".$ilDB->quote($this->getUploadHash(), "text").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
@@ -280,6 +308,7 @@ class ilMediaItem
 			$this->setId($item_rec["id"]);
 			$this->setThumbTried($item_rec["tried_thumb"]);
 			$this->setTextRepresentation($item_rec["text_representation"]);
+			$this->setUploadHash($item_rec["upload_hash"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
@@ -420,6 +449,7 @@ class ilMediaItem
 			$media_item->setMobId($item_rec["mob_id"]);
 			$media_item->setThumbTried($item_rec["tried_thumb"]);
 			$media_item->setTextRepresentation($item_rec["text_representation"]);
+			$media_item->setUploadHash($item_rec["upload_hash"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
@@ -1237,5 +1267,31 @@ class ilMediaItem
 			$this->setParameter($k, $v);
 		}
 	}
+
+	/**
+	 * Get media items for upload hash
+	 *
+	 * @param string $a_hash upload hash
+	 * @return array
+	 */
+	static public function getMediaItemsForUploadHash($a_hash)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->queryF("SELECT * FROM media_item ".
+			" WHERE upload_hash = %s ",
+			array("text"),
+			array($a_hash)
+			);
+		$media_items = array();
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$media_items[] = $rec;
+		}
+		return $media_items;
+	}
+
 }
 ?>

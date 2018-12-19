@@ -196,7 +196,8 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->sanitizeSuperGlobalSubmitValue();
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
@@ -272,7 +273,8 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$tpl = new ilTemplate($this->getTemplate(), true, true, "Modules/TestQuestionPool");
 		$i = 0;
@@ -360,7 +362,8 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizard.js");
 	}

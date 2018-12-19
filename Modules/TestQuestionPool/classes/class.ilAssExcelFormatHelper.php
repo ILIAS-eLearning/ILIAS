@@ -43,7 +43,7 @@ class ilAssExcelFormatHelper extends ilExcel
 			$this->workbook->getActiveSheet()->setCellValueExplicit(
 				$a_coords,
 				$this->prepareValue($a_value),
-				PHPExcel_Cell_DataType::TYPE_STRING,
+				\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING,
 				true
 			);
 		}
@@ -64,7 +64,7 @@ class ilAssExcelFormatHelper extends ilExcel
 				$a_col,
 				$a_row,
 				$this->prepareValue($a_value),
-				PHPExcel_Cell_DataType::TYPE_STRING,
+				\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING,
 				true
 			);
 		}

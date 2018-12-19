@@ -8,10 +8,11 @@ function base() {
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
+    $lng = $DIC->language();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Validation\Factory($data);
+    $validation = new \ILIAS\Validation\Factory($data, $lng);
     $trafo = new \ILIAS\Transformation\Factory();
 
     //Step 1: Implement transformation and constraints

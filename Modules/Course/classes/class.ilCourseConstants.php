@@ -41,6 +41,9 @@ define('IL_CRS_VIEW_TIMING', 2);
 define('IL_CRS_VIEW_SIMPLE', 4);
 define('IL_CRS_VIEW_BY_TYPE', 5);
 
+define('IL_CRS_VIEW_TIMING_ABSOLUTE', 0);
+define('IL_CRS_VIEW_TIMING_RELATIVE', 1);
+
 define('IL_CRS_ARCHIVE_DOWNLOAD',3);
 define('IL_CRS_ARCHIVE_NONE',0);
 
@@ -57,6 +60,12 @@ class ilCourseConstants
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
+	
+	// cognos-blu-patch: begin
+	const IL_CRS_VIEW_TIMING_ABSOLUTE = 0;
+	const IL_CRS_VIEW_TIMING_RELATIVE = 1;
+	// cognos-blu-patch: end
+	
 }
 
 ?>

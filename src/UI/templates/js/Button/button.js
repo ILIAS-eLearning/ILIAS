@@ -3,6 +3,8 @@ il.UI = il.UI || {};
 il.UI.button = il.UI.button || {};
 (function($, il) {
 	il.UI.button = (function($) {
+
+		/* month button */
 		var initMonth = function (id) {
 			$("#" + id).find(".inline-picker").each(function(o) {
 				$(this).datetimepicker({
@@ -28,8 +30,54 @@ il.UI.button = il.UI.button || {};
 			});
 		};
 
+		/* toggle button */
+		var handleToggleClick = function (event, id, on_url, off_url, signals) {
+			var b = $("#" + id);
+			var pressed = b.attr("aria-pressed");
+			for (var i = 0; i < signals.length; i++) {
+				var s = signals[i];
+				if (s.event === "click" ||
+					(pressed === "true" && s.event === "toggle_on") ||
+					(pressed !== "true" && s.event === "toggle_off")
+				) {
+					$(b).trigger(s.signal_id, {
+						'id' : s.signal_id,
+						'event' : s.event,
+						'triggerer' : b,
+						'options' : s.options});
+				}
+			}
+
+			if (pressed === "true" && on_url !== '') {
+				window.location = on_url;
+			}
+
+			if (pressed !== "true" && off_url !== '') {
+				window.location = off_url;
+			}
+
+			//console.log('handleToggelClick: ' + id);
+			return false;
+		};
+
 		return {
-			initMonth: initMonth
+			initMonth: initMonth,
+			handleToggleClick: handleToggleClick
 		};
 	})($);
 })($, il);
+
+// toggle init
+$(document).ready(function() {
+	$('.il-toggle-button.on').attr("aria-pressed", "true");
+
+    $('.il-toggle-button').click(function() {
+        $(this).toggleClass('.il-toggle-button on').toggleClass('.il-toggle-button');
+
+        if ($(this).attr("aria-pressed") == "false") {
+            $(this).attr("aria-pressed", "true");
+        } else {
+            $(this).attr("aria-pressed", "false");
+        }
+    });
+});

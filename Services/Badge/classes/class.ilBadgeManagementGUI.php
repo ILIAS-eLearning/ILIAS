@@ -110,6 +110,7 @@ class ilBadgeManagementGUI
 					$badge = new ilBadge((int)$_REQUEST["bid"]);
 					$type = $badge->getTypeInstance();			
 					$form = $this->initBadgeForm("edit", $type, $badge->getTypeId());
+					$this->setBadgeFormValues($form, $badge, $type);
 				}
 				// ajax- create
 				else

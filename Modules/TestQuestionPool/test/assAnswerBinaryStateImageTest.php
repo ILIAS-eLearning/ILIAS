@@ -8,7 +8,7 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assAnswerBinaryStateImageTest extends PHPUnit_Framework_TestCase
+class assAnswerBinaryStateImageTest extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

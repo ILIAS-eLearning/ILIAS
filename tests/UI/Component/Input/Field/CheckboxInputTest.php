@@ -8,6 +8,9 @@ require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class CheckboxInputTest extends ILIAS_UI_TestBase {
 
@@ -17,7 +20,13 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
@@ -111,5 +120,18 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 
 		$expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label> <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" class=\"form-control form-control-sm\" />                                  </div></div>";
 		$this->assertHTMLEquals($expected, $html);
+	}
+
+	public function test_render_disabled() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $r->render($checkbox);
+
+		$expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label</label>        <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" disabled=\"disabled\" class=\"form-control form-control-sm\" />                                  </div></div>";
+		$this->assertHTMLEquals($expected, $html);
+
 	}
 }

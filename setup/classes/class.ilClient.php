@@ -694,8 +694,8 @@ class ilClient
 		}
 
 		$this->nic_status = explode("\n", $response_body);
-		
-		ilLoggerFactory::getLogger('setup')->dump($nic_status);
+
+		ilLoggerFactory::getLogger('setup')->dump($this->nic_status);
 
 		return true;
 	}

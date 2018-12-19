@@ -5,6 +5,7 @@ namespace ILIAS\DI;
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\GlobalScreen\Services;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -151,6 +152,14 @@ class Container extends \Pimple\Container {
 
 
 	/**
+	 * @return Services
+	 */
+	public function globalScreen() {
+		return new Services();
+	}
+
+
+	/**
 	 * @return HTTPServices
 	 */
 	public function http() {
@@ -191,6 +200,52 @@ class Container extends \Pimple\Container {
 	public function help(){
 		return $this['ilHelp'];
 	}
+	
+	/**
+	 * @return \ilAsqFactory
+	 */
+	public function question(){
+		return new \ilAsqFactory();
+	}
+
+	/**
+	 * Get conditions service
+	 *
+	 * @return	\ilConditionService
+	 */
+	public function conditions() {
+
+		return \ilConditionService::getInstance(new \ilConditionObjectAdapter());
+	}
+
+	/**
+	 * @return \ilLearningHistoryService
+	 */
+	public function learningHistory()
+	{
+		return new \ilLearningHistoryService(
+			$this->user(),
+			$this->language(),
+			$this->ui(),
+			$this->access(),
+			$this->repositoryTree()
+		);
+	}
+
+	/**
+	 * @return \ilNewsService
+	 */
+	public function news() {
+		return new \ilNewsService($this->language(), $this->settings(), $this->user());
+	}
+
+	/**
+	 * @return \ilObjectService
+	 */
+	public function object() {
+		return new \ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
+	}
+
 
 	/**
 	 * Note: Only use isDependencyAvailable if strictly required. The need for this,

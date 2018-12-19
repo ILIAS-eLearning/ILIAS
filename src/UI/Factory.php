@@ -93,9 +93,14 @@ interface Factory {
 	 * description:
 	 *   purpose: The Image component is used to display images of various sources.
 	 *   composition: An Image is composed of the image and an alternative text for screen readers.
-	 *   effect: Images may be included in interacted components but not interactive on their own.
 	 *
 	 * rules:
+	 *   interaction:
+	 *     1: >
+	 *        Images MAY be included in interactive components. Images MAY also be interactive on their own. Clicking on
+	 *        an Image can e.g. provide navigation to another screen or showing a Modal on the same screen. The usage
+	 *        of an interactive Image MUST be confirmed by the JF to make sure that interactive Images will only be
+	 *        used in meaningful cases.
 	 *   accessibility:
 	 *     1: >
 	 *        Images MUST contain the alt attribute. This attribute MAY be left empty (alt="") if the image is of
@@ -233,6 +238,7 @@ interface Factory {
 	 *      bear text.
 	 *   effect: >
 	 *      On-click, the action indicated by the button is carried out.
+	 *      A stateful button will indicate its state by an aria-attribute.
 	 *   rivals:
 	 *      glyph: >
 	 *          Glyphs are used if the enclosing Container Collection can not provide
@@ -476,11 +482,9 @@ interface Factory {
 	 *   accessibility:
 	 *      1: If multiple Cards are used, they MUST be contained in a Deck.
 	 * ---
-	 * @param string $title
-	 * @param \ILIAS\UI\Component\Image\Image $image
-	 * @return \ILIAS\UI\Component\Card\Card
+	 * @return \ILIAS\UI\Component\Card\Factory
 	 */
-	public function card($title, \ILIAS\UI\Component\Image\Image $image = null);
+	public function card();
 
 	/**
 	 * ---

@@ -167,15 +167,12 @@ class ilStudyProgrammeType extends ActiveRecord {
 		return self::get();
 	}
 
-	public static function getAllTypesArray($add_empty_on_begin = true) {
+	public static function getAllTypesArray() {
 		$out = array();
 
 		foreach(self::getAllTypes() as $type) {
 			$out[$type->getId()] = $type->getTitle();
 		}
-
-		if($add_empty_on_begin)
-			$out = array('-'=>'-') + $out;
 
 		return $out;
 	}

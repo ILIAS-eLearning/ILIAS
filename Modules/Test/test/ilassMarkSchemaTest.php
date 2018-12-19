@@ -10,7 +10,7 @@
 *
 * @ingroup ServicesTree
 */
-class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
+class ilassMarkSchemaTest extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

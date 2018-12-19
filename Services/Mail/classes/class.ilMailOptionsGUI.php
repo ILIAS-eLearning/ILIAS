@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Mail/classes/class.ilMailbox.php";
-require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once 'Services/Mail/classes/class.ilMailOptions.php';
-require_once 'Services/Mail/classes/class.ilMailOptionsFormGUI.php';
-
 /**
  * @author Jens Conze
  * @version $Id$
@@ -45,7 +40,7 @@ class ilMailOptionsGUI
 	private $umail;
 
 	/**
-	 * @var ilMailBox|null
+	 * @var ilMailbox|null
 	 */
 	private $mbox;
 
@@ -78,7 +73,7 @@ class ilMailOptionsGUI
 		\ilObjUser $user = null,
 		\Psr\Http\Message\ServerRequestInterface $request = null,
 		\ilFormatMail $mail = null,
-		\ilMailBox $malBox = null
+		\ilMailbox $malBox = null
 	) {
 		global $DIC;
 
@@ -119,7 +114,7 @@ class ilMailOptionsGUI
 
 		$this->mbox = $malBox;
 		if (null === $this->mbox) {
-			$this->mbox = new \ilMailBox($this->user->getId());
+			$this->mbox = new \ilMailbox($this->user->getId());
 		}
 
 		$this->lng->loadLanguageModule('mail');

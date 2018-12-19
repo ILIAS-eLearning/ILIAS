@@ -194,6 +194,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	
 	protected function initEditForm()
 	{
+		$obj_service = $this->object_service;
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'properties'));
@@ -223,6 +225,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$online->setChecked($this->object->getOnline());
 		$form->addItem($online);
 
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_presentation'));
+		$form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
 		
 		return $form;
@@ -246,6 +256,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function savePropertiesObject()
 	{
+		$obj_service = $this->object_service;
 		$form = $this->initEditForm();
 		if($form->checkInput())
 		{
@@ -254,6 +265,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->object->setOnline((int)$form->getInput("online"));
 			
 			$this->object->saveToDb();
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
 			
 			ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 			$this->ctrl->redirect($this, "properties");

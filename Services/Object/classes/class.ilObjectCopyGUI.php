@@ -448,7 +448,7 @@ class ilObjectCopyGUI
 		//
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showTargetSelectionTree");
-		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "lso"));
 		// begin-patch mc
 		$exp->setSelectMode("target", TRUE);
 		// end-patch multi copy

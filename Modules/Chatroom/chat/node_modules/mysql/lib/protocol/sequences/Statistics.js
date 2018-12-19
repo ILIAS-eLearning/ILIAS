@@ -14,15 +14,17 @@ function Statistics(options, callback) {
 }
 
 Statistics.prototype.start = function() {
-  this.emit('packet', new Packets.ComStatisticsPacket);
+  this.emit('packet', new Packets.ComStatisticsPacket());
 };
 
 Statistics.prototype['StatisticsPacket'] = function (packet) {
   this.end(null, packet);
 };
 
-Statistics.prototype.determinePacket = function(firstByte, parser) {
+Statistics.prototype.determinePacket = function determinePacket(firstByte) {
   if (firstByte === 0x55) {
     return Packets.StatisticsPacket;
   }
+
+  return undefined;
 };

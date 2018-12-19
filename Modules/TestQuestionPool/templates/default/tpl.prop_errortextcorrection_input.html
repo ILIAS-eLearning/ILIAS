@@ -1,0 +1,22 @@
+<div class="form-inline" id="{ELEMENT_ID}">
+    <table class="errortextwizard  table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>{KEY_TEXT}</th>
+            <th>{VALUE_TEXT}</th>
+            <th>{POINTS_TEXT}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- BEGIN row -->
+        <tr class="{ROW_CLASS}">
+            <td>{TEXT_WRONG}</td>
+            <td>{TEXT_CORRECT}</td>
+            <td>
+                <input class="form-control" type="text" class="number" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
+            </td>
+        </tr>
+        <!-- END row -->
+        </tbody>
+    </table>
+</div>

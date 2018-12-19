@@ -587,14 +587,27 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
-	* get directory for files of media object (static)
-	*
-	* @param	int		$a_mob_id		media object id
-	*/
-	static function _getDirectory($a_mob_id)
+	 * Get absolute directory
+	 *
+	 * @param int $a_mob_id
+	 * @return string
+	 */
+	static public function _getDirectory($a_mob_id)
 	{
-		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+		return ilUtil::getWebspaceDir()."/".self::_getRelativeDirectory($a_mob_id);
 	}
+
+	/**
+	 * Get relative (to webspace dir) directory
+	 *
+	 * @param int $a_mob_id
+	 * @return string
+	 */
+	static public function _getRelativeDirectory($a_mob_id)
+	{
+		return "mobs/mm_".$a_mob_id;
+	}
+
 
 	/**
 	 * get directory for files of media object (static)
@@ -782,10 +795,9 @@ class ilObjMediaObject extends ilObject
 					}
 					else
 					{
-						$location = $item->getLocation();
+						$location = ilUtil::secureUrl($item->getLocation());
 					}
 
-					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
 						$this->handleAmps($location)."</Location>";
 
@@ -2009,6 +2021,12 @@ class ilObjMediaObject extends ilObject
 	 */
 	function uploadVideoPreviewPic($a_prevpic)
 	{
+		// remove old one
+		if ($this->getVideoPreviewPic(true) != "")
+		{
+			$this->removeAdditionalFile($this->getVideoPreviewPic(true));
+		}
+
 		$pi = pathinfo($a_prevpic["name"]);
 		$ext = $pi["extension"];
 		if (in_array($ext, array("jpg", "jpeg", "png")))

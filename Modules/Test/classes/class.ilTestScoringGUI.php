@@ -65,7 +65,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		/**
 		 * @var $ilTabs ilTabsGUI
 		 */
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->addSubTab('man_scoring_by_qst', $this->lng->txt('tst_man_scoring_by_qst'), $this->ctrl->getLinkTargetByClass('ilTestScoringByQuestionsGUI', 'showManScoringByQuestionParticipantsTable'));
 		$ilTabs->addSubTab('man_scoring', $this->lng->txt('tst_man_scoring_by_part'), $this->ctrl->getLinkTargetByClass('ilTestScoringGUI', 'showManScoringParticipantsTable'));
@@ -74,7 +75,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	
 	private function fetchActiveIdParameter()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		// fetch active_id
 		
@@ -165,7 +167,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	
 	private function showManScoringParticipantsTable()
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		$table = $this->buildManScoringParticipantsTable(true);
 		
@@ -194,7 +197,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	
 	private function showManScoringParticipantScreen(ilPropertyFormGUI $form = null)
 	{
-		global $tpl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 		
 		$activeId = $this->fetchActiveIdParameter();
 		
@@ -242,7 +247,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	 */
 	private function saveManScoringParticipantScreen($redirect = true)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 			
 		$activeId = $this->fetchActiveIdParameter();
 		
@@ -371,7 +378,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
 	private function saveNextManScoringParticipantScreen()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$table = $this->buildManScoringParticipantsTable(true);
 
@@ -401,7 +409,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	
 	private function saveReturnManScoringParticipantScreen()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if($this->saveManScoringParticipantScreen(false))
 		{
@@ -411,7 +420,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
 	private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		require_once 'Services/Form/classes/class.ilFormSectionHeaderGUI.php';

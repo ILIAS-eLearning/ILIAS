@@ -239,7 +239,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case 'ilsurveyparticipantsgui':
-				if($this->object->getMode() == ilObjSurvey::MODE_STANDARD)
+				if($this->object->getMode() == ilObjSurvey::MODE_STANDARD  || $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL)
 				{
 					$ilTabs->activateTab("maintenance");
 				}
@@ -248,7 +248,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$ilTabs->activateTab("survey_360_appraisees");
 				}
 				include_once("./Modules/Survey/classes/class.ilSurveyParticipantsGUI.php");
-				$gui = new ilSurveyParticipantsGUI($this, $this->checkPermissionBool("write"));
+				//$gui = new ilSurveyParticipantsGUI($this, $this->checkPermissionBool("write"));
+				$gui = new ilSurveyParticipantsGUI($this, $this->checkRbacOrPositionPermission('read_results', 'access_results'));
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
@@ -483,9 +484,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					break;
 			}
 		}
-			
+
 		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
-		if ($this->checkPermissionBool("write") || 
+		if(
+			$this->checkRbacOrPositionPermission('read_results','access_results') ||
 			ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 		{
 			// evaluation
@@ -553,6 +555,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function savePropertiesObject()
 	{		
 		$rbacsystem = $this->rbacsystem;
+		$obj_service = $this->object_service;
 		
 		$form = $this->initPropertiesForm();
 		if ($form->checkInput())
@@ -689,9 +692,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// both are saved in object, too
 				$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 				$this->object->setDescription(ilUtil::stripSlashes($_POST['description']));
+				$this->object->setOfflineStatus((bool) !$_POST['online']);
 				$this->object->update();
-
-				$this->object->setStatus($_POST['online']);
 
 				// activation
 				$period = $form->getItemByPostVar("access_period");		
@@ -706,7 +708,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$this->object->setActivationLimited(false);
 				}
-								
+
+				// tile image
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+
 				if(!$template_settings["enabled_start_date"]["hide"])
 				{
 					$start = $form->getItemByPostVar("start_date");		
@@ -838,6 +844,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 				$this->object->saveToDb();
 
+				ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+					$this->object->getId(),
+					$form,
+					array(
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+					)
+				);
+
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
 					ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
@@ -865,7 +879,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	 * @return ilPropertyFormGUI
 	 */
 	function initPropertiesForm()
-	{		
+	{
+		$obj_service = $this->object_service;
+
 		$template_settings = $hide_rte_switch = null;
 		$template = $this->object->getTemplate();
 		if($template)
@@ -962,7 +978,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'online');		
 		$online->setInfo($this->lng->txt('svy_activation_online_info').$act_obj_info);
-		$online->setChecked($this->object->isOnline());
+		$online->setChecked(!$this->object->getOfflineStatus());
 		$form->addItem($online);				
 		
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
@@ -982,7 +998,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$visible->setInfo($this->lng->txt('svy_activation_limited_visibility_info'));
 			$visible->setChecked($this->object->getActivationVisibility());
 			$dur->addSubItem($visible);
-			
+
+		// presentation
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_presentation'));
+		$form->addItem($section);
+
+		// tile image
+		$obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 																		
 		// before start
 		
@@ -1272,9 +1295,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);
 					$rmdt->addOption($option);
 				}
-				$rmdt->setValue($this->object->getReminderTemplate()
-					? $this->object->getReminderTemplate()
-					: -1);
+
+				$reminderTemplateValue = -1;
+				if ($this->object->getReminderTemplate()) {
+					$reminderTemplateValue = $this->object->getReminderTemplate();
+				}
+				$rmdt->setValue($reminderTemplateValue);
 				$rmd->addSubItem($rmdt);
 			}
 		}
@@ -1421,6 +1447,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$form->addItem($skill_service);
 		}
 				
+		$position_settings = ilOrgUnitGlobalSettings::getInstance()
+			->getObjectPositionSettingsByType($this->object->getType());
+
+		if($position_settings->isActive())
+		{
+			// add additional feature section
+			$feat = new ilFormSectionHeaderGUI();
+			$feat->setTitle($this->lng->txt('obj_features'));
+			$form->addItem($feat);
+
+			// add orgunit settings
+			ilObjectServiceSettingsGUI::initServiceSettingsForm(
+					$this->object->getId(),
+					$form,
+					array(
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+					)
+				);
+		}
 		
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
 
@@ -2444,6 +2489,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
 		$this->ctrl->redirect($this, "infoScreen");
+	}
+	
+	/**
+	 * Check rbac or position permission
+	 * @param string $a_rbac_permission
+	 * @param string $a_position_permission
+	 * @return bool
+	 */
+	protected function checkRbacOrPositionPermission($a_rbac_permission, $a_position_permission)
+	{
+		$access = $GLOBALS['DIC']->access();
+		return $access->checkRbacOrPositionPermissionAccess(
+			$a_rbac_permission, 
+			$a_position_permission, 
+			$this->object->getRefId()
+		);
 	}
 } 
 

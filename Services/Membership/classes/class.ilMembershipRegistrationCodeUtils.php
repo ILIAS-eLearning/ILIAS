@@ -140,7 +140,10 @@ class ilMembershipRegistrationCodeUtils
 		include_once './Modules/Group/classes/class.ilObjGroup.php';
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		
-		return array_merge(ilObjGroup::lookupObjectsByCode($a_code), ilObjCourse::lookupObjectsByCode($a_code));
+		return array_merge(
+			ilObjGroup::lookupObjectsByCode($a_code),
+			ilObjCourse::lookupObjectsByCode($a_code)
+		);
 	}
 }
 ?>

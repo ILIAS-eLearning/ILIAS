@@ -1,12 +1,18 @@
 <?php
+/* Copyright (c) 2017 Denis Klöpfer <denis.kloepfer@concepts-and-training.de>  Extended GPL, see ./LICENSE */
+/* Copyright (c) 2018 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see ./LICENSE */
+
+declare(strict_types=1);
+
 require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php';
 require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndividualAssessmentLPInterface.php';
+
+use \ILIAS\UI\Component\ViewControl;
+
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.
  * It caries a LPStatus, which is set Individually.
- *
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
  *
  * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilIndividualAssessmentMemberGUI
@@ -19,7 +25,18 @@ class ilIndividualAssessmentMembersGUI {
 	protected $tpl;
 	protected $lng;
 
-	public function __construct($a_parent_gui, $a_ref_id) {
+	const F_STATUS = "status";
+	const F_SORT = "sortation";
+
+	const S_NAME_ASC = "user_lastname:asc";
+	const S_NAME_DESC = "user_lastname:desc";
+	const S_EXAMINER_ASC = "examiner_login:asc";
+	const S_EXAMINER_DESC = "examiner_login:desc";
+
+	public function __construct(
+		ilObjIndividualAssessmentGUI $a_parent_gui,
+		int $a_ref_id
+	) {
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->parent_gui = $a_parent_gui;
@@ -28,7 +45,10 @@ class ilIndividualAssessmentMembersGUI {
 		$this->tpl =  $DIC['tpl'];
 		$this->lng = $DIC['lng'];
 		$this->toolbar = $DIC['ilToolbar'];
+		$this->user = $DIC["ilUser"];
 		$this->iass_access = $this->object->accessHandler();
+		$this->factory = $DIC->ui()->factory();
+		$this->renderer = $DIC->ui()->renderer();
 	}
 
 	public function executeCommand() {
@@ -41,11 +61,17 @@ class ilIndividualAssessmentMembersGUI {
 		}
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass();
+		$this->ctrl->saveParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS);
 		switch($next_class) {
 			case "ilrepositorysearchgui":
 				require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,"addUsersFromSearch");
+				$rep_search->addUserAccessFilterCallable(function ($a_user_ids)
+					{
+						return $a_user_ids;
+					}
+				);
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 			case "ilindividualassessmentmembergui":
@@ -64,9 +90,9 @@ class ilIndividualAssessmentMembersGUI {
 
 	protected function addedUsers() {
 		if(!$_GET['failure']) {
-			ilUtil::sendSuccess($this->lng->txt('iass_add_user_success'));
+			ilUtil::sendSuccess($this->txt('iass_add_user_success'));
 		} else {
-			ilUtil::sendFailure($this->lng->txt('iass_add_user_failure'));
+			ilUtil::sendFailure($this->txt('iass_add_user_failure'));
 		}
 		$this->view();
 	}
@@ -82,8 +108,8 @@ class ilIndividualAssessmentMembersGUI {
 				$this,
 				$this->toolbar,
 				array(
-					'auto_complete_name'	=> $this->lng->txt('user'),
-					'submit_name'			=> $this->lng->txt('add'),
+					'auto_complete_name'	=> $this->txt('user'),
+					'submit_name'			=> $this->txt('add'),
 					'add_search'			=> true,
 					'add_from_container'		=> $container_id
 				)
@@ -93,23 +119,49 @@ class ilIndividualAssessmentMembersGUI {
 				$this,
 				$this->toolbar,
 				array(
-					'auto_complete_name'	=> $this->lng->txt('user'),
-					'submit_name'			=> $this->lng->txt('add'),
+					'auto_complete_name'	=> $this->txt('user'),
+					'submit_name'			=> $this->txt('add'),
 					'add_search'			=> true
 				)
 				);
 			}
 		}
-		$table = new ilIndividualAssessmentMembersTableGUI($this);
-		$this->tpl->setContent($table->getHTML());
+		$table = new ilIndividualAssessmentMembersTableGUI(
+			$this,
+			$this->lng,
+			$this->ctrl,
+			$this->object->accessHandler(),
+			$this->factory,
+			$this->renderer,
+			(int)$this->user->getId()
+		);
+
+		$get = $_GET;
+
+		$filter = $this->getFilterValue($get);
+		$sort = $this->getSortValue($get);
+
+		$entries = $this->object->loadMembersAsSingleObjects($filter, $sort);
+		$table->setData($entries);
+		$view_constrols = $this->getViewControls($get);
+
+		$output = $table->render($view_constrols);
+
+		if(count($entries) == 0) {
+			$output .= $this->txt("iass_no_entries");
+		}
+		$this->tpl->setContent($output);
 	}
 
-	public function addUsersFromSearch($user_ids) {
+	/**
+	 * @param int[]
+	 */
+	public function addUsersFromSearch(array $user_ids) {
 		if($user_ids && is_array($user_ids) && !empty($user_ids)) {
 			$this->addUsers($user_ids);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("search_no_selection"), true);
+		ilUtil::sendInfo($this->txt("search_no_selection"), true);
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
@@ -143,6 +195,9 @@ class ilIndividualAssessmentMembersGUI {
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'addedUsers');
 	}
 
+	/**
+	 * Display confirmation form for user might be removed
+	 */
 	protected function removeUserConfirmation() {
 		if(!$this->iass_access->mayEditMembers()) {
 			$this->parent_gui->handleAccessViolation();
@@ -150,17 +205,15 @@ class ilIndividualAssessmentMembersGUI {
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->addItem('usr_id',$_GET['usr_id'], ilObjUser::_lookupFullname($_GET['usr_id']));
-		$confirm->setHeaderText($this->lng->txt('iass_remove_user_qst'));
+		$confirm->setHeaderText($this->txt('iass_remove_user_qst'));
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
-		$confirm->setConfirm($this->lng->txt('remove'), 'removeUser');
-		$confirm->setCancel($this->lng->txt('cancel'), 'view');
+		$confirm->setConfirm($this->txt('remove'), 'removeUser');
+		$confirm->setCancel($this->txt('cancel'), 'view');
 		$this->tpl->setContent($confirm->getHTML());
 	}
 
 	/**
 	 * Remove users from corresponding iass-object. To be used by repository search.
-	 *
-	 * @param	int|string[]	$user_ids
 	 */
 	public function removeUser() {
 		if(!$this->iass_access->mayEditMembers()) {
@@ -173,5 +226,160 @@ class ilIndividualAssessmentMembersGUI {
 			->updateStorageAndRBAC($iass->membersStorage(),$iass->accessHandler());
 		ilIndividualAssessmentLPInterface::updateLPStatusByIds($iass->getId(),array($usr_id));
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
+	}
+
+	/**
+	 * @return ViewControl[]
+	 */
+	protected function getViewControls(array $get): array
+	{
+		$ret = array();
+
+		$vc_factory = $this->factory->viewControl();
+
+		$sort =  $this->getSortationControl($vc_factory);
+		$ret[] = $this->getModeControl($get, $vc_factory);
+		$ret[] = $sort;
+
+		return $ret;
+	}
+
+	/**
+	 * @param string[] 	$get
+	 */
+	protected function getModeControl(array $get, ViewControl\Factory $vc_factory): ViewControl\Mode
+	{
+		$active = $this->getActiveLabelForModeByFilter($get[self::F_STATUS]);
+
+		return $vc_factory->mode(
+			$this->getModeOptions(),
+			""
+		)
+		->withActive($active);
+	}
+
+	protected function getSortationControl(ViewControl\Factory $vc_factory): ViewControl\Sortation
+	{
+		$target = $link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
+		return $vc_factory->sortation(
+			$this->getSortOptions()
+		)
+		->withTargetURL($target, self::F_SORT)
+		->withLabel($this->txt("iass_sort"));
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function getModeOptions(): array
+	{
+		$ret = [];
+
+		$ret[$this->txt("iass_filter_all")] = $this->getLinkForStatusFilter(null);
+		$ret[$this->txt("iass_filter_not_started")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED);
+		$ret[$this->txt("iass_filter_not_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_IN_PROGRESS);
+		$ret[$this->txt("iass_filter_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_COMPLETED);
+		$ret[$this->txt("iass_filter_failed")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_FAILED);
+
+		return $ret;
+	}
+
+	/**
+	 * @param int|string|null 	$filter
+	 */
+	protected function getActiveLabelForModeByFilter($filter): string
+	{
+		switch($filter)
+		{
+			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
+				return $this->txt("iass_filter_not_started");
+				break;
+			case ilIndividualAssessmentMembers::LP_IN_PROGRESS:
+				return $this->txt("iass_filter_not_finalized");
+				break;
+			case ilIndividualAssessmentMembers::LP_COMPLETED:
+				return $this->txt("iass_filter_finalized");
+				break;
+			case ilIndividualAssessmentMembers::LP_FAILED:
+				return $this->txt("iass_filter_failed");
+				break;
+			default:
+				return $this->txt("iass_filter_all");
+		}
+	}
+
+	/**
+	 * @param int|string|null 	$value
+	 */
+	protected function getLinkForStatusFilter($value): string
+	{
+		$this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, $value);
+		$link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
+		$this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, null);
+
+		return $link;
+	}
+
+	/**
+	 * @param string[] 	$get
+	 * @return int|string|null
+	 */
+	protected function getFilterValue(array $get)
+	{
+		if(isset($get[self::F_STATUS])
+			&& $get[self::F_STATUS] != ""
+			&& in_array(
+				$get[self::F_STATUS],
+					[
+						ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED,
+						ilIndividualAssessmentMembers::LP_IN_PROGRESS,
+						ilIndividualAssessmentMembers::LP_COMPLETED,
+						ilIndividualAssessmentMembers::LP_FAILED
+					]
+				)
+		) {
+			return $get[self::F_STATUS];
+		}
+
+		return null;
+	}
+
+	protected function getSortOptions(): array
+	{
+		return array(
+			self::S_NAME_ASC => $this->txt("iass_sort_name_asc"),
+			self::S_NAME_DESC => $this->txt("iass_sort_name_desc"),
+			self::S_EXAMINER_ASC => $this->txt("iass_sort_examiner_login_asc"),
+			self::S_EXAMINER_DESC => $this->txt("iass_sort_examiner_login_desc")
+		);
+	}
+
+	/**
+	 * @param string[]
+	 * @return string|null
+	 */
+	protected function getSortValue(array $get)
+	{
+		if(isset($get[self::F_SORT])
+			&& $get[self::F_SORT] != ""
+			&& in_array(
+				$get[self::F_SORT],
+					[
+						self::S_NAME_ASC,
+						self::S_NAME_DESC,
+						self::S_EXAMINER_ASC,
+						self::S_EXAMINER_DESC
+					]
+				)
+		) {
+			return $get[self::F_SORT];
+		}
+
+		return null;
+	}
+
+	protected function txt(string $code): string
+	{
+		return $this->lng->txt($code);
 	}
 }

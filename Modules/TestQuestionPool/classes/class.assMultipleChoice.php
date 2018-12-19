@@ -230,7 +230,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	*/
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$hasimages = 0;
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
@@ -597,7 +598,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found_values = array();
 		if (is_null($pass))
@@ -659,7 +661,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (is_null($pass))
 		{
@@ -716,7 +719,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$oldthumbsize = 0;
 		if ($this->isSingleline && ($this->getThumbSize()))
 		{
@@ -756,7 +760,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	public function saveAnswerSpecificDataToDb()
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "DELETE FROM qpl_a_mc WHERE question_fi = %s",
 							array( 'integer' ),
 							array( $this->getId() )
@@ -890,7 +895,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	function duplicateImages($question_id, $objectId = null)
 	{
 		/** @var $ilLog ilLogger */
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
@@ -939,7 +945,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
 	function copyImages($question_id, $source_questionpool)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
@@ -974,7 +981,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	protected function syncImages()
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		$imagepath = $this->getImagePath();  
 
@@ -1161,7 +1169,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
 	function getMultilineAnswerSetting()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$multilineAnswerSetting = $ilUser->getPref("tst_multiline_answers");
 		if ($multilineAnswerSetting != 1)
@@ -1173,7 +1182,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	
 	function setMultilineAnswerSetting($a_setting = 0)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$ilUser->writePref("tst_multiline_answers", $a_setting);
 	}
 	
@@ -1249,7 +1259,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	public static function isObligationPossible($questionId)
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT SUM(points) points_for_checked_answers
@@ -1275,7 +1286,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	public function ensureNoInvalidObligation($questionId)
 	{
 		/** @var $ilDB ilDBInterface */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		SUM(qpl_a_mc.points) points_for_checked_answers,
@@ -1408,7 +1420,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

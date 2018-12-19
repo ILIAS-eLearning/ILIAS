@@ -32,7 +32,11 @@ class ilQuestionpoolExport
 	*/
 	public function __construct($a_qpl_obj, $a_mode = "xml", $array_questions = null)
 	{
-		global $ilErr, $ilDB, $ilias, $lng;
+		global $DIC;
+		$ilErr = $DIC['ilErr'];
+		$ilDB = $DIC['ilDB'];
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
 
 		$this->qpl_obj =& $a_qpl_obj;
 		if (!is_array($array_questions))
@@ -110,7 +114,8 @@ class ilQuestionpoolExport
 	*/
 	function buildExportFileXML()
 	{
-		global $ilBench;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 
 		$ilBench->start("QuestionpoolExport", "buildExportFile");
 

@@ -168,6 +168,16 @@ class ilObjUser extends ilObject
 	protected $interests_help_looking; // [array]
 
 	/**
+	 * @var string
+	 */
+	protected $last_profile_prompt;	// timestamp
+
+	/**
+	 * @var string
+	 */
+	protected $first_login;	// timestamp
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer		user_id
@@ -190,6 +200,7 @@ class ilObjUser extends ilObject
 
 		// for gender selection. don't change this
 		/*$this->gender = array(
+							  'n'    => "salutation_n",
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
 							  );*/
@@ -396,6 +407,8 @@ class ilObjUser extends ilObject
 
 		// system data
 		$this->setLastLogin($a_data["last_login"]);
+		$this->setFirstLogin($a_data["first_login"]);
+		$this->setLastProfilePrompt($a_data["last_profile_prompt"]);
 		$this->setLastUpdate($a_data["last_update"]);
 		$this->create_date	= $a_data["create_date"];
         $this->setComment($a_data["referral_comment"]);
@@ -503,6 +516,8 @@ class ilObjUser extends ilObject
 			"fax" => array("text", $this->fax),
 			"birthday" => array('date', $this->getBirthday()),
 			"last_login" => array("timestamp", null),
+			"first_login" => array("timestamp", null),
+			"last_profile_prompt" => array("timestamp", null),
 			"last_update" => array("timestamp", ilUtil::now()),
 			"create_date" => array("timestamp", ilUtil::now()),
 			"referral_comment" => array("text", $this->referral_comment),
@@ -862,6 +877,14 @@ class ilObjUser extends ilObject
 		return ilObjUser::_lookup($a_user_id, "last_login");
 	}
 
+	/**
+	* lookup first login
+	*/
+	static function _lookupFirstLogin($a_user_id)
+	{
+		return ilObjUser::_lookup($a_user_id, "first_login");
+	}
+
 
 	/**
 	* updates the login data of a "user"
@@ -878,6 +901,13 @@ class ilObjUser extends ilObject
 			 "last_login = ".$ilDB->now().
 			 " WHERE usr_id = %s",
 			 array("integer"), array($this->id));
+
+		if ($this->getFirstLogin() == "") {
+			$ilDB->manipulateF("UPDATE usr_data SET ".
+				"first_login = ".$ilDB->now().
+				" WHERE usr_id = %s",
+				array("integer"), array($this->id));
+		}
 	}
 
 
@@ -2138,6 +2168,42 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	 * set user's first login
+	 * @param	string	login date
+	 */
+	public function setFirstLogin($a_str)
+	{
+		$this->first_login = $a_str;
+	}
+
+	/**
+	 * returns first login date
+	 * @return	string	date
+	 */
+	public function getFirstLogin()
+	{
+		 return $this->first_login;
+	}
+
+	/**
+	 * set user's last profile prompt
+	 * @param	string	last profile prompt timestamp
+	 */
+	public function setLastProfilePrompt($a_str)
+	{
+		$this->last_profile_prompt = $a_str;
+	}
+
+	/**
+	 * returns user's last profile prompt
+	 * @return	string	ast profile prompt timestamp
+	 */
+	public function getLastProfilePrompt()
+	{
+		 return $this->last_profile_prompt;
+	}
+
+	/**
 	* set last update of user data set
 	* @access	public
 	* @param	string	date
@@ -2581,7 +2647,6 @@ class ilObjUser extends ilObject
 	{
 		global $DIC;
 
-		$ilAuth = $DIC['ilAuth'];
 		$ilSetting = $DIC['ilSetting'];
 
 		$login = ilObjUser::getLoginFromAuth();
@@ -2643,7 +2708,6 @@ class ilObjUser extends ilObject
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$ilAuth = $DIC['ilAuth'];
 
 		$login = ilObjUser::getLoginFromAuth();
 		$set = $ilDB->queryF("SELECT active FROM usr_data WHERE login= %s",
@@ -2678,51 +2742,54 @@ class ilObjUser extends ilObject
 	 * STATIC METHOD
 	 * get all user_ids of an email address
 	 * @param	string email of user
-	 * @return  integer id of user
+	 * @return  array of user ids
 	 * @static
 	 * @access	public
 	 */
-	static function _getUserIdsByEmail($a_email)
+	static function getUserIdsByEmail($a_email): array
 	{
 		global $DIC;
 
 		$ilias = $DIC['ilias'];
 		$ilDB = $DIC['ilDB'];
 
-		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
 			"WHERE email = %s and active = 1",
 			array("text"),
 			array($a_email));
  		$ids = array ();
-        while($row = $ilDB->fetchObject($res))
-        {
-            $ids[] = $row->login;
-        }
+ 		while($row = $ilDB->fetchObject($res))
+		{
+			$ids[] = $row->usr_id;
+		}
 
 		return $ids;
 	}
 
 
-
 	/**
-	 * STATIC METHOD
-	 * get the user_id of an email address
+	 * get all user login names of an email address
 	 * @param	string email of user
-	 * @return  integer id of user
-	 * @static
+	 * @return  array with all user login names
 	 * @access	public
 	 */
-	function getUserIdByEmail($a_email)
+	static function getUserLoginsByEmail($a_email): array
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
 
-		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
-			"WHERE email = %s", array("text"), array($a_email));
+		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			"WHERE email = %s and active = 1",
+			array("text"),
+			array($a_email));
+		$ids = array ();
+		while($row = $ilDB->fetchObject($res))
+		{
+			$ids[] = $row->login;
+		}
 
-		$row = $ilDB->fetchObject($res);
-		return $row->usr_id ? $row->usr_id : 0;
+		return $ids;
 	}
 
     /*
@@ -3390,8 +3457,15 @@ class ilObjUser extends ilObject
 						//}
 						//else
 						//{
-							$node = $tree->getNodeData($parent_ref);						
-							$all_parent_path[$parent_ref] = $node["title"];
+							if ($parent_ref > 0)	// workaround for #0023176
+							{
+								$node = $tree->getNodeData($parent_ref);
+								$all_parent_path[$parent_ref] = $node["title"];
+							}
+							else
+							{
+								$all_parent_path[$parent_ref] = "";
+							}
 						//}
 					}
 					
@@ -4399,12 +4473,9 @@ class ilObjUser extends ilObject
 		{
 			$body .= ($language->txt("title").": ".$this->getUTitle()."\n");
 		}
-		if(strlen($this->getGender()))
+		if(1 === strlen($this->getGender()))
 		{
-			$gender = ($this->getGender() == 'm') ?
-				$language->txt('gender_m') :
-				$language->txt('gender_f');
-			$body .= ($language->txt("gender").": ".$gender."\n");
+			$body .= ($language->txt("gender").": ". $language->txt('gender_' . strtolower($this->getGender())) ."\n");
 		}
 		if(strlen($this->getFirstname()))
 		{
@@ -5240,31 +5311,58 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	 * get ids of all users that have been inactive for at least the given period
-	 * 
-	 * @static
-	 * @param	integer $period (in days)
-	 * @return	array of user ids
-	 * @access	public
+	 * Get ids of all users that have been inactive for at least the given period
+	 * @param int $periodInDays
+	 * @param bool $includeNeverLoggedIn
+	 * @return array
+	 * @throws \ilException
 	 */
-	public static function _getUserIdsByInactivityPeriod($period)
+	public static function getUserIdsByInactivityPeriod(int $periodInDays): array
 	{
-		if( !(int)$period ) throw new ilException('no valid period given');
-
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		if (!is_numeric($periodInDays) && $periodInDays < 1) {
+			throw new \ilException('Invalid period given');
+		}
 
-		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
+		$date = date( 'Y-m-d H:i:s', (time() - ((int)$periodInDays * 24 * 60 * 60)) );
 
-		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s OR (ISNULL(last_login) AND create_date < %s)";
+		$query = "SELECT usr_id FROM usr_data WHERE last_login IS NOT NULL AND last_login < %s";
 
-		$res = $ilDB->queryF($query, array('timestamp', 'timestamp'), array($date, $date));
+		$ids = [];
 
-		$ids = array();
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$ids[] = $row->usr_id;
+		$types = ['timestamp'];
+		$values = [$date];
+
+		$res = $DIC->database()->queryF($query, $types, $values);
+		while($row = $DIC->database()->fetchAssoc($res)) {
+			$ids[] = $row['usr_id'];
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * Get ids of all users that have never logged in
+	 * @param int $thresholdInDays
+	 * @return array
+	 */
+	public static function getUserIdsNeverLoggedIn(int $thresholdInDays): array
+	{
+		global $DIC;
+
+		$date = date('Y-m-d H:i:s', (time() - ((int)$thresholdInDays * 24 * 60 * 60)));
+
+		$query = "SELECT usr_id FROM usr_data WHERE last_login IS NULL AND create_date < %s";
+
+		$ids = [];
+
+		$types = ['timestamp'];
+		$values = [$date];
+
+		$res = $DIC->database()->queryF($query, $types, $values);
+		while($row = $DIC->database()->fetchAssoc($res)) {
+			$ids[] = $row['usr_id'];
 		}
 
 		return $ids;
@@ -5325,6 +5423,10 @@ class ilObjUser extends ilObject
 
 		$query = "UPDATE usr_data SET last_login = %s WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array($last_login, $a_usr_id) );
+
+		$query = "UPDATE usr_data SET first_login = %s WHERE usr_id = %s AND first_login IS NULL";
+		$ilDB->manipulateF( $query, array('timestamp', 'integer'), array($last_login, $a_usr_id) );
+		
 
 		if($affected) return $last_login;
 		else return false;

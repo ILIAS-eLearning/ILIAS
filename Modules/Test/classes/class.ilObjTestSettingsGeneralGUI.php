@@ -181,7 +181,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				$title = $this->lng->txt($title);
 			}
 			
-			global $tpl;
+			global $DIC;
+			$tpl = $DIC['tpl'];
 
 			$link = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_RESET_TPL_CONFIRM);
 			$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
@@ -210,6 +211,18 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$form = $this->buildForm();
 
 		// form validation and initialisation
+		
+		if($isConfirmedSave)
+		{
+			// since confirmation does only pickup POST and no FILES
+			// mocking the tile image file upload field is neccessary
+			// due to checkInput() behaviour (fixes mantis #24226)
+			$_FILES['tile_image'] = array(
+				'name' => '', 'type' => '', 'size' => '', 'tmp_name' => '', 'error' => ''
+			);
+			
+			// TODO: get rid of question selection mode setting in settings form (move to creation screen)
+		}
 
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
@@ -323,7 +336,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				{
 					$form->getItemByPostVar('online')->setChecked(false);
 
-					if( $this->testOBJ->isOnline() )
+					if( !$this->testOBJ->getOfflineStatus() )
 					{
 						$infoMsg[] = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
 					}
@@ -428,7 +441,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 	private function isCharSelectorPropertyRequired()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 
 		return $ilSetting->get('char_selector_availability') > 0;
 	}
@@ -445,6 +459,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		$this->addGeneralProperties($form);
 		$this->addAvailabilityProperties($form);
+		$this->addPresentationProperties($form);
 		$this->addTestIntroProperties($form);
 		$this->addTestAccessProperties($form);
 		$this->addTestRunProperties($form);
@@ -497,6 +512,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
 		$this->saveGeneralProperties($form);
+		$this->savePresentationProperties($form);
 		$this->saveAvailabilityProperties($form);
 		$this->saveTestIntroProperties($form);
 		$this->saveTestAccessProperties($form);
@@ -637,6 +653,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		$this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
 		$this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+		$this->testOBJ->setOfflineStatus(!$form->getItemByPostVar('online')->getChecked());
 		$this->testOBJ->update();
 
 		// pool usage setting
@@ -681,7 +698,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		}
 
 		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'online');
-		$online->setChecked($this->testOBJ->isOnline());
+		$online->setChecked(!$this->testOBJ->getOfflineStatus());
 		$online->setInfo($this->lng->txt('tst_activation_online_info') . $act_obj_info);
 		$form->addItem($online);
 
@@ -692,6 +709,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
+		$dur->setRequired(true);
 		$dur->setShowTime(true);
 		$date = $this->testOBJ->getActivationStartingTime();
 		$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
@@ -714,9 +732,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 */
 	private function saveAvailabilityProperties(ilPropertyFormGUI $form)
 	{
-		// online status
-		$this->testOBJ->setOnline($form->getItemByPostVar('online')->getChecked());
-
 		// activation
 		if ($form->getItemByPostVar('activation_type')->getChecked())
 		{
@@ -731,6 +746,30 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		{
 			$this->testOBJ->setActivationLimited(false);
 		}
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function addPresentationProperties(ilPropertyFormGUI $form)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('tst_presentation_settings_section'));
+		$form->addItem($section);
+		
+		$DIC->object()->commonSettings()->legacyForm($form, $this->testOBJ)->addTileImage();
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function savePresentationProperties(ilPropertyFormGUI $form)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$DIC->object()->commonSettings()->legacyForm($form, $this->testOBJ)->saveTileImage();
 	}
 
 	/**

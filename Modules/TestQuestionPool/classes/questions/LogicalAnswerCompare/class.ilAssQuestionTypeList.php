@@ -29,7 +29,8 @@ class ilAssQuestionTypeList implements Iterator
 	 */
 	public function __construct()
 	{
-		$this->db = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$this->db = $DIC['ilDB'];
 	}
 	
 	public function load()

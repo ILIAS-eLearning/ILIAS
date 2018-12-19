@@ -1153,10 +1153,6 @@ class ilUtil
 	 */
 	public static function is_email($a_email, ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
-		global $DIC;
-
-		$ilErr = $DIC["ilErr"];
-
 		if (null === $a_email || !is_string($a_email)) {
 			return false;
 		}
@@ -1164,35 +1160,16 @@ class ilUtil
 		if ($mailAddressParserFactory === null) {
 			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
 		}
-		// additional check for ilias object is needed,
-		// otherwise setup will fail with this if branch
-		if(is_object($ilErr)) // seems to work in Setup now
+
+		try
 		{
-			try
-			{
-				$parser    = $mailAddressParserFactory->getParser((string)$a_email);
-				$addresses = $parser->parse();
-				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
-			}
-			catch(ilException $e)
-			{
-				return false;
-			}
+			$parser    = $mailAddressParserFactory->getParser((string)$a_email);
+			$addresses = $parser->parse();
+			return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 		}
-		else
+		catch(ilException $e)
 		{
-			$tlds = strtolower(
-				"AC|AD|AE|AERO|AF|AG|AI|AL|AM|AN|AO|AQ|AR|ARPA|AS|ASIA|AT|AU|AW|AX|AZ|BA|BB|BD|BE|BF|BG|BH|BI|BIZ|BJ|BM|BN|BO|BR|BS|BT|BV|BW|BY|".
-				"BZ|CA|CAT|CC|CD|CF|CG|CH|CI|CK|CL|CM|CN|CO|COM|COOP|CR|CU|CV|CX|CY|CZ|DE|DJ|DK|DM|DO|DZ|EC|EDU|EE|EG|".
-				"ER|ES|ET|EU|FI|FJ|FK|FM|FO|FR|GA|GB|GD|GE|GF|GG|GH|GI|GL|GM|GN|GOV|GP|GQ|GR|GS|GT|GU|GW|GY|HK|HM|HN|HR|HT|".
-				"HU|ID|IE|IL|IM|IN|INFO|INT|IO|IQ|IR|IS|IT|JE|JM|JO|JOBS|JP|KE|KG|KH|KI|KM|KN|KP|KR|KW|KY|KZ|LA|LB|LC|".
-				"LI|LK|LR|LS|LT|LU|LV|LY|MA|MC|MD|ME|MG|MH|MIL|MK|ML|MM|MN|MO|MOBI|MP|MQ|MR|MS|MT|MU|MUSEUM|MV|MW|MX|".
-				"MY|MZ|NA|NAME|NC|NE|NET|NF|NG|NI|NL|NO|NP|NR|NU|NZ|OM|ORG|PA|PE|PF|PG|PH|PK|PL|PM|PN|PR|PRO|PS|".
-				"PT|PW|PY|QA|RE|RO|RS|RU|RW|SA|SB|SC|SD|SE|SG|SH|SI|SJ|SK|SL|SM|SN|SO|SR|ST|SU|SV|SY|SZ|TC|TD|TEL|".
-				"TF|TG|TH|TJ|TK|TL|TM|TN|TO|TP|TR|TRAVEL|TT|TV|TW|TZ|UA|UG|UK|US|UY|UZ|VA|VC|VE|VG|VI|VN|VU|".
-				"WF|WS|XN|YE|YT|YU|ZA|ZM|ZW");
-			
-			return(preg_match("/^[-_.[:alnum:]]+@((([[:alnum:]]|[[:alnum:]][[:alnum:]-]*[[:alnum:]])\.)+(".$tlds.")|(([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])\.){3}([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]))$/i",$a_email));
+			return false;
 		}
 	}
 
@@ -2601,6 +2578,17 @@ class ilUtil
 		}
 
 		return $a_arr;
+	}
+
+	/**
+	 * @param string $clientId
+	 * @return \ILIAS\Data\ClientId
+	 */
+	public static function getClientIdByString(string $clientId): \ILIAS\Data\ClientId 
+	{
+		$df = new \ILIAS\Data\Factory;
+
+		return $df->clientId($clientId);
 	}
 	
 	/**
@@ -4875,6 +4863,7 @@ class ilUtil
 	{
 		global $DIC;
 
+		/** @var ilTemplate $tpl */
 		$tpl = $DIC["tpl"];
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}
@@ -5346,12 +5335,12 @@ class ilUtil
 	
 	public static function MB2Bytes($a_value)
 	{
-		return  $a_value * pow(self::_getSizeMagnitude(), 2);
+		return  ((int) $a_value) * pow(self::_getSizeMagnitude(), 2);
 	}
 	
 	public static function Bytes2MB($a_value)
 	{
-		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
+		return  ((int) $a_value) / (pow(self::_getSizeMagnitude(), 2));
 	}
 
 	/**

@@ -8,6 +8,9 @@ require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class NumericInputTest extends ILIAS_UI_TestBase {
 
@@ -17,7 +20,13 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 
@@ -98,6 +107,21 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 		            . "	<div class=\"col-sm-9\">"
 		            . "		<input type=\"number\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		" . "		"
 		            . "	</div>" . "</div>";
+		$this->assertEquals($expected, $html);
+	}
+
+	public function test_render_disabled() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$numeric = $f->numeric($label)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $this->normalizeHTML($r->render($numeric));
+
+		$expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+					. "	<div class=\"col-sm-9\">" . "		<input type=\"number\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />"
+					. "		" . "		" . "	</div>" . "</div>";
 		$this->assertEquals($expected, $html);
 	}
 }

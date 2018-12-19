@@ -511,7 +511,6 @@ class ilWikiUtil
 				}
 			}
 
-//$ilCtrl->debug("ilWikiUtil::makeLink:-$inside-$trail-");
 /*			if ( $nt->isExternal() ) {
 				$nr = array_push( $this->mInterwikiLinkHolders['texts'], $prefix.$text.$inside );
 				$this->mInterwikiLinkHolders['titles'][] = $nt;

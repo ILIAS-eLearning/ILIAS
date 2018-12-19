@@ -237,7 +237,8 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 	 */
 	public function insert(ilTemplate $template)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 		$modal = ilModalGUI::getInstance();
 		$modal->setHeading($lng->txt(''));

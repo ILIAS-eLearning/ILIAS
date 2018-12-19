@@ -29,7 +29,13 @@ class ilCommonActionDispatcherGUI
 	protected $node_type; // [string]
 	protected $obj_id; // [int]
 	protected $sub_type; // [string]
-	protected $sub_id; // [int]	
+	protected $sub_id; // [int]
+
+	/**
+	 * @var int
+	 */
+	protected $news_id = 0;
+
 	protected $enable_comments_settings; // [bool]
 	protected $rating_callback; // [array]
 	
@@ -46,7 +52,7 @@ class ilCommonActionDispatcherGUI
 	 * @param int $a_obj_id 
 	 * @return object
 	 */
-	function __construct($a_node_type, $a_access_handler, $a_obj_type, $a_node_id, $a_obj_id)
+	function __construct($a_node_type, $a_access_handler, $a_obj_type, $a_node_id, $a_obj_id, $a_news_id = 0)
 	{								
 		global $DIC;
 
@@ -57,6 +63,7 @@ class ilCommonActionDispatcherGUI
 		$this->obj_type = (string)$a_obj_type;
 		$this->node_id = (int)$a_node_id;
 		$this->obj_id = (int)$a_obj_id;		
+		$this->news_id = (int) $a_news_id;
 	}
 	
 	/**
@@ -67,7 +74,7 @@ class ilCommonActionDispatcherGUI
 	function getAjaxHash()
 	{
 		return self::buildAjaxHash($this->node_type, $this->node_id, $this->obj_type,
-			$this->obj_id, $this->sub_type, $this->sub_id);
+			$this->obj_id, $this->sub_type, $this->sub_id, $this->news_id);
 	}
 	
 	/**
@@ -77,14 +84,15 @@ class ilCommonActionDispatcherGUI
 	 * @param int $a_node_id	
 	 * @param string $a_obj_type
 	 * @param int $a_obj_id
-	 * @param type $a_sub_type
-	 * @param type $a_sub_id
+	 * @param string $a_sub_type
+	 * @param int $a_sub_id
 	 * @return string 
 	 */
-	static function buildAjaxHash($a_node_type, $a_node_id, $a_obj_type, $a_obj_id, $a_sub_type = null, $a_sub_id = null)
+	static function buildAjaxHash($a_node_type, $a_node_id, $a_obj_type, $a_obj_id, $a_sub_type = null, $a_sub_id = null,
+		$a_news_id = 0)
 	{
 		return $a_node_type.";".$a_node_id.";".$a_obj_type.";".
-			$a_obj_id.";".$a_sub_type.";".$a_sub_id;
+			$a_obj_id.";".$a_sub_type.";".$a_sub_id.";".$a_news_id;
 	}
 	
 	/**
@@ -98,7 +106,6 @@ class ilCommonActionDispatcherGUI
 
 		$ilAccess = $DIC->access();
 		$ilUser = $DIC->user();
-		
 		if(isset($_GET["cadh"]))
 		{
 			$parts = explode(";", (string)$_GET["cadh"]);
@@ -109,6 +116,7 @@ class ilCommonActionDispatcherGUI
 			$obj_id = $parts[3];
 			$sub_type = $parts[4];
 			$sub_id = $parts[5];
+			$news_id = $parts[6];
 			
 			switch($node_type)
 			{
@@ -127,7 +135,7 @@ class ilCommonActionDispatcherGUI
 					return null;
 			}
 			
-			$dispatcher = new self($node_type, $access_handler, $obj_type, $node_id, $obj_id);
+			$dispatcher = new self($node_type, $access_handler, $obj_type, $node_id, $obj_id, $news_id);
 			
 			if($sub_type && $sub_id)
 			{
@@ -174,7 +182,7 @@ class ilCommonActionDispatcherGUI
 				}
 				
 				include_once "Services/Notes/classes/class.ilNoteGUI.php";
-				$note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type);
+				$note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type, false, $this->news_id);
 				$note_gui->enablePrivateNotes(true);	
 				
 				$has_write = $this->access_handler->checkAccess("write", "", $this->node_id);

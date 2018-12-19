@@ -96,6 +96,14 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		return $ctrl->getLinkTargetByClass("ilobjportfoliotemplategui", "preview");
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	protected function getCourseSortAction($ctrl)
+	{
+		return $ctrl->getFormActionByClass("ilobjportfoliotemplategui", "preview");
+	}
+
 }
 
 ?>

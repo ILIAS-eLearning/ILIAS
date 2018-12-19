@@ -2,13 +2,12 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjectActivationGUI
-*
-* @author Stefan Meyer <meyer@leifos.com> 
-* @version $Id: class.ilCourseItemAdministrationGUI.php 33406 2012-02-28 16:26:59Z akill $
-* 
-* @ilCtrl_Calls ilObjectActivationGUI: ilConditionHandlerGUI
-*/
+ * Class ilObjectActivationGUI
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ *
+ * @ilCtrl_Calls ilObjectActivationGUI: ilConditionHandlerGUI
+ */
 class ilObjectActivationGUI
 {
 	/**
@@ -19,7 +18,7 @@ class ilObjectActivationGUI
 	/**
 	 * @var ilTabsGUI
 	 */
-	protected $tabs;
+	protected $tabs_gui;
 
 	/**
 	 * @var ilAccessHandler
@@ -41,49 +40,75 @@ class ilObjectActivationGUI
 	 */
 	protected $help;
 
+	/**
+	 * @var int
+	 */
 	protected $parent_ref_id;
+
+	/**
+	 * @var int
+	 */
 	protected $item_id;
+
+	/**
+	 * @var \ilTemplate
+	 */
 	protected $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
 	protected $ctrl;
+
+	/**
+	 * @var \ilLanguage
+	 */
 	protected $lng;
 
 	/**
-	* Constructor
-	* @access public
-	*/
-	function __construct($a_ref_id,$a_item_id)
+	 * @var int|null
+	 */
+	protected $timing_mode = null;
+
+	/**
+	 * @var int|null
+	 */
+	protected $activation = null;
+
+	/**
+	 * ilObjectActivationGUI constructor.
+	 * @param $a_ref_id
+	 * @param $a_item_id
+	 */
+	public function __construct($a_ref_id,$a_item_id)
 	{
 		global $DIC;
 
-		$this->tpl = $DIC["tpl"];
+		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
-		$this->error = $DIC["ilErr"];
-		$this->tabs = $DIC->tabs();
+		$this->lng->loadLanguageModule('crs');
+
+		$this->error = $DIC['ilErr'];
+		$this->tabs_gui = $DIC->tabs();
 		$this->access = $DIC->access();
 		$this->tree = $DIC->repositoryTree();
 		$this->user = $DIC->user();
 		$this->help = $DIC["ilHelp"];
-		$tpl = $DIC["tpl"];
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilErr = $DIC["ilErr"];
-		$ilTabs = $DIC->tabs();
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->lng->loadLanguageModule('crs');
-		$this->err =& $ilErr;
-		$this->tabs_gui =& $ilTabs;
 
 		$this->parent_ref_id = $a_ref_id;
 		$this->item_id = $a_item_id;
+
 		$this->ctrl->saveParameter($this,'item_id');
 
 	}
 
-	function executeCommand()
+	/**
+	 * Execute command
+	 * @throws ilCtrlException
+	 */
+	public function executeCommand()
 	{
 		$tpl = $this->tpl;
 
@@ -104,7 +129,6 @@ class ilObjectActivationGUI
 		{
 			case 'ilconditionhandlergui':				
 				// preconditions for single course items
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
 				$new_gui = new ilConditionHandlerGUI($this,(int) $_GET['item_id']);
 				$this->ctrl->forwardCommand($new_gui);
@@ -112,6 +136,8 @@ class ilObjectActivationGUI
 				break;
 
 			default:
+				$this->initTimingMode();
+				$this->initItem();
 				$this->tabs_gui->setTabActive('timings');
 				if(!$cmd)
 				{
@@ -125,12 +151,42 @@ class ilObjectActivationGUI
 		$tpl->show();
 	}
 
-	function getItemId()
+	/**
+	 * @return int
+	 */
+	public function getItemId()
 	{
 		return $this->item_id;
 	}
 
-	function cancel()
+	public function getTimingMode()
+	{
+		return $this->timing_mode;
+	}
+
+	/**
+	 * Get parent ref_id
+	 * @return int
+	 */
+	public function getParentId()
+	{
+		return $this->parent_ref_id;
+	}
+
+	/**
+	 * Get item object
+	 * @return ilObjectActivation
+	 */
+	public function getActivation()
+	{
+		return $this->activation;
+	}
+
+
+	/**
+	 * cancel action handler
+	 */
+	public function cancel()
 	{
 		$this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->parent_ref_id);
 		$this->ctrl->redirectByClass('ilrepositorygui');
@@ -142,23 +198,35 @@ class ilObjectActivationGUI
 	 * @access public
 	 * @return
 	 */
-	public function edit()
+	public function edit(ilPropertyFormGUI $form = null)
 	{
 		$ilErr = $this->error;
 		$ilAccess = $this->access;
 		$tpl = $this->tpl;
 
 		// #19997 - see ilObjectListGUI::insertTimingsCommand()
-		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
+		if(
+			!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
 			!$ilAccess->checkAccess('write','',$this->getItemId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
 		
-		$this->initFormEdit();
-		$this->getValues();
-				
-		$tpl->setContent($this->form->getHTML());
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			// show edit warning if timings are on
+			if($GLOBALS['tree']->checkForParentType($this->getParentId(),'crs'))
+			{
+				if($this->getActivation()->getTimingType() == ilObjectActivation::TIMINGS_PRESETTING)
+				{
+					ilUtil::sendInfo($this->lng->txt('crs_timings_warning_timing_exists'));
+				}
+			}
+
+			$form = $this->initFormEdit();
+
+		}
+		$tpl->setContent($form->getHTML());
 	}
 	
 	/**
@@ -170,125 +238,41 @@ class ilObjectActivationGUI
 	protected function initFormEdit()
 	{
 		$tree = $this->tree;
-		
-		include_once "Services/Object/classes/class.ilObjectActivation.php";
-		
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
-	
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
 		$title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getItemId()));
-		$this->form->setTitle($title.': '.$this->lng->txt('crs_edit_timings'));
-		
-		$timings = new ilRadioGroupInputGUI($this->lng->txt('timings'),'timing_type');
-		
-		// opt deactivated
-		$dea = new ilRadioOption($this->lng->txt('crs_timings_disabled'),ilObjectActivation::TIMINGS_DEACTIVATED);
-		$dea->setInfo($this->lng->txt('crs_timings_disabled_info'));
-		$timings->addOption($dea);
-		
-		// Visiblity
-		$vis = new ilRadioOption($this->lng->txt('crs_timings_availability_enabled'),ilObjectActivation::TIMINGS_ACTIVATION);
-		#$vis->setInfo($this->lng->txt('crs_timings_visibility'));
-		
-			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_start'),'timing_start');
-			$start->setRequired(true);
-			$start->setShowTime(true);
-			$vis->addSubItem($start);
-		
-			$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_end'),'timing_end');
-			$end->setRequired(true);
-			$end->setShowTime(true);
-			$vis->addSubItem($end);
-			
-			$isv = new ilCheckboxInputGUI($this->lng->txt('crs_timings_visibility_short'),'visible');
-			$isv->setInfo($this->lng->txt('crs_timings_visibility'));
-			$isv->setValue(1);
-			$vis->addSubItem($isv);
+		$form->setTitle($title.': '.$this->lng->txt('crs_edit_timings'));
 
-		$timings->addOption($vis);
-		
-		// Timings
-		$tim = new ilRadioOption($this->lng->txt('crs_timings_presetting'),ilObjectActivation::TIMINGS_PRESETTING);
-		$tim->setInfo($this->lng->txt('crs_item_presetting_info'));
-		
-			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_sug_begin'),'sug_start');
-			$start->setRequired(true);
-			$tim->addSubItem($start);
-			
-			$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_sug_end'),'sug_end');
-			$end->setRequired(true);
-			$tim->addSubItem($end);
-			
-			if ($tree->checkForParentType($this->parent_ref_id,'crs'))
-			{
-				$cha = new ilCheckboxInputGUI($this->lng->txt('crs_timings_changeable'),'changeable');
-				$tim->addSubItem($cha);
 
-				$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_early_begin'),'early_start');
-				$start->setRequired(true);
-				$tim->addSubItem($start);
+		$availability = new ilCheckboxInputGUI($this->lng->txt('crs_timings_availability_enabled'),'availability');
+		$availability->setValue(1);
+		$availability->setChecked($this->getActivation()->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION);
 
-				$late = new ilDateTimeInputGUI($this->lng->txt('crs_timings_short_limit_start_end'),'late_end');
-				$late->setRequired(true);
-				$tim->addSubItem($late);
-			}
-				
-			
-		$timings->addOption($tim);
-		
-		$this->form->addItem($timings);
-		
-		$this->form->addCommandButton('update',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
-	}
-	
-	/**
-	 * get values
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function getValues()
-	{
-		$ilUser = $this->user;
-		
-		include_once "Services/Object/classes/class.ilObjectActivation.php";
-		$item_data = ilObjectActivation::getItem($this->getItemId());
-				
-		$data = array();
-		
-		if(!$item_data)
-		{
-			$data['timing_type'] = ilObjectActivation::TIMINGS_DEACTIVATED;			
-		}
-		else
-		{		
-			$data['timing_type'] = $item_data['timing_type'];
-			$data['visible'] = $item_data['visible'];
-			$data['changeable'] = $item_data['changeable'];
-			
-			$map = array(
-				'timing_start' => 'timing_start'
-				,'timing_end' => 'timing_end'
-				,'sug_start' => 'suggestion_start'
-				,'sug_end' => 'suggestion_end'
-				,'early_start' => 'earliest_start'
-				,'late_end' => 'latest_end'
-			);
-			foreach($map as $data_key => $item_key)
-			{
-				$data[$data_key] = null;
-				
-				// #14531
-				if($item_data[$item_key])
-				{
-					$data[$data_key] = new ilDateTime($item_data[$item_key], IL_CAL_UNIX);
-				}
-			}			
-		}
-		
-		$this->form->setValuesByArray($data);
+		$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_start'),'timing_start');
+		$start->setDate(new ilDateTime($this->getActivation()->getTimingStart(),IL_CAL_UNIX));
+		$start->setShowTime(true);
+		$availability->addSubItem($start);
+
+		$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_end'),'timing_end');
+		$end->setDate(new ilDateTime($this->getActivation()->getTimingEnd(),IL_CAL_UNIX));
+		$end->setShowTime(true);
+		$availability->addSubItem($end);
+
+		$isv = new ilCheckboxInputGUI($this->lng->txt('crs_timings_visibility_short'),'visible');
+		$isv->setInfo($this->lng->txt('crs_timings_visibility'));
+		$isv->setValue(1);
+		$isv->setChecked((bool) $this->getActivation()->enabledVisible());
+		$availability->addSubItem($isv);
+
+
+		$form->addItem($availability);
+
+		$form->addCommandButton('update',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+
+		return $form;
 	}
 
 	/**
@@ -305,73 +289,51 @@ class ilObjectActivationGUI
 		$ilUser = $this->user;
 
 		// #19997 - see ilObjectListGUI::insertTimingsCommand()
-		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
+		if(
+			!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
 			!$ilAccess->checkAccess('write','',$this->getItemId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
-		
-		$this->initFormEdit();
-		if($this->form->checkInput())
+
+		$form = $this->initFormEdit();
+		if($form->checkInput())
 		{
-			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			$activation = new ilObjectActivation();
-			
-			$activation->setTimingType($this->form->getInput('timing_type'));
-			
-			$date = $this->form->getItemByPostVar('timing_start')->getDate();		
-			$activation->setTimingStart($date ? $date->get(IL_CAL_UNIX) : null);
-			
-			$date = $this->form->getItemByPostVar('timing_end')->getDate();			
-			$activation->setTimingEnd($date ? $date->get(IL_CAL_UNIX) : null);
-	
-			$date = $this->form->getItemByPostVar('sug_start')->getDate();
-			$activation->setSuggestionStart($date ? $date->get(IL_CAL_UNIX) : null);
-	
-			$date = $this->form->getItemByPostVar('sug_end')->getDate();
-			$activation->setSuggestionEnd($date ? $date->get(IL_CAL_UNIX) : null);
-	
-			$date = null;
-			$item = $this->form->getItemByPostVar('early_start');				
-			if($item)
+			$activation->read($this->getItemId());
+
+			if($form->getInput('availability'))
 			{
-				$date = $item->getDate();			
+				$this->getActivation()->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
+
+				$timing_start = $form->getItemByPostVar('timing_start')->getDate();
+				$this->getActivation()->setTimingStart($timing_start ? $timing_start->get(IL_CAL_UNIX) : null);
+
+				$timing_end = $form->getItemByPostVar('timing_end')->getDate();
+				$this->getActivation()->setTimingEnd($timing_end ? $timing_end->get(IL_CAL_UNIX) : null);
+
+				$this->getActivation()->toggleVisible((bool) $form->getInput('visible'));
 			}
-			$activation->setEarliestStart($date ? $date->get(IL_CAL_UNIX) : null);
-	
-			$date = null;
-			$item = $this->form->getItemByPostVar('late_end');
-			if($item)
+			elseif($this->getActivation()->getTimingType() != ilObjectActivation::TIMINGS_PRESETTING)
 			{
-				$date = $item->getDate();									
+				$this->getActivation()->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
 			}
-			$activation->setLatestEnd($date ? $date->get(IL_CAL_UNIX) : null);
-	
-			$activation->toggleVisible((bool) $this->form->getInput('visible'));
-			$activation->toggleChangeable((bool) $this->form->getInput('changeable'));
-			
-			if(!$activation->validateActivation())
-			{
-				ilUtil::sendFailure($ilErr->getMessage());
-		        $this->form->setValuesByPost();
-				$tpl->setContent($this->form->getHTML());
-				return false;
-			}
-			else
-			{
-				$activation->update($this->getItemId());
-				ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-				$this->ctrl->redirect($this, "edit");
-			}
+
+			$this->getActivation()->update($this->getItemId(), $this->getParentId());
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+			$this->ctrl->redirect($this, "edit");
 		}
 		else
 		{
-	        $this->form->setValuesByPost();
-			$tpl->setContent($this->form->getHTML());
-		}	
+			$form->setValuesByPost();
+			$this->edit($form);
+		}
 	}
 
-	function __setTabs()
+	/**
+	 * @return bool
+	 */
+	protected function __setTabs()
 	{
 		$ilCtrl = $this->ctrl;
 		$ilHelp = $this->help;
@@ -395,6 +357,36 @@ class ilObjectActivationGUI
 								   "", "ilConditionHandlerGUI");
 		return true;
 	}
-} 
 
+	/**
+	 * Init type of timing mode
+	 */
+	protected function initTimingMode()
+	{
+		// Check for parent course and if available read timing mode (abs | rel)
+		$crs_ref_id = $GLOBALS['tree']->checkForParentType(
+			$this->parent_ref_id,
+			'crs'
+		);
+		$crs_obj_id = ilObject::_lookupObjId($crs_ref_id);
+
+		if($crs_obj_id)
+		{
+			$this->timing_mode = ilObjCourse::lookupTimingMode($crs_obj_id);
+		}
+		else
+		{
+			$this->timing_mode = ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE;
+		}
+	}
+
+	/**
+	 * Init item
+	 */
+	protected function initItem()
+	{
+		$this->activation = new ilObjectActivation();
+		$this->getActivation()->read($this->item_id, $this->getParentId());
+	}
+}
 ?>

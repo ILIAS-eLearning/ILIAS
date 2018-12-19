@@ -64,8 +64,11 @@ class ilAdvancedMDValues
 		$refs = ilObject::_getAllReferences($a_obj_id);
 		foreach($refs as $ref_id)
 		{
-			include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
-			foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $ref_id, $a_sub_type) as $record)
+			$records = ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $ref_id, $a_sub_type);
+			$orderings = new ilAdvancedMDRecordObjectOrderings();
+			$records = $orderings->sortRecords($records,$a_obj_id);
+
+			foreach($records as $record)
 			{
 				$id = $record->getRecordId();
 				
@@ -547,10 +550,10 @@ class ilAdvancedMDValues
 		
 		foreach($a_records as $rec)
 		{			
-			$obj_id = $rec[$a_obj_id_key];
+			$obj_id = (int) $rec[$a_obj_id_key];
 			$sub_id = $rec[$a_obj_subid_key];
-						
-			// only active amet records for glossary
+
+			// get adv records
 			foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_rec_obj_type, $adv_rec_obj_ref_id, $adv_rec_obj_subtype) as $adv_record)
 			{
 				$record_id = $adv_record->getRecordId();
@@ -569,7 +572,6 @@ class ilAdvancedMDValues
 					"sub_type" => array("text", $a_subtype),
 					"sub_id" => array("integer", $sub_id)
 				));
-				
 				// multi-enum fakes single in adv md
 				foreach($record_groups[$record_id]->getElements() as $element)
 				{
@@ -579,20 +581,20 @@ class ilAdvancedMDValues
 					}
 				}		
 				
-				// read (preloaded) data 
-				$active_record = new ilADTActiveRecordByType($record_groups[$record_id]);	
+				// read (preloaded) data
+				$active_record = new ilADTActiveRecordByType($record_groups[$record_id]);
 				$active_record->setElementIdColumn("field_id", "integer");	
 				$active_record->read();
 					
 				$adt_group = $record_groups[$record_id]->getADT();									
-			
+
 				// filter against amet values
 				if($a_amet_filter)
 				{										
 					foreach($a_amet_filter as $field_id => $element)
 					{						
 						if($adt_group->hasElement($field_id))
-						{							
+						{
 							if(!$element->isInCondition($adt_group->getElement($field_id)))
 							{			
 								continue(3);
@@ -603,6 +605,7 @@ class ilAdvancedMDValues
 				// add amet values to glossary term record
 				foreach($adt_group->getElements() as $element_id => $element)
 				{
+
 					if(!$element->isNull())
 					{
 						// we are reusing the ADT group for all $a_records, so we need to clone
@@ -620,7 +623,7 @@ class ilAdvancedMDValues
 			
 			$results[] = $rec;	
 		}
-		
+
 		return $results;
 	}
 }

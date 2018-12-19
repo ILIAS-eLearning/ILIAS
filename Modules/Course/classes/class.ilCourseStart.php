@@ -227,7 +227,7 @@ class ilCourseStart
 		{
 			case 'tst':
 				include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-				include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+				include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 				
 				if(!ilObjTestAccess::checkCondition($obj_id,  ilConditionHandler::OPERATOR_FINISHED,'',$user_id))
 				{

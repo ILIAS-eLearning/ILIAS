@@ -4,54 +4,49 @@ use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotImplemented;
 
+/**
+ * Class ilObjectDAV
+ *
+ * Base implementation for all ILIAS objects to be represented as a WebDAV object
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ *
+ * @extends Sabre\DAV\Node
+ */
 abstract class ilObjectDAV extends Sabre\DAV\Node
 {
-    /**
-     * Refid to the object.
-     * 
-     * @var $ref_id integer
-     */
+    /** @var $ref_id integer */
     protected $ref_id;
     
-    /**
-     * Application layer object.
-     * 
-     * @var $obj ilObject
-     */
+    /** @var $obj ilObject */
     protected $obj;
     
-    /**
-     * 
-     * @var $tree ilTree
-     */
-    protected $tree;
-    
-    /**
-     * 
-     * @var $access ilAccessHandler
-     */
-    protected $access;
-    
+    /** @var ilWebDAVRepositoryHelper $repo_helper */
+    protected $repo_helper;
+
+    /** @var ilWebDAVObjDAVHelper */
+    protected $dav_helper;
+
     /**
      * Constructor for DAV Object
      * 
      * Note: There is a good reason why I want an ILIAS-Object in the constructor and not a ref_id.
      * This is because every instance of ilObjectDAV and its inherited children
-     * represent an ILIAS-object for WebDAV. If there isnt an ILIAS-object there is
+     * represent an ILIAS-object for WebDAV. If there isn't an ILIAS-object there is
      * no object to represent for WebDAV.
      *
      * @param ilObject $a_obj
      */
-    function __construct(ilObject $a_obj)
+    function __construct(ilObject $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
         global $DIC;
         
         $this->obj =& $a_obj;
         $this->ref_id = $a_obj->getRefId();
-        
-        
-        $this->tree = $DIC->repositoryTree();
-        $this->access = $DIC->access();
+
+        $this->dav_helper = $dav_helper;
+        $this->repo_helper = $repo_helper;
     }
     
     /**
@@ -83,22 +78,23 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
         
         return ($this->obj == null) ? null : strtotime($this->obj->getLastUpdateDate());
     }
-    
+
     /**
      * Deletes the current node
      *
      * @throws Sabre\DAV\Exception\Forbidden
+     * @throws ilRepositoryException
      * @return void
      */
     public function delete()
     {
-        if($this->access->checkAccess('delete', '', $this->obj->getRefId()))
+        if($this->repo_helper->checkAccess('delete', $this->ref_id))
         {
-            $this->tree->moveToTrash($this->obj->getRefId());
+            $this->repo_helper->deleteObject($this->ref_id);
         }
-        else 
+        else
         {
-            throw new Forbidden("No delete permission for $this->getName()");
+            throw new Forbidden("Permission denied");
         }
     }
     
@@ -111,13 +107,17 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      */
     function setName($a_name)
     {
-        if($this->access->checkAccess("write", '', $this->obj->getRefId()))
+        if ($this->repo_helper->checkAccess("write", $this->obj->getRefId()))
         {
-            $this->obj->setTitle($a_name);
-            $this->obj->update();
-        }
-        else 
-        {
+            if ($this->dav_helper->isDAVableObjTitle($a_name)) {
+                $this->obj->setTitle($a_name);
+                $this->obj->update();
+            }
+            else
+            {
+                throw new Forbidden('Forbidden characters in title');
+            }
+        } else {
             throw new Forbidden('Permission denied');
         }
     }
@@ -141,50 +141,7 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
     {
         return $this->obj;
     }
-    
-    /**
-     * Creates a DAV Object for the given ref id
-     *
-     * @param integer $ref_id
-     * @param string $type
-     */
-    public static function _createDAVObjectForRefId($ref_id, $type = '')
-    {
-        if($type == '')
-        {
-            $type = ilObject::_lookupType($ref_id, true);
-        }
-        
-        if(ilObject::_exists($ref_id, true, $type))
-        {
-            switch($type)
-            {
-                case 'cat':
-                    return new ilObjCategoryDAV(new ilObjCategory($ref_id, true));
-                    break;
-                    
-                case 'crs':
-                    return new ilObjCourseDAV(new ilObjCourse($ref_id, true));
-                    break;
-                    
-                case 'grp':
-                    return new ilObjGroupDAV(new ilObjGroup($ref_id, true));
-                    break;
-                    
-                case 'fold':
-                    return new ilObjFolderDAV(new ilObjFolder($ref_id, true));
-                    break;
-                    
-                case 'file':
-                    return new ilObjFileDAV(new ilObjFile($ref_id, true));
-                    break;
-            }
 
-            throw new BadRequest();
-        }
-        return null;
-    }
-    
     /**
      * Checks if there is a DAV-Object for the given type
      *

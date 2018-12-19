@@ -1,15 +1,14 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/User/classes/class.ilUserRequestTargetAdjustmentCase.php';
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTermsOfServiceRequestTargetAdjustmentCase
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
+class ilTermsOfServiceRequestTargetAdjustmentCase extends \ilUserRequestTargetAdjustmentCase
 {
 	/**
-	 * @return boolean
+	 * @inheritdoc
 	 */
 	public function shouldStoreRequestTarget()
 	{
@@ -17,7 +16,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
 	}
 
 	/**
-	 * @return boolean
+	 * @inheritdoc
 	 */
 	public function isInFulfillment()
 	{
@@ -28,21 +27,19 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
 	}
 
 	/**
-	 * @return boolean
+	 * @inheritdoc
 	 */
 	public function shouldAdjustRequest()
 	{
-		if($this->isInFulfillment())
-		{
+		if ($this->isInFulfillment()) {
 			return false;
 		}
 
-		if(
+		if (
 			$this->user->hasToAcceptTermsOfService() &&
 			$this->user->checkTimeLimit() &&
 			$this->user->hasToAcceptTermsOfServiceInSession()
-		)
-		{
+		) {
 			return true;
 		}
 
@@ -50,10 +47,10 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
 	}
 
 	/**
-	 * @return void
+	 * @inheritdoc
 	 */
 	public function adjust()
 	{
-		ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
+		$this->ctrl->redirectToURL('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
 	}
 }

@@ -64,6 +64,7 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
 	protected function getBlockedUsers()
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
+		/** @var ilLMTracker $track */
 		$track = ilLMTracker::getInstance($this->lm->getRefId());
 
 		return $bl_users = $track->getBlockedUsersInformation();

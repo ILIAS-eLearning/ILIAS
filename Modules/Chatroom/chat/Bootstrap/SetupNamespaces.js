@@ -4,7 +4,7 @@ var SetupDatabase = require('./SetupDatabase');
 var PreloadData = require('./PreloadData');
 var async = require('async');
 
-module.exports = function SetupNamespaces(callback) {
+module.exports = function SetupNamespaces(result, callback) {
 
 	var clientConfigs = Container.getClientConfigs();
 

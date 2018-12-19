@@ -36,7 +36,7 @@ include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
  * @extends ilSaxParser
 
  */
-class ilGroupXMLParser extends ilSaxParser
+class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 {
 	public static $CREATE = 1;
 	public static $UPDATE = 2;
@@ -45,13 +45,36 @@ class ilGroupXMLParser extends ilSaxParser
 	 * @var ilLogger
 	 */
 	protected $log;
-	
+
+	/**
+	 * @var ilObjGroup
+	 */
+	private $group_obj;
+
+	/**
+	 * @var bool
+	 */
+	private $lom_parsing_active = false;
+
+
+	/**
+	 * @var ilSaxController|null
+	 */
+	protected $sax_controller = null;
+
+
+	/**
+	 * @var ilAdvancedMDValueParser
+	 */
+	protected $advanced_md_value_parser = null;
+
+
 	private $participants = null;
 	private $current_container_setting;
 	private $sort = null;
 
 	var $group_data;
-	var $group_obj;
+
 
 	var $parent;
 	var $counter;
@@ -67,23 +90,38 @@ class ilGroupXMLParser extends ilSaxParser
 	 * @access	public
 	 */
 
-	function __construct($a_xml, $a_parent_id)
+
+	/**
+	 * ilGroupXMLParser constructor.
+	 * @param ilObjGroup $group
+	 * @param string $a_xml
+	 * @param int $a_parent_id
+	 */
+	public function __construct(ilObjGroup $group, $a_xml, $a_parent_id)
 	{
 		define('EXPORT_VERSION',2);
 
 		parent::__construct(null);
 
+		$this->sax_controller = new ilSaxController();
+
 		$this->mode =  ilGroupXMLParser::$CREATE;
-		$this->grp = null;
-		
+		$this->group_obj = $group;
 		$this->log = $GLOBALS['DIC']->logger()->grp();
 
 		$this->setXMLContent($a_xml);
 
+		// init md parsing
+		$this->setMDObject(
+			new ilMD(
+				$this->group_obj->getId(),
+				$this->group_obj->getId(),
+				$this->group_obj->getType()
+			)
+		);
+
 		// SET MEMBER VARIABLES
 		$this->__pushParentId($a_parent_id);
-
-
 	}
 
 	function __pushParentId($a_id)
@@ -101,17 +139,28 @@ class ilGroupXMLParser extends ilSaxParser
 		return $this->parent[count($this->parent) - 1];
 	}
 
+
 	/**
-	 * set event handler
-	 * should be overwritten by inherited class
-	 * @access	private
+	 * set event handlers
+	 *
+	 * @param	resource	reference to the xml parser
+	 * @access	public
 	 */
-	function setHandlers($a_xml_parser)
+	public function setHandlers($a_xml_parser)
 	{
-		xml_set_object($a_xml_parser,$this);
-		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
-		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
+		$this->sax_controller->setHandlers($a_xml_parser);
+		$this->sax_controller->setDefaultElementHandler($this);
+
+		$this->advanced_md_value_parser = new ilAdvancedMDValueParser(
+			$this->group_obj->getId()
+		);
+
+		$this->sax_controller->setElementHandler(
+			$this->advanced_md_value_parser,
+			'AdvancedMetaData'
+		);
 	}
+
 
 	/**
 	 * start the parser
@@ -139,9 +188,21 @@ class ilGroupXMLParser extends ilSaxParser
 		global $DIC;
 
 		$ilErr = $DIC['ilErr'];
-		
+
+		if($this->lom_parsing_active)
+		{
+			parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
+			return;
+		}
+
 		switch($a_name)
 		{
+			case "MetaData":
+				$this->lom_parsing_active = true;
+				parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
+				break;
+
+
 			// GROUP DATA
 			case "group":
 				$this->group_data["admin"] = array();
@@ -230,8 +291,19 @@ class ilGroupXMLParser extends ilSaxParser
 
 	function handlerEndTag($a_xml_parser, $a_name)
 	{
+		if($this->lom_parsing_active)
+		{
+			parent::handlerEndTag($a_xml_parser,$a_name);
+		}
+
 		switch($a_name)
 		{
+			case 'MetaData':
+				$this->lom_parsing_active = false;
+				parent::handlerEndTag($a_xml_parser,$a_name);
+				break;
+
+
 			case "title":
 				$this->group_data["title"] = trim($this->cdata);
 				break;
@@ -290,11 +362,6 @@ class ilGroupXMLParser extends ilSaxParser
 			case 'ContainerSetting':
 				if($this->current_container_setting)
 				{
-					// #17357
-					if(!($this->group_obj instanceof ilObjGroup))
-					{
-						$this->__initGroupObject();						
-					}			
 					ilContainer::_writeContainerSetting(
 						$this->group_obj->getId(), 
 						$this->current_container_setting, 
@@ -334,10 +401,11 @@ class ilGroupXMLParser extends ilSaxParser
 	 */
 	function handlerCharacterData($a_xml_parser, $a_data)
 	{
-		// i don't know why this is necessary, but
-		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
-		// in character data, but we don't want that, because it's the
-		// way we mask user html in our content, so we convert back...
+		if($this->lom_parsing_active)
+		{
+			parent::handlerCharacterData($a_xml_parser,$a_data);
+		}
+
 		$a_data = str_replace("<","&lt;",$a_data);
 		$a_data = str_replace(">","&gt;",$a_data);
 
@@ -355,8 +423,6 @@ class ilGroupXMLParser extends ilSaxParser
 			return true;
 		}
 
-		$this->__initGroupObject();
-	
 		$this->group_obj->setImportId($this->group_data["id"]);
 		$this->group_obj->setTitle($this->group_data["title"]);
 		$this->group_obj->setDescription($this->group_data["description"]);
@@ -390,7 +456,6 @@ class ilGroupXMLParser extends ilSaxParser
 		 */
 		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
-			$this->group_obj->create();
 			$this->group_obj->createReference();
 			$this->group_obj->putInTree($this->__getParentId());
 			$this->group_obj->setPermissions($this->__getParentId());
@@ -572,20 +637,6 @@ class ilGroupXMLParser extends ilSaxParser
 		return true;
 	}
 
-	function __initGroupObject()
-	{
-		include_once "./Modules/Group/classes/class.ilObjGroup.php";
-
-		if ($this->mode == ilGroupXMLParser::$CREATE)
-		{
-			$this->group_obj = new ilObjGroup();
-		} elseif ($this->mode == ilGroupXMLParser::$UPDATE) {
-			$this->group_obj = $this->grp;
-		}
-
-		return true;
-	}
-
 	function __parseId($a_id)
 	{
 		global $DIC;
@@ -624,10 +675,6 @@ class ilGroupXMLParser extends ilSaxParser
 
 	public function setMode($mode) {
 		$this->mode = $mode;
-	}
-
-	public function setGroup(& $grp) {
-		$this->grp = $grp;
 	}
 
 	function __initContainerSorting($a_attribs, $a_group_id)

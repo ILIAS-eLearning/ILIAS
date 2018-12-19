@@ -6,6 +6,120 @@ SimpleSAMLphp changelog
 This document lists the changes between versions of SimpleSAMLphp.
 See the upgrade notes for specific information about upgrading.
 
+## Version 1.16.2
+
+Released 2018-09-28
+
+  * Fixed an issue with PHP sessions in PHP 7.2.
+  * Fixed a bug in the OAuth module.
+  * Make schema validation work again.
+  * Properly document the `saml:AuthnContextClassRef` authentication processing filter.
+  * Fixed an issue that made it impossible to install the software with composer using the
+    "stable" minimum-stability setting.
+  * Changed the default authentication context class to "PasswordProtectedTransport" by default
+    when authentication happened on an HTTPS exchange.
+
+## Version 1.16.1
+
+Released 2018-09-07
+
+  * Fix a bug preventing the consent page from showing.
+  * Add Catalan to the list of available languages.
+
+## Version 1.16.0
+
+Released 2018-09-06
+
+### Changes
+  * Default signature algorithm is now RSA-SHA256.
+  * Renamed class `SimpleSAML_Error_BadUserInnput` to `SimpleSAML_Error_BadUserInput`
+  * PHP 7.2 compatibility, including removing deprecated use of assert with string.
+  * Avoid logging database credentials in backtraces.
+  * Fix edge case in getServerPort.
+  * Updated Spanish translation.
+  * Improvements to documentation, testsuite, code quality and coding style.
+
+### New features
+  * Added support for SAML "Enhanced Client or Proxy" (ECP) protocol,
+    IdP side with HTTP Basic Authentication as authentication method.
+    See the [ECP IdP documentation](./simplesamlphp-ecp-idp) for details.
+  * New option `sendmail_from`, the from address for email sent by SSP.
+  * New option `options` for PDO database connections, e.g. for TLS setup.
+  * New option `search.scope` for LDAP authsources.
+  * Add support for the DiscoHints IPHint metadata property.
+  * Add support to specify metadata XML in config with the `xml` parameter,
+    next to the exising `file` and `url` options.
+  * Also support CGI/RewriteRule setups that set the `REDIRECT_SIMPLESAMLPHP_CONFIG_DIR`
+    environment variable next to regular `SIMPLESAMLPHP_CONFIG_DIR`.
+  * Support creating an AuthSource via factory, for example useful in tests.
+  * Support preloading of a virtual config file via `SimpleSAML_Configuration::setPreLoadedConfig`
+    to allow for dynamic population of authsources.php.
+  * Add basic documentation on Nginx configuration.
+  * Test authentication: optionally show AuthData array.
+  * Improve performance of PDO Metadata Storage handler entity lookup.
+
+### adfs
+  * Make signature algorithm configurable with `signature.algorithm`.
+  * Use configuration assertion lifetime when available.
+  * Use `adfs:wreply` parameter when available.
+
+### authmyspace
+  * Module removed because service is no longer available.
+
+### cas
+  * Respect all LDAP options in LDAP call.
+
+### casserver
+  * Module removed; superseded by externally hosted module.
+
+### consent
+  * Sort attribute values for consent.
+  * Fix table layout for MySQL > 5.6.
+  * Rename `noconsentattributes` to `attributes.exclude`; the former
+    is now considered deprecated.
+
+### consentAdmin
+  * Work better with TargetedIDs when operating as a proxy.
+  * Add `attributes.exclude` option to correspond to the same option
+    in the Consent module.
+
+### core
+  * StatisticsWithAttribute: add `passive-` prefix when logging passive
+    requests, set new option `skipPassive` to skip logging these altogether.
+  * Replace deprecated `create_function` with an anonymous function.
+  * New authproc filter Cardinality to enforce attribute cardinality.
+  * SQLPermanentStorage: proper expiration of stored values.
+  * AttributeLimit: new options `regex` and `ignoreCase`.
+  * AttributeMap: prevent possible infinite loop with some PHP versions.
+
+### ldap
+  * AttributeAddUsersGroups: if `attribute.groupname` is set, use the
+    configured attribute as the group name rather than the DN.
+  * Also base64encode the `ms-ds-consistencyguid` attribute.
+
+### metarefresh
+  * Return XML parser error for better debugging of problems.
+  * Only actually parse metadata types that have been enabled.
+  * Fix missing translation.
+
+### Oauth
+  * Make module HTTP proxy-aware.
+  * Remove unused demo app.
+
+### saml
+  * AttributeConsumingService: allow to set isDefault and index options.
+  * Encrypted attributes in an assertion are now decrypted correctly.
+  * Prefer the HTTP-Redirect binding for AuthnRequests if available.
+
+### smartattributes
+  * Fix to make the `add_authority` option work.
+
+### sqlauth
+  * The module is now disabled by default.
+
+### statistics
+  * Show a decent error message when no data is available.
+
 ## Version 1.15.4
 
 Released 2018-03-02
@@ -29,7 +143,7 @@ Released 2018-01-31
   * Fix _undefined method_ error when using memcacheD.
 
 ### `authfacebook`
-  * Fix compatibility with Facebook strict URI match.
+  * Fix compatibility with Facebook strict URI match and new response query parameters.
 
 ### `consent`
   * Fix statistics not being gathered.

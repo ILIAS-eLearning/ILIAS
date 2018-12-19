@@ -6,24 +6,16 @@
  */
 class ilObjectCustomIconConfigurationGUI
 {
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	const DEFAULT_CMD = 'showForm';
 
-	/**
-	 * @var \ILIAS\DI\Container
-	 */
+	/** @var \ILIAS\DI\Container */
 	protected $dic;
 
-	/**
-	 * @var \ilObject
-	 */
+	/** @var \ilObject */
 	protected $object;
 
-	/**
-	 * @var \ilObjectGUI|mixed
-	 */
+	/** @var \ilObjectGUI|mixed */
 	protected $parentGui;
 
 	/**
@@ -83,7 +75,7 @@ class ilObjectCustomIconConfigurationGUI
 	/**
 	 * @return \ilPropertyFormGUI
 	 */
-	protected function getForm()
+	protected function getForm(): \ilPropertyFormGUI
 	{
 		$this->dic->language()->loadLanguageModule('cntr');
 
@@ -91,6 +83,20 @@ class ilObjectCustomIconConfigurationGUI
 		$form->setFormAction($this->dic->ctrl()->getFormAction($this, 'saveForm'));
 		$form->setTitle($this->dic->language()->txt('icon_settings'));
 
+		$this->addSettingsToForm($form);
+
+		$form->addCommandButton('saveForm', $this->dic->language()->txt('save'));
+
+		return $form;
+	}
+
+	/**
+	 * Add settings to form
+	 *
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function addSettingsToForm(ilPropertyFormGUI $form)
+	{
 		/** @var \ilObjectCustomIconFactory $customIconFactory */
 		$customIconFactory = $this->dic['object.customicons.factory'];
 		$customIcon        = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
@@ -107,10 +113,6 @@ class ilObjectCustomIconConfigurationGUI
 			$icon->setImage('');
 		}
 		$form->addItem($icon);
-
-		$form->addCommandButton('saveForm', $this->dic->language()->txt('save'));
-
-		return $form;
 	}
 
 	/**
@@ -120,21 +122,8 @@ class ilObjectCustomIconConfigurationGUI
 	{
 		$form = $this->getForm();
 		if ($form->checkInput()) {
-			/** @var \ilObjectCustomIconFactory $customIconFactory */
-			$customIconFactory = $this->dic['object.customicons.factory'];
-			$customIcon        = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
 
-			/** @var \ilImageFileInputGUI $item */
-			$fileData = (array)$form->getInput('icon');
-			$item     = $form->getItemByPostVar('icon');
-
-			if ($item->getDeletionFlag()) {
-				$customIcon->remove();
-			}
-
-			if ($fileData['tmp_name']) {
-				$customIcon->saveFromHttpRequest();
-			}
+			$this->saveIcon($form);
 
 			ilUtil::sendSuccess($this->dic->language()->txt('msg_obj_modified'), true);
 			$this->dic->ctrl()->redirect($this, 'showForm');
@@ -143,4 +132,29 @@ class ilObjectCustomIconConfigurationGUI
 		$form->setValuesByPost();
 		$this->showForm($form);
 	}
+
+	/**
+	 * Save icon
+	 *
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveIcon(ilPropertyFormGUI $form)
+	{
+		/** @var \ilObjectCustomIconFactory $customIconFactory */
+		$customIconFactory = $this->dic['object.customicons.factory'];
+		$customIcon        = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
+
+		/** @var \ilImageFileInputGUI $item */
+		$fileData = (array)$form->getInput('icon');
+		$item     = $form->getItemByPostVar('icon');
+
+		if ($item->getDeletionFlag()) {
+			$customIcon->remove();
+		}
+
+		if ($fileData['tmp_name']) {
+			$customIcon->saveFromHttpRequest();
+		}
+	}
+
 }

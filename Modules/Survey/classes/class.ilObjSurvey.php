@@ -29,9 +29,6 @@ class ilObjSurvey extends ilObject
 	 */
 	protected $plugin_admin;
 
-	const STATUS_OFFLINE = 0;
-	const STATUS_ONLINE = 1;	
-	
 	const EVALUATION_ACCESS_OFF = 0;
 	const EVALUATION_ACCESS_ALL = 1;
 	const EVALUATION_ACCESS_PARTICIPANTS = 2;
@@ -84,12 +81,6 @@ class ilObjSurvey extends ilObject
 	*/
 	var $outro;
 
-	/**
-	* Survey status (online/offline)
-	*
-	* @var integer
-	*/
-	var $status;
 
 	/**
 	* Indicates the evaluation access for learners
@@ -241,7 +232,6 @@ class ilObjSurvey extends ilObject
 		$this->introduction = "";
 		$this->outro = $lng->txt("survey_finished");
 		$this->author = $ilUser->getFullname();
-		$this->status = self::STATUS_OFFLINE;
 		$this->evaluation_access = self::EVALUATION_ACCESS_OFF;
 		$this->questions = array();
 		$this->invitation = self::INVITATION_OFF;
@@ -779,7 +769,6 @@ class ilObjSurvey extends ilObject
 				"author" => array("text", $this->getAuthor()),
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
-				"status" => array("text", $this->getStatus()),
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
@@ -813,7 +802,7 @@ class ilObjSurvey extends ilObject
 				"reminder_frequency" => array("integer", (int)$this->getReminderFrequency()),				
 				"reminder_target" => array("integer", (int)$this->getReminderTarget()),
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
-				"reminder_tmpl" => array("text", $this->getReminderTemplate()),
+				"reminder_tmpl" => array("text", $this->getReminderTemplate(true)),
 				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
 				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
@@ -830,7 +819,6 @@ class ilObjSurvey extends ilObject
 				"author" => array("text", $this->getAuthor()),
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
-				"status" => array("text", $this->getStatus()),
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
@@ -1148,7 +1136,6 @@ class ilObjSurvey extends ilObject
 			$this->setAnonymize($data["anonymize"]);
 			$this->setEvaluationAccess($data["evaluation_access"]);
 			$this->loadQuestionsFromDb();
-			$this->setStatus($data["status"]);
 			$this->setMailNotification($data['mailnotification']);
 			$this->setMailAddresses($data['mailaddresses']);
 			$this->setMailParticipantData($data['mailparticipantdata']);
@@ -1521,65 +1508,6 @@ class ilObjSurvey extends ilObject
 	}
 
 /**
-* Gets the survey status
-*
-* @return integer Survey status
-* @access public
-* @see $status
-*/
-	function getStatus() 
-	{
-		return ($this->status) ? $this->status : self::STATUS_OFFLINE;
-	}
-
-/**
-* Gets the survey status
-*
-* @return integer true if status is online, false otherwise
-* @access public
-* @see $status
-*/
-	function isOnline() 
-	{
-		return ($this->status == self::STATUS_ONLINE) ? true : false;
-	}
-
-/**
-* Gets the survey status
-*
-* @return integer true if status is online, false otherwise
-* @access public
-* @see $status
-*/
-	function isOffline() 
-	{
-		return ($this->status == self::STATUS_OFFLINE) ? true : false;
-	}
-
-/**
-* Sets the survey status
-*
-* @param integer $status Survey status
-* @return string An error message, if the status cannot be set, otherwise an empty string
-* @access public
-* @see $status
-*/
-	function setStatus($status = self::STATUS_OFFLINE) 
-	{
-		$result = "";
-		if (($status == self::STATUS_ONLINE) && (count($this->questions) == 0))
-		{
-			$this->status = self::STATUS_OFFLINE;
-			$result = $this->lng->txt("cannot_switch_to_online_no_questions");
-		}
-		else
-		{
-			$this->status = $status;
-		}
-		return $result;
-	}
-
-/**
 * Gets the start date of the survey
 *
 * @return string Survey start date (YYYY-MM-DD)
@@ -1632,7 +1560,7 @@ class ilObjSurvey extends ilObject
 		}
 		
 		// check online status
-		if ($this->getStatus() == self::STATUS_OFFLINE)
+		if($this->getOfflineStatus())
 		{
 			array_push($messages, $this->lng->txt("survey_is_offline"));
 			$result = FALSE;
@@ -2990,11 +2918,13 @@ class ilObjSurvey extends ilObject
 		);
 	}
 
-	function sendNotificationMail($user_id, $anonymize_id, $appr_id)
-	{		
-		include_once "./Services/User/classes/class.ilObjUser.php";
-		include_once "./Services/User/classes/class.ilUserUtil.php";	
-		
+	/**
+	 * @param $a_user_id user who did the survey
+	 * @param $a_anonymize_id
+	 * @param $a_appr_id
+	 */
+	function sendNotificationMail($a_user_id, $a_anonymize_id, $a_appr_id)
+	{
 		// #12755
 		$placeholders = array(
 			"FIRST_NAME" => "firstname",
@@ -3004,11 +2934,12 @@ class ilObjSurvey extends ilObject
 			"firstname" => "firstname"
 		);		
 
+		//mailaddresses is just text split by commas.
+		//sendMail can send emails if it gets an user id or an email as first parameter.
 		$recipients = preg_split('/,/', $this->mailaddresses);
 		foreach ($recipients as $recipient)
 		{						
-			// #11298		
-			include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+			// #11298
 			$ntf = new ilSystemNotification();
 			$ntf->setLangModules(array("survey"));
 			$ntf->setRefId($this->getRefId());
@@ -3019,7 +2950,7 @@ class ilObjSurvey extends ilObject
 			{				
 				if (!$this->hasAnonymizedResults())
 				{
-					$data = ilObjUser::_getUserData(array($user_id));
+					$data = ilObjUser::_getUserData(array($a_user_id));
 					$data = $data[0];
 				}
 				foreach ($placeholders as $key => $mapping)
@@ -3041,20 +2972,43 @@ class ilObjSurvey extends ilObject
 			}
 						
 			// 360°? add appraisee data
-			if($appr_id)
+			if($a_appr_id)
 			{										
 				$ntf->addAdditionalInfo('survey_360_appraisee', 
-					ilUserUtil::getNamePresentation($appr_id));
+					ilUserUtil::getNamePresentation($a_appr_id));
 			}
 			
-			$active_id = $this->getActiveID($user_id, $anonymize_id, $appr_id);
+			$active_id = $this->getActiveID($a_user_id, $a_anonymize_id, $a_appr_id);
 			$ntf->addAdditionalInfo('results', 
 				$this->getParticipantTextResults($active_id), true);
 									
 			$ntf->setGotoLangId('survey_notification_tutor_link');				
-			$ntf->setReasonLangId('survey_notification_finished_reason');	
+			$ntf->setReasonLangId('survey_notification_finished_reason');
 
-			$ntf->sendMail(array($recipient), null, null);		
+			if(is_numeric($recipient))
+			{
+				$lng = $ntf->getUserLanguage($recipient);
+				$ntf->sendMail(array($recipient), null, null);
+			}
+			else
+			{
+				$recipient = trim($recipient);
+				$user_ids = ilObjUser::getUserIdsByEmail($recipient);
+				if(empty($user_ids))
+				{
+					$ntf->sendMail(array($recipient), null, null);
+				}
+				else
+				{
+					foreach($user_ids as $user_id)
+					{
+						$lng = $ntf->getUserLanguage($user_id);
+						$ntf->sendMail(array($user_id), null, null);
+					}
+				}
+
+			}
+
 		}															
 	}
 
@@ -3390,6 +3344,7 @@ class ilObjSurvey extends ilObject
 				else
 				{
 					$user = new ilObjUser($row["user_fi"]);
+					$userdata['usr_id'] = $row['user_fi'];
 					$userdata["fullname"] = $user->getFullname();
 					$gender = $user->getGender();
 					if (strlen($gender) == 1) $gender = $this->lng->txt("gender_$gender");
@@ -3712,7 +3667,7 @@ class ilObjSurvey extends ilObject
 
 		$custom_properties = array();
 		$custom_properties["evaluation_access"] = $this->getEvaluationAccess();
-		$custom_properties["status"] = $this->getStatus();
+		$custom_properties["status"] = !$this->getOfflineStatus();
 		$custom_properties["display_question_titles"] = $this->getShowQuestionTitles();
 		$custom_properties["pool_usage"] = (int)$this->getPoolUsage();
 		
@@ -4134,7 +4089,7 @@ class ilObjSurvey extends ilObject
 
 		if(!$cp_options->isRootNode($this->getRefId()))
 		{
-			$newObj->setStatus($this->isOnline()?self::STATUS_ONLINE: self::STATUS_OFFLINE);
+			$newObj->setOfflineStatus($this->getOfflineStatus());
 		}
 
 		$newObj->saveToDb();		
@@ -4766,13 +4721,31 @@ class ilObjSurvey extends ilObject
 			$externaldata['sent'] = $row['sent'];
 			
 			if($a_check_finished)
-			{				
-				$externaldata['finished'] =  $this->isSurveyCodeUsed($row['code']);
+			{
+				#23294
+				//$externaldata['finished'] =  $this->isSurveyCodeUsed($row['code']);
+				$externaldata['finished'] = $this->isSurveyFinishedByCode($row['code']);
 			}
 			
 			array_push($res, $externaldata);
 		}
 		return $res;
+	}
+
+	/**
+	 * Get if survey is finished for an specific anonymous user code.
+	 * @param $a_code anonymous user code
+	 * @return bool
+	 */
+	function isSurveyFinishedByCode($a_code)
+	{
+		$result = $this->db->queryF("SELECT state FROM svy_finished WHERE survey_fi = %s AND anonymous_id = %s",
+			array('integer','text'),
+			array($this->getSurveyId(), $a_code));
+
+		$row = $this->db->fetchAssoc($result);
+
+		return $row['state'];
 	}
 	
 	/**
@@ -6134,9 +6107,22 @@ class ilObjSurvey extends ilObject
 	{
 		$this->reminder_last_sent = $a_value;
 	}
-	
-	public function getReminderTemplate()
+
+	/**
+	 * @param bool $selectDefault
+	 * @return mixed
+	 */
+	public function getReminderTemplate($selectDefault = false)
 	{
+		if ($selectDefault) {
+			$defaultTemplateId = 0;
+			$this->getReminderMailTemplates($defaultTemplateId);
+
+			if ($defaultTemplateId > 0) {
+				return $defaultTemplateId;
+			}
+		}
+
 		return $this->reminder_tmpl;
 	}
 	
@@ -6383,7 +6369,8 @@ class ilObjSurvey extends ilObject
 		$this->log->debug("Check status and dates.");
 		
 		// object settings / participation period
-		if($this->isOffline() ||
+		if(
+			$this->getOfflineStatus() ||
 			!$this->getReminderStatus() ||
 			($this->getStartDate() && $now_with_format < $this->getStartDate()) ||
 			($this->getEndDate() && $now_with_format > $this->getEndDate()))
@@ -6487,14 +6474,15 @@ class ilObjSurvey extends ilObject
 	
 	protected function sentReminder(array $a_recipient_ids)
 	{
-		include_once "./Services/Mail/classes/class.ilMail.php";
-			
+		global $DIC;
+
 		// use mail template		
 		if($this->getReminderTemplate() &&
 			array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates()))
 		{
-			$prov = new ilMailTemplateDataProvider();
-			$tmpl = $prov->getTemplateById($this->getReminderTemplate());
+			/** @var \ilMailTemplateService $templateService */
+			$templateService = $DIC['mail.texttemplates.service'];
+			$tmpl = $templateService->loadTemplateForId((int)$this->getReminderTemplate());
 
 			$tmpl_params = array(				
 				"ref_id" => $this->getRefId(),
@@ -6620,45 +6608,42 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	public function getReminderMailTemplates()
-	{	
+	/**
+	 * @param int $defaultTemplateId
+	 * @return array
+	 */
+	public function getReminderMailTemplates(&$defaultTemplateId = null)
+	{
+		global $DIC;
+
 		$res = array();
-		
-		include_once "Services/Mail/classes/class.ilMailTemplateDataProvider.php";
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-		$mprov = new ilMailTemplateDataProvider();
-		foreach($mprov->getTemplateByContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl)
-		{
+
+		/** @var \ilMailTemplateService $templateService */
+		$templateService = $DIC['mail.texttemplates.service'];
+		foreach ($templateService->loadTemplatesForContextId((string)ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
 			$res[$tmpl->getTplId()] = $tmpl->getTitle();
+			if (null !== $defaultTemplateId && $tmpl->isDefault()) {
+				$defaultTemplateId = $tmpl->getTplId();
+			}
 		}
-		
+
 		return $res;
 	}
 		
 	protected function sentReminderPlaceholders($a_message, $a_user_id, array $a_context_params)
 	{
 		// see ilMail::replacePlaceholders()
-		include_once "Modules/Survey/classes/class.ilSurveyMailTemplateReminderContext.php";			
-				
-		try
-		{			
-			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
-			$context = ilMailTemplateService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
+		try {
+			$context = \ilMailTemplateContextService::getTemplateContextById(ilSurveyMailTemplateReminderContext::ID);
 
-			$user = new ilObjUser($a_user_id);
+			$user = new \ilObjUser($a_user_id);
 
-			require_once 'Services/Mail/classes/class.ilMailTemplatePlaceholderResolver.php';
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
-			$a_message = $processor->resolve($user, ilMailFormCall::getContextParameters());
-			
-		}
-		catch(Exception $e)
-		{
-			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			$processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
+			$a_message = $processor->resolve($user, \ilMailFormCall::getContextParameters());
+		} catch (\Exception $e) {
 			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
 		}
-		
+
 		return $a_message;
 	}
 

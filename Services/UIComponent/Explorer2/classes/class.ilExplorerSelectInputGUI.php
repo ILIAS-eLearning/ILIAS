@@ -51,6 +51,20 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 	 */
 	function handleExplorerCommand()
 	{
+		$val = $this->getValue();
+		if (is_array($val))
+		{
+			foreach ($val as $v)
+			{
+				$this->explorer_gui->setNodeOpen($v);
+				$this->explorer_gui->setNodeSelected($v);
+			}
+		}
+		else if ($val != "")
+		{
+			$this->explorer_gui->setNodeOpen($val);
+			$this->explorer_gui->setNodeSelected($val);
+		}
 		$this->explorer_gui->handleCommand();
 	}
 	

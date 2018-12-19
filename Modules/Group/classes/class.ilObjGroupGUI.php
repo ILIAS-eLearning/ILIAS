@@ -6,26 +6,27 @@ include_once "./Services/Container/classes/class.ilContainerGUI.php";
 include_once('./Modules/Group/classes/class.ilObjGroup.php');
 
 /**
-* Class ilObjGroupGUI
-*
-* @author	Stefan Meyer <smeyer.ilias@gmx.de>
-* @author	Sascha Hofmann <saschahofmann@gmx.de>
-*
-* @version	$Id$
-*
-* @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI, ilObjectCustomIconConfigurationGUI
-* 
-*
-*
-* @extends ilObjectGUI
-*/
+ * Class ilObjGroupGUI
+ *
+ * @author    Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author    Sascha Hofmann <saschahofmann@gmx.de>
+ *
+ * @version    $Id$
+ *
+ * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI
+ *
+ *
+ *
+ * @extends ilObjectGUI
+ */
 class ilObjGroupGUI extends ilContainerGUI
 {
 	/**
@@ -42,6 +43,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('grp');
+		$this->lng->loadLanguageModule('obj');
 
 		$this->setting = $ilSetting;
 	}
@@ -81,20 +83,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
-			case 'ilobjectcustomiconconfigurationgui':
-				if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
-					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-				}
-
-				$this->setSubTabs('settings');
-				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('grp_icon_settings');
-
-				require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-				$gui = new \ilObjectCustomIconConfigurationGUI($GLOBALS['DIC'], $this, $this->object);
-				$this->ctrl->forwardCommand($gui);
-				break;
-
 			case 'illtiproviderobjectsettinggui':
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
@@ -295,6 +283,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once("./Services/News/classes/class.ilNewsTimelineGUI.php");
 				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
 				$t->setUserEditAll($ilAccess->checkAccess('write','',$this->object->getRefId(),'grp'));
+				$this->showPermanentLink($tpl);
 				$this->ctrl->forwardCommand($t);
 				break;
 
@@ -309,6 +298,25 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
 				$cal = new ilCalendarPresentationGUI($this->object->getRefId());
 				$ret = $this->ctrl->forwardCommand($cal);
+				break;
+
+			case 'ilobjectmetadatagui';
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				$this->tabs_gui->activateTab('meta_data');
+				$this->ctrl->forwardCommand(new ilObjectMetaDataGUI($this->object));
+				break;
+
+
+			case 'ilobjecttranslationgui':
+				$this->checkPermissionBool("write");
+				$this->setSubTabs("settings");
+				$this->tabs->activateTab("settings");
+				include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
+				$transgui = new ilObjectTranslationGUI($this);
+				$this->ctrl->forwardCommand($transgui);
 				break;
 
 			default:
@@ -373,6 +381,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
 			$this->object->getRefId(),'grp');
+
+		ilMDUtils::_fillHTMLMetaTags(
+			$this->object->getId(),
+			$this->object->getId(),
+			'grp'
+		);
+
 
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -478,6 +493,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$members_obj = ilGroupParticipants::_getInstanceByObjId($new_object->getId());
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
+		$members_obj->updateContact($ilUser->getId(),true);
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		if ($a_redirect)
@@ -537,9 +553,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateObject()
 	{
-		global $DIC;
-
-		$ilErr = $DIC['ilErr'];
+		$obj_service = $this->getObjectService();
 
 		$this->checkPermission('write');
 		
@@ -617,6 +631,21 @@ class ilObjGroupGUI extends ilContainerGUI
 					break;
 			}
 
+			// title icon visibility
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+			// top actions visibility
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
+
+			// custom icon
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+
+			// list presentation
+			$this->saveListPresentation($form);
+
 			// update object settings
 			$this->object->update();
 
@@ -627,6 +656,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				array(
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::USE_NEWS,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::BADGES,
@@ -902,6 +932,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tmp_data['lastname'] = $name['lastname'];
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 			$tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
+			$tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 			
@@ -1131,8 +1162,24 @@ class ilObjGroupGUI extends ilContainerGUI
 								 $this->ctrl->getLinkTargetByClass(array('ilobjgroupgui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-		}				
-		
+		}
+
+		// meta data
+		if($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$md_gui = new ilObjectMetaDataGUI($this->object);
+			$tab_link = $md_gui->getTab();
+			if($tab_link !== null) {
+				$this->tabs_gui->addTab(
+					'meta_data',
+					$this->lng->txt('meta_data'),
+					$tab_link,
+					'',
+					'ilObjectMetaDataGUI'
+				);
+			}
+		}
+
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -1209,6 +1256,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->checkPermission('visible');
 		}
 
+		ilMDUtils::_fillHTMLMetaTags(
+			$this->object->getId(),
+			$this->object->getId(),
+			'grp'
+		);
+
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
@@ -1221,6 +1274,30 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$info->enablePrivateNotes();
 		$info->enableLearningProgress(true);
+
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'grp',$this->object->getId());
+		$record_gui->setInfoObject($info);
+		$record_gui->parse();
+
+		// meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+
+
+		// support contacts
+		$parts = ilParticipants::getInstance($this->object->getRefId());
+		$contacts = $parts->getContacts();
+		if (count($contacts) > 0)
+		{
+			$info->addSection($this->lng->txt("grp_mem_contacts"));
+			foreach ($contacts as $c)
+			{
+				$pgui = new ilPublicUserProfileGUI($c);
+				$pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
+				$pgui->setEmbedded(true);
+				$info->addProperty("", $pgui->getHTML());
+			}
+		}
+
 
 		$info->addSection($this->lng->txt('group_registration'));
 		$info->showLDAPRoleGroupMappingInfo();
@@ -1440,8 +1517,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
-		$tpl = $DIC['tpl'];
+		$obj_service = $this->getObjectService();
+
 		$tree = $DIC['tree'];
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1463,28 +1540,9 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 		}
 		
-		// title
-		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
-		$title->setSubmitFormOnEnter(true);
-		if ($a_mode == "edit")
-		{
-			$title->setValue($this->object->getTitle());
-		}
-		$title->setSize(min(40, ilObject::TITLE_LENGTH));
-		$title->setMaxLength(ilObject::TITLE_LENGTH);
-		$title->setRequired(true);
-		$form->addItem($title);
-		
-		// desc
-		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
-		if ($a_mode == "edit")
-		{
-			$desc->setValue($this->object->getLongDescription());
-		}
-		$desc->setRows(2);
-		$desc->setCols(40);
-		$form->addItem($desc);
-		
+		// title/description
+		$this->initFormTitleDescription($form);
+
 		$form = $this->initDidacticTemplate($form);
 		
 		if($a_mode == 'edit')
@@ -1638,7 +1696,23 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
 			$form->addItem($pres);
-			
+
+			// title and icon visibility
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+			// top actions visibility
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
+
+			// custom icon
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
+
+			// tile image
+			$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
+			// list presentation
+			$form = $this->initListPresentationForm($form);
+
+
 			// presentation type							
 			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');		
 			if($hasParentMembership)
@@ -1712,6 +1786,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					array(
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 						ilObjectServiceSettingsGUI::USE_NEWS,
+						ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,						
 						ilObjectServiceSettingsGUI::BADGES,
@@ -1720,10 +1795,6 @@ class ilObjGroupGUI extends ilContainerGUI
 					)
 				);
 
-			// Notification Settings
-			/*$notification = new ilFormSectionHeaderGUI();
-			$notification->setTitle($this->lng->txt('grp_notification'));
-			$form->addItem($notification);*/
 
 			$mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'),'show_members');
 			$mem->setChecked($this->object->getShowMembers());
@@ -1797,14 +1868,6 @@ class ilObjGroupGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
 
-				if ($this->ilias->getSetting('custom_icons')) {
-					$this->tabs_gui->addSubTabTarget(
-						'grp_icon_settings',
-						$this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI'),
-						'editGroupIcons', get_class($this)
-					);
-				}
-				
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
 				if (ilMapUtil::isActivated())
 				{
@@ -1845,7 +1908,11 @@ class ilObjGroupGUI extends ilContainerGUI
 						$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
 					);
 				}
-				
+
+				$this->tabs_gui->addSubTabTarget("obj_multilinguality",
+					$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""),
+					"", "ilobjecttranslationgui");
+
 
 				break;
 				

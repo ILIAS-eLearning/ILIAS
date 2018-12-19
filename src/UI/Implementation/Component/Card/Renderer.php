@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Card;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\Icon\Standard as StandardIcon;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
@@ -19,7 +20,8 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.card.html", true, true);
 
-		if($component->getImage()){
+		if($component->getImage())
+		{
 			$tpl->setVariable("IMAGE",$default_renderer->render($component->getImage(),$default_renderer));
 		}
 
@@ -48,6 +50,37 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->parseCurrentBlock();
 			}
 		}
+
+		if($component instanceof Component\Card\RepositoryObject)
+		{
+			$tpl->setCurrentBlock("action");
+
+			$obj_icon = $component->getObjectIcon();
+			if($obj_icon !== null) {
+				$tpl->setVariable("OBJECT_ICON",$default_renderer->render($obj_icon,$default_renderer));
+			}
+
+			$progress = $component->getProgress();
+			if($progress !== null) {
+				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($progress));
+			}
+
+			$certificate = $component->getCertificateIcon();
+			if($certificate !== null) {
+				$certificate_icon = new StandardIcon("cert", "Certificate", "medium", false);
+				$certificate_icon = $certificate_icon->withIsOutlined(true);
+				$tpl->setVariable("PROGRESS_STATUS",$default_renderer->render($certificate_icon));
+			}
+
+			$dropdown = $component->getActions();
+			if($dropdown !== null)
+			{
+				$tpl->setVariable("DROPDOWN", $default_renderer->render($dropdown));
+			}
+
+			$tpl->parseCurrentBlock();
+		}
+
 		return $tpl->get();
 	}
 

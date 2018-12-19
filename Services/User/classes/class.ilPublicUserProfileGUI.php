@@ -374,8 +374,7 @@ class ilPublicUserProfileGUI
 		}
 		$first_name .= $user->getFirstName();
 
-		if ($this->getPublicPref($user, "public_gender") == "y")
-		{
+		if ($this->getPublicPref($user, "public_gender") == "y" && in_array($user->getGender(), ['m', 'f'])) {
 			$sal = $lng->txt("salutation_".$user->getGender())." ";
 			$tpl->setVariable("SALUTATION", $sal);
 		}
@@ -894,7 +893,7 @@ class ilPublicUserProfileGUI
 		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
-		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xxsmall"));
+		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xsmall"));
 		
 		$this->handleBackUrl();
 	}

@@ -100,7 +100,8 @@ class assFormulaQuestionUnitCategory
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$category = $this->getCategory();
 		if(strcmp('-qpl_qst_formulaquestion_' . $category . '-', $lng->txt('qpl_qst_formulaquestion_' . $category)) != 0)

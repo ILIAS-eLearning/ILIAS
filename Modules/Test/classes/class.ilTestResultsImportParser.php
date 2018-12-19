@@ -85,7 +85,8 @@ class ilTestResultsImportParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$this->sametag = FALSE;
 		$this->characterbuffer = "";
@@ -262,11 +263,13 @@ class ilTestResultsImportParser extends ilSaxParser
 		switch (strtolower($a_name))
 		{
 			case "tst_active":
-				global $ilLog;
+				global $DIC;
+				$ilLog = $DIC['ilLog'];
 				$ilLog->write("active id mapping: " . print_r($this->active_id_mapping, true));
 				break;
 			case "tst_test_question":
-				global $ilLog;
+				global $DIC;
+				$ilLog = $DIC['ilLog'];
 				$ilLog->write("question id mapping: " . print_r($this->question_id_mapping, true));
 				break;
 		}

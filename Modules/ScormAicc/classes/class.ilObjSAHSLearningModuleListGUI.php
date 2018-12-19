@@ -67,7 +67,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$cmd_link = null;
 		switch($a_cmd)
 		{
@@ -133,7 +134,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		
 		switch($a_cmd)
 		{
@@ -180,20 +182,14 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
-
-		$props = array();
-
-		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
-
+		global $DIC;
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
+		$props = parent::getProperties();
+		
 		$editable = ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id);
 		
-		if (!$editable && ilObjSAHSLearningModuleAccess::_isOffline($this->obj_id))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
-		}
-		else if ($editable)
+		if ($editable)
 		{
 			$props[] = array("alert" => true,
 				"value" => $lng->txt("authoring_mode"));

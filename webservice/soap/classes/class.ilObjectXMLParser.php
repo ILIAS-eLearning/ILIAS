@@ -110,6 +110,7 @@ class ilObjectXMLParser extends ilSaxParser
 				
 				$this->__addProperty('type',$a_attribs['type']);
 				$this->__addProperty('obj_id',is_numeric($a_attribs['obj_id'])?(int) $a_attribs["obj_id"] :  ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID));
+				$this->__addProperty('offline', $a_attribs['offline']);
 				break;
 
 			case 'Title':
@@ -167,19 +168,6 @@ class ilObjectXMLParser extends ilSaxParser
 				{
 					$this->time_target['suggestion_end'] = $a_attribs['ending_time'];
 				}
-				if(isset($a_attribs['earliest_start']))
-				{
-					$this->time_target['earliest_start'] = $a_attribs['earliest_start'];
-				}
-				if(isset($a_attribs['latest_end']))
-				{
-					$this->time_target['latest_end'] = $a_attribs['latest_end'];
-				}
-
-				if($a_attribs['latest_end'] < $a_attribs['earliest_start'])
-					throw new ilObjectXMLException('Earliest start time must be earlier than latest ending time.');
-				if($a_attribs['ending_time'] < $a_attribs['starting_time'])
-					throw new ilObjectXMLException('Starting time must be earlier than ending time.');
 				break;
 				
 		}
@@ -271,23 +259,9 @@ class ilObjectXMLParser extends ilSaxParser
 
 		if(isset($reference['time_target']['changeable']) and $reference['time_target']['changeable'])
 		{
-			if(!isset($reference['time_target']['earliest_start']) or !isset($reference['time_target']['latest_end']))
-			{
-				throw new ilObjectXMLException('Missing attributes: "earliest_start" and "latest_end" required for attribute "changeable"');
-			}
 			if(!isset($reference['time_target']['suggestion_start']) or !isset($reference['time_target']['suggestion_end']))
 			{
 				throw new ilObjectXMLException('Missing attributes: "starting_time" and "ending_time" required for attribute "changeable"');
-			}
-			if(($reference['time_target']['earliest_start'] < $reference['time_target']['suggestion_start']) or
-				($reference['time_target']['earliest_start'] > $reference['time_target']['suggestion_end']))
-			{
-				throw new ilObjectXMLException('Invalid attributes: "earliest_start" must be within "starting_time" and "ending_time"');
-			}
-			if(($reference['time_target']['latest_end'] < $reference['time_target']['suggestion_start']) or
-				($reference['time_target']['latest_end'] > $reference['time_target']['suggestion_end']))
-			{
-				throw new ilObjectXMLException('Invalid attributes: "latest_end" must be within "starting_time" and "ending_time"');
 			}
 		}
 		
