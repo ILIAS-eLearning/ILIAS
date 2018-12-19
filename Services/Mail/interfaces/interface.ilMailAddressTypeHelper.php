@@ -51,5 +51,5 @@ interface ilMailAddressTypeHelper
 	 * @param int $usrId
 	 * @return bool
 	 */
-	public function receivesMailsOnlyLocally(int $usrId): bool;
+	public function receivesInternalMailsOnly(int $usrId): bool;
 }
