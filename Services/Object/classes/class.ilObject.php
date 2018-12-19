@@ -75,6 +75,16 @@ class ilObject
 	var $ref_id;// reference_id
 	var $type;
 	var $title;
+
+	/**
+	 * Check if object is offline
+	 * null means undefined
+	 *
+	 * @var null | int
+	 */
+	private $offline = null;
+
+
 	// BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
 	var $untranslatedTitle;
 	// END WebDAV: WebDAV needs to access the untranslated title of an object
@@ -257,7 +267,7 @@ class ilObject
 		}
 
 		$this->id = $obj["obj_id"];
-		
+
 		// check type match (the "xxx" type is used for the unit test)
 		if ($this->type != $obj["type"] && $obj["type"] != "xxx")
 		{
@@ -283,6 +293,8 @@ class ilObject
 		$this->create_date = $obj["create_date"];
 		$this->last_update = $obj["last_update"];
 		$this->import_id = $obj["import_id"];
+		
+		$this->setOfflineStatus($obj['offline']);
 		
 		if($objDefinition->isRBACObject($this->getType()))
 		{
@@ -512,6 +524,38 @@ class ilObject
 		return 0;
 	}
 
+	/**
+	 * Set offline status
+	 * @param bool $a_status
+	 */
+	public function setOfflineStatus($a_status)
+	{
+		$this->offline = $a_status;
+	}
+
+	/**
+	 * Get offline status
+	 * @return int|null
+	 */
+	public function getOfflineStatus()
+	{
+		return $this->offline;
+	}
+
+	/**
+	 * Check whether object supports offline handling
+	 * @return bool
+	 */
+	public function supportsOfflineHandling()
+	{
+		global $DIC;
+
+		return (bool) $DIC['objDefinition']->supportsOfflineHandling($this->getType());
+	}
+
+
+
+
 	public static function _lookupImportId($a_obj_id)
 	{
 		global $DIC;
@@ -671,18 +715,19 @@ class ilObject
 			$owner = 0;
 		}
 		$this->id = $ilDB->nextId("object_data");
-		$q = "INSERT INTO object_data ".
-			 "(obj_id,type,title,description,owner,create_date,last_update,import_id) ".
-			 "VALUES ".
-			 "(".
-			 $ilDB->quote($this->id, "integer").",".
-			 $ilDB->quote($this->type, "text").",".
-			 $ilDB->quote($this->getTitle(), "text").",".
-			 $ilDB->quote($this->getDescription(), "text").",".
-			 $ilDB->quote($owner, "integer").",".
-			 $ilDB->now().",".
-			 $ilDB->now().",".
-			 $ilDB->quote($this->getImportId(), "text").")";
+		$q = "INSERT INTO object_data " .
+			"(obj_id,type,title,description,offline,owner,create_date,last_update,import_id) " .
+			"VALUES " .
+			"(" .
+			$ilDB->quote($this->id, "integer") . "," .
+			$ilDB->quote($this->type, "text") . "," .
+			$ilDB->quote($this->getTitle(), "text") . "," .
+			$ilDB->quote($this->getDescription(), "text") . "," .
+			$ilDB->quote($this->supportsOfflineHandling() ? $this->getOfflineStatus() : null, 'integer').', '.
+			$ilDB->quote($owner, "integer") . "," .
+			$ilDB->now() . "," .
+			$ilDB->now() . "," .
+			$ilDB->quote($this->getImportId(), "text") . ")";
 
 		$ilDB->manipulate($q);
 
@@ -745,6 +790,7 @@ class ilObject
 			"SET ".
 			"title = ".$ilDB->quote($this->getTitle(), "text").",".
 			"description = ".$ilDB->quote($this->getDescription(), "text").", ".
+			'offline = '. $ilDB->quote($this->supportsOfflineHandling() ? $this->getOfflineStatus() : null, 'integer').', '.
 			"import_id = ".$ilDB->quote($this->getImportId(), "text").",".
 			"last_update = ".$ilDB->now()." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
@@ -997,6 +1043,22 @@ class ilObject
 //echo "<br>LOOKING-$a_id-:$tit";		
 		return $tit;
 	}
+	
+	/**
+	 * Lookup offline status using objectDataCache
+	 *
+	 * @static
+	 * @param $a_obj_id
+	 * @return null | bool
+	 */
+	public static function lookupOfflineStatus($a_obj_id)
+	{
+		global $DIC;
+
+		return $DIC['ilObjDataCache']->lookupOfflineStatus($a_obj_id);
+	}
+
+
 	
 	/**
 	* lookup object owner
@@ -1982,7 +2044,7 @@ class ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php' ;
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php' ;
 		ilConditionHandler::cloneDependencies($this->getRefId(),$a_target_id,$a_copy_id);
 		
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
@@ -2013,16 +2075,19 @@ class ilObject
 		$md->cloneMD($target_obj->getId(),0,$target_obj->getType());
 		return true;	 	
 	}
-	
+
 	/**
-	* Get icon for repository item.
-	*
-	* @param	int			object id
-	* @param	string		size (big, small, tiny)
-	* @param	string		object type
-	* @param	boolean		true: offline, false: online
-	*/
-	public static function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
+	 * Get icon for repository item.
+	 *
+	 * @param    int            object id
+	 * @param    string        size (big, small, tiny)
+	 * @param    string        object type
+	 * @param    boolean        true: offline, false: online
+	 */
+	public static function _getIcon(
+		$a_obj_id = "",
+		$a_size = "big",
+		$a_type = "",
 		$a_offline = false)
 	{
 		global $DIC;
@@ -2045,10 +2110,13 @@ class ilObject
 			$a_size = "big";
 		}
 
-		if ($ilSetting->get('custom_icons')) {
+		if(
+			$a_obj_id &&
+			$ilSetting->get('custom_icons')
+		) {
 			/** @var \ilObjectCustomIconFactory  $customIconFactory */
 			$customIconFactory = $DIC['object.customicons.factory'];
-			$customIcon        = $customIconFactory->getByObjId($a_obj_id, $a_type);
+			$customIcon = $customIconFactory->getPresenterByObjId((int)$a_obj_id, (string)$a_type);
 			if ($customIcon->exists()) {
 				$filename = $customIcon->getFullPath();
 				return $filename . '?tmp=' . filemtime($filename);

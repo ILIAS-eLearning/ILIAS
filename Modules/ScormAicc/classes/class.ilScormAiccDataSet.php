@@ -37,7 +37,6 @@ class ilScormAiccDataSet extends ilDataSet
 			"NoMenu" => ["db_col" => "no_menu", "db_type" => "text"],
 			"Objectives" => ["db_col" => "objectives", "db_type" => "text"],
 			"OfflineMode" => ["db_col" => "offline_mode", "db_type" => "text"],
-			"Online" => ["db_col" => "c_online", "db_type" => "text"],
 			"OpenMode" => ["db_col" => "open_mode", "db_type" => "integer"],
 			"Sequencing" => ["db_col" => "sequencing", "db_type" => "text"],
 			"SequencingExpertMode" => ["db_col" => "seq_exp_mode", "db_type" => "integer"],
@@ -63,7 +62,8 @@ class ilScormAiccDataSet extends ilDataSet
 	 */
 	public function readData($a_entity, $a_version, $a_id, $a_field = "")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$obj_id = ilObject::_lookupObjectId ($a_id);
 		$columns = [];
@@ -97,7 +97,9 @@ class ilScormAiccDataSet extends ilDataSet
 	 */
 	public function writeData ($a_entity, $a_version, $a_id, $data)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		if (count ($data) > 0)
 		{
 			$columns = [];
@@ -153,9 +155,11 @@ class ilScormAiccDataSet extends ilDataSet
 	 */
 	public function getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
 	{
-		$GLOBALS["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
+		$GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
-		global $ilCtrl, $ilDB;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
 		$this->dircnt = 1;
 
 		$this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");

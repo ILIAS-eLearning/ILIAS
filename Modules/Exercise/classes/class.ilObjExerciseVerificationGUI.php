@@ -54,16 +54,34 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
-		$ilUser = $this->user;
-		
-		$exercise_id = $_REQUEST["exc_id"];
-		if($exercise_id)
-		{
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-			$exercise = new ilObjExercise($exercise_id, false);
+		global $DIC;
 
-			include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
-			$newObj = ilObjExerciseVerification::createFromExercise($exercise, $ilUser->getId());
+		$ilUser = $this->user;
+
+		$objectId = $_REQUEST["exc_id"];
+		if($objectId)
+		{
+			$certificateVerificationFileService = new ilCertificateVerificationFileService(
+				$DIC->language(),
+				$DIC->database(),
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
+			);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+				(int) $ilUser->getId(),
+				(int) $objectId
+			);
+
+			try {
+				$newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
+			} catch (\Exception $exception) {
+				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+				return $this->create();
+			}
+
 			if($newObj)
 			{
 				$parent_id = $this->node_id;

@@ -43,6 +43,8 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	protected $user;
 
 	protected $force_details;
+
+	protected $block_limit;
 	
 	/**
 	* Constructor
@@ -56,6 +58,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		$this->user = $DIC->user();
 		parent::__construct($container_gui_obj);
 		$this->initDetails();
+		$this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->object->getId(), "block_limit");
 	}
 	
 	/**
@@ -154,7 +157,17 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 				foreach($this->items[$type] as $item_data)
 				{
 					$item_ref_id = $item_data["child"];
-					
+
+					if ($this->block_limit > 0 && $position == $this->block_limit + 1)
+					{
+						if ($position == $this->block_limit + 1)
+						{
+							// render more button
+							$this->renderer->addShowMoreButton($type);
+						}
+						continue;
+					}
+
 					if(!$this->renderer->hasItem($item_ref_id))
 					{						
 						$html = $this->renderItem($item_data, $position++);

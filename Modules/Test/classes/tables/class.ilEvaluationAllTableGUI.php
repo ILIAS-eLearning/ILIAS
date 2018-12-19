@@ -26,7 +26,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
 	public function __construct($a_parent_obj, $a_parent_cmd, $anonymity = false, $offeringQuestionHintsEnabled = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		
 		$this->setId("tst_eval_all");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -136,7 +138,8 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 	
 	function getSelectableColumns()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		if (!$this->anonymity)
 		{
 			$cols["gender"] = array(
@@ -201,7 +204,10 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$rbacreview = $DIC['rbacreview'];
+		$ilUser = $DIC['ilUser'];
 		
 		// name
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
@@ -323,7 +329,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				}
 			}
 		}
-		$this->tpl->setVariable("REACHED", $data['reached'] . " " . strtolower($this->lng->txt("of")) . " " . $data['max']);
+		$reachedPercent = !$data['max'] ? 0 : $data['reached'] / $data['max'] * 100;
+		$reached = $data['reached']." ".strtolower($this->lng->txt("of"))." ".$data['max']." (".sprintf("%2.2f", $reachedPercent)." %)";
+		$this->tpl->setVariable("REACHED", $reached);
 		
 		if( $this->offeringQuestionHintsEnabled )
 		{
@@ -363,7 +371,8 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
 	protected function isFieldEnabledEnoughByAdministration($fieldIdentifier)
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		
 		if( $ilSetting->get("usr_settings_hide_".$fieldIdentifier) ) // visible
 		{

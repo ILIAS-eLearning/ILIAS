@@ -72,6 +72,11 @@ class ilExAssignmentTeam
 	{
 		return $this->id;
 	}
+
+	private function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
 	
 	protected function read($a_id)
 	{
@@ -85,7 +90,7 @@ class ilExAssignmentTeam
 		$set = $ilDB->query($sql);
 		if($ilDB->numRows($set))
 		{
-			$this->id = $a_id;
+			$this->setId($a_id);
 		
 			while($row = $ilDB->fetchAssoc($set))
 			{
@@ -120,17 +125,43 @@ class ilExAssignmentTeam
 		if(!$id && $a_create_on_demand)
 		{
 			$id = $ilDB->nextId("il_exc_team");
+
+			// get starting timestamp (relative deadlines) from individual deadline
+			include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
+			$idl = ilExcIndividualDeadline::getInstance($a_assignment_id, $a_user_id);
 			
 			$fields = array("id" => array("integer", $id),
 				"ass_id" => array("integer", $a_assignment_id),
 				"user_id" => array("integer", $a_user_id));			
-			$ilDB->insert("il_exc_team", $fields);		
+			$ilDB->insert("il_exc_team", $fields);
+
+			// set starting timestamp for created team
+			if ($idl->getStartingTimestamp() > 0)
+			{
+				$idl_team = ilExcIndividualDeadline::getInstance($a_assignment_id, $id, true);
+				$idl_team->setStartingTimestamp($idl->getStartingTimestamp());
+				$idl_team->save();
+			}
 			
 			self::writeTeamLog($id, self::TEAM_LOG_CREATE_TEAM);						
 			self::writeTeamLog($id, self::TEAM_LOG_ADD_MEMBER, 
 				ilObjUser::_lookupFullname($a_user_id));
 		}
 		
+		return $id;
+	}
+
+	function createTeam($a_assignment_id, $a_user_id)
+	{
+		$ilDB = $this->db;
+		$id = $ilDB->nextId("il_exc_team");
+		$fields = array("id" => array("integer", $id),
+			"ass_id" => array("integer", $a_assignment_id),
+			"user_id" => array("integer", $a_user_id));
+		$ilDB->insert("il_exc_team", $fields);
+		self::writeTeamLog($id, self::TEAM_LOG_CREATE_TEAM);
+		self::writeTeamLog($id, self::TEAM_LOG_ADD_MEMBER,
+			ilObjUser::_lookupFullname($a_user_id));
 		return $id;
 	}
 	
@@ -491,6 +522,18 @@ class ilExAssignmentTeam
 					$first = array_shift($missing);			
 					$new_team = self::getInstanceByUserId($a_target_ass_id, $first, true);
 
+					// give new team starting time of original user
+					if ($a_user_id > 0 && $old_team > 0)
+					{
+						$idl = ilExcIndividualDeadline::getInstance($a_target_ass_id, $a_user_id);
+						if ($idl->getStartingTimestamp())
+						{
+							$idl_team = ilExcIndividualDeadline::getInstance($a_target_ass_id, $new_team->getId(), true);
+							$idl_team->setStartingTimestamp($idl->getStartingTimestamp());
+							$idl_team->save();
+						}
+					}
+
 					if($a_exc_ref_id)
 					{	
 						// getTeamId() does NOT send notification
@@ -546,6 +589,73 @@ class ilExAssignmentTeam
 		}
 		
 		return ilUtil::sortArray($res, "title", "asc", false, true);
+	}
+
+	/**
+	 * Create random teams for assignment type "team upload" following specific rules.
+	 * example:
+	 *  - total exercise members : 9 members
+	 *  - total number of teams to create (defined via form): 4 groups
+	 *  - number of users per team --> 9 / 4 = 2 users
+	 *  - users to spread over groups --> 9 % 4 = 1 user
+	 *  - final teams: 3 teams of 2 users and 1 team of 3 users.
+	 * @param $a_exercise_id integer
+	 * @param $a_assignment_id integer
+	 * @param $a_number_teams integer
+	 * @param $a_min_participants integer
+	 * @return bool
+	 */
+	public function createRandomTeams($a_exercise_id, $a_assignment_id, $a_number_teams, $a_min_participants)
+	{
+		//just in case...
+		if(count(self::getAssignmentTeamMap($a_assignment_id))) {
+			return false;
+		}
+		$exercise = new ilObjExercise($a_exercise_id, false);
+		$obj_exc_members = new ilExerciseMembers($exercise);
+		$members = $obj_exc_members->getMembers();
+		$total_exc_members = count($members);
+		$number_of_teams = $a_number_teams;
+		if(!$number_of_teams)
+		{
+			if($a_min_participants) {
+				$number_of_teams = round($total_exc_members / $a_min_participants);
+			} else {
+				$number_of_teams = random_int(1, $total_exc_members);
+			}
+		}
+		$members_per_team = round($total_exc_members / $number_of_teams);
+		shuffle($members);
+		for($i=0;$i<$number_of_teams;$i++)
+		{
+			$members_counter = 0;
+			while(!empty($members) && $members_counter < $members_per_team)
+			{
+				$member_id = array_pop($members);
+				if($members_counter == 0)
+				{
+					$team_id = $this->createTeam($a_assignment_id, $member_id);
+					$this->setId($team_id);
+					$this->assignment_id = $a_assignment_id;
+				}
+				else
+				{
+					$this->addTeamMember($member_id);
+				}
+				$members_counter++;
+			}
+		}
+		//get the new teams, remove duplicates.
+		$teams = array_unique(array_values(self::getAssignmentTeamMap($a_assignment_id)));
+		shuffle($teams);
+		while(!empty($members))
+		{
+			$member_id = array_pop($members);
+			$team_id = array_pop($teams);
+			$this->setId($team_id);
+			$this->addTeamMember($member_id);
+		}
+		return true;
 	}
 }
 

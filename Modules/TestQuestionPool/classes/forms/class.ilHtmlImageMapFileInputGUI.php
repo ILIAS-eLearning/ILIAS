@@ -22,7 +22,8 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		if(!parent::checkInput())
 		{

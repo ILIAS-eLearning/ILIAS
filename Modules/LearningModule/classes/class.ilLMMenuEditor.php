@@ -31,6 +31,8 @@
 */
 class ilLMMenuEditor
 {
+	protected $active = "n";
+
 	/**
 	 * @var ilDB
 	 */
@@ -106,13 +108,34 @@ class ilLMMenuEditor
 	{
 		return $this->link_ref_id;
 	}
+	
+	/**
+	 * Set active
+	 *
+	 * @param string $a_val 	
+	 */
+	function setActive($a_val)
+	{
+		$this->active = $a_val;
+	}
+	
+	/**
+	 * Get active
+	 *
+	 * @return string 
+	 */
+	function getActive()
+	{
+		return $this->active;
+	}
+	
 
 	function create()
 	{
 		$ilDB = $this->db;
 		
 		$id = $ilDB->nextId("lm_menu");
-		$q = "INSERT INTO lm_menu (id, lm_id,link_type,title,target,link_ref_id) ".
+		$q = "INSERT INTO lm_menu (id, lm_id,link_type,title,target,link_ref_id, active) ".
 			 "VALUES ".
 			 "(".
 			 $ilDB->quote($id, "integer").",".
@@ -120,7 +143,9 @@ class ilLMMenuEditor
 			 $ilDB->quote($this->getLinkType(), "text").",".
  			 $ilDB->quote($this->getTitle(), "text").",".
  			 $ilDB->quote($this->getTarget(), "text").",".
-			 $ilDB->quote((int) $this->getLinkRefId(), "integer").")";
+			 $ilDB->quote((int) $this->getLinkRefId(), "integer").",".
+			 $ilDB->quote($this->getActive(), "text").
+			")";
 		$r = $ilDB->manipulate($q);
 		
 		return true;
@@ -216,6 +241,7 @@ class ilLMMenuEditor
 		$this->setLinkType($row->link_type);
 		$this->setLinkRefId($row->link_ref_id);
 		$this->setEntryid($a_id);
+		$this->setActive($row->active);
 	}
 	
 	/**
@@ -226,12 +252,6 @@ class ilLMMenuEditor
 	function updateActiveStatus($a_entries)
 	{
 		$ilDB = $this->db;
-		
-		if (!is_array($a_entries))
-		{
-			$q = "UPDATE lm_menu SET active = ".$ilDB->quote("n", "text").
-				" WHERE lm_id = ".$ilDB->quote($this->lm_id, "integer");
-		}
 		
 		// update active status
 		$q = "UPDATE lm_menu SET " .
@@ -244,6 +264,54 @@ class ilLMMenuEditor
 
 		$ilDB->manipulate($q);
 	}
-	
+
+	/**
+	 * Fix ref ids on import
+	 *
+	 * @param int $new_lm_id
+	 * @param array $ref_mapping
+	 */
+	public static function fixImportMenuItems(int $new_lm_id, array $ref_mapping)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->queryF("SELECT * FROM lm_menu ".
+			" WHERE lm_id = %s ",
+			array("integer"),
+			array($new_lm_id)
+			);
+		while ($rec = $db->fetchAssoc($set))
+		{
+			// ... only check internal links
+			if ($rec["link_type"] == "intern")
+			{
+				$link = explode("_", $rec["link_ref_id"]);
+				$ref_id = (int) $link[count($link)-1];
+				$new_ref_id = $ref_mapping[$ref_id];
+				// if ref id has been imported, update it
+				if ($new_ref_id > 0)
+				{
+					$new_target = str_replace((string) $ref_id, (string) $new_ref_id, $rec["target"]);
+					$db->update("lm_menu", array(
+							"link_ref_id" => array("integer", $new_ref_id),
+							"target" => array("text", $new_target)
+						), array(	// where
+							"id" => array("integer", $rec["id"])
+						));
+				}
+				else	// if not, delete the menu item
+				{
+					$db->manipulateF("DELETE FROM lm_menu WHERE ".
+						" id = %s",
+						array("integer"),
+						array($rec["id"]));
+				}
+			}
+		}
+	}
+
+
 }
 ?>

@@ -10,7 +10,7 @@
 *
 * @ingroup ServicesTree
 */
-class assSingleChoiceTest extends PHPUnit_Framework_TestCase
+class assSingleChoiceTest extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 
@@ -65,7 +65,8 @@ class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 	 */
 	/*public function t_e_stCreation()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		include_once './Modules/TestQuestionPool/classes/class.assSingleChoice.php';
 		$insert_id = ilassSingleChoiceTest::createSampleQuestion();

@@ -28,6 +28,11 @@ class ilPersonalSkillsGUI
 	protected $hidden_skills = array();
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -85,6 +90,11 @@ class ilPersonalSkillsGUI
 	protected $obj_skills = array();
 
 	/**
+	 * @var ilPersonalSkillsFilterGUI
+	 */
+	protected $filter;
+
+	/**
 	 * Contructor
 	 *
 	 * @access public
@@ -104,6 +114,7 @@ class ilPersonalSkillsGUI
 		$this->access = $DIC->access();
 		$this->ui_fac = $DIC->ui()->factory();
 		$this->ui_ren = $DIC->ui()->renderer();
+		$this->ui = $DIC->ui();
 
 		$ilCtrl = $this->ctrl;
 		$ilHelp = $this->help;
@@ -128,8 +139,21 @@ class ilPersonalSkillsGUI
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$this->skmg_settings = new ilSkillManagementSettings();
 
+		$this->filter = new ilPersonalSkillsFilterGUI();
+
 	}
-	
+
+	/**
+	 * Get filter
+	 *
+	 * @return ilPersonalSkillsFilterGUI
+	 */
+	protected function getFilter()
+	{
+		return $this->filter;
+	}
+
+
 	/**
 	 * Set profile id
 	 *
@@ -288,8 +312,8 @@ class ilPersonalSkillsGUI
 
 		$cmd = $ilCtrl->getCmd($std_cmd);
 		
-		$tpl->setTitle($lng->txt("skills"));
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
+		//$tpl->setTitle($lng->txt("skills"));
+		//$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
 
 		switch($next_class)
 		{
@@ -310,20 +334,20 @@ class ilPersonalSkillsGUI
 		$ilTabs = $this->tabs;
 
 		// list skills
-		$ilTabs->addTab("list_skills",
+		$ilTabs->addSubTab("list_skills",
 			$lng->txt("skmg_selected_skills"),
 			$ilCtrl->getLinkTarget($this, "listSkills"));
 
 		if (count($this->user_profiles) > 0)
 		{
-			$ilTabs->addTab("profile",
+			$ilTabs->addSubTab("profile",
 				$lng->txt("skmg_assigned_profiles"),
 				$ilCtrl->getLinkTarget($this, "listAssignedProfile"));
 		}
 
 		// assign materials
 
-		$ilTabs->activateTab($a_activate);
+		$ilTabs->activateSubTab($a_activate);
 	}
 	
 	function setOfflineMode($a_file_path)
@@ -339,8 +363,10 @@ class ilPersonalSkillsGUI
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
 		$lng = $this->lng;
-		$tpl = $this->tpl;
+		$main_tpl = $this->tpl;
 		$ilToolbar = $this->toolbar;
+
+		$tpl = new ilTemplate("tpl.skill_filter.html", true, true, "Services/Skill");
 
 		$this->setTabs("list_skills");
 		
@@ -351,6 +377,10 @@ class ilPersonalSkillsGUI
 		$ilToolbar->addFormButton($lng->txt("skmg_add_skill"),
 			"listSkillsForAdd");
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+		$filter_toolbar = new ilToolbarGUI();
+		$filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
+		$this->getFilter()->addToToolbar($filter_toolbar, false);
 			
 		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
 		$html = "";
@@ -372,10 +402,36 @@ class ilPersonalSkillsGUI
 		// list skills
 //		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
 //		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
-		
-		$tpl->setContent($html);
+
+		if ($html != "")
+		{
+			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
+			$tpl->setVariable("FILTER", $filter_toolbar->getHTML());
+			$html = $tpl->get().$html;
+		}
+
+		$main_tpl->setContent($html);
 
 	}
+
+	/**
+	 * Apply filter
+	 */
+	protected function applyFilter()
+	{
+		$this->getFilter()->save();
+		$this->ctrl->redirect($this, "listSkills");
+	}
+
+	/**
+	 * Apply filter for profiles view
+	 */
+	protected function applyFilterAssignedProfiles()
+	{
+		$this->getFilter()->save();
+		$this->ctrl->redirect($this, "listAssignedProfile");
+	}
+
 
 	/**
 	 * Get skill presentation HTML
@@ -474,7 +530,10 @@ class ilPersonalSkillsGUI
 				if (!$this->skmg_settings->getHideProfileBeforeSelfEval() ||
 					ilBasicSkill::hasSelfEvaluated($user->getId(), $bs["id"], $bs["tref"]))
 				{
-					$panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
+					if ($this->getFilter()->showTargetLevel())
+					{
+						$panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
+					}
 				}
 			}
 
@@ -499,7 +558,10 @@ class ilPersonalSkillsGUI
 					{
 						$se_rendered = true;
 					}
-					$panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+					if ($this->getFilter()->isInRange($level_data, $level_entry))
+					{
+						$panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+					}
 				}
 				
 			}
@@ -507,7 +569,10 @@ class ilPersonalSkillsGUI
 			// materials (new)
 			if ($this->mode != "gap")
 			{
-				$mat = $this->getMaterials($level_data, $bs["tref"], $user->getId());
+				if ($this->getFilter()->showMaterialsRessources() && $this->use_materials)
+				{
+					$mat = $this->getMaterials($level_data, $bs["tref"], $user->getId());
+				}
 				if ($mat != "")
 				{
 					$panel_comps[] = $this->ui_fac->legacy($mat);
@@ -515,7 +580,10 @@ class ilPersonalSkillsGUI
 			}
 
 			// suggested resources
-			$sugg = $this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]);
+			if ($this->getFilter()->showMaterialsRessources())
+			{
+				$sugg = $this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]);
+			}
 			if ($sugg != "")
 			{
 				$panel_comps[] = $this->ui_fac->legacy($sugg);
@@ -536,7 +604,7 @@ class ilPersonalSkillsGUI
 				}
 			}
 
-			$sub = $this->ui_fac->panel()->sub($title, $panel_comps);
+			$sub = $this->ui_fac->panel()->sub((string) $title, $panel_comps);
 			if ($a_edit)
 			{
 				$actions = array();
@@ -559,7 +627,7 @@ class ilPersonalSkillsGUI
 			
 		}
 		
-		$panel = $this->ui_fac->panel()->standard(ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
+		$panel = $this->ui_fac->panel()->standard((string) ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
 			$sub_panels);
 
 		if ($a_edit && $this->getProfileId() == 0)
@@ -811,10 +879,15 @@ class ilPersonalSkillsGUI
 		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		$ilSetting = $this->setting;
+		$ui = $this->ui;
 
 		if(!$ilSetting->get("disable_personal_workspace"))
 		{
-			ilUtil::sendInfo($lng->txt("skmg_ass_materials_from_workspace")." » <a href='ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace'>".$lng->txt("personal_workspace")."</a>");
+			$url = 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace';
+			$mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
+				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_workspace"),
+					$url)]);
+			$message =  $ui->renderer()->render($mbox);
 		}
 		
 		$ilCtrl->saveParameter($this, "skill_id");
@@ -852,7 +925,7 @@ class ilPersonalSkillsGUI
 		$tb->setCloseFormTag(true);
 		$mtpl->setVariable("TOOLBAR2", $tb->getHTML());
 		
-		$tpl->setContent($mtpl->get());
+		$tpl->setContent($message.$mtpl->get());
 	}
 	
 	/**
@@ -1123,6 +1196,39 @@ class ilPersonalSkillsGUI
 	}
 
 	/**
+	 * Get actual levels
+	 *
+	 * @param array $skills
+	 * @param int $user_id
+	 */
+	protected function getActualLevels($skills, $user_id)
+	{
+		// get actual levels for gap analysis
+		$this->actual_levels = array();
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+		foreach ($skills as $sk)
+		{
+			$bs = new ilBasicSkill($sk["base_skill_id"]);
+			if ($this->gap_mode == "max_per_type")
+			{
+				$max = $bs->getMaxLevelPerType($sk["tref_id"], $this->gap_mode_type, $user_id);
+				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
+			}
+			else if ($this->gap_mode == "max_per_object")
+			{
+				$max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
+				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
+			}
+			else
+			{
+				$max = $bs->getMaxLevel($sk["tref_id"], $user_id);
+				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
+			}
+		}
+	}
+
+
+	/**
 	 * Get gap analysis html
 	 *
 	 * @param
@@ -1182,22 +1288,7 @@ class ilPersonalSkillsGUI
 		}
 
 		// get actual levels for gap analysis
-		$this->actual_levels = array();
-		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-		foreach ($skills as $sk)
-		{
-			$bs = new ilBasicSkill($sk["base_skill_id"]);
-			if ($this->gap_mode == "max_per_type")
-			{
-				$max = $bs->getMaxLevelPerType($sk["tref_id"], $this->gap_mode_type, $user_id);
-				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
-			}
-			else if ($this->gap_mode == "max_per_object")
-			{
-				$max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
-				$this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
-			}
-		}
+		$this->getActualLevels($skills, $user_id);
 
 		$incl_self_eval = false;
 		if (count($this->getGapAnalysisSelfEvalLevels() > 0))
@@ -1284,11 +1375,6 @@ class ilPersonalSkillsGUI
 						$max_cnt = max($max_cnt, $cnt);
 					}
 				}
-
-	//			$leg_labels = array("AAAAA", "BBBBB", "CCCCC");
-
-	//var_dump($this->profile_levels);
-	//var_dump($this->actual_levels);
 
 				include_once("./Services/Chart/classes/class.ilChart.php");
 				$chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart".$pkg_cnt);
@@ -1745,7 +1831,7 @@ class ilPersonalSkillsGUI
 					}
 				}
 
-				if ($this->actual_levels[$v["skill_id"]][0] == $v["id"])
+				if ($this->actual_levels[$v["skill_id"]][$a_tref_id] == $v["id"])
 				{
 					$too_low = false;
 				}
@@ -1853,12 +1939,20 @@ class ilPersonalSkillsGUI
 	 */
 	function listAssignedProfile()
 	{
-		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+
+		$main_tpl = $this->tpl;
+
+		$tpl = new ilTemplate("tpl.skill_filter.html", true, true, "Services/Skill");
 
 		$this->setTabs("profile");
 
 		$this->determineCurrentProfile();
 		$this->showProfileSelectorToolbar();
+
+		$filter_toolbar = new ilToolbarGUI();
+		$filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
+		$this->getFilter()->addToToolbar($filter_toolbar, true);
 
 		$skills = array();
 		if ($this->getProfileId() > 0)
@@ -1876,8 +1970,7 @@ class ilPersonalSkillsGUI
 			}
 		}
 
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$stree = new ilSkillTree();
+		$this->getActualLevels($skills, $this->user->getId());
 
 		// render
 		$html = "";
@@ -1887,7 +1980,16 @@ class ilPersonalSkillsGUI
 			$html.= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
 		}
 
-		$tpl->setContent($html);
+		if ($html != "")
+		{
+			$filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilterAssignedProfiles");
+
+			$tpl->setVariable("FILTER", $filter_toolbar->getHTML());
+
+			$html = $tpl->get().$html;
+		}
+
+		$main_tpl->setContent($html);
 	}
 
 	

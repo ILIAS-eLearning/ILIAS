@@ -233,7 +233,8 @@ class ilOnScreenChatGUI
 			$DIC->language()->toJS(array(
 				'chat_osc_no_usr_found', 'chat_osc_emoticons', 'chat_osc_write_a_msg', 'autocomplete_more', 
 				'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user', 'chat_osc_subs_rej_msgs',
-				'chat_osc_subs_rej_msgs_p', 'chat_osc_self_rej_msgs', 'chat_osc_search_modal_info'
+				'chat_osc_subs_rej_msgs_p', 'chat_osc_self_rej_msgs', 'chat_osc_search_modal_info',
+				'chat_osc_head_grp_x_persons'
 			));
 
 			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
@@ -248,7 +249,7 @@ class ilOnScreenChatGUI
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');
-			$DIC['tpl']->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io/node_modules/socket.io-client/socket.io.js');
+			$DIC['tpl']->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/chat.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
 			$DIC['tpl']->addOnLoadCode("il.Chat.setConfig(".json_encode($chatConfig).");");

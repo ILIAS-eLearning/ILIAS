@@ -32,7 +32,11 @@ class ilLearningProgressBaseGUI
 	 * @var ilLogger
 	 */
 	protected $logger;
-	
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
 	
 	
 	const LP_CONTEXT_PERSONAL_DESKTOP = 1;
@@ -146,14 +150,14 @@ class ilLearningProgressBaseGUI
 				if(ilObjUserTracking::_hasLearningProgressLearner() && 
 					ilObjUserTracking::_enabledUserRelatedData())
 				{
-					$this->tabs_gui->addTarget('trac_progress',
+					$this->tabs_gui->addSubTabTarget('trac_progress',
 													$this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 													"","","",$a_active == self::LP_ACTIVE_PROGRESS);
 				}
 
 				if(ilObjUserTracking::_hasLearningProgressOtherUsers())
 				{
-					$this->tabs_gui->addTarget('trac_objects',
+					$this->tabs_gui->addSubTabTarget('trac_objects',
 													 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 													 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
 				}
@@ -252,7 +256,7 @@ class ilLearningProgressBaseGUI
 	{
 		if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP)
 		{
-			$this->tpl->setTitle($this->lng->txt("learning_progress"));
+			//$this->tpl->setTitle($this->lng->txt("learning_progress"));
 			
 			// set locator
 /*

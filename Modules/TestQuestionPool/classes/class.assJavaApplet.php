@@ -268,7 +268,8 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$params = $this->buildParams();
 		// save additional data
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -294,7 +295,8 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
@@ -646,7 +648,8 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found_values = array();
 		if (is_null($pass))
@@ -710,7 +713,8 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function getReachedInformation($active_id, $pass = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found_values = array();
 		if (is_null($pass))

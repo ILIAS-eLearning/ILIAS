@@ -12,7 +12,7 @@ class ilMailImapRfc822AddressParser extends \ilBaseMailRfc822AddressParser
 	 */
 	protected function parseAddressString(string $a_addresses): array
 	{
-		$parsed_addresses = imap_rfc822_parse_adrlist($a_addresses, \ilMail::ILIAS_HOST);
+		$parsed_addresses = imap_rfc822_parse_adrlist($a_addresses, $this->installationHost);
 
 		// #18992
 		$valid_parsed_addresses = array_filter($parsed_addresses, function ($address) {

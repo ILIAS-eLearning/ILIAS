@@ -28,11 +28,6 @@ class ilCtrlStructureReader
 	{
 		$this->ini = $a_ini_file;
 	}
-
-	function setErrorObject(&$err)
-	{
-		$this->err_object =& $err;
-	}
 	
 	/**
 	* parse code files and store call structure in db
@@ -96,13 +91,6 @@ class ilCtrlStructureReader
 				$this->ini->write();
 			}
 		}
-		
-		// read module information
-		// not clear whether this is a good place for module reading info
-		// or not
-		include_once("./Services/UICore/classes/class.ilCtrl.php");
-		$ctrl = new ilCtrl();
-//		$ctrl->storeCommonStructures();
 	}
 
 	/**

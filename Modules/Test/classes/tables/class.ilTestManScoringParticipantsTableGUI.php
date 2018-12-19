@@ -35,7 +35,8 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 		$this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
 		$this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->setFormName('manScorePartTable');
 		$this->setStyle('table', 'fullwidth');
@@ -54,7 +55,8 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 	
 	private function initColumns()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		if( $this->parent_obj->object->getAnonymity() )
 		{
@@ -80,7 +82,8 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$this->setDisableFilterHiding(true);
 		
@@ -116,7 +119,9 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 	{
 		//vd($row);
 		
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 
 		$ilCtrl->setParameter($this->parent_obj, 'active_id', $row['active_id']);
 	

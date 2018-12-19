@@ -153,7 +153,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/**
 	 * @inheritdoc
 	 */
-	static function getBlockType()
+	public function getBlockType(): string 
 	{
 		return self::$block_type;
 	}
@@ -184,7 +184,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/**
 	 * @inheritdoc
 	 */
-	static function isRepositoryObject()
+	protected function isRepositoryObject(): bool 
 	{
 		return false;
 	}
@@ -549,7 +549,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			else
 			{
 				$icon = ilUtil::getImagePath("icon_lm.svg");
-				$title = $this->lng->txt("learning_resource");
+				$title = $this->lng->txt("learning_module");
 			}
 
 			if ($ilSetting->get('custom_icons')) {

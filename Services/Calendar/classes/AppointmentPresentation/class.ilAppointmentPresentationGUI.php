@@ -571,7 +571,13 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	{
 		//TODO: Remove the hack in ilADTActiveRecordByType.php.
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_APP_PRESENTATION, $a_obj_type, $a_obj_id, $a_sub_obj_type, $a_sub_obj_id);
+		$record_gui = new ilAdvancedMDRecordGUI(
+			ilAdvancedMDRecordGUI::MODE_APP_PRESENTATION,
+			$a_obj_type,
+			$a_obj_id,
+			$a_sub_obj_type,
+			$a_sub_obj_id
+		);
 		$md_items = $record_gui->parse();
 		if(count($md_items))
 		{

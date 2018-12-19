@@ -20,7 +20,7 @@ function user() {
 		"./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
 
 	//Define the card by using the image and add a new section with a button
-	$card = $f->card(
+	$card = $f->card()->standard(
 		"Timon Amstutz",
 		$image
 	)->withSections(array($address,$f->button()->standard("Request Contact","")));

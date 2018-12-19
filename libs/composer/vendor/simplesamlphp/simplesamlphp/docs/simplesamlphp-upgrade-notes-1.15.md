@@ -5,7 +5,9 @@ The minimum required PHP version is now 5.4. The dependency on mcrypt has been
 dropped.
 
 A new templating system based on Twig has been introduced. The old templating
-system is still available but should be considered deprecated.
+system is still available but should be considered deprecated. Custom themes
+may need to be updated to include Twig-style templates as well. See the
+[theming documentation](simplesamlphp-theming).
 
 A new internationalization system based on Gettext has been introduced. While
 old templates can use either the old or the new system (refer to the
@@ -24,21 +26,3 @@ full certificate in `certData` instead.
 
 The `core:AttributeRealm` authproc filter has been deprecated.
 Please use `core:ScopeFromAttribute`, which is a generalised version of this.
-
-The following modules are no longer shipped with the SimpleSAMLphp:
-
-* `aggregator`
-* `aggregator2`
-* `aselect`
-* `autotest`
-* `consentSimpleAdmin`
-* `discojuice`
-* `InfoCard`
-* `logpeek`
-* `metaedit`
-* `modinfo`
-* `papi`
-* `openid`
-* `openidProvider`
-* `saml2debug`
-* `themefeidernd`

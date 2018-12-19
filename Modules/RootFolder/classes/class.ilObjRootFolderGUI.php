@@ -287,12 +287,20 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	function initEditForm()
 	{
 		$this->setEditTabs();
+		$obj_service = $this->getObjectService();
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("repository"));
-		
+
+		// presentation
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$form->addItem($pres);
+
+		// list presentation
+		$form = $this->initListPresentationForm($form);
 
 		$this->initSortingForm(
 				$form,
@@ -305,11 +313,12 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 
 		$this->showCustomIconsEditing(1, $form, false);
-		
-		
-		$hide = new ilCheckboxInputGUI($this->lng->txt("cntr_hide_title_and_icon"), "hide_header_icon_and_title");
-		$hide->setChecked(ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"));
-		$form->addItem($hide);
+
+		$form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
+
+		//$hide = new ilCheckboxInputGUI($this->lng->txt("cntr_hide_title_and_icon"), "hide_header_icon_and_title");
+		//$hide->setChecked(ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"));
+		//$form->addItem($hide);
 		
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
@@ -332,6 +341,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	{
 		global $ilSetting;
 
+		$obj_service = $this->getObjectService();
+
 		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
@@ -342,6 +353,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			if($form->checkInput())
 			{
 				$this->saveSortingSettings($form);
+
+				// list presentation
+				$this->saveListPresentation($form);
 
 				if ($ilSetting->get('custom_icons')) {
 					global $DIC;
@@ -363,10 +377,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
 					// cognos-blu-patch: end
 				}
 
+				// custom icon
+				$obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
 				// hide icon/title
-				ilContainer::_writeContainerSetting($this->object->getId(),
-					"hide_header_icon_and_title",
-					$form->getInput("hide_header_icon_and_title"));
+				//ilContainer::_writeContainerSetting($this->object->getId(),
+				//	"hide_header_icon_and_title",
+				//	$form->getInput("hide_header_icon_and_title"));
 
 				// BEGIN ChangeEvent: Record update
 				global $ilUser;

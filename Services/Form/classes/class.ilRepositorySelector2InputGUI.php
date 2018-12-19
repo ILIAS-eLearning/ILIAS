@@ -97,17 +97,6 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	}
 
 	/**
-	 * Handle explorer command
-	 */
-	function handleExplorerCommand()
-	{
-		if ($this->explorer_gui->handleCommand())
-		{
-//			exit;
-		}
-	}
-
-	/**
 	 * @return ilRepositorySelectorExplorerGUI
 	 */
 	function getExplorerGUI()

@@ -186,7 +186,7 @@ class ilTestParticipantsTimeExtensionGUI
 		$participantList->initializeFromDbRows($this->getTestObj()->getTestParticipants());
 		
 		$participantList = $participantList->getAccessFilteredList(
-			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj())
+			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
 		);
 		
 		$times = $this->getTestObj()->getStartingTimeOfParticipants();

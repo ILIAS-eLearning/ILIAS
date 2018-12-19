@@ -97,7 +97,8 @@ class ilObjectAccess implements \ilWACCheckingClass
 	}
 
 	/**
-	 * Type-specific implementation of general status, has to be overwritten
+	 * Type-specific implementation of general status, has to be overwritten if object type does
+	 * not support centralized offline handling
 	 *
 	 * Used in ListGUI and Learning Progress
 	 *
@@ -106,6 +107,13 @@ class ilObjectAccess implements \ilWACCheckingClass
 	 */
 	static function _isOffline($a_obj_id)
 	{
+		global $DIC;
+
+		$objDefinition = $DIC['objDefinition'];
+		if($objDefinition->supportsOfflineHandling(ilObject::_lookupType($a_obj_id)))
+		{
+			return ilObject::lookupOfflineStatus($a_obj_id);
+		}
 		return null;
 	}
 

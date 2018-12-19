@@ -382,14 +382,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		$ilCtrl->initBaseClass("ilObjPluginDispatchGUI");
-		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->getCallStructure(strtolower("ilObjPluginDispatchGUI"));
 		
-//var_dump($ilCtrl->call_node);
-//var_dump($ilCtrl->forward);
-//var_dump($ilCtrl->parent);
-//var_dump($ilCtrl->root_class);
-
 		$ilCtrl->setParameterByClass(get_class($this), "ref_id", $newObj->getRefId());
 		$ilCtrl->redirectByClass(array("ilobjplugindispatchgui", get_class($this)), $this->getAfterCreationCmd());
 	}
@@ -509,7 +503,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		if ($ilAccess->checkAccess("read", "", $ref_id))
 		{
 			$ilCtrl->initBaseClass("ilObjPluginDispatchGUI");
-			$ilCtrl->setTargetScript("ilias.php");
 			$ilCtrl->getCallStructure(strtolower("ilObjPluginDispatchGUI"));
 			$ilCtrl->setParameterByClass($class_name, "ref_id", $ref_id);
 			$ilCtrl->redirectByClass(array("ilobjplugindispatchgui", $class_name), "");
@@ -517,7 +510,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		else if($ilAccess->checkAccess("visible", "", $ref_id))
 		{
 			$ilCtrl->initBaseClass("ilObjPluginDispatchGUI");
-			$ilCtrl->setTargetScript("ilias.php");
 			$ilCtrl->getCallStructure(strtolower("ilObjPluginDispatchGUI"));
 			$ilCtrl->setParameterByClass($class_name, "ref_id", $ref_id);
 			$ilCtrl->redirectByClass(array("ilobjplugindispatchgui", $class_name), "infoScreen");

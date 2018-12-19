@@ -324,7 +324,7 @@ class ilStyleDefinition
 					}
 
 					// check whether any ref id assigns a new style
-					if ($DIC->isDependencyAvailable("tree") && $ref_id && $DIC->repositoryTree()->isInTree($ref_id)) {
+					if ($DIC->isDependencyAvailable("repositoryTree") && $ref_id && $DIC->repositoryTree()->isInTree($ref_id)) {
 
 						$path = $DIC->repositoryTree()->getPathId($ref_id);
 						for ($i = count($path) - 1; $i >= 0; $i--) {

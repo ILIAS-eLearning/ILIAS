@@ -1355,39 +1355,39 @@ class ilChatroom
 	}
 
 	/**
-	 *  Fetches and returns the object ids of all rooms accessible
-	 *  by the user with $user_id
-	 * @param integer        $user_id
-	 * @return array
+	 * Fetches and returns a Array<Integer, String> of all accessible repository object chats in the main tree
+	 * @param integer $user_id
+	 * @return string[]
 	 */
-	public function getAllRooms($user_id)
+	public function getAccessibleRoomIdByTitleMap($user_id)
 	{
 		global $DIC;
 
 		$query = "
-       SELECT      room_id, od.title
-       FROM        object_data od
-
-       INNER JOIN  " . self::$settingsTable . "
-           ON      object_id = od.obj_id
-
-       INNER JOIN  " . self::$privateRoomsTable . " prt
-           ON      prt.owner = %s
-
-       WHERE       od.type = 'chtr'
+			SELECT room_id, od.title, objr.ref_id
+			FROM object_data od
+			INNER JOIN  " . self::$settingsTable . "
+				ON object_id = od.obj_id
+			INNER JOIN object_reference objr
+				ON objr.obj_id = od.obj_id
+				AND objr.deleted IS NULL
+			INNER JOIN tree
+				ON tree.child = objr.ref_id
+				AND tree.tree = %s
+			WHERE od.type = %s
        ";
 
-		$types  = array('integer');
-		$values = array($user_id);
+		$types  = array('integer', 'text');
+		$values = array(1, 'chtr');
 
 		$res = $DIC->database()->queryF($query, $types, $values);
 
-		$rooms = array();
+		$rooms = [];
 
-		while($row = $DIC->database()->fetchAssoc($res))
-		{
-			$room_id         = $row['room_id'];
-			$rooms[$room_id] = $row['title'];
+		while ($row = $DIC->database()->fetchAssoc($res)) {
+			if (ilChatroom::checkPermissionsOfUser($user_id, 'read', $row['ref_id'])) {
+				$rooms[$row['room_id']] = $row['title'];
+			}
 		}
 
 		return $rooms;
@@ -1399,7 +1399,7 @@ class ilChatroom
 
 		$query = "
        SELECT      proom_id, parent_id
-       FROM        chatroom_prooms
+       FROM        " . self::$privateRoomsTable . "
        WHERE       parent_id = %s
        AND     owner = %s
        AND     closed = 0

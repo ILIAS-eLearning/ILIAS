@@ -1385,15 +1385,21 @@ class ilSurveyPageGUI
 			
 			$ilCtrl->setParameter($this, "pg", $this->current_page-1);
 			$button = ilLinkButton::getInstance();
-			$button->setCaption("survey_prev_question");								
-			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
+			$button->setCaption("survey_prev_question");
+			if($this->has_previous_page)
+			{
+				$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
+			}
 			$button->setDisabled(!$this->has_previous_page);						
 			$ilToolbar->addStickyItem($button);		
 			
 			$ilCtrl->setParameter($this, "pg", $this->current_page+1);
 			$button = ilLinkButton::getInstance();
-			$button->setCaption("survey_next_question");								
-			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
+			$button->setCaption("survey_next_question");
+			if($this->has_next_page)
+			{
+				$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
+			}
 			$button->setDisabled(!$this->has_next_page);						
 			$ilToolbar->addStickyItem($button);		
 			
@@ -1478,12 +1484,12 @@ class ilSurveyPageGUI
 		$this->has_next_page = ($this->current_page < sizeof($pages));
 		$this->has_previous_page = ($this->current_page > 1);
 		$this->has_datasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
-		
+
+		$mess = "";
 		if($this->has_datasets)
 		{
-			$link = $ilCtrl->getLinkTargetByClass(array("ilobjsurveygui", "ilsurveyparticipantsgui"), "maintenance");
-			$link = "<a href=\"".$link."\">".$lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
-			ilUtil::sendInfo($lng->txt("survey_has_datasets_warning_page_view")." ".$link);
+			$mbox = new ilSurveyContainsDataMessageBoxGUI();
+			$mess = $mbox->getHTML();
 		}
 
 		$ilCtrl->setParameter($this, "pg", $this->current_page);
@@ -1582,7 +1588,7 @@ class ilSurveyPageGUI
 			$ttpl->setVariable("NODES", $this->getPageNodes($pages[$this->current_page-1],
 				$this->has_previous_page, $this->has_next_page, $read_only));
 
-			$tpl->setContent($ttpl->get());
+			$tpl->setContent($mess.$ttpl->get());
 
 			// add js to template
 			include_once("./Services/YUI/classes/class.ilYuiUtil.php");

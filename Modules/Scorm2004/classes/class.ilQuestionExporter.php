@@ -74,8 +74,8 @@ class ilQuestionExporter
 			{
 				$q_id = ilInternalLink::_extractObjIdOfTarget($a_ref_id);
 			}
-		} 
-
+		}
+		
 		$this->q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
 
 		if (!is_object($this->q_gui->object))
@@ -167,7 +167,7 @@ class ilQuestionExporter
 	}
 	
 	private function assMultipleChoice() {
-		$main_tpl = $GLOBALS["tpl"];
+		$main_tpl = $GLOBALS['DIC']["tpl"];
 		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($main_tpl);
 		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		

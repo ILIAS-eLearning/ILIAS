@@ -33,6 +33,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   - [Proxy Configuration](#proxy-configuration)
       - [Proxy configuration via nginx](#proxy-configuration-by-nginx)
       - [Proxy configuration via apache2](#proxy-configuration-per-apache2)
+  - [Development](#development)
+      - [Dependency Management](#dependency-management)
 
 <!-- /TOC -->
 
@@ -340,3 +342,17 @@ In the ILIAS configuration the proxy configurations are adjusted in the ***Chat 
 Example:
 
     https://onscreenchat.domain.de
+
+
+### Development
+
+#### Dependency Management
+
+The node module dependencies should be managed by 
+using [Yarn](https://yarnpkg.com/en/) instead of [npm](https://www.npmjs.com/).
+
+Dependencies can be updated by the following command:
+```bash
+cd ./Modules/Chatroom/chat
+yarn install
+```

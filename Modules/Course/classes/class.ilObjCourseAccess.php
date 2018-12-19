@@ -6,7 +6,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
 include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
-include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjCourseAccess
@@ -26,7 +26,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_PASSED
 		);
@@ -44,7 +44,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	public static function checkCondition($a_obj_id,$a_operator,$a_value,$a_usr_id)
 	{
 		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		
 		switch($a_operator)
 		{
@@ -153,7 +153,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				}
-				if(!$tutor and !$active && !$visible)
+				if(!$tutor && !$active && !$visible)
 				{
 					return false;
 				}
@@ -310,25 +310,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	}
 	
 	/**
-	 * Check if online setting is active
-	 * 
-	 * @param int $a_obj_id
-	 * @return bool
-	 */
-	public static function _isOnline($a_obj_id)
-	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		
-		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-		return (bool)$row->activation_type;	
-	}
-
-	/**
 	 * Is activated?
 	 *
 	 * @see ilStartupGUI
@@ -349,13 +330,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 				return true;
 			}
 		}
-		
-		// offline?
-		if(!self::_isOnline($a_obj_id))
-		{
-			$a_visible_flag = false;
-			return false;							
-		}				
 		
 		$ref_id = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = array_pop($ref_id);		
@@ -543,14 +517,14 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
 		$ilUser = $DIC['ilUser'];
 		$lng = $DIC['lng'];
-		
+
 		$lng->loadLanguageModule("crs");
 		
-		include_once("./Modules/Course/classes/class.ilCourseWaitingList.php");
 		ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
 		
-		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
-		ilCourseCertificateAdapter::_preloadListData($ilUser->getId(), $a_obj_ids); 		
+		$repository = new ilUserCertificateRepository();
+		$coursePreload = new ilCertificateObjectsForUserPreloader($repository);
+		$coursePreload->preLoad($ilUser->getId(), $a_obj_ids);
 	}
 
 	/**

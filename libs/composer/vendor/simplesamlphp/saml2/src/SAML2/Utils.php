@@ -125,7 +125,7 @@ class Utils
             XMLSecurityKey::RSA_SHA256,
             XMLSecurityKey::RSA_SHA384,
             XMLSecurityKey::RSA_SHA512
-        ))) {
+        ), true)) {
             throw new \Exception('Unsupported signing algorithm.');
         }
 
@@ -170,7 +170,7 @@ class Utils
         }
         $algo = $sigMethod->getAttribute('Algorithm');
 
-        if ($key->type === XMLSecurityKey::RSA_SHA1 && $algo !== $key->type) {
+        if ($key->type === XMLSecurityKey::RSA_SHA256 && $algo !== $key->type) {
             $key = self::castKey($key, $algo);
         }
 

@@ -63,7 +63,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->setFormName('participants');
 
-		$this->addColumn('', 'f', "1");
+		$this->addColumn('', 'f', "1",true);
 		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
 
 		$all_cols = $this->getSelectableColumns();
@@ -81,6 +81,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		{
 			$this->addColumn($this->lng->txt('last_access'), 'access_time_unix');
 		}
+		$this->addColumn($this->lng->txt('grp_contact'),'contact');
 		$this->addColumn($this->lng->txt('grp_notification'), 'notification');
 
 		$this->addColumn($this->lng->txt(''), 'optional');
@@ -103,7 +104,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->lng->loadLanguageModule('user');
 		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
 		
-		$this->setSelectAllCheckbox('participants');
+		$this->setSelectAllCheckbox('participants',true);
 		$this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
 	}
 
@@ -253,6 +254,15 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         }
         
 		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
+
+        if($this->getParticipants()->isAdmin($a_set['usr_id']))
+		{
+			$this->tpl->setVariable('VAL_CONTACT_ID', $a_set['usr_id']);
+			$this->tpl->setVariable(
+				'VAL_CONTACT_CHECKED',
+				$a_set['contact'] ? 'checked="checked"' : '');
+		}
+
 		if(
 			$this->getParticipants()->isAdmin($a_set['usr_id'])
 		)

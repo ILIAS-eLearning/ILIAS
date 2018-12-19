@@ -18,4 +18,8 @@
 	<web_access_checker>
 		<secure_path path="ilBookingManager" checking-class="ilObjBookingPoolAccess"/>
 	</web_access_checker>
+	<crons>
+		<cron id="book_notification" class="ilBookCronNotification" />
+	</crons>
+	<logging />
 </module>

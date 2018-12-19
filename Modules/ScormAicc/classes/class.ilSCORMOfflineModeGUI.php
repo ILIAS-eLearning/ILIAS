@@ -25,8 +25,12 @@ class ilSCORMOfflineModeGUI
 	var $tracking_url;
 	var $vers = "v1";
 	
-	function ilSCORMOfflineModeGUI($type) {
-		global $ilias, $tpl, $lng, $ilCtrl;
+	function __construct($type) {
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		include_once "./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php";
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
@@ -40,7 +44,11 @@ class ilSCORMOfflineModeGUI
 	
 	function executeCommand()
 	{
-		global $log, $tpl, $ilCtrl, $lng;
+		global $DIC;
+		$log = $DIC['log'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->refId = $_GET["ref_id"];
 		$this->lmId = ilObject::_lookupObjectId($this->refId);
 		$this->clientIdSop = $this->offlineMode->getClientIdSop();
@@ -193,7 +201,9 @@ class ilSCORMOfflineModeGUI
 	}
 	
 	function view($offline_mode, $cmd) {
-		global $tpl, $ilCtrl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->setOfflineModeTabs($offline_mode);
 		$tpl->addJavascript('./Modules/ScormAicc/scripts/ilsop.js');
 		$tpl->addJavascript('./libs/bower/bower_components/pouchdb/dist/pouchdb.min.js');
@@ -231,7 +241,11 @@ class ilSCORMOfflineModeGUI
 	
 	function setOfflineModeTabs($offline_mode)
 	{	
-		global $ilTabs, $ilLocator,$tpl,$log;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilLocator = $DIC['ilLocator'];
+		$tpl = $DIC['tpl'];
+		$log = $DIC['log'];
 		$icon = ($offline_mode == "online") ? "icon_sahs.svg" : "icon_sahs_offline.svg";
 		$tabTitle = $this->lng->txt("offline_mode");
 		$thisurl =$this->ctrl->getLinkTarget($this, $a_active);

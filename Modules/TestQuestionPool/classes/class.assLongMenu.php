@@ -782,7 +782,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function lookupForExistingSolutions($activeId, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$return = array(
 			'authorized' => false,

@@ -199,15 +199,15 @@ class ilMailSearchGroupsGUI
 						if(isset($old_mail_data['rcp_to']) && 
 						   trim($old_mail_data['rcp_to']) != '')
 						{
-							$rcpt = ilMailRoleAddressType::getRoleMailboxAddress($role['obj_id']);
-							if(!$this->umail->existsRecipient($rcpt, $old_mail_data['rcp_to']))
+							$rcpt = (new \ilRoleMailboxAddress($role['obj_id']))->value();
+							if(!$this->umail->existsRecipient($rcpt, (string)$old_mail_data['rcp_to']))
 							{
 								array_push($members, $rcpt);
 							}
 						}
 						else
 						{
-							array_push($members, ilMailRoleAddressType::getRoleMailboxAddress($role['obj_id']));
+							array_push($members, (new \ilRoleMailboxAddress($role['obj_id']))->value());
 						}
 					}
 				}

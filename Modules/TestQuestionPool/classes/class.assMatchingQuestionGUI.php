@@ -620,17 +620,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
 		$solutions = is_object($this->getPreviewSession()) ? (array)$this->getPreviewSession()->getParticipantsSolution() : array();
-
-		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
 		{
 			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 			iljQueryUtil::initjQuery();
 			iljQueryUtil::initjQueryUI();
 			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
-		}
-		else
-		{
-			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
 		}
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
@@ -795,16 +792,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
 	// hey.
 	{
-		if($GLOBALS['ilBrowser']->isMobile() || $GLOBALS['ilBrowser']->isIpad())
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
 		{
 			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 			iljQueryUtil::initjQuery();
 			iljQueryUtil::initjQueryUI();
 			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
-		}
-		else
-		{
-			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
 		}
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
@@ -987,7 +981,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		
@@ -1139,5 +1135,120 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		
 		return true;
+	}
+	
+	protected function getAnswerStatisticImageHtml($picture)
+	{
+		$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $picture;
+		return '<img src="'.$thumbweb.'" alt="'.$picture.'" title="'.$picture.'"/>';
+	}
+	
+	protected function getAnswerStatisticMatchingElemHtml($elem)
+	{
+		$html = '';
+		
+		if( strlen($elem->text) )
+		{
+			$html .= $elem->text;
+		}
+		
+		if( strlen($elem->picture) )
+		{
+			$html .= $this->getAnswerStatisticImageHtml($elem->picture);
+		}
+
+		return $html;
+	}
+	
+	public function getAnswersFrequency($relevantAnswers, $questionIndex)
+	{
+		$answersByActiveAndPass = array();
+		
+		foreach($relevantAnswers as $row)
+		{
+			$key = $row['active_fi'].':'.$row['pass'];
+			
+			if( !isset($answersByActiveAndPass[$key]) )
+			{
+				$answersByActiveAndPass[$key] = array();
+			}
+			
+			$answersByActiveAndPass[$key][$row['value1']] = $row['value2'];
+		}
+
+		$answers = array();
+		
+		foreach($answersByActiveAndPass as $key => $matchingPairs)
+		{
+			foreach($matchingPairs as $termId => $defId)
+			{
+				$hash = md5($termId.':'.$defId);
+				
+				if( !isset($answers[$hash]) )
+				{
+					$termHtml = $this->getAnswerStatisticMatchingElemHtml(
+						$this->object->getTermWithIdentifier($termId)
+					);
+					
+					$defHtml = $this->getAnswerStatisticMatchingElemHtml(
+						$this->object->getDefinitionWithIdentifier($defId)
+					);
+					
+					$answers[$hash] = array(
+						'answer' => $termHtml.$defHtml,
+						'term' => $termHtml,
+						'definition' => $defHtml,
+						'frequency' => 0
+					);
+				}
+				
+				$answers[$hash]['frequency']++;
+			}
+		}
+		
+		return $answers;
+	}
+	
+	/**
+	 * @param $parentGui
+	 * @param $parentCmd
+	 * @param $relevantAnswers
+	 * @param $questionIndex
+	 * @return ilMatchingQuestionAnswerFreqStatTableGUI
+	 */
+	public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+	{
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilMatchingQuestionAnswerFreqStatTableGUI.php';
+		
+		$table = new ilMatchingQuestionAnswerFreqStatTableGUI($parentGui, $parentCmd, $this->object);
+		$table->setQuestionIndex($questionIndex);
+		$table->setData($this->getAnswersFrequency($relevantAnswers,$questionIndex));
+		$table->initColumns();
+		
+		return $table;
+	}
+	
+	public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssMatchingPairCorrectionsInputGUI.php';
+		$pairs = new ilAssMatchingPairCorrectionsInputGUI($this->lng->txt( 'matching_pairs' ), 'pairs');
+		$pairs->setRequired( true );
+		$pairs->setTerms( $this->object->getTerms() );
+		$pairs->setDefinitions( $this->object->getDefinitions() );
+		$pairs->setPairs( $this->object->getMatchingPairs() );
+		$form->addItem( $pairs );
+	}
+	
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+	{
+		$pairs = $form->getItemByPostVar('pairs')->getPairs();
+		
+		foreach($this->object->getMatchingPairs() as $idx => $matchingPair)
+		{
+			$matchingPair->points = (float)$pairs[$idx]->points; 
+		}
 	}
 }

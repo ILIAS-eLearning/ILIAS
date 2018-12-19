@@ -23,7 +23,9 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 	
 	protected function initXmlExport()
 	{
-		global $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 		$srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
@@ -53,7 +55,10 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 	
 	protected function populateCommonSettings(ilXmlWriter $xmlWriter)
 	{
-		global $tree, $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->test_obj);
@@ -158,7 +163,9 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 	{
 		if( !isset($this->stagingPoolQuestionListByPoolId[$poolId]) )
 		{
-			global $ilDB, $ilPluginAdmin;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
+			$ilPluginAdmin = $DIC['ilPluginAdmin'];
 			
 			$questionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
 			$questionList->setTestId($this->test_obj->getTestId());

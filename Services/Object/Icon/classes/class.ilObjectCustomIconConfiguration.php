@@ -11,7 +11,7 @@ class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguratio
 	/**
 	 * @return string[]
 	 */
-	public function getSupportedFileExtensions()
+	public function getSupportedFileExtensions(): array 
 	{
 		return ['svg'];
 	}
@@ -19,7 +19,7 @@ class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguratio
 	/**
 	 * @return string
 	 */
-	public function getTargetFileExtension()
+	public function getTargetFileExtension(): string 
 	{
 		return 'svg';
 	}
@@ -27,7 +27,7 @@ class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguratio
 	/**
 	 * @return string
 	 */
-	public function getBaseDirectory()
+	public function getBaseDirectory(): string 
 	{
 		return 'custom_icons';
 	}
@@ -35,7 +35,7 @@ class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguratio
 	/**
 	 * @return string
 	 */
-	public function getSubDirectoryPrefix()
+	public function getSubDirectoryPrefix(): string 
 	{
 		return 'obj_';
 	}
@@ -43,7 +43,7 @@ class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguratio
 	/**
 	 * @inheritdoc
 	 */
-	public function getUploadPostProcessors()
+	public function getUploadPostProcessors(): array 
 	{
 		return [];
 	}

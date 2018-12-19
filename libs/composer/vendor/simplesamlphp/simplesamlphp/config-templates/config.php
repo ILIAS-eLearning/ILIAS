@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * The configuration of SimpleSAMLphp
- * 
+ *
  */
 
 $config = array(
@@ -48,7 +48,7 @@ $config = array(
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        //'baseURL' => 'https://example.com'
+        //'baseURL' => 'https://example.com',
     //),
 
     /*
@@ -60,7 +60,7 @@ $config = array(
      * - 'temdir': Saving temporary files. SimpleSAMLphp will attempt to create
      *   this directory if it doesn't exist.
      * When specified as a relative path, this is relative to the SimpleSAMLphp
-     * root directory. 
+     * root directory.
      */
     'certdir' => 'cert/',
     'loggingdir' => 'log/',
@@ -74,6 +74,13 @@ $config = array(
      */
     'technicalcontact_name' => 'Administrator',
     'technicalcontact_email' => 'na@example.org',
+
+    /*
+     * The envelope from address for outgoing emails.
+     * This should be in a domain that has your application's IP addresses in its SPF record
+     * to prevent it from being rejected by mail filters.
+     */
+    //'sendmail_from' => 'no-reply@example.org',
 
     /*
      * The timezone of the server. This option should be set to the timezone you want
@@ -96,7 +103,7 @@ $config = array(
      * 'secretsalt' can be any valid string of any length.
      *
      * A possible way to generate a random salt is by running the following command from a unix shell:
-     * tr -c -d '0123456789abcdefghijklmnopqrstuvwxyz' </dev/urandom | dd bs=32 count=1 2>/dev/null;echo
+     * LC_CTYPE=C tr -c -d '0123456789abcdefghijklmnopqrstuvwxyz' </dev/urandom | dd bs=32 count=1 2>/dev/null;echo
      */
     'secretsalt' => 'defaultsecretsalt',
 
@@ -344,7 +351,7 @@ $config = array(
      * Example:
      *   'proxy.auth' = 'myuser:password'
      */
-    'proxy.auth' => false,
+    //'proxy.auth' => 'myuser:password',
 
 
 
@@ -370,6 +377,7 @@ $config = array(
      */
     'database.username' => 'simplesamlphp',
     'database.password' => 'secret',
+    'database.options' => array(),
 
     /*
      * (Optional) Table prefix
@@ -655,12 +663,43 @@ $config = array(
      *************************************/
 
     /*
+     * Language-related options.
+     */
+    'language' => array(
+        /*
+         * An array in the form 'language' => <list of alternative languages>.
+         *
+         * Each key in the array is the ISO 639 two-letter code for a language,
+         * and its value is an array with a list of alternative languages that
+         * can be used if the given language is not available at some point.
+         * Each alternative language is also specified by its ISO 639 code.
+         *
+         * For example, for the "no" language code (Norwegian), we would have:
+         *
+         * 'priorities' => array(
+         *      'no' => array('nb', 'nn', 'en', 'se'),
+         *      ...
+         * ),
+         *
+         * establishing that if a translation for the "no" language code is
+         * not available, we look for translations in "nb" (Norwegian Bokmål),
+         * and so on, in that order.
+         */
+        'priorities' => array(
+            'no' => array('nb', 'nn', 'en', 'se'),
+            'nb' => array('no', 'nn', 'en', 'se'),
+            'nn' => array('no', 'nb', 'en', 'se'),
+            'se' => array('nb', 'no', 'nn', 'en'),
+        ),
+    ),
+
+    /*
      * Languages available, RTL languages, and what language is the default.
      */
     'language.available' => array(
-        'en', 'no', 'nn', 'se', 'da', 'de', 'sv', 'fi', 'es', 'fr', 'it', 'nl', 'lb', 'cs',
-        'sl', 'lt', 'hr', 'hu', 'pl', 'pt', 'pt-br', 'tr', 'ja', 'zh', 'zh-tw', 'ru', 'et',
-        'he', 'id', 'sr', 'lv', 'ro', 'eu', 'el', 'af'
+        'en', 'no', 'nn', 'se', 'da', 'de', 'sv', 'fi', 'es', 'ca', 'fr', 'it', 'nl', 'lb', 
+        'cs', 'sl', 'lt', 'hr', 'hu', 'pl', 'pt', 'pt-br', 'tr', 'ja', 'zh', 'zh-tw', 'ru',
+        'et', 'he', 'id', 'sr', 'lv', 'ro', 'eu', 'el', 'af'
     ),
     'language.rtl' => array('ar', 'dv', 'fa', 'ur', 'he'),
     'language.default' => 'en',
@@ -757,6 +796,17 @@ $config = array(
      * set it to false.
      */
     'template.auto_reload' => false,
+
+    /*
+     * Set this option to true to indicate that your installation of SimpleSAMLphp
+     * is running in a production environment. This will affect the way resources
+     * are used, offering an optimized version when running in production, and an
+     * easy-to-debug one when not. Set it to false when you are testing or
+     * developing the software.
+     *
+     * Defaults to true.
+     */
+    'production' => true,
 
 
 
@@ -988,7 +1038,7 @@ $config = array(
     'metadata.sign.privatekey' => null,
     'metadata.sign.privatekey_pass' => null,
     'metadata.sign.certificate' => null,
-
+    'metadata.sign.algorithm' => null,
 
 
     /****************************

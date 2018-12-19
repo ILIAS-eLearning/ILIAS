@@ -48,7 +48,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	 */
 	function executeCommand()
 	{
-		global $ilDB, $lng, $ilPluginAdmin, $ilTabs, $tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$ilTabs = $DIC['ilTabs'];
+		$tree = $DIC['tree'];
 
 		$ilTabs->clearTargets();
 		
@@ -344,7 +349,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function markQuestionCmd()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->object->setQuestionSetSolved(1, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -352,7 +358,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	protected function unmarkQuestionCmd()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$this->object->setQuestionSetSolved(0, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -422,6 +429,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			}
 
 			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
+		}
+		else
+		{
+			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 		}
 
 // fau: testNav - remember to prevent the navigation confirmation
@@ -662,20 +673,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-// fau: testNav - handle answer fixation and intermediate submit
-			// always save the question when feedback is requested
-			// if( $this->object->isInstantFeedbackAnswerFixationEnabled() )
-			if (true)
+			if( $this->saveQuestionSolution(true) )
 			{
-				$this->saveQuestionSolution(true);
 				$this->removeIntermediateSolution();
 				$this->setAnswerChangedParameter(false);
 			}
 			else
 			{
-				$this->handleIntermediateSubmit();
+				$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 			}
-// fau.
 			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);
 			$this->testSequence->saveToDb();
@@ -1108,7 +1114,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	protected function buildTestPassQuestionList()
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);

@@ -21,6 +21,7 @@ class ilPCLoginPageElement extends ilPageContent
 		'login-form' => 'login_form',
 		'cas-login-form' => 'cas_login_form',
 		'shibboleth-login-form' => 'shib_login_form',
+		'openid-connect-login' => 'openid_connect_login',
 		'registration-link' => 'registration_link',
 		'language-selection' => 'language_selection',
 		'user-agreement' => 'user_agreement_link'

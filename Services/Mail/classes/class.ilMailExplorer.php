@@ -94,9 +94,9 @@ class ilMailExplorer extends ilTreeExplorerGUI
 			$a_node["child"] = 0;
 		}
 
-		$this->ctrl->setParameter($this->parent_obj, "mobj_id", $a_node["child"]);
-		$href = $this->ctrl->getLinkTargetByClass("ilMailFolderGUI");
-		$this->ctrl->setParameter($this->parent_obj, "mobj_id",  $_GET["mobj_id"]);
+		$this->ctrl->setParameterByClass('ilMailFolderGUI', 'mobj_id', $a_node['child']);
+		$href = $this->ctrl->getLinkTargetByClass('ilMailFolderGUI');
+		$this->ctrl->clearParametersByClass('ilMailFolderGUI');
 
 		return $href;
 	}

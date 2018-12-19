@@ -57,6 +57,14 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 			$this->atom_query->addTableLock('tax_node_assignment');
 		}
 	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function onBeforeExecutingTestFinishOperation()
+	{
+		$this->atom_query->addTableLock('tst_active');
+	}
 
 	/**
 	 * {@inheritdoc}

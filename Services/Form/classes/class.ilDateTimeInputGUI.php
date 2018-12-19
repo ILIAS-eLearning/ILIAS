@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
-include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
-
 /**
 * This class represents a date/time property in a property form.
 *

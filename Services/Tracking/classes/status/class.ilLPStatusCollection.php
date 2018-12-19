@@ -451,6 +451,11 @@ class ilLPStatusCollection extends ilLPStatus
 					return $member_obj->getMembers();
 				}
 				break;
+
+			case 'lso':
+				$member_obj = ilLearningSequenceParticipants::_getInstanceByObjId($a_obj_id);
+				return $member_obj->getMembers();
+				break;
 		}
 		
 		return array();
