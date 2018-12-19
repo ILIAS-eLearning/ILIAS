@@ -110,6 +110,8 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->renderer = $DIC->ui()->renderer();
 		$this->request = $DIC->http()->request();
 		$this->trafo_factory = new \ILIAS\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
+		$this->data = new \ILIAS\Data\Factory();
+		$this->validation = new \ILIAS\Validation\Factory($this->data, $this->lng);
 		
 		$this->object = null;
 
@@ -254,7 +256,8 @@ class ilObjStudyProgrammeSettingsGUI {
 					[
 						self::PROP_POINTS =>
 							$ff->numeric($txt("prg_points"))
-								->withValue((string)$prg->getPoints()),
+								->withValue((string)$prg->getPoints())
+								->withAdditionalConstraint($this->validation->greaterThan(0)),
 						self::PROP_STATUS =>
 							$ff->select($txt("prg_status"), $status_options)
 								->withValue((string)$prg->getStatus())
