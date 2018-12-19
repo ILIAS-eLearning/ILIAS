@@ -267,7 +267,9 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 			4711, 4711, 0
 		);
 
-		$addressTypeHelper->expects($this->any())->method('receivesMailsOnlyLocally')->willReturn(true);
+		$addressTypeHelper->expects($this->any())->method('receivesInternalMailsOnly')->willReturnOnConsecutiveCalls(
+			true
+		);
 
 		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
 		$rbacsystem->expects($this->exactly(2))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(
