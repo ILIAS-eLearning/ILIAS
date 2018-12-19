@@ -144,7 +144,6 @@ class ilChatroom
 			else
 			{
 				$hasAccess = $DIC->access()->checkAccessOfUser($usrId, $permission, '', $refId);
-				//$hasAccess = $DIC->access()->checkAccessOfUser($usrId, $permission, '', $refId);
 			}
 
 			if(!$hasAccess)
