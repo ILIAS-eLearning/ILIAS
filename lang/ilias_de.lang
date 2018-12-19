@@ -2681,8 +2681,8 @@ common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) fü
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk-Quota-Erinnerungsnachrichten
 common#:#enable_disk_quota_summary_mail#:#Sende Disk-Quota-Zusammenfassungen
 common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk-Quotas zukommen zu lassen.
-common#:#enable_download_folder#:#«Ordner herunterladen» aktivieren
-common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und ihrer Binnenstrukturen als ZIP-Datei.
+common#:#enable_download_folder#:#«Herunterladen Aktion für Ordner» aktivieren
+common#:#enable_download_folder_info#:#Aktiviert eine Herunterladen-Option im Aktionen-Dropdown von Ordnern.
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
 common#:#enable_fora_statistics_desc#:#Nur wenn diese aktiviert ist, kann auf die Forenstatistik zugegriffen werden.
 common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
@@ -3167,8 +3167,6 @@ common#:#learning_progress#:#Lernfortschritt
 common#:#leave_waiting_list#:#Von der Warteliste abmelden
 common#:#legend#:#Legende
 common#:#level#:#Stufe
-common#:#license#:#Lizenz
-common#:#licenses#:#Lizenzen
 common#:#link#:#Verknüpfen
 common#:#link_all#:#Alle verknüpfen
 common#:#link_check#:#Externe Links überprüfen
@@ -3469,7 +3467,6 @@ common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rol
 common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#no_import_file_found#:#Keine Importdatei gefunden
 common#:#no_items#:#Keine Einträge
-common#:#no_license_available#:#Keine Lizenz verfügbar!
 common#:#no_limit#:#Kein Limit
 common#:#no_mkisofs_configured#:#Sie müssen das mkisofs Tool im ILIAS-Setup konfigurieren, um den ISO-Export ausführen zu können.
 common#:#no_owner#:#Kein Besitzer
@@ -6594,22 +6591,6 @@ ldap#:#ldap_user_scope#:#Suchbereich
 ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zweifelsfall "Sub".
 ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
-license#:#arbitrary#:#beliebig
-license#:#course_licenses_rare#:#Warnung: für ein Kursobjekt sind nur noch %s Lizenzen vorhanden! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen.
-license#:#edit_license#:#Lizenz bearbeiten
-license#:#existing_licenses#:#Vorhandene Lizenzen
-license#:#license_counter#:#Lizenzzähler
-license#:#license_counter_info#:#Ermöglicht, den Verbrauch von Kauflizenzen für HTML- und SCORM-Lernmodule zu zählen.
-license#:#license_updated#:#Die Lizenzdaten wurden aktualisiert.
-license#:#license_warning#:#Lizenzwarnung bis
-license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Kurs wird bei der Aufnahme von Kursmitglieder eine Warnmeldung ausgegeben.
-license#:#potential_accesses#:#Potentielle Zugriffe
-license#:#potential_accesses_explanation#:#Jeder Benutzer mit Leserecht, der noch nicht zugegriffen hat, zählt als potentieller Zugriff.
-license#:#remaining_licenses#:#Verfügbare Lizenzen
-license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen errechnet sich aus der Anzahl gekaufter minus der Anzahl benutzter Lizenzen.
-license#:#used_licenses#:#Verbrauchte Lizenzen
-license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Benutzers verbraucht eine Lizenz.
-license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizenzierung zu deaktivieren.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC

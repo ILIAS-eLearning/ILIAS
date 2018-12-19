@@ -11,7 +11,6 @@ include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilPermissionGUI
-* @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilLicenseOverviewGUI
 * @ilCtrl_IsCalledBy ilObjLearningResourcesSettingsGUI: ilAdministrationGUI
 *
 * @ingroup ModulesLearningModule
@@ -58,7 +57,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
 		$ilAccess = $this->access;
 
@@ -74,12 +72,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case 'illicenseoverviewgui':
-				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
-				$license_gui = new ilLicenseOverviewGUI($this,ilLicenseOverviewGUI::LIC_MODE_ADMINISTRATION);
-				$ret = $this->ctrl->forwardCommand($license_gui);
-				break;
-
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -108,22 +100,12 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	public function getAdminTabs()
 	{
 		$rbacsystem = $this->rbacsystem;
-		$ilAccess = $this->access;
-		$ilSetting = $this->settings;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("cont_edit_lrs_settings",
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings", "view"));
-
-			include_once("Services/License/classes/class.ilLicenseAccess.php");
-			if (ilLicenseAccess::_isEnabled())
-			{
-				$this->tabs_gui->addTarget("licenses",
-					$this->ctrl->getLinkTargetByClass('illicenseoverviewgui', ''),
-				"", "illicenseoverviewgui");
-			}
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -144,8 +126,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$ilSetting = $this->settings;
 
 		$lm_set = new ilSetting("lm");
-		$lic_set = new ilSetting("license");
-		$lng->loadLanguageModule("license");
 		$lng->loadLanguageModule("scormdebug");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -199,22 +179,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$tx_prop->setValue($lm_set->get("cont_upload_dir"));
 		$form->addItem($tx_prop);
 
-
-		// license activation
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("license_counter"),
-			"license_counter");
-		$cb_prop->setInfo($lng->txt("license_counter_info"));
-		$cb_prop->setChecked($lic_set->get("license_counter"));
-		$form->addItem($cb_prop);
-		
-		// license warning
-		$tx_prop = new ilNumberInputGUI($lng->txt("license_warning"),
-			"license_warning");
-		$tx_prop->setSize(5);
-		$tx_prop->setInfo($lng->txt("license_warning_info"));
-		$tx_prop->setValue($lic_set->get("license_warning"));
-		$form->addItem($tx_prop);
-		
 		// scormDebugger activation
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_global_activate"),"scormdebug_global_activate");
 		$cb_prop->setInfo($lng->txt("scormdebug_global_activate_info"));
@@ -296,12 +260,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			ilUtil::stripSlashes($_POST["scorm_without_session"]));
 		$lm_set->set("scorm_lp_auto_activate",
 			ilUtil::stripSlashes($_POST["scorm_lp_auto_activate"]));
-		$lic_set = new ilSetting("license");
-		$lic_set->set("license_counter",
-			ilUtil::stripSlashes($_POST["license_counter"]));
-		$lic_set->set("license_warning",
-			ilUtil::stripSlashes($_POST["license_warning"]));
-		
+
 		$privacy = ilPrivacySettings::_getInstance();
 		$privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
 		$privacy->enableExportSCORM((int) $_POST['export_scorm']);

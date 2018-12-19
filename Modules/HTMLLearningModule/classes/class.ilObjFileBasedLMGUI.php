@@ -12,7 +12,7 @@
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI, ilExportGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilExportGUI
 * @ingroup ModulesHTMLLearningModule
 */
 
