@@ -48,7 +48,7 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 			$usrId, 'internal_mail',
 			$this->typeHelper->getGlobalMailSystemId()
 		)) {
-			if ($this->typeHelper->receivesMailsOnlyLocally($usrId)) {
+			if ($this->typeHelper->receivesInternalMailsOnly($usrId)) {
 				$this->logger->debug(sprintf(
 					"Address '%s' not valid. Found id %s, but user can't use mail system and wants to receive emails only internally.",
 					$this->address->getMailbox(), $usrId
