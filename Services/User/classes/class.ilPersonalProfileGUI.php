@@ -238,7 +238,6 @@ class ilPersonalProfileGUI
 
 		$ilUser = $DIC['ilUser'];
 		$ilSetting = $DIC['ilSetting'];
-		$ilAuth = $DIC['ilAuth'];
 
 		//init checking var
 		$form_valid = true;

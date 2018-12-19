@@ -291,7 +291,13 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	{
 		$solutions = NULL;
 		// get the solution of the user for the active pass or from the last pass if allowed
-		if ($active_id)
+		if($use_post_solutions !== false)
+		{
+			$solutions = array(
+				array('value1' => $use_post_solutions['numeric_result'])
+			);
+		}
+		elseif ($active_id)
 		{
 			
 			// hey: prevPassSolutions - obsolete due to central check

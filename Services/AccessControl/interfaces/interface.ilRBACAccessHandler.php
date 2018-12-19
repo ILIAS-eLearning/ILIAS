@@ -225,23 +225,6 @@ interface ilRBACAccessHandler {
 
 
 	/**
-	 * check for available licenses
-	 *
-	 * @param $a_permission
-	 * @param $a_cmd
-	 * @param $a_ref_id
-	 * @param $a_user_id
-	 * @param $a_obj_id
-	 * @param $a_type
-	 *
-	 * @deprecated
-	 *
-	 * @return mixed
-	 */
-	public function doLicenseCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type);
-
-
-	/**
 	 *
 	 */
 	public function clear();

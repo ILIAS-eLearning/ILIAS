@@ -695,7 +695,8 @@ class ilMailFolderGUI
 		/**
 		 * @var $sender ilObjUser
 		 */
-		$sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
+		$sender   = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
+		$replyBtn = null;
 		if ($sender && $sender->getId() && !$sender->isAnonymous()) {
 			$replyBtn = \ilLinkButton::getInstance();
 			$replyBtn->setCaption('reply');
@@ -705,7 +706,8 @@ class ilMailFolderGUI
 			$replyBtn->setUrl($this->ctrl->getLinkTargetByClass('ilmailformgui'));
 			$this->ctrl->clearParametersByClass('ilmailformgui');
 			$replyBtn->setAccessKey(\ilAccessKey::REPLY);
-			$this->toolbar->addButtonInstance($replyBtn);
+			$replyBtn->setPrimary(true);
+			$this->toolbar->addStickyItem($replyBtn);
 		}
 
 		$fwdBtn = \ilLinkButton::getInstance();
@@ -716,7 +718,12 @@ class ilMailFolderGUI
 		$fwdBtn->setUrl($this->ctrl->getLinkTargetByClass('ilmailformgui'));
 		$this->ctrl->clearParametersByClass('ilmailformgui');
 		$fwdBtn->setAccessKey(\ilAccessKey::FORWARD_MAIL);
-		$this->toolbar->addButtonInstance($fwdBtn);
+		if (!$replyBtn) {
+			$fwdBtn->setPrimary(true);
+			$this->toolbar->addStickyItem($fwdBtn);
+		} else {
+			$this->toolbar->addButtonInstance($fwdBtn);
+		}
 
 		$printBtn = \ilLinkButton::getInstance();
 		$printBtn->setCaption('print');
@@ -745,49 +752,49 @@ class ilMailFolderGUI
 				$this->ctrl->clearParameters($this);
 			}
 
-			$from = new ilCustomInputGUI($this->lng->txt('from'));
+			$from = new ilCustomInputGUI($this->lng->txt('from') . ':');
 			$from->setHtml($picture . ' ' . $linked_fullname);
 			$form->addItem($from);
 		} else if(!$sender || !$sender->getId()) {
-			$from = new ilCustomInputGUI($this->lng->txt('from'));
+			$from = new ilCustomInputGUI($this->lng->txt('from') . ':');
 			$from->setHtml($mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 			$form->addItem($from);
 		} else {
-			$from = new ilCustomInputGUI($this->lng->txt('from'));
+			$from = new ilCustomInputGUI($this->lng->txt('from') . ':');
 			$from->setHtml(ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName()) . '<br />' . ilMail::_getIliasMailerName());
 			$form->addItem($from);
 		}
 
-		$to = new ilCustomInputGUI($this->lng->txt('mail_to'));
+		$to = new ilCustomInputGUI($this->lng->txt('mail_to') . ':');
 		$to->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_to']), false));
 		$form->addItem($to);
 
 		if ($mailData['rcp_cc']) {
-			$cc = new ilCustomInputGUI($this->lng->txt('cc'));
+			$cc = new ilCustomInputGUI($this->lng->txt('cc') . ':');
 			$cc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_cc']), false));
 			$form->addItem($cc);
 		}
 
 		if ($mailData['rcp_bcc']) {
-			$bcc = new ilCustomInputGUI($this->lng->txt('bc'));
+			$bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
 			$bcc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_bcc']), false));
 			$form->addItem($bcc);
 		}
 
-		$subject = new ilCustomInputGUI($this->lng->txt('subject'));
+		$subject = new ilCustomInputGUI($this->lng->txt('subject') . ':');
 		$subject->setHtml(ilUtil::htmlencodePlainString($mailData['m_subject'], true));
 		$form->addItem($subject);
 
-		$date = new ilCustomInputGUI($this->lng->txt('date'));
+		$date = new ilCustomInputGUI($this->lng->txt('date') . ':');
 		$date->setHtml(ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'], IL_CAL_DATETIME)));
 		$form->addItem($date);
 
-		$message = new ilCustomInputGUI($this->lng->txt('message'));
+		$message = new ilCustomInputGUI($this->lng->txt('message') . ':');
 		$message->setHtml(ilUtil::htmlencodePlainString($mailData['m_message'], true));
 		$form->addItem($message);
 
 		if ($mailData['attachments']) {
-			$att = new ilCustomInputGUI($this->lng->txt('attachments'));
+			$att = new ilCustomInputGUI($this->lng->txt('attachments') . ':');
 
 			$radiog = new ilRadioGroupInputGUI('', 'filename');
 			foreach ($mailData['attachments'] as $file) {
@@ -841,7 +848,7 @@ class ilMailFolderGUI
 			$this->toolbar->addInputItem($actions);
 
 			$moveBtn = \ilSubmitButton::getInstance();
-			$moveBtn->setCaption('submit');
+			$moveBtn->setCaption('execute');
 			$moveBtn->setCommand('moveSingleMail');
 			$this->toolbar->addButtonInstance($moveBtn);
 		}

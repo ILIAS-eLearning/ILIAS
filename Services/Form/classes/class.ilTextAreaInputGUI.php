@@ -461,7 +461,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 			$to_replace = array ($ascii_whitespaces, $ascii_breaklines, "&lt;", "&gt;", "&amp;");
 			$replace_to = array (' ', '', "_", "_", "_");
 
-			$chars_entered = strlen(strip_tags(str_replace($to_replace, $replace_to, $_POST[$this->getPostVar()])));
+			#20630 mbstring extension is mandatory for 5.4
+			$chars_entered = mb_strlen(strip_tags(str_replace($to_replace, $replace_to, $_POST[$this->getPostVar()])));
 
 			if($this->getMaxNumOfChars() && ($chars_entered > $this->getMaxNumOfChars()))
 			{

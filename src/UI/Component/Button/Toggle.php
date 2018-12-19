@@ -4,21 +4,12 @@
 
 namespace ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Signal;
-//use ILIAS\UI\Implementation\Component\TriggeredSignal;
-
 
 /**
  * This describes a toggle button.
  */
-interface Toggle extends Button {
-
-	/**
-	 * Get to know if the Toggle Button is on or off.
-	 *
-	 * @return bool
-	 */
-	public function isOn(): bool;
-
+interface Toggle extends Button, Engageable
+{
 	/**
 	 * Get the action of the Toggle Button when it is set from off to on.
 	 *

@@ -453,7 +453,8 @@
 	
 	
 	public static function getObjectives ($iNode,$ioAct) {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		
 		
 		$ok = true;
@@ -504,7 +505,8 @@
 	}
 	
 	public static function getADLSEQObjectives ($iNode,$ioAct) {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$objectives = $ioAct->mObjectives;
 		$children = $iNode->childNodes;
 		for ($i = 0; $i < $children->length; $i++ ) {

@@ -127,4 +127,21 @@ class ilCertificateUtilHelper
 			$mode
 		);
 	}
+
+	/**
+	 * @param $img
+	 * @param string $module_path
+	 * @param string $mode
+	 * @param bool $offline
+	 * @return string
+	 */
+	public function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
+	{
+		return ilUtil::getImagePath(
+			$img,
+			$module_path,
+			$mode,
+			$offline
+		);
+	}
 }

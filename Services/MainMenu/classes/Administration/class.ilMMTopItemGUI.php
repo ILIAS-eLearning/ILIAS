@@ -13,6 +13,7 @@ class ilMMTopItemGUI {
 	use ilMMHasher;
 	const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
 	const CMD_ADD = 'topitem_add';
+	const CMD_RESTORE = 'restore';
 	const CMD_CREATE = 'topitem_create';
 	const CMD_EDIT = 'topitem_edit';
 	const CMD_DELETE = 'topitem_delete';
@@ -22,6 +23,7 @@ class ilMMTopItemGUI {
 	const CMD_SAVE_TABLE = 'save_table';
 	const CMD_CANCEL = 'cancel';
 	const IDENTIFIER = 'identifier';
+	const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
 	/**
 	 * @var ilMMItemRepository
 	 */
@@ -87,7 +89,12 @@ class ilMMTopItemGUI {
 	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
 		global $DIC;
 
-		$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+		if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
+			$string = $DIC->http()->request()->getParsedBody()['interruptive_items'][0];
+			$identification = $this->unhash($string);
+		} else {
+			$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
+		}
 
 		return $this->repository->getItemFacadeForIdentificationString($identification);
 	}
@@ -129,6 +136,12 @@ class ilMMTopItemGUI {
 			case self::CMD_CANCEL:
 				$this->cancel();
 				break;
+			case self::CMD_RESTORE:
+				$this->restore();
+				break;
+			case self::CMD_RENDER_INTERRUPTIVE:
+				$this->renderInterruptiveModal();
+				break;
 		}
 
 		return "";
@@ -149,10 +162,16 @@ class ilMMTopItemGUI {
 
 
 	public function executeCommand() {
+		global $DIC;
 		$next_class = $this->ctrl->getNextClass();
 
 		if ($next_class == '') {
-			$this->tpl->setContent($this->dispatchCommand($this->ctrl->getCmd(self::CMD_VIEW_TOP_ITEMS)));
+			$cmd = $this->ctrl->getCmd(self::CMD_VIEW_TOP_ITEMS);
+
+			if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
+				$cmd = self::CMD_DELETE;
+			}
+			$this->tpl->setContent($this->dispatchCommand($cmd));
 
 			return;
 		}
@@ -180,6 +199,12 @@ class ilMMTopItemGUI {
 		$b->setCaption($this->lng->txt(self::CMD_ADD), false);
 		$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
 		$this->toolbar->addButtonInstance($b);
+
+		// RESTORE
+		$b = ilLinkButton::getInstance();
+		$b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
+		$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_RESTORE));
+		// $this->toolbar->addButtonInstance($b);
 
 		// TABLE
 		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
@@ -270,5 +295,60 @@ class ilMMTopItemGUI {
 		$c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
 
 		return $c->getHTML();
+	}
+
+
+	private function restore() {
+		ilGSProviderStorage::flushDB();
+		ilGSIdentificationStorage::flushDB();
+		ilMMItemStorage::flushDB();
+		ilMMCustomItemStorage::flushDB();
+		ilMMItemTranslationStorage::flushDB();
+		ilMMTypeActionStorage::flushDB();
+
+		$r = function ($path, $xml_name) {
+			foreach (new DirectoryIterator($path) as $fileInfo) {
+				$filename = $fileInfo->getPathname() . $xml_name;
+				if ($fileInfo->isDir() && !$fileInfo->isDot() && file_exists($filename)) {
+					$xml = simplexml_load_file($filename);
+					if (isset($xml->gsproviders)) {
+						foreach ($xml->gsproviders as $item) {
+							if (isset($item->gsprovider)) {
+								foreach ($item->gsprovider as $provider) {
+									$attributes = $provider->attributes();
+									if ($attributes->purpose == 'mainmenu') {
+										$classname = $attributes->class_name[0];
+										ilGSProviderStorage::registerIdentifications($classname, 'mainmenu');
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		$r("./Services", "/service.xml");
+		$r("./Modules", "/module.xml");
+
+		ilGlobalCache::flushAll();
+
+		$this->cancel();
+	}
+
+
+	public function renderInterruptiveModal() {
+		global $DIC;
+		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
+
+		$form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
+		$delete_modal = $f->modal()->interruptive(
+			$this->lng->txt("delete"),
+			$this->lng->txt(self::CMD_CONFIRM_DELETE),
+			$form_action
+		);
+
+		echo $r->render([$delete_modal]);
+		exit;
 	}
 }

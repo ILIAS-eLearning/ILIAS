@@ -139,7 +139,8 @@ class ilSCORMItem extends ilSCORMObject
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::read();
 
@@ -168,7 +169,8 @@ class ilSCORMItem extends ilSCORMObject
 
 	function create()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::create();
 
@@ -191,7 +193,8 @@ class ilSCORMItem extends ilSCORMObject
 
 	function update()
 	{
-		global $ilDB;		
+		global $DIC;		
+		$ilDB = $DIC['ilDB'];
 
 		parent::update();
 		
@@ -223,7 +226,9 @@ class ilSCORMItem extends ilSCORMObject
 	*/
 	function getTrackingDataOfUser($a_user_id = 0)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		if ($a_user_id == 0)
 		{
@@ -250,7 +255,9 @@ class ilSCORMItem extends ilSCORMObject
 
 	static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		if ($a_user_id == 0)
 		{
@@ -277,7 +284,9 @@ class ilSCORMItem extends ilSCORMObject
 
 	function delete()
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 		parent::delete();
 
@@ -310,7 +319,8 @@ class ilSCORMItem extends ilSCORMObject
 	// Static
 	static function _getItems($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF('
 			SELECT obj_id FROM scorm_object 
@@ -328,7 +338,8 @@ class ilSCORMItem extends ilSCORMObject
 
 	static function _lookupTitle($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $ilDB->queryF(
 			'SELECT title FROM scorm_object WHERE obj_id = %s',

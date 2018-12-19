@@ -629,10 +629,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			iljQueryUtil::initjQueryUI();
 			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
 		}
-		else
-		{
-			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
-		}
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
 
@@ -803,10 +799,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			iljQueryUtil::initjQuery();
 			iljQueryUtil::initjQueryUI();
 			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
-		}
-		else
-		{
-			$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
 		}
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));

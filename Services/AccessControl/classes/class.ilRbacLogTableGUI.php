@@ -202,7 +202,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 		}
 		return $result;
 	}
-	
+
 	// #10946
 	protected function getOPCaption($a_type, $a_op)
 	{
@@ -221,14 +221,63 @@ class ilRbacLogTableGUI extends ilTable2GUI
 		{
 			$op_id = $this->operations[$a_op];
 			if(substr($op_id, 0, 7) != "create_")
-			{				
-				return $this->lng->txt($a_type."_".$this->operations[$a_op]);
+			{
+				$perm = $this->getTranslationFromPlugin($a_type, $op_id);
+
+				if($this->notTranslated($perm, $op_id)) {
+					if($this->lng->exists($a_type.'_'.$op_id.'_short'))
+					{
+						$perm = $this->lng->txt($a_type.'_'.$op_id.'_short');
+					}
+					else
+					{
+						$perm = $this->lng->txt($op_id);
+					}
+				}
+
+				return $perm;
 			}
 			else
 			{
-				return $this->lng->txt("rbac_".$this->operations[$a_op]);
+				$type = substr($op_id, 7, strlen($op_id));
+				$perm = $this->getTranslationFromPlugin($type, $op_id);
+
+				if($this->notTranslated($perm, $op_id)) {
+					$perm = $this->lng->txt("rbac_".$op_id);
+				}
+
+				return $perm;
 			}
 		}
+	}
+
+	/**
+	 * Check the type for plugin and get the translation for op_id
+	 *
+	 * @param string 	$type
+	 * @param string 	$op_id
+	 * @return string | null
+	 */
+	protected function getTranslationFromPlugin($type, $op_id)
+	{
+		global $objDefinition;
+
+		if($objDefinition->isPlugin($type)) {
+			return ilObjectPlugin::lookupTxtById($type, $op_id);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Check the op is translated correctly
+	 *
+	 * @param string 	$type
+	 * @param string 	$op_id
+	 * @return bool
+	 */
+	protected function notTranslated($perm, $op_id) {
+		return is_null($perm) || (strpos($perm, $op_id) !== false);
 	}
 }
 

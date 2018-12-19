@@ -231,7 +231,7 @@ class ilLearningSequenceRoles
 	public function getLearningSequenceAdminIds()
 	{
 		$users = array();
-		$roles = $this->getDefaultLearningSequenceRoles($this->object->getRefId());
+		$roles = $this->getDefaultLearningSequenceRoles((string)$this->object->getRefId());
 
 		foreach ($this->rbacreview->assignedUsers($this->getDefaultAdminRole()) as $admin_id) {
 			array_push($users, $admin_id);
@@ -243,14 +243,14 @@ class ilLearningSequenceRoles
 	public function getDefaultLearningSequenceRoles(string $lso_id): array
 	{
 		if (strlen($lso_id) == 0) {
-			$lso_id = $this->getRefId();
+			$lso_id = $this->object->getRefId();
 		}
 
-		$roles = $rbacreview->getRolesOfRoleFolder($lso_id);
+		$roles = $this->rbacreview->getRolesOfRoleFolder($lso_id);
 
 		$default_roles = array();
 		foreach ($roles as $role) {
-			$object = $this->getRoleObject($role);
+			$object = $this->getRoleObject((int)$role);
 
 			$member = self::ROLE_LS_MEMBER."_".$lso_id;
 			$admin  = self::ROLE_LS_ADMIN."_".$lso_id;
@@ -259,7 +259,7 @@ class ilLearningSequenceRoles
 				$default_roles["lso_member_role"] = $object->getId();
 			}
 
-			if (strcmp($object->getTitle(), $grp_Admin) == 0) {
+			if (strcmp($object->getTitle(), $admin) == 0) {
 				$default_roles["lso_admin_role"] = $object->getId();
 			}
 		}

@@ -246,8 +246,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		
 		$tpl->setContent($table_gui->getHTML());
-
-		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
 	}
 	
 	/**
@@ -1589,6 +1587,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function showContentObject()
 	{
+		$tpl = $this->tpl;
 		$ilUser = $this->user;
 		
 		// need read events for parent for LP statistics
@@ -1604,6 +1603,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$this->listItemsObject(true);
 		}
+
+		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
 	}
 	
 	function showGallery()

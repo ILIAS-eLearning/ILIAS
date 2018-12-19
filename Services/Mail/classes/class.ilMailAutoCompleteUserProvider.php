@@ -153,14 +153,13 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 		// should only be searchable if the users' profile is published (y oder g)
 		// In 'anonymous' context we do not need this additional conditions,
 		// because we checked the privacy setting in the condition above: profile = 'g' 
-		if($field_conditions)
-		{
-			$fields = implode(' OR ', $field_conditions);
+		if ($field_conditions) {
+			$fields = '(' . implode(' OR ', $field_conditions) . ')';
 
-			$field_conditions[] = '(' . implode(' AND ', array(
+			$field_conditions = ['(' . implode(' AND ', array(
 				$fields,
 				$this->db->in('profpref.value', array('y', 'g'), false, 'text')
-			)) . ')';
+			)) . ')'];
 		}
 
 		// The login field must be searchable regardless (for 'logged in' users) of any privacy settings.
@@ -207,7 +206,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	protected function getFields()
 	{
 		$available_fields = array();
-		foreach(array('login', 'firstname', 'lastname') as $field)
+		foreach(array('firstname', 'lastname') as $field)
 		{
 			include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 			if(ilUserSearchOptions::_isEnabled($field))

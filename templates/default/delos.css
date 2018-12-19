@@ -8913,6 +8913,19 @@ ul.breadcrumb li:hover {
   outline: 0;
   background-color: #4c6586;
 }
+.il-input-tag.disabled {
+  background-color: #EEEEEE;
+  cursor: not-allowed;
+}
+.il-input-tag.disabled input {
+  cursor: not-allowed;
+}
+.il-input-tag.disabled .bootstrap-tagsinput {
+  pointer-events: none;
+}
+.il-input-tag.disabled .tag [data-role="remove"] {
+  cursor: not-allowed;
+}
 .il-input-password .revelation-glyph {
   float: right;
   margin-top: -21px;
@@ -8938,6 +8951,9 @@ ul.breadcrumb li:hover {
 .il-input-multiselect {
   list-style: none;
   padding-left: 0px;
+}
+.il-standard-form textarea {
+  height: 76px;
 }
 .il-table-presentation-viewcontrols {
   height: 40px;
@@ -9023,9 +9039,9 @@ ul.breadcrumb li:hover {
   color: white;
   content: "";
   font-family: Glyphicons Halflings;
-  font-size: 12px;
+  font-size: 10px;
   height: 20px;
-  line-height: 1.6em;
+  line-height: 18px;
   margin-left: 5px;
   padding-left: 1px;
   position: absolute;
@@ -9058,8 +9074,6 @@ ul.breadcrumb li:hover {
 }
 .il-workflow-container .no-longer-available:before {
   content: "\e023";
-  font-size: 1em;
-  line-height: 1.5em;
 }
 .il-workflow-container .completed-successfully:before,
 .il-workflow-container .completed-unsuccessfully:before {
@@ -9078,12 +9092,18 @@ ul.breadcrumb li:hover {
   background-color: #4c6586;
 }
 .il-workflow-container .active:before {
-  margin: 5px 0 0 0;
+  margin: 0;
   width: 30px;
   height: 30px;
+  font-size: 15px;
+}
+.il-workflow-container .active.completed-successfully:before,
+.il-workflow-container .active.completed-unsuccessfully:before {
+  line-height: 30px;
+  background-color: #4c6586;
 }
 .il-workflow-container .active .text {
-  padding-left: 40px;
+  padding-left: 30px;
 }
 .il-workflow-container .active .text .il-workflow-step-label,
 .il-workflow-container .active .text .il-workflow-step-label .btn.btn-link {
@@ -15801,6 +15821,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 [data-onscreenchat-inact-userid] {
   opacity: .3 !important;
 }
+.ilOnScreenChatWindowHeaderTooltip ul {
+  text-align: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 #onscreenchat-container {
   position: fixed;
   bottom: 0;
@@ -16111,6 +16137,9 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
 }
+body.iosMyCertificates div.icon.small {
+  vertical-align: middle;
+}
 #tos_documents td.std .dropdown {
   display: inline-block;
 }
@@ -16146,6 +16175,11 @@ div.ilBadgeBackpackPanelContent img {
 span.ilProfileBadge {
   display: inline-block;
   padding: 5px;
+}
+span.ilProfileBadge a {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
 }
 /*!
  * Datetimepicker for Bootstrap 3
@@ -16678,8 +16712,16 @@ span.ilProfileBadge {
   line-height: 40px;
 }
 .ilLSOKioskTopBarControls .btn-link {
-  color: white;
-  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 1em;
+  font-weight: 600;
+  margin-left: 15px;
+}
+.ilLSOKioskTopBarControls .btn-link:before {
+  content: "« ";
+}
+.ilLSOKioskTopBarControls .btn-link:hover {
+  text-decoration: underline;
 }
 .ilLSOKioskTopBarTitle {
   text-align: center;
@@ -16699,6 +16741,10 @@ span.ilProfileBadge {
 }
 .ilLearningHistoryShowMore {
   text-align: center;
+}
+.ilPCLearnHist {
+  background-color: #f0f0f0;
+  padding: 3px 8px;
 }
 .noMargin {
   margin: 0;

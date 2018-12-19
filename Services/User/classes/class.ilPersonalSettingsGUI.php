@@ -991,7 +991,6 @@ class ilPersonalSettingsGUI
 	{
 		global $DIC;
 
-		$ilAuth = $DIC['ilAuth'];
 		$ilUser = $DIC['ilUser'];
 				
 		// we are setting the flag and ending the session in the same step
@@ -1045,7 +1044,6 @@ class ilPersonalSettingsGUI
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
-		$ilAuth = $DIC['ilAuth'];
 		$ilSetting = $DIC['ilSetting'];
 		$ilLog = $DIC['ilLog'];
 		

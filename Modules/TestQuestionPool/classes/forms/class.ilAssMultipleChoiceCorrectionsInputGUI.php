@@ -91,26 +91,35 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 		
 		foreach ($this->values as $value)
 		{
-			if (strlen($value->getImage()))
+			if($this->qstObject->isSingleline)
 			{
-				$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
-				if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
+				if (strlen($value->getImage()))
 				{
-					if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
+					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
+					if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
 					{
-						$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
+						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
+						{
+							$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
+						}
 					}
+					
+					$tpl->setCurrentBlock('image');
+					$tpl->setVariable('SRC_IMAGE', $imagename);
+					$tpl->setVariable('IMAGE_NAME', $value->getImage());
+					$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
+					$tpl->parseCurrentBlock();
 				}
-				
-				$tpl->setCurrentBlock('image');
-				$tpl->setVariable('SRC_IMAGE', $imagename);
-				$tpl->setVariable('IMAGE_NAME', $value->getImage());
-				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
-				$tpl->parseCurrentBlock();
+				else
+				{
+					$tpl->setCurrentBlock('image');
+					$tpl->touchBlock('image');
+					$tpl->parseCurrentBlock();
+				}
 			}
 			
 			$tpl->setCurrentBlock("answer");
-			$tpl->setVariable("ANSWER", ilUtil::prepareFormOutput($value->getAnswertext()));
+			$tpl->setVariable("ANSWER", $value->getAnswertext());
 			$tpl->parseCurrentBlock();
 			
 			$tpl->setCurrentBlock("row");
@@ -123,10 +132,13 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 			$i++;
 		}
 		
-		$tpl->setCurrentBlock("image_heading");
-		$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-		$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
-		$tpl->parseCurrentBlock();
+		if($this->qstObject->isSingleline)
+		{
+			$tpl->setCurrentBlock("image_heading");
+			$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+			$tpl->parseCurrentBlock();
+		}
 		
 		$tpl->setCurrentBlock("points_heading");
 		$tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('points_checked'));

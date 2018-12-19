@@ -325,7 +325,7 @@ class ilCronManager implements \ilCronManagerInterface
 				$refl = new \ReflectionClass($a_class);
 				$job = $refl->newInstanceWithoutConstructor();
 				if ($refl->isSubclassOf(\ilCronJob::class)) {
-					if (0 === strlen($job->getId()) || basename($_SERVER['PHP_SELF']) !== 'setup.php') {
+					if (0 === strlen($job->getId()) || !isset($_SERVER['PHP_SELF']) || basename($_SERVER['PHP_SELF']) !== 'setup.php') {
 						$job = new $a_class;
 					}
 

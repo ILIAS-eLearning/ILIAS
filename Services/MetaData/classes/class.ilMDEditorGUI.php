@@ -386,16 +386,16 @@ class ilMDEditorGUI
 
 		$interruptive_modal = $this->getChangeCopyrightModal();
 		$interruptive_signal = '';
+		$modal_content = '';
 		if($interruptive_modal != null)
 		{
 			$interruptive_signal = $interruptive_modal->getShowSignal();
+			$modal_content = $this->ui_renderer->render($interruptive_modal);
 		}
-
 		$form = $this->initQuickEditForm($interruptive_signal);
 
 		$tpl->setContent(
-			$this->ui_renderer->render($interruptive_modal).
-			$form->getHTML()
+			$modal_content.$form->getHTML()
 		);
 	}
 

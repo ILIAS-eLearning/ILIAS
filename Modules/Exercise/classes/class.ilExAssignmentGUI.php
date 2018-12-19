@@ -168,21 +168,15 @@ class ilExAssignmentGUI
 
 		$info = new ilInfoScreenGUI(null);
 		$info->setTableClass("");
-		
-		$this->addInstructions($info, $a_ass);
 
-		if (!$a_ass->notStartedYet())
+		if ($state->areInstructionsVisible())
 		{
+			$this->addInstructions($info, $a_ass);
 			$this->addFiles($info, $a_ass);
 		}
 
 		$this->addSchedule($info, $a_ass);
 		
-		if ($state->areInstructionsVisible())
-		{
-			$this->addFiles($info, $a_ass);
-		}
-
 		if ($state->hasSubmissionStarted())
 		{
 			$this->addSubmission($info, $a_ass);

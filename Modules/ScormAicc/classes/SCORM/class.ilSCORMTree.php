@@ -58,7 +58,8 @@ class ilSCORMTree extends ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (!isset($a_node_id))
 		{

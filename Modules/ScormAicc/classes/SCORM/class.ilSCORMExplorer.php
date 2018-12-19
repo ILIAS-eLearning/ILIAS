@@ -82,7 +82,9 @@ class ilSCORMExplorer extends ilExplorer
 	*/
 	function formatHeader($tpl,$a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilias = $DIC['ilias'];
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
@@ -206,7 +208,8 @@ class ilSCORMExplorer extends ilExplorer
 	 * @return ilTemplate 	$tpl
 	 */
 	function createOutput($option, $jsApi) {
-		global $ilBench;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 
 		if ($option["visible"]) {
 			$tpl = new ilTemplate("tpl.sahs_tree_ul.html", true, true, "Modules/ScormAicc");
@@ -331,7 +334,8 @@ class ilSCORMExplorer extends ilExplorer
 	 */
 	function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype="sco")
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 			$tpl->setCurrentBlock("icon");
 

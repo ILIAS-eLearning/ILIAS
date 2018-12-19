@@ -122,6 +122,11 @@ interface Factory {
 	 *      1: A Pagination MUST only be used for structured data, like tables and lists.
 	 *      2: A Pagination MUST NOT be used standalone.
 	 *      3: Paginations MUST be visually close to the list or table their operation will have effect upon. They MAY be placed directly above and/or below the list.
+	 *      4: You MUST use the default label if dealing with tables.
+	 *      5: >
+	 *        You MAY use a different label, if the default one is not working for
+	 *        the use case. But indicating the total number of items (X of Y)
+	 *        MUST be kept anyway.
 	 *   accessibility:
 	 *      1: Pagination MUST be operable via keyboard only.
 	 *

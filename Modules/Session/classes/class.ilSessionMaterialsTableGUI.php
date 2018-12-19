@@ -61,6 +61,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->setResetCommand("resetFilter");
 
 		$this->initFilter();
+		$this->lng->loadLanguageModule('sess');
 	}
 
 	/**
@@ -198,6 +199,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 			$ass_glyph = $this->ui->glyph()->apply();
 			$this->tpl->setVariable("ASSIGNED_IMG_OK",$this->renderer->render($ass_glyph));
 		}
+
 
 		include_once('./Services/Tree/classes/class.ilPathGUI.php');
 		$path = new ilPathGUI();

@@ -303,12 +303,6 @@ class ilObjFile extends ilObject2 {
 		$result = null;
 
 		if ($upload->hasUploads()) {
-			if ($upload->hasBeenProcessed() !== true) {
-				if (PATH_TO_GHOSTSCRIPT !== "") {
-					$upload->register(new ilCountPDFPagesPreProcessors());
-				}
-				$upload->process();
-			}
 			/**
 			 * @var $result \ILIAS\FileUpload\DTO\UploadResult
 			 */

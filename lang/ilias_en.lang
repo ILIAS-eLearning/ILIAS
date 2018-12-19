@@ -2212,8 +2212,8 @@ common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
-common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
-common#:#enable_download_folder#:#Enable Downloading Folders
+common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
+common#:#enable_download_folder#:#"Download Action for Folders" enabled
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
@@ -2686,8 +2686,6 @@ common#:#learning_progress#:#Learning Progress
 common#:#leave_waiting_list#:#Leave Waiting List
 common#:#legend#:#Legend
 common#:#level#:#Level
-common#:#license#:#License
-common#:#licenses#:#Licenses
 common#:#link_all#:#Link all
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
 common#:#link_check_message_disabled#:#Messages disabled
@@ -2978,7 +2976,6 @@ common#:#no_global_role_left#:#Every user has to be assigned to one role.
 common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#no_import_file_found#:#No import file found
 common#:#no_items#:#This object is empty and contains no items.
-common#:#no_license_available#:#No license available!
 common#:#no_limit#:#No limit
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 common#:#no_owner#:#No Owner
@@ -5245,6 +5242,7 @@ form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded complet
 form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
 form#:#form_msg_file_virus_found#:#Virus found in uploaded file.
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.
 form#:#form_msg_file_wrong_file_type#:#Wrong file type.
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
@@ -5631,26 +5629,11 @@ ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose ‘Sub�
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_user_sync#:#User Synchronization Settings
-license#:#arbitrary#:#arbitrary
-license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab ‘Licenses’ to see which licenses have to be extended.
-license#:#edit_license#:#Edit license
-license#:#existing_licenses#:#Existing licenses
-license#:#license_counter_info#:#Allows counting used licenses of purchased SCORM and HTML learning modules
-license#:#license_counter#:#License counter
-license#:#license_updated#:#The license data was updated.
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course.
-license#:#license_warning#:#License warning
-license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.
-license#:#potential_accesses#:#Potential accesses
-license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.
-license#:#remaining_licenses#:#Available licenses
-license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
-license#:#used_licenses#:#Consumed licenses
-license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
+chatroom#:#chatviewer_no_rooms#:#No Chat Room available, yet.
 mail#:#back_to_folder#:#Back to Folder
 mail#:#current_folder#:#Current Folder: %s
 mail#:#chat_users_have_been_invited#:#The following users have been invited:
@@ -10047,6 +10030,7 @@ pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
 pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
@@ -14400,6 +14384,13 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
+common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
+common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
+common#:#cron_users_without_login_del_role_whitelist_info#:#The deletion will only processed for users assigned to at least one of the selected roles
+common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
+common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
+common#:#user_never_logged_in#:#Delete user accounts without login
+common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
 dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
@@ -14685,10 +14676,10 @@ cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
 cert#:#certificate_achievement#:#%1$s achieved.
 cert#:#certificate_no_object_title#:#No object title available
 cert#:#certificate_no_object_desc#:#No object description available
-cert#:#cert_sortable_by_title_asc#:#Nach Titel aufsteigend
-cert#:#cert_sortable_by_title_desc#:#Nach Titel absteigend
-cert#:#cert_sortable_by_issue_date_asc#:#Nach Ausstellungsdatum aufsteigend
-cert#:#cert_sortable_by_issue_date_desc#:#Nach Ausstellungsdatum absteigend
+cert#:#cert_sortable_by_title_asc#:#Title Ascending
+cert#:#cert_sortable_by_title_desc#:#Title Descending
+cert#:#cert_sortable_by_issue_date_asc#:#Issue Date Ascending
+cert#:#cert_sortable_by_issue_date_desc#:#Issue Date Descending
 cert#:#cert_issued_on_label#:#Issued On
 cert#:#cert_download_label#:#Download
 cert#:#cert_object_label#:#Object
@@ -14796,7 +14787,7 @@ rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
 rbac#:#lso_delete#:#User can delete Learning Sequence
 lso#:#learner_view#:#Overview
-lso#:#manage_content#:#Manage
+lso#:#manage#:#Manage
 lso#:#manage_content_maintab#:#Content
 lso#:#show_summary#:#Info
 lso#:#table_sequence_content#:#Content Management
@@ -14933,3 +14924,41 @@ meta#:#meta_info_only_repository_objects#:#Only repository objects are listed be
 book#:#book_objects_available#:#Objects available %s
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
 book#:#booking_multiple_succesfully#:#Bookings created successfully.
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
+rbac#:#sess_edit_metadata#:#Edit Metadata
+crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_view_timing_absolute#:#Absolute Dates
+crs#:#crs_view_info_timing_absolute#:#Start and end date will be set absolute.
+crs#:#crs_view_timing_relative#:#Relative Dates
+crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to the subscription date.
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
+rbac#:#lso_read#:#Users can access the Learning Sequence
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
+common#:#unparticipate#:#Unsubscribe
+common#:#participate#:#Subscribe
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
+dateplaner#:#btn_ical#:#iCal
+style#:#sty_type_code_block#:#Code (Block)
+style#:#sty_type_code_inline#:#Code (Inline)
+common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
+sess#:#sess_material_assigned#:#Assigned
+sess#:#sess_material_not_assigned#:#Not Assigned
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
+rbac#:#lso_read#:#Users can access the Learning Sequence
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
+common#:#unparticipate#:#Unsubscribe
+common#:#participate#:#Subscribe
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
+user#:#msg_spoint_not_modified#:#Starting point not modified
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.

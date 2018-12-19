@@ -94,11 +94,21 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
 			$tpl->parseCurrentBlock();
 		}
-		if($component->isAriaChecked()){
-			$tpl->setCurrentBlock("with_aria_checked");
-			$tpl->setVariable("ARIA_CHECKED", "true");
+
+		if ($component instanceof Component\Button\Engageable
+			&& $component->isEngageable()
+		) {
+			if($component->isEngaged()){
+				$tpl->touchBlock("engaged");
+				$aria_pressed = 'true';
+			} else {
+				$aria_pressed = 'false';
+			}
+			$tpl->setCurrentBlock("with_aria_pressed");
+			$tpl->setVariable("ARIA_PRESSED", $aria_pressed);
 			$tpl->parseCurrentBlock();
 		}
+
 		$this->maybeRenderId($component, $tpl);
 
 		if ($component instanceof Component\Button\Tag) {
@@ -108,7 +118,6 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof Component\Button\Bulky) {
 			$this->additionalRenderBulky($component, $default_renderer, $tpl);
 		}
-
 
 		return $tpl->get();
 	}
@@ -174,7 +183,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("disabled");
 		}
 
-		$is_on = $component->isOn();
+		$is_on = $component->isEngaged();
 		if ($is_on) {
 			$tpl->touchBlock("on");
 		}
@@ -263,16 +272,6 @@ class Renderer extends AbstractComponentRenderer {
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $label);
-		}
-		if ($component->isEngaged()) {
-			$tpl->touchBlock("engaged");
-			$tpl->setVariable("ARIA_PRESSED", 'true');
-		} else {
-			if (is_string($component->getAction())) {
-				$tpl->setVariable("ARIA_PRESSED", 'undefined');
-			}else {
-				$tpl->setVariable("ARIA_PRESSED", 'false');
-			}
 		}
 	}
 
