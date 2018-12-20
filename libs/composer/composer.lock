@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f0feaa841635a63cf678a490a21e36c",
+    "content-hash": "d183e1683da002e2e677ee4693d69df8",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -879,6 +879,11 @@
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "PHPMailer\\PHPMailer\\": "src/"

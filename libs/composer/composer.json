@@ -299,6 +299,9 @@
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
 			},
+			"phpmailer/phpmailer": {
+				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+			},
 			"simplesamlphp/simplesamlphp": {
 				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
 			}

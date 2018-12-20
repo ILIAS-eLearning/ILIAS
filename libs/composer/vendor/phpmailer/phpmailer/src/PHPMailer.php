@@ -793,6 +793,12 @@ class PHPMailer
         } else {
             $subject = $this->encodeHeader($this->secureHeader($subject));
         }
+		// patch-mjansen: begin #20376
+		if (0 == strlen($to) && strpos($header, 'To: undisclosed-recipients:;') !== false) {
+			$to     = 'undisclosed-recipients:;';
+			$header = preg_replace('/To: undisclosed-recipients:;(\s*)/', '', $header);
+		}
+		// patch-mjansen: end
         //Calling mail() with null params breaks
         if (!$this->UseSendmailOptions or null === $params) {
             $result = @mail($to, $subject, $body, $header);
