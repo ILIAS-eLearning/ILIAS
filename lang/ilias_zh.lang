@@ -13299,7 +13299,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable

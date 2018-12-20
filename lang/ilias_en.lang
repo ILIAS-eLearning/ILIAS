@@ -13876,7 +13876,6 @@ iass#:#iass_edit#:#Settings
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
-iass#:#iass_return#:#Back to overview
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
 iass#:#iass_settings_saved#:#Settings saved.
@@ -14948,7 +14947,6 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
 sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
-rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
 rbac#:#lso_read#:#Users can access the Learning Sequence
 rbac#:#lso_manage_members#:#Manage members of Learning Sequence
 rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence

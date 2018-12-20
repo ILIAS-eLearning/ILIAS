@@ -13862,7 +13862,6 @@ iass#:#iass_edit#:#Einstellungen
 iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
-iass#:#iass_return#:#Zurück zur Übersicht
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
 iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
@@ -14948,7 +14947,6 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
-rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
 rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
 rbac#:#lso_manage_members#:#Mitglieder bearbeiten
 rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
