@@ -165,6 +165,10 @@ class ilCertificateCron extends \ilCronJob
 				$template = $this->templateRepository->fetchTemplate($templateId);
 
 				$object = $this->objectHelper->getInstanceByObjId($objId, false);
+				if (!$object instanceof ilObject) {
+					throw new ilException(sprintf('The given object id: "%s"  could not be referred to an actual object', $objId));
+				}
+
 				$type = $object->getType();
 
 				$userObject = $this->objectHelper->getInstanceByObjId($userId, false);
