@@ -75,9 +75,6 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
 <#5438>
 <?php
 require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
