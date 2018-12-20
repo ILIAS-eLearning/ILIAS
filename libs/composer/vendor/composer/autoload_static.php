@@ -106,6 +106,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -229,6 +230,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -345,7 +350,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Diff' => __DIR__ . '/../..' . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
         'DiffFormatter' => __DIR__ . '/../..' . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
         'DifferenceEngine' => __DIR__ . '/../..' . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
-        'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'EvalMath' => __DIR__ . '/../..' . '/../../Services/Math/classes/class.EvalMath.php',
         'EvalMathStack' => __DIR__ . '/../..' . '/../../Services/Math/classes/class.EvalMath.php',
         'FileOpenFailedJSMinException' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/JSMin_lib.php',
@@ -1462,10 +1466,11 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
         'PEAR' => __DIR__ . '/../..' . '/../ilias/Init/PEAR/PEAR.php',
         'PEAR_Error' => __DIR__ . '/../..' . '/../ilias/Init/PEAR/PEAR.php',
-        'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
-        'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
-        'PHPMailerOAuthGoogle' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
-        'POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.pop3.php',
+        'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
+        'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
+        'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
+        'PHPMailer\\PHPMailer\\POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/POP3.php',
+        'PHPMailer\\PHPMailer\\SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/SMTP.php',
         'Parser' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/Parser.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Calculation' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Calculation.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Category' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Category.php',
@@ -1857,7 +1862,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'SAML2\\XML\\saml\\SubjectConfirmationData' => __DIR__ . '/..' . '/simplesamlphp/saml2/src/SAML2/XML/saml/SubjectConfirmationData.php',
         'SAML2\\XML\\samlp\\Extensions' => __DIR__ . '/..' . '/simplesamlphp/saml2/src/SAML2/XML/samlp/Extensions.php',
         'SAML2\\XML\\shibmd\\Scope' => __DIR__ . '/..' . '/simplesamlphp/saml2/src/SAML2/XML/shibmd/Scope.php',
-        'SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.smtp.php',
         'Sabre\\CalDAV\\Backend\\AbstractBackend' => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV/Backend/AbstractBackend.php',
         'Sabre\\CalDAV\\Backend\\BackendInterface' => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV/Backend/BackendInterface.php',
         'Sabre\\CalDAV\\Backend\\NotificationSupport' => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV/Backend/NotificationSupport.php',
@@ -5328,6 +5332,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMailCronOrphanedMailsNotificationCollectionObj' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollectionObj.php',
         'ilMailCronOrphanedMailsNotificationCollector' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollector.php',
         'ilMailCronOrphanedMailsNotifier' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMailsNotifier.php',
+        'ilMailDeliveryJob' => __DIR__ . '/../..' . '/../../Services/Mail/classes/BackgroundTask/class.ilMailDeliveryJob.php',
         'ilMailDiffAddressList' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Address/class.ilMailDiffAddressList.php',
         'ilMailError' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Error/class.ilMailError.php',
         'ilMailErrorFormatter' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Error/class.ilMailErrorFormatter.php',
@@ -7585,10 +7590,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilindividualAssessmentExporter' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/class.ilIndividualAssessmentExporter.php',
         'iljQueryUtil' => __DIR__ . '/../..' . '/../../Services/jQuery/classes/class.iljQueryUtil.php',
         'ilvCard' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilvCard.php',
-        'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
         'nusoap_base' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
         'pdoDB' => __DIR__ . '/../..' . '/../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
-        'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'phpseclib\\Crypt\\AES' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
         'phpseclib\\Crypt\\Base' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',
         'phpseclib\\Crypt\\Blowfish' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Blowfish.php',
