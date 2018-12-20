@@ -44,7 +44,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
 	function view()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		// get ressource identifier
 		$id_ref = $this->sc_object->getIdentifierRef();
@@ -107,7 +108,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
 	function api()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 

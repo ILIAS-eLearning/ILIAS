@@ -10,7 +10,7 @@
  * 
  * @ingroup ModulesTest
  */
-class ilassMarkTest extends PHPUnit_Framework_TestCase
+class ilassMarkTest extends PHPUnit\Framework\TestCase
 {
 	/** @var $backupGlobals bool  */
 	protected $backupGlobals = FALSE;

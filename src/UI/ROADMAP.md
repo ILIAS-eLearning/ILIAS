@@ -89,6 +89,33 @@ the required elements need to be implemented in the UI-framework, on the other
 hand the components need to use the UI-framework for their actual rendering. 
 
 
+### Define JS-Patterns for the UI-Framework
+
+Currently there is very little common structure in the JavaScript of the various
+components that need client side code. With `withAdditionalOnLoadCode` and the
+`Triggerer` and `Signal` concepts there is some structure on the server side,
+but this only goes so far and doesn't give a definite answer how complex components
+interact on the client side. Also, the current wording of `Triggerer` and `Signal`
+and the underlying concepts seem to be confusing to at least some developers
+(including at least one coordinator of the UI-Framework).
+
+In the future we expect to include components with more interactivity. On the one
+hand users expect more interactive applications that don't follow the request-
+response cycle of standard webpages. On the other hand, breaking the request-
+response cycle allows for applications that feel and possibly also actually are
+more performant, since they don't need to load the complete page when users interact.
+
+This hints at questions that cannot be answered by the server-side `Triggerer`/
+`Signal` concept. The implementations of client side code are mostly based on events
+currently but seem to differ internally. Event-based implementations of GUIs are
+known to be hard to understand and developers using these will wake up in a
+"Callback Hell" someday.
+
+We need patterns or even a framework for client-side code that gives clear
+guidelines how interactive components should be build for the UI-framework and
+that integrates with the mechanism we use on the server-side to compose GUIs.
+
+
 ### Introduce Bootstrap 4 and Create a System for SASS-Variables
 
 Currently ILIAS (and hence the UI-Framework) uses Bootstrap 3 as CSS-framework.
@@ -105,10 +132,6 @@ of Bootstrap but do not use the UI-Framework.
 
 ## Ideas and Food for Thought
 
-* The names `Triggerer` and `Signal` for client side interaction in the UI-framework
-  are confusing. Currently a valid sentence would be "the button triggers click on
-  some registered signals". Being able to say something like "the button sends a
-  click-signal to some registered receivers" seems to be more intelligible.
 * Create a mechanism to wire less-files to delos.less that is more automatic than
   'do it manually'.
 * Create an abstraction for Actions that could be used instead of stringy links.

@@ -4,7 +4,7 @@
 /**
  * Class assBaseTestCase
  */
-abstract class assBaseTestCase extends \PHPUnit_Framework_TestCase
+abstract class assBaseTestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @inheritdoc

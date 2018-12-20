@@ -69,7 +69,8 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 	 */
 	protected function  fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->tpl->setVariable('CHECKBOX_ID', $a_set['user']);
 		$this->tpl->setVariable('VAL_USERNAME', $a_set['lastname'].', '.$a_set['firstname']);
@@ -82,7 +83,8 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 	 */
 	protected function initTable()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate('tpl.scorm_offline_mode_users.html', 'Modules/ScormAicc');

@@ -75,12 +75,13 @@ class ilSCORM13Package
 	{
 		$this->packagesFolder = IL_OP_PACKAGES_FOLDER;
 		$this->load($packageId);
-		$this->userId = $GLOBALS['USER']['usr_id'];	  	
+		// $this->userId = $GLOBALS['DIC']['USER']['usr_id'];	  	
 	}
 	
 	public function load($packageId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (!is_numeric($packageId))
 		{
@@ -117,7 +118,8 @@ class ilSCORM13Package
 	 */
 	public function exportXML()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		header('content-type: text/xml');
 		header('content-disposition: attachment; filename="manifest.xml"');
@@ -140,7 +142,10 @@ class ilSCORM13Package
 	* @return       string title of package
 	*/
 	public function il_import($packageFolder,$packageId,$ilias,$validate,$reimport=false){
-		global $ilDB, $ilLog, $ilErr;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
+		$ilErr = $DIC['ilErr'];
 		
 		$title = "";
 
@@ -221,7 +226,7 @@ class ilSCORM13Package
 		//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
 	  	$x['persistPreviousAttempts'] = $this->packageData['persistprevattempts'];  	
-	  	$x['online'] = !$this->getOfflineStatus();//$this->packageData['c_online'];
+	  	// $x['online'] = !$this->getOfflineStatus();//$this->packageData['c_online'];
 	  	
 	  	$x['defaultLessonMode'] = $this->packageData['default_lesson_mode'];
 	  	$x['credit'] = $this->packageData['credit'];
@@ -259,7 +264,7 @@ class ilSCORM13Package
 	  	$j['base'] = $packageFolder . '/';
 	  	$j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
 	  	$j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
-    	
+   	
 
 		//last step - build ADL Activity tree
 		$act = new SeqTreeBuilder();
@@ -294,7 +299,9 @@ class ilSCORM13Package
 	*/
 	public function il_importSco($packageId, $sco_id, $packageFolder)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
@@ -361,7 +368,9 @@ class ilSCORM13Package
 	*/
 	public function il_importAss($packageId, $sco_id, $packageFolder)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
@@ -424,7 +433,9 @@ class ilSCORM13Package
 
 	public function il_importLM($slm, $packageFolder, $a_import_sequencing = false)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$slm->getId();
@@ -907,7 +918,8 @@ class ilSCORM13Package
 	
 	public function dbImport($node, &$lft=1, $depth=1, $parent=0)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		switch ($node->nodeType)
 		{
@@ -1113,7 +1125,8 @@ class ilSCORM13Package
 	 */
 	public function dbAddNew()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->insert('cp_package', array(
 			'obj_id'		=> array('integer', $this->packageId),
@@ -1136,7 +1149,9 @@ class ilSCORM13Package
 	
 	public function removeCPData()
 	{
-		global $ilDB, $ilLog;		
+		global $DIC;		
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 		
 		//get relevant nodes	
 		$cp_nodes = array();

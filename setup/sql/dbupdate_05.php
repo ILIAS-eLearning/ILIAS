@@ -53,4 +53,25 @@ $rol_id = array_shift($ilDB->fetchAssoc($result));
 
 ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', [$op_id], ROLE_FOLDER_ID);
 ?>
-
+<#5434>
+<?php
+if ($ilDB->tableExists('license_data')) {
+	$ilDB->dropTable('license_data');
+}
+?>
+<#5435>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE module = %s',
+	['text'],
+	['license']
+);
+?>
+<#5436>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5437>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

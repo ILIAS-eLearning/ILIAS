@@ -10,7 +10,7 @@ require_once 'libs/composer/vendor/autoload.php';
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
+class assFormulaQuestionTest extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

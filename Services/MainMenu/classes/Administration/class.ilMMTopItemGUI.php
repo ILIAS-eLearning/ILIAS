@@ -8,7 +8,7 @@
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTopItemGUI {
+class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 
 	use ilMMHasher;
 	const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
@@ -22,43 +22,7 @@ class ilMMTopItemGUI {
 	const CMD_UPDATE = 'topitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
 	const CMD_CANCEL = 'cancel';
-	const IDENTIFIER = 'identifier';
-	/**
-	 * @var ilMMItemRepository
-	 */
-	private $repository;
-	/**
-	 * @var ilToolbarGUI
-	 */
-	private $toolbar;
-	/**
-	 * @var ilMMTabHandling
-	 */
-	private $tab_handling;
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTemplate
-	 */
-	public $tpl;
-	/**
-	 * @var ilTree
-	 */
-	public $tree;
+	const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
 
 
 	/**
@@ -78,19 +42,6 @@ class ilMMTopItemGUI {
 		$this->tree = $DIC['tree'];
 		$this->rbacsystem = $DIC['rbacsystem'];
 		$this->toolbar = $DIC['ilToolbar'];
-	}
-
-
-	/**
-	 * @return ilMMItemFacadeInterface
-	 * @throws Throwable
-	 */
-	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
-		global $DIC;
-
-		$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
-
-		return $this->repository->getItemFacadeForIdentificationString($identification);
 	}
 
 
@@ -131,7 +82,10 @@ class ilMMTopItemGUI {
 				$this->cancel();
 				break;
 			case self::CMD_RESTORE:
-				// $this->restore();
+				$this->restore();
+				break;
+			case self::CMD_RENDER_INTERRUPTIVE:
+				$this->renderInterruptiveModal();
 				break;
 		}
 
@@ -156,7 +110,8 @@ class ilMMTopItemGUI {
 		$next_class = $this->ctrl->getNextClass();
 
 		if ($next_class == '') {
-			$this->tpl->setContent($this->dispatchCommand($this->ctrl->getCmd(self::CMD_VIEW_TOP_ITEMS)));
+			$cmd = $this->determineCommand(self::CMD_VIEW_TOP_ITEMS, self::CMD_DELETE);
+			$this->tpl->setContent($this->dispatchCommand($cmd));
 
 			return;
 		}
@@ -284,9 +239,13 @@ class ilMMTopItemGUI {
 
 
 	private function restore() {
-		return;
 		ilGSProviderStorage::flushDB();
 		ilGSIdentificationStorage::flushDB();
+		ilMMItemStorage::flushDB();
+		ilMMCustomItemStorage::flushDB();
+		ilMMItemTranslationStorage::flushDB();
+		ilMMTypeActionStorage::flushDB();
+
 		$r = function ($path, $xml_name) {
 			foreach (new DirectoryIterator($path) as $fileInfo) {
 				$filename = $fileInfo->getPathname() . $xml_name;
@@ -298,7 +257,7 @@ class ilMMTopItemGUI {
 								foreach ($item->gsprovider as $provider) {
 									$attributes = $provider->attributes();
 									if ($attributes->purpose == 'mainmenu') {
-										$classname = $attributes->class_name;
+										$classname = $attributes->class_name[0];
 										ilGSProviderStorage::registerIdentifications($classname, 'mainmenu');
 									}
 								}
@@ -310,6 +269,8 @@ class ilMMTopItemGUI {
 		};
 		$r("./Services", "/service.xml");
 		$r("./Modules", "/module.xml");
+
+		ilGlobalCache::flushAll();
 
 		$this->cancel();
 	}
