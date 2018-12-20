@@ -8,7 +8,7 @@
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMSubItemGUI {
+class ilMMSubItemGUI extends ilMMAbstractItemGUI {
 
 	use ilMMHasher;
 	const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
@@ -20,67 +20,10 @@ class ilMMSubItemGUI {
 	const CMD_TRANSLATE = 'subitem_translate';
 	const CMD_UPDATE = 'subitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
-	const IDENTIFIER = 'identifier';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
-	/**
-	 * @var ilMMItemRepository
-	 */
-	private $repository;
-	/**
-	 * @var ilToolbarGUI
-	 */
-	private $toolbar;
-	/**
-	 * @var ilMMTabHandling
-	 */
-	private $tab_handling;
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTemplate
-	 */
-	public $tpl;
-	/**
-	 * @var ilTree
-	 */
-	public $tree;
-	/**
-	 * ilMMTopItemGUI constructor.
-	 *
-	 * @param ilMMTabHandling $tab_handling
-	 */
 	const CMD_CANCEL = 'cancel';
-
-
-	public function __construct(ilMMTabHandling $tab_handling) {
-		global $DIC;
-
-		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
-		$this->tab_handling = $tab_handling;
-		$this->tabs = $DIC['ilTabs'];
-		$this->lng = $DIC->language();
-		$this->ctrl = $DIC['ilCtrl'];
-		$this->tpl = $DIC['tpl'];
-		$this->tree = $DIC['tree'];
-		$this->rbacsystem = $DIC['rbacsystem'];
-		$this->toolbar = $DIC['ilToolbar'];
-	}
 
 
 	private function dispatchCommand($cmd) {
@@ -148,35 +91,11 @@ class ilMMSubItemGUI {
 	}
 
 
-	/**
-	 * @return ilMMItemFacadeInterface
-	 * @throws Throwable
-	 */
-	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
-		global $DIC;
-
-		if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
-			$string = $DIC->http()->request()->getParsedBody()['interruptive_items'][0];
-			$identification = $this->unhash($string);
-		} else {
-			$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
-		}
-
-		return $this->repository->getItemFacadeForIdentificationString($identification);
-	}
-
-
 	public function executeCommand() {
-		global $DIC;
 		$next_class = $this->ctrl->getNextClass();
 
 		if ($next_class == '') {
-			$cmd = $this->ctrl->getCmd(self::CMD_VIEW_SUB_ITEMS);
-
-			if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
-				$cmd = self::CMD_DELETE;
-			}
-
+			$cmd = $this->determineCommand(self::CMD_VIEW_SUB_ITEMS, self::CMD_DELETE);
 			$this->tpl->setContent($this->dispatchCommand($cmd));
 
 			return;
@@ -312,25 +231,5 @@ class ilMMSubItemGUI {
 		$c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
 
 		return $c->getHTML();
-	}
-
-
-	public function renderInterruptiveModal() {
-		global $DIC;
-		$f = $DIC->ui()->factory();
-		$r = $DIC->ui()->renderer();
-
-		$form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
-		$delete_modal = $f->modal()->interruptive(
-			$this->lng->txt("delete"),
-			$this->lng->txt(self::CMD_CONFIRM_DELETE),
-			$form_action
-		);
-		//->withAffectedItems(
-		//[$f->modal()->interruptiveItem($ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
-		//);
-
-		echo $r->render([$delete_modal]);
-		exit;
 	}
 }
