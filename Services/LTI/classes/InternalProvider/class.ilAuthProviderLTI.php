@@ -477,17 +477,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	{
 		if(!$a_auth_mode)
 		{
-			$this->getLogger()->warning('No auth mode given');
+			ilLoggerFactory::getLogger('lti')->warning('No auth mode given.');
 			return false;
 		}
 		$auth_arr = explode('_', $a_auth_mode);
 		return ($auth_arr[0] == AUTH_PROVIDER_LTI) and $auth_arr[1];
 	}
-	
-	
-	
-	
-	
-
 }
 ?>
