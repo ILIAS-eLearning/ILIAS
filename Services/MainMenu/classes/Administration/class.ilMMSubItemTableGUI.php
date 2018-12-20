@@ -8,6 +8,8 @@
 class ilMMSubItemTableGUI extends ilTable2GUI {
 
 	use ilMMHasher;
+	const IDENTIFIER = 'identifier';
+	const F_TABLE_SHOW_INACTIVE = 'table_show_inactive';
 	/**
 	 * @var array
 	 */
@@ -16,13 +18,14 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 * @var ilMMCustomProvider
 	 */
 	private $item_repository;
+
+
 	/**
-	 * @inheritDoc
+	 * ilMMSubItemTableGUI constructor.
+	 *
+	 * @param ilMMSubItemGUI     $a_parent_obj
+	 * @param ilMMItemRepository $item_repository
 	 */
-	const IDENTIFIER = 'identifier';
-	const F_TABLE_SHOW_INACTIVE = 'table_show_inactive';
-
-
 	public function __construct(ilMMSubItemGUI $a_parent_obj, ilMMItemRepository $item_repository) {
 		$this->setId(self::class);
 		$this->setExternalSorting(true);
@@ -32,7 +35,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->lng = $this->parent_obj->lng;
 		$this->addFilterItems();
 		$this->setData($this->resolveData());
-		$this->setFormAction($this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS));
+		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
 		$this->addCommandButton(ilMMSubItemGUI::CMD_SAVE_TABLE, $this->lng->txt('button_save'));
 		$this->initColumns();
 		$this->setRowTemplate('tpl.sub_items.html', 'Services/MainMenu');
