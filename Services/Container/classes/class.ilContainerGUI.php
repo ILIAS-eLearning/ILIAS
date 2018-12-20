@@ -795,37 +795,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
-			else if ($this->isMultiDownloadEnabled())
-			{
-				// bugfix mantis 0021272
-				$ref_id = $_GET['ref_id'];
-				$num_files = $this->tree->getChildsByType($ref_id, "file");
-				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
-				if(count($num_files) > 0 OR count($num_folders) > 0)
-				{
-					// #11843
-					$main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
-
-					$toolbar = new ilToolbarGUI();
-					$this->ctrl->setParameter($this, "type", "");
-					$this->ctrl->setParameter($this, "item_ref_id", "");
-
-					$toolbar->addFormButton(
-						$this->lng->txt('download_selected_items'),
-						'download'
-					);
-
-					$main_tpl->addAdminPanelToolbar(
-						$toolbar,
-						$this->object->gotItems() ? true : false,
-						$this->object->gotItems() ? true : false
-					);
-				}
-				else
-				{
-					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
-				}
-			}		
 		}
 	}
 
@@ -1481,12 +1450,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
-	function enableMultiDownloadObject()
-	{
-		$this->multi_download_enabled = true;
-		$this->renderObject();
-	}
 	
 	function isMultiDownloadEnabled()
 	{

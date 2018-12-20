@@ -382,13 +382,6 @@ class ilAccess implements ilAccessHandler {
 			return false;
 		}
 
-		// check for available licenses
-		if (!$this->doLicenseCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))
-		{
-			$this->setPreventCachingLastResult(true);		// do not store this in db, since status updates are not monitored
-			return false;
-		}
-
 		// all checks passed
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		return true;
@@ -820,57 +813,6 @@ class ilAccess implements ilAccessHandler {
 		return true;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	function doLicenseCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
-	{
-		global $DIC;
-
-		$lng = $DIC['lng'];
-
-		// simple checks first
-		if (!in_array($a_type, array('sahs','htlm'))
-		or  !in_array($a_permission, array('read')))
-		{
-			$has_access = true;
-		}
-		else
-		{
-			require_once("Services/License/classes/class.ilLicenseAccess.php");
-
-			// licensing globally disabled => access granted
-			if (!ilLicenseAccess::_isEnabled())
-			{
-				$has_access = true;
-			}
-			/* 	resolved mantis issue #5288:
-			*	admins should not automatically have read access!
-			*   their read access will also be noted and consume a license
-			elseif ($this->rbacsystem->checkAccessOfUser($a_user_id, "edit_permissions", $a_ref_id))
-			{
-				$has_access = true;
-			}
-			*/
-			// now do the real check
-			else
-			{
-				$has_access = ilLicenseAccess::_checkAccess($a_user_id, $a_obj_id);
-			}
-		}
-
-		if ($has_access)
-		{
-			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
-			return true;
-		}
-		else
-		{
-			$this->current_info->addInfoItem(IL_NO_LICENSE, $lng->txt("no_license_available"));
-			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
-			return false;
-		}
-	}
 	/**
 	 * @inheritdoc
 	 */

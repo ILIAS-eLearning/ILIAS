@@ -18,7 +18,6 @@ $ilDB->update("style_data", array(
 	"1" => array("integer", 1)
 ));
 ?>
-
 <#4>
 <?php
 $template = 'il_lso_admin';
@@ -73,4 +72,26 @@ $result = $ilDB->query($query);
 $rol_id = array_shift($ilDB->fetchAssoc($result));
 
 ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', [$op_id], ROLE_FOLDER_ID);
+?>
+<#6>
+<?php
+if ($ilDB->tableExists('license_data')) {
+	$ilDB->dropTable('license_data');
+}
+?>
+<#7>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE module = %s',
+	['text'],
+	['license']
+);
+?>
+<#8>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#9>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

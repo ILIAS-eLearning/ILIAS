@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-class ilModulesTestSuite extends PHPUnit_Framework_TestSuite
+class ilModulesTestSuite extends PHPUnit\Framework\TestSuite
 {
 	public static function suite()
 	{

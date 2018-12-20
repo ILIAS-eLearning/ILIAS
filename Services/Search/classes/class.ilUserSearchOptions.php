@@ -143,12 +143,6 @@ class ilUserSearchOptions
 				case 'org_units':
 					$fields[$counter]['type'] = FIELD_TYPE_SELECT;
 
-					include_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
-					$root = ilObjOrgUnit::getRootOrgRefId();
-					include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
-					$tree = ilObjOrgUnitTree::_getInstance();
-					$nodes = $tree->getAllChildren($root);
-
 					include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
 					$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
 

@@ -26,7 +26,12 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 	public function __construct($a_obj_id, $a_parent_obj, $a_parent_cmd, $a_userSelected, $a_scosSelected, $a_report)
 	{
 	
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$ilAccess = $DIC['ilAccess'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
 		$lng->loadLanguageModule("scormtrac");
 	
 		$this->obj_id = $a_obj_id;
@@ -134,7 +139,8 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
 
 	function getItems() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$this->determineOffsetAndOrder();
 		$ilSCORMTrackingItems = new ilSCORMTrackingItems();
@@ -174,7 +180,8 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 	}
 	protected function parseValue($id, $value, $type)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("trac");
 		switch($id)
 		{
@@ -195,7 +202,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($data)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			$this->tpl->setCurrentBlock("user_field");
@@ -219,7 +228,8 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowExcel(ilExcel $worksheet, &$a_row, $a_set)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("trac");
 		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		$cnt = 0;
@@ -251,7 +261,8 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowCSV($a_csv, $a_set)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("trac");
 		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		foreach ($this->getSelectedColumns() as $c)

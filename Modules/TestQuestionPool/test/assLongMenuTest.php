@@ -6,7 +6,7 @@
  *
  * @ingroup ModulesTestQuestionPool
  */
-class assLongmenuTest  extends PHPUnit_Framework_TestCase
+class assLongmenuTest  extends PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

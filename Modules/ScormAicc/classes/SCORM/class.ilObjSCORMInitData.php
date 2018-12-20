@@ -21,7 +21,13 @@ class ilObjSCORMInitData
 	}
 
 	static function getIliasScormVars($slm_obj) {
-		global $ilias, $ilLog, $ilUser, $lng, $ilDB, $ilSetting;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$ilLog = $DIC['ilLog'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
+		$ilSetting = $DIC['ilSetting'];
 //		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		//variables to set in administration interface
@@ -150,7 +156,10 @@ class ilObjSCORMInitData
 	}
 	
 	static function getIliasScormData($a_packageId) {
-		global $ilias, $ilUser, $ilDB;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 		$b_readInteractions='false';
 		$a_out=array();
 		$tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
@@ -169,7 +178,9 @@ class ilObjSCORMInitData
 	}
 	
 	static function getIliasScormResources($a_packageId) {
-		global $ilias, $ilDB;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$ilDB = $DIC['ilDB'];
 //		$s_out="";
 		$a_out=array();
 		$s_resourceIds="";//necessary if resources exist having different href with same identifier
@@ -209,7 +220,9 @@ class ilObjSCORMInitData
 	}
 	
 	static function getIliasScormTree($a_packageId) {
-		global $ilias, $ilDB;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$ilDB = $DIC['ilDB'];
 		$a_out=array();
 		$tquery="SELECT scorm_tree.child, scorm_tree.depth-3 depth, scorm_object.title, scorm_object.c_type
 			FROM scorm_tree, scorm_object
@@ -228,7 +241,8 @@ class ilObjSCORMInitData
 	}
 
 	static function getStatus($a_packageId,$a_user_id,$auto_last_visited,$scormType="1.2") {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		include_once './Services/Tracking/classes/class.ilLPStatus.php';
 		$oldStatus = ilLPStatus::_lookupStatus($a_packageId, $a_user_id);
 		$status['saved_global_status']=(int) $oldStatus;
@@ -272,7 +286,8 @@ class ilObjSCORMInitData
 	}
 	// hash for storing data without session
 	private static function setHash($a_packageId,$a_user_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$hash = mt_rand(1000000000,2147483647);
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
 

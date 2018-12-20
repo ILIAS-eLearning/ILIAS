@@ -357,7 +357,8 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		$user_data = $params["user_data"];
 		if (!is_array($user_data))
 		{
-			global $ilSetting;
+			global $DIC;
+			$ilSetting = $DIC['ilSetting'];
 			$scormSetting = new ilSetting("scorm");
 			$short_title = $scormSetting->get("certificate_short_name_" . $this->object->getId());
 			return strftime("%y%m%d", time()) . "_" . $this->lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_" . $basename;
