@@ -8,7 +8,7 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class ilAssQuestionHintAbstractTest extends PHPUnit\Framework\TestCase
+class ilAssQuestionHintAbstractTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
 

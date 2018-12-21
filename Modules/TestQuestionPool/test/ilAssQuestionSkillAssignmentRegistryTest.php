@@ -6,7 +6,7 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkil
 /**
  * Class ilAssQuestionSkillAssignmentRegistryTest
  */
-class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit\Framework\TestCase 
+class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCase 
 {
 	const TEST_KEY = 'phpunit_tst';
 
