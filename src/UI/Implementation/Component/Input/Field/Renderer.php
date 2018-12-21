@@ -52,6 +52,7 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
+		$registry->register('./src/UI/templates/js/Input/Field/input.js');
 	}
 
 

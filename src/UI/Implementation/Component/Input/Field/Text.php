@@ -5,15 +5,11 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * This implements the text input.
  */
 class Text extends Input implements C\Input\Field\Text {
-	use JavaScriptBindable;
-	use Triggerer;
 
 	/**
 	 * @inheritdoc
@@ -37,9 +33,9 @@ class Text extends Input implements C\Input\Field\Text {
 	{
 		return function ($id) {
 			$code = "$('#$id').on('input', function(event) {
-				il.UI.filter.onFieldUpdate(event, '$id', $('#$id').val());
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
-			il.UI.filter.onFieldUpdate(event, '$id', $('#$id').val());";
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
 			return $code;
 		};
 	}

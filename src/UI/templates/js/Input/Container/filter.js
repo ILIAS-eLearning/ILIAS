@@ -139,17 +139,16 @@ il.UI.filter = (function ($) {
 		/**
 		 *
 		 * @param event
-		 * @param id
-		 * @param value_as_string
+         * @param signalData
 		 */
-		var onFieldUpdate = function(event, id, value_as_string) {
-			var $el = $("#" + id);
+		var onInputUpdate = function(event, signalData) {
+		    var $el = $(signalData.triggerer[0]);
 			var pop_id = $el.parents(".il-popover").attr("id");
 			if (pop_id) {	// we have an already opened popover
-				$("span[data-target='" + pop_id + "']").html(value_as_string);
+				$("span[data-target='" + pop_id + "']").html(signalData.options.string_value);
 			} else {
 				// no popover yet, we are still in the same input group and search for the il-filter-field span
-				$el.parents(".input-group").find("span.il-filter-field").html(value_as_string);
+				$el.parents(".input-group").find("span.il-filter-field").html(signalData.options.string_value);
 			}
 		};
 
@@ -292,7 +291,7 @@ il.UI.filter = (function ($) {
 		 * Public interface
 		 */
 		return {
-			onFieldUpdate: onFieldUpdate,
+			onInputUpdate: onInputUpdate,
 			onRemoveClick: onRemoveClick,
 			onAddClick: onAddClick,
 			onCmd: onCmd

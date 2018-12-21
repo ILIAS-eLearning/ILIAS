@@ -190,6 +190,21 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 				break;
 
 		}
+
+		foreach ($input->getTriggeredSignals() as $s)
+		{
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+		}
+		$signals = json_encode($signals);
+
+		$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
+			$code = "il.UI.input.setSignalsForId('$id', $signals);";
+			return $code;
+		});
 		$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
 		$this->maybeRenderId($input, $tpl);
 
@@ -285,6 +300,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Container/filter.js');
+		$registry->register('./src/UI/templates/js/Input/Field/input.js');
 	}
 
 

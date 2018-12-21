@@ -5,6 +5,7 @@ docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Component as Component;
 use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\Data\Factory as DataFactory;
@@ -195,6 +196,24 @@ trait GroupHelper {
 		$clone->inputs = $named_inputs;
 
 		return $clone;
+	}
+
+
+	public function withUpdateSignal($component) {
+		if ($component instanceof Component\Input\Container\Form\Form
+			|| $component instanceof Component\Input\Container\Filter\Filter)
+		{
+			$clone = $this;
+			$inputs = [];
+			foreach ($this->getInputs() as $key => $input) {
+				$inputs[$key] = $input->withOnUpdate($component->getUpdateSignal());
+			}
+			$clone->inputs = $inputs;
+			return $clone;
+		}
+		else {
+			throw new \InvalidArgumentException("Given component is not a Form or a Filter");
+		}
 	}
 
 

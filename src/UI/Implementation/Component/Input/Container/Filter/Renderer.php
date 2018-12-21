@@ -28,6 +28,11 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandard(Component\Input\Container\Filter\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
+		// JavaScript
+		$component = $this->registerSignals($component);
+		$id = $this->bindJavaScript($component);
+		$tpl->setVariable('ID_FILTER', $id);
+
 		// render expand
 		$this->renderExpand($tpl, $component, $default_renderer);
 
@@ -41,6 +46,19 @@ class Renderer extends AbstractComponentRenderer {
 		$this->renderInputs($tpl, $component, $default_renderer);
 
 		return $tpl->get();
+	}
+
+	/**
+	 * @param Component\Input\Container\Filter\Filter $filter
+	 * @return Component\JavaScriptBindable
+	 */
+	protected function registerSignals(Component\Input\Container\Filter\Filter $filter) {
+		$update = $filter->getUpdateSignal();
+		return $filter->withAdditionalOnLoadCode(function($id) use ($update) {
+			$code =
+				"$(document).on('{$update}', function(event, signalData) { il.UI.filter.onInputUpdate(event, signalData, '{$id}'); return false; });";
+			return $code;
+		});
 	}
 
 	/**
@@ -220,6 +238,8 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("disabled");
 			$input_group = $input_group->withDisabled(true);
 		}
+
+		$input_group = $input_group->withUpdateSignal($component);
 
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("INPUTS", $renderer->render($input_group));
