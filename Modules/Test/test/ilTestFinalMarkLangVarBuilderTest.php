@@ -11,7 +11,7 @@
  * @package Modules/Test
  * @ingroup ModulesTest
  */
-class ilTestFinalMarkLangVarBuilderTest extends PHPUnit\Framework\TestCase
+class ilTestFinalMarkLangVarBuilderTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
 
