@@ -9,6 +9,8 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component as CI;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -17,6 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameSource {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var string|Signal
@@ -69,6 +72,16 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	protected $is_expanded;
 
 	/**
+	 * @var SignalGeneratorInterface
+	 */
+	protected $signal_generator;
+
+	/**
+	 * @var Signal
+	 */
+	protected $update_signal;
+
+	/**
 	 * For the implementation of NameSource.
 	 *
 	 * @var    int
@@ -105,13 +118,14 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 			$this->checkArgListElements("input", $inputs, $classes);
 
 			// how to better handle these dependencies?
-			$sg = new CI\SignalGenerator();
+			$this->signal_generator = new CI\SignalGenerator();
 			$input_factory = new CI\Input\Factory(
-				$sg,
-				new CI\Input\Field\Factory($sg),
+				$this->signal_generator,
+				new CI\Input\Field\Factory($this->signal_generator),
 				new CI\Input\Container\Factory()
 			);
 
+			$this->initSignals();
 			$this->input_group = $input_factory->field()->group($inputs)->withNameFrom($this);
 
 			foreach ($is_input_rendered as $r) {
@@ -302,5 +316,28 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 		$clone = clone $this;
 		$clone->is_expanded = false;
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateSignal() {
+		return $this->update_signal;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withResetSignals() {
+		$clone = clone $this;
+		$clone->initSignals();
+		return $clone;
+	}
+
+	/**
+	 * Set the update signal for this input
+	 */
+	protected function initSignals() {
+		$this->update_signal = $this->signal_generator->create();
 	}
 }

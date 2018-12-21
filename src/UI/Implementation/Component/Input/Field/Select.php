@@ -71,9 +71,9 @@ class Select extends Input implements C\Input\Field\Select {
 	{
 		return function ($id) {
 			$code = "$('#$id').on('input', function(event) {
-				il.UI.filter.onFieldUpdate(event, '$id', $('#$id option:selected').text());
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
 			});
-			il.UI.filter.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
 			return $code;
 		};
 	}

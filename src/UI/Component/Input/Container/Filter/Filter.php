@@ -6,12 +6,14 @@ namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Triggerable;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * This describes commonalities between all filters.
  */
-interface Filter extends Component {
+interface Filter extends Component, JavaScriptBindable, Triggerable {
 
 	/**
 	 * Get the action which is passed for the activated Toggle Button.
@@ -126,4 +128,11 @@ interface Filter extends Component {
 	 * @return Filter
 	 */
 	public function withCollapsed();
+
+	/**
+	 * Get the signal to update this filter
+	 *
+	 * @return Signal
+	 */
+	public function getUpdateSignal();
 }

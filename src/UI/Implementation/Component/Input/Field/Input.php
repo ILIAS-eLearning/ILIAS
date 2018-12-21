@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -472,5 +473,29 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			throw new \LogicException("No content of this field has been evaluated yet. Seems withInput was not called.");
 		}
 		return $this->content;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		// TODO: Implement getUpdateOnLoadCode() method for each input if needed.
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnUpdate(Signal $signal)
+	{
+		return $this->withTriggeredSignal($signal, 'update');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnUpdate(Signal $signal)
+	{
+		return $this->appendTriggeredSignal($signal, 'update');
 	}
 }
