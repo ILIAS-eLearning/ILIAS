@@ -499,6 +499,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                         }
                     }
                 }
+                // smeyer: 21 Nov 2018 constraints are not supported in the moment and private in the base class.
+				/**
                 foreach ($this->constraints as $name => $constraint) {
                     if ($constraint['required']) {
                         if (!in_array($name, $capabilities) && !in_array($name, array_flip($capabilities))) {
@@ -511,6 +513,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $this->reason = 'Required capability not offered - \'' . implode('\', \'', array_keys($missing)) . '\'';
                     $this->ok = false;
                 }
+				*/
             }
 // Check for required services
             if ($this->ok) {
