@@ -251,7 +251,7 @@ class ilCertificateCron extends \ilCronJob
 		$result->setStatus($status);
 		if (count($succeededGenerations) > 0) {
 			$result->setMessage(sprintf(
-				'Generated %s certificate(s) in run: %s. Result: %s',
+				'Generated %s certificate(s) in run. Result: %s',
 				count($succeededGenerations), implode(' | ', $succeededGenerations)
 			));
 		} else {
