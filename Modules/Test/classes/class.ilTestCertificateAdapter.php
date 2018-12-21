@@ -186,14 +186,6 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	}
 
 	/**
-	 * @inheritdoc
-	 */
-	public function hasAdditionalFormElements()
-	{
-		return true;
-	}
-
-	/**
 	* Allows to add additional form values to the array of form values evaluating a
 	* HTTP POST action.
 	* This method will be called when the certificate editor form will be saved using
