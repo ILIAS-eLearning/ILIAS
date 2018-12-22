@@ -2791,6 +2791,11 @@ common#:#mail#:#Mail
 common#:#mails_pl#:#Mail(s)
 common#:#mails#:#Mails
 common#:#main_menu#:#Main Menu
+common#:#add_remove_edit_entries_of_main_menu#:#Add, remove or edit entries of the main menu
+common#:#all#:#All
+common#:#only_active#:#Only Active
+common#:#only_inactive#:#Only Inactive
+common#:#entry_status#:#Entry status
 common#:#manage_members#:#Manage Members
 common#:#marked_entries#:#Marked Entries
 common#:#matriculation#:#Matriculation number
@@ -14536,7 +14541,7 @@ mme#:#sub_actions#:#Actions
 mme#:#button_save#:#Save
 mme#:#table_show_inactive#:#Show inactive
 mme#:#sub_title_default#:#Title (Default Language)
-mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#sub_title_default_byline#:#Additional languages can be added via the action link "Translate".
 mme#:#sub_type_byline#:#Specific type for the Item additional configuration may be needed.
 mme#:#sub_active_byline#:#Activate this Item for all users.
 mme#:#add_languages#:#Add Language
