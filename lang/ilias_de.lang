@@ -14670,9 +14670,9 @@ cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
 cert#:#certificate_achievement#:#%1$s erhalten.
 cert#:#certificate_no_object_title#:#Kein Titel vorhanden
 cert#:#certificate_no_object_desc#:#Keine Beschreibung vorhanden
-cert#:#cert_sortable_by_title_asc#:#Sortiert nach Titel – A→Z
-cert#:#cert_sortable_by_title_desc#:#Sortiert nach Titel – Z→A
-cert#:#cert_sortable_by_issue_date_asc#:##Sortiert nach Ausstellungsdatum - Älteste zuerst
+cert#:#cert_sortable_by_title_asc#:#Sortiert nach Titel (A→Z)
+cert#:#cert_sortable_by_title_desc#:#Sortiert nach Titel (Z→A)
+cert#:#cert_sortable_by_issue_date_asc#:#Sortiert nach Ausstellungsdatum - Älteste zuerst
 cert#:#cert_sortable_by_issue_date_desc#:#Sortiert nach Ausstellungsdatum - Neueste zuerst
 cert#:#cert_issued_on_label#:#Ausgestellt am
 cert#:#cert_download_label#:#Herunterladen
