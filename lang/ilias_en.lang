@@ -995,7 +995,7 @@ assessment#:#result#:#Result
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Save Answer and Next
+assessment#:#submit_answer#:#Save Answer
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
@@ -2004,7 +2004,7 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Save Answer and Check
+assessment#:#submit_and_check#:#Save and Check Answer
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
