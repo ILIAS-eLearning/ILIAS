@@ -3729,7 +3729,7 @@ common#:#use_default_instructions#:#Use default instructions.
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system)
+common#:#user_cant_receive_mail#:#%1$s – user is not allowed to use mail system.
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -14779,7 +14779,6 @@ common#:#obj_lso#:#Learning Sequence
 common#:#objs_lso#:#Learning Sequences
 common#:#obj_lso_duplicate#:#Copy Learning Sequence
 common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.
-common#:#slo_wizard_page#:#Copy Learning Sequence
 rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
@@ -14832,7 +14831,7 @@ lso#:#lso_player_finish#:#Finish
 lso#:#lso_player_suspend#:#Suspend
 lso#:#lso_player_previous#:#Previous
 lso#:#lso_player_next#:#Next
-lso#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
+common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#condition_always#:#Always
