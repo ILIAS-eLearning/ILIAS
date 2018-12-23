@@ -4266,7 +4266,7 @@ common#:#user#:#Benutzer
 common#:#user_activated#:#Benutzer wurde bestätigt.
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_cant_receive_mail#:#%1$s (der Benutzer keine Berechtigung das Mailsystem zu benutzen)
+common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das Mailsystem zu benutzen.
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Benutzerdefinierte Felder
@@ -14564,7 +14564,7 @@ mme#:#type_repository_link#:#Magazin-Link
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
-blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
+blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
@@ -14656,13 +14656,13 @@ lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
-wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
 cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
 cert#:#certificate_migration_go#:#Starte Migration
 cert#:#user_certificates#:#Zertifikate
-cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
 cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
 common#:#my_certificates#:#Meine Zertifikate
@@ -14670,10 +14670,10 @@ cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
 cert#:#certificate_achievement#:#%1$s erhalten.
 cert#:#certificate_no_object_title#:#Kein Titel vorhanden
 cert#:#certificate_no_object_desc#:#Keine Beschreibung vorhanden
-cert#:#cert_sortable_by_title_asc#:#Ascending by title
-cert#:#cert_sortable_by_title_desc#:#Descending by title
-cert#:#cert_sortable_by_issue_date_asc#:#Ascending by issue date
-cert#:#cert_sortable_by_issue_date_desc#:#Descending by issue date
+cert#:#cert_sortable_by_title_asc#:#Sortiert nach Titel – A→Z
+cert#:#cert_sortable_by_title_desc#:#Sortiert nach Titel – Z→A
+cert#:#cert_sortable_by_issue_date_asc#:##Sortiert nach Ausstellungsdatum - Älteste zuerst
+cert#:#cert_sortable_by_issue_date_desc#:#Sortiert nach Ausstellungsdatum - Neueste zuerst
 cert#:#cert_issued_on_label#:#Ausgestellt am
 cert#:#cert_download_label#:#Herunterladen
 cert#:#cert_object_label#:#Objekt
@@ -14845,10 +14845,10 @@ lso#:#completed_steps#:#Bestandene Schritte
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#members_gallery#:#Mitglieder-Gallerie
 lso#:#lso_show_members_info#:#Mitglieder-Gallerie für Benutzer sichtbar
-crs#:#crs_shorten_breadcrumb#:#Breadcrumb
-crs#:#crs_sys_default#:#System Default
-crs#:#crs_breadcrumb_crs_only#:#Start with Course
-crs#:#crs_breadcrumb_full_path#:#Full Path
+crs#:#crs_shorten_breadcrumb#:#Brotkrumennavigation
+crs#:#crs_sys_default#:#Globaler Standardwert
+crs#:#crs_breadcrumb_crs_only#:#Brotkrumenpfad beginnt mit Kurs
+crs#:#crs_breadcrumb_full_path#:#Gesamten Pfad anzeigen
 rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
 rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
 rep#:#rep_tree_limit_number#:#Maximale Anzahl
@@ -14868,15 +14868,15 @@ lso#:#entries_updated#:#Einträge gespeichert
 lso#:#curriculum#:#Curriculum
 lso#:#unparticipate#:#Abmelden
 lso#:#participate#:#Anmelden
-lhist#:#lhist_show_more#:#Show More
-meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
-book#:#book_objects_available#:#Objects available %s
-book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
-book#:#booking_multiple_succesfully#:#Bookings created successfully.
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung###10 11 2018 new variable
-ui#:#ui_chars_remaining#:#Characters remaining:###10 11 2018 new variable
-ui#:#ui_chars_min#:#Minimum:###10 11 2018 new variable
-ui#:#ui_chars_max#:#Maximum:###10 11 2018 new variable
+lhist#:#lhist_show_more#:#Mehr anzeigen
+meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
+book#:#book_objects_available#:#Verfügbare Objekte: %s
+book#:#book_limit_objects_available#:#Sie können nicht %s Teilnerhmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
+common#:#lti_outcome#common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
+ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:
 survey#:#svy_self_ev_mode#:#Self-Evaluation Only###10 11 2018 new variable
 survey#:#svy_self_ev_info#:#Use for self evaluation.###10 11 2018 new variable
 survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new variable
@@ -14905,19 +14905,19 @@ book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
 book#:#book_deassign#:#Deassign###10 11 2018 new variable
 book#:#book_participant_assigned#:#Participant(s) assigned###10 11 2018 new variable
 book#:#book_participant_already_assigned#:#Participant(s) already assigned.###10 11 2018 new variable
-common#:#slo_wizard_page#:#Copy Learning Sequence###10 11 2018 new variable
-rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
-rep#:#rep_default#:#Default###10 11 2018 new variable
-rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level###10 11 2018 new variable
-rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level###10 11 2018 new variable
-obj#:#obj_show_title_and_icon#:#Show Title and Icon###10 11 2018 new variable
+common#:#slo_wizard_page#:#Kopiere Lernsequenz
+rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
+rep#:#rep_default#:#Standardwert
+rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
+rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
+obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
 obj#:#obj_show_header_actions#:#Show Header Actions###10 11 2018 new variable
 cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
 cont#:#cont_item_list#:#List###10 11 2018 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
 obj#:#obj_tile_image#:#Tile Image###10 11 2018 new variable
-obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation.###10 11 2018 new variable
-fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
+obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
+fold#:#fold_presentation#:#Darstellung
 validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
 validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
 validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
