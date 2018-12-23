@@ -4136,7 +4136,7 @@ common#:#user#:#Benutzer
 common#:#user_activated#:#Benutzer wurde bestätigt.
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_cant_receive_mail#:#%1$s (der Benutzer keine Berechtigung das Mailsystem zu benutzen)
+common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das Mailsystem zu benutzen.
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Benutzerdefinierte Felder
