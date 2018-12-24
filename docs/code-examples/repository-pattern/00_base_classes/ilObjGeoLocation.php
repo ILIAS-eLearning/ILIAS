@@ -8,7 +8,11 @@ class ilObjGeoLocation {
     protected $longitude;
     protected $expiration_timestamp;
 
-    public function __construct($a_id, $a_title, $a_lattitude, $a_longitude, $a_expiration_timestamp)
+    public function __construct(int $a_id,
+                                string $a_title, 
+                                string $a_lattitude,
+                                string $a_longitude,
+                                int $a_expiration_timestamp)
     {
         $this->id = $a_id;
         $this->title = $a_title;

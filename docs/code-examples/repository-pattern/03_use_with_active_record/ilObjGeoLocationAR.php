@@ -2,11 +2,11 @@
 
 class ilGeoLocationAR extends ActiveRecord {
 
-    var $connector_container_name = 'rep_robj_xgeo_location';
+    const TABLE_NAME = 'geo_location';
 
     static function returnDbTableName()
     {
-        'rep_robj_xgeo_location';
+        ilGeoLocationRepository::TABLE_NAME;
     }
     
     public function __construct($a_id, $a_title, $a_lattitude, $a_longitude, $a_expiration_timestamp)
