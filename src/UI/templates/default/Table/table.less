@@ -1,16 +1,38 @@
 
 .il-table-presentation-viewcontrols{
-	height: @il-toolbar-height;
-	div {
-		display: table;
-	  	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	background-color: @il-table-presentation-details-viewcontrols-bg-color;
+
+	>div{
+		padding: @padding-large-vertical;
+	}
+
+	.btn-default:not(.disabled){
+		//Using Mixin for buttons
+		.button-variant(@il-table-presentation-details-viewcontrols-btn-color; @il-table-presentation-details-viewcontrols-btn-bg; @il-btn-standard-border);
+	}
+
+	.il-viewcontrol-pagination{
+		order: 1;
+	}
+	.il-viewcontrol-mode{
+		order: 2;
+	}
+	.il-viewcontrol-sortation{
+		order: 3;
 	}
 }
 
 .il-table-presentation-row {
 	white-space: nowrap;
+	margin: 0;
 	border-top: @il-table-presentation-rowborder-top;
 	padding-top: @padding-large-vertical;
+	padding-bottom: @padding-large-vertical;
+	background-color: @il-primary-container-bg;
 
 	.il-table-presentation-row-controls,
 	.il-table-presentation-row-contents {
@@ -19,6 +41,7 @@
 	}
 	.il-table-presentation-row-controls {
 		width: @il-table-presentation-rowcontrol-colwidth;
+		padding-left: @padding-small-horizontal;
 		.il-table-presentation-row-controls-collapser {
 			display: none; /*initially hidden*/
 		}
@@ -27,11 +50,11 @@
 		}
 	}
 	.il-table-presentation-row-contents {
+		white-space: normal;
 		width: @il-table-presentation-contents-colwidth;
 	}
 
 	.il-table-presentation-row-header{
-		white-space: normal;
 		h4 {
 			font-size: @font-size-h4;
 			font-weight: normal;
@@ -45,31 +68,33 @@
 	}
 
 	.il-table-presentation-row-expanded {
+		//Using row mixin, to make this responsive
+		.make-row;
 		display: none; /*initially hidden*/
-		white-space: nowrap;
 		margin-top:  @padding-large-vertical;
+		margin-left: 0;
+		margin-right: 0;
 
-		.il-table-presentation-desclist,
-		.il-table-presentation-details {
-			display: inline-block;
-			vertical-align: top;
-			white-space: normal;
-		}
 
 		.il-table-presentation-desclist {
-			width: @il-table-presentation-description-colwidth;
+			//Using column mixin, to make this responsive
+			.make-sm-column(7);
+			padding-left: 0;
 		}
 		.il-table-presentation-details {
-			width: @il-table-presentation-details-colwidth;
+			//Using column mixin, to make this responsive
+			.make-sm-column(5);
+			.il-table-presentation-actions {
+				margin-bottom: @padding-large-vertical;
+			}
 
 			.il-table-presentation-fields {
+				//Inherit from well
+				.well;
 				font-size: @font-size-small;
 				.il-item-property-name {
 					color: @il-light-text-color;
 				}
-				.il-item-property-value {
-				}
-
 			}
 		}
 	}
