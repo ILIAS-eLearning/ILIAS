@@ -21,7 +21,9 @@ interface Factory {
      *     and a required value indicated by some pointer. The comparison value is represented by a second
      *     bar below the first one. Also the percentage values of main and required are shown as text.
      *   effect: >
-     *     On changing screen size they decrease their size including font size in various steps.
+	 *     They always fit to their parent element to get full responsibility. So that if the parent element has no
+	 *     fixed size, they grow and shrink with the screen size, to a maximum width of 800px and a minimum of 80px.
+	 *     These two values are configurable style variables.
      *
      * rules:
      *   composition:
@@ -32,7 +34,7 @@ interface Factory {
      * @param int|float $maximum          Maximum reachable value.
      * @param int|float $main             Main value to be displayed by main bar.
      * @param int|float|null $required    Required value to be reached by main value.
-     * @param int|float|null $comparison Comparison value to be displayed by second bar.
+     * @param int|float|null $comparison  Comparison value to be displayed by second bar.
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Standard
      */
     public function standard($maximum, $main, $required = null, $comparison = null);
@@ -52,10 +54,11 @@ interface Factory {
      * @param int|float $maximum          Maximum reachable value.
      * @param int|float $main             Main value to be displayed by main bar.
      * @param int|float|null $required    Required value to be reached by main value.
-     * @param int|float|null $comparison Comparison value to be displayed by second bar.
+     * @param int|float|null $comparison  Comparison value to be displayed by second bar.
+	 * @param int|float|null $width       Display size for Progress Meter
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\FixedSize
      */
-    public function fixedSize($maximum, $main, $required = null, $comparison = null);
+    public function fixedSize($maximum, $main, $required = null, $comparison = null, $width = null);
 
     /**
      * ---
@@ -69,6 +72,7 @@ interface Factory {
 	 *   effect: >
 	 *     They always fit to their parent element to get full responsibility. So that if the parent element has no
 	 *     fixed size, they grow and shrink with the screen size, to a maximum width of 250px and a minimum of 20px.
+	 *     These two values are configurable style variables.
 	 *
      * rules:
      *   composition:
