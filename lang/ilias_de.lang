@@ -9442,6 +9442,8 @@ wiki#:#wiki_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_block_page#:#Schreibschutz für Seite
 wiki#:#wiki_change_notification_link#:#URL
+wiki#:#wiki_change_notification_page_body_comment#:#die folgende Wiki-Seite wurde kommentiert
+wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde gelöscht
 wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde bearbeitet
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
