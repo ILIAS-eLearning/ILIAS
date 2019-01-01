@@ -14845,8 +14845,8 @@ lso#:#avail_time_period#:#Zeitraum
 lso#:#lso_settings_misc#:#Weitere Einstelleungen
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
-lso#:#members_gallery#:#Mitglieder-Gallerie
-lso#:#lso_show_members_info#:#Mitglieder-Gallerie für Benutzer sichtbar
+lso#:#members_gallery#:#Mitgliedergalerie
+lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
 crs#:#crs_shorten_breadcrumb#:#Brotkrumennavigation
 crs#:#crs_sys_default#:#Globaler Standardwert
 crs#:#crs_breadcrumb_crs_only#:#Brotkrumenpfad beginnt mit Kurs
