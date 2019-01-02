@@ -455,7 +455,8 @@ performs. When data is inputted to the system, it certainly in general is not
 possible to determine the context in which the data will be outputted later on.
 The correct means of escaping thus cannot be determined at that point. That means
 that escaping is a problem that needs to be tackled at the various output interfaces
-of the system.
+of the system. Some mechanisms and approaches from this paper might also be used
+for escaping, but we do not attempt to propose a global strategy for escaping here.
 
 
 ### Sanitizing
@@ -597,7 +598,7 @@ may come into play here: Like the [Validation-library](../../src/Validation) its
 they may offer sets of constraints regarding the policies they are enforcing.
 
 
-## ilUtil::stripSlashes and ilInitialisation::recusivelyRemoveUnsafeCharacters
+### ilUtil::stripSlashes and ilInitialisation::recusivelyRemoveUnsafeCharacters
 
 Currently ILIAS has two methods that are used to systematically secure input
 processing: `ilUtil::stripSlashes` and `ilInitialisation::recusivelyRemoveUnsafeCharacters`.
@@ -615,24 +616,10 @@ actually a device that removes data according to some output context (HTML) whic
 means that it is a form of escaping. This also shows in the fact, that it does
 not remove data that would be dangerous in other contexts, e.g. SQL for databases
 or `"` for json. Also, data treated with `ilUtil::stripSlashes` won't work in
-an attribute context of html, since `"` is kept.
-
-The foremost problem that `ilUtil::stripSlashes` currently seams to tackle is 
-that in some locations users want to use html-markup in their input, but the
-system needs to ensure that the html-markup is protected from XSS. We suggest
-to solve that problem by introducing a proper input field in the UI-framework
-and maybe use markdown for the requirements that are currently fulfilled via
-markup. On the other hand we propose to introduce a proper output escaping at
-the various layers that perform output, similar to `ilDB::quote`. Finally we
-propose to introduce datatypes that wrap strings and make their content more
-explicit, e.g. `HTMLString` for strings that contain HTML-markup or `AlphaNumericString`
-for strings that contain alphanumeric characters only. The new datatypes will be
-crucial to allow new inputs and escaping to work together, as they will tag the
-data on the way between input and output and will allow proper decisions on how
-data needs to be trated when escaping it. A very similar problem already emerged
-in the Mail-Service, where the service  needs to work with raw `string`s without
-really knowing if they need to be escaped  for HTML or not. We thus suggest to
-phase out the use of `ilUtil::stripSlashes`.
+an attribute context of html, since `"` is kept. The foremost problem that
+`ilUtil::stripSlashes` currently seems to tackle is that in some locations users
+want to use html-markup in their input, but the system needs to ensure that the
+html-markup is protected from XSS.
 
 `ilInitialisation::recusivelyRemoveUnsafeCharacters` is called in the initialisation
 process of ILIAS to remove HTML-tags and some single characters that are deemed
@@ -645,6 +632,38 @@ be very narrow, mostly ids, alphanumerics and the control path. It should be
 simple to device proper datatypes for these usecases. To phase out the use of
 `ilInitialisation::recusivelyRemoveUnsafeCharacters` we will additionally have
 to provide a proper method to get values from `$_GET` as outlined in [API-Design](#api-design).
+
+
+### HTMLPurifier
+
+HTMLPurifier is a well known library that attempt to transform HTML to a restricted
+- pure - form, where the consumer of the library can configure which tags and
+attributes are allowed. ILIAS wraps that library in `Services/HTML`. Currently
+the wrapper is only used in the Test & Assessment, the Forum and the Terms of Service,
+where it should clean user supplied HTML to prevent XSS-attacks.
+
+
+### ilPropertyFormGUI
+
+The traditional way of building forms `Service\Forms` in ILIAS provides various
+types of inputs that can be put together to forms. The base class for these inputs
+`ilFormProperty` defines a `checkInput` method, that the derived classes need to
+implement to check the input. The checks thus are bound to the different types of
+input, if one needs another check, one either needs to implement a new input to
+perform said check on the consumer side. The fact that these object scrutinize
+inputs from the user is carried over to the new input implementation of the UI-
+framework, while the checks themselves arent't tightly couple to the input elements
+as presented in the [Showcase](#showcase-input-via-forms-in-the-ui-framework).
+
+
+### Typecasting in GUIs
+
+A lot of GUIs typecase values they retrieve from `$_GET`: `$obj_id = (int)$_GET["obj_id"];`.
+This is a very basic form of sanitizing the input and make sure that only integers
+are passed to deeper layers of the system. Casting to int, however, has well known
+drawbacks in PHP that might lead to unintendet consequences. `(int)""` for example will be 0.
+The simplicity of the casting approch is something to be conserved in a future
+strategy to secure inputs, while we need to be careful regarding PHP idiosyncrasies.
 
 
 ## Showcase: Input via Forms in the UI-Framework
@@ -816,8 +835,9 @@ ones on top of them. The `text` and `textarea` inputs, e.g. currently `strip_tag
 from the provided strings. Similar to `ilUtil::stripSlashes` this is a weak measure
 to provide security, while the non-existing feedback about the operation might
 lead users to think they actually entered html-tags when in fact they didn't (see
-[Sanitizing](#sanitizing)). This transformation should thus be removed once the
-according problems for `ilUtil::stripSlashes` are solved.
+[Sanitizing](#sanitizing)). Currently, `ilUtil::stripSlashes` is required to allow
+for simple text formatting via HTML in text-inputs or textareas. Once this problem
+is solved `ilUtil::stripSlashes` and `strip_tags` can go away.
 
 The advice to define datastructures that enforce their structural constraints
 by construction (see [Data](#data)) also is not implemented in the given example,
@@ -1177,6 +1197,10 @@ interface:
  * how often the transformation was actually performed. It MUST NOT touch the provided
  * value, i.e. it is allowed to create new values but not to modify existing values.
  * This would be an observable sideeffect.
+ *
+ * If you are reading this you most certainly do not want to implement this
+ * interface on your own but instead use the building blocks from the factory of
+ * the Refinery instead and stick them together like legos.
  */
 interface Transformation {
 	/**
@@ -1212,9 +1236,10 @@ to implement `Transformations` that perform checks and create new value as well,
 like we need for constructors of datastructures.
 
 We furthermore propose to unify the two concepts on a library level as well and
-propose `Refinery` as name for the new library. The factory for its structures
-should then be organized as such, where the different groups are explained in
-the following sections:
+propose `Refinery` as name for the new library. The existing `Validation` and
+`Transformation` libraries should be merged into this new library. The factory
+for its structures should then be organized as such, where the different groups
+are explained in the following sections:
 
 - **to**: Combined validations and transformations for primitive datatypes that
   establish a baseline for further constraints and more complex transformations
@@ -1228,15 +1253,16 @@ the following sections:
 	  define content
 	- **recordOf** - with a dict of `Transformations` as parameters that define
 	  the content at the indizes
+	- **new** - create a user defined datastructure
+	- **data** - create a structure from the Data-library
 - **kindlyTo** - offers the same transformations like **to** but will be more
   forgiving regarding the input
-- **toNew** - create a user defined datastructure
-- **toData** - create a structure from the Data-library
 - **identity** - does not check anything and returns the value as provided
-- **inSeries** - takes an array of transformations and performs them one after
-  another on the result of the previous transformation
-- **inParallel** - takes an array of transformations and performs each on the
-  input value to form a tuple of the results
+- **in**
+	- **series** - takes an array of transformations and performs them one after
+	  another on the result of the previous transformation
+    - **parallel** - takes an array of transformations and performs each on the
+	  input value to form a tuple of the results
 - **allOf** - takes an array of constraints and checks all of them, where the
   errors discovered in that process will be collected
 - **byTrying** - takes an array of transformations and returns the result of the
@@ -1248,7 +1274,8 @@ the following sections:
 	- **isGreaterThan**
 	- **isLessThan**
 	- *various other constraints on numbers*
-- **string** - constains constraints and transformations on string
+- **string** - contains constraints and transformations on string. Each constraint
+  on a string will transform to string as well.
 	- **hasMinLength**
 	- **hasMaxLength**
 	- **fitsRegexp**
@@ -1327,7 +1354,9 @@ Since using primitives is very common in the ILIAS codebase, we cannot expect
 that all components will get rid of primitive obsession soon. The APIs behind
 `to` and `kindlyTo` will still allow a gradual migration to the new mechanisms
 to secure inputs while keeping internal implementations of the components
-based on primitives.
+based on primitives. Since `kindlyTo` works differently then the currently often
+used combination of integer-cast and `if`, these locations need to be migrated
+carefully.
 
 To get rid of primitive obsession we then need a way to define how to build
 user-defined datastructures in a chain of transformations and constraints,
@@ -1393,13 +1422,13 @@ input to a structure that can be consumed by a toNew-transformation (which is
 a tuple) we need some facilities that allow to mix and match the structures and
 transformations provided so far.
 
-We start with `inSeries` that simply takes a list of transformations and applies
+We start with `in()->series` that simply takes a list of transformations and applies
 one after the other, each on the value produced by the predecessor:
 
 ```php
 $refine = new ILIAS\Refinery\Factory(/* ... */);
 
-$my_trafo = $refine->inSeries(
+$my_trafo = $refine->in()->series(
 	$refine->kindlyTo()->int(),
 	$refine->kindlyTo()->float()
 );
@@ -1409,16 +1438,18 @@ $res = $my_trafo->transform("1");
 assert($res === 1.0);
 ```
 
-Note that `inSeries` will replace (and extend) the currently implemented `sequential`-
+Note that `in()->series` will replace (and extend) the currently implemented `sequential`-
 constraint.
 
-The next facility will have a similar interface to `inSeries` but will apply each
-transformation to the initially provided value and output the results as a tuple:
+The next facility will have a similar interface to `in()->series` but will apply each
+transformation to the initially provided value and output the results as a tuple.
+It main purpose is to pick interesting stuff from an array, but it might have other
+interesting application as well.
 
 ```php
 $refine = new ILIAS\Refinery\Factory(/* ... */);
 
-$my_trafo = $refine->inParallel(
+$my_trafo = $refine->in()->parallel(
 	$refine->kindlyTo()->string(),
 	$refine->kindlyTo()->float()
 );
@@ -1513,7 +1544,7 @@ constraint and transformation. If common usage patterns of the basic building bl
 emerge, they could very well get their own constructor on the factory to be available
 more simple. Also there might be other forms of syntactic sugar that could be poured
 over the basic building blocks to make the usage nicer, e.g. allowing simple lists
-of transformations instead of `inSeries` in appropriate places.
+of transformations instead of `in()->series` in appropriate places.
 
 The example from the showcase above then could look like this:
 
@@ -1567,9 +1598,9 @@ Creating `ilObjectData` from a JSON-string than would look like this:
 ```php
 $refine = new ILIAS\Refinery\Factory(/* ... */);
 
-$object_data_from_array = $refine->inSeries(
+$object_data_from_array = $refine->in()->series(
 	$refine->selection([
-		"title" => $refine->inSeries(
+		"title" => $refine->in()->series(
 			$refine->to()->string(),
 			$refine->string()->hasMinLength(1)
 		),
@@ -1578,7 +1609,7 @@ $object_data_from_array = $refine->inSeries(
 	$refine->toNew(\ilObjectData::class)
 );
 
-$object_data_from_json = $refine->inSeries(
+$object_data_from_json = $refine->in()->series(
 	$refine->asJSON(),
 	$object_data_from_array
 );
@@ -1590,14 +1621,30 @@ object data and the start and enddate for this example, this could be created
 from a JSON-string as such:
 
 ```php
-$datetime_from_string = $refine->inSeries(
+
+/* JSON could look like this:
+
+{
+	"title" : "A title",
+	"description" : "A description.",
+	"start" : "1815-12-10",
+	"end" : "1852-11-27"
+	"some_other_data" : "... we don't care about."
+}
+
+*/
+
+$datetime_from_string = $refine->in()->series(
 	$refine->to()->string(),
 	$refine->string()->fitsRegexp("%\d\d\d\d-\d\d-\d\d%"),
 	$refine->toNew(DateTime::class);
 );
 
-$course_data_from_array = $refine->inSeries(
-	$refine->inParallel(
+$course_data_from_array = $refine->in()->series(
+	// in()->parallel applies every transformation to the array seperately,
+	// the first one thus picks titel and description and creates ilObjectData
+	// form it, while the second and third each fetch a date from the array.
+	$refine->in()->parallel(
 		$object_data_from_array,
 		$refine->selection("start" => $datetime_from_string),
 		$refine->selection("end" => $refine->optional($datetime_from_string))
@@ -1605,7 +1652,7 @@ $course_data_from_array = $refine->inSeries(
 	$refine->toCustom(\ilCourseData::class)
 );
 
-$course_data_from_json = $refine->inSeries(
+$course_data_from_json = $refine->in()->series(
 	$refine->asJSON(),
 	$course_data_from_array
 );
@@ -1678,12 +1725,12 @@ $refine = new ILIAS\Refinery\Factory(/* ... */);
 
 $id = $get_wrapper->get("id", $refine->to()->int());
 list($current_page, $page_size) = $get_wrapper->get($refine->selection([
-	"current_page" => $refine->inSeries(
+	"current_page" => $refine->in()->series(
 		$refine->to()->int(),
 		$refine->int()->hasMin(0)
 		$refine->int()->hasMax(10)
 	),
-	"page_size" => $refine->inSeries(
+	"page_size" => $refine->in()->series(
 		$refine->to()->int(),
 		$refine->int()->hasMin(0)
 	)
@@ -1812,9 +1859,10 @@ currently access `$_GET` or `$_POST` directly will go away.
 
 We furthermore recommend to find a way to implement simple text formatting
 (bold, italic, enumerations) into the inputs in the UI-Framework that does not
-use HTML. We would suggest to use markdown instead. This would also imply to
-implement data types for markdown formatted text to clearly seperate it from
-an arbitrary string.
+use HTML. This will allow to get rid of `ilUtil::stripSlashes`, as explained in
+the according paragraph. We would suggest to use markdown instead. This would
+also imply to implement data types for markdown formatted text to clearly seperate
+it from an arbitrary string.
 
 
 ### Improvements for Data
@@ -1834,13 +1882,40 @@ in various contextes safely. Additionally we might need types for strings in var
 formatting, e.g. `HTML`,`Markdown`, `Plaintext`, depending on discussion of how we
 want to use HTML for user input in the future. These would also allow the Mailsystem
 to make choices regarding escaping when creating mails.
+* Various types for integers. A `PositiveInteger` and a `Range` would e.g. be
+usefull for pagination.
+
+Tagging strings (and other data as well) via datatypes will be crucial to allow
+proper decisions on how data needs to be treated when escaping it at some output
+layer of the system. This problem already emerged in the Mail-Service, where the
+service needs to work with raw `string`s without really knowing if they need to
+be escaped for HTML or not. Having a HTML, e.g. would mean that the content could
+just be outputted in a HTML context, while a Markdown would need to be prepared
+and formatted by some markdown processing and a Plaintext would need to be escaped
+according to HTML. In a plain text context, on the other hand, the HTML would most
+probably need to be formatted, while Markdown and Plaintext could be printed as
+is.
+
+This directly spawns the question, if and how these types should perform validation.
+I.e. does a HTML-Type need to check a provided string to be wellformed HTML? Would
+we want a Plaintext-type to discard tags in a provided string? These questions are
+hard to answer from the general perspective taken in this paper. The underlying
+questions could well be addressed by introducing more finegrained types on top
+of the proposed ones (e.g. `WellformedHTML` or `SecureHTML`) or by introducing
+smarter factories to create these types, e.g. by wrapping `HTMLPurifier` into a
+factory for HTML.
+
+The full advantages of these types will only be gained once the UI-framework (and
+other output layers) incorporate these types and the UI-framework is in fact used
+throughout the system. There still will be advantages without that steps, as the
+types will force developers to think about escaping even when they simply echo
+something, because they cannot just concatenate a `HTML` into a string.
 
 There might be even more types that could go into the common library. Finding these
 would be a good occasion to integrate the larger developer community into the efforts.
 We thus propose to inform the developers about the general plans regarding security
 of input, the phenomenon of primitive obsession in particular and than ask them
 about common types that should be included in the [Data-library](../../src/Data).
-
 
 ### Fighting Primitive Obsession
 
@@ -1916,7 +1991,9 @@ connection?
 The identification and discussion of the questions, which and how services in ILIAS
 need to be regarded when processing user input, will be a good point to include
 ILIAS developers in the discussion and concrete implementation and design of the
-prinicipals and mechanism proposed in this paper. Including developers will also
+principals and mechanism proposed in this paper. This could also be widened to
+a discussion on which system in ILIAS enforce security constraints, which will
+allow to bring larger security questions into focus. Including developers will also
 help to find promising targets for an implementation and finally help adoption.
 
 
