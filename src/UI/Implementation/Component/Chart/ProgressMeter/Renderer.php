@@ -58,58 +58,7 @@ class Renderer extends AbstractComponentRenderer
         $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
 		$tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
-		$main_percentage = $component->getMainValueAsPercent();
-
-		if ($hasComparison) {
-			// multicircle
-			$tpl->setCurrentBlock('multicircle');
-			// set first progress bar color class
-			$color_one_class = 'no-success';
-			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
-				$color_one_class = 'success';
-			}
-			$tpl->setVariable('COLOR_ONE_CLASS', $color_one_class);
-			// set width for first process bar
-			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
-
-			// set second progress bar color class
-			$color_two_class = 'active';
-			if(!$this->getIsValueSet($component->getMainValueAsPercent()) && $this->getIsValueSet($component->getComparison())) {
-				$color_two_class = 'not-active';
-			}
-			$tpl->setVariable('COLOR_TWO_CLASS', $color_two_class);
-			// set width for second process bar
-			$tpl->setVariable('BAR_TWO_WIDTH', (88.8 * ($component->getComparisonAsPercent() / 100)));
-
-			$tpl->parseCurrentBlock();
-
-		} else {
-			// monocircle
-			$tpl->setCurrentBlock('monocircle');
-			// set progress bar color class
-			$color_class = 'no-success';
-			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
-				$color_class = 'success';
-			}
-			$tpl->setVariable('COLOR_ONE_CLASS', $color_class);
-			// set width for process bars
-			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
-
-			$tpl->parseCurrentBlock();
-        }
-
-		// set visible values
-		$tpl = $this->modifyVisibleValues($tpl, $component);
-
-		// set marker position
-		$needle_class = 'no-needle';
-		if($component->getRequired() != $component->getMaximum()) {
-			$needle_class = '';
-			$tpl->setVariable('ROTATE_ONE', (276 / 100 * $component->getRequiredAsPercent() - 138));
-		}
-		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
-
-        $tpl->parseCurrentBlock();
+		$tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
 
         return $tpl->get();
     }
@@ -130,58 +79,7 @@ class Renderer extends AbstractComponentRenderer
 		$tpl->setVariable('FIXED_SIZE', $component->getWidth());
 		$tpl->parseCurrentBlock();
 
-		$main_percentage = $component->getMainValueAsPercent();
-
-		if ($hasComparison) {
-			// multicircle
-			$tpl->setCurrentBlock('multicircle');
-			// set first progress bar color class
-			$color_one_class = 'no-success';
-			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
-				$color_one_class = 'success';
-			}
-			$tpl->setVariable('COLOR_ONE_CLASS', $color_one_class);
-			// set width for first process bar
-			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
-
-			// set second progress bar color class
-			$color_two_class = 'active';
-			if(!$this->getIsValueSet($component->getMainValueAsPercent()) && $this->getIsValueSet($component->getComparison())) {
-				$color_two_class = 'not-active';
-			}
-			$tpl->setVariable('COLOR_TWO_CLASS', $color_two_class);
-			// set width for second process bar
-			$tpl->setVariable('BAR_TWO_WIDTH', (88.8 * ($component->getComparisonAsPercent() / 100)));
-
-			$tpl->parseCurrentBlock();
-
-		} else {
-			// monocircle
-			$tpl->setCurrentBlock('monocircle');
-			// set progress bar color class
-			$color_class = 'no-success';
-			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
-				$color_class = 'success';
-			}
-			$tpl->setVariable('COLOR_ONE_CLASS', $color_class);
-			// set width for process bars
-			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
-
-			$tpl->parseCurrentBlock();
-		}
-
-		// set visible values
-		$tpl = $this->modifyVisibleValues($tpl, $component);
-
-		// set marker position
-		$needle_class = 'no-needle';
-		if($component->getRequired() != $component->getMaximum()) {
-			$needle_class = '';
-			$tpl->setVariable('ROTATE_ONE', (276 / 100 * $component->getRequiredAsPercent() - 138));
-		}
-		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
-
-		$tpl->parseCurrentBlock();
+		$tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
 
 		return $tpl->get();
     }
@@ -220,6 +118,68 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    protected function getDefaultGraphicByComponent(
+    	Component\Chart\ProgressMeter\ProgressMeter $component,
+		\ILIAS\UI\Implementation\Render\Template $tpl,
+		$hasComparison = false
+	) {
+
+		$main_percentage = $component->getMainValueAsPercent();
+
+		if ($hasComparison) {
+			// multicircle
+			$tpl->setCurrentBlock('multicircle');
+			// set first progress bar color class
+			$color_one_class = 'no-success';
+			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+				$color_one_class = 'success';
+			}
+			$tpl->setVariable('COLOR_ONE_CLASS', $color_one_class);
+			// set width for first process bar
+			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+
+			// set second progress bar color class
+			$color_two_class = 'active';
+			if(!$this->getIsValueSet($component->getMainValueAsPercent()) && $this->getIsValueSet($component->getComparison())) {
+				$color_two_class = 'not-active';
+			}
+			$tpl->setVariable('COLOR_TWO_CLASS', $color_two_class);
+			// set width for second process bar
+			$tpl->setVariable('BAR_TWO_WIDTH', (88.8 * ($component->getComparisonAsPercent() / 100)));
+
+			$tpl->parseCurrentBlock();
+
+		} else {
+			// monocircle
+			$tpl->setCurrentBlock('monocircle');
+			// set progress bar color class
+			$color_class = 'no-success';
+			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+				$color_class = 'success';
+			}
+			$tpl->setVariable('COLOR_ONE_CLASS', $color_class);
+			// set width for process bars
+			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+
+			$tpl->parseCurrentBlock();
+		}
+
+		// set visible values
+		$tpl = $this->modifyVisibleValues($tpl, $component);
+
+		// set marker position
+		$needle_class = 'no-needle';
+		if($component->getRequired() != $component->getMaximum()) {
+			$needle_class = '';
+			$tpl->setVariable('ROTATE_ONE', (276 / 100 * $component->getRequiredAsPercent() - 138));
+		}
+		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
+
+		$tpl->parseCurrentBlock();
+
+		return $tpl;
+	}
+
     /**
      * Modify visible template variables
      *
@@ -235,11 +195,6 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->setVariable("REQUIRED", '');
         }
-//        if ($component instanceof Component\Chart\ProgressMeter\Standard) {
-//            if ($component->getComparison() > 0) {
-//                $tpl->setVariable("COMPARE", $component->getComparisonAsPercent() . ' %');
-//            }
-//        }
         $tpl->setVariable("TEXT_MAIN", htmlspecialchars($component->getMainText()));
         $tpl->setVariable("TEXT_REQUIRED", htmlspecialchars($component->getRequiredText()));
         return $tpl;
