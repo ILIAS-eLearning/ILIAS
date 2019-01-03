@@ -65,8 +65,9 @@ class ilMMTabHandling {
 	 * @param string      $tab
 	 * @param string|null $subtab
 	 * @param bool        $backtab
+	 * @param string|null $calling_class
 	 */
-	public function initTabs(string $tab, string $subtab = null, bool $backtab = false) {
+	public function initTabs(string $tab, string $subtab = null, bool $backtab = false, $calling_class = "") {
 		if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
 			$this->tabs->addTab(
 				ilObjMainMenuGUI::TAB_MAIN,
@@ -94,9 +95,12 @@ class ilMMTabHandling {
 		}
 		if ($backtab) {
 			$this->tabs->clearTargets();
-			$this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, $subtab));
+			if($calling_class == ilMMSubItemGUI::class) {
+				$this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, $subtab));
+			} else {
+				$this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, $subtab));
+			}
 		}
-
 		$this->tabs->setTabActive($tab);
 	}
 }

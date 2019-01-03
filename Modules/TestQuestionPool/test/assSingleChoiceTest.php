@@ -10,7 +10,7 @@
 *
 * @ingroup ServicesTree
 */
-class assSingleChoiceTest extends PHPUnit\Framework\TestCase
+class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
 

@@ -3276,6 +3276,11 @@ common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
 common#:#mails_pl#:#Mail(s)
 common#:#main_menu#:#Hauptmenü
+common#:#add_remove_edit_entries_of_main_menu#:#Hinzufügen, entfernen oder bearbeiten von Einträgen im Hauptmenü
+common#:#all#:#Alle
+common#:#only_active#:#Nur aktive
+common#:#only_inactive#:#Nur inaktive
+common#:#entry_status#:#Eintragsstatus
 common#:#marked_entries#:#Markierte Einträge
 common#:#matriculation#:#Matrikelnummer
 common#:#mcst#:#Mediacast
@@ -4261,7 +4266,7 @@ common#:#user#:#Benutzer
 common#:#user_activated#:#Benutzer wurde bestätigt.
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_cant_receive_mail#:#%1$s (der Benutzer keine Berechtigung das Mailsystem zu benutzen)
+common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das Mailsystem zu benutzen.
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Benutzerdefinierte Felder
@@ -9437,6 +9442,8 @@ wiki#:#wiki_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_block_page#:#Schreibschutz für Seite
 wiki#:#wiki_change_notification_link#:#URL
+wiki#:#wiki_change_notification_page_body_comment#:#die folgende Wiki-Seite wurde kommentiert
+wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde gelöscht
 wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde bearbeitet
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
@@ -14432,14 +14439,14 @@ copa#:#copa_copy#:#Inhaltsseite kopieren
 copa#:#copa_add#:#Inhaltsseite hinzufügen
 copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
-copa#:#copa_btn_lp_toggle_state_completed#:#Auf nicht bearbeitet setzen
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf bearbeitet setzen
+copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
-common#:#presentation_table_more#:#mehr
+common#:#presentation_table_more#:#Mehr anzeigen
 exc#:#exc_global_feedback_file_after_date#:#After set Date
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback#:#Feedback
@@ -14489,7 +14496,7 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
-mme#:#main#:#Hauptmenu
+mme#:#main#:#Hauptmenü
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
 mme#:#tab_back#:#Zurück
@@ -14506,10 +14513,10 @@ mme#:#topitem_actions#:#Aktionen
 mme#:#topitem_type_parent#:#Haupteintrag
 mme#:#topitem_type_link#:#Link
 mme#:#topitem_title_default#:#Titel (Standard-Sprache)
-mme#:#topitem_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#topitem_active_byline#:#Aktiviere diesen Haupteintrag.
 mme#:#topitem_type#:#Typ
-mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enhalten oder direkt als Link zu einer Seite angelegt werden.
+mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
 mme#:#subitem_add#:#Eintrag hinzufügen
 mme#:#subitem_edit#:#Bearbeiten
 mme#:#subitem_delete#:#Löschen
@@ -14525,13 +14532,13 @@ mme#:#sub_actions#:#Aktionen
 mme#:#button_save#:#Speichern
 mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
-mme#:#sub_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#sub_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#sub_type_byline#:#Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig.
 mme#:#sub_active_byline#:#Aktiviere diesen Eintrag.
 mme#:#add_languages#:#Sprache hinzufügen
 mme#:#mm_translation_lang#:#Sprache
 mme#:#mm_translation_trans#:#Übersetzung
-mme#:#additional_langs#:#ZusätzlicheSprachen
+mme#:#additional_langs#:#Zusätzliche Sprachen
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
 mme#:#topitem_css_id#:#CSS-ID
@@ -14548,7 +14555,7 @@ mme#:#field_url#:#URL
 mme#:#field_url_info#:#Link zu der gewünschten Website, beginnend mit http(s)://
 mme#:#field_ref_id#:#ILIAS Referenz-ID
 mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin, Sie finden die Referenz-ID in der URL eines Onjektes (...?ref_id=123)
-common#:#obj_mme#:#Hauptmenu
+common#:#obj_mme#:#Hauptmenü
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Trenner
@@ -14559,7 +14566,7 @@ mme#:#type_repository_link#:#Magazin-Link
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
-blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
+blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
@@ -14640,7 +14647,7 @@ prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
-content#:#cont_ed_insert_learning_history#:#Insert Learning History
+content#:#cont_ed_insert_learning_history#:#Lernhistorie einfügen
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
@@ -14651,13 +14658,13 @@ lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
-wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
 cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
 cert#:#certificate_migration_go#:#Starte Migration
 cert#:#user_certificates#:#Zertifikate
-cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
 cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
 common#:#my_certificates#:#Meine Zertifikate
@@ -14665,10 +14672,10 @@ cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
 cert#:#certificate_achievement#:#%1$s erhalten.
 cert#:#certificate_no_object_title#:#Kein Titel vorhanden
 cert#:#certificate_no_object_desc#:#Keine Beschreibung vorhanden
-cert#:#cert_sortable_by_title_asc#:#Ascending by title
-cert#:#cert_sortable_by_title_desc#:#Descending by title
-cert#:#cert_sortable_by_issue_date_asc#:#Ascending by issue date
-cert#:#cert_sortable_by_issue_date_desc#:#Descending by issue date
+cert#:#cert_sortable_by_title_asc#:#Sortiert nach Titel (A→Z)
+cert#:#cert_sortable_by_title_desc#:#Sortiert nach Titel (Z→A)
+cert#:#cert_sortable_by_issue_date_asc#:#Sortiert nach Ausstellungsdatum - Älteste zuerst
+cert#:#cert_sortable_by_issue_date_desc#:#Sortiert nach Ausstellungsdatum - Neueste zuerst
 cert#:#cert_issued_on_label#:#Ausgestellt am
 cert#:#cert_download_label#:#Herunterladen
 cert#:#cert_object_label#:#Objekt
@@ -14838,12 +14845,12 @@ lso#:#avail_time_period#:#Zeitraum
 lso#:#lso_settings_misc#:#Weitere Einstelleungen
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
-lso#:#members_gallery#:#Mitglieder-Gallerie
-lso#:#lso_show_members_info#:#Mitglieder-Gallerie für Benutzer sichtbar
-crs#:#crs_shorten_breadcrumb#:#Breadcrumb
-crs#:#crs_sys_default#:#System Default
-crs#:#crs_breadcrumb_crs_only#:#Start with Course
-crs#:#crs_breadcrumb_full_path#:#Full Path
+lso#:#members_gallery#:#Mitgliedergalerie
+lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
+crs#:#crs_shorten_breadcrumb#:#Brotkrumennavigation
+crs#:#crs_sys_default#:#Globaler Standardwert
+crs#:#crs_breadcrumb_crs_only#:#Brotkrumenpfad beginnt mit Kurs
+crs#:#crs_breadcrumb_full_path#:#Gesamten Pfad anzeigen
 rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
 rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
 rep#:#rep_tree_limit_number#:#Maximale Anzahl
@@ -14863,15 +14870,15 @@ lso#:#entries_updated#:#Einträge gespeichert
 lso#:#curriculum#:#Curriculum
 lso#:#unparticipate#:#Abmelden
 lso#:#participate#:#Anmelden
-lhist#:#lhist_show_more#:#Show More
-meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
-book#:#book_objects_available#:#Objects available %s
-book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
-book#:#booking_multiple_succesfully#:#Bookings created successfully.
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung###10 11 2018 new variable
-ui#:#ui_chars_remaining#:#Characters remaining:###10 11 2018 new variable
-ui#:#ui_chars_min#:#Minimum:###10 11 2018 new variable
-ui#:#ui_chars_max#:#Maximum:###10 11 2018 new variable
+lhist#:#lhist_show_more#:#Mehr anzeigen
+meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
+book#:#book_objects_available#:#Verfügbare Objekte: %s
+book#:#book_limit_objects_available#:#Sie können nicht %s Teilnerhmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
+common#:#lti_outcome#common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
+ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:
 survey#:#svy_self_ev_mode#:#Self-Evaluation Only###10 11 2018 new variable
 survey#:#svy_self_ev_info#:#Use for self evaluation.###10 11 2018 new variable
 survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new variable
@@ -14900,19 +14907,19 @@ book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
 book#:#book_deassign#:#Deassign###10 11 2018 new variable
 book#:#book_participant_assigned#:#Participant(s) assigned###10 11 2018 new variable
 book#:#book_participant_already_assigned#:#Participant(s) already assigned.###10 11 2018 new variable
-common#:#slo_wizard_page#:#Copy Learning Sequence###10 11 2018 new variable
-rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
-rep#:#rep_default#:#Default###10 11 2018 new variable
-rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level###10 11 2018 new variable
-rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level###10 11 2018 new variable
-obj#:#obj_show_title_and_icon#:#Show Title and Icon###10 11 2018 new variable
+common#:#slo_wizard_page#:#Kopiere Lernsequenz
+rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
+rep#:#rep_default#:#Standardwert
+rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
+rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
+obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
 obj#:#obj_show_header_actions#:#Show Header Actions###10 11 2018 new variable
 cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
 cont#:#cont_item_list#:#List###10 11 2018 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
 obj#:#obj_tile_image#:#Tile Image###10 11 2018 new variable
-obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation.###10 11 2018 new variable
-fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
+obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
+fold#:#fold_presentation#:#Darstellung
 validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
 validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
 validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
