@@ -391,3 +391,8 @@ if ($media_cont_mig == 1)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#26>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::applyInitialPermissionGuideline('iass', true, false);
+?>
