@@ -76,7 +76,7 @@ class Renderer extends AbstractComponentRenderer
 		$tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
 		$tpl->setCurrentBlock('fixed');
-		$tpl->setVariable('FIXED_SIZE', $component->getWidth());
+		$tpl->setVariable('FIXED_CLASS', 'fixed-size');
 		$tpl->parseCurrentBlock();
 
 		$tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);

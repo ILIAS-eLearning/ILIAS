@@ -22,9 +22,9 @@ class Factory implements \ILIAS\UI\Component\Chart\ProgressMeter\Factory
     /**
      * @inheritdoc
      */
-    public function fixedSize($maximum, $main, $required = null, $comparison = null, $width = null)
+    public function fixedSize($maximum, $main, $required = null, $comparison = null)
     {
-        return new FixedSize($maximum, $main, $required, $comparison, $width);
+        return new FixedSize($maximum, $main, $required, $comparison);
     }
 
     /**

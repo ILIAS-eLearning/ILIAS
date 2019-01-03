@@ -8430,6 +8430,9 @@ ul.breadcrumb li:hover {
   overflow: hidden;
   position: relative;
 }
+.il-chart-progressmeter-box.fixed-size {
+  width: 350px;
+}
 .il-chart-progressmeter-box .il-chart-progressmeter-container {
   position: relative;
   min-width: 80px;
