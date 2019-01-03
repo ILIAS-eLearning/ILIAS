@@ -33,15 +33,10 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
      */
     protected $comparison;
 
-	/**
-	 * @var float
-	 */
-	protected $width;
-
     /**
      * @inheritdoc
      */
-    public function __construct($maximum, $main, $required = null, $comparison = null, $width = null)
+    public function __construct($maximum, $main, $required = null, $comparison = null)
     {
         $this->checkIntArg("maximum", $maximum);
         $this->maximum = $maximum;
@@ -60,14 +55,6 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
             $this->comparison = $this->getSafe($comparison);
         } else {
             $this->comparison = 0;
-        }
-        if($width != null) {
-            if (!is_int($width) && !is_float($width)) {
-				throw new \InvalidArgumentException("Argument 'width': " . $this->wrongTypeMessage('integer', $width));
-			}
-            $this->width = $width;
-        } else {
-            $this->width = 300;
         }
     }
 

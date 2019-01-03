@@ -53,10 +53,9 @@ interface Factory {
      * @param int|float $main             Main value to be displayed by main bar.
      * @param int|float|null $required    Required value to be reached by main value.
      * @param int|float|null $comparison  Comparison value to be displayed by second bar.
-	 * @param int|float|null $width       Display size for Progress Meter
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\FixedSize
      */
-    public function fixedSize($maximum, $main, $required = null, $comparison = null, $width = null);
+    public function fixedSize($maximum, $main, $required = null, $comparison = null);
 
     /**
      * ---
