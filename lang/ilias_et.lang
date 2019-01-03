@@ -2081,7 +2081,7 @@ cmps#:#no_changes#:#Muudatused puuduvad
 cntr#:#cntr_add_new_item#:#Lisa uus üksus
 cntr#:#cntr_adopt_content#:#Sisu laenamine
 cntr#:#cntr_back_to_old_editor#:#Tagasi vanasse toimetisse
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programme can only be copied as single objects. Please select one item only.
 cntr#:#cntr_hide_title_and_icon#:#Peida tiitel ja ikoon
 cntr#:#cntr_manage#:#Halda
 cntr#:#cntr_old_editor_open_standard_editor#:#Ava standardtoimeti
