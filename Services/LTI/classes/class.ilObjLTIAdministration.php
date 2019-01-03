@@ -172,7 +172,7 @@ class ilObjLTIAdministration extends ilObject
 		ilLoggerFactory::getLogger('lti')->debug($query);
 		
 		$rows = [];
-		while($row =  $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row =  $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['ref_id'] = $row->ref_id;
 			$item['title'] = $row->title;

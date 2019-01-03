@@ -138,8 +138,16 @@ class ilCertificateCron extends \ilCronJob
 
 		$status = ilCronJobResult::STATUS_OK;
 
+		$i = 0;
+		$succeededGenerations = [];
 		foreach ($entries as $entry) {
 			try {
+				if ($i > 0 && $i % 10 === 0) {
+					ilCronManager::ping($this->getId());
+				}
+
+				++$i;
+
 				$this->logger->debug('Entry found will start of processing the entry');
 
 				/** @var $entry ilCertificateQueueEntry */
@@ -165,6 +173,10 @@ class ilCertificateCron extends \ilCronJob
 				$template = $this->templateRepository->fetchTemplate($templateId);
 
 				$object = $this->objectHelper->getInstanceByObjId($objId, false);
+				if (!$object instanceof ilObject) {
+					throw new ilException(sprintf('The given object id: "%s"  could not be referred to an actual object', $objId));
+				}
+
 				$type = $object->getType();
 
 				$userObject = $this->objectHelper->getInstanceByObjId($userId, false);
@@ -227,10 +239,26 @@ class ilCertificateCron extends \ilCronJob
 
 			$this->userRepository->save($userCertificate);
 
+			$succeededGenerations[] = implode('/', [
+				'obj_id: ' . $objId,
+				'usr_id: ' . $userId
+			]);
+
 			$this->queueRepository->removeFromQueue($entry->getId());
 		}
 
-		return new ilCronJobResult($status);
+		$result = new ilCronJobResult();
+		$result->setStatus($status);
+		if (count($succeededGenerations) > 0) {
+			$result->setMessage(sprintf(
+				'Generated %s certificate(s) in run. Result: %s',
+				count($succeededGenerations), implode(' | ', $succeededGenerations)
+			));
+		} else {
+			$result->setMessage('0 certificates generated in current run.');
+		}
+
+		return $result;
 	}
 
 	/**

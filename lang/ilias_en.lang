@@ -995,7 +995,7 @@ assessment#:#result#:#Result
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Save Answer and Next
+assessment#:#submit_answer#:#Save Answer
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
@@ -2004,7 +2004,7 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Save Answer and Check
+assessment#:#submit_and_check#:#Save and Check Answer
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
@@ -2791,6 +2791,11 @@ common#:#mail#:#Mail
 common#:#mails_pl#:#Mail(s)
 common#:#mails#:#Mails
 common#:#main_menu#:#Main Menu
+common#:#add_remove_edit_entries_of_main_menu#:#Add, remove or edit entries of the main menu
+common#:#all#:#All
+common#:#only_active#:#Only Active
+common#:#only_inactive#:#Only Inactive
+common#:#entry_status#:#Entry status
 common#:#manage_members#:#Manage Members
 common#:#marked_entries#:#Marked Entries
 common#:#matriculation#:#Matriculation number
@@ -3724,7 +3729,7 @@ common#:#use_default_instructions#:#Use default instructions.
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system)
+common#:#user_cant_receive_mail#:#%1$s – user is not allowed to use the mail system.
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -7882,6 +7887,8 @@ exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_link#:#URL
 feed#:#feed_import#:#Import Feed
@@ -13876,7 +13883,6 @@ iass#:#iass_edit#:#Settings
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
-iass#:#iass_return#:#Back to overview
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
 iass#:#iass_settings_saved#:#Settings saved.
@@ -14441,7 +14447,7 @@ wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
-common#:#presentation_table_more#:#more
+common#:#presentation_table_more#:#Show More
 ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
@@ -14536,7 +14542,7 @@ mme#:#sub_actions#:#Actions
 mme#:#button_save#:#Save
 mme#:#table_show_inactive#:#Show inactive
 mme#:#sub_title_default#:#Title (Default Language)
-mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#sub_title_default_byline#:#Additional languages can be added via the action link "Translate".
 mme#:#sub_type_byline#:#Specific type for the Item additional configuration may be needed.
 mme#:#sub_active_byline#:#Activate this Item for all users.
 mme#:#add_languages#:#Add Language
@@ -14781,7 +14787,6 @@ common#:#obj_lso#:#Learning Sequence
 common#:#objs_lso#:#Learning Sequences
 common#:#obj_lso_duplicate#:#Copy Learning Sequence
 common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.
-common#:#slo_wizard_page#:#Copy Learning Sequence
 rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
@@ -14834,7 +14839,7 @@ lso#:#lso_player_finish#:#Finish
 lso#:#lso_player_suspend#:#Suspend
 lso#:#lso_player_previous#:#Previous
 lso#:#lso_player_next#:#Next
-lso#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
+common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#condition_always#:#Always
@@ -14948,7 +14953,6 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
 sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
-rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
 rbac#:#lso_read#:#Users can access the Learning Sequence
 rbac#:#lso_manage_members#:#Manage members of Learning Sequence
 rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence

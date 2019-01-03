@@ -8,7 +8,7 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assClozeSelectGapTest extends PHPUnit\Framework\TestCase
+class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
 
