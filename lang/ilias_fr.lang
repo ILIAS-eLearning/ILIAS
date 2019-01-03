@@ -8267,7 +8267,6 @@ iass#:#iass_record_template#:#Record template
 iass#:#iass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_responsibility#:#Responsibility
-iass#:#iass_return#:#Back to overview
 iass#:#iass_settings_saved#:#Settings saved.
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
