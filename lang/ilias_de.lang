@@ -14893,13 +14893,13 @@ iass#:#iass_sort_name_asc#:#Username ascending###10 11 2018 new variable
 iass#:#iass_sort_name_desc#:#Username descending###10 11 2018 new variable
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending###10 11 2018 new variable
 iass#:#iass_sort_examiner_login_desc#:#Examiner descending###10 11 2018 new variable
-book#:#participants#:#Participants###10 11 2018 new variable
-book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
-book#:#book_assign#:#Assign###10 11 2018 new variable
-book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
-book#:#book_deassign#:#Deassign###10 11 2018 new variable
-book#:#book_participant_assigned#:#Participant(s) assigned###10 11 2018 new variable
-book#:#book_participant_already_assigned#:#Participant(s) already assigned.###10 11 2018 new variable
+book#:#participants#:#Teilnehmer
+book#:#book_assign_object#:#Buchungsobjekt zuweisen
+book#:#book_assign#:#Zuweisen
+book#:#book_assign_participant#:#Teilnehmer zuweisen
+book#:#book_deassign#:#Zuweisung aufheben
+book#:#book_participant_assigned#:#Teilnehmer wurde/n zugewiesen.
+book#:#book_participant_already_assigned#:#Teilnehmer ist bereits zugewiesen.
 rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
 rep#:#rep_default#:#Standardwert
 rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
@@ -14925,7 +14925,7 @@ validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
 validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
 rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
-survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
+survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 crs#:#crs_view_timings#:#Lernplanungstyp
 crs#:#crs_view_timing_absolute#:#Absolutes Datum
 crs#:#crs_view_timing_relative#:#Relatives Datum
@@ -14946,7 +14946,7 @@ rbac#:#lso_participate#:#An der Lernsequenz anmelden
 rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
 rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
-user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
+user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
+user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
