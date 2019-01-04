@@ -10,11 +10,11 @@ class ilGeoLocationRepository {
     {
     }
 
-    public function getGeoLocationById($a_id)
+    public function getGeoLocationById($a_id) : ilObjGeoLocation
     {
     }
 
-    public function getGeoLocationsByCoordinates($a_lattitude, $a_longitude)
+    public function getGeoLocationsByCoordinates($a_lattitude, $a_longitude) : array
     {
     }
 

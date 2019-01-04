@@ -2,47 +2,67 @@
 
 class ilObjGeoLocation {
 
+    /** @var int */
     protected $id;
+
+    /** @var string */
     protected $title;
+
+    /** @var string */
     protected $lattitude;
+
+    /** @var string */
     protected $longitude;
+
+    /** @var DateTimeImmutable */
     protected $expiration_timestamp;
 
     public function __construct(int $a_id,
                                 string $a_title, 
                                 string $a_lattitude,
                                 string $a_longitude,
-                                int $a_expiration_timestamp)
+                                \DateTimeImmutable $a_expiration_timestamp)
     {
         $this->id = $a_id;
         $this->title = $a_title;
-        $this->lattitude = $lattitude;
-        $this->longitude = $longitude;
+        $this->lattitude = $a_lattitude;
+        $this->longitude = $a_longitude;
         $this->expiration_timestamp = $a_expiration_timestamp;
     }
 
+    /** @return int */
     public function getId()
     {
         return $this->id;
     }
 
+    /** @return string */
     public function getTitle()
     {
         return $this->title;
     }
 
+    /** @return string */
     public function getLattitude()
     {
         return $this->lattitude;
     }
 
+    /** @return string */
     public function getLongitude()
     {
         return $this->longitude;
     }
 
-    public function getExpirationTimestamp()
+    /** @return \DateTimeImmutable */
+    public function getExpirationAsTimestamp()
     {
-        return $this->getExpirationTimestamp;
+        return $this->expiration_timestamp->getTimestamp();
+    }
+
+    /** @return \DateTimeImmutable */
+    public function getExpirationAsImmutableDateTime()
+    {
+        return $this->expiration_timestamp;
     }
 }
