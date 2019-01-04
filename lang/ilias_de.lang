@@ -6024,7 +6024,7 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 feed#:#block_feed_block_feed_url#:#URL des Webfeeds
-feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich, z. B. http://www.ilias.de/rss.php
+feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich
 feed#:#block_feed_block_head#:#Externer Webfeed
 feed#:#block_feed_block_title#:#Titel
 feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation aller externer Webfeeds (Persönlicher Schreibtisch und Magazin) im Falle eines Problems mit einer externen Feed-Quelle.
