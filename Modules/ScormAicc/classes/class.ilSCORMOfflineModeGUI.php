@@ -124,7 +124,7 @@ class ilSCORMOfflineModeGUI
 				
 			case 'offlineMode_player12' :
 				$log->write("offlineMode_player12");
-				$player12 = new ilTemplate('tpl.player12.html',true,true,'Modules/ScormAicc');
+				$player12 = new ilTemplate('tpl.player12.html',false,false,'Modules/ScormAicc');
 				$player12->setVariable("SOP_TITLE","ILIAS SCORM 1.2 Offline Player"); // ToDo: Language Support
 				$js_data = file_get_contents("./Modules/ScormAicc/scripts/basisAPI.js");
 				$js_data .= file_get_contents("./Modules/ScormAicc/scripts/SCORM1_2standard.js");
