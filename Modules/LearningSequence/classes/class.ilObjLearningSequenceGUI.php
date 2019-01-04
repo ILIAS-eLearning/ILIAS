@@ -116,6 +116,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->app_event_handler = $DIC['ilAppEventHandler'];
 		$this->navigation_history = $DIC['ilNavigationHistory'];
 		$this->obj_definition = $DIC['objDefinition'];
+		$this->tpl = $DIC["tpl"];
 
 		$this->help->setScreenIdComponent($this->obj_type);
 		$this->lng->loadLanguageModule($this->obj_type);
@@ -127,6 +128,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$tpl = $this->tpl;
 
 		parent::prepareOutput();
 		$this->addToNavigationHistory();
@@ -139,6 +141,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$next_class === 'ilobjlearningsequencelearnergui'
 			&& $cmd === 'view'
 		);
+
+		$tpl->setPermanentLink("lso", $this->ref_id);
 
 		switch ($next_class) {
 			case "ilcommonactiondispatchergui":
