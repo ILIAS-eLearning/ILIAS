@@ -142,7 +142,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			&& $cmd === 'view'
 		);
 
-		$tpl->setPermanentLink("lso", $_GET["ref_id"]);
+		$tpl->setPermanentLink("lso", $this->ref_id);
 
 		switch ($next_class) {
 			case "ilcommonactiondispatchergui":
