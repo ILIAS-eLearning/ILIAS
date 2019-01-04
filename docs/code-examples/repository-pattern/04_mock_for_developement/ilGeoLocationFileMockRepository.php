@@ -1,0 +1,6 @@
+<?
+
+class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
+{
+    
+}

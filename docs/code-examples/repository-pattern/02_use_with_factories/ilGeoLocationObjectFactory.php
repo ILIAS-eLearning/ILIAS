@@ -1,6 +1,6 @@
 <?
 
-class ilGeoLocationFactory {
+class ilGeoLocationObjectFactory {
 
     public static function createGeoLocationForCountry(array $raw_geolocation)
     {

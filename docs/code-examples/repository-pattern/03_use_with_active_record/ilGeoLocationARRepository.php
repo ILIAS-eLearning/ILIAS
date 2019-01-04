@@ -1,20 +1,16 @@
 <?php
 
-class ilGeoLocationRepository {
-
-    public function __construct(ilDB $a_db)
-    {
-    }
+class ilGeoLocationARRepository extends ActiveRecord implements ilGeoLocationRepository {
 
     public function createGeoLocation(ilObjGeoLocation $obj)
     {
     }
 
-    public function getGeoLocationById($a_id) : ilObjGeoLocation
+    public function getGeoLocationById($a_id)
     {
     }
 
-    public function getGeoLocationsByCoordinates($a_lattitude, $a_longitude) : array
+    public function getGeoLocationsByCoordinates($a_lattitude, $a_longitude)
     {
     }
 
