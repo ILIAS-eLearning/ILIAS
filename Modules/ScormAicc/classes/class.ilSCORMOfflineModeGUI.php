@@ -202,6 +202,8 @@ class ilSCORMOfflineModeGUI
 		$tpl->setCurrentBlock('offline_content');
 		$tpl->setVariable("Command",$cmd);
 		$tpl->setVariable("CHECK_SYSTEM_REQUIREMENTS",$this->lng->txt('sop_check_system_requirements'));
+		$tpl->setVariable("SOP_SYSTEM_CHECK_HTTPS",$this->lng->txt('sop_system_check_https'));
+		$tpl->setVariable("SOP_SYSTEM_CHECK_ERROR",$this->lng->txt('sop_system_check_error'));
 		$tpl->setVariable("LM_NOT_EXISTS",$this->lng->txt('sop_lm_not_exists'));
 		$tpl->setVariable("EXPORT",$this->lng->txt('sop_export'));
 		$tpl->setVariable("DESC_EXPORT",$this->lng->txt('sop_desc_export'));
