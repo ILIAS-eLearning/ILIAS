@@ -12396,8 +12396,8 @@ scormtrac#:#tracinteractionuseranswers#:#Responses of users
 scormtrac#:#user_id#:#User-ID
 scormtrac#:#weighting#:#weighting
 scormtrac#:#report#:#Report
-common#:#ps_export_scorm#:#SCORM Tracking Data
-common#:#enable_export_scorm_desc#:#Allow export of user data of SCORM Learning Modules
+common#:#ps_export_scorm#:#Personal Data in Protocol Data
+common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Data (SCORM)
 content#:#cont_ed_click_to_add_pg#:#Click here to add content.
 link#:#link_chapters#:#Chapters
 link#:#link_wpages#:#Wiki Pages
