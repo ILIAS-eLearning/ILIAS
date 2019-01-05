@@ -326,6 +326,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getDefaultLessonMode()
 	{
+		global $DIC;
+		if ($DIC['ilUser']->getId() == 13) return "browse";
 		return $this->lesson_mode;
 	}
 	/**
