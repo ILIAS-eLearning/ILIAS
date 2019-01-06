@@ -41,6 +41,13 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	public function report($title,$sub_panels) {
 		return new Report($title,$sub_panels);
 	}
+	
+	/**
+	 * @inheritdoc
+	 */
+	public function data($title) {
+		return new Data($title);
+	}
 
 	/**
 	 * @inheritdoc

@@ -97,6 +97,39 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Report
 	 */
 	public function report($title,$sub_panels);
+	
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Data panels are used to present any data structured by entries having a label and a value.
+	 *       This can be used for e.g. showing up any statistic. A general rule is that the data must not have
+	 *       more than one value per label. (Data tables e.g. have multiple values per label)
+	 *   composition: >
+	 *       They are composed of a Standard Panel and a list of entries having a label and a value component each.
+	 *   effect: >
+	 *       Data Panels are predominantly used for displaying data structured as label/value pairs.
+	 *   rivals:
+	 *      Standard Panels: >
+	 *        The Report Panels contains sub panels used to structure information.
+	 *      Presentation Table: >
+	 *        Presentation Tables display only a subset of the data at first glance;
+	 *        their entries can then be expanded to show detailed information.
+	 *
+	 * context:
+	 *   - why do i need a context? no other component comes with this entry here!?
+	 *   - without this entry here the unit tests fails with a hint to add a context entry!?
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *         Data panels MUST be used when a report like presentation is required
+	 *         and the information to be shown is a kind of label/value structure.
+	 * ---
+	 * @param string $title
+	 * @return \ILIAS\UI\Component\Panel\Data
+	 */
+	public function data($title);
 
 	/**
 	 * ---
