@@ -32,6 +32,11 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var Component\Panel\Sub $component
 			 */
 			return $this->renderSub($component, $default_renderer);
+		} else if($component instanceof Component\Panel\Data) {
+			/**
+			 * @var Component\Panel\Data $component
+			 */
+			return $this->renderData($component, $default_renderer);
 		}
 		/**
 		 * @var Component\Panel\Report $component
@@ -110,6 +115,45 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
+		return $tpl->get();
+	}
+	
+	/**
+	 * @param Component\Panel\Data $component
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
+	protected function renderData(Component\Panel\Data $component, RendererInterface $default_renderer)
+	{
+		global $DIC;
+		
+		$divider = $DIC->ui()->factory()->divider()->horizontal();
+		
+		$tpl = $this->getTemplate("tpl.data.html", true, true);
+		
+		$first = true;
+		
+		foreach($component->getEntries() as $entry)
+		{
+			if( $first )
+			{
+				$first = false;
+			}
+			else
+			{
+				$tpl->setCurrentBlock('data-row-divider');
+				$tpl->setVariable('DIVIDER', $default_renderer->render($divider));
+				$tpl->parseCurrentBlock();
+			}
+
+			$tpl->setCurrentBlock('data-row');
+			$tpl->setVariable('LABEL', $default_renderer->render($entry[0]));
+			$tpl->setVariable('VALUE', $default_renderer->render($entry[1]));
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable("TITLE", $component->getTitle());
+		
 		return $tpl->get();
 	}
 
