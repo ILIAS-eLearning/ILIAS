@@ -51,7 +51,7 @@ Hi @klees
 
 Thank you a lot for contributing to ILIAS.
 
-We highly apreciate the effort you took to imporve the JS in the KS component. We especially
+We highly apreciate the effort you took to improve the JS in the KS component. I especially
 like the new proposed pattern to tackle the scoping issue.
 
 Please answer the following questions:
