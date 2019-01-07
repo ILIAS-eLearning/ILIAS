@@ -5,8 +5,8 @@ il.Container = il.Container || {};
 		var initShowMore = function (id, block, url) {
 			$("#" + id).on("click", function(e) {
 				e.preventDefault();
-				var ids = $("#" + id).closest(".ilContainerItemsContainer").find(".ilContainerListItemOuter")
-					.map(function() { return this.id; }).get();
+				var ids = $("#" + id).closest(".ilContainerItemsContainer").find("[data-list-item-id]")
+					.map(function() { return $(this).data("list-item-id"); }).get();
 				il.Util.sendAjaxPostRequestToUrl(url, {ids: ids}, function(o) {
 					$("#" + id).closest(".ilContainerShowMore").replaceWith($(o).find(".ilContainerItemsContainer").children());
 				})
