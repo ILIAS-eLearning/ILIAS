@@ -59,7 +59,7 @@ Please answer the following questions:
 
 Please consider the following suggestions. You do not need to follow those, but but please indicate shortly
 why you prefer to do otherwise:
-- [ ] Change XY to pattern XZ. We believe that pattern XZ might be superior. However, we are not completely sure.
+- [ ] Change XY to pattern XZ. We believe that pattern XZ might be superior. However, I am not completely sure.
 
 
 Please implement the following changes:
