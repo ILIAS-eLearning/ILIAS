@@ -119,7 +119,7 @@ abstract class ilContainerContentGUI
 
 		$this->log = ilLoggerFactory::getLogger('cont');
 
-		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile")
+		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel())
 			? self::VIEW_MODE_TILE
 			: self::VIEW_MODE_LIST;
 
@@ -791,7 +791,7 @@ abstract class ilContainerContentGUI
 		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
 			->withIsOutlined(true);
 		$card = $f->card()->repositoryObject(
-			$a_item_data["title"],
+			$a_item_data["title"]."<span data-list-item-id='".$item_list_gui->getUniqueItemId(true)."'></span>",
 			$image
 		)->withObjectIcon(
 			$icon
