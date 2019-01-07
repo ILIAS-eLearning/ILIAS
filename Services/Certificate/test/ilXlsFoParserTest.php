@@ -48,6 +48,8 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
 
 		$utilHelper->method('stripSlashes')
 			->willReturnOnConsecutiveCalls(
+				'297mm',
+				'210mm',
 				'1cm',
 				'2cm',
 				'3cm',
@@ -215,6 +217,8 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
 
 		$utilHelper->method('stripSlashes')
 			->willReturnOnConsecutiveCalls(
+				'297mm',
+				'210mm',
 				'1cm',
 				'2cm',
 				'3cm',
