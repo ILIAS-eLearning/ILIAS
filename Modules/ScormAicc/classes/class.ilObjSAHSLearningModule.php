@@ -334,6 +334,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getDefaultLessonMode()
 	{
+		global $ilUser;
+		if ($ilUser->getId() == 13) return "browse";
 		return $this->lesson_mode;
 	}
 	/**
