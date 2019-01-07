@@ -67,7 +67,7 @@ Please implement the following changes:
   in othe methods of the framework.
 
 
-Please give us a feedback untill the end of the week indicating how long it will take to answer
+Please give a feedback until the end of the week indicating how long it will take to answer
 the questions given, react to the suggestions and implement our change requests.
 
 
