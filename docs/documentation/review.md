@@ -28,8 +28,8 @@ Please answer the following questions:
 
 Please consider the following suggestions. You do not need to follow those, but but please indicate shortly
 why you prefer to do otherwise:
-- [ ] [suggesetion1] [optional: reasoning behind the suggestion]
-- [ ] [suggesetion1] [optional: reasoning behind the suggestion]
+- [ ] [suggestion1] [optional: reasoning behind the suggestion]
+- [ ] [suggestion2] [optional: reasoning behind the suggestion]
 - ...
 
 Please implement the following changes:
@@ -40,7 +40,7 @@ Please implement the following changes:
 [optional_comments_on_how_to_proceed]
 
 kindly,
-@[your_usernmae]
+@[your_username]
 
 ```
 This might look as follows:
