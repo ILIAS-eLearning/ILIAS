@@ -12,7 +12,8 @@ to make reviews easier to read and to leave less room for misunderstandings and 
 
 ## General Pattern
 We try to lay a strong focus on making feedback **actionable**, meaning the reviewee should have 
-a clear picture on how to react. Inspired by Munckton (see bellow for more details) we propose to use the following structure to reply to PRs:
+a clear picture on how to react. Inspired by Munckton (see below for more details) we propose
+to use the following structure to reply to PRs:
 
 ```
 Hi @[name_of_reviewee]
