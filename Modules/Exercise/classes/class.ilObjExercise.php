@@ -880,22 +880,11 @@ class ilObjExercise extends ilObject
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		if(ilCertificate::isActive() && ilCertificate::isObjectActive($this->getId()))
 		{
-			$certificate_visible = $this->getCertificateVisibility();
-			// if not never
-			if($certificate_visible != 2)
+			include_once 'Modules/Exercise/classes/class.ilExerciseMembers.php';
+			$status = ilExerciseMembers::_lookupStatus($this->getId(), $a_user_id);
+			if($status == "passed")
 			{
-				// if passed only
-				include_once 'Modules/Exercise/classes/class.ilExerciseMembers.php';
-				$status = ilExerciseMembers::_lookupStatus($this->getId(), $a_user_id);
-				if($certificate_visible == 1 && $status == "passed")
-				{
-					return true;
-				}
-				// always (excluding notgraded)
-				else if($certificate_visible == 0 && $status != "notgraded")
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
