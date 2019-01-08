@@ -821,9 +821,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");
-		
-		$validator = new ilCertificateDownloadValidator();
-		if($validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
+
+		if($this->object->hasUserCertificate($ilUser->getId())) {
 			$ilToolbar->addButton($this->lng->txt("certificate"),
 			$this->ctrl->getLinkTarget($this, "outCertificate"));
 		}
