@@ -571,6 +571,8 @@ interface Factory {
 	 *     A Duration Input is composed as a group of two DateTime Inputs.
 	 *   effect: >
 	 *     Dependant on the format, the inputs will accept dates, times or datetimes.
+	 *     The start point must take place before the endpoint.
+	 *     Invalid input will be corrected automatically.
 	 *
 	 * context:
 	 *   Duration Input is used in forms.
