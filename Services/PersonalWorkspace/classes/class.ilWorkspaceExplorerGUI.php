@@ -84,6 +84,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 		parent::__construct("wsp_sel", $a_parent_obj, $a_parent_cmd, $this->tree);
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
+		$this->setPathOpen($this->root_id);
 		
 		$this->setTypeWhiteList(array("wsrt", "wfld"));
 	}
