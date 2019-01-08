@@ -1014,7 +1014,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				$this->unitrepository->getUnits());
 		}
 
-		return $points;
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $reachedPoints;
 	}
 	
 	protected function isValidSolutionResultValue($submittedValue)

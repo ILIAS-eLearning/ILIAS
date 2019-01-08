@@ -325,7 +325,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 			$points = $this->getPoints();
 		}
 
-		return $points;
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $reachedPoints;
 	}
 
 	/**
