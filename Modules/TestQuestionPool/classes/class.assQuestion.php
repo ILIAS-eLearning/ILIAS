@@ -3493,9 +3493,23 @@ abstract class assQuestion
 	 */
 	abstract public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE);
 
+	public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints)
+	{
+		global $DIC;
+	
+		$hintTracking = new ilAssQuestionPreviewHintTracking($DIC->database(), $previewSession);
+		$requestsStatisticData = $hintTracking->getRequestStatisticData();
+		$reachedPoints = $reachedPoints - $requestsStatisticData->getRequestsPoints();
+		
+		return $reachedPoints;
+	}
+	
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
-		return $this->calculateReachedPointsForSolution($previewSession->getParticipantsSolution());
+		$reachedPoints = $this->calculateReachedPointsForSolution($previewSession->getParticipantsSolution());
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		
+		return $reachedPoints;
 	}
 	
 	public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession)
