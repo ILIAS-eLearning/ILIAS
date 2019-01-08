@@ -876,16 +876,9 @@ class ilObjExercise extends ilObject
 	 */
 	function hasUserCertificate($a_user_id)
 	{
-		// show certificate?
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(ilCertificate::isActive() && ilCertificate::isObjectActive($this->getId()))
-		{
-			include_once 'Modules/Exercise/classes/class.ilExerciseMembers.php';
-			$status = ilExerciseMembers::_lookupStatus($this->getId(), $a_user_id);
-			if($status == "passed")
-			{
-				return true;
-			}
+		$validator = new ilCertificateDownloadValidator();
+		if($validator->isCertificateDownloadable($a_user_id, $this->getId())) {
+			return true;
 		}
 		return false;
 	}
