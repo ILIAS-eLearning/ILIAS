@@ -474,6 +474,8 @@ assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
 assessment#:#qpl_maxchars_info_numeric_question#:#Wenn Sie hier einen Wert eintragen, wird das Feld für die numerische Antwort mit der angegebenen Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Zu beachten ist dabei, dass das Dezimaltrennzeichen dabei mit gezählt wird.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#Die untere Schranke muss ein gültiger numerischer Wert sein, der niedriger ist als die obere Schranke.
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#Die obere Schranke muss ein gültiger numerischer Wert sein, der größer ist als die untere Schranke.
 assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
