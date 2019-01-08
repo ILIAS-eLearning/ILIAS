@@ -381,17 +381,18 @@ class ilCourseObjectiveResult
 			"AND q1.objective_id = q2.objective_id ";
 
 		$res = $ilDB->query($query);
+		$objectives = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$objectives['all_objectives'][$row->ob] = $row->ob;
 			$objectives['all_questions'][$row->qid] = $row->qid;
 		}
-		if(!is_array($objectives))
+		if(empty($objectives))
 		{
 			return false;
 		}
 		$objectives['objectives'] = self::_readAssignedObjectives($objectives['all_objectives']);
-		return $objectives ? $objectives : array();
+		return $objectives;
 	}
 
 
@@ -408,6 +409,7 @@ class ilCourseObjectiveResult
 			"WHERE ".$ilDB->in('t.objective_id',$a_all_objectives,false,'integer');
 
 		$res = $ilDB->query($query);
+		$objectives = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			/*
@@ -424,7 +426,7 @@ class ilCourseObjectiveResult
 			
 			
 		}
-		return $objectives ? $objectives : array();
+		return $objectives;
 	}
 
 	static function _updateObjectiveStatus($a_user_id,$objectives)
