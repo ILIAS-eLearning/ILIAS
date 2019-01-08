@@ -154,6 +154,9 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		$meta_data = [];
 
 		$section = $md->getGeneral();
+		if ($section == FALSE) {
+			return [];
+		}
 
 		$meta_data['language'] = [];
 		foreach ($section->getLanguageIds() as $id) {
