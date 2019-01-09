@@ -736,7 +736,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$reachedPoints = $this->calculateReachedPointsForSolution($solutionOrderingElementList);
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 
 	/**

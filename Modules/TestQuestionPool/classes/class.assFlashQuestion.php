@@ -435,7 +435,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 		
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	function sendToHost($url, $data, $optional_headers = null)

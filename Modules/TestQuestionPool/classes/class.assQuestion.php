@@ -3505,7 +3505,12 @@ abstract class assQuestion
 		$reachedPoints = $this->calculateReachedPointsForSolution($previewSession->getParticipantsSolution());
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
+	}
+	
+	protected function ensureNonNegativePoints($points)
+	{
+		return $points > 0 ? $points : 0;
 	}
 	
 	public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession)
