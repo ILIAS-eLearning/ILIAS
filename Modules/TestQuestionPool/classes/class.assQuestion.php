@@ -5231,6 +5231,11 @@ abstract class assQuestion
 	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
 
 	// hey: prevPassSolutions - check for authorized solution
+	public function intermediateSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['intermediate'];
+	}
 	public function authorizedSolutionExists($active_id, $pass)
 	{
 		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
