@@ -10,7 +10,7 @@ class ilMathJax
 {
 	const PURPOSE_BROWSER = 'browser';					// direct display of page in the browser
 	const PURPOSE_EXPORT = 'export';					// html export of contents
-	const PURPOSE_PDF = 'pdf';							// server-side PDF generation
+	const PURPOSE_PDF = 'pdf';							// server-side PDF generation (only TCPDF and XSL-FO, not PhantomJS!!!)
 	const PURPOSE_DEFERRED_PDF = 'deferred_pdf';		// defer rendering for server-side pdf generation (XSL-FO)
 														// 		this needs a second call with PURPOSE_PDF at the end
 
