@@ -39,7 +39,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function create($upload=false)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		parent::create();
 		if(!$upload)
@@ -61,7 +62,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::read();
 
@@ -124,7 +126,9 @@ class ilObjSAHSLearningModule extends ilObject
 	 */
 	static function getAffectiveLocalization($a_id)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		$lm_set = $ilDB->queryF('SELECT localization FROM sahs_lm WHERE id = %s', 
 			array('integer'), array($a_id));
@@ -144,7 +148,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	static function _lookupSubType($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$obj_set = $ilDB->queryF('SELECT c_type FROM sahs_lm WHERE id = %s', 
 		array('integer'), array($a_obj_id));
@@ -216,7 +221,8 @@ class ilObjSAHSLearningModule extends ilObject
 
 	static function _getTries($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$lm_set = $ilDB->queryF('SELECT question_tries FROM sahs_lm WHERE id = %s', 
 		array('integer'), array($a_id));
@@ -320,6 +326,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getDefaultLessonMode()
 	{
+		global $DIC;
+		if ($DIC['ilUser']->getId() == 13) return "browse";
 		return $this->lesson_mode;
 	}
 	/**
@@ -470,7 +478,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getCacheDeactivated()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		$lm_set = new ilSetting("lm");
 		if ($lm_set->get("scormdebug_disable_cache") == "1") return true;
 		return false;
@@ -481,7 +490,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getSessionDeactivated()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		$lm_set = new ilSetting("lm");
 		if ($lm_set->get("scorm_without_session") == "1") return true;
 		return false;
@@ -492,7 +502,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getDebugActivated()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 		$lm_set = new ilSetting("lm");
 		if ($lm_set->get("scormdebug_global_activate") == "1") return true;
 		return false;
@@ -778,7 +789,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function checkMasteryScoreValues()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$s_result = "";
 		$a_result = array();
 		$type = $this->_lookupSubType( $this->getID() );
@@ -817,7 +829,8 @@ class ilObjSAHSLearningModule extends ilObject
 	/*
 	function updateMasteryScoreValues()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$s_mastery_score = $this->getMasteryScore();
 		if ($s_mastery_score != "" && is_numeric($s_mastery_score)) {
 			$i_mastery_score = round(intval($s_mastery_score,10));
@@ -912,7 +925,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->updateMetaData();
 		parent::update();
@@ -1050,7 +1064,8 @@ class ilObjSAHSLearningModule extends ilObject
 	 */
 	static function getScormModulesForGlossary($a_glo_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 	
 		$set = $ilDB->query("SELECT DISTINCT id FROM sahs_lm WHERE ".
 			" glossary = ".$ilDB->quote($a_glo_id, "integer"));
@@ -1073,7 +1088,8 @@ class ilObjSAHSLearningModule extends ilObject
 	 */
 	static function lookupAssignedGlossary($a_slm_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 	
 		$set = $ilDB->query("SELECT DISTINCT glossary FROM sahs_lm WHERE ".
 			" id = ".$ilDB->quote($a_slm_id, "integer"));
@@ -1116,7 +1132,9 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilLog = $DIC['ilLog'];
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -1217,7 +1235,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	public function getPointsInPercent()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		if (strcmp($this->getSubType(), "scorm2004") == 0)
 		{
 			$res = ilObjSCORM2004LearningModule::_getUniqueScaledScoreForUser($this->getId(), $ilUser->getId());
@@ -1248,7 +1267,8 @@ class ilObjSAHSLearningModule extends ilObject
 	 */
 	public function getMaxPoints()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		
 		if(strcmp($this->getSubType(), 'scorm2004') == 0)
 		{
@@ -1290,7 +1310,11 @@ class ilObjSAHSLearningModule extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
@@ -1402,7 +1426,8 @@ class ilObjSAHSLearningModule extends ilObject
 	* Get cmi.core.student_id / cmi.learner_id for API
 	*/
 	public function getApiStudentId() {
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		$idSetting = $this->getIdSetting();
 		$studentId = $ilias->account->getId();
 		if ($idSetting%2 == 1) $studentId = $ilias->account->getLogin();
@@ -1416,7 +1441,9 @@ class ilObjSAHSLearningModule extends ilObject
 	* note: 'lastname, firstname' is required for SCORM 1.2; 9 = no name to hide student_name for external content
 	*/
 	public function getApiStudentName() {
-		global $ilias, $lng;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
 		$studentName = " ";
 		switch ($this->getNameSetting())
 		{

@@ -45,8 +45,16 @@
 	display: block;
 	line-height: @navbar-height;
 	.btn-link {
-		color: white;
-		text-decoration: none;
+		color: @panel-footer-bg;
+		font-size: 1em;
+		font-weight: 600;
+		margin-left: 15px;
+		&:before {
+			content: "« ";
+		}
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 }
 .ilLSOKioskTopBarTitle {
@@ -71,4 +79,3 @@
 		padding: 5px;
 	}
 }
-

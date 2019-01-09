@@ -46,7 +46,9 @@ class ilSCORMObjectGUI
 
 	function __construct($a_id = 0)
 	{
-		global $tpl, $lng;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
 
 		if($a_id != 0)
 		{

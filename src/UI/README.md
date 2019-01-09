@@ -405,7 +405,13 @@ If you would like to implement a new component to the framework you should perfo
 
 ### How to Change an Existing Component?
 
-TODO: write me
+1. Create a new branch based on the current trunk.
+2. Implement your changes and create a PR on the current trunk.
+3. Clearly state in the description of the PR, why you believe the change to be necessary.
+If your change fixes a bug, link to the according bugfix. If you need the change for implementing a feature, link
+the Feature Request. If you are changing the interface of a component, your proposal will be discussed in the next JF 
+(see: [rules](./docu/rules) ).
+
 
 ## Abstraction of Javascript in the Framework
 

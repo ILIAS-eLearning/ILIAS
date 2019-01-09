@@ -293,16 +293,12 @@ class ilTree
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
-		
-		// lang_code is only required in $this->fetchnodedata
-		if (!is_object($ilUser))
-		{
-			$this->lang_code = "en";
-		}
-		else
-		{
+		// lang_code is only required in $this->fetchnodedata 
+		try {
+			$ilUser = $DIC['ilUser'];
 			$this->lang_code = $ilUser->getCurrentLanguage();
+		} catch (\InvalidArgumentException $e) {
+			$this->lang_code = "en";
 		}
 	}
 	

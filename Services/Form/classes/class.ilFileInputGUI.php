@@ -557,7 +557,6 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 		if((bool)$a_value)
 		{
-			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
 			if(ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 			{
 				self::$check_wsp_quota = true;

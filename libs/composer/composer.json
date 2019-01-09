@@ -12,7 +12,7 @@
 		"monolog/monolog": "^1.23.0",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "4.10.0",
-		"phpmailer/phpmailer": "^5.2.26",
+		"phpmailer/phpmailer": "^6.0.6",
 		"geshi/geshi": "dev-master",
 		"tecnickcom/tcpdf": "^6.2.12",
 		"pimple/pimple" : "^3.0",
@@ -96,10 +96,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v5.2.26",
+			"used_version" : "v6.0.6",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2018-10-26",
+			"last_update" : "2018-12-20",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"

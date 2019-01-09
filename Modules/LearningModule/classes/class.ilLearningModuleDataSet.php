@@ -440,7 +440,7 @@ class ilLearningModuleDataSet extends ilDataSet
 				$newObj->setPageHeader($a_rec["PageHeader"]);
 				$newObj->setActiveTOC(ilUtil::yn2tf($a_rec["TocActive"]));
 				$newObj->setActiveLMMenu(ilUtil::yn2tf($a_rec["LmMenuActive"]));
-				$newObj->setTOCMode($a_rec["TOCMode"]);
+				$newObj->setTOCMode($a_rec["TocMode"]);
 				$newObj->setActivePrintView(ilUtil::yn2tf($a_rec["PrintViewActive"]));
 				$newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
 				$newObj->setHistoryUserComments(ilUtil::yn2tf($a_rec["HistUserComments"]));
@@ -612,6 +612,22 @@ class ilLearningModuleDataSet extends ilDataSet
 					}
 				}
 				break;
+
+			case "lm_menu":
+				$lm_id = (int)$a_mapping->getMapping("Modules/LearningModule", "lm", $a_rec["LmId"]);
+				if ($lm_id > 0)
+				{
+					$lm_menu_ed = new ilLMMenuEditor();
+					$lm_menu_ed->setObjId($lm_id);
+					$lm_menu_ed->setTitle($a_rec["Title"]);
+					$lm_menu_ed->setTarget($a_rec["Target"]);
+					$lm_menu_ed->setLinkType($a_rec["LinkType"]);
+					$lm_menu_ed->setLinkRefId($a_rec["LinkRefId"]);
+					$lm_menu_ed->setActive($a_rec["Active"]);
+					$lm_menu_ed->create();
+				}
+				break;
+
 		}
 	}
 }

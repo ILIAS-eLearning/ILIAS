@@ -27,10 +27,17 @@ class ilAuthProviderDatabase extends ilAuthProvider implements ilAuthProviderInt
 		 * @var $user ilObjUser
 		 */
 		$user = ilObjectFactory::getInstanceByObjId(ilObjUser::_loginExists($this->getCredentials()->getUsername()),false);
-		
+
 		$this->getLogger()->debug('Trying to authenticate user: '. $this->getCredentials()->getUsername());
 		if($user instanceof ilObjUser)
 		{
+			if(!ilAuthUtils::isLocalPasswordEnabledForAuthMode($user->getAuthMode(true)))
+			{
+				$this->getLogger()->debug('DB authentication failed: current user auth mode does not allow local validation.');
+				$this->getLogger()->debug('User auth mode: ' . $user->getAuthMode(true));
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
+				return false;
+			}
 			if(ilUserPasswordManager::getInstance()->verifyPassword($user, $this->getCredentials()->getPassword()))
 			{
 				$this->getLogger()->debug('Successfully authenticated user: ' . $this->getCredentials()->getUsername());
@@ -40,12 +47,8 @@ class ilAuthProviderDatabase extends ilAuthProvider implements ilAuthProviderInt
 				
 			}
 		}
-		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-		$status->setReason('err_wrong_login');
+		$this->handleAuthenticationFail($status, 'err_wrong_login');
 		return false;
 	}
-
-
-
 }
 ?>

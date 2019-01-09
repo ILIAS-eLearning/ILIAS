@@ -33,3 +33,19 @@
 	background-color: @brand-primary;
   }
 }
+
+.il-input-tag.disabled {
+	background-color: @input-tag-color-disabled;
+	cursor: not-allowed;
+	input {
+		cursor: not-allowed;
+	}
+	.bootstrap-tagsinput {
+		pointer-events: none;
+	}
+	.tag {
+		[data-role="remove"] {
+			cursor: not-allowed;
+		}
+	}
+}

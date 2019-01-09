@@ -10,7 +10,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -23,7 +23,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
@@ -35,9 +36,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilTabs, $ilErr;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilErr = $DIC['ilErr'];
 		
-		$GLOBALS["ilLog"]->write ("bc:".$_GET["baseClass"]."; nc:".$this->ctrl->getNextClass($this)."; cmd:".$this->ctrl->getCmd());
+		$GLOBALS['DIC']["ilLog"]->write ("bc:".$_GET["baseClass"]."; nc:".$this->ctrl->getNextClass($this)."; cmd:".$this->ctrl->getCmd());
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			strtolower($_GET["baseClass"]) == "ilsahspresentationgui" ||
 			$this->getCreationMode() == true)
@@ -108,12 +112,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
-				break;
-
-			case 'illicensegui':
-				include_once("./Services/License/classes/class.ilLicenseGUI.php");
-				$license_gui = new ilLicenseGUI($this);
-				$ret = $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case "ilinfoscreengui":
@@ -275,7 +273,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	public function initCreationForm()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -307,7 +307,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	public function initUploadForm()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -387,7 +389,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function uploadObject()
 	{
-		global $_FILES, $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 
 		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 
@@ -638,7 +641,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function getTemplate()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -672,7 +676,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem, $ilCtrl, $ilHelp;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilHelp = $DIC['ilHelp'];
 		
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -713,7 +720,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			
 		// learning progress and offline mode
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) || $rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
 			//if scorm && offline_mode activated
 			if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
@@ -724,7 +731,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 										"ilobjscormlearningmodulegui");
 				}
 			}
-			
+		}	
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
 			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 								 '',
@@ -745,15 +754,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				}
 			}
 		}
-		include_once("Services/License/classes/class.ilLicenseAccess.php");
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
-		and ilLicenseAccess::_isEnabled())
-		{
-			$this->tabs_gui->addTarget("license",
-				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
-			"", "illicensegui");
-		}
-		
+
 		// edit meta
 		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
 		$mdgui = new ilObjectMetaDataGUI($this->object);					
@@ -786,7 +787,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilErr = $DIC['ilErr'];
+		$lng = $DIC['lng'];
 
 		$parts = explode("_", $a_target);
 
@@ -822,7 +826,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		global $DIC;
+		$ilLocator = $DIC['ilLocator'];
 		
 		if (is_object($this->object))
 		{
@@ -839,7 +844,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	 */
 	function editContent()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		if (!$this->object->getEditable())
 		{
@@ -856,7 +862,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	 */
 	function setSettingsSubTabs()
 	{
-		global $lng, $ilTabs, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$ilTabs->addSubTabTarget("cont_settings",
 		$this->ctrl->getLinkTarget($this, "properties"), array("edit", ""),
@@ -895,7 +904,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 	public function export()
 	{
-				global $lng, $ilTabs, $ilCtrl, $tpl;
+				global $DIC;
+				$lng = $DIC['lng'];
+				$ilTabs = $DIC['ilTabs'];
+				$ilCtrl = $DIC['ilCtrl'];
+				$tpl = $DIC['tpl'];
 				$ilTabs->activateTab("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
@@ -907,7 +920,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 	public function exportModule()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$moduleId = ilObject::_lookupObjectId($_GET["ref_id"]);
 		require_once "./Modules/ScormAicc/classes/class.ilScormAiccExporter.php";

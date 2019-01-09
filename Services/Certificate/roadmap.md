@@ -33,6 +33,8 @@ of the planned features of this service.
 * Planned for 2018 (?)
 * Alternative concept to queuing and process via
   cron job to avoid idle times
+* Show previous user certificates with filter options
+  in GUI
 
 ### v2.2.0
 

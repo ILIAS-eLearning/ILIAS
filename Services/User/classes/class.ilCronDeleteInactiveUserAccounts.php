@@ -144,7 +144,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		$reminder_time      = (int)$this->reminderTimer;
 		$checkMail          = (int)$this->period - $reminder_time;
-		$usr_ids = ilObjUser::_getUserIdsByInactivityPeriod($checkMail);
+		$usr_ids = ilObjUser::getUserIdsByInactivityPeriod($checkMail);
 		$counter = 0;
 		$userDeleted        = 0;
 		$userMailsDelivered = 0;

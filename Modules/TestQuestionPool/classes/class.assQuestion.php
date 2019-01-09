@@ -1343,9 +1343,6 @@ abstract class assQuestion
 // fau.
 				$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
 			}
-
-			$this->reworkWorkingData($active_id, $pass, $obligationsEnabled, $authorized);
-
 		});
 
 		return $saveStatus;
@@ -1356,12 +1353,8 @@ abstract class assQuestion
 	 */
 	final public function persistPreviewState(ilAssQuestionPreviewSession $previewSession)
 	{
-		if( !$this->validateSolutionSubmit() )
-		{
-			return false;
-		}
-		
 		$this->savePreviewData($previewSession);
+		return $this->validateSolutionSubmit();
 	}
 	
 	public function validateSolutionSubmit()
@@ -1379,15 +1372,6 @@ abstract class assQuestion
 	 * @return boolean $status
 	 */
 	abstract public function saveWorkingData($active_id, $pass = NULL, $authorized = true);
-
-	/**
-	 * Reworks the allready saved working data if neccessary
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
-	 * @param boolean $authorized
-	 */
-	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized);
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -3555,9 +3539,28 @@ abstract class assQuestion
 	 */
 	abstract public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE);
 
+	public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints)
+	{
+		global $DIC;
+	
+		$hintTracking = new ilAssQuestionPreviewHintTracking($DIC->database(), $previewSession);
+		$requestsStatisticData = $hintTracking->getRequestStatisticData();
+		$reachedPoints = $reachedPoints - $requestsStatisticData->getRequestsPoints();
+		
+		return $reachedPoints;
+	}
+	
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
-		return $this->calculateReachedPointsForSolution($previewSession->getParticipantsSolution());
+		$reachedPoints = $this->calculateReachedPointsForSolution($previewSession->getParticipantsSolution());
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
+	}
+	
+	protected function ensureNonNegativePoints($points)
+	{
+		return $points > 0 ? $points : 0;
 	}
 	
 	public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession)
@@ -5161,6 +5164,11 @@ abstract class assQuestion
 		}
 	}
 	
+	protected function isDummySolutionRecord($solutionRecord)
+	{
+		return !strlen($solutionRecord['value1']) && !strlen($solutionRecord['value2']);
+	}
+	
 	protected function deleteSolutionRecordByValues($activeId, $passIndex, $authorized, $matchValues)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -5308,6 +5316,11 @@ abstract class assQuestion
 	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
 
 	// hey: prevPassSolutions - check for authorized solution
+	public function intermediateSolutionExists($active_id, $pass)
+	{
+		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
+		return (bool)$solutionAvailability['intermediate'];
+	}
 	public function authorizedSolutionExists($active_id, $pass)
 	{
 		$solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);

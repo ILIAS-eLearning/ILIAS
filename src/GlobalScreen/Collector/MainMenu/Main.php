@@ -128,6 +128,13 @@ class Main {
 					}
 					ksort($children);
 					$children = $this->handleDoubleDividers($children);
+
+					// https://mantis.ilias.de/view.php?id=24061
+					if (count($children) === 0) {
+						unset($top_item);
+						continue;
+					}
+
 					$top_item = $top_item->withChildren($children);
 					if ($has_always_available_item === true) {
 						$top_item = $top_item->withAlwaysAvailable(true);

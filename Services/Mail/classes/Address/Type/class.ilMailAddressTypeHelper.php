@@ -75,4 +75,14 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 		return (int)\ilMailGlobalServices::getMailObjectRefId();
 	}
 
+	/**
+	 * @param int $usrId
+	 * @return bool
+	 */
+	public function receivesInternalMailsOnly(int $usrId): bool
+	{
+		$options = new \ilMailOptions($usrId);
+
+		return (int)$options->getIncomingType() === (int)\ilMailOptions::INCOMING_LOCAL;
+	}
 }

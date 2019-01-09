@@ -443,6 +443,10 @@
 @ilFormColor: #808080;
 @ilFormBgColor: #FDFDFD;
 @input-color-placeholder: lighten(@gray-light, 30%);
+@il-textarea-height: (floor(4 * (@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
+
+//** Tag Input
+@input-tag-color-disabled: #EEEEEE;
 
 //== Panels
 //
@@ -506,8 +510,10 @@
 //** Presentation Table colum widths
 @il-table-presentation-rowcontrol-colwidth: 5%;
 @il-table-presentation-contents-colwidth: 95%;
-@il-table-presentation-description-colwidth: 60%;
-@il-table-presentation-details-colwidth: 40%;
+
+@il-table-presentation-details-viewcontrols-bg-color: lighten(@brand-primary,50%);
+@il-table-presentation-details-viewcontrols-btn-color: @brand-primary;
+@il-table-presentation-details-viewcontrols-btn-bg: white;
 
 //== Toolbar
 //

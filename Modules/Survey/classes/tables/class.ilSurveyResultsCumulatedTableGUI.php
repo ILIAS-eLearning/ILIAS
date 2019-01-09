@@ -132,7 +132,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 				
 				$data[] = array(
 					"title" => $question->getTitle(),
-					"question" => $question->getQuestiontext(),
+					"question" => strip_tags($question->getQuestiontext()),
 					"question_type" => SurveyQuestion::_getQuestionTypeName($question->getQuestionType()),
 					"users_answered" => $question_res->getUsersAnswered(),
 					"users_skipped" => $question_res->getUsersSkipped(),

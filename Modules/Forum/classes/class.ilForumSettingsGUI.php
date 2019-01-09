@@ -167,6 +167,10 @@ class ilForumSettingsGUI
 				}
 			}
 		}
+		//news subtab
+		$this->lng->loadLanguageModule('forum');
+		$this->tabs->addSubTab('obj_news_settings', $this->lng->txt("cont_news_settings"), $this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'));
+
 		return true;
 	}
 

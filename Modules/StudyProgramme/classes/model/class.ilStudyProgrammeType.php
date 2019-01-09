@@ -609,7 +609,10 @@ class ilStudyProgrammeType extends ActiveRecord {
 			return;
 		}
 
-		if ($this->getIcon() !== "") {
+		if (
+			!is_null($this->getIcon()) &&
+			$this->getIcon() !== ""
+		) {
 			$this->webdir->delete($this->getIconPath(true));
 			$this->setIcon('');
 		}

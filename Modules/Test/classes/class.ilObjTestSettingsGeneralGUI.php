@@ -211,6 +211,18 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$form = $this->buildForm();
 
 		// form validation and initialisation
+		
+		if($isConfirmedSave)
+		{
+			// since confirmation does only pickup POST and no FILES
+			// mocking the tile image file upload field is neccessary
+			// due to checkInput() behaviour (fixes mantis #24226)
+			$_FILES['tile_image'] = array(
+				'name' => '', 'type' => '', 'size' => '', 'tmp_name' => '', 'error' => ''
+			);
+			
+			// TODO: get rid of question selection mode setting in settings form (move to creation screen)
+		}
 
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
@@ -697,6 +709,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
+		$dur->setRequired(true);
 		$dur->setShowTime(true);
 		$date = $this->testOBJ->getActivationStartingTime();
 		$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));

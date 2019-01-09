@@ -765,8 +765,13 @@ class ilMail
 				$user_is_active               = $tmp_user->getActive();
 				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
-				if(in_array('system', $a_type) && !$user_can_read_internal_mails)
-				{
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
+					ilLoggerFactory::getLogger('mail')->debug(sprintf(
+						"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+						$id,
+						var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
+						var_export(!$tmp_user->checkTimeLimit(), 1)
+					));
 					continue;
 				}
 
@@ -776,14 +781,22 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email = array_unique(array_merge(
-							ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options),
-							$as_email
-						));
+						$newEmailAddresses = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+						$as_email = array_unique(array_merge($newEmailAddresses, $as_email));
 
-						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
-						{
+						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will only receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 							continue;
+						} else {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will additionally receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 						}
 					}
 				}
@@ -846,8 +859,13 @@ class ilMail
 				$user_is_active               = $tmp_user->getActive();
 				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
-				if(in_array('system', $a_type) && !$user_can_read_internal_mails)
-				{
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
+					ilLoggerFactory::getLogger('mail')->debug(sprintf(
+						"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+						$id,
+						var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
+						var_export(!$tmp_user->checkTimeLimit(), 1)
+					));
 					continue;
 				}
 
@@ -861,9 +879,19 @@ class ilMail
 					{
 						$as_email[$tmp_user->getId()] = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
 	
-						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
-						{
+						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will only receive external emails sent to: %s",
+								$id,
+								implode(', ', $as_email[$tmp_user->getId()])
+							));
 							continue;
+						} else {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will additionally receive external emails sent to: %s",
+								$id,
+								implode(', ', $as_email[$tmp_user->getId()])
+							));
 						}
 					}
 				}
@@ -910,8 +938,13 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(in_array('system', $a_type) && !$user_can_read_internal_mails)
-					{
+					if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
+						ilLoggerFactory::getLogger('mail')->debug(sprintf(
+							"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+							$id,
+							var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
+							var_export(!$tmp_user->checkTimeLimit(), 1)
+						));
 						continue;
 					}
 					
@@ -920,14 +953,22 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email = array_unique(array_merge(
-							ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options),
-							$as_email
-						));
+						$newEmailAddresses = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options); 
+						$as_email = array_unique(array_merge($newEmailAddresses, $as_email));
 
-						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
-						{
+						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will only receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 							continue;
+						} else {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will additionally receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 						}
 					}
 				}
@@ -1278,47 +1319,46 @@ class ilMail
 	 */
 	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments, $a_no_soap = false)
 	{
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
+		global $DIC;
 
 		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
 
 		// #10854
-		if($this->isSOAPEnabled() && !$a_no_soap)
-		{
-			require_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-			$soap_client = new ilSoapClient();
-			$soap_client->setResponseTimeout(5);
-			$soap_client->enableWSDL(true);
-			$soap_client->init();
+		if ($this->isSOAPEnabled() && !$a_no_soap) {
+			$taskFactory = $DIC->backgroundTasks()->taskFactory();
+			$taskManager = $DIC->backgroundTasks()->taskManager();
+
+			$bucket = new \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket();
+			$bucket->setUserId($this->user_id);
 
 			$attachments   = array();
 			$a_attachments = $a_attachments ? $a_attachments : array();
-			foreach($a_attachments as $attachment)
-			{
+			foreach ($a_attachments as $attachment) {
 				$attachments[] = $this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment);
 			}
-
 			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
 			$attachments = implode('#:#', $attachments);
 			// mjansen: use "#:#" as leading delimiter
-			if(strlen($attachments))
-			{
+			if (strlen($attachments)) {
 				$attachments = "#:#" . $attachments;
 			}
 
-			$soap_client->call('sendMail', array(
-				session_id() . '::' . $_COOKIE['ilClientId'],
-				$a_rcp_to,
-				$a_rcp_cc,
-				$a_rcp_bcc,
-				$this->user_id,
-				$a_m_subject,
-				$a_m_message,
-				$attachments
-			));
-		}
-		else
-		{
+			$task = $taskFactory->createTask(\ilMailDeliveryJob::class, [
+				(int)$this->user_id,
+				(string)$a_rcp_to,
+				(string)$a_rcp_cc,
+				(string)$a_rcp_cc,
+				(string)$a_m_subject,
+				(string)$a_m_message,
+				(string)$attachments,
+			]);
+
+			$bucket->setTask($task);
+			$bucket->setTitle('Mail Delivery');
+			$bucket->setDescription('Delegates external mail delivery');
+
+			$taskManager->run($bucket);
+		} else {
 			/** @var ilMailMimeSenderFactory $senderFactory */
 			$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
@@ -1328,21 +1368,18 @@ class ilMail
 			$mmail->Subject($a_m_subject);
 			$mmail->Body($a_m_message);
 
-			if($a_rcp_cc)
-			{
+			if ($a_rcp_cc) {
 				$mmail->Cc($a_rcp_cc);
 			}
 
-			if($a_rcp_bcc)
-			{
+			if ($a_rcp_bcc) {
 				$mmail->Bcc($a_rcp_bcc);
 			}
 
-			if(is_array($a_attachments))
-			{
-				foreach($a_attachments as $attachment)
-				{
-					$mmail->Attach($this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '', 'inline', $attachment);
+			if (is_array($a_attachments)) {
+				foreach ($a_attachments as $attachment) {
+					$mmail->Attach($this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '', 'inline',
+						$attachment);
 				}
 			}
 
