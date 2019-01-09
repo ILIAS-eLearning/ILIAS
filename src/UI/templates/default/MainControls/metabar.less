@@ -2,16 +2,71 @@
 	display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-
-
-
 	.il-metabar-entries {
+		align-items: center;
 		display: flex;
-
-		.metabar-entry,
+		height: @height-header;
+		.il-metabar-entry,
 		.il-logout {
 			padding-left: 10px;
 		}
 	}
+}
+
+.il-metabar-entry {
+	position: relative;
+	.il-counter-status {
+		margin-top: -4px;
+	}
+	// no display labels in metabar level 1
+	> .btn-bulky > div > .bulky-label {
+		display: none;
+	}
+	.btn-bulky {
+		background-color: transparent;
+		height: @height-metabar-entry;
+		min-width: @width-metabar-entry;
+		&.engaged,
+		&.engaged:focus {
+			.shadow-right;
+			background-color: @bg-metabar-slates;
+			border: none;
+			color: initial;
+			outline-color: transparent;
+		}
+		.glyphicon {
+			color: @glyph-color;
+			font-size: @glyph-size;
+		}
+	}
+	.glyphicon {
+	    font-family: 'il-icons';
+	    font-family: il-icons;
+	}
+	.glyphicon-bell:before {
+	    content: "\e027";
+	}
+	.glyphicon-comment:before {
+	    content: "\e04a";
+	}
+	.glyphicon-envelope:before {
+	    content: "\e086";
+	}
+	.glyphicon-question-sign:before {
+	    content: "\e05d";
+	}
+	.glyphicon-search:before {
+	    content: "\e090";
+	}
+	.glyphicon-user:before {
+	    content: "\e005";
+	}
+}
+
+.il-metabar-slates {
+	.shadow-right;
+    background-color: @bg-metabar-slates;
+	min-width: 250px;
+	position: absolute;
+	right: 0;
 }

@@ -25,15 +25,20 @@ class Legacy extends Slate implements ISlate\Legacy
 		string $contents
 	) {
 		parent::__construct($signal_generator, $name, $symbol);
+		$this->contents = $this->transformToLegacyComponent($contents);
+	}
 
+
+	protected function transformToLegacyComponent(string $contents): \ILIAS\UI\Component\Legacy\Legacy
+	{
 		global $DIC;
-		$ui_factory = $DIC['ui.factory'];
-		$this->contents = [$ui_factory->legacy($contents)];
+		$factory = $DIC['ui.factory'];
+		return $factory->legacy($contents);
 	}
 
 	public function getContents(): array
 	{
-		return $this->contents;
+		return [$this->contents];
 	}
 
 }
