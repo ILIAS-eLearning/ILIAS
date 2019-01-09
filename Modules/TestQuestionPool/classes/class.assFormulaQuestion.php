@@ -1016,7 +1016,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	protected function isValidSolutionResultValue($submittedValue)

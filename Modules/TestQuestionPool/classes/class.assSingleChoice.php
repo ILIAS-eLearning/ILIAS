@@ -622,7 +622,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	/**
