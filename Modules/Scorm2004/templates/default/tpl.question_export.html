@@ -18,7 +18,13 @@
 		ilias.questions.shuffle(questions[{VAL_ID}]);
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		{HANDLE_IMAGES}
-	}
+
+// fau: lmQuestionLatex - render for singlechoice
+        if (typeof MathJax != "undefined") {
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+        }
+// fau.
+    }
 	renderILQuestion{VAL_ID}();
 </script>
 <!-- END singlechoice -->
@@ -52,6 +58,12 @@
 				{HANDLE_IMAGES}
 
 				question.init();
+
+// fau: lmQuestionLatex - render for multiplechoice
+                if (typeof MathJax != "undefined") {
+                    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+                }
+// fau.
 			}
 
 	); }(jQuery));
@@ -103,6 +115,13 @@
 	});
 
 	{HANDLE_IMAGES}
+
+// fau: lmQuestionLatex - render for kprim
+    if (typeof MathJax != "undefined") {
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+    }
+// fau.
+
 })(questions[{VAL_ID}]);
 </script>
 <!-- END kprimchoice -->
@@ -125,6 +144,12 @@
 	}
 	$(document).ready(function() {
 		renderILQuestion{VAL_ID}();
+
+// fau: lmQuestionLatex - render for orderingquestion
+        if (typeof MathJax != "undefined") {
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+        }
+// fau.
 	});
 </script>
 <!-- END orderingquestion -->
