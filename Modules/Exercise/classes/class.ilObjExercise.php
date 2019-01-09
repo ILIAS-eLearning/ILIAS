@@ -869,21 +869,6 @@ class ilObjExercise extends ilObject
 	}
 
 	/**
-	 * Check if given user has certificate to show/download
-	 * 
-	 * @param int $a_user_id
-	 * @return bool 
-	 */
-	function hasUserCertificate($a_user_id)
-	{
-		$validator = new ilCertificateDownloadValidator();
-		if($validator->isCertificateDownloadable($a_user_id, $this->getId())) {
-			return true;
-		}
-		return false;
-	}
-	
-	/**
 	 * Add to desktop after hand-in
 	 * 
 	 * @return bool
