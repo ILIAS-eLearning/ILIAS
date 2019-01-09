@@ -7,8 +7,8 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes the duration input.
  */
-interface Duration extends Group { //extend group? or extend date?
-
+interface Duration extends Group
+{
 	/**
 	 * Get an input like this using the given format.
 	 * Format is a string for moment.js's Format, see links below.

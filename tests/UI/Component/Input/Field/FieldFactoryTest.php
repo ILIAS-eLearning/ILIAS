@@ -75,5 +75,13 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		$text = $f->group([]);
 		$this->assertInstanceOf(Field\Input::class, $text);
 		$this->assertInstanceOf(Field\Group::class, $text);
+
+		$datetime = $f->datetime("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $text);
+		$this->assertInstanceOf(Field\Group::class, $text);
+
+		$duration = $f->duration("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $text);
+		$this->assertInstanceOf(Field\Group::class, $text);
 	}
 }

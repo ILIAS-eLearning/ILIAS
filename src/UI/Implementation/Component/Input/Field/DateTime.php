@@ -64,7 +64,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 * @inheritdoc
 	 */
 	public function withFormat(string $format) : C\Input\Field\DateTime {
-		$this->checkStringArg('format', $format); //2do: check on date-format
+		$this->checkStringArg('format', $format);
 		$clone = clone $this;
 		$clone->format = $format;
 		return $clone;

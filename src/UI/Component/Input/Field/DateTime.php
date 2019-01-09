@@ -7,8 +7,8 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes the datetime-field.
  */
-interface DateTime extends Input {
-
+interface DateTime extends Input
+{
 	/**
 	 * Get an input like this using the given format.
 	 * Format is a string for moment.js's Format, see links below.
@@ -52,6 +52,12 @@ interface DateTime extends Input {
 	 * @return  DateTime
 	 */
 	public function withTimeGlyph(bool $use_time_glyph) : DateTime;
+
+	/**
+	 * Should the Input be rendered with the Time Glyph?
+	 * @return  bool
+	 */
+	public function getTimeGlyph() : bool;
 
 
 }
