@@ -1074,7 +1074,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilSetting = $DIC['ilSetting'];
 
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(!ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		if(!ilLearningProgressAccess::checkAccess($this->object->getRefId()) && !$rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}

@@ -116,6 +116,12 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$md_gui = new ilObjectMetaDataGUI($this->object);
 				$this->ctrl->forwardCommand($md_gui);
 				break;
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('crs');
+				$this->ctrl->forwardCommand($cp);
+				break;
 			default:
 				if(!$cmd) {
 					$cmd = 'view';

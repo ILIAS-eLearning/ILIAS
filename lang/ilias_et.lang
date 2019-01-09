@@ -2081,7 +2081,7 @@ cmps#:#no_changes#:#Muudatused puuduvad
 cntr#:#cntr_add_new_item#:#Lisa uus üksus
 cntr#:#cntr_adopt_content#:#Sisu laenamine
 cntr#:#cntr_back_to_old_editor#:#Tagasi vanasse toimetisse
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programme can only be copied as single objects. Please select one item only.
 cntr#:#cntr_hide_title_and_icon#:#Peida tiitel ja ikoon
 cntr#:#cntr_manage#:#Halda
 cntr#:#cntr_old_editor_open_standard_editor#:#Ava standardtoimeti
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable

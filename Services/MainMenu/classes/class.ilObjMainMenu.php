@@ -23,7 +23,7 @@ class ilObjMainMenu extends ilObject {
 	 * @inheritDoc
 	 */
 	public function getPresentationTitle() {
-		return "Main Menu";
+		return $this->lng->txt("main_menu");
 	}
 
 
@@ -31,6 +31,6 @@ class ilObjMainMenu extends ilObject {
 	 * @inheritDoc
 	 */
 	function getLongDescription() {
-		return "Add, remove or edit entries of the main menu";
+		return $this->lng->txt("add_remove_edit_entries_of_main_menu");
 	}
 }

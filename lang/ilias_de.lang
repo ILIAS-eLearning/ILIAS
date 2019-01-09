@@ -600,6 +600,8 @@ assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
 assessment#:#qpl_maxchars_info_numeric_question#:#Wenn Sie hier einen Wert eintragen, wird das Feld für die numerische Antwort mit der angegebenen Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Zu beachten ist dabei, dass das Dezimaltrennzeichen dabei mit gezählt wird.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#Die untere Schranke muss ein gültiger numerischer Wert sein, der niedriger ist als die obere Schranke.
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#Die obere Schranke muss ein gültiger numerischer Wert sein, der größer ist als die untere Schranke.
 assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
@@ -3276,6 +3278,11 @@ common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
 common#:#mails_pl#:#Mail(s)
 common#:#main_menu#:#Hauptmenü
+common#:#add_remove_edit_entries_of_main_menu#:#Hinzufügen, entfernen oder bearbeiten von Einträgen im Hauptmenü
+common#:#all#:#Alle
+common#:#only_active#:#Nur aktive
+common#:#only_inactive#:#Nur inaktive
+common#:#entry_status#:#Eintragsstatus
 common#:#marked_entries#:#Markierte Einträge
 common#:#matriculation#:#Matrikelnummer
 common#:#mcst#:#Mediacast
@@ -4261,7 +4268,7 @@ common#:#user#:#Benutzer
 common#:#user_activated#:#Benutzer wurde bestätigt.
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_cant_receive_mail#:#%1$s (der Benutzer keine Berechtigung das Mailsystem zu benutzen)
+common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das Mailsystem zu benutzen.
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Benutzerdefinierte Felder
@@ -6148,7 +6155,7 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 feed#:#block_feed_block_feed_url#:#URL des Webfeeds
-feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich, z. B. http://www.ilias.de/rss.php
+feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich
 feed#:#block_feed_block_head#:#Externer Webfeed
 feed#:#block_feed_block_title#:#Titel
 feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation aller externer Webfeeds (Persönlicher Schreibtisch und Magazin) im Falle eines Problems mit einer externen Feed-Quelle.
@@ -9437,6 +9444,8 @@ wiki#:#wiki_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_block_page#:#Schreibschutz für Seite
 wiki#:#wiki_change_notification_link#:#URL
+wiki#:#wiki_change_notification_page_body_comment#:#die folgende Wiki-Seite wurde kommentiert
+wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde gelöscht
 wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde bearbeitet
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
@@ -11596,6 +11605,8 @@ book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da d
 blog#:#blog_edit_posting#:#Beitrag bearbeiten
 common#:#offline_mode#:#Offline-Modus
 sop#:#sop_check_system_requirements#:#Systemvoraussetzungen werden überprüft
+sop#:#sop_system_check_error#:#Ihr Browser unterstützt die erforderlichen HTML5-Funktionen nicht.
+sop#:#sop_system_check_https#:#Sie müssen https anstelle von http für die erforderlichen HTML5-Funktionen verwenden.
 sop#:#sop_lm_not_exists#:#Das Lernmodul konnte nicht im Offline Speicher des Browsers gefunden werden.<br />Bitte benutzen Sie dasselbe Gerät und denselben Browser, den Sie beim Exportieren des Lernmoduls verwendet haben.<br /><br />Sollte dies der korrekte Browser sein, dann scheint das Lernmodul durch das Löschen des Browser Caches entfernt worden zu sein. Bitte kontaktieren Sie Ihren Administrator.
 sop#:#sop_already_exported#:#Das Lernmodul befindet sich schon im Offline-Modus. Bitte rufen Sie diese Seite mit Ihrem Firefox-Browser auf, in dem das SCORM-Offline-Player-Addon installiert ist.
 sop#:#sop_reload_page#:#Seite aktualisieren
@@ -11785,7 +11796,7 @@ obj#:#obj_activate_multilang#:#Aktiviere Mehrsprachigkeit
 obj#:#obj_deactivate_multilang#:#Deaktiviere Mehrsprachigkeit
 obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
-cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
+cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
 cntr#:#msg_no_downloadable_objects#:#Keine herunterladbaren Objekte gefunden.
 poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Teilnehmer
@@ -12405,8 +12416,8 @@ wfe#:#wfe_sure_to_delete_process_def#:#Sind Sie sicher, dass Sie die Definition 
 wfe#:#wfe_request_missing_process_id#:#Für die gewählte Aktion wurde keine Prozess-ID übertragen.
 wfe#:#wfe_started_listening#:#Der Prozess wurde scharf geschaltet.
 wfe#:#wfe_stopped_listening#:#Der Prozess wurde unscharf geschaltet, das Event wird nicht berücksichtigt.
-common#:#ps_export_scorm#:#SCORM-Protokolldaten
-common#:#enable_export_scorm_desc#:#Erlaube den Export von Persönlichen Daten aus SCORM-Lernmodulen
+common#:#ps_export_scorm#:#Persönliche Daten in Protokolldaten
+common#:#enable_export_scorm_desc#:#Anzeige persönlicher Daten in den Protokolldaten (SCORM)
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
 mail#:#link_check_affected_links#:#Betroffene Links
@@ -13862,7 +13873,6 @@ iass#:#iass_edit#:#Einstellungen
 iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
-iass#:#iass_return#:#Zurück zur Übersicht
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
 iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
@@ -14432,8 +14442,8 @@ copa#:#copa_copy#:#Inhaltsseite kopieren
 copa#:#copa_add#:#Inhaltsseite hinzufügen
 copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
-copa#:#copa_btn_lp_toggle_state_completed#:#Auf nicht bearbeitet setzen
-copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf bearbeitet setzen
+copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
+copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 adve#:#adve_grp_copa#:#Inhaltsseiten
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
@@ -14441,7 +14451,7 @@ mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Ein
 mail#:#mail_bg_task_title#:#Mailversand
 mail#:#mail_bg_task_desc#:#Betreff: %s
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
-common#:#presentation_table_more#:#mehr
+common#:#presentation_table_more#:#Mehr anzeigen
 exc#:#exc_global_feedback_file_after_date#:#After set Date
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback#:#Feedback
@@ -14491,7 +14501,7 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
-mme#:#main#:#Hauptmenu
+mme#:#main#:#Hauptmenü
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
 mme#:#tab_back#:#Zurück
@@ -14508,10 +14518,10 @@ mme#:#topitem_actions#:#Aktionen
 mme#:#topitem_type_parent#:#Haupteintrag
 mme#:#topitem_type_link#:#Link
 mme#:#topitem_title_default#:#Titel (Standard-Sprache)
-mme#:#topitem_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#topitem_active_byline#:#Aktiviere diesen Haupteintrag.
 mme#:#topitem_type#:#Typ
-mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enhalten oder direkt als Link zu einer Seite angelegt werden.
+mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
 mme#:#subitem_add#:#Eintrag hinzufügen
 mme#:#subitem_edit#:#Bearbeiten
 mme#:#subitem_delete#:#Löschen
@@ -14527,13 +14537,13 @@ mme#:#sub_actions#:#Aktionen
 mme#:#button_save#:#Speichern
 mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
-mme#:#sub_title_default_byline#:#Andere Sprachen können über die Aktioen "Übersetzen" hinzugefügt werden.
+mme#:#sub_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#sub_type_byline#:#Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig.
 mme#:#sub_active_byline#:#Aktiviere diesen Eintrag.
 mme#:#add_languages#:#Sprache hinzufügen
 mme#:#mm_translation_lang#:#Sprache
 mme#:#mm_translation_trans#:#Übersetzung
-mme#:#additional_langs#:#ZusätzlicheSprachen
+mme#:#additional_langs#:#Zusätzliche Sprachen
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
 mme#:#topitem_css_id#:#CSS-ID
@@ -14550,7 +14560,7 @@ mme#:#field_url#:#URL
 mme#:#field_url_info#:#Link zu der gewünschten Website, beginnend mit http(s)://
 mme#:#field_ref_id#:#ILIAS Referenz-ID
 mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin, Sie finden die Referenz-ID in der URL eines Onjektes (...?ref_id=123)
-common#:#obj_mme#:#Hauptmenu
+common#:#obj_mme#:#Hauptmenü
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Trenner
@@ -14561,7 +14571,7 @@ mme#:#type_repository_link#:#Magazin-Link
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 pd#:#pd_enable_learning_history#:#Lernhistorie
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
-blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
+blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
 sess#:#sess_filter_not_assigned#:#Not Assigned
@@ -14642,7 +14652,7 @@ prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
-content#:#cont_ed_insert_learning_history#:#Insert Learning History
+content#:#cont_ed_insert_learning_history#:#Lernhistorie einfügen
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
@@ -14653,13 +14663,13 @@ lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
-wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
 cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
 cert#:#certificate_migration_go#:#Starte Migration
 cert#:#user_certificates#:#Zertifikate
-cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikats-Server durch einen Administrator prüfen.
+cert#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
 cert#:#certificate_same_not_saved#:#Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden.
 common#:#my_certificates#:#Meine Zertifikate
@@ -14667,10 +14677,10 @@ cert#:#certificate_achievement_sub_obj#:#Zertifikat für %1$s
 cert#:#certificate_achievement#:#%1$s erhalten.
 cert#:#certificate_no_object_title#:#Kein Titel vorhanden
 cert#:#certificate_no_object_desc#:#Keine Beschreibung vorhanden
-cert#:#cert_sortable_by_title_asc#:#Ascending by title
-cert#:#cert_sortable_by_title_desc#:#Descending by title
-cert#:#cert_sortable_by_issue_date_asc#:#Ascending by issue date
-cert#:#cert_sortable_by_issue_date_desc#:#Descending by issue date
+cert#:#cert_sortable_by_title_asc#:#Sortiert nach Titel (A→Z)
+cert#:#cert_sortable_by_title_desc#:#Sortiert nach Titel (Z→A)
+cert#:#cert_sortable_by_issue_date_asc#:#Sortiert nach Ausstellungsdatum - Älteste zuerst
+cert#:#cert_sortable_by_issue_date_desc#:#Sortiert nach Ausstellungsdatum - Neueste zuerst
 cert#:#cert_issued_on_label#:#Ausgestellt am
 cert#:#cert_download_label#:#Herunterladen
 cert#:#cert_object_label#:#Objekt
@@ -14840,12 +14850,12 @@ lso#:#avail_time_period#:#Zeitraum
 lso#:#lso_settings_misc#:#Weitere Einstelleungen
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
-lso#:#members_gallery#:#Mitglieder-Gallerie
-lso#:#lso_show_members_info#:#Mitglieder-Gallerie für Benutzer sichtbar
-crs#:#crs_shorten_breadcrumb#:#Breadcrumb
-crs#:#crs_sys_default#:#System Default
-crs#:#crs_breadcrumb_crs_only#:#Start with Course
-crs#:#crs_breadcrumb_full_path#:#Full Path
+lso#:#members_gallery#:#Mitgliedergalerie
+lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
+crs#:#crs_shorten_breadcrumb#:#Brotkrumennavigation
+crs#:#crs_sys_default#:#Globaler Standardwert
+crs#:#crs_breadcrumb_crs_only#:#Brotkrumenpfad beginnt mit Kurs
+crs#:#crs_breadcrumb_full_path#:#Gesamten Pfad anzeigen
 rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
 rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
 rep#:#rep_tree_limit_number#:#Maximale Anzahl
@@ -14865,15 +14875,15 @@ lso#:#entries_updated#:#Einträge gespeichert
 lso#:#curriculum#:#Curriculum
 lso#:#unparticipate#:#Abmelden
 lso#:#participate#:#Anmelden
-lhist#:#lhist_show_more#:#Show More
-meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
-book#:#book_objects_available#:#Objects available %s
-book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
-book#:#booking_multiple_succesfully#:#Bookings created successfully.
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung###10 11 2018 new variable
-ui#:#ui_chars_remaining#:#Characters remaining:###10 11 2018 new variable
-ui#:#ui_chars_min#:#Minimum:###10 11 2018 new variable
-ui#:#ui_chars_max#:#Maximum:###10 11 2018 new variable
+lhist#:#lhist_show_more#:#Mehr anzeigen
+meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
+book#:#book_objects_available#:#Verfügbare Objekte: %s
+book#:#book_limit_objects_available#:#Sie können nicht %s Teilnerhmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
+common#:#lti_outcome#common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
+ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
+ui#:#ui_chars_min#:#Minimum:
+ui#:#ui_chars_max#:#Maximum:
 survey#:#svy_self_ev_mode#:#Self-Evaluation Only###10 11 2018 new variable
 survey#:#svy_self_ev_info#:#Use for self evaluation.###10 11 2018 new variable
 survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new variable
@@ -14895,26 +14905,25 @@ iass#:#iass_sort_name_asc#:#Username ascending###10 11 2018 new variable
 iass#:#iass_sort_name_desc#:#Username descending###10 11 2018 new variable
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending###10 11 2018 new variable
 iass#:#iass_sort_examiner_login_desc#:#Examiner descending###10 11 2018 new variable
-book#:#participants#:#Participants###10 11 2018 new variable
-book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
-book#:#book_assign#:#Assign###10 11 2018 new variable
-book#:#book_assign_participant#:#Assign to Participant###10 11 2018 new variable
-book#:#book_deassign#:#Deassign###10 11 2018 new variable
-book#:#book_participant_assigned#:#Participant(s) assigned###10 11 2018 new variable
-book#:#book_participant_already_assigned#:#Participant(s) already assigned.###10 11 2018 new variable
-common#:#slo_wizard_page#:#Copy Learning Sequence###10 11 2018 new variable
-rep#:#rep_breadcr_crs#:#Breadcrumb starts with course###10 11 2018 new variable
-rep#:#rep_default#:#Default###10 11 2018 new variable
-rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level###10 11 2018 new variable
-rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level###10 11 2018 new variable
-obj#:#obj_show_title_and_icon#:#Show Title and Icon###10 11 2018 new variable
+book#:#participants#:#Teilnehmer
+book#:#book_assign_object#:#Buchungsobjekt zuweisen
+book#:#book_assign#:#Zuweisen
+book#:#book_assign_participant#:#Teilnehmer zuweisen
+book#:#book_deassign#:#Zuweisung aufheben
+book#:#book_participant_assigned#:#Teilnehmer wurde/n zugewiesen.
+book#:#book_participant_already_assigned#:#Teilnehmer ist bereits zugewiesen.
+rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
+rep#:#rep_default#:#Standardwert
+rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
+rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
+obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
 obj#:#obj_show_header_actions#:#Show Header Actions###10 11 2018 new variable
 cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
 cont#:#cont_item_list#:#List###10 11 2018 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
 obj#:#obj_tile_image#:#Tile Image###10 11 2018 new variable
-obj#:#obj_tile_image_info#:#The tile image will be used, if the container (course, folder, group, ...) activates the tile view presentation.###10 11 2018 new variable
-fold#:#fold_presentation#:#Folder Presentation###10 11 2018 new variable
+obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
+fold#:#fold_presentation#:#Darstellung
 validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
 validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
 validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
@@ -14927,8 +14936,8 @@ validation#:#not_max_length#:#The entered text has a length more than '%s'.###10
 validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
 validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
-survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
+survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 crs#:#crs_view_timings#:#Lernplanungstyp
 crs#:#crs_view_timing_absolute#:#Absolutes Datum
 crs#:#crs_view_timing_relative#:#Relatives Datum
@@ -14950,7 +14959,6 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
-rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
 rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
 rbac#:#lso_manage_members#:#Mitglieder bearbeiten
 rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
@@ -14960,7 +14968,8 @@ rbac#:#lso_participate#:#An der Lernsequenz anmelden
 rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
 rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
-user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
+user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
+user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
+blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
