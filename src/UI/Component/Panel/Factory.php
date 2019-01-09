@@ -106,7 +106,8 @@ interface Factory {
 	 *       single template.
 	 *   composition: >
 	 *       Listing Panels are composed of several titled Item Groups.
-	 *       They further may contain a filter.
+	 *       They further may contain a filter. Listing Panels provide a condensed presentation when beind used
+	 *       inside of Side Panels and Slates.
 	 *   effect: >
 	 *       The List Items of Listing Panels may contain a dropdown
 	 *       offering options to interact with the item. Further Listing Panels

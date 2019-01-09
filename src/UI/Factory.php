@@ -561,7 +561,10 @@ interface Factory {
 	 *      a Shy Button. The item contains three
 	 *      sections, where one section contains important information about the item,
 	 *      the second section shows the content of the item and another section shows
-	 *      metadata about the entity.
+	 *      metadata about the entity. Items provide a condensed presentation when being used inside of
+	 *      Side Panels and Slates. Metadata will be omitted in the condensed presentation.
+	 *      ALTERNATIVE: In the condensed presentation metadata will be presented in a Popover being triggered
+	 *      by a Magnifier Glyph.
 	 *   effect: >
 	 *      Items may contain Interaction Triggers such as Glyphs, Buttons or Tags.
 	 *   rivals:
