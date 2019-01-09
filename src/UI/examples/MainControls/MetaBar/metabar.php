@@ -12,14 +12,19 @@ function buildMetabar($f)
 {
 	$help = $f->button()->bulky($f->glyph()->help(),'Help', '#');
 	$search = $f->button()->bulky($f->glyph()->search(),'Search', '#');
-	$notes = $f->button()->bulky($f->glyph()->notification(),'Notification', '#');
 	$user = $f->button()->bulky($f->glyph()->user(),'User', '#');
 
+	$notes = $f->maincontrols()->slate()->legacy(
+		'Notification',
+		$f->glyph()->notification(),
+		'some content'
+	);
+
 	$metabar = $f->mainControls()->metabar()
-		->withEntry('search', $search)
-		->withEntry('help', $help)
-		->withEntry('notes', $notes)
-		->withEntry('user', $user)
+		->withAdditionalEntry('search', $search)
+		->withAdditionalEntry('help', $help)
+		->withAdditionalEntry('notes', $notes)
+		->withAdditionalEntry('user', $user)
 		;
 
 	return $metabar;

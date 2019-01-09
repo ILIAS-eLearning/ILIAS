@@ -64,6 +64,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 			} else {
 				_disengageAllButtons(); //reset, so that only _one_ is active
+				if(_isToolButton(btn)) {
+					_disengageAllToolButtons();
+				}
 				_disengageAllSlates();
 				_engageButton(btn);
 				_setPageSlatesActive(true);
@@ -72,6 +75,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					_engageButton(_getToolsButton());
 				} else {
 					_setToolsActive(false);
+					_disengageButton(_getToolsButton());
 				}
 			}
 		};
@@ -80,23 +84,31 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			_disengageAllButtons();
 			_disengageAllSlates();
 			_setPageSlatesActive(false);
+			_setToolsActive(false);
 		};
 
 		var onClickToolsEntry = function(event, signalData) {
-			var btn = signalData.triggerer;
+			var btn = signalData.triggerer,
+				active_tool_button;
 
 			if(_isEngaged(btn)) {
 				_setPageSlatesActive(false);
 				_setToolsActive(false);
 				_disengageButton(btn);
 			} else {
+				_disengageAllButtons();
 				_setPageSlatesActive(true);
 				_setToolsActive(true);
 				_engageButton(btn);
+				_disengageAllSlates();
 
-				if(!_isAnyToolActive()) {
-					_getAllToolButtons()[0].click();
+				if(_isAnyToolActive()) {
+					active_tool_btn = _getAllToolButtons()
+						.filter('.' + _cls_btn_engaged)[0];
+				} else {
+					active_tool_btn = _getAllToolButtons()[0];
 				}
+				active_tool_btn.click();
 			}
 		};
 
@@ -187,6 +199,14 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var _disengageAllButtons = function() {
 			_getAllButtons().filter('.' + _cls_btn_engaged).each(
+				function(i, btn) {
+					_disengageButton($(btn));
+				}
+			);
+		};
+
+		var _disengageAllToolButtons = function() {
+			_getAllToolButtons().filter('.' + _cls_btn_engaged).each(
 				function(i, btn) {
 					_disengageButton($(btn));
 				}

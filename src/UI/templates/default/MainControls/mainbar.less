@@ -1,16 +1,26 @@
+// mainbar
+.il-maincontrols-mainbar {
+	.btn-bulky {
+		font-size: @mainbar-label-size;
+	}
+	.bulky-label {
+		white-space: normal;
+	    margin-top: 5px;
+	    display: block;
+	}
+}
 
 // mainbar triggers
 .il-mainbar-triggers {
-	.shadow-right;
 	background: @bg-mainbar;
+	display: flex;
 	position: relative;
-	width: @trigger-width;
+	width: @mainbar-btn-width;
 	z-index: 1;
 	.btn-bulky {
-		height: @trigger-height;
-		width: @trigger-height;
+		height: @mainbar-btn-height;
+		width: @mainbar-btn-height;
 		justify-content: center;
-		font-size: 70%;
 		padding: 0;
 		display: inline-flex;
 		flex-flow: column wrap;
@@ -18,25 +28,29 @@
 		width: 100%;
 		border: 0;
 		background: @bg-mainbar;
-		border-bottom: @trigger-border;
+		border-bottom: @mainbar-btn-border;
 		color: @bg-mainbar-engaged;
+		img {
+			filter: invert(100%);
+		}
 		&.engaged {
-			/*
 			background-color: @bg-mainbar-engaged;
-			background-color: @il-glyph-highlighted-hover-color;
-			background-color: @brand-primary;
-			background-color: @il-secondary-container-bg;
-			*/
-			background-color: #cecece;
 			color: @bg-mainbar;
+			img {
+				filter: invert(50%);
+			}
 		}
 		&:focus {
 			outline: none;
 		}
+		.bulky-label {
+			white-space: normal;
+			margin-top: 5px;
+    		display: block;
+		}
 	}
-
 	&.engaged {
-		background: #ffffff;
+		background: @bg-maincontrols;
 	}
 }
 
@@ -47,9 +61,88 @@
 	display: none;
 }
 
+.il-mainbar-tools-button {
+	.btn-bulky,
+	.btn-bulky.engaged {
+		background-color: lighten(@brand-primary, 45%);
+		border: 0;
+		color: @mainbar-btn-color-engaged;
+		img {
+			filter: invert(35%);
+		}
+	}
+}
+
 .il-mainbar-tools-entries {
 	display:none;
 	&.engaged {
 		display: block;
+		flex-shrink: 0;
 	}
+	.btn-bulky {
+		background-color: lighten(@brand-primary, 25%);
+		color: @mainbar-btn-color;
+		.icon {
+			filter: invert(100%);
+		}
+		&.engaged {
+			background-color: @bg-maincontrols;
+			border: 0;
+			color: @mainbar-btn-color-engaged;
+			.icon {
+				filter: invert(60%);
+			}
+		}
+	}
+}
+
+.il-mainbar-close-slates {
+	align-items: flex-end;
+	display: flex;
+	flex-shrink: 0;
+	height: @close-slate-btn-height;
+	.btn-bulky {
+		background-color: transparent;
+		border-top: @mainbar-btn-border;
+		display: flex;
+		flex-direction: row;
+		height: @close-slate-btn-height;
+		justify-content: flex-end;
+		align-items: center;
+		.bulky-label {
+			display: none;
+		}
+		.glyph {
+			&:before {
+				content:" \e605";
+				display: block;
+				font-family: "il-icons"; // should be defined more general at .glyphicon
+				font-size: 2.1rem;
+			}
+			.glyphicon {
+				display: none;
+			}
+		}
+	}
+}
+
+.il-mainbar-remove-tool {
+	.close {
+		color: @brand-primary;
+	    font-size: 4.5rem;
+	    font-weight: 300;
+		height: auto;
+		padding: 0 30px;
+		width: auto;
+	}
+}
+
+.il-mainbar-slates > .il-maincontrols-slate.engaged {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	position: relative;
+ }
+ .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
+	height: 0px; // forcing scrollbars in slate content
 }

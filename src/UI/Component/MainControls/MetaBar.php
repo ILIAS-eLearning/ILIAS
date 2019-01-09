@@ -19,7 +19,7 @@ interface MetaBar extends Component, JavaScriptBindable
 	 * @param Bulky|Slate $entry
 	 * @throws InvalidArgumentException 	if $id is already taken
 	 */
-	public function withEntry(string $id, $entry): MetaBar;
+	public function withAdditionalEntry(string $id, $entry): MetaBar;
 
 	/**
 	 * @return array <string, Bulky|Slate>

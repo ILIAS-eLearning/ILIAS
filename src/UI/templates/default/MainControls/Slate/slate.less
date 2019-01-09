@@ -4,19 +4,30 @@
 
 .il-maincontrols-slate {
 	&.engaged {
+		/*
 		// quick solution, better use flex or grid
 		display: flex;
 		flex-direction: column;
 		height: 100%;
 		position: relative;
+		*/
 	}
 	&.disengaged {
 		display:none;
 	}
 }
 
+.il-maincontrols-slate-overflow {
+	min-height: 0;
+}
+
 .il-maincontrols-slate-content {
-	display: grid;
+	p, h1, h2, h3, h4 {
+		padding: 10px 20px;
+	}
+	button {
+		margin-bottom: 1px;
+	}
 }
 
 .il-maincontrols-slate-close,

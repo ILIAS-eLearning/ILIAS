@@ -55,9 +55,9 @@ class MainBar implements MainControls\MainBar
 	private $tool_entries = [];
 
 	/**
-	 * @var string
+	 * @var Button\Bulky
 	 */
-	private $tools_label = 'Tools';
+	private $tools_button;
 
 	/**
 	 * @var string | null
@@ -116,21 +116,20 @@ class MainBar implements MainControls\MainBar
 	/**
 	 * @inheritdoc
 	 */
-	public function withToolsLabel(string $label): MainControls\MainBar
+	public function withToolsButton(Button\Bulky $button): MainControls\MainBar
 	{
 		$clone = clone $this;
-		$clone->tools_label = $label;
+		$clone->tools_button = $button;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getToolsLabel(): string
+	public function getToolsButton(): Button\Bulky
 	{
-		return $this->tools_label;
+		return $this->tools_button;
 	}
-
 
 	/**
 	 * @inheritdoc

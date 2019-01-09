@@ -112,9 +112,10 @@ abstract class Slate implements ISlate\Slate
 	public function withEngaged(bool $state): ISlate\Slate
 	{
 		$clone = clone $this;
-		$this->engaged = $state;
+		$clone->engaged = $state;
 		return $clone;
 	}
+
 	/**
 	 * @inheritdoc
 	 */

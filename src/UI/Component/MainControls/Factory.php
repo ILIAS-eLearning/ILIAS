@@ -73,7 +73,7 @@ interface Factory {
 	 *
 	 * @return  \ILIAS\UI\Component\MainControls\MetaBar
 	 */
-	public function metabar(): MetaBar;
+	public function metaBar(): MetaBar;
 
 	/**
 	 * ---
@@ -203,7 +203,7 @@ interface Factory {
 	 *
 	 * @return  \ILIAS\UI\Component\MainControls\MainBar
 	 */
-	public function mainbar(): MainBar;
+	public function mainBar(): MainBar;
 
 
 	/**
@@ -239,7 +239,6 @@ interface Factory {
 	 *     height, the contents will start scrolling vertically with a scrollbar on the
 	 *     right.
 	 *
-     *
 	 *   rivals:
 	 *     Panel: >
 	 *       Panels are used for content.

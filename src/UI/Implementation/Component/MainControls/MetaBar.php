@@ -53,7 +53,7 @@ class MetaBar implements MainControls\MetaBar
 	/**
 	 * @inheritdoc
 	 */
-	public function withEntry(string $id, $entry): MainControls\MetaBar
+	public function withAdditionalEntry(string $id, $entry): MainControls\MetaBar
 	{
 		$classes = [Bulky::class, Slate::class];
 		$check = [$entry];
