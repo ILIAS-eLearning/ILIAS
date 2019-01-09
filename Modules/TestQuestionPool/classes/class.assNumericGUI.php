@@ -140,7 +140,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 		$eval->suppress_errors = TRUE;
 		if (($eval->e($lower) !== FALSE) AND ($eval->e($upper) !== FALSE))
 		{
-			if ($eval->e($lower) < $eval->e($upper))
+			if ($eval->e($lower) <= $eval->e($upper))
 			{
 				return TRUE;
 			}
