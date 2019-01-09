@@ -314,8 +314,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 	protected function calculateReachedPointsForSolution($userSolution)
 	{
-		$points = 0;
-		return $points;
+		if( $this->isCompletionBySubmissionEnabled() && count($userSolution) )
+		{
+			return $this->getPoints();
+		}
+		
+		return 0;
 	}
 	
 	/**
