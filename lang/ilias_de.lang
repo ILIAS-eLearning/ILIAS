@@ -14957,17 +14957,9 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
-rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
-rbac#:#lso_manage_members#:#Mitglieder bearbeiten
-rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
-common#:#unparticipate#:#Abmelden
-common#:#participate#:#Anmelden
-rbac#:#lso_participate#:#An der Lernsequenz anmelden
-rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
-rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
+common#:#duration_end_must_not_be_earlier_than_start#:#Der Endzeitpunkt darf nicht vor dem Start liegen.
