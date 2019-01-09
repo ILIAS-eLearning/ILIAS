@@ -867,7 +867,7 @@ class ilObjExercise extends ilObject
 			array($a_value, $this->getId())
 		);
 	}
-	
+
 	/**
 	 * Check if given user has certificate to show/download
 	 * 
