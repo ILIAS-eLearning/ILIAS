@@ -430,6 +430,7 @@ class ilAssQuestionPreviewGUI
 	{
 		if( !$this->saveQuestionSolution() )
 		{
+			$this->previewSession->setInstantResponseActive(false);
 			$this->showCmd();
 			return;
 		}
