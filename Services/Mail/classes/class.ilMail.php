@@ -1358,8 +1358,8 @@ class ilMail
 			]);
 
 			$bucket->setTask($interaction);
-			$bucket->setTitle('Mail Delivery');
-			$bucket->setDescription('Delegates external mail delivery');
+			$bucket->setTitle($this->lng->txt('mail_bg_task_title'));
+			$bucket->setDescription(sprintf('mail_bg_task_desc', $a_m_subject));
 
 			$taskManager->run($bucket);
 		} else {
