@@ -559,6 +559,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ERROR", $input->getError());
 			$tpl->parseCurrentBlock();
 		}
+		return $tpl->get();
 	}
 
 	protected function renderDateTimeInput(Template $tpl, DateTime $input) :string {
