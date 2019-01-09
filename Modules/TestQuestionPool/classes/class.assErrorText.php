@@ -451,14 +451,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
-	/**
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question

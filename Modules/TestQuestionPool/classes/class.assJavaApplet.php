@@ -897,14 +897,6 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
-	/**
 	* Gets the java applet file name
 	*
 	* @return string The java applet file of the assJavaApplet object

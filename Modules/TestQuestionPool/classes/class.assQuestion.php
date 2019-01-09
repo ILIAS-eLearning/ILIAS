@@ -1343,9 +1343,6 @@ abstract class assQuestion
 // fau.
 				$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
 			}
-
-			$this->reworkWorkingData($active_id, $pass, $obligationsEnabled, $authorized);
-
 		});
 
 		return $saveStatus;
@@ -1375,15 +1372,6 @@ abstract class assQuestion
 	 * @return boolean $status
 	 */
 	abstract public function saveWorkingData($active_id, $pass = NULL, $authorized = true);
-
-	/**
-	 * Reworks the allready saved working data if neccessary
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
-	 * @param boolean $authorized
-	 */
-	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized);
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -5174,6 +5162,11 @@ abstract class assQuestion
 				$this->removeSolutionRecordById($solutionRec['solution_id']);
 			}
 		}
+	}
+	
+	protected function isDummySolutionRecord($solutionRecord)
+	{
+		return !strlen($solutionRecord['value1']) && !strlen($solutionRecord['value2']);
 	}
 	
 	protected function deleteSolutionRecordByValues($activeId, $passIndex, $authorized, $matchValues)

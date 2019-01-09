@@ -439,14 +439,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
-	/**
 	 * Returns the points, a learner has reached answering the question.
 	 * The points are calculated from the given answers.
 	 *
