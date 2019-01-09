@@ -125,7 +125,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	public function withMinValue(\DateTime $date) : C\Input\Field\Duration {
 		$clone = clone $this;
 		$clone->min_date = $date;
-		$clone->applyMinDate();
+		$clone->applyMinValue();
 		return $clone;
 	}
 
@@ -135,7 +135,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	protected function applyMinValue() {
 		$this->inputs = array_map(
 			function($inpt) {
-				return $inpt->withMinDate($this->getMinDate());
+				return $inpt->withMinValue($this->getMinValue());
 			},
 			$this->inputs
 		);
@@ -154,17 +154,17 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	public function withMaxValue(\DateTime $date) : C\Input\Field\Duration {
 		$clone = clone $this;
 		$clone->max_date = $date;
-		$clone->applyMaxDate();
+		$clone->applyMaxValue();
 		return $clone;
 	}
 
 	/**
 	 * apply format to inputs
 	 */
-	protected function applyMaxDate() {
+	protected function applyMaxValue() {
 		$this->inputs = array_map(
 			function($inpt) {
-				return $inpt->withMaxDate($this->getMaxDate());
+				return $inpt->withMaxValue($this->getMaxValue());
 			},
 			$this->inputs
 		);
