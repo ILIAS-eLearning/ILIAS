@@ -720,7 +720,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			
 		// learning progress and offline mode
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) || $rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
 			//if scorm && offline_mode activated
 			if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
@@ -731,7 +731,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 										"ilobjscormlearningmodulegui");
 				}
 			}
-			
+		}	
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
 			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 								 '',

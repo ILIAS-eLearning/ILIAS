@@ -349,6 +349,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 
+				$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+
 				$guiFactory = new ilCertificateGUIFactory();
 				$output_gui = $guiFactory->create($this->object);
 
