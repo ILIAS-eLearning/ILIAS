@@ -95,8 +95,6 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->renderRadioField($input, $default_renderer);
 		} else if ($input instanceof MultiSelect) {
 			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Radio) {
-			return $this->renderRadioField($input, $default_renderer);
 		} else if ($input instanceof DateTime) {
 			$input_tpl = $this->getTemplate("tpl.datetime.html", true, true);
 		} else {
@@ -571,7 +569,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ERROR", $input->getError());
 			$tpl->parseCurrentBlock();
 		}
-
+	}
 
 	protected function renderDateTimeInput(Template $tpl, DateTime $input) :string {
 		global $DIC;
@@ -677,77 +675,6 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
-
-	/**
-	 * @param Radio $input
-	 * @param RendererInterface    $default_renderer
-	 *
-	 * @return string
-	 */
-	protected function renderRadioField(Component\Input\Field\Radio $input, RendererInterface $default_renderer) {
-		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
-
-		//monitor change-events
-		$input = $input->withAdditionalOnLoadCode(function ($id) {
-			return "il.UI.Input.radio.init('$id');";
-		});
-		$id = $this->bindJavaScript($input);
-		$input_tpl->setVariable("ID", $id);
-
-		foreach ($input->getOptions() as $value=>$label) {
-			$group_id = $id .'_' .$value .'_group';
-			$opt_id = $id .'_' .$value .'_opt';
-
-			$input_tpl->setCurrentBlock('optionblock');
-			$input_tpl->setVariable("NAME", $input->getName());
-			$input_tpl->setVariable("OPTIONID", $opt_id);
-			$input_tpl->setVariable("VALUE", $value);
-			$input_tpl->setVariable("LABEL", $label);
-
-			if ($input->getValue() !== null && $input->getValue()===$value) {
-				$input_tpl->setVariable("CHECKED", 'checked="checked"');
-			}
-
-			//dependant fields
-			$dependant_group_html = '';
-			$dep_fields = $input->getDependantFieldsFor($value);
-			if(! is_null($dep_fields)) {
-				$inputs_html = '';
-				$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
-				foreach ($dep_fields as $key => $inpt) {
-					$inputs_html .= $default_renderer->render($inpt);
-				}
-				$dependant_group_tpl->setVariable("CONTENT", $inputs_html);
-				$dependant_group_tpl->setVariable("ID", $group_id);
-				$dependant_group_html = $dependant_group_tpl->get();
-			}
-			$input_tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
-
-			$input_tpl->parseCurrentBlock();
-		}
-		$options_html = $input_tpl->get();
-
-		//render with context:
-		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
-		$tpl->setVariable("LABEL", $input->getLabel());
-		$tpl->setVariable("INPUT", $options_html);
-
-		if ($input->getByline() !== null) {
-			$tpl->setCurrentBlock("byline");
-			$tpl->setVariable("BYLINE", $input->getByline());
-			$tpl->parseCurrentBlock();
-		}
-		if ($input->isRequired()) {
-			$tpl->touchBlock("required");
-		}
-		if ($input->getError() !== null) {
-			$tpl->setCurrentBlock("error");
-			$tpl->setVariable("ERROR", $input->getError());
-			$tpl->parseCurrentBlock();
-		}
-		return $tpl->get();
-	}
-
 	/**
 	 * @inheritdoc
 	 */
@@ -764,7 +691,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Select::class,
 			Component\Input\Field\Radio::class,
 			Component\Input\Field\Textarea::class,
-			Component\Input\Field\MultiSelect::class
+			Component\Input\Field\MultiSelect::class,
 			Component\Input\Field\DateTime::class,
 			Component\Input\Field\Duration::class
 		];

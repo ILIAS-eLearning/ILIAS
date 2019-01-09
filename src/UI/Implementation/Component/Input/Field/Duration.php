@@ -74,15 +74,18 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	}
 
 	protected function addValidation(ValidationFactory $validation_factory) {
-		$from_before_until = $validation_factory->custom(
-			function($v) {
-				if(is_null($v)) {
-					return true;
-				}
-				return $v['start'] < $v['end'];
-			},
-			"start must be earlier than end" //TODO: this must be translateable...
-		);
+		$txt_id = 'duration_end_must_not_be_earlier_than_start';
+		$error = function (callable $txt, $value) use ($txt_id) {
+			return $txt($txt_id, $value);
+		};
+		$is_ok = function($v) {
+			if(is_null($v)) {
+				return true;
+			}
+			return $v['start'] < $v['end'];
+		};
+
+		$from_before_until = $validation_factory->custom($is_ok, $error);
 		$this->setAdditionalConstraint($from_before_until);
 	}
 
