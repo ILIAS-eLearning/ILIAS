@@ -2028,6 +2028,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$reachedPoints = $this->calculateReachedPointsForSolution($userSolution);
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 }
