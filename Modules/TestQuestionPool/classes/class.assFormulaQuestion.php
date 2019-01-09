@@ -1249,14 +1249,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
-	/**
 	 * Returns the question type of the question
 	 * @return string The question type of the question
 	 */

@@ -832,14 +832,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$previewSession->setParticipantsSolution($solution);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
 	function syncWithOriginal()
 	{
 		if ($this->getOriginalId())

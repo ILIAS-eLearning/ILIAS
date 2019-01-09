@@ -301,17 +301,31 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		
-		if (is_null($pass))
+		if( $this->isCompletionBySubmissionEnabled() )
 		{
-			$pass = $this->getSolutionMaxPass($active_id);
+			if (is_null($pass))
+			{
+				$pass = $this->getSolutionMaxPass($active_id);
+			}
+			
+			global $DIC;
+			
+			$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+			
+			while ($data = $DIC->database()->fetchAssoc($result))
+			{
+				if( $this->isDummySolutionRecord($data) )
+				{
+					continue;
+				}
+				
+				return $this->getPoints();
+			}
 		}
-		$points = 0;
-		return $points;
+		
+		return 0;
 	}
-
+	
 	protected function calculateReachedPointsForSolution($userSolution)
 	{
 		if( $this->isCompletionBySubmissionEnabled() && count($userSolution) )
@@ -902,14 +916,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 
 		$previewSession->setParticipantsSolution($userSolution);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		$this->handleSubmission($active_id, $pass, $obligationsAnswered, $authorized);
 	}
 	
 	/**
