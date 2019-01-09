@@ -886,11 +886,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$logger = $DIC->logger()->root();
 
 		$ilUser = $this->user;
-	
-		if($this->object->hasUserCertificate($ilUser->getId()))
-		{	
+
+		if(!$this->object->hasUserCertificate($ilUser->getId()))
+		{
 			ilUtil::sendFailure($this->lng->txt("msg_failed"));
-			$this->showOverviewObject();			
+			$this->showOverviewObject();
+			return;
 		}
 
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
