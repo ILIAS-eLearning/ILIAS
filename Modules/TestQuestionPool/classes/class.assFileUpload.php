@@ -768,7 +768,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 				}
 			}
 
-			if ($authorized == true)
+			if ($authorized == true && $this->intermediateSolutionExists($active_id, $pass))
 			{
 				// remove the dummy record of the intermediate solution
 				$this->deleteDummySolutionRecord($active_id, $pass);
