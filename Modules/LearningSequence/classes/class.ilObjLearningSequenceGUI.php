@@ -503,7 +503,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 		if ( $this->checkAccess("read")) {
 
-			if ($this->getObject()->getLSSettings()->getMembersGallery()
+			if (($this->getObject()->getLSSettings()->getMembersGallery() && ilLearningSequenceParticipants::_isParticipant($this->ref_id, $this->user->getId()))
 				|| $this->checkAccess("edit_members"))
 			{
 				$this->tabs->addTab(
