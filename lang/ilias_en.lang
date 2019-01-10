@@ -505,6 +505,8 @@ assessment#:#close_text_hint#:#To add a new gap set the cursor to the position o
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
@@ -7694,7 +7696,7 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
+common#:#db_need_hotfix#:#Hotfix available. Please open <a href="./setup/setup.php">»Setup</a>!
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_max_count#:#Max active sessions

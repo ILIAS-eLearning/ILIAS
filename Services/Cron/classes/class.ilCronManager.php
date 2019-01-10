@@ -187,10 +187,14 @@ class ilCronManager implements \ilCronManagerInterface
 				$result = new \ilCronJobResult();
 				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
 				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
+
+				$ilLog->log($e->getTraceAsString());
 			} catch (\Throwable $e) { // Could be appended to the catch block with a | in PHP 7.1
 				$result = new \ilCronJobResult();
 				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
 				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
+
+				$ilLog->log($e->getTraceAsString());
 			}
 			$ts_dur = self::getMicrotime()-$ts_in;
 
