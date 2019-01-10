@@ -15974,3 +15974,9 @@ ecs#:#ecs_member_auth_type#:#Authentication Mode (Participants)###08 08 2018 new
 assessment#:#tst_answer_aggr_answer_header#:#Answer###29 09 2018 new variable
 assessment#:#tst_answer_aggr_frequency_header#:#Frequency###29 09 2018 new variable
 cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###29 09 2018 new variable
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.###10 01 2019 new variable
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.###10 01 2019 new variable
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###10 01 2019 new variable
+dcl#:#dcl_title_standardview#:#Standard View###10 01 2019 new variable
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.###10 01 2019 new variable
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###10 01 2019 new variable
