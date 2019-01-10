@@ -9896,6 +9896,7 @@ dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
