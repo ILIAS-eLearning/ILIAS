@@ -107,7 +107,6 @@ class ilCertificateCloneAction
 
 		$templates = $this->templateRepository->fetchCertificateTemplatesByObjId($oldObject->getId());
 
-
 		/** @var ilCertificateTemplate $template */
 		foreach ($templates as $template) {
 			$backgroundImagePath = $template->getBackgroundImagePath();
@@ -115,7 +114,7 @@ class ilCertificateCloneAction
 			$backgroundImageThumbnail = dirname($backgroundImagePath) . '/background.jpg.thumb.jpg';
 
 			$newBackgroundImage = $this->certificatePathFactory->createCertificatePath($newObject) . $backgroundImageFile;
-			$newBackgroundImageThumbnail = $this->certificatePathFactory->createCertificatePath($newObject);
+			$newBackgroundImageThumbnail = $this->certificatePathFactory->createCertificatePath($newObject) . '/background.jpg.thumb.jpg';
 
 			if ($this->fileSystem->has($backgroundImagePath)) {
 				if ($this->fileSystem->has($newBackgroundImage)) {
