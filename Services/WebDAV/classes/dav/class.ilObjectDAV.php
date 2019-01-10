@@ -4,6 +4,16 @@ use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotImplemented;
 
+/**
+ * Class ilObjectDAV
+ *
+ * Base implementation for all ILIAS objects to be represented as a WebDAV object
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ *
+ * @extends Sabre\DAV\Node
+ */
 abstract class ilObjectDAV extends Sabre\DAV\Node
 {
     /** @var $ref_id integer */
@@ -68,11 +78,12 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
         
         return ($this->obj == null) ? null : strtotime($this->obj->getLastUpdateDate());
     }
-    
+
     /**
      * Deletes the current node
      *
      * @throws Sabre\DAV\Exception\Forbidden
+     * @throws ilRepositoryException
      * @return void
      */
     public function delete()
@@ -96,10 +107,9 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      */
     function setName($a_name)
     {
-        if($this->repo_helper->checkAccess("write", $this->obj->getRefId()))
+        if ($this->repo_helper->checkAccess("write", $this->obj->getRefId()))
         {
-            if(!$this->repo_helper->isTitleContainingInvalidCharacters($a_name))
-            {
+            if ($this->dav_helper->isDAVableObjTitle($a_name)) {
                 $this->obj->setTitle($a_name);
                 $this->obj->update();
             }
@@ -107,9 +117,7 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
             {
                 throw new Forbidden('Forbidden characters in title');
             }
-        }
-        else 
-        {
+        } else {
             throw new Forbidden('Permission denied');
         }
     }
@@ -132,18 +140,6 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
     function getObject()
     {
         return $this->obj;
-    }
-    
-    public static function _containsInvalidCharacters($a_name)
-    {
-        foreach(self::$forbidden_characters as $forbidden_char)
-        {
-            if(strpos($forbidden_char, $a_name) !== false)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

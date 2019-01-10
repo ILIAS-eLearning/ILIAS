@@ -42,7 +42,6 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 
 		return [$this->mainmenu->topParentItem($this->getTopItem())
 			        ->withTitle($this->dic->language()->txt("administration"))
-			        ->withAlwaysAvailable(true)
 			        ->withPosition(3)
 			        ->withVisibilityCallable(
 				        function () use ($dic) { return (bool)($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); }

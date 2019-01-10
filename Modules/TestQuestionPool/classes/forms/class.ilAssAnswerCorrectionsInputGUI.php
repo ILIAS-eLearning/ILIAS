@@ -49,7 +49,8 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
 	
 	public function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->sanitizeSuperGlobalSubmitValue();
 		$foundvalues = $_POST[$this->getPostVar()];
 		
@@ -114,7 +115,8 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
 	
 	public function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$tpl = new ilTemplate("tpl.prop_textsubsetcorrection_input.html", true, true, "Modules/TestQuestionPool");
 		$i = 0;

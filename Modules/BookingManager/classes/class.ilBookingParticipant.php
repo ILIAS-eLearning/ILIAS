@@ -81,7 +81,7 @@ class ilBookingParticipant
 	}
 
 	/**
-	 * @return bool IF readed or created
+	 * @return bool IF read or created
 	 */
 	public function getIsNew()
 	{
@@ -91,8 +91,8 @@ class ilBookingParticipant
 	/**
 	 * Get participants who can not have a reservation for this booking pool object id.
 	 *
-	 * @param $a_bp_object_id booking pool object
-	 * @return array formated data to display in gui table.
+	 * @param integer $a_bp_object_id booking pool object
+	 * @return array formatted data to display in gui table.
 	 */
 	static function getAssignableParticipants($a_bp_object_id)
 	{
@@ -100,36 +100,37 @@ class ilBookingParticipant
 
 		$ilDB = $DIC->database();
 
+		$booking_object = new ilBookingObject($a_bp_object_id);
+		$pool_id = $booking_object->getPoolId();
+		$pool = new ilObjBookingPool($pool_id, false);
+		$overall_limit = $pool->getOverallLimit();
+
 		$res = array();
 
-		$query = 'SELECT DISTINCT bm.user_id'.
-			' FROM booking_member bm'.
-			' WHERE bm.user_id NOT IN ('.
-				'SELECT user_id'.
-				' FROM booking_reservation'.
-				' WHERE object_id = '.$ilDB->quote($a_bp_object_id, 'integer').
-				' AND (status IS NULL OR status <> '.ilBookingReservation::STATUS_CANCELLED.'))';
+		$members = ilBookingReservation::getMembersWithoutReservation($a_bp_object_id);
 
-		$set = $ilDB->query($query);
-
-		while($row = $ilDB->fetchAssoc($set))
+		foreach($members as $member_id)
 		{
-			$user_name = ilObjUser::_lookupName($row['user_id']);
-			$name = $user_name['lastname'] . ", " . $user_name['firstname'];
-			$index = $a_bp_object_id."_".$row['user_id'];
+			//check if the user reached the limit of booking in this booking pool.
+			$total_reservations = ilBookingReservation::isBookingPoolLimitReachedByUser($member_id,$pool_id);
 
-			$booking_object = new ilBookingObject($row['object_id']);
+			if($total_reservations < $overall_limit)
+			{
+				$user_name = ilObjUser::_lookupName($member_id);
+				$name = $user_name['lastname'] . ", " . $user_name['firstname'];
+				$index = $a_bp_object_id."_".$member_id;
 
-			if(!isset($res[$index])) {
-				$res[$index] = array(
-					"user_id" => $row['user_id'],
-					"object_title" => array($booking_object->getTitle()),
-					"name" => $name
-				);
-			}
-			else {
-				if(!in_array($booking_object->getTitle(), $res[$index]['object_title'])) {
-					array_push($res[$index]['object_title'], $booking_object->getTitle());
+				if(!isset($res[$index])) {
+					$res[$index] = array(
+						"user_id" => $member_id,
+						"object_title" => array($booking_object->getTitle()),
+						"name" => $name
+					);
+				}
+				else {
+					if(!in_array($booking_object->getTitle(), $res[$index]['object_title'])) {
+						array_push($res[$index]['object_title'], $booking_object->getTitle());
+					}
 				}
 			}
 		}
@@ -220,12 +221,16 @@ class ilBookingParticipant
 			{
 				$ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $row['user_id']);
 				$ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $row['object_id']);
+				$ctrl->setParameterByClass('ilbookingobjectgui', 'part_view',ilBookingParticipantGUI::PARTICIPANT_VIEW);
+
 				$actions[] = array(
 					'text' => $lng->txt("book_deassign"),
 					'url' => $ctrl->getLinkTargetByClass("ilbookingobjectgui", 'rsvConfirmCancelUser')
 				);
+
 				$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
 				$ctrl->setParameterByClass('ilbookingparticipantgui', 'object_id', '');
+				$ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', '');
 			}
 			else if($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $res[$index]['obj_count'] > 1)
 			{

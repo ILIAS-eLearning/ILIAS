@@ -7,38 +7,21 @@
  */
 class ilForumDraftsTableGUI extends ilTable2GUI
 {
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-
-	/**
-	 * @var string
-	 */
-	protected $parent_cmd;
+	/** @var bool  */
+	protected $mayEdit = false;
 
 	/**
 	 * ilForumDraftsTableGUI constructor.
 	 * @param        $a_parent_obj
 	 * @param string $a_parent_cmd
-	 * @param string $a_template_context
+	 * @param bool $mayEdit
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_template_context)
-	{	
-		global $DIC;
-		
-		$this->lng  = $DIC->language();
-		$this->ctrl = $DIC->ctrl();
-		$this->parent_cmd = $a_parent_cmd;
+	public function __construct($a_parent_obj, $a_parent_cmd, bool $mayEdit)
+	{
+		$this->mayEdit = $mayEdit;
+		$this->setId('frm_drafts_' . substr(md5($this->parent_cmd), 0, 3) . '_' . $a_parent_obj->object->getId());
 
-		$this->setId('frm_drafts_' . substr(md5($this->parent_cmd), 0, 3).'_'.$a_parent_obj->object->getId() );
-		
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->initTableColumns();
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showThreads'));
 		$this->setRowTemplate('tpl.forums_threads_drafts_table.html', 'Modules/Forum');
@@ -60,9 +43,17 @@ class ilForumDraftsTableGUI extends ilTable2GUI
 			(isset($_POST['draft_ids']) && in_array($draft['draft_id'], $_POST['draft_ids']) ? true : false), 'draft_ids[]', $draft['draft_id']
 		));
 
-		$subject = '<div><a href="' . $this->ctrl->getLinkTarget($this->getParentObject(), 'editThreadDraft&draft_id='.$draft['draft_id']) . '">' . $draft['subject'] . '</a></div>';
-		$date =   ilDatePresentation::formatDate(new ilDateTime($draft['post_update'], IL_CAL_DATETIME));
-		$this->tpl->setVariable('VAL_SUBJECT', $subject);
+		if ($this->mayEdit) {
+			$this->ctrl->setParameter($this->getParentObject(), 'draft_id', $draft['draft_id']);
+			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'editThreadDraft');
+			$this->ctrl->setParameter($this->getParentObject(), 'draft_id', null);
+			$this->tpl->setVariable('VAL_EDIT_URL', $url);
+			$this->tpl->setVariable('VAL_LINKED_SUBJECT', $draft['subject']);
+		} else {
+			$this->tpl->setVariable('VAL_UNLINKED_SUBJECT', $draft['subject']);
+		}
+
+		$date = ilDatePresentation::formatDate(new ilDateTime($draft['post_update'], IL_CAL_DATETIME));
 		$this->tpl->setVariable('VAL_DATE', $date);
 	}
 }

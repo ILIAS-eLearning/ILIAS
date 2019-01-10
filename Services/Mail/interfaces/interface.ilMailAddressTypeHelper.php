@@ -46,4 +46,10 @@ interface ilMailAddressTypeHelper
 	 * @return int
 	 */
 	public function getGlobalMailSystemId(): int;
+
+	/**
+	 * @param int $usrId
+	 * @return bool
+	 */
+	public function receivesInternalMailsOnly(int $usrId): bool;
 }

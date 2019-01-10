@@ -44,7 +44,6 @@ class ilMail
 	protected $save_in_sentbox;
 
 	protected $soap_enabled = true;
-	protected $mail_to_global_roles = 0;
 	protected $appendInstallationSignature = false;
 
 	/**
@@ -176,39 +175,20 @@ class ilMail
 	}
 
 	/**
-	 * @param string $a_recipient
-	 * @param string $a_existing_recipients
+	 * @param string $newRecipient
+	 * @param string $existingRecipients
 	 * @return bool
 	 */
-	public function existsRecipient($a_recipient, $a_existing_recipients)
+	public function existsRecipient(string $newRecipient, string $existingRecipients): bool
 	{
-		$recipients = $this->parseAddresses($a_existing_recipients);
-		foreach($recipients as $rcp)
-		{
-			if(substr($rcp->getMailbox(), 0, 1) != '#')
-			{
-				if(trim($rcp->getMailbox()) == trim($a_recipient) || trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
-				{
-					return true;
-				}
-			}
-			else if(substr($rcp->getMailbox(), 0, 7) == '#il_ml_')
-			{
-				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
-				{
-					return true;
-				}
-			}
-		}
+		$newAddresses = new \ilMailAddressListImpl($this->parseAddresses($newRecipient));
+		$addresses = new \ilMailAddressListImpl($this->parseAddresses($existingRecipients));
 
-		return false;
+		$list = new \ilMailDiffAddressList($newAddresses, $addresses);
+
+		$diffedAddresses = $list->value();
+
+		return count($diffedAddresses) === 0;
 	}
 
 	/**
@@ -522,53 +502,60 @@ class ilMail
 	}
 
 	/**
-	* @param array $a_mail_ids
-	* @param int $a_folder_id
+	* @param int[] $mailIds
+	* @param int   $folderId
 	* @return bool
 	*/
-	public function moveMailsToFolder(array $a_mail_ids, $a_folder_id)
+	public function moveMailsToFolder(array $mailIds, int $folderId): bool
 	{
-		$data       = array();
-		$data_types = array();
+		$values = [];
+		$dataTypes = [];
 
-		$query = "UPDATE {$this->table_mail} SET folder_id = %s WHERE user_id = %s ";
-		array_push($data_types, 'text', 'integer');
-		array_push($data, $a_folder_id, $this->user_id);
+		$mailIds = array_filter(array_map('intval', $mailIds));
 
-		if(count($a_mail_ids) > 0)
-		{
-			$in = 'mail_id IN (';
-			$counter = 0;
-			foreach($a_mail_ids as $a_mail_id)
-			{
-				array_push($data, $a_mail_id);
-				array_push($data_types, 'integer');
-
-				if($counter > 0) $in .= ',';
-				$in .= '%s';
-				++$counter;
-			}
-			$in .= ')';
-
-			$query .= ' AND '.$in;
+		if (0 === count($mailIds)) {
+			return false;
 		}
 
-		$this->db->manipulateF($query, $data_types, $data);
+		$query = "
+			UPDATE {$this->table_mail}
+			INNER JOIN mail_obj_data
+				ON mail_obj_data.obj_id = %s AND mail_obj_data.user_id = %s 
+			SET {$this->table_mail}.folder_id = mail_obj_data.obj_id
+			WHERE {$this->table_mail}.user_id = %s
+		";
+		array_push($dataTypes, 'integer', 'integer', 'integer');
+		array_push($values, $folderId, $this->user_id, $this->user_id);
 
-		return true;
+		$in = 'mail_id IN (';
+		$counter = 0;
+		foreach ($mailIds as $mailId) {
+			array_push($values, $mailId);
+			array_push($dataTypes, 'integer');
+
+			if($counter > 0) $in .= ',';
+			$in .= '%s';
+			++$counter;
+		}
+		$in .= ')';
+
+		$query .= ' AND ' . $in;
+
+		$affectedRows = $this->db->manipulateF($query, $dataTypes, $values);
+
+		return $affectedRows > 0;
 	}
 
 	/**
-	 * @param array $a_mail_ids
+	 * @param int[] $mailIds
 	 * @return bool
 	 */
-	public function deleteMails(array $a_mail_ids)
+	public function deleteMails(array $mailIds)
 	{
-		foreach($a_mail_ids as $id)
-		{
+		$mailIds = array_filter(array_map('intval', $mailIds));
+		foreach($mailIds as $id) {
 			$this->db->manipulateF("
-				DELETE FROM {$this->table_mail}
-				WHERE user_id = %s AND mail_id = %s ",
+				DELETE FROM {$this->table_mail} WHERE user_id = %s AND mail_id = %s",
 				array('integer', 'integer'),
 				array($this->user_id, $id)
 			);
@@ -778,8 +765,13 @@ class ilMail
 				$user_is_active               = $tmp_user->getActive();
 				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
-				if(in_array('system', $a_type) && !$user_can_read_internal_mails)
-				{
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
+					ilLoggerFactory::getLogger('mail')->debug(sprintf(
+						"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+						$id,
+						var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
+						var_export(!$tmp_user->checkTimeLimit(), 1)
+					));
 					continue;
 				}
 
@@ -789,14 +781,22 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email = array_unique(array_merge(
-							ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options),
-							$as_email
-						));
+						$newEmailAddresses = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+						$as_email = array_unique(array_merge($newEmailAddresses, $as_email));
 
-						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
-						{
+						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will only receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 							continue;
+						} else {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will additionally receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 						}
 					}
 				}
@@ -859,8 +859,13 @@ class ilMail
 				$user_is_active               = $tmp_user->getActive();
 				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
-				if(in_array('system', $a_type) && !$user_can_read_internal_mails)
-				{
+				if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
+					ilLoggerFactory::getLogger('mail')->debug(sprintf(
+						"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+						$id,
+						var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
+						var_export(!$tmp_user->checkTimeLimit(), 1)
+					));
 					continue;
 				}
 
@@ -874,9 +879,19 @@ class ilMail
 					{
 						$as_email[$tmp_user->getId()] = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
 	
-						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
-						{
+						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will only receive external emails sent to: %s",
+								$id,
+								implode(', ', $as_email[$tmp_user->getId()])
+							));
 							continue;
+						} else {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will additionally receive external emails sent to: %s",
+								$id,
+								implode(', ', $as_email[$tmp_user->getId()])
+							));
 						}
 					}
 				}
@@ -923,8 +938,13 @@ class ilMail
 
 				if($user_is_active)
 				{
-					if(in_array('system', $a_type) && !$user_can_read_internal_mails)
-					{
+					if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
+						ilLoggerFactory::getLogger('mail')->debug(sprintf(
+							"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+							$id,
+							var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
+							var_export(!$tmp_user->checkTimeLimit(), 1)
+						));
 						continue;
 					}
 					
@@ -933,14 +953,22 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email = array_unique(array_merge(
-							ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options),
-							$as_email
-						));
+						$newEmailAddresses = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options); 
+						$as_email = array_unique(array_merge($newEmailAddresses, $as_email));
 
-						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
-						{
+						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will only receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 							continue;
+						} else {
+							ilLoggerFactory::getLogger('mail')->debug(sprintf(
+								"Recipient with id %s will additionally receive external emails sent to: %s",
+								$id,
+								implode(', ', $newEmailAddresses)
+							));
 						}
 					}
 				}
@@ -969,43 +997,41 @@ class ilMail
 	}
 
 	/**
-	 * @param  string[] $a_recipients
+	 * @param string[] $recipients
 	 * @return int[]
 	 */
-	protected function getUserIds(array $a_recipients)
+	protected function getUserIds(array $recipients): array
 	{
-		$usr_ids = array();
+		$usrIds = array();
 
-		$a_recipients = implode(',', array_filter(array_map('trim', $a_recipients)));
+		$joinedRecipients = implode(',', array_filter(array_map('trim', $recipients)));
 
-		$recipients = $this->parseAddresses($a_recipients);
-		foreach($recipients as $recipient)
-		{
-			$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
-			$usr_ids = array_merge($usr_ids, $address_type->resolve());
+		$addresses = $this->parseAddresses($joinedRecipients);
+		foreach ($addresses as $address) {
+			$addressType = $this->mailAddressTypeFactory->getByPrefix($address);
+			$usrIds = array_merge($usrIds, $addressType->resolve());
 		}
 
-		return array_unique($usr_ids);
+		return array_unique($usrIds);
 	}
 
 	/**
-	 * @param    string $a_rcp_to
-	 * @param    string $a_rcp_cc
-	 * @param    string $a_rcp_bcc
-	 * @param    string $a_m_subject
-	 * @return   array message
+	 * @param    string $to
+	 * @param    string $cc
+	 * @param    string $bcc
+	 * @param    string $subject
+	 * @return   \ilMailError[] An array of errors determined on validation
 	 */
-	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject)
+	protected function checkMail(string $to, string $cc, string $bcc, string $subject): array
 	{
-		$errors =  array();
-		foreach(array(
-			$a_m_subject => array('mail_add_subject'),
-			$a_rcp_to    => array('mail_add_recipient')
-		) as $string => $e)
-		{
-			if(strlen($string) === 0)
-			{
-				$errors[] = $e;
+		$errors = [];
+
+		foreach (array(
+			$subject => 'mail_add_subject',
+			$to      => 'mail_add_recipient'
+		) as $string => $error) {
+			if (0 === strlen($string)) {
+				$errors[] = new \ilMailError($error);
 			}
 		}
 
@@ -1014,31 +1040,28 @@ class ilMail
 
 	/**
 	 * Check if recipients are valid
-	 * @param  string $a_recipients string with login names or group names (start with #)
-	 * @param  string $a_type
-	 * @return array Returns an empty array, if all recipients are okay. Returns an array with invalid recipients, if some are not okay.
-	 * @throws ilMailException
+	 * @param  string $recipients
+	 * @return \ilMailError[] An array of errors determined on validation
+	 * @throws \ilMailException
 	 */
-	protected function checkRecipients($a_recipients)
+	protected function checkRecipients(string $recipients): array
 	{
-		$errors = array();
+		$errors = [];
 
-		try
-		{
-			$recipients = $this->parseAddresses($a_recipients);
-			foreach($recipients as $recipient)
-			{
-				$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
-				if(!$address_type->validate($this->user_id))
-				{
-					$errors = array_merge($errors, $address_type->getErrors());
+		try {
+			$addresses = $this->parseAddresses($recipients);
+			foreach ($addresses as $address) {
+				$addressType = $this->mailAddressTypeFactory->getByPrefix($address);
+				if (!$addressType->validate($this->user_id)) {
+					$newErrors = $addressType->getErrors();
+					$errors = array_merge($errors, $newErrors);
 				}
 			}
-		}
-		catch(ilException $e)
-		{
-			$colon_pos = strpos($e->getMessage(), ':');
-			throw new ilMailException(($colon_pos === false) ? $e->getMessage() : substr($e->getMessage(), $colon_pos + 2));
+		} catch (\ilException $e) {
+			$colonPosition = strpos($e->getMessage(), ':');
+			throw new \ilMailException(
+				($colonPosition === false) ? $e->getMessage() : substr($e->getMessage(), $colonPosition + 2)
+			);
 		}
 
 		return $errors;
@@ -1127,9 +1150,9 @@ class ilMail
 	 * @param array    $a_attachment
 	 * @param array    $a_type (normal and/or system and/or email)
 	 * @param bool|int $a_use_placeholders
-	 * @return array
+	 * @return \ilMailError[] 
 	 */
-	public function sendMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0)
+	public function sendMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0): array
 	{
 		global $DIC;
 
@@ -1141,31 +1164,21 @@ class ilMail
 			" | Subject: " . $a_m_subject
 		);
 
-		$this->mail_to_global_roles = true;
-		if(!$this->isSystemMail())
-		{
-			$this->mail_to_global_roles = $DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
-		}
-
-		if(in_array('system', $a_type))
-		{
+		if (in_array('system', $a_type)) {
 			$a_type = array('system');
 		}
 
-		if($a_attachment && !$this->mfile->checkFilesExist($a_attachment))
-		{
-			return array(array('mail_attachment_file_not_exist', $a_attachment));
+		if ($a_attachment && !$this->mfile->checkFilesExist($a_attachment)) {
+			return [new \ilMailError('mail_attachment_file_not_exist', [$a_attachment])];
 		}
 
-		$errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject);
-		if(count($errors) > 0)
-		{
+		$errors = $this->checkMail((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bc, (string)$a_m_subject);
+		if (count($errors) > 0) {
 			return $errors;
 		}
 
-		$errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc);
-		if(count($errors) > 0)
-		{
+		$errors = $this->validateRecipients((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bc);
+		if (count($errors) > 0) {
 			return $errors;
 		}
 
@@ -1173,31 +1186,36 @@ class ilMail
 		$rcp_cc = $a_rcp_cc;
 		$rcp_bc = $a_rcp_bc;
 
-		$c_emails = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
-
-		if(
-			$c_emails && !$this->isSystemMail() &&
-			!$DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
-		)
-		{
-			return array(array('mail_no_permissions_write_smtp'));
+		if (null === $rcp_cc) {
+			$rcp_cc = '';
 		}
 
-		if($this->appendInstallationSignature())
-		{
+		if (null === $rcp_bc) {
+			$rcp_bc = '';
+		}
+
+		$numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
+
+		if(
+			$numberOfExternalAddresses > 0 &&
+			!$this->isSystemMail() &&
+			!$DIC->rbac()->system()->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
+		) {
+			return [new \ilMailError('mail_no_permissions_write_smtp')];
+		}
+
+		if ($this->appendInstallationSignature()) {
 			$a_m_message .= self::_getInstallationSignature();
 		}
 
 		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type, $a_m_subject, $a_m_message);
 
-		if($a_attachment)
-		{
+		if ($a_attachment) {
 			$this->mfile->assignAttachmentsToDirectory($sent_id, $sent_id);
 			$this->mfile->saveFiles($sent_id, $a_attachment);
 		}
 
-		if($c_emails)
-		{
+		if($numberOfExternalAddresses > 0) {
 			$externalMailRecipientsTo  = $this->getEmailRecipients($rcp_to);
 			$externalMailRecipientsCc  = $this->getEmailRecipients($rcp_cc);
 			$externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
@@ -1219,56 +1237,47 @@ class ilMail
 				$a_attachment,
 				0
 			);
-		}
-		else
-		{
-			ilLoggerFactory::getLogger('mail')->debug("No external email addresses given in recipient string");
+		} else {
+			ilLoggerFactory::getLogger('mail')->debug('No external email addresses given in recipient string');
 		}
 
-		if(in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders))
-		{
-			return array(array('mail_send_error'));
+		if (in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders)) {
+			return [new \ilMailError('mail_send_error')];
 		}
 
-		if(in_array('normal', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'normal', $a_use_placeholders))
-		{
-			return array(array('mail_send_error'));
+		if (in_array('normal', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'normal', $a_use_placeholders)) {
+			return [new \ilMailError('mail_send_error')];
 		}
 
-		if(!$this->getSaveInSentbox())
-		{
-			$this->deleteMails(array($sent_id));
+		if(!$this->getSaveInSentbox()) {
+			$this->deleteMails([$sent_id]);
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
-	 * @param string $a_rcp_to
-	 * @param string $a_rcp_cc
-	 * @param string $a_rcp_bc
-	 * @return array Returns an empty array if there is no validation issue
+	 * @param string $to
+	 * @param string $cc
+	 * @param string $bcc
+	 * @return \ilMailError[] An array of errors determined on validation
 	 */
-	public function validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bc)
+	public function validateRecipients(string $to, string $cc, string $bcc): array
 	{
-		try
-		{
+		try {
 			$errors = array();
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_to));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_cc));
-			$errors = array_merge($errors, $this->checkRecipients($a_rcp_bc));
+			$errors = array_merge($errors, $this->checkRecipients($to));
+			$errors = array_merge($errors, $this->checkRecipients($cc));
+			$errors = array_merge($errors, $this->checkRecipients($bcc));
 
-			if(count($errors) > 0)
-			{
-				return array_merge(array(array('mail_following_rcp_not_valid')), $errors);
+			if (count($errors) > 0) {
+				return array_merge([new \ilMailError('mail_following_rcp_not_valid')], $errors);
 			}
-		}
-		catch(ilMailException $e)
-		{
-			return array(array('mail_generic_rcp_error', $e->getMessage()));
+		} catch (\ilMailException $e) {
+			return [new \ilMailError('mail_generic_rcp_error', [$e->getMessage()])];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -1310,47 +1319,46 @@ class ilMail
 	 */
 	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments, $a_no_soap = false)
 	{
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
+		global $DIC;
 
 		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
 
 		// #10854
-		if($this->isSOAPEnabled() && !$a_no_soap)
-		{
-			require_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-			$soap_client = new ilSoapClient();
-			$soap_client->setResponseTimeout(5);
-			$soap_client->enableWSDL(true);
-			$soap_client->init();
+		if ($this->isSOAPEnabled() && !$a_no_soap) {
+			$taskFactory = $DIC->backgroundTasks()->taskFactory();
+			$taskManager = $DIC->backgroundTasks()->taskManager();
+
+			$bucket = new \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket();
+			$bucket->setUserId($this->user_id);
 
 			$attachments   = array();
 			$a_attachments = $a_attachments ? $a_attachments : array();
-			foreach($a_attachments as $attachment)
-			{
+			foreach ($a_attachments as $attachment) {
 				$attachments[] = $this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment);
 			}
-
 			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
 			$attachments = implode('#:#', $attachments);
 			// mjansen: use "#:#" as leading delimiter
-			if(strlen($attachments))
-			{
+			if (strlen($attachments)) {
 				$attachments = "#:#" . $attachments;
 			}
 
-			$soap_client->call('sendMail', array(
-				session_id() . '::' . $_COOKIE['ilClientId'],
-				$a_rcp_to,
-				$a_rcp_cc,
-				$a_rcp_bcc,
-				$this->user_id,
-				$a_m_subject,
-				$a_m_message,
-				$attachments
-			));
-		}
-		else
-		{
+			$task = $taskFactory->createTask(\ilMailDeliveryJob::class, [
+				(int)$this->user_id,
+				(string)$a_rcp_to,
+				(string)$a_rcp_cc,
+				(string)$a_rcp_cc,
+				(string)$a_m_subject,
+				(string)$a_m_message,
+				(string)$attachments,
+			]);
+
+			$bucket->setTask($task);
+			$bucket->setTitle('Mail Delivery');
+			$bucket->setDescription('Delegates external mail delivery');
+
+			$taskManager->run($bucket);
+		} else {
 			/** @var ilMailMimeSenderFactory $senderFactory */
 			$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
@@ -1360,21 +1368,18 @@ class ilMail
 			$mmail->Subject($a_m_subject);
 			$mmail->Body($a_m_message);
 
-			if($a_rcp_cc)
-			{
+			if ($a_rcp_cc) {
 				$mmail->Cc($a_rcp_cc);
 			}
 
-			if($a_rcp_bcc)
-			{
+			if ($a_rcp_bcc) {
 				$mmail->Bcc($a_rcp_bcc);
 			}
 
-			if(is_array($a_attachments))
-			{
-				foreach($a_attachments as $attachment)
-				{
-					$mmail->Attach($this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '', 'inline', $attachment);
+			if (is_array($a_attachments)) {
+				foreach ($a_attachments as $attachment) {
+					$mmail->Attach($this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '', 'inline',
+						$attachment);
 				}
 			}
 
@@ -1414,13 +1419,13 @@ class ilMail
 			));
 		}
 
-		$parser          = $this->mailAddressParserFactory->getParser((string)$addresses);
+		$parser = $this->mailAddressParserFactory->getParser((string)$addresses);
 		$parsedAddresses = $parser->parse();
 
 		if (strlen($addresses) > 0) {
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
 				"Parsed addresses: %s", implode(',', array_map(function (ilMailAddress $address) {
-					return $address->getMailbox() . '@' . $address->getHost();
+					return (string)$address;
 				}, $parsedAddresses))
 			));
 		}
@@ -1429,81 +1434,56 @@ class ilMail
 	}
 
 	/**
-	 * @param string $a_recipients
-	 * @param bool   $a_only_email
+	 * @param string $recipients
+	 * @param bool $onlyExternalAddresses
 	 * @return int
 	 */
-	protected function getCountRecipient($a_recipients, $a_only_email = true)
+	protected function getCountRecipient(string $recipients, $onlyExternalAddresses = true): int
 	{
-		$counter = 0;
-
-		$recipients = $this->parseAddresses($a_recipients);
-		foreach($recipients as $recipient)
-		{
-			if($a_only_email)
-			{
-				// Fixed mantis bug #5875
-				if(ilObjUser::_lookupId($recipient->getMailbox() . '@' . $recipient->getHost()))
-				{
-					continue;
-				}
-
-				// Addresses which aren't on the self::ILIAS_HOST host, and
-				// which have a mailbox which does not start with '#',
-				// are external e-mail addresses
-				if($recipient->getHost() != self::ILIAS_HOST && substr($recipient->getMailbox(), 0, 1) != '#')
-				{
-					++$counter;
-				}
-			}
-			else
-			{
-				++$counter;
-			}
+		$addresses = new \ilMailAddressListImpl($this->parseAddresses($recipients));
+		if ($onlyExternalAddresses) {
+			$addresses = new \ilMailOnlyExternalAddressList($addresses, self::ILIAS_HOST);
 		}
 
-		return $counter;
+		return count($addresses->value());
 	}
 
 	/**
-	 * @param string $a_to
-	 * @param string $a_cc
-	 * @param string $a_bcc
-	 * @param bool $a_only_email
+	 * @param string $toRecipients
+	 * @param string $ccRecipients
+	 * @param $bccRecipients
+	 * @param bool $onlyExternalAddresses
 	 * @return int
 	 */
-	protected function getCountRecipients($a_to, $a_cc, $a_bcc, $a_only_email = true)
-	{
-		return
-			$this->getCountRecipient($a_to, $a_only_email) +
-			$this->getCountRecipient($a_cc, $a_only_email) +
-			$this->getCountRecipient($a_bcc, $a_only_email);
+	protected function getCountRecipients(
+		string $toRecipients,
+		string $ccRecipients,
+		string $bccRecipients,
+		$onlyExternalAddresses = true
+	): int {
+		return (
+			$this->getCountRecipient($toRecipients, $onlyExternalAddresses) +
+			$this->getCountRecipient($ccRecipients, $onlyExternalAddresses) +
+			$this->getCountRecipient($bccRecipients, $onlyExternalAddresses)
+		);
 	}
 
 	/**
-	 * @param string $a_recipients
+	 * @param string $recipients
 	 * @return string
 	 */
-	protected function getEmailRecipients($a_recipients)
+	protected function getEmailRecipients(string $recipients): string 
 	{
-		$rcp = array();
+		$addresses = new \ilMailOnlyExternalAddressList(
+			new \ilMailAddressListImpl($this->parseAddresses($recipients)),
+			self::ILIAS_HOST
+		);
 
-		$recipients = $this->parseAddresses($a_recipients);
-		foreach($recipients as $recipient)
-		{
-			if(substr($recipient->getMailbox(), 0, 1) != '#' && $recipient->getHost() != self::ILIAS_HOST)
-			{
-				// Fixed mantis bug #5875
-				if(ilObjUser::_lookupId($recipient->getMailbox() . '@' . $recipient->getHost()))
-				{
-					continue;
-				}
+		$emailRecipients = array_map(function(\ilMailAddress $address) {
+			return (string)$address;
+		}, $addresses->value());
 
-				$rcp[] = $recipient->getMailbox() . '@' . $recipient->getHost();
-			}
-		}
-
-		return implode(',', $rcp);
+		return implode(',', $emailRecipients);
 	}
 
 	/**

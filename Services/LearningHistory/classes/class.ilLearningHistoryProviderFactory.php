@@ -23,7 +23,8 @@ class ilLearningHistoryProviderFactory
 		ilBadgeLearningHistoryProvider::class,
 		ilCourseLearningHistoryProvider::class,
 		ilFirstLoginLearningHistoryProvider::class,
-		ilCertificateLearningHistoryProvider::class
+		ilCertificateLearningHistoryProvider::class,
+		ilSkillLearningHistoryProvider::class
 	);
 
 	/**

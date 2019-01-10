@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Class ilWebDAVDBManager
+ *
+ * According to the repository pattern, this class manages the DB actions from other WebDAV classes. At the moment, the
+ * only direct interaction between WebDAV and the DB is for the locking mechanism.
+ *
+ * @author Raphael Heer <raphael.heer@hslu.ch>
+ * $Id$
+ */
 class ilWebDAVDBManager
 {
     /**
@@ -16,9 +25,9 @@ class ilWebDAVDBManager
     
     public function checkIfLockExistsInDB($token)
     {
-         $select_query = "SELECT count(*) AS cnt FROM $this->locks_table WHERE token = " . $this->db->quote($ilias_lock->getToken(), 'text');
+         $select_query = "SELECT count(*) AS cnt FROM $this->locks_table WHERE token = " . $this->db->quote($token, 'text');
          $select_result = $this->db->query($select_query);
-         $row = $this->db->fetchAssoc($select_query);
+         $row = $this->db->fetchAssoc($select_result);
          if(isset($row)){
              return true;
          }

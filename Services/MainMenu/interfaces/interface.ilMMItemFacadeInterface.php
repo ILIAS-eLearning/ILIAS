@@ -68,6 +68,12 @@ interface ilMMItemFacadeInterface {
 	/**
 	 * @return bool
 	 */
+	public function isActivated(): bool;
+
+
+	/**
+	 * @return bool
+	 */
 	public function isAlwaysAvailable(): bool;
 
 

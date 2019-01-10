@@ -74,7 +74,7 @@ class Factory {
 	 * @return  Constraint
 	 */
 	public function or(array $others) {
-		return new Constraints\LogicalOr($others, $this->data_factory);
+		return new Constraints\LogicalOr($others, $this->data_factory, $this->lng);
 	}
 
 	// SOME RESTRICTIONS

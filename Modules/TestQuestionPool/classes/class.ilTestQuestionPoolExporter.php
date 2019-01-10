@@ -56,7 +56,8 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 		$qpl_exp = new ilQuestionpoolExport($qpl, 'xml');
 		$zip = $qpl_exp->buildExportFile();
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Created zip file '.$zip);
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$DIC['ilLog']->write(__METHOD__.': Created zip file '.$zip);
 	}
 
 	/**

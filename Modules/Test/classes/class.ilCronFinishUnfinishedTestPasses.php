@@ -60,7 +60,10 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
 
-		global $ilObjDataCache, $lng, $ilDB;
+		global $DIC;
+		$ilObjDataCache = $DIC['ilObjDataCache'];
+		$lng = $DIC['lng'];
+		$ilDB = $DIC['ilDB'];
 		
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -87,14 +90,16 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		return $lng->txt("finish_unfinished_passes");
 	}
 
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		return $lng->txt("finish_unfinished_passes_desc");
 	}

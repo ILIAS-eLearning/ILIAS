@@ -782,7 +782,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function lookupForExistingSolutions($activeId, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$return = array(
 			'authorized' => false,
@@ -847,14 +848,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			$previewSession->setParticipantsSolution(null);
 		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 	
 	/**

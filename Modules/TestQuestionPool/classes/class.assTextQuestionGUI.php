@@ -491,7 +491,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		
@@ -555,7 +557,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	function getSpecificFeedbackOutput($userSolution)
 	{
-		$firstValue1 = key($userSolution);
+		$firstValue1 = current($userSolution);
 		
 			$feedback = '<table><tbody>';
 			$user_answer = '  '. $firstValue1;

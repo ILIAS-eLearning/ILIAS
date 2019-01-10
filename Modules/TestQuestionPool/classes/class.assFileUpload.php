@@ -86,7 +86,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 							array( "integer" ),
 							array( $this->getId() )
@@ -110,7 +111,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
 			array($question_id)
@@ -299,20 +301,39 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
-		
-		if (is_null($pass))
+		if( $this->isCompletionBySubmissionEnabled() )
 		{
-			$pass = $this->getSolutionMaxPass($active_id);
+			if (is_null($pass))
+			{
+				$pass = $this->getSolutionMaxPass($active_id);
+			}
+			
+			global $DIC;
+			
+			$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+			
+			while ($data = $DIC->database()->fetchAssoc($result))
+			{
+				if( $this->isDummySolutionRecord($data) )
+				{
+					continue;
+				}
+				
+				return $this->getPoints();
+			}
 		}
-		$points = 0;
-		return $points;
+		
+		return 0;
 	}
-
+	
 	protected function calculateReachedPointsForSolution($userSolution)
 	{
-		$points = 0;
-		return $points;
+		if( $this->isCompletionBySubmissionEnabled() && count($userSolution) )
+		{
+			return $this->getPoints();
+		}
+		
+		return 0;
 	}
 	
 	/**
@@ -383,9 +404,15 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		
 		// check suffixes
-		if (strlen($suffix) && count($this->getAllowedExtensionsArray()))
+		if( count($this->getAllowedExtensionsArray()) )
 		{
-			if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray()))
+			if( !strlen($suffix) )
+			{
+				ilUtil::sendFailure($this->lng->txt("form_msg_file_missing_file_ext"), true);
+				return false;
+			}
+			
+			if( !in_array(strtolower($suffix), $this->getAllowedExtensionsArray()) )
 			{
 				ilUtil::sendFailure($this->lng->txt("form_msg_file_wrong_file_type"), true);
 				return false;
@@ -452,7 +479,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	public function getUploadedFiles($active_id, $pass = null, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (is_null($pass))
 		{
@@ -486,7 +514,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	public function getUploadedFilesForWeb($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found = $this->getUploadedFiles($active_id, $pass);
 		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
@@ -513,7 +542,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$pass = null;
 		$active_id = null;
@@ -724,9 +754,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 					$extension = $filename_arr["extension"];
 					$newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
 					
+					include_once 'Services/Utilities/classes/class.ilFileUtils.php';
+					$dispoFilename = ilFileUtils::getValidFilename($_FILES['upload']['name']);
+					$newfile = ilFileUtils::getValidFilename($newfile);
+					
 					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 					
-					$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false,
+					$this->saveCurrentSolution($active_id, $pass, $newfile, $dispoFilename, false,
 						$solutionFileVersioningUploadTS
 					);
 
@@ -734,7 +768,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 				}
 			}
 
-			if ($authorized == true)
+			if ($authorized == true && $this->intermediateSolutionExists($active_id, $pass))
 			{
 				// remove the dummy record of the intermediate solution
 				$this->deleteDummySolutionRecord($active_id, $pass);
@@ -810,7 +844,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function removeIntermediateSolution($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = parent::removeIntermediateSolution($active_id, $pass);
 
@@ -881,14 +916,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 
 		$previewSession->setParticipantsSolution($userSolution);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		$this->handleSubmission($active_id, $pass, $obligationsAnswered, $authorized);
 	}
 	
 	/**
@@ -1157,7 +1184,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function hasFileUploads($test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$query  = "
 		SELECT tst_solutions.solution_id 
 		FROM tst_solutions, tst_active, qpl_questions 
@@ -1185,7 +1213,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function deliverFileUploadZIPFile($ref_id, $test_id, $test_title)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssFileUploadUploadsExporter.php';
 		$exporter = new ilAssFileUploadUploadsExporter($ilDB, $lng);

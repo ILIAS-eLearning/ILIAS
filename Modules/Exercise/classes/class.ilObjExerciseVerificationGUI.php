@@ -54,15 +54,29 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
+		global $DIC;
+
 		$ilUser = $this->user;
-		
-		$exercise_id = $_REQUEST["exc_id"];
-		if($exercise_id)
+
+		$objectId = $_REQUEST["exc_id"];
+		if($objectId)
 		{
-			$exercise = new ilObjExercise($exercise_id, false);
+			$certificateVerificationFileService = new ilCertificateVerificationFileService(
+				$DIC->language(),
+				$DIC->database(),
+				$DIC->logger()->root(),
+				new ilCertificateVerificationClassMap()
+			);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+				(int) $ilUser->getId(),
+				(int) $objectId
+			);
 
 			try {
-				$newObj = ilObjExerciseVerification::createFromExercise($exercise, $ilUser->getId());
+				$newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
 			} catch (\Exception $exception) {
 				ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
 				return $this->create();

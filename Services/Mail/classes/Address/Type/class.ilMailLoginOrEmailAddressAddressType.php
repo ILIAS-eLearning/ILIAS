@@ -40,7 +40,7 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 		}
 
 		if (!$usrId && $this->address->getHost() == $this->typeHelper->getInstallationHost()) {
-			$this->errors[] = ['mail_recipient_not_found', $this->address->getMailbox()];
+			$this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
 			return false;
 		}
 
@@ -48,8 +48,14 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 			$usrId, 'internal_mail',
 			$this->typeHelper->getGlobalMailSystemId()
 		)) {
-			$this->errors[] = ['user_cant_receive_mail', $this->address->getMailbox()];
-			return false;
+			if ($this->typeHelper->receivesInternalMailsOnly($usrId)) {
+				$this->logger->debug(sprintf(
+					"Address '%s' not valid. Found id %s, but user can't use mail system and wants to receive emails only internally.",
+					$this->address->getMailbox(), $usrId
+				));
+				$this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
+				return false;
+			}
 		}
 
 		return true;
@@ -64,7 +70,7 @@ class ilMailLoginOrEmailAddressAddressType extends \ilBaseMailAddressType
 			$address = $this->address->getMailbox();
 
 		} else {
-			$address = $this->address->getMailbox() . '@' . $this->address->getHost();
+			$address = (string)$this->address;
 		}
 
 		$usrIds = array_filter([

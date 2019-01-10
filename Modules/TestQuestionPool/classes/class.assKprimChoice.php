@@ -260,7 +260,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	
 	private function loadAnswerData($questionId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = $this->db->queryF(
 			"SELECT * FROM {$this->getAnswerTableName()} WHERE question_fi = %s ORDER BY position ASC",
@@ -438,14 +439,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
-	/**
 	 * Returns the points, a learner has reached answering the question.
 	 * The points are calculated from the given answers.
 	 *
@@ -462,7 +455,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$found_values = array();
 		if (is_null($pass))
@@ -900,7 +894,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	protected function cloneAnswerImages($sourceQuestionId, $sourceParentId, $targetQuestionId, $targetParentId)
 	{
 		/** @var $ilLog ilLogger */
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$sourcePath = $this->buildImagePath($sourceQuestionId, $sourceParentId);
 		$targetPath = $this->buildImagePath($targetQuestionId, $targetParentId);

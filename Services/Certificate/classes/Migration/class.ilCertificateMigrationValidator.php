@@ -46,7 +46,7 @@ class ilCertificateMigrationValidator
 	 */
 	protected function areCertificatesGloballyEnabled(): bool
 	{
-		$certificatesGloballyEnabled = \ilCertificate::isActive();
+		$certificatesGloballyEnabled = (bool) $this->certificateSettings->get('active', false);
 
 		return $certificatesGloballyEnabled;
 	}

@@ -26,7 +26,8 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 	 */
 	public function getTitle()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule('sahs');
 		
@@ -38,7 +39,8 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 	 */
 	public function getDescription()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule('sahs');
 
@@ -54,7 +56,8 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$lng->loadLanguageModule('trac');
 		
@@ -126,7 +129,8 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
-		global $ilObjDataCache;
+		global $DIC;
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		if(!in_array($placeholder_id, array('sahs_title', 'sahs_link')))
 		{

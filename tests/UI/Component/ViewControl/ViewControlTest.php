@@ -130,13 +130,13 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		{
 
 			if($activate_first_item) {
-				$expected .= "<button class=\"btn btn-default ilSubmitInactive disabled\" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</button>";
+				$expected .= "<button class=\"btn btn-default ilSubmitInactive disabled engaged\" aria-label=\"$label\" aria-pressed=\"true\" data-action=\"$action\">$label</button>";
 				$activate_first_item = false;
 			} else if($active == $label) {
-				$expected .= "<button class=\"btn btn-default ilSubmitInactive disabled \" aria-label=\"$label\" aria-checked=\"true\" data-action=\"$action\">$label</button>";
+				$expected .= "<button class=\"btn btn-default ilSubmitInactive disabled engaged\" aria-label=\"$label\" aria-pressed=\"true\" data-action=\"$action\">$label</button>";
 			}
 			else {
-				$expected .= "<button class=\"btn btn-default\" aria-label=\"$label\" data-action=\"$action\" id=\"id_1\">$label</button>";
+				$expected .= "<button class=\"btn btn-default\" aria-label=\"$label\" aria-pressed=\"false\" data-action=\"$action\" id=\"id_1\">$label</button>";
 			}
 		}
 		$expected .= "</div>";
@@ -175,7 +175,7 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$expected = <<<EOT
 <div class="il-viewcontrol-section">
 <a class="btn btn-default " type="button" href="http://www.ilias.de" data-action="http://www.ilias.de"><span class="glyphicon glyphicon-chevron-left"></span></a>
-<button class="btn btn-default" data-action="" id="id_1">Today</button>
+<button class="btn btn-default" data-action="">Today</button>
 <a class="btn btn-default " type="button" href="http://www.github.com" data-action="http://www.github.com"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 EOT;

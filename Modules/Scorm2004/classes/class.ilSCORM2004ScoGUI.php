@@ -392,7 +392,8 @@ die("deprecated");
 	 */
 	function sco_preview()
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		$ilCtrl = $this->ctrl;
 		

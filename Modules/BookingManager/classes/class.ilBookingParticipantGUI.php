@@ -45,6 +45,8 @@ class ilBookingParticipantGUI
 	const FILTER_ACTION_APPLY = 1;
 	const FILTER_ACTION_RESET = 2;
 
+	const PARTICIPANT_VIEW = 1;
+
 	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj

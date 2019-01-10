@@ -595,7 +595,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilUser, $lng;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		$this->type = "tst";
 
 		$lng->loadLanguageModule("assessment");
@@ -725,6 +727,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	*/
 	function create()
 	{
+		$this->setOfflineStatus(true);
 		parent::create();
 
 		// meta data will be created by
@@ -802,7 +805,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 */
 	function deleteTest()
 	{
-		global $tree, $ilDB, $ilPluginAdmin, $lng;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$lng = $DIC['lng'];
 
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
@@ -968,7 +975,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	*/
 	public static function _createImportDirectory()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
@@ -997,7 +1005,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	*/
 	function hasSingleChoiceQuestions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_type.type_tag) foundtypes FROM qpl_questions, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
 			array('integer'),
@@ -1022,7 +1031,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	*/
 	function isSingleChoiceTest()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_type.type_tag) foundtypes FROM qpl_questions, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
 			array('integer'),
@@ -1051,7 +1061,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	*/
 	function isSingleChoiceTestWithoutShuffle()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (!$this->hasSingleChoiceQuestions()) return false;
 		
@@ -1109,7 +1120,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 */
 	function _isComplete($obj_id)
 	{
-		global $tree, $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		$test = new ilObjTest($obj_id, false);
 		$test->loadFromDb();
@@ -1128,7 +1142,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if($this->getTestId() > 0)
 		{
@@ -1160,7 +1175,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	public function saveCompleteStatus(ilTestQuestionSetConfig $testQuestionSetConfig)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$complete = 0;
 		if($this->isComplete($testQuestionSetConfig))
@@ -1214,7 +1230,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	public function saveToDb($properties_only = FALSE)
 	{
-		global $tree, $ilDB, $ilPluginAdmin;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		
 		// moved online_status to ilObjectActivation (see below)
 
@@ -1537,7 +1556,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		include_once 'Services/News/classes/class.ilNewsItem.php';
 		if( !$this->getOldOnlineStatus() && !$this->getOfflineStatus() )
 		{
-			global $ilUser;
+			global $DIC;
+			$ilUser = $DIC['ilUser'];
 			$newsItem = new ilNewsItem();
 			$newsItem->setContext($this->getId(), 'tst');
 			$newsItem->setPriority(NEWS_NOTICE);
@@ -1606,7 +1626,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 */
 	function saveQuestionsToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$oldquestions = array();
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
@@ -1703,7 +1724,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	protected function isNewRandomTest()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF('SELECT copy_id FROM tst_rnd_cpy WHERE tst_fi = %s',
 			array('integer'),
 			array($this->getTestId())
@@ -1725,8 +1747,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0, $qpls = "", $pass = NULL)
 	{
-		global $rbacsystem;
-		global $ilDB;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilDB = $DIC['ilDB'];
 
 		// retrieve object id instead of ref id if necessary
 		if (($questionpool != 0) && (!$use_obj_id)) $questionpool = ilObject::_lookupObjId($questionpool);
@@ -1825,7 +1848,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	function getNrOfResultsForPass($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'),
@@ -1846,7 +1870,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	function hasRandomQuestionsForPass($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'),
 			array($active_id, $pass)
@@ -1859,7 +1884,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	public function loadFromDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT * FROM tst_tests WHERE obj_fi = %s",
 			array('integer'),
@@ -2006,8 +2032,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 */
 function loadQuestions($active_id = "", $pass = NULL)
 {
-	global $ilUser;
-	global $ilDB;
+	global $DIC;
+	$ilUser = $DIC['ilUser'];
+	$ilDB = $DIC['ilDB'];
 
 	$this->questions = array();
 	if ($this->isRandomTest())
@@ -2578,7 +2605,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getCountSystem($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
 			array('integer'),
 			array($active_id)
@@ -2636,7 +2664,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getPassScoring($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
 			array('integer'),
 			array($active_id)
@@ -2658,7 +2687,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getMCScoring($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
 			array('integer'),
 			array($active_id)
@@ -2680,7 +2710,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getScoreCutting($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
 			array('integer'),
 			array($active_id)
@@ -2897,7 +2928,8 @@ function getAnswerFeedbackPoints()
 */
 	function _getTitleOutput($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT tst_tests.title_output FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
 			array('integer'),
@@ -2930,8 +2962,9 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		$use_previous_answers = 1;
 
@@ -3470,8 +3503,9 @@ function getAnswerFeedbackPoints()
 	{
 		$this->removeTestResultsByUserIds($userIds);
 		
-		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
-		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
@@ -3505,7 +3539,9 @@ function getAnswerFeedbackPoints()
 
 	public function removeTestResultsByUserIds($userIds)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
@@ -3525,7 +3561,8 @@ function getAnswerFeedbackPoints()
 
 	public function removeTestResultsByActiveIds($activeIds)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$IN_activeIds = $ilDB->in('active_fi', $activeIds, false, 'integer');
 
@@ -3571,7 +3608,8 @@ function getAnswerFeedbackPoints()
 
 	public function removeTestActives($activeIds)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$IN_activeIds = $ilDB->in('active_id', $activeIds, false, 'integer');
 		$ilDB->manipulate("DELETE FROM tst_active WHERE $IN_activeIds");
@@ -3586,7 +3624,8 @@ function getAnswerFeedbackPoints()
 */
 	function questionMoveUp($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// Move a question up in sequence
 		$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
@@ -3630,7 +3669,8 @@ function getAnswerFeedbackPoints()
 */
 	function questionMoveDown($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		// Move a question down in sequence
 		$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
@@ -3674,7 +3714,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function duplicateQuestionForTest($question_id)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$question =& ilObjTest::_instanciateQuestion($question_id);
 		$duplicate_id = $question->duplicate(true, null, null, null, $this->getId());
 
@@ -3691,7 +3732,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public function insertQuestion(ilTestQuestionSetConfig $testQuestionSetConfig, $question_id, $linkOnly = false)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 #var_dump($question_id);
 		if ($linkOnly)
 		{
@@ -3750,7 +3792,8 @@ function getAnswerFeedbackPoints()
 		$titles = array();
 		if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
 		{
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			$result = $ilDB->queryF("SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
 				array('integer'),
 				array($this->getTestId())
@@ -3775,7 +3818,8 @@ function getAnswerFeedbackPoints()
 		$titles = array();
 		if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
 		{
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			$result = $ilDB->queryF("SELECT qpl_questions.title, qpl_questions.question_id FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
 				array('integer'),
 				array($this->getTestId())
@@ -3829,7 +3873,8 @@ function getAnswerFeedbackPoints()
 */
 	function getQuestionDataset($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
@@ -3847,8 +3892,9 @@ function getAnswerFeedbackPoints()
 */
 	function &getExistingQuestions($pass = NULL)
 	{
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$existing_questions = array();
 		$active_id = $this->getActiveIdOfUser($ilUser->getId());
@@ -3888,7 +3934,8 @@ function getAnswerFeedbackPoints()
 */
   function getQuestionType($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if ($question_id < 1) return -1;
 		$result = $ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
@@ -3914,7 +3961,8 @@ function getAnswerFeedbackPoints()
 */
 	function startWorkingTime($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$next_id = $ilDB->nextId('tst_times');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_times (times_id, active_fi, started, finished, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -3932,7 +3980,8 @@ function getAnswerFeedbackPoints()
 */
 	function updateWorkingTime($times_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("UPDATE tst_times SET finished = %s, tstamp = %s WHERE times_id = %s",
 			array('timestamp', 'integer', 'integer'),
@@ -3948,8 +3997,9 @@ function getAnswerFeedbackPoints()
 */
 	function &getWorkedQuestions($active_id, $pass = NULL)
 	{
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		if (is_null($pass))
 		{
@@ -3995,8 +4045,9 @@ function getAnswerFeedbackPoints()
 */
 	function &getAllQuestions($pass = NULL)
 	{
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$result_array = array();
 		if ($this->isRandomTest())
@@ -4035,8 +4086,9 @@ function getAnswerFeedbackPoints()
 	*/
 		function getActiveIdOfUser($user_id = "", $anonymous_id = "")
 		{
-			global $ilDB;
-			global $ilUser;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
+			$ilUser = $DIC['ilUser'];
 
 			if (!$user_id) $user_id = $ilUser->getId();
 			if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
@@ -4085,8 +4137,9 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getActiveIdOfUser($user_id = "", $test_id = "") 
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		if (!$user_id) {
 			$user_id = $ilUser->id;
@@ -4137,7 +4190,11 @@ function getAnswerFeedbackPoints()
 	*/
 	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE, $considerHiddenQuestions = true, $considerOptionalQuestions = true)
 	{
-		global $tree, $ilDB, $lng, $ilPluginAdmin;
+		global $DIC;
+		$tree = $DIC['tree'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$results = $this->getResultsForActiveId($active_id);
 		
@@ -4354,7 +4411,8 @@ function getAnswerFeedbackPoints()
 */
 	function evalTotalPersons()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s",
 			array('integer'),
@@ -4372,7 +4430,8 @@ function getAnswerFeedbackPoints()
 */
 	function getCompleteWorkingTime($user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
 			array('integer','integer'),
@@ -4410,7 +4469,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function &_getCompleteWorkingTimeOfParticipants($test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.active_fi, tst_times.started",
 			array('integer'),
@@ -4441,7 +4501,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function getCompleteWorkingTimeOfParticipant($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.active_fi, tst_times.started",
 			array('integer','integer'),
@@ -4467,7 +4528,8 @@ function getAnswerFeedbackPoints()
 	*/
 	public static function _getWorkingTimeOfParticipantForPass($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT * FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
 			array('integer','integer'),
@@ -4507,7 +4569,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function _getVisitTimeOfParticipant($test_id, $active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.started",
 			array('integer','integer'),
@@ -4535,8 +4598,9 @@ function getAnswerFeedbackPoints()
 */
 	function &evalStatistical($active_id)
 	{
-		global $ilDB;
-//		global $ilBench;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+//		$ilBench = $DIC['ilBench'];
 		$pass = ilObjTest::_getResultPass($active_id);
 		$test_result =& $this->getTestResult($active_id, $pass);
 		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.active_id = %s AND tst_active.active_id = tst_times.active_fi",
@@ -4685,7 +4749,8 @@ function getAnswerFeedbackPoints()
 	*/
 	public function &getParticipants()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_active.active_id, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname ASC",
 			array('integer'),
 			array($this->getTestId())
@@ -4736,7 +4801,8 @@ function getAnswerFeedbackPoints()
 */
 	function &evalTotalPersonsArray($name_sort_order = "asc")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 			array('integer'),
 			array($this->getTestId())
@@ -4783,7 +4849,8 @@ function getAnswerFeedbackPoints()
 */
 	function &evalTotalParticipantsArray($name_sort_order = "asc")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 			array('integer'),
 			array($this->getTestId())
@@ -4825,7 +4892,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function &getQuestionsOfTest($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if ($this->isRandomTest())
 		{
 			$ilDB->setLimit($this->getQuestionCount(), 0);
@@ -4868,7 +4936,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function &getQuestionsOfPass($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if ($this->isRandomTest())
 		{
 			$ilDB->setLimit($this->getQuestionCount(), 0);
@@ -5192,7 +5261,8 @@ function getAnswerFeedbackPoints()
 	
 	public static function _getQuestionCountAndPointsForPassOfParticipant($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$questionSetType = ilObjTest::lookupQuestionSetTypeByActiveId($active_id);
 
@@ -5313,7 +5383,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function &_evalResultsOverview($test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
@@ -5362,7 +5433,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function &evalResultsOverviewOfParticipant($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
@@ -5452,7 +5524,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function _buildName($is_anonymous, $user_id, $firstname, $lastname, $title)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$name = "";
 		if (strlen($firstname.$lastname.$title) == 0)
 		{
@@ -5607,7 +5680,11 @@ function getAnswerFeedbackPoints()
 		{
 			$question->object->loadFromDb($question_id);
 			
-			global $ilCtrl, $ilDB, $ilUser, $lng;
+			global $DIC;
+			$ilCtrl = $DIC['ilCtrl'];
+			$ilDB = $DIC['ilDB'];
+			$ilUser = $DIC['ilUser'];
+			$lng = $DIC['lng'];
 			
 			$feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
 			$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
@@ -5737,10 +5814,11 @@ function getAnswerFeedbackPoints()
 */
 	function getAvailableQuestions($arrFilter, $completeonly = 0)
 	{
-		$pluginAdmin = $GLOBALS['DIC'] ? $GLOBALS['DIC']['ilPluginAdmin'] : $GLOBALS['ilPluginAdmin']; 
-		$lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng']; 
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+		$pluginAdmin = $DIC['ilPluginAdmin']; 
+		$lng = $DIC['lng']; 
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE));
@@ -6234,7 +6312,8 @@ function getAnswerFeedbackPoints()
 				}
 				else
 				{
-					global $ilLog;
+					global $DIC;
+					$ilLog = $DIC['ilLog'];
 					$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
 				}
 			}
@@ -6807,7 +6886,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function exportPagesXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		global $ilBench;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 
 		$this->mob_ids = array();
 		$this->file_ids = array();
@@ -6877,7 +6957,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog)
 	{
-		global $ilBench;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 
 		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
 
@@ -7110,7 +7191,10 @@ function getAnswerFeedbackPoints()
 		 * @var $ilDB          ilDBInterface
 		 * @var $ilPluginAdmin ilPluginAdmin
 		 */
-		global $ilDB, $ilPluginAdmin, $tree;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+		$tree = $DIC['tree'];
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
@@ -7179,7 +7263,8 @@ function getAnswerFeedbackPoints()
 		{
 			if (strlen($a_author) == 0)
 			{
-				global $ilUser;
+				global $DIC;
+				$ilUser = $DIC['ilUser'];
 				$a_author = $ilUser->getFullname();
 			}
 
@@ -7279,8 +7364,9 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getAvailableTests($use_object_id = FALSE)
 	{
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$result_array = array();
 		$tests = ilUtil::_getObjectsByOperations("tst","write", $ilUser->getId(), -1);
@@ -7458,7 +7544,10 @@ function getAnswerFeedbackPoints()
 
 		if( $this->isRandomTest() )
 		{
-			global $tree, $ilDB, $ilPluginAdmin;
+			global $DIC;
+			$tree = $DIC['tree'];
+			$ilDB = $DIC['ilDB'];
+			$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 			$questionSetConfig = new ilTestRandomQuestionSetConfig(
 				$tree, $ilDB, $ilPluginAdmin, $this
@@ -7502,7 +7591,8 @@ function getAnswerFeedbackPoints()
 */
 	function logAction($logtext = "", $question_id = "")
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$original_id = "";
 		if (strcmp($question_id, "") != 0)
@@ -7523,7 +7613,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getObjectIDFromTestID($test_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$object_id = FALSE;
 		$result = $ilDB->queryF("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
 			array('integer'),
@@ -7546,7 +7637,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getObjectIDFromActiveID($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$object_id = FALSE;
 		$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
 			array('integer'),
@@ -7569,7 +7661,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getTestIDFromObjectID($object_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$test_id = FALSE;
 		$result = $ilDB->queryF("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
 			array('integer'),
@@ -7593,7 +7686,8 @@ function getAnswerFeedbackPoints()
 */
 	function getTextAnswer($active_id, $question_id, $pass = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = "";
 		if (($active_id) && ($question_id))
@@ -7625,7 +7719,8 @@ function getAnswerFeedbackPoints()
 */
 	function getQuestiontext($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$res = "";
 		if ($question_id)
@@ -7675,7 +7770,8 @@ function getAnswerFeedbackPoints()
 */
 	function &getInvitedUsers($user_id="", $order="login, lastname, firstname")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result_array = array();
 
@@ -7745,7 +7841,8 @@ function getAnswerFeedbackPoints()
 */
 	function &getTestParticipants()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if ($this->getAnonymity())
 		{
@@ -7813,7 +7910,8 @@ function getAnswerFeedbackPoints()
 	
 	public function getTestParticipantsForManualScoring($filter = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoring();
@@ -7915,7 +8013,8 @@ function getAnswerFeedbackPoints()
 */
 	function &getUserData($ids)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (!is_array($ids) || count($ids) ==0) return array();
 
@@ -7989,7 +8088,8 @@ function getAnswerFeedbackPoints()
 */
 	function inviteRole($role_id)
 	{
-		global $rbacreview;
+		global $DIC;
+		$rbacreview = $DIC['rbacreview'];
 		$members =  $rbacreview->assignedUsers($role_id);
 		include_once './Services/User/classes/class.ilObjUser.php';
 		foreach ($members as $user_id)
@@ -8008,7 +8108,8 @@ function getAnswerFeedbackPoints()
 */
 	function disinviteUser($user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
 			array('integer', 'integer'),
@@ -8024,7 +8125,8 @@ function getAnswerFeedbackPoints()
 */
 	function inviteUser($user_id, $client_ip="")
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
 			array('integer', 'integer'),
@@ -8039,7 +8141,8 @@ function getAnswerFeedbackPoints()
 
 	function setClientIP($user_id, $client_ip)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("UPDATE tst_invited_user SET clientip = %s, tstamp = %s WHERE test_fi=%s and user_fi=%s",
 			array('text', 'integer', 'integer', 'integer'),
@@ -8054,7 +8157,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function _getSolvedQuestions($active_id, $question_fi = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if (is_numeric($question_fi))
 		{
 			$result = $ilDB->queryF("SELECT question_fi, solved FROM tst_qst_solved WHERE active_fi = %s AND question_fi=%s",
@@ -8083,7 +8187,8 @@ function getAnswerFeedbackPoints()
 	 */
 	function setQuestionSetSolved($value, $question_id, $user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$active_id = $this->getActiveIdOfUser($user_id);
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE active_fi = %s AND question_fi = %s",
@@ -8101,7 +8206,8 @@ function getAnswerFeedbackPoints()
 	 */
 	function isTestFinished($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT submitted FROM tst_active WHERE active_id=%s AND submitted=%s",
 			array('integer', 'integer'),
@@ -8115,8 +8221,9 @@ function getAnswerFeedbackPoints()
 	 */
 	function isActiveTestSubmitted($user_id = null)
 	{
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		if (!is_numeric($user_id))
 			$user_id = $ilUser->getId();
@@ -8287,7 +8394,8 @@ function getAnswerFeedbackPoints()
 */
 	public static function _getPass($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT tries FROM tst_active WHERE active_id = %s",
 			array('integer'),
 			array($active_id)
@@ -8314,7 +8422,8 @@ function getAnswerFeedbackPoints()
 	*/
 		public static function _getMaxPass($active_id)
 		{
-			global $ilDB;
+			global $DIC;
+			$ilDB = $DIC['ilDB'];
 			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
 				array('integer'),
 				array($active_id)
@@ -8338,7 +8447,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function _getBestPass($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT * FROM tst_pass_result WHERE active_fi = %s",
 			array('integer'),
@@ -8415,7 +8525,11 @@ function getAnswerFeedbackPoints()
 	{
 		if( $this->isDynamicTest() )
 		{
-			global $tree, $ilDB, $lng, $ilPluginAdmin;
+			global $DIC;
+			$tree = $DIC['tree'];
+			$ilDB = $DIC['ilDB'];
+			$lng = $DIC['lng'];
+			$ilPluginAdmin = $DIC['ilPluginAdmin'];
 			
 			require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 			$testSessionFactory = new ilTestSessionFactory($this);
@@ -8462,7 +8576,8 @@ function getAnswerFeedbackPoints()
 */
 	function getPassFinishDate($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		if (is_null($pass))
 		{
@@ -8562,8 +8677,9 @@ function getAnswerFeedbackPoints()
 				}
 			}
 		}
+		global $DIC;
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this);
+		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this);
 		$testPassesSelector->setActiveId($active_id);
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 		
@@ -8636,7 +8752,8 @@ function getAnswerFeedbackPoints()
 */
 	function getStartingTimeOfUser($active_id, $pass = null)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if ($active_id < 1) return FALSE;
 		if($pass === null)
@@ -8696,7 +8813,8 @@ function getAnswerFeedbackPoints()
 
 	function &getTestQuestions()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		questions.*,
@@ -8798,7 +8916,8 @@ function getAnswerFeedbackPoints()
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			SELECT		questions.*,
@@ -9393,7 +9512,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function _getUserIdFromActiveId($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = $ilDB->queryF("SELECT user_fi FROM tst_active WHERE active_id = %s",
 			array('integer'),
 			array($active_id)
@@ -9447,7 +9567,8 @@ function getAnswerFeedbackPoints()
 
 	function checkMaximumAllowedUsers()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$nr_of_users = $this->getAllowedUsers();
 		$time_gap = ($this->getAllowedUsersTimeGap()) ? $this->getAllowedUsersTimeGap() : 60;
@@ -9487,7 +9608,8 @@ function getAnswerFeedbackPoints()
 
 	function _getLastAccess($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT finished FROM tst_times WHERE active_fi = %s ORDER BY finished DESC",
 			array('integer'),
@@ -9548,7 +9670,8 @@ function getAnswerFeedbackPoints()
 				}
 			}
 		}
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$ilLog->write(print_r($_SESSION["import_mob_xhtml"], true));
 		return $result;
 	}
@@ -9616,7 +9739,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function saveCertificateVisibility($a_value)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("UPDATE tst_tests SET certificate_visibility = %s, tstamp = %s WHERE test_id = %s",
 			array('text', 'integer', 'integer'),
@@ -9775,7 +9899,8 @@ function getAnswerFeedbackPoints()
 	*/
 	public static function _lookupAnonymity($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT anonymity FROM tst_tests WHERE obj_fi = %s",
 			array('integer'),
@@ -9796,7 +9921,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function lookupQuestionSetTypeByActiveId($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$query = "
 			SELECT		tst_tests.question_set_type
@@ -9828,7 +9954,8 @@ function getAnswerFeedbackPoints()
 	{
 		throw new Exception(__METHOD__.' is deprecated ... use ilObjTest::lookupQuestionSetTypeByActiveId() instead!');
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT tst_tests.random_test FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
 			array('integer'),
@@ -9916,7 +10043,9 @@ function getAnswerFeedbackPoints()
 		 * @var $ilDB   ilDBInterface
 		 * @var $ilUser ilObjUser
 		 */
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		$result   = $ilDB->queryF(
 			"SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
@@ -9945,7 +10074,8 @@ function getAnswerFeedbackPoints()
 	
 	public static function _getTestDefaults($test_defaults_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT * FROM tst_test_defaults WHERE test_defaults_id = %s",
 			array('integer'),
@@ -9970,7 +10100,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function deleteDefaults($test_default_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_defaults WHERE test_defaults_id = %s",
 			array('integer'),
 			array($test_default_id)
@@ -9985,8 +10116,9 @@ function getAnswerFeedbackPoints()
 	*/
 	function addDefaults($a_name)
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$testsettings = array(
 			"TitleOutput"                => $this->getTitleOutput(),
 			"PassScoring"                => $this->getPassScoring(),
@@ -10266,9 +10398,10 @@ function getAnswerFeedbackPoints()
 		$xsl = file_get_contents("./Modules/Test/xml/question2fo.xsl");
 
 		// additional font support
+		global $DIC;
 		$xsl = str_replace(
 				'font-family="Helvetica, unifont"',
-				'font-family="'.$GLOBALS['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
+				'font-family="'.$DIC['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
 				$xsl
 		);
 
@@ -10332,7 +10465,8 @@ function getAnswerFeedbackPoints()
 	*/
 	public function deliverPDFfromFO($fo, $title = null)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$fo_file = ilUtil::ilTempnam() . ".fo";
@@ -10364,7 +10498,8 @@ function getAnswerFeedbackPoints()
 	*/
 	static function getManualFeedback($active_id, $question_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$feedback = "";
 		$result = $ilDB->queryF("SELECT feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
@@ -10391,7 +10526,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function saveManualFeedback($active_id, $question_id, $pass, $feedback)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
@@ -10414,7 +10550,9 @@ function getAnswerFeedbackPoints()
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				global $lng, $ilUser;
+				global $DIC;
+				$lng = $DIC['lng'];
+				$ilUser = $DIC['ilUser'];
 				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 				$username = ilObjTestAccess::_getParticipantData($active_id);
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -10435,7 +10573,8 @@ function getAnswerFeedbackPoints()
 	{
 		return TRUE;
 		
-//		global $ilUser;
+//		global $DIC;
+//		$ilUser = $DIC['ilUser'];
 //		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
 //		if ($this->getForceJS()) return TRUE;
 //		$assessmentSetting = new ilSetting("assessment");
@@ -10521,7 +10660,8 @@ function getAnswerFeedbackPoints()
 	*/
 	public static function _lookupTestObjIdForQuestionId($a_q_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT t.obj_fi obj_id FROM tst_test_question q, tst_tests t WHERE q.test_fi = t.test_id AND q.question_fi = %s",
 			array('integer'),
@@ -10539,7 +10679,8 @@ function getAnswerFeedbackPoints()
 	*/
 	function isPluginActive($a_pname)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "TestQuestionPool", "qst", $a_pname))
 		{
 			return TRUE;
@@ -10552,7 +10693,8 @@ function getAnswerFeedbackPoints()
 	
 	public function getPassed($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$result = $ilDB->queryF("SELECT passed FROM tst_result_cache WHERE active_fi = %s",
 			array('integer'),
@@ -10629,7 +10771,8 @@ function getAnswerFeedbackPoints()
 	public function getParticipantsForTestAndQuestion($test_id, $question_id)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass 
@@ -10829,7 +10972,8 @@ function getAnswerFeedbackPoints()
 
 	function createRandomSolutions($number)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// 1. get a user
 		$query = "SELECT usr_id FROM usr_data";
@@ -10896,7 +11040,8 @@ function getAnswerFeedbackPoints()
 	
 	public function getResultsForActiveId($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT		*
@@ -11032,7 +11177,8 @@ function getAnswerFeedbackPoints()
 
             $new_question_id += 1;
 
-            global $ilDB;
+            global $DIC;
+            $ilDB = $DIC['ilDB'];
             $inserted = false;
             $res = $ilDB->queryF($query, $types, $values);
             while($row = $ilDB->fetchAssoc($res)) {
@@ -11136,9 +11282,10 @@ function getAnswerFeedbackPoints()
 	
 	public function reindexFixedQuestionOrdering()
 	{
-		$tree = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tree'] : $GLOBALS['tree'];
-		$db = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
-		$pluginAdmin = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilPluginAdmin'] : $GLOBALS['ilPluginAdmin'];
+		global $DIC;
+		$tree = $DIC['tree'];
+		$db = $DIC['ilDB'];
+		$pluginAdmin = $DIC['ilPluginAdmin'];
 		
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$qscFactory = new ilTestQuestionSetConfigFactory($tree, $db, $pluginAdmin, $this);
@@ -11152,7 +11299,8 @@ function getAnswerFeedbackPoints()
 
 	public function setQuestionOrderAndObligations($orders, $obligations)
 	{
-	    global $ilDB;
+	    global $DIC;
+	    $ilDB = $DIC['ilDB'];
 
 	    asort($orders);
 
@@ -11182,7 +11330,8 @@ function getAnswerFeedbackPoints()
 	}
 
 	public function moveQuestionAfter($question_to_move, $question_before) {
-	    global $ilDB;
+	    global $DIC;
+	    $ilDB = $DIC['ilDB'];
 	    //var_dump(func_get_args());
 	    if ($question_before) {
 		$query = 'SELECT sequence, test_fi FROM tst_test_question WHERE question_fi = %s';
@@ -11213,7 +11362,8 @@ function getAnswerFeedbackPoints()
 
 	public function hasQuestionsWithoutQuestionpool()
 	{
-	    global $ilDB;
+	    global $DIC;
+	    $ilDB = $DIC['ilDB'];
 
 	    $questions = $this->getQuestionTitlesAndIndexes();
 		
@@ -11246,7 +11396,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function _lookupFinishedUserTests($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT test_fi,MAX(pass) AS pass FROM tst_active".
 			" JOIN tst_pass_result ON (tst_pass_result.active_fi = tst_active.active_id)".
@@ -11703,7 +11854,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function isQuestionObligatory($question_id)
 	{
-	    global $ilDB;
+	    global $DIC;
+	    $ilDB = $DIC['ilDB'];
 
 	    $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', array('integer'), array($question_id));
 
@@ -11729,7 +11881,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function allObligationsAnswered($test_id, $active_id, $pass)
 	{
-	    global $ilDB;
+	    global $DIC;
+	    $ilDB = $DIC['ilDB'];
   
 	    $rset = $ilDB->queryF(
 		    'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
@@ -11755,7 +11908,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function hasObligations($test_id)
 	{
-	    global $ilDB;
+	    global $DIC;
+	    $ilDB = $DIC['ilDB'];
 	    
 		$rset = $ilDB->queryF(
 			'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
@@ -11880,7 +12034,8 @@ function getAnswerFeedbackPoints()
 
 	function getStartingTimeOfParticipants()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$times = array();
 		$result = $ilDB->query("SELECT tst_times.active_fi, tst_times.started FROM tst_times, tst_active WHERE tst_times.active_fi = tst_active.active_id ORDER BY tst_times.tstamp DESC");
@@ -11893,7 +12048,8 @@ function getAnswerFeedbackPoints()
 
 	function getTimeExtensionsOfParticipants()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$times = array();
 		$result = $ilDB->queryF("SELECT tst_addtime.active_fi, tst_addtime.additionaltime FROM tst_addtime, tst_active WHERE tst_addtime.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
@@ -11909,7 +12065,8 @@ function getAnswerFeedbackPoints()
 
 	public function getExtraTime($active_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT additionaltime FROM tst_addtime WHERE active_fi = %s",
 			array('integer'),
@@ -11998,7 +12155,8 @@ function getAnswerFeedbackPoints()
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = '
 			SELECT MAX(tst_pass_result.pass) + 1 max_res
@@ -12018,7 +12176,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function lookupExamId($active_id, $pass)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$exam_id_query  = 'SELECT exam_id FROM tst_pass_result WHERE active_fi = %s AND pass = %s';
 		$exam_id_result = $ilDB->queryF( $exam_id_query, array( 'integer', 'integer' ), array( $active_id, $pass ) );
@@ -12043,7 +12202,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function buildExamId($active_id, $pass, $test_obj_id = null)
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC['ilSetting'];
 
 		$inst_id = $ilSetting->get( 'inst_id', null );
 
@@ -12165,7 +12325,8 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function lookupQuestionSetType($objId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "SELECT question_set_type FROM tst_tests WHERE obj_fi = %s";
 		
@@ -12271,7 +12432,8 @@ function getAnswerFeedbackPoints()
 	
 	public static function getTestObjIdsWithActiveForUserId($userId)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT obj_fi
@@ -12402,7 +12564,10 @@ function getAnswerFeedbackPoints()
 
 	public static function ensureParticipantsLastActivePassFinished($testObjId, $userId, $a_force_new_run = FALSE)
 	{
-		global $ilDB, $lng, $ilPluginAdmin;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		/* @var ilObjTest $testOBJ */
 
@@ -12435,7 +12600,10 @@ function getAnswerFeedbackPoints()
 	
 	public static function isParticipantsLastPassActive($testRefId, $userId)
 	{
-		global $ilDB, $lng, $ilPluginAdmin;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		/* @var ilObjTest $testOBJ */
 
@@ -12480,7 +12648,8 @@ function getAnswerFeedbackPoints()
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = "
 			SELECT COUNT(test_question_id) cnt

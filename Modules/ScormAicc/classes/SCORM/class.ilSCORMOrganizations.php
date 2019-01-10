@@ -44,7 +44,8 @@ class ilSCORMOrganizations extends ilSCORMObject
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		// title should be overrriden by ilSCORMExplorer
 		$this->setTitle($lng->txt("cont_organizations"));
@@ -65,7 +66,8 @@ class ilSCORMOrganizations extends ilSCORMObject
 
 	function read()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::read();
 
@@ -80,7 +82,8 @@ class ilSCORMOrganizations extends ilSCORMObject
 
 	function create()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::create();
 
@@ -93,7 +96,8 @@ class ilSCORMOrganizations extends ilSCORMObject
 
 	function update()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		parent::update();
 
@@ -108,7 +112,8 @@ class ilSCORMOrganizations extends ilSCORMObject
 
 	function delete()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		parent::delete();
 

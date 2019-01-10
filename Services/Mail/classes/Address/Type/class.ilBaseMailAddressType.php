@@ -16,8 +16,8 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	/** @var \ilLogger */
 	protected $logger;
 
-	/** @var array */
-	protected $errors = [];
+	/** @var \ilMailError[] */
+	private $errors = [];
 
 	/**
 	 * ilBaseMailAddressType constructor.
@@ -52,6 +52,15 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	}
 
 	/**
+	 * @param string $languageVariable
+	 * @param array $placeHolderValues
+	 */
+	protected function pushError(string $languageVariable, array $placeHolderValues = [])
+	{
+		$this->errors[] = new \ilMailError($languageVariable, $placeHolderValues);
+	}
+
+	/**
 	 *
 	 */
 	private function resetErrors()
@@ -60,10 +69,18 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
 	}
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function getErrors(): array
 	{
 		return $this->errors;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAddress(): \ilMailAddress
+	{
+		return $this->address;
 	}
 }

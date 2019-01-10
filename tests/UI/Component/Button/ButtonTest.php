@@ -134,6 +134,22 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	}
 
 	/**
+	 * test loading animation
+	 */
+	public function test_button_with_loading_animation() {
+		$f = $this->getButtonFactory();
+		foreach (["standard", "primary"] as $method) {
+			$b = $f->$method("label", "http://www.ilias.de");
+
+			$this->assertFalse($b->hasLoadingAnimationOnClick());
+
+			$b = $b->withLoadingAnimationOnClick(true);
+
+			$this->assertTrue($b->hasLoadingAnimationOnClick());
+		}
+	}
+
+	/**
 	 * @dataProvider button_type_provider
 	 */
 	public function test_render_button_label($factory_method) {
@@ -326,12 +342,28 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	/**
 	 * @dataProvider button_type_provider
 	 */
-	public function test_button_with_aria_checked($factory_method) {
+	public function test_button_with_engageable($factory_method) {
 		$f = $this->getButtonFactory();
 		$b = $f->$factory_method("label", "http://www.ilias.de");
-		$this->assertEquals(false, $b->isAriaChecked());
-		$b2 = $f->$factory_method("label", "http://www.ilias.de")->withAriaChecked();
-		$this->assertEquals(true,$b2->isAriaChecked());
+		if($b instanceof C\Button\Engageable) {
+			$this->assertEquals(false, $b->isEngageable());
+			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(false);
+			$this->assertEquals(true,$b2->isEngageable());
+		}
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_button_with_engaged($factory_method) {
+		$f = $this->getButtonFactory();
+		$b = $f->$factory_method("label", "http://www.ilias.de");
+		if($b instanceof C\Button\Engageable) {
+			$b = $b->withEngagedState(false);
+			$this->assertEquals(false, $b->isEngaged());
+			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(true);
+			$this->assertEquals(true,$b2->isEngaged());
+		}
 	}
 
 	/**
@@ -368,11 +400,12 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			$ln = "http://www.ilias.de";
 			$f = $this->getButtonFactory();
 			$r = $this->getDefaultRenderer();
-			$b = $f->$factory_method("label", $ln)->withAriaChecked();
+			$b = $f->$factory_method("label", $ln)->withEngagedState(true);
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<button class=\"$css_classes\" aria-checked=\"true\" data-action=\"$ln\" id=\"id_1\">".
+			$css_classes .= ' engaged';
+			$expected = "<button class=\"$css_classes\" aria-pressed=\"true\" data-action=\"$ln\" id=\"id_1\">".
 				"label".
 				"</button>";
 			$this->assertHTMLEquals($expected, $html);
@@ -429,6 +462,29 @@ class ButtonTest extends ILIAS_UI_TestBase {
 					"</button>";
 		$this->assertHTMLEquals($expected, $html);
 	}
+
+	/**
+	 * test rendering with on click animation
+	 */
+	public function test_render_button_with_on_click_animation() {
+		foreach (["primary", "standard"] as $method)
+		{
+			$ln = "http://www.ilias.de";
+			$f = $this->getButtonFactory();
+			$r = $this->getDefaultRenderer();
+			$b = $f->$method("label", $ln)
+				->withLoadingAnimationOnClick(true);
+
+			$html = $this->normalizeHTML($r->render($b));
+
+			$css_classes = self::$canonical_css_classes[$method];
+			$expected = "<button class=\"$css_classes\" data-action=\"$ln\" id=\"id_1\">" .
+				"label" .
+				"</button>";
+			$this->assertHTMLEquals($expected, $html);
+		}
+	}
+
 
 	// TODO: We are missing a test for the rendering of a button with an signal
 	// here. Does it still render the action js?

@@ -1078,7 +1078,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	{
 		$options = array('all' => $this->lng->txt('search_any'),
 						 'crs' => $this->lng->txt('objs_crs'),
-						 'lms' => $this->lng->txt('learning_resources'),
+						 'lms' => $this->lng->txt('obj_lrss'),
 						 'glo' => $this->lng->txt('objs_glo'),
 						 'mep' => $this->lng->txt('objs_mep'),
 						 'tst' => $this->lng->txt('search_tst_svy'),

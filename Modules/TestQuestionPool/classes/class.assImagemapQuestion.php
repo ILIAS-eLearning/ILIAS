@@ -134,7 +134,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$ilDB->manipulateF( "DELETE FROM qpl_a_imagemap WHERE question_fi = %s",
 							array( "integer" ),
 							array( $this->getId() )
@@ -158,7 +159,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 							array( "integer" ),
@@ -313,7 +315,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	function duplicateImage($question_id, $objectId = null)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
@@ -370,7 +373,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 */
 	function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
@@ -470,7 +474,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			{
 				$this->ilias->raiseError("The image could not be uploaded!", $this->ilias->error_obj->MESSAGE);
 			}
-			global $ilLog; $ilLog->write("gespeichert: " . $imagepath.$image_filename);
+			global $DIC;
+			$ilLog = $DIC['ilLog'];
+			$ilLog->write("gespeichert: " . $imagepath.$image_filename);
 		}
   }
 
@@ -669,7 +675,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found_values = array();
 		if (is_null($pass))
@@ -693,7 +700,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
 		$solutionData = $previewSession->getParticipantsSolution();
-		return $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
+
+		$reachedPoints = $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 
 	public function isAutosaveable()
@@ -711,7 +722,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		if (is_null($pass))
 		{
@@ -818,14 +830,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 
 		$previewSession->setParticipantsSolution($solution);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	function syncWithOriginal()
@@ -1037,7 +1041,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

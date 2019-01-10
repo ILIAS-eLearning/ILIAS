@@ -80,6 +80,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 		$this->obj_definition = $DIC["objDefinition"];
 		$this->lng = $DIC->language();
 		$tree = $DIC->repositoryTree();
+		$ilSetting = $DIC->settings();
 		$objDefinition = $DIC["objDefinition"];
 
 		$this->access = $DIC->access();
@@ -117,6 +118,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 		{
 			$this->setPathOpen((int) $_GET["ref_id"]);
 		}
+		$this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
 	}
 
 	/**

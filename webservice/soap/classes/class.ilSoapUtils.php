@@ -44,78 +44,7 @@ class ilSoapUtils extends ilSoapAdministration
 	{
 		$this->soap_check = false;		
 	}
-	
-	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
-	{
-		$this->initAuth($sid);
-		$this->initIlias();
 
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
-
-		/** @var ilMailMimeSenderFactory $senderFactory */
-		$senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
-
-		if(is_numeric($sender))
-		{
-			$sender = $senderFactory->getSenderByUsrId($sender);
-		}
-		else
-		{
-			$sender = $senderFactory->userByEmailAddress($sender);
-		}
-
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
-		$mmail = new ilMimeMail();
-		$mmail->From($sender);
-		$mmail->To(explode(',',$to));
-		$mmail->Subject($subject);
-		$mmail->Body($message);
-
-		if($cc)
-		{
-			$mmail->Cc(explode(',',$cc));
-		}
-
-		if($bcc)
-		{
-			$mmail->Bcc(explode(',',$bcc));
-		}
-		if($attach)
-		{
-			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
-			// for backward compatibility we have to check if the substring "#:#" exists as leading separator
-			// otherwise we should use ";" 
-			if(strpos($attach, '#:#') === 0)
-			{
-				$attach = substr($attach, strlen('#:#'));
-				$attachments = explode('#:#', $attach);	
-			}
-			else
-			{
-				$attachments = explode(',', $attach);
-			}
-
-			foreach($attachments as $attachment)
-			{
-				$final_filename = null;
-				$filename       = basename($attachment);
-				if(strlen($filename) > 0)
-				{
-					// #17740
-					$final_filename = preg_replace('/^(\d+?_)(.*)/', '$2', $filename);
-				}
-				$mmail->Attach($attachment, '', 'inline', $final_filename);
-			}
-		}
-
-		$mmail->Send();
-
-		return true;
-	}
-	
 	/**
 	 * mail via soap
 	 * @param object $sid

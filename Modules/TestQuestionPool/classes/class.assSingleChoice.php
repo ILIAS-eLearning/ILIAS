@@ -120,7 +120,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	public function saveToDb($original_id = "")
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$this->saveQuestionDataToDb($original_id);
 
@@ -203,7 +204,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$hasimages = 0;
 
@@ -573,7 +575,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$found_values = array();
 		if (is_null($pass))
@@ -606,15 +609,20 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
 		$participantSolution = $previewSession->getParticipantsSolution();
+		
+		$points = 0;
+		
 		foreach ($this->answers as $key => $answer)
 		{
 			if( is_numeric($participantSolution) && $key == $participantSolution )
 			{
-				return $answer->getPoints();
+				$points = $answer->getPoints();
 			}
 		}
 		
-		return 0;
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	/**
@@ -627,8 +635,9 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		global $ilDB;
-		global $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
 		if (is_null($pass))
 		{
@@ -702,7 +711,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		// save additional data
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -725,7 +735,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	public function saveAnswerSpecificDataToDb()
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		if (!$this->isSingleline)
 		{
 			ilUtil::delDir( $this->getImagePath() );
@@ -754,14 +765,6 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			);
 		}
 		$this->rebuildThumbnails();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	/**
@@ -859,7 +862,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 	function duplicateImages($question_id, $objectId = null)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		
@@ -897,7 +901,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	function copyImages($question_id, $source_questionpool)
 	{
 		/** @var $ilLog ilLogger */
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
@@ -944,7 +949,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	**/
 	protected function syncImages()
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$question_id = $this->getOriginalId();
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
@@ -1131,7 +1137,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 	function getMultilineAnswerSetting()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$multilineAnswerSetting = $ilUser->getPref("tst_multiline_answers");
 		if ($multilineAnswerSetting != 1)
@@ -1143,7 +1150,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	
 	function setMultilineAnswerSetting($a_setting = 0)
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$ilUser->writePref("tst_multiline_answers", $a_setting);
 	}
 
@@ -1257,7 +1265,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	public function getUserQuestionResult($active_id, $pass)
 	{
 		/** @var ilDBInterface $ilDB */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

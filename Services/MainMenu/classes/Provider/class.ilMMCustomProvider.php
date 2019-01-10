@@ -119,7 +119,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		$complex = new TypeInformation(Complex::class, $this->translateType(Complex::class));
 		$complex->setCreationPrevented(true);
 		$c->add($complex);
-		$lost = new TypeInformation(Lost::class, $this->translateType(Lost::class));
+		$lost = new TypeInformation(Lost::class, $this->translateType(Lost::class), new ilMMLostItemRenderer());
 		$lost->setCreationPrevented(true);
 		$c->add($lost);
 

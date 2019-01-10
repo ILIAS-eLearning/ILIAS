@@ -5,7 +5,7 @@
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilPasswordBaseTest extends PHPUnit_Framework_TestCase
+abstract class ilPasswordBaseTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @param string $exception_class

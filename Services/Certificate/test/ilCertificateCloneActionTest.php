@@ -99,7 +99,8 @@ class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
 			->expects($this->exactly(4))
 			->method('copy');
 
-		$logger = $this->getMockBuilder('illLogger')
+		$logger = $this->getMockBuilder('ilLogger')
+			->disableOriginalConstructor()
 			->getMock();
 
 		$objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')

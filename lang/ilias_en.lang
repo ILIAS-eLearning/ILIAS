@@ -505,6 +505,8 @@ assessment#:#close_text_hint#:#To add a new gap set the cursor to the position o
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
@@ -995,7 +997,7 @@ assessment#:#result#:#Result
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Save Answer and Next
+assessment#:#submit_answer#:#Save Answer
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
@@ -2004,7 +2006,7 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Save Answer and Check
+assessment#:#submit_and_check#:#Save and Check Answer
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
@@ -2212,8 +2214,8 @@ common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
-common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
-common#:#enable_download_folder#:#Enable Downloading Folders
+common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
+common#:#enable_download_folder#:#"Download Action for Folders" enabled
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
@@ -2683,13 +2685,9 @@ common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap#:#LDAP
 common#:#learning module#:#Learning Module
 common#:#learning_progress#:#Learning Progress
-common#:#learning_resource#:#Learning Resource
-common#:#learning_resources#:#Learning Resources
 common#:#leave_waiting_list#:#Leave Waiting List
 common#:#legend#:#Legend
 common#:#level#:#Level
-common#:#license#:#License
-common#:#licenses#:#Licenses
 common#:#link_all#:#Link all
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
 common#:#link_check_message_disabled#:#Messages disabled
@@ -2795,6 +2793,11 @@ common#:#mail#:#Mail
 common#:#mails_pl#:#Mail(s)
 common#:#mails#:#Mails
 common#:#main_menu#:#Main Menu
+common#:#add_remove_edit_entries_of_main_menu#:#Add, remove or edit entries of the main menu
+common#:#all#:#All
+common#:#only_active#:#Only Active
+common#:#only_inactive#:#Only Inactive
+common#:#entry_status#:#Entry status
 common#:#manage_members#:#Manage Members
 common#:#marked_entries#:#Marked Entries
 common#:#matriculation#:#Matriculation number
@@ -2980,7 +2983,6 @@ common#:#no_global_role_left#:#Every user has to be assigned to one role.
 common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#no_import_file_found#:#No import file found
 common#:#no_items#:#This object is empty and contains no items.
-common#:#no_license_available#:#No license available!
 common#:#no_limit#:#No limit
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 common#:#no_owner#:#No Owner
@@ -3056,7 +3058,7 @@ common#:#obj_lng#:#Language
 common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lngf#:#Languages
 common#:#obj_lrss_desc#:#Configure all types of learning modules.
-common#:#obj_lrss#:#Learning Resources
+common#:#obj_lrss#:#Learning Modules
 common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mail#:#Mail
 common#:#obj_mcst#:#Mediacast
@@ -3729,7 +3731,7 @@ common#:#use_default_instructions#:#Use default instructions.
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system)
+common#:#user_cant_receive_mail#:#%1$s – user is not allowed to use the mail system.
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -5211,7 +5213,7 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/rss.php
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
@@ -5247,6 +5249,7 @@ form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded complet
 form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
 form#:#form_msg_file_virus_found#:#Virus found in uploaded file.
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.
 form#:#form_msg_file_wrong_file_type#:#Wrong file type.
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
@@ -5633,26 +5636,11 @@ ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose ‘Sub�
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_user_sync#:#User Synchronization Settings
-license#:#arbitrary#:#arbitrary
-license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab ‘Licenses’ to see which licenses have to be extended.
-license#:#edit_license#:#Edit license
-license#:#existing_licenses#:#Existing licenses
-license#:#license_counter_info#:#Allows counting used licenses of purchased SCORM and HTML learning modules
-license#:#license_counter#:#License counter
-license#:#license_updated#:#The license data was updated.
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course.
-license#:#license_warning#:#License warning
-license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.
-license#:#potential_accesses#:#Potential accesses
-license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.
-license#:#remaining_licenses#:#Available licenses
-license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
-license#:#used_licenses#:#Consumed licenses
-license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
+chatroom#:#chatviewer_no_rooms#:#No Chat Room available, yet.
 mail#:#back_to_folder#:#Back to Folder
 mail#:#current_folder#:#Current Folder: %s
 mail#:#chat_users_have_been_invited#:#The following users have been invited:
@@ -7708,7 +7696,7 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
+common#:#db_need_hotfix#:#Hotfix available. Please open <a href="./setup/setup.php">»Setup</a>!
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_max_count#:#Max active sessions
@@ -7901,6 +7889,8 @@ exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_link#:#URL
 feed#:#feed_import#:#Import Feed
@@ -10049,6 +10039,7 @@ pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
 pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
@@ -11664,6 +11655,8 @@ common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.
 sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
 sop#:#sop_reload_page#:#Reload page
@@ -11859,7 +11852,7 @@ obj#:#obj_activate_multilang#:#Activate Multilingualism
 obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programme can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
 cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
@@ -12405,8 +12398,8 @@ scormtrac#:#tracinteractionuseranswers#:#Responses of users
 scormtrac#:#user_id#:#User-ID
 scormtrac#:#weighting#:#weighting
 scormtrac#:#report#:#Report
-common#:#ps_export_scorm#:#SCORM Tracking Data
-common#:#enable_export_scorm_desc#:#Allow export of user data of SCORM Learning Modules
+common#:#ps_export_scorm#:#Personal Data in Protocol Data
+common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Data (SCORM)
 content#:#cont_ed_click_to_add_pg#:#Click here to add content.
 link#:#link_chapters#:#Chapters
 link#:#link_wpages#:#Wiki Pages
@@ -13894,7 +13887,6 @@ iass#:#iass_edit#:#Settings
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
-iass#:#iass_return#:#Back to overview
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
 iass#:#iass_settings_saved#:#Settings saved.
@@ -13962,6 +13954,7 @@ chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would 
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 common#:#chtr_import#:#Import Chatroom
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
@@ -14401,6 +14394,13 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
+common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
+common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
+common#:#cron_users_without_login_del_role_whitelist_info#:#The deletion will only processed for users assigned to at least one of the selected roles
+common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
+common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
+common#:#user_never_logged_in#:#Delete user accounts without login
+common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
 dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
@@ -14451,7 +14451,7 @@ wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
-common#:#presentation_table_more#:#more
+common#:#presentation_table_more#:#Show More
 ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
@@ -14546,7 +14546,7 @@ mme#:#sub_actions#:#Actions
 mme#:#button_save#:#Save
 mme#:#table_show_inactive#:#Show inactive
 mme#:#sub_title_default#:#Title (Default Language)
-mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#sub_title_default_byline#:#Additional languages can be added via the action link "Translate".
 mme#:#sub_type_byline#:#Specific type for the Item additional configuration may be needed.
 mme#:#sub_active_byline#:#Activate this Item for all users.
 mme#:#add_languages#:#Add Language
@@ -14686,10 +14686,10 @@ cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
 cert#:#certificate_achievement#:#%1$s achieved.
 cert#:#certificate_no_object_title#:#No object title available
 cert#:#certificate_no_object_desc#:#No object description available
-cert#:#cert_sortable_by_title_asc#:#Nach Titel aufsteigend
-cert#:#cert_sortable_by_title_desc#:#Nach Titel absteigend
-cert#:#cert_sortable_by_issue_date_asc#:#Nach Ausstellungsdatum aufsteigend
-cert#:#cert_sortable_by_issue_date_desc#:#Nach Ausstellungsdatum absteigend
+cert#:#cert_sortable_by_title_asc#:#Title Ascending
+cert#:#cert_sortable_by_title_desc#:#Title Descending
+cert#:#cert_sortable_by_issue_date_asc#:#Issue Date Ascending
+cert#:#cert_sortable_by_issue_date_desc#:#Issue Date Descending
 cert#:#cert_issued_on_label#:#Issued On
 cert#:#cert_download_label#:#Download
 cert#:#cert_object_label#:#Object
@@ -14791,13 +14791,12 @@ common#:#obj_lso#:#Learning Sequence
 common#:#objs_lso#:#Learning Sequences
 common#:#obj_lso_duplicate#:#Copy Learning Sequence
 common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.
-common#:#slo_wizard_page#:#Copy Learning Sequence
 rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
 rbac#:#lso_delete#:#User can delete Learning Sequence
 lso#:#learner_view#:#Overview
-lso#:#manage_content#:#Manage
+lso#:#manage#:#Manage
 lso#:#manage_content_maintab#:#Content
 lso#:#show_summary#:#Info
 lso#:#table_sequence_content#:#Content Management
@@ -14844,7 +14843,7 @@ lso#:#lso_player_finish#:#Finish
 lso#:#lso_player_suspend#:#Suspend
 lso#:#lso_player_previous#:#Previous
 lso#:#lso_player_next#:#Next
-lso#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
+common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#condition_always#:#Always
@@ -14925,3 +14924,50 @@ dateplaner#:#back_to_grp#:#Go to Group
 dateplaner#:#back_to_pd#:#Back to Personal Desktop
 common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
+lso#:#entries_updated#:#Entries saved
+lso#:#curriculum#:#Curriculum
+lso#:#unparticipate#:#Unsubscribe
+lso#:#participate#:#Subsribe
+lhist#:#lhist_show_more#:#Show More
+meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
+book#:#book_objects_available#:#Objects available %s
+book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
+book#:#booking_multiple_succesfully#:#Bookings created successfully.
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
+rbac#:#sess_edit_metadata#:#Edit Metadata
+crs#:#crs_view_timings#:#Timings View Type
+crs#:#crs_view_timing_absolute#:#Absolute Dates
+crs#:#crs_view_info_timing_absolute#:#Start and end date will be set absolute.
+crs#:#crs_view_timing_relative#:#Relative Dates
+crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to the subscription date.
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
+rbac#:#lso_read#:#Users can access the Learning Sequence
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
+common#:#unparticipate#:#Unsubscribe
+common#:#participate#:#Subscribe
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
+dateplaner#:#btn_ical#:#iCal
+style#:#sty_type_code_block#:#Code (Block)
+style#:#sty_type_code_inline#:#Code (Inline)
+common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
+sess#:#sess_material_assigned#:#Assigned
+sess#:#sess_material_not_assigned#:#Not Assigned
+rbac#:#lso_read#:#Users can access the Learning Sequence
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
+common#:#unparticipate#:#Unsubscribe
+common#:#participate#:#Subscribe
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
+user#:#msg_spoint_not_modified#:#Starting point not modified
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
+blog#:#blog_download_submission#:#Download Submission

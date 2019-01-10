@@ -549,7 +549,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			else
 			{
 				$icon = ilUtil::getImagePath("icon_lm.svg");
-				$title = $this->lng->txt("learning_resource");
+				$title = $this->lng->txt("learning_module");
 			}
 
 			if ($ilSetting->get('custom_icons')) {

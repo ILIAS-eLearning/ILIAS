@@ -39,7 +39,8 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 
 	public function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		
@@ -72,7 +73,8 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 	
 	public function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$template = new ilTemplate("tpl.prop_imagemapquestioncorrection_input.html", true, true, "Modules/TestQuestionPool");
 		
@@ -168,7 +170,8 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $template->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		#$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		#$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
 	}

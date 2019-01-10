@@ -1,17 +1,16 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Top level GUI class for media pools.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilMediaPoolPresentationGUI: ilObjMediaPoolGUI
-*
-* @ingroup ModulesMediaPool
-*/
+ * Top level GUI class for media pools.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilMediaPoolPresentationGUI: ilObjMediaPoolGUI
+ *
+ * @ingroup ModulesMediaPool
+ */
 class ilMediaPoolPresentationGUI
 {
 	/**
@@ -29,9 +28,20 @@ class ilMediaPoolPresentationGUI
 	 */
 	protected $nav_history;
 
-	var $tpl;
-	var $lng;
-	var $objDefinition;
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $objDefinition;
 
 	/**
 	* Constructor
@@ -59,17 +69,17 @@ class ilMediaPoolPresentationGUI
 	}
 
 	/**
-	* execute command
-	*/
+	 * execute command
+	 * @return mixed
+	 * @throws ilCtrlException
+	 */
 	function executeCommand()
 	{
-		$tpl = $this->tpl;
 		$ilCtrl = $this->ctrl;
 		$ilAccess = $this->access;
 		$ilNavigationHistory = $this->nav_history;
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd("");
 
 		// add entry to navigation history
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -88,7 +98,6 @@ class ilMediaPoolPresentationGUI
 
 			default:
 				$this->ctrl->setCmdClass("ilobjmediapoolgui");
-				//$this->ctrl->setCmd("");
 				return $this->executeCommand();
 				break;
 		}

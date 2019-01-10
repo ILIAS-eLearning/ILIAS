@@ -436,7 +436,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 		else
 		{
-			$options['lres'] = $lng->txt('learning_resources');
+			$options['lres'] = $lng->txt('obj_lrss');
 		}
 
 		$options['crs'] = $lng->txt('objs_crs');

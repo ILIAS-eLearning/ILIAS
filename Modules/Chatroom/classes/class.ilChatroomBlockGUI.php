@@ -181,9 +181,10 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	{
 		$result     = new stdClass();
 		$result->ok = true;
+		$result->has_records = false;
 
 		$chatblock    = new ilChatroomBlock();
-		$result->html = $chatblock->getRoomSelect();
+		$result->html = $chatblock->getRoomSelect($result);
 
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		echo ilJsonUtil::encode($result);

@@ -225,6 +225,8 @@ class ilUserCertificateGUI
 			return;
 		}
 
+		$this->template->setBodyClass('iosMyCertificates');
+
 		$showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable(
 			$this->user,
 			new \ilCertificateMigration($this->user->getId())
@@ -278,7 +280,6 @@ class ilUserCertificateGUI
 
 			foreach ($data['items'] as $certificateData) {
 				$thumbnailImagePath = $certificateData['thumbnail_image_path'];
-
 				$imagePath = ilUtil::getWebspaceDir(). $thumbnailImagePath;
 				if ($thumbnailImagePath === null
 					|| $thumbnailImagePath === ''
@@ -292,23 +293,23 @@ class ilUserCertificateGUI
 					$certificateData['title']
 				);
 
-				$listSections = [];
 
-				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
+				$sections = [];
 
-				$downloadHref = $this->controller->getLinkTarget($this, 'download');
+				if (strlen($certificateData['description']) > 0) {
+					$sections[] = $this->uiFactory->listing()->descriptive([
+						$this->language->txt('cert_description_label') => $certificateData['description']
+					]);
+				}
 
-				$this->controller->clearParameters($this);
-
-				$listSections[$this->language->txt('cert_download_label')] = $this->uiRenderer->render(
-					$this->uiFactory->button()->standard('Download', $downloadHref)
-				);
 
 				$oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
 				\ilDatePresentation::setUseRelativeDates(true);
-				$listSections[$this->language->txt('cert_issued_on_label')] = \ilDatePresentation::formatDate(
-					new \ilDateTime($certificateData['date'], \IL_CAL_UNIX)
-				);
+				$sections[] = $this->uiFactory->listing()->descriptive([
+					$this->language->txt('cert_issued_on_label') => \ilDatePresentation::formatDate(
+						new \ilDateTime($certificateData['date'], \IL_CAL_UNIX)
+					)
+				]);
 				\ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
 				$objectTypeIcon = $this->uiFactory
@@ -328,19 +329,20 @@ class ilUserCertificateGUI
 					}
 				}
 
-				$listSections[$this->language->txt('cert_object_label')] = implode('', [
+				$sections[] = $this->uiFactory->listing()->descriptive([$this->language->txt('cert_object_label') => implode('', [
 					$this->uiRenderer->render($objectTypeIcon),
 					$objectTitle
-				]);
+				])]);
 
-				$listSections[$this->language->txt('cert_description_label')] = $certificateData['description'];
+				$this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
+				$downloadHref = $this->controller->getLinkTarget($this, 'download');
+				$this->controller->clearParameters($this);
+				$sections[] = $this->uiFactory->button()->standard('Download', $downloadHref);
 
 				$card = $this->uiFactory
 					->card()
 					->standard($certificateData['title'], $cardImage)
-					->withSections([
-						$this->uiFactory->listing()->descriptive($listSections)
-					]);
+					->withSections($sections);
 
 				$cards[] = $card;
 			}

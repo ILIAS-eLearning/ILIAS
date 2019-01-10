@@ -214,8 +214,6 @@ class ilStartUpGUI
 		$tpl->setVariable("PAGETITLE",  "- ".$this->lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
-		$this->ctrl->setTargetScript("ilias.php");
-		
 		// check expired session and send message
 		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
@@ -474,7 +472,6 @@ class ilStartUpGUI
 		$tpl->setVariable("PAGETITLE",  "- ".$lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
-		$this->ctrl->setTargetScript("ilias.php");
 		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 
 		// browser does not accept cookies
@@ -1925,6 +1922,7 @@ class ilStartUpGUI
 	{
 		global $objDefinition, $ilPluginAdmin, $ilUser;
 
+
 		if (is_object($ilPluginAdmin))
 		{
 			// get user interface plugins
@@ -2101,8 +2099,9 @@ class ilStartUpGUI
 						return false;
 					}
 				}
-			}	
-			
+			}
+
+
 			// check if access will be possible with all (possible) member roles added
 			$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
 			if($rbacsystem->checkAccess("read", $ref_id) && sizeof($block_obj)) // #12128

@@ -78,7 +78,6 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 		$ico = $f->icon()->custom($this->lh_entry->getIconPath(), '')->withSize(\ILIAS\UI\Component\Icon\Custom::MEDIUM);
 
 		$obj_id = $this->lh_entry->getObjId();
-		$type = ilObject::_lookupType($obj_id);
 		$title = ilObject::_lookupTitle($obj_id);
 		if ($this->lh_entry->getRefId() == 0)
 		{
@@ -99,7 +98,14 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 
 		if ($readable_ref_id > 0)
 		{
-			$parent_ref_id = $this->tree->checkForParentType($readable_ref_id, "crs", true);
+			if (ilObject::_lookupType(ilObject::_lookupObjId($readable_ref_id)) == "crs")
+			{
+				$parent_ref_id = $readable_ref_id;
+			}
+			else
+			{
+				$parent_ref_id = $this->tree->checkForParentType($readable_ref_id, "crs", true);
+			}
 		}
 
 		if ($parent_ref_id > 0)

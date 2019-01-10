@@ -479,7 +479,6 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 
 			// Set disk quota
-			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// The disk quota is entered in megabytes but stored in bytes
@@ -912,7 +911,6 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->object->setLanguage($this->form_gui->getInput('language'));
 			}
 
-			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// set disk quota
@@ -1065,7 +1063,6 @@ class ilObjUserGUI extends ilObjectGUI
 	
 		
 		// BEGIN DiskQuota, Show disk space used
-		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
 			$data["disk_quota"] = ilUtil::Bytes2MB($this->object->getDiskQuota());
@@ -1246,6 +1243,7 @@ class ilObjUserGUI extends ilObjectGUI
 // allows password setting
 		{
 			$pw = new ilPasswordInputGUI($lng->txt("passwd"), "passwd");
+			$pw->setUseStripSlashes(false);
 			$pw->setSize(32);
 			$pw->setMaxLength(80); // #17221
 			$pw->setValidateAuthPost("auth_mode");
@@ -1322,7 +1320,6 @@ class ilObjUserGUI extends ilObjectGUI
 //		$this->form_gui->addItem($ac);
 		$this->form_gui->addItem($radg);
 
-		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
 			$lng->loadLanguageModule("file");
@@ -1341,7 +1338,6 @@ class ilObjUserGUI extends ilObjectGUI
 			if ($a_mode == "edit")
 			{
 				// show which disk quota is in effect, and explain why
-				require_once 'Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
 				$dq_info = ilDiskQuotaChecker::_lookupDiskQuota($this->object->getId());
 				if ($dq_info['user_disk_quota'] > $dq_info['role_disk_quota'])
 				{
@@ -1423,7 +1419,6 @@ class ilObjUserGUI extends ilObjectGUI
 			if ($a_mode == "edit")
 			{
 				// show which disk quota is in effect, and explain why
-				require_once 'Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
 				$dq_info = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($this->object->getId());
 				if ($dq_info['user_wsp_disk_quota'] > $dq_info['role_wsp_disk_quota'])
 				{
@@ -2547,7 +2542,6 @@ class ilObjUserGUI extends ilObjectGUI
 			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 				$ilUser->hasDeletionFlag())
 			{
-				$ilCtrl->setTargetScript("ilias.php");
 				$ilCtrl->initBaseClass("ilpersonaldesktopgui");
 				$ilCtrl->redirectByClass(array("ilpersonaldesktopgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");						
 			}
@@ -2566,19 +2560,16 @@ class ilObjUserGUI extends ilObjectGUI
 		if('registration' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
-			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilAccountRegistrationGUI'), '');
 		}
 		else if('nameassist' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
-			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), 'showUsernameAssistanceForm');
 		}
 		else if('pwassist' == $a_target)
 		{
 			$_GET["baseClass"] = 'ilStartUpGUI';
-			$ilCtrl->setTargetScript('ilias.php');
 			$ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
 		}
 		else if('agreement' == $a_target)

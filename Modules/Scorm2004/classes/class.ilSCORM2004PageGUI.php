@@ -121,7 +121,8 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 
 	/*function preview()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		
 		$wtpl = new ilTemplate("tpl....html",
 			true, true, "Modules/Scorm2004");

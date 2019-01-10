@@ -110,7 +110,10 @@ abstract class assQuestionGUI
 	*/
 	function __construct()
 	{
-		global $lng, $tpl, $ilCtrl;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
@@ -175,7 +178,8 @@ abstract class assQuestionGUI
 	public function getHeaderAction()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		global $ilObjDataCache; /* @var ilObjectDataCache $ilObjDataCache */
+		/* @var ilObjectDataCache $ilObjDataCache */
+		$ilObjDataCache = $DIC['ilObjDataCache'];
 		
 		$parentObjType = $ilObjDataCache->lookupType($this->object->getObjId());
 		
@@ -464,7 +468,8 @@ abstract class assQuestionGUI
 		/**
 		 * @var $tpl ilTemplate
 		 */
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 
 		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php';
 		$stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
@@ -489,7 +494,10 @@ abstract class assQuestionGUI
 	 */
 	public static function _getQuestionGUI($question_type, $question_id = -1)
 	{
-		global $ilCtrl, $ilDB, $lng;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		
@@ -829,7 +837,8 @@ abstract class assQuestionGUI
 	*/
 	function saveEdit()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 
 		$result = $this->writePostData();
 		if ($result == 0)
@@ -851,7 +860,10 @@ abstract class assQuestionGUI
 			}
 			elseif ($_GET["test_ref_id"])
 			{
-				global $tree, $ilDB, $ilPluginAdmin;
+				global $DIC;
+				$tree = $DIC['tree'];
+				$ilDB = $DIC['ilDB'];
+				$ilPluginAdmin = $DIC['ilPluginAdmin'];
 				
 				include_once ("./Modules/Test/classes/class.ilObjTest.php");
 				$_GET["ref_id"] = $_GET["test_ref_id"];
@@ -887,7 +899,8 @@ abstract class assQuestionGUI
 	*/
 	function save()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$old_id = $_GET["q_id"];
 		$result = $this->writePostData();
 
@@ -913,7 +926,10 @@ abstract class assQuestionGUI
 				$test = new ilObjTest($_GET["calling_test"]);
 				if(!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
 				{
-					global $tree, $ilDB, $ilPluginAdmin;
+					global $DIC;
+					$tree = $DIC['tree'];
+					$ilDB = $DIC['ilDB'];
+					$ilPluginAdmin = $DIC['ilPluginAdmin'];
 					
 					include_once("./Modules/Test/classes/class.ilObjTest.php");
 					$_GET["ref_id"] = $_GET["calling_test"];
@@ -964,7 +980,10 @@ abstract class assQuestionGUI
 					}
 					if( /*$___test_express_mode || */ $_REQUEST['express_mode'] )
 					{
-						global $tree, $ilDB, $ilPluginAdmin;
+						global $DIC;
+						$tree = $DIC['tree'];
+						$ilDB = $DIC['ilDB'];
+						$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 						include_once("./Modules/Test/classes/class.ilObjTest.php");
 						$test = new ilObjTest($_GET["ref_id"], true);
@@ -1001,7 +1020,8 @@ abstract class assQuestionGUI
 	*/
 	function saveReturn()
 	{
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$old_id = $_GET["q_id"];
 		$result = $this->writePostData();
 		if($result == 0)
@@ -1026,7 +1046,10 @@ abstract class assQuestionGUI
 				$q_id = $this->object->getId();
 				if(!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()))
 				{
-					global $tree, $ilDB, $ilPluginAdmin;
+					global $DIC;
+					$tree = $DIC['tree'];
+					$ilDB = $DIC['ilDB'];
+					$ilPluginAdmin = $DIC['ilPluginAdmin'];
 					
 					include_once("./Modules/Test/classes/class.ilObjTest.php");
 					$_GET["ref_id"] = $_GET["calling_test"];
@@ -1476,7 +1499,8 @@ abstract class assQuestionGUI
 		
 		if ($this->object->_questionExistsInPool($this->object->getId()) && $count)
 		{
-			global $rbacsystem;
+			global $DIC;
+			$rbacsystem = $DIC['rbacsystem'];
 			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 			{
 				ilUtil::sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
@@ -1498,8 +1522,10 @@ abstract class assQuestionGUI
 	*/
 	public function suggestedsolution()
 	{
-		global $ilUser;
-		global $ilAccess;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 
 		$save = (is_array($_POST["cmd"]) && array_key_exists("suggestedsolution", $_POST["cmd"])) ? TRUE : FALSE;
 
@@ -1731,7 +1757,8 @@ abstract class assQuestionGUI
 	
 	public function outSolutionExplorer()
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
 		$type = $_GET["link_new_type"];
@@ -1767,7 +1794,8 @@ abstract class assQuestionGUI
 	
 	public function saveSuggestedSolution()
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 
 		include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
 		switch ($_POST["solutiontype"])
@@ -2038,7 +2066,9 @@ abstract class assQuestionGUI
 	
 	public function setQuestionTabs()
 	{
-		global $rbacsystem, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 
@@ -2138,7 +2168,8 @@ abstract class assQuestionGUI
 	 */
 	protected function addTab_QuestionFeedback(ilTabsGUI $tabs)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
 		$tabCommands = self::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
@@ -2156,7 +2187,8 @@ abstract class assQuestionGUI
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$tabs->addTarget('units', $ilCtrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
 	}
@@ -2169,7 +2201,8 @@ abstract class assQuestionGUI
 	 */
 	protected function addTab_QuestionHints(ilTabsGUI $tabs)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 
@@ -2397,7 +2430,8 @@ abstract class assQuestionGUI
 
 	public function showHints()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
 	}
 

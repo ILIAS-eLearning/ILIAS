@@ -125,10 +125,10 @@
     "jstree": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": null,
+      "developer": "akill",
       "purpose": "",
-      "last-update-for-ilias": null,
-      "note": "This packages has been patched since it uses .size() a lot which has been removed in newer jQuery-Versions. Please do not override and commit the patch"
+      "last-update-for-ilias": "5.4.0",
+      "note": "The former patch (ILIAS < 5.4.0) is not needed anymore. Use of size() has been removed from the lib."
     },
     "moment": {
       "introduction-date": null,
@@ -165,7 +165,7 @@
     "tinymce": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
-      "developer": "alex",
+      "developer": "akill",
       "purpose": "WYSIWYG HTML editing, e.g. forum and page editor",
       "last-update-for-ilias": "5.3.0",
       "note": ""

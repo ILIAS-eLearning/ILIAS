@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\MainMenu\Item\Complex;
 use ILIAS\GlobalScreen\MainMenu\Item\ComplexInterface;
+use ILIAS\GlobalScreen\MainMenu\Item\Lost;
 use ILIAS\GlobalScreen\MainMenu\Item\Separator;
 use ILIAS\GlobalScreen\MainMenu\Item\DividerInterface;
 use ILIAS\GlobalScreen\MainMenu\Item\Link;
@@ -121,7 +122,7 @@ class MainMenuItemFactory {
 	 */
 	public function custom(string $class_name, IdentificationInterface $identification): isItem {
 		if (!class_exists($class_name)) {
-			throw new \InvalidArgumentException("Unknown Classname '$class_name' provided. Cannot provide type.");
+			return new Lost($identification);
 		}
 
 		return new $class_name($identification);

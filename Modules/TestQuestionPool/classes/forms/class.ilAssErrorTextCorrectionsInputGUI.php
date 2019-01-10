@@ -31,7 +31,8 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
 	
 	public function checkInput()
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		$foundvalues = $_POST[$this->getPostVar()];
@@ -82,7 +83,8 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
 	
 	public function insert($a_tpl)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		
 		$tpl = new ilTemplate("tpl.prop_errortextcorrection_input.html", true, true, "Modules/TestQuestionPool");
 		$i = 0;

@@ -25,6 +25,9 @@ class ilMailAddressTypeFactory
 	/** @var \ilMailingLists */
 	protected $lists;
 
+	/** @var \ilRoleMailboxSearch */
+	protected $roleMailboxSearch;
+
 	/**
 	 * @param \ilGroupNameAsMailValidator|null $groupNameValidator
 	 * @param \ilLogger|null                   $logger
@@ -32,6 +35,7 @@ class ilMailAddressTypeFactory
 	 * @param \ilRbacReview|null               $rbacreview
 	 * @param \ilMailAddressTypeHelper|null    $typeHelper
 	 * @param \ilMailingLists|null             $lists
+	 * @param \ilRoleMailboxSearch|null        $roleMailboxSearch
 	 */
 	public function __construct(
 		\ilGroupNameAsMailValidator $groupNameValidator = null,
@@ -39,7 +43,8 @@ class ilMailAddressTypeFactory
 		\ilRbacSystem $rbacsystem = null,
 		\ilRbacReview $rbacreview = null,
 		\ilMailAddressTypeHelper $typeHelper = null,
-		\ilMailingLists $lists = null
+		\ilMailingLists $lists = null,
+		\ilRoleMailboxSearch $roleMailboxSearch = null
 	)
 	{
 		global $DIC;
@@ -68,52 +73,65 @@ class ilMailAddressTypeFactory
 			$lists = new \ilMailingList($DIC->user());
 		}
 
+		if ($roleMailboxSearch === null) {
+			$roleMailboxSearch = new \ilRoleMailboxSearch(new \ilMailRfc822AddressParserFactory(), $DIC->database());
+		}
+
 		$this->groupNameValidator = $groupNameValidator;
 		$this->logger = $logger;
 		$this->typeHelper = $typeHelper;
 		$this->rbacsystem = $rbacsystem;
 		$this->rbacreview = $rbacreview;
 		$this->lists = $lists;
+		$this->roleMailboxSearch = $roleMailboxSearch;
 	}
 
 	/**
 	 * @param \ilMailAddress $address
+	 * @param bool           $cached
 	 * @return \ilMailAddressType
 	 */
-	public function getByPrefix(\ilMailAddress $address): \ilMailAddressType
+	public function getByPrefix(\ilMailAddress $address, bool $cached = true): \ilMailAddressType
 	{
 		switch (true) {
 			case substr($address->getMailbox(), 0, 1) !== '#' && substr($address->getMailbox(), 0, 2) !== '"#':
-				return new \ilMailLoginOrEmailAddressAddressType(
+				$addressType = new \ilMailLoginOrEmailAddressAddressType(
 					$this->typeHelper,
 					$address,
 					$this->logger,
 					$this->rbacsystem
 				);
+				break;
 
 			case substr($address->getMailbox(), 0, 7) === '#il_ml_':
-				return new \ilMailMailingListAddressType(
+				$addressType = new \ilMailMailingListAddressType(
 					$this->typeHelper,
 					$address,
 					$this->logger,
 					$this->lists
 				);
+				break;
 
 			case ($this->groupNameValidator->validate($address)):
-				return new \ilMailGroupAddressType(
+				$addressType = new \ilMailGroupAddressType(
 					$this->typeHelper,
 					$address,
 					$this->logger
 				);
+				break;
 
 			default:
-				return new \ilMailRoleAddressType(
+				$addressType = new \ilMailRoleAddressType(
 					$this->typeHelper,
 					$address,
+					$this->roleMailboxSearch,
 					$this->logger,
 					$this->rbacsystem,
 					$this->rbacreview
 				);
+				break;
 		}
+
+		return new \ilMailCachedAddressType($addressType, $cached);
 	}
 }

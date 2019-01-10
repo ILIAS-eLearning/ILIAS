@@ -335,7 +335,8 @@ class ilSCORM2004StoreData
 
 	// private function setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data) {
 
-		// global $ilLog;
+		// global $DIC;
+		// $ilLog = $DIC['ilLog'];
 		// $changed_seq_utilities=$data->changed_seq_utilities;
 		// $ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
 		// if ($changed_seq_utilities == 1) {
@@ -624,7 +625,7 @@ class ilSCORM2004StoreData
 
 		require_once './Services/Object/classes/class.ilObjectDataCache.php';
 		$ilObjDataCache = new ilObjectDataCache();
-		$GLOBALS['ilObjDataCache'] = $ilObjDataCache;
+		$GLOBALS['DIC']['ilObjDataCache'] = $ilObjDataCache;
 	}
 
 
