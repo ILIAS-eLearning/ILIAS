@@ -96,6 +96,8 @@ class assFormulaQuestionImport extends assQuestionImport
 		$this->object->saveToDb();
 		// handle the import of media objects in XHTML code
 		$questiontext = $this->object->getQuestion();
+		$feedbacksgeneric = $this->getFeedbackGeneric($item);
+		
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
 			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -115,9 +117,21 @@ class assFormulaQuestionImport extends assQuestionImport
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
+				
+				foreach ($feedbacksgeneric as $correctness => $material)
+				{
+					$feedbacksgeneric[$correctness] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
+				}
 			}
 		}
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
+		
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$this->object->feedbackOBJ->importGenericFeedback(
+				$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
+		}
 
 		// additional content editing mode information
 		$this->object->setAdditionalContentEditingMode(
