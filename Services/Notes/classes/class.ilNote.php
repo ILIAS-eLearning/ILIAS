@@ -974,7 +974,7 @@ class ilNote
 			$obj_title = ilObject::_lookupTitle($rep_obj_id);
 			$type_lv = "portfolio";
 		}
-		if ($type = "dcl")
+		if ($type == "dcl")
 		{
 			$obj_title = ilObject::_lookupTitle($rep_obj_id);
 			$type_lv = "obj_dcl";
