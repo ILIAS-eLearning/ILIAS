@@ -3856,6 +3856,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateObjectsForUserPreloader' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Preload/class.ilCertificateObjectsForUserPreloader.php',
         'ilCertificateParticipantsHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateParticipantsHelper.php',
         'ilCertificatePathConstants' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathConstants.php',
+        'ilCertificatePathFactory' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathFactory.php',
         'ilCertificatePdfAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificatePdfAction.php',
         'ilCertificatePdfFileNameFactory' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFileNameFactory.php',
         'ilCertificatePdfFilename' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFilename.php',

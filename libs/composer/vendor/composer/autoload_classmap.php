@@ -3543,6 +3543,7 @@ return array(
     'ilCertificateObjectsForUserPreloader' => $baseDir . '/../../Services/Certificate/classes/Preload/class.ilCertificateObjectsForUserPreloader.php',
     'ilCertificateParticipantsHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateParticipantsHelper.php',
     'ilCertificatePathConstants' => $baseDir . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathConstants.php',
+    'ilCertificatePathFactory' => $baseDir . '/../../Services/Certificate/classes/File/Template/class.ilCertificatePathFactory.php',
     'ilCertificatePdfAction' => $baseDir . '/../../Services/Certificate/classes/User/Action/Pdf/class.ilCertificatePdfAction.php',
     'ilCertificatePdfFileNameFactory' => $baseDir . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFileNameFactory.php',
     'ilCertificatePdfFilename' => $baseDir . '/../../Services/Certificate/classes/File/Certificate/Filename/class.ilCertificatePdfFilename.php',
