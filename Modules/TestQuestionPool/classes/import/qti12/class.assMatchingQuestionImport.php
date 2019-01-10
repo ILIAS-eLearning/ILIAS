@@ -353,7 +353,7 @@ class assMatchingQuestionImport extends assQuestionImport
 			$index = $this->fetchIndexFromFeedbackIdent($ident, 'correct_');
 			
 			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
-				$this->object->getId(),0, $index, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+				$this->object->getId(), $index, ilRTE::_replaceMediaObjectImageSrc($material, 1)
 			);
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)
