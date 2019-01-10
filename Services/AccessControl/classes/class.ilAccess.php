@@ -692,12 +692,28 @@ class ilAccess implements ilAccessHandler {
 			return true;
 		}
 
+		// if user has write permission
+		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
+		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
+			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
+			return true;
+		}
+
 		// if current permission is visible and visible is set in activation
 		if($a_permission == 'visible' and $item_data['visible'])
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
+
+		// learning progress must be readable, regardless of the activation
+		if($a_permission == 'read_learning_progress') {
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
+			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
+			return true;
+		}
+
 		// no access
 		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
 		return false;
