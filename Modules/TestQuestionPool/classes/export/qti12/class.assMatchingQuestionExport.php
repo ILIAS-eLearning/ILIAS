@@ -355,7 +355,7 @@ class assMatchingQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlStartTag("flow_mat");
 			$a_xml_writer->xmlStartTag("material");
 			$a_xml_writer->xmlElement("mattext", null, $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-				$this->object->getId(), 0, $index
+				$this->object->getId(), $index
 			));
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("flow_mat");
