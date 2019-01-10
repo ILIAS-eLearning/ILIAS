@@ -485,7 +485,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			);
 		}
 
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("read")) {
 			$this->tabs->addTab(
 				self::TAB_INFO
 				, $this->lng->txt(self::TAB_INFO)
@@ -503,7 +503,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 		if ( $this->checkAccess("read")) {
 
-			if ($this->getObject()->getLSSettings()->getMembersGallery()
+			if (($this->getObject()->getLSSettings()->getMembersGallery() && ilLearningSequenceParticipants::_isParticipant($this->ref_id, $this->user->getId()))
 				|| $this->checkAccess("edit_members"))
 			{
 				$this->tabs->addTab(
