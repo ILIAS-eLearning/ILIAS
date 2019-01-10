@@ -110,6 +110,15 @@ class assQuestionImport
 	}
 	
 	/**
+	 * @param $feedbackIdent
+	 * @return int
+	 */
+	protected function fetchIndexFromFeedbackIdent($feedbackIdent)
+	{
+		return (int)str_replace('response_', '', $feedbackIdent);
+	}
+	
+	/**
 	 * @param ilQTIItem $item
 	 */
 	protected function getFeedbackAnswerSpecific(ilQTIItem $item)
@@ -118,6 +127,11 @@ class assQuestionImport
 		
 		foreach ($item->itemfeedback as $ifb)
 		{
+			if( $ifb->getIdent() == 'response_allcorrect' || $ifb->getIdent() == 'response_onenotcorrect' )
+			{
+				continue;
+			}
+			
 			if( substr($ifb->getIdent(), 0, strlen('response_')) != 'response_' )
 			{
 				continue;
