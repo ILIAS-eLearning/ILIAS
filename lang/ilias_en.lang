@@ -14735,7 +14735,6 @@ exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_text#:#Submission Text
 common#:#open#:#Open
-exc#:#exc_down_files_started#:#Download of submission files has started.
 book#:#participants#:#Participants
 book#:#book_assign_object#:#Assign Booking Object
 book#:#book_assign#:#Assign
@@ -14955,3 +14954,4 @@ user#:#msg_spoint_not_modified#:#Starting point not modified
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
 blog#:#blog_download_submission#:#Download Submission
+exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.
