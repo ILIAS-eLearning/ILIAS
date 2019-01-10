@@ -14714,8 +14714,7 @@ exc#:#exc_team_creation#:#Creation
 exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_text#:#Submission Text
-common#:#open#:#Open
-exc#:#exc_down_files_started#:#Download of submission files has started.
+common#:#open#:#Öffnen
 exc#:#exc_fixed_date#:#Festes Datum
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
 exc#:#exc_relative_date#:#Relatives Datum
@@ -14971,3 +14970,4 @@ user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
+exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
