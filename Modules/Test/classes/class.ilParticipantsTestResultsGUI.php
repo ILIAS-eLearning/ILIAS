@@ -435,8 +435,7 @@ class ilParticipantsTestResultsGUI
 		// prepare generation before contents are processed (needed for mathjax)
 		if( $this->isPdfDeliveryRequest() )
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 		}
 		
 		$DIC->tabs()->setBackTarget(

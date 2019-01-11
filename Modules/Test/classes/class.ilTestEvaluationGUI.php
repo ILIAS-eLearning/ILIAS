@@ -985,8 +985,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         // prepare generation before contents are processed (for mathjax)
 		if ($this->isPdfDeliveryRequest())
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 		}
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
@@ -1145,8 +1144,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         // prepare generation before contents are processed (for mathjax)
 		if ($this->isPdfDeliveryRequest())
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 		}
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
@@ -1295,8 +1293,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         // prepare generation before contents are processed (for mathjax)
 		if ($this->isPdfDeliveryRequest())
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 		}
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
@@ -1466,8 +1463,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         // prepare generation before contents are processed (for mathjax)
 		if ($this->isPdfDeliveryRequest())
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 		}
 
 		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
