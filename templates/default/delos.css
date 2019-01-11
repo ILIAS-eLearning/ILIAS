@@ -9355,6 +9355,7 @@ grid-based layout
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
+  z-index: 994;
 }
 .il-layout-page.with-engaged-slates .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
   overflow-y: auto;
@@ -9444,6 +9445,7 @@ nav.il-maincontrols {
 .il-mainbar {
   background-color: #4a4a4a;
   box-shadow: 1px 3px 4px #cccccc;
+  z-index: 995;
 }
 .il-mainbar-tools-button {
   display: -ms-flexbox;
@@ -9567,6 +9569,43 @@ glyphicon-cog<!-- END settings -->
 .il-maincontrols-slate.disengaged {
   display: none;
 }
+.il-maincontrols-slate .btn-bulky {
+  align-items: center;
+  background-color: #f2f2f2;
+  display: flex;
+  margin-bottom: 2px;
+  padding: 10px 20px;
+  /* !variable! */
+}
+.il-maincontrols-slate .btn-bulky.disengaged:before {
+  content: " \e606";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky.engaged:before {
+  content: " \e604";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky:hover,
+.il-maincontrols-slate .btn-bulky.engaged {
+  background-color: #d1d8e3;
+  border-color: #e0e0e0;
+  color: inherit;
+}
+.il-maincontrols-slate .btn-bulky .icon {
+  filter: invert(50%);
+  margin-right: 10px;
+  /* !variable! */
+}
+.il-maincontrols-slate .btn-bulky .bulky-label {
+  font-size: 1.5rem;
+}
+.il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
+  background-color: #e3e3e3;
+}
 .il-maincontrols-slate-overflow {
   min-height: 0;
 }
@@ -9576,9 +9615,7 @@ glyphicon-cog<!-- END settings -->
 .il-maincontrols-slate-content h3,
 .il-maincontrols-slate-content h4 {
   padding: 10px 20px;
-}
-.il-maincontrols-slate-content button {
-  margin-bottom: 1px;
+  /* !variable! */
 }
 .il-maincontrols-slate-close button,
 .il-maincontrols-slate-back button {
@@ -9668,7 +9705,6 @@ glyphicon-cog<!-- END settings -->
 }
 .il-metabar-entry .glyphicon {
   font-family: 'il-icons';
-  font-family: il-icons;
 }
 .il-metabar-entry .glyphicon-bell:before {
   content: "\e027";
@@ -9696,12 +9732,19 @@ glyphicon-cog<!-- END settings -->
   right: 0;
 }
 .il-maincontrols-mainbar .btn-bulky {
-  font-size: 0.85rem;
+  font-size: 0.7rem;
 }
 .il-maincontrols-mainbar .bulky-label {
   white-space: normal;
   margin-top: 5px;
   display: block;
+}
+.il-maincontrols-mainbar .btn:focus,
+.il-maincontrols-metabar .btn:focus,
+.il-maincontrols-mainbar .btn:active,
+.il-maincontrols-metabar .btn:active {
+  border: 0;
+  outline: 0;
 }
 .il-mainbar-triggers {
   background: #4a4a4a;

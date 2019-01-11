@@ -15,6 +15,43 @@
 	&.disengaged {
 		display:none;
 	}
+	.btn-bulky {
+		align-items: center;
+		background-color: @slate-bg-bulky;
+		display: flex;
+		margin-bottom: @slate-content-spacing;
+		padding: 10px 20px; /* !variable! */
+		&.disengaged:before {
+				content: " \e606";
+				font-family: "il-icons";
+				font-size: 2.1rem;
+				margin-right: 10px;
+		}
+		&.engaged:before {
+				content: " \e604";
+				font-family: "il-icons";
+				font-size: 2.1rem;
+				margin-right: 10px;
+		}
+		&:hover,
+		&.engaged {
+			background-color: @slate-bg-bulky-engaged;
+		    border-color: #e0e0e0;
+		    color: inherit;
+		    // box-shadow: 4px 0px 5px -2px inset #ccc;
+		}
+		.icon {
+			filter: invert(50%);
+			margin-right: 10px; /* !variable! */
+		}
+		.bulky-label {
+			font-size: 1.5rem;
+		}
+	}
+
+	.il-maincontrols-slate .btn-bulky {
+		background-color: @slate-bg-bulky-level-2;
+	}
 }
 
 .il-maincontrols-slate-overflow {
@@ -23,10 +60,7 @@
 
 .il-maincontrols-slate-content {
 	p, h1, h2, h3, h4 {
-		padding: 10px 20px;
-	}
-	button {
-		margin-bottom: 1px;
+		padding: 10px 20px; /* !variable! */
 	}
 }
 
