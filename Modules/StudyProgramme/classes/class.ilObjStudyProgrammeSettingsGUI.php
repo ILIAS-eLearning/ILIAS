@@ -168,22 +168,21 @@ class ilObjStudyProgrammeSettingsGUI {
 		// This could further improved by providing a new container for asynch-forms in the
 		// UI-Framework.
 		$update_possible = !is_null($content);
-		if($this->ctrl->isAsynch()) {
-			if ($update_possible) {
-				$this->updateWith($prg, $content);
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+		if ($update_possible) {
+			$this->updateWith($prg, $content);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+
+			if($this->ctrl->isAsynch()) {
 				$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
 			} else {
-				ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
-				$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
-			}
-			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
-		} else {
-			if($update_possible) {
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 				$this->ctrl->redirect($this);
+			}
+		} else {
+			ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
+
+			if($this->ctrl->isAsynch()) {
+				$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 			} else {
-				ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
 				return $this->renderer->render($form);
 			}
 		}
