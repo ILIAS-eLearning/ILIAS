@@ -679,7 +679,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getCurrentSequenceElement()
 		);
 		
-		if( !$this->isParticipantsAnswerFixed($questionId) )
+		if( $this->getAnswerChangedParameter() && !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			if( $this->saveQuestionSolution(true) )
 			{
