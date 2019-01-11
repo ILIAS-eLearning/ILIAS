@@ -30,8 +30,18 @@ class Renderer extends AbstractComponentRenderer
 			$contents = [];
 			foreach ($component->getContents() as $entry) {
 				if($entry instanceof ISlate\Slate) {
+					$init_state = 'disengaged';
+					if($entry->getEngaged()) {
+						$init_state = 'engaged';
+					}
 					$triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-						->withOnClick($entry->getToggleSignal());
+						->withOnClick($entry->getToggleSignal())
+						->withAdditionalOnloadCode(
+							function($id) use ($init_state) {
+								return "$('#{$id}').addClass('{$init_state}');";
+							}
+						);
+
 					$contents[] = $triggerer;
 				}
 				$contents[] = $entry;
@@ -41,6 +51,12 @@ class Renderer extends AbstractComponentRenderer
 		}
 
 		$tpl->setVariable('CONTENTS', $default_renderer->render($contents));
+
+		if($component->getEngaged()) {
+			$tpl->touchBlock('engaged');
+		}else {
+			$tpl->touchBlock('disengaged');
+		}
 
 		$toggle_signal = $component->getToggleSignal();
 		$show_signal = $component->getShowSignal();

@@ -13,7 +13,7 @@
 @mainbar-btn-border: 1px solid #ddd;
 @mainbar-btn-color: #fff;
 @mainbar-btn-color-engaged: #4a4a4a;
-@mainbar-label-size: .85rem;
+@mainbar-label-size: .7rem;
 
 @slate-width: 400px;
 
@@ -24,6 +24,11 @@
 @bg-breadcrumbs: #fff;
 @breadcrumb-divider-color: #bbb;
 @bg-metabar-slates: #fafafa;
+
+@slate-bg-bulky: #f2f2f2;
+@slate-bg-bulky-level-2: #e3e3e3;
+@slate-bg-bulky-engaged: #D1D8E3;
+@slate-content-spacing: 2px;
 
 @logo-height: 45px;
 @logo-width: 45px;
@@ -137,6 +142,7 @@ grid-based layout
 				-ms-flex-direction: column;
 				flex-direction: column;
 				// height: calc(~"100vh - " @height-header-footer);
+				z-index: 994;
 				.il-maincontrols-slate {
 					overflow-y: auto;
 				}
@@ -239,6 +245,7 @@ nav.il-maincontrols {
 .il-mainbar {
 	background-color: @bg-mainbar;
 	.shadow-right();
+	z-index: 995;
 }
 
 // tools section
