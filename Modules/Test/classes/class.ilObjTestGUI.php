@@ -2738,7 +2738,7 @@ class ilObjTestGUI extends ilObjectGUI
 				return;
 		}
 
-		if( $questionSetTypeSettingSwitched && !$this->getOfflineStatus() )
+		if( $questionSetTypeSettingSwitched && !$this->object->getOfflineStatus() )
 		{
 			$this->object->setOfflineStatus(true);
 
