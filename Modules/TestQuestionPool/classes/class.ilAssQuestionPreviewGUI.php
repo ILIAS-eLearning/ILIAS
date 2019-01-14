@@ -295,8 +295,15 @@ class ilAssQuestionPreviewGUI
 	
 	private function instantResponseCmd()
 	{
-		$this->questionOBJ->persistPreviewState($this->previewSession);
-		$this->previewSession->setInstantResponseActive(true);
+		if( $this->saveQuestionSolution() )
+		{
+			$this->previewSession->setInstantResponseActive(true);
+		}
+		else
+		{
+			$this->previewSession->setInstantResponseActive(false);
+		}
+		
 		$this->ctrl->redirect($this, self::CMD_SHOW);
 	}
 	
@@ -519,12 +526,17 @@ class ilAssQuestionPreviewGUI
 	
 	public function saveQuestionSolution()
 	{
-		$this->questionOBJ->persistPreviewState($this->previewSession);
+		return $this->questionOBJ->persistPreviewState($this->previewSession);
 	}
 
 	public function gatewayConfirmHintRequestCmd()
 	{
-		$this->saveQuestionSolution();
+		if( !$this->saveQuestionSolution() )
+		{
+			$this->previewSession->setInstantResponseActive(false);
+			$this->showCmd();
+			return;
+		}
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 		
@@ -535,7 +547,12 @@ class ilAssQuestionPreviewGUI
 
 	public function gatewayShowHintListCmd()
 	{
-		$this->saveQuestionSolution();
+		if( !$this->saveQuestionSolution() )
+		{
+			$this->previewSession->setInstantResponseActive(false);
+			$this->showCmd();
+			return;
+		}
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 		

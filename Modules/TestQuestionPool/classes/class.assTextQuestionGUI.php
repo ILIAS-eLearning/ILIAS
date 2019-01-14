@@ -557,7 +557,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	function getSpecificFeedbackOutput($userSolution)
 	{
-		$firstValue1 = key($userSolution);
+		$firstValue1 = current($userSolution);
 		
 			$feedback = '<table><tbody>';
 			$user_answer = '  '. $firstValue1;

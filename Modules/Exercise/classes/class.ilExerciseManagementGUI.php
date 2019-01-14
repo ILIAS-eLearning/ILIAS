@@ -462,7 +462,7 @@ class ilExerciseManagementGUI
 			(int)$participant_id);
 
 		if($download_task->run()) {
-			ilUtil::sendSuccess($this->lng->txt('exc_down_files_started'),true);
+			ilUtil::sendSuccess($this->lng->txt('exc_down_files_started_bg'),true);
 		}
 
 		if($this->assignment) {

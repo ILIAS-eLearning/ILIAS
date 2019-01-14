@@ -867,40 +867,7 @@ class ilObjExercise extends ilObject
 			array($a_value, $this->getId())
 		);
 	}
-	
-	/**
-	 * Check if given user has certificate to show/download
-	 * 
-	 * @param int $a_user_id
-	 * @return bool 
-	 */
-	function hasUserCertificate($a_user_id)
-	{
-		// show certificate?
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(ilCertificate::isActive() && ilCertificate::isObjectActive($this->getId()))
-		{
-			$certificate_visible = $this->getCertificateVisibility();
-			// if not never
-			if($certificate_visible != 2)
-			{
-				// if passed only
-				include_once 'Modules/Exercise/classes/class.ilExerciseMembers.php';
-				$status = ilExerciseMembers::_lookupStatus($this->getId(), $a_user_id);
-				if($certificate_visible == 1 && $status == "passed")
-				{
-					return true;
-				}
-				// always (excluding notgraded)
-				else if($certificate_visible == 0 && $status != "notgraded")
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
+
 	/**
 	 * Add to desktop after hand-in
 	 * 

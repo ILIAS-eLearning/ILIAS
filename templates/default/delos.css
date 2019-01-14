@@ -10479,6 +10479,11 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
     width: 24px;
   }
 }
+div.ilPermanentLinkWrapper .ilPermalinkContainer > input,
+div.ilPermanentLinkWrapper .ilPermalinkContainer .btn-group {
+  z-index: 0;
+  /* see bug #24567 */
+}
 div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
   width: 28px;
 }
@@ -11759,6 +11764,11 @@ a.mailunread:visited {
 }
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;
+}
+.ilMailAvatar {
+  min-width: 45px !important;
+  max-width: 45px !important;
+  height: auto;
 }
 /* --- Services/COPage ---*/
 a.ilEditSubmit {

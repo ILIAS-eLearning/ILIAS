@@ -93,8 +93,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 		$cmd       = $this->ctrl->getCmd();
 
 		if (
-			!$this->rbacsystem->checkAccess('read', '', $this->tos->getRefId()) ||
-			!$this->rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
+			!$this->rbacsystem->checkAccess('read', $this->tos->getRefId()) ||
+			!$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
 		) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}

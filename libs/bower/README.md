@@ -2,6 +2,10 @@
 
 **New dependencies MUST be approved by the Jour Fixe of the ILIAS society or by the Technical Board.**
 
+To propose a new dependency, create a Pull Request on GitHub that contains the
+proposed changes to `bower.json`, name it like "Add library XYZ" and assign
+the "jour fixe"-label.
+
 ## Dependencies for production
 - Comment all lines in libs/.gitignore which begin with bower/
 - Add a new library using bower, e.g. "bower install bootstrap@3.3.7 --save"

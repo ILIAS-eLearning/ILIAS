@@ -505,6 +505,8 @@ assessment#:#close_text_hint#:#To add a new gap set the cursor to the position o
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
@@ -5211,7 +5213,7 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/rss.php
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
@@ -7694,7 +7696,7 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
+common#:#db_need_hotfix#:#Hotfix available. Please open <a href="./setup/setup.php">»Setup</a>!
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_max_count#:#Max active sessions
@@ -11653,6 +11655,8 @@ common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.
 sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
 sop#:#sop_reload_page#:#Reload page
@@ -11848,7 +11852,7 @@ obj#:#obj_activate_multilang#:#Activate Multilingualism
 obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programme can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
 cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
@@ -12394,8 +12398,8 @@ scormtrac#:#tracinteractionuseranswers#:#Responses of users
 scormtrac#:#user_id#:#User-ID
 scormtrac#:#weighting#:#weighting
 scormtrac#:#report#:#Report
-common#:#ps_export_scorm#:#SCORM Tracking Data
-common#:#enable_export_scorm_desc#:#Allow export of user data of SCORM Learning Modules
+common#:#ps_export_scorm#:#Personal Data in Protocol Data
+common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Data (SCORM)
 content#:#cont_ed_click_to_add_pg#:#Click here to add content.
 link#:#link_chapters#:#Chapters
 link#:#link_wpages#:#Wiki Pages
@@ -13883,7 +13887,6 @@ iass#:#iass_edit#:#Settings
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
-iass#:#iass_return#:#Back to overview
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
 iass#:#iass_settings_saved#:#Settings saved.
@@ -14738,7 +14741,6 @@ exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_text#:#Submission Text
 common#:#open#:#Open
-exc#:#exc_down_files_started#:#Download of submission files has started.
 book#:#participants#:#Participants
 book#:#book_assign_object#:#Assign Booking Object
 book#:#book_assign#:#Assign
@@ -14954,7 +14956,6 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
 sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
-rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
 rbac#:#lso_read#:#Users can access the Learning Sequence
 rbac#:#lso_manage_members#:#Manage members of Learning Sequence
 rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
@@ -14968,3 +14969,5 @@ user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#msg_spoint_not_modified#:#Starting point not modified
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
+blog#:#blog_download_submission#:#Download Submission
+exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.

@@ -742,7 +742,10 @@ class ilMailFolderGUI
 
 		if ($sender && $sender->getId() && !$sender->isAnonymous()) {
 			$linked_fullname    = $sender->getPublicName();
-			$picture            = ilUtil::img($sender->getPersonalPicturePath('xsmall'), $sender->getPublicName());
+			$picture            = ilUtil::img(
+				$sender->getPersonalPicturePath('xsmall'), $sender->getPublicName(),
+				'', '', 0, '', 'ilMailAvatar'
+			);
 
 			if (in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), array('y', 'g'))) {
 				$this->ctrl->setParameter($this, 'mail_id', $mailId);
@@ -761,7 +764,10 @@ class ilMailFolderGUI
 			$form->addItem($from);
 		} else {
 			$from = new ilCustomInputGUI($this->lng->txt('from') . ':');
-			$from->setHtml(ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName()) . '<br />' . ilMail::_getIliasMailerName());
+			$from->setHtml(
+				ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName(), '', '', 0, '', 'ilMailAvatar') .
+				'<br />' . ilMail::_getIliasMailerName()
+			);
 			$form->addItem($from);
 		}
 
