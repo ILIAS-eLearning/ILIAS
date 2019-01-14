@@ -14956,15 +14956,6 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
 sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
-rbac#:#lso_read#:#Users can access the Learning Sequence
-rbac#:#lso_manage_members#:#Manage members of Learning Sequence
-rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
-common#:#unparticipate#:#Unsubscribe
-common#:#participate#:#Subscribe
-rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
-rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
-rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
-rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#msg_spoint_not_modified#:#Starting point not modified
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
