@@ -607,6 +607,7 @@ class ilExerciseManagementGUI
 		$actions = $this->ui_factory->dropdown()->standard(array(
 			$this->ui_factory->button()->shy($this->lng->txt("grade_evaluate"), "#")->withOnClick($modal->getShowSignal()),
 			$this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_mail"), $this->ctrl->getLinkTarget($this,"redirectFeedbackMail")),
+			$this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_file"), $this->ctrl->getLinkTargetByClass("ilFileSystemGUI", "listFiles"))
 		));
 		$this->ctrl->setParameter($this,"member_id", "");
 
