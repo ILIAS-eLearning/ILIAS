@@ -21741,3 +21741,19 @@ foreach($tests as $testFi => $testQuestions)
 }
 
 ?>
+
+<#5251>
+<?php
+global $DIC;
+$db = $DIC->database();
+
+if($db->tableColumnExists("map_area", "href")) {
+	$field = array(
+		'type' 		=> 'text',
+		'length' 	=> 250,
+		'notnull' 	=> false
+	);
+
+	$db->modifyTableColumn("map_area", "href", $field);
+}
+?>
