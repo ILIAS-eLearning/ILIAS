@@ -89,7 +89,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $html = $r->render($standard);
 
         $expected_html =
-            '<div class="il-chart-progressmeter-box">' .
+            '<div class="il-chart-progressmeter-box ">' .
 			'<div class="il-chart-progressmeter-container">' .
 			'<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
 			'<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
@@ -130,7 +130,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $html = $r->render($fixedSize);
 
         $expected_html =
-            '<div class="il-chart-progressmeter-box" style="width: 300px">' .
+            '<div class="il-chart-progressmeter-box fixed-size">' .
 			'<div class="il-chart-progressmeter-container">' .
 			'<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
 			'<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
