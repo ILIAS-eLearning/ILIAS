@@ -259,7 +259,7 @@ class ilObjStudyProgrammeSettingsGUI {
 						self::PROP_POINTS =>
 							$ff->numeric($txt("prg_points"))
 								->withValue((string)$prg->getPoints())
-								->withAdditionalConstraint($this->validation->greaterThan(0)),
+								->withAdditionalConstraint($this->validation->greaterThan(-1)),
 						self::PROP_STATUS =>
 							$ff->select($txt("prg_status"), $status_options)
 								->withValue((string)$prg->getStatus())
