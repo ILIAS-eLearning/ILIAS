@@ -14682,32 +14682,32 @@ certificate#:#cert_cron_task_title#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
 certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung
 certificate#:#certificate_change_active_status#:#Der Aktiv-Status des Zertifikats wurde geändert
-exc#:#exc_team_formation#:#Team Formation
-exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams
-exc#:#exc_team_by_participants_info#:#Participants opt for teams.
-exc#:#exc_team_by_tutors#:#Teams are formed by Tutors.
-exc#:#exc_team_by_tutors_info#:#Tutors allocate participants to teams, participants cannot self-organize.
-exc#:#exc_team_by_random#:#Teams are formed randomly and automatically.
-exc#:#exc_team_by_random_info#:#ILIAS will allocate participants to a set number of teams.
-exc#:#exc_team_by_assignment#:#Adopt Teams from Assignment
-exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be used for this Assignment too.
-exc#:#exc_num_teams#:#Number
-exc#:#exc_min_team_participants#:#Minimal Number
-exc#:#exc_max_team_participants#:#Maximal Number
-exc#:#exc_total_members#:#Total Exercise Members
-exc#:#exc_value_can_not_set#:#This value can not be set.
-exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
-exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
-exc#:#exc_team_min_big_than_max#:#Maximal number of team participants can not be smaller than Minimal number of team participants.
-exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.
-exc#:#exc_team_min_small_than_members#:#Minimal Number of Participants can not be set as %s because teams are set with %s participants.
-exc#:#exc_participants#:#Participants
-exc#:#exc_team_by_tutors_manual_info#:#Tutors manually allocate participants to teams.
-exc#:#exc_team_by_tutors_manual#:#Manually
-exc#:#exc_team_creation#:#Creation
-exc#:#exc_ass_submission_zip#:#Submissions
-exc#:#exc_submission_file#:#Submission File
-exc#:#exc_submission_text#:#Submission Text
+exc#:#exc_team_formation#:#Organisation der Teams
+exc#:#exc_team_by_participants#:#Durch Teilnehmer
+exc#:#exc_team_by_participants_info#:#Teilnehmer organisieren die Teams selbst.
+exc#:#exc_team_by_tutors#:#Durch Tutoren
+exc#:#exc_team_by_tutors_info#:#Tutoren organisieren die Teams.
+exc#:#exc_team_by_random#:#Automatische, zufällige Zuordnung
+exc#:#exc_team_by_random_info#:#Teilnehmer werden automatisch und zufällig zu Teams zugeordnet.
+exc#:#exc_team_by_assignment#:#Übernahme von Übungseinheit
+exc#:#exc_team_by_assignment_info#:#Die Teams werden von einer bestehender Übungseinheit übernommen.
+exc#:#exc_num_teams#:#Anzahl
+exc#:#exc_min_team_participants#:#Minimale Anzahl
+exc#:#exc_max_team_participants#:#Maximale Anzahl
+exc#:#exc_total_members#:#Gesamtanzahl an Teilnehmern
+exc#:#exc_value_can_not_set#:#Dieser Wert kann nicht gesetzt werden
+exc#:#exc_teams_assignment_adopted#:#Die Teams wurden von der bestehender Übungseinheit übernommen.
+exc#:#exc_team_minimal_too_big#:#Die minimale Anzahl von Teilnehmern %s ist zu groß, bitte verringern Sie den Wert.
+exc#:#exc_team_min_big_than_max#:#Die maximale Anzahl von Teilnehmern kann nicht kleiner als die minimale Anzahl sein.
+exc#:#exc_team_max_small_than_members#:#Die maximale Anzahl von Teilnehmern kann nicht auf %s gesetzt werden, da einige Teams %s Teilnehmer erhalten müssen.
+exc#:#exc_team_min_small_than_members#:#Die minimale Anzahl von Teilnehmern kann nicht auf %s gesetzt werden, da einige Teams %s Teilnehmer erhalten müssen.
+exc#:#exc_participants#:#Teilnehmer
+exc#:#exc_team_by_tutors_manual_info#:#Tutoren ordnen die Teilnehmer manuell den Teams zu.
+exc#:#exc_team_by_tutors_manual#:#Manuell
+exc#:#exc_team_creation#:#Erstellung
+exc#:#exc_ass_submission_zip#:#Abgaben
+exc#:#exc_submission_file#:#Dateiabgabe
+exc#:#exc_submission_text#:#Textabgabe
 common#:#open#:#Öffnen
 exc#:#exc_fixed_date#:#Festes Datum
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
