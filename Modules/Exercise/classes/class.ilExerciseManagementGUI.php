@@ -603,9 +603,12 @@ class ilExerciseManagementGUI
 	{
 		$modal = $this->getEvaluationModal($a_data);
 
+		$this->ctrl->setParameter($this,"member_id", $a_data['uid']);
 		$actions = $this->ui_factory->dropdown()->standard(array(
 			$this->ui_factory->button()->shy($this->lng->txt("grade_evaluate"), "#")->withOnClick($modal->getShowSignal()),
+			$this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_mail"), $this->ctrl->getLinkTarget($this,"redirectFeedbackMail")),
 		));
+		$this->ctrl->setParameter($this,"member_id", "");
 
 		if($a_data['status'] == self::GRADE_NOT_GRADED) {
 			$str_status_key = $this->lng->txt('exc_tbl_status');
