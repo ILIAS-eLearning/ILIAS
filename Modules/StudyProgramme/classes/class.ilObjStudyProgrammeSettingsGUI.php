@@ -174,6 +174,7 @@ class ilObjStudyProgrammeSettingsGUI {
 
 			if($this->ctrl->isAsynch()) {
 				$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
+				return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 			} else {
 				$this->ctrl->redirect($this);
 			}
@@ -182,6 +183,7 @@ class ilObjStudyProgrammeSettingsGUI {
 
 			if($this->ctrl->isAsynch()) {
 				$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
+				return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 			} else {
 				return $this->renderer->render($form);
 			}
