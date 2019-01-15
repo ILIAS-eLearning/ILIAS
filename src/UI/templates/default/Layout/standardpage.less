@@ -1,53 +1,58 @@
-// variables
-@height-header: 60px;
-@height-footer: 75px;
-@height-breadcrumbs: 33px;
-
-@height-metabar-entry: @height-header;
-@width-metabar-entry: @height-header;
-
-@height-header-footer: ((@height-header + @height-footer)*1); // should be obsolete
-
-@mainbar-btn-height: 80px;
-@mainbar-btn-width: 80px;
-@mainbar-btn-border: 1px solid #ddd;
-@mainbar-btn-color: #fff;
-@mainbar-btn-color-engaged: #4a4a4a;
-@mainbar-label-size: .7rem;
-
-@slate-width: 400px;
-
-@bg-maincontrols: #fff;
-@bg-mainbar: #4a4a4a;
-@bg-mainbar-engaged: #fff;
-@bg-header: #fff;
-@bg-breadcrumbs: #fff;
-@breadcrumb-divider-color: #bbb;
-@bg-metabar-slates: #fafafa;
-
-@slate-bg-bulky: #f2f2f2;
-@slate-bg-bulky-level-2: #e3e3e3;
-@slate-bg-bulky-engaged: #D1D8E3;
-@slate-content-spacing: 2px;
-
+// logo
 @logo-height: 45px;
 @logo-width: 45px;
 
-@close-slate-btn-height: 45px;
+// header
+@height-header: 60px;
+@bg-header: #fff;
 
-
-// border
+// border light color
 @light-border: #ddd;
-// shadows
-@shadow-color: #ccc;
-@inner-top-shadow: inset 0 5px 9px -5px @shadow-color;
-@shadow-right: 1px 3px 4px @shadow-color;
-@shadow-bottom: 0 1px 4px @shadow-color;
+
+// metabar
+@height-metabar-entry: 60px;
+@width-metabar-entry: 60px;
 
 // glyphicons metabar
 @glyph-size: 2.3rem;
 @glyph-color: #aaa;
 
+// breadcrumbs
+@height-breadcrumbs: 33px;
+@bg-breadcrumbs: #fff;
+@breadcrumb-divider-color: #bbb;
+
+// mainbar
+@mainbar-btn-height: 80px;
+@mainbar-btn-width: 80px;
+@bg-maincontrols: #fff;
+@bg-mainbar: #4a4a4a;
+@bg-mainbar-engaged: #fff;
+@mainbar-btn-border: 1px solid @light-border;
+@mainbar-btn-color: #fff;
+@mainbar-btn-color-engaged: #4a4a4a;
+@mainbar-label-size: .7rem;
+
+// slates
+@slate-width: 400px;
+@bg-metabar-slates: #fafafa;
+@slate-bg-bulky: #f2f2f2;
+@slate-bg-bulky-level-2: #e3e3e3;
+@slate-bg-bulky-engaged: #D1D8E3;
+@slate-content-spacing: 2px;
+@bg-slate-collapsed: #f2f2f2;
+@bg-slate-expanded: #ebe8c0;
+@menu-divider: 0px solid #eee;
+@close-slate-btn-height: 45px;
+
+// footer
+@height-footer: 75px;
+
+// shadows
+@shadow-color: #ccc;
+@inner-top-shadow: inset 0 5px 9px -5px @shadow-color;
+@shadow-right: 1px 3px 4px @shadow-color;
+@shadow-bottom: 0 1px 4px @shadow-color;
 
 // mixins
 .inner-top-shadow {
@@ -62,26 +67,8 @@
 	box-shadow: @shadow-bottom;
 }
 
-// paddings
-@padding-content: 20px; // use BS variable
-
-
-/* IE10+ not supported
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-	.il-layout-page {
-		&:before {
-			content: "Microsoft Internet Explorer is not supported in this ILIAS Version :("
-		}
-		header,
-		footer,
-		nav,
-		main,
-		.layout-page-content {
-			display:none;
-		}
-	}
-}
-*/
+// content padding
+@padding-content: 20px;
 
 
 * {
@@ -106,7 +93,7 @@ grid-based layout
 */
 // main grid without slates
 .il-layout-page {
-	background: @body-bg; /* MOVE */
+	background: @body-bg;
 	display: -ms-grid;
 	display: grid;
 	grid-gap: 0px;
@@ -141,7 +128,6 @@ grid-based layout
 				display: flex;
 				-ms-flex-direction: column;
 				flex-direction: column;
-				// height: calc(~"100vh - " @height-header-footer);
 				z-index: 994;
 				.il-maincontrols-slate {
 					overflow-y: auto;
@@ -156,7 +142,7 @@ grid-based layout
 	}
 }
 
-/* Metabar */
+/* metabar */
 header {
 	-ms-grid-column: 1;
 	-ms-grid-column-span: 2;
@@ -194,8 +180,8 @@ header {
 .breadcrumbs {
 	-ms-flex-align: center;
 	align-items: center;
-	background-color: @bg-breadcrumbs; /* move style */
-	border-top: 1px solid @light-border; /* move style */
+	background-color: @bg-breadcrumbs;
+	border-top: 1px solid @light-border;
 	display: -ms-flexbox;
 	display: flex;
 	-ms-flex-direction: row;
@@ -207,13 +193,13 @@ header {
 	grid-column-end: 3;
 	grid-row: 2;
 	z-index: 997;
-	.shadow-bottom(); /* move style */
+	.shadow-bottom();
 	ul.breadcrumb {
-		padding-left: @mainbar-btn-width + @padding-content; // move style
+		padding-left: @mainbar-btn-width + @padding-content;
 		&>li+li:before {
-			content: " \e606"; /* move style */
+			content: " \e606";
 			color: @breadcrumb-divider-color;
-			font-family: il-icons; /* move style */
+			font-family: "il-icons";
 		}
 	}
 }
@@ -235,6 +221,8 @@ nav.il-maincontrols {
 	height: 100%;
 	-ms-grid-colums: @mainbar-btn-width @slate-width;
 	grid-template-columns: @mainbar-btn-width @slate-width;
+	-ms-grid-rows: 1fr;
+	grid-template-rows: 1fr;
 	width: @mainbar-btn-width;
 	&.engaged {
 
@@ -244,6 +232,10 @@ nav.il-maincontrols {
 // mainbar
 .il-mainbar {
 	background-color: @bg-mainbar;
+	-ms-grid-column: 1;
+	-ms-grid-row: 1;
+	grid-column: 1;
+	grid-row: 1;
 	.shadow-right();
 	z-index: 995;
 }
@@ -280,6 +272,10 @@ nav.il-maincontrols {
 
 // mainbar slates
 .il-mainbar-slates {
+	-ms-grid-column: 2;
+	-ms-grid-row: 1;
+	grid-column: 2;
+	grid-row: 1;
 }
 
 // mainbar close slates
@@ -302,27 +298,18 @@ nav.il-maincontrols {
 	}
 }
 
-
-
-/*
-main-tag is important for screenreader
-fix due to main-tag is not supported in IE
-*/
-
-/* Content */
+/* content */
 main {
 	display: block;
 }
 
 .il-layout-page-content {
-	display: -ms-grid;
-	display: grid;
 	-ms-grid-column: 2;
 	-ms-grid-row: 3;
 	grid-column: 2;
 	grid-row: 3;
 	overflow: auto;
-	padding: 20px;
+	padding: @padding-content;
 }
 
 /* Footer */

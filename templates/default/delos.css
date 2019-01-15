@@ -9284,22 +9284,6 @@ div.alert ul > li:before {
 .shadow-bottom {
   box-shadow: 0 1px 4px #cccccc;
 }
-/* IE10+ not supported
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-	.il-layout-page {
-		&:before {
-			content: "Microsoft Internet Explorer is not supported in this ILIAS Version :("
-		}
-		header,
-		footer,
-		nav,
-		main,
-		.layout-page-content {
-			display:none;
-		}
-	}
-}
-*/
 * {
   box-sizing: border-box;
 }
@@ -9320,7 +9304,6 @@ grid-based layout
 */
 .il-layout-page {
   background: #f0f0f0;
-  /* MOVE */
   display: -ms-grid;
   display: grid;
   grid-gap: 0px;
@@ -9364,7 +9347,7 @@ grid-based layout
   display: -ms-flexbox;
   display: flex;
 }
-/* Metabar */
+/* metabar */
 header {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
@@ -9398,9 +9381,7 @@ header {
   -ms-flex-align: center;
   align-items: center;
   background-color: #ffffff;
-  /* move style */
   border-top: 1px solid #dddddd;
-  /* move style */
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
@@ -9413,17 +9394,14 @@ header {
   grid-row: 2;
   z-index: 997;
   box-shadow: 0 1px 4px #cccccc;
-  /* move style */
 }
 .breadcrumbs ul.breadcrumb {
   padding-left: 100px;
 }
 .breadcrumbs ul.breadcrumb > li + li:before {
   content: " \e606";
-  /* move style */
   color: #bbbbbb;
-  font-family: il-icons;
-  /* move style */
+  font-family: "il-icons";
 }
 /* mainbar */
 nav.il-maincontrols {
@@ -9440,10 +9418,16 @@ nav.il-maincontrols {
   height: 100%;
   -ms-grid-colums: 80px 400px;
   grid-template-columns: 80px 400px;
+  -ms-grid-rows: 1fr;
+  grid-template-rows: 1fr;
   width: 80px;
 }
 .il-mainbar {
   background-color: #4a4a4a;
+  -ms-grid-column: 1;
+  -ms-grid-row: 1;
+  grid-column: 1;
+  grid-row: 1;
   box-shadow: 1px 3px 4px #cccccc;
   z-index: 995;
 }
@@ -9467,6 +9451,12 @@ nav.il-maincontrols {
   -ms-flex-direction: row;
   flex-direction: row;
 }
+.il-mainbar-slates {
+  -ms-grid-column: 2;
+  -ms-grid-row: 1;
+  grid-column: 2;
+  grid-row: 1;
+}
 .il-mainbar-remove-tool {
   display: none;
 }
@@ -9480,17 +9470,11 @@ nav.il-maincontrols {
   height: 45px;
   width: 45px;
 }
-/*
-main-tag is important for screenreader
-fix due to main-tag is not supported in IE
-*/
-/* Content */
+/* content */
 main {
   display: block;
 }
 .il-layout-page-content {
-  display: -ms-grid;
-  display: grid;
   -ms-grid-column: 2;
   -ms-grid-row: 3;
   grid-column: 2;
@@ -9557,15 +9541,6 @@ glyphicon-cog<!-- END settings -->
     content: "\e82a";
 }
 */
-.il-maincontrols-slate.engaged {
-  /*
-		// quick solution, better use flex or grid
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		position: relative;
-		*/
-}
 .il-maincontrols-slate.disengaged {
   display: none;
 }
@@ -9602,6 +9577,20 @@ glyphicon-cog<!-- END settings -->
 }
 .il-maincontrols-slate .btn-bulky .bulky-label {
   font-size: 1.5rem;
+}
+.il-maincontrols-slate .backlink .btn-bulky {
+  background-color: #fff;
+  /* !variable! */
+  height: 80px;
+}
+.il-maincontrols-slate .backlink .btn-bulky .bulky-label {
+  color: #4c6586;
+}
+.il-maincontrols-slate .backlink .btn-bulky .icon.small,
+.il-maincontrols-slate .backlink .btn-bulky .icon.small img {
+  height: 14px;
+  line-height: 14px;
+  width: 14px;
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
   background-color: #e3e3e3;
@@ -9679,6 +9668,9 @@ glyphicon-cog<!-- END settings -->
 }
 .il-metabar-entry {
   position: relative;
+}
+.il-metabar-entry .btn .badge {
+  margin-top: -20px;
 }
 .il-metabar-entry .il-counter-status {
   margin-top: -4px;

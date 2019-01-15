@@ -1,16 +1,6 @@
-@bg-slate-collapsed: #f2f2f2;
-@bg-slate-expanded: #ebe8c0;
-@menu-divider: 0px solid #eee;
-
+// slates
 .il-maincontrols-slate {
 	&.engaged {
-		/*
-		// quick solution, better use flex or grid
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		position: relative;
-		*/
 	}
 	&.disengaged {
 		display:none;
@@ -48,7 +38,21 @@
 			font-size: 1.5rem;
 		}
 	}
-
+	.backlink {
+		.btn-bulky {
+			background-color: #fff; /* !variable! */
+			height: @mainbar-btn-height;
+			.bulky-label {
+				color: @brand-primary;
+			}
+			.icon.small,
+			.icon.small img {
+				height: @icon-size-small - 6px;
+				line-height: @icon-size-small - 6px;
+				width: @icon-size-small - 6px;
+			}
+		}
+	}
 	.il-maincontrols-slate .btn-bulky {
 		background-color: @slate-bg-bulky-level-2;
 	}
@@ -83,6 +87,7 @@
 	}
 }
 
+// close slate
 .il-maincontrols-slate-close {
 	width: 100%;
 	border-bottom: 1px solid #eee;
