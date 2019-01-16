@@ -1270,7 +1270,8 @@ are explained in the following sections:
 - **optional** - accepts values according to a provided transformation or null
 - **selection** - takes an array of transformation and tries to pull values from
   a provided array according to it
-- **number** - contains constraints and transformations on numbers
+- **int** - contains constraints and transformations on numbers. Each constraint
+  on an int will attempt to transform to int as well.
 	- **isGreaterThan**
 	- **isLessThan**
 	- *various other constraints on numbers*
@@ -1726,12 +1727,10 @@ $refine = new ILIAS\Refinery\Factory(/* ... */);
 $id = $get_wrapper->get("id", $refine->to()->int());
 list($current_page, $page_size) = $get_wrapper->get($refine->selection([
 	"current_page" => $refine->in()->series(
-		$refine->to()->int(),
 		$refine->int()->hasMin(0)
 		$refine->int()->hasMax(10)
 	),
 	"page_size" => $refine->in()->series(
-		$refine->to()->int(),
 		$refine->int()->hasMin(0)
 	)
 ]));
@@ -1754,12 +1753,10 @@ $r = new ILIAS\Refinery\Factory(/* ... */);
 
 list($current_page, $page_size) = $get_wrapper->get([
 	"current_page" => [
-		$r->to()->int(),
 		$r->int()->hasMin(0),
 		$r->int()->hasMax(10)
 	]
 	"page_size" => [
-		$r->to()->int(),
 		$r->int()->hasMin(0)
 	]
 ]);
