@@ -100,12 +100,16 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 		$this->addMultiCommand("bookMultipleParticipants",$this->lng->txt("assign"));
 		$this->getItems();
 
-		ilUtil::sendInfo(
-			sprintf(
-				$this->lng->txt("book_objects_available"),
-				ilBookingReservation::numAvailableFromObjectNoSchedule($a_booking_obj_id)
-			)
-		);
+		$pool = new ilObjBookingPool($a_pool_id, false);
+		if($pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
+		{
+			ilUtil::sendInfo(
+				sprintf(
+					$this->lng->txt("book_objects_available"),
+					ilBookingReservation::numAvailableFromObjectNoSchedule($a_booking_obj_id)
+				)
+			);
+		}
 
 	}
 
