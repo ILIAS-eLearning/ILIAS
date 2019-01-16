@@ -1140,15 +1140,18 @@ class ilObjectCopyGUI
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-			ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
+			$ref_id = $new_obj->getRefId();
 		}
 		else
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
-			ilUtil::redirect(ilLink::_getLink($this->getFirstTarget()));
+			$ref_id = $this->getFirstTarget();
 		}
 
+		$gui_fac = new ilObjectGUIFactory();
+		$obj_gui = $gui_fac->getInstanceByRefId($ref_id);
+		$obj_gui->redirectAfterCreation();
 	}
 	
 	/**

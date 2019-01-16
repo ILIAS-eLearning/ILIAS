@@ -6109,6 +6109,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjectFactoryWrapper' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilObjectFactoryWrapper.php',
         'ilObjectFeedWriter' => __DIR__ . '/../..' . '/../../Services/Feeds/classes/class.ilObjectFeedWriter.php',
         'ilObjectGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectGUI.php',
+        'ilObjectGUIFactory' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectGUIFactory.php',
         'ilObjectImporter' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectImporter.php',
         'ilObjectLP' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectLP.php',
         'ilObjectListGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectListGUI.php',
