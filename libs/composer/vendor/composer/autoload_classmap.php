@@ -5773,6 +5773,7 @@ return array(
     'ilObjectFactoryWrapper' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilObjectFactoryWrapper.php',
     'ilObjectFeedWriter' => $baseDir . '/../../Services/Feeds/classes/class.ilObjectFeedWriter.php',
     'ilObjectGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectGUI.php',
+    'ilObjectGUIFactory' => $baseDir . '/../../Services/Object/classes/class.ilObjectGUIFactory.php',
     'ilObjectImporter' => $baseDir . '/../../Services/Object/classes/class.ilObjectImporter.php',
     'ilObjectLP' => $baseDir . '/../../Services/Object/classes/class.ilObjectLP.php',
     'ilObjectListGUI' => $baseDir . '/../../Services/Object/classes/class.ilObjectListGUI.php',
