@@ -14667,7 +14667,7 @@ lhist#:#lhist_cont_placeholder_text#:#This element will show the learning histor
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Resources/Materials
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
+cert#:#certificate_migration_confirm_start#:#Since ILIAS 5.4, certificates in ILIAS are persistent. Even if courses, tests or learning modules are deleted, you are still able to access any certificate you might have earned by them. In order to use this new functionality, you need to migrate your old certificates once.
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?
 cert#:#certificate_migration_confirm_started#:#The migration was started.
 cert#:#certificate_migration_go#:#Start Migration
