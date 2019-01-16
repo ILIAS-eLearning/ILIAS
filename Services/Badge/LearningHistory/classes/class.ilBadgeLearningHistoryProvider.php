@@ -10,6 +10,47 @@
  */
 class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $current_user;
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
+	 * Constructor
+	 * @param int $user_id
+	 * @param ilLearningHistoryFactory $factory
+	 * @param ilLanguage $lng
+	 * @param ilTemplate|null $template
+	 */
+	public function __construct(
+		$user_id,
+		ilLearningHistoryFactory $factory,
+		ilLanguage $lng,
+		ilTemplate $template = null,
+		ilObjUser $current_user = null,
+		\ILIAS\DI\UIServices $ui = null
+	) {
+		global $DIC;
+
+		parent::__construct($user_id, $factory, $lng, $template);
+
+		if (is_null($current_user))
+		{
+			$current_user = $DIC->user();
+		}
+		$this->current_user = $current_user;
+
+		if (is_null($ui))
+		{
+			$ui = $DIC->ui();
+		}
+		$this->ui = $ui;
+	}
 
 	/**
 	 * @inheritdoc
@@ -36,8 +77,14 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 		$entries = [];
 		foreach ($completions as $c)
 		{
-			$text1 = str_replace("$3$", $this->getEmphasizedTitle($c["title"]), $lng->txt("badge_lhist_badge_completed"));
-			$text2 = str_replace("$3$", $this->getEmphasizedTitle($c["title"]), $lng->txt("badge_lhist_badge_completed_in"));
+			$title = $this->getEmphasizedTitle($c["title"]);
+			if ($this->current_user->getId() == $this->getUserId())
+			{
+				$title = $this->ui->renderer()->render($this->ui->factory()->link()->standard($title,
+				$url = ilLink::_getLink($this->getUserId(), "usr", array(), "_bdg")));
+			}
+			$text1 = str_replace("$3$", $title, $lng->txt("badge_lhist_badge_completed"));
+			$text2 = str_replace("$3$", $title, $lng->txt("badge_lhist_badge_completed_in"));
 			$entries[] = $this->getFactory()->entry($text1, $text2,
 				ilUtil::getImagePath("icon_bdga.svg"),
 				$c["tstamp"],
