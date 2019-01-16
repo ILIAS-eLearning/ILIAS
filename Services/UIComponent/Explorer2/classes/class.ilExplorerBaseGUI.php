@@ -860,7 +860,10 @@ abstract class ilExplorerBaseGUI
 				$tpl->setVariable("ICON", ilUtil::img($this->getNodeIcon($a_node), $this->getNodeIconAlt($a_node)) . " ");
 			}
 			$tpl->setVariable("CONTENT", $this->getNodeContent($a_node));
-			$tpl->setVariable("HREF", $this->getNodeHref($a_node));
+			if ($this->isNodeClickable($a_node))
+			{
+				$tpl->setVariable("HREF", $this->getNodeHref($a_node));
+			}
 			$target = $this->getNodeTarget($a_node);
 			if ($target != "")
 			{
