@@ -1259,7 +1259,7 @@ are explained in the following sections:
   forgiving regarding the input
 - **identity** - does not check anything and returns the value as provided
 - **in**
-	- **series** - takes an array of transformations and performs them one after
+    - **series** - takes an array of transformations and performs them one after
 	  another on the result of the previous transformation
     - **parallel** - takes an array of transformations and performs each on the
 	  input value to form a tuple of the results
