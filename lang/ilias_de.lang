@@ -14662,7 +14662,7 @@ lhist#:#lhist_cont_placeholder_text#:#This element will show the learning histor
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
-cert#:#certificate_migration_confirm_start#:#Mit ILIAS 5.4.x wurden Änderungen hinsichtlich der Zertifikate implementiert. War der Download von erworbenen Zertifikaten bisher an Ihre aktuellen Berechtigungen und Ihren Status an den Lernobjekte bzw. die Verfügbarkeit gekoppelt, können Zertifikate nun persistent erworben werden. Starten Sie dazu die Migration.
+cert#:#certificate_migration_confirm_start#:#Ihre Zertifikate bleiben seit ILIAS 5.4 immer in Ihrer Hand. Auch wenn Kurse, Tests oder Lernmodule gelöscht werden, können Sie weiterhin auf alle erworbenen Zertifikate zugreifen. Um diese neue Funktion zu nutzen, müssen Sie Ihre alten Zertifikate einmalig migrieren.
 cert#:#certificate_migration_lastrun_failed#:#Die Migration der Zertifikate ist fehlgeschlagen. Erneut versuchen?
 cert#:#certificate_migration_confirm_started#:#Die Migration wurde gestartet.
 cert#:#certificate_migration_go#:#Starte Migration
