@@ -1006,9 +1006,8 @@ class ilTestServiceGUI
 	 */
 	public function getQuestionResultForTestUsers($question_id, $test_id)
 	{
-        // prepare generation before contents are processed (for mathjax)
-		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-		ilPDFGeneration::prepareGeneration();
+		// prepare generation before contents are processed (for mathjax)
+		ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
@@ -1048,7 +1047,7 @@ class ilTestServiceGUI
 		}
 
 		require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
-		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitle());
+		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitle(),PDF_USER_RESULT);
 	}
 
 	/**
@@ -1185,7 +1184,7 @@ class ilTestServiceGUI
 			require_once 'class.ilTestPDFGenerator.php';
 
 			ilTestPDFGenerator::generatePDF(
-				$content, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
+				$content, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT
 			);
 		}
 		else

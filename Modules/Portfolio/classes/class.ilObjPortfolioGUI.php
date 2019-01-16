@@ -1410,6 +1410,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 		ilWACSignedPath::setTokenMaxLifetimeInSeconds(180);
 
+		// prepare generation before contents are processed (for mathjax)
+		ilPDFGeneratorUtils::prepareGenerationRequest("Portfolio", "ContentExport");
+
 		$html = $this->printView(true);
 
 		// :TODO: fixing css dummy parameters
