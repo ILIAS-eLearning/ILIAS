@@ -1040,18 +1040,7 @@ class ilExAssignmentEditorGUI
 			$ass->update();
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-						
-			// adopt teams for team upload?
-			if ($ass_type->usesTeams())
-			{				
-				include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-				if(sizeof(ilExAssignmentTeam::getAdoptableTeamAssignments($this->exercise_id, $ass->getId())))
-				{
-					$ilCtrl->setParameter($this, "ass_id", $ass->getId());
-					$ilCtrl->redirect($this, "adoptTeamAssignmentsForm");
-				}
-			}			
-			
+
 			// because of sub-tabs we stay on settings screen
 			$ilCtrl->setParameter($this, "ass_id", $ass->getId());
 			$ilCtrl->redirect($this, "editAssignment");
@@ -1068,7 +1057,6 @@ class ilExAssignmentEditorGUI
 	 */
 	function editAssignmentObject()
 	{
-		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		$tpl = $this->tpl;
 		
