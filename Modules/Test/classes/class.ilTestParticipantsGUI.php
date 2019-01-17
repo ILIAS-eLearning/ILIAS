@@ -3,17 +3,17 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilTestFixedParticipantsGUI
+ * Class ilTestParticipantsGUI
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
  * @package    Modules/Test
  * 
- * @ilCtrl_Calls ilTestFixedParticipantsGUI: ilTestParticipantsTableGUI
- * @ilCtrl_Calls ilTestFixedParticipantsGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilTestParticipantsGUI: ilTestParticipantsTableGUI
+ * @ilCtrl_Calls ilTestParticipantsGUI: ilRepositorySearchGUI
  */
-class ilTestFixedParticipantsGUI
+class ilTestParticipantsGUI
 {
 	/**
 	 * Command/Callback Constants
@@ -37,7 +37,7 @@ class ilTestFixedParticipantsGUI
 	protected $questionSetConfig;
 	
 	/**
-	 * ilTestFixedParticipantsGUI constructor.
+	 * ilTestParticipantsGUI constructor.
 	 * @param ilObjTest $testObj
 	 */
 	public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
