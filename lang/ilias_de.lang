@@ -1323,6 +1323,7 @@ assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_status#:#Teilnehmerstatus
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_tbl_invited_users#:#Ausgewählte Teilnehmer
+assessment#:#tst_tbl_participants#:#Teilnehmer
 assessment#:#tst_tbl_results_grades#:#Ergebnisse und Noten
 assessment#:#tst_pass_best_pass#:#Besten Testdurchlauf bewerten
 assessment#:#tst_pass_best_pass_desc#:#Es wird der Testdurchlauf bewertet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen greift nur, wenn mehrere Testdurchläufe durchgeführt werden können.
@@ -10940,6 +10941,7 @@ assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
+assessment#:#autoparticipants_subtab#:#Teilnehmer
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung

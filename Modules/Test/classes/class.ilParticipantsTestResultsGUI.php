@@ -183,18 +183,9 @@ class ilParticipantsTestResultsGUI
 
 		if( !$this->getQuestionSetConfig()->areDepenciesBroken() )
 		{
-			$tableGUI->setManageResultsCommandsEnabled(
-				$this->getTestAccess()->checkManageParticipantsAccess()
-			);
-			
 			$tableGUI->setAccessResultsCommandsEnabled(
 				$this->getTestAccess()->checkParticipantsResultsAccess()
 			);
-
-			if( $participantList->hasUnfinishedPasses() )
-			{
-				$this->addFinishAllPassesButton($DIC->toolbar());
-			}
 			
 			if( $participantList->hasTestResults() )
 			{
@@ -224,19 +215,6 @@ class ilParticipantsTestResultsGUI
 		$delete_all_results_btn->setCaption('delete_all_user_data');
 		$delete_all_results_btn->setUrl($DIC->ctrl()->getLinkTarget($this, 'deleteAllUserResults'));
 		$toolbar->addButtonInstance($delete_all_results_btn);
-	}
-	
-	/**
-	 * @param ilToolbarGUI $toolbar
-	 */
-	protected function addFinishAllPassesButton(ilToolbarGUI $toolbar)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$finish_all_user_passes_btn = ilLinkButton::getInstance();
-		$finish_all_user_passes_btn->setCaption('finish_all_user_passes');
-		$finish_all_user_passes_btn->setUrl($DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
-		$toolbar->addButtonInstance($finish_all_user_passes_btn);
 	}
 	
 	/**

@@ -12,6 +12,7 @@
  * 
  * @ilCtrl_Calls ilTestParticipantsGUI: ilTestParticipantsTableGUI
  * @ilCtrl_Calls ilTestParticipantsGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilTestParticipantsGUI: ilTestEvaluationGUI
  */
 class ilTestParticipantsGUI
 {
@@ -35,6 +36,16 @@ class ilTestParticipantsGUI
 	 * @var ilTestQuestionSetConfig
 	 */
 	protected $questionSetConfig;
+	
+	/**
+	 * @var ilTestObjectiveOrientedContainer
+	 */
+	protected $objectiveParent;
+	
+	/**
+	 * @var ilTestAccess
+	 */
+	protected $testAccess;
 	
 	/**
 	 * ilTestParticipantsGUI constructor.
@@ -79,6 +90,38 @@ class ilTestParticipantsGUI
 	}
 	
 	/**
+	 * @return ilTestObjectiveOrientedContainer
+	 */
+	public function getObjectiveParent(): ilTestObjectiveOrientedContainer
+	{
+		return $this->objectiveParent;
+	}
+	
+	/**
+	 * @param ilTestObjectiveOrientedContainer $objectiveParent
+	 */
+	public function setObjectiveParent(ilTestObjectiveOrientedContainer $objectiveParent)
+	{
+		$this->objectiveParent = $objectiveParent;
+	}
+	
+	/**
+	 * @return ilTestAccess
+	 */
+	public function getTestAccess(): ilTestAccess
+	{
+		return $this->testAccess;
+	}
+	
+	/**
+	 * @param ilTestAccess $testAccess
+	 */
+	public function setTestAccess(ilTestAccess $testAccess)
+	{
+		$this->testAccess = $testAccess;
+	}
+	
+	/**
 	 * Execute Command
 	 */
 	public function	executeCommand()
@@ -102,6 +145,20 @@ class ilTestParticipantsGUI
 				
 				
 				$DIC->ctrl()->setReturn($this, self::CMD_SHOW);
+				$DIC->ctrl()->forwardCommand($gui);
+				
+				break;
+				
+			case "iltestevaluationgui":
+				
+				require_once 'Modules/Test/classes/class.ilTestEvaluationGUI.php';
+				
+				$gui = new ilTestEvaluationGUI($this->getTestObj());
+				$gui->setObjectiveOrientedContainer($this->getObjectiveParent());
+				$gui->setTestAccess($this->getTestAccess());
+				$DIC->tabs()->clearTargets();
+				$DIC->tabs()->clearSubTabs();
+				
 				$DIC->ctrl()->forwardCommand($gui);
 				
 				break;
@@ -165,7 +222,20 @@ class ilTestParticipantsGUI
 		
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
 		$tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW);
-		$tableGUI->setTitle($DIC->language()->txt('tst_tbl_invited_users'));
+		
+		$tableGUI->setParticipantHasSolutionsFilterEnabled(
+			$this->getTestObj()->getFixedParticipants()
+		);
+		
+		if( $this->getTestObj()->getFixedParticipants() )
+		{
+			$tableGUI->setTitle($DIC->language()->txt('tst_tbl_invited_users'));
+		}
+		else
+		{
+			$tableGUI->setTitle($DIC->language()->txt('tst_tbl_participants'));
+		}
+		
 		return $tableGUI;
 	}
 	
@@ -175,7 +245,7 @@ class ilTestParticipantsGUI
 	protected function setFilterCmd()
 	{
 		$tableGUI = $this->buildTableGUI();
-		$tableGUI->initFilter();
+		$tableGUI->initFilter($this->getTestObj()->getFixedParticipants());
 		$tableGUI->writeFilterToSession();
 		$tableGUI->resetOffset();
 		$this->showCmd();
@@ -201,21 +271,37 @@ class ilTestParticipantsGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$participantList = $this->getTestObj()->getInvitedParticipantList()->getAccessFilteredList(
-			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
-		);
-		
 		$tableGUI = $this->buildTableGUI();
-		$tableGUI->setRowKeyDataField('usr_id');
 		
 		if( !$this->getQuestionSetConfig()->areDepenciesBroken() )
 		{
-			$this->addUserSearchControls($DIC->toolbar(), $DIC->language());
-			$tableGUI->setManageInviteesCommandsEnabled(true);
+			if( $this->getTestObj()->getFixedParticipants() )
+			{
+				$participantList = $this->getTestObj()->getInvitedParticipantList()->getAccessFilteredList(
+					ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
+				);
+				
+				$tableGUI->setData( $this->applyFilterCriteria($participantList->getTableRows()) );
+				$tableGUI->setRowKeyDataField('usr_id');
+				$tableGUI->setManageInviteesCommandsEnabled(true);
+				$tableGUI->setDescription($DIC->language()->txt("fixed_participants_hint"));
+			}
+			else
+			{
+				$participantList = $this->getTestObj()->getActiveParticipantList()->getAccessFilteredList(
+					ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
+				);
+				
+				$tableGUI->setData( $participantList->getTableRows() );
+				$tableGUI->setRowKeyDataField('active_id');
+			}
+			
+			$tableGUI->setManageResultsCommandsEnabled(true);
+			
+			$this->initToolbarControls($participantList);
 		}
 		
 		$tableGUI->setAnonymity($this->getTestObj()->getAnonymity());
-		$tableGUI->setDescription($DIC->language()->txt("fixed_participants_hint"));
 		
 		$tableGUI->initColumns();
 		$tableGUI->initCommands();
@@ -223,8 +309,6 @@ class ilTestParticipantsGUI
 		$tableGUI->initFilter();
 		$tableGUI->setFilterCommand(self::CMD_SET_FILTER);
 		$tableGUI->setResetCommand(self::CMD_RESET_FILTER);
-		
-		$tableGUI->setData($this->applyFilterCriteria($participantList->getTableRows()));
 		
 		$DIC->ui()->mainTemplate()->setContent( $DIC->ctrl()->getHTML($tableGUI) );
 	}
@@ -276,11 +360,31 @@ class ilTestParticipantsGUI
 		return $without_result;
 	}
 	
+	protected function initToolbarControls(ilTestParticipantList $participantList)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( $this->getTestObj()->getFixedParticipants() )
+		{
+			$this->addUserSearchControls($DIC->toolbar());
+		}
+		
+		if( $this->getTestObj()->getFixedParticipants() && $participantList->hasUnfinishedPasses() )
+		{
+			$DIC->toolbar()->addSeparator();
+		}
+		
+		if( $participantList->hasUnfinishedPasses() )
+		{
+			$this->addFinishAllPassesButton($DIC->toolbar());
+		}
+	}
+	
 	/**
 	 * @param ilToolbarGUI $toolbar
 	 * @param ilLanguage $lng
 	 */
-	protected function addUserSearchControls(ilToolbarGUI $toolbar, ilLanguage $lng)
+	protected function addUserSearchControls(ilToolbarGUI $toolbar)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
@@ -290,8 +394,8 @@ class ilTestParticipantsGUI
 			$this,
 			$toolbar,
 			array(
-				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('add')
+				'auto_complete_name'	=> $DIC->language()->txt('user'),
+				'submit_name'			=> $DIC->language()->txt('add')
 			)
 		);
 		
@@ -302,6 +406,19 @@ class ilTestParticipantsGUI
 		
 		$toolbar->addSeparator();
 		$toolbar->addButtonInstance($search_btn);
+	}
+	
+	/**
+	 * @param ilToolbarGUI $toolbar
+	 */
+	protected function addFinishAllPassesButton(ilToolbarGUI $toolbar)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$finish_all_user_passes_btn = ilLinkButton::getInstance();
+		$finish_all_user_passes_btn->setCaption('finish_all_user_passes');
+		$finish_all_user_passes_btn->setUrl($DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
+		$toolbar->addButtonInstance($finish_all_user_passes_btn);
 	}
 	
 	/**

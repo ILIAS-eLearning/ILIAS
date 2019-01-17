@@ -2342,6 +2342,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	
 	protected function redirectBackToParticipantsScreen()
 	{
-		$this->ctrl->redirectByClass("ilParticipantsTestResultsGUI");
+		$this->ctrl->redirectByClass("ilTestParticipantsGUI");
 	}
 }

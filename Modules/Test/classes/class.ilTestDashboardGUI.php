@@ -36,6 +36,11 @@ class ilTestDashboardGUI
 	protected $testTabs;
 	
 	/**
+	 * @var ilTestObjectiveOrientedContainer
+	 */
+	protected $objectiveParent;
+	
+	/**
 	 * ilTestDashboardGUI constructor.
 	 * @param ilObjTest $testObj
 	 */
@@ -110,6 +115,22 @@ class ilTestDashboardGUI
 	}
 	
 	/**
+	 * @return ilTestObjectiveOrientedContainer
+	 */
+	public function getObjectiveParent(): ilTestObjectiveOrientedContainer
+	{
+		return $this->objectiveParent;
+	}
+	
+	/**
+	 * @param ilTestObjectiveOrientedContainer $objectiveParent
+	 */
+	public function setObjectiveParent(ilTestObjectiveOrientedContainer $objectiveParent)
+	{
+		$this->objectiveParent = $objectiveParent;
+	}
+	
+	/**
 	 * Execute Command
 	 */
 	public function	executeCommand()
@@ -132,6 +153,8 @@ class ilTestDashboardGUI
 				
 				require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
 				$gui = new ilTestParticipantsGUI($this->getTestObj(), $this->getQuestionSetConfig());
+				$gui->setTestAccess($this->getTestAccess());
+				$gui->setObjectiveParent($this->getObjectiveParent());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
 				
