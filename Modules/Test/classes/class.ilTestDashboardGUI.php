@@ -3,17 +3,17 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilTestParticipantsGUI
+ * Class ilTestDashboardGUI
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
  * @package    Modules/Test
  * 
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestFixedParticipantsGUI
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestParticipantsTimeExtensionGUI
+ * @ilCtrl_Calls ilTestDashboardGUI: ilTestFixedParticipantsGUI
+ * @ilCtrl_Calls ilTestDashboardGUI: ilTestParticipantsTimeExtensionGUI
  */
-class ilTestParticipantsGUI
+class ilTestDashboardGUI
 {
 	/**
 	 * @var ilObjTest
@@ -36,7 +36,7 @@ class ilTestParticipantsGUI
 	protected $testTabs;
 	
 	/**
-	 * ilTestParticipantsGUI constructor.
+	 * ilTestDashboardGUI constructor.
 	 * @param ilObjTest $testObj
 	 */
 	public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
@@ -122,7 +122,7 @@ class ilTestParticipantsGUI
 		}
 		
 		$this->getTestTabs()->activateTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
-		$this->getTestTabs()->getParticipantsSubTabs();
+		$this->getTestTabs()->getDashboardSubTabs();
 		
 		switch( $DIC->ctrl()->getNextClass() )
 		{
