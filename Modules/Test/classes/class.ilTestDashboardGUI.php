@@ -10,7 +10,7 @@
  *
  * @package    Modules/Test
  * 
- * @ilCtrl_Calls ilTestDashboardGUI: ilTestFixedParticipantsGUI
+ * @ilCtrl_Calls ilTestDashboardGUI: ilTestParticipantsGUI
  * @ilCtrl_Calls ilTestDashboardGUI: ilTestParticipantsTimeExtensionGUI
  */
 class ilTestDashboardGUI
@@ -126,12 +126,12 @@ class ilTestDashboardGUI
 		
 		switch( $DIC->ctrl()->getNextClass() )
 		{
-			case 'iltestfixedparticipantsgui':
+			case 'iltestparticipantsgui':
 				
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
 				
-				require_once 'Modules/Test/classes/class.ilTestFixedParticipantsGUI.php';
-				$gui = new ilTestFixedParticipantsGUI($this->getTestObj(), $this->getQuestionSetConfig());
+				require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
+				$gui = new ilTestParticipantsGUI($this->getTestObj(), $this->getQuestionSetConfig());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
 				

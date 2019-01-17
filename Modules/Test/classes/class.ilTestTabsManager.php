@@ -883,15 +883,7 @@ class ilTestTabsManager
 			return false;
 		}
 		
-		return $this->needsFixedParticipantsSubTab() || $this->needsTimeExtensionSubTab(); 
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function needsFixedParticipantsSubTab()
-	{
-		return (bool)$this->getTestOBJ()->getFixedParticipants();
+		return true;
 	}
 	
 	/**
@@ -924,12 +916,7 @@ class ilTestTabsManager
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( $this->needsFixedParticipantsSubTab() )
-		{
-			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestDashboardGUI', 'ilTestFixedParticipantsGUI'));
-		}
-		
-		return $DIC->ctrl()->getLinkTargetByClass(array('ilTestDashboardGUI', 'ilTestParticipantsTimeExtensionGUI'));
+		return $DIC->ctrl()->getLinkTargetByClass(array('ilTestDashboardGUI', 'ilTestParticipantsGUI'));
 	}
 	
 	public function getDashboardSubTabs()
@@ -941,13 +928,10 @@ class ilTestTabsManager
 			return;
 		}
 		
-		if( $this->needsFixedParticipantsSubTab() )
-		{
-			$this->tabs->addSubTab(
-				self::SUBTAB_ID_FIXED_PARTICIPANTS, $DIC->language()->txt('fixedparticipants_subtab'),
-				$DIC->ctrl()->getLinkTargetByClass('ilTestFixedParticipantsGUI')
-			);
-		}
+		$this->tabs->addSubTab(
+			self::SUBTAB_ID_FIXED_PARTICIPANTS, $this->getDashbardParticipantsSubTabLabel(),
+			$DIC->ctrl()->getLinkTargetByClass('ilTestParticipantsGUI')
+		);
 		
 		if( $this->needsTimeExtensionSubTab() )
 		{
@@ -956,6 +940,18 @@ class ilTestTabsManager
 				$DIC->ctrl()->getLinkTargetByClass('ilTestParticipantsTimeExtensionGUI')
 			);
 		}
+	}
+	
+	protected function getDashbardParticipantsSubTabLabel()
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		if( $this->getTestOBJ()->getFixedParticipants() )
+		{
+			return $DIC->language()->txt('fixedparticipants_subtab');
+		}
+		
+		return $DIC->language()->txt('autoparticipants_subtab');
 	}
 	
 	/**
