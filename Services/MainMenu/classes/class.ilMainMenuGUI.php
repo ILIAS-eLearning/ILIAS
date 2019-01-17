@@ -551,7 +551,7 @@ class ilMainMenuGUI {
 			$helpl->addEntry('<span id="help_tt_switch_on" class="glyphicon glyphicon-ok"></span> ' . $lng->txt("help_tooltips"), "#", "", "return il.Help.switchTooltips(event);");
 		}
 
-		if ($help_active) {
+		if ($help_active && $ilHelp->hasSections()) {
 			$this->tpl->setCurrentBlock("help");
 			$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
 			$this->tpl->setVariable("HELP_CLICK", "il.Help.listHelp(event, false);");
