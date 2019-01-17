@@ -325,7 +325,7 @@ class ilTestTabsManager
 	/**
 	 * @return bool
 	 */
-	protected function checkParticipantTabAccess()
+	protected function checkDashboardTabAccess()
 	{
 		if( $this->testAccess->checkManageParticipantsAccess() )
 		{
@@ -455,7 +455,7 @@ class ilTestTabsManager
 			case "resetTextFilter":
 			case "insertQuestions":
 				$classes = array(
-					'iltestparticipantsgui',
+					'iltestdashboardgui',
 					'iltestresultsgui',
 					"illearningprogressgui" // #8497: resetfilter is also used in lp
 				);
@@ -597,11 +597,10 @@ class ilTestTabsManager
 			}
 		}	
 		
-		if( $this->needsParticipantsTab() )
+		if( $this->needsDashboardTab() )
 		{
-			// participants
 			$this->tabs->addTab(self::TAB_ID_EXAM_DASHBOARD,
-				$DIC->language()->txt('dashboard_tab'), $this->getParticipantsTabTarget()
+				$DIC->language()->txt('dashboard_tab'), $this->getDashboardTabTarget()
 			);
 		}
 		
@@ -872,14 +871,14 @@ class ilTestTabsManager
 	/**
 	 * @return bool
 	 */
-	protected function needsParticipantsTab()
+	protected function needsDashboardTab()
 	{
 		if( $this->isHiddenTab(self::TAB_ID_EXAM_DASHBOARD) )
 		{
 			return false;
 		}
 		
-		if( !$this->checkParticipantTabAccess() )
+		if( !$this->checkDashboardTabAccess() )
 		{
 			return false;
 		}
@@ -921,19 +920,19 @@ class ilTestTabsManager
 	/**
 	 * @return string
 	 */
-	protected function getParticipantsTabTarget()
+	protected function getDashboardTabTarget()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		if( $this->needsFixedParticipantsSubTab() )
 		{
-			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestParticipantsGUI', 'ilTestFixedParticipantsGUI'));
+			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestDashboardGUI', 'ilTestFixedParticipantsGUI'));
 		}
 		
-		return $DIC->ctrl()->getLinkTargetByClass(array('ilTestParticipantsGUI', 'ilTestParticipantsTimeExtensionGUI'));
+		return $DIC->ctrl()->getLinkTargetByClass(array('ilTestDashboardGUI', 'ilTestParticipantsTimeExtensionGUI'));
 	}
 	
-	public function getParticipantsSubTabs()
+	public function getDashboardSubTabs()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
