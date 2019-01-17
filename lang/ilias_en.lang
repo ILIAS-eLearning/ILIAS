@@ -1181,6 +1181,7 @@ assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_nr_of_tries#:#Max. Number of Passes
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
+assessment#:#tst_tbl_participants#:#Participants
 assessment#:#tst_tbl_results_grades#:#Results and Grades
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
@@ -10949,6 +10950,7 @@ assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
+assessment#:#autoparticipants_subtab#:#Participants
 assessment#:#redirect_after_finishing_tst#:#Redirect
 assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.
 assessment#:#redirect_after_finishing_rule#:#Redirect

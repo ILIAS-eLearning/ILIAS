@@ -23,6 +23,11 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	
 	protected $anonymity;
 	
+	/**
+	 * @var bool
+	 */
+	protected $participantHasSolutionsFilterEnabled = false;
+	
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		$this->setId('tst_participants_' . $a_parent_obj->getTestObj()->getRefId());
@@ -42,11 +47,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		
 		$this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
 		
-		$this->setSelectAllCheckbox('chbUser');
-		
 		$this->enable('header');
 		$this->enable('sort');
-		$this->enable('select_all');
 		
 		$this->setShowRowsSelector(true);
 	}
@@ -97,6 +99,15 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	public function setManageInviteesCommandsEnabled($manageInviteesCommandsEnabled)
 	{
 		$this->manageInviteesCommandsEnabled = $manageInviteesCommandsEnabled;
+		
+		if($manageInviteesCommandsEnabled)
+		{
+			$this->setSelectAllCheckbox('chbUser');
+		}
+		else
+		{
+			$this->setSelectAllCheckbox('');
+		}
 	}
 	
 	/**
@@ -132,6 +143,22 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	}
 	
 	/**
+	 * @return bool
+	 */
+	public function isParticipantHasSolutionsFilterEnabled()
+	{
+		return $this->participantHasSolutionsFilterEnabled;
+	}
+	
+	/**
+	 * @param bool $participantHasSolutionsFilterEnabled
+	 */
+	public function setParticipantHasSolutionsFilterEnabled(bool $participantHasSolutionsFilterEnabled)
+	{
+		$this->participantHasSolutionsFilterEnabled = $participantHasSolutionsFilterEnabled;
+	}
+	
+	/**
 	 * @param string $field
 	 * @return bool
 	 */
@@ -142,10 +169,18 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		));
 	}
 	
+	protected function needsCheckboxColumn()
+	{
+		return $this->isManageInviteesCommandsEnabled();
+	}
 	
 	public function initColumns()
 	{
-		$this->addColumn('','','1%');
+		if( $this->needsCheckboxColumn() )
+		{
+			$this->addColumn('', '', '1%');
+		}
+		
 		$this->addColumn($this->lng->txt("name"),'name', '');
 		$this->addColumn($this->lng->txt("login"),'login', '');
 		
@@ -194,19 +229,22 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		global $DIC;
 		$lng = $DIC['lng'];
 		
-		// title/description
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
-		$ti->setOptions(
-			array(
-				'all' => $lng->txt('all_participants'),
-				'withSolutions' => $lng->txt('with_solutions_participants'),
-				'withoutSolutions' => $lng->txt('without_solutions_participants')
-			)
-		);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
-		$this->filter["title"] = $ti->getValue();
+		if( $this->isParticipantHasSolutionsFilterEnabled() )
+		{
+			// title/description
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
+			$ti->setOptions(
+				array(
+					'all' => $lng->txt('all_participants'),
+					'withSolutions' => $lng->txt('with_solutions_participants'),
+					'withoutSolutions' => $lng->txt('without_solutions_participants')
+				)
+			);
+			$this->addFilterItem($ti);
+			$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
+			$this->filter["title"] = $ti->getValue();
+		}
 	}
 	
 	/**
@@ -214,11 +252,18 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
+		if( $this->needsCheckboxColumn() )
+		{
+			$this->tpl->setCurrentBlock('checkbox_column');
+			$this->tpl->setVariable("CHB_ROW_KEY", $this->fetchRowKey($data));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		if( $this->isManageInviteesCommandsEnabled() )
 		{
 			$this->tpl->setCurrentBlock('client_ip_column');
 			$this->tpl->setVariable("CLIENT_IP", $data['clientip']);
-			$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
+			$this->tpl->setVariable("CIP_ROW_KEY", $this->fetchRowKey($data));
 			$this->tpl->parseCurrentBlock();
 		}
 		

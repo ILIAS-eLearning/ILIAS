@@ -260,6 +260,7 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				$gui->setTestAccess($this->getTestAccess());
 				$gui->setTestTabs($this->getTabsManager());
+				$gui->setObjectiveParent($this->getObjectiveOrientedContainer());
 				
 				$this->ctrl->forwardCommand($gui);
 				break;
