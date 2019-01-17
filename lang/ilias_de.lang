@@ -14204,6 +14204,7 @@ skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
 skmg#:#skmg_eval_type_2#:#Messung
 skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
 user#:#user_profile_info#:#Infotext Benutzerprofil
+user#:#user_profile_info_std#:#Standard Infotext Benutzerprofil
 user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeformular der persönlichen Daten.
 user#:#user_make_profile_public#:#Profil veröffentlichen
 content#:#cont_prtf_page#:#Portfolioseite
@@ -14631,14 +14632,14 @@ prtf#:#prtf_submission_on#:#Abgabe am $1
 prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden bevor es für bestimmte Benutzer freigegeben werden kann.
 prtf#:#prtf_has_been_set_online#:#Das Portfolio wurde online gesetzt.
 user#:#user_prompting_recurrence#:#Häufigkeit
-user#:#user_prompting_settings#:#Aufforderung Profilkonfiguration
-user#:#user_prompt_incomplete#:#Nur wenn unvollständig
-user#:#user_prompt_incomplete_info#:#Dem Benutzer wird sein Profil nach dem Login angezeigt, wenn es leere Pflichtfelder enthält.
+user#:#user_prompting_settings#:#Aufforderung Profilveröffentlichung
+user#:#user_prompt_incomplete#:#Nie
+user#:#user_prompt_incomplete_info#:#Der Benutzer wird niemals zur Veröffentlichung seines Profils aufgefordert.
 user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
-user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer aufgefordert sein Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
+user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer aufgefordert sein Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
-user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu konfigurieren, falls es nicht bereits veröffentlicht ist.
-user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den Standard-Infotext, falls der Benutzer zur Konfiguration des Profils aufgefordert wird.
+user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
+user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
 lhist#:#lhist_first_login#:#First Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Achievements
