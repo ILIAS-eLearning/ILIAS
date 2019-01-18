@@ -274,12 +274,13 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
+		$col = ++$a_col;
 		$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
-			$a_col, 
-			$a_row,			 
+			$col,
+			$a_row,
 			$this->prepareValue($a_value)
-		);			
-		$this->setDateFormat($wb->getCellByColumnAndRow($a_col, $a_row), $a_value);
+		);
+		$this->setDateFormat($wb->getCellByColumnAndRow($col, $a_row), $a_value);
 	}
 	
 	/**
