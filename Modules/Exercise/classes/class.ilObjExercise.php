@@ -610,24 +610,23 @@ class ilObjExercise extends ilObject
 		include_once "./Services/Excel/classes/class.ilExcel.php";
 		$excel = new ilExcel();
 		$excel->addSheet($this->lng->txt("exc_status"));
-		
-		
+
 		//
-		// status
+		// status Sheet
 		//
 		
 		// header row
 		$row = $cnt = 1;
-		$excel->setCell($row, 0, $this->lng->txt("name"));		
+		$excel->setCell(1, $cnt, $this->lng->txt("name"));
 		foreach ($ass_data as $ass)
 		{
-			$excel->setCell($row, $cnt++, $cnt-1);		
+			$excel->setCell($row, ++$cnt, $cnt-1);
 		}
-		$excel->setCell($row, $cnt++, $this->lng->txt("exc_total_exc"));
-		$excel->setCell($row, $cnt++, $this->lng->txt("exc_mark"));
-		$excel->setCell($row++, $cnt, $this->lng->txt("exc_comment_for_learner"));
+		$excel->setCell($row, ++$cnt, $this->lng->txt("exc_total_exc"));
+		$excel->setCell($row, ++$cnt, $this->lng->txt("exc_mark"));
+		$excel->setCell($row, ++$cnt, $this->lng->txt("exc_comment_for_learner"));
 		$excel->setBold("A1:".$excel->getColumnCoord($cnt)."1");
-		
+
 		// data rows
 		$mem_obj = new ilExerciseMembers($this);
 		
@@ -645,65 +644,65 @@ class ilObjExercise extends ilObject
 		$mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
 		
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+		$row = 1;
+
 		foreach ($mems as $user_id => $d)
 		{
-			$col = 0;
-
+			$col = 1;
 			// name
-			$excel->setCell($row, $col++, $d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
+			$excel->setCell(++$row, $col, $d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
 
 			reset($ass_data);
 			foreach ($ass_data as $ass)
 			{
 				$status = $ass->getMemberStatus($user_id)->getStatus();
-				$excel->setCell($row, $col++, $this->lng->txt("exc_".$status));		
+				$excel->setCell($row, ++$col, $this->lng->txt("exc_".$status));
 			}
-			
+
 			// total status
 			$status = ilExerciseMembers::_lookupStatus($this->getId(), $user_id);
-			$excel->setCell($row, $col++, $this->lng->txt("exc_".$status));
-			
+			$excel->setCell($row, ++$col, $this->lng->txt("exc_".$status));
+
 			// #18096
 			$marks_obj = new ilLPMarks($this->getId(), $user_id);
-			$excel->setCell($row, $col++, $marks_obj->getMark());
-			$excel->setCell($row++, $col, $marks_obj->getComment());						
+			$excel->setCell($row, ++$col, $marks_obj->getMark());
+			$excel->setCell($row, ++$col, $marks_obj->getComment());
 		}
-		
-		
+
 		//
-		// mark
+		// mark Sheet
 		//
-		
+
 		$excel->addSheet($this->lng->txt("exc_mark"));
 		
 		// header row
 		$row = $cnt = 1;
-		$excel->setCell($row, 0, $this->lng->txt("name"));		
+		$excel->setCell($row, $cnt, $this->lng->txt("name"));
 		foreach ($ass_data as $ass)
 		{
-			$excel->setCell($row, $cnt++, $cnt-1);		
+			$excel->setCell($row, ++$cnt, $cnt-1);
 		}
-		$excel->setCell($row++, $cnt++, $this->lng->txt("exc_total_exc"));
+		$excel->setCell($row, ++$cnt, $this->lng->txt("exc_total_exc"));
 		$excel->setBold("A1:".$excel->getColumnCoord($cnt)."1");
 		
 		// data rows		
 		reset($mems);
 		foreach ($mems as $user_id => $d)
 		{
-			$col = 0;
+			$col = 1;
 			
 			// name			
 			$d = ilObjUser::_lookupName($user_id);
-			$excel->setCell($row, $col++, $d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
+			$excel->setCell(++$row, $col, $d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
 
 			reset($ass_data);
 			foreach ($ass_data as $ass)
 			{
-				$excel->setCell($row, $col++, $ass->getMemberStatus($user_id)->getMark());
+				$excel->setCell($row, ++$col, $ass->getMemberStatus($user_id)->getMark());
 			}
 			
 			// total mark			
-			$excel->setCell($row++, $col, ilLPMarks::_lookupMark($user_id, $this->getId()));
+			$excel->setCell($row, ++$col, ilLPMarks::_lookupMark($user_id, $this->getId()));
 		}
 		
 		$exc_name = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->getTitle()));
