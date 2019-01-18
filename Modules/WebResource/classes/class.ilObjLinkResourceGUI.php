@@ -746,6 +746,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		*/
 		include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
 		$tar = new ilLinkInputGUI($this->lng->txt('webr_link_target'),'tar');
+		$tar->setExternalLinkMaxLength(1000);
 		$tar->setInternalLinkFilterTypes(array("PageObject", "GlossaryItem", "RepositoryItem"));
 		
 		$tar->setRequired(true);
