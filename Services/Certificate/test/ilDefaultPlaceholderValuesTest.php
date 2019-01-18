@@ -16,7 +16,7 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 					'getFullname',
 					'getFirstname',
 					'getLastname',
-					'getTitle',
+					'getUTitle',
 					'getGender',
 					'getBirthday',
 					'getInstitution',
@@ -47,7 +47,7 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->willReturn('Theen');
 
 		$objectMock->expects($this->once())
-			->method('getTitle')
+			->method('getUTitle')
 			->willReturn('');
 
 		$objectMock->expects($this->once())
