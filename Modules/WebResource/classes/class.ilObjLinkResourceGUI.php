@@ -753,7 +753,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				'WikiPage'
 			)
 		);
-		
+		$tar->setExternalLinkMaxLength(1000);
+		$tar->setInternalLinkFilterTypes(array("PageObject", "GlossaryItem", "RepositoryItem"));
 		$tar->setRequired(true);
 		$this->form->addItem($tar);		
 		
