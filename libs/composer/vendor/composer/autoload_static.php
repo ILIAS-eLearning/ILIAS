@@ -7398,6 +7398,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilUserDefinedData' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserDefinedData.php',
         'ilUserDefinedFieldSearch' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilUserDefinedFieldSearch.php',
         'ilUserDefinedFields' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserDefinedFields.php',
+        'ilUserDefinedFieldsPlaceholderDescription' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Description/class.ilUserDefinedFieldsPlaceholderDescription.php',
+        'ilUserDefinedFieldsPlaceholderValues' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Values/class.ilUserDefinedFieldsPlaceholderValues.php',
         'ilUserException' => __DIR__ . '/../..' . '/../../Services/User/exceptions/class.ilUserException.php',
         'ilUserExporter' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserExporter.php',
         'ilUserFeedWriter' => __DIR__ . '/../..' . '/../../Services/Feeds/classes/class.ilUserFeedWriter.php',
