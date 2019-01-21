@@ -23158,14 +23158,16 @@ foreach ([
 		 ] as $type => $path) {
 	if (!file_exists($path) || !is_dir($path)) {
 		$GLOBALS['ilLog']->info(sprintf(
-			"DB Step %s: Path '%s' not found or not a directory", $dbStep, $path
+			"DB Step %s: Skipped 'Terms of Service' migration, path '%s' not found or not a directory", $dbStep, $path
 		));
+		continue;
 	}
 
 	if (!is_readable($path)) {
 		$GLOBALS['ilLog']->error(sprintf(
-			"DB Step %s: Path '%s' is not readable", $dbStep, $path
+			"DB Step %s: Skipped 'Terms of Service' migration, path '%s' is not readable", $dbStep, $path
 		));
+		continue;
 	}
 
 	try {
@@ -23283,7 +23285,7 @@ if (is_array($numDocumentsData) && $numDocumentsData['num_docs']) {
 	$numDocs = $numDocumentsData['num_docs'];
 }
 
-$res = $ilDB->query('SELECT * FROM tos_versions WHERE title IS NULL GROUP BY lng, src');
+$res = $ilDB->query('SELECT lng, src FROM tos_versions WHERE title IS NULL GROUP BY lng, src');
 $i = 0;
 while ($row = $ilDB->fetchAssoc($res)) {
 	$docTitle = $docTitlePrefix . ' ' . ($numDocs + (++$i));
