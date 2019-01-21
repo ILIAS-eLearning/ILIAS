@@ -64,7 +64,7 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->setMethods(array('txt'))
 			->getMock();
 
-		$languageMock->expects($this->exactly(19))
+		$languageMock->expects($this->exactly(21))
 			->method('txt')
 			->willReturn('Something translated');
 
@@ -102,8 +102,9 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 				'DATETIME'           => 'Something translated',
 				'SCORM_TITLE'        => 'Something translated',
 				'SCORM_POINTS'       => 'Something translated',
-				'SCORM_POINTS_MAX'   => 'Something translated'
-
+				'SCORM_POINTS_MAX'   => 'Something translated',
+				'DATE_COMPLETED'     => 'Something translated',
+				'DATETIME_COMPLETED' => 'Something translated'
 			),
 			$placeHolders
 		);
