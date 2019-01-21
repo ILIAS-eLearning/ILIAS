@@ -36,12 +36,14 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
 	 * @param ilLanguage|null $language
 	 * @param ilObjectLP|null $learningProgressObject
+	 * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
 	 */
 	public function __construct(
 		ilObject $object,
 		ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
 		ilLanguage $language = null,
-		ilObjectLP $learningProgressObject = null
+		ilObjectLP $learningProgressObject = null,
+		ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
 	) {
 		global $DIC;
 
@@ -53,7 +55,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 		$this->language = $language;
 
 		if (null === $defaultPlaceholderDescriptionObject) {
-			$defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language);
+			$defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
 		}
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
