@@ -33,7 +33,7 @@ class ilTestPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->setMethods(array('txt'))
 			->getMock();
 
-		$languageMock->expects($this->exactly(23))
+		$languageMock->expects($this->exactly(25))
 			->method('txt')
 			->willReturn('Something translated');
 
@@ -66,6 +66,8 @@ class ilTestPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 				'RESULT_MARK_SHORT'  => 'Something translated',
 				'RESULT_MARK_LONG'   => 'Something translated',
 				'TEST_TITLE'         => 'Something translated',
+				'DATE_COMPLETED'     => 'Something translated',
+				'DATETIME_COMPLETED' => 'Something translated'
 			),
 			$placeHolders
 		);
