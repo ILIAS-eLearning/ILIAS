@@ -84,3 +84,7 @@ ilDBUpdateNewObjectType::applyInitialPermissionGuideline('iass', true, false);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5440>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
