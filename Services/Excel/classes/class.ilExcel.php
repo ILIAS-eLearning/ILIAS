@@ -240,12 +240,25 @@ class ilExcel
 	 */
 	public function setCellByCoordinates($a_coords, $a_value)
 	{
-		$cell = $this->workbook->getActiveSheet()->setCellValue(
-			$a_coords, 
-			$this->prepareValue($a_value),
-			true
-		);		
-		$this->setDateFormat($cell, $a_value);		
+		if($a_value instanceof ilDateTime)
+		{
+			$cell = $this->workbook->getActiveSheet()->setCellValue(
+				$a_coords,
+				$this->prepareValue($a_value),
+				true
+			);
+			$this->setDateFormat($cell, $a_value);
+		}
+		else
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicit(
+				$a_coords,
+				$this->prepareValue($a_value),
+				PHPExcel_Cell_DataType::TYPE_STRING,
+				false
+			);
+		}
+
 	}
 	
 	/**
@@ -257,13 +270,26 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
-		$cell = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
-			$a_col, 
-			$a_row,			 
-			$this->prepareValue($a_value),
-			true
-		);			
-		$this->setDateFormat($cell, $a_value);		
+		if($a_value instanceof ilDateTime)
+		{
+			$cell = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
+				$a_col,
+				$a_row,
+				$this->prepareValue($a_value),
+				true
+			);
+			$this->setDateFormat($cell, $a_value);
+		}
+		else
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+				$a_col,
+				$a_row,
+				$this->prepareValue($a_value),
+				PHPExcel_Cell_DataType::TYPE_STRING,
+				false
+			);
+		}
 	}
 	
 	/**
