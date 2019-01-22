@@ -15,7 +15,6 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilTestParticipantsTableGUI extends ilTable2GUI
 {
-	protected $accessResultsCommandsEnabled = false;
 	protected $manageResultsCommandsEnabled = false;
 	protected $manageInviteesCommandsEnabled = false;
 	
@@ -51,22 +50,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->enable('sort');
 		
 		$this->setShowRowsSelector(true);
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function isAccessResultsCommandsEnabled()
-	{
-		return $this->accessResultsCommandsEnabled;
-	}
-	
-	/**
-	 * @param bool $accessResultsCommandsEnabled
-	 */
-	public function setAccessResultsCommandsEnabled($accessResultsCommandsEnabled)
-	{
-		$this->accessResultsCommandsEnabled = $accessResultsCommandsEnabled;
 	}
 	
 	/**
@@ -210,18 +193,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$this->addMultiCommand('saveClientIp', $this->lng->txt('save'));
 			$this->addMultiCommand('removeParticipants', $this->lng->txt('remove_as_participant'));
 		}
-		
-		if( $this->isAccessResultsCommandsEnabled() && !$this->getAnonymity() )
-		{
-			$this->addMultiCommand('showPassOverview', $this->lng->txt('show_pass_overview'));
-			$this->addMultiCommand('showUserAnswers', $this->lng->txt('show_user_answers'));
-			$this->addMultiCommand('showDetailedResults', $this->lng->txt('show_detailed_results'));
-		}
-		
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));
-		}
 	}
 	
 	public function initFilter()
@@ -311,12 +282,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$asl->addItem($this->lng->txt('finish_test'), $finishHref, $finishHref);
 		}
 		
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			$resultsHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outParticipantsResultsOverview');
-			$asl->addItem($this->lng->txt('tst_show_results'), $resultsHref, $resultsHref);
-		}
-		
 		return $asl;
 	}
 	
@@ -325,11 +290,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	 */
 	protected function isActionsColumnRequired()
 	{
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			return true;
-		}
-		
 		if( $this->isManageResultsCommandsEnabled() )
 		{
 			return true;

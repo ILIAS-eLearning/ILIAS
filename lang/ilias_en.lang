@@ -1183,6 +1183,16 @@ assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
 assessment#:#tst_tbl_participants#:#Participants
 assessment#:#tst_tbl_results_grades#:#Results and Grades
+assessment#:#tst_answered_questions_of_total#:#%s of %s
+assessment#:#tst_reached_points_of_max#:#%s of %s
+assessment#:#tst_passed#:#Passed
+assessment#:#tst_failed#:#Failed
+assessment#:#tst_tbl_col_scored_pass#:#Scored Pass
+assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
+assessment#:#tst_tbl_col_reached_points#:#Reached Points
+assessment#:#tst_tbl_col_percent_result#:#Percent Solved
+assessment#:#tst_tbl_col_passed_status#:#Grading
+assessment#:#tst_tbl_col_final_mark#:#Mark
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
 assessment#:#tst_pass_details#:#Detailed Results

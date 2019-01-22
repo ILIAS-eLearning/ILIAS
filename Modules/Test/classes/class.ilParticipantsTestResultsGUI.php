@@ -139,13 +139,13 @@ class ilParticipantsTestResultsGUI
 	}
 	
 	/**
-	 * @return ilTestParticipantsTableGUI
+	 * @return ilParticipantsTestResultsTableGUI
 	 */
 	protected function buildTableGUI()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
-		$tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW_PARTICIPANTS);
+		require_once 'Modules/Test/classes/tables/class.ilParticipantsTestResultsTableGUI.php';
+		$tableGUI = new ilParticipantsTestResultsTableGUI($this, self::CMD_SHOW_PARTICIPANTS);
 		$tableGUI->setTitle($DIC->language()->txt('tst_tbl_results_grades'));
 		return $tableGUI;
 	}
@@ -177,14 +177,19 @@ class ilParticipantsTestResultsGUI
 		$participantList = $participantList->getAccessFilteredList($manageParticipantFilter);
 		$participantList = $participantList->getAccessFilteredList($accessResultsFilter);
 		
+		$participantList->initializeScorings();
+		
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
 		$tableGUI = $this->buildTableGUI();
-		$tableGUI->setRowKeyDataField('active_id');
 
 		if( !$this->getQuestionSetConfig()->areDepenciesBroken() )
 		{
 			$tableGUI->setAccessResultsCommandsEnabled(
 				$this->getTestAccess()->checkParticipantsResultsAccess()
+			);
+			
+			$tableGUI->setManageResultsCommandsEnabled(
+				$this->getTestAccess()->checkManageParticipantsAccess()
 			);
 			
 			if( $participantList->hasTestResults() )
@@ -198,7 +203,7 @@ class ilParticipantsTestResultsGUI
 		$tableGUI->initColumns();
 		$tableGUI->initCommands();
 		
-		$tableGUI->setData($participantList->getTableRows());
+		$tableGUI->setData($participantList->getScoringsTableRows());
 		
 		$DIC->ui()->mainTemplate()->setContent($tableGUI->getHTML());
 	}
