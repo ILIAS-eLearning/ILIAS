@@ -281,7 +281,7 @@ class ilTestParticipantsGUI
 					ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
 				);
 				
-				$tableGUI->setData( $this->applyFilterCriteria($participantList->getTableRows()) );
+				$tableGUI->setData( $this->applyFilterCriteria($participantList->getParticipantsTableRows()) );
 				$tableGUI->setRowKeyDataField('usr_id');
 				$tableGUI->setManageInviteesCommandsEnabled(true);
 				$tableGUI->setDescription($DIC->language()->txt("fixed_participants_hint"));
@@ -292,7 +292,7 @@ class ilTestParticipantsGUI
 					ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
 				);
 				
-				$tableGUI->setData( $participantList->getTableRows() );
+				$tableGUI->setData( $participantList->getParticipantsTableRows() );
 				$tableGUI->setRowKeyDataField('active_id');
 			}
 			
