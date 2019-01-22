@@ -795,6 +795,41 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
+			// bugfix mantis 24559
+			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+			// as they don't have the possibility to use the multi-download-capability of the manage-tab
+			else if ($this->isMultiDownloadEnabled())
+			{
+				// bugfix mantis 0021272
+				$ref_id = $_GET['ref_id'];
+				$num_files = $this->tree->getChildsByType($ref_id, "file");
+				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
+				if(count($num_files) > 0 OR count($num_folders) > 0)
+				{
+					// #11843
+					$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+
+					include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+					$toolbar = new ilToolbarGUI();
+					$this->ctrl->setParameter($this, "type", "");
+					$this->ctrl->setParameter($this, "item_ref_id", "");
+
+					$toolbar->addFormButton(
+						$this->lng->txt('download_selected_items'),
+						'download'
+					);
+
+					$GLOBALS['tpl']->addAdminPanelToolbar(
+						$toolbar,
+						$this->object->gotItems() ? true : false,
+						$this->object->gotItems() ? true : false
+					);
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
+				}
+			}
 		}
 	}
 
@@ -1450,7 +1485,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
+
+	// bugfix mantis 24559
+	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+	// as they don't have the possibility to use the multi-download-capability of the manage-tab
+	function enableMultiDownloadObject()
+	{
+		$this->multi_download_enabled = true;
+		$this->renderObject();
+	}
+
 	function isMultiDownloadEnabled()
 	{
 		return $this->multi_download_enabled;
