@@ -346,12 +346,6 @@ the different methods for different CRUD-Operations
 **Delete operations**
 
 
-### Use with factories
-
-
-### Use with active record
-
-
 ### Mock to use while developing
 
 
