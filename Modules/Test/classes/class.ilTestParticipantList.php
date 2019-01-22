@@ -70,6 +70,23 @@ class ilTestParticipantList implements Iterator
 	}
 	
 	/**
+	 * @param $activeId
+	 * @return ilTestParticipant
+	 */
+	public function getParticipantByActiveId($activeId)
+	{
+		foreach($this as $participant)
+		{
+			if( $participant->getActiveId() != $activeId )
+			{
+				continue;
+			}
+			
+			return $participant;
+		}
+	}
+	
+	/**
 	 * @return bool
 	 */
 	public function hasUnfinishedPasses()
@@ -111,6 +128,18 @@ class ilTestParticipantList implements Iterator
 		}
 		
 		return $usrIds;
+	}
+	
+	public function getAllActiveIds()
+	{
+		$activeIds = array();
+		
+		foreach($this as $participant)
+		{
+			$activeIds[] = $participant->getActiveId();
+		}
+		
+		return $activeIds;
 	}
 	
 	public function isActiveIdInList($activeId)
@@ -184,7 +213,54 @@ class ilTestParticipantList implements Iterator
 		}
 	}
 	
-	public function getTableRows()
+	public function initializeScorings()
+	{
+		require_once 'Modules/Test/classes/class.ilTestParticipantScoring.php';
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$IN_activeIds = $DIC->database()->in(
+			'tres.active_fi', $this->getAllActiveIds(), false, 'integer'
+		);
+		
+		$query = "
+			SELECT * FROM tst_result_cache tres
+			
+			INNER JOIN tst_pass_result pres
+			ON pres.active_fi = tres.active_fi
+			AND pres.pass = tres.pass
+
+			INNER JOIN tst_active tact
+			ON tact.active_id = tres.active_fi
+			AND tact.last_finished_pass >= tres.pass
+			AND tact.last_finished_pass = tact.last_started_pass
+			
+			WHERE $IN_activeIds
+		";
+		
+		$res = $DIC->database()->query($query);
+
+		while( $row = $DIC->database()->fetchAssoc($res) )
+		{
+			$scoring = new ilTestParticipantScoring();
+			
+			$scoring->setActiveId((int)$row['active_fi']);
+			$scoring->setScoredPass((int)$row['pass']);
+			
+			$scoring->setAnsweredQuestions((int)$row['answeredquestions']);
+			$scoring->setTotalQuestions((int)$row['questioncount']);
+			
+			$scoring->setReachedPoints((int)$row['reached_points']);
+			$scoring->setMaxPoints((int)$row['max_points']);
+			
+			$scoring->setPassed((bool)$row['passed']);
+			$scoring->setFinalMark((string)$row['mark_official']);
+			
+			$this->getParticipantByActiveId($row['active_fi'])->setScoring($scoring);
+		}
+	}
+	
+	public function getParticipantsTableRows()
 	{
 		$rows = array();
 		
@@ -204,6 +280,44 @@ class ilTestParticipantList implements Iterator
 				'access' => $this->lookupLastAccess($participant->getActiveId()),
 				'tries' => $this->lookupNrOfTries($participant->getActiveId())
 			);
+			
+			$rows[] = $row;
+		}
+		
+		return $rows;
+	}
+	
+	public function getScoringsTableRows()
+	{
+		$rows = array();
+		
+		foreach($this as $participant)
+		{
+			if( !$participant->hasScoring() )
+			{
+				continue;
+			}
+			
+			$row = array(
+				'usr_id' => $participant->getUsrId(),
+				'active_id' => $participant->getActiveId(),
+				'login' => $participant->getLogin(),
+				'firstname' => $participant->getFirstname(),
+				'lastname' => $participant->getLastname(),
+				'name' => $this->buildFullname($participant)
+			);
+			
+			if( $participant->getScoring() )
+			{
+				$row['scored_pass'] = $participant->getScoring()->getScoredPass();
+				$row['answered_questions'] = $participant->getScoring()->getAnsweredQuestions();
+				$row['total_questions'] = $participant->getScoring()->getTotalQuestions();
+				$row['reached_points'] = $participant->getScoring()->getReachedPoints();
+				$row['max_points'] = $participant->getScoring()->getMaxPoints();
+				$row['percent_result'] = $participant->getScoring()->getPercentResult();
+				$row['passed_status'] = $participant->getScoring()->isPassed();
+				$row['final_mark'] = $participant->getScoring()->getFinalMark();
+			}
 			
 			$rows[] = $row;
 		}

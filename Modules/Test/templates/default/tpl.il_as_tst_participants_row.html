@@ -1,11 +1,13 @@
 <tr class="{CSS_ROW}">
+	<!-- BEGIN checkbox_column -->
 	<td class="std" style="vertical-align: top">
-		<input type="checkbox" name="chbUser[]" value="{ROW_KEY}" id="cb_{ROW_KEY}" {VAL_CHECKED} />
+		<input type="checkbox" name="chbUser[]" value="{CHB_ROW_KEY}" id="cb_{CHB_ROW_KEY}" {VAL_CHECKED} />
 	</td>
+	<!-- END checkbox_column -->
 	<td class="std" style="vertical-align: top"><label for="cb_{ROW_KEY}">{FULLNAME}</label></td>
 	<td class="std" style="vertical-align: top"><label for="cb_{ROW_KEY}">{LOGIN}</label></td>
 	<!-- BEGIN client_ip_column -->
-	<td class="std" style="vertical-align: top"><input type="text" name="clientip_{ROW_KEY}" size="15" maxlength="15" value="{CLIENT_IP}" /></td>
+	<td class="std" style="vertical-align: top"><input type="text" name="clientip_{CIP_ROW_KEY}" size="15" maxlength="15" value="{CLIENT_IP}" /></td>
 	<!-- END client_ip_column -->
 	<!-- BEGIN started_column --><td class="std" style="vertical-align: top">{STARTED}</td><!-- END started_column -->
 	<!-- BEGIN tries_column --><td class="std" style="vertical-align: top">{TRIES}</td><!-- END tries_column -->
