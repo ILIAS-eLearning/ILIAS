@@ -199,6 +199,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 */
 	protected function createSubmissionsDirectory()
 	{
+		$this->logger->debug("lang key => ".$this->lng->getLangKey());
 		$this->submissions_directory = $this->target_directory.DIRECTORY_SEPARATOR.$this->lng->txt("exc_ass_submission_zip");
 		ilUtil::createDirectory($this->submissions_directory);
 	}
