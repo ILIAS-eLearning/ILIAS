@@ -24,9 +24,13 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
 	/**
 	 * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
 	 * @param ilLanguage|null $language
+	 * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
 	 */
-	public function __construct(ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null, ilLanguage $language = null)
-	{
+	public function __construct(
+		ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+		ilLanguage $language = null,
+		ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+	) {
 		global $DIC;
 
 		if (null === $language) {
@@ -36,7 +40,7 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
 		$this->language = $language;
 
 		if (null === $defaultPlaceholderDescriptionObject) {
-			$defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language);
+			$defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
 		}
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
