@@ -40,11 +40,22 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 		$learningProgressMock->method('getCollectionInstance')
 			->willReturn($collectionInstance);
 
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
 		$placeholderDescriptionObject = new ilScormPlaceholderDescription(
 			$objectMock,
 			null,
 			$languageMock,
-			$learningProgressMock
+			$learningProgressMock,
+			$userDefinePlaceholderMock
 		);
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
@@ -73,11 +84,22 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->setMethods(array('getCollectionInstance'))
 			->getMock();
 
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
 		$placeholderDescriptionObject = new ilScormPlaceholderDescription(
 			$objectMock,
 			null,
 			$languageMock,
-			$learningProgressMock
+			$learningProgressMock,
+			$userDefinePlaceholderMock
 		);
 
 		$placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();

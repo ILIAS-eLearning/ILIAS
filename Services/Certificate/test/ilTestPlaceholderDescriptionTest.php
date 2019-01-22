@@ -19,7 +19,17 @@ class ilTestPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 		$templateMock->method('get')
 			->willReturn('');
 
-		$placeholderDescriptionObject = new ilTestPlaceholderDescription(null, $languageMock);
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
+		$placeholderDescriptionObject = new ilTestPlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
@@ -37,7 +47,17 @@ class ilTestPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->method('txt')
 			->willReturn('Something translated');
 
-		$placeholderDescriptionObject = new ilTestPlaceholderDescription(null, $languageMock);
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
+		$placeholderDescriptionObject = new ilTestPlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
 		$placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
