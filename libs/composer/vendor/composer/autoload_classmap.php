@@ -7085,6 +7085,8 @@ return array(
     'ilUserDefinedData' => $baseDir . '/../../Services/User/classes/class.ilUserDefinedData.php',
     'ilUserDefinedFieldSearch' => $baseDir . '/../../Services/Search/classes/class.ilUserDefinedFieldSearch.php',
     'ilUserDefinedFields' => $baseDir . '/../../Services/User/classes/class.ilUserDefinedFields.php',
+    'ilUserDefinedFieldsPlaceholderDescription' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Description/class.ilUserDefinedFieldsPlaceholderDescription.php',
+    'ilUserDefinedFieldsPlaceholderValues' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Values/class.ilUserDefinedFieldsPlaceholderValues.php',
     'ilUserException' => $baseDir . '/../../Services/User/exceptions/class.ilUserException.php',
     'ilUserExporter' => $baseDir . '/../../Services/User/classes/class.ilUserExporter.php',
     'ilUserFeedWriter' => $baseDir . '/../../Services/Feeds/classes/class.ilUserFeedWriter.php',

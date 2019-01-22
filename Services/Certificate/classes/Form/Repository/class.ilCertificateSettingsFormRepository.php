@@ -285,22 +285,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$certificate->setRows(20);
 		$certificate->setCols(80);
 
-		$common_desc_tpl = new ilTemplate(
-			"tpl.common_desc.html",
-			true,
-			true,
-			"Services/Certificate"
-		);
 
-		foreach (ilCertificate::getCustomCertificateFields() as $field) {
-			$common_desc_tpl->setCurrentBlock("cert_field");
-			$common_desc_tpl->setVariable("PH", $field["ph"]);
-			$common_desc_tpl->setVariable("PH_TXT", $field["name"]);
-			$common_desc_tpl->parseCurrentBlock();
-		}
-		$common_desc = $common_desc_tpl->get();
+		$placeholderHtmlDescription = $this->placeholderDescriptionObject->createPlaceholderHtmlDescription();
 
-		$certificate->setInfo($this->placeholderDescriptionObject->createPlaceholderHtmlDescription() . $common_desc);
+		$placeholderDescriptionInHtml = $placeholderHtmlDescription;
+
+		$certificate->setInfo($placeholderDescriptionInHtml);
+
 		$certificate->setUseRte(TRUE, '3.4.7');
 
 		$tags = array(
