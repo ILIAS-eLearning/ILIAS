@@ -90,7 +90,8 @@ class ilExcel
 	public function addSheet($a_name, $a_activate = true)
 	{
 		// see PHPExcel_Worksheet::$_invalidCharacters;
-		$invalid = array('*', ':', '/', '\\', '?', '[', ']');
+		#20749
+		$invalid = array('*', ':', '/', '\\', '?', '[', ']', '\'-');
 		
 		$a_name = str_replace($invalid, "", $a_name);
 		
