@@ -52,6 +52,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	{
 		global $DIC;
 		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule('exc');
 		//TODO will be deprecated when use the new assignment type interface
 		$this->ass_types_with_files = array(
 			ilExAssignment::TYPE_UPLOAD,
