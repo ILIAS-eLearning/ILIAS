@@ -392,6 +392,18 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
+		if ($a_type === 'crta') {
+			$this->ctrl->setParameter($this, "dlid", $a_id);
+			$url = $this->ctrl->getLinkTarget($this, "dl" . $a_type);
+			$this->ctrl->setParameter($this, "dlid", "");
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
+			$caption = $this->lng->txt('certificate') . ': ' . $presentation->getObjectTitle();
+
+			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+		}
 		
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
@@ -462,7 +474,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$verification->downloadFromPortfolioPage($this->getPageObject());
 		}
 	}
-	
+
+	protected function dlcrta()
+	{
+		$objectId = $_GET["dlid"];
+		if($objectId) {
+			$object = new ilCertificateVerificationAdapterObject($objectId, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$object->downloadFromPortfolioPage($this->getPageObject());
+		}
+	}
+
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
 		$ilCtrl = $this->ctrl;
