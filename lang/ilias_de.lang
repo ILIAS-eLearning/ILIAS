@@ -14465,8 +14465,8 @@ exc#:#feedback_from#:#Feedback from
 exc#:#text_assignment#:#Text Assignment
 exc#:#not_yet#:#not yet
 exc#:#grade_evaluate#:#Grade and Evaluate
-exc#:#submissions_feedback#:#Submissions and Feedback
-exc#:#submissions_only#:#Submissions Only
+exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
+exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
