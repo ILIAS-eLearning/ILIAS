@@ -1900,7 +1900,8 @@ class ilExAssignmentEditorGUI
 	 */
 	function generateTeams(ilExAssignment $a_assignment, $a_input)
 	{
-		if($a_assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM &&
+		$ass_type = $a_assignment->getAssignmentType();
+		if ($ass_type->usesTeams() &&
 			$a_input['team_creator'] == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
 		{
 			if($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_RANDOM)
