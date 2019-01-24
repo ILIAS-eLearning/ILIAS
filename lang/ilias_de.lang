@@ -2687,7 +2687,7 @@ common#:#enable#:#Aktivieren
 common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"
 common#:#enable_anonymous_fora_desc#:#Muss aktiviert sein, damit in Foren die Funktion "mit Pseudonym schreiben" zur Verfügung steht.
 common#:#enable_calendar#:#Kalender aktivieren
-common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kurs News
+common#:#enable_course_group_notifications#:#Tägliche Mail über Neuigkeiten aus Gruppen und Kursen
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
