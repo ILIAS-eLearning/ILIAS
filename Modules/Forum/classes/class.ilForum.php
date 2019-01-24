@@ -510,8 +510,7 @@ class ilForum
 		$forum_obj->markPostRead($objNewPost->getPosAuthorId(), $objNewPost->getThreadId(), $objNewPost->getId());
 
 		// Add Notification to news
-		if($status)
-		{
+		if ($status && $parent_pos > 0) {
 			$news_item = new ilNewsItem();
 			$news_item->setContext($forum_obj->getId(), 'frm', $objNewPost->getId(), 'pos');
 			$news_item->setPriority(NEWS_NOTICE);
