@@ -91,7 +91,7 @@ class ilExcel
 	{
 		// see PHPExcel_Worksheet::$_invalidCharacters;
 		#20749
-		$invalid = array('*', ':', '/', '\\', '?', '[', ']', '\'-');
+		$invalid = array('*', ':', '/', '\\', '?', '[', ']', '\'-','\'');
 		
 		$a_name = str_replace($invalid, "", $a_name);
 		
