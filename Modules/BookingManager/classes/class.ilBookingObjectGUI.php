@@ -103,6 +103,13 @@ class ilBookingObjectGUI
 		
 		switch($next_class)
 		{
+
+			case "ilpropertyformgui":
+				// only case is currently adv metadata internal link in info settings, see #24497
+				$form = $this->initForm();
+				$this->ctrl->forwardCommand($form);
+				break;
+
 			default:
 				$cmd = $ilCtrl->getCmd("render");
 				$this->$cmd();
