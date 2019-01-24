@@ -2,6 +2,10 @@
 
 **New dependencies MUST be approved by the Jour Fixe of the ILIAS society.**
 
+To propose a new dependency, create a Pull Request on GitHub that contains the
+proposed changes to `composer.json`, name it like "Add library XYZ" and assign
+the "jour fixe"-label.
+
 ## Composer dependency management
 Composer distinguishes between two different category of dependencies the 
 production and dev dependencies.
@@ -71,6 +75,9 @@ $ composer dump-autoload
 # Create library patch
 
 **New patches in dependencies MUST be confirmed by the Technical Board of the ILIAS society.**
+
+To propose a new patch, create a Pull Request on GitHub that contains the proposed
+changes, name it like "Patch library XYZ" and assign the "technical board"-label.
 
 The composer plugin cweagans/composer-patches provides a way to apply patches to dependencies.
 - First a patch has to be created with git which contains all the required changes. After the 

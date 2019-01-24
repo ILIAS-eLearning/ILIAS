@@ -43,12 +43,18 @@ class ilMailFormGUI
 	/** @var ilMailTemplateService */
 	protected $templateService;
 
+	/** @var ilMailBodyPurifier */
+	private $purifier;
+
 	/**
 	 * ilMailFormGUI constructor.
 	 * @param ilMailTemplateService|null $templateService
+	 * @param ilMailBodyPurifier|null $bodyPurifier
 	 */
-	public function __construct(\ilMailTemplateService $templateService = null)
-	{
+	public function __construct(
+		\ilMailTemplateService $templateService = null,
+		\ilMailBodyPurifier $bodyPurifier = null
+	) {
 		global $DIC;
 
 		if (null === $templateService) {
@@ -67,6 +73,11 @@ class ilMailFormGUI
 		$this->umail = new ilFormatMail($this->user->getId());
 		$this->mfile = new ilFileDataMail($this->user->getId());
 		$this->mbox  = new ilMailbox($this->user->getId());
+
+		if (null === $bodyPurifier) {
+			$bodyPurifier = new ilMailBodyPurifier();
+		}
+		$this->purifier = $bodyPurifier;
 
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
@@ -150,8 +161,11 @@ class ilMailFormGUI
 	{
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
-		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
-		$message = str_replace("\r", '', $message);
+		$message = (string) $_POST['m_message'];
+
+		$mailBody = new ilMailBody($message, $this->purifier);
+
+		$sanitizedMessage = $mailBody->getContent();
 
 		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
@@ -165,7 +179,8 @@ class ilMailFormGUI
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
-			ilUtil::securePlainString($_POST['m_subject']), $message,
+			ilUtil::securePlainString($_POST['m_subject']),
+			$sanitizedMessage,
 			$files,
 			$m_type,
 			(int)$_POST['use_placeholders']
@@ -200,9 +215,9 @@ class ilMailFormGUI
 		$files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
 		if($errors = $this->umail->validateRecipients(
-			ilUtil::securePlainString($_POST['rcp_to']),
-			ilUtil::securePlainString($_POST['rcp_cc']),
-			ilUtil::securePlainString($_POST['rcp_bcc'])
+			(string)\ilUtil::securePlainString($_POST['rcp_to']),
+			(string)\ilUtil::securePlainString($_POST['rcp_cc']),
+			(string)\ilUtil::securePlainString($_POST['rcp_bcc'])
 		))
 		{
 			$_POST['attachments'] = $files;
@@ -874,65 +889,15 @@ class ilMailFormGUI
 	}
 
 	/**
-	 * @param array $errors
+	 * @param $errors \ilMailError[]
 	 */
 	protected function showSubmissionErrors(array $errors)
 	{
-		$errors_to_display = array();
+		$formatter = new \ilMailErrorFormatter($this->lng);
+		$formattedErrors = $formatter->format($errors);
 
-		foreach($errors as $error)
-		{
-			$error       = array_values($error);
-			$first_error = array_shift($error);
-
-			$translation = $this->lng->txt($first_error);
-			if($translation == '-' . $first_error . '-')
-			{
-				$translation = $first_error;
-			}
-
-			if(count($error) == 0 || $translation == $first_error)
-			{
-				$errors_to_display[] = $translation;
-			}
-			else
-			{
-				// We expect all other parts of this error array are recipient addresses = input parameters
-				$error = array_map(function($address) {
-					return ilUtil::prepareFormOutput($address);
-				}, $error);
-
-				array_unshift($error, $translation);
-				$errors_to_display[] = call_user_func_array('sprintf', $error);
-			}
-		}
-
-		if(count($errors_to_display) > 0)
-		{
-			$tpl = new ilTemplate('tpl.mail_new_submission_errors.html', true, true, 'Services/Mail');
-			if(count($errors_to_display) == 1)
-			{
-				$tpl->setCurrentBlock('single_error');
-				$tpl->setVariable('SINGLE_ERROR', current($errors_to_display));
-				$tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$first_error = array_shift($errors_to_display);
-
-				foreach($errors_to_display as $error)
-				{
-					$tpl->setCurrentBlock('error_loop');
-					$tpl->setVariable('ERROR', $error);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock('multiple_errors');
-				$tpl->setVariable('FIRST_ERROR', $first_error);
-				$tpl->parseCurrentBlock();
-			}
-
-			ilUtil::sendInfo($tpl->get());
+		if (strlen($formattedErrors) > 0) {
+			\ilUtil::sendInfo($formattedErrors);
 		}
 	}
 }

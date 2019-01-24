@@ -396,7 +396,7 @@ class ilErrorHandling extends PEAR
 
 	/**
 	 * Get the handler to be used in DEVMODE.
-	 * @return Whoops\Handler
+	 * @return Whoops\Handler\HandlerInterface
 	 */
 	protected function devmodeHandler() {
 		global $ilLog;
@@ -407,14 +407,75 @@ class ilErrorHandling extends PEAR
 			case "PLAIN_TEXT":
 				return new ilPlainTextHandler();
 			case "PRETTY_PAGE":
-				return new PrettyPageHandler();
+				// fallthrough
 			default:
-				if ($ilLog) {
-					$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
-								 ."Falling back to PrettyPageHandler.");
+				if ((!defined('ERROR_HANDLER') || ERROR_HANDLER != 'PRETTY_PAGE') && $ilLog) {
+					$ilLog->write(
+						"Unknown or undefined error handler '".ERROR_HANDLER."'. " .
+						"Falling back to PrettyPageHandler."
+					);
 				}
-				return new PrettyPageHandler();
+
+				$prettyPageHandler = new PrettyPageHandler();
+
+				$this->addEditorSupport($prettyPageHandler);
+
+				return $prettyPageHandler;
 		}
+	}
+
+	/**
+	 * @param PrettyPageHandler $handler
+	 */
+	protected function addEditorSupport(PrettyPageHandler $handler)
+	{
+		$editorUrl = defined('ERROR_EDITOR_URL') ? ERROR_EDITOR_URL : '';
+		if (!is_string($editorUrl) || 0 === strlen($editorUrl)) {
+			return;
+		}
+
+		$pathTranslationConfig = defined('ERROR_EDITOR_PATH_TRANSLATIONS') ? ERROR_EDITOR_PATH_TRANSLATIONS : '';
+
+		$pathTranslations = $this->parseEditorPathTranslation($pathTranslationConfig);
+
+		$handler->setEditor(function ($file, $line) use ($editorUrl, $pathTranslations) {
+			$this->applyEditorPathTranslations($file, $pathTranslations);
+
+			return str_ireplace(
+				['[FILE]', '[LINE]'],
+				[$file, $line],
+				$editorUrl
+			);
+		});
+	}
+
+	/**
+	 * @param string $file
+	 * @param array $pathTranslations
+	 */
+	protected function applyEditorPathTranslations(string &$file, array $pathTranslations)
+	{
+		foreach ($pathTranslations as $from => $to) {
+			$file = preg_replace('@' . $from . '@' , $to, $file);
+		}
+	}
+
+
+	/**
+	 * @param string $pathTranslationConfig
+	 * @return array
+	 */
+	protected function parseEditorPathTranslation(string $pathTranslationConfig)
+	{
+		$pathTranslations = [];
+
+		$mappings = explode('|', $pathTranslationConfig);
+		foreach ($mappings as $mapping) {
+			$parts = explode(',', $mapping);
+			$pathTranslations[trim($parts[0])] = trim($parts[1]);
+		}
+
+		return $pathTranslations;
 	}
 	
 	/**
@@ -480,5 +541,5 @@ class ilErrorHandling extends PEAR
 		
 		return false;
 	}
-	
+
 } // END class.ilErrorHandling

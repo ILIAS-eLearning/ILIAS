@@ -245,8 +245,8 @@ class ilObjStyleSheet extends ilObject
 
 	// style types and their super type
 	public static $style_super_types = array(
-		"text_block" => array("text_block", "heading1", "heading2", "heading3"),
-		"text_inline" => array("text_inline", "sub", "sup"),
+		"text_block" => array("text_block", "heading1", "heading2", "heading3", "code_block"),
+		"text_inline" => array("text_inline", "sub", "sup", "code_inline"),
 		"section" => array("section"),
 		"link" => array("link"),
 		"table" => array("table", "table_cell", "table_caption"),
@@ -286,7 +286,9 @@ class ilObjStyleSheet extends ilObject
 		"heading1" => "h1",
 		"heading2" => "h2",
 		"heading3" => "h3",
+		"code_block" => "pre",
 		"text_inline" => "span",
+		"code_inline" => "code",
 		"sup" => "sup",
 		"sub" => "sub",
 		"section" => "div",
@@ -384,6 +386,7 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "text_block", "class" => "Standard"),
 			array("type" => "text_block", "class" => "List"),
 			array("type" => "text_block", "class" => "TableContent"),
+			array("type" => "code_block", "class" => "Code"),
 			array("type" => "heading1", "class" => "Headline1"),
 			array("type" => "heading2", "class" => "Headline2"),
 			array("type" => "heading3", "class" => "Headline3"),
@@ -393,6 +396,7 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "text_inline", "class" => "Strong"),
 			array("type" => "text_inline", "class" => "Accent"),
 			array("type" => "text_inline", "class" => "Important"),
+			array("type" => "code_inline", "class" => "CodeInline"),
 			array("type" => "sup", "class" => "Sup"),
 			array("type" => "sub", "class" => "Sub"),
 			array("type" => "link", "class" => "IntLink"),

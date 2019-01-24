@@ -494,7 +494,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			if($form->getInput("mode") == "mode_tmpl")
 			{					
 				$_REQUEST["pt"] = $form->getInput("title");
-				return $this->createPortfolioFromTemplate();				
+				$_REQUEST["prtt_pre"] = (int)$_REQUEST["prtt"];
+				return $this->createFromTemplateDirect($form->getInput("title"));
+				//return $this->createPortfolioFromTemplate();
 			}			
 		}
 		
@@ -885,8 +887,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			
 		$has_form_content = false;
 				
-		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";			
-		$check_quota = ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();			
+		$check_quota = ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
 		$quota_sum = 0;				
 							
 		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
@@ -1075,10 +1076,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	/**
 	 * Create portfolio template direct
 	 */
-	protected function createFromTemplateDirect()
+	protected function createFromTemplateDirect($title = "")
 	{
 		$prtt_id = (int)$_REQUEST["prtt_pre"];
-		$title = ilObject::_lookupTitle($prtt_id);
+		if ($title == "")
+		{
+			$title = ilObject::_lookupTitle($prtt_id);
+		}
 
 		// valid template?
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
@@ -1157,7 +1161,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 
 			//quota manipulation
-			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
 			$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
 			$quota_sum = 0;
 
@@ -1409,6 +1412,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	{
 		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 		ilWACSignedPath::setTokenMaxLifetimeInSeconds(180);
+
+		// prepare generation before contents are processed (for mathjax)
+		ilPDFGeneratorUtils::prepareGenerationRequest("Portfolio", "ContentExport");
 
 		$html = $this->printView(true);
 

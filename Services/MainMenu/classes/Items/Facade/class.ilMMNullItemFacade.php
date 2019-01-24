@@ -96,7 +96,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 		$this->identification = $this->gs_item->getProviderIdentification();
 
 		$this->mm_item = new ilMMItemStorage();
-		$this->mm_item->setPosition($this->gs_item->getPosition());
+		$this->mm_item->setPosition(9999999); // always the last on the top item
 		$this->mm_item->setIdentification($this->gs_item->getProviderIdentification()->serialize());
 		$this->mm_item->setParentIdentification($this->parent_identification);
 		$this->mm_item->setActive($this->active_status);

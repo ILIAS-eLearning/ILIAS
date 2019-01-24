@@ -116,6 +116,12 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$md_gui = new ilObjectMetaDataGUI($this->object);
 				$this->ctrl->forwardCommand($md_gui);
 				break;
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('crs');
+				$this->ctrl->forwardCommand($cp);
+				break;
 			default:
 				if(!$cmd) {
 					$cmd = 'view';
@@ -157,6 +163,8 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'iass', $this->object->getId());
 			$record_gui->setInfoObject($info);
 			$record_gui->parse();
+
+			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 
 			$info = $this->addGeneralDataToInfo($info);
 			if($this->object->loadMembers()->userAllreadyMember($this->usr)) {

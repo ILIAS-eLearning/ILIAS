@@ -78,4 +78,18 @@ class ilMailAddressParserTest extends \ilMailBaseTest
 		$this->assertCount(count($expected), $parsedAddresses);
 		$this->assertEquals($expected, $parsedAddresses);
 	}
+
+	/**
+	 * 
+	 */
+	public function testWrappingParserDelegatesParsingToAggregatedParser()
+	{
+		$wrappedParser = $this->getMockBuilder(\ilBaseMailRfc822AddressParser::class)
+			->setConstructorArgs(['phpunit', 'ilias'])
+			->getMock();
+		$wrappedParser->expects($this->once())->method('parse');
+
+		$parser = new \ilMailRfc822AddressParser($wrappedParser);
+		$parser->parse();
+	}
 }

@@ -14,7 +14,8 @@ class ilSCORMTrackingItems
 {
 
 	function scoTitlesForExportSelected($obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$scoTitles = array();
 
 		$query = 'SELECT obj_id, title 
@@ -34,7 +35,8 @@ class ilSCORMTrackingItems
 
 
 	function markedLearningStatusForExportSelected($a_scos, $obj_id) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		include_once 'Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($obj_id);
 		$collection = $olp->getCollectionInstance();
@@ -51,7 +53,8 @@ class ilSCORMTrackingItems
 		if ($b_allowExportPrivacy == false) {
 			$userArray["user"]=$user;
 		} else {
-			global $ilUser;
+			global $DIC;
+			$ilUser = $DIC['ilUser'];
 			$userArray["login"] = "";
 			$userArray["user"] = "";
 			$userArray["email"] = "";
@@ -69,7 +72,8 @@ class ilSCORMTrackingItems
 
 
 	function getScormTrackingValue($obj_id, $a_user = array(), $a_sco = array(), $a_empty = array(), $lvalue) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		
 		$query = 'SELECT user_id, sco_id, rvalue '
 			. 'FROM scorm_tracking ' 
@@ -89,7 +93,8 @@ class ilSCORMTrackingItems
 	}
 
 	function getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user = array(), $a_sco = array(), $lvalue, $counter, $topic) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$a_return = array();
 		$query = 'SELECT user_id, sco_id, rvalue '
 			. 'FROM scorm_tracking ' 
@@ -109,7 +114,8 @@ class ilSCORMTrackingItems
 	}
 	
 	static function exportSelectedRawColumns() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
 		$cols = array();
@@ -128,7 +134,9 @@ class ilSCORMTrackingItems
 	}
 
 	function exportSelectedRaw($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -163,7 +171,8 @@ class ilSCORMTrackingItems
 	}
 
 	static function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
 		$cols = array();
@@ -182,7 +191,9 @@ class ilSCORMTrackingItems
 	}
 
 	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -263,7 +274,8 @@ class ilSCORMTrackingItems
 	}
 	
 	static function exportSelectedInteractionsColumns() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
 		$udh=self::userDataHeaderForExport();
@@ -281,7 +293,8 @@ class ilSCORMTrackingItems
 	}
 
 	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$returnData = array();
 
@@ -375,7 +388,8 @@ class ilSCORMTrackingItems
 	/*
 	*/
 	static function exportSelectedObjectivesColumns() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
 		$udh=self::userDataHeaderForExport();
@@ -393,7 +407,8 @@ class ilSCORMTrackingItems
 	}
 
 	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$returnData = array();
 
@@ -476,7 +491,8 @@ class ilSCORMTrackingItems
 	}
 
 	static function exportSelectedSuccessColumns() {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
 		$cols = array();
@@ -522,7 +538,8 @@ class ilSCORMTrackingItems
 	}
 
 	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id) {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		$scoCounter = 0;
 		$query = 'SELECT count(distinct(scorm_object.obj_id)) counter '

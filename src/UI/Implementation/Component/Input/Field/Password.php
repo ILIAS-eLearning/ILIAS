@@ -84,8 +84,8 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		$this->checkBoolArg('numbers', $numbers);
 		$this->checkBoolArg('special', $special);
 
-		$data = new \ILIAS\Data\Factory();
-		$validation = new \ILIAS\Validation\Factory($data);
+		$data = $this->data_factory;
+		$validation = $this->validation_factory;
 		$pw_validation = $validation->password();
 		$constraints = [
 			$pw_validation->hasMinLength($min_length),

@@ -235,30 +235,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 *
 	 * @return int
 	 */
-	public function nextId($table_name) {
-		$sequence_table_name = $table_name . '_seq';
-
-		$last_insert_id = $this->pdo->lastInsertId($table_name);
-		if ($last_insert_id) {
-			//			return $last_insert_id;
-		}
-
-		if ($this->tableExists($sequence_table_name)) {
-			$stmt = $this->pdo->prepare("SELECT sequence FROM $sequence_table_name");
-			$stmt->execute();
-			$rows = $stmt->fetch(PDO::FETCH_ASSOC);
-			$stmt->closeCursor();
-			$next_id = $rows['sequence'] + 1;
-			$stmt = $this->pdo->prepare("DELETE FROM $sequence_table_name");
-			$stmt->execute(array("next_id" => $next_id));
-			$stmt = $this->pdo->prepare("INSERT INTO $sequence_table_name (sequence) VALUES (:next_id)");
-			$stmt->execute(array("next_id" => $next_id));
-
-			return $next_id;
-		}
-
-		return 1;
-	}
+	abstract public function nextId($table_name);
 
 
 	/**
@@ -1554,8 +1531,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			throw new ilDatabaseException("ilDB Error: renameTable(" . $a_name . "," . $a_new_name . ")<br />" . $e->getMessage());
 		}
 
-		$this->manager->alterTable($a_name, array("name" => $a_new_name), false);
-
+		$this->manager->alterTable($a_name, ["name" => $a_new_name], false);
+		if($this->sequenceExists($a_name)) {
+			$this->manager->alterTable($this->getSequenceName($a_name), ["name" => $this->getSequenceName($a_new_name)], false);
+		}
 		// The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
 		//		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
 		//		         . $this->quote($a_name, 'text');

@@ -109,4 +109,19 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 		            . "	</div>" . "</div>";
 		$this->assertEquals($expected, $html);
 	}
+
+	public function test_render_disabled() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$numeric = $f->numeric($label)->withNameFrom($this->name_source)->withDisabled(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $this->normalizeHTML($r->render($numeric));
+
+		$expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+					. "	<div class=\"col-sm-9\">" . "		<input type=\"number\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />"
+					. "		" . "		" . "	</div>" . "</div>";
+		$this->assertEquals($expected, $html);
+	}
 }

@@ -700,7 +700,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
 		$solutionData = $previewSession->getParticipantsSolution();
-		return $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
+
+		$reachedPoints = $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 
 	public function isAutosaveable()
@@ -826,14 +830,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 
 		$previewSession->setParticipantsSolution($solution);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	function syncWithOriginal()

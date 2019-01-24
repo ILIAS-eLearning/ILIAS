@@ -731,14 +731,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
 	function createRandomSolution($test_id, $user_id)
 	{
 	}

@@ -1922,6 +1922,7 @@ class ilStartUpGUI
 	{
 		global $objDefinition, $ilPluginAdmin, $ilUser;
 
+
 		if (is_object($ilPluginAdmin))
 		{
 			// get user interface plugins
@@ -2098,8 +2099,9 @@ class ilStartUpGUI
 						return false;
 					}
 				}
-			}	
-			
+			}
+
+
 			// check if access will be possible with all (possible) member roles added
 			$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
 			if($rbacsystem->checkAccess("read", $ref_id) && sizeof($block_obj)) // #12128

@@ -62,7 +62,6 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
 
 		$this->setSkipRootNode(false);
-		$this->setAjax(true);
 
 		$this->tpl  = $DIC->ui()->mainTemplate();
 		$this->ctrl = $DIC->ctrl();

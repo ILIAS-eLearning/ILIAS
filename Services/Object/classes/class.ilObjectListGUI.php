@@ -2662,19 +2662,6 @@ class ilObjectListGUI
 					//$this->default_command = $command;
 				}
 			}
-			elseif($command["default"] === true)
-			{
-				$items =& $command["access_info"];
-				foreach ($items as $item)
-				{
-					if ($item["type"] == IL_NO_LICENSE)
-					{
-						$this->addCustomProperty($this->lng->txt("license"),$item["text"],true);
-						$this->enableProperties(true);
-						break;
-					}
-				}
-			}
 		}		
 
 		if (!$only_default)
@@ -2897,7 +2884,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->getContainerObject(), "type", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "active_node", "");
-			$cmd = $_GET["cmd"] == "enableMultiDownload" ? "render" : "enableMultiDownload";
+			$cmd = $_GET["cmd"] == "enableAdministrationPanel" ? "render" : "enableAdministrationPanel";
 			$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), $cmd);
 			$this->insertCommand($cmd_link, $this->lng->txt("download_multiple_objects"));
 			return true;
@@ -3687,7 +3674,7 @@ class ilObjectListGUI
 		$this->resetCustomData();
 
 		$this->tpl->setVariable("DIV_CLASS",'ilContainerListItemOuter');
-		$this->tpl->setVariable("DIV_ID", 'id = "'.$this->getUniqueItemId(true).'"');
+		$this->tpl->setVariable("DIV_ID", 'data-list-item-id="'.$this->getUniqueItemId(true).'" id = "'.$this->getUniqueItemId(true).'"');
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 		
 		// #11554 - make sure that internal ids are reset
@@ -3724,7 +3711,7 @@ class ilObjectListGUI
 	 * @param bool $a_as_div
 	 * @return string
 	 */
-	protected function getUniqueItemId($a_as_div = false)
+	public function getUniqueItemId($a_as_div = false)
 	{
 		// use correct id for references
 		$id_ref = ($this->reference_ref_id > 0)

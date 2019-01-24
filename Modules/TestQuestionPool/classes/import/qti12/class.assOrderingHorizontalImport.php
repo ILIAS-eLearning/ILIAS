@@ -39,8 +39,6 @@ class assOrderingHorizontalImport extends assQuestionImport
 		$now = getdate();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 
-		$feedbacksgeneric = array();
-
 		$this->addGeneralMetadata($item);
 		$this->object->setTitle($item->getTitle());
 		$this->object->setNrOfTries($item->getMaxattempts());
@@ -59,7 +57,10 @@ class assOrderingHorizontalImport extends assQuestionImport
 				$this->fetchAdditionalContentEditingModeInformation($item)
 		);		
 		$this->object->saveToDb();
-
+		
+		$feedbacks = $this->getFeedbackAnswerSpecific($item);
+		$feedbacksgeneric = $this->getFeedbackGeneric($item);
+		
 		// handle the import of media objects in XHTML code
 		$questiontext = $this->object->getQuestion();
 		if (is_array($_SESSION["import_mob_xhtml"]))
@@ -83,9 +84,34 @@ class assOrderingHorizontalImport extends assQuestionImport
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
+				
+				foreach ($feedbacks as $ident => $material)
+				{
+					$feedbacks[$ident] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
+				}
+				foreach ($feedbacksgeneric as $correctness => $material)
+				{
+					$feedbacksgeneric[$correctness] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
+				}
 			}
 		}
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
+		
+		foreach ($feedbacks as $ident => $material)
+		{
+			$index = $this->fetchIndexFromFeedbackIdent($ident);
+			
+			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
+				$this->object->getId(),0, $index, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
+		}
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$this->object->feedbackOBJ->importGenericFeedback(
+				$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
+		}
+
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
 		{

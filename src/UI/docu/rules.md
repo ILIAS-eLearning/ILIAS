@@ -1,10 +1,9 @@
-# Jour Fixe Proposal to introduce a centralizes UI-Framework for ILIAS.
+# Guideline for Collaboration in the UI-Framework
 
-We suggest the following rules for the ILIAS UI framework. The UI framework
-currently is in a construction phase. The current form of the rules therefore
+The UI framework currently is in a construction phase. The current form of the rules therefore
 represents the best effort for the current state of the framework. It therefore
 is likely that there will be additions to or refinements of the rules in the
-(near) future. Everyone using the rules is invited to critically reflect the
+future. Everyone using the rules is invited to critically reflect the
 rules and propose changes.
 
 ## Basics
@@ -29,9 +28,10 @@ rules and propose changes.
   github. The code in the pull request SHOULD obay the rules given in **Interfaces
   to Factories** and **Interfaces to UI components**. The existing unit tests for
   the UI framework SHOULD pass.
-* The pull request MAY be made from the edge branch in the ILIAS-repo. If the new
-  component is already implemented, the edge installation of ILIAS MAY be used
-  for showcasing the component.
+* You SHOULD only propose one component per PR. If it simplifies the discussion
+  and/or makes the PR a lot easier to read and understand, you MAY bundle multiple
+  new components in one PR. Note that this implies, that they can only be accepted, 
+  if every single one is passes the requirements. This might be a potential risk.
 * The new method MUST be backed with a stub implementation down to the methods
   that represent concrete UI components, where said methods MUST raise
   ILIAS\UI\NotImplementedException upon call, if the UI component is not already

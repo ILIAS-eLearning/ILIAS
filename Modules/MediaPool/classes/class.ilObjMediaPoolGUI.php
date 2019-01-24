@@ -201,7 +201,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 			case "ilobjmediaobjectgui":
 				$this->checkPermission("write");
-				//$cmd.="Object";
 				if ($cmd == "create" || $cmd == "save" || $cmd == "cancel")
 				{
 					$ret_obj = $_GET["mepitem_id"];
@@ -1473,9 +1472,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 	
-//		$ilTabs->clearTargets();
-		//$ilTabs->addTab("mep_pg_prop", $lng->txt("mep_page_properties"),
-		//	$ilCtrl->getLinkTarget($this, "editMediaPoolPage"));
 		$ilTabs->addTarget("cont_usage", $ilCtrl->getLinkTarget($this, "showMediaPoolPageUsages"),
 			array("showMediaPoolPageUsages", "showAllMediaPoolPageUsages"), get_class($this));
 		$ilTabs->addTarget("settings", $ilCtrl->getLinkTarget($this, "editMediaPoolPage"),
@@ -1587,13 +1583,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$ilTabs->addTab("content", $this->lng->txt("mep_content"), $this->ctrl->getLinkTarget($this, ""));
-			//$ilTabs->addTarget("objs_fold", $this->ctrl->getLinkTarget($this, ""),
-			//	"listMedia", "", "_top");
-
-			//$ilCtrl->setParameter($this, "mepitem_id", "");
-			//$ilTabs->addTarget("mep_all_mobs", $this->ctrl->getLinkTarget($this, "allMedia"),
-			//	"allMedia", "", "_top");
-			//$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 		}
 
 		// info tab
@@ -1605,7 +1594,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
-	//echo "-$force_active-";
 			$ilTabs->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
 				 array("ilobjmediapoolgui", "ilinfoscreengui"), "showSummary"),
@@ -1750,6 +1738,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function infoScreen()
 	{
+		$this->tabs->activateTab("info_short");
 		$ilAccess = $this->access;
 		$ilErr = $this->error;
 
@@ -2010,20 +1999,34 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$form->setPreventDoubleSubmission(false);
 
 		$item = new ilFileStandardDropzoneInputGUI($lng->txt("mep_media_files"), 'media_files');
-//		$item->setUploadUrl($ctrl->getLinkTarget($this, "uploadMediaFiles", "save", true, true));
+		$item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
 		$item->setMaxFiles(20);
-		//$item->setSuffixes([ 'jpg', 'gif', 'png', 'pdf' , 'svg']);
-		//$item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
-		$item->setDropzoneMessage('For the purpose of this demo, any PDF file will fail to upload');
 		$form->addItem($item);
 
-		$form->addCommandButton("performBulkUpload", $lng->txt("upload"));
+		$form->addCommandButton("afterBulkUpload", $lng->txt("upload"));
 
 		$form->setTitle($lng->txt("mep_bulk_upload"));
 
 		return $form;
 	}
 
+	/**
+	 * Save bulk upload form
+	 */
+	public function afterBulkUpload()
+	{
+		// this seems never to be called...
+
+		$log = $this->mep_log;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		$log->debug("afterBulkUpload");
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ctrl->setParameter($this, "mep_hash", $_POST["ilfilehash"]);
+		$ctrl->redirect($this, "editTitlesAndDescriptions");
+	}
 
 	/**
 	 * Save bulk upload form
@@ -2043,7 +2046,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			$mep_item_ids = [];
 			// Check if this is a request to upload a file
+			$log->debug("checking for uploads...");
 			if ($upload->hasUploads()) {
+				$log->debug("has upload...");
 				try {
 					$upload->process();
 					$log->debug("nr of results: ".count($upload->getResults()));
@@ -2097,28 +2102,29 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$mep_item_ids[] = $mob->getId();
 
 
-						include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
+						// I either perform the json/exit code in (1) (2) like in the examples, but
+						// this makes it impossible to redirect anywhere after the upload or I
+						// do not make use of json/exit (like in the ilObjFileGUI->update() method)
+						// but this leads to multiple calls of the redirect at the end of this
+						// function and to the error in https://mantis.ilias.de/view.php?id=24616
 
-						//ilSession::set("mep_ids_".$_POST["ilfilehash"], $ids);
-
-						//$log->debug("added mob: ".$mob->getId());
-						//$log->debug("mep_item_ids: ".print_r($mep_item_ids, true));
-						//$log->debug("post: ".print_r($_POST, true));
-						//$log->debug("get: ".print_r($_GET, true));
-						//$log->debug("files: ".print_r($_FILES, true));
+						// (1)
+//						echo json_encode(array( 'success' => $result));
 					}
 				}
 				catch (Exception $e)
 				{
-					$log->debug("failure ".$e->getMessage());
-					ilUtil::sendFailure($e->getMessage());
-					$form->setValuesByPost();
-					$main_tpl->setContent($form->getHtml());
+					$log->debug("Got exception: ".$e->getMessage());
+					echo json_encode(array( 'success' => false, 'message' => $e->getMessage()));
 				}
 				$log->debug("end of 'has_uploads'");
-			}
 
-			$log->debug("calling redirect...");
+				// (2)
+//				exit();
+			}
+			$log->debug("has no upload...");
+
+			$log->debug("calling redirect... (".$_POST["ilfilehash"].")");
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ctrl->setParameter($this, "mep_hash", $_POST["ilfilehash"]);
 			$ctrl->redirect($this, "editTitlesAndDescriptions");

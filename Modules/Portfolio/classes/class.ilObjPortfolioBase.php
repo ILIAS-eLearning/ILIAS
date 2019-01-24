@@ -598,7 +598,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 								$node->setAttribute("User", $ilUser->getId());									
 							}
 							// new skill
-							else if(in_array($skill_id, $a_recipe["skills"]) || $copy_all)
+							else if($copy_all || in_array($skill_id, $a_recipe["skills"]))
 							{
 								include_once "Services/Skill/classes/class.ilPersonalSkill.php";
 								ilPersonalSkill::addPersonalSkill($ilUser->getId(), $skill_id);
@@ -683,6 +683,31 @@ abstract class ilObjPortfolioBase extends ilObject2
 		
 		return $blog->getId();
 	}
+
+	/**
+	 * Fix internal portfolio links
+	 *
+	 * @param array
+	 */
+	function fixLinksOnTitleChange($a_title_changes)
+	{
+		foreach(ilPortfolioPage::getAllPortfolioPages($this->getId()) as $port_page)
+		{
+			if ($this->getType() == "prtt")
+			{
+				$page = new ilPortfolioTemplatePage($port_page["id"]);
+			}
+			else
+			{
+				$page = new ilPortfolioPage($port_page["id"]);
+			}
+			if ($page->renameLinksOnTitleChange($a_title_changes))
+			{
+				$page->update(true, true);
+			}
+		}
+	}
+
 }
 
 ?>

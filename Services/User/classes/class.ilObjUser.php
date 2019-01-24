@@ -2647,7 +2647,6 @@ class ilObjUser extends ilObject
 	{
 		global $DIC;
 
-		$ilAuth = $DIC['ilAuth'];
 		$ilSetting = $DIC['ilSetting'];
 
 		$login = ilObjUser::getLoginFromAuth();
@@ -2709,7 +2708,6 @@ class ilObjUser extends ilObject
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$ilAuth = $DIC['ilAuth'];
 
 		$login = ilObjUser::getLoginFromAuth();
 		$set = $ilDB->queryF("SELECT active FROM usr_data WHERE login= %s",
@@ -2744,51 +2742,54 @@ class ilObjUser extends ilObject
 	 * STATIC METHOD
 	 * get all user_ids of an email address
 	 * @param	string email of user
-	 * @return  integer id of user
+	 * @return  array of user ids
 	 * @static
 	 * @access	public
 	 */
-	static function _getUserIdsByEmail($a_email)
+	static function getUserIdsByEmail($a_email): array
 	{
 		global $DIC;
 
 		$ilias = $DIC['ilias'];
 		$ilDB = $DIC['ilDB'];
 
-		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
 			"WHERE email = %s and active = 1",
 			array("text"),
 			array($a_email));
  		$ids = array ();
-        while($row = $ilDB->fetchObject($res))
-        {
-            $ids[] = $row->login;
-        }
+ 		while($row = $ilDB->fetchObject($res))
+		{
+			$ids[] = $row->usr_id;
+		}
 
 		return $ids;
 	}
 
 
-
 	/**
-	 * STATIC METHOD
-	 * get the user_id of an email address
+	 * get all user login names of an email address
 	 * @param	string email of user
-	 * @return  integer id of user
-	 * @static
+	 * @return  array with all user login names
 	 * @access	public
 	 */
-	function getUserIdByEmail($a_email)
+	static function getUserLoginsByEmail($a_email): array
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
 
-		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
-			"WHERE email = %s", array("text"), array($a_email));
+		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			"WHERE email = %s and active = 1",
+			array("text"),
+			array($a_email));
+		$ids = array ();
+		while($row = $ilDB->fetchObject($res))
+		{
+			$ids[] = $row->login;
+		}
 
-		$row = $ilDB->fetchObject($res);
-		return $row->usr_id ? $row->usr_id : 0;
+		return $ids;
 	}
 
     /*
@@ -3456,8 +3457,15 @@ class ilObjUser extends ilObject
 						//}
 						//else
 						//{
-							$node = $tree->getNodeData($parent_ref);						
-							$all_parent_path[$parent_ref] = $node["title"];
+							if ($parent_ref > 0)	// workaround for #0023176
+							{
+								$node = $tree->getNodeData($parent_ref);
+								$all_parent_path[$parent_ref] = $node["title"];
+							}
+							else
+							{
+								$all_parent_path[$parent_ref] = "";
+							}
 						//}
 					}
 					
@@ -5303,31 +5311,58 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	 * get ids of all users that have been inactive for at least the given period
-	 * 
-	 * @static
-	 * @param	integer $period (in days)
-	 * @return	array of user ids
-	 * @access	public
+	 * Get ids of all users that have been inactive for at least the given period
+	 * @param int $periodInDays
+	 * @param bool $includeNeverLoggedIn
+	 * @return array
+	 * @throws \ilException
 	 */
-	public static function _getUserIdsByInactivityPeriod($period)
+	public static function getUserIdsByInactivityPeriod(int $periodInDays): array
 	{
-		if( !(int)$period ) throw new ilException('no valid period given');
-
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		if (!is_numeric($periodInDays) && $periodInDays < 1) {
+			throw new \ilException('Invalid period given');
+		}
 
-		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
+		$date = date( 'Y-m-d H:i:s', (time() - ((int)$periodInDays * 24 * 60 * 60)) );
 
-		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s OR (ISNULL(last_login) AND create_date < %s)";
+		$query = "SELECT usr_id FROM usr_data WHERE last_login IS NOT NULL AND last_login < %s";
 
-		$res = $ilDB->queryF($query, array('timestamp', 'timestamp'), array($date, $date));
+		$ids = [];
 
-		$ids = array();
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$ids[] = $row->usr_id;
+		$types = ['timestamp'];
+		$values = [$date];
+
+		$res = $DIC->database()->queryF($query, $types, $values);
+		while($row = $DIC->database()->fetchAssoc($res)) {
+			$ids[] = $row['usr_id'];
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * Get ids of all users that have never logged in
+	 * @param int $thresholdInDays
+	 * @return array
+	 */
+	public static function getUserIdsNeverLoggedIn(int $thresholdInDays): array
+	{
+		global $DIC;
+
+		$date = date('Y-m-d H:i:s', (time() - ((int)$thresholdInDays * 24 * 60 * 60)));
+
+		$query = "SELECT usr_id FROM usr_data WHERE last_login IS NULL AND create_date < %s";
+
+		$ids = [];
+
+		$types = ['timestamp'];
+		$values = [$date];
+
+		$res = $DIC->database()->queryF($query, $types, $values);
+		while($row = $DIC->database()->fetchAssoc($res)) {
+			$ids[] = $row['usr_id'];
 		}
 
 		return $ids;

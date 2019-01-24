@@ -201,16 +201,6 @@ class ilCertificate
 	}
 
 	/**
-	* Returns the filesystem path of the XSL-FO file
-	*
-	* @return string The filesystem path of the XSL-FO file
-	*/
-	public function getXSLPath()
-	{
-		return CLIENT_WEB_DIR . $this->certificatePath . $this->getXSLName();
-	}
-
-	/**
 	* Returns the filename of the XSL-FO file
 	*
 	* @return string The filename of the XSL-FO file
@@ -287,26 +277,6 @@ class ilCertificate
 	}
 
 	/**
-	* Saves the XSL-FO code to a file
-	*
-	* @param string $xslfo XSL-FO code
-	*/
-	public function createCertificateFile($xslfo, $filename = '')
-	{
-		if (!file_exists($this->certificatePath)) {
-			ilUtil::makeDirParents($this->certificatePath);
-		}
-
-		if (strlen($filename) == 0) {
-			$filename = $this->getXSLPath();
-		}
-
-		$fileHandle = fopen($filename, "w");
-		fwrite($fileHandle, $xslfo);
-		fclose($fileHandle);
-	}
-
-	/**
 	 * Checks for the background image of the certificate
 	 *
 	 * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
@@ -357,16 +327,6 @@ class ilCertificate
 	public function getAdapter()
 	{
 		return $this->adapter;
-	}
-
-	/**
-	* Sets the adapter
-	*
-	* @param object $adapter Adapter
-	*/
-	public function setAdapter($adapter)
-	{
-		$this->adapter =& $adapter;
 	}
 
 	/***************************************
@@ -485,36 +445,5 @@ class ilCertificate
 	{
 		$set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
 		return $this->db->numRows($set);
-	}
-
-	/**
-	 * @param $a_value bool
-	 */
-	public function writeActive($a_value)
-	{
-		if((bool)$a_value) {
-			$this->db->replace("il_certificate", array("obj_id" => array("integer", $this->objectId)), array());
-		} else {
-			$this->db->manipulate("DELETE FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
-		}
-	}
-
-	/**
-	 * Get custom certificate fields
-	 */
-	static function getCustomCertificateFields()
-	{
-		$user_field_definitions = ilUserDefinedFields::_getInstance();
-		$fds = $user_field_definitions->getDefinitions();
-
-		$fields = array();
-		foreach ($fds as $f) {
-			if ($f["certificate"]) {
-				$fields[$f["field_id"]] = array("name" => $f["field_name"],
-					"ph" => "[#" . str_replace(" ", "_", strtoupper($f["field_name"])) . "]");
-			}
-		}
-
-		return $fields;
 	}
 }

@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Mail/classes/class.ilMailNotification.php';
-include_once 'Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
 
 /**
  * @author Michael Jansen <mjansen@databay.de>

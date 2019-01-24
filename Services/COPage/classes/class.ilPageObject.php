@@ -2682,7 +2682,8 @@ abstract class ilPageObject
 			"inactive_elements" => array("integer", $iel),
 			"int_links" => array("integer", $inl),
 			"created" => array("timestamp", ilUtil::now()),
-			"last_change" => array("timestamp", ilUtil::now())
+			"last_change" => array("timestamp", ilUtil::now()),
+			"is_empty" => array("integer", $empty)
 			));
 		
 		// after update event

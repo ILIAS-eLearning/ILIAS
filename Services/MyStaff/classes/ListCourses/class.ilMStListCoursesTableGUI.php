@@ -154,10 +154,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->filter['user'] = $item->getValue();
 
 		if(ilUserSearchOptions::_isEnabled('org_units')) {
-			//org unit
-			$root = ilObjOrgUnit::getRootOrgRefId();
-			$tree = ilObjOrgUnitTree::_getInstance();
-			$nodes = $tree->getAllChildren($root);
 			$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
 			$options[0] = $this->lng()->txt('mst_opt_all');
 			foreach ($paths as $org_ref_id => $path) {

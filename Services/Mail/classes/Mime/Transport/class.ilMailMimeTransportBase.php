@@ -1,8 +1,7 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Mime/Transport/interface.ilMailMimeTransport.php';
-require_once 'Services/Logging/classes/public/class.ilLoggerFactory.php';
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Class ilMailMimeTransportBase
@@ -27,7 +26,6 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 	{
 		$this->settings = $settings;
 
-		require_once 'libs/composer/vendor/autoload.php';
 		$mail = new PHPMailer();
 		$this->setMailer($mail);
 	}
@@ -131,7 +129,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 			$this->getMailer()->Body    = $mail->getFinalBody();
 		}
 
-		ilLoggerFactory::getLogger('mail')->debug(sprintf(
+		ilLoggerFactory::getLogger('mail')->info(sprintf(
 			"Trying to delegate external email delivery:" .
 			" Initiated by: %s (%s) " .
 			"| To: %s | CC: %s | BCC: %s | Subject: %s " .
@@ -156,7 +154,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 		$result = $this->getMailer()->Send();
 		if($result)
 		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			ilLoggerFactory::getLogger('mail')->info(sprintf(
 				'Successfully delegated external mail delivery'
 			));
 		}

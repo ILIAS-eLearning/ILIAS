@@ -187,7 +187,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 		if($selected_wiki)
 		{
 			$wiki_ref_id = (int)$selected_wiki["filetitle"];
-			$wiki_obj_id = ilObject::_lookupObjectId($wiki_ref_id);
 
 			// #11746
 			if(ilObject::_exists($wiki_ref_id, true, "wiki") && $this->tree->isInTree($wiki_ref_id))
@@ -219,25 +218,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 				$button->setUrl($ctrl->getLinkTarget($this,"createWiki"));
 
 				$files_str .= "".$button->render();
-			}
-			// #10462
-			//selectPortfolio ( remove it? )
-			$prtfs = sizeof(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));
-			/*if((!$valid_prtf && $prtfs)
-				|| ($valid_prtf && $prtfs > 1))
-			{
-				$button = ilLinkButton::getInstance();
-				$button->setCaption("exc_select_portfolio".($valid_prtf ? "_change" : ""));
-				$button->setUrl($ctrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectPortfolio"));
-				$files_str.= " ".$button->render();
-			}*/		// not possible to select another wiki, only delete and new
-			if($valid_wiki)
-			{
-				/*
-				$button = ilLinkButton::getInstance();
-				$button->setCaption("exc_select_portfolio".($valid_prtf ? "_unlink" : ""));
-				$button->setUrl($ctrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio"));
-				$files_str.= " ".$button->render();*/	// not possible to unlink another wiki
 			}
 		}
 		if($files_str)

@@ -203,6 +203,14 @@ class ilLearningModuleImporter extends ilXmlImporter
 				$lm->writeStyleSheetId($new_style_id);
 			}
 		}
+
+		// menu item ref ids
+		$ref_mapping = $a_mapping->getMappingsOfEntity('Services/Container', 'refs');
+		$lm_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm");
+		foreach ($lm_map as $old_lm_id => $new_lm_id)
+		{
+			ilLMMenuEditor::fixImportMenuItems($new_lm_id, $ref_mapping);
+		}
 	}
 }
 

@@ -117,6 +117,37 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 	}
 
 
+	public function test_render_disabled() {
+		$r = $this->getDefaultRenderer();
+		$radio = $this->buildRadio()->withDisabled(true);
+		$name = $radio->getName();
+		$label = $radio->getLabel();
+		$byline = $radio->getByline();
+		$options = $radio->getOptions();
+
+		$expected = ""
+			."<div class=\"form-group row\">"
+			."<label for=\"\" class=\"control-label col-sm-3\">$label</label>"
+			."<div class=\"col-sm-9\">"
+			."<div id=\"id_1\" class=\"il-input-radio\">";
+
+		foreach ($options as $opt_value=>$opt_label) {
+			$expected .= ""
+				."<div class=\"form-control form-control-sm il-input-radiooption\">"
+				."<input type=\"radio\" id=\"id_1_".$opt_value."_opt\" name=\"$name\" value=\"$opt_value\" disabled=\"disabled\"/>"
+				."<label for=\"id_1_".$opt_value."_opt\">$opt_label</label>"
+				."</div>";
+		}
+
+		$expected .= ""
+			."</div>"
+			."<div class=\"help-block\">$byline</div>"
+			."</div>"
+			."</div>";
+		$this->assertHTMLEquals($expected, $r->render($radio));
+	}
+
+
 	public function test_with_dependant() {
 		$r = $this->getDefaultRenderer();
 		$f = $this->buildFactory();

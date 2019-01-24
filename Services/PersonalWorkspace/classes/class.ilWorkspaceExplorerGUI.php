@@ -84,6 +84,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 		parent::__construct("wsp_sel", $a_parent_obj, $a_parent_cmd, $this->tree);
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
+		$this->setPathOpen($this->root_id);
 		
 		$this->setTypeWhiteList(array("wsrt", "wfld"));
 	}
@@ -176,6 +177,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
+		if ($this->select_postvar != "")
+		{
+			return "";
+		}
 		if ($this->getCustomLinkTarget() != "")
 		{
 			return $this->getCustomLinkTarget()."&".$this->select_par."=".$a_node["child"];

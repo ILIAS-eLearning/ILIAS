@@ -342,7 +342,10 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 			return true;
 		}
 		try {
-			$this->manager->alterTable($a_name, array( "name" => $a_new_name ), false);
+			$this->manager->alterTable($a_name, [ "name" => $a_new_name ], false);
+			if($this->sequenceExists($a_name)) {
+				$this->manager->alterTable($this->getSequenceName($a_name), [ "name" => $this->getSequenceName($a_new_name) ], false);
+			}
 		} catch (Exception $e) {
 			return true;
 		}

@@ -36,11 +36,6 @@ class Card implements C\Card {
 	protected $title_url = '';
 
 	/**
-	 * @var string
-	 */
-	protected $image_url = '';
-
-	/**
 	 * @var boolean
 	 */
 	protected $highlight = false;
@@ -128,26 +123,6 @@ class Card implements C\Card {
 	public function getTitleAction() {
 		return $this->title_url;
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withImageAction($url) {
-		$this->checkStringArg("title_url", $url);
-
-		$clone = clone $this;
-		$clone->image_url = $url;
-
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getImageAction() {
-		return $this->image_url;
-	}
-
 
 	/**
 	 * @inheritdoc

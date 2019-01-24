@@ -360,7 +360,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	// function getTrackedUsers($a_search)
 	// {
-		// global $ilUser, $ilDB, $ilUser;
+		// global $DIC;
+		// $ilUser = $DIC['ilUser'];
+		// $ilDB = $DIC['ilDB'];
+		// $ilUser = $DIC['ilUser'];
 
 		// $sco_set = $ilDB->queryF('
 			// SELECT DISTINCT user_id,MAX(c_timestamp) last_access 

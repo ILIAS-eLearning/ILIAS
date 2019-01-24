@@ -5,7 +5,9 @@ require_once 'libs/composer/vendor/autoload.php';
 
 require_once 'Services/WebDAV/classes/lock/class.ilWebDAVLockObject.php';
 require_once 'Services/WebDAV/classes/db/class.ilWebDAVDBManager.php';
-require_once 'Services/WebDAV/classes/class.ilWebDAVTree.php';
+require_once 'Services/WebDAV/classes/tree/class.ilWebDAVUriPathResolver.php';
+require_once 'Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php';
+require_once 'Services/WebDAV/classes/class.ilWebDAVObjDAVHelper.php';
 
 /**
  * Class ilWebDAVLockBackend
@@ -20,29 +22,31 @@ require_once 'Services/WebDAV/classes/class.ilWebDAVTree.php';
  */
 class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
 {
-    /** @var $db_manager ilWebDAVDBManager 
-     *  @var $user ilObjUser
-     *  @var $access ilAccessHandler
-     */
+    /** @var ilWebDAVDBManager */
     protected $db_manager;
-    protected $user;
-    protected $access;
-    
+
+    /** @var ilWebDAVRepositoryHelper */
+    protected $repo_helper;
+
+    /** @var ilWebDAVObjDAVHelper */
+    protected $obj_dav_helper;
+
+    /** @var ilWebDAVUriPathResolver */
+    protected $uri_path_resolver;
+
     /**
      * Constructor with dependency injection
      * @param unknown $db_manager
-     * @param unknown $user
-     * @param unknown $access
-     * @param unknown $tree
+     * @param ilWebDAVRepositoryHelper|null $repo_helper
      */
-    public function __construct($db_manager = null, $user = null, $access = null, $tree = null)
+    public function __construct($db_manager = null, ilWebDAVRepositoryHelper $repo_helper = null)
     {
         global $DIC;
-        
-        $this->db_manager = $db_manager != null ? $db_manager : new ilWebDAVDBManager($DIC->database());
-        $this->user = $user != null ? $user : $DIC->user();
-        $this->access = $access != null ? $access : $DIC->access();
-        $this->tree = $tree != null ? $tree : $DIC->repositoryTree();
+
+        $this->db_manager = $db_manager == null ? new ilWebDAVDBManager($DIC->database()) : $db_manager;
+        $this->repo_helper = $repo_helper == null ? new ilWebDAVRepositoryHelper($DIC->access(), $DIC->repositoryTree()) : $repo_helper;
+        $this->obj_dav_helper = new ilWebDAVObjDAVHelper($this->repo_helper);
+        $this->uri_path_resolver = new ilWebDAVUriPathResolver($this->repo_helper);
     }
     
     /**
@@ -55,23 +59,29 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
     public function getLocks($uri, $returnChildLocks)
     {
         $sabre_locks = array();
-        
+
         // Get locks on given uri
-        $ref_id = ilWebDAVTree::getRefIdForWebDAVPath($uri);
-        $obj_id = ilObject::_lookupObjectId($ref_id);
-        $lock_on_obj = $this->getLocksOnObjectId($obj_id);
-        if($lock_on_obj != false)
+        try
         {
-            $sabre_locks[] = $lock_on_obj->getAsSabreDavLock($uri);
+            $ref_id = $this->uri_path_resolver->getRefIdForWebDAVPath($uri);
+
+            $obj_id = $this->repo_helper->getObjectIdFromRefId($ref_id);
+            $lock_on_obj = $this->getLocksOnObjectId($obj_id);
+
+            if ($lock_on_obj != false) {
+                $sabre_locks[] = $lock_on_obj->getAsSabreDavLock($uri);
+            }
+
+            // Get locks on childs
+            if ($returnChildLocks) {
+                $sabre_locks = $this->getLocksRecursive($sabre_locks, $ref_id, $uri);
+            }
         }
-        
-        // Get locks on childs
-        if($returnChildLocks)
+        catch (Exception\NotFound $e)
         {
-            $sabre_locks = $this->getLocksRecursive($sabre_locks, $ref_id, $uri);
+            return $sabre_locks;
         }
-        
-        
+
         return $sabre_locks;
     }
     
@@ -85,18 +95,20 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
      */
     protected function getLocksRecursive($sabre_locks, $ref_id, $uri)
     {
-        foreach($this->tree->getChilds($ref_id) as $child_ref)
+        foreach($this->repo_helper->getChildrenOfRefId($ref_id) as $child_ref)
         {
             // Only get locks of DAVable objects. Because not DAVable objects won't be lockable anyway
-            $child_obj_id = ilObject::_lookupObjectId($child_ref);
-            if(ilObjectDAV::_isDAVableObject($child_obj_id, false))
+            $child_obj_id = $this->repo_helper->getObjectIdFromRefId($child_ref);
+            if($this->obj_dav_helper->isDAVableObject($child_obj_id, false))
             {
                 // Get Locks of this object
-                $title = ilObject::_lookupTitle($child_obj_id);
-                $child_ilias_lock = $this->getLocksOnObjectId($child_obj_id);
-                if($child_ilias_lock != false)
+                $title = $this->repo_helper->getObjectTitleFromRefId($child_obj_id);
+                $child_ilias_locks = $this->getLocksOnObjectId($child_obj_id);
+                if($child_ilias_locks != false)
                 {
-                    $sabre_locks[] = $child_ilias_lock->getAsSabreDavLock($uri . '/' . $title);
+                    foreach($child_ilias_locks as $lock) {
+                        $sabre_locks[] = $lock->getAsSabreDavLock($uri . '/' . $title);
+                    }
                 }
                 
                 // Get locks of child objects
@@ -114,15 +126,16 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
      */
     public function unlock($uri, Sabre\DAV\Locks\LockInfo $lockInfo)
     {
-        $ilias_lock = $this->db_manager->getLockObjectWithTokenFromDB($lockInfo->token);
-        if($ilias_lock && $ilias_lock->getIliasOwner() == $this->user->getId())
-        {
-            $this->db_manager->removeLockWithTokenFromDB($lockInfo->token);
-        }
-        else 
-        {
-            throw new Forbidden();
-        }
+            $ilias_lock = $this->db_manager->getLockObjectWithTokenFromDB($lockInfo->token);
+
+            if ($ilias_lock && $ilias_lock->getIliasOwner() == $this->user->getId())
+            {
+                $this->db_manager->removeLockWithTokenFromDB($lockInfo->token);
+            }
+            else
+            {
+                throw new Exception\Forbidden();
+            }
     }
 
     /**
@@ -133,15 +146,30 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
      */
     public function lock($uri, Sabre\DAV\Locks\LockInfo $lock_info)
     {
-        $ref_id = ilWebDAVTree::getRefIdForWebDAVPath($uri);
-        if($this->access->checkAccess('write', '', $ref_id))
+        try
         {
-            $ilias_lock = ilWebDAVLockObject::createFromSabreLock($lock_info);
-            $this->db_manager->saveLockToDB($ilias_lock);
-        }
-        else
+            $ref_id = $this->uri_path_resolver->getRefIdForWebDAVPath($uri);
+
+            if ($ref_id > 0 && $this->repo_helper->checkAccess('write', '', $ref_id))
+            {
+                $obj_id = $this->repo_helper->getObjectIdFromRefId($ref_id);
+                $ilias_lock = ilWebDAVLockObject::createFromSabreLock($lock_info, $obj_id);
+                $this->db_manager->saveLockToDB($ilias_lock);
+            }
+            else
+            {
+                throw new Exception\Forbidden();
+            }
+        } catch(Exception\NotFound $e)
         {
-            throw new Forbidden();
+            if($e->getCode() == -1)
+            {
+                return;
+            }
+            else
+            {
+                throw $e;
+            }
         }
     }
 
@@ -154,6 +182,9 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
      */
     public function getLocksOnObjectId(int $obj_id)
     {
-        return $this->db_manager->getLockObjectWithObjIdFromDB($obj_id); 
+        try {
+            return $this->db_manager->getLockObjectWithObjIdFromDB($obj_id);
+        }
+        catch(Exception $e){}
     }
 }

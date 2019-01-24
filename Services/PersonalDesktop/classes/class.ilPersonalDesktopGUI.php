@@ -297,25 +297,7 @@ class ilPersonalDesktopGUI
 		$ret = null;
 		return $ret;
 	}
-	
-	/**
-	 * directly redirects a call
-	 */
-	public function redirect()
-	{
-		if(is_array($_GET))
-		{
-			foreach($_GET as $key => $val)
-			{				
-				if(substr($key, 0, strlen('param_')) == 'param_')
-				{
-					$this->ctrl->setParameterByClass($_GET['redirectClass'], substr($key, strlen('param_')), $val);
-				}
-			}
-		}
-		ilUtil::redirect($this->ctrl->getLinkTargetByClass($_GET['redirectClass'], $_GET['redirectCmd'], '', true));
-	}	
-	
+
 	/**
 	* get standard templates
 	*/
@@ -791,7 +773,7 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToBadges()
 	{
-		$this->ctrl->redirectByClass("ilbadgeprofilegui");
+		$this->ctrl->redirectByClass(["ilAchievementsGUI", "ilbadgeprofilegui"]);
 	}
 	
 	/**

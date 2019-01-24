@@ -283,6 +283,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once("./Services/News/classes/class.ilNewsTimelineGUI.php");
 				$t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
 				$t->setUserEditAll($ilAccess->checkAccess('write','',$this->object->getRefId(),'grp'));
+				$this->showPermanentLink($tpl);
 				$this->ctrl->forwardCommand($t);
 				break;
 
@@ -1431,7 +1432,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		$this->ctrl->redirect($this, "infoScreen");
+		$this->ctrl->redirect($this, "");
 	}
 	
 	/**

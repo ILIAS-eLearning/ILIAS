@@ -14,13 +14,14 @@ for 'Certificates' to their component.
 * [Settings](#settings)
   * [Java Server](#java-server)
   * [Certificate Settings](#certificate-settings)
+* [GUI](#gui)
 * [Implementation for new Services/Module](#implementation-for-new-services-module)
   * [Placeholder Description](#placeholder-description)
     * [Methods](#methods)
   * [Placeholder Values](#placeholder-values)
     * [Methods](#methods-1)
 * [Cron Job](#cron-job)
-  * [GUI](#gui)
+  * [GUI](#gui-1)
     * [Custom Certificate Settings GUI](#custom-certificate-settings-gui)
   * [User Certificates Classes](#user-certificates-classes)
   * [Template Certificate Classes](#template-certificate-classes)
@@ -53,6 +54,11 @@ automatically be **updated**.
 If the ILIAS system will be upgraded from a ILIAS version <=5.3.0
 a migration MUST be executed.
 See the [migration](#migration) chapter for more information.
+
+Currently only a the newest version of a user certificate will
+be shown in the GUI.
+Previous certificate are also stored in the database,
+but are not displayed in the GUI.
 
 ## Settings
 

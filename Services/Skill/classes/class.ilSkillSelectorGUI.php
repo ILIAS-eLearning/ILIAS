@@ -70,6 +70,11 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
+		if ($this->select_multi)
+		{
+			return "#";
+		}
+
 		$ilCtrl = $this->ctrl;
 		
 		// we have a tree id like <skl_tree_id>:<skl_template_tree_id>

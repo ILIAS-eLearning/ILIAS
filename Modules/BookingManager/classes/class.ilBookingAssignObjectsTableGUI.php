@@ -125,6 +125,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 			{
 				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $this->user_id_to_book);
 				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $item['booking_object_id']);
+				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'part_view',ilBookingParticipantGUI::PARTICIPANT_VIEW);
 				$data[] = array(
 					'object_id' => $item['booking_object_id'],
 					'title' => $item['title'],
@@ -134,6 +135,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 				);
 				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', '');
 				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', '');
+				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'part_view','');
 			}
 		}
 		$this->setData($data);

@@ -108,10 +108,6 @@ class ilMembershipRegistrationCodeUtils
 				{
 					$member_obj->register($ilUser->getId(), IL_GRP_MEMBER, true);
 				}
-				if($member_obj instanceof ilObjLearningSequence)
-				{
-					$member_obj->register($ilUser->getId(), ilObjLearningSequence::LS_MEMBER);
-				}
 			}
 		}
 	}
@@ -146,8 +142,7 @@ class ilMembershipRegistrationCodeUtils
 		
 		return array_merge(
 			ilObjGroup::lookupObjectsByCode($a_code),
-			ilObjCourse::lookupObjectsByCode($a_code),
-			ilObjLearningSequence::lookupObjectsByCode($a_code)
+			ilObjCourse::lookupObjectsByCode($a_code)
 		);
 	}
 }

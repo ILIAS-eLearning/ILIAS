@@ -24,7 +24,8 @@ class ilScormAiccImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_import_dirname, $a_mapping)
 	{
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 
 		if ($this->handleEditableLmXml($a_entity, $a_id, $a_import_dirname, $a_mapping))
 		{

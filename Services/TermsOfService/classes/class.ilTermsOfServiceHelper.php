@@ -79,7 +79,7 @@ class ilTermsOfServiceHelper
 		$entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
 		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-		return $databaseGateway->loadCurrentAcceptanceOfUser($entity->withUserId($user->getId()));
+		return $databaseGateway->loadCurrentAcceptanceOfUser($entity->withUserId((int)$user->getId()));
 	}
 
 	/**

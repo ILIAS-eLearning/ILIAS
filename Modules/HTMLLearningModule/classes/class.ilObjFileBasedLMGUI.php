@@ -12,7 +12,7 @@
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI, ilExportGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilExportGUI
 * @ingroup ModulesHTMLLearningModule
 */
 
@@ -500,7 +500,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-		ilUtil::redirect("ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$newObj->getRefId());
+		$this->object = $newObj;
+		$this->redirectAfterCreation();
 	}
 	
 
@@ -880,6 +881,17 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		ilUtil::delDir($target_dir);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function redirectAfterCreation()
+	{
+		$ctrl = $this->ctrl;
+		$ctrl->setParameterByClass("ilObjFileBasedLMGUI", "ref_id", $this->object->getRefId());
+		$ctrl->redirectByClass(["ilrepositorygui", "ilObjFileBasedLMGUI"], "properties");
+	}
+
 
 }
 ?>

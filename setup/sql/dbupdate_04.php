@@ -18579,8 +18579,14 @@ while ($rec = $ilDB->fetchAssoc($set))
 ?>
 <#5086>
 <?php
-	// fix 20706
-	$ilDB->dropPrimaryKey('page_question');
+	// fix 20706 (and 22921)
+	require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
+	$analyzer = new ilDBAnalyzer();
+	$cons = $analyzer->getPrimaryKeyInformation('page_question');
+	if (is_array($cons["fields"]) && count($cons["fields"]) > 0)
+	{
+		$ilDB->dropPrimaryKey('page_question');
+	}
 	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
 ?>
 <#5087>
@@ -23085,7 +23091,16 @@ $globalAgreementPath = './Customizing/global/agreement';
 $clientAgreementPath = './Customizing/clients/' . basename(CLIENT_DATA_DIR) . '/agreement';
 
 $ilSetting = new \ilSetting();
-if (!$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
+
+$documentDirectoriesExist = false;
+if (
+    (file_exists($globalAgreementPath) && is_dir($globalAgreementPath) && is_readable($globalAgreementPath)) ||
+    (file_exists($clientAgreementPath) && is_dir($clientAgreementPath) && is_readable($clientAgreementPath))
+) {
+	$documentDirectoriesExist = true;
+}
+
+if ($documentDirectoriesExist && !$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 	echo "<pre>
 
 		DEAR ADMINISTRATOR !!
@@ -23101,11 +23116,13 @@ if (!$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 		With ILIAS 5.4.x user agreement documents can be managed in the global ILIAS administration.
 		The contents of a document can be uploaded as text or HTML file and will be stored (after purification) in the database.
 
-		If you reload this page, the migration will be executed. The files will NOT be deleted.
+		If you reload this page (e.g. by pressing the F5 key), the migration process will be started. The agreement files will NOT be deleted.
 		</pre>";
 
 	$ilSetting->set('dbupwarn_tos_migr_54x', 1);
 	exit;
+} elseif (!$documentDirectoriesExist) {
+	$ilSetting->set('dbupwarn_tos_migr_54x', 1);
 }
 
 if (!$ilDB->tableExists('agreement_migr')) {
@@ -23146,124 +23163,131 @@ if ('de' === strtolower($language)) {
 
 $res = $ilDB->query("SELECT * FROM agreement_migr");
 $i = (int)$ilDB->numRows($res);
-foreach ([
-			 'client-independent' => $globalAgreementPath,
-			 'client-related' => $clientAgreementPath,
-		 ] as $type => $path) {
-	if (!file_exists($path) || !is_dir($path)) {
-		$GLOBALS['ilLog']->info(sprintf(
-			"DB Step %s: Path '%s' not found or not a directory", $dbStep, $path
-		));
-	}
 
-	if (!is_readable($path)) {
-		$GLOBALS['ilLog']->error(sprintf(
-			"DB Step %s: Path '%s' is not readable", $dbStep, $path
-		));
-	}
-
-	try {
-		foreach (new \RegexIterator(new \DirectoryIterator($path), '/agreement_[a-zA-Z]{2,2}\.(html)$/i') as $file) {
+if ($documentDirectoriesExist) {
+	foreach ([
+				 'client-independent' => $globalAgreementPath,
+				 'client-related' => $clientAgreementPath,
+			 ] as $type => $path) {
+		if (!file_exists($path) || !is_dir($path)) {
 			$GLOBALS['ilLog']->info(sprintf(
-				"DB Step %s: Started migration of %s user agreement file '%s'",
-				$dbStep, $type, $file->getPathname()
+				"DB Step %s: Skipped 'Terms of Service' migration, path '%s' not found or not a directory", $dbStep,
+				$path
 			));
-
-			$matches = null;
-			if (!preg_match('/agreement_([a-zA-Z]{2,2})\.html/', $file->getBasename(), $matches)) {
-				$GLOBALS['ilLog']->info(sprintf(
-					"DB Step %s: Ignored migration of %s user agreement file '%s' because the basename is not valid",
-					$dbStep, $type, $file->getPathname()
-				));
-				continue;
-			}
-			$languageValue = $matches[1];
-
-			$res = $ilDB->queryF(
-				"SELECT * FROM agreement_migr WHERE agr_type = %s AND agr_lng = %s",
-				['text', 'text'],
-				[$type, $languageValue]
-			);
-			if ($ilDB->numRows($res) > 0) {
-				$GLOBALS['ilLog']->info(sprintf(
-					"DB Step %s: Ignored migration of %s user agreement file '%s' because it has been already migrated",
-					$dbStep, $type, $file->getPathname()
-				));
-				continue;
-			}
-
-			$i++;
-
-			$sorting = $i;
-			$docTitle = $docTitlePrefix . ' ' . $i;
-
-			$text = file_get_contents($file->getPathname());
-			if (strip_tags($text) === $text) {
-				$text = nl2br($text);
-			}
-
-			$docId = $ilDB->nextId('tos_documents');
-			$ilDB->insert(
-				'tos_documents',
-				[
-					'id' => ['integer', $docId],
-					'sorting' => ['integer', $sorting],
-					'title' => ['text', $docTitle],
-					'owner_usr_id' => ['integer', -1],
-					'creation_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0],
-					'text' => ['clob', $text],
-				]
-			);
-			$GLOBALS['ilLog']->info(sprintf(
-				"DB Step %s: Created new document with id %s and title '%s' for file '%s'",
-				$dbStep, $docId, $docTitle, $file->getPathname()
-			));
-
-			$assignmentId = $ilDB->nextId('tos_criterion_to_doc');
-			$ilDB->insert(
-				'tos_criterion_to_doc',
-				[
-					'id' => ['integer', $assignmentId],
-					'doc_id' => ['integer', $docId],
-					'criterion_id' => ['text', 'usr_language'],
-					'criterion_value' => ['text', json_encode(['lng' => $languageValue])],
-					'owner_usr_id' => ['integer', -1],
-					'assigned_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0]
-				]
-			);
-			$GLOBALS['ilLog']->info(sprintf(
-				"DB Step %s: Created new language criterion assignment with id %s and value '%s' to document with id %s for file '%s'",
-				$dbStep, $assignmentId, $languageValue, $docId, $file->getPathname()
-			));
-
-			// Determine all accepted version with lng = $criterion and hash = hash and src = file
-			$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/client/%%', false);
-			if ($type === 'client-independent') {
-				$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/global/%%', false);
-			}
-
-			$ilDB->manipulateF(
-				'UPDATE tos_versions SET doc_id = %s, title = %s WHERE lng = %s AND hash = %s' . $docTypeIn,
-				['integer', 'text', 'text', 'text'],
-				[$docId, $docTitle, $languageValue, md5($text)]
-			);
-			$GLOBALS['ilLog']->info(sprintf(
-				"DB Step %s: Migrated %s user agreement file '%s'",
-				$dbStep, $type, $file->getPathname()
-			));
-
-			$ilDB->replace(
-				'agreement_migr',
-				[
-					'agr_type' => ['text', $type],
-					'agr_lng' => ['text', $languageValue],
-				], []
-			);
+			continue;
 		}
-	} catch (\Exception $e) {
-		$GLOBALS['ilLog']->error(sprintf(
-			"DB Step %s: %s", $dbStep, $e->getMessage()
-		));
+
+		if (!is_readable($path)) {
+			$GLOBALS['ilLog']->error(sprintf(
+				"DB Step %s: Skipped 'Terms of Service' migration, path '%s' is not readable", $dbStep, $path
+			));
+			continue;
+		}
+
+		try {
+			foreach (new \RegexIterator(new \DirectoryIterator($path),
+				'/agreement_[a-zA-Z]{2,2}\.(html)$/i') as $file) {
+				$GLOBALS['ilLog']->info(sprintf(
+					"DB Step %s: Started migration of %s user agreement file '%s'",
+					$dbStep, $type, $file->getPathname()
+				));
+
+				$matches = null;
+				if (!preg_match('/agreement_([a-zA-Z]{2,2})\.html/', $file->getBasename(), $matches)) {
+					$GLOBALS['ilLog']->info(sprintf(
+						"DB Step %s: Ignored migration of %s user agreement file '%s' because the basename is not valid",
+						$dbStep, $type, $file->getPathname()
+					));
+					continue;
+				}
+				$languageValue = $matches[1];
+
+				$res = $ilDB->queryF(
+					"SELECT * FROM agreement_migr WHERE agr_type = %s AND agr_lng = %s",
+					['text', 'text'],
+					[$type, $languageValue]
+				);
+				if ($ilDB->numRows($res) > 0) {
+					$GLOBALS['ilLog']->info(sprintf(
+						"DB Step %s: Ignored migration of %s user agreement file '%s' because it has been already migrated",
+						$dbStep, $type, $file->getPathname()
+					));
+					continue;
+				}
+
+				$i++;
+
+				$sorting = $i;
+				$docTitle = $docTitlePrefix . ' ' . $i;
+
+				$text = file_get_contents($file->getPathname());
+				if (strip_tags($text) === $text) {
+					$text = nl2br($text);
+				}
+
+				$docId = $ilDB->nextId('tos_documents');
+				$ilDB->insert(
+					'tos_documents',
+					[
+						'id' => ['integer', $docId],
+						'sorting' => ['integer', $sorting],
+						'title' => ['text', $docTitle],
+						'owner_usr_id' => ['integer', -1],
+						'creation_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0],
+						'text' => ['clob', $text],
+					]
+				);
+				$GLOBALS['ilLog']->info(sprintf(
+					"DB Step %s: Created new document with id %s and title '%s' for file '%s'",
+					$dbStep, $docId, $docTitle, $file->getPathname()
+				));
+
+				$assignmentId = $ilDB->nextId('tos_criterion_to_doc');
+				$ilDB->insert(
+					'tos_criterion_to_doc',
+					[
+						'id' => ['integer', $assignmentId],
+						'doc_id' => ['integer', $docId],
+						'criterion_id' => ['text', 'usr_language'],
+						'criterion_value' => ['text', json_encode(['lng' => $languageValue])],
+						'owner_usr_id' => ['integer', -1],
+						'assigned_ts' => ['integer', $file->getMTime() > 0 ? $file->getMTime() : 0]
+					]
+				);
+				$GLOBALS['ilLog']->info(sprintf(
+					"DB Step %s: Created new language criterion assignment with id %s and value '%s' to document with id %s for file '%s'",
+					$dbStep, $assignmentId, $languageValue, $docId, $file->getPathname()
+				));
+
+				// Determine all accepted version with lng = $criterion and hash = hash and src = file
+				$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/client/%%', false);
+				if ($type === 'client-independent') {
+					$docTypeIn = ' AND ' . $ilDB->like('src', 'text', '%%/global/%%', false);
+				}
+
+				$ilDB->manipulateF(
+					'UPDATE tos_versions SET doc_id = %s, title = %s WHERE lng = %s AND hash = %s' . $docTypeIn,
+					['integer', 'text', 'text', 'text'],
+					[$docId, $docTitle, $languageValue, md5($text)]
+				);
+				$GLOBALS['ilLog']->info(sprintf(
+					"DB Step %s: Migrated %s user agreement file '%s'",
+					$dbStep, $type, $file->getPathname()
+				));
+
+				$ilDB->replace(
+					'agreement_migr',
+					[
+						'agr_type' => ['text', $type],
+						'agr_lng' => ['text', $languageValue],
+					], []
+				);
+			}
+		} catch (\Exception $e) {
+			$GLOBALS['ilLog']->error(sprintf(
+				"DB Step %s: %s", $dbStep, $e->getMessage()
+			));
+		}
 	}
 }
 
@@ -23277,7 +23301,7 @@ if (is_array($numDocumentsData) && $numDocumentsData['num_docs']) {
 	$numDocs = $numDocumentsData['num_docs'];
 }
 
-$res = $ilDB->query('SELECT * FROM tos_versions WHERE title IS NULL GROUP BY lng, src');
+$res = $ilDB->query('SELECT lng, src FROM tos_versions WHERE title IS NULL GROUP BY lng, src');
 $i = 0;
 while ($row = $ilDB->fetchAssoc($res)) {
 	$docTitle = $docTitlePrefix . ' ' . ($numDocs + (++$i));
@@ -24501,6 +24525,7 @@ if (!$ilDB->tableExists('adv_md_record_obj_ord'))
 	);
 }
 ?>
+
 <#5392>
 <?php
 if(!$ilDB->tableColumnExists('event', 'show_members'))
@@ -25163,158 +25188,117 @@ if(!$ilDB->tableColumnExists('booking_reservation','assigner_id'))
 ?>
 <#5426>
 <?php
-// Create migration table
-if (!$ilDB->tableExists('frm_thread_tree_mig')) {
-	$fields = [
-		'thread_id' => [
-			'type'    => 'integer',
-			'length'  => 4,
-			'notnull' => true,
-			'default' => 0
-		]
-	];
-
-	$ilDB->createTable('frm_thread_tree_mig', $fields);
-	$ilDB->addPrimaryKey('frm_thread_tree_mig', ['thread_id']);
-	$GLOBALS['ilLog']->info(sprintf(
-		'Created thread migration table: frm_thread_tree_mig'
-	));
-}
+$ilCtrlStructureReader->getStructure();
 ?>
 <#5427>
 <?php
-$query = "
-	SELECT frmpt.thr_fk
-	FROM frm_posts_tree frmpt
-	INNER JOIN frm_posts fp ON fp.pos_pk = frmpt.pos_fk
-	WHERE frmpt.parent_pos = 0
-	GROUP BY frmpt.thr_fk
-	HAVING COUNT(frmpt.fpt_pk) > 1
-";
-$ignoredThreadIds = [];
-$res = $ilDB->query($query);
-while ($row = $ilDB->fetchAssoc($res)) {
-	$ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
+$setting = new ilSetting();
+$media_cont_mig = $setting->get('sty_media_cont_mig', 0);
+if ($media_cont_mig == 0)
+{
+	echo "<pre>
+
+	DEAR ADMINISTRATOR !!
+
+	Please read the following instructions CAREFULLY!
+
+	-> If you are using content styles (e.g. for learning modules) style settings related
+	to media container have been lost when migrating from ILIAS 5.0/5.1 to ILIAS 5.2/5.3/5.4.
+
+	-> The following dbupdate step will fix this issue and set the media container properties to values
+	   before the upgrade to ILIAS 5.2/5.3/5.4.
+
+	-> If this issue has already been fixed manually in your content styles you may want to skip
+	   this step. If you are running ILIAS 5.2/5.3/5.4 for a longer time period you may also not want to
+	   restore old values anymore and skip this step.
+	   If you would like to skip this step you need to modify the file setup/sql/dbupdate_04.php
+	   Search for 'RUN_CONTENT_STYLE_MIGRATION' (around line 25205) and follow the instructions.
+	
+	=> To proceed the update process you now need to refresh the page (F5)
+
+	Mantis Bug Report: https://ilias.de/mantis/view.php?id=23299
+
+	</pre>";
+
+	$setting->set('sty_media_cont_mig', 1);
+	exit;
 }
+if ($media_cont_mig == 1)
+{
+	//
+	// RUN_CONTENT_STYLE_MIGRATION
+	//
+	// If you want to skip the migration of former style properties for the media container style classes
+	// set the following value of $run_migration from 'true' to 'false'.
+	//
 
-$query = "
-	SELECT fp.*, fpt.fpt_pk, fpt.thr_fk, fpt.lft, fpt.rgt, fpt.fpt_date
-	FROM frm_posts_tree fpt
-	INNER JOIN frm_posts fp ON fp.pos_pk = fpt.pos_fk
-	LEFT JOIN frm_thread_tree_mig ON frm_thread_tree_mig.thread_id = fpt.thr_fk
-	WHERE fpt.parent_pos = 0 AND fpt.depth = 1 AND frm_thread_tree_mig.thread_id IS NULL
-";
-$res = $ilDB->query($query);
-while ($row = $ilDB->fetchAssoc($res)) {
-	$GLOBALS['ilLog']->info(sprintf(
-		"Started migration of thread with id %s", $row['thr_fk']
-	));
-	if (isset($ignoredThreadIds[$row['thr_fk']])) {
-		$GLOBALS['ilLog']->warning(sprintf(
-			"Cannot migrate forum tree for thread id %s in database update step %s", $row['thr_fk'], $nr
-		));
-		continue;
+	$run_migration = true;
+
+	if ($run_migration)
+	{
+		$set = $ilDB->queryF("SELECT * FROM style_parameter " .
+			" WHERE type = %s AND tag = %s ",
+			array("text", "text"),
+			array("media_cont", "table")
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$set2 = $ilDB->queryF("SELECT * FROM style_parameter " .
+				" WHERE style_id = %s " .
+				" AND tag = %s " .
+				" AND class = %s " .
+				" AND parameter = %s " .
+				" AND type = %s " .
+				" AND mq_id = %s "
+				,
+				array("integer", "text", "text", "text", "text", "integer"),
+				array($rec["style_id"], "figure", $rec["class"], $rec["parameter"], "media_cont", $rec["mq_id"])
+			);
+			if (!($rec2 = $ilDB->fetchAssoc($set2)))
+			{
+				$id = $ilDB->nextId("style_parameter");
+				$ilDB->insert("style_parameter", array(
+					"id" => array("integer", $id),
+					"style_id" => array("integer", $rec["style_id"]),
+					"tag" => array("text", "figure"),
+					"class" => array("text", $rec["class"]),
+					"parameter" => array("text", $rec["parameter"]),
+					"value" => array("text", $rec["value"]),
+					"type" => array("text", $rec["type"]),
+					"mq_id" => array("integer", $rec["mq_id"]),
+					"custom" => array("integer", $rec["custom"]),
+				));
+			}
+
+		}
 	}
-
-	// Create space for a new root node, increment depth of all nodes, increment lft and rgt values
-	$ilDB->manipulateF("
-			UPDATE frm_posts_tree
-			SET
-				lft = lft + 1,
-				rgt = rgt + 1,
-				depth = depth + 1
-			WHERE thr_fk = %s
-		",
-		['integer'],
-		[$row['thr_fk']]
-	);
-	$GLOBALS['ilLog']->info(sprintf(
-		"Created gaps in tree for thread with id %s in database update step %s", $row['thr_fk'], $nr
-	));
-
-	// Create a posting as new root
-	$postId = $ilDB->nextId('frm_posts');
-	$ilDB->insert('frm_posts', array(
-		'pos_pk'		=> array('integer', $postId),
-		'pos_top_fk'	=> array('integer', $row['pos_top_fk']),
-		'pos_thr_fk'	=> array('integer', $row['pos_thr_fk']),
-		'pos_display_user_id'	=> array('integer', $row['pos_display_user_id']),
-		'pos_usr_alias'	=> array('text', $row['pos_usr_alias']),
-		'pos_subject'	=> array('text', $row['pos_subject']),
-		'pos_message'	=> array('clob', $row['pos_message']),
-		'pos_date'		=> array('timestamp', $row['pos_date']),
-		'pos_update'	=> array('timestamp', null),
-		'update_user'	=> array('integer', 0),
-		'pos_cens'		=> array('integer', 0),
-		'notify'		=> array('integer', 0),
-		'import_name'	=> array('text', (string)$row['import_name']),
-		'pos_status'	=> array('integer', 1),
-		'pos_author_id' => array('integer', (int)$row['pos_author_id']),
-		'is_author_moderator' => array('integer', $row['is_author_moderator']),
-		'pos_activation_date' => array('timestamp', $row['pos_activation_date'])
-	));
-	$GLOBALS['ilLog']->info(sprintf(
-		"Created new root posting with id %s in thread with id %s in database update step %s",
-		$postId, $row['thr_fk'], $nr
-	));
-
-	// Insert the new root and, set dept = 1, lft = 1, rgt = <OLR_ROOT_RGT> + 2
-	$nextId = $ilDB->nextId('frm_posts_tree');
-	$ilDB->manipulateF('
-		INSERT INTO frm_posts_tree
-		( 
-			fpt_pk,
-			thr_fk,
-			pos_fk,
-			parent_pos,
-			lft,
-			rgt,
-			depth,
-			fpt_date
-		) VALUES (%s, %s, %s, %s,  %s,  %s, %s, %s)',
-		['integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'],
-		[$nextId, $row['thr_fk'], $postId, 0, 1, $row['rgt'] + 2, 1, $row['fpt_date']]
-	);
-	$GLOBALS['ilLog']->info(sprintf(
-		"Created new tree root with id %s in thread with id %s in database update step %s",
-		$nextId, $row['thr_fk'], $nr
-	));
-
-	// Set parent_pos for old root
-	$ilDB->manipulateF("
-			UPDATE frm_posts_tree
-			SET
-				parent_pos = %s
-			WHERE thr_fk = %s AND fpt_pk = %s
-		",
-		['integer', 'integer'],
-		[$nextId, $row['fpt_pk']]
-	);
-	$GLOBALS['ilLog']->info(sprintf(
-		"Set parent to %s for posting with id %s in thread with id %s in database update step %s",
-		$nextId, $row['fpt_pk'], $row['thr_fk'], $nr
-	));
-
-	// Mark as migrated
-	$ilDB->insert('frm_thread_tree_mig', array(
-		'thread_id' => array('integer', $row['thr_fk'])
-	));
+	$setting->set('sty_media_cont_mig', 2);
 }
 ?>
 <#5428>
 <?php
-// Drop migration table
-if ($ilDB->tableExists('frm_thread_tree_mig')) {
-	$ilDB->dropTable('frm_thread_tree_mig');
-	$GLOBALS['ilLog']->info(sprintf(
-		'Dropped thread migration table: frm_thread_tree_mig'
-	));
-}
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("CodeInline", "code_inline", "code",
+	array());
 ?>
 <#5429>
 <?php
-// Add new index
-if (!$ilDB->indexExistsByFields('frm_posts_tree', ['parent_pos'])) {
-	$ilDB->addIndex('frm_posts_tree', ['parent_pos'], 'i3');
-}
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("Code", "code_block", "pre",
+	array());
+?>
+<#5430>
+<?php
+$ilDB->update("style_data", array(
+	"uptodate" => array("integer", 0)
+), array(
+	"1" => array("integer", 1)
+));
+?>
+<#5431>
+<?php
+	$ilCtrlStructureReader->getStructure();
+	// FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
+	//
+	// USE dbupdate_05.php INSTEAD
 ?>

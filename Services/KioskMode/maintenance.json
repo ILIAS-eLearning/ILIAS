@@ -8,5 +8,5 @@
     "testcase_writer": "",
     "path": "Services/KioskMode",
     "belong_to_component": "General Kiosk-Mode",
-    "used_in_components": []
+    "used_in_components": ["Learning Sequence"]
 }

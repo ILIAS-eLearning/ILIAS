@@ -1126,6 +1126,12 @@ class ilObjFileGUI extends ilObject2GUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
+		if ($DIC->upload()->hasBeenProcessed() !== true) {
+			if (PATH_TO_GHOSTSCRIPT !== "") {
+				$DIC->upload()->register(new ilCountPDFPagesPreProcessors());
+			}
+		}
+
 		$DIC->upload()->process();
 		/**
 		 * @var $item \ILIAS\FileUpload\DTO\UploadResult
@@ -1135,8 +1141,6 @@ class ilObjFileGUI extends ilObject2GUI
 		// file upload params
 
 		$file_upload['name'] = $item->getName();
-		$file_upload['title'] = $item->getName();
-
 
 		$filename = ilUtil::stripSlashes($item->getName());
 		$type = ilUtil::stripSlashes($item->getMimeType());

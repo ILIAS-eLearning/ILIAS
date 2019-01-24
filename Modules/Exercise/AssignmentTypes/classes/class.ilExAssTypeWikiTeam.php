@@ -161,5 +161,19 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
+	{
+		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssWikiTeamAR.php");
+		$source_ar = new ilExAssWikiTeamAR($source->getId());
+		$target_ar = new ilExAssWikiTeamAR();
+		$target_ar->setId($target->getId());
+		$target_ar->setTemplateRefId($source_ar->getTemplateRefId());
+		$target_ar->setContainerRefId($source_ar->getContainerRefId());
+		$target_ar->save();
+	}
+
 
 }

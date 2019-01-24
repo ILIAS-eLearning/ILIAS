@@ -239,7 +239,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case 'ilsurveyparticipantsgui':
-				if($this->object->getMode() == ilObjSurvey::MODE_STANDARD)
+				if($this->object->getMode() == ilObjSurvey::MODE_STANDARD  || $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL)
 				{
 					$ilTabs->activateTab("maintenance");
 				}

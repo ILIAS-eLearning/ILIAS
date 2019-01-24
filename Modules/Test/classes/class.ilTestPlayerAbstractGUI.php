@@ -748,9 +748,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function finishTestCmd($requires_confirmation = true)
 	{
-		global $DIC;
-		$ilAuth = $DIC['ilAuth'];
-
 		unset($_SESSION["tst_next"]);
 
 		$active_id = $this->testSession->getActiveId();
