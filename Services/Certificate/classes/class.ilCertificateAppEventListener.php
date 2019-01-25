@@ -192,11 +192,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	{
 		$status = $this->parameters['status'] ?? \ilLpStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
+		$settings = new ilSetting('certificate');
+
 		if ($status == \ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 			$objectId = $this->parameters['obj_id'] ?? 0;
 			$userId = $this->parameters['usr_id'] ?? 0;
 
 			$type  = $this->objectDataCache->lookupType($objectId);
+
 
 			if ($this->certificateClassMap->typeExistsInMap($type)) {
 				try {
@@ -215,6 +218,13 @@ class ilCertificateAppEventListener implements ilAppEventListener
 						);
 
 						$this->certificateQueueRepository->addToQueue($entry);
+
+						$mode = $settings->get('persistent_certificate_mode', '');
+						if ($mode === 'persistent_certificate_mode_instant') {
+							$cronjob = new ilCertificateCron();
+							$cronjob->init();
+							$cronjob->run();
+						}
 					}
 				} catch (ilException $exception) {
 					$this->logger->warning($exception->getMessage());
@@ -246,6 +256,13 @@ class ilCertificateAppEventListener implements ilAppEventListener
 								);
 
 								$this->certificateQueueRepository->addToQueue($entry);
+
+								$mode = $settings->get('persistent_certificate_mode', '');
+								if ($mode === 'persistent_certificate_mode_instant') {
+									$cronjob = new ilCertificateCron();
+									$cronjob->init();
+									$cronjob->run();
+								}
 							}
 						} catch (ilException $exception) {
 							$this->logger->warning($exception->getMessage());
