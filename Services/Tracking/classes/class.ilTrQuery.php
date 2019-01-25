@@ -1623,7 +1623,6 @@ class ilTrQuery
 						// #14953
 						$result["set"][$row["usr_id"]]["obj_".$obj_id] = $row["status"];
 						$result["set"][$row["usr_id"]]["obj_".$obj_id."_perc"] = $row["percentage"];
-						
 						if($obj_id == $parent_obj_id)
 						{
 							$result["set"][$row["usr_id"]]["status_changed"] = $row["status_changed"];

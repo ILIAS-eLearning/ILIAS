@@ -1593,8 +1593,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// need read events for parent for LP statistics
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';						
 		ilChangeEvent::_recordReadEvent("mcst", $this->object->getRefId(),
-			$this->object->getId(), $ilUser->getId());		
-		
+			$this->object->getId(), $ilUser->getId());
+
+		// trigger LP update
+		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
+
 		if ($this->object->getViewMode() == ilObjMediaCast::VIEW_GALLERY)
 		{
 			$this->showGallery();
