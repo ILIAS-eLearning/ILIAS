@@ -59,6 +59,8 @@ class ilLTICronOutcomeService extends ilCronJob
 
 		$result = new \ilCronJobResult();
 		$result->setStatus($status);
+		ilLTIAppEventListener::handleCronUpdate();
+		$result->setStatus(ilCronJobResult::STATUS_OK);
 
 		return $result;
 	}
