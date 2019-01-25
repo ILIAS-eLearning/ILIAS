@@ -1284,7 +1284,7 @@ class ilMail
 				" To: " . $externalMailRecipientsTo .
 				" | CC: " . $externalMailRecipientsCc .
 				" | BCC: " . $externalMailRecipientsBcc .
-				" | Subject: " . $message
+				" | Subject: " . $subject
 			);
 
 			$this->sendMimeMail(
