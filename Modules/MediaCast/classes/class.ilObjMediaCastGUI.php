@@ -1009,17 +1009,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function downloadItemObject()
 	{
 		$ilCtrl = $this->ctrl;
-		$this->checkPermission("read");		
-		
+		$ilUser = $this->user;
+
+		$this->checkPermission("read");
 		$news_item = new ilNewsItem($_GET["item_id"]);
+		$this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
 		if (!$news_item->deliverMobFile($_GET["purpose"], (int) $_GET["presentation"]))
 		{
 			$ilCtrl->redirect($this, "listItems");
-		}
-		else
-		{
-		$ilUser = $this->user;
-			$this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
 		}
 		exit;
 	}
