@@ -390,9 +390,35 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		$objDefinition = $this->obj_definition;
 
+		$outputMode = $this->getOutputMode();
+
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
-		if ($a_type === 'crta') {
+		if ($a_type === 'crta' && $outputMode === 'offline') {
+			$fileService = new ilPortfolioCertificateFileService();
+
+			$certificatePdfFile = $fileService->fetchCertificate($a_user_id, $a_id);
+			$this->export_material["files"][] = $certificatePdfFile;
+
+			$url = 'files/' . basename($certificatePdfFile);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
+			$caption = $this->lng->txt('certificate') . ': ' . $presentation->getObjectTitle();
+
+			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+		} elseif ($a_type === 'crta' || $a_type === 'print') {
+			$url = $this->getPagePermaLink();
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
+			$caption = $this->lng->txt('certificate') . ': ' . $presentation->getObjectTitle();
+
+			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+		}
+		elseif ($a_type === 'crta') {
 			$this->ctrl->setParameter($this, "dlid", $a_id);
 			$url = $this->ctrl->getLinkTarget($this, "dl" . $a_type);
 			$this->ctrl->setParameter($this, "dlid", "");
@@ -404,16 +430,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
 		}
-		
+
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
 		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 
-		if($this->getOutputMode() == "print")
+		if($outputMode == "print")
 		{
 			$url = $this->getPagePermaLink();
 		}
-		else if($this->getOutputMode() != "offline")
+		else if($outputMode != "offline")
 		{			
 			// direct download link
 			$this->ctrl->setParameter($this, "dlid", $a_id);
@@ -424,9 +450,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$file = $verification->object->getFilePath();
 			$url = "files/".basename($file);
-			
-			$this->export_material["files"][] = $file;		
-		}		
+
+			$this->export_material["files"][] = $file;
+		}
 		
 		return $verification->render(true, $url);
 	}

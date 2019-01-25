@@ -226,8 +226,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
 					}
 				}
 			} elseif ('certifcate_persistent_option' === $option) {
-				global $DIC;
-
 				$objectId = $form->getInput("persistent_object");
 
 				$userId = $this->user->getId();
