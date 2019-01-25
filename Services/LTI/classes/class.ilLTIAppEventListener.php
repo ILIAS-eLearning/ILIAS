@@ -36,7 +36,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
 	/**
 	 * @return \ilLTIAppEventListener
 	 */
-	protected function getInstance()
+	protected static function getInstance()
 	{
 		if(!self::$instance instanceof \ilLTIAppEventListener)
 		{
@@ -102,6 +102,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
 			$usr_id = ilObjUser::_lookupId($login);
 			foreach($user_resources as $resource_info)
 			{
+				$this->logger->debug('Found resource: ' . $resource_info);
 				list($resource_id, $resource_ref_id) = explode('__',$resource_info);
 
 				// lookup lp status
@@ -113,7 +114,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
 					ilObject::_lookupObjId($resource_ref_id),
 					$usr_id
 				);
-				$this->tryOutcomeService($resource_ref_id, $resource_id, $status, $percentage);
+				$this->tryOutcomeService($resource_id, $ext_account, $status, $percentage);
 			}
 		}
 	}

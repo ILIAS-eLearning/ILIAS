@@ -1665,16 +1665,17 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 		$db = $DIC->database();
 		$logger = $DIC->logger()->lti();
 
-		$query = 'select lti_user_id, rl.resource_link_pk, rl.consumer_pk, ref_id ' .
+		$query = 'select lti_user_id, rl.resource_link_pk, ec.id, ref_id ' .
 			'from lti2_resource_link rl join lti2_user_result ur on rl.resource_link_pk = ur.resource_link_pk ' .
 			'join lti2_consumer c on rl.consumer_pk = c.consumer_pk ' .
+			'join lti_ext_consumer ec on ext_consumer_id = ec.id '.
 			'where c.enabled = ' . $db->quote(1, 'integer') . ' ' .
-			'and updated > ' . $db->quote($since->get(IL_CAL_DATETIME), 'timestamp');
+			'and rl.updated > ' . $db->quote($since->get(IL_CAL_DATETIME), 'timestamp');
 		$res = $db->query($query);
 
 		$results = [];
 		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-			$results[$row->consumer_pk.'__'.$row->lti_user_id][] = $row->resource_link_pk . '__' . $row->ref_id;
+			$results[$row->id.'__'.$row->lti_user_id][] = $row->resource_link_pk . '__' . $row->ref_id;
 		}
 		return $results;
 	}
