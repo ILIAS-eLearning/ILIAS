@@ -411,19 +411,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 			$userCertificateRepository = new ilUserCertificateRepository();
 
-			$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
-			$caption = $this->lng->txt('certificate') . ': ' . $presentation->getObjectTitle();
-
-			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
 		} elseif ($a_type === 'crta' || $a_type === 'print') {
 			$userCertificateRepository = new ilUserCertificateRepository();
 			$fileService = new ilPortfolioCertificateFileService();
-			$certificatePdfFile = $fileService->fetchCertificate($a_user_id, $a_id);
+			$url = $fileService->fetchCertificate($a_user_id, $a_id);
 
-			$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
-			$caption = $this->lng->txt('certificate') . ': ' . $presentation->getObjectTitle();
-
-			return '<div><a href="' . $certificatePdfFile . '">' . $caption . '</a></div>';
+			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
 		}
 		elseif ($a_type === 'crta') {
 			$this->ctrl->setParameter($this, "dlid", $a_id);
@@ -432,10 +426,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 			$userCertificateRepository = new ilUserCertificateRepository();
 
-			$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
-			$caption = $this->lng->txt('certificate') . ': ' . $presentation->getObjectTitle();
-
-			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
 		}
 
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
@@ -1305,7 +1296,23 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$href = ilLink::_getStaticLink($pid, "prtf", true, "_".$this->getId());
 		return $href;
 	}
-	
+
+	/**
+	 * @param $a_id
+	 * @param $userCertificateRepository
+	 * @param $url
+	 * @return string
+	 */
+	private function createPersistentCertificateUrl($a_id, $userCertificateRepository, $url): string
+	{
+		$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
+		$caption = $this->lng->txt('certificate') . ': ';
+		$caption .= $this->lng->txt($presentation->getUserCertificate()->getObjType()) . ' ';
+		$caption .= '"' . $presentation->getObjectTitle() . '"';
+
+		return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+	}
+
 }
 
 ?>
