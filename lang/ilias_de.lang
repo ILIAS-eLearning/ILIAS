@@ -5643,11 +5643,11 @@ dateplaner#:#cal_back_to_search#:#Zurück zur Suche
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
-dateplaner#:#cal_booking_cancellation_subject#:#Der Termin "%s" wurde abgesagt
+dateplaner#:#cal_booking_cancellation_subject#:#Termin "%s" wurde abgesagt
 dateplaner#:#cal_booking_cancellation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmation_body#:#Ihr Termin mit %s ist gebucht.
 dateplaner#:#cal_booking_confirmation_link#:#Link zum Termin:
-dateplaner#:#cal_booking_confirmation_subject#:#Der Termin "%s" wurde gebucht
+dateplaner#:#cal_booking_confirmation_subject#:#Termin "%s" wurde gebucht
 dateplaner#:#cal_booking_confirmation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmed#:#Der Termin wurde erfolgreich gebucht.
 dateplaner#:#cal_cache#:#Kalender-Cache
@@ -10914,7 +10914,7 @@ dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung
 dateplaner#:#cal_ch_field_ch#:#Sprechstundentermine
 dateplaner#:#cal_ch_export_apps#:#Gebuchte Termine
 dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung "%s"
-dateplaner#:#cal_ch_booking_reminder_body#:#ihr Termin mit "%s" findet in wenigen Tagen statt.
+dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit "%s" findet in wenigen Tagen statt.
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
 dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, werden Erinnerungen über bevorstehende Sprechstundentermine versandt. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
