@@ -384,8 +384,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			return $pub_profile->getEmbeddable();
 		}
-	}		
-	
+	}
+
+	/**
+	 * @param $a_user_id
+	 * @param $a_type
+	 * @param $a_id
+	 * @return string
+	 * @throws ilException
+	 */
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
 		$objDefinition = $this->obj_definition;
@@ -409,14 +416,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
 		} elseif ($a_type === 'crta' || $a_type === 'print') {
-			$url = $this->getPagePermaLink();
-
 			$userCertificateRepository = new ilUserCertificateRepository();
+			$fileService = new ilPortfolioCertificateFileService();
+			$certificatePdfFile = $fileService->fetchCertificate($a_user_id, $a_id);
 
 			$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
 			$caption = $this->lng->txt('certificate') . ': ' . $presentation->getObjectTitle();
 
-			return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+			return '<div><a href="' . $certificatePdfFile . '">' . $caption . '</a></div>';
 		}
 		elseif ($a_type === 'crta') {
 			$this->ctrl->setParameter($this, "dlid", $a_id);
