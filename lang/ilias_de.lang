@@ -10916,7 +10916,7 @@ dateplaner#:#cal_ch_export_apps#:#Gebuchte Termine
 dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung "%s"
 dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit "%s" findet in wenigen Tagen statt.
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
-dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, werden Erinnerungen über bevorstehende Sprechstundentermine versandt. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
+dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen, werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option Terminbuchung(en) absagen auswählen.
 dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen, werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option Terminbuchung(en) löschen auswählen.
