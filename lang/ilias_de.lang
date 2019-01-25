@@ -14130,7 +14130,7 @@ dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender
 dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
 dateplaner#:#cal_subscription#:#Abonnieren
 dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
-dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunden für %1
+dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunde %1
 dateplaner#:#cal_open_calendar#:#Kalender öffnen
 dateplaner#:#cal_delete_cal#:#Kalender löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
@@ -14973,9 +14973,9 @@ sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
-skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
-skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ von $3$ ist selbst zugewiesen.
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ von $3$ wurde selbst zugewiesen in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
 exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
-lso#:#lso_news_online_title#:#Neues Lern-Sequenz-Objekt ist online!
-lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lern Sequenz online gestellt.
+lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
+lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
