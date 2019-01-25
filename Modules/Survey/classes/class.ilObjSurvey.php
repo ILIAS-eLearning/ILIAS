@@ -4080,6 +4080,10 @@ class ilObjSurvey extends ilObject
 		$newObj->setTutorNotificationRecipients($this->getTutorNotificationRecipients());
 		$newObj->setTutorNotificationTarget($this->getTutorNotificationTarget());
 
+		$newObj->setMailNotification($this->getMailNotification());
+		$newObj->setMailAddresses($this->getMailAddresses());
+		$newObj->setMailParticipantData($this->getMailParticipantData());
+
 		$question_pointer = array();
 		// clone the questions
 		$mapping = array();
