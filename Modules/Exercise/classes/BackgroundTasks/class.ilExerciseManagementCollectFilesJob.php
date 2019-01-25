@@ -40,10 +40,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	const FBK_DIRECTORY = "Feedback_files";
 	const LINK_COLOR = "0,0,255";
 	const BG_COLOR = "255,255,255";
-	const PARTICIPANT_NAME_COLUMN = 1;
-	const SUBMISSION_DATE_COLUMN = 2;
-	const FIRST_DEFAULT_SUBMIT_COLUMN = 3;
-	const FIRST_DEFAULT_REVIEW_COLUMN = 4;
+	//Column number incremented in ilExcel
+	const PARTICIPANT_NAME_COLUMN = 0;
+	const SUBMISSION_DATE_COLUMN = 1;
+	const FIRST_DEFAULT_SUBMIT_COLUMN = 2;
+	const FIRST_DEFAULT_REVIEW_COLUMN = 3;
 
 	/**
 	 * Constructor
@@ -163,7 +164,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 */
 	protected function addColumnTitles()
 	{
-		$col = 1;
+		$col = 0;
 		foreach($this->title_columns as $title)
 		{
 			$this->excel->setCell(1, $col, $title);
