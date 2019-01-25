@@ -1306,7 +1306,7 @@ class ilMail
 			}
 		} 
 
-		if(!$this->getSaveInSentbox()) {
+		if (!$this->getSaveInSentbox()) {
 			$this->deleteMails([$internalMessageId]);
 		}
 

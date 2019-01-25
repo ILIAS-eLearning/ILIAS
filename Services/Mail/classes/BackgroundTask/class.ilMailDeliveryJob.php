@@ -1,4 +1,6 @@
 <?php
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
@@ -44,6 +46,11 @@ class ilMailDeliveryJob extends AbstractJob
 			(array)unserialize($input[11]->getValue()), // Type
 			(bool)$input[7]->getValue() // Use Placeholders
 		);
+
+		$DIC->logger()->mail()->info(sprintf(
+			'Mail delivery background task finished',
+			json_encode($arguments, JSON_PRETTY_PRINT)
+		));
 
 		$output = new BooleanValue();
 		$output->setValue(true);
