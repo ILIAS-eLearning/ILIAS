@@ -175,7 +175,7 @@ class ilMailFormGUI
 
 		$mailer->setSaveInSentbox(true);
 
-		if ($errors = $mailer->sendMail(
+		if ($errors = $mailer->validateAndEnqueue(
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),

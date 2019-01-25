@@ -698,19 +698,28 @@ class ilMail
 	}
 
 	/**
-	 * @param string  $a_rcp_to
-	 * @param string  $a_rcp_cc
-	 * @param string  $a_rcp_bcc
-	 * @param string  $a_subject
-	 * @param string  $a_message
-	 * @param array   $a_attachments
-	 * @param integer $sent_mail_id
-	 * @param array   $a_type
-	 * @param array   $a_action
-	 * @param array|int $a_use_placeholders
+	 * @param string $a_rcp_to
+	 * @param string $a_rcp_cc
+	 * @param string $a_rcp_bcc
+	 * @param string $a_subject
+	 * @param string $a_message
+	 * @param array $a_attachments
+	 * @param int $sent_mail_id
+	 * @param array $a_type
+	 * @param bool $a_use_placeholders
 	 * @return bool
 	 */
-	protected function distributeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_subject, $a_message, $a_attachments, $sent_mail_id, $a_type, $a_action, $a_use_placeholders = 0)
+	protected function distributeMail(
+		string $a_rcp_to,
+		string $a_rcp_cc,
+		string $a_rcp_bcc,
+		string $a_subject,
+		string $a_message,
+		array $a_attachments,
+		int $sent_mail_id,
+		array $a_type,
+		bool $a_use_placeholders = false
+	)
 	{
 		require_once 'Services/Mail/classes/class.ilMailbox.php';
 		require_once 'Services/User/classes/class.ilObjUser.php';
@@ -1110,10 +1119,10 @@ class ilMail
 	}
 
 	/**
-	 * Should be used to send notifcations over the internal or external mail channel
+	 * Should be used to enqueue a 'mail'. A validation is executed before, errors are returned
 	 * @param string   $a_rcp_to
 	 * @param string   $a_rcp_cc
-	 * @param string   $a_rcp_bc
+	 * @param string   $a_rcp_bcc
 	 * @param string   $a_m_subject
 	 * @param string   $a_m_message
 	 * @param array    $a_attachment
@@ -1121,7 +1130,7 @@ class ilMail
 	 * @param bool|int $a_use_placeholders
 	 * @return \ilMailError[] 
 	 */
-	public function sendMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0): array
+	public function validateAndEnqueue($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0): array
 	{
 		global $DIC;
 
@@ -1129,7 +1138,7 @@ class ilMail
 			"New mail system task:" .
 			" To: " . $a_rcp_to .
 			" | CC: " . $a_rcp_cc .
-			" | BCC: " . $a_rcp_bc .
+			" | BCC: " . $a_rcp_bcc .
 			" | Subject: " . $a_m_subject
 		);
 
@@ -1141,30 +1150,29 @@ class ilMail
 			return [new \ilMailError('mail_attachment_file_not_exist', [$a_attachment])];
 		}
 
-		$errors = $this->checkMail((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bc, (string)$a_m_subject);
+		$errors = $this->checkMail((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bcc, (string)$a_m_subject);
 		if (count($errors) > 0) {
 			return $errors;
 		}
 
-		$errors = $this->validateRecipients((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bc);
+		$errors = $this->validateRecipients((string)$a_rcp_to, (string)$a_rcp_cc, (string)$a_rcp_bcc);
 		if (count($errors) > 0) {
 			return $errors;
 		}
 
 		$rcp_to = $a_rcp_to;
 		$rcp_cc = $a_rcp_cc;
-		$rcp_bc = $a_rcp_bc;
+		$rcp_bcc = $a_rcp_bcc;
 
 		if (null === $rcp_cc) {
 			$rcp_cc = '';
 		}
 
-		if (null === $rcp_bc) {
-			$rcp_bc = '';
+		if (null === $rcp_bcc) {
+			$rcp_bcc = '';
 		}
 
-		$numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
-
+		$numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc, true);
 		if(
 			$numberOfExternalAddresses > 0 &&
 			!$this->isSystemMail() &&
@@ -1177,51 +1185,132 @@ class ilMail
 			$a_m_message .= self::_getInstallationSignature();
 		}
 
-		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type, $a_m_subject, $a_m_message);
+		$taskFactory = $DIC->backgroundTasks()->taskFactory();
+		$taskManager = $DIC->backgroundTasks()->taskManager();
 
-		if ($a_attachment) {
-			$this->mfile->assignAttachmentsToDirectory($sent_id, $sent_id);
-			$this->mfile->saveFiles($sent_id, $a_attachment);
+		$bucket = new \ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket();
+		$bucket->setUserId($this->user_id);
+
+		$task = $taskFactory->createTask(\ilMailDeliveryJob::class, [
+			(int)$this->user_id,
+			(string)$rcp_to,
+			(string)$rcp_cc,
+			(string)$rcp_bcc,
+			(string)$a_m_subject,
+			(string)$a_m_message,
+			serialize($a_attachment),
+			(bool)$a_use_placeholders,
+			(bool)$this->getSaveInSentbox(),
+			(string)$this->contextId,
+			serialize($this->contextParameters),
+			serialize($a_type),
+		]);
+		$interaction = $taskFactory->createTask(\ilMailDeliveryJobUserInteraction::class, [
+			$task,
+			(int)$this->user_id
+		]);
+
+		$bucket->setTask($interaction);
+		$bucket->setTitle($this->lng->txt('mail_bg_task_title'));
+		$bucket->setDescription(sprintf($this->lng->txt('mail_bg_task_desc'), $a_m_subject));
+
+		ilLoggerFactory::getLogger('mail')->info('Delegated delivery to background task');
+		$taskManager->run($bucket);
+
+		return [];
+	}
+
+	/**
+	 * This method is used to finally send internal messages and external emails
+	 * To use the mail system as a consumer, please use \ilMail::validateAndEnqueue
+	 * @see \ilMail::validateAndEnqueue()
+	 * @param string $rcpTo
+	 * @param string $rcpCc
+	 * @param string $rcpBcc
+	 * @param string $subject
+	 * @param string $message
+	 * @param array $attachments
+	 * @param array $types
+	 * @param bool $usePlaceholders
+	 * @return \ilMailError[]
+	 */
+	public function sendMail(
+		string $rcpTo,
+		string $rcpCc,
+		string $rcpBcc,
+		string $subject,
+		string $message,
+		array $attachments,
+		array $types,
+		bool $usePlaceholders
+	) {
+		$internalMessageId = $this->saveInSentbox(
+			$attachments,
+			$rcpTo,
+			$rcpCc,
+			$rcpBcc,
+			$types,
+			$subject,
+			$message
+		);
+
+		if (count($attachments) > 0) {
+			$this->mfile->assignAttachmentsToDirectory($internalMessageId, $internalMessageId);
+			$this->mfile->saveFiles($internalMessageId, $attachments);
 		}
 
-		if($numberOfExternalAddresses > 0) {
-			$externalMailRecipientsTo  = $this->getEmailRecipients($rcp_to);
-			$externalMailRecipientsCc  = $this->getEmailRecipients($rcp_cc);
-			$externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
+		$numberOfExternalAddresses = $this->getCountRecipients($rcpTo, $rcpCc, $rcpBcc, true);
+
+		if ($numberOfExternalAddresses > 0) {
+			$externalMailRecipientsTo  = $this->getEmailRecipients($rcpTo);
+			$externalMailRecipientsCc  = $this->getEmailRecipients($rcpCc);
+			$externalMailRecipientsBcc = $this->getEmailRecipients($rcpBcc);
 
 			ilLoggerFactory::getLogger('mail')->debug(
-				"Parsed external email addresses from given recipients:" .
+				"Parsed external email addresses from given recipients /" .
 				" To: " . $externalMailRecipientsTo .
 				" | CC: " . $externalMailRecipientsCc .
 				" | BCC: " . $externalMailRecipientsBcc .
-				" | Subject: " . $a_m_subject
+				" | Subject: " . $message
 			);
 
 			$this->sendMimeMail(
 				$externalMailRecipientsTo,
 				$externalMailRecipientsCc,
 				$externalMailRecipientsBcc,
-				$a_m_subject,
-				$this->formatLinebreakMessage($a_use_placeholders ? $this->replacePlaceholders($a_m_message, 0, false) : $a_m_message),
-				$a_attachment
+				$subject,
+				$this->formatLinebreakMessage(
+					$usePlaceholders ? $this->replacePlaceholders($message, 0, false) : $message
+				),
+				$attachments
 			);
 		} else {
 			ilLoggerFactory::getLogger('mail')->debug('No external email addresses given in recipient string');
 		}
 
-		if (in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders)) {
-			return [new \ilMailError('mail_send_error')];
-		}
+		$errors = [];
 
-		if (in_array('normal', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'normal', $a_use_placeholders)) {
-			return [new \ilMailError('mail_send_error')];
-		}
+		foreach (array_intersect($types, ['system', 'normal']) as $type) {
+			if (!$this->distributeMail(
+				$rcpTo,
+				$rcpCc,
+				$rcpBcc,
+				$subject,
+				$message,
+				$attachments,
+				$internalMessageId,
+				[$type],
+				$usePlaceholders
+			)) {
+				$errors['mail_send_error'] = new \ilMailError('mail_send_error');
+			}
+		} 
 
 		if(!$this->getSaveInSentbox()) {
-			$this->deleteMails([$sent_id]);
+			$this->deleteMails([$internalMessageId]);
 		}
 
-		return [];
+		return array_values($errors);
 	}
 
 	/**

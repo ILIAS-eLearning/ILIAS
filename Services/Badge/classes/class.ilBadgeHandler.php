@@ -651,7 +651,7 @@ class ilBadgeHandler
 
 				// force email
 				$mail = new ilMail(ANONYMOUS_USER_ID);
-				$mail->sendMail(ilObjUser::_lookupEmail($user_id), 
+				$mail->validateAndEnqueue(ilObjUser::_lookupEmail($user_id), 
 					null, 
 					null,
 					$lng->txt("badge_notification_subject"), 

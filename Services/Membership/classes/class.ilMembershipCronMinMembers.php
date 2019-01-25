@@ -178,7 +178,7 @@ class ilMembershipCronMinMembers extends ilCronJob
 		$ntf->addAdditionalInfo("mem_cron_min_members_intro", $list, true);		
 		
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->sendMail(ilObjUser::_lookupLogin($a_reci_id), 
+		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_reci_id), 
 			null, 
 			null,
 			$lng->txt("mem_cron_min_members_subject"), 
