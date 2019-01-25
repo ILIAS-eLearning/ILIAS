@@ -14,15 +14,31 @@ class ilPortfolioCertificateFileService
 	private $filesystem;
 
 	/**
-	 * @param Filesystem|null $filesystem
+	 * @var ilLogger|Logger|null
 	 */
-	public function __construct(Filesystem $filesystem = null)
+	private $logger;
+
+	/**
+	 * @param Filesystem|null $filesystem
+	 * @param Logger|null $logger
+	 */
+	const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
+
+	const CERTIFICATE_FILENAME = 'certificate.pdf';
+
+	public function __construct(Filesystem $filesystem = null, Logger $logger = null)
 	{
+		global $DIC;
+
 		if (null === $filesystem) {
-			global $DIC;
 			$filesystem = $DIC->filesystem()->storage();
 		}
 		$this->filesystem = $filesystem;
+
+		if (null === $logger) {
+			$logger = $DIC->logger()->root();
+		}
+		$this->logger = $logger;
 	}
 
 	/**
@@ -38,16 +54,16 @@ class ilPortfolioCertificateFileService
 
 		$userCertificate = $userCertificateRepository->fetchActiveCertificate($userId, $objectId);
 
-		$dirPath = 'PersistentCertificates/' . $userId . '/' . $objectId;
+		$dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId;
 		if (false === $this->filesystem->hasDir($dirPath)) {
 			$this->filesystem->createDir($dirPath);
 		}
 
-		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->log);
+		$pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->logger);
 
 		$pdfScalar = $pdfGenerator->generate($userCertificate->getId());
 
-		$this->filesystem->write($dirPath . '/certificate.pdf', $pdfScalar);
+		$this->filesystem->write($dirPath . '/' . $objectId . '_' . self::CERTIFICATE_FILENAME, $pdfScalar);
 	}
 
 	/**
@@ -56,10 +72,10 @@ class ilPortfolioCertificateFileService
 	 * @throws ilException
 	 * @throws ilFileUtilsException
 	 */
-	public function deliverCertificate($userId, $objectId)
+	public function deliverCertificate(int $userId, int $objectId)
 	{
-		$dirPath = 'PersistentCertificates/' . $userId . '/' . $objectId;
-		$fileName = 'certificate.pdf';
+		$dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId;
+		$fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;
 
 		$completePath = $dirPath . '/' . $fileName;
 		if($this->filesystem->has($completePath)) {
@@ -75,5 +91,28 @@ class ilPortfolioCertificateFileService
 
 			$delivery->deliver();
 		}
+	}
+
+	/**
+	 * @param int $userId
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 */
+	public function deleteUserDirectory(int $userId)
+	{
+		$dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
+
+		$this->filesystem->deleteDir($dirPath);
+	}
+
+	public function fetchCertificate($userId, $objectId)
+	{
+		$dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId . '/';
+		$fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;
+		$completePath = $dirPath . $fileName;
+		if ($this->filesystem->has($completePath)) {
+			return CLIENT_DATA_DIR . '/' . $completePath;
+		}
+
+		throw new ilException(sprrintf('Certificate File does not exist in "%"', $completePath));
 	}
 }
