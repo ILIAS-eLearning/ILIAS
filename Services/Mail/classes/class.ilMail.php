@@ -1185,6 +1185,19 @@ class ilMail
 			$a_m_message .= self::_getInstallationSignature();
 		}
 
+		if (\ilContext::getType() == \ilContext::CONTEXT_CRON) {
+			return $this->sendMail(
+				(string)$rcp_to,
+				(string)$rcp_cc,
+				(string)$rcp_bcc,
+				(string)$a_m_subject,
+				(string)$a_m_message,
+				(array)$a_attachment,
+				(array)$a_type,
+				(bool)$a_use_placeholders
+			);
+		}
+
 		$taskFactory = $DIC->backgroundTasks()->taskFactory();
 		$taskManager = $DIC->backgroundTasks()->taskManager();
 
