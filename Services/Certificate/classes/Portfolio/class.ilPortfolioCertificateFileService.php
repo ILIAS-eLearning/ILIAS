@@ -113,6 +113,6 @@ class ilPortfolioCertificateFileService
 			return CLIENT_DATA_DIR . '/' . $completePath;
 		}
 
-		throw new ilException(sprrintf('Certificate File does not exist in "%"', $completePath));
+		throw new ilException(sprintf('Certificate File does not exist in "%"', $completePath));
 	}
 }
