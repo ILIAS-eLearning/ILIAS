@@ -2458,8 +2458,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			null,
 			sprintf($this->lng->txt($subject), $this->object->getTitle()),
 			$body,
-			null,
-			true
+			null
 		);
 	}
 		

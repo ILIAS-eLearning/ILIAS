@@ -463,8 +463,7 @@ class ilAuthContainerECS extends Auth_Container
 		$lang->loadLanguageModule('ecs');
 
 		include_once('./Services/Mail/classes/class.ilMail.php');
-		$mail = new ilMail(6);
-		$mail->enableSoap(false);
+		$mail = new ilMail(ANONYMOUS_USER_ID);
 		$subject = $lang->txt('ecs_new_user_subject');
 
 				// build body

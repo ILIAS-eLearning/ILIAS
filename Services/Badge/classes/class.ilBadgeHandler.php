@@ -651,7 +651,6 @@ class ilBadgeHandler
 
 				// force email
 				$mail = new ilMail(ANONYMOUS_USER_ID);
-				$mail->enableSOAP(false); 
 				$mail->sendMail(ilObjUser::_lookupEmail($user_id), 
 					null, 
 					null,
