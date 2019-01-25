@@ -557,7 +557,7 @@ class ilExerciseManagementGUI
 
 		foreach(ilExSubmission::getAssignmentFilesByUsers($this->exercise->getId(), $this->assignment->getId(), $members) as $file)
 		{
-			if(trim($file["atext"]))
+			if(trim($file["atext"]) && ilObjUser::_exists($file["user_id"]))
 			{
 				$user = new ilObjUser($file["user_id"]);
 				$uname = $user->getFirstname()." ".$user->getLastname();
