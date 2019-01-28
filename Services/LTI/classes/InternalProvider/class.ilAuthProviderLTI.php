@@ -46,11 +46,15 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$lti_provider = new ilLTIToolProvider($this->dataConnector);
 		// $lti_provider = new ToolProvider\ToolProvider($this->dataConnector);
 		$ok = $lti_provider->handleRequest();
-		if ($ok && $lti_provider->reason != ""){
-			$this->getLogger()->info('LTI reports: '. $lti_provider->reason);
+
+		if(!$ok) {
+			$this->getLogger()->warning('LTI authentication failed with message: ' . $lti_provider->reason);
 			$status->setReason($lti_provider->reason);
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			return false;
+		}
+		else {
+			$this->getLogger()->debug('LTI authentication success');
 		}
 		// if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
 
@@ -64,6 +68,25 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$consumer->getRecordId(),
 			$this->dataConnector
 		);
+
+
+		$res_link = $lti_provider->resourceLink->getRecordId();
+		$user = $lti_provider->user;
+
+		// try an outcome service
+		$outcome = new ToolProvider\Outcome('0.5');
+		$res = $lti_provider->resourceLink->doOutcomesService(
+			ToolProvider\ResourceLink::EXT_WRITE,
+			$outcome,
+			$lti_provider->user
+		);
+
+		$user = new ToolProvider\User();
+
+		$this->getLogger()->dump($res);
+
+
+
 		
 		$_SESSION['lti_context_id'] = $consumer->getRefId();
 		$_GET['target'] = ilObject::_lookupType($consumer->getRefId(),true).'_'.$consumer->getRefId();
@@ -80,7 +103,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		// global activation status
 		if(!$consumer->getActive())
 		{
-			$this->getLogger()->warning('Consumer is not enabled');
+			$this->getLogger()->warning('Consumer is not active');
 			$status->setReason('lti_consumer_inactive');
 			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			return false;
