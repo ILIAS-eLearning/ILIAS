@@ -960,7 +960,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = (int)$_GET["pass"];
 
-		if ( false && isset($_GET['statistics']) && $_GET['statistics'] == 1) // detailed evaluation deprecated
+		if ( isset($_GET['statistics']) && $_GET['statistics'] == 1)
 		{
 			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
 			$this->ctrl->saveParameter($this, 'statistics');
