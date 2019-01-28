@@ -4761,6 +4761,7 @@ return array(
     'ilLSStateDB' => $baseDir . '/../../Modules/LearningSequence/classes/Player/class.ilLSStateDB.php',
     'ilLSTOCGUI' => $baseDir . '/../../Modules/LearningSequence/classes/Player/class.ilLSTOCGUI.php',
     'ilLSViewFactory' => $baseDir . '/../../Modules/LearningSequence/classes/Player/class.ilLSViewFactory.php',
+    'ilLTIAppEventListener' => $baseDir . '/../../Services/LTI/classes/class.ilLTIAppEventListener.php',
     'ilLTICronOutcomeService' => $baseDir . '/../../Services/LTI/classes/class.ilLTICronOutcomeService.php',
     'ilLTIDataConnector' => $baseDir . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
     'ilLTIProviderObjectSetting' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSetting.php',
