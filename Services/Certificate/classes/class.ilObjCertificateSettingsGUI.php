@@ -237,9 +237,18 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	public function save()
 	{
 		$form_settings = new ilSetting("certificate");
+
+		$mode = $_POST["persistent_certificate_mode"];
+		$previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_instant');
+		if ($mode !== $previousMode && $mode === 'persistent_certificate_mode_instant') {
+			$cron = new ilCertificateCron();
+			$cron->init();
+			$cron->run();
+		}
+
 		$form_settings->set("pageformat", $_POST["pageformat"]);
 		$form_settings->set("active", $_POST["active"]);
-		$form_settings->set("persistent_certificate_mode", $_POST["persistent_certificate_mode"]);
+		$form_settings->set("persistent_certificate_mode", $mode);
 
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"));
 		$this->settings();
