@@ -5052,6 +5052,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilLSStateDB' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Player/class.ilLSStateDB.php',
         'ilLSTOCGUI' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Player/class.ilLSTOCGUI.php',
         'ilLSViewFactory' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Player/class.ilLSViewFactory.php',
+        'ilLTIAppEventListener' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIAppEventListener.php',
         'ilLTICronOutcomeService' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTICronOutcomeService.php',
         'ilLTIDataConnector' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
         'ilLTIProviderObjectSetting' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSetting.php',
