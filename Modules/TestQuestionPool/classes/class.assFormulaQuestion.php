@@ -1417,8 +1417,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				{
 					//get unit-factor
 					$unit_factor = assFormulaQuestionUnit::lookupUnitFactor($user_solution[$result_name]['unit']);
-					$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 				}
+
+				$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 			}
 			if($result->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
 				|| $result->getResultType() == assFormulaQuestionResult::RESULT_FRAC)
