@@ -217,14 +217,15 @@ class ilCertificateAppEventListener implements ilAppEventListener
 							time()
 						);
 
-						$this->certificateQueueRepository->addToQueue($entry);
 
 						$mode = $settings->get('persistent_certificate_mode', '');
 						if ($mode === 'persistent_certificate_mode_instant') {
 							$cronjob = new ilCertificateCron();
 							$cronjob->init();
-							$cronjob->run();
+							return $cronjob->processEntry(0, $entry, array());
 						}
+
+						$this->certificateQueueRepository->addToQueue($entry);
 					}
 				} catch (ilException $exception) {
 					$this->logger->warning($exception->getMessage());
@@ -252,17 +253,18 @@ class ilCertificateAppEventListener implements ilAppEventListener
 									$userId,
 									$className,
 									\ilCronConstants::IN_PROGRESS,
+									$courseTemplate->getId(),
 									time()
 								);
-
-								$this->certificateQueueRepository->addToQueue($entry);
 
 								$mode = $settings->get('persistent_certificate_mode', '');
 								if ($mode === 'persistent_certificate_mode_instant') {
 									$cronjob = new ilCertificateCron();
 									$cronjob->init();
-									$cronjob->run();
+									return $cronjob->processEntry(0, $entry, array());
 								}
+
+								$this->certificateQueueRepository->addToQueue($entry);
 							}
 						} catch (ilException $exception) {
 							$this->logger->warning($exception->getMessage());
