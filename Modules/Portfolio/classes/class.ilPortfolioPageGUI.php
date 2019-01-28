@@ -412,7 +412,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$userCertificateRepository = new ilUserCertificateRepository();
 
 			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
-		} elseif ($a_type === 'crta' || $a_type === 'print') {
+		} elseif ($a_type === 'crta' && $a_type === 'print') {
 			$userCertificateRepository = new ilUserCertificateRepository();
 			$fileService = new ilPortfolioCertificateFileService();
 			$url = $fileService->fetchCertificate($a_user_id, $a_id);
