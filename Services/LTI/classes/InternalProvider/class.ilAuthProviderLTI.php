@@ -69,25 +69,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$this->dataConnector
 		);
 
-
-		$res_link = $lti_provider->resourceLink->getRecordId();
-		$user = $lti_provider->user;
-
-		// try an outcome service
-		$outcome = new ToolProvider\Outcome('0.5');
-		$res = $lti_provider->resourceLink->doOutcomesService(
-			ToolProvider\ResourceLink::EXT_WRITE,
-			$outcome,
-			$lti_provider->user
-		);
-
-		$user = new ToolProvider\User();
-
-		$this->getLogger()->dump($res);
-
-
-
-		
 		$_SESSION['lti_context_id'] = $consumer->getRefId();
 		$_GET['target'] = ilObject::_lookupType($consumer->getRefId(),true).'_'.$consumer->getRefId();
 		
