@@ -503,7 +503,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		$objectId = $_GET["dlid"];
 		if($objectId) {
-			$object = new ilCertificateVerificationAdapterObject($objectId, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$object = new ilObjPersistentCertificateVerificationGUI($objectId, ilObject2GUI::WORKSPACE_OBJECT_ID);
 			$object->downloadFromPortfolioPage($this->getPageObject());
 		}
 	}

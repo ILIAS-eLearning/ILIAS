@@ -15013,3 +15013,6 @@ content#:#cont_choose_file_source#:#Quelle
 content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
 sess#:#sess_assign#:#Zuordnen
+common#:#certificate_selection#:#Ursprung der Zertifikate
+common#:#certificate_persistent_option#:#Persistente Zertifikate
+common#:#certificate_workspace_option#:#Arbeitsraum Zertifikate

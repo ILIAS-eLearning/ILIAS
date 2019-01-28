@@ -142,8 +142,8 @@ class ilPCVerificationGUI extends ilPageContentGUI
 
 		$certificateSource = new ilRadioGroupInputGUI($this->lng->txt('certificate_selection'), 'certificate_selection');
 
-		$workspaceRadioButton = new ilRadioOption($this->lng->txt('certifcate_workspace_option'), 'certifcate_workspace_option');
-		$persistentRadioButton = new ilRadioOption($this->lng->txt('certifcate_persistent_option'), 'certifcate_persistent_option');
+		$workspaceRadioButton = new ilRadioOption($this->lng->txt('certificate_workspace_option'), 'certificate_workspace_option');
+		$persistentRadioButton = new ilRadioOption($this->lng->txt('certificate_persistent_option'), 'certificate_persistent_option');
 
 		$tree = new ilWorkspaceTree($ilUser->getId());
 		$root = $tree->getRootId();
@@ -171,7 +171,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		$persistentOptions = array();
 		foreach ($certificates as $certificate) {
 			$userCertificate = $certificate->getUserCertificate();
-			$type = ' (' . $lng->txt("wsp_type_" . $userCertificate->getObjType()) . ')';
+			$type = ' (' . $lng->txt("wsp_type_" . $userCertificate->getObjType() . 'v') . ')';
 			$persistentOptions[$userCertificate->getObjId()] = $certificate->getObjectTitle() . $type;
 		}
 
@@ -211,7 +211,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		if($form->checkInput()) {
 			$option = $form->getInput('certificate_selection');
 
-			if ('certifcate_workspace_option' === $option) {
+			if ('certificate_workspace_option' === $option) {
 				$type = ilObject::_lookupType($form->getInput("object"));
 				if($type) {
 					$this->content_obj = new ilPCVerification($this->getPage());
@@ -225,7 +225,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 						$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 					}
 				}
-			} elseif ('certifcate_persistent_option' === $option) {
+			} elseif ('certificate_persistent_option' === $option) {
 				$objectId = $form->getInput("persistent_object");
 
 				$userId = $this->user->getId();
