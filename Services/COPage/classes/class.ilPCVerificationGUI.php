@@ -171,8 +171,11 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		$persistentOptions = array();
 		foreach ($certificates as $certificate) {
 			$userCertificate = $certificate->getUserCertificate();
-			$type = ' (' . $lng->txt("wsp_type_" . $userCertificate->getObjType() . 'v') . ')';
-			$persistentOptions[$userCertificate->getObjId()] = $certificate->getObjectTitle() . $type;
+			$dateTime = ilDatePresentation::formatDate(new ilDateTime($userCertificate->getAcquiredTimestamp(),IL_CAL_UNIX));
+
+			$type = $lng->txt("wsp_type_" . $userCertificate->getObjType() . 'v');
+			$additionalInformation = ' (' . $type . ' / ' . $dateTime .')';
+			$persistentOptions[$userCertificate->getObjId()] = $certificate->getObjectTitle() . $additionalInformation;
 		}
 
 		$persistentObject = new ilSelectInputGUI($this->lng->txt("cont_verification_object"), "persistent_object");
