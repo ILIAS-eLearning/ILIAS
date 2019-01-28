@@ -17,7 +17,7 @@ interface ilGeoLocationRepository {
     public function createGeoLocation(array $obj);
 
     /**
-     * Get a singel geo location, identified by its id
+     * Get a single geo location, identified by its id
      */
     public function getGeoLocationById(int $a_id);
 
