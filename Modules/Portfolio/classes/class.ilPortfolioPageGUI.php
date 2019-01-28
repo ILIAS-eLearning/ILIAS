@@ -404,7 +404,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		if ($a_type === 'crta' && $outputMode === 'offline') {
 			$fileService = new ilPortfolioCertificateFileService();
 
-			$certificatePdfFile = $fileService->fetchCertificate($a_user_id, $a_id);
+			$certificatePdfFile = $fileService->createCertificateFilePath($a_user_id, $a_id);
 			$this->export_material["files"][] = $certificatePdfFile;
 
 			$url = 'files/' . basename($certificatePdfFile);
@@ -415,7 +415,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		} elseif ($a_type === 'crta' && $a_type === 'print') {
 			$userCertificateRepository = new ilUserCertificateRepository();
 			$fileService = new ilPortfolioCertificateFileService();
-			$url = $fileService->fetchCertificate($a_user_id, $a_id);
+			$url = $fileService->createCertificateFilePath($a_user_id, $a_id);
 
 			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
 		}

@@ -104,7 +104,13 @@ class ilPortfolioCertificateFileService
 		$this->filesystem->deleteDir($dirPath);
 	}
 
-	public function fetchCertificate($userId, $objectId)
+	/**
+	 * @param int $userId
+	 * @param int $objectId
+	 * @return string
+	 * @throws ilException
+	 */
+	public function createCertificateFilePath(int $userId, int $objectId)
 	{
 		$dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId . '/';
 		$fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;
