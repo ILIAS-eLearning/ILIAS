@@ -9921,7 +9921,7 @@ content#:#cont_show_adv#:#Vertiefungswissen anzeigen
 content#:#cont_hide_adv#:#Vertiefungswissen verbergen
 registration#:#reg_email_domains#:#Die folgenden E-Mail-Adressdomains sind gültig: %s
 registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
-registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Registrierungscodes heben diese Prüfung auf.
+registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Zum Beispiel "*@ilias.de".  Registrierungscodes heben diese Prüfung auf.
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
 pd#:#block_show_pdsysmess#:#Systemnachrichten anzeigen
