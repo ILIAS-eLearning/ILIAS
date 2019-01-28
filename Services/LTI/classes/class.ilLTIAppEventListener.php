@@ -79,16 +79,14 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
 
 	/**
-	 * Start cron update
+	 * @param ilDateTime $since
+	 * @throws ilDateTimeException
 	 */
-	protected function doCronUpdate()
+	protected function doCronUpdate(ilDateTime $since)
 	{
 		$this->logger->debug('Starting cron update for lti outcome service');
 
-		$dt = new ilDateTime(time(), IL_CAL_UNIX);
-		$dt->increment(IL_CAL_DAY, -1);
-
-		$resources = $this->connector->lookupResourcesForAllUsersSinceDate($dt);
+		$resources = $this->connector->lookupResourcesForAllUsersSinceDate($since);
 		foreach($resources as $consumer_ext_account => $user_resources)
 		{
 			list($consumer,$ext_account) = explode('__', $consumer_ext_account,2);
@@ -197,12 +195,14 @@ class ilLTIAppEventListener implements \ilAppEventListener
 	}
 
 	/**
-	 * Start cron update
+	 * @param ilDateTime $since
+	 * @return bool
+	 * @throws ilDateTimeException
 	 */
-	public static function handleCronUpdate()
+	public static function handleCronUpdate(ilDateTime $since)
 	{
 		$listener = self::getInstance();
-		$listener->doCronUpdate();
+		$listener->doCronUpdate($since);
 		return true;
 	}
 
