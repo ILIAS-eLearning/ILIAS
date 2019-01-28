@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilObjPersistentCertificateVerificationGUI extends ilObject2GUI
+class ilObjPersistentCertificateVerificationGUI
 {
 	/**
 	 * @var
@@ -16,12 +16,15 @@ class ilObjPersistentCertificateVerificationGUI extends ilObject2GUI
 	 */
 	private $fileService;
 
+	/**
+	 * @var ilLanguage
+	 */
+	private $language;
+
 	public function __construct(
-		int $a_id = 0,
-		int $a_id_type = self::REPOSITORY_NODE_ID,
-		int $a_parent_node_id = 0,
 		\ILIAS\DI\Container $dic = null,
-		ilPortfolioCertificateFileService $fileService = null
+		ilPortfolioCertificateFileService $fileService = null,
+		ilLanguage $language = null
 	) {
 		if (null === $dic) {
 			global $DIC;
@@ -34,26 +37,25 @@ class ilObjPersistentCertificateVerificationGUI extends ilObject2GUI
 		}
 		$this->fileService = $fileService;
 
-		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-	}
-
-	public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
-	{
-		$objectId = $this->object->getId();
-
-		if(ilPCVerification::isInPortfolioPage($a_page, 'crta', (int) $objectId)) {
-			$userId = $this->user->getId();
-			$this->fileService->deliverCertificate((int) $userId, (int) $objectId);
+		if (null === $language) {
+			$language = $dic->language();
 		}
-
-		throw new ilException($this->lng->txt('permission_denied'));
+		$this->language = $language;
 	}
 
 	/**
-	 * Functions that must be overwritten
+	 * @param ilPortfolioPage $a_page
+	 * @param int $objectId
+	 * @param int $userId
+	 * @throws ilException
+	 * @throws ilFileUtilsException
 	 */
-	function getType()
+	public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId)
 	{
-		return 'crta';
+		if(ilPCVerification::isInPortfolioPage($a_page, 'crta', (int) $objectId)) {
+			$this->fileService->deliverCertificate((int) $userId, (int) $objectId);
+		}
+
+		throw new ilException($this->language->txt('permission_denied'));
 	}
 }
