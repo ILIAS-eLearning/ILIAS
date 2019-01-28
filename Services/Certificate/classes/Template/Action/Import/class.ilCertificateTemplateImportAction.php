@@ -225,8 +225,9 @@ class ilCertificateTemplateImportAction
 
 					$thumbnailImagePath = $rootDir . $backgroundImageThumbPath;
 
+					$originalImagePath = $rootDir . $newPath;
 					$this->utilHelper->convertImage(
-						$rootDir . $newPath,
+						$originalImagePath,
 						$thumbnailImagePath,
 						'JPEG',
 						100
