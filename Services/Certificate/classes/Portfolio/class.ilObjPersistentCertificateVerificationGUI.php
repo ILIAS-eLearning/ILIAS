@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateVerificationAdapterObject extends ilObject2GUI
+class ilObjPersistentCertificateVerificationGUI extends ilObject2GUI
 {
 	/**
 	 * @var
