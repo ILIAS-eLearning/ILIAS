@@ -6838,6 +6838,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSkillLevelTableGUI' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillLevelTableGUI.php',
         'ilSkillManagementSettings' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillManagementSettings.php',
         'ilSkillNotifications' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillNotifications.php',
+        'ilSkillObjDeletionHandler' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillObjDeletionHandler.php',
         'ilSkillProfile' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillProfile.php',
         'ilSkillProfileGUI' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillProfileGUI.php',
         'ilSkillProfileLevelsTableGUI' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php',
