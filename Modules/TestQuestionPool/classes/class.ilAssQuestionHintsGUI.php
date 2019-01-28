@@ -64,7 +64,12 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $ilCtrl, $ilTabs, $lng, $tpl;
+
+		require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+		$tpl->parseCurrentBlock();
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);
 		$nextClass = $ilCtrl->getNextClass($this);

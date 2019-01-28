@@ -5830,6 +5830,7 @@ return array(
     'ilSkillLevelTableGUI' => $baseDir . '/../../Services/Skill/classes/class.ilSkillLevelTableGUI.php',
     'ilSkillManagementSettings' => $baseDir . '/../../Services/Skill/classes/class.ilSkillManagementSettings.php',
     'ilSkillNotifications' => $baseDir . '/../../Services/Skill/classes/class.ilSkillNotifications.php',
+    'ilSkillObjDeletionHandler' => $baseDir . '/../../Services/Skill/classes/class.ilSkillObjDeletionHandler.php',
     'ilSkillProfile' => $baseDir . '/../../Services/Skill/classes/class.ilSkillProfile.php',
     'ilSkillProfileGUI' => $baseDir . '/../../Services/Skill/classes/class.ilSkillProfileGUI.php',
     'ilSkillProfileLevelsTableGUI' => $baseDir . '/../../Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php',

@@ -675,7 +675,10 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 				$points += $solution['points'];
 			}
 		}
-		return $points;
+
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	// hey: prevPassSolutions - bypass intermediate solution requests and deligate

@@ -662,20 +662,23 @@ class ilBadgeHandler
 				
 				
 				// osd
-				
-				$osd_params = array("badge_list" => "<br />".implode("<br />", $user_badges));
-				
-				require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
-				$notification = new ilNotificationConfig("osd_main");
-				$notification->setTitleVar("badge_notification_subject", array(), "badge");
-				$notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");
-				$notification->setLongDescriptionVar("", $osd_params, "");
-				$notification->setAutoDisable(false);
-				$notification->setLink($url);
-				$notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
-				$notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
-				$notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
-				$notification->notifyByUsers(array($user_id));
+				// bug #24562
+				if (ilContext::hasHTML())
+				{
+					$osd_params = array("badge_list" => "<br />" . implode("<br />", $user_badges));
+
+					require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
+					$notification = new ilNotificationConfig("osd_main");
+					$notification->setTitleVar("badge_notification_subject", array(), "badge");
+					$notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");
+					$notification->setLongDescriptionVar("", $osd_params, "");
+					$notification->setAutoDisable(false);
+					$notification->setLink($url);
+					$notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
+					$notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
+					$notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
+					$notification->notifyByUsers(array($user_id));
+				}
 			}			
 		}
 	}

@@ -527,7 +527,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			{
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_FILES["scormfile"]["name"].".".$module_version;
-				
+				$file_path = str_replace(".zip.".$module_version, ".".$module_version.".zip",$file_path);
 				//move to data directory and add subfix for versioning
 				ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],$_FILES["scormfile"]["name"], $file_path);
 			}
@@ -535,6 +535,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			{
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
+				$file_path = str_replace(".zip.".$module_version, ".".$module_version.".zip",$file_path);
 				// move the already copied file to the lm_data directory
 				ilFileUtils::rename($source, $file_path);
 			}

@@ -12,6 +12,7 @@
 	<logging />
 	<events>
 		<event type="listen" id="Services/Tracking" />
+		<event type="listen" id="Services/Object" />
 	</events>
 	<crons>
 		<cron id="skll_notification" class="ilSkillNotifications" />

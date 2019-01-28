@@ -123,6 +123,8 @@ class assFormulaQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("flow");
 		$a_xml_writer->xmlEndTag("presentation");
 		
+		$this->addGenericFeedback($a_xml_writer);
+		
 		$a_xml_writer->xmlEndTag("item");
 		$a_xml_writer->xmlEndTag("questestinterop");
 

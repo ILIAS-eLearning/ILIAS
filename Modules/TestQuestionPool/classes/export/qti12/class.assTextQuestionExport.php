@@ -231,6 +231,8 @@ class assTextQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("respcondition");
 		$a_xml_writer->xmlEndTag("resprocessing");
 
+		$this->addAnswerSpecificFeedback($a_xml_writer, $this->object->feedbackOBJ->getAnswerOptionsByAnswerIndex());
+		
 		if (strlen($feedback_allcorrect))
 		{
 			$attrs = array(

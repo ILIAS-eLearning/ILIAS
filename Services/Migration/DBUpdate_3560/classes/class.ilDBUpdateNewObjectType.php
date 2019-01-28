@@ -619,7 +619,7 @@ class ilDBUpdateNewObjectType
 		}
 	}
 
-	public static function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id)
+	public static function setRolePermission($a_rol_id, $a_type, $a_ops, $a_ref_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
@@ -649,7 +649,7 @@ class ilDBUpdateNewObjectType
 	 * @param bool $usedForAuthoring A boolean flag to tell whether or not the object type is mainly used for authoring
 	 * @see https://www.ilias.de/docu/goto_docu_wiki_wpage_2273_1357.html
 	 */
-	public static function applyInitialPermissionGuideline(string $objectType, bool $hasLearningProgress = false, bool $usedForAuthoring = false) {
+	public static function applyInitialPermissionGuideline($objectType, $hasLearningProgress = false, $usedForAuthoring = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$objectTypeId = self::getObjectTypeId($objectType);

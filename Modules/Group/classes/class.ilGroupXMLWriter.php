@@ -86,6 +86,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 			$this->__buildGroup();
 			$this->__buildTitleDescription();
 			$this->__buildRegistration();
+			$this->__buildExtraSettings();
 			if ($this->attach_users) 
 			{
 				$this->__buildAdmin();
@@ -101,6 +102,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 			$this->__buildGroup();
 			$this->__buildTitleDescription();
 			$this->__buildRegistration();
+			$this->__buildExtraSettings();
 			$this->__buildPeriod();
 			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 			ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->group_obj->getId());
@@ -235,7 +237,15 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 		$this->xmlEndTag('registration');
 	}
-		
+
+	/**
+	 * Build extra settings, like "show member list"
+	 */
+	function __buildExtraSettings()
+	{
+		$this->xmlElement('showMembers',null,$this->group_obj->getShowMembers());
+	}
+
 	function __buildAdmin()
 	{
 		$admins = $this->group_obj->getGroupAdminIds();
