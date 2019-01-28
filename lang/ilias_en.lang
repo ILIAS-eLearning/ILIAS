@@ -10041,7 +10041,7 @@ content#:#cont_show_adv#:#Show Advanced Knowledge
 content#:#cont_hide_adv#:#Hide Advanced Knowledge
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
-registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. Registration codes override these rules.
+registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. E.g. "*@ilias.de". Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
 pd#:#block_show_pdsysmess#:#Show System Messages
