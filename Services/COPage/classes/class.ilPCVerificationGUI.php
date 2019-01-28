@@ -185,6 +185,8 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		$certificateSource->addOption($persistentRadioButton);
 		$certificateSource->addOption($workspaceRadioButton);
 
+		$certificateSource->setValue('certificate_persistent_option');
+
 		$form->addItem($certificateSource);
 
 		if ($a_insert) {
