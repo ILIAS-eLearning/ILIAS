@@ -176,46 +176,55 @@ the repository controls.
 
 ## Examples
 
-The following code-snippets are examples to get a bet unterstanding of the
+The following code-snippets are examples to get a better understanding of the
 repository pattern. Furthermore, these examples can be used as templates for
-the developement of new features and refactoring of already existing ones.
+the development of new features and refactoring of already existing ones.
+
+In the start of this chapter, we discuss and describe at first how and why the
+examples are implemented as they are. If you are just really interested in an 
+example implementation of the pattern with the usage of SQL, skip to the chapter 
+*Simple example* or just look at the code examples folder.
 
 Note that this examples are not perfect for every situation. Like always in
-software developemt, the developer has to decide which is the best way of usage
-for his or hers appliaction.
+software development, the developer has to decide which is the best way of usage
+for his or hers applications.
+
+For the moment, we found 3 types of examples to use the repository pattern for. We
+even found some more possible usages, which after further analysis turned out to be
+anti pattern. They are documented under the chapter of non-examples
 
 For simplicity reasons, the class of the objects to persist is in all following
 example the same (except for some additions that are mentioned later). The class
-is called `ilObjGeoLocation` and is immutble:
+is called `ilObjGeoLocation` and is immutable:
 
 ```php
     class ilObjGeoLocation {
         protected $id;
         protected $title;
-        protected $lattitude;
+        protected $latitude;
         protected $longitude;
         protected $expiration_timestamp;
 
-        public __construct(int $a_id, string $a_title, string $a_lattitude, 
+        public __construct(int $a_id, string $a_title, string $a_latitude, 
                            string $a_longitude, int $a_expiration_timestamp)
         {
             $this->id = $a_id;
             $this->title = $a_title;
-            $this->lattitude = $lattitude;
+            $this->latitude = $latitude;
             $this->longitude = $longitude;
             $this->expiration_timestamp = $a_expiration_timestamp;
         }
 
         public function getId() : int { return $this->id; }
         public function getTitle() : string { return $this->title; }
-        public function getLattitude() : string { return $this->lattitude; }
+        public function getLatitude() : string { return $this->latitude; }
         public function getLongitude() : string { return $this->longitude; }
         public function getExpirationTimestamp() : int { return $this->getExpirationTimestamp; }
     }
 ```
 
-In this example, we define an interface called `ilGeoLocationRepository`, which is
-the basis for all the other example Repository-Classes. The implementing classes
+For these examples, we define an interface called `ilGeoLocationRepository`, which is
+the base for all the other example Repository-Classes. The implementing classes
 of this interface do interact with the database or whatever medium is used. In most
 cases, those interactions are a set of different **CRUD**-Operations (**C**eate,
 **R**ead, **U**pdate and **D**elete). E.g. the *read*-Operation contains simple
@@ -227,7 +236,7 @@ Always keep in mind, that those CRUD-Operations are not only limited to an
 SQL-Statement for a database, but also for a filesystem. But for most of this
 examples, we use a database. The database is injected in the constructor. The
 benefit of injecting the database to the repository class is to make mocking for
-unit testing easier.
+unit tests easier.
 
 The following few lines of code are a template for different `ilGeoLocation*Repository`-
 class we use in the example. The function blocks are on purpose blank, since the
@@ -240,7 +249,7 @@ implementation differs from example to example.
 
         // Read operations
         public function getGeoLocationById(int $a_id);
-        public function getGeoLocationsByCoordinates(string $a_lattitude, string $a_longitude);
+        public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
         public function checkIfLocationExistsById(int $a_id) : bool;
 
         // Update operations
@@ -266,7 +275,7 @@ that is used to persist them `ilGeoLocationRepository`.
 
 In this simple example, these operations are written in *SQL* and executed with
 *ilDB*. Depending on the operation, the data for the SQL instruction is read from
-the object or an object will be create from the response of the database. Following
+the object/array or an object will be create from the response of the database. Following
 the different methods for different CRUD-Operations
 
 #### CRUD-Operations
@@ -280,18 +289,18 @@ the different methods for different CRUD-Operations
     // Insert in database
     $this->db->insert($this->sql_table_name, array(
         'id' => array('integer', $id),
-        'title' => array('text', $obj->getTitle()),
-        'lattitude' => array('float', $obj->getLattitude()),
-        'longitude' => array('float', $obj->getLongitude()),
-        'expiration_timestamp' => array('timestamp', $obj->getIExpirationTimestamp())
+        'title' => array('text', $obj_data['title']),
+        'latitude' => array('text', $obj_data['latitude'],
+        'longitude' => array('text', $obj_data['longitude']),
+        'expiration_timestamp' => array('timestamp', $obj_data['expirationAsTimestamp'])
     ));
 ```
 
 
 **Read operations**
 
-* Get spicific object by unique identifier: get____ById($id)
-    * For example: get*GeoLocation*ById(int $id)
+* Get specific object by unique identifier. Returns object: get____ById($id)
+    * For example: get*GeoLocation*ById(int $id) : ilObjGeoLocation
   
 ```php
         // Setup SQL-Statement
@@ -304,7 +313,7 @@ the different methods for different CRUD-Operations
         if($row = $this->db->fetchAssoc($result))
         {
             // Create object out of fetched data and return it
-            return new ilObjGeoLocation($row['id'], $row['title'], $row['lattitude'], $row['longitude'], $row['expiration_timestamp']);
+            return new ilObjGeoLocation($row['id'], $row['title'], $row['latitude'], $row['longitude'], $row['expiration_timestamp']);
         }
         else
         {
@@ -313,12 +322,12 @@ the different methods for different CRUD-Operations
         }
 ```
 
-* Get all objects with specified attributes: get____By____($attribute)
-    * get*GeoLocations*By*Coordinates*($a_lattitude, $a_longitude)
+* Get all objects with specified attributes. Returns Array: get____By____($attribute)
+    * get*GeoLocations*By*Coordinates*($a_latitude, $a_longitude) : array
 
 ```php
     // Setup SQL-Statement
-    $query = 'Select * FROM ' . $this->sql_table_name . ' WHERE lattitude = ' . $this->db->quote($a_lattitude, 'float') . ' AND longitude = ' . $this->db->quote($a_longitude, 'float');
+    $query = 'Select * FROM ' . $this->sql_table_name . ' WHERE latitude = ' . $this->db->quote($a_latitude, 'float') . ' AND longitude = ' . $this->db->quote($a_longitude, 'float');
 
     // Execute query
     $result = $this->db->query($query);
@@ -327,17 +336,17 @@ the different methods for different CRUD-Operations
     $locations = array();
     while($row = $this->db->fetchAssoc($result))
     {
-        $locations[] = new ilObjGeoLocation($row['id'], $row['title'], $row['lattitude'], $row['longitude'], $row['expiration_timestamp']);
+        $locations[] = new ilObjGeoLocation($row['id'], $row['title'], $row['latitude'], $row['longitude'], $row['expiration_timestamp']);
     }
 
     // Return list of objects (might be empty if no object was found)
     return $locations;
 ```
 
-* Check if specific object exists. Returns Boolean: checkIf____ExistsById
+* Check if specific object exists. Returns Boolean: checkIf____ExistsById($id)
     * checkIf*GeoLocation*ExistsBy*Id*(int $id) : bool
-* Check if any object with given attributes exist. Returns Boolean: checkIfAny____ExistsBy____
-    * checkIfAny*GeoLocation*ExistsBy*Coordniates*
+* Check if any object with given attributes exist. Returns Boolean: checkIfAny____ExistsBy____($attribute)
+    * checkIfAny*GeoLocation*ExistsBy*Coordinates*(string $a_latitude, string $a_longitude) : bool
   
 
 
@@ -347,6 +356,8 @@ the different methods for different CRUD-Operations
 
 
 ### Mock to use while developing
+
+
 
 
 ### Mock to use in unit tests

@@ -9,7 +9,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     public function createGeoLocation(ilObjGeoLocation $obj)
     {
         $file = fopen('mocked_geolocation_data.txt', FILE_APPEND);
-        $write_string = $obj->getId().';'.$obj->getTitle().';'.$obj->getLattitude().';'.$obj->getLongitude().';'.$obj->getExpirationAsTimestamp();
+        $write_string = $obj->getId().';'.$obj->getTitle().';'.$obj->getLatitude().';'.$obj->getLongitude().';'.$obj->getExpirationAsTimestamp();
         fwrite($file, $write_string . "\n");
         fclose($obj);
     }
@@ -35,14 +35,14 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Example for reading an array of geo locations which have a given attribute
      */
-    public function getGeoLocationsByCoordinates(string $a_lattitude, string $a_longitude)
+    public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude)
     {
         $file = fopen('mocked_geolocation_data.txt', 'r');
 
         $geo_locations = array();
         while($row = fgetcsv($file))
         {
-            if($row[2] == $a_lattitude && $row[3] == $a_longitude)
+            if($row[2] == $a_latitude && $row[3] == $a_longitude)
             {
                 $geo_locations[] = new ilObjGeoLocation($row[0], $row[1], $row[2], $row[3], new DateTimeImmutable($row[4]));
             }
@@ -60,7 +60,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 
         while($row = fgetcsv($file))
         {
-            if($row[2] == $a_lattitude && $row[3] == $a_longitude)
+            if($row[2] == $a_latitude && $row[3] == $a_longitude)
             {
                 return true;
             }

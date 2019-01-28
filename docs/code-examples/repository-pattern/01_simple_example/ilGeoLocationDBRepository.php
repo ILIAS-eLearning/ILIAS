@@ -9,7 +9,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         $this->db = $a_db;
     }
 
-    public function createGeoLocation(ilObjGeoLocation $obj)
+    public function createGeoLocation(array $obj_data)
     {
         // Get next free id for object
         $id = $this->db->nextId($this->db->quoteIdentifier(self::TABLE_NAME));
@@ -17,11 +17,11 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         // Insert in database
         $this->db->insert($this->db->quoteIdentifier(self::TABLE_NAME), array(
             'id' => array('integer', $id),
-            'title' => array('text', $obj->getTitle()),
-            'lattitude' => array('float', $obj->getLattitude()),
-            'longitude' => array('float', $obj->getLongitude()),
-            'expiration_timestamp' => array('timestamp', $obj->getExpirationAsTimestamp())
-        ));
+            'title' => array('text', $obj_data['title']),
+            'latitude' => array('float', $obj_data['latitude'],
+            'longitude' => array('float', $obj_data['longitude']),
+            'expiration_timestamp' => array('timestamp', $obj_data['expirationAsTimestamp'])
+        )));
 
         return $id;
     }
@@ -41,22 +41,22 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
             // Create object out of fetched data and return it
             return new ilObjGeoLocation($row['id'],
                                         $row['title'],
-                                        $row['lattitude'],
+                                        $row['latitude'],
                                         $row['longitude'],
                                         new DateTimeImmutable($row['expiration_timestamp']));
         }
         else
         {
-            // Return NULL if nothing was found (throw an exception is also a possiblity)
+            // Return NULL if nothing was found (throw an exception is also a possibility)
             return NULL;
         }
     }
 
-    public function getGeoLocationsByCoordinates(string $a_lattitude, string $a_longitude) : array
+    public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude) : array
     {
         // Setup SQL-Statement
         $query = 'Select * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
-                 ' WHERE lattitude = ' . $this->db->quote($a_lattitude, 'float') .
+                 ' WHERE latitude = ' . $this->db->quote($a_latitude, 'float') .
                  ' AND longitude = ' . $this->db->quote($a_longitude, 'float');
 
         // Execute query
@@ -68,7 +68,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         {
             $locations[] = new ilObjGeoLocation($row['id'],
                                                 $row['title'],
-                                                $row['lattitude'],
+                                                $row['latitude'],
                                                 $row['longitude'],
                                                 new DateTimeImmutable($row['expiration_timestamp']));
         }
@@ -77,10 +77,11 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         return $locations;
     }
 
-    public function checkIfLocationExistsById(int $a_id) : bool
+    public function checkIfLocationExistsByCoordinates(string $a_latitude, string $a_longitude) : bool
     {
         $query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
-                 ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+                 ' WHERE latitude = ' . $this->db->quote($a_latitude, 'text') .
+                 ' AND longitude = ' . $this->db->quote($a_longitude, 'text');
         $result = $this->db->query($query);
 
         return $result['count'] > 0;
@@ -94,7 +95,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         $this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
             // Update rows:
             array("title" => array("text", $a_obj->getTitle())),
-            array("lattitude" => array("text", $a_obj->getLattitude())),
+            array("latitude" => array("text", $a_obj->getLatitude())),
             array("longitude" => array("text", $a_obj->getLongitude())),
             array("expiration_timestamp" => array("timestamp", $a_obj->getExpirationAsTimestamp())),
             // Where:
@@ -103,17 +104,11 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
     }
 
     /**
-     * In this example, the name extendGeoLocationExpirationTimestamp would be more beautiful but
-     * doesn't match the notation
+     *
      */
-    public function updateGeoLocationExpirationTimestamp(int $a_id, int $a_new_expiration_timestamp)
+    public function updateGeoLocationTimestampByCoordinates(int $a_new_timestamp, string $a_searched_latitude, string $a_searched_longitude)
     {
-        $this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
-            // Update row:
-            array("expiration_timestamp" => array("timestamp", $a_new_expiration_timestamp)),
-            // Where:
-            array("id" => array("int", $a_id))
-        );
+
     }
 
     /**

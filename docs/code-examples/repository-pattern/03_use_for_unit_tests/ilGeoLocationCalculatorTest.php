@@ -1,6 +1,9 @@
 <?
 
-class ilGeoLocationCalculatorTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+
+class ilGeoLocationCalculatorTest extends TestCase
 {
 
     /**
@@ -9,7 +12,8 @@ class ilGeoLocationCalculatorTest extends PHPUnit_Framework_TestCase
      */
     public function calculateNearestExpiration_validTime_correctNearestExpired()
     {
-        $mocked_repo = \Mockery::mock('ilGeoLocationRepository');
+        $mocked_repo = $this->createMock(ilGeoLocationRepository::class);
+        
     }
 
     /**
@@ -18,6 +22,6 @@ class ilGeoLocationCalculatorTest extends PHPUnit_Framework_TestCase
      */
     public function calculateNearestExpiration_exiredTimestamp_throwException()
     {
-        $mocked_repo = \Mockery::mock('ilGeoLocationRepository');
+        $mocked_repo = $this->createMock(ilGeoLocationRepository::class);
     }
 }

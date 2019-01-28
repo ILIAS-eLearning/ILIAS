@@ -9,7 +9,7 @@ class ilObjGeoLocation {
     protected $title;
 
     /** @var string */
-    protected $lattitude;
+    protected $latitude;
 
     /** @var string */
     protected $longitude;
@@ -19,13 +19,13 @@ class ilObjGeoLocation {
 
     public function __construct(int $a_id,
                                 string $a_title, 
-                                string $a_lattitude,
+                                string $a_latitude,
                                 string $a_longitude,
                                 \DateTimeImmutable $a_expiration_timestamp)
     {
         $this->id = $a_id;
         $this->title = $a_title;
-        $this->lattitude = $a_lattitude;
+        $this->latitude = $a_latitude;
         $this->longitude = $a_longitude;
         $this->expiration_timestamp = $a_expiration_timestamp;
     }
@@ -43,9 +43,9 @@ class ilObjGeoLocation {
     }
 
     /** @return string */
-    public function getLattitude()
+    public function getLatitude()
     {
-        return $this->lattitude;
+        return $this->latitude;
     }
 
     /** @return string */
@@ -54,7 +54,7 @@ class ilObjGeoLocation {
         return $this->longitude;
     }
 
-    /** @return \DateTimeImmutable */
+    /** @return \float */
     public function getExpirationAsTimestamp()
     {
         return $this->expiration_timestamp->getTimestamp();
