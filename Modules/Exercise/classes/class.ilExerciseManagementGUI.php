@@ -557,7 +557,7 @@ class ilExerciseManagementGUI
 
 		foreach(ilExSubmission::getAssignmentFilesByUsers($this->exercise->getId(), $this->assignment->getId(), $members) as $file)
 		{
-			if(trim($file["atext"]))
+			if(trim($file["atext"]) && ilObjUser::_exists($file["user_id"]))
 			{
 				$user = new ilObjUser($file["user_id"]);
 				$uname = $user->getFirstname()." ".$user->getLastname();
@@ -2174,19 +2174,15 @@ class ilExerciseManagementGUI
 
 	function initFilter()
 	{
-		if($_POST["filter_status"]) {
-			$this->filter["status"] = trim(ilUtil::stripSlashes($_POST["filter_status"]));
-		}
-
-		if($_POST["filter_feedback"]) {
-			$this->filter["feedback"] = trim(ilUtil::stripSlashes($_POST["filter_feedback"]));
-		} else {
-			$this->filter["feedback"] = "submission_feedback";
-		}
-
 		$this->lng->loadLanguageModule("search");
 
 		$this->toolbar->setFormAction($this->ctrl->getFormAction($this, "listTextAssignment"));
+
+		// Status
+
+		if($_POST["filter_status"]) {
+			$this->filter["status"] = trim(ilUtil::stripSlashes($_POST["filter_status"]));
+		}
 
 		$si_status = new ilSelectInputGUI($this->lng->txt("exc_tbl_status"), "filter_status");
 		$options = array(
@@ -2198,16 +2194,27 @@ class ilExerciseManagementGUI
 		$si_status->setOptions($options);
 		$si_status->setValue($this->filter["status"]);
 
-		$si_feedback = new ilSelectInputGUI($this->lng->txt("feedback"), "filter_feedback");
-		$options = array(
-			"submission_feedback" => $this->lng->txt("submissions_feedback"),
-			"submission_only" => $this->lng->txt("submissions_only")
-		);
-		$si_feedback->setOptions($options);
-		$si_feedback->setValue($this->filter["feedback"]);
-
 		$this->toolbar->addInputItem($si_status, true);
-		$this->toolbar->addInputItem($si_feedback, true);
+
+		// Submissions and Feedback
+		#24713
+		if($this->assignment->getPeerReview()) {
+			if ($_POST["filter_feedback"]) {
+				$this->filter["feedback"] = trim(ilUtil::stripSlashes($_POST["filter_feedback"]));
+			} else {
+				$this->filter["feedback"] = "submission_feedback";
+			}
+
+			$si_feedback = new ilSelectInputGUI($this->lng->txt("feedback"), "filter_feedback");
+			$options = array(
+				"submission_feedback" => $this->lng->txt("submissions_feedback"),
+				"submission_only" => $this->lng->txt("submissions_only")
+			);
+			$si_feedback->setOptions($options);
+			$si_feedback->setValue($this->filter["feedback"]);
+
+			$this->toolbar->addInputItem($si_feedback, true);
+		}
 
 		//todo: old school here.
 		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";

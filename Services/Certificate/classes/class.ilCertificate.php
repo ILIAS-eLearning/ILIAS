@@ -486,23 +486,4 @@ class ilCertificate
 		$set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
 		return $this->db->numRows($set);
 	}
-
-	/**
-	 * Get custom certificate fields
-	 */
-	static function getCustomCertificateFields()
-	{
-		$user_field_definitions = ilUserDefinedFields::_getInstance();
-		$fds = $user_field_definitions->getDefinitions();
-
-		$fields = array();
-		foreach ($fds as $f) {
-			if ($f["certificate"]) {
-				$fields[$f["field_id"]] = array("name" => $f["field_name"],
-					"ph" => "[#" . str_replace(" ", "_", strtoupper($f["field_name"])) . "]");
-			}
-		}
-
-		return $fields;
-	}
 }

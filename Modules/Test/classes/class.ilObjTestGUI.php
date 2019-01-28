@@ -22,7 +22,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestParticipantsGUI, ilTestResultsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
@@ -247,19 +247,20 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
-			case 'iltestparticipantsgui':
+			case 'iltestdashboardgui':
 				
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				
-				require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
+				require_once 'Modules/Test/classes/class.ilTestDashboardGUI.php';
 				
-				$gui = new ilTestParticipantsGUI(
+				$gui = new ilTestDashboardGUI(
 					$this->object, $this->testQuestionSetConfigFactory->getQuestionSetConfig()
 				);
 				
 				$gui->setTestAccess($this->getTestAccess());
 				$gui->setTestTabs($this->getTabsManager());
+				$gui->setObjectiveParent($this->getObjectiveOrientedContainer());
 				
 				$this->ctrl->forwardCommand($gui);
 				break;

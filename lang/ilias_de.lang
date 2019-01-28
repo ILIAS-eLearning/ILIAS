@@ -1323,7 +1323,18 @@ assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_status#:#Teilnehmerstatus
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_tbl_invited_users#:#Ausgewählte Teilnehmer
+assessment#:#tst_tbl_participants#:#Teilnehmer
 assessment#:#tst_tbl_results_grades#:#Ergebnisse und Noten
+assessment#:#tst_answered_questions_of_total#:#%s von %s
+assessment#:#tst_reached_points_of_max#:#%s von %s
+assessment#:#tst_passed#:#Bestanden
+assessment#:#tst_failed#:#Durchgefallen
+assessment#:#tst_tbl_col_scored_pass#:#Bewerteter Durchlauf
+assessment#:#tst_tbl_col_answered_questions#:#Beantwortete Fragen
+assessment#:#tst_tbl_col_reached_points#:#Erreichte Punkte
+assessment#:#tst_tbl_col_percent_result#:#Ergebnis
+assessment#:#tst_tbl_col_passed_status#:#Bewertung
+assessment#:#tst_tbl_col_final_mark#:#Note
 assessment#:#tst_pass_best_pass#:#Besten Testdurchlauf bewerten
 assessment#:#tst_pass_best_pass_desc#:#Es wird der Testdurchlauf bewertet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen greift nur, wenn mehrere Testdurchläufe durchgeführt werden können.
 assessment#:#tst_pass_details#:#Detaillierte Ergebnisse
@@ -2431,7 +2442,7 @@ common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf 
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
 common#:#check_user_accounts_desc#:#Wenn eingeschaltet, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
 common#:#check_web_resources#:#Weblinks überprüfen
-common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft.
+common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft und gegebenenfalls deaktiviert.
 common#:#checked#:#Ausgewählt
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_ilias_and_webfolder_password#:#Webordner-Passwort ändern
@@ -2676,7 +2687,7 @@ common#:#enable#:#Aktivieren
 common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"
 common#:#enable_anonymous_fora_desc#:#Muss aktiviert sein, damit in Foren die Funktion "mit Pseudonym schreiben" zur Verfügung steht.
 common#:#enable_calendar#:#Kalender aktivieren
-common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kurs News
+common#:#enable_course_group_notifications#:#Tägliche Mail über Neuigkeiten aus Gruppen und Kursen
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
@@ -5632,11 +5643,11 @@ dateplaner#:#cal_back_to_search#:#Zurück zur Suche
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
-dateplaner#:#cal_booking_cancellation_subject#:#Der Termin "%s" wurde abgesagt
+dateplaner#:#cal_booking_cancellation_subject#:#Termin "%s" wurde abgesagt
 dateplaner#:#cal_booking_cancellation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmation_body#:#Ihr Termin mit %s ist gebucht.
 dateplaner#:#cal_booking_confirmation_link#:#Link zum Termin:
-dateplaner#:#cal_booking_confirmation_subject#:#Der Termin "%s" wurde gebucht
+dateplaner#:#cal_booking_confirmation_subject#:#Termin "%s" wurde gebucht
 dateplaner#:#cal_booking_confirmation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmed#:#Der Termin wurde erfolgreich gebucht.
 dateplaner#:#cal_cache#:#Kalender-Cache
@@ -10903,9 +10914,9 @@ dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung
 dateplaner#:#cal_ch_field_ch#:#Sprechstundentermine
 dateplaner#:#cal_ch_export_apps#:#Gebuchte Termine
 dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung "%s"
-dateplaner#:#cal_ch_booking_reminder_body#:#ihr Termin mit "%s" findet in wenigen Tagen statt.
+dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit "%s" findet in wenigen Tagen statt.
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
-dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, werden Erinnerungen über bevorstehende Sprechstundentermine versandt. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
+dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen, werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option Terminbuchung(en) absagen auswählen.
 dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen, werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option Terminbuchung(en) löschen auswählen.
@@ -10940,6 +10951,7 @@ assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
+assessment#:#autoparticipants_subtab#:#Teilnehmer
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
@@ -12903,7 +12915,7 @@ grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte minimale Teilnehmerzahl.
+crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte Mindestanzahl an Teilnehmerinnen und Teilnehmern:
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
 grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.  Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
@@ -13298,7 +13310,7 @@ meta#:#md_adv_field_filter_warning#:#Die Feldtypen %s werden aktuell nicht als T
 grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Gruppenadministratoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
 grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
 crs#:#mem_cron_min_members_reason#:#Sie erhalten diese E-Mail, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
-crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichung der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.
+crs#:#mem_cron_min_members_task#:#Informieren Sie die bereits angemeldeten Personen rechtzeitig, falls der Kurs nicht stattfindet, da es nicht genügend Teilnehmende gibt. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen entsprechend an.
 common#:#prg_copy_threads_info#:#Bitte wählen Sie aus, welche Elemente des Studienprogramms kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#prg_wizard_page#:#Studienprogramm kopieren (Schritt 2/2)
 crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele
@@ -14119,7 +14131,7 @@ dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender
 dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
 dateplaner#:#cal_subscription#:#Abonnieren
 dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
-dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunden für %1
+dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunde %1
 dateplaner#:#cal_open_calendar#:#Kalender öffnen
 dateplaner#:#cal_delete_cal#:#Kalender löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
@@ -14453,8 +14465,8 @@ exc#:#feedback_from#:#Feedback from
 exc#:#text_assignment#:#Text Assignment
 exc#:#not_yet#:#not yet
 exc#:#grade_evaluate#:#Grade and Evaluate
-exc#:#submissions_feedback#:#Submissions and Feedback
-exc#:#submissions_only#:#Submissions Only
+exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
+exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
@@ -14487,13 +14499,13 @@ exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
-skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
-badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
-badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
-crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
-trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
-trac#:#trac_lhist_obj_completed#:#$1$ was completed.
-lhist#:#lhist_learning_history#:#Learning History
+skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
+badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
+badge#:#badge_lhist_badge_completed_in#:#Badge $3$ wurde erworben in $1$.
+crs#:#crs_lhist_objective_completed#:#Bestanden $3$ in $1$.
+trac#:#trac_lhist_obj_completed_in#:#$1$ wurde abgeschlossen in $2$.
+trac#:#trac_lhist_obj_completed#:#$1$ wurde abgeschlossen.
+lhist#:#lhist_learning_history#:#Lernverlauf
 mme#:#main#:#Hauptmenü
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
@@ -14561,8 +14573,8 @@ mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link Liste
 mme#:#type_complex#:#Komplex
 mme#:#type_repository_link#:#Magazin-Link
-lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
-pd#:#pd_enable_learning_history#:#Lernhistorie
+lhist#:#lhist_no_entries#:#Verfolge weiter Deine Ziele! Lerne heute etwas, um Deinen Lernverlauf zu erweitern.
+pd#:#pd_enable_learning_history#:#Lernverlauf
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
@@ -14642,19 +14654,19 @@ user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Pro
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
 lhist#:#lhist_first_login#:#First Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
-pd#:#pd_achievements#:#Achievements
+pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
-content#:#cont_ed_insert_learning_history#:#Lernhistorie einfügen
+content#:#cont_ed_insert_learning_history#:#Lernverlauf
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
 lhist#:#lhist_period#:#Period
-lhist#:#lhist_type_of_achievement#:#Type of Achievement
-lhist#:#cont_update_lhist#:#Edit Learning History Element
-lhist#:#cont_create_lhist#:#Create Learning History Element
-lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
-lhist#:#lhist_lhist#:#Learning History
+lhist#:#lhist_type_of_achievement#:#Typ des Lernerfolgs
+lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
+lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
+lhist#:#lhist_cont_placeholder_text#:#Dieses Element zeigt den Lernverlauf in der Präsentationsansicht des Portfolios.
+lhist#:#lhist_lhist#:#Lernverlauf
 skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 cert#:#certificate_migration_confirm_start#:#Ihre Zertifikate bleiben seit ILIAS 5.4 immer in Ihrer Hand. Auch wenn Kurse, Tests oder Lernmodule gelöscht werden, können Sie weiterhin auf alle erworbenen Zertifikate zugreifen. Um diese neue Funktion zu nutzen, müssen Sie Ihre alten Zertifikate einmalig migrieren.
@@ -14952,9 +14964,9 @@ rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
-skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
-skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ von $3$ ist selbst zugewiesen.
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ von $3$ wurde selbst zugewiesen in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
 exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
-lso#:#lso_news_online_title#:#Neues Lern-Sequenz-Objekt ist online!
-lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lern Sequenz online gestellt.
+lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
+lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.

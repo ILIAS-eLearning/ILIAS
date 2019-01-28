@@ -369,10 +369,7 @@ class ilCronManagerGUI
 		{
 			foreach($jobs as $job)
 			{
-				if(ilCronManager::isJobActive($job->getId()))
-				{
-					ilCronManager::resetJob($job);
-				}
+				ilCronManager::resetJob($job);
 			}
 			ilUtil::sendSuccess($this->lng->txt("cron_action_reset_success"), true);
 		}

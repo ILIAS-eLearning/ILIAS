@@ -177,7 +177,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 			$pdf->AddPage();
 			$pdf->writeHTML($page, true, false, true, false, '');
 		}
-		$result = $pdf->Output($job->getFilename(), $job->getOutputMode() ); // (I - Inline, D - Download, F - File)
+		$result = $pdf->Output(basename($job->getFilename()), $job->getOutputMode() ); // (I - Inline, D - Download, F - File)
 
 		if(in_array($job->getOutputMode(), array('I', 'D')))
 		{

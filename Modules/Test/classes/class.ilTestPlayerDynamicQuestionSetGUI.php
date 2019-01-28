@@ -635,6 +635,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 					$questionGui, true
 				);
 // fau.
+				$this->testSession->getQuestionSetFilterSelection()->setForcedQuestionIds(array());
 			}
 
 // fau: testNav - add feedback modal
@@ -676,6 +677,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			if( $this->saveQuestionSolution(true) )
 			{
 				$this->removeIntermediateSolution();
+				$this->persistQuestionAnswerStatus();
 				$this->setAnswerChangedParameter(false);
 			}
 			else

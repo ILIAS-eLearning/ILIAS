@@ -125,6 +125,11 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$fileObj->raiseUploadError(false);
 		// upload file to filesystem
 		$fileObj->createDirectory();
+		global $DIC;
+		$upload = $DIC->upload();
+		if ($upload->hasBeenProcessed() !== true) {
+			$upload->process();
+		}
 		$fileObj->getUploadFile($_FILES["file"]["tmp_name"],
 			$_FILES["file"]["name"]);
 
