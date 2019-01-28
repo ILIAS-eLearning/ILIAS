@@ -32,6 +32,9 @@ class ilCertificateCron extends \ilCronJob
 	/** @var \ILIAS\DI\Container */
 	private $dic;
 
+	/** @var ilSetting */
+	private $settings;
+
 	/**
 	 * @param ilCertificateQueueRepository $queueRepository
 	 * @param ilCertificateTemplateRepository $templateRepository
@@ -41,6 +44,7 @@ class ilCertificateCron extends \ilCronJob
 	 * @param \ILIAS\DI\Container|null $dic
 	 * @param ilLanguage|null $language
 	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilSetting|null $setting
 	 */
 	public function __construct(
 		ilCertificateQueueRepository $queueRepository = null,
@@ -50,7 +54,8 @@ class ilCertificateCron extends \ilCronJob
 		ilLogger $logger = null,
 		\ILIAS\DI\Container $dic = null,
 		ilLanguage $language = null,
-		ilCertificateObjectHelper $objectHelper = null
+		ilCertificateObjectHelper $objectHelper = null,
+		ilSetting $setting = null
 	) {
 		if (null === $dic) {
 			global $DIC;
@@ -64,6 +69,7 @@ class ilCertificateCron extends \ilCronJob
 		$this->valueReplacement = $valueReplacement;
 		$this->logger = $logger;
 		$this->objectHelper = $objectHelper;
+		$this->settings = $setting;
 
 		if ($dic) {
 			if (isset($dic['lng'])) {
@@ -123,6 +129,10 @@ class ilCertificateCron extends \ilCronJob
 		if (null === $this->objectHelper) {
 			$this->objectHelper = new ilCertificateObjectHelper();
 		}
+
+		if (null === $this->settings) {
+			$this->settings = new ilSetting('certificate');
+		}
 	}
 
 	/**
@@ -132,6 +142,12 @@ class ilCertificateCron extends \ilCronJob
 	public function run()
 	{
 		$this->init();
+
+		$currentMode = $this->settings->get('persistent_certificate_mode', 'persistent_certificate_mode_instant');
+		if ($currentMode !== 'persistent_certificate_mode_cron') {
+			$this->logger->warning(sprintf('Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"', $currentMode));
+			return;
+		}
 
 		$this->logger->info('START - Begin with cron job to create user certificates from templates');
 
