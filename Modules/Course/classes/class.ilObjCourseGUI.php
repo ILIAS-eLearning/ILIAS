@@ -2061,8 +2061,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array("edit", "editMapSettings", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}
-		
-		
+
+
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 		$is_participant = ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
