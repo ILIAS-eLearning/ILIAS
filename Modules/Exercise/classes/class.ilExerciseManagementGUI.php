@@ -455,9 +455,9 @@ class ilExerciseManagementGUI
 		$participant_id = $_REQUEST['part_id'];
 
 		$download_task = new ilDownloadSubmissionsBackgroundTask(
-			$GLOBALS['DIC']->user()->getId(),
-			$this->exercise->getRefId(),
-			$this->exercise->getId(),
+			(int)$GLOBALS['DIC']->user()->getId(),
+			(int)$this->exercise->getRefId(),
+			(int)$this->exercise->getId(),
 			(int)$this->ass_id,
 			(int)$participant_id);
 
