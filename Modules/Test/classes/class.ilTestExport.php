@@ -255,6 +255,7 @@ abstract class ilTestExport
 			));
 		}
 		array_push($rows, array(
+			$this->lng->txt("question_id"),
 			$this->lng->txt("question_title"),
 			$this->lng->txt("average_reached_points"),
 			$this->lng->txt("points"),
@@ -264,6 +265,7 @@ abstract class ilTestExport
 		foreach ($data["questions"] as $key => $value)
 		{
 			array_push($rows, array(
+				$key,
 				$value[0],
 				$value[4],
 				$value[5],
