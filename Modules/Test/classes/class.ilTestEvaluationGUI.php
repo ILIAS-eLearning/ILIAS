@@ -892,10 +892,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$total_users =& $this->object->evalTotalPersonsArray();
 		if (count($total_users))
 		{
+			$certValidator = new ilCertificateDownloadValidator();
+			
 			foreach ($total_users as $active_id => $name)
 			{
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
-
+				
+				if( !$certValidator->isCertificateDownloadable($user_id, $this->object->getId()) )
+				{
+					continue;
+				}
+				
 				$pdfAction = new ilCertificatePdfAction(
 					$logger,
 					$pdfGenerator,
