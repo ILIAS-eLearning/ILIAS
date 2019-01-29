@@ -412,12 +412,13 @@ class ilCertificate
 	public function zipCertificatesInArchiveDirectory($dir, $deliver = TRUE)
 	{
 		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificates.zip";
-		ilUtil::zip($dir, $this->certificatePath . $zipfile);
+		$zipfilePath = CLIENT_WEB_DIR . $this->certificatePath . $zipfile;
+		ilUtil::zip($dir, $zipfilePath);
 		ilUtil::delDir($dir);
 		if ($deliver) {
-			ilUtil::deliverFile($this->certificatePath . $zipfile, $zipfile, "application/zip");
+			ilUtil::deliverFile($zipfilePath, $zipfile, "application/zip");
 		}
-		return $this->certificatePath . $zipfile;
+		return $zipfilePath;
 	}
 
 	public static function isActive()
