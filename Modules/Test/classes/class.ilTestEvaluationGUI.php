@@ -257,6 +257,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			foreach ($participantData->getActiveIds() as $active_id)
 			{
+				if( !isset($foundParticipants[$active_id]) || !($foundParticipants[$active_id] instanceof ilTestEvaluationUserData) )
+				{
+					continue;
+				}
+				
 				/* @var $userdata ilTestEvaluationUserData */
 				$userdata = $foundParticipants[$active_id];
 				
