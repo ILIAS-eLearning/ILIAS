@@ -376,7 +376,7 @@ class ilCertificate
 		ilUtil::zip($dir, $zipfilePath);
 		ilUtil::delDir($dir);
 		if ($deliver) {
-			ilUtil::deliverFile($zipfilePath, $zipfile, "application/zip");
+			ilUtil::deliverFile($zipfilePath, $zipfile, "application/zip", false, true);
 		}
 		return $zipfilePath;
 	}
