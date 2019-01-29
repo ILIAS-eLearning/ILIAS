@@ -63,7 +63,12 @@ class ilPortfolioCertificateFileService
 
 		$pdfScalar = $pdfGenerator->generate($userCertificate->getId());
 
-		$this->filesystem->write($dirPath . '/' . $objectId . '_' . self::CERTIFICATE_FILENAME, $pdfScalar);
+		$completePath = $dirPath . '/' . $objectId . '_' . self::CERTIFICATE_FILENAME;
+		if ($this->filesystem->has($completePath)) {
+			$this->filesystem->delete($completePath);
+		}
+
+		$this->filesystem->write($completePath, $pdfScalar);
 	}
 
 	/**
