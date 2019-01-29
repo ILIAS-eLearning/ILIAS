@@ -466,6 +466,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			$first_excel_column_for_review = self::FIRST_DEFAULT_REVIEW_COLUMN;
 		}
 
+		/**
+		 * TODO refactor when 0 bugs:
+		 *  - extract the excel related code from this method.
+		 *  - incrementing/decrementing columns/rows management
+		 */
 		if($this->isExcelNeeded($assignment_type, $ass_has_feedback))
 		{
 			// PhpSpreadsheet object
@@ -523,6 +528,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			$filter = new ilExerciseMembersFilter($this->exercise_ref_id, $participants, $this->user_id);
 			$participants = $filter->filterParticipantsByAccess();
 
+			//SET THE ROW AT SECOND POSITION TO START ENTERING VALUES BELOW THE TITLE.
 			$row = 2;
 			// Fill the excel
 			foreach($participants as $participant_id)
@@ -557,7 +563,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 							} else{
 								$this->excel->setCell($row, $col, $submission_file['filetitle']);
 							}
-							$this->excel->setColors($this->excel->getCoordByColumnAndRow($col, $row), self::BG_COLOR, self::LINK_COLOR);
+							$this->excel->setColors($this->excel->getCoordByColumnAndRow($col+1, $row), self::BG_COLOR, self::LINK_COLOR);
 							$this->addLink($row, $col, $submission_file);
 							$col++; //does not affect blogs and portfolios.
 						}
@@ -583,8 +589,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 									for($i=1;$i<$first_excel_column_for_review;$i++)
 									{
 										$cell_to_copy = $this->excel->getCell($row,$i);
-										$this->excel->setCell($row +1, $i, $cell_to_copy);
-										if($i >= self::FIRST_DEFAULT_SUBMIT_COLUMN){
+										// $i-1 because ilExcel setCell increments the column by 1
+										$this->excel->setCell($row +1, $i-1, $cell_to_copy);
+										if($i > self::FIRST_DEFAULT_SUBMIT_COLUMN){
 											$this->excel->setColors($this->excel->getCoordByColumnAndRow($i,$row+1), self::BG_COLOR,self::LINK_COLOR);
 										}
 									}

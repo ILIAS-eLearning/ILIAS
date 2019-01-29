@@ -86,6 +86,17 @@ abstract class ilUserActionProvider
 		return array();
 	}
 
+	/**
+	 * Get css resource files
+	 *
+	 * @param string $a_action_type
+	 * @return array
+	 */
+	function getCssFiles($a_action_type)
+	{
+		return array();
+	}
+
 
 }
 
