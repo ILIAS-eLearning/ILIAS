@@ -6,7 +6,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Create a new geo location entry
      */
-    public function createGeoLocation(array $obj_data)
+    public function createGeoLocation(array $obj_data) : ilObjGeoLocation
     {
         // Generate a random object id. This should just work fine for development
         $generated_id = rand(1, 100000);
@@ -18,6 +18,12 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         // Write new object to file
         fwrite($file, $write_string);
         fclose($file);
+
+        return new ilObjGeoLocation($generated_id,
+                                    $obj_data['title'],
+                                    $obj_data['latitude'],
+                                    $obj_data['longitude'],
+                                    $obj_data['expiration_timestamp']);
     }
 
     /**
@@ -62,7 +68,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Example for checking if a geo location (one or more) with a given attribute exists
      */
-    public function checkIfLocationExistsById(int $a_id): bool
+    public function checkIfGeoLocationExistsById(int $a_id): bool
     {
         $file = fopen('mocked_geolocation_data.txt', 'r');
 
@@ -82,7 +88,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Example for checking if a geo location (one or more) with a given attribute exists
      */
-    public function checkIfLocationExistsByCoordinates(string $a_latitude, string $a_longitude): bool
+    public function checkIfAnyGeoLocationExistsByCoordinates(string $a_latitude, string $a_longitude): bool
     {
         $file = fopen('mocked_geolocation_data.txt', 'r');
 
@@ -129,7 +135,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Example for updating multiple objects at once
      */
-    public function updateGeoLocationTimestampByCoordinates(int $a_new_timestamp, string $a_searched_latitude, string $a_searched_longitude)
+    public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp)
     {
         // Read entire file
         $file = fopen('mocked_geolocation_data.txt', 'r');
@@ -141,7 +147,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         {
             if($row[2] == $a_searched_latitude && $row[3] == $a_searched_longitude)
             {
-                $row[4] = $a_new_timestamp;
+                $row[4] = $a_update_timestamp;
             }
         }
 
@@ -154,7 +160,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Delete single geo location identified by its id
      */
-    public function deleteGeoLocationById(int $a_id)
+    public function deleteGeoLocationObject(int $a_id)
     {
         $file = fopen('mocked_geolocation_data.txt', 'r');
         $geo_locations = $this->readFileAndReturnAsList($file);
@@ -163,6 +169,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         // Delete searched object from list
         foreach($geo_locations as $key => $row)
         {
+            // Check if current row has searched id
             if($row[0] == $a_id)
             {
                 unset($geo_locations[$key]);
@@ -170,6 +177,30 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         }
 
         // Write back all geo locations to file
+        $file = fopen('mocked_geolocation_data.txt', 'w');
+        $this->writeGeoLocationListToFile($file, $geo_locations);
+        fclose($file);
+    }
+
+    public function purgeGeoLocationsByCoordinates(string $a_latitude, string $a_longitude)
+    {
+        // Read all geo locations from file
+        $file = fopen('mocked_geolocation_data.txt', 'r');
+        $geo_locations = $this->readFileAndReturnAsList($file);
+        fclose($file);
+
+        // Filter out expired objects
+        $now = new DateTimeImmutable();
+        foreach($geo_locations as $key => $row)
+        {
+            // Check if current row has searched attributes
+            if($row[2] == $a_latitude && $row[3] == $a_longitude)
+            {
+                unset($geo_locations[$key]);
+            }
+        }
+
+        // Write objects back to file
         $file = fopen('mocked_geolocation_data.txt', 'w');
         $this->writeGeoLocationListToFile($file, $geo_locations);
         fclose($file);
@@ -189,6 +220,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         $now = new DateTimeImmutable();
         foreach($geo_locations as $key => $row)
         {
+            // Check if current row contains an expired timestamp
             // Note: This is an example but it needs to be tested if differences can be calculated like this
             $dt = new DateTimeImmutable($row[4]);
             if($now->diff($dt)->s >= 0)
@@ -208,7 +240,8 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
      */
     protected function readFileAndReturnAsList($file)
     {
-        while($geo_locations[] = fgetcsv($file));
+        $geo_locations = array();
+        while($row = fgetcsv($file)) $geo_locations[] = $row;
         return $geo_locations;
     }
 
@@ -219,7 +252,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     {
         foreach($list as $obj_data)
         {
-            // implode(';', $list) . "\n"; might also work
+            // implode(';', $list) . "\n"; // <- this way might also work
             $write_string = $obj_data[0].';'.$obj_data[1].';'.$obj_data[2].';'.$obj_data[3].';'.$obj_data[4]."\n";
             fwrite($file, $write_string . "\n");
         }

@@ -14,22 +14,27 @@ interface ilGeoLocationRepository {
     /**
      * Create a new geo location entry
      */
-    public function createGeoLocation(array $obj);
+    public function createGeoLocation(array $obj) : ilObjGeoLocation;
 
     /**
      * Get a single geo location, identified by its id
      */
-    public function getGeoLocationById(int $a_id);
+    public function getGeoLocationById(int $a_id) : ilObjGeoLocation;
 
     /**
      * Example for reading an array of geo locations which have a given attribute
      */
-    public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
+    public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude) : array;
+
+    /**
+     * Example for checking if geo location with a certain id exists
+     */
+    public function checkIfGeoLocationExistsById(int $a_id) : bool;
 
     /**
      * Example for checking if a geo location (one or more) with a given attribute exists
      */
-    public function checkIfLocationExistsByCoordinates(string $a_latitude, string $a_longitude) : bool;
+    public function checkIfAnyGeoLocationExistsByCoordinates(string $a_latitude, string $a_longitude) : bool;
 
     /**
      * Example for updating all attributes of a given geo location
@@ -39,12 +44,17 @@ interface ilGeoLocationRepository {
     /**
      * Example for updating multiple objects at once
      */
-    public function updateGeoLocationTimestampByCoordinates(int $a_new_timestamp, string $a_searched_latitude, string $a_searched_longitude);
+    public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp);
 
     /**
      * Exaple for deleting single geo location identified by its id
      */
-    public function deleteGeoLocationById(int $a_id);
+    public function deleteGeoLocationObject(int $a_id);
+
+    /**
+     * Example for a condition based deletion of multiple geo locations
+     */
+    public function purgeGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
 
     /**
      * Example for a condition based deletion of multiple geo locations

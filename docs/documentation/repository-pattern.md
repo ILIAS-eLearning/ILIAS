@@ -191,10 +191,10 @@ for his or hers applications.
 
 For the moment, we found 3 types of examples to use the repository pattern for. We
 even found some more possible usages, which after further analysis turned out to be
-anti pattern. They are documented under the chapter of non-examples
+anti patterns. They are documented under the chapter of non-examples
 
 For simplicity reasons, the class of the objects to persist is in all following
-example the same (except for some additions that are mentioned later). The class
+example the same. The class
 is called `ilObjGeoLocation` and is immutable:
 
 ```php
@@ -245,7 +245,7 @@ implementation differs from example to example.
 ```php
     interface ilGeoLocationRepository {
         // Create operations
-        public function createGeoLocation(ilObjGeoLocation $obj);
+        public function createGeoLocation(array $obj_data);
 
         // Read operations
         public function getGeoLocationById(int $a_id);
@@ -260,7 +260,6 @@ implementation differs from example to example.
         public function purgeExpiredGeoLocations();
     }
 ```
-
 
 For the full code of each example, be sure to visit the "code-examples"-folder.
 
@@ -282,20 +281,34 @@ the different methods for different CRUD-Operations
 
 **Create operations**
 
+* Create an object out of the given data: create_____($obj_data)
+    * For example: createGeoLocation(array: $obj_data)
+    * *Note:* There is a good reason, why the argument is an array (or something 
+    else) instead of an actual object. The actual object needs to have an id.
+    Since the only object which interacts with the database is the repository 
+    object, the repository object is the only one who can read the next id from
+    the database.
+
 ```php
     // Get next free id for object
-    $id = $this->db->nextId($this->sql_table_name);
+    $id = $this->db->nextId($this->db->quoteIdentifier(self::TABLE_NAME));
 
     // Insert in database
-    $this->db->insert($this->sql_table_name, array(
+    $this->db->insert($this->db->quoteIdentifier(self::TABLE_NAME), array(
         'id' => array('integer', $id),
         'title' => array('text', $obj_data['title']),
-        'latitude' => array('text', $obj_data['latitude'],
-        'longitude' => array('text', $obj_data['longitude']),
+        'latitude' => array('float', $obj_data['latitude'],
+        'longitude' => array('float', $obj_data['longitude']),
         'expiration_timestamp' => array('timestamp', $obj_data['expirationAsTimestamp'])
-    ));
-```
+    )));
 
+    // Return the new created object or just the id
+    return new ilObjGeoLocation($id,
+                                $obj_data['title'],
+                                $obj_data['latitude'],
+                                $obj_data['longitude'],
+                                $obj_data['expiration_timestamp']);
+```
 
 **Read operations**
 
@@ -303,32 +316,37 @@ the different methods for different CRUD-Operations
     * For example: get*GeoLocation*ById(int $id) : ilObjGeoLocation
   
 ```php
-        // Setup SQL-Statement
-        $query = 'Select * FROM ' . $this->sql_table_name . ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+    // Set up SQL-Statement
+    $query = 'Select * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE id = ' . $this->db->quote($a_id, 'integer');
 
-        // Execute query
-        $result = $this->db->query($query);
+    // Execute query
+    $result = $this->db->query($query);
 
-        // Fetch row for returning
-        if($row = $this->db->fetchAssoc($result))
-        {
-            // Create object out of fetched data and return it
-            return new ilObjGeoLocation($row['id'], $row['title'], $row['latitude'], $row['longitude'], $row['expiration_timestamp']);
-        }
-        else
-        {
-            // Return NULL if nothing was found (throw an exception is also a possiblity)
-            return NULL;
-        }
+    // Fetch row for returning
+    if($row = $this->db->fetchAssoc($result))
+    {
+        // Create object out of fetched data and return it
+        return new ilObjGeoLocation($row['id'],
+                                    $row['title'],
+                                    $row['latitude'],
+                                    $row['longitude'],
+                                    new DateTimeImmutable($row['expiration_timestamp']));
+    }
+    else
+    {
+        // Return NULL if nothing was found (throw an exception is also a possiblity)
+        return NULL;
+    }
 ```
 
 * Get all objects with specified attributes. Returns Array: get____By____($attribute)
     * get*GeoLocations*By*Coordinates*($a_latitude, $a_longitude) : array
 
 ```php
-    // Setup SQL-Statement
-    $query = 'Select * FROM ' . $this->sql_table_name . ' WHERE latitude = ' . $this->db->quote($a_latitude, 'float') . ' AND longitude = ' . $this->db->quote($a_longitude, 'float');
-
+    // Set up SQL-Statement
+    $query = 'Select * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE id = ' . $this->db->quote($a_id, 'integer');
     // Execute query
     $result = $this->db->query($query);
 
@@ -336,7 +354,12 @@ the different methods for different CRUD-Operations
     $locations = array();
     while($row = $this->db->fetchAssoc($result))
     {
-        $locations[] = new ilObjGeoLocation($row['id'], $row['title'], $row['latitude'], $row['longitude'], $row['expiration_timestamp']);
+        // Create object and add it to list
+        $locations[] = new ilObjGeoLocation($row['id'],
+                                            $row['title'],
+                                            $row['latitude'],
+                                            $row['longitude'],
+                                            new DateTimeImmutable($row['expiration_timestamp']));
     }
 
     // Return list of objects (might be empty if no object was found)
@@ -345,15 +368,110 @@ the different methods for different CRUD-Operations
 
 * Check if specific object exists. Returns Boolean: checkIf____ExistsById($id)
     * checkIf*GeoLocation*ExistsBy*Id*(int $id) : bool
+    
+```php
+    // Set up SQL-Statement
+    $query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+    
+    // Execute statement
+    $result = $this->db->query($query);
+    
+    // Return if object was found
+    return $result['count'] > 0;
+```
+    
 * Check if any object with given attributes exist. Returns Boolean: checkIfAny____ExistsBy____($attribute)
     * checkIfAny*GeoLocation*ExistsBy*Coordinates*(string $a_latitude, string $a_longitude) : bool
   
+```php
+    // Set up SQL-Statement
+    $query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE latitude = ' . $this->db->quote($a_latitude, 'text') .
+             ' AND longitude = ' . $this->db->quote($a_longitude, 'text');
 
+    // Execute statement
+    $result = $this->db->query($query);
+
+    // Return if any object was found
+    return $result['count'] > 0;
+```
 
 **Update operations**
 
+* Update specific object, identified by its id: update______Object($id)
+    * update*GeoLocation*Object(ilObjGeoLocation $a_obj)
+
+```php
+    // Update of one entire geo location object
+    $this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
+        // Update columns (in this case all except for id):
+        array('title' => array($a_obj->getTitle(), 'text')),
+        array('latitude' => array($a_obj->getLatitude(), 'text')),
+        array('longitude' => array($a_obj->getLongitude(), 'text')),
+        array('expiration_timestamp' => array($a_obj->getExpirationAsTimestamp(), 'timestamp')),
+        // Where (in this case only the object with the given id):
+        array('id' => array($a_obj->getId(), 'int'))
+    );
+```
+
+* Update a set of objects with the same attributes at once: update____By____($_searched_attributes, $a_new_attributes)
+    * update*GeoLocation*By*Coordinates*($a_searched_latitude, $a_searched_longitude, $a_new_timestamp)
+    * *Note:* This function seems to be anti-pattern. For a lot of use cases 
+    this is true. You should always prefer updating an entire object instead 
+    of just a single attribute. But if you want to update some specific attributes 
+    on a set of object, an update query like this is a lot faster than fetching 
+    a list of all wanted objects and update them one by one.
+
+```php
+    // Update for single attribute of a set of geo location objects
+    $this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
+        // Update columns (in this case only the timestamp):
+        array('expiration_timestamp' => array('timestamp', $a_update_timestamp)),
+        // Where (in this case every object on the given location):
+        array('latitude' => array($a_searched_latitude, 'latitude'),
+              'longitude' => array($a_searched_longitude, 'longitude'))
+    );
+```
+
 **Delete operations**
 
+* Delete specific object: delete______Object($id)
+    * delete*GeoLocation*Object($a_id)
+
+```php
+    // Set up delete query
+    $query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+    ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+
+    // Execute delete query
+    $this->db->manipulate($query);
+```
+
+* Delete a set of objects with a given attribute. Attributes are given as Argument: purge______By______($attribute)
+    * purge*GeoLocations*By*Coordinates*($a_latitude, $a_longitude)
+
+```php
+    // Set up delete query
+    $query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+        ' WHERE latitude < ' . $this->db->quote($a_latitude, 'text') .
+        ' AND longitude = ' . $this->db->quote($a_longitude, 'text');
+
+    // Execute delete query
+    $this->db->manipulate($query);
+```
+
+* Delete a set of objects with a given attribute. Attributes are implied in function title: purge______()
+    * purge*ExpiredGeoLocations*()
+    
+```php
+   // Set up delete query
+   $query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+       ' WHERE expiration_timestamp < ' . $this->db->quote(time(), 'timestamp');
+
+   // Execute delete query
+   $this->db->manipulate($query);
+```
 
 ### Mock to use while developing
 
