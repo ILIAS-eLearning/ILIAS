@@ -412,7 +412,7 @@ class ilExAssignmentGUI
 			if ($lpcomment != "")
 			{
 				$a_info->addProperty($lng->txt("exc_comment"),
-					$lpcomment);
+					nl2br($lpcomment));
 			}
 			if ($mark != "")
 			{

@@ -396,3 +396,82 @@ $ilCtrlStructureReader->getStructure();
 require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 ilDBUpdateNewObjectType::applyInitialPermissionGuideline('iass', true, false);
 ?>
+<#27>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#28>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_personal_skill s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_personal_skill WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#29>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_assigned_material s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_assigned_material WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#30>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_profile_user s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_profile_user WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#31>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_skill_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#32>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_has_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>

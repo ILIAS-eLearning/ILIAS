@@ -73,6 +73,8 @@ class assMultipleChoiceExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "feedback_setting");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getSpecificFeedbackSetting());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		$this->addQtiMetaDataField($a_xml_writer, 'singleline', $this->object->isSingleline ? 1 : 0);
 
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
