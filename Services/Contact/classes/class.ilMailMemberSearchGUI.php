@@ -366,6 +366,11 @@ class ilMailMemberSearchGUI
 		foreach($mail_roles as $role)
 		{
 			$chk_role     = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
+
+			if(array_key_exists('default_checked',$role) && $role['default_checked'])
+			{
+				$chk_role->setChecked(true);
+			}
 			$chk_role->setValue($role['role_id']);
 			$chk_role->setInfo($role['mailbox']);
 			$radio_roles->addSubItem($chk_role);
