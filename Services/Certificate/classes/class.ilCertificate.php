@@ -383,7 +383,7 @@ class ilCertificate
 		$type = ilObject::_lookupType($this->objectId);
 		$certificateId = $this->objectId;
 
-		$dir = $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $type . "__" . $certificateId . "__certificate/";
+		$dir = CLIENT_WEB_DIR . $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $type . "__" . $certificateId . "__certificate/";
 		ilUtil::makeDirParents($dir);
 		return $dir;
 	}
