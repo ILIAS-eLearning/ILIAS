@@ -82,6 +82,15 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getNodeHref($a_node)
+	{
+		return "";
+	}
+
+
+	/**
 	 * Is node clickable?
 	 *
 	 * @param array $a_node node data
