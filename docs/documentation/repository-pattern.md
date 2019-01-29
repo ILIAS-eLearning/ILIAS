@@ -476,6 +476,28 @@ the different methods for different CRUD-Operations
 ### Mock to use while developing
 
 
+Imagine following scenario: You are a developer and you have the mission the 
+mission to implement a plugin which works with geo locations. So you implement
+an obj-class as given with `ilObjGeoLocation`. In the planing phase you see, that 
+there are different formats to use coordinates. Since there might be some confusion 
+you go for the decimal "*degrees format*" (looks like this: 47.05016819; 8.30930720). 
+This coordinates can be stored as two float values in the database.
+
+Later during the development some requirements might change and there are some 
+new ideas. Maybe the "*degrees, minutes, seconds*" (looks like this: 48° 52' 0" 
+N;2° 20' 0" E) would have fitted better. And maybe an additional description to 
+the title would also be a good idea. But changes like this require a change in 
+the "dbupdate.php"-file, a change in the Database columns itself, a change in the
+DB-queries and a change in the strict typing of all functions.
+
+A possible solution for this type of problem is the usage of a mocked repository 
+object. But not mocked in the case of unit tests, but mocked in the case of the 
+implementation. Instead of writing into a database table, a simple file is used.
+Obviously, this file dont care about data types and formats. They can also be 
+manually edited with a simple editor. This might be a horrible idea for a production
+system regarding the miserable integrity, lack of join etc. But for quick changes
+and tests during the development process, this flexible way of persisting and 
+reading data comes in pretty useful.
 
 
 ### Mock to use in unit tests
