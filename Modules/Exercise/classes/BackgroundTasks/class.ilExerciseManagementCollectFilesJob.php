@@ -4,6 +4,7 @@ use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -71,8 +72,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	{
 		return
 			[
-				new SingleType(StringValue::class),
-				new SingleType(\ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue::class)
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class)
 			];
 	}
 
