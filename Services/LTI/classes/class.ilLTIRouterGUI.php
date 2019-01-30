@@ -18,25 +18,24 @@ class ilLTIRouterGUI
 
     function __construct() {
         global $ilCtrl;
-        $this->ctrl = $ilCtrl;
+        $this->ilCtrl = $ilCtrl;
     }
 
     /**
      * The only thing this execute Command does is forward the command in the command chain.
      */
     function executeCommand() {
-        $next_class = $this->ctrl->getNextClass($this);
-        switch ($next_class) {
-            default:
-                $class_file = $this->ctrl->lookupClassPath($next_class);
-                if (is_file($class_file)) {
-                    include_once($class_file);
-                    $gui = $next_class::getInstance(); // Singleton!
-                    $this->ctrl->forwardCommand($gui);
-                } else {
-                    ilUtil::sendFailure('GUI-Class not found! ('.$next_class.')');
-                }
-                break;
+        $next_class = $this->ilCtrl->getNextClass($this);
+        $class_file = $this->ilCtrl->lookupClassPath($next_class);
+        
+        if (is_file($class_file)) {
+            include_once($class_file);
+            
+            $gui = $next_class::getInstance(); // Singleton!
+            
+            $this->ilCtrl->forwardCommand($gui);
+        } else {
+            ilUtil::sendFailure('GUI-Class not found! ('.$next_class.')');
         }
     }
 }
