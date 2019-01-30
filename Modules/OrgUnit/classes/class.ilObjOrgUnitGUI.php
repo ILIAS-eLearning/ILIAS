@@ -21,6 +21,7 @@
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitUserAssignmentGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPropertyFormGUI
  */
 class ilObjOrgUnitGUI extends ilContainerGUI {
 
