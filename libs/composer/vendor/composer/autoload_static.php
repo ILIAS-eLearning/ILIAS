@@ -107,9 +107,9 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PHPMailer\\PHPMailer\\' => 20,
-            'Psr\\Container\\' => 14,
         ),
         'M' => 
         array (
@@ -238,6 +238,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
@@ -245,9 +249,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        'Psr\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
         'Monolog\\' => 
         array (
@@ -2310,7 +2311,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'SimpleSAML\\XML\\Shib13\\AuthnResponse' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML/XML/Shib13/AuthnResponse.php',
         'SimpleSAML\\XML\\Signer' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML/XML/Signer.php',
         'SimpleSAML\\XML\\Validator' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML/XML/Validator.php',
-        'Slim' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Slim.php',
         'Slim\\App' => __DIR__ . '/..' . '/slim/slim/Slim/App.php',
         'Slim\\CallableResolver' => __DIR__ . '/..' . '/slim/slim/Slim/CallableResolver.php',
         'Slim\\CallableResolverAwareTrait' => __DIR__ . '/..' . '/slim/slim/Slim/CallableResolverAwareTrait.php',
@@ -2358,22 +2358,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Slim\\Route' => __DIR__ . '/..' . '/slim/slim/Slim/Route.php',
         'Slim\\RouteGroup' => __DIR__ . '/..' . '/slim/slim/Slim/RouteGroup.php',
         'Slim\\Router' => __DIR__ . '/..' . '/slim/slim/Slim/Router.php',
-        'Slim_Exception_Pass' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Exception/Pass.php',
-        'Slim_Exception_RequestSlash' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Exception/RequestSlash.php',
-        'Slim_Exception_Stop' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Exception/Stop.php',
-        'Slim_Http_Cookie' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Cookie.php',
-        'Slim_Http_CookieJar' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/CookieJar.php',
-        'Slim_Http_Request' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Request.php',
-        'Slim_Http_Response' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Response.php',
-        'Slim_Http_Uri' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Uri.php',
-        'Slim_Log' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Log.php',
-        'Slim_Logger' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Logger.php',
-        'Slim_Route' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Route.php',
-        'Slim_Router' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Router.php',
-        'Slim_Session_Flash' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Session/Flash.php',
-        'Slim_Session_Handler' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Session/Handler.php',
-        'Slim_Session_Handler_Cookies' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Session/Handler/Cookies.php',
-        'Slim_View' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/View.php',
         'Snoopy' => __DIR__ . '/../..' . '/../../Services/Feeds/magpierss/extlib/Snoopy.class.inc',
         'StripState' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/Parser.php',
         'SurveyCategories' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyCategories.php',
