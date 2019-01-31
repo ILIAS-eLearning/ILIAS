@@ -2868,7 +2868,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->getContainerObject(), "type", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "active_node", "");
-			$cmd = $_GET["cmd"] == "enableMultiDownload" ? "render" : "enableMultiDownload";
+			$cmd = $_GET["cmd"] == "enableAdministrationPanel" ? "render" : "enableAdministrationPanel";
 			$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), $cmd);
 			$this->insertCommand($cmd_link, $this->lng->txt("download_multiple_objects"));
 			return true;

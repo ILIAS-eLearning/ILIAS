@@ -24,6 +24,12 @@ use IMSGlobal\LTI\ToolProvider\User;
  */
 class ilLTIToolProvider extends ToolProvider\ToolProvider
 {
+	/**
+	 * @var \ilLogger
+	 */
+	protected $logger = null;
+
+
 	public $debugMode = true; //ACHTUNG weg bei Produktiv-Umgebung
 	/**
  * Permitted LTI versions for messages.
@@ -108,7 +114,20 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                                                           'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url');
 
 
-/**
+	/**
+	 * ilLTIToolProvider constructor.
+	 * @param DataConnector $dataConnector
+	 */
+    public function __construct(DataConnector $dataConnector)
+	{
+		global $DIC;
+
+		$this->logger = $DIC->logger()->lti();
+		parent::__construct($dataConnector);
+	}
+
+
+	/**
  * Process an incoming request
  */
     public function handleRequest()
@@ -119,8 +138,9 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->doCallback();
             }
         }
+        // if return url is given, this redirects in case of errors
         $this->result();
-
+		return $this->ok;
     }
 
 ###
@@ -134,10 +154,18 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
  */
     protected function onLaunch()
     {
+    	// save/update current user
+    	if($this->user instanceof User) {
+    		$this->user->save();
+		}
 
-        $this->onError();
-		// return parent::onLaunch();//Stefan M.
+		if($this->context instanceof Context) {
+    		$this->context->save();
+		}
 
+		if($this->resourceLink instanceof ResourceLink) {
+    		$this->resourceLink->save();
+		}
     }
 
 /**
@@ -170,8 +198,10 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
  */
     protected function onError()
     {
+    	// only return error status
+		return $this->ok;
 
-        $this->doCallback('onError');
+        //$this->doCallback('onError');
 		// return parent::onError(); //Stefan M.
 
     }
@@ -195,7 +225,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             $callback = self::$METHOD_NAMES[$_POST['lti_message_type']];
         }
         if (method_exists($this, $callback)) {
-            // $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
+            $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
         } else if (is_null($method) && $this->ok) {
             $this->ok = false;
             $this->reason = "Message type not supported: {$_POST['lti_message_type']}";
@@ -351,6 +381,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         }
         $now = time();
 
+        $this->logger->debug('Checking consumer key...');
+
 // Check consumer key
         if ($this->ok && ($_POST['lti_message_type'] != 'ToolProxyRegistrationRequest')) {
             $this->ok = isset($_POST['oauth_consumer_key']);
@@ -499,6 +531,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                         }
                     }
                 }
+                // smeyer: 21 Nov 2018 constraints are not supported in the moment and private in the base class.
+				/**
                 foreach ($this->constraints as $name => $constraint) {
                     if ($constraint['required']) {
                         if (!in_array($name, $capabilities) && !in_array($name, array_flip($capabilities))) {
@@ -511,6 +545,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $this->reason = 'Required capability not offered - \'' . implode('\', \'', array_keys($missing)) . '\'';
                     $this->ok = false;
                 }
+				*/
             }
 // Check for required services
             if ($this->ok) {
@@ -580,6 +615,11 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             // }
         // }
 
+		$this->logger->debug('Still ok: ' . ($this->ok ? '1' : '0'));
+		if(!$this->ok)
+		{
+			$this->logger->debug('Reason: '  . $this->reason);
+		}
 
         if ($this->ok) {
 
@@ -753,6 +793,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         if ($this->ok && isset($this->context)) {
             $this->context->save();//ACHTUNG TODO UWE
         }
+
+        $this->logger->dump(get_class($this->context));
 
 
         if ($this->ok && isset($this->resourceLink)) {

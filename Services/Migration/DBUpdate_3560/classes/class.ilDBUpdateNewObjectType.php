@@ -18,6 +18,105 @@ class ilDBUpdateNewObjectType
 	const RBAC_OP_WRITE = 4;
 	const RBAC_OP_DELETE = 6;
 	const RBAC_OP_COPY = 99;
+
+	protected static $initialPermissionDefinition = [
+		'role' => [
+			'User' => [
+				'id' => 4,
+				'ignore_for_authoring_objects' => true,
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_READ,
+				]
+			]
+		],
+		'rolt' => [
+			'il_crs_admin' => [
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_READ,
+					self::RBAC_OP_WRITE,
+					self::RBAC_OP_DELETE,
+					self::RBAC_OP_COPY,
+					self::RBAC_OP_EDIT_PERMISSIONS,
+				],
+				'lp' => true,
+				'create' => [
+					'crs',
+					'grp',
+					'fold',
+				]
+			],
+			'il_crs_tutor' => [
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_READ,
+					self::RBAC_OP_WRITE,
+					self::RBAC_OP_COPY,
+				],
+				'create' => [
+					'crs',
+					'fold',
+				]
+			],
+			'il_crs_member' => [
+				'ignore_for_authoring_objects' => true,
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_READ,
+				]
+			],
+			'il_grp_admin' => [
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_READ,
+					self::RBAC_OP_WRITE,
+					self::RBAC_OP_DELETE,
+					self::RBAC_OP_COPY,
+					self::RBAC_OP_EDIT_PERMISSIONS,
+				],
+				'lp' => true,
+				'create' => [
+					'grp',
+					'fold',
+				]
+			],
+			'il_grp_member' => [
+				'ignore_for_authoring_objects' => true,
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_READ,
+				]
+			],
+			'Author' => [
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_READ,
+					self::RBAC_OP_WRITE,
+					self::RBAC_OP_DELETE,
+					self::RBAC_OP_COPY,
+					self::RBAC_OP_EDIT_PERMISSIONS,
+				],
+				'lp' => true,
+				'create' => [
+					'cat',
+					'crs',
+					'grp',
+					'fold',
+				]
+			],
+			'Local Administrator' => [
+				'object' => [
+					self::RBAC_OP_VISIBLE,
+					self::RBAC_OP_DELETE,
+					self::RBAC_OP_EDIT_PERMISSIONS,
+				],
+				'create' => [
+					'cat',
+				]
+			],
+		]
+	];
 	
 	/**
 	 * Add new type to object data
@@ -516,6 +615,108 @@ class ilDBUpdateNewObjectType
 				" VALUES (%s, %s, %s, %s)", 
 				array("integer", "text", "integer", "integer"),
 				array($new_tpl_id, $a_obj_type, $op_id, 8));
+			}
+		}
+	}
+
+	public static function setRolePermission($a_rol_id, $a_type, $a_ops, $a_ref_id)
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		foreach ($a_ops as $ops_id) {
+			if ($ops_id == self::RBAC_OP_COPY) {
+				$ops_id = self::getCustomRBACOperationId('copy');
+			}
+			$ilDB->replace(
+				'rbac_templates',
+				[
+					'rol_id' => ['integer', $a_rol_id],
+					'type' => ['text', $a_type],
+					'ops_id' => ['integer', $ops_id],
+					'parent' => ['integer', $a_ref_id]
+				],
+				[]
+			);
+		}
+	}
+
+
+	/**
+	 * This method will apply the 'Initial Permissions Guideline' when introducing new object types.
+	 * This method does not apply permissions to existing obejcts in the ILIAS repository ('change existing objects').
+	 * @param string $objectType
+	 * @param bool $hasLearningProgress A boolean flag whether or not the object type supports learning progress
+	 * @param bool $usedForAuthoring A boolean flag to tell whether or not the object type is mainly used for authoring
+	 * @see https://www.ilias.de/docu/goto_docu_wiki_wpage_2273_1357.html
+	 */
+	public static function applyInitialPermissionGuideline($objectType, $hasLearningProgress = false, $usedForAuthoring = false) {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$objectTypeId = self::getObjectTypeId($objectType);
+		if (!$objectTypeId) {
+			die("Something went wrong, there MUST be valid id for object_type " . $objectType);
+		}
+		$objectCreateOperationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_' . $objectType);
+		if (!$objectCreateOperationId) {
+			die("Something went wrong, missing CREATE operation id for object type " . $objectType);
+		}
+		$globalRoleFolderId = 8; // Maybe there is another way to determine this id
+		$learningProgressPermissions = [];
+		if ($hasLearningProgress) {
+			$learningProgressPermissions = array_filter([
+				self::getCustomRBACOperationId('read_learning_progress'),
+				self::getCustomRBACOperationId('edit_learning_progress'),
+			]);
+		}
+		foreach (self::$initialPermissionDefinition as $roleType => $roles) {
+			foreach ($roles as $roleTitle => $definition) {
+				if (
+					true === $usedForAuthoring &&
+					array_key_exists('ignore_for_authoring_objects', $definition) &&
+					true === $definition['ignore_for_authoring_objects']
+				) {
+					continue;
+				}
+				if (array_key_exists('id', $definition) && is_numeric($definition['id'])) {
+					// According to JF (2018-07-02), some roles have to be selected by if, not by title
+					$query = "SELECT obj_id FROM object_data WHERE type = %s AND obj_id = %s";
+					$queryTypes = ['text', 'integer'];
+					$queryValues = [$roleType, $definition['id']];
+				} else {
+					$query = "SELECT obj_id FROM object_data WHERE type = %s AND title = %s";
+					$queryTypes = ['text', 'text'];
+					$queryValues = [$roleType, $roleTitle];
+				}
+				$res   = $ilDB->queryF($query, $queryTypes, $queryValues);
+				if (1 == $ilDB->numRows($res)) {
+					$row = $ilDB->fetchAssoc($res);
+					$roleId = (int)$row['obj_id'];
+					$operationIds = [];
+					if (array_key_exists('object', $definition) && is_array($definition['object'])) {
+						$operationIds = array_merge($operationIds, (array)$definition['object']);
+					}
+					if (array_key_exists('lp', $definition) && true === $definition['lp']) {
+						$operationIds = array_merge($operationIds, $learningProgressPermissions);
+					}
+					self::setRolePermission(
+						$roleId,
+						$objectType,
+						array_filter(array_map('intval', $operationIds)),
+						$globalRoleFolderId
+					);
+					if (array_key_exists('create', $definition) && is_array($definition['create'])) {
+						foreach ($definition['create'] as $containerObjectType) {
+							self::setRolePermission(
+								$roleId,
+								$containerObjectType,
+								[
+									$objectCreateOperationId
+								],
+								$globalRoleFolderId
+							);
+						}
+					}
+				}
 			}
 		}
 	}

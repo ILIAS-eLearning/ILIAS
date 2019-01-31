@@ -69,7 +69,10 @@ class ilObjSessionListGUI extends ilObjectListGUI
 		$this->subitems_enabled = true;
 		$this->type = "sess";
 		$this->gui_class_name = "ilobjsessiongui";
-		
+
+		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+		$this->enableSubstitutions($this->substitutions->isActive());
+
 		// general commands array
 		include_once('./Modules/Session/classes/class.ilObjSessionAccess.php');
 		$this->commands = ilObjSessionAccess::_getCommands();

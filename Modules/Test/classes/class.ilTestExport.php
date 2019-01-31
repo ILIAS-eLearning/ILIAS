@@ -180,43 +180,43 @@ abstract class ilTestExport
 		$worksheet->addSheet($this->lng->txt('tst_results_aggregated'));
 
 		$row = 1;
-		$col = 0;
-		$worksheet->setCell($row, $col++, $this->lng->txt('result'));
-		$worksheet->setCell($row, $col++, $this->lng->txt('value'));
+		$col = 1;
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('result'));
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('value'));
 
 		$worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
 
 		$row++;
 		foreach($data['overview'] as $key => $value)
 		{
-			$col = 0;
-			$worksheet->setCell($row, $col++, $key);
-			$worksheet->setCell($row, $col++, $value);
+			$col = 1;
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $key);
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $value);
 			$row++;
 		}
 
 		$row++;
-		$col = 0;
-
-		$worksheet->setCell($row, $col++, $this->lng->txt('question_id'));
-		$worksheet->setCell($row, $col++, $this->lng->txt('question_title'));
-		$worksheet->setCell($row, $col++, $this->lng->txt('average_reached_points'));
-		$worksheet->setCell($row, $col++, $this->lng->txt('points'));
-		$worksheet->setCell($row, $col++, $this->lng->txt('percentage'));
-		$worksheet->setCell($row, $col++, $this->lng->txt('number_of_answers'));
+		$col = 1;
+		
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('question_id'));
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('question_title'));
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('average_reached_points'));
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('points'));
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('percentage'));
+		$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $this->lng->txt('number_of_answers'));
 
 		$worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
 
 		$row++;
 		foreach($data['questions'] as $key => $value)
 		{
-			$col = 0;
-			$worksheet->setCell($row, $col++, $key);
-			$worksheet->setCell($row, $col++, $value[0]);
-			$worksheet->setCell($row, $col++, $value[4]);
-			$worksheet->setCell($row, $col++, $value[5]);
-			$worksheet->setCell($row, $col++, $value[6]);
-			$worksheet->setCell($row, $col++, $value[3]);
+			$col = 1;
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, (string)$key);
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $value[0]);
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $value[4]);
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $value[5]);
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $value[6]);
+			$worksheet->setCellByCoordinates($worksheet->getColumnCoord($col++).$row, $value[3]);
 			$row++;
 		}
 
@@ -255,6 +255,7 @@ abstract class ilTestExport
 			));
 		}
 		array_push($rows, array(
+			$this->lng->txt("question_id"),
 			$this->lng->txt("question_title"),
 			$this->lng->txt("average_reached_points"),
 			$this->lng->txt("points"),
@@ -264,6 +265,7 @@ abstract class ilTestExport
 		foreach ($data["questions"] as $key => $value)
 		{
 			array_push($rows, array(
+				$key,
 				$value[0],
 				$value[4],
 				$value[5],

@@ -3411,6 +3411,30 @@ class ilObjContentObject extends ilObject
 		$ot = ilObjectTranslation::getInstance($this->getId());
 		$ot->copy($new_obj->getId());
 
+		// copy lm menu
+		include_once './Modules/LearningModule/classes/class.ilLMMenuEditor.php';
+		$menu = new ilLMMenuEditor();
+		$menu->setObjId($this->getId());
+		$new_menu = new ilLMMenuEditor();
+		$new_menu->setObjId($new_obj->getId());
+		foreach ($menu->getMenuEntries() as $entry)
+		{
+			/*'id'		=> $row->id,
+							   'title'	=> $row->title,
+							   'link'	=> $row->target,
+							   'type'	=> $row->link_type,
+							   'ref_id'	=> $row->link_ref_id,
+							   'active'*/
+
+			$new_menu->setTarget($entry["link"]);
+			$new_menu->setTitle($entry["title"]);
+			$new_menu->setLinkType($entry["type"]);
+			$new_menu->setLinkRefId($entry["ref_id"]);
+			$new_menu->create();
+			ilLMMenuEditor::writeActive($new_menu->getEntryId(), $entry["active"] == "y" ? true : false);
+		}
+
+
 		return $new_obj;
 	}
 	

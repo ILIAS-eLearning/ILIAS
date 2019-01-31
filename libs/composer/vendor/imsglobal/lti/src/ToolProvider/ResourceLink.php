@@ -1026,7 +1026,6 @@ EOF;
  */
     public static function fromRecordId($id, $dataConnector)
     {
-
         $resourceLink = new ResourceLink();
         $resourceLink->dataConnector = $dataConnector;
         $resourceLink->load($id);

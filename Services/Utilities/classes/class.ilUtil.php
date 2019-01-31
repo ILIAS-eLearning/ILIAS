@@ -2619,7 +2619,7 @@ class ilUtil
 	 * @param string $clientId
 	 * @return \ILIAS\Data\ClientId
 	 */
-	public static function getClientIdByString(string $clientId): \ILIAS\Data\ClientId 
+	public static function getClientIdByString($clientId)
 	{
 		$df = new \ILIAS\Data\Factory;
 

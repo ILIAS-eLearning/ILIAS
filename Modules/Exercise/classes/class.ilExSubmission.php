@@ -1048,16 +1048,19 @@ class ilExSubmission
 				}				 
 				
 				// late submission?
-				foreach($user_files as $file)
+				if (is_array($user_files))	// see #23900
 				{
-					if(basename($file["filename"]) == $sourcefile)
+					foreach ($user_files as $file)
 					{
-						if($file["late"])
+						if (basename($file["filename"]) == $sourcefile)
 						{
-							$targetfile = $lng->txt("exc_late_submission")." - ".
-								$targetfile;
+							if ($file["late"])
+							{
+								$targetfile = $lng->txt("exc_late_submission") . " - " .
+									$targetfile;
+							}
+							break;
 						}
-						break;
 					}
 				}
 				

@@ -1012,7 +1012,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				$this->unitrepository->getUnits());
 		}
 
-		return $points;
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	protected function isValidSolutionResultValue($submittedValue)
@@ -1415,8 +1417,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				{
 					//get unit-factor
 					$unit_factor = assFormulaQuestionUnit::lookupUnitFactor($user_solution[$result_name]['unit']);
-					$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 				}
+
+				$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 			}
 			if($result->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
 				|| $result->getResultType() == assFormulaQuestionResult::RESULT_FRAC)
@@ -1435,11 +1438,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			}
 			elseif($result->getPrecision() > 0)
 			{
-				$user_solution[$result->getResult()]["value"] = round($resVal, $result->getPrecision());
+				$user_solution[$result->getResult()]["value"] = round(
+					$user_solution[$result->getResult()]["value"], $result->getPrecision()
+				);
 			}
 			else
 			{
-				$user_solution[$result->getResult()]["value"] = round($resVal);
+				$user_solution[$result->getResult()]["value"] = round(
+					$user_solution[$result->getResult()]["value"]
+				);
 			}
 		}
 		return $user_solution;

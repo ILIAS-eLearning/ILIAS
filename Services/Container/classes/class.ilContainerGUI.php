@@ -787,38 +787,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
-			else if ($this->isMultiDownloadEnabled())
-			{
-				// bugfix mantis 0021272
-				$children_of_type_file = $this->getAllNestedFiles($_GET['ref_id']);
-				// Check if there are any files and therefore downloadable objects.
-				// In case that there are no downloadable objects the download button mustn't be displayed (see mantis 0021272)
-				if(count($children_of_type_file) != 0)
-				{
-					// #11843
-					$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
-
-					include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-					$toolbar = new ilToolbarGUI();
-					$this->ctrl->setParameter($this, "type", "");
-					$this->ctrl->setParameter($this, "item_ref_id", "");
-
-					$toolbar->addFormButton(
-						$this->lng->txt('download_selected_items'),
-						'download'
-					);
-
-					$GLOBALS['tpl']->addAdminPanelToolbar(
-						$toolbar,
-						$this->object->gotItems() ? true : false,
-						$this->object->gotItems() ? true : false
-					);
-				}
-				else
-				{
-					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
-				}
-			}		
 		}
 	}
 
@@ -1531,12 +1499,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
-	function enableMultiDownloadObject()
-	{
-		$this->multi_download_enabled = true;
-		$this->renderObject();
-	}
 	
 	function isMultiDownloadEnabled()
 	{

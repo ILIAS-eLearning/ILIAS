@@ -413,6 +413,8 @@ assessment#:#close_text_hint#:#To add a new gap set the cursor to the position o
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
@@ -1109,6 +1111,7 @@ assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
 assessment#:#tst_reached_points#:#Points
 assessment#:#tst_remove_mark#:#Remove this mark
@@ -2084,8 +2087,8 @@ common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
-common#:#enable_download_folder_info#:#Allows download of a folder including sub structures as zip file.
-common#:#enable_download_folder#:#Enable Downloading Folders
+common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
+common#:#enable_download_folder#:#"Download Action for Folders" enabled
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
@@ -3598,7 +3601,7 @@ common#:#use_default_instructions#:#Use default instructions.
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system) 
+common#:#user_cant_receive_mail#:#%1$s – user is not allowed to use mail system.
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -5080,7 +5083,7 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/rss.php
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
@@ -7579,7 +7582,7 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
+common#:#db_need_hotfix#:#Hotfix available. Please open <a href="./setup/setup.php">»Setup</a>!
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_max_count#:#Max active sessions
@@ -7771,6 +7774,8 @@ exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has 
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted
 wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_link#:#URL
@@ -11447,6 +11452,8 @@ common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.
 sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
 sop#:#sop_reload_page#:#Reload page
@@ -14226,3 +14233,5 @@ rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#msg_spoint_not_modified#:#Starting point not modified
+lti#:#lti_cron_title#:#LTI Outcome Service
+lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
