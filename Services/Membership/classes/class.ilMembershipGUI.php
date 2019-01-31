@@ -1557,7 +1557,7 @@ class ilMembershipGUI
 		{
 			$waiting_list->removeFromList($user_id);
 			
-			if($this instanceof ilCourseWaitingList)
+			if($this instanceof ilCourseMembershipGUI)
 			{
 				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id,true);
 			}
