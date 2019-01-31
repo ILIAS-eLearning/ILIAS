@@ -6,8 +6,8 @@
     "coordinator": [
         ""
     ],
-    "tester": "Marko Glaubitz",
-    "testcase_writer": "",
+    "tester": "mglaubitz(28309)",
+    "testcase_writer": "scarlino(56074)",
     "path": "Modules/LearningSequence",
     "belong_to_component": "Learning Sequence",
     "used_in_components": []
