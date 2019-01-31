@@ -1145,7 +1145,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$_SESSION["tst_import_qti_file"] = $qti_file;
 		$_SESSION["tst_import_subdir"] = $subdir;
 		
-		if( $qtiParser->getQuestionSetType() == ilObjTest::QUESTION_SET_TYPE_RANDOM )
+		if( $qtiParser->getQuestionSetType() != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$this->importVerifiedFileObject();
 			return;
