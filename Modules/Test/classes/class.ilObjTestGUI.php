@@ -2557,6 +2557,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			$pool = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "qpl");
+			$pool->setInfo($this->lng->txt('select_question_pool_info'));
 			$pool->setOptions($options);
 			$form->addItem($pool);
 		}
