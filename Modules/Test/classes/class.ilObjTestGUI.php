@@ -1029,7 +1029,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$result = $qtiParser->startParsing();
 		$founditems =& $qtiParser->getFoundItems();
 		
-		if (count($founditems) == 0)
+		if (false && count($founditems) == 0)
 		{
 			// nothing found
 
@@ -1055,7 +1055,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($complete == 0)
+		if ( count($founditems) && $complete == 0 )
 		{
 			// delete import directory
 			ilUtil::delDir($basedir);
@@ -1070,7 +1070,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$_SESSION["tst_import_qti_file"] = $qti_file;
 		$_SESSION["tst_import_subdir"] = $subdir;
 		
-		if( $qtiParser->getQuestionSetType() == ilObjTest::QUESTION_SET_TYPE_RANDOM )
+		if( $qtiParser->getQuestionSetType() != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$this->importVerifiedFileObject();
 			return;
@@ -2368,6 +2368,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			$pool = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "qpl");
+			$pool->setInfo($this->lng->txt('select_question_pool_info'));
 			$pool->setOptions($options);
 			$form->addItem($pool);
 		}
