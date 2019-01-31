@@ -19,7 +19,6 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 		{
 			$users = $status_info["user_status"]["in_progress"];
 		}
-		
 		return $users;
 	}
 
@@ -90,7 +89,18 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 				}
 			}
 		}
-		
+
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		$users = ilChangeEvent::lookupUsersInProgress($a_parent_obj_id);
+		foreach ($users as $user_id)
+		{
+			if ((!is_array($res["user_status"]["in_progress"]) || !in_array($user_id, $res["user_status"]["in_progress"])) &&
+				(!is_array($res["user_status"]["completed"]) || !in_array($user_id, $res["user_status"]["completed"])))
+			{
+				$res["user_status"]["in_progress"][] = $user_id;
+			}
+		}
+
 		return $res;
 	}
 	
@@ -132,7 +142,12 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 		$ilDB = $DIC['ilDB'];
 		
 		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-						
+
+		if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+		{
+			$status = self::LP_STATUS_IN_PROGRESS_NUM;
+		}
+
 		// an empty collection is always not attempted
 		$items = self::getCollectionItems($a_obj_id);
 		if(sizeof($items))									

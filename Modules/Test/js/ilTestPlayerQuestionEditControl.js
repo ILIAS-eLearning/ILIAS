@@ -143,7 +143,7 @@ il.TestPlayerQuestionEditControl = new function() {
             $('#tst_cancel_next_changed_answer_button').click(hideFollowupQuestionLocksCurrentAnswerModal);
             
             // handle the buttons in next locks empty answer confirmation modal
-            $('#tst_nav_next_empty_answer_button').click(saveWithNavigation);
+            $('#tst_nav_next_empty_answer_button').click(saveWithNavigationEmptyAnswer);
             $('#tst_cancel_next_empty_answer_button').click(hideFollowupQuestionLocksEmptyAnswerModal);
         }
 
@@ -397,8 +397,6 @@ il.TestPlayerQuestionEditControl = new function() {
             
             if( !answerChanged && !answered )
             {
-                console.log('rubbel die katz x 2');
-
                 showFollowupQuestionLocksEmptyAnswerModal();
             }
             else if( $('#tst_next_locks_changed_modal').length > 0 )
@@ -485,7 +483,6 @@ il.TestPlayerQuestionEditControl = new function() {
     
     function showFollowupQuestionLocksEmptyAnswerModal()
     {
-        console.log($('#tst_next_locks_unchanged_modal'));
         $('#tst_next_locks_unchanged_modal').modal('show');
     }
     
@@ -545,6 +542,12 @@ il.TestPlayerQuestionEditControl = new function() {
         // submit the solution
         // the answering status will be appended by handleFormSubmit()
         $(FORM_SELECTOR).submit();
+    }
+
+    function saveWithNavigationEmptyAnswer() {
+        $(FORM_SELECTOR).find('input[name=orderresult]').remove();
+        $(FORM_SELECTOR).find('input[name*=order_elems]').remove();
+        saveWithNavigation();
     }
 
     /**

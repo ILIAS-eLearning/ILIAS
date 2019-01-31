@@ -11,6 +11,12 @@ The Common Settings subservice has been introduced with ILIAS 5.4 but is far fro
 - Sorting
 - Additional Features: These settings should move to a subtab, see https://docu.ilias.de/goto_docu_wiki_wpage_5271_1357.html so the handling will be different from the settings being embedded in the main settings form. However this subservice should provide functions to manage the subtab as well.
 
+## Mid Term
+
+### Factories
+
+Factories for `ilObj...`, `ilObj...GUI`, `ilObj...ListGUI`, `ilObj...Access` instances should be provided through `$DIC->object()` service object.
+
 
 ## Long Term
 

@@ -162,8 +162,8 @@ class ilCertificateTemplatePreviewAction
 			$insert_tags[$value['ph']] = $this->utilHelper->prepareFormOutput($value['name']);
 		}
 
-		foreach ($insert_tags as $var => $value) {
-			$certificate_text = str_replace($var, $value, $certificate_text);
+		foreach ($insert_tags as $placeholderVariable => $value) {
+			$certificate_text = str_replace('[' . $placeholderVariable . ']', $value, $certificate_text);
 		}
 
 		$certificate_text = str_replace(

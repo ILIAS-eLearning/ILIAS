@@ -809,7 +809,7 @@ abstract class ilContainerContentGUI
 		{
 			if ($p["property"] != $this->lng->txt("learning_progress"))
 			{
-				$l[$p["property"]] = $p["value"];
+				$l[(string) $p["property"]] = (string) $p["value"];
 			}
 		}
 		if (count($l) > 0)

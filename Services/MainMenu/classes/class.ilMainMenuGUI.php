@@ -285,8 +285,7 @@ class ilMainMenuGUI {
 				if (strlen($html))
 				{
 					$this->tpl->setVariable('SEARCHBOX',$html);
-					ilTooltipGUI::addTooltip("ilMMSearch", ilHelp::getMainMenuTooltip("mm_tb_search"),
-						"", "top center", "bottom center", false);
+					$this->addToolbarTooltip("ilMMSearch", "mm_tb_search");
 				}
 			}
 
@@ -362,8 +361,7 @@ class ilMainMenuGUI {
 				$this->tpl->setVariable("EMAIL", $ilUser->getEmail());
 				$this->tpl->parseCurrentBlock();
 
-				ilTooltipGUI::addTooltip("userlog", ilHelp::getMainMenuTooltip("mm_tb_user"),
-					"", "top center", "bottom center", false);
+				$this->addToolbarTooltip("userlog", "mm_tb_user");
 			}
 		} else {
 			// member view info
@@ -427,8 +425,7 @@ class ilMainMenuGUI {
 
 			$a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
 			$a_tpl->setVariable('STATUS_ID', "sb_mail");
-			ilTooltipGUI::addTooltip("sb_mail", ilHelp::getMainMenuTooltip("mm_tb_mail"),
-				"", "top center", "bottom center", false);
+			$this->addToolbarTooltip("sb_mail", "mm_tb_mail");
 			$a_tpl->parseCurrentBlock();
 		}
 	}
@@ -554,14 +551,13 @@ class ilMainMenuGUI {
 			$helpl->addEntry('<span id="help_tt_switch_on" class="glyphicon glyphicon-ok"></span> ' . $lng->txt("help_tooltips"), "#", "", "return il.Help.switchTooltips(event);");
 		}
 
-		if ($help_active) {
+		if ($help_active && $ilHelp->hasSections()) {
 			$this->tpl->setCurrentBlock("help");
 			$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
 			$this->tpl->setVariable("HELP_CLICK", "il.Help.listHelp(event, false);");
 			$this->tpl->parseCurrentBlock();
 
-			ilTooltipGUI::addTooltip("mm_help", ilHelp::getMainMenuTooltip("mm_tb_help"),
-				"", "top center", "bottom center", false);
+			$this->addToolbarTooltip("mm_help", "mm_tb_help");
 
 
 			// always set ajax url
@@ -593,8 +589,7 @@ class ilMainMenuGUI {
 	private function renderOnScreenChatMenu() {
 		$menu = new ilOnScreenChatMenuGUI();
 		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
-		ilTooltipGUI::addTooltip("onscreenchatmenu-dropdown", ilHelp::getMainMenuTooltip("mm_tb_oschat"),
-			"", "top center", "bottom center", false);
+		$this->addToolbarTooltip("onscreenchatmenu-dropdown", "mm_tb_oschat");
 	}
 
 
@@ -607,9 +602,7 @@ class ilMainMenuGUI {
 		$aw = ilAwarenessGUI::getInstance();
 
 		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
-		ilTooltipGUI::addTooltip("awareness_trigger", ilHelp::getMainMenuTooltip("mm_tb_aware"),
-			"", "top center", "bottom center", false);
-
+		$this->addToolbarTooltip("awareness_trigger", "mm_tb_aware");
 	}
 
 
@@ -711,9 +704,23 @@ class ilMainMenuGUI {
 
 		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
 
-		ilTooltipGUI::addTooltip("mm_tb_background_tasks", ilHelp::getMainMenuTooltip("mm_tb_bgtasks"),
-			"", "top center", "bottom center", false);
-
+		$this->addToolbarTooltip("mm_tb_background_tasks", "mm_tb_bgtasks");
 	}
+
+	/**
+	 * Add toolbar tooltip
+	 *
+	 * @param string $element_id
+	 * @param string $help_id
+	 */
+	protected function addToolbarTooltip(string $element_id, string $help_id)
+	{
+		if (ilHelp::getMainMenuTooltip($help_id) != "")
+		{
+			ilTooltipGUI::addTooltip($element_id, ilHelp::getMainMenuTooltip($help_id),
+				"", "top center", "bottom center", false);
+		}
+	}
+
 }
 

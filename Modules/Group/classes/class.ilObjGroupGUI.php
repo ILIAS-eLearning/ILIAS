@@ -1432,7 +1432,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		$this->ctrl->redirect($this, "infoScreen");
+		$this->ctrl->redirect($this, "");
 	}
 	
 	/**
