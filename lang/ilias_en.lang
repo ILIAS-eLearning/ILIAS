@@ -3471,6 +3471,7 @@ common#:#select_max_one_item#:#Please select one item only
 common#:#select_object_to_link#:#Please select the object which you want to link
 common#:#select_one#:#Please select one.
 common#:#select_questionpool#:#Insert questions into
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.
 common#:#select#:#Select
 common#:#selected_items_back#:#Back to Personal Items
 common#:#selected_items#:#Personal Items
