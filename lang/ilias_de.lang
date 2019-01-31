@@ -4782,6 +4782,7 @@ common#:#select_one#:#Bitte treffen Sie eine Auswahl
 common#:#select_page#:#Seite auswählen###deprecated
 common#:#select_password#:#Neues Passwort wählen###deprecated
 common#:#select_questionpool#:#Fragen einfügen in
+common#:#select_question_pool_info#:#Sofern die Import Datei Fragen enthält, werden diese ebenfalls in den ausgewählten Fragenpool importiert.
 common#:#select_questionpool_option#:#--- Bitte wählen Sie einen Fragenpool aus ---###deprecated
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote

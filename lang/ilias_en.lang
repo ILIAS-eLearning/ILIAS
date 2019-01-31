@@ -4180,6 +4180,7 @@ common#:#select_page#:#Select Page###deprecated
 common#:#select_password#:#Select a new password###deprecated
 common#:#select_questionpool_option#:#--- Please select a question pool ---###deprecated
 common#:#select_questionpool#:#Insert questions into
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.
 common#:#select#:#Select
 common#:#selected_items_back#:#Back to Personal Items
 common#:#selected_items#:#Personal Items
