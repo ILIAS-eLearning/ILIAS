@@ -4093,65 +4093,54 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	 */
 	public function mergeThreadsObject()
 	{
-		if(!$this->is_moderator)
-		{
+		if (!$this->is_moderator) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		$selected_thread_id = 0;
-		if(isset($_GET['merge_thread_id']) && (int)$_GET['merge_thread_id'])
-		{
-			$selected_thread_id = (int)$_GET['merge_thread_id'];
+		$threadIdToMerge = (int)($this->httpRequest->getQueryParams()['merge_thread_id'] ?? 0);
+		if (!($threadIdToMerge > 0)) {
+			$threadIds = array_values(
+				array_filter(array_map('intval', (array)$this->httpRequest->getParsedBody()['thread_ids'] ?? []))
+			);
+			if (1 === count($threadIds)) {
+				$threadIdToMerge = current($threadIds);
+			} else {
+				\ilUtil::sendInfo($this->lng->txt('select_one'));
+				$this->showThreadsObject();
+				return;
+			}
 		}
-		else if(isset($_POST['thread_ids']) && count((array)$_POST['thread_ids']) == 1)
-		{
-			$selected_thread_id = (int)current($_POST['thread_ids']);
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+
+		$frm = $this->object->Forum;
+		$frm->setForumId($this->object->getId());
+		$frm->setForumRefId($this->object->getRefId());
+
+		$threadToMerge = new ilForumTopic($threadIdToMerge);
+
+		if (\ilForum::_lookupObjIdForForumId($threadToMerge->getForumId()) != $frm->getForumId()) {
+			\ilUtil::sendFailure($this->lng->txt('not_allowed_to_merge_into_another_forum'));
 			$this->showThreadsObject();
 			return;
 		}
 
-		if($selected_thread_id)
-		{
-			$frm = $this->object->Forum;
-			$frm->setForumId($this->object->getId());
-			$frm->setForumRefId($this->object->getRefId());
+		$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 
-			$selected_thread_obj = new ilForumTopic($selected_thread_id);
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_liste.html', 'Modules/Forum');
 
-			if(ilForum::_lookupObjIdForForumId($selected_thread_obj->getForumId()) != $frm->getForumId())
-			{
-				ilUtil::sendFailure($this->lng->txt('not_allowed_to_merge_into_another_forum'));
-				$this->showThreadsObject();
-				return;
-			}
-
-			$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
-
-			$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_liste.html', 'Modules/Forum');
-
-			$topicData = $frm->getOneTopic();
-			if($topicData)
-			{
-				$this->ctrl->setParameter($this, 'merge_thread_id', $selected_thread_id);
-				$tbl = new ilForumTopicTableGUI(
-					$this, 'mergeThreads', '', (int)$_GET['ref_id'],
-					$topicData, $this->is_moderator, $this->settings->get('forum_overview')
-				);
-				$tbl->setSelectedThread($selected_thread_obj);
-				$tbl->setMapper($frm)->fetchData();
-				$tbl->init();
-				$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());
-			}
-			else
-			{
-				ilUtil::sendFailure($this->lng->txt('select_one'));
-				$this->showThreadsObject();
-				return;
-			}
+		$topicData = $frm->getOneTopic();
+		if ($topicData) {
+			$this->ctrl->setParameter($this, 'merge_thread_id', $threadIdToMerge);
+			$tbl = new \ilForumTopicTableGUI(
+				$this, 'mergeThreads', '', (int)$this->httpRequest->getQueryParams()['ref_id'],
+				$topicData, $this->is_moderator, $this->settings->get('forum_overview')
+			);
+			$tbl->setSelectedThread($threadToMerge);
+			$tbl->setMapper($frm)->fetchData();
+			$tbl->init();
+			$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());
+		} else {
+			\ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->showThreadsObject();
 		}
 	}
 
@@ -4160,39 +4149,37 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	 */
 	public function confirmMergeThreadsObject()
 	{
-		if(!$this->is_moderator)
-		{
+		if (!$this->is_moderator) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		if(!isset($_GET['merge_thread_id']) || !(int)$_GET['merge_thread_id'] || !is_array($_POST['thread_ids']) || count($_POST['thread_ids']) != 1)
-		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
+		$sourceThreadId = (int)($this->httpRequest->getQueryParams()['merge_thread_id'] ?? 0);
+		$targetThreadIds = array_values(
+			array_filter(array_map('intval', (array)$this->httpRequest->getParsedBody()['thread_ids'] ?? []))
+		);
+
+		if (!($sourceThreadId > 0) || 1 !== count($targetThreadIds)) {
+			\ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->mergeThreadsObject();
 			return;
 		}
 
-		$source_thread_id = (int)$_GET['merge_thread_id'];
-		$target_thread_id = (int)current($_POST['thread_ids']);
-
-		if($source_thread_id == $target_thread_id)
-		{
-			ilUtil::sendFailure($this->lng->txt('error_same_thread_ids'));
+		$targetThreadId = current($targetThreadIds);
+		if ($sourceThreadId == $targetThreadId) {
+			\ilUtil::sendFailure($this->lng->txt('error_same_thread_ids'));
 			$this->showThreadsObject();
 			return;
 		}
 
-		if(ilForumTopic::lookupForumIdByTopicId($source_thread_id) != ilForumTopic::lookupForumIdByTopicId($target_thread_id))
-		{
-			ilUtil::sendFailure($this->lng->txt('not_allowed_to_merge_into_another_forum'));
+		if (ilForumTopic::lookupForumIdByTopicId($sourceThreadId) != ilForumTopic::lookupForumIdByTopicId($targetThreadId)) {
+			\ilUtil::sendFailure($this->lng->txt('not_allowed_to_merge_into_another_forum'));
 			$this->ctrl->clearParameters($this);
 			$this->showThreadsObject();
 			return;
 		}
 
-		if(ilForumTopic::_lookupDate($source_thread_id) < ilForumTopic::_lookupDate($target_thread_id))
-		{
-			ilUtil::sendInfo($this->lng->txt('switch_threads_for_merge'));
+		if (\ilForumTopic::_lookupDate($sourceThreadId) < ilForumTopic::_lookupDate($targetThreadId)) {
+			\ilUtil::sendInfo($this->lng->txt('switch_threads_for_merge'));
 		}
 
 		$c_gui = new ilConfirmationGUI();
@@ -4202,11 +4189,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		$c_gui->setCancel($this->lng->txt('cancel'), 'showThreads');
 		$c_gui->setConfirm($this->lng->txt('confirm'), 'performMergeThreads');
 
-		$c_gui->addItem('thread_ids[]', $source_thread_id, sprintf($this->lng->txt('frm_merge_src'), ilForumTopic::_lookupTitle($source_thread_id)));
-		$c_gui->addItem('thread_ids[]', $target_thread_id, sprintf($this->lng->txt('frm_merge_target'), ilForumTopic::_lookupTitle($target_thread_id)));
-
+		$c_gui->addItem(
+			'thread_ids[]', $sourceThreadId,
+			sprintf($this->lng->txt('frm_merge_src'), ilForumTopic::_lookupTitle($sourceThreadId))
+		);
+		$c_gui->addItem(
+			'thread_ids[]', $targetThreadId,
+			sprintf($this->lng->txt('frm_merge_target'), ilForumTopic::_lookupTitle($targetThreadId))
+		);
 		$this->tpl->setContent($c_gui->getHTML());
-		return;
 	}
 
 	/**
@@ -4214,34 +4205,35 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	 */
 	public function performMergeThreadsObject()
 	{
-		if(!$this->is_moderator)
-		{
+		if (!$this->is_moderator) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
-		if(!isset($_POST['thread_ids']) || !is_array($_POST['thread_ids']) || count($_POST['thread_ids']) != 2)
-		{
+		$threadIds = array_values(
+			array_filter(array_map('intval', (array)$this->httpRequest->getParsedBody()['thread_ids'] ?? []))
+		);
+		if (2 !== count($threadIds)) {
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->showThreadsObject();
 			return;
 		}
 
-		if((int)$_POST['thread_ids'][0] == (int)$_POST['thread_ids'][1])
-		{
+		if ((int)$threadIds[0] === (int)$threadIds[1]) {
 			ilUtil::sendFailure($this->lng->txt('error_same_thread_ids'));
 			$this->showThreadsObject();
 			return;
 		}
 
-		try
-		{
-			ilForum::mergeThreads($this->object->id, (int)$_POST['thread_ids'][0], (int)$_POST['thread_ids'][1]);
-			ilUtil::sendSuccess($this->lng->txt('merged_threads_successfully'));
+		try {
+			$frm = new \ilForum();
+			$frm->setForumId($this->object->getId());
+			$frm->setForumRefId($this->object->getRefId());
+			$frm->mergeThreads((int)$threadIds[0], (int)$threadIds[1]);
+			\ilUtil::sendSuccess($this->lng->txt('merged_threads_successfully'));
+		} catch (\ilException $e) {
+			\ilUtil::sendFailure($this->lng->txt($e->getMessage()));
 		}
-		catch(ilException $e)
-		{
-			return ilUtil::sendFailure($this->lng->txt($e->getMessage()));
-		}
+
 		$this->showThreadsObject();
 	}
 
