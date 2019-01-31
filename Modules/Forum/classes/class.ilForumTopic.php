@@ -1251,14 +1251,6 @@ class ilForumTopic
 			array('thr_pk' => array('integer', $this->getId())));
 	}
 
-	public static function deleteByThreadId($thr_id)
-	{
-		global $DIC; 
-		$DIC->database()->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s',
-			array('integer'), array($thr_id));
-	}
-
-
 	/**
 	 * @param integer $thread_id
 	 * @return string datetime
