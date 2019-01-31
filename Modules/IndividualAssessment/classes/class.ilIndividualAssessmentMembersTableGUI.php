@@ -402,7 +402,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function checkEditable(bool $finalized, int $examiner_id = null, int $usr_id): bool
 	{
 		if(($this->userIsSystemAdmin() && !$finalized)
-			|| (!$finalized && $this->userMayEditGradesOf($$usr_id)
+			|| (!$finalized && $this->userMayEditGradesOf($usr_id)
 				&& $this->wasEditedByViewer($examiner_id)
 			)
 		) {
@@ -446,7 +446,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function checkDownloadFile(int $usr_id, string $file_name = null): bool
 	{
 		if((!is_null($file_name) && $file_name !== '')
-			&& ($this->userIsSystemAdmin() || $this->userMayDownloadAttachment($usr_id))
+			&& ($this->userIsSystemAdmin())
 		) {
 			return true;
 		}
@@ -505,7 +505,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	/**
 	 * Check the set was edited by viewing user
 	 */
-	protected function wasEditedByViewer(int $examiner_id): bool
+	protected function wasEditedByViewer(int $examiner_id = null): bool
 	{
 		return $examiner_id === $this->current_user_id || 0 === $examiner_id;
 	}
