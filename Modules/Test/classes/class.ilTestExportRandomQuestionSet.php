@@ -36,7 +36,12 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 		);
 
 		$this->srcPoolDefList->loadDefinitions();
-		
+
+// fau: fixRandomTestExportPages - use the complete random question list
+//		ilObjTest::exportPagesXML() uses $this->questions
+//		ilObjTest::loadQuestions() loads only those of the current active_id of ilUser
+		$this->test_obj->questions = $this->getQuestionIds();
+// fau.
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
 
 		$this->stagingPoolQuestionListByPoolId = array();
