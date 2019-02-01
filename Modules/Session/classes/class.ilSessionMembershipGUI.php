@@ -249,8 +249,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 	/**
 	 * Check permission has no manage members
 	 * @param string $a_permission
-	 * @param type $a_cmd
-	 * @return type
+	 * @param string $a_cmd
 	 */
 	protected function checkPermission($a_permission, $a_cmd = "")
 	{
@@ -260,7 +259,20 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		}
 		return parent::checkPermission($a_permission, $a_cmd);
 	}
-	
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function checkPermissionBool($a_permission, $a_cmd = '', $a_type = '', $a_ref_id = 0)
+	{
+		if($a_permission == 'manage_members')
+		{
+			$a_permission = 'write';
+		}
+		return parent::checkPermissionBool($a_permission, $a_cmd, $a_type, $a_ref_id);
+	}
+
 	/**
 	 * Check if current user is allowed to add / search users
 	 * @return bool
