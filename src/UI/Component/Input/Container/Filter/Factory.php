@@ -5,6 +5,8 @@
 namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Filter;
 
 /**
  * This is how a factory for filters looks like.
@@ -15,7 +17,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The standard filter is the default filter to be used in ILIAS. If there is no good reason using another filter instance in ILIAS, this is the one that should be used.
+	 *      The standard filter is the default filter to be used in ILIAS. If there is no good reason
+	 *      using another filter instance in ILIAS, this is the one that should be used.
 	 *
 	 * rules:
 	 *   usage:
@@ -29,19 +32,12 @@ interface Factory {
 	 * @param    string|Signal    $collapse_action
 	 * @param    string|Signal    $apply_action
 	 * @param    string|Signal    $reset_action
-	 * @param    array<mixed,\ILIAS\UI\Component\Input\Input>    $inputs
+	 * @param    array<mixed,Input>    $inputs
 	 * @param    array<bool>    $is_input_rendered
 	 * @param    bool    $is_activated
 	 * @param    bool    $is_expanded
 	 *
-	 * @return    \ILIAS\UI\Component\Input\Container\Filter\Standard
+	 * @return    Filter\Standard
 	 */
 	public function standard($toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action, array $inputs, array $is_input_rendered, $is_activated = false, $is_expanded = false);
-
-	/*
-	"Other types of container might use other mechanisms for data submission. A filter
-	e.g. will likely be commiting its content via query parameters in the URL to make
-	the results of the query cachable and maintain HTTP-semantics. Another type of
-	form might submit its contents asynchronously."
-	*/
 }

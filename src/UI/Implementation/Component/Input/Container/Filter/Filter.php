@@ -4,11 +4,10 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Signal;
-use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component as CI;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use Psr\Http\Message\ServerRequestInterface;
@@ -57,7 +56,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	protected $input_group;
 
 	/**
-	 * @var array
+	 * @var bool[]
 	 */
 	protected $is_input_rendered;
 
@@ -96,8 +95,8 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	 * @param string|Signal $collapse_action
 	 * @param string|Signal $apply_action
 	 * @param string|Signal $reset_action
-	 * @param array $inputs
-	 * @param array $is_input_rendered
+	 * @param C\Input\Field\Input $inputs
+	 * @param bool[] $is_input_rendered
 	 * @param bool $is_activated
 	 * @param bool $is_expanded
 	 */
@@ -113,26 +112,25 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 
 		if (count($inputs) != count($is_input_rendered)) {
 			throw new \ArgumentCountError("Inputs and boolean values must be arrays of same size.");
-		} else {
-			$classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
-			$this->checkArgListElements("input", $inputs, $classes);
-
-			// how to better handle these dependencies?
-			$this->signal_generator = new CI\SignalGenerator();
-			$input_factory = new CI\Input\Factory(
-				$this->signal_generator,
-				new CI\Input\Field\Factory($this->signal_generator),
-				new CI\Input\Container\Factory()
-			);
-
-			$this->initSignals();
-			$this->input_group = $input_factory->field()->group($inputs)->withNameFrom($this);
-
-			foreach ($is_input_rendered as $r) {
-				$this->checkBoolArg("is_input_rendered", $r);
-			}
-			$this->is_input_rendered = $is_input_rendered;
 		}
+		$classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
+		$this->checkArgListElements("input", $inputs, $classes);
+
+		// how to better handle these dependencies?
+		$this->signal_generator = new CI\SignalGenerator();
+		$input_factory = new CI\Input\Factory(
+			$this->signal_generator,
+			new CI\Input\Field\Factory($this->signal_generator),
+			new CI\Input\Container\Factory()
+		);
+
+		$this->initSignals();
+		$this->input_group = $input_factory->field()->group($inputs)->withNameFrom($this);
+
+		foreach ($is_input_rendered as $r) {
+			$this->checkBoolArg("is_input_rendered", $r);
+		}
+		$this->is_input_rendered = $is_input_rendered;
 
 		$this->checkBoolArg("is_activated", $is_activated);
 		$this->is_activated = $is_activated;
@@ -219,12 +217,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 		$param_data = $this->extractParamData($request);
 
 		$clone = clone $this;
-		if (!$this->isActivated()) {
-			$clone->input_group = $this->getInputGroup()->withDisabled(true)->withInput($param_data);  //check if this is needed
-		}
-		else {
-			$clone->input_group = $this->getInputGroup()->withInput($param_data);
-		}
+		$clone->input_group = $this->getInputGroup()->withInput($param_data);
 
 		return $clone;
 	}
@@ -246,15 +239,17 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	 *
 	 * @param    ServerRequestInterface $request
 	 *
-	 * @return    PostData
+	 * @return    CI\Input\InputData
 	 */
 	protected function extractParamData(ServerRequestInterface $request) {
-		return new PostDataFromServerRequest($request);
+		return new QueryParamsFromServerRequest($request);
 	}
 
-
-	// Implementation of NameSource
-
+	/**
+	 * Implementation of NameSource
+	 *
+	 * @inheritdoc
+	 */
 	public function getNewName() {
 		$name = "filter_input_{$this->count}";
 		$this->count++;

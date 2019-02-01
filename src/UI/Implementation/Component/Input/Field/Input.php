@@ -8,7 +8,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Transformation\Transformation;
@@ -382,7 +382,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 *
 	 * @inheritdoc
 	 */
-	public function withInput(PostData $input) {
+	public function withInput(InputData $input) {
 		//TODO: What should happen if input has not name? Throw exception or return null?
 		/**
 		 * if ($this->getName() === null) {

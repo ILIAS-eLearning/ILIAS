@@ -132,7 +132,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		$tpl = $this->getTemplate("tpl.filter_field.html", true, true);
 
-		$content = $this->renderInputFieldWithContext($input_tpl, $input);
+		$content = $this->renderInputField($input_tpl, $input);
 		$popover = $f->popover()->standard($f->legacy($content))->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
 
@@ -146,18 +146,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$this->maybeRenderId($prox, $tpl);
 		return $tpl->get();
 	}
-
-
-	/**
-	 * @param Template $input_tpl
-	 * @param Input    $input
-	 *
-	 * @return string
-	 */
-	protected function renderInputFieldWithContext(Template $input_tpl, Input $input) {
-		return $this->renderInputField($input_tpl, $input);
-	}
-
 
 	/**
 	 * @param Template $tpl
@@ -297,7 +285,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	/**
 	 * @inheritdoc
 	 */
-	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Container/filter.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');

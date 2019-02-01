@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
@@ -90,7 +90,7 @@ class Radio extends Input implements C\Input\Field\Radio {
 	/**
 	 * @inheritdoc
 	 */
-	public function withInput(PostData $post_input) {
+	public function withInput(InputData $post_input) {
 		if ($this->getName() === null) {
 			throw new \LogicException("Can only collect if input has a name.");
 		}

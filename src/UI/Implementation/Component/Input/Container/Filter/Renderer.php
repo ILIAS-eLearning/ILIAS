@@ -4,10 +4,12 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
-use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component\Input\Container\Filter;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer {
 
@@ -17,15 +19,21 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Input\Container\Filter\Standard) {
+		if ($component instanceof Filter\Standard) {
 			return $this->renderStandard($component, $default_renderer);
 		}
 
 		throw new \LogicException("Cannot render: " . get_class($component));
 	}
 
-
-	protected function renderStandard(Component\Input\Container\Filter\Standard $component, RendererInterface $default_renderer) {
+	/**
+	 * Render standard filter
+	 *
+	 * @param Filter\Standard $component
+	 * @param RendererInterface $default_renderer
+	 * @return Template string
+	 */
+	protected function renderStandard(Filter\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
 		// JavaScript
@@ -34,7 +42,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('ID_FILTER', $id);
 
 		// render expand
-		$this->renderExpand($tpl, $component, $default_renderer);
+		$this->renderExpandOrCollapse($tpl, $component, $default_renderer);
 
 		// render apply and reset buttons
 		$this->renderApplyAndReset($tpl, $component, $default_renderer);
@@ -49,10 +57,10 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
-	 * @param Component\Input\Container\Filter\Filter $filter
+	 * @param Filter\Filter $filter
 	 * @return Component\JavaScriptBindable
 	 */
-	protected function registerSignals(Component\Input\Container\Filter\Filter $filter) {
+	protected function registerSignals(Filter\Filter $filter) {
 		$update = $filter->getUpdateSignal();
 		return $filter->withAdditionalOnLoadCode(function($id) use ($update) {
 			$code =
@@ -64,57 +72,44 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Render expand section
 	 *
-	 * @param I\Render\Template $tpl
-	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param Template $tpl
+	 * @param Filter\Standard $component
 	 * @param RendererInterface $default_renderer
 	 */
-	protected function renderExpand(\ILIAS\UI\Implementation\Render\Template $tpl,
-									Component\Input\Container\Filter\Standard $component, RendererInterface $default_renderer)
+	protected function renderExpandOrCollapse(Template $tpl, Filter\Standard $component, RendererInterface $default_renderer)
 	{
 		$f = $this->getUIFactory();
+		$tpl->setCurrentBlock("action");
 		if ($component->isExpanded() == false) {
-
-			$tpl->setCurrentBlock("action");
 			$tpl->setVariable("ACTION_NAME", "expand");
 			$tpl->setVariable("ACTION", $component->getExpandAction());
 			$tpl->parseCurrentBlock();
 
-			if ($component->isActivated())
-			{
-				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
-					->withOnLoadCode(function ($id) {
-						$code = "$('#$id').on('click', function(event) {
-							il.UI.filter.onCmd(event, '$id', 'expand');
-							return false; // stop event propagation
-					});";
-						return $code;
-					});
-			} else {
-				$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), $component->getExpandAction());
-			}
+			$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
+				->withOnLoadCode(function ($id) {
+					$code = "$('#$id').on('click', function(event) {
+						il.UI.filter.onCmd(event, '$id', 'expand');
+						return false; // stop event propagation
+				});";
+					return $code;
+				});
 
 			$tpl->setVariable("OPENER", $default_renderer->render($opener_expand));
 			$tpl->touchBlock("collapsed");
 		}
 		else {
-
-			$tpl->setCurrentBlock("action");
 			$tpl->setVariable("ACTION_NAME", "collapse");
 			$tpl->setVariable("ACTION", $component->getCollapseAction());
 			$tpl->parseCurrentBlock();
 
-			if ($component->isActivated()) {
-				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
-					->withOnLoadCode(function ($id) {
-						$code = "$('#$id').on('click', function(event) {
-							il.UI.filter.onCmd(event, '$id', 'collapse');
-							return false; // stop event propagation
-					});";
-						return $code;
-					});
-			} else {
-				$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), $component->getCollapseAction());
-			}
+			$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
+				->withOnLoadCode(function ($id) {
+					$code = "$('#$id').on('click', function(event) {
+						il.UI.filter.onCmd(event, '$id', 'collapse');
+						return false; // stop event propagation
+				});";
+					return $code;
+				});
 
 			$tpl->setVariable("OPENER", $default_renderer->render($opener_collapse));
 			$tpl->touchBlock("expanded");
@@ -126,12 +121,11 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Render apply and reset
 	 *
-	 * @param I\Render\Template $tpl
-	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param Template $tpl
+	 * @param Filter\Standard $component
 	 * @param RendererInterface $default_renderer
 	 */
-	protected function renderApplyAndReset(\ILIAS\UI\Implementation\Render\Template $tpl,
-										   Component\Input\Container\Filter\Standard $component, RendererInterface$default_renderer)
+	protected function renderApplyAndReset(Template $tpl, Filter\Standard $component, RendererInterface$default_renderer)
 	{
 		$f = $this->getUIFactory();
 
@@ -166,12 +160,11 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Render toggle button
 	 *
-	 * @param I\Render\Template $tpl
-	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param Template $tpl
+	 * @param Filter\Standard $component
 	 * @param RendererInterface $default_renderer
 	 */
-	protected function renderToggleButton(\ILIAS\UI\Implementation\Render\Template $tpl,
-										  Component\Input\Container\Filter\Standard $component, RendererInterface$default_renderer)
+	protected function renderToggleButton(Template $tpl, Filter\Standard $component, RendererInterface$default_renderer)
 	{
 		$f = $this->getUIFactory();
 
@@ -181,7 +174,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->parseCurrentBlock();
 
 		$component->getToggleOnAction();
-		$signal_generator = new I\Component\SignalGenerator();
+		$signal_generator = new SignalGenerator();
 		$toggle_on_signal = $signal_generator->create();
 		$toggle_on_action = $component->getToggleOnAction();
 		$toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
@@ -199,12 +192,11 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * Render inputs
 	 *
-	 * @param I\Render\Template $tpl
-	 * @param Component\Input\Container\Filter\Standard $component
+	 * @param Template $tpl
+	 * @param Filter\Standard $component
 	 * @param RendererInterface $default_renderer
 	 */
-	protected function renderInputs(\ILIAS\UI\Implementation\Render\Template $tpl,
-									Component\Input\Container\Filter\Standard $component, RendererInterface$default_renderer)
+	protected function renderInputs(Template $tpl, Filter\Standard $component, RendererInterface$default_renderer)
 	{
 		// pass information on what inputs should be initially rendered
 		$is_input_rendered = $component->isInputRendered();
@@ -239,7 +231,7 @@ class Renderer extends AbstractComponentRenderer {
 			$input_group = $input_group->withDisabled(true);
 		}
 
-		$input_group = $input_group->withUpdateSignal($component);
+		$input_group = $input_group->withOnUpdate($component->getUpdateSignal());
 
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("INPUTS", $renderer->render($input_group));
@@ -251,7 +243,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			Component\Input\Container\Filter\Standard::class,
+			Filter\Standard::class,
 		);
 	}
 }

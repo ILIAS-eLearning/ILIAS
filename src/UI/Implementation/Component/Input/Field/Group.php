@@ -7,7 +7,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Result;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Validation\Factory as ValidationFactory;
@@ -48,6 +49,16 @@ class Group extends Input implements C\Input\Field\Group {
 		foreach ($this->inputs as $key => $input)
 		{
 			$inputs[$key] = $input->withDisabled($is_disabled);
+		}
+		$clone->inputs = $inputs;
+		return $clone;
+	}
+
+	public function withOnUpdate(Signal $signal) {
+		$clone = parent::withOnUpdate($signal);
+		$inputs = [];
+		foreach ($this->inputs as $key => $input) {
+			$inputs[$key] = $input->withOnUpdate($signal);
 		}
 		$clone->inputs = $inputs;
 		return $clone;

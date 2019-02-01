@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../../../../Base.php");
 use ILIAS\UI\Implementation\Component\Input;
 use \ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
-use \ILIAS\UI\Implementation\Component\Input\PostData;
+use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
@@ -139,13 +139,13 @@ class FormTest extends ILIAS_UI_TestBase {
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
 		$post_data = $form->_extractPostData($request);
-		$this->assertInstanceOf(PostData::class, $post_data);
+		$this->assertInstanceOf(InputData::class, $post_data);
 	}
 
 
 	public function test_withRequest() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(PostData::class);
+		$post_data = \Mockery::Mock(InputData::class);
 		$post_data->shouldReceive("getOr")->once()->andReturn("");
 
 		$df = $this->buildDataFactory();
@@ -174,7 +174,7 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_withRequest_respects_keys() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(PostData::class);
+		$post_data = \Mockery::Mock(InputData::class);
 		$post_data->shouldReceive("getOr")->once()->andReturn("");
 
 		$df = $this->buildDataFactory();

@@ -6,7 +6,7 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data\Password as PWD;
 use \ILIAS\UI\Component\Input\Field;
 

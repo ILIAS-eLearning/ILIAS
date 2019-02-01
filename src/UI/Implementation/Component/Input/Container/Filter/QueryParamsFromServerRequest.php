@@ -1,18 +1,17 @@
 <?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2019 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
-use ILIAS\UI\Implementation\Component\Input\PostData;
-
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Implements interaction of input element with post data from
+ * Implements interaction of input element with get data from
  * psr-7 server request.
  */
-class PostDataFromServerRequest implements PostData {
+class QueryParamsFromServerRequest implements InputData {
 
 	/**
 	 * @var    array
@@ -30,7 +29,7 @@ class PostDataFromServerRequest implements PostData {
 	 */
 	public function get($name) {
 		if (!isset($this->query_params[$name])) {
-			throw new \LogicException("'$name' is not contained in posted data.");
+			throw new \LogicException("'$name' is not contained in query parameters.");
 		}
 
 		return $this->query_params[$name];
