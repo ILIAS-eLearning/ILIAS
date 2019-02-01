@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\UI\Component\Input\Container\Filter;
+use \Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Request adapter for filter
  *
@@ -14,7 +17,7 @@ class ilUIFilterRequestAdapter
 	const RENDER_INPUT_BASE = "__filter_status_";
 
 	/**
-	 * @var \Psr\Http\Message\ServerRequestInterface
+	 * @var ServerRequestInterface
 	 */
 	protected $request;
 
@@ -33,7 +36,7 @@ class ilUIFilterRequestAdapter
 	/**
 	 * Constructor
 	 */
-	public function __construct(\Psr\Http\Message\ServerRequestInterface $request)
+	public function __construct(ServerRequestInterface $request)
 	{
 		$this->request = $request;
 		$this->params = $this->request->getQueryParams();
@@ -72,10 +75,10 @@ class ilUIFilterRequestAdapter
 	/**
 	 * Get filter with request data
 	 *
-	 * @param \ILIAS\UI\Component\Input\Container\Filter\Standard $filter
-	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
+	 * @param Filter\Standard $filter
+	 * @return Filter\Standard
 	 */
-	public function getFilterWithRequest(\ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
+	public function getFilterWithRequest(Filter\Standard $filter): Filter\Standard
 	{
 		return $filter->withRequest($this->request);
 	}

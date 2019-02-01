@@ -74,7 +74,6 @@ il.UI = il.UI || {};
          */
         var show = function($triggerer, options) {
 
-            //$('#' + $triggerer.attr('id')).trigger("il.ui.popover.before-show");
             if (WebuiPopovers.isCreated('#' + $triggerer.attr('id'))) {
                 return true;
             }

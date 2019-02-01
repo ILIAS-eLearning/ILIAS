@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\UIServices;
+
 /**
  * UI service dependencies
  *
@@ -21,16 +23,17 @@ class ilUIServiceDependencies
 	protected $session;
 
 	/**
-	 * @var \ILIAS\DI\UIServices
+	 * @var UIServices
 	 */
 	protected $ui;
 
 	/**
 	 * Constructor
+	 * @param UIServices
 	 * @param ilUIFilterRequestAdapter $request
 	 * @param ilUIFilterServiceSessionGateway|null $session
 	 */
-	public function __construct(\ILIAS\DI\UIServices $ui, ilUIFilterRequestAdapter $request, ilUIFilterServiceSessionGateway $session = null)
+	public function __construct(UIServices $ui, ilUIFilterRequestAdapter $request, ilUIFilterServiceSessionGateway $session = null)
 	{
 		$this->ui = $ui;
 		$this->request_adapter = $request;
@@ -40,7 +43,7 @@ class ilUIServiceDependencies
 	}
 
 	/**
-	 * @return \ILIAS\DI\UIServices
+	 * @return UIServices
 	 */
 	public function ui()
 	{

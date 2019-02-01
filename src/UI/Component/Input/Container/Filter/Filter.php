@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerable;
+use ILIAS\UI\Component\Input\Field\Input;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -60,7 +61,7 @@ interface Filter extends Component, JavaScriptBindable, Triggerable {
 	/**
 	 * Get the inputs contained in the Filter.
 	 *
-	 * @return    array<mixed,\ILIAS\UI\Component\Input\Input>
+	 * @return    array<mixed,Input>
 	 */
 	public function getInputs();
 

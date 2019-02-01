@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\DI\UIServices;
+use \ILIAS\UI\Component\Input\Container\Filter;
+use \ILIAS\UI\Component\Input\Field\FilterInput;
+
 /**
  * Filter service. Wraps around KS filter container.
  *
@@ -25,7 +29,7 @@ class ilUIFilterService
 	protected $service;
 
 	/**
-	 * @var \ILIAS\DI\UIServices
+	 * @var UIServices
 	 */
 	protected $ui;
 
@@ -58,14 +62,14 @@ class ilUIFilterService
 	 *
 	 * @param string $filter_id
 	 * @param string $base_action
-	 * @param ILIAS\UI\Component\Input\Field\FilterInput[] $inputs
+	 * @param FilterInput[] $inputs
 	 * @param bool[] $is_input_initially_rendered
 	 * @param bool $is_activated
 	 * @param bool $is_expanded
-	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
+	 * @return Filter\Standard
 	 */
 	public function standard($filter_id, $base_action, array $inputs, array $is_input_initially_rendered,
-							 $is_activated = false, $is_expanded = false): \ILIAS\UI\Component\Input\Container\Filter\Standard
+							 $is_activated = false, $is_expanded = false): Filter\Standard
 	{
 		$ui = $this->ui->factory();
 
@@ -122,10 +126,10 @@ class ilUIFilterService
 	/**
 	 * Get data
 	 *
-	 * @param \ILIAS\UI\Component\Input\Container\Filter\Standard $filter
+	 * @param Filter\Standard $filter
 	 * @return array|null
 	 */
-	public function getData(\ILIAS\UI\Component\Input\Container\Filter\Standard $filter)
+	public function getData(Filter\Standard $filter)
 	{
 		$result = null;
 		if (in_array($this->request->getFilterCmd(),
@@ -204,10 +208,10 @@ class ilUIFilterService
 	 * Handle apply and collapse command
 	 *
 	 * @param string $filter_id
-	 * @param \ILIAS\UI\Component\Input\Container\Filter\Standard $filter
-	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
+	 * @param Filter\Standard $filter
+	 * @return Filter\Standard
 	 */
-	protected function handleApplyAndCollapse(string $filter_id, \ILIAS\UI\Component\Input\Container\Filter\Standard $filter): \ILIAS\UI\Component\Input\Container\Filter\Standard
+	protected function handleApplyAndCollapse(string $filter_id, Filter\Standard $filter): Filter\Standard
 	{
 		if ((in_array($this->request->getFilterCmd(),
 			[self::CMD_APPLY, self::CMD_COLLAPSE])))

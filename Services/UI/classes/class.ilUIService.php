@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\UIServices;
+use \Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Filter service
  *
@@ -19,9 +22,9 @@ class ilUIService
 	/**
 	 * Constructor
 	 *
-	 * @param \Psr\Http\Message\ServerRequestInterface $request
+	 * @param ServerRequestInterface $request
 	 */
-	public function __construct(\Psr\Http\Message\ServerRequestInterface $request, \ILIAS\DI\UIServices $ui)
+	public function __construct(ServerRequestInterface $request, UIServices $ui)
 	{
 		$this->_deps = new ilUIServiceDependencies($ui, new ilUIFilterRequestAdapter($request));
 	}

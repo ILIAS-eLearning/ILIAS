@@ -4,7 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * Implements interaction of input element with post data from
  * psr-7 server request.
  */
-class PostDataFromServerRequest implements PostData {
+class PostDataFromServerRequest implements InputData {
 
 	/**
 	 * @var    array

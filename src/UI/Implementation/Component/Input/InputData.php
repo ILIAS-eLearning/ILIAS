@@ -9,7 +9,7 @@ namespace ILIAS\UI\Implementation\Component\Input;
  *
  * This basically is a glorified array.
  */
-interface PostData {
+interface InputData {
 
 	/**
 	 * Get a named value from the data.
