@@ -177,6 +177,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
+		if ($this->select_postvar != "")
+		{
+			return "";
+		}
 		if ($this->getCustomLinkTarget() != "")
 		{
 			return $this->getCustomLinkTarget()."&".$this->select_par."=".$a_node["child"];

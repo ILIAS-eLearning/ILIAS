@@ -1,14 +1,14 @@
 <div class="ilc_question_KprimChoice">
 <div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
 <p class="ilAssKprimInstruction ilClearFloat">{INSTRUCTIONTEXT}</p>
-<div class="container-fluid ilc_answers answers ilAssKprimChoiceTable ilClearFloat">
+<div class="ilc_answers answers ilAssKprimChoiceTable ilClearFloat">
 	<div class="row ilc_qanswer_Answer">
-		<div class="col-sm-1 optionLabel">{OPTION_LABEL_TRUE}</div>
-		<div class="col-sm-1 optionLabel">{OPTION_LABEL_FALSE}</div>
+		<div class="col-xs-3 col-sm-2 col-md-3 col-lg-2 optionLabel">{OPTION_LABEL_TRUE}</div>
+		<div class="col-xs-3 col-sm-2 col-md-3 col-lg-2 optionLabel">{OPTION_LABEL_FALSE}</div>
 	</div>
 	<!-- BEGIN answer_row -->
 	<div class="row ilc_qanswer_Answer">
-		<div class="col-sm-1 kprimInput">
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 kprimInput">
 			<!-- BEGIN solution_true_image -->
 			<img src="{SOLUTION_IMAGE_TRUE}" alt="{SOLUTION_ALT_TRUE}" title="{SOLUTION_ALT_TRUE}" />
 			<!-- END solution_true_image -->
@@ -16,7 +16,7 @@
 			<input type="radio" name="kprim_result_q{SOL_QID}_{SOL_SUFFIX}_{SOL_POSITION}" value="{SOL_TRUE_VALUE}" readonly disabled {SOL_TRUE_CHECKED} />
 			<!-- END solution_true_field -->
 		</div>
-		<div class="col-sm-1 kprimInput">
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 kprimInput">
 			<!-- BEGIN solution_false_image -->
 			<img src="{SOLUTION_IMAGE_FALSE}" alt="{SOLUTION_ALT_FALSE}" title="{SOLUTION_ALT_FALSE}" />
 			<!-- END solution_false_image -->
@@ -24,7 +24,7 @@
 			<input type="radio" name="kprim_result_q{SOL_QID}_{SOL_SUFFIX}_{SOL_POSITION}" value="{SOL_FALSE_VALUE}" readonly disabled {SOL_FALSE_CHECKED} />
 			<!-- END solution_false_field -->
 		</div>
-		<div class="col-sm-4">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-8">
 			<!-- BEGIN answer_image -->
 			<div class="ilc_media_cont_MediaContainer">
 				<div class="ilc_qimg_QuestionImage ilc_Mob">

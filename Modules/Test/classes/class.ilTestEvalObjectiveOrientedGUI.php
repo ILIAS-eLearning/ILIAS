@@ -66,8 +66,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
         // prepare generation before contents are processed (for mathjax)
 		if ($this->isPdfDeliveryRequest())
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 		}
 
 		$toolbar = $this->buildUserTestResultsToolbarGUI();

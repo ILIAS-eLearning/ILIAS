@@ -568,12 +568,20 @@ class ilMailFolderGUI
 			return;
 		}
 
-		$folderId = (int)($this->httpRequest->getParsedBody()['folder_id'] ?? 0);
-		if ($this->umail->moveMailsToFolder($mailIds, $folderId)) {
+		$newFolderId = (int)($this->httpRequest->getParsedBody()['folder_id'] ?? 0);
+		$redirectFolderId = $newFolderId;
+		foreach ($mailIds as $mailId) {
+			$mailData = $this->umail->getMail($mailId);
+			if (isset($mailData['folder_id']) && is_numeric($mailData['folder_id']) && (int)$mailData['folder_id'] > 0) {
+				$redirectFolderId = $mailData['folder_id'];
+				break;
+			}
+		}
+
+		if ($this->umail->moveMailsToFolder($mailIds, $newFolderId)) {
 			\ilUtil::sendSuccess($this->lng->txt('mail_moved'), true);
-			$this->ctrl->setParameter($this, 'mail_id', current($mailIds));
-			$this->ctrl->setParameter($this, 'mobj_id', $folderId);
-			$this->ctrl->redirect($this, 'showMail');
+			$this->ctrl->setParameter($this, 'mobj_id', $redirectFolderId);
+			$this->ctrl->redirect($this, 'showFolder');
 		} else {
 			\ilUtil::sendFailure($this->lng->txt('mail_move_error'));
 			$this->showMail();

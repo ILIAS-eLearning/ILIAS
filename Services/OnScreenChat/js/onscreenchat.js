@@ -1127,7 +1127,7 @@
 		for (var key in conversation.participants) {
 			if (
 				conversation.participants.hasOwnProperty(key) && (
-					getModule().user.id != conversation.participants[key].id ||
+					(getModule().user !== undefined && getModule().user.id != conversation.participants[key].id) ||
 					ignoreMySelf === false
 				)
 			) {

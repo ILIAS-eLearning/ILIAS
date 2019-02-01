@@ -276,7 +276,6 @@ class ilExAssignmentEditorGUI
 
 			// Radio for creators
 			$rd_team = new ilRadioGroupInputGUI($lng->txt("exc_team_formation"), "team_creator");
-			$rd_team->setRequired(true);
 
 			$radio_participants = new ilRadioOption(
 				$lng->txt("exc_team_by_participants"),
@@ -1040,18 +1039,7 @@ class ilExAssignmentEditorGUI
 			$ass->update();
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-						
-			// adopt teams for team upload?
-			if ($ass_type->usesTeams())
-			{				
-				include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-				if(sizeof(ilExAssignmentTeam::getAdoptableTeamAssignments($this->exercise_id, $ass->getId())))
-				{
-					$ilCtrl->setParameter($this, "ass_id", $ass->getId());
-					$ilCtrl->redirect($this, "adoptTeamAssignmentsForm");
-				}
-			}			
-			
+
 			// because of sub-tabs we stay on settings screen
 			$ilCtrl->setParameter($this, "ass_id", $ass->getId());
 			$ilCtrl->redirect($this, "editAssignment");
@@ -1068,7 +1056,6 @@ class ilExAssignmentEditorGUI
 	 */
 	function editAssignmentObject()
 	{
-		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		$tpl = $this->tpl;
 		
@@ -1912,7 +1899,8 @@ class ilExAssignmentEditorGUI
 	 */
 	function generateTeams(ilExAssignment $a_assignment, $a_input)
 	{
-		if($a_assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM &&
+		$ass_type = $a_assignment->getAssignmentType();
+		if ($ass_type->usesTeams() &&
 			$a_input['team_creator'] == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
 		{
 			if($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_RANDOM)

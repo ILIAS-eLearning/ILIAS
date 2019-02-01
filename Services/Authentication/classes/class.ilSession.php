@@ -346,11 +346,15 @@ class ilSession
 	{
 		global $DIC;
 
-		$ilSetting = $DIC['ilSetting'];
-		
-		if( $fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED )
+		if($fixedMode)
 		{
 			// fixed session
+			return time() + self::getIdleValue($fixedMode);
+		}
+
+		$ilSetting = $DIC['ilSetting'];
+		if($ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED )
+		{
 			return time() + self::getIdleValue($fixedMode);
 		}
 		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDENT )

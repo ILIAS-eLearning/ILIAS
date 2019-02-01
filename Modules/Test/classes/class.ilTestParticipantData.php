@@ -55,6 +55,11 @@ class ilTestParticipantData
 	 */
 	protected $participantAccessFilter;
 	
+	/**
+	 * @var bool
+	 */
+	protected $scoredParticipantsFilterEnabled;
+	
 	public function __construct(ilDBInterface $db, ilLanguage $lng)
 	{
 		$this->db = $db;
@@ -67,6 +72,8 @@ class ilTestParticipantData
 		$this->byActiveId = array();
 		$this->byUserId = array();
 		$this->byAnonymousId = array();
+		
+		$this->scoredParticipantsFilterEnabled = false;
 	}
 	
 	/**
@@ -83,6 +90,22 @@ class ilTestParticipantData
 	public function setParticipantAccessFilter($participantAccessFilter)
 	{
 		$this->participantAccessFilter = $participantAccessFilter;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isScoredParticipantsFilterEnabled()
+	{
+		return $this->scoredParticipantsFilterEnabled;
+	}
+	
+	/**
+	 * @param bool $scoredParticipantsFilterEnabled
+	 */
+	public function setScoredParticipantsFilterEnabled($scoredParticipantsFilterEnabled)
+	{
+		$this->scoredParticipantsFilterEnabled = $scoredParticipantsFilterEnabled;
 	}
 	
 	public function load($testId)
@@ -103,6 +126,7 @@ class ilTestParticipantData
 			ON 			ud.usr_id = ta.user_fi
 			WHERE		test_fi = %s
 			AND			{$this->getConditionalExpression()}
+			AND 		{$this->getScoredParticipantsFilterExpression()}
 		";
 		
 		$res = $this->db->queryF($query, array('integer'), array($testId));
@@ -139,6 +163,16 @@ class ilTestParticipantData
 				$this->byUserId[ $row['user_id'] ] = $row;
 			}
 		}
+	}
+	
+	public function getScoredParticipantsFilterExpression()
+	{
+		if( $this->isScoredParticipantsFilterEnabled() )
+		{
+			return "ta.last_finished_pass = ta.last_started_pass";
+		}
+		
+		return '1 = 1';
 	}
 	
 	public function getConditionalExpression()

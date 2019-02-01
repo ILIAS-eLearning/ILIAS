@@ -87,9 +87,24 @@ class ilPersonalSkill implements ilSkillUsageInfo
 			" user_id = ".$ilDB->quote($a_user_id, "integer").
 			" AND skill_node_id = ".$ilDB->quote($a_skill_node_id, "integer")
 			);
-		
 	}
-	
+
+	/**
+	 * Remove personal skills of user
+	 *
+	 * @param int $a_user_id user id
+	 */
+	static function removeSkills($a_user_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$ilDB->manipulate("DELETE FROM skl_personal_skill WHERE ".
+			" user_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+	}
+
 	
 	//
 	// Assigned materials
@@ -201,7 +216,23 @@ class ilPersonalSkill implements ilSkillUsageInfo
 
 		$ilDB->manipulate($t);
 	}
-	
+
+	/**
+	 * Remove materials of user
+	 *
+	 * @param int $a_user_id
+	 */
+	static function removeMaterials($a_user_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$t = "DELETE FROM skl_assigned_material WHERE ".
+			" user_id = ".$ilDB->quote($a_user_id, "integer");
+		$ilDB->manipulate($t);
+	}
+
 	//
 	// Self evaluation
 	//

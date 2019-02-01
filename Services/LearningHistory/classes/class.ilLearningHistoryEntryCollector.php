@@ -27,9 +27,13 @@ class ilLearningHistoryEntryCollector
 	/**
 	 * Get entries
 	 *
+	 * @param int $from unix timestamp
+	 * @param int $to unix timestamp
+	 * @param int $user_id user id
+	 * @param array $classes
 	 * @return ilLearningHistoryEntry[]
 	 */
-	public function getEntries($from = null, $to = null, $user_id = null, $classes = null)
+	public function getEntries(int $from = null, int $to = null, int $user_id = null, array $classes = null)
 	{
 		$entries = array();
 		$lng = $this->service->language();

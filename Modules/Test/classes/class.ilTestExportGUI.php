@@ -13,7 +13,7 @@ require_once 'Services/Export/classes/class.ilExportGUI.php';
  *               
  * @ingroup      ModulesTest
  *               
- * @ilCtrl_Calls ilTestExportGUI:
+ * @ilCtrl_Calls ilTestExportGUI: ilParticipantsTestResultsGUI
  */
 class ilTestExportGUI extends ilExportGUI
 {
@@ -109,9 +109,8 @@ class ilTestExportGUI extends ilExportGUI
 
 		if ($ilAccess->checkAccess("write", "", $this->obj->ref_id))
 		{
-            // prepare generation before contents are processed (for mathjax)
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			// prepare generation before contents are processed (for mathjax)
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 
 			require_once 'Modules/Test/classes/class.ilTestEvaluation.php';
 			$evaluation = new ilTestEvaluation($ilDB, $this->obj->getTestId());
@@ -146,7 +145,7 @@ class ilTestExportGUI extends ilExportGUI
 
 			require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
 			$generator = new ilTestPDFGenerator();
-			$generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name);
+			$generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name, PDF_USER_RESULT);
 			$archive_exp->handInTestBestSolution($best_solution, $file_name);
 			ilUtil::delDir($directory_name);
 			

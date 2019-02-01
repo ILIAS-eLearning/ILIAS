@@ -1999,20 +1999,34 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$form->setPreventDoubleSubmission(false);
 
 		$item = new ilFileStandardDropzoneInputGUI($lng->txt("mep_media_files"), 'media_files');
-//		$item->setUploadUrl($ctrl->getLinkTarget($this, "uploadMediaFiles", "save", true, true));
+		$item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
 		$item->setMaxFiles(20);
-		//$item->setSuffixes([ 'jpg', 'gif', 'png', 'pdf' , 'svg']);
-		//$item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
-		$item->setDropzoneMessage('For the purpose of this demo, any PDF file will fail to upload');
 		$form->addItem($item);
 
-		$form->addCommandButton("performBulkUpload", $lng->txt("upload"));
+		$form->addCommandButton("afterBulkUpload", $lng->txt("upload"));
 
 		$form->setTitle($lng->txt("mep_bulk_upload"));
 
 		return $form;
 	}
 
+	/**
+	 * Save bulk upload form
+	 */
+	public function afterBulkUpload()
+	{
+		// this seems never to be called...
+
+		$log = $this->mep_log;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		$log->debug("afterBulkUpload");
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ctrl->setParameter($this, "mep_hash", $_POST["ilfilehash"]);
+		$ctrl->redirect($this, "editTitlesAndDescriptions");
+	}
 
 	/**
 	 * Save bulk upload form
@@ -2032,7 +2046,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			$mep_item_ids = [];
 			// Check if this is a request to upload a file
+			$log->debug("checking for uploads...");
 			if ($upload->hasUploads()) {
+				$log->debug("has upload...");
 				try {
 					$upload->process();
 					$log->debug("nr of results: ".count($upload->getResults()));
@@ -2086,28 +2102,29 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$mep_item_ids[] = $mob->getId();
 
 
-						include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
+						// I either perform the json/exit code in (1) (2) like in the examples, but
+						// this makes it impossible to redirect anywhere after the upload or I
+						// do not make use of json/exit (like in the ilObjFileGUI->update() method)
+						// but this leads to multiple calls of the redirect at the end of this
+						// function and to the error in https://mantis.ilias.de/view.php?id=24616
 
-						//ilSession::set("mep_ids_".$_POST["ilfilehash"], $ids);
-
-						//$log->debug("added mob: ".$mob->getId());
-						//$log->debug("mep_item_ids: ".print_r($mep_item_ids, true));
-						//$log->debug("post: ".print_r($_POST, true));
-						//$log->debug("get: ".print_r($_GET, true));
-						//$log->debug("files: ".print_r($_FILES, true));
+						// (1)
+//						echo json_encode(array( 'success' => $result));
 					}
 				}
 				catch (Exception $e)
 				{
-					$log->debug("failure ".$e->getMessage());
-					ilUtil::sendFailure($e->getMessage());
-					$form->setValuesByPost();
-					$main_tpl->setContent($form->getHtml());
+					$log->debug("Got exception: ".$e->getMessage());
+					echo json_encode(array( 'success' => false, 'message' => $e->getMessage()));
 				}
 				$log->debug("end of 'has_uploads'");
-			}
 
-			$log->debug("calling redirect...");
+				// (2)
+//				exit();
+			}
+			$log->debug("has no upload...");
+
+			$log->debug("calling redirect... (".$_POST["ilfilehash"].")");
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ctrl->setParameter($this, "mep_hash", $_POST["ilfilehash"]);
 			$ctrl->redirect($this, "editTitlesAndDescriptions");

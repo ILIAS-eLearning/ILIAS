@@ -215,7 +215,7 @@ class ilCertificateTemplateImportAction
 				else if (strpos($file['entry'], '.jpg') !== false) {
 					$newVersion = $currentVersion + 1;
 					$newBackgroundImageName = 'background_' . $newVersion . '.jpg';
-					$newPath = $rootDir . $this->certificatePath . $newBackgroundImageName;
+					$newPath = $this->certificatePath . $newBackgroundImageName;
 					$this->filesystem->copy($filePath, $newPath);
 
 					$backgroundImagePath = $this->certificatePath . $newBackgroundImageName;
@@ -223,9 +223,12 @@ class ilCertificateTemplateImportAction
 
 					$backgroundImageThumbPath = $this->getBackgroundImageThumbnailPath();
 
+					$thumbnailImagePath = $rootDir . $backgroundImageThumbPath;
+
+					$originalImagePath = $rootDir . $newPath;
 					$this->utilHelper->convertImage(
-						$newPath,
-						$rootDir . $backgroundImageThumbPath,
+						$originalImagePath,
+						$thumbnailImagePath,
 						'JPEG',
 						100
 					);

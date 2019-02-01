@@ -15,13 +15,17 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilTestParticipantsTableGUI extends ilTable2GUI
 {
-	protected $accessResultsCommandsEnabled = false;
 	protected $manageResultsCommandsEnabled = false;
 	protected $manageInviteesCommandsEnabled = false;
 	
 	protected $rowKeyDataField;
 	
 	protected $anonymity;
+	
+	/**
+	 * @var bool
+	 */
+	protected $participantHasSolutionsFilterEnabled = false;
 	
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
@@ -42,29 +46,10 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		
 		$this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
 		
-		$this->setSelectAllCheckbox('chbUser');
-		
 		$this->enable('header');
 		$this->enable('sort');
-		$this->enable('select_all');
 		
 		$this->setShowRowsSelector(true);
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function isAccessResultsCommandsEnabled()
-	{
-		return $this->accessResultsCommandsEnabled;
-	}
-	
-	/**
-	 * @param bool $accessResultsCommandsEnabled
-	 */
-	public function setAccessResultsCommandsEnabled($accessResultsCommandsEnabled)
-	{
-		$this->accessResultsCommandsEnabled = $accessResultsCommandsEnabled;
 	}
 	
 	/**
@@ -97,6 +82,15 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	public function setManageInviteesCommandsEnabled($manageInviteesCommandsEnabled)
 	{
 		$this->manageInviteesCommandsEnabled = $manageInviteesCommandsEnabled;
+		
+		if($manageInviteesCommandsEnabled)
+		{
+			$this->setSelectAllCheckbox('chbUser');
+		}
+		else
+		{
+			$this->setSelectAllCheckbox('');
+		}
 	}
 	
 	/**
@@ -132,6 +126,22 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	}
 	
 	/**
+	 * @return bool
+	 */
+	public function isParticipantHasSolutionsFilterEnabled()
+	{
+		return $this->participantHasSolutionsFilterEnabled;
+	}
+	
+	/**
+	 * @param bool $participantHasSolutionsFilterEnabled
+	 */
+	public function setParticipantHasSolutionsFilterEnabled(bool $participantHasSolutionsFilterEnabled)
+	{
+		$this->participantHasSolutionsFilterEnabled = $participantHasSolutionsFilterEnabled;
+	}
+	
+	/**
 	 * @param string $field
 	 * @return bool
 	 */
@@ -142,10 +152,18 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		));
 	}
 	
+	protected function needsCheckboxColumn()
+	{
+		return $this->isManageInviteesCommandsEnabled();
+	}
 	
 	public function initColumns()
 	{
-		$this->addColumn('','','1%');
+		if( $this->needsCheckboxColumn() )
+		{
+			$this->addColumn('', '', '1%');
+		}
+		
 		$this->addColumn($this->lng->txt("name"),'name', '');
 		$this->addColumn($this->lng->txt("login"),'login', '');
 		
@@ -175,18 +193,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$this->addMultiCommand('saveClientIp', $this->lng->txt('save'));
 			$this->addMultiCommand('removeParticipants', $this->lng->txt('remove_as_participant'));
 		}
-		
-		if( $this->isAccessResultsCommandsEnabled() && !$this->getAnonymity() )
-		{
-			$this->addMultiCommand('showPassOverview', $this->lng->txt('show_pass_overview'));
-			$this->addMultiCommand('showUserAnswers', $this->lng->txt('show_user_answers'));
-			$this->addMultiCommand('showDetailedResults', $this->lng->txt('show_detailed_results'));
-		}
-		
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));
-		}
 	}
 	
 	public function initFilter()
@@ -194,19 +200,22 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		global $DIC;
 		$lng = $DIC['lng'];
 		
-		// title/description
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
-		$ti->setOptions(
-			array(
-				'all' => $lng->txt('all_participants'),
-				'withSolutions' => $lng->txt('with_solutions_participants'),
-				'withoutSolutions' => $lng->txt('without_solutions_participants')
-			)
-		);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
-		$this->filter["title"] = $ti->getValue();
+		if( $this->isParticipantHasSolutionsFilterEnabled() )
+		{
+			// title/description
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
+			$ti->setOptions(
+				array(
+					'all' => $lng->txt('all_participants'),
+					'withSolutions' => $lng->txt('with_solutions_participants'),
+					'withoutSolutions' => $lng->txt('without_solutions_participants')
+				)
+			);
+			$this->addFilterItem($ti);
+			$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
+			$this->filter["title"] = $ti->getValue();
+		}
 	}
 	
 	/**
@@ -214,11 +223,18 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
+		if( $this->needsCheckboxColumn() )
+		{
+			$this->tpl->setCurrentBlock('checkbox_column');
+			$this->tpl->setVariable("CHB_ROW_KEY", $this->fetchRowKey($data));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		if( $this->isManageInviteesCommandsEnabled() )
 		{
 			$this->tpl->setCurrentBlock('client_ip_column');
 			$this->tpl->setVariable("CLIENT_IP", $data['clientip']);
-			$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
+			$this->tpl->setVariable("CIP_ROW_KEY", $this->fetchRowKey($data));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -266,12 +282,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$asl->addItem($this->lng->txt('finish_test'), $finishHref, $finishHref);
 		}
 		
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			$resultsHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outParticipantsResultsOverview');
-			$asl->addItem($this->lng->txt('tst_show_results'), $resultsHref, $resultsHref);
-		}
-		
 		return $asl;
 	}
 	
@@ -280,11 +290,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	 */
 	protected function isActionsColumnRequired()
 	{
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			return true;
-		}
-		
 		if( $this->isManageResultsCommandsEnabled() )
 		{
 			return true;
