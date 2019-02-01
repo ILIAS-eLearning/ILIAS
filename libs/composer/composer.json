@@ -9,7 +9,7 @@
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",
-		"monolog/monolog": "^1.23.0",
+		"monolog/monolog": "^1.24.0",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "4.10.0",
 		"phpmailer/phpmailer": "^6.0.6",
@@ -76,14 +76,14 @@
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v1.23.0",
+			"used_version" : "v1.24.0",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2018-10-29",
+			"last_update" : "2018-02-01",
 			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD",
-			"info": "v1.24.0 currently in dev mode"
+			"info": ""
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
