@@ -131,4 +131,33 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Listing\Factory
 	 */
 	public function listing();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Secondary Panels are used on the ¿¿Side Content sections?? to group content.
+	 *   composition: >
+	 *       Secondary Panels consist of content section ¿¿and may have a title??. They may contain a Listing Panel or a Legacy component.
+	 *   rivals:
+	 *      Slate: >
+	 *        Secondary Panels should be used to contain content or components that have a strong relationship to the current
+	 *        screen context. Slates are used to display components that should be available independent from the current screen.
+	 *        Slates depend on a component that toggles their visibility, Secondary Panels don't.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: Secondary Panels MUST NOT be inside the main template content.
+	 *   composition:
+	 *      1: Secondary Panels MUST NOT contain anything but a Legacy or Listing Panel.
+	 *      2: title?
+	 *      3: Secondary Panels MAY contain a View Control to change the current presentation of the content.
+	 *      4: Secondary Panels MAY have and Button to perform actions listed in a Standard Dropdown.
+	 *
+	 * ---
+	 * @param string $title
+	 * @param Component[]|Component
+	 * @return \ILIAS\UI\Component\Panel\Sub
+	 */
+	public function secondary($title,$content);
 }

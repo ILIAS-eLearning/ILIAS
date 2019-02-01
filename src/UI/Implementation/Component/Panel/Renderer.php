@@ -32,6 +32,11 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var Component\Panel\Sub $component
 			 */
 			return $this->renderSub($component, $default_renderer);
+		} else if($component instanceof Component\Panel\Secondary) {
+			/**
+			 * @var Component\Panel\Secondary $component
+			 */
+			return $this->renderSecondary($component, $default_renderer);
 		}
 		/**
 		 * @var Component\Panel\Report $component
@@ -122,6 +127,19 @@ class Renderer extends AbstractComponentRenderer {
 	{
 		$tpl = $this->getTemplate("tpl.report.html", true, true);
 		$tpl->setVariable("TITLE",  $component->getTitle());
+		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
+		return $tpl->get();
+	}
+
+	/**
+	 * @param Component\Panel\Secondary $component
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
+	protected function renderSecondary(Component\Panel\Secondary $component, RendererInterface $default_renderer)
+	{
+		die("lakjsdf");
+		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
 		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 		return $tpl->get();
 	}
