@@ -870,6 +870,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$file->putInTree($tree->getParentId($this->object->getRefId()));
 			$file->setPermissions($tree->getParentId($this->object->getRefId()));
 			$file->createDirectory();
+
+			$upload = $DIC->upload();
+			if(!$upload->hasBeenProcessed())
+			{
+				$upload->process();
+			}
 			$file->getUploadFile(
 				$_FILES['files']['tmp_name'][$counter],
 				$_FILES['files']['name'][$counter]
