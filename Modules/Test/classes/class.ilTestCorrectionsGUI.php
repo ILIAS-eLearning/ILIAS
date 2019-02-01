@@ -280,6 +280,10 @@ class ilTestCorrectionsGUI
 			$questionGUI->object->saveToDb();
 		}
 		
+		$scoring = new ilTestScoring($this->testOBJ);
+		$scoring->setPreserveManualScores(true);
+		$scoring->recalculateSolutions();
+		
 		$response->result = true;
 		
 		echo json_encode($response);

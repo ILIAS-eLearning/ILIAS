@@ -95,4 +95,12 @@ class ilExAssTypeBlog implements ilExAssignmentTypeInterface
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
+	{
+
+	}
+
 }

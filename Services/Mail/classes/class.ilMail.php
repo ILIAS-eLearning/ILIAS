@@ -1352,10 +1352,14 @@ class ilMail
 				(string)$a_m_message,
 				(string)$attachments,
 			]);
+			$interaction = $taskFactory->createTask(\ilMailDeliveryJobUserInteraction::class, [
+				$task,
+				(int)$this->user_id
+			]);
 
-			$bucket->setTask($task);
-			$bucket->setTitle('Mail Delivery');
-			$bucket->setDescription('Delegates external mail delivery');
+			$bucket->setTask($interaction);
+			$bucket->setTitle($this->lng->txt('mail_bg_task_title'));
+			$bucket->setDescription(sprintf($this->lng->txt('mail_bg_task_desc'), $a_m_subject));
 
 			$taskManager->run($bucket);
 		} else {
