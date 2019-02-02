@@ -394,6 +394,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	public function showTree() {
 		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
 		$tree->setTypeWhiteList($this->getTreeWhiteList());
+		$tree->setNodeOpen(ilObjOrgUnit::getRootOrgRefId());
+
 		if (!$tree->handleCommand()) {
 			$this->tpl->setLeftNavContent($tree->getHTML());
 		}
