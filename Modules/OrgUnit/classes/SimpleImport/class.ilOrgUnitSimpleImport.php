@@ -52,6 +52,14 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 			$ou_parent_id_type = "reference_id";
 		}
 
+		//see mantis 0024601
+		if($ou_id_type == 'external_id') {
+			if($this->hasMoreThanOneMatch($ou_id)) {
+				$this->addError("ou_more_than_one_match_found", $ou_id?$ou_id:$external_id, $action);
+				return;
+			}
+		}
+
 		$ref_id = $this->buildRef($ou_id, $ou_id_type);
 		$parent_ref_id = $this->buildRef($ou_parent_id, $ou_parent_id_type);
 
