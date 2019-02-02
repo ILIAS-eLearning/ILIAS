@@ -14326,7 +14326,7 @@ lti#:#lti_exited#:#LTI Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeigten Beiträgen
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.
-orgu#:#org_op_access_enrolments#:#Einsicht Einschreibungen
+orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
 orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
 orgu#:#user_assignments#:#Benutzerzuweisung
