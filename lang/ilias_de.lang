@@ -12589,6 +12589,7 @@ crs#:#crs_hide_all_obj#:#Alle verbergen
 notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
 notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
 orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
+orgu#:#ou_more_than_one_match_found#:#Mehr als ein Treffer wurde gefunden.
 blog#:#blog_profile_picture_repository_info#:#Profilbilder der Autoren werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Autoren ihre Rolle entziehen?
 news#:#news_rss#:#RSS
