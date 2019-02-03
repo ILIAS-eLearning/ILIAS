@@ -221,6 +221,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 			case 'ilorgunitexportgui':
+				if (!ilObjOrgUnitAccess::_checkAccessExport((int)$_GET['ref_id'])) {
+					ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+					$this->ctrl->redirect($this);
+				}
 				$this->tabs_gui->activateTab(self::TAB_EXPORT);;
 				$ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
 				$ilOrgUnitExportGUI->addFormat('xml');
