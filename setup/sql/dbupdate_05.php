@@ -167,3 +167,13 @@ if (count($user_ids) > 0)
 		.$ilDB->in("user_id", $user_ids, false, "integer"));
 }
 ?>
+<#5447>
+<?php
+//FIX 0020168: Delete orgus in Trash - Organisational units could not be restored from trash / imports lead to ambiguous import_ids
+$set = $ilDB->query("SELECT * FROM object_data as obj inner join object_reference as ref on ref.obj_id = obj.obj_id and ref.deleted is not null where type = 'orgu'");
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$ilDB->manipulate("DELETE FROM object_data where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
+	$ilDB->manipulate("DELETE FROM object_reference where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
+}
+?>
