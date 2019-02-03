@@ -189,8 +189,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				break;
 			case "ilinfoscreengui":
 				$this->tabs_gui->activateTab("info_short");
-				if (!$this->ilAccess->checkAccess("read", "", $this->ref_id)
-				    AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+				if (!$this->ilAccess->checkAccess("read", "", $this->ref_id) AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
 				}
 				$info = new ilInfoScreenGUI($this);
@@ -275,10 +274,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'delete':
 						$this->tabs_gui->clearTargets();
 						$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
-						parent::deleteObject();
+						$this->deleteObject();
 						break;
 					case 'confirmedDelete':
-						parent::confirmedDeleteObject();
+						$this->confirmedDeleteObject();
 						break;
 					case 'cut':
 						$this->tabs_gui->clearTargets();
@@ -335,12 +334,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	protected function afterSave(ilObject $a_new_object) {
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-		ilUtil::redirect(
-			$this->getReturnLocation(
-				"save",
-				$this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS, "", false, false)
-			)
-		);
+		ilUtil::redirect($this->getReturnLocation("save", $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS, "", false, false)));
 	}
 
 
@@ -374,7 +368,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 */
 	protected function initCreationForms($a_new_type) {
 		$forms = array(
-			self::CFORM_NEW    => $this->initCreateForm($a_new_type),
+			self::CFORM_NEW => $this->initCreateForm($a_new_type),
 			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
 		);
 
@@ -385,8 +379,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	public function showPossibleSubObjects() {
 		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());
 		$gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
-		$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"]
-		                     . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI");
+		$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI");
 		$gui->render();
 	}
 
@@ -427,8 +420,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 			$icons_cache = ilObjOrgUnit::getIconsCache();
 			$icon_file = (isset($icons_cache[$this->object->getId()])) ? $icons_cache[$this->object->getId()] : '';
 			if ($icon_file) {
-				$this->tpl->setTitleIcon($icon_file, $this->lng->txt("obj_"
-				                                                     . $this->object->getType()));
+				$this->tpl->setTitleIcon($icon_file, $this->lng->txt("obj_" . $this->object->getType()));
 			}
 		}
 	}
@@ -548,8 +540,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	function setContentSubTabs() {
 		$this->addStandardContainerSubTabs();
 		//only display the import tab at the first level
-		if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) AND $this->object->getRefId()
-		                                                                   == ilObjOrgUnit::getRootOrgRefId()) {
+		if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) AND $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
 			$this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
 		}
 	}
@@ -648,7 +639,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		if (is_array($toolbar->items)) {
 			foreach ($toolbar->items as $key => $item) {
 				if ($item["cmd"] == "link" || $item["cmd"] == "copy"
-				    || $item["cmd"] == "download") {
+					|| $item["cmd"] == "download") {
 					unset($toolbar->items[$key]);
 				}
 			}
@@ -720,6 +711,46 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 */
 	public function &__initTableGUI() {
 		return parent::__initTableGUI();
+	}
+
+
+	/**
+	 * confirmed deletion of org units -> org units are deleted immediately, without putting them to the trash
+	 */
+	public function confirmedDeleteObject() {
+
+		if (count($_POST['id']) > 0) {
+			foreach ($_POST['id'] as $ref_id) {
+				$il_obj_orgunit = new ilObjOrgUnit($ref_id);
+				$il_obj_orgunit->delete();
+			}
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+
+	/**
+	 * Display deletion confirmation screen for Org Units.
+	 * Information to the user that Org units will be deleted immediately.
+	 *
+	 * @access    public
+	 */
+	public function deleteObject($a_error = false) {
+		$ilCtrl = $this->ctrl;
+		require_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+
+		$arr_ref_ids = [];
+		//Delete via Manage (more than one)
+		if (count($_POST['id']) > 0) {
+			$arr_ref_ids = $_POST['id'];
+		} elseif($_GET['item_ref_id'] > 0) {
+			$arr_ref_ids = [$_GET['item_ref_id']];
+		}
+
+		if (!$ru->showDeleteConfirmation($arr_ref_ids, false)) {
+			$ilCtrl->returnToParent($this);
+		}
 	}
 
 
