@@ -87,7 +87,9 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 * @version 1.0
 	 */
 	public function listContents($path = '', $recursive = false) {
-		$this->ensureDirectoryExistence($path);
+		if ($path !== '') {
+			$this->ensureDirectoryExistence($path);
+		}
 
 		$contents = $this->flySystemFS->listContents($path, $recursive);
 		$metadataCollection = [];
