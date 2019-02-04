@@ -88,7 +88,7 @@ class ilMMTopItemFormGUI {
 
 		foreach ($top_item_types_for_form as $classname => $representation) {
 			$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
-			$type = $type->withOption($this->hash($classname), $representation, $inputs);
+			$type = $type->withOption($this->hash($classname), $representation, "" , $inputs);
 		}
 		$type = $type->withValue($this->hash(reset(array_keys($top_item_types_for_form))));
 		if (!$this->item_facade->isEmpty()) {
