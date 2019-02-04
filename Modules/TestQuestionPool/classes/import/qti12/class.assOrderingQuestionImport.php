@@ -211,6 +211,8 @@ class assOrderingQuestionImport extends assQuestionImport
 				}
 			}
 		}
+		
+		$itemfeedbacks = $this->getFeedbackAnswerSpecific($item, 'link_');
 
 		$this->addGeneralMetadata($item);
 		$this->object->setTitle($item->getTitle());
@@ -349,6 +351,10 @@ class assOrderingQuestionImport extends assQuestionImport
 				{
 					$feedbacksgeneric[$correctness] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
 				}
+				foreach ($itemfeedbacks as $ident => $material)
+				{
+					$itemfeedbacks[$ident] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
+				}
 			}
 		}
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
@@ -360,6 +366,14 @@ class assOrderingQuestionImport extends assQuestionImport
 		{
 			$this->object->feedbackOBJ->importGenericFeedback(
 					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
+		}
+		foreach ($itemfeedbacks as $ident => $material)
+		{
+			$index = $this->fetchIndexFromFeedbackIdent($ident, 'link_');
+			
+			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
+				$this->object->getId(),0, $index, ilRTE::_replaceMediaObjectImageSrc($material, 1)
 			);
 		}
 		$this->object->saveToDb();

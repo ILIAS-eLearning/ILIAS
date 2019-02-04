@@ -17,13 +17,13 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
 		$commands = array(
 			[
 				'cmd' => ilObjLearningSequenceGUI::CMD_VIEW,
-				'permission' => 'visible',
+				'permission' => 'read',
 				'lang_var' => 'show',
 				'default' => true
 			],
 			[
 				'cmd' => ilObjLearningSequenceGUI::CMD_LEARNER_VIEW,
-				'permission' => 'visible',
+				'permission' => 'read',
 				'lang_var' => 'show',
 			],
 			[

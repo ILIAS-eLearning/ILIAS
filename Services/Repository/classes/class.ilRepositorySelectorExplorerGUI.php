@@ -114,6 +114,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 		$this->setTypeWhiteList($white);
 
 		// always open the path to the current ref id
+		$this->setPathOpen((int) $this->tree->readRootId());
 		if ((int) $_GET["ref_id"] > 0)
 		{
 			$this->setPathOpen((int) $_GET["ref_id"]);

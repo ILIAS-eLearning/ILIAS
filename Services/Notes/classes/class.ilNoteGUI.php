@@ -1851,7 +1851,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		$ctrl->setParameter($this, "news_id", $this->news_id);
 		$hash = ilCommonActionDispatcherGUI::buildAjaxHash(
 			ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
-			null , ilObject::_lookupType($this->rep_obj_id), $this->rep_obj_id, "", 0, $this->news_id);
+			null , ilObject::_lookupType($this->rep_obj_id), $this->rep_obj_id, $this->obj_type, $this->obj_id, $this->news_id);
 
 		$cnt = ilNote::_countNotesAndComments($this->rep_obj_id, $this->obj_id, $this->obj_type, $this->news_id);
 		$cnt = $cnt[$this->rep_obj_id][IL_NOTE_PUBLIC];

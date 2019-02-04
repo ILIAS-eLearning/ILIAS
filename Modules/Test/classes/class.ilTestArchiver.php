@@ -387,6 +387,9 @@ class ilTestArchiver
 		require_once 'Modules/Test/classes/class.ilParticipantsTestResultsGUI.php';
 		$gui = new ilParticipantsTestResultsGUI();
 		$gui->setTestObj($test);
+		require_once 'Modules/Test/classes/class.ilTestObjectiveOrientedContainer.php';
+		$objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
+		$gui->setObjectiveParent($objectiveOrientedContainer);
 		$array_of_actives = array();
 		$participants = $test->getParticipants();
 

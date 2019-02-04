@@ -2126,11 +2126,13 @@ class ilObjContentObject extends ilObject
 			preg_match_all("/url\(([^\)]*)\)/",$css,$files);
 			foreach (array_unique($files[1]) as $fileref)
 			{
-				if (is_file(str_replace("..", ".", $fileref)))
+				$target_fileref = str_replace("..", ".", $fileref);
+				$target_fileref = str_replace('"', "", $target_fileref);
+				if (is_file($target_fileref))
 				{
-					copy(str_replace("..", ".", $fileref), $content_style_img_dir."/".basename($fileref));
+					copy($target_fileref, $content_style_img_dir."/".basename($target_fileref));
 				}
-				$css = str_replace($fileref, "images/".basename($fileref),$css);
+				$css = str_replace($fileref, "images/".basename($target_fileref),$css);
 			}	
 			fwrite(fopen($content_style_dir."/content.css",'w'),$css);
 		}
@@ -2438,6 +2440,9 @@ class ilObjContentObject extends ilObject
 			array("source" => ilExplorerBaseGUI::getLocalJsTreeJsPath(),
 				"target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalJsTreeJsPath(),
 				"type" => "js"),
+			array("source" => ilExplorerBaseGUI::getLocalJsTreeCssPath(),
+				"target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalJsTreeCssPath(),
+				"type" => "css"),
 			array("source" => './Modules/LearningModule/js/LearningModule.js',
 				"target" => $a_target_dir.'/js/LearningModule.js',
 				"type" => "js")
@@ -3386,6 +3391,30 @@ class ilObjContentObject extends ilObject
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->getId());
 		$ot->copy($new_obj->getId());
+
+		// copy lm menu
+		include_once './Modules/LearningModule/classes/class.ilLMMenuEditor.php';
+		$menu = new ilLMMenuEditor();
+		$menu->setObjId($this->getId());
+		$new_menu = new ilLMMenuEditor();
+		$new_menu->setObjId($new_obj->getId());
+		foreach ($menu->getMenuEntries() as $entry)
+		{
+			/*'id'		=> $row->id,
+							   'title'	=> $row->title,
+							   'link'	=> $row->target,
+							   'type'	=> $row->link_type,
+							   'ref_id'	=> $row->link_ref_id,
+							   'active'*/
+
+			$new_menu->setTarget($entry["link"]);
+			$new_menu->setTitle($entry["title"]);
+			$new_menu->setLinkType($entry["type"]);
+			$new_menu->setLinkRefId($entry["ref_id"]);
+			$new_menu->create();
+			ilLMMenuEditor::writeActive($new_menu->getEntryId(), $entry["active"] == "y" ? true : false);
+		}
+
 
 		return $new_obj;
 	}

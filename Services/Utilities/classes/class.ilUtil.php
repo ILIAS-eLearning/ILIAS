@@ -4480,13 +4480,6 @@ class ilUtil
 		$result = $txt_output;
 		$is_html = self::isHTML($result);
 
-		if ($prepare_for_latex_output)
-		{
-			include_once './Services/MathJax/classes/class.ilMathJax.php';
-			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-		}
-
 		// removed: did not work with magic_quotes_gpc = On
 		if (!$is_html )
 		{
@@ -4513,6 +4506,16 @@ class ilUtil
 				}
 			}
 		}
+		
+		// since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
+		// do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
+		if ($prepare_for_latex_output)
+		{
+			include_once './Services/MathJax/classes/class.ilMathJax.php';
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+		}
+
 		if ($prepare_for_latex_output)
 		{
 			// replace special characters to prevent problems with the ILIAS template system

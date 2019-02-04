@@ -520,7 +520,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
 			);
 			
-			$table->setData($participantList->getTableRows());
+			$table->setData($participantList->getParticipantsTableRows());
 		}
 
 		return $table;

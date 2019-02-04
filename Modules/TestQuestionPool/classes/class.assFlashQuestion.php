@@ -438,7 +438,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 		
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	function sendToHost($url, $data, $optional_headers = null)
@@ -522,14 +522,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 		// nothing to save!
 
 		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	/**

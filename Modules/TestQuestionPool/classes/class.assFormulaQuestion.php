@@ -1016,7 +1016,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
 		
-		return $reachedPoints;
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	protected function isValidSolutionResultValue($submittedValue)
@@ -1249,14 +1249,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
-	/**
 	 * Returns the question type of the question
 	 * @return string The question type of the question
 	 */
@@ -1423,8 +1415,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				{
 					//get unit-factor
 					$unit_factor = assFormulaQuestionUnit::lookupUnitFactor($user_solution[$result_name]['unit']);
-					$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 				}
+
+				$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 			}
 			if($result->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
 				|| $result->getResultType() == assFormulaQuestionResult::RESULT_FRAC)

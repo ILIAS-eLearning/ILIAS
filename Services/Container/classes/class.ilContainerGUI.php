@@ -3504,16 +3504,22 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function initFormTitleDescription(ilPropertyFormGUI $form)
 	{
 		/** @var ilObjectTranslation $trans */
-		$trans = $this->object->getObjectTranslation();
+		if (is_object($this->object))	// note: this form can also be used for new groups (create group via awareness tool)
+		{
+			$trans = $this->object->getObjectTranslation();
+		}
 
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$title->setRequired(true);
 		$title->setSize(min(40, ilObject::TITLE_LENGTH));
 		$title->setMaxLength(ilObject::TITLE_LENGTH);
-		$title->setValue($trans->getDefaultTitle());
+		if(is_object($trans))
+		{
+			$title->setValue($trans->getDefaultTitle());
+		}
 		$form->addItem($title);
 
-		if(sizeof($trans->getLanguages()) > 1)
+		if(is_object($trans) && sizeof($trans->getLanguages()) > 1)
 		{
 			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
 			$languages = ilMDLanguageItem::_getLanguages();
@@ -3527,7 +3533,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
 		$desc->setRows(2);
 		$desc->setCols(40);
-		$desc->setValue($trans->getDefaultDescription());
+		if(is_object($trans))
+		{
+			$desc->setValue($trans->getDefaultDescription());
+		}
 		$form->addItem($desc);
 	}
 
