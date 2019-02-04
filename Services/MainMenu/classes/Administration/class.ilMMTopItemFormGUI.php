@@ -84,11 +84,11 @@ class ilMMTopItemFormGUI {
 
 		// TYPE
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))->withRequired(true);
-		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesForForm();
+		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesWithInformation();
 
-		foreach ($top_item_types_for_form as $classname => $representation) {
+		foreach ($top_item_types_for_form as $classname => $information) {
 			$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
-			$type = $type->withOption($this->hash($classname), $representation, "" , $inputs);
+			$type = $type->withOption($this->hash($classname), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation() , $inputs);
 		}
 		$type = $type->withValue($this->hash(reset(array_keys($top_item_types_for_form))));
 		if (!$this->item_facade->isEmpty()) {

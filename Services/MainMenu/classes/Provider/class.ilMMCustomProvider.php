@@ -114,7 +114,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		$link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class));
 		$link_list->setCreationPrevented(true);
 		$c->add($link_list);
-		$c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), null, new ilMMTypeHandlerSeparator()));
+		$c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), null, new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
 		$c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), null, new ilMMTypeHandlerRepositoryLink()));
 		$complex = new TypeInformation(Complex::class, $this->translateType(Complex::class));
 		$complex->setCreationPrevented(true);
@@ -137,5 +137,18 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		$last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
 
 		return $this->dic->language()->txt("type_" . strtolower($last_part));
+	}
+
+
+	/**
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	private function translateByline(string $type): string {
+		$last_part = substr(strrchr($type, "\\"), 1);
+		$last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
+
+		return $this->dic->language()->txt("type_" . strtolower($last_part) . "_info");
 	}
 }
