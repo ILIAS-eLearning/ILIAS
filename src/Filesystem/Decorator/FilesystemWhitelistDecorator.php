@@ -9,6 +9,7 @@ use ILIAS\Data\DataSize;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Visibility;
@@ -303,5 +304,13 @@ final class FilesystemWhitelistDecorator implements Filesystem {
 		if (!$this->hasDir($path)) {
 			throw new DirectoryNotFoundException("Directory \"$path\" not found.");
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function finder(): Finder
+	{
+		return $this->filesystem->finder();
 	}
 }
