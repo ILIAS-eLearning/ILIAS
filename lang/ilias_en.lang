@@ -15064,5 +15064,6 @@ content#:#cont_notification_deactivated#:#Notification Deactivated
 content#:#cont_notification_comment_subject#:#A comment was added to %s: %s
 content#:#cont_change_notification_salutation#:#Hello %s,
 content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented
+content#:#cont_notification_update_lm#:#the following Learning Module has been updated
 content#:#cont_commented_by#:#Commented by
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
