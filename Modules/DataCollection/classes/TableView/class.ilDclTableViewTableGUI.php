@@ -121,7 +121,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
             $this->ctrl->setParameterByClass('ilDclDetailedViewDefinitionGUI', 'tableview_id', $id);
             $alist->addItem($this->lng->txt('settings'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
-            $alist->addItem($this->lng->txt('dcl_list_fields'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editFieldSettings'));
+            $alist->addItem($this->lng->txt('dcl_list_visibility_and_filter'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editFieldSettings'));
             $alist->addItem($this->lng->txt('dcl_detailed_view'), '', $this->ctrl->getLinkTargetByClass(array('ildcltablevieweditgui', 'ilDclDetailedViewDefinitionGUI'), 'edit'));
             $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
             return $alist->getHTML();
