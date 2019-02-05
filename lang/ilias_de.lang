@@ -14897,21 +14897,23 @@ survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new
 survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations###10 11 2018 new variable
 survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants###10 11 2018 new variable
 survey#:#svy_participant#:#Participant###10 11 2018 new variable
-iass#:#iass_location#:#Location###10 11 2018 new variable
-iass#:#iass_further_field_headline#:#Detailed Information###10 11 2018 new variable
-iass#:#iass_no_entries#:#No entries found.###10 11 2018 new variable
-iass#:#iass_filter_all#:#All###10 11 2018 new variable
-iass#:#iass_filter_not_started#:#Not started only###10 11 2018 new variable
-iass#:#iass_filter_not_finalized#:#Not completed only###10 11 2018 new variable
-iass#:#iass_filter_finalized#:#Completed only###10 11 2018 new variable
-iass#:#iass_filter_failed#:#Failed only###10 11 2018 new variable
+iass#:#iass_location#:#Ort###10 11 2018 new variable
+iass#:#iass_further_field_headline#:#Detaillierte Informationen###10 11 2018 new variable
+iass#:#iass_no_entries#:#Keine Einträge gefunden.###10 11 2018 new variable
+iass#:#iass_filter_all#:#Alle###10 11 2018 new variable
+iass#:#iass_filter_not_started#:#Nur nicht bewertete###10 11 2018 new variable
+iass#:#iass_filter_not_finalized#:#nur nicht abgeschlossene###10 11 2018 new variable
+iass#:#iass_filter_finalized#:#Nur bestandene###10 11 2018 new variable
+iass#:#iass_filter_failed#:#Nur nicht bestandene###10 11 2018 new variable
 iass#:#iass_file#:#File###10 11 2018 new variable
 iass#:#iass_download#:#Download###10 11 2018 new variable
-iass#:#iass_sort#:#Sortation###10 11 2018 new variable
-iass#:#iass_sort_name_asc#:#Username ascending###10 11 2018 new variable
-iass#:#iass_sort_name_desc#:#Username descending###10 11 2018 new variable
-iass#:#iass_sort_examiner_login_asc#:#Examiner ascending###10 11 2018 new variable
-iass#:#iass_sort_examiner_login_desc#:#Examiner descending###10 11 2018 new variable
+iass#:#iass_sort#:#Sortierung###10 11 2018 new variable
+iass#:#iass_sort_name_asc#:#Benutzername aufsteigens###10 11 2018 new variable
+iass#:#iass_sort_name_desc#:#Benutzername absteigend###10 11 2018 new variable
+iass#:#iass_sort_examiner_login_asc#:#Prüfer aufsteigend###10 11 2018 new variable
+iass#:#iass_sort_examiner_login_desc#:#Prüfer absteigend###10 11 2018 new variable
+iass#:#iass_sort_changetime_asc#:#Letzte Änderung, aufsteigend###05 02 2019 new variable
+iass#:#iass_sort_changetime_desc#:#Letzte Änderung, absteigend###05 02 2019 new variable
 book#:#participants#:#Teilnehmer
 book#:#book_assign_object#:#Buchungsobjekt zuweisen
 book#:#book_assign#:#Zuweisen
