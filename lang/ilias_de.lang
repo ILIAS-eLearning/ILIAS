@@ -14919,6 +14919,8 @@ iass#:#iass_sort_name_asc#:#Username ascending###10 11 2018 new variable
 iass#:#iass_sort_name_desc#:#Username descending###10 11 2018 new variable
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending###10 11 2018 new variable
 iass#:#iass_sort_examiner_login_desc#:#Examiner descending###10 11 2018 new variable
+iass#:#iass_sort_changetime_asc#:#Last Change ascending###05 02 2019 new variable
+iass#:#iass_sort_changetime_desc#:#Last Change descending###05 02 2019 new variable
 book#:#participants#:#Teilnehmer
 book#:#book_assign_object#:#Buchungsobjekt zuweisen
 book#:#book_assign#:#Zuweisen
