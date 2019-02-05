@@ -115,11 +115,12 @@ class ilLearningModuleNotification
 
 		if ($this->type == ilNotification::TYPE_LM_PAGE)
 		{
-			$page_users = ilNotification::getNotificationsForObject($this->type,$lm_id, $this->page_id, null, $ignore_threshold);
+			$page_users = ilNotification::getNotificationsForObject($this->type, $this->page_id, null, $ignore_threshold);
 			$users = array_merge($users, $page_users);
+			ilNotification::updateNotificationTime(ilNotification::TYPE_LM_PAGE, $this->page_id, $users);
 		}
 
-        if(!sizeof($users))
+		if(!sizeof($users))
 		{
 			return;
 		}
