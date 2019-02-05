@@ -128,7 +128,11 @@ public function getTimestamp(string $path): \DateTimeImmutable {
 		if($rawTimestamp === false)
 			throw new IOException("Could not lookup timestamp of the file \"$path\".");
 
-		return new \DateTimeImmutable('@' . $rawTimestamp);
+		if (is_numeric($rawTimestamp)) {
+			$rawTimestamp = '@' . $rawTimestamp;
+		}
+
+		return new \DateTimeImmutable($rawTimestamp);
 	}
 	catch (\League\Flysystem\FileNotFoundException $ex) {
 		throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
