@@ -351,7 +351,8 @@ class ilExcel
 	 */
 	public function getColumnCoord($a_col)
 	{
-		return Coordinate::stringFromColumnIndex($a_col);
+		$col = ++$a_col;
+		return Coordinate::stringFromColumnIndex($col);
 	}
 	
 	/**
@@ -542,7 +543,8 @@ class ilExcel
 	 */
 	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
 	{
-		$columnLetter = Coordinate::stringFromColumnIndex($pColumn);
+		$pColumn = ++$pColumn;
+		$columnLetter = Coordinate::stringFromColumnIndex($pColumn + 1);
 		return $columnLetter . $pRow;
 	}
 
