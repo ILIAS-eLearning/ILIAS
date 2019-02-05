@@ -72,7 +72,7 @@ class ilHtmlToPdfTransformerFactory
 
 		/** @var ilPDFRenderer $renderer */
 		$renderer->generatePDF($service, $purpose, $config, $job);
-		$this->deliverPDF($output, $delivery_type);
+		return $this->deliverPDF($output, $delivery_type);
 	}
 
 
