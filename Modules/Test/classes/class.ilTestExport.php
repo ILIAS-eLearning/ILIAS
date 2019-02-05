@@ -415,7 +415,7 @@ abstract class ilTestExport
 
 			$worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getQuestionsWorkedThrough());
 			$worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getNumberOfQuestions());
-			$worksheet->setCell($row, $col++, ($data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0) . '%');
+			$worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() . '%');
 
 			$time = $data->getParticipant($active_id)->getTimeOfWork();
 			$time_seconds = $time;
