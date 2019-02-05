@@ -125,7 +125,6 @@ class ilLearningModuleNotification
 			return;
 		}
 
-		//TODO --> Should update notification for TYPE_LM_PAGE?
 		ilNotification::updateNotificationTime(ilNotification::TYPE_LM, $lm_id, $users, $this->page_id);
 
 
