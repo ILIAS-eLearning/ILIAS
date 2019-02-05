@@ -53,6 +53,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 				if (false === $upload->hasUploads()) {
 					throw new ilException($this->lng->txt('upload_error_file_not_found'));
 				}
+				$file_obj->getUploadFile($move_file, $file["name"]);
 			}
 
 			$file_obj->update();
