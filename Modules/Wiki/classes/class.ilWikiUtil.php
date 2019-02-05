@@ -728,14 +728,6 @@ class ilWikiUtil
 					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
 					$message .= $ulng->txt('wiki_commented_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n";
 
-					if($snippet)
-					{
-						$message .= "\n".$ulng->txt('content')."\n".
-							"----------------------------------------\n".
-							$snippet."\n".
-							"----------------------------------------\n";
-					}
-
 					// include comment/note text
 					if($a_comment)
 					{
