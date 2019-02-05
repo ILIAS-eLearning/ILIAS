@@ -58,10 +58,25 @@ class ilLearningModuleNotification
 	 */
 	protected $comment;
 
+    /**
+     * @var string
+     */
+	protected $link;
+
+    /**
+     * @var int
+     */
+	protected $lm_ref_id;
+
+    /**
+     * @var string
+     */
+	protected $pg_title;
+
 	/**
 	 * ilLearningModuleNotification constructor.
 	 * @param string $a_action
-	 * @param int $a_type
+	 * @param int $a_type  Notification type e.g. ilNotification::TYPE_LM_PAGE
 	 * @param ilObjLearningModule $a_learning_module
 	 * @param int $a_page_id
 	 * @param string|null $a_comment
@@ -80,6 +95,9 @@ class ilLearningModuleNotification
 		$this->learning_module = $a_learning_module;
 		$this->page_id = $a_page_id;
 		$this->comment = $a_comment;
+        $this->lm_ref_id = $this->learning_module->getRefId();
+        $this->link = $this->getLink();
+        $this->pg_title = $this->getPageTitle();
 	}
 
 	/**
@@ -87,68 +105,40 @@ class ilLearningModuleNotification
 	 */
 	public function send()
 	{
-		//currently only notifications from new comments are implemented
-		if($this->action != "comment")
-		{
-			return;
-		}
 
 		$lm_id = $this->learning_module->getId();
-		$lm_ref_id = $this->learning_module->getRefId();
-
-		$pg_title = ilLMPageObject::_getPresentationTitle($this->page_id,
-			$this->learning_module->getPageHeader(), $this->learning_module->isActiveNumbering(),
-			$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lng);
 
 		// #11138  //only comment implemented so always true.
 		$ignore_threshold = ($this->action == "comment");
 
-		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_LM, $lm_id, $this->page_id, $ignore_threshold);
+        $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_LM, $lm_id, "", $ignore_threshold);
 
 		if ($this->type == ilNotification::TYPE_LM_PAGE)
 		{
-			$page_users = ilNotification::getNotificationsForObject($this->type, $this->page_id, null, $ignore_threshold);
+            $page_users = ilNotification::getNotificationsForObject($this->type,$lm_id, $this->page_id, null, $ignore_threshold);
 			$users = array_merge($users, $page_users);
 		}
-		if(!sizeof($users))
+
+        if(!sizeof($users))
 		{
 			return;
 		}
 
+		//TODO --> Should update notification for TYPE_LM_PAGE?
 		ilNotification::updateNotificationTime(ilNotification::TYPE_LM, $lm_id, $users, $this->page_id);
 
-		// #15192 - should always be present
-		if($this->page_id)
-		{
-			// #18804 - see ilWikiPageGUI::preview()
-			$link = ilLink::_getLink("", "pg", null, $this->page_id."_".$lm_ref_id);
-		}
-		else
-		{
-			$link = ilLink::_getLink($lm_ref_id);
-		}
 
 		foreach(array_unique($users) as $idx => $user_id)
 		{
-			if($user_id != $this->ilUser->getId() &&
-				$this->ilAccess->checkAccessOfUser($user_id, 'read', '', $lm_ref_id))
+            if($user_id != $this->ilUser->getId() &&
+				$this->ilAccess->checkAccessOfUser($user_id, 'read', '', $this->lm_ref_id))
 			{
 				// use language of recipient to compose message
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
 				$ulng->loadLanguageModule('content');
 
-				$subject = sprintf($ulng->txt('cont_notification_comment_subject'), $this->learning_module->getTitle(), $pg_title);
-				$message = sprintf($ulng->txt('cont_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
-
-				$message .= $ulng->txt('cont_notification_'.$this->action).":\n\n";
-				$message .= $ulng->txt('learning module').": ".$this->learning_module->getTitle()."\n";
-				$message .= $ulng->txt('page').": ".$pg_title."\n";
-				$message .= $ulng->txt('cont_commented_by').": ".ilUserUtil::getNamePresentation($this->ilUser->getId())."\n";
-
-				// include comment/note text
-				$message .= "\n".$ulng->txt('comment').":\n\"".trim($this->comment)."\"\n";
-
-				$message .= "\n".$ulng->txt('url').": ".$link;
+				$subject = $this->getMailSubject($ulng);
+				$message = $this->getMailBody($ulng,$user_id);
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
@@ -157,4 +147,73 @@ class ilLearningModuleNotification
 			}
 		}
 	}
+
+    /**
+     * Get Link to the LM page
+     * @return string
+     */
+	protected function getLink() : string
+    {
+        // #15192 - should always be present
+        if($this->page_id)
+        {
+            // #18804 - see ilWikiPageGUI::preview()
+            return ilLink::_getLink("", "pg", null, $this->page_id."_".$this->lm_ref_id);
+        }
+
+        return ilLink::_getLink($this->lm_ref_id);
+
+    }
+
+    /**
+     * Get formatted title page
+     * @return string
+     */
+	protected function getPageTitle() : string
+    {
+        return ilLMPageObject::_getPresentationTitle(
+            $this->page_id,
+            $this->learning_module->getPageHeader(), $this->learning_module->isActiveNumbering(),
+            $this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lng
+        );
+    }
+
+    /**
+     * get Subject of mail/notification
+     * @param ilLanguage $ulng
+     * @return string
+     */
+	protected function getMailSubject(ilLanguage $ulng): string
+    {
+        if ($this->action == "comment")
+        {
+            return sprintf($ulng->txt('cont_notification_comment_subject_lm'), $this->learning_module->getTitle(), $this->pg_title);
+        }
+
+        return sprintf($ulng->txt('cont_change_notification_subject_lm'), $this->learning_module->getTitle(), $this->pg_title);
+    }
+
+    /**
+     * get email/notification body
+     * @param ilLanguage $a_ulng
+     * @param int $a_user_id
+     * @return string
+     */
+    protected function getMailBody(ilLanguage $a_ulng, int $a_user_id) : string
+    {
+        $message = sprintf($a_ulng->txt('cont_change_notification_salutation'), ilObjUser::_lookupFullname($a_user_id))."\n\n";
+        $message .= $a_ulng->txt('cont_notification_'.$this->action).":\n\n";
+        $message .= $a_ulng->txt('learning module').": ".$this->learning_module->getTitle()."\n";
+        $message .= $a_ulng->txt('page').": ".$this->pg_title."\n";
+        if($this->type == 'comment')
+        {
+            // include comment/note text
+            $message .= $a_ulng->txt('cont_commented_by').": ".ilUserUtil::getNamePresentation($this->ilUser->getId())."\n";
+            $message .= "\n".$a_ulng->txt('comment').":\n\"".trim($this->comment)."\"\n";
+        }
+
+        $message .= "\n".$a_ulng->txt('url').": ".$this->link;
+
+        return $message;
+    }
 }

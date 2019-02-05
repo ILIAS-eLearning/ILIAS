@@ -55,6 +55,16 @@ class ilLMPage extends ilPageObject
 		}
 	}
 
+	/**
+	 * After update content send notifications.
+	 */
+	function afterUpdate()
+	{
+		$references = ilObject::_getAllReferences($this->getParentId());
+		$notification = new ilLearningModuleNotification("update",ilNotification::TYPE_LM_PAGE, new ilObjLearningModule(reset($references)), $this->getId());
+		$notification->send();
+	}
+
 }
 
 ?>
