@@ -11635,6 +11635,7 @@ dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_record_view_viewdefinition#:#Seitenvorlage###deprecated
+dcl#:#dcl_list_visibility_and_filter#:#Sichtbarkeit und Filter
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
