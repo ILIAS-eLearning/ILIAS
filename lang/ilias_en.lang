@@ -9907,6 +9907,7 @@ dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
@@ -12573,6 +12574,7 @@ crs#:#crs_hide_all_obj#:#Collapse All
 notes#:#notes_comment_deleted#:#The comment has been deleted.
 notes#:#notes_comments_deleted#:#The comments have been deleted.
 orgu#:#ou_id_not_valid#:#Import-ID not found.
+orgu#:#ou_more_than_one_match_found#:#More then one match found.
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
 news#:#news_rss#:#RSS

@@ -37,6 +37,11 @@ abstract class ilTestExport
 	private $resultsfile;
 	
 	protected $resultExportingEnabledForTestExport = false;
+	
+	/**
+	 * @var ilTestParticipantList
+	 */
+	protected $forcedAccessFilteredParticipantList = null;
 
 	/**
 	 * Constructor
@@ -98,6 +103,35 @@ abstract class ilTestExport
 	public function setResultExportingEnabledForTestExport($resultExprtingEnabledForTestExport)
 	{
 		$this->resultExportingEnabledForTestExport = $resultExprtingEnabledForTestExport;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getForcedAccessFilteredParticipantList()
+	{
+		return $this->forcedAccessFilteredParticipantList;
+	}
+	
+	/**
+	 * @param ilTestParticipantList $forcedAccessFilteredParticipantList
+	 */
+	public function setForcedAccessFilteredParticipantList(ilTestParticipantList $forcedAccessFilteredParticipantList)
+	{
+		$this->forcedAccessFilteredParticipantList = $forcedAccessFilteredParticipantList;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getAccessFilteredParticipantList()
+	{
+		if( $this->getForcedAccessFilteredParticipantList() instanceof ilTestParticipantList )
+		{
+			return $this->getForcedAccessFilteredParticipantList();
+		}
+		
+		return $this->test_obj->buildStatisticsAccessFilteredParticipantList();
 	}
 
 	function getExtension () {
@@ -308,9 +342,7 @@ abstract class ilTestExport
 	 */
 	public function exportToExcel($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
-		$this->test_obj->setAccessFilteredParticipantList(
-			$this->test_obj->buildStatisticsAccessFilteredParticipantList()
-		);
+		$this->test_obj->setAccessFilteredParticipantList( $this->getAccessFilteredParticipantList() );
 		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
 

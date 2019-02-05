@@ -2992,7 +2992,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->forwardCommand($info);
 	}
 	
-	protected function renoveImportFailsObject()
+	protected function removeImportFailsObject()
 	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
 		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
