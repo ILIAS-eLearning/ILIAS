@@ -21,8 +21,48 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * @param null $a_sub_index
 	 */
 	public function keepTempFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null) {
-		parent::keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
+		$this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
 	}
+
+    /**
+     * Import upload into temp directory
+     *
+     * @param string $a_hash unique form hash
+     * @param string $a_field form field
+     * @param string $a_tmp_name temp file name
+     * @param string $a_name original file name
+     * @param string $a_type file mime type
+     * @param mixed $a_index form field index (if array)
+     * @param mixed $a_sub_index form field subindex (if array)
+     * @return bool
+     * @throws ilException
+     */
+    protected function keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
+    {
+        if (trim($a_tmp_name) == "")
+        {
+            return;
+        }
+
+        $a_name = ilUtil::getAsciiFileName($a_name);
+
+        $tmp_file_name = implode("~~", array(session_id(),
+            $a_hash,
+            $a_field,
+            $a_index,
+            $a_sub_index,
+            str_replace("/", "~~", $a_type),
+            str_replace("~~", "_", $a_name)));
+
+        // make sure temp directory exists
+        $temp_path = ilUtil::getDataDir() . "/temp";
+        if (!is_dir($temp_path))
+        {
+            ilUtil::createDirectory($temp_path);
+        }
+
+        ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path."/".$tmp_file_name);
+    }
 
 
 	/**
@@ -35,21 +75,13 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * @param null $a_index
 	 * @param null $a_sub_index
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	public static function getTempFilename($a_hash, $a_field, $a_name, $a_type, $a_index = null, $a_sub_index = null) {
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-
-		$user_id = $ilUser->getId();
-		if (!$user_id || $user_id == ANONYMOUS_USER_ID) {
-			return;
-		}
-
-		$a_name = ilUtil::getAsciiFileName($a_name);
+        $a_name = ilUtil::getAsciiFileName($a_name);
 
 		$tmp_file_name = implode(
-			"~~", array($user_id,
+			"~~", array(session_id(),
 			            $a_hash,
 			            $a_field,
 			            $a_index,
@@ -65,21 +97,21 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	}
 
 
-	/**
-	 * Return temp files
-	 *
-	 * @param $hash
-	 * @param $user_id
-	 *
-	 * @return array
-	 */
-	public static function getTempFileByHash($hash, $user_id) {
+    /**
+     * Return temp files
+     *
+     * @param $hash
+     *
+     * @return array
+     * @throws ilDclException
+     */
+	public static function getTempFileByHash($hash) {
 		$temp_path = ilUtil::getDataDir() . "/temp";
-		if (is_dir($temp_path) && $user_id && $user_id != ANONYMOUS_USER_ID) {
-			$reload = array();
+		if (is_dir($temp_path)) {
+            $reload = array();
 
-			$temp_files = glob($temp_path . "/" . $user_id . "~~" . $hash . "~~*");
-			if (is_array($temp_files)) {
+            $temp_files = glob($temp_path . "/" . session_id() . "~~" . $hash . "~~*");
+            if (is_array($temp_files)) {
 				foreach ($temp_files as $full_file) {
 					$file = explode("~~", basename($full_file));
 					$field = $file[2];
@@ -117,7 +149,9 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 					}
 				}
 			}
-		}
+		} else {
+		    throw new ilDclException('temp dir path "' . $temp_path . '" is not a directory');
+        }
 
 		return $reload;
 	}
