@@ -15062,7 +15062,7 @@ content#:#cont_notification_deactivate_page#:#Deactivate Notification for Page
 content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module
 content#:#cont_notification_activate_page#:#Activate Notification for Page
 content#:#cont_notification_deactivated#:#Notification Deactivated
-content#:#cont_notification_comment_subject#:#A comment was added to %s: %s
+content#:#cont_notification_comment_subject_lm#:#A comment was added to %s: %s
 content#:#cont_change_notification_salutation#:#Hello %s,
 content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated

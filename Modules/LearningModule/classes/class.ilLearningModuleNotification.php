@@ -201,11 +201,12 @@ class ilLearningModuleNotification
 	*/
 	protected function getMailBody(ilLanguage $a_ulng, int $a_user_id) : string
 	{
+
 		$message = sprintf($a_ulng->txt('cont_change_notification_salutation'), ilObjUser::_lookupFullname($a_user_id))."\n\n";
 		$message .= $a_ulng->txt('cont_notification_'.$this->action."_lm").":\n\n";
 		$message .= $a_ulng->txt('learning module').": ".$this->learning_module->getTitle()."\n";
 		$message .= $a_ulng->txt('page').": ".$this->pg_title."\n";
-		if($this->type == 'comment')
+		if($this->action == 'comment')
 		{
 			// include comment/note text
 			$message .= $a_ulng->txt('cont_commented_by').": ".ilUserUtil::getNamePresentation($this->ilUser->getId())."\n";
