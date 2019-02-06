@@ -802,21 +802,19 @@ class ilDclTable {
 	/**
 	 * @param int $ref_id
 	 * @param     $record ilDclBaseRecordModel
+	 * @param int $user_id
 	 *
 	 * @return bool
 	 */
-	public function hasPermissionToViewRecord($ref_id, $record) {
+	public function hasPermissionToViewRecord($ref_id, $record, $user_id = 0) {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		$rbacreview = $DIC['rbacreview'];
-		/** @var ilRbacReview $rbacreview */
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id, $user_id)) {
 			return true;
 		}
 		if (ilObjDataCollectionAccess::hasReadAccess($ref_id)) {
 			// Check for view only own entries setting
-
-			if ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $record->getOwner()) {
+			if ($this->getViewOwnRecordsPerm() && ($user_id ? $user_id : $ilUser->getId()) != $record->getOwner()) {
 				return false;
 			}
 
