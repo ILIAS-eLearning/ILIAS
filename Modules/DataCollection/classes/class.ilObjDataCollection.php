@@ -178,7 +178,7 @@ class ilObjDataCollection extends ilObject2 {
 						/** @var ilDclBaseFieldModel $field */
 						foreach ($visible_fields as $field) {
 							if ($field->isStandardField()) {
-								$value = $record->getStandardFieldHTML($field->getId());
+								$value = $record->getStandardFieldPlainText($field->getId());
 							} elseif ($record_field = $record->getRecordField($field->getId())) {
 								$value = $record_field->getPlainText();
 							}
