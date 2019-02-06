@@ -735,7 +735,7 @@ class ilDclRecordEditGUI {
 	protected function cleanupTempFiles() {
 		$ilfilehash = (isset($_POST['ilfilehash'])) ? $_POST['ilfilehash'] : null;
 		if ($ilfilehash != null) {
-			$this->form->cleanupTempFiles($ilfilehash, $this->user->getId());
+			$this->form->cleanupTempFiles($ilfilehash);
 		}
 	}
 

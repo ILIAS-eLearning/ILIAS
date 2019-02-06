@@ -235,10 +235,9 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * Cleanup temp-files
 	 *
 	 * @param $hash
-	 * @param $user
 	 */
-	public function cleanupTempFiles($hash, $user) {
-		$files = glob(ilUtil::getDataDir() . "/temp/" . $user . "~~" . $hash . "~~*");
+	public function cleanupTempFiles($hash) {
+		$files = glob(ilUtil::getDataDir() . "/temp/" . session_id() . "~~" . $hash . "~~*");
 
 		foreach ($files as $file) {
 			if (file_exists($file)) {
