@@ -826,7 +826,7 @@ class ilDclTable {
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id, $user_id)) {
 			return true;
 		}
-		if (ilObjDataCollectionAccess::hasReadAccess($ref_id, $user_id)) {
+		if (ilObjDataCollectionAccess::hasReadAccess($ref_id)) {
 			// Check for view only own entries setting
 			if ($this->getViewOwnRecordsPerm() && ($user_id ? $user_id : $ilUser->getId()) != $record->getOwner()) {
 				return false;
