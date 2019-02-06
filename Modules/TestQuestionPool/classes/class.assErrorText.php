@@ -373,7 +373,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
-		return $this->getPointsForSelectedPositions($previewSession->getParticipantsSolution());
+		$reachedPoints = $this->getPointsForSelectedPositions($previewSession->getParticipantsSolution());
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 
 	/**
@@ -446,14 +448,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		
 		$previewSession->setParticipantsSolution($selection);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	/**

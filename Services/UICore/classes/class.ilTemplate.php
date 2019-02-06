@@ -72,6 +72,7 @@ class ilTemplate extends HTML_Template_ITX
 	protected $page_actions = array();
 	protected $permanent_link = false;
 	protected $content_style_sheet = "";
+	protected $main_content = "";
 	
 	protected $title_alerts = array();
 	protected $header_action;

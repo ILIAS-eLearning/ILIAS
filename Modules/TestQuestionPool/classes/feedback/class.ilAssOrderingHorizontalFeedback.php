@@ -19,7 +19,7 @@ class ilAssOrderingHorizontalFeedback extends ilAssMultiOptionQuestionFeedback
 	 *
 	 * @return array $answerOptionsByAnswerIndex
 	 */
-	protected function getAnswerOptionsByAnswerIndex()
+	public function getAnswerOptionsByAnswerIndex()
 	{
 		if (strpos($this->questionOBJ->ordertext, '::'))
 		{

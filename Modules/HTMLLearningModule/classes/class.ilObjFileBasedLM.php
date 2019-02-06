@@ -33,6 +33,9 @@ class ilObjFileBasedLM extends ilObject
 	{
 		global $DIC;
 
+		// default is offline
+		$this->setOfflineStatus(true);
+
 		$this->db = $DIC->database();
 		// this also calls read() method! (if $a_id is set)
 		$this->type = "htlm";
@@ -211,9 +214,6 @@ class ilObjFileBasedLM extends ilObject
 		{
 			$new_obj->setOfflineStatus($this->getOfflineStatus());
 		}
-	 	
-		$new_obj->setTitle($this->getTitle());
-		$new_obj->setDescription($this->getDescription());
 
 		// copy content
 		$new_obj->populateByDirectoy($this->getDataDirectory());

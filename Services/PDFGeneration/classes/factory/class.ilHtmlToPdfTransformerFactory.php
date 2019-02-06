@@ -59,7 +59,11 @@ class ilHtmlToPdfTransformerFactory
 		$renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
 		$config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $map['selected']);
 
-		$output = $this->generateTempPath($output);
+		if( basename($output) == $output )
+		{
+			$output = $this->generateTempPath($output);
+		}
+		
 		$job = new ilPDFGenerationJob();
 		$job->setFilename($output);
 		$job->addPage($src);

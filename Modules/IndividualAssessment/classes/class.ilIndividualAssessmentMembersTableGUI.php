@@ -402,7 +402,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function checkEditable(bool $finalized, int $examiner_id = null, int $usr_id): bool
 	{
 		if(($this->userIsSystemAdmin() && !$finalized)
-			|| (!$finalized && $this->userMayEditGradesOf($$usr_id)
+			|| (!$finalized && $this->userMayEditGradesOf($usr_id)
 				&& $this->wasEditedByViewer($examiner_id)
 			)
 		) {

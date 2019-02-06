@@ -8,7 +8,7 @@
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTopItemGUI {
+class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 
 	use ilMMHasher;
 	const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
@@ -22,44 +22,7 @@ class ilMMTopItemGUI {
 	const CMD_UPDATE = 'topitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
 	const CMD_CANCEL = 'cancel';
-	const IDENTIFIER = 'identifier';
 	const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
-	/**
-	 * @var ilMMItemRepository
-	 */
-	private $repository;
-	/**
-	 * @var ilToolbarGUI
-	 */
-	private $toolbar;
-	/**
-	 * @var ilMMTabHandling
-	 */
-	private $tab_handling;
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTemplate
-	 */
-	public $tpl;
-	/**
-	 * @var ilTree
-	 */
-	public $tree;
 
 
 	/**
@@ -82,24 +45,6 @@ class ilMMTopItemGUI {
 	}
 
 
-	/**
-	 * @return ilMMItemFacadeInterface
-	 * @throws Throwable
-	 */
-	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
-		global $DIC;
-
-		if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
-			$string = $DIC->http()->request()->getParsedBody()['interruptive_items'][0];
-			$identification = $this->unhash($string);
-		} else {
-			$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
-		}
-
-		return $this->repository->getItemFacadeForIdentificationString($identification);
-	}
-
-
 	private function dispatchCommand($cmd) {
 		global $DIC;
 		switch ($cmd) {
@@ -108,20 +53,20 @@ class ilMMTopItemGUI {
 
 				return $this->index($DIC);
 			case self::CMD_ADD:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
 				return $this->add($DIC);
 			case self::CMD_CREATE:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 				$this->create($DIC);
 				break;
 			case self::CMD_EDIT:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
 				return $this->edit($DIC);
 				break;
 			case self::CMD_UPDATE:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 				$this->update($DIC);
 				break;
 			case self::CMD_SAVE_TABLE:
@@ -162,15 +107,10 @@ class ilMMTopItemGUI {
 
 
 	public function executeCommand() {
-		global $DIC;
 		$next_class = $this->ctrl->getNextClass();
 
 		if ($next_class == '') {
-			$cmd = $this->ctrl->getCmd(self::CMD_VIEW_TOP_ITEMS);
-
-			if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
-				$cmd = self::CMD_DELETE;
-			}
+			$cmd = $this->determineCommand(self::CMD_VIEW_TOP_ITEMS, self::CMD_DELETE);
 			$this->tpl->setContent($this->dispatchCommand($cmd));
 
 			return;
@@ -208,7 +148,7 @@ class ilMMTopItemGUI {
 
 		// TABLE
 		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
-
+		$table->setShowRowsSelector(false);
 		return $table->getHTML();
 	}
 
@@ -333,22 +273,5 @@ class ilMMTopItemGUI {
 		ilGlobalCache::flushAll();
 
 		$this->cancel();
-	}
-
-
-	public function renderInterruptiveModal() {
-		global $DIC;
-		$f = $DIC->ui()->factory();
-		$r = $DIC->ui()->renderer();
-
-		$form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
-		$delete_modal = $f->modal()->interruptive(
-			$this->lng->txt("delete"),
-			$this->lng->txt(self::CMD_CONFIRM_DELETE),
-			$form_action
-		);
-
-		echo $r->render([$delete_modal]);
-		exit;
 	}
 }

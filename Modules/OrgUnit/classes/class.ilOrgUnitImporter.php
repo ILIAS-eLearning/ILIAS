@@ -60,6 +60,28 @@ class ilOrgUnitImporter extends ilXmlImporter {
 		}
 	}
 
+	/**
+	 * @param string $external_id
+	 * @return bool
+	 */
+	public function hasMoreThanOneMatch($external_id) {
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = "SELECT * FROM object_data ".
+			"WHERE import_id = ".$ilDB->quote($external_id, "text")." ".
+			"ORDER BY create_date DESC";
+		$res = $ilDB->query($query);
+
+		if($ilDB->numRows($res) > 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 
 	/**
 	 * @return bool

@@ -3674,7 +3674,7 @@ class ilObjectListGUI
 		$this->resetCustomData();
 
 		$this->tpl->setVariable("DIV_CLASS",'ilContainerListItemOuter');
-		$this->tpl->setVariable("DIV_ID", 'id = "'.$this->getUniqueItemId(true).'"');
+		$this->tpl->setVariable("DIV_ID", 'data-list-item-id="'.$this->getUniqueItemId(true).'" id = "'.$this->getUniqueItemId(true).'"');
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 		
 		// #11554 - make sure that internal ids are reset
@@ -3711,7 +3711,7 @@ class ilObjectListGUI
 	 * @param bool $a_as_div
 	 * @return string
 	 */
-	protected function getUniqueItemId($a_as_div = false)
+	public function getUniqueItemId($a_as_div = false)
 	{
 		// use correct id for references
 		$id_ref = ($this->reference_ref_id > 0)

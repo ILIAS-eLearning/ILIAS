@@ -110,6 +110,8 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->renderer = $DIC->ui()->renderer();
 		$this->request = $DIC->http()->request();
 		$this->trafo_factory = new \ILIAS\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
+		$this->data = new \ILIAS\Data\Factory();
+		$this->validation = new \ILIAS\Validation\Factory($this->data, $this->lng);
 		
 		$this->object = null;
 
@@ -169,17 +171,19 @@ class ilObjStudyProgrammeSettingsGUI {
 		if ($update_possible) {
 			$this->updateWith($prg, $content);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
+
+			if($this->ctrl->isAsynch()) {
+				$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
+				return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
+			} else {
+				$this->ctrl->redirect($this);
+			}
 		} else {
 			ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
-			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
-		}
 
-		if($this->ctrl->isAsynch()) {
-			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
-		} else {
-			if($update_possible) {
-				$this->ctrl->redirect($this);
+			if($this->ctrl->isAsynch()) {
+				$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
+				return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 			} else {
 				return $this->renderer->render($form);
 			}
@@ -254,7 +258,8 @@ class ilObjStudyProgrammeSettingsGUI {
 					[
 						self::PROP_POINTS =>
 							$ff->numeric($txt("prg_points"))
-								->withValue((string)$prg->getPoints()),
+								->withValue((string)$prg->getPoints())
+								->withAdditionalConstraint($this->validation->greaterThan(-1)),
 						self::PROP_STATUS =>
 							$ff->select($txt("prg_status"), $status_options)
 								->withValue((string)$prg->getStatus())

@@ -132,7 +132,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 				'certificate_id',
 				$certificate->getUserCertificate()->getId()
 			);
-			$href = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
+			$href = $this->controller->getLinkTargetByClass(['ilPersonalDesktopGUI', 'ilAchievementsGUI', 'ilUserCertificateGUI'], 'download');
 			$this->controller->clearParametersByClass('ilUserCertificateGUI');
 
 			$prefixTextWithLink = sprintf(

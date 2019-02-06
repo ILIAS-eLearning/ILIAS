@@ -325,7 +325,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 			$points = $this->getPoints();
 		}
 
-		return $points;
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 
 	/**
@@ -415,7 +417,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	
 	public function validateSolutionSubmit()
 	{
-		if( !$this->isValidNumericSubmitValue($this->getSolutionSubmit()) )
+		if( strlen($this->getSolutionSubmit()) && !$this->isValidNumericSubmitValue($this->getSolutionSubmit()) )
 		{
 			ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
 			return false;
@@ -577,14 +579,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 							array( $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
 							), $this->getPoints(), 0, time() )
 		);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	/**

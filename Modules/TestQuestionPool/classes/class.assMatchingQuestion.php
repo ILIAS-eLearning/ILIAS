@@ -1236,14 +1236,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
 	public function getRandomId()
 	{
 		mt_srand((double)microtime()*1000000);

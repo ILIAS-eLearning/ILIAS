@@ -57,7 +57,7 @@ class ilSCORMPresentationGUI
 
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
 			(!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) ||
-			$this->object->getOfflineStatus()))
+			$this->slm->getOfflineStatus()))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}

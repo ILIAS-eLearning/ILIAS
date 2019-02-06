@@ -146,14 +146,6 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 		$form->addItem($visibility);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function hasAdditionalFormElements()
-	{
-		return true;
-	}
-
 	public function addFormFieldsFromPOST(&$form_fields)
 	{
 		$form_fields["certificate_visibility"] = $_POST["certificate_visibility"];
@@ -189,6 +181,37 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 	public function getCertificateID()
 	{
 		return $this->object->getId();
+	}
+
+	/**
+	 * This code was orignaly located in `ilObjExercise` and has been moved
+	 * here for `ilCertificateMigrationJob`
+	 *
+	 * @param int $objectId
+	 * @param int $userId
+	 * @return bool
+	 */
+	public function hasUserCertificate(int $userId)
+	{
+		// show certificate?
+		if(ilCertificate::isActive() && ilCertificate::isObjectActive($this->object->getId())) {
+			$certificate_visible = $this->object->getCertificateVisibility();
+			// if not never
+			if($certificate_visible != 2) {
+				// if passed only
+				$status = ilExerciseMembers::_lookupStatus($this->object->getId(), $userId);
+				if($certificate_visible == 1 && $status == "passed") {
+					return true;
+				}
+
+				// always (excluding notgraded)
+				else if($certificate_visible == 0 && $status != "notgraded") {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }
 

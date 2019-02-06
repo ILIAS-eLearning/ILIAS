@@ -52,6 +52,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		$this->type = "grp";
 		$this->gui_class_name = "ilobjgroupgui";
 
+		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+		$this->enableSubstitutions($this->substitutions->isActive());
+
 		// general commands array
 		include_once('./Modules/Group/classes/class.ilObjGroupAccess.php');
 		$this->commands = ilObjGroupAccess::_getCommands();

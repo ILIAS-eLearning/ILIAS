@@ -2243,6 +2243,19 @@ class ilObjectGUI
 			}
 		}
 	}
-} // END class.ilObjectGUI (3.10: 2896 loc)
+
+	/**
+	 * Redirect after creation, see https://docu.ilias.de/goto_docu_wiki_wpage_5035_1357.html
+	 *
+	 * Should be overwritten and redirect to settings screen.
+	 */
+	public function redirectAfterCreation()
+	{
+		$ctrl = $this->ctrl;
+		$link = ilLink::_getLink($this->object->getRefId());
+		$ctrl->redirectToURL($link);
+	}
+
+}
 
 ?>

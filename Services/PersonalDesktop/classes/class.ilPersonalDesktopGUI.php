@@ -773,7 +773,7 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToBadges()
 	{
-		$this->ctrl->redirectByClass("ilbadgeprofilegui");
+		$this->ctrl->redirectByClass(["ilAchievementsGUI", "ilbadgeprofilegui"]);
 	}
 	
 	/**
