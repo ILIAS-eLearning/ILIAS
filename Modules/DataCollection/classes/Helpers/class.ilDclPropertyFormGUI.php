@@ -156,6 +156,70 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 		return $reload;
 	}
 
+    /**
+     * try to rebuild files
+     */
+    protected function rebuildUploadedFiles()
+    {
+        if(isset($_POST["ilfilehash"]) && $_POST["ilfilehash"])
+        {
+            $temp_path = ilUtil::getDataDir() . "/temp";
+            if(is_dir($temp_path))
+            {
+                $reload = array();
+
+                $temp_files = glob($temp_path."/".session_id()."~~".$_POST["ilfilehash"]."~~*");
+                if(is_array($temp_files))
+                {
+                    foreach($temp_files as $full_file)
+                    {
+                        $file = explode("~~", basename($full_file));
+                        $field = $file[2];
+                        $idx = $file[3];
+                        $idx2 = $file[4];
+                        $type = $file[5]."/".$file[6];
+                        $name = $file[7];
+
+                        if($idx2 != "")
+                        {
+                            if(!$_FILES[$field]["tmp_name"][$idx][$idx2])
+                            {
+                                $reload[$field]["tmp_name"][$idx][$idx2] = $full_file;
+                                $reload[$field]["name"][$idx][$idx2] = $name;
+                                $reload[$field]["type"][$idx][$idx2] = $type;
+                                $reload[$field]["error"][$idx][$idx2] = 0;
+                                $reload[$field]["size"][$idx][$idx2] = filesize($full_file);
+                            }
+                        }
+                        else if($idx != "")
+                        {
+                            if(!$_FILES[$field]["tmp_name"][$idx])
+                            {
+                                $reload[$field]["tmp_name"][$idx] = $full_file;
+                                $reload[$field]["name"][$idx] = $name;
+                                $reload[$field]["type"][$idx] = $type;
+                                $reload[$field]["error"][$idx] = 0;
+                                $reload[$field]["size"][$idx] = filesize($full_file);
+                            }
+                        }
+                        else
+                        {
+                            if(!$_FILES[$field]["tmp_name"])
+                            {
+                                $reload[$field]["tmp_name"] = $full_file;
+                                $reload[$field]["name"] = $name;
+                                $reload[$field]["type"] = $type;
+                                $reload[$field]["error"] = 0;
+                                $reload[$field]["size"] = filesize($full_file);
+                            }
+                        }
+                    }
+                }
+
+                $this->reloaded_files = $reload;
+            }
+        }
+    }
 
 	/**
 	 * Get reloaded files
