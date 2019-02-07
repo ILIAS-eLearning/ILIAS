@@ -34,8 +34,8 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 		$label = "label";
 		$byline = "byline";
 		$radio = $f->radio($label, $byline)
-			->withOption('value0', 'label0')
-			->withOption('value1', 'label1')
+			->withOption('value0', 'label0', 'byline0')
+			->withOption('value1', 'label1', 'byline1')
 			->withNameFrom($this->name_source);
 		return $radio;
 	}
@@ -153,12 +153,12 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 		$f = $this->buildFactory();
 		$dep_field = $f->text('text', 'text');
 		$radio = $f->radio('label', 'byline')
-			->withOption('value0', 'label0');
+			->withOption('value0', 'label0', 'byline0');
 
 		$this->assertNull($radio->getDependantFieldsFor('value0'));
 
 		$dep = ['dep1'=>$dep_field];
-		$radio = $radio->withOption('value1', 'label1', $dep);
+		$radio = $radio->withOption('value1', 'label1', 'byline1', $dep);
 		$this->assertEquals(
 			$dep,
 			$radio->getDependantFieldsFor('value1')

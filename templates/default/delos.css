@@ -13384,6 +13384,12 @@ div.ilTopMemberView h3 {
     padding-top: 0;
   }
 }
+ul.il-mm-selfloading {
+  width: 768px;
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
 /* Services/UIComponent/Tabs */
 .nav-tabs > li {
   margin: 0 4px 0 0;

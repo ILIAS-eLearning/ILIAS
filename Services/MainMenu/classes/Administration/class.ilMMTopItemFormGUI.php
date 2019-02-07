@@ -84,16 +84,20 @@ class ilMMTopItemFormGUI {
 
 		// TYPE
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))->withRequired(true);
-		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesForForm();
+		$top_item_types_for_form = $this->repository->getPossibleTopItemTypesWithInformation();
 
-		foreach ($top_item_types_for_form as $classname => $representation) {
-			$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
-			$type = $type->withOption($this->hash($classname), $representation, $inputs);
+		foreach ($top_item_types_for_form as $classname => $information) {
+			if ($this->item_facade->isEmpty() || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType())) { // https://mantis.ilias.de/view.php?id=24152
+				$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+				$type = $type->withOption($this->hash($classname), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $inputs);
+			}
 		}
-		$type = $type->withValue($this->hash(reset(array_keys($top_item_types_for_form))));
+
 		if (!$this->item_facade->isEmpty()) {
 			$value = $this->item_facade->getType();
 			$type = $type->withValue($this->hash($value));
+		} else {
+			$type = $type->withValue($this->hash(reset(array_keys($top_item_types_for_form))));
 		}
 		$items[self::F_TYPE] = $type;
 
@@ -123,11 +127,13 @@ class ilMMTopItemFormGUI {
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
-		$this->item_facade->setType($type);
 		$this->item_facade->setIsTopItm(true);
 
 		if ($this->item_facade->isEmpty()) {
+			$this->item_facade->setType($type);
 			$this->repository->createItem($this->item_facade);
+		} else {
+			$type = $this->item_facade->getType();
 		}
 
 		$type_specific_data = (array)$data[0][self::F_TYPE]['group_values'];

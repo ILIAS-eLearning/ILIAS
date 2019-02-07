@@ -14562,6 +14562,7 @@ mme#:#mm_translation_trans#:#Übersetzung
 mme#:#additional_langs#:#Zusätzliche Sprachen
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
+mme#:#msg_translations_deleted#:#Übersetzungen gelöscht.
 mme#:#topitem_css_id#:#CSS-ID
 common#:#deleted_item#:#Keine Zuordnung
 mme#:#component_not_active#:#Komponente ist nicht aktiviert.
@@ -14580,6 +14581,7 @@ common#:#obj_mme#:#Hauptmenü
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Trenner
+mme#:#type_separator_info#:#Der Titel des Trenners wird in einem grauen Bereich angezeigt. Sie erhalten eine Trennlinie, wenn Sie den Titel leer lassen.
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link Liste
 mme#:#type_complex#:#Komplex

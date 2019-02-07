@@ -36,6 +36,7 @@ class ilMMItemTranslationGUI {
 	public function __construct(ilMMItemFacadeInterface $item_facade, ilMMItemRepository $repository) {
 		$this->item_facade = $item_facade;
 		$this->repository = $repository;
+		$this->lng()->loadLanguageModule("mme");
 	}
 
 
