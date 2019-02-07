@@ -176,7 +176,7 @@ class ilUserProfileInfoSettingsGUI
 
 		$form->addCommandButton("save", $lng->txt("save"));
 
-		$form->setTitle($lng->txt("user_profile_info"));
+		$form->setTitle($lng->txt("user_profile_info_std"));
 		$form->setFormAction($ctrl->getFormAction($this));
 
 		return $form;

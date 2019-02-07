@@ -3,12 +3,10 @@ il.Container = il.Container || {};
 (function($, il) {
 	il.Container = (function($) {
 		var initShowMore = function (id, block, url) {
-			console.log(id);
-			console.log(block);
-			console.log(url);
-			$("#" + id).on("click", function(e	) {
-				var ids = $("#" + id).closest(".ilContainerItemsContainer").find(".ilContainerListItemOuter")
-					.map(function() { return this.id; }).get();
+			$("#" + id).on("click", function(e) {
+				e.preventDefault();
+				var ids = $("#" + id).closest(".ilContainerItemsContainer").find("[data-list-item-id]")
+					.map(function() { return $(this).data("list-item-id"); }).get();
 				il.Util.sendAjaxPostRequestToUrl(url, {ids: ids}, function(o) {
 					$("#" + id).closest(".ilContainerShowMore").replaceWith($(o).find(".ilContainerItemsContainer").children());
 				})

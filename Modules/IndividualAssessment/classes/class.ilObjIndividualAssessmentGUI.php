@@ -116,6 +116,12 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$md_gui = new ilObjectMetaDataGUI($this->object);
 				$this->ctrl->forwardCommand($md_gui);
 				break;
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('crs');
+				$this->ctrl->forwardCommand($cp);
+				break;
 			default:
 				if(!$cmd) {
 					$cmd = 'view';
@@ -328,8 +334,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 
 	public static function _goto($a_target, $a_add = '') {
 		global $DIC;
+		if ($DIC['ilAccess']->checkAccess( 'write', '', $a_target)) {
+			ilObjectGUI::_gotoRepositoryNode($a_target, 'edit');
+		}
 		if ($DIC['ilAccess']->checkAccess( 'read', '', $a_target)) {
-			ilObjectGUI::_gotoRepositoryNode($a_target, 'view');
+			ilObjectGUI::_gotoRepositoryNode($a_target);
 		}
 	}
 

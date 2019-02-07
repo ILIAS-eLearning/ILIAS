@@ -187,10 +187,14 @@ class ilCronManager implements \ilCronManagerInterface
 				$result = new \ilCronJobResult();
 				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
 				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
+
+				$ilLog->log($e->getTraceAsString());
 			} catch (\Throwable $e) { // Could be appended to the catch block with a | in PHP 7.1
 				$result = new \ilCronJobResult();
 				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
 				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
+
+				$ilLog->log($e->getTraceAsString());
 			}
 			$ts_dur = self::getMicrotime()-$ts_in;
 
@@ -384,13 +388,24 @@ class ilCronManager implements \ilCronManagerInterface
 		$ilSetting = $DIC->settings();
 
 		// already exists?			
-		$sql = "SELECT job_id, schedule_type FROM cron_job".
-			" WHERE component = ".$ilDB->quote($a_component, "text").
-			" AND job_id = ".$ilDB->quote($a_job->getId(), "text");
+		$sql = "SELECT job_id, schedule_type, component, class, path FROM cron_job".
+			" WHERE job_id = ".$ilDB->quote($a_job->getId(), "text");
 		$set = $ilDB->query($sql);
 		$row = $ilDB->fetchAssoc($set);
 		$job_exists = ($row["job_id"] == $a_job->getId());
 		$schedule_type = $row["schedule_type"];
+
+		if ($job_exists && (
+			$row['component'] != $a_component ||
+			$row['class'] != $a_class ||
+			$row['path'] != $a_path
+		)) {
+			$ilDB->manipulateF(
+				'UPDATE cron_job SET component = %s, class = %s, path = %s WHERE job_id = %s',
+				['text', 'text', 'text', 'text'],
+				[$a_component, $a_class, $a_path, $a_job->getId()]
+			);
+		}
 
 		// new job
 		if(!$job_exists)

@@ -1248,6 +1248,10 @@ class ilExAssignment
 			{
 				ilUtil::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
 			}
+
+			// type specific properties
+			$ass_type = $d->getAssignmentType();
+			$ass_type->cloneSpecificProperties($d, $new_ass);
 		}
 	}
 	

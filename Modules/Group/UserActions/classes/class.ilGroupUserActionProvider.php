@@ -124,5 +124,21 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 		return array();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	function getCssFiles($a_action_type)
+	{
+		switch ($a_action_type)
+		{
+			case "add_to":
+				return array(
+					ilExplorerBaseGUI::getLocalJsTreeCssPath()
+				);
+				break;
+		}
+		return array();
+	}
+
 }
 ?>

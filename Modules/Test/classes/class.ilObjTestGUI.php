@@ -22,7 +22,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestParticipantsGUI, ilTestResultsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
@@ -247,19 +247,20 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
-			case 'iltestparticipantsgui':
+			case 'iltestdashboardgui':
 				
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				
-				require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
+				require_once 'Modules/Test/classes/class.ilTestDashboardGUI.php';
 				
-				$gui = new ilTestParticipantsGUI(
+				$gui = new ilTestDashboardGUI(
 					$this->object, $this->testQuestionSetConfigFactory->getQuestionSetConfig()
 				);
 				
 				$gui->setTestAccess($this->getTestAccess());
 				$gui->setTestTabs($this->getTabsManager());
+				$gui->setObjectiveParent($this->getObjectiveOrientedContainer());
 				
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -1028,18 +1029,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$result = $qtiParser->startParsing();
 		$founditems =& $qtiParser->getFoundItems();
 		
-		if (count($founditems) == 0)
-		{
-			// nothing found
-
-			// delete import directory
-			ilUtil::delDir($basedir);
-
-			ilUtil::sendInfo($this->lng->txt("tst_import_no_items"));
-			$this->createObject();
-			return;
-		}
-		
 		$complete = 0;
 		$incomplete = 0;
 		foreach ($founditems as $item)
@@ -1054,7 +1043,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($complete == 0)
+		if ( count($founditems) && $complete == 0 )
 		{
 			// delete import directory
 			ilUtil::delDir($basedir);
@@ -1069,7 +1058,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$_SESSION["tst_import_qti_file"] = $qti_file;
 		$_SESSION["tst_import_subdir"] = $subdir;
 		
-		if( $qtiParser->getQuestionSetType() == ilObjTest::QUESTION_SET_TYPE_RANDOM )
+		if( $qtiParser->getQuestionSetType() != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$this->importVerifiedFileObject();
 			return;
@@ -2367,6 +2356,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			$pool = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "qpl");
+			$pool->setInfo($this->lng->txt('select_question_pool_info'));
 			$pool->setOptions($options);
 			$form->addItem($pool);
 		}
@@ -2437,8 +2427,7 @@ class ilObjTestGUI extends ilObjectGUI
         // prepare generation before contents are processed (for mathjax)
 		else
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_PRINT_VIEW_QUESTIONS);
 		}
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
@@ -2541,9 +2530,8 @@ class ilObjTestGUI extends ilObjectGUI
 			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 			ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
 
-            // prepare generation before contents are processed (for mathjax)
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			// prepare generation before contents are processed (for mathjax)
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_PRINT_VIEW_QUESTIONS);
 		}
 		
 		foreach ($this->object->questions as $question)
@@ -2738,7 +2726,7 @@ class ilObjTestGUI extends ilObjectGUI
 				return;
 		}
 
-		if( $questionSetTypeSettingSwitched && !$this->getOfflineStatus() )
+		if( $questionSetTypeSettingSwitched && !$this->object->getOfflineStatus() )
 		{
 			$this->object->setOfflineStatus(true);
 
@@ -3004,7 +2992,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->forwardCommand($info);
 	}
 	
-	protected function renoveImportFailsObject()
+	protected function removeImportFailsObject()
 	{
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
 		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());

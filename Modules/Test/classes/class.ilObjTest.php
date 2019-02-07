@@ -10951,9 +10951,13 @@ function getAnswerFeedbackPoints()
 		$owner_id = $this->getOwner();
 		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 
+		$participantList = new ilTestParticipantList($this);
+		$participantList->initializeFromDbRows($this->getTestParticipants());
+		
 		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
 		$expFactory = new ilTestExportFactory($this);
 		$exportObj = $expFactory->getExporter('results');
+		$exportObj->setForcedAccessFilteredParticipantList($participantList);
 		$file = $exportObj->exportToExcel($deliver = FALSE, 'active_id', $active_id, $passedonly = FALSE);
 		include_once "./Services/Mail/classes/class.ilFileDataMail.php";
 		$fd = new ilFileDataMail(ANONYMOUS_USER_ID);

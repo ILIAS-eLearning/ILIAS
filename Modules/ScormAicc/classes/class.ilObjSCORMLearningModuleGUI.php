@@ -530,13 +530,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			strcmp ($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest),$old_manifest) == 0 ){
 
 			//get exisiting module version
-			$module_version = $this->object->getModuleVersion();
+			$module_version = $this->object->getModuleVersion()+1;
 
 			if ($_FILES["scormfile"]["name"])
 			{
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_FILES["scormfile"]["name"].".".$module_version;
-				
+				$file_path = str_replace(".zip.".$module_version, ".".$module_version.".zip",$file_path);
 				//move to data directory and add subfix for versioning
 				ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],$_FILES["scormfile"]["name"], $file_path);
 			}
@@ -544,6 +544,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			{
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
+				$file_path = str_replace(".zip.".$module_version, ".".$module_version.".zip",$file_path);
 				// move the already copied file to the lm_data directory
 				ilFileUtils::rename($source, $file_path);
 			}
@@ -553,7 +554,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			ilUtil::renameExecutables($this->object->getDataDirectory()); //(security)
 			
 			//increase module version
-			$this->object->setModuleVersion($module_version+1);
+			$this->object->setModuleVersion($module_version);
 			$this->object->update();
 			
 			//redirect to properties and display success
@@ -1074,7 +1075,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilSetting = $DIC['ilSetting'];
 
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(!ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		if(!ilLearningProgressAccess::checkAccess($this->object->getRefId()) && !$rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}

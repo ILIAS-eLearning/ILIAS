@@ -4626,7 +4626,7 @@ rbac#:#frm_add_thread#:#Sukurti temą
 news#:#news_x_files_created#:#Įkelta Failų: %s
 news#:#news_x_files_updated#:#Atnaujinta Failų: %s
 news#:#news_1_file_created#:#Įkeltas 1 Failas
-news#:#news_1_file_updated#:#Atnaujintas 1 Failas 
+news#:#news_1_file_updated#:#Atnaujintas 1 Failas
 news#:#news_x_postings#:#Paskelbta pranešimų: %s
 news#:#news_1_postings#:#Paskelbtas 1 pranešimas.
 forum#:#forums_post_was_activated#:#Žinutė patvirtinta
@@ -10671,7 +10671,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable

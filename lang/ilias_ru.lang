@@ -11,7 +11,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Быстрая клавиша
@@ -1829,7 +1829,7 @@ cmps#:#no_changes#:#Keine Änderungen
 cntr#:#cntr_add_new_item#:#Добавить
 cntr#:#cntr_adopt_content#:#Адаптировать содержимое
 cntr#:#cntr_back_to_old_editor#:#Back to Old Editor
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
 cntr#:#cntr_manage#:#Управление
 cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor

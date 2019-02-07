@@ -232,6 +232,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
+		global $DIC;
+
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 
 		$mode = ($_POST["file_ref_id"] != "")
@@ -265,6 +267,12 @@ class ilPCFileListGUI extends ilPageContentGUI
 			// upload file to filesystem
 			$fileObj->createDirectory();
 			$fileObj->raiseUploadError(false);
+
+			$upload = $DIC->upload();
+			if ($upload->hasBeenProcessed() !== true) {
+				$upload->process();
+			}
+
 			$fileObj->getUploadFile($_FILES["file"]["tmp_name"],
 				$_FILES["file"]["name"]);
 		}
@@ -721,6 +729,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 	 */
 	function createFileItem()
 	{
+		global $DIC;
+
 		$lng = $this->lng;
 
 		if ($_FILES["file"]["name"] == "")
@@ -731,7 +741,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 		}
 
 		$form = $this->initEditForm();
-		$form->checkInput();
+		// see #22541
+//		$form->checkInput();
 
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
@@ -746,6 +757,12 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$fileObj->raiseUploadError(false);
 		// upload file to filesystem
 		$fileObj->createDirectory();
+
+		$upload = $DIC->upload();
+		if ($upload->hasBeenProcessed() !== true) {
+			$upload->process();
+		}
+
 		$fileObj->getUploadFile($_FILES["file"]["tmp_name"],
 			$_FILES["file"]["name"]);
 

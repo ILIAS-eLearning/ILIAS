@@ -60,7 +60,7 @@ class ilUserActionGUI
 	}
 
 	/**
-	 * Add requried js for an action context
+	 * Add requried js/css for an action context
 	 */
 	function init()
 	{
@@ -80,6 +80,10 @@ class ilUserActionGUI
 					foreach ($prov->getJsScripts($act_type) as $script)
 					{
 						$tpl->addJavascript($script);
+					}
+					foreach ($prov->getCssFiles($act_type) as $file)
+					{
+						$tpl->addCss($file);
 					}
 				}
 			}

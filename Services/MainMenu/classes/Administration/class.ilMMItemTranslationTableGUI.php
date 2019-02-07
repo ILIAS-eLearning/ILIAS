@@ -52,8 +52,6 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 	}
 
 
-
-
 	protected function initColumns() {
 		$this->addColumn($this->lng()->txt('mm_translation_select'), '', '15px', true);
 		$this->addColumn($this->lng()->txt('mm_translation_lang'));
@@ -77,7 +75,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 		$translation = ilMMItemTranslationStorage::find($a_set['id']);
 
 		$this->tpl->setVariable('ID', $translation->getId());
-		$this->tpl->setVariable('LANGUAGE', $this->lng()->txt("meta_l_".$translation->getLanguageKey()));
+		$this->tpl->setVariable('LANGUAGE', $this->lng()->txt("meta_l_" . $translation->getLanguageKey()));
 		$this->tpl->setVariable('TEXT', $translation->getTranslation());
 	}
 }

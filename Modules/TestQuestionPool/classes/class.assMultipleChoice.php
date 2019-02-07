@@ -788,14 +788,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		$this->rebuildThumbnails();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
 	function syncWithOriginal()
 	{
 		if ($this->getOriginalId())

@@ -5,13 +5,13 @@
 * @module			language file Slovak
 * @modulegroup		language
 * @author			Peter Knuth <peter.knuth@tuke.sk>
-* @version			
+* @version
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Přístupový klíč
@@ -10671,7 +10671,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable

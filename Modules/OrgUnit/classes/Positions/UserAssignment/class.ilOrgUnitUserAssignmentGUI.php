@@ -42,8 +42,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 		$this->ctrl()->setParameterByClass(ilRepositorySearchGUI::class, 'addusertype', 'staff');
 		ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->dic()->toolbar(), array(
 			'auto_complete_name' => $this->txt('user'),
-			'user_type'          => $types,
-			'submit_name'        => $this->txt('add'),
+			'user_type' => $types,
+			'submit_name' => $this->txt('add'),
 		));
 
 		// Tables
@@ -77,7 +77,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 	protected function delete() {
 		$r = $this->http()->request();
 		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
-		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'], $this->getParentRefId());
+			->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'], $this->getParentRefId());
 		$ua->delete();
 		ilUtil::sendSuccess($this->txt('remove_successful'), true);
 		$this->cancel();

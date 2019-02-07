@@ -11,7 +11,7 @@ class ilMathJax
 	const PURPOSE_BROWSER = 'browser';					// direct display of page in the browser
 	const PURPOSE_EXPORT = 'export';					// html export of contents
 	const PURPOSE_PDF = 'pdf';							// server-side PDF generation
-	const PURPOSE_DEFERRED_PDF = 'deferred_pdf';		// defer rendering for server-side pdf generation (XSL-FO)
+	const PURPOSE_DEFERRED_PDF = 'deferred_pdf';		// defer rendering for server-side pdf generation (e.g. for XSL-FO)
 														// 		this needs a second call with PURPOSE_PDF at the end
 
 	const ENGINE_SERVER = 'server';						// code is treated by one of the rendering modes below
@@ -193,11 +193,9 @@ class ilMathJax
 			elseif($a_purpose == self::PURPOSE_PDF && $this->settings->get('server_for_pdf'))
 			{
 				$this->engine = self::ENGINE_SERVER;
-				// embedded png works in TCPDF and should work in most engines
+				// embedded png should work in most pdf engines
+				// details can be set by the rendering engine
 				$this->setRendering(self::RENDER_PNG_AS_IMG_EMBED);
-				$this->setDpi(600);
-				$this->setZoomFactor(0.17);
-
 			}
 			elseif ($a_purpose == self::PURPOSE_DEFERRED_PDF && $this->settings->get('server_for_pdf'))
 			{
