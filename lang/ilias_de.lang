@@ -9748,7 +9748,7 @@ dcl#:#dcl_text_selection#:#Auswahlmenü Text
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_datetime#:#Datumseingabe
-dcl#:#dcl_date_selection#:#Auwahlmenü Datum
+dcl#:#dcl_date_selection#:#Auswahlmenü Datum
 dcl#:#dcl_fileupload#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
