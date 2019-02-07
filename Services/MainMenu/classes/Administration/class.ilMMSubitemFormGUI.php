@@ -82,23 +82,27 @@ class ilMMSubitemFormGUI {
 		// TYPE
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('sub_type'), $this->lng->txt('sub_type_byline'))->withRequired(true);
 		foreach ($this->repository->getPossibleSubItemTypesForForm() as $class_name => $representation) {
-			$type = $type->withOption(
-				$this->hash($class_name), $representation, $this->repository->getTypeHandlerForType($class_name)
-				->getAdditionalFieldsForSubForm($this->item_facade->identification())
-			);
+			if ($this->item_facade->isEmpty() || (!$this->item_facade->isEmpty() && $this->item_facade->getType() === $class_name && $this->item_facade->isCustom())) {
+				$type = $type->withOption(
+					$this->hash($class_name), $representation, $this->repository->getTypeHandlerForType($class_name)
+					->getAdditionalFieldsForSubForm($this->item_facade->identification())
+				);
+			}
 		}
-		$type = $type->withValue($this->hash(reset(array_keys($this->repository->getPossibleSubItemTypesForForm()))));
-		if (!$this->item_facade->isEmpty()) {
+
+		if (!$this->item_facade->isEmpty() && $this->item_facade->isCustom()) {
 			$type = $type->withValue($this->hash($this->item_facade->getType()));
+		} elseif ($this->item_facade->isCustom()) {
+			$type = $type->withValue($this->hash(reset(array_keys($this->repository->getPossibleSubItemTypesForForm()))));
 		}
 		$items[self::F_TYPE] = $type;
 
 		// PARENT
 		$parent = $this->ui_fa->input()->field()->select($this->lng->txt('sub_parent'), $this->repository->getPossibleParentsForFormAndTable())
 			->withRequired(true);
-		if (!$this->item_facade->isEmpty()) {
+		if (!$this->item_facade->isEmpty() && !$this->item_facade->isInLostItem()) {
 			$parent = $parent->withValue($this->item_facade->getParentIdentificationString());
-		}else {
+		} else {
 			$parent = $parent->withValue(reset(array_keys($this->repository->getPossibleParentsForFormAndTable())));
 		}
 		$items[self::F_PARENT] = $parent;
@@ -129,7 +133,6 @@ class ilMMSubitemFormGUI {
 		$form = $this->form->withRequest($DIC->http()->request());
 		$data = $form->getData();
 
-		$type = $this->unhash((string)($data[0][self::F_TYPE]['value']));
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
@@ -137,14 +140,16 @@ class ilMMSubitemFormGUI {
 		$this->item_facade->setIsTopItm(false);
 
 		if ($this->item_facade->isEmpty()) {
+			$type = $this->unhash((string)($data[0][self::F_TYPE]['value']));
 			$this->item_facade->setType($type);
 			$r->createItem($this->item_facade);
 		}
-
-		$type_specific_data = (array)$data[0][self::F_TYPE]['group_values'];
-
-		$type_handler = $this->repository->getTypeHandlerForType($type);
-		$type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
+		if ($this->item_facade->isCustom()) {
+			$type = $this->item_facade->getType();
+			$type_specific_data = (array)$data[0][self::F_TYPE]['group_values'];
+			$type_handler = $this->repository->getTypeHandlerForType($type);
+			$type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
+		}
 
 		$r->updateItem($this->item_facade);
 
