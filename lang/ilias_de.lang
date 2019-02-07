@@ -8298,7 +8298,7 @@ search#:#search_grp_title#:#Gruppenname
 search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
 search#:#search_index#:#Indizierte Suche
 search#:#search_item_filter_form#:#Suche nach Typ
-search#:#search_item_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen
+search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
 search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
 search#:#search_lom#:#LOM Metadaten
@@ -11428,7 +11428,8 @@ search#:#search_mime_excel#:#Excel-Dateien
 search#:#search_mime_powerpoint#:#Powerpoint-Dateien
 search#:#search_mime_image#:#Bilder
 search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
-search#:#search_mime_filter_form#:#Dateityp-Filter
+search#:#search_mime_filter_form#:#Dateitypen-Filter
+search#:#search_mime_filter_form_info#:#Suche wird auf die ausgewählten Dateitypen beschränkt.
 search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: "*LIAS" findet "ILIAS"
 rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
