@@ -60,7 +60,6 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 
 
 	protected function parseData() {
-		ilMMItemTranslationStorage::storeDefaultTranslation($this->item_facade->identification(), $this->item_facade->getDefaultTitle());
 		$this->setData(ilMMItemTranslationStorage::where(['identification' => $this->item_facade->getId()])->getArray());
 	}
 

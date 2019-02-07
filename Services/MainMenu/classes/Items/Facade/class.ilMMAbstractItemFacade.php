@@ -246,8 +246,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	// CRUD
 
 	public function update() {
-		ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
-
 		$this->mm_item->update();
 	}
 
