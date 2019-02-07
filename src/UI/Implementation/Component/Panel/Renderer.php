@@ -138,9 +138,25 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderSecondary(Component\Panel\Secondary $component, RendererInterface $default_renderer)
 	{
+		$actions = $component->getActions();
+		$sortation = $component->getSortation();
+		$pagination = $component->getPagination();
+
 		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
 		$tpl->setVariable("TITLE",  $component->getTitle());
+
+		if($actions !== null) {
+			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+		}
+		if($sortation) {
+			$tpl->setVariable("SORTATION", $default_renderer->render($sortation));
+		}
+		if($pagination)
+		{
+			$tpl->setVariable("PAGINATION", $default_renderer->render($pagination));
+		}
 		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
+		
 		return $tpl->get();
 	}
 
