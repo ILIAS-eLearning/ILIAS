@@ -175,6 +175,11 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 */
 	private function initTestoutputCommands()
 	{
+		if( $this->parent_obj instanceof ilAssQuestionHintsGUI )
+		{
+			return;
+		}
+		
 		global $ilCtrl, $lng;
 		
 		$this->setFormAction( $ilCtrl->getFormAction($this->parent_obj) );
