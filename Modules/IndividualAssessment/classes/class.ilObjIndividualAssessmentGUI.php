@@ -334,8 +334,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 
 	public static function _goto($a_target, $a_add = '') {
 		global $DIC;
+		if ($DIC['ilAccess']->checkAccess( 'write', '', $a_target)) {
+			ilObjectGUI::_gotoRepositoryNode($a_target, 'edit');
+		}
 		if ($DIC['ilAccess']->checkAccess( 'read', '', $a_target)) {
-			ilObjectGUI::_gotoRepositoryNode($a_target, 'view');
+			ilObjectGUI::_gotoRepositoryNode($a_target);
 		}
 	}
 

@@ -4,6 +4,7 @@ use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -71,8 +72,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	{
 		return
 			[
-				new SingleType(StringValue::class),
-				new SingleType(\ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue::class)
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class)
 			];
 	}
 
@@ -282,6 +286,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
 		foreach($this->criteria_items as $item)
 		{
+			$col++;
+
 			//Criteria without catalog doesn't have ID nor TITLE. The criteria instance is given via "type" ilExcCriteria::getInstanceByType
 			$crit_id = $item->getId();
 			$crit_type = $item->getType();
@@ -296,9 +302,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			switch ($crit_type){
 				case 'bool':
 					if($values[$crit_id] == 1){
-						$this->excel->setCell($row,++$col,$this->lng->txt("yes"));
+						$this->excel->setCell($row,$col,$this->lng->txt("yes"));
 					} elseif($values[$crit_id] == -1){
-						$this->excel->setCell($row,++$col,$this->lng->txt("no"));
+						$this->excel->setCell($row,$col,$this->lng->txt("no"));
 					}
 					break;
 				case 'rating':
@@ -325,15 +331,15 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 					);
 					if($rating_int = round((int)$rating))
 					{
-						$this->excel->setCell($row,++$col, $rating_int);
+						$this->excel->setCell($row,$col, $rating_int);
 					}
 					break;
 				case 'text':
 					//again another check for criteria id (if instantiated via type)
 					if($crit_id) {
-						$this->excel->setCell($row,++$col, $values[$crit_id]);
+						$this->excel->setCell($row,$col, $values[$crit_id]);
 					} else {
-						$this->excel->setCell($row,++$col, $values['text']);
+						$this->excel->setCell($row,$col, $values['text']);
 					}
 					break;
 				case 'file':
@@ -353,9 +359,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 						}
 						$extra_crit_column++;
 						$this->copyFileToSubDirectory(self::FBK_DIRECTORY,$file);
-						$this->excel->setCell($row,++$col, "./".self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
-						$this->excel->addLink($row, $col, './'.self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
-						$this->excel->setColors($this->excel->getCoordByColumnAndRow($col,$row), self::BG_COLOR,self::LINK_COLOR);
+						$this->excel->setCell($row,$col, "./".self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
+						// col 11 because ilExcel setCell adds
+						$current_col = $col+1;
+						$this->excel->addLink($row, $current_col, './'.self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
+						$this->excel->setColors($this->excel->getCoordByColumnAndRow($current_col,$row), self::BG_COLOR,self::LINK_COLOR);
 					}
 					break;
 			}

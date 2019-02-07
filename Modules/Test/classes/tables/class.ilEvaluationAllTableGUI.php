@@ -213,7 +213,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($lng->txt("name"), "name");
 		$ti->setMaxLength(64);
-		$ti->setValidationRegexp('/^[^%]+$/is');
+		$ti->setValidationRegexp('/^[^%]*$/is');
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
@@ -222,7 +222,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		// group
 		$ti = new ilTextInputGUI($lng->txt("grp"), "group");
 		$ti->setMaxLength(64);
-		$ti->setValidationRegexp('/^[^%]+$/is');
+		$ti->setValidationRegexp('/^[^%]*$/is');
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
@@ -232,7 +232,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("course"), "course");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
-		$ti->setValidationRegexp('/^[^%]+$/is');
+		$ti->setValidationRegexp('/^[^%]*$/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["course"] = $ti->getValue();

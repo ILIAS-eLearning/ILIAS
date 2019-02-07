@@ -257,6 +257,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			foreach ($participantData->getActiveIds() as $active_id)
 			{
+				if( !isset($foundParticipants[$active_id]) || !($foundParticipants[$active_id] instanceof ilTestEvaluationUserData) )
+				{
+					continue;
+				}
+				
 				/* @var $userdata ilTestEvaluationUserData */
 				$userdata = $foundParticipants[$active_id];
 				
@@ -887,10 +892,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$total_users =& $this->object->evalTotalPersonsArray();
 		if (count($total_users))
 		{
+			$certValidator = new ilCertificateDownloadValidator();
+			
 			foreach ($total_users as $active_id => $name)
 			{
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
-
+				
+				if( !$certValidator->isCertificateDownloadable($user_id, $this->object->getId()) )
+				{
+					continue;
+				}
+				
 				$pdfAction = new ilCertificatePdfAction(
 					$logger,
 					$pdfGenerator,
@@ -960,7 +972,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = (int)$_GET["pass"];
 
-		if ( false && isset($_GET['statistics']) && $_GET['statistics'] == 1) // detailed evaluation deprecated
+		if ( isset($_GET['statistics']) && $_GET['statistics'] == 1)
 		{
 			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
 			$this->ctrl->saveParameter($this, 'statistics');

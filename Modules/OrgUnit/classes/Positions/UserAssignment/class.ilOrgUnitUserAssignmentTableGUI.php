@@ -119,6 +119,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI {
 		if ($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"])
 		    && ilObjUserTracking::_enabledLearningProgress()
 		    && ilObjUserTracking::_enabledUserRelatedData()) {
+			$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $set["user_id"]);
 			$selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array(
 				ilAdministrationGUI::class,
 				ilObjOrgUnitGUI::class,
