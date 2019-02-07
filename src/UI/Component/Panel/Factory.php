@@ -136,9 +136,12 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Secondary Panels are used on the ¿¿Side Content sections?? to group content.
+	 *       Secondary Panels are used to group content not located in the Center Section.
+	 *       Secondary Panels are used to display marginal content related to the current page context.
 	 *   composition: >
-	 *       Secondary Panels consist of content section ¿¿and may have a title??. They may contain a Listing Panel or a Legacy component.
+	 *       Secondary Panels consist of content section and may have a title.
+	 *       The content section may contain a Listing Panel.
+	 *       The content section may contain a Standard Panel when legacy content has to be presented.
 	 *   rivals:
 	 *      Slate: >
 	 *        Secondary Panels should be used to contain content or components that have a strong relationship to the current
@@ -147,17 +150,18 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *      1: Secondary Panels MUST NOT be inside the main template content.
+	 *      1: Secondary Panels MUST NOT be inside the Center Content as primary Container for grouping content of varying content.
 	 *   composition:
 	 *      1: Secondary Panels MUST NOT contain anything but a Legacy or Listing Panel.
-	 *      2: title?
-	 *      3: Secondary Panels MAY contain a View Control to change the current presentation of the content.
-	 *      4: Secondary Panels MAY have and Button to perform actions listed in a Standard Dropdown.
+	 *      2: Secondary Panels MAY contain a Section View Control to change the current presentation of the content.
+	 *      3: Secondary Panels MAY have a Button to perform actions listed in a Standard Dropdown.
+	 *      4: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+	 *      5: Secondary Panels MAY have a Pagination View Control to display data in chunks.
 	 *
 	 * ---
 	 * @param string $title
 	 * @param Component[]|Component
-	 * @return \ILIAS\UI\Component\Panel\Sub
+	 * @return \ILIAS\UI\Component\Panel\Secondary
 	 */
 	public function secondary($title,$content);
 }
