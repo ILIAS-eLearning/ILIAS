@@ -138,8 +138,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderSecondary(Component\Panel\Secondary $component, RendererInterface $default_renderer)
 	{
-		die("lakjsdf");
 		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
+		$tpl->setVariable("TITLE",  $component->getTitle());
 		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 		return $tpl->get();
 	}
