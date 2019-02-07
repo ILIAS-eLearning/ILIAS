@@ -7881,7 +7881,7 @@ dateplaner#:#cal_notification_info#:#If enabled, all course/group participants w
 dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
 rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter_form#:#Search by Type
-search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
+search#:#search_item_filter_form_info#:#Search can be restricted to the chosen object types.
 administration#:#group_export#:#Visible in Groups
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
@@ -11472,6 +11472,7 @@ search#:#search_mime_powerpoint#:#Powerpoint Files
 search#:#search_mime_image#:#Images
 search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#search_mime_filter_form#:#Mime Type Filter
+search#:#search_mime_filter_form_info#:#Search can be restricted to the chosen mime types.
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
 obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
