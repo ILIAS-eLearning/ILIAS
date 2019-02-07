@@ -81,10 +81,10 @@ class ilMMSubitemFormGUI {
 
 		// TYPE
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('sub_type'), $this->lng->txt('sub_type_byline'))->withRequired(true);
-		foreach ($this->repository->getPossibleSubItemTypesForForm() as $class_name => $representation) {
+		foreach ($this->repository->getPossibleSubItemTypesWithInformation() as $class_name => $information) {
 			if ($this->item_facade->isEmpty() || (!$this->item_facade->isEmpty() && $this->item_facade->getType() === $class_name && $this->item_facade->isCustom())) {
 				$type = $type->withOption(
-					$this->hash($class_name), $representation, $this->repository->getTypeHandlerForType($class_name)
+					$this->hash($class_name), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $this->repository->getTypeHandlerForType($class_name)
 					->getAdditionalFieldsForSubForm($this->item_facade->identification())
 				);
 			}

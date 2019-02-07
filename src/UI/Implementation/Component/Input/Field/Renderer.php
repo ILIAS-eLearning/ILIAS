@@ -489,6 +489,11 @@ class Renderer extends AbstractComponentRenderer {
 				$input_tpl->setVariable("CHECKED", 'checked="checked"');
 			}
 
+			$byline = $input->getBylineFor($value);
+			if (!empty($byline)) {
+				$input_tpl->setVariable("BYLINE", $byline);
+			}
+
 			//dependant fields
 			$dependant_group_html = '';
 			$dep_fields = $input->getDependantFieldsFor($value);

@@ -34,6 +34,10 @@ final class TypeInformation {
 	 */
 	private $type_name_for_presentation = "";
 	/**
+	 * @var string
+	 */
+	private $type_byline_for_presentation = "";
+	/**
 	 * @var TypeHandler
 	 */
 	private $type_handler;
@@ -50,13 +54,15 @@ final class TypeInformation {
 	 * @param string       $type_name_for_presentation
 	 * @param TypeRenderer $renderer
 	 * @param TypeHandler  $type_handler
+	 * @param string|null  $type_byline
 	 */
-	public function __construct(string $type, string $type_name_for_presentation, TypeRenderer $renderer = null, TypeHandler $type_handler = null) {
+	public function __construct(string $type, string $type_name_for_presentation, TypeRenderer $renderer = null, TypeHandler $type_handler = null, string $type_byline = null) {
 		$this->instance = new $type(new NullIdentification());
 		$this->type = $type;
 		$this->type_name_for_presentation = $type_name_for_presentation;
 		$this->type_handler = $type_handler ? $type_handler : new BaseTypeHandler();
 		$this->renderer = $renderer ? $renderer : new BaseTypeRenderer();
+		$this->type_byline_for_presentation = $type_byline ? $type_byline : "";
 	}
 
 
@@ -141,6 +147,22 @@ final class TypeInformation {
 	 */
 	public function setTypeNameForPresentation(string $type_name_for_presentation) {
 		$this->type_name_for_presentation = $type_name_for_presentation;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getTypeBylineForPresentation(): string {
+		return $this->type_byline_for_presentation;
+	}
+
+
+	/**
+	 * @param string $type_byline_for_presentation
+	 */
+	public function setTypeBylineForPresentation(string $type_byline_for_presentation) {
+		$this->type_byline_for_presentation = $type_byline_for_presentation;
 	}
 
 

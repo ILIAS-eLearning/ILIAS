@@ -14565,6 +14565,7 @@ mme#:#mm_translation_trans#:#Translation
 mme#:#additional_langs#:#Additional Languages
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_translations_saved#:#Translations saved
+mme#:#msg_translations_deleted#:#Translations deleted
 mme#:#topitem_css_id#:#CSS-ID
 common#:#deleted_item#:#Deleted Item
 mme#:#component_not_active#:#Component is not activated.
@@ -14583,6 +14584,7 @@ common#:#obj_mme#:#Main Menu
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Separator
+mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Complex
