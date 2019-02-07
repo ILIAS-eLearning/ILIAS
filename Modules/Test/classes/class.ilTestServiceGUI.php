@@ -1209,6 +1209,15 @@ class ilTestServiceGUI
 		$pass = (int)$_GET['pass'];
 
 		$questionId = (int)$_GET['evaluation'];
+		
+		$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
+		$testSequence->loadFromDb();
+		$testSequence->loadQuestions();
+		
+		if( !$testSequence->questionExists($questionId) )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
 
 		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
