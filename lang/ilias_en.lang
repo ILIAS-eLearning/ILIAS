@@ -14520,7 +14520,6 @@ trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
 mme#:#main#:#Main Menu
-mme#:#msg_translations_deleted#:#Selected Language(s) deleted
 mme#:#subtab_topitems#:#Top Items
 mme#:#subtab_subitems#:#Items
 mme#:#tab_back#:#Back
