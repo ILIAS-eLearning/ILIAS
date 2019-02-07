@@ -13,6 +13,8 @@
  */
 class ilLearningModuleNotification
 {
+	const ACTION_COMMENT = "comment";
+	const ACTION_UPDATE = "update";
 	/**
 	 * @var ilObjUser
 	 */
@@ -34,6 +36,7 @@ class ilLearningModuleNotification
 	protected $lm_set;
 
 	/**
+	 * store constant value
 	 * @var string
 	 */
 	protected $action;
@@ -109,7 +112,7 @@ class ilLearningModuleNotification
 		$lm_id = $this->learning_module->getId();
 
 		// #11138  //only comment implemented so always true.
-		$ignore_threshold = ($this->action == "comment");
+		$ignore_threshold = ($this->action == self::ACTION_COMMENT);
 
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_LM, $lm_id, "", $ignore_threshold);
 
@@ -185,7 +188,7 @@ class ilLearningModuleNotification
 	*/
 	protected function getMailSubject(ilLanguage $ulng): string
 	{
-		if ($this->action == "comment")
+		if ($this->action == self::ACTION_COMMENT)
 		{
 			return sprintf($ulng->txt('cont_notification_comment_subject_lm'), $this->learning_module->getTitle(), $this->pg_title);
 		}
@@ -206,7 +209,7 @@ class ilLearningModuleNotification
 		$message .= $a_ulng->txt('cont_notification_'.$this->action."_lm").":\n\n";
 		$message .= $a_ulng->txt('learning module').": ".$this->learning_module->getTitle()."\n";
 		$message .= $a_ulng->txt('page').": ".$this->pg_title."\n";
-		if($this->action == 'comment')
+		if($this->action == self::ACTION_COMMENT)
 		{
 			// include comment/note text
 			$message .= $a_ulng->txt('cont_commented_by').": ".ilUserUtil::getNamePresentation($this->ilUser->getId())."\n";

@@ -4484,7 +4484,11 @@ class ilLMPresentationGUI
 		$note = new ilNote($a_note_id);
 		$note = $note->getText();
 
-		$notification = new ilLearningModuleNotification("comment", ilNotification::TYPE_LM_PAGE, $this->lm, $a_page_id,$note);
+		$notification = new ilLearningModuleNotification(
+			ilLearningModuleNotification::ACTION_COMMENT,
+			ilNotification::TYPE_LM_PAGE,
+			$this->lm, $a_page_id,$note);
+
 		$notification->send();
 	}
 
