@@ -4315,6 +4315,7 @@ return array(
     'ilExerciseVerificationTableGUI' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseVerificationTableGUI.php',
     'ilExerciseXMLParser' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseXMLParser.php',
     'ilExerciseXMLWriter' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseXMLWriter.php',
+    'ilExerciseMembersFilter' => $baseDir . '/../../Modules/Exercise/classes/class.ilExerciseMembersFilter.php',
     'ilExplorer' => $baseDir . '/../../Services/UIComponent/Explorer/classes/class.ilExplorer.php',
     'ilExplorerBaseGUI' => $baseDir . '/../../Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php',
     'ilExplorerSelectInputGUI' => $baseDir . '/../../Services/UIComponent/Explorer2/classes/class.ilExplorerSelectInputGUI.php',
