@@ -9,6 +9,6 @@ use ILIAS\UI\Component as C;
  * Class Secondary
  * @package ILIAS\UI\Implementation\Component\Standard
  */
-class Secondary extends Panel implements C\Panel\Standard {
+class Secondary extends Panel implements C\Panel\Secondary {
 }
 ?>
