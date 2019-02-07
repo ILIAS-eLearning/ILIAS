@@ -8298,7 +8298,7 @@ search#:#search_grp_title#:#Gruppenname
 search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
 search#:#search_index#:#Indizierte Suche
 search#:#search_item_filter_form#:#Suche nach Typ
-search#:#search_item_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen
+search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
 search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
 search#:#search_lom#:#LOM Metadaten
@@ -9747,7 +9747,7 @@ dcl#:#dcl_text_selection#:#Auswahlmenü Text
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_datetime#:#Datumseingabe
-dcl#:#dcl_date_selection#:#Auwahlmenü Datum
+dcl#:#dcl_date_selection#:#Auswahlmenü Datum
 dcl#:#dcl_fileupload#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
@@ -11428,7 +11428,8 @@ search#:#search_mime_excel#:#Excel-Dateien
 search#:#search_mime_powerpoint#:#Powerpoint-Dateien
 search#:#search_mime_image#:#Bilder
 search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
-search#:#search_mime_filter_form#:#Dateityp-Filter
+search#:#search_mime_filter_form#:#Dateitypen-Filter
+search#:#search_mime_filter_form_info#:#Suche wird auf die ausgewählten Dateitypen beschränkt.
 search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: "*LIAS" findet "ILIAS"
 rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
@@ -14763,7 +14764,7 @@ sess#:#sess_contact#:#Kontakt
 sess#:#sess_mem_contacts#:#Tutorielle Betreuung
 dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
 sess#:#sess_members#:#Teilnehmer
-grp#:#grp_contact#:#Kontakt
+grp#:#grp_contact#:#Betreuung
 grp#:#grp_mem_contacts#:#Tutorielle Betreuung
 common#:#lso_new#:#Neue Lernsequenz
 common#:#lso_add#:#Lernsequenz hinzufügen
@@ -14898,29 +14899,29 @@ common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
-survey#:#svy_self_ev_mode#:#Self-Evaluation Only###10 11 2018 new variable
-survey#:#svy_self_ev_info#:#Use for self evaluation.###10 11 2018 new variable
-survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new variable
-survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations###10 11 2018 new variable
-survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants###10 11 2018 new variable
-survey#:#svy_participant#:#Participant###10 11 2018 new variable
-iass#:#iass_location#:#Ort###10 11 2018 new variable
-iass#:#iass_further_field_headline#:#Detaillierte Informationen###10 11 2018 new variable
-iass#:#iass_no_entries#:#Keine Einträge gefunden.###10 11 2018 new variable
-iass#:#iass_filter_all#:#Alle###10 11 2018 new variable
-iass#:#iass_filter_not_started#:#Nur nicht bewertete###10 11 2018 new variable
-iass#:#iass_filter_not_finalized#:#nur nicht abgeschlossene###10 11 2018 new variable
-iass#:#iass_filter_finalized#:#Nur bestandene###10 11 2018 new variable
-iass#:#iass_filter_failed#:#Nur nicht bestandene###10 11 2018 new variable
-iass#:#iass_file#:#File###10 11 2018 new variable
-iass#:#iass_download#:#Download###10 11 2018 new variable
-iass#:#iass_sort#:#Sortierung###10 11 2018 new variable
-iass#:#iass_sort_name_asc#:#Benutzername aufsteigens###10 11 2018 new variable
-iass#:#iass_sort_name_desc#:#Benutzername absteigend###10 11 2018 new variable
-iass#:#iass_sort_examiner_login_asc#:#Prüfer aufsteigend###10 11 2018 new variable
-iass#:#iass_sort_examiner_login_desc#:#Prüfer absteigend###10 11 2018 new variable
-iass#:#iass_sort_changetime_asc#:#Letzte Änderung, aufsteigend###05 02 2019 new variable
-iass#:#iass_sort_changetime_desc#:#Letzte Änderung, absteigend###05 02 2019 new variable
+survey#:#svy_self_ev_mode#:#Nur Selbst-Evaluation
+survey#:#svy_self_ev_info#:#Für Selbst-Evaluation verwenden
+survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
+survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
+survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
+survey#:#svy_participant#:#Teilnehmer
+iass#:#iass_location#:#Ort
+iass#:#iass_further_field_headline#:#Detaillierte Informationen
+iass#:#iass_no_entries#:#Keine Einträge gefunden
+iass#:#iass_filter_all#:#Alle
+iass#:#iass_filter_not_started#:#Nur nicht bewertete
+iass#:#iass_filter_not_finalized#:#Nur nicht abgeschlossene
+iass#:#iass_filter_finalized#:#Nur bestandene
+iass#:#iass_filter_failed#:#Nur nicht bestanden
+iass#:#iass_file#:#Datei
+iass#:#iass_download#:#Download
+iass#:#iass_sort#:#Sortierung
+iass#:#iass_sort_name_asc#:#Benutzername → aufsteigend
+iass#:#iass_sort_name_desc#:#Benutzername → absteigend
+iass#:#iass_sort_examiner_login_asc#:#Prüfer → aufsteigend
+iass#:#iass_sort_examiner_login_desc#:#Prüfer → absteigend
+iass#:#iass_sort_changetime_asc#:#Letzte Änderung → aufsteigend
+iass#:#iass_sort_changetime_desc#:#Letzte Änderung → absteigend
 book#:#participants#:#Teilnehmer
 book#:#book_assign_object#:#Buchungsobjekt zuweisen
 book#:#book_assign#:#Zuweisen
@@ -14933,23 +14934,23 @@ rep#:#rep_default#:#Standardwert
 rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
 rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
 obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
-obj#:#obj_show_header_actions#:#Show Header Actions###10 11 2018 new variable
-cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
-cont#:#cont_item_list#:#List###10 11 2018 new variable
-cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
-obj#:#obj_tile_image#:#Tile Image###10 11 2018 new variable
+obj#:#obj_show_header_actions#:#Aktionen anzeigen
+cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
+cont#:#cont_item_list#:#Liste
+cont#:#cont_tile_view#:#Kacheln
+obj#:#obj_tile_image#:#Kachelbild
 obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
 fold#:#fold_presentation#:#Darstellung
-validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
-validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
-validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
-validation#:#not_greater_than#:#'%s' is not greater than '%s'.###10 11 2018 new variable
-validation#:#not_less_than#:#'%s' is not less than '%s'.###10 11 2018 new variable
-validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.###10 11 2018 new variable
-validation#:#not_numeric#:#'%s' is not numeric.###10 11 2018 new variable
-validation#:#not_generic#:#It is not the case that: %s###10 11 2018 new variable
-validation#:#not_max_length#:#The entered text has a length more than '%s'.###10 11 2018 new variable
-validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
+validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
+validation#:#not_a_string#:#Wert vom Typ '%s' ist kein String.
+validation#:#not_a_null#:#Wert vom Typ '%s' ist keine Null.
+validation#:#not_greater_than#:#'%s' ist nicht größer als '%s'.
+validation#:#not_less_than#:#'%s' ist nicht kleiner als '%s'.
+validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
+validation#:#not_numeric#:#'%s' ist nicht nummerisch.
+validation#:#not_generic#:#Es ist nicht der Fall, dass %s
+validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als '%s'.
+validation#:#not_an_array#:#'%s' ist kein Array.
 validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
 rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
