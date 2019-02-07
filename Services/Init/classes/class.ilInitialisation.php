@@ -1226,9 +1226,8 @@ class ilInitialisation
 				"./Services/Component/classes/class.ilPluginAdmin.php");
 		}
 
-		self::setSessionHandler();
-
 		self::initSettings();
+		self::setSessionHandler();
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
 		self::initCustomObjectIcons($GLOBALS['DIC']);
