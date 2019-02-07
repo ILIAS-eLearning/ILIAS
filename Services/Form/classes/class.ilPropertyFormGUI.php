@@ -81,7 +81,6 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $description = "";
 	protected $tbl_width = false;
 	protected $show_top_buttons = true;
-	protected $reloaded_files;
 	protected $hide_labels = false;
 
 
@@ -1049,6 +1048,10 @@ class ilPropertyFormGUI extends ilFormGUI
 		}
 
 		ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path."/".$tmp_file_name);
+
+        /** @var ilFileInputGUI $file_input */
+        $file_input = $this->getItemByPostVar($a_field);
+        $file_input->setPending($a_name);
 	}
 	
 	/**
@@ -1075,17 +1078,6 @@ class ilPropertyFormGUI extends ilFormGUI
 					"is_upload" => true
 				);
 			}
-			else if($this->reloaded_files[$a_field]["tmp_name"][$a_index][$a_sub_index])
-			{
-				$res = array(
-					"tmp_name" => $this->reloaded_files["tmp_name"][$a_index][$a_sub_index],
-					"name" => $this->reloaded_files["name"][$a_index][$a_sub_index],
-					"type" => $this->reloaded_files["type"][$a_index][$a_sub_index],
-					"error" => $this->reloaded_files["error"][$a_index][$a_sub_index],
-					"size" => $this->reloaded_files["size"][$a_index][$a_sub_index],
-					"is_upload" => false
-				);
-			}
 		}
 		else if($a_sub_index)
 		{
@@ -1100,17 +1092,6 @@ class ilPropertyFormGUI extends ilFormGUI
 					"is_upload" => true
 				);
 			}
-			else if($this->reloaded_files[$a_field]["tmp_name"][$a_index])
-			{
-				$res = array(
-					"tmp_name" => $this->reloaded_files[$a_field]["tmp_name"][$a_index],
-					"name" => $this->reloaded_files[$a_field]["name"][$a_index],
-					"type" => $this->reloaded_files[$a_field]["type"][$a_index],
-					"error" => $this->reloaded_files[$a_field]["error"][$a_index],
-					"size" => $this->reloaded_files[$a_field]["size"][$a_index],
-					"is_upload" => false
-				);
-			}
 		}
 		else
 		{
@@ -1123,17 +1104,6 @@ class ilPropertyFormGUI extends ilFormGUI
 					"error" => $_FILES[$a_field]["error"],
 					"size" => $_FILES[$a_field]["size"],
 					"is_upload" => true
-				);
-			}
-			else if($this->reloaded_files[$a_field]["tmp_name"])
-			{
-				$res = array(
-					"tmp_name" => $this->reloaded_files[$a_field]["tmp_name"],
-					"name" => $this->reloaded_files[$a_field]["name"],
-					"type" => $this->reloaded_files[$a_field]["type"],
-					"error" => $this->reloaded_files[$a_field]["error"],
-					"size" => $this->reloaded_files[$a_field]["size"],
-					"is_upload" => false
 				);
 			}
 		}
@@ -1229,39 +1199,37 @@ class ilPropertyFormGUI extends ilFormGUI
 						{
 							if(!$_FILES[$field]["tmp_name"][$idx][$idx2])
 							{
-								$reload[$field]["tmp_name"][$idx][$idx2] = $full_file;
-								$reload[$field]["name"][$idx][$idx2] = $name;
-								$reload[$field]["type"][$idx][$idx2] = $type;
-								$reload[$field]["error"][$idx][$idx2] = 0;
-								$reload[$field]["size"][$idx][$idx2] = filesize($full_file);								
+                                $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
+								$_FILES[$field]["name"][$idx][$idx2] = $name;
+								$_FILES[$field]["type"][$idx][$idx2] = $type;
+								$_FILES[$field]["error"][$idx][$idx2] = 0;
+								$_FILES[$field]["size"][$idx][$idx2] = filesize($full_file);
 							}
 						}
 						else if($idx != "")
 						{
 							if(!$_FILES[$field]["tmp_name"][$idx])
 							{
-								$reload[$field]["tmp_name"][$idx] = $full_file;
-								$reload[$field]["name"][$idx] = $name;
-								$reload[$field]["type"][$idx] = $type;
-								$reload[$field]["error"][$idx] = 0;
-								$reload[$field]["size"][$idx] = filesize($full_file);								
+								$_FILES[$field]["tmp_name"][$idx] = $full_file;
+								$_FILES[$field]["name"][$idx] = $name;
+								$_FILES[$field]["type"][$idx] = $type;
+								$_FILES[$field]["error"][$idx] = 0;
+								$_FILES[$field]["size"][$idx] = filesize($full_file);
 							}	
 						}
 						else
 						{
 							if(!$_FILES[$field]["tmp_name"])
 							{
-								$reload[$field]["tmp_name"] = $full_file;
-								$reload[$field]["name"] = $name;
-								$reload[$field]["type"] = $type;
-								$reload[$field]["error"] = 0;
-								$reload[$field]["size"] = filesize($full_file);								
+								$_FILES[$field]["tmp_name"] = $full_file;
+								$_FILES[$field]["name"] = $name;
+								$_FILES[$field]["type"] = $type;
+								$_FILES[$field]["error"] = 0;
+								$_FILES[$field]["size"] = filesize($full_file);
 							}
 						}						
 					}
 				}
-				
-				$this->reloaded_files = $reload;
 			}
 		}
 	}

@@ -465,9 +465,7 @@ class ilDclRecordEditGUI {
 		}
 
 		if (!$valid) {
-			$this->cleanupTempFiles();
 			$this->sendFailure($this->lng->txt('form_input_not_valid'));
-
 			return;
 		}
 
