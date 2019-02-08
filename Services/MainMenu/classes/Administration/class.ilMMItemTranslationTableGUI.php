@@ -36,8 +36,9 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
 		$this->initColumns();
+		$this->initCommands();
+		$this->lng->loadLanguageModule("meta");
 
-		$this->lng()->loadLanguageModule("meta");
 
 		$this->addCommandButton(
 			ilMMItemTranslationGUI::CMD_SAVE_TRANSLATIONS, $this->lng()
@@ -58,9 +59,14 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 		$this->addColumn($this->lng()->txt('mm_translation_trans'));
 	}
 
+	protected function initCommands()
+	{
+		$this->addMultiCommand(ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng()
+			->txt("delete"));
+	}
+
 
 	protected function parseData() {
-		ilMMItemTranslationStorage::storeDefaultTranslation($this->item_facade->identification(), $this->item_facade->getDefaultTitle());
 		$this->setData(ilMMItemTranslationStorage::where(['identification' => $this->item_facade->getId()])->getArray());
 	}
 

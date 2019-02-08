@@ -131,6 +131,12 @@ interface ilMMItemFacadeInterface {
 	public function isTopItem(): bool;
 
 
+	/**
+	 * @return bool
+	 */
+	public function isInLostItem(): bool;
+
+
 	//
 	// Setters
 	//
