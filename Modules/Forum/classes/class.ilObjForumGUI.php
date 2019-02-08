@@ -2827,6 +2827,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
 				$this->ctrl->clearParameters($this);
 				array_unshift($bottom_toolbar_split_button_items, $reply_button);
+				
+				$this->renderDraftContent(true, $first_node);
 			}
 
 			// no posts
