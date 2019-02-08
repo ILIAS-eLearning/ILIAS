@@ -14822,7 +14822,7 @@ lso#:#no_entries_selected_for_delete#:#There has to be at least one entry select
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_search_users#:#Search user
-lso#:#lso_print_list#:#Print list
+lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
@@ -14978,3 +14978,4 @@ lso#:#lso_news_online_txt#:#A new object for your learning sequence was just pub
 user#:#user_profile_info_std#:#Default User Profile Info
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
+lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
