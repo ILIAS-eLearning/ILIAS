@@ -4442,6 +4442,14 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
+	public static function accessViolationRedirect()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		ilUtil::sendInfo($DIC->language()->txt("no_permission"), true);
+		$DIC->ctrl()->redirectByClass('ilObjTestGUI', "infoScreen");
+	}
+	
 	/**
 	* Redirect script to call a test with the test reference id
 	* 
