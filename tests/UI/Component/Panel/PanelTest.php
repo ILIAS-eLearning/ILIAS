@@ -47,6 +47,10 @@ class PanelTest extends ILIAS_UI_TestBase {
 		( "ILIAS\\UI\\Component\\Panel\\Report"
 				, $f->report("Title",$f->sub("Title",array(new ComponentDummy())))
 		);
+		$this->assertInstanceOf
+		( "ILIAS\\UI\\Component\\Panel\\Secondary"
+			, $f->secondary("Title",$f->sub("Title",array(new ComponentDummy())))
+		);
 	}
 
 	public function test_standard_get_title() {
@@ -120,6 +124,74 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$p = $f->report("Title",$sub);
 
 		$this->assertEquals($p->getContent(), array($sub));
+	}
+
+	public function test_secondary_get_title() {
+		$f = $this->getPanelFactory();
+		$p = $f->secondary("Title",array(new ComponentDummy()));
+
+		$this->assertEquals($p->getTitle(), "Title");
+	}
+
+	public function test_secondary_get_content() {
+		$f = $this->getPanelFactory();
+		$c =  new ComponentDummy();
+		$p = $f->secondary("Title",array($c));
+
+		$this->assertEquals($p->getContent(), array($c));
+	}
+
+	public function test_secondary_with_actions() {
+		$fp = $this->getPanelFactory();
+
+		$p = $fp->secondary("Title",array(new ComponentDummy()));
+
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
+		));
+
+		$p = $p->withActions($actions);
+
+		$this->assertEquals($p->getActions(), $actions);
+	}
+
+	public function test_secondary_with_sortation() {
+		$fp = $this->getPanelFactory();
+
+		$p = $fp->secondary("Title", array(new ComponentDummy()));
+
+		$sort_options = array(
+			'internal_rating' => 'Best',
+			'date_desc' => 'Most Recent',
+			'date_asc' => 'Oldest',
+		);
+		$sortation = $fp->viewControl()->sortation($sort_options);
+
+		$p = $p->withSortation($actions);
+
+		$this->assertEquals($p->getSortation(), $sortation);
+	}
+
+	public function test_secondary_with_pagination() {
+		$fp = $this->getPanelFactory();
+
+		$p = $fp->secondary("Title", array(new ComponentDummy()));
+
+		$url = "http://www.ilias.de";
+		$parameter_name = 'page';
+		$current_page = $parameter_name;
+
+		$pagination = $f->viewControl()->pagination()
+			->withTargetURL($url, $parameter_name)
+			->withTotalEntries(30)
+			->withPageSize(10)
+			->withDropdownAt(5)
+			->withCurrentPage($current_page);
+
+		$p = $p->withPagination($pagination);
+
+		$this->assertEquals($p->getPagination(), $pagination);
 	}
 
 

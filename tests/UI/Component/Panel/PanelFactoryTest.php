@@ -14,6 +14,9 @@ class PanelFactoryTest extends AbstractFactoryTest {
 			"report" => array(
 					"context" => false,
 					"rules" => false
+			),
+			"secondary" => array(
+				"context" => false
 			)
 	);
 
