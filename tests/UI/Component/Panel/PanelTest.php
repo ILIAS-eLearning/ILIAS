@@ -49,7 +49,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 		);
 		$this->assertInstanceOf
 		( "ILIAS\\UI\\Component\\Panel\\Secondary"
-			, $f->secondary("Title",$f->standard("Title",array(new ComponentDummy())))
+			, $f->secondary("Title",$f->sub("Title",array(new ComponentDummy())))
 		);
 	}
 
@@ -166,8 +166,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 			'date_desc' => 'Most Recent',
 			'date_asc' => 'Oldest',
 		);
-		$signal_generator = new I\Component\SignalGenerator();
-		$sortation = new I\Component\ViewControl\Sortation($sort_options, $signal_generator);
+		$sortation = $fp->viewControl()->sortation($sort_options);
 
 		$p = $p->withSortation($sortation);
 
@@ -183,9 +182,8 @@ class PanelTest extends ILIAS_UI_TestBase {
 		$parameter_name = 'page';
 		$current_page = $parameter_name;
 
-		$signal_generator = new I\Component\SignalGenerator();
-		$pagination = new I\Component\ViewControl\Pagination($signal_generator);
-		$pagination = $pagination->withTargetURL($url, $parameter_name)
+		$pagination = $f->viewControl()->pagination()
+			->withTargetURL($url, $parameter_name)
 			->withTotalEntries(30)
 			->withPageSize(10)
 			->withDropdownAt(5)
