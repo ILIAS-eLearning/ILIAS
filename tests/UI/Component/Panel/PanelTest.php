@@ -49,7 +49,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 		);
 		$this->assertInstanceOf
 		( "ILIAS\\UI\\Component\\Panel\\Secondary"
-			, $f->secondary("Title",$f->sub("Title",array(new ComponentDummy())))
+			, $f->secondary("Title",$f->standard("Title",array(new ComponentDummy())))
 		);
 	}
 
@@ -140,7 +140,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals($p->getContent(), array($c));
 	}
-
+/*
 	public function test_secondary_with_actions() {
 		$fp = $this->getPanelFactory();
 
@@ -172,7 +172,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals($p->getSortation(), $sortation);
 	}
-
+*/
 	public function test_secondary_with_pagination() {
 		$fp = $this->getPanelFactory();
 
