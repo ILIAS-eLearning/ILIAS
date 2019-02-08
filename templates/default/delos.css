@@ -6964,6 +6964,9 @@ button.close {
 .panel-secondary .panel-primary .panel-heading {
   background-color: transparent;
 }
+.panel-secondary .il-viewcontrol-pagination {
+  text-align: center;
+}
 .il-card {
   padding: 0;
   width: 100%;
