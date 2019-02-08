@@ -15,25 +15,36 @@ use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
 class Secondary extends Panel implements C\Panel\Secondary
 {
 	/**
-	 * @var Sortation
+	 * @var Sortation|null
 	 */
-	protected $sortation;
+	protected $sortation = null;
 
 	/**
-	 * @var Pagination
+	 * @var Pagination|null
 	 */
-	protected $pagination;
+	protected $pagination = null;
 
+	/**
+	 * @param Sortation $sortation
+	 * @return Secondary
+	 */
 	public function withSortation(Sortation $sortation) {
 		$clone = clone $this;
 		$clone->sortation = $sortation;
 		return $clone;
 	}
 
-	public function getSortation() : ?Sortation {
+	/**
+	 * @return Sortation|null
+	 */
+	public function getSortation() {
 		return $this->sortation;
 	}
 
+	/**
+	 * @param Pagination $pagination
+	 * @return Secondary
+	 */
 	public function withPagination(Pagination $pagination)
 	{
 		$clone = clone $this;
@@ -41,7 +52,10 @@ class Secondary extends Panel implements C\Panel\Secondary
 		return $clone;
 	}
 
-	public function getPagination() : ?Pagination
+	/**
+	 * @return Pagination|null
+	 */
+	public function getPagination()
 	{
 		return $this->pagination;
 	}

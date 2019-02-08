@@ -9,12 +9,29 @@ use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
 
 /**
  * This describes a Secondary Panel.
- * TODO don't assume that ILIAS 6.0 will get as minimum PHP 7.1 version.
- * TODO remove all nullable types
  */
 interface Secondary extends Panel {
+	/**
+	 * Set sortation options.
+	 * @param \ILIAS\UI\Component\ViewControl\Sortation $options
+	 * @return Secondary
+	 */
 	public function withSortation(Sortation $options);
-	public function getSortation() : ?Sortation;
+
+	/**
+	 * Get sortation options.
+	 * @return Sortation | null
+	 */
+	public function getSortation();
+
+	/**
+	 * @param Pagination $pagination
+	 * @return Secondary
+	 */
 	public function withPagination(Pagination $pagination);
-	public function getPagination() : ?Pagination;
+
+	/**
+	 * @return Pagination | null
+	 */
+	public function getPagination();
 }

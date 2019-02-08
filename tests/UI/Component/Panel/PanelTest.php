@@ -180,7 +180,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 		$url = "http://www.ilias.de";
 		$parameter_name = 'page';
-		$current_page = $parameter_name;
+		$current_page = 1;
 
 		$pagination = $f->viewControl()->pagination()
 			->withTargetURL($url, $parameter_name)
