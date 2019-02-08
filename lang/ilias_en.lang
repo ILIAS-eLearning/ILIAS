@@ -14988,3 +14988,4 @@ lso#:#lso_news_online_txt#:#A new object for your learning sequence was just pub
 user#:#user_profile_info_std#:#Default User Profile Info
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
+crs#:#crs_timings_short_end#:#End Date
