@@ -116,9 +116,12 @@ class ilUserSearchOptions
 				
 				case 'gender':
 					$fields[$counter]['type'] = FIELD_TYPE_SELECT;
-					$fields[$counter]['values'] = array(0 => $lng->txt('please_choose'),
-													'f' => $lng->txt('gender_f'),
-													'm' => $lng->txt('gender_m'));					
+					$fields[$counter]['values'] = array(
+						0 => $lng->txt('please_choose'),
+						'n' => $lng->txt('gender_n'),
+						'f' => $lng->txt('gender_f'),
+						'm' => $lng->txt('gender_m'),
+					);
 					break;
 				
 				case 'sel_country':
