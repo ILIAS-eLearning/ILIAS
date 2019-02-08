@@ -110,13 +110,24 @@ class ilMainMenuGUI extends \ilMainMenuGUI
 	}
 	
 	/**
+	 * @deprecated
+	 * @return string
+	 * @throws ilTemplateException
+	 */
+	public function getHTML() {
+		$this->setTemplateVars();
+
+		return $this->tpl->get();
+	}
+
+
+	/**
 	* set all template variables (images, scripts, target frames, ...)
 	*/
-	function setTemplateVars()
+	private function setTemplateVars()
 	{
 		global $DIC, $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
 		//$DIC["lti"]->log("setTemplateVars in ilMainMenu");
-		
 		// append internal and external LTI css just before </body> end-tag
 		$view = $DIC["lti"];
 		if ($this->main_tpl->blockExists('view_append_inline_css'))
