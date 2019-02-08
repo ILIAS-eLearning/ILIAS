@@ -168,7 +168,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 		);
 		$sortation = $fp->viewControl()->sortation($sort_options);
 
-		$p = $p->withSortation($actions);
+		$p = $p->withSortation($sortation);
 
 		$this->assertEquals($p->getSortation(), $sortation);
 	}
