@@ -451,6 +451,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$participant->add($this->user->getId(),IL_LSO_ADMIN);
 		$participant->updateNotification($this->user->getId(),$this->settings->get('mail_lso_admin_notification', true));
 
+
+		$settings = new \ilContainerSortingSettings($new_object->getId());
+		$settings->setSortMode(\ilContainer::SORT_MANUAL);
+		$settings->setSortDirection(\ilContainer::SORT_DIRECTION_ASC);
+		$settings->setSortNewItemsOrder(\ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
+		$settings->setSortNewItemsPosition(\ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
+		$settings->save();
+
 		ilUtil::sendSuccess($this->lng->txt('object_added'), true);
 		$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
 		ilUtil::redirect(
