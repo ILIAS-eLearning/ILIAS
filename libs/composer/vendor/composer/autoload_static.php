@@ -4652,6 +4652,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilExerciseVerificationTableGUI' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseVerificationTableGUI.php',
         'ilExerciseXMLParser' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseXMLParser.php',
         'ilExerciseXMLWriter' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseXMLWriter.php',
+        'ilExerciseMembersFilter' => __DIR__ . '/../..' . '/../../Modules/Exercise/classes/class.ilExerciseMembersFilter.php',
         'ilExplorer' => __DIR__ . '/../..' . '/../../Services/UIComponent/Explorer/classes/class.ilExplorer.php',
         'ilExplorerBaseGUI' => __DIR__ . '/../..' . '/../../Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php',
         'ilExplorerSelectInputGUI' => __DIR__ . '/../..' . '/../../Services/UIComponent/Explorer2/classes/class.ilExplorerSelectInputGUI.php',
