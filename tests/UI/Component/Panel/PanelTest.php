@@ -301,4 +301,44 @@ EOT;
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}
+
+	public function test_render_secondary() {
+		$f = $this->getPanelFactory();
+		$r = $this->getDefaultRenderer();
+
+		$actions = new I\Component\Dropdown\Standard(array(
+			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+			new I\Component\Button\Shy("GitHub", "https://www.github.com")
+		));
+
+		$p = $f->standard("Title",array());
+
+		$sec = $f->secondary("Title",$p)->withActions($actions);
+
+		$html = $r->render($sec);
+
+		$expected_html = <<<EOT
+<div class="panel panel-primary">
+	<div class="panel-heading ilHeader clearfix">
+		<h3 class="ilHeader">Title</h3>
+		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
+			<ul class="dropdown-menu">
+				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
+				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+			</ul>
+		</div>
+	</div>
+	<div class="panel-body panel-secondary">
+		<div class="panel panel-primary">
+			<div class="panel-heading ilHeader clearfix">
+				<h3 class="ilHeader">Standard Panel Title</h3> 
+			</div>
+			<div class="panel-body">Standard panel content</div>
+		</div>
+	</div>
+</div>
+EOT;
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
 }
