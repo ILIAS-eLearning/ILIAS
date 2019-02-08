@@ -1246,6 +1246,7 @@ class ilMail
 	 * @param array $types
 	 * @param bool $usePlaceholders
 	 * @return \ilMailError[]
+	 * @internal 
 	 */
 	public function sendMail(
 		string $rcpTo,
