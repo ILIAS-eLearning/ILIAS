@@ -274,13 +274,12 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
-		$col = ++$a_col;
 		$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
-			$col,
+			$a_col +1,
 			$a_row,
 			$this->prepareValue($a_value)
 		);
-		$this->setDateFormat($wb->getCellByColumnAndRow($col, $a_row), $a_value);
+		$this->setDateFormat($wb->getCellByColumnAndRow($a_col +1, $a_row), $a_value);
 	}
 	
 	/**
@@ -351,7 +350,7 @@ class ilExcel
 	 */
 	public function getColumnCoord($a_col)
 	{
-		return Coordinate::stringFromColumnIndex($a_col);
+		return Coordinate::stringFromColumnIndex($a_col + 1);
 	}
 	
 	/**
@@ -542,7 +541,7 @@ class ilExcel
 	 */
 	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
 	{
-		$columnLetter = Coordinate::stringFromColumnIndex($pColumn);
+		$columnLetter = Coordinate::stringFromColumnIndex($pColumn + 1);
 		return $columnLetter . $pRow;
 	}
 

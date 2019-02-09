@@ -1639,7 +1639,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			'join lti2_context con on rl.context_pk = con.context_pk '.
 			'where c.enabled = '.$db->quote(1,'integer').' '.
 			'and con.lti_context_id = '.$db->quote($a_ext_consumer, 'integer'). ' '.
-			'ur.lti_user_id = '.$db->quote($a_lti_user,'text').' '.
+			'and ur.lti_user_id = '.$db->quote($a_lti_user,'text').' '.
 			'and ec.id = '.$db->quote($a_ext_consumer,'integer');
 
 		$resource_links = [];

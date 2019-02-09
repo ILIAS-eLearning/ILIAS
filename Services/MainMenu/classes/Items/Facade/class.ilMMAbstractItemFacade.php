@@ -1,7 +1,11 @@
 <?php
 
 use ILIAS\GlobalScreen\Collector\MainMenu\Main;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\MainMenu\isTopItem;
+use ILIAS\GlobalScreen\MainMenu\Item\Lost;
 
 /**
  * Class ilMMAbstractItemFacade
@@ -183,7 +187,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	public function getParentIdentificationString(): string {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+		if ($this->gs_item instanceof isChild) {
 			$provider_name_for_presentation = $this->gs_item->getParent()->serialize();
 
 			return $provider_name_for_presentation;
@@ -197,7 +201,19 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 * @inheritDoc
 	 */
 	public function isTopItem(): bool {
-		return $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isTopItem;
+		return $this->gs_item instanceof isTopItem;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isInLostItem(): bool {
+		if ($this->gs_item instanceof isChild) {
+			return $this->gs_item->getParent() instanceof NullIdentification;
+		}
+
+		return false;
 	}
 
 
@@ -246,8 +262,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	// CRUD
 
 	public function update() {
-		ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
-
 		$this->mm_item->update();
 	}
 
