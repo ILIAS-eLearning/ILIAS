@@ -14,6 +14,7 @@ class ilMStListCourses {
 	 * @return array|bool|int
 	 */
 	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
+		global $ilLog;
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -33,15 +34,21 @@ class ilMStListCourses {
 		$options = array_merge($_options, $options);
 
 		$udf = ilUserDefinedFields::_getInstance();
-
+		$ilLog->write("10");
 		$select = 'SELECT crs_ref.ref_id as crs_ref_id, crs.title as crs_title, reg_status, lp_status, usr_data.usr_id as usr_id, usr_data.login as usr_login, usr_data.lastname as usr_lastname, usr_data.firstname as usr_firstname, usr_data.email as usr_email  from (
 	                    select reg.obj_id, reg.usr_id, '
-		          . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' as reg_status, lp.status as lp_status from obj_members as reg
+		          . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' as reg_status, lp.status as lp_status from obj_members 
+		          as reg
                         left join ut_lp_marks as lp on lp.obj_id = reg.obj_id and lp.usr_id = reg.usr_id
+                         WHERE '.$ilDB->in('reg.usr_id', $arr_usr_ids, false,'integer').'
 		            UNION
 	                    select obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST . ' as reg_status, 0 as lp_status from crs_waiting_list as waiting
+	                    WHERE '.$ilDB->in('waiting.usr_id', $arr_usr_ids, false,'integer').'
                     UNION
-	                    select obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED . ' as reg_status, 0 as lp_status from il_subscribers as requested) as memb
+	                    select obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED . ' as reg_status, 0 as lp_status from il_subscribers as requested
+	                  WHERE '.$ilDB->in('requested.usr_id', $arr_usr_ids, false,'integer').'  
+	                    ) as memb
+	           
                     inner join object_data as crs on crs.obj_id = memb.obj_id and crs.type = "crs"
                     inner join object_reference as crs_ref on crs_ref.obj_id = crs.obj_id
 	                inner join usr_data on usr_data.usr_id = memb.usr_id and usr_data.active = 1';
@@ -49,8 +56,9 @@ class ilMStListCourses {
 		$select .= static::createWhereStatement(array(), $options['filters']);
 
 		if ($options['count']) {
+			$ilLog->write($select);
 			$result = $ilDB->query($select);
-
+			$ilLog->write("11");
 			return $ilDB->numRows($result);
 		}
 
@@ -62,8 +70,9 @@ class ilMStListCourses {
 		if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
 			$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
 		}
-
+		$ilLog->write("13");
 		$result = $ilDB->query($select);
+		$ilLog->write("14");
 		$crs_data = array();
 
 		while ($crs = $ilDB->fetchAssoc($result)) {

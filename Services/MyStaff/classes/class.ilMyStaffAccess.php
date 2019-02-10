@@ -212,19 +212,33 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 
 	public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $operation_id = 1, $context = 'crs', $temporary_table_name = 'tmp_ilobj_user_matrix') {
+
+		global $ilLog;
+
+
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
 		$ilDB = $GLOBALS['DIC']->database();
 
+		$all_users_for_user = $this->getUsersForUser($GLOBALS['DIC']->user()->getId());
+
+		$ilLog->write("perf 1");
 		$this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext($operation_id,$context);
+		$ilLog->write("perf 2");
 		$this->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($operation_id,$context);
+		$ilLog->write("perf 3");
 		$this->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext($operation_id,$context);
-		$this->buildTempTableCourseMembers();
-		$this->buildTempTableOrguMembers();
-		$this->buildTempTableOrguMembers('tmp_orgu_members_path');
+		$ilLog->write("perf 4");
+		$this->buildTempTableCourseMembers( 'tmp_crs_members',$all_users_for_user);
+		$ilLog->write("perf 5");
+		$this->buildTempTableOrguMembers('tmp_orgu_members',$all_users_for_user);
+		$ilLog->write("perf 6");
+		$this->buildTempTableOrguMembers('tmp_orgu_members_path',$all_users_for_user);
+		$ilLog->write("perf 7");
 
 		$this->dropTempTable($temporary_table_name);
+		$ilLog->write("perf 8");
 
 		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
 				SELECT DISTINCT user_perm_matrix.perm_for_ref_id, user_perm_matrix.usr_id FROM
@@ -300,8 +314,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 				)	
 			);";
 
+		$ilLog->write($q);
 		$ilDB->manipulate($q);
-
+		$ilLog->write("perf 9");
 		return true;
 	}
 
@@ -314,7 +329,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$this->dropTempTable($temporary_table_name);
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+				(INDEX i1 (perm_for_ref_id), INDEX i2 (perm_for_orgu_id), INDEX i3 (perm_orgu_scope), INDEX i4 (perm_for_position_id), INDEX i5 (perm_over_user_with_position))
+				AS (
 				 SELECT 
 					obj_ref.ref_id as perm_for_ref_id,
 					orgu_ua.orgu_id as perm_for_orgu_id,
@@ -324,13 +341,16 @@ class ilMyStaffAccess extends ilObjectAccess {
 					FROM
 					il_orgu_permissions AS perm
 					INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
-					INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
+					INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id AND orgu_ua.user_id = ".$GLOBALS['DIC']->user()->getId()."
 					INNER JOIN object_reference AS obj_ref ON obj_ref.ref_id =  perm.parent_id
 					INNER JOIN object_data AS obj ON obj.obj_id = obj_ref.obj_id and obj.type = '$context'
 					INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '$context'
 					WHERE
 				    perm.operations LIKE '%\"$operation_id\"%'
-			);";;
+			);";
+
+
+		$GLOBALS['DIC']->logger()->root()->log($q);
 
 		$ilDB->manipulate($q);
 
@@ -339,6 +359,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 
 	public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($operation_id = 1, $context = 'crs', $temporary_table_name = 'tmp_ilobj_default_permissions') {
+
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -346,7 +367,12 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$this->dropTempTable($temporary_table_name);
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+		//
+
+
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+		(INDEX i1 (perm_for_ref_id), INDEX i2 (perm_for_orgu_id), INDEX i3 (perm_orgu_scope), INDEX i4 (perm_for_position_id),INDEX i5 (perm_over_user_with_position))
+		AS (
 					SELECT 
 					obj_ref.ref_id as perm_for_ref_id,
 					orgu_ua.orgu_id as perm_for_orgu_id,
@@ -360,7 +386,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 		     . $operation_id . "\"%' AND perm.parent_id = -1
 				    INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '"
 		     . $context . "'
-				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
+				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id and orgu_ua.user_id = ".$GLOBALS['DIC']->user()->getId()."
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    
 				    WHERE
@@ -376,6 +402,8 @@ class ilMyStaffAccess extends ilObjectAccess {
 		     . $context . "'
 				            WHERE perm.parent_id <> -1)
 							);";
+
+		$GLOBALS['DIC']->logger()->root()->log($q);
 
 		$ilDB->manipulate($q);
 
@@ -393,7 +421,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$this->dropTempTable($temporary_table_name);
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+			  (INDEX i1 (perm_for_ref_id), INDEX i2 (perm_for_orgu_id), INDEX i3 (perm_orgu_scope), INDEX i4 (perm_for_position_id), INDEX i5 (perm_over_user_with_position))
+		AS (
 					SELECT 
 		            orgu_ua.orgu_id as perm_for_ref_id, /* Table has to be identical to the other Permission For Operation And Context-Tables! */
 					orgu_ua.orgu_id as perm_for_orgu_id,
@@ -402,7 +432,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 					auth.over as perm_over_user_with_position
 				    FROM
 					il_orgu_permissions AS perm
-				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id and perm.parent_id = -1
+				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id and perm.parent_id = -1 and orgu_ua.user_id = ".$GLOBALS['DIC']->user()->getId()."
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '"
 		     . $context . "'
@@ -412,13 +442,15 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$ilDB->manipulate($q);
 
+		$GLOBALS['DIC']->logger()->root()->log($q);
+
 		//echo $q;
 
 		return true;
 	}
 
 
-	public function buildTempTableCourseMembers($temporary_table_name = 'tmp_crs_members') {
+	public function buildTempTableCourseMembers($temporary_table_name = 'tmp_crs_members',$all_users_for_user) {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -426,14 +458,19 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$this->dropTempTable($temporary_table_name);
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+		(INDEX i1(ref_id), INDEX i2 (usr_id), INDEX i3 (position_id), INDEX i4 (orgu_id))
+		AS (
 					SELECT crs_members_crs_ref.ref_id, crs_members.usr_id, orgu_ua.position_id, orgu_ua.orgu_id
 						FROM (
 							select obj_id, usr_id from obj_members where member = 1
+							AND ".$ilDB->in('obj_members.usr_id', $all_users_for_user, false,'integer')." 
 						UNION
 							select obj_id, usr_id from crs_waiting_list
+							WHERE ".$ilDB->in('crs_waiting_list.usr_id', $all_users_for_user,false,'integer')." 
 						UNION
 							select obj_id, usr_id from il_subscribers
+							WHERE ".$ilDB->in('il_subscribers.usr_id', $all_users_for_user,false,'integer')." 
 						) as crs_members
 						INNER JOIN object_reference as crs_members_crs_ref on crs_members_crs_ref.obj_id = crs_members.obj_id
 						INNER JOIN il_orgu_ua as orgu_ua on orgu_ua.user_id = crs_members.usr_id
@@ -441,13 +478,14 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$ilDB->manipulate($q);
 
+		$GLOBALS['DIC']->logger()->root()->log($q);
 		//echo $q;
 
 		return true;
 	}
 
 
-	public function buildTempTableOrguMembers($temporary_table_name = 'tmp_orgu_members') {
+	public function buildTempTableOrguMembers($temporary_table_name = 'tmp_orgu_members',$all_users_for_user = array()) {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -455,7 +493,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$this->dropTempTable($temporary_table_name);
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+			(INDEX i1(orgu_id), INDEX i2 (tree_path), INDEX i3 (tree_child), INDEX i4 (tree_parent), INDEX i5 (tree_lft), INDEX i6 (tree_rgt), INDEX i7 (user_position_id), INDEX i8 (user_id))
+		AS (
 					SELECT  orgu_ua.orgu_id as orgu_id,
 							tree_orgu.path as tree_path,
 							tree_orgu.child as tree_child,
@@ -466,8 +506,16 @@ class ilMyStaffAccess extends ilObjectAccess {
 							orgu_ua.user_id as user_id
 							from
 							il_orgu_ua AS orgu_ua
-							LEFT JOIN tree AS tree_orgu ON tree_orgu.child = orgu_ua.orgu_id
-			  );";
+							LEFT JOIN tree AS tree_orgu ON tree_orgu.child = orgu_ua.orgu_id";
+
+		if(count($all_users_for_user) > 0) {
+			$q .= " WHERE ".$ilDB->in('orgu_ua.user_id', $all_users_for_user,false,'integer')." ";
+		}
+
+		$q .= ");";
+
+
+		$GLOBALS['DIC']->logger()->root()->log($q);
 
 		$ilDB->manipulate($q);
 

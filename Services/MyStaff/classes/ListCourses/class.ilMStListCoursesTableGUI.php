@@ -54,7 +54,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 
 	protected function parseData() {
-		global $DIC;
+		global $DIC, $ilLog;
 		$ilUser = $DIC['ilUser'];
 
 		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'crs');
@@ -78,14 +78,17 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 				'direction' => $this->getOrderDirection(),
 			),
 		);
-		$count = ilMStListCourses::getData(array(), $options);
+
+		$all_users_for_user = $this->access->getUsersForUser($GLOBALS['DIC']->user()->getId());
+
+		$count = ilMStListCourses::getData($all_users_for_user, $options);
 		$options['limit'] = array(
 			'start' => (int)$this->getOffset(),
 			'end'   => (int)$this->getLimit(),
 		);
 		$options['count'] = false;
-		$data = ilMStListCourses::getData(array(), $options);
-
+		$data = ilMStListCourses::getData($all_users_for_user, $options);
+		$ilLog->write(15);
 		$this->setMaxCount($count);
 		$this->setData($data);
 	}
@@ -315,6 +318,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_course->getUsrId(), 'awrn', 'toplist');
 
 		//TODO Async?
+		/*
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setListTitle($this->lng()->txt('actions'));
 		$selection->setId('selection_list_' . $my_staff_course->getUsrId());
@@ -352,7 +356,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 					break;
 			}
 		}
-		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
+		$this->tpl->setVariable('ACTIONS', $selection->getHTML());*/
 	}
 
 
