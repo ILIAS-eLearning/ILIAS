@@ -9,9 +9,6 @@ declare(strict_types=1);
  */
 class ilLearningSequenceSettingsDB
 {
-	/**
-	* int lso_obj_id, text abstract, text extro
-	*/
 	const TABLE_NAME = 'lso_settings';
 
 	/**
@@ -55,7 +52,6 @@ class ilLearningSequenceSettingsDB
 			"extro" => array("text", $settings->getExtro()),
 			"abstract_image" => array("text", $settings->getAbstractImage()),
 			"extro_image" => array("text", $settings->getExtroImage()),
-			"online" => array("integer", $settings->getIsOnline()),
 			"gallery" => array("integer", $settings->getMembersGallery())
 		);
 
@@ -92,7 +88,6 @@ class ilLearningSequenceSettingsDB
 				$data['extro'],
 				$data['abstract_image'],
 				$data['extro_image'],
-				(bool)$data['online'],
 				(bool)$data['gallery']
 			);
 		}
@@ -104,7 +99,7 @@ class ilLearningSequenceSettingsDB
 	{
 		$ret = [];
 		$query =
-			 "SELECT abstract, extro, abstract_image, extro_image, online, gallery" .PHP_EOL
+			 "SELECT abstract, extro, abstract_image, extro_image, gallery" .PHP_EOL
 			."FROM ".static::TABLE_NAME .PHP_EOL
 			."WHERE obj_id = ".$this->database->quote($obj_id, "integer").PHP_EOL
 		;
@@ -124,8 +119,8 @@ class ilLearningSequenceSettingsDB
 		string $extro = '',
 		string $abstract_image = null,
 		string $extro_image = null,
-		bool $online = false,
 		bool $gallery = false
+
 	): ilLearningSequenceSettings {
 		return new ilLearningSequenceSettings(
 			$obj_id,
@@ -133,7 +128,6 @@ class ilLearningSequenceSettingsDB
 			$extro,
 			$abstract_image,
 			$extro_image,
-			$online,
 			$gallery
 		);
 	}
@@ -144,7 +138,6 @@ class ilLearningSequenceSettingsDB
 			"obj_id" => array("integer", $settings->getObjId()),
 			"abstract" => array("text", $settings->getAbstract()),
 			"extro" => array("text", $settings->getExtro()),
-			"online" => array("integer", $settings->getIsOnline()),
 			"gallery" => array("integer", $settings->getMembersGallery())
 		);
 		$this->database->insert(static::TABLE_NAME, $values);
