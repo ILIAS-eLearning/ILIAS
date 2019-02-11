@@ -20,6 +20,11 @@ class ilLearningSequenceActivation
 	protected $online;
 
 	/**
+	 * @var bool
+	 */
+	protected $effective_online;
+
+	/**
 	 * @var \DateTime | null
 	 */
 	protected $activation_start;
@@ -33,11 +38,13 @@ class ilLearningSequenceActivation
 	public function __construct(
 		int $ref_id,
 		bool $online = false,
+		bool $effective_online = false,
 		\DateTime $activation_start = null,
 		\DateTime $activation_end = null
 	) {
 		$this->ref_id = $ref_id;
 		$this->online = $online;
+		$this->effective_online = $effective_online;
 		$this->activation_start = $activation_start;
 		$this->activation_end = $activation_end;
 	}
@@ -57,6 +64,11 @@ class ilLearningSequenceActivation
 		$clone = clone $this;
 		$clone->online = $online;
 		return $clone;
+	}
+
+	public function getEffectiveOnlineStatus(): bool
+	{
+		return $this->effective_online;
 	}
 
 	/**

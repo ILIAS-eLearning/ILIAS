@@ -243,3 +243,17 @@ if ($ilDB->tableColumnExists('lso_settings', 'online'))
 	$ilDB->dropTableColumn('lso_settings', 'online');
 }
 ?>
+
+<#24>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
+	$ilDB->addTableColumn('lso_activation', 'effective_online',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 1,
+			"default" => 0
+		)
+	);
+}
+?>
