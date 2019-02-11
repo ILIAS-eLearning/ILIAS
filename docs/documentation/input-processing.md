@@ -1233,7 +1233,22 @@ by simply renaming `Constraint::restrict` to `Constraint::applyTo`. This change
 will allow simplification in the current form-implementation of the UI-Framework,
 on the consumer side as well as on the implementation side. This will also allow
 to implement `Transformations` that perform checks and create new value as well,
-like we need for constructors of datastructures.
+like we need for constructors of datastructures. `Transformation::transform` then
+can be generically implemented in terms of `applyTo`:
+
+```php
+public function transform($from) {
+	$result = $this->applyTo($this->data_factory->ok($from));
+	if ($result->isError()) {
+		$e = $result->error();
+		if ($e instanceof \Exception) {
+			throw $e;
+		}
+		throw new \InvalidArgumentException($e);
+	}
+	return $result->value();
+}
+```
 
 We furthermore propose to unify the two concepts on a library level as well and
 propose `Refinery` as name for the new library. The existing `Validation` and
