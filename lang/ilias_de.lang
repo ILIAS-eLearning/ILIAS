@@ -14793,6 +14793,7 @@ rbac#:#lso_visible#:#Lernsequenz sichtbar
 rbac#:#lso_copy#:#Lernsequenz kopieren
 rbac#:#lso_write#:#Lernsequenz bearbeiten
 rbac#:#lso_delete#:#Lernsequenz löschen
+rbac#:#lso_lp_other_users#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 lso#:#learner_view#:#Übersicht
 lso#:#manage#:#Verwalten
 lso#:#manage_content_maintab#:#Inhalt
