@@ -194,8 +194,7 @@ even found some more possible usages, which after further analysis turned out to
 anti patterns. They are documented under the chapter of non-examples
 
 For simplicity reasons, the class of the objects to persist is in all following
-example the same. The class
-is called `ilObjGeoLocation` and is immutable:
+example the same. The class is called `ilObjGeoLocation` and is immutable:
 
 ```php
     class ilObjGeoLocation {
@@ -233,7 +232,7 @@ others return an array of objects or just a boolean, if a requested object exist
 The same rules apply for updating or even deleting multiple objects at once.
 
 Always keep in mind, that those CRUD-Operations are not only limited to an
-SQL-Statement for a database, but also for a filesystem. But for most of this
+SQL-Statement for a database, but also are possible for a filesystem. But for most of this
 examples, we use a database. The database is injected in the constructor. The
 benefit of injecting the database to the repository class is to make mocking for
 unit tests easier.
@@ -251,12 +250,15 @@ implementation differs from example to example.
         public function getGeoLocationById(int $a_id);
         public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
         public function checkIfLocationExistsById(int $a_id) : bool;
-
+        public function checkIfAnyLocationExistsByGeoLocation(string $a_latitude, string $a_longitude) : bool;
+        
         // Update operations
         public function updateGeoLocationObject(ilObjGeoLocation $a_obj);
-
+        public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp);
+        
         // Delete operations
         public function deleteGeoLocationById(int $a_id);
+        public function purgeGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
         public function purgeExpiredGeoLocations();
     }
 ```
@@ -314,7 +316,7 @@ the different methods for different CRUD-Operations
 
 * Get specific object by unique identifier. Returns object: get____ById($id)
     * For example: get*GeoLocation*ById(int $id) : ilObjGeoLocation
-  
+
 ```php
     // Set up SQL-Statement
     $query = 'Select * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
@@ -380,10 +382,10 @@ the different methods for different CRUD-Operations
     // Return if object was found
     return $result['count'] > 0;
 ```
-    
+
 * Check if any object with given attributes exist. Returns Boolean: checkIfAny____ExistsBy____($attribute)
     * checkIfAny*GeoLocation*ExistsBy*Coordinates*(string $a_latitude, string $a_longitude) : bool
-  
+
 ```php
     // Set up SQL-Statement
     $query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
@@ -418,7 +420,7 @@ the different methods for different CRUD-Operations
 * Update a set of objects with the same attributes at once: update____By____($_searched_attributes, $a_new_attributes)
     * update*GeoLocation*By*Coordinates*($a_searched_latitude, $a_searched_longitude, $a_new_timestamp)
     * *Note:* This function seems to be anti-pattern. For a lot of use cases 
-    this is true. You should always prefer updating an entire object instead 
+    this is true. You should prefer updating an entire object instead 
     of just a single attribute. But if you want to update some specific attributes 
     on a set of object, an update query like this is a lot faster than fetching 
     a list of all wanted objects and update them one by one.
@@ -436,7 +438,7 @@ the different methods for different CRUD-Operations
 
 **Delete operations**
 
-* Delete specific object: delete______Object($id)
+* Delete specific object: delete____Object($id)
     * delete*GeoLocation*Object($a_id)
 
 ```php
@@ -448,7 +450,7 @@ the different methods for different CRUD-Operations
     $this->db->manipulate($query);
 ```
 
-* Delete a set of objects with a given attribute. Attributes are given as Argument: purge______By______($attribute)
+* Delete a set of objects with a given attribute. Attributes are given as Argument: purge____By____($attribute)
     * purge*GeoLocations*By*Coordinates*($a_latitude, $a_longitude)
 
 ```php
@@ -461,7 +463,7 @@ the different methods for different CRUD-Operations
     $this->db->manipulate($query);
 ```
 
-* Delete a set of objects with a given attribute. Attributes are implied in function title: purge______()
+* Delete a set of objects with a given attribute. Attributes are implied in function title: purge____()
     * purge*ExpiredGeoLocations*()
     
 ```php
@@ -474,7 +476,6 @@ the different methods for different CRUD-Operations
 ```
 
 ### Mock to use while developing
-
 
 Imagine following scenario: You are a developer and you have the mission the 
 mission to implement a plugin which works with geo locations. So you implement
@@ -490,14 +491,73 @@ the title would also be a good idea. But changes like this require a change in
 the "dbupdate.php"-file, a change in the Database columns itself, a change in the
 DB-queries and a change in the strict typing of all functions.
 
-A possible solution for this type of problem is the usage of a mocked repository 
+A possible solution for this type of problem is the usage of a "mocked" repository 
 object. But not mocked in the case of unit tests, but mocked in the case of the 
 implementation. Instead of writing into a database table, a simple file is used.
-Obviously, this file dont care about data types and formats. They can also be 
+Obviously, this file doesn't care about data types and formats. They can also be 
 manually edited with a simple editor. This might be a horrible idea for a production
-system regarding the miserable integrity, lack of join etc. But for quick changes
+system regarding the miserable integrity, lack of joining tables etc. But for quick changes
 and tests during the development process, this flexible way of persisting and 
 reading data comes in pretty useful.
 
+With the example of the `ilObjGeoLocation`-object, we a text file could look like this:
+
+```
+1;Paris;48° 52' 0" N;2° 20' 0" E;1539377900
+2;Berlin;52° 31' 0" N;13° 24' 0" E;1539177900
+3;Bern;46° 55' 0" N;7° 28' 0" E;1539077900
+```
+
+Now we can read a line as csv like this:
+
+```php
+$file = fopen('mocked_geolocation_data.txt', 'r');
+$row = fgetcsv($file);
+fclose($file);
+```
+
+And write a line like this:
+
+```php
+$file = fopen('mocked_geolocation_data.txt', 'r');
+$write_string = $obj_data[0].';' .$obj_data[1].';' .$obj_data[2].';' .$obj_data[3].';'                 .$obj_data[4]."\n";
+fwrite($file, $write_string);
+fclose($file);
+```
+
 
 ### Mock to use in unit tests
+
+As already mentioned: The repository pattern is really helpful in terms of writing unit 
+tests if used correctly. They can be mocked to return predefined objects This could
+look like this:
+
+```php
+// Create predefined return values
+$obj1 = new ilObjGeoLocation(1, "older", "", "", microtime() - 1000);
+$obj2 = new ilObjGeoLocation(1, "newer", "", "", microtime());
+
+// Create mock
+$mocked_repo = $this->createMock(ilGeoLocationRepository::class);
+
+// Set mocked method
+$mocked_repo->expects($this->once())
+    ->method('getGeoLocationsByCoordinates')
+    ->with($this->equalTo("48° 52' 0\" N", "2° 20' 0\" E")
+    ->will($this->returnValue(array($obj1, $obj2)));
+```
+
+After this, the mocked repository can be injected to an object for unit tests. If the
+testing object now calls the mocked repository, it will return our predefined value:
+
+```php
+// Inject mocked repository to the testing class
+$calc = new ilGeoLocationCalculator($mocked_repo);
+
+// Execute testing method
+$result = $calc->calculateNearestExpiration(array("48° 52' 0\" N", "2° 20' 0\" E")) 
+
+// Assert test
+$this->assertEqual($result, $obj2)
+```
+
