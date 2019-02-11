@@ -505,9 +505,9 @@ class ilIndividualAssessmentMembersTableGUI {
 	/**
 	 * Check the set was edited by viewing user
 	 */
-	protected function wasEditedByViewer(int $examiner_id): bool
+	protected function wasEditedByViewer(int $examiner_id = null): bool
 	{
-		return $examiner_id === $this->current_user_id || 0 === $examiner_id;
+		return $examiner_id === $this->current_user_id || null === $examiner_id;
 	}
 
 	protected function txt(string $code): string
