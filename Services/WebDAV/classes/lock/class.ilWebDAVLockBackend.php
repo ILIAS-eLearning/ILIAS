@@ -47,6 +47,7 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
         $this->repo_helper = $repo_helper == null ? new ilWebDAVRepositoryHelper($DIC->access(), $DIC->repositoryTree()) : $repo_helper;
         $this->obj_dav_helper = new ilWebDAVObjDAVHelper($this->repo_helper);
         $this->uri_path_resolver = new ilWebDAVUriPathResolver($this->repo_helper);
+        $this->user = $DIC->user();
     }
     
     /**
@@ -150,7 +151,7 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
         {
             $ref_id = $this->uri_path_resolver->getRefIdForWebDAVPath($uri);
 
-            if ($ref_id > 0 && $this->repo_helper->checkAccess('write', '', $ref_id))
+            if ($ref_id > 0 && $this->repo_helper->checkAccess('write', $ref_id))
             {
                 $obj_id = $this->repo_helper->getObjectIdFromRefId($ref_id);
                 $ilias_lock = ilWebDAVLockObject::createFromSabreLock($lock_info, $obj_id);
