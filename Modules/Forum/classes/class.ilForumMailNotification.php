@@ -105,14 +105,12 @@ class ilForumMailNotification extends ilMailNotification
 		$ilSetting = $DIC->settings();
 		$lng = $DIC->language();
 
-		if(!$ilSetting->get('forum_notification', 0))
-		{
+		if (!$ilSetting->get('forum_notification', 0)) {
 			$this->logger->debug('Forum notifications are globally disabled');
 			return false;
 		}
 
-		if(!$this->getRecipients())
-		{
+		if (!$this->getRecipients()) {
 			$this->logger->debug('No notification recipients, nothing to do');
 			return false;
 		}
@@ -122,80 +120,104 @@ class ilForumMailNotification extends ilMailNotification
 		$date_type = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 
-		switch($this->getType())
-		{
+		switch ($this->getType()) {
 			case self::TYPE_THREAD_DELETED:
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('thread_deleted_by'), $this->provider->getDeletedBy(),  $this->provider->getForumTitle());
-					$this->sendMailWithoutAttachments('frm_noti_subject_del_thread', (int) $rcp, (string) $customText, 'content_deleted_thread');
+					$customText = sprintf(
+						$this->getLanguageText('thread_deleted_by'),
+						$this->provider->getDeletedBy(), $this->provider->getForumTitle()
+					);
+					$this->pushMailWithoutAttachments(
+						'frm_noti_subject_del_thread', (int)$rcp, (string)$customText, 'content_deleted_thread'
+					);
 				}
 				break;
 
 			case self::TYPE_POST_NEW:
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('frm_noti_new_post'), $this->provider->getForumTitle());
-					$this->sendMailWithAttachments('frm_noti_subject_new_post', (int) $rcp, (string) $customText, 'new_post');
+					$customText = sprintf(
+						$this->getLanguageText('frm_noti_new_post'), $this->provider->getForumTitle()
+					);
+					$this->pushMailWithAttachments(
+						'frm_noti_subject_new_post', (int)$rcp, (string)$customText, 'new_post'
+					);
 				}
 				break;
 
 			case self::TYPE_POST_ACTIVATION:
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
 					$customText = $this->getLanguageText('forums_post_activation_mail');
-					$this->sendMailWithAttachments('frm_noti_subject_act_post', (int) $rcp, (string) $customText, 'new_post');
+					$this->pushMailWithAttachments(
+						'frm_noti_subject_act_post', (int)$rcp, (string)$customText, 'new_post'
+					);
 				}
 				break;
 
 			case self::TYPE_POST_ANSWERED;
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
 					$customText = $this->getLanguageText('forum_post_replied');
-					$this->sendMailWithAttachments('frm_noti_subject_answ_post', (int) $rcp, (string) $customText, 'new_post');
+					$this->pushMailWithAttachments(
+						'frm_noti_subject_answ_post', (int)$rcp, (string)$customText, 'new_post'
+					);
 				}
 				break;
 
 			case self::TYPE_POST_UPDATED:
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle());
+					$customText = sprintf(
+						$this->getLanguageText('post_updated_by'),
+						$this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle()
+					);
 					$date = $this->provider->getPostUpdate();
-					$this->sendMailWithAttachments('frm_noti_subject_upt_post', (int) $rcp, (string) $customText, 'content_post_updated', $date);
+					$this->pushMailWithAttachments(
+						'frm_noti_subject_upt_post', (int)$rcp, (string)$customText, 'content_post_updated', $date
+					);
 				}
 				break;
 
 			case self::TYPE_POST_CENSORED:
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()) ,$this->provider->getForumTitle());
+					$customText = sprintf(
+						$this->getLanguageText('post_censored_by'),
+						$this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle()
+					);
 					$date = $this->provider->getPostCensoredDate();
-					$this->sendMailWithAttachments('frm_noti_subject_cens_post', (int) $rcp, (string) $customText, 'content_censored_post', $date);
+					$this->pushMailWithAttachments(
+						'frm_noti_subject_cens_post', (int)$rcp, (string)$customText, 'content_censored_post', $date
+					);
 				}
 				break;
 
 			case self::TYPE_POST_UNCENSORED:
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()));
+					$customText = sprintf(
+						$this->getLanguageText('post_uncensored_by'),
+						$this->provider->getPostUpdateUserName($this->getLanguage())
+					);
 					$date = $this->provider->getPostCensoredDate();
-					$this->sendMailWithAttachments('frm_noti_subject_uncens_post', (int) $rcp, (string) $customText, 'forums_the_post', $date);
+					$this->pushMailWithAttachments(
+						'frm_noti_subject_uncens_post', (int)$rcp, (string)$customText, 'forums_the_post', $date
+					);
 				}
 				break;
 
 			case self::TYPE_POST_DELETED:
-				foreach($this->getRecipients() as $rcp)
-				{
+				foreach ($this->getRecipients() as $rcp) {
 					$this->initLanguage($rcp);
-					$customText = sprintf($this->getLanguageText('post_deleted_by'), $this->provider->getDeletedBy(),  $this->provider->getForumTitle());
-					$this->sendMailWithoutAttachments('frm_noti_subject_del_post', (int) $rcp, (string) $customText, 'content_deleted_post');
+					$customText = sprintf(
+						$this->getLanguageText('post_deleted_by'),
+						$this->provider->getDeletedBy(), $this->provider->getForumTitle())
+					;
+					$this->pushMailWithoutAttachments(
+						'frm_noti_subject_del_post', (int)$rcp, (string)$customText, 'content_deleted_post'
+					);
 				}
 				break;
 		}
@@ -307,7 +329,7 @@ class ilForumMailNotification extends ilMailNotification
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function sendMailWithAttachments(
+	private function pushMailWithAttachments(
 		string $subjectLanguageId,
 		int $userId,
 		string $customText,
@@ -329,7 +351,7 @@ class ilForumMailNotification extends ilMailNotification
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function sendMailWithoutAttachments(
+	private function pushMailWithoutAttachments(
 		string $subjectLanguageId,
 		int $userId,
 		string $customText,

@@ -3,6 +3,8 @@
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
+use ILIAS\BackgroundTasks\TaskManager;
+use ILIAS\DI\Container;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -30,18 +32,18 @@ class ilMailTaskWorker
 	private $logger;
 
 	/**
-	 * @param TaskManager|null $taskManager
+	 * @param TaskManager $taskManager
 	 * @param TaskFactory|null $taskFactory
 	 * @param ilLanguage|null $language
 	 * @param ilLogger|null $logger
-	 * @param \ILIAS\DI\Container|null $dic
+	 * @param Container|null $dic
 	 */
 	public function __construct(
-		\ILIAS\BackgroundTasks\TaskManager $taskManager = null,
+		TaskManager $taskManager = null,
 		TaskFactory $taskFactory = null,
 		ilLanguage  $language = null,
 		ilLogger $logger = null,
-		\ILIAS\DI\Container $dic = null
+		Container $dic = null
 	) {
 
 		if (null === $dic) {
@@ -71,17 +73,17 @@ class ilMailTaskWorker
 	}
 
 	/**
-	 * @param ilMailValueObject[] $mailValueObjects
-	 * @param int $userId
-	 * @param int $contextId
-	 * @param array $contextParameters
-	 * @param int $tasksBeforeExecution
+	 * @param ilMailValueObject[] $mailValueObjects - One MailValueObject = One Task
+	 * @param int $userId - User ID of the user who executes the background task
+	 * @param string $contextId - context ID of the Background task
+	 * @param array $contextParameters - context parameters for the background tasks
+	 * @param int $tasksBeforeExecution - Defines how many tasks will be added consecutive before running
 	 * @throws ilException
 	 */
 	public function run(
 		array $mailValueObjects,
 		int $userId,
-		int $contextId,
+		string $contextId,
 		array $contextParameters,
 		int $tasksBeforeExecution = 100
 	) {
@@ -99,16 +101,25 @@ class ilMailTaskWorker
 				throw new ilException('Array MUST contain ilMailValueObjects ONLY');
 			}
 
+			$recipients = $mailValueObject->getRecipients();
+			$recipientsCC = $mailValueObject->getRecipientsCC();
+			$recipientsBCC = $mailValueObject->getRecipientsBCC();
+			$subject = $mailValueObject->getSubject();
+			$body = $mailValueObject->getBody();
+			$value = $mailValueObject->getAttachment();
+			$isUsingPlaceholders = $mailValueObject->isUsingPlaceholders();
+			$shouldSaveInSentBox = $mailValueObject->shouldSaveInSentBox();
+
 			$task = $this->taskFactory->createTask(\ilMailDeliveryJob::class, [
 				(int)$userId,
-				(string)$mailValueObject->getRecipients(),
-				(string)$mailValueObject->getRecipientsCC(),
-				(string)$mailValueObject->getRecipientsBCC(),
-				(string)$mailValueObject->getSubject(),
-				(string)$mailValueObject->getBody(),
-				serialize($mailValueObject->getAttachment()),
-				(bool)$mailValueObject->isUsingPlaceholders(),
-				(bool)$mailValueObject->shouldSaveInbox(),
+				(string)$recipients,
+				(string)$recipientsCC,
+				(string)$recipientsBCC,
+				(string)$subject,
+				(string)$body,
+				serialize($value),
+				(bool)$isUsingPlaceholders,
+				(bool)$shouldSaveInSentBox,
 				(string)$contextId,
 				serialize($contextParameters),
 				serialize($mailValueObject->getTypes()),
