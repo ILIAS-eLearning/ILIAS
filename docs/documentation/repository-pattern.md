@@ -561,3 +561,86 @@ $result = $calc->calculateNearestExpiration(array("48° 52' 0\" N", "2° 20' 0\"
 $this->assertEqual($result, $obj2)
 ```
 
+# Bad examples
+
+During the writing of this documentation, we also tried to use the repository 
+pattern in combination with some different patterns. We determined, that some 
+of this combinations are bad examples. With the following subchapters, we 
+show, why we considered these examples as bad and why we do not recommend
+them.
+
+## Factory Pattern inside a Repository
+
+Don't get us wrong, a repository can absolutely be used inside of a factory and 
+and we would even recommend it. Sadly, the other way doesn't work so well.
+In most cases, the factory would also need a repository if it needs to load data
+from the database to construct a new object.
+
+In this case, a factory would either use another repository for database access.
+Or worse, it uses the repository in which it exists inside. This would create a
+circular dependency between a repository and a factory which should be avoided.
+
+The following code snippet shows how both case would look like:
+
+```php
+// Scenario with 2 repositories
+public function getGeoLocationById(int $a_id) : ilObjGeoLocation
+{
+    /* Insert read data from DB part here */
+    
+    // Create second repository
+    $second_repo = new ilOtherGeoLocationRepository($this->db);
+    $obj = $this->geo_location_factory->createGeoLocation($obj, $second_repo);
+    return $obj;
+}
+
+// Scenario with circular dependency
+public function getGeoLocationById(int $a_id) : ilObjGeoLocation
+{
+    /* Insert read data from DB part here */
+    $obj = $this->geo_location_factory->createGeoLocation($obj, $this);
+    return $obj;
+}
+```
+
+## Active Record inside a Repository
+
+We determined two scenarios, how active record could be used inside a repository.
+The first scenario would, that the object which should be persisted **extends** from
+`ActiveRecord`. The other scenario would be, that there is for each class an 
+**additional** class, which extends from `ActiveRecord` and only is used for database
+Access.
+
+In case of updating an object with the first scenario, the method would look like this:
+
+```php
+public function updateGeoLocationObject(ilObjGeoLocation $a_obj) 
+{
+    $a_obj->update();
+}
+```
+
+As you can see, it doesn't make any sense to pass an object to the repository,
+just to call the `->update()`-method. Developers would just skip the repository and
+would update the object direct by them self.
+
+The other scenario would be to create an additional class, which extends from 
+`ActiveRecord` and is used for database access. The following code snippet shows, 
+how such a function could look like:
+
+```php
+// Class for objects to work with
+class ilObjGeoLocation {}
+
+// Class to interact with the database
+class ilObjGeoLocationAR extends ActiveRecord {}
+
+public function updateGeoLocationObject(ilObjGeoLocation $a_obj) 
+{
+    $ar_obj = new ilObjGeoLocationAR($a_obj);
+    $ar_obj->update();
+}
+```
+
+Like in the first scenario, the repository is just used to create the ActiveRecord-Object
+and call the update method.
