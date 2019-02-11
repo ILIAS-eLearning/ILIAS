@@ -177,3 +177,17 @@ while ($rec = $ilDB->fetchAssoc($set))
 	$ilDB->manipulate("DELETE FROM object_reference where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
 }
 ?>
+
+<#5448>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId("lso");
+
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+	if ($ops_id) {
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ops_id);
+	}
+}
+
+?>
