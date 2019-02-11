@@ -1929,6 +1929,18 @@ We thus propose to inform the developers about the general plans regarding secur
 of input, the phenomenon of primitive obsession in particular and than ask them
 about common types that should be included in the [Data-library](../../src/Data).
 
+However, we do not propose to blindly wrap every primitive type into an object in
+every situation. Since PHP > 7.0 offers type hints for primitive types, a general
+`Int` wrapper for integers will add inconveniences but no additional information
+or support for developers. Wrappers around single primitives only help if they
+add additional information to the primitive. This might concern checks that have
+been performed previously, like `URL` does, or contexts in which the primitive
+is intended to be used, like `Password` does. We also expect to see compound data
+types that bundle multiple primitives to a single value, like e.g. Geo-Location
+bundles two floats (for latitude and longitude) into one. These seem to be a more
+typical case for data types than the wrappers around single primitives.
+
+
 ### Fighting Primitive Obsession
 
 As shown above, fighting the phenomenon of primitive obsession is crucial to improve
