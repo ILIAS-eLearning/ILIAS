@@ -154,7 +154,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		$meta_data = [];
 
 		$section = $md->getGeneral();
-		if ($section == FALSE) {
+		if (!$section) {
 			return [];
 		}
 
