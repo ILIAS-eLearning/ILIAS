@@ -119,7 +119,6 @@ class ilObjLearningSequenceSettingsGUI
 		$title->setRequired(true);
 		$desc = new ilTextAreaInputGUI($txt("description"), self::PROP_DESC);
 
-		// activation
 		$section_avail = new ilFormSectionHeaderGUI();
 		$section_avail->setTitle($txt('lso_settings_availability'));
 		$online = new ilCheckboxInputGUI($txt("online"), self::PROP_ONLINE);

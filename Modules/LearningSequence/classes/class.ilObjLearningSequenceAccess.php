@@ -61,7 +61,17 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
 	protected function isOffline($ref_id) {
 		$obj = ilObjectFactory::getInstanceByRefId($ref_id);
 		$act = $obj->getLSActivation();
-		return !$act->getIsOnline();
+		$online = $act->getIsOnline();
+		if(!$online) {
+			$now = new \DateTime();
+			$ts_now = $now->getTimestamp();
+			$ts_start = $act->getActivationStart()->getTimestamp();
+			$ts_end = $act->getActivationEnd()->getTimestamp();
+
+			$online = ($ts_start <= $ts_now && $ts_now <= $ts_end);
+		}
+
+		return !$online;
 	}
 
 	public function _checkAccess($cmd, $permission, $ref_id, $obj_id, $usr_id = "")
