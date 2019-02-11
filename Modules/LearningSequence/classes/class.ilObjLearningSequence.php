@@ -134,12 +134,6 @@ class ilObjLearningSequence extends ilContainer
 		}
 		$this->raiseEvent(self::E_UPDATE);
 
-/*
-		if ($this->getLSSettings()->getIsOnline()) { //TODO!
-			$this->announceLSOOnline();
-		}
-*/
-
 		return true;
 	}
 
@@ -655,7 +649,7 @@ class ilObjLearningSequence extends ilContainer
 		return $this->access->checkAccess('participate', '', $this->getRefId());
 	}
 
-	protected function announceLSOOnline()
+	public function announceLSOOnline()
 	{
 		$ns = $this->il_news;
 		$context = $ns->contextForRefId((int)$this->getRefId());
@@ -666,6 +660,15 @@ class ilObjLearningSequence extends ilContainer
 		$item->setContent("lso_news_online_txt");
 		$news_id = $ns->data()->save($item);
 	}
+	public function announceLSOOffline(){
+		//NYI
+	}
+
+	public function setEffectiveOnlineStatus(bool $status) {
+		$act_db = $this->getActivationDB();
+		$act_db->setEffectiveOnlineStatus((int)$this->getRefId(), $status);
+	}
+
 
 
 	/***************************************************************************

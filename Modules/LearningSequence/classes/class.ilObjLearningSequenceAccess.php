@@ -71,6 +71,16 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
 			$online = ($ts_start <= $ts_now && $ts_now <= $ts_end);
 		}
 
+		if($act->getEffectiveOnlineStatus() === false && $online === true){
+			$obj->setEffectiveOnlineStatus(true);
+			$obj->announceLSOOnline();
+		}
+		if($act->getEffectiveOnlineStatus() === true && $online === false){
+			$obj->setEffectiveOnlineStatus(false);
+			$obj->announceLSOOffline();
+		}
+
+
 		return !$online;
 	}
 

@@ -43,6 +43,7 @@ class ilLearningSequenceActivationDB
 			$settings = $this->buildActivationSettings(
 				(int)$data['ref_id'],
 				(bool)$data['online'],
+				(bool)$data['effective_online'],
 				$start,
 				$end
 			);
@@ -89,10 +90,10 @@ class ilLearningSequenceActivationDB
 		$values = array(
 			"ref_id" => array("integer", $settings->getRefId()),
 			"online" => array("integer", $settings->getIsOnline()),
+			"effective_online" => array("integer", $settings->getEffectiveOnlineStatus()),
 			"activation_start" => array("timestamp", $start),
 			"activation_end" => array("timestamp", $end)
 		);
-		var_dump($values);
 		$this->database->insert(static::TABLE_NAME, $values);
 
 	}
@@ -101,7 +102,7 @@ class ilLearningSequenceActivationDB
 	{
 		$ret = [];
 		$query =
-			 "SELECT ref_id, online, activation_start, activation_end" .PHP_EOL
+			 "SELECT ref_id, online, effective_online, activation_start, activation_end" .PHP_EOL
 			."FROM ".static::TABLE_NAME .PHP_EOL
 			."WHERE ref_id = ".$this->database->quote($ref_id, "integer").PHP_EOL
 		;
@@ -118,6 +119,7 @@ class ilLearningSequenceActivationDB
 	protected function buildActivationSettings(
 		int $ref_id,
 		bool $online = false,
+		bool $effective_online = false,
 		string $activation_start = null,
 		string $activation_end = null
 	): ilLearningSequenceActivation {
@@ -130,8 +132,23 @@ class ilLearningSequenceActivationDB
 		return new ilLearningSequenceActivation(
 			$ref_id,
 			$online,
+			$effective_online,
 			$activation_start,
 			$activation_end
 		);
+	}
+
+	public function setEffectiveOnlineStatus(int $ref_id, bool $status)
+	{
+		$where = array(
+			"ref_id" => array("integer", $ref_id)
+		);
+
+		$values = array(
+			"effective_online" => array("integer", $status),
+		);
+
+		$this->database->update(static::TABLE_NAME, $values, $where);
+
 	}
 }
