@@ -31,10 +31,10 @@ class LSItemOnlineStatus
 				$obj->setOnline($status);
 				$obj->saveToDb(true);
 				break;
+			case self::S_SAHS:
 			case self::S_LEARNMODULE_IL:
 			case self::S_LEARNMODULE_HTML:
-			case self::S_SAHS:
-				$obj->setOnline($status);
+				$obj->setOfflineStatus(!$status);
 				$obj->update();
 				break;
 			case self::S_SURVEY:

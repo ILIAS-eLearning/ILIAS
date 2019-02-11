@@ -114,22 +114,18 @@ class ilObjLearningSequenceSettingsGUI
 		$form->setTitle($this->lng->txt('lso_edit'));
 
 		$title = new ilTextInputGUI($txt("title"), self::PROP_TITLE);
+		$title->setRequired(true);
 		$desc = new ilTextAreaInputGUI($txt("description"), self::PROP_DESC);
 
 		// activation
 		$section_avail = new ilFormSectionHeaderGUI();
 		$section_avail->setTitle($txt('lso_settings_availability'));
 		$online = new ilCheckboxInputGUI($txt("online"), self::PROP_ONLINE);
+		$online->setInfo($this->lng->txt('lso_activation_online_info'));
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
 		$duration->setStart(new ilDateTime($settings->getActivationStart(), IL_CAL_UNIX));
 		$duration->setEnd(new ilDateTime($settings->getActivationEnd(), IL_CAL_UNIX));
-
-
-		$section_misc = new ilFormSectionHeaderGUI();
-		$section_misc->setTitle($txt('lso_settings_misc'));
-		$show_members_gallery = new ilCheckboxInputGUI($txt("members_gallery"), self::PROP_GALLERY);
-		$show_members_gallery->setInfo($txt('lso_show_members_info'));
 
 		$abstract = $this->initRTEInput(
 			new ilTextAreaInputGUI($txt("abstract"), self::PROP_ABSTRACT)
@@ -152,15 +148,17 @@ class ilObjLearningSequenceSettingsGUI
 		$section_extro = new ilFormSectionHeaderGUI();
 		$section_extro->setTitle($txt('lso_settings_extro'));
 
+		$section_misc = new ilFormSectionHeaderGUI();
+		$section_misc->setTitle($txt('obj_features'));
+		$show_members_gallery = new ilCheckboxInputGUI($txt("members_gallery"), self::PROP_GALLERY);
+		$show_members_gallery->setInfo($txt('lso_show_members_info'));
+
 		$form->addItem($title);
 		$form->addItem($desc);
 
 		$form->addItem($section_avail);
 		$form->addItem($online);
 		$form->addItem($duration);
-
-		$form->addItem($section_misc);
-		$form->addItem($show_members_gallery);
 
 		$form->addItem($section_intro);
 		$form->addItem($abstract);
@@ -169,6 +167,9 @@ class ilObjLearningSequenceSettingsGUI
 		$form->addItem($section_extro);
 		$form->addItem($extro);
 		$form->addItem($extro_img, true);
+
+		$form->addItem($section_misc);
+		$form->addItem($show_members_gallery);
 
 		$form->addCommandButton(self::CMD_SAVE, $txt("save"));
 		$form->addCommandButton(self::CMD_CANCEL, $txt("cancel"));

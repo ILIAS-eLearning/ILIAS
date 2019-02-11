@@ -14864,7 +14864,6 @@ lso#:#first_access#:#Erster Zugriff
 lso#:#last_access#:#Letzter Zugriff
 lso#:#lso_settings_availability#:#Verfügbarkeit
 lso#:#avail_time_period#:#Zeitraum
-lso#:#lso_settings_misc#:#Weitere Einstelleungen
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#members_gallery#:#Mitgliedergalerie
@@ -14989,3 +14988,4 @@ lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz 
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
 crs#:#crs_timings_short_end#:#Enddatum
+lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
