@@ -229,7 +229,8 @@ $tpl_perms = [
 		'create_exc',
 		'create_tst',
 		'create_sahs',
-		'create_file'
+		'create_file',
+		'edit_learning_progress'
 	],
 	'il_crs_admin' => [
 		'participate',
@@ -244,7 +245,8 @@ $tpl_perms = [
 		'create_exc',
 		'create_tst',
 		'create_sahs',
-		'create_file'
+		'create_file',
+		'edit_learning_progress'
 	],
 	'il_crs_tutor' => [
 		'participate',
