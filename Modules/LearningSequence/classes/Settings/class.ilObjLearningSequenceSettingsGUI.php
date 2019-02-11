@@ -123,7 +123,6 @@ class ilObjLearningSequenceSettingsGUI
 		$online = new ilCheckboxInputGUI($txt("online"), self::PROP_ONLINE);
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
-
 		$duration->setStart(new ilDateTime((string)$activation->getActivationStart()->getTimestamp(), IL_CAL_UNIX));
 		$duration->setEnd(new ilDateTime((string)$activation->getActivationEnd()->getTimestamp(), IL_CAL_UNIX));
 
@@ -153,15 +152,17 @@ class ilObjLearningSequenceSettingsGUI
 		$section_extro = new ilFormSectionHeaderGUI();
 		$section_extro->setTitle($txt('lso_settings_extro'));
 
+		$section_misc = new ilFormSectionHeaderGUI();
+		$section_misc->setTitle($txt('obj_features'));
+		$show_members_gallery = new ilCheckboxInputGUI($txt("members_gallery"), self::PROP_GALLERY);
+		$show_members_gallery->setInfo($txt('lso_show_members_info'));
+
 		$form->addItem($title);
 		$form->addItem($desc);
 
 		$form->addItem($section_avail);
 		$form->addItem($online);
 		$form->addItem($duration);
-
-		$form->addItem($section_misc);
-		$form->addItem($show_members_gallery);
 
 		$form->addItem($section_intro);
 		$form->addItem($abstract);
@@ -170,6 +171,9 @@ class ilObjLearningSequenceSettingsGUI
 		$form->addItem($section_extro);
 		$form->addItem($extro);
 		$form->addItem($extro_img, true);
+
+		$form->addItem($section_misc);
+		$form->addItem($show_members_gallery);
 
 		$form->addCommandButton(self::CMD_SAVE, $txt("save"));
 		$form->addCommandButton(self::CMD_CANCEL, $txt("cancel"));

@@ -866,6 +866,17 @@ class ilTestTabsManager
 				array("", "ilobjtestgui", "ilcertificategui")
 			);
 		}
+		
+		$lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
+		if($lti_settings->hasSettingsAccess())
+		{
+			$this->tabs->addSubTabTarget(
+				'lti_provider',
+				$DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+				'',
+				[ilLTIProviderObjectSettingGUI::class]
+			);
+		}
 	}
 	
 	/**
