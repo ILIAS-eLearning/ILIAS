@@ -140,7 +140,7 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals($p->getContent(), array($c));
 	}
-/*
+
 	public function test_secondary_with_actions() {
 		$fp = $this->getPanelFactory();
 
@@ -159,41 +159,41 @@ class PanelTest extends ILIAS_UI_TestBase {
 	public function test_secondary_with_sortation() {
 		$fp = $this->getPanelFactory();
 
-		$p = $fp->secondary("Title", array(new ComponentDummy()));
-
 		$sort_options = array(
 			'internal_rating' => 'Best',
 			'date_desc' => 'Most Recent',
 			'date_asc' => 'Oldest',
 		);
-		$sortation = $fp->viewControl()->sortation($sort_options);
 
-		$p = $p->withSortation($sortation);
+		$sg = new I\Component\SignalGenerator();
+
+		$sortation = new I\Component\ViewControl\Sortation($sort_options, $sg);
+
+		$p = $fp->secondary("Title", array(new ComponentDummy()))->withSortation($sortation);
 
 		$this->assertEquals($p->getSortation(), $sortation);
 	}
-*/
+
 	public function test_secondary_with_pagination() {
 		$fp = $this->getPanelFactory();
 
-		$p = $fp->secondary("Title", array(new ComponentDummy()));
-
+		$sg = new I\Component\SignalGenerator();
 		$url = "http://www.ilias.de";
 		$parameter_name = 'page';
 		$current_page = 1;
+		$vc_pagination = new I\Component\ViewControl\Pagination($sg);
 
-		$pagination = $f->viewControl()->pagination()
-			->withTargetURL($url, $parameter_name)
+		$pagination = $vc_pagination->withTargetURL($url, $parameter_name)
 			->withTotalEntries(30)
 			->withPageSize(10)
 			->withDropdownAt(5)
 			->withCurrentPage($current_page);
 
+		$p = $fp->secondary("Title", array(new ComponentDummy()));
 		$p = $p->withPagination($pagination);
 
 		$this->assertEquals($p->getPagination(), $pagination);
 	}
-
 
 	public function test_render_standard() {
 		$f = $this->getPanelFactory();
@@ -268,6 +268,7 @@ EOT;
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}
+
 	public function test_render_report() {
 		$fp = $this->getPanelFactory();
 		$r = $this->getDefaultRenderer();
@@ -331,9 +332,9 @@ EOT;
 	<div class="panel-body panel-secondary">
 		<div class="panel panel-primary">
 			<div class="panel-heading ilHeader clearfix">
-				<h3 class="ilHeader">Standard Panel Title</h3> 
+				<h3 class="ilHeader">Title</h3> 
 			</div>
-			<div class="panel-body">Standard panel content</div>
+			<div class="panel-body"></div>
 		</div>
 	</div>
 </div>
