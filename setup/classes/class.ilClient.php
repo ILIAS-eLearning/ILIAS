@@ -57,10 +57,15 @@ class ilClient
 
 
 	/**
+	 * @param bool $cached
 	 * @return \ilDbSetup
 	 */
-	public function getDBSetup() {
+	public function getDBSetup($cached = true) {
 		require_once('./setup/classes/class.ilDbSetup.php');
+
+		if (!$cached) {
+			return \ilDbSetup::getNewInstanceForClient($this);
+		}
 
 		return ilDbSetup::getInstanceForClient($this);
 	}
