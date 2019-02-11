@@ -1967,6 +1967,12 @@ requirement to read, write and update text-based documentation (in the best case
 instead of allowing tools (IDE, Static Analysis Tools, PHP itself) to understand
 how data that is passed to a foreign component.
 
+The scope of this problem goes well beyond securing system inputs. Passing simple
+`string`s through the system causes problems when outputting the data to other
+systems (e.g. browser, mailing, database) as well, since it might be impossible
+to determine the correct encoding due to insufficient information about the content
+of the string.
+
 The awareness for these problems and the benefits of alternatives won't be something
 that may be created in a short term, as well as the necessary changes in the code
 itself won't be implemented soon. To keep on working on this topic, we propose two 
