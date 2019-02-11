@@ -699,3 +699,16 @@ $ilDB->dropTableColumn("lso_activation", "activation_start");
 <?php
 $ilDB->dropTableColumn("lso_activation", "activation_end");
 ?>
+<#52>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId("lso");
+
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+	if ($ops_id) {
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ops_id);
+	}
+}
+
+?>
