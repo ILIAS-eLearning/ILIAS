@@ -204,3 +204,42 @@ while ($rec = $ilDB->fetchAssoc($set))
 	$ilDB->manipulate("DELETE FROM object_reference where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
 }
 ?>
+
+<#22>
+<?php
+if(!$ilDB->tableExists('lso_activation'))
+{
+	$ilDB->createTable('lso_activation', array(
+		'ref_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			'notnull' => true
+		),
+		'online' => array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		),
+		'activation_start' => array(
+			'type' => 'integer',
+			"notnull" => false,
+			"length" => 11
+		),
+		'activation_end' => array(
+			'type' => 'integer',
+			"notnull" => false,
+			"length" => 11
+		)
+	));
+	$ilDB->addPrimaryKey("lso_activation", array("ref_id"));
+}
+?>
+
+<#23>
+<?php
+if ($ilDB->tableColumnExists('lso_settings', 'online'))
+{
+	$ilDB->dropTableColumn('lso_settings', 'online');
+}
+?>
