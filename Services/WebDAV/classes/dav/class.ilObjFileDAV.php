@@ -97,6 +97,16 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 
         throw new Exception\Forbidden("Permission denied. No read access for this file");
     }
+
+    /**
+     * Returns title of file object. If it has a forbidden file extension -> ".sec" will be added
+     *
+     * @return string
+     */
+    function getName()
+    {
+        return ilFileUtils::getValidFilename($this->obj->getTitle());
+    }
     
     /**
      * Returns the mime-type for a file

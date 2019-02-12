@@ -159,7 +159,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names matches
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
                 {
                     $child_exists = true;
                     
@@ -221,7 +221,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names are the same
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
                 {
                     // Check if read permission is given
                     if($this->repo_helper->checkAccess("read", $child_ref))
