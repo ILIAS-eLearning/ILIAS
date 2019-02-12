@@ -212,6 +212,7 @@ class ilGlobalTemplate
 				$ftpl->parseCurrentBlock();
 
 				// debug hack
+				/*
 				$debug = $ilCtrl->getDebug();
 				foreach($debug as $d)
 				{
@@ -220,7 +221,7 @@ class ilGlobalTemplate
 					$ftpl->parseCurrentBlock();
 				}
 				$ftpl->setCurrentBlock("call_history");
-				$ftpl->parseCurrentBlock();
+				$ftpl->parseCurrentBlock();*/
 			}
 
 			// included files
