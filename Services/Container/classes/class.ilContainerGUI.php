@@ -787,68 +787,42 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
-		}
-	}
-
-	/**
-	 * Get all files that are nested in the category whose ref_id is passed to this function or are nested in its subcategories
-	 * Required for fixing mantis bug 0021272
-	 * @param   int     $ref_id
-	 * @return  array
-	 */
-	private function getAllNestedFiles($ref_id) {
-		$files = array();
-		// get sibling files
-		$sibling_files = $this->tree->getChildsByType($ref_id, "file");
-		// add sibling files to file array
-		foreach ($sibling_files as $sibling_course)
-		{
-			array_push($files, $sibling_course);
-		}
-		// get child files (nested inside directories)
-		$categories = $this->getAllNestedCategories($ref_id);
-		foreach ($categories as $category)
-		{
-			$category_ref_id = $category["ref_id"];
-			$nested_files = $this->tree->getChildsByType($category_ref_id, "file");
-			// add nested files to file array
-			foreach ($nested_files as $nested_course)
+			// bugfix mantis 24559
+			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+			// as they don't have the possibility to use the multi-download-capability of the manage-tab
+			else if ($this->isMultiDownloadEnabled())
 			{
-				array_push($files, $nested_course);
-			}
-		}
-		return $files;
-	}
-
-	/*
-	 * Get all categories that are nested in the category whose ref_id is passed to this function or are nested in its subcategories
-	 * Required for fixing mantis bug 0021272
-	 * @param   int     $ref_id
-	 * @return  array
-	 */
-	function getAllNestedCategories($ref_id)
-	{
-		$categories = $this->tree->getChildsByType($ref_id, "cat");
-		// outsourcing to a variable to enable increasing the value when elements are added during iteration
-		$num_categories = count($categories);
-		// using a for loop instead of a foreach loop to enable adding elements during iteration by increasing the comparison value (num_categories)
-		for ($i = 0; $i < $num_categories; $i ++)
-		{
-			$category_ref_id = $categories[$i]["ref_id"];
-			// determining if there are categories directly nested within the current category
-			$new_categories = $this->tree->getChildsByType($category_ref_id, "cat");
-			if ($new_categories != NULL)
-			{
-				foreach ($new_categories as $new_category)
+				// bugfix mantis 0021272
+				$ref_id = $_GET['ref_id'];
+				$num_files = $this->tree->getChildsByType($ref_id, "file");
+				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
+				if(count($num_files) > 0 OR count($num_folders) > 0)
 				{
-					// adding the newly found categories to the end of the array so that they may be searched for directly nested categories too
-					array_push($categories, $new_category);
-					// recounting the amount of elements in the category array so that the iteration can continue despite elements being added
-					$num_categories = count($categories);
+					// #11843
+					$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+
+					include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+					$toolbar = new ilToolbarGUI();
+					$this->ctrl->setParameter($this, "type", "");
+					$this->ctrl->setParameter($this, "item_ref_id", "");
+
+					$toolbar->addFormButton(
+						$this->lng->txt('download_selected_items'),
+						'download'
+					);
+
+					$GLOBALS['tpl']->addAdminPanelToolbar(
+						$toolbar,
+						$this->object->gotItems() ? true : false,
+						$this->object->gotItems() ? true : false
+					);
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
 				}
 			}
 		}
-		return $categories;
 	}
 
 	function __showTimingsButton(&$tpl)
@@ -1499,7 +1473,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
+
+	// bugfix mantis 24559
+	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+	// as they don't have the possibility to use the multi-download-capability of the manage-tab
+	function enableMultiDownloadObject()
+	{
+		$this->multi_download_enabled = true;
+		$this->renderObject();
+	}
+
 	function isMultiDownloadEnabled()
 	{
 		return $this->multi_download_enabled;
