@@ -141,39 +141,4 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
     {
         return $this->obj;
     }
-
-    /**
-     * Checks if there is a DAV-Object for the given type
-     *
-     * @param string $type
-     * @return boolean
-     */
-    public static function _isDAVableObjectType($type)
-    {
-        switch($type)
-        {
-            case 'cat':
-            case 'crs':
-            case 'grp':
-            case 'fold':
-            case 'file':
-                return true;
-                
-            default:
-                return false;
-        }
-    }
-    
-    /**
-     * 
-     * @param int $id
-     * @param boolean $is_reference
-     * 
-     * @return boolean
-     */
-    public static function _isDAVableObject($id, $is_reference = false)
-    {
-        return self::_isDAVableObjectType(ilObject::_lookupType($id, $is_reference));
-    }
-    
 }

@@ -103,7 +103,7 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
             if($this->obj_dav_helper->isDAVableObject($child_obj_id, false))
             {
                 // Get Locks of this object
-                $title = $this->repo_helper->getObjectTitleFromRefId($child_obj_id, true);
+                $title = $this->repo_helper->getObjectTitleFromObjId($child_obj_id, true);
                 $child_ilias_locks = $this->getLocksOnObjectId($child_obj_id);
                 if($child_ilias_locks != false)
                 {
@@ -111,7 +111,7 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
                         $sabre_locks[] = $lock->getAsSabreDavLock($uri . '/' . $title);
                     }
                 }
-                
+
                 // Get locks of child objects
                 $sabre_locks = $this->getLocksRecursive($sabre_locks, $child_ref, $uri . $title . '/');
             }
