@@ -1013,12 +1013,19 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$nr_of_tries->setMinvalueShouldBeGreater(false);
 		$nr_of_tries->setValue($this->testOBJ->getNrOfTries() ? $this->testOBJ->getNrOfTries() : 1);
 		$nr_of_tries->setRequired(true);
+		$limitPasses->addSubItem($nr_of_tries);
+		$blockAfterPassed = new ilCheckboxInputGUI(
+			$this->lng->txt('tst_block_passes_after_passed'), 'block_after_passed'
+		);
+		$blockAfterPassed->setInfo($this->lng->txt('tst_block_passes_after_passed_info'));
+		$blockAfterPassed->setChecked( $this->testOBJ->isBlockPassesAfterPassedEnabled() );
+		$limitPasses->addSubItem($blockAfterPassed);
 		if( $this->testOBJ->participantDataExist() )
 		{
 			$limitPasses->setDisabled(true);
+			$blockAfterPassed->setDisabled(true);
 			$nr_of_tries->setDisabled(true);
 		}
-		$limitPasses->addSubItem($nr_of_tries);
 		$form->addItem($limitPasses);
 
 		// pass_waiting time between testruns
@@ -1123,10 +1130,15 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				if ($form->getItemByPostVar('limitPasses')->getChecked())
 				{
 					$this->testOBJ->setNrOfTries($form->getItemByPostVar('nr_of_tries')->getValue());
+
+					$this->testOBJ->setBlockPassesAfterPassedEnabled(
+						(bool)$form->getItemByPostVar('block_after_passed')->getChecked()
+					);
 				}
 				else
 				{
 					$this->testOBJ->setNrOfTries(0);
+					$this->testOBJ->setBlockPassesAfterPassedEnabled(false);
 				}
 			}
 

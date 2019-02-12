@@ -346,6 +346,9 @@ adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
+assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
+assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
+assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#for#:#for
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
