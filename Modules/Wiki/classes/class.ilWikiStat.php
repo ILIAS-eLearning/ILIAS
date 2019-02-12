@@ -486,7 +486,7 @@ class ilWikiStat
 				"num_ratings" => array("integer", $data["num_ratings"]),
 				"avg_rating" => array("integer", $data["avg_rating"]),
 			);
-			self::writeStatPage($a_page_obj->getWikiId(), $a_page_obj->getId(), $values);				
+			self::writeStatPage((int) $a_page_obj->getWikiId(), $a_page_obj->getId(), $values);
 		}
 		
 		// mark all page entries as deleted
