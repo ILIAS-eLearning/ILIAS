@@ -629,6 +629,8 @@ class ilObjTestGUI extends ilObjectGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
 				
+				global $DIC; /* @var ILIAS\DI\Container $DIC */
+				
 				$gui->setEditingEnabled(
 					$DIC->access()->checkAccess('write', '', $this->object->getRefId())
 				);
