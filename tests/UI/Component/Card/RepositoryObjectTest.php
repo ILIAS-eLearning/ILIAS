@@ -10,7 +10,6 @@ use \ILIAS\UI\Implementation as I;
 
 
 /**
- * TODO change the custom icons to standard icons
  * Test on Repository Object card implementation.
  */
 class RepositoryObjectTest extends ILIAS_UI_TestBase {
