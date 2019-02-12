@@ -125,7 +125,7 @@ class ilIndividualAssessmentMembersTableGUI {
 
 		$changer = array();
 		if (!is_null($record->changerId())) {
-			$changer = $this->getCahngerText((int)$record->changerId());
+			$changer = $this->getChangerText((int)$record->changerId());
 		}
 
 		return array_merge(
@@ -273,12 +273,8 @@ class ilIndividualAssessmentMembersTableGUI {
 	/**
 	 * Returns changer, if exists.
 	 */
-	protected function getCahngerText(int $changer_id = null): array
+	protected function getChangerText(int $changer_id): array
 	{
-		if (is_null($changer_id)) {
-			return array();
-		}
-
 		return array(
 			$this->txt("iass_changed_last_by").": " => ilObjUser::_lookupLogin($changer_id)
 		);
