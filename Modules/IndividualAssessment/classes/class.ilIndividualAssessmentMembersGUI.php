@@ -227,6 +227,7 @@ class ilIndividualAssessmentMembersGUI {
 			->withoutPresentUser(new ilObjUser($usr_id))
 			->updateStorageAndRBAC($iass->membersStorage(),$iass->accessHandler());
 		ilIndividualAssessmentLPInterface::updateLPStatusByIds($iass->getId(),array($usr_id));
+		ilUtil::sendSuccess($this->txt("iass_user_removed"), true);
 		$this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)),'view');
 	}
 
