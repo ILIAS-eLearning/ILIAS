@@ -89,7 +89,7 @@ class ilIndividualAssessmentSettingsGUI {
 				->setMails($_POST[self::PROP_INFO_MAILS])
 				->setConsultationHours($_POST[self::PROP_INFO_CONSULTATION]);
 			$this->object->updateInfo();
-			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'), true);
 		}
 		$this->ctrl->redirect($this, "editInfo");
 	}
@@ -118,7 +118,7 @@ class ilIndividualAssessmentSettingsGUI {
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				]
 			);
-			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'), true);
 		}
 		$this->ctrl->redirect($this, "edit");
 	}
