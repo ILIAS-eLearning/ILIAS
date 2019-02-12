@@ -164,7 +164,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     function setName($a_name)
     {
-        if($this->repo_helper->isValidFileNameWithValidFileExtension($a_name))
+        if($this->dav_helper->isValidFileNameWithValidFileExtension($a_name))
         {
             parent::setName($a_name);
         }
@@ -287,7 +287,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         return ilFileUtils::getValidFilename($path);
     }
     
-    protected function checkForVirus($file_dest_path)
+    protected function checkForVirus(string $file_dest_path)
     {
         $vrs = ilUtil::virusHandling($file_dest_path, '', true);
         // If vrs[0] == false -> virus found

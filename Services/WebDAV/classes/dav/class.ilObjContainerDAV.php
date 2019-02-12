@@ -60,35 +60,38 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function createFile($name, $data = null)
     {
-        if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file')) {
+        if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file'))
+        {
             // Check if file has valid extension
-            if (!$this->repo_helper->isValidFileNameWithValidFileExtension($name)) {
-                // Throw forbidden if invalid exstension. As far as we know, it is sadly not
-                // possible to inform the user why this is forbidden.
-                //ilLoggerFactory::getLogger('WebDAV')->warning(get_class($this). ' ' . $this->obj->getTitle() ." -> invalid File-Extension for file '$name'");
+            if ($this->dav_helper->isValidFileNameWithValidFileExtension($name))
+            {
+                if ($this->childExists($name)) {
+                    $file_dav = $this->getChild($name);
+                    $file_dav->handleFileUpload($data);
+                } else {
+                    $file_obj = new ilObjFile();
+                    $file_obj->setTitle($name);
+                    $file_obj->setFileName($name);
+                    $file_obj->setVersion(1);
+                    $file_obj->createDirectory();
+                    $file_obj->create();
 
-                throw new Forbidden('Invalid file extension');
+                    $file_obj->createReference();
+                    $file_obj->putInTree($this->obj->getRefId());
+                    $file_obj->update();
+
+                    $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
+                    $file_dav->handleFileUpload($data);
+                }
             }
-
-            if ($this->childExists($name)) {
-                $file_dav = $this->getChild($name);
-                $file_dav->handleFileUpload($data);
-            } else {
-                $file_obj = new ilObjFile();
-                $file_obj->setTitle($name);
-                $file_obj->setFileName($name);
-                $file_obj->setVersion(1);
-                $file_obj->createDirectory();
-                $file_obj->create();
-
-                $file_obj->createReference();
-                $file_obj->putInTree($this->obj->getRefId());
-                $file_obj->update();
-
-                $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
-                $file_dav->handleFileUpload($data);
+            else
+            {
+                // Throw forbidden if invalid extension or filename. As far as we know, it is sadly not
+                // possible to inform the user why his upload was "forbidden".
+                throw new Forbidden('Invalid file name or file extension');
             }
-        } else {
+        } else
+        {
             throw new Forbidden('No write access');
         }
 
