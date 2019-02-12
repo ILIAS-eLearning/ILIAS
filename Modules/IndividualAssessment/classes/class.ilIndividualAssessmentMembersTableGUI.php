@@ -455,6 +455,14 @@ class ilIndividualAssessmentMembersTableGUI {
 	}
 
 	/**
+	 * User may download attachment
+	 */
+	protected function userMayDownloadAttachment(int $usr_id): bool
+	{
+		return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
+	}
+
+	/**
 	 * User may view grades
 	 */
 	protected function userMayViewGrades(): bool
