@@ -13919,6 +13919,7 @@ iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+iass#:#iass_user_removed#:#Der Teilnehmer wurde erfolgreich entfernt.
 iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
