@@ -5434,6 +5434,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMailDiffAddressList' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Address/class.ilMailDiffAddressList.php',
         'ilMailError' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Error/class.ilMailError.php',
         'ilMailErrorFormatter' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Error/class.ilMailErrorFormatter.php',
+        'ilMailEventNotificationSender' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Notification/class.ilMailEventNotificationSender.php',
         'ilMailException' => __DIR__ . '/../..' . '/../../Services/Mail/exceptions/class.ilMailException.php',
         'ilMailExplorer' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailExplorer.php',
         'ilMailFolderGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailFolderGUI.php',

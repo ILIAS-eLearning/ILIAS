@@ -5097,6 +5097,7 @@ return array(
     'ilMailDiffAddressList' => $baseDir . '/../../Services/Mail/classes/Address/class.ilMailDiffAddressList.php',
     'ilMailError' => $baseDir . '/../../Services/Mail/classes/Error/class.ilMailError.php',
     'ilMailErrorFormatter' => $baseDir . '/../../Services/Mail/classes/Error/class.ilMailErrorFormatter.php',
+    'ilMailEventNotificationSender' => $baseDir . '/../../Services/Mail/classes/Notification/class.ilMailEventNotificationSender.php',
     'ilMailException' => $baseDir . '/../../Services/Mail/exceptions/class.ilMailException.php',
     'ilMailExplorer' => $baseDir . '/../../Services/Mail/classes/class.ilMailExplorer.php',
     'ilMailFolderGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailFolderGUI.php',
