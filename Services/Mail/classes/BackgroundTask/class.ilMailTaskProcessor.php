@@ -9,7 +9,7 @@ use ILIAS\DI\Container;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilMailTaskWorker
+class ilMailTaskProcessor
 {
 	/**
 	 * @var TaskManager
@@ -32,18 +32,25 @@ class ilMailTaskWorker
 	private $logger;
 
 	/**
+	 * @var ilMailValueObjectJsonService|null
+	 */
+	private $objectJsonService;
+
+	/**
 	 * @param TaskManager $taskManager
 	 * @param TaskFactory|null $taskFactory
 	 * @param ilLanguage|null $language
 	 * @param ilLogger|null $logger
 	 * @param Container|null $dic
+	 * @param ilMailValueObjectJsonService|null $objectJsonService
 	 */
 	public function __construct(
 		TaskManager $taskManager = null,
 		TaskFactory $taskFactory = null,
 		ilLanguage  $language = null,
 		ilLogger $logger = null,
-		Container $dic = null
+		Container $dic = null,
+		ilMailValueObjectJsonService $objectJsonService = null
 	) {
 
 		if (null === $dic) {
@@ -70,6 +77,11 @@ class ilMailTaskWorker
 			$logger = ilLoggerFactory::getLogger('mail');
 		}
 		$this->logger = $logger;
+
+		if (null === $objectJsonService) {
+			$objectJsonService = new ilMailValueObjectJsonService();
+		}
+		$this->objectJsonService = $objectJsonService;
 	}
 
 	/**
@@ -87,68 +99,65 @@ class ilMailTaskWorker
 		array $contextParameters,
 		int $tasksBeforeExecution = 100
 	) {
-		$taskSize = sizeof($mailValueObjects);
+		$objectsServiceSize = sizeof($mailValueObjects);
 
-		if ($taskSize <= 0) {
+		if ($objectsServiceSize <= 0) {
 			throw new ilException('First parameter must contain at least 1 array element');
 		}
 
 		$lastTask = null;
 		$taskCounter = 0;
 
+		$remainingObjects = array();
 		foreach ($mailValueObjects as $mailValueObject) {
 			if (false === ($mailValueObject instanceof ilMailValueObject)) {
 				throw new ilException('Array MUST contain ilMailValueObjects ONLY');
 			}
 
-			$recipients = $mailValueObject->getRecipients();
-			$recipientsCC = $mailValueObject->getRecipientsCC();
-			$recipientsBCC = $mailValueObject->getRecipientsBCC();
-			$subject = $mailValueObject->getSubject();
-			$body = $mailValueObject->getBody();
-			$value = $mailValueObject->getAttachment();
-			$isUsingPlaceholders = $mailValueObject->isUsingPlaceholders();
-			$shouldSaveInSentBox = $mailValueObject->shouldSaveInSentBox();
+			$taskCounter++;
 
-			$task = $this->taskFactory->createTask(\ilMailDeliveryJob::class, [
-				(int)$userId,
-				(string)$recipients,
-				(string)$recipientsCC,
-				(string)$recipientsBCC,
-				(string)$subject,
-				(string)$body,
-				serialize($value),
-				(bool)$isUsingPlaceholders,
-				(bool)$shouldSaveInSentBox,
-				(string)$contextId,
+			$remainingObjects[] = $mailValueObject;
+			if ($taskCounter === $tasksBeforeExecution) {
+				$jsonString = $this->objectJsonService->convertToJson($remainingObjects);
+
+				$task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
+					(int) $userId,
+					(string) $jsonString,
+					(string) $contextId,
+					serialize($contextParameters),
+				]);
+				$parameters = [$task, (int) $userId];
+
+				$interaction = $this->taskFactory->createTask(
+					\ilMailDeliveryJobUserInteraction::class,
+					$parameters
+				);
+
+				$this->runTask($interaction, $userId);
+
+				$taskCounter = 0;
+				$remainingObjects = array();
+			}
+		}
+
+		if (array() !== $remainingObjects) {
+			$jsonString = $this->objectJsonService->convertToJson($remainingObjects);
+
+			$task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
+				(int) $userId,
+				(string) $jsonString,
+				(string) $contextId,
 				serialize($contextParameters),
-				serialize($mailValueObject->getTypes()),
 			]);
 
-			$parameters = [$task, (int)$userId];
-			if (null !== $lastTask) {
-				$parameters = [$lastTask, $task, (int)$userId];
-			}
+			$parameters = [$task, (int) $userId];
 
 			$interaction = $this->taskFactory->createTask(
 				\ilMailDeliveryJobUserInteraction::class,
 				$parameters
 			);
 
-			$lastTask = $interaction;
-
-			$taskCounter++;
-
-			if ($taskCounter === $tasksBeforeExecution) {
-				$this->runTask($lastTask, $userId);
-
-				$taskCounter = 0;
-				$lastTask = null;
-			}
-		}
-
-		if (null !== $lastTask) {
-			$this->runTask($lastTask, $userId);
+			$this->runTask($interaction, $userId);
 		}
 	}
 

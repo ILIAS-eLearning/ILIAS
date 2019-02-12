@@ -31,9 +31,13 @@ class ilMailValueObject
 	private $usePlaceholders;
 
 	/** @var bool */
-	private $saveInbox;
+	private $saveInSentBox;
+
+	/** @var string */
+	private $from;
 
 	/**
+	 * @param string $from
 	 * @param string $recipients
 	 * @param string $recipientsCC
 	 * @param string $recipientsBCC
@@ -42,9 +46,10 @@ class ilMailValueObject
 	 * @param $attachment
 	 * @param array $types
 	 * @param bool $usePlaceholders
-	 * @param bool $saveInbox
+	 * @param bool $saveInSentBox
 	 */
 	public function __construct(
+		string $from,
 		string $recipients,
 		string $recipientsCC,
 		string $recipientsBCC,
@@ -53,8 +58,9 @@ class ilMailValueObject
 		$attachment,
 		array $types,
 		bool $usePlaceholders = false,
-		bool $saveInbox = false
+		bool $saveInSentBox = false
 	) {
+		$this->from             = $from;
 		$this->recipients       = $recipients;
 		$this->recipientsCC     = $recipientsCC;
 		$this->recipientsBCC    = $recipientsBCC;
@@ -63,7 +69,7 @@ class ilMailValueObject
 		$this->attachment       = $attachment;
 		$this->types            = $types;
 		$this->usePlaceholders  = $usePlaceholders;
-		$this->saveInbox        = $saveInbox;
+		$this->saveInSentBox        = $saveInSentBox;
 	}
 
 	/**
@@ -133,8 +139,16 @@ class ilMailValueObject
 	/**
 	 * @return bool
 	 */
-	public function shouldSaveInbox(): bool
+	public function shouldSaveInSentBox(): bool
 	{
-		return $this->saveInbox;
+		return $this->saveInSentBox;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFrom(): string
+	{
+		return $this->from;
 	}
 }
