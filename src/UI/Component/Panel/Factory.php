@@ -142,6 +142,7 @@ interface Factory {
 	 *       Secondary Panels consist of content section and may have a title.
 	 *       The content section may contain a Listing Panel.
 	 *       The content section may contain a Standard Panel when legacy content has to be presented.
+	 *       The content section may contain a Pagination view controller or a Section view controller.
 	 *   rivals:
 	 *      Slate: >
 	 *        Secondary Panels should be used to contain content or components that have a strong relationship to the current
@@ -151,12 +152,14 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *      1: Secondary Panels MUST NOT be inside the Center Content as primary Container for grouping content of varying content.
+	 *
 	 *   composition:
-	 *      1: Secondary Panels MUST NOT contain anything but a Legacy or Listing Panel.
-	 *      2: Secondary Panels MAY contain a Section View Control to change the current presentation of the content.
-	 *      3: Secondary Panels MAY have a Button to perform actions listed in a Standard Dropdown.
-	 *      4: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
-	 *      5: Secondary Panels MAY have a Pagination View Control to display data in chunks.
+	 *      1: Secondary Panels MUST contain a Listing Panel or Standard Panel.
+	 *      2: Secondary Panels MAY contain a Section view control to change the current presentation of the content.
+	 *      3: Secondary Panels MAY contain a Pagination view control to display data in chunks.
+	 *      4: Secondary Panels MUST NOT contain more than one UI ViewControl.
+	 *      5: Secondary Panels MAY have a Button to perform actions listed in a Standard Dropdown.
+	 *      6: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
 	 *
 	 * ---
 	 * @param string $title
