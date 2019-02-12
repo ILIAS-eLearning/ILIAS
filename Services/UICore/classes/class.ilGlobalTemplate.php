@@ -210,18 +210,6 @@ class ilGlobalTemplate
 				}
 				$ftpl->setCurrentBlock("call_history");
 				$ftpl->parseCurrentBlock();
-
-				// debug hack
-				/*
-				$debug = $ilCtrl->getDebug();
-				foreach($debug as $d)
-				{
-					$ftpl->setCurrentBlock("c_entry");
-					$ftpl->setVariable("C_ENTRY", $d);
-					$ftpl->parseCurrentBlock();
-				}
-				$ftpl->setCurrentBlock("call_history");
-				$ftpl->parseCurrentBlock();*/
 			}
 
 			// included files
