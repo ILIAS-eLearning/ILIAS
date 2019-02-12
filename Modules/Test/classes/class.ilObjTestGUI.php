@@ -394,7 +394,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
 				$gui = new ilObjTestSettingsGeneralGUI(
-						$this->ctrl, $ilAccess, $this->lng, $this->tpl, $this->tree, $ilDB, $ilPluginAdmin, $ilUser, $this
+						$this->ctrl, $ilAccess, $this->lng, $this->tree, $ilDB, $ilPluginAdmin, $ilUser, $this
 				);
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -404,7 +404,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php';
 				$gui = new ilObjTestSettingsScoringResultsGUI(
-					$this->ctrl, $ilAccess, $this->lng, $this->tpl, $this->tree, $ilDB, $ilPluginAdmin, $this
+					$this->ctrl, $ilAccess, $this->lng, $this->tree, $ilDB, $ilPluginAdmin, $this
 				);
 				$this->ctrl->forwardCommand($gui);
 				break;
