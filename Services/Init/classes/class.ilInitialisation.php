@@ -1664,7 +1664,8 @@ class ilInitialisation
 		}
 		else if (
 			$_REQUEST["baseClass"] == "ilStartUpGUI" ||
-			$_GET["baseClass"] == "ilStartUpGUI"
+			$_GET["baseClass"] == "ilStartUpGUI" ||
+			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
 			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
 		}

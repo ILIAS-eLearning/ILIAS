@@ -226,9 +226,9 @@ class ilStartUpGUI
 			$tpl->setVariable('LPE',$page_editor_html);
 		}
 
-//		$tpl->fillWindowTitle();
-//		$tpl->fillCssFiles();
-//		$tpl->fillJavaScriptFiles();
+		$tpl->fillWindowTitle();
+		$tpl->fillCssFiles();
+		$tpl->fillJavaScriptFiles();
 		$tpl->printToStdout("DEFAULT", false);
 	}
 
