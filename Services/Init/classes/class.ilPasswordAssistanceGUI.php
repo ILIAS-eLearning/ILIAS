@@ -196,7 +196,7 @@ class ilPasswordAssistanceGUI
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
 		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -436,7 +436,7 @@ class ilPasswordAssistanceGUI
 			}
 			$this->tpl->setVariable('FORM', $form->getHTML());
 			$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 
@@ -609,7 +609,7 @@ class ilPasswordAssistanceGUI
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
 		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -721,7 +721,7 @@ class ilPasswordAssistanceGUI
 
 		$this->tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
 		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**

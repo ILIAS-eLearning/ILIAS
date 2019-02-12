@@ -743,7 +743,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ( !in_array(strtolower($_GET["baseClass"]), array('iladministrationgui', 'ilrepositorygui')) &&
 			$this->getCreationMode() != true)
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	
@@ -869,7 +869,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		// set locator
 		$this->setLocator();

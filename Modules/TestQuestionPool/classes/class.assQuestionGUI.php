@@ -466,7 +466,7 @@ abstract class assQuestionGUI
 	public function assessment()
 	{
 		/**
-		 * @var $tpl ilTemplate
+		 * @var $tpl ilGlobalTemplate
 		 */
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -562,7 +562,7 @@ abstract class assQuestionGUI
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
 	
-	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplate $tpl)
 	{
 		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
 	}

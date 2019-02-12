@@ -177,7 +177,7 @@ class ilDclDetailedViewGUI {
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 
-		$rctpl = new ilTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
+		$rctpl = new ilDataCollectionGlobalTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
 
 		$ilTabs->setTabActive("id_content");
 

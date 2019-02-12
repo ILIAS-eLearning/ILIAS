@@ -431,7 +431,7 @@ class ilMailSearchGroupsGUI
 		
 		if($_GET["ref"] != "wsp")
 		{		
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 
@@ -525,7 +525,7 @@ class ilMailSearchGroupsGUI
 			
 			if($_GET["ref"] != "wsp")
 			{	
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 			}
 		}
 	}

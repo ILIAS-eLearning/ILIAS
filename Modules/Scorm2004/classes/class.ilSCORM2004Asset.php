@@ -323,7 +323,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 //		if ($a_one_file == "")
 //		{
-			$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
+			$sco_tpl = new ilGlobalTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 //		}
 //		else
 //		{

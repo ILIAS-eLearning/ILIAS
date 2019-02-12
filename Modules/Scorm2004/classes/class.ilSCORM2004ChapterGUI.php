@@ -81,7 +81,7 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();

@@ -146,7 +146,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$next_class = $DIC->ctrl()->getNextClass($this);
 
 		if (!$this->getCreationMode() AND $next_class != "ilinfoscreengui" AND !$this->checkPermissionBool("read")) {
-			$DIC->ui()->mainTemplate()->getStandardTemplate();
+			$DIC->ui()->mainTemplate()->loadStandardTemplate();
 			$DIC->ui()->mainTemplate()->setContent("Permission Denied.");
 
 			return;
@@ -175,7 +175,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 			case "ilobjectcopygui":
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType("dcl");
-				$DIC->ui()->mainTemplate()->getStandardTemplate();
+				$DIC->ui()->mainTemplate()->loadStandardTemplate();
 				$this->ctrl->forwardCommand($cp);
 				break;
 

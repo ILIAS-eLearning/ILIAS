@@ -383,7 +383,7 @@ class ilRepositoryGUI
 					{
 						$_SESSION["il_rep_ref_id"] = "";
 						$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 					}
 					else
 					{
@@ -402,7 +402,7 @@ class ilRepositoryGUI
 		$ret = $this->ctrl->forwardCommand($this->gui_obj);
 		$this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -430,7 +430,7 @@ class ilRepositoryGUI
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		$this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
@@ -543,7 +543,7 @@ class ilRepositoryGUI
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery($this->tpl);
 		
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		exit;
 	}
 

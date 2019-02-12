@@ -131,7 +131,7 @@ class ilPDNotesGUI
 				$this->$cmd();
 				break;
 		}
-		$this->tpl->show(true);
+		$this->tpl->printToStdout(true);
 		return true;
 	}
 

@@ -4806,6 +4806,26 @@ class ilUtil
 	}
 
 	/**
+	 * Get HTML for a system message
+     *
+     * ATTENTION: This method is deprecated. Use MessageBox from the
+     * UI-framework instead.
+	 */
+	public static function getSystemMessageHTML($a_txt, $a_type = "info")
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+		$mtpl->setCurrentBlock($a_type."_message");
+		$mtpl->setVariable("TEXT", $a_txt);
+		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
+		$mtpl->parseCurrentBlock();
+
+		return $mtpl->get();
+	}
+
+	/**
 	* Send Info Message to Screen.
 	*
 	* @param	string	message
@@ -4818,7 +4838,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("info", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("info", $a_info, $a_keep);
 	}
 
 	/**
@@ -4836,7 +4856,7 @@ class ilUtil
 		if(isset($DIC["tpl"]))
 		{
 			$tpl = $DIC["tpl"];
-			$tpl->setMessage("failure", $a_info, $a_keep);
+			$tpl->setOnScreenMessage("failure", $a_info, $a_keep);
 		}
 	}
 
@@ -4851,7 +4871,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("question", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("question", $a_info, $a_keep);
 	}
 
 	/**
@@ -4868,7 +4888,7 @@ class ilUtil
 
 		/** @var ilTemplate $tpl */
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("success", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("success", $a_info, $a_keep);
 	}
 
 	public static function infoPanel($a_keep = true)

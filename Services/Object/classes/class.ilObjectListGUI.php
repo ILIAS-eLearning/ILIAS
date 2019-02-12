@@ -3014,7 +3014,7 @@ class ilObjectListGUI
 	 * 
 	 * @return string
 	 */
-	function getHeaderAction(ilTemplate $a_main_tpl = null)
+	function getHeaderAction(ilGlobalTemplate $a_main_tpl = null)
 	{
 		global $DIC;
 
