@@ -778,7 +778,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 						$this->tpl->setVariable('FORM', $this->getDeleteDraftFormHTML());
 					}
 				}
-				else if($_GET['action'] == 'editdraft' && $draft->getDraftId() == (int)$_GET['draft_id'])
+				else if($_GET['action'] == 'editdraft' && (int)$draft->getDraftId() == (int)$_GET['draft_id'])
 				{
 					$oEditReplyForm = $this->getReplyEditForm();
 					$this->tpl->setVariable('EDIT_DRAFT_ANCHOR', 'draft_edit_' . $draft->getDraftId());
@@ -2584,6 +2584,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		 */
 		$file_obj = $oForumObjects['file_obj'];
 
+		$selected_draft_id = (int)$_GET['draft_id'] ?? 0;
+		
 		// download file
 		if(isset($_GET['file']))
 		{
@@ -2799,7 +2801,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			$first_node = $this->objCurrentTopic->getFirstPostNode();
 			$this->objCurrentTopic->setOrderField($orderField);
 			$subtree_nodes = $this->objCurrentTopic->getPostTree($first_node);
-
+			$subtree_nodes[] = $first_node;
+			
 			if( !$this->isTopLevelReplyCommand() &&
 				$first_node instanceof ilForumPost &&
 				!$this->objCurrentTopic->isClosed() &&
@@ -2819,8 +2822,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
 				$this->ctrl->clearParameters($this);
 				array_unshift($bottom_toolbar_split_button_items, $reply_button);
-				
-				$this->renderDraftContent(true, $first_node);
 			}
 
 			// no posts
@@ -3083,7 +3084,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 						}
 					}
 					$this->renderPostContent($node, $Start, $z);
-					$this->renderDraftContent($render_drafts, $node, $edit_draft_id);
+					$this->renderDraftContent($render_drafts, $node, $selected_draft_id);
 				}
 				$z++;
 			}
