@@ -196,12 +196,12 @@ class Main {
 		return $DIC->globalScreen()->mainmenu()->custom(Lost::class, new NullIdentification($identification))
 			->withAlwaysAvailable(true)
 			->setTypeInformation($this->type_information_collection->get(Lost::class))
-			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('deleted_item')}"))
+			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
 			->withVisibilityCallable(
 				function () use ($DIC) {
 					return (bool)($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
 				}
-			)->withTitle($DIC->language()->txt("deleted_item"));
+			)->withTitle($DIC->language()->txt("mme_lost_item_title"));
 	}
 
 

@@ -148,6 +148,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 * @return string
 	 */
 	public function getDefaultTitle(): string {
+		$default_translation = ilMMItemTranslationStorage::getDefaultTranslation($this->identification);
+		if ($default_translation !== "") {
+			return $default_translation;
+		}
 		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
 			$this->default_title = $this->gs_item->getTitle();
 		}
@@ -262,6 +266,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	// CRUD
 
 	public function update() {
+		ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
 		$this->mm_item->update();
 	}
 
