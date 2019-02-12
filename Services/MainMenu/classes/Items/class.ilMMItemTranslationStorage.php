@@ -44,11 +44,35 @@ class ilMMItemTranslationStorage extends CachedActiveRecord {
 	 * @return ilMMItemTranslationStorage
 	 */
 	public static function storeDefaultTranslation(IdentificationInterface $identification, string $translation): self {
+		return self::storeTranslation($identification, self::getDefaultLanguage(), $translation);
+	}
+
+
+	public static function getDefaultTranslation(IdentificationInterface $identification): string {
+		$lng = self::getDefaultLanguage();
+		$key = "{$identification->serialize()}|{$lng}";
+		/**
+		 * @var $item self
+		 */
+		if ($item = self::find($key)) {
+			return $item->getTranslation();
+		}
+
+		return "-";
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultLanguage(): string {
+		static $default_language;
 		global $DIC;
+		if (!$default_language) {
+			$default_language = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
+		}
 
-		$language_key = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
-
-		return self::storeTranslation($identification, $language_key, $translation);
+		return $default_language;
 	}
 
 
