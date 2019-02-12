@@ -60,7 +60,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function createFile($name, $data = null)
     {
-        if ($this->repo_helper->checkAccess("write", $this->obj->getRefId())) {
+        if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file')) {
             // Check if file has valid extension
             if (!$this->repo_helper->isValidFileNameWithValidFileExtension($name)) {
                 // Throw forbidden if invalid exstension. As far as we know, it is sadly not
@@ -105,33 +105,38 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     public function createDirectory($name)
     {
         global $DIC;
-        
+
         $type = $this->getChildCollectionType();
-        
-        switch($type)
-        {
-            case 'cat':
-                $new_obj = new ilObjCategory();
-                break;
-                
-            case 'fold':
-                $new_obj = new ilObjFolder();
-                break;
-            
-            default:
-                ilLoggerFactory::getLogger('WebDAV')->info(get_class($this). ' ' . $this->obj->getTitle() ." -> $type is not supported as webdav directory");
-                throw new NotImplemented("Create type '$type' as collection is not implemented yet");
+        if($this->repo_helper->checkCreateAccessForType($this->getRefId(), $type)) {
+
+            switch ($type) {
+                case 'cat':
+                    $new_obj = new ilObjCategory();
+                    break;
+
+                case 'fold':
+                    $new_obj = new ilObjFolder();
+                    break;
+
+                default:
+                    ilLoggerFactory::getLogger('WebDAV')->info(get_class($this) . ' ' . $this->obj->getTitle() . " -> $type is not supported as webdav directory");
+                    throw new NotImplemented("Create type '$type' as collection is not implemented yet");
+            }
+
+            $new_obj->setType($type);
+            $new_obj->setOwner($DIC->user()->getId());
+            $new_obj->setTitle($name);
+            $new_obj->create();
+
+            $new_obj->createReference();
+            $new_obj->putInTree($this->obj->getRefId());
+            $new_obj->setPermissions($this->obj->getRefId());
+            $new_obj->update();
         }
-        
-        $new_obj->setType($type);
-        $new_obj->setOwner($DIC->user()->getId());
-        $new_obj->setTitle($name);
-        $new_obj->create();
-        
-        $new_obj->createReference();
-        $new_obj->putInTree($this->obj->getRefId());
-        $new_obj->setPermissions($this->obj->getRefId());
-        $new_obj->update();
+        else
+        {
+            throw new Forbidden();
+        }
     }
     
     /**
@@ -154,7 +159,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names matches
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
                 {
                     $child_exists = true;
                     
@@ -216,7 +221,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names are the same
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
                 {
                     // Check if read permission is given
                     if($this->repo_helper->checkAccess("read", $child_ref))

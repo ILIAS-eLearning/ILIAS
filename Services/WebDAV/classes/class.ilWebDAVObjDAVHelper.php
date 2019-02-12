@@ -36,7 +36,7 @@ class ilWebDAVObjDAVHelper
         $ref_id = $is_reference ? $id : $this->repo_helper->getRefIdFromObjId($id);
 
         $type = $this->repo_helper->getObjectTypeFromRefId($ref_id);
-        $title = $this->repo_helper->getObjectTitleFromRefId($ref_id);
+        $title = $this->repo_helper->getObjectTitleFromRefId($ref_id, true);
 
         $is_davable = $this->isDAVableObjType($type) && $this->isDAVableObjTitle($title);
         return $is_davable;

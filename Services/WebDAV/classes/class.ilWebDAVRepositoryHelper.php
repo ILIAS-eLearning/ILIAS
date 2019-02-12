@@ -50,9 +50,21 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return bool
      */
-    public function checkAccess($a_permission, $a_ref_id)
+    public function checkAccess($a_permission, $a_ref_id) : bool
     {
         return $this->access->checkAccess($a_permission, '', $a_ref_id);
+    }
+
+    /**
+     * Just a redirect to the checkAccess method of ilAccess to check for creation of certain obj types
+     *
+     * @param int $a_ref_id
+     * @param string $a_type
+     * @return bool
+     */
+    public function checkCreateAccessForType(int $a_ref_id, string $a_type) : bool
+    {
+        return $this->access->checkAccess('create', '', $a_ref_id, $a_type);
     }
 
     /**
@@ -94,10 +106,20 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return mixed
      */
-    public function getObjectTitleFromRefId($a_ref_id)
+    public function getObjectTitleFromRefId($a_ref_id, $escape_forbidden_fileextension = false)
     {
         $obj_id = $this->getObjectIdFromRefId($a_ref_id);
-        return ilObject::_lookupTitle($obj_id);
+
+        if($escape_forbidden_fileextension && ilObject::_lookupType($obj_id))
+        {
+            $title = ilFileUtils::getValidFilename(ilObject::_lookupTitle($obj_id));
+        }
+        else
+        {
+            $title = ilObject::_lookupTitle($obj_id);
+        }
+
+        return $title;
     }
 
     /**
