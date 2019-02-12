@@ -231,4 +231,16 @@ class ilNotificationGUI
 			);
 		}
 	}
+
+	private function saveSettingsObject()
+	{
+		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+
+		ilNotificationDatabaseHandler::setUserConfig(
+			$this->user->getId(),
+			$_REQUEST['notification'] ? $_REQUEST['notification'] : array()
+		);
+
+		$this->showSettingsObject();
+	}
 }
