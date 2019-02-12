@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Component\Panel;
 
 use ILIAS\UI\Component\ViewControl\Pagination as Pagination;
+use ILIAS\UI\Component\ViewControl\Section as Section;
 use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
 
 /**
@@ -34,4 +35,15 @@ interface Secondary extends Panel {
 	 * @return Pagination | null
 	 */
 	public function getPagination();
+
+	/**
+	 * @param Section $section
+	 * @return Secondary
+	 */
+	public function withSection(Section $section);
+
+	/**
+	 * @return Section | null
+	 */
+	public function getSection();
 }

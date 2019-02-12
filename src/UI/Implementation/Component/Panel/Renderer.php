@@ -141,6 +141,7 @@ class Renderer extends AbstractComponentRenderer {
 		$actions = $component->getActions();
 		$sortation = $component->getSortation();
 		$pagination = $component->getPagination();
+		$section = $component->getSection();
 
 		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
 		$tpl->setVariable("TITLE",  $component->getTitle());
@@ -154,6 +155,10 @@ class Renderer extends AbstractComponentRenderer {
 		if($pagination)
 		{
 			$tpl->setVariable("PAGINATION", $default_renderer->render($pagination));
+		}
+		if($section)
+		{
+			$tpl->setVariable("SECTION", $default_renderer->render($section));
 		}
 		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
 		

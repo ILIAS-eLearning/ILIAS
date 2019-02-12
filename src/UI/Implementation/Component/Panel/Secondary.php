@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\ViewControl\Pagination as Pagination;
+use ILIAS\UI\Component\ViewControl\Section as Section;
 use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
 
 /**
@@ -25,8 +26,13 @@ class Secondary extends Panel implements C\Panel\Secondary
 	protected $pagination = null;
 
 	/**
+	 * @var Section|null
+	 */
+	protected $section = null;
+
+	/**
 	 * @param Sortation $sortation
-	 * @return Secondary
+	 * @return C\Panel\Secondary
 	 */
 	public function withSortation(Sortation $sortation) {
 		$clone = clone $this;
@@ -43,7 +49,7 @@ class Secondary extends Panel implements C\Panel\Secondary
 
 	/**
 	 * @param Pagination $pagination
-	 * @return Secondary
+	 * @return C\Panel\Secondary
 	 */
 	public function withPagination(Pagination $pagination)
 	{
@@ -58,6 +64,25 @@ class Secondary extends Panel implements C\Panel\Secondary
 	public function getPagination()
 	{
 		return $this->pagination;
+	}
+
+	/**
+	 * @param Section $section
+	 * @return C\Panel\Secondary|Secondary
+	 */
+	public function withSection(Section $section)
+	{
+		$clone = clone $this;
+		$clone->section = $section;
+		return $clone;
+	}
+
+	/**
+	 * @return Section|null
+	 */
+	public function getSection()
+	{
+		return $this->section;
 	}
 }
 ?>
