@@ -106,10 +106,20 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return mixed
      */
-    public function getObjectTitleFromRefId($a_ref_id)
+    public function getObjectTitleFromRefId($a_ref_id, $escape_forbidden_fileextension = false)
     {
         $obj_id = $this->getObjectIdFromRefId($a_ref_id);
-        return ilObject::_lookupTitle($obj_id);
+
+        if($escape_forbidden_fileextension && ilObject::_lookupType($obj_id))
+        {
+            $title = ilFileUtils::getValidFilename(ilObject::_lookupTitle($obj_id));
+        }
+        else
+        {
+            $title = ilObject::_lookupTitle($obj_id);
+        }
+
+        return $title;
     }
 
     /**
