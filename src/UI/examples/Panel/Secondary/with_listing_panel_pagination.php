@@ -5,7 +5,6 @@ function with_listing_panel_pagination() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	//PAGINATION (Optional)
 	$url = $DIC->http()->request()->getRequestTarget();
 	$parameter_name = 'page';
 	$current_page = (int)@$_GET[$parameter_name];
@@ -23,7 +22,6 @@ function with_listing_panel_pagination() {
 		$f->button()->shy("GitHub", "https://www.github.com")
 	));
 
-	//LISTING PANEL
 	$df = new \ILIAS\Data\Factory();
 
 	$list_item1 = $f->item()->standard("Weekly Meeting")

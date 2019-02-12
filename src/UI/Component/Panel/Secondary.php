@@ -13,36 +13,40 @@ use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
  */
 interface Secondary extends Panel {
 	/**
-	 * Set sortation options.
-	 * @param \ILIAS\UI\Component\ViewControl\Sortation $options
+	 * Set Sortation view controller.
+	 * @param \ILIAS\UI\Component\ViewControl\Sortation $sortation
 	 * @return Secondary
 	 */
-	public function withSortation(Sortation $options);
+	public function withSortation(Sortation $sortation);
 
 	/**
-	 * Get sortation options.
+	 * Get Sortation view controller or null
 	 * @return Sortation | null
 	 */
 	public function getSortation();
 
 	/**
+	 * Set Pagination
 	 * @param Pagination $pagination
 	 * @return Secondary
 	 */
 	public function withPagination(Pagination $pagination);
 
 	/**
+	 * Get Pagination view controller or null
 	 * @return Pagination | null
 	 */
 	public function getPagination();
 
 	/**
+	 * Set Section view controller
 	 * @param Section $section
 	 * @return Secondary
 	 */
 	public function withSection(Section $section);
 
 	/**
+	 * Get Section view controller or null
 	 * @return Section | null
 	 */
 	public function getSection();

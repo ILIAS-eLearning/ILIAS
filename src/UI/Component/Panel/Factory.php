@@ -163,7 +163,7 @@ interface Factory {
 	 *
 	 * ---
 	 * @param string $title
-	 * @param Component[]|Component
+	 * @param Component
 	 * @return \ILIAS\UI\Component\Panel\Secondary
 	 */
 	public function secondary($title,$content);
