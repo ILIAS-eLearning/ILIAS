@@ -30,7 +30,6 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 	 * @param ilObject $object
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
-	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
@@ -42,7 +41,6 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		ilObject $object,
 		string $certificatePath,
 		ilLanguage $language,
-		ilTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
