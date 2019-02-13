@@ -111,7 +111,7 @@ class FlySystemFileAccess implements FileAccess {
 
 
 	/**
-	 * Get the timestamp of the file.
+	 * Get the timestamp (mtime) of the file.
 	 *
 	 * @param string $path The path to the file.
 	 *
