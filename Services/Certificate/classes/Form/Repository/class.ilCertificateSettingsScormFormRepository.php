@@ -42,7 +42,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		ilObject $object,
 		string $certificatePath,
 		ilLanguage $language,
-		ilTemplate $template,
+		ilGlobalTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,

@@ -25,7 +25,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 	 * @param ilObject $object
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
-	 * @param ilTemplate $template
+	 * @param ilGlobalTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
@@ -36,7 +36,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 		ilObject $object,
 		string $certificatePath,
 		ilLanguage $language,
-		ilTemplate $template,
+		ilGlobalTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
