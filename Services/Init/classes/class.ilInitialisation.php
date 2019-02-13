@@ -1552,7 +1552,10 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Input\Field\Factory($c["ui.signal_generator"]);
 		};
 		$c["ui.factory.input.container"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Input\Container\Factory();
+			return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
+				$c["ui.signal_generator"],
+				$c["ui.factory.input.field"]
+			);
 		};
 		$c["ui.factory.panel.listing"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();

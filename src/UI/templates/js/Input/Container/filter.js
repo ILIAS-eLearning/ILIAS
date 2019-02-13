@@ -48,14 +48,6 @@ il.UI.filter = (function ($) {
 				$(".btn-bulky").parents(".il-popover-container").hide();
 			}
 
-			//Focus on the element (input, select,...) in the Popover when an Input Field is clicked.
-			//This does not work. Why?
-			/*
-			$(".il-filter-field").click(function() {
-				$(this).parents(".il-popover-container").find(".il-standard-popover-content").children().focus();
-			});
-			*/
-
 			//Accessibility for Input Fields
 			$(".il-filter-field").keydown(function (event) {
 				var key = event.which;
