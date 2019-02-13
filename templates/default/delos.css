@@ -6961,6 +6961,9 @@ button.close {
   margin: 0;
 }
 /* this is currently experimental, could be removed */
+.panel-secondary .panel-body {
+  background-color: white;
+}
 .panel-secondary .panel-primary .panel-heading {
   background-color: transparent;
 }
