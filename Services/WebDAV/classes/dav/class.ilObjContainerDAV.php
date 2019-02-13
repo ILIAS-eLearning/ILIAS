@@ -110,7 +110,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
         global $DIC;
 
         $type = $this->getChildCollectionType();
-        if($this->repo_helper->checkCreateAccessForType($this->getRefId(), $type)) {
+        if($this->repo_helper->checkCreateAccessForType($this->getRefId(), $type) && $this->dav_helper->isDAVableObjTitle($name)) {
 
             switch ($type) {
                 case 'cat':
