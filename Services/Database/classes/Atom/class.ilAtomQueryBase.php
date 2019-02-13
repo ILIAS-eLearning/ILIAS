@@ -245,9 +245,10 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * @throws \ilAtomQueryException
 	 */
 	protected function checkQueries() {
-		if (count($this->query) == 0) {
+		if (!is_iterable($this->query)) {
 			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
 		}
+
 		foreach ($this->query as $query) {
 			if (!$this->checkCallable($query)) {
 				throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);
