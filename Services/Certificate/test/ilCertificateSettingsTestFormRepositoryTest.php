@@ -20,10 +20,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			->disableOriginalConstructor()
 			->getMock();
 
-		$template = $this->getMockBuilder('ilTemplate')
-			->disableOriginalConstructor()
-			->getMock();
-
 		$controller = $this->getMockBuilder('ilCtrl')
 			->disableOriginalConstructor()
 			->getMock();
@@ -54,7 +50,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			'/some/where/',
 			$object,
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,
@@ -89,10 +84,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			->disableOriginalConstructor()
 			->getMock();
 
-		$template = $this->getMockBuilder('ilTemplate')
-			->disableOriginalConstructor()
-			->getMock();
-
 		$controller = $this->getMockBuilder('ilCtrl')
 			->disableOriginalConstructor()
 			->getMock();
@@ -118,7 +109,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			'/some/where/',
 			$object,
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,
@@ -140,10 +130,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			->willReturn(100);
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -177,7 +163,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			'/some/where/',
 			$object,
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,
