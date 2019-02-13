@@ -157,15 +157,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 			case "ilexercisemanagementgui":
 				// rbac or position access
-				$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+				if ($GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
 					'edit_submissions_grades',
 					'edit_submissions_grades',
 					$this->object->getRefId()
-				);
-				$ilTabs->activateTab("grades");				
-				include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
-				$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
-				$this->ctrl->forwardCommand($mgmt_gui);
+					))
+				{
+					$ilTabs->activateTab("grades");
+					include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
+					$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
+					$this->ctrl->forwardCommand($mgmt_gui);
+				}
+				else
+				{
+					$this->checkPermission("edit_submissions_grades");	// throw error by standard procedure
+				}
 				break;
 			
 			case "ilexccriteriacataloguegui":
