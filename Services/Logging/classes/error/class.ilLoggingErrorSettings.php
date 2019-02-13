@@ -19,7 +19,11 @@ class ilLoggingErrorSettings {
 		{
 			$ini = $DIC['ini'];
 		}
-		$ilClientIniFile = $DIC['ilClientIniFile'];
+
+		$ilClientIniFile = null;
+		if (isset($DIC['ilClientIniFile'])) {
+			$ilClientIniFile = $DIC['ilClientIniFile'];
+		}
 
 		//realy not nice but necessary to initalize logger at setup
 		//ilias_ini is named only as $ini in inc.setup_header.php
