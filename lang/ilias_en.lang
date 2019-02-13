@@ -1135,7 +1135,6 @@ assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_side_list#:#Hide List of Questions
 news#:#new_test_online#:#The Test was set online.
-assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
@@ -3471,6 +3470,7 @@ common#:#select_max_one_item#:#Please select one item only
 common#:#select_object_to_link#:#Please select the object which you want to link
 common#:#select_one#:#Please select one.
 common#:#select_questionpool#:#Insert questions into
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.
 common#:#select#:#Select
 common#:#selected_items_back#:#Back to Personal Items
 common#:#selected_items#:#Personal Items
@@ -7881,7 +7881,7 @@ dateplaner#:#cal_notification_info#:#If enabled, all course/group participants w
 dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
 rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter_form#:#Search by Type
-search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
+search#:#search_item_filter_form_info#:#Search can be restricted to the chosen object types.
 administration#:#group_export#:#Visible in Groups
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
@@ -9907,6 +9907,7 @@ dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
@@ -10041,7 +10042,7 @@ content#:#cont_show_adv#:#Show Advanced Knowledge
 content#:#cont_hide_adv#:#Hide Advanced Knowledge
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
-registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. Registration codes override these rules.
+registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. E.g. "*@ilias.de". Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
 pd#:#block_show_pdsysmess#:#Show System Messages
@@ -11471,6 +11472,7 @@ search#:#search_mime_powerpoint#:#Powerpoint Files
 search#:#search_mime_image#:#Images
 search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#search_mime_filter_form#:#Mime Type Filter
+search#:#search_mime_filter_form_info#:#Search can be restricted to the chosen mime types.
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
 obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
@@ -12573,6 +12575,7 @@ crs#:#crs_hide_all_obj#:#Collapse All
 notes#:#notes_comment_deleted#:#The comment has been deleted.
 notes#:#notes_comments_deleted#:#The comments have been deleted.
 orgu#:#ou_id_not_valid#:#Import-ID not found.
+orgu#:#ou_more_than_one_match_found#:#More then one match found.
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
 news#:#news_rss#:#RSS
@@ -14569,8 +14572,11 @@ mme#:#mm_translation_trans#:#Translation
 mme#:#additional_langs#:#Additional Languages
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_translations_saved#:#Translations saved
+mme#:#msg_translations_deleted#:#Translations deleted
 mme#:#topitem_css_id#:#CSS-ID
-common#:#deleted_item#:#Deleted Item
+common#:#mme_lost_item_title#:#No assignment
+common#:#mme_lost_item_reason#:#Item is no longer provided.
+mme#:#type_lost#:#Lost
 mme#:#component_not_active#:#Component is not activated.
 mme#:#item_must_be_always_active#:#Item must be active.
 mme#:#msg_subitem_deleted#:#Item deleted.
@@ -14587,6 +14593,7 @@ common#:#obj_mme#:#Main Menu
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Separator
+mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Complex
@@ -14728,6 +14735,8 @@ iass#:#iass_sort_name_asc#:#Username ascending
 iass#:#iass_sort_name_desc#:#Username descending
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending
 iass#:#iass_sort_examiner_login_desc#:#Examiner descending
+iass#:#iass_sort_changetime_asc#:#Last Change ascending
+iass#:#iass_sort_changetime_desc#:#Last Change descending
 exc#:#exc_team_formation#:#Team Formation
 exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams
 exc#:#exc_team_by_participants_info#:#Participants opt for teams.
@@ -14793,7 +14802,7 @@ sess#:#sess_contact#:#Contact
 sess#:#sess_mem_contacts#:#Tutorial Support
 dateplaner#:#cal_calendar_subscription_modal_title#:#Calendar Subscription
 sess#:#sess_members#:#Participants
-grp#:#grp_contact#:#Contact
+grp#:#grp_contact#:#Support
 grp#:#grp_mem_contacts#:#Tutorial Support
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_add#:#Add Learning Sequence
@@ -14824,7 +14833,7 @@ lso#:#no_entries_selected_for_delete#:#There has to be at least one entry select
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_search_users#:#Search user
-lso#:#lso_print_list#:#Print list
+lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
@@ -14891,7 +14900,6 @@ lso#:#first_access#:#First Access
 lso#:#last_access#:#Last Access
 lso#:#lso_settings_availability#:#availability
 lso#:#avail_time_period#:#Period
-lso#:#lso_settings_misc#:#Settings
 lso#:#completed_steps#:#Passed Steps
 lso#:#last_visited_step#:#Last visited Step
 lso#:#members_gallery#:#Member Gallery
@@ -14979,3 +14987,7 @@ exc#:#exc_down_files_started_bg#:#Download of submission files has started. Plea
 lso#:#lso_news_online_title#:#A new learning sequence object is online!
 lso#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 user#:#user_profile_info_std#:#Default User Profile Info
+lti#:#lti_cron_title#:#LTI Outcome Service
+lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
+crs#:#crs_timings_short_end#:#End Date
+lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.

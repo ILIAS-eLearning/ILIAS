@@ -331,7 +331,7 @@ class ilAccordionGUI
 	/**
 	* Add javascript files that are necessary to run accordion
 	*/
-	static function addJavaScript(ilTemplate $main_tpl = null)
+	static function addJavaScript(ilGlobalTemplate $main_tpl = null)
 	{
 		global $DIC;
 

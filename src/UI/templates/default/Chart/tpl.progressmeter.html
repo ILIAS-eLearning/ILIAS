@@ -1,0 +1,37 @@
+<div class="il-chart-progressmeter-box <!-- BEGIN fixed -->{FIXED_CLASS}<!-- END fixed -->">
+    <div class="il-chart-progressmeter-container">
+        <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
+            <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100"
+                  d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
+
+            <!-- BEGIN multicircle -->
+            <g class="il-chart-progressmeter-multicircle">
+                <path class="il-chart-progressmeter-circle {COLOR_ONE_CLASS}"
+                      d="M9.6514,37.8486 q-6.1948,-6.1948 -6.1948,-14.9552 a1,1 0 1,1 42.30,0 q0,8.7604 -6.1948,14.9552"
+                      stroke-dasharray="{BAR_ONE_WIDTH}, 100"></path>
+                <path class="il-chart-progressmeter-circle {COLOR_TWO_CLASS}"
+                      d="M11.2778,36.2222 q-5.5212,-5.5212 -5.5212,-13.3288 a1,1 0 1,1 37.70,0 q0,7.8076 -5.5212,13.3288"
+                      stroke-dasharray="{BAR_TWO_WIDTH}, 100"></path>
+            </g>
+            <!-- END multicircle -->
+            <!-- BEGIN monocircle -->
+            <g class="il-chart-progressmeter-monocircle">
+                <path class="il-chart-progressmeter-circle {COLOR_ONE_CLASS}" stroke-dasharray="{BAR_ONE_WIDTH}, 100"
+                      d="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>
+            </g>
+            <!-- END monocircle -->
+
+            <g class="il-chart-progressmeter-text">
+                <text class="text-score-info" x="25" y="16">{TEXT_MAIN}</text>
+                <text class="text-score" x="25" y="25">{MAIN}</text>
+                <text class="text-comparision" x="25" y="31">{REQUIRED}</text>
+                <text class="text-comparision-info" x="25" y="34">{TEXT_REQUIRED}</text>
+            </g>
+
+            <g class="il-chart-progressmeter-needle {NEEDLE_ONE_CLASS}" style="transform: rotate({ROTATE_ONE}deg)">
+                <polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>
+                <polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>
+            </g>
+        </svg>
+    </div>
+</div>

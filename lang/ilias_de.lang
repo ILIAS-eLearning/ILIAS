@@ -1269,7 +1269,6 @@ assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_side_list#:#Fragenliste aus
 news#:#new_test_online#:#Der Test wurde online geschaltet.
-assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
@@ -2442,7 +2441,7 @@ common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf 
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
 common#:#check_user_accounts_desc#:#Wenn eingeschaltet, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
 common#:#check_web_resources#:#Weblinks überprüfen
-common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft.
+common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft und gegebenenfalls deaktiviert.
 common#:#checked#:#Ausgewählt
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_ilias_and_webfolder_password#:#Webordner-Passwort ändern
@@ -3984,6 +3983,7 @@ common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus.
 common#:#select_one#:#Bitte treffen Sie eine Auswahl
 common#:#select_questionpool#:#Fragen einfügen in
+common#:#select_question_pool_info#:#Sofern die Import Datei Fragen enthält, werden diese ebenfalls in den ausgewählten Fragenpool importiert.
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#selected_items_back#:#Zurück zu Angeboten
@@ -5643,11 +5643,11 @@ dateplaner#:#cal_back_to_search#:#Zurück zur Suche
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
-dateplaner#:#cal_booking_cancellation_subject#:#Der Termin "%s" wurde abgesagt
+dateplaner#:#cal_booking_cancellation_subject#:#Termin "%s" wurde abgesagt
 dateplaner#:#cal_booking_cancellation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmation_body#:#Ihr Termin mit %s ist gebucht.
 dateplaner#:#cal_booking_confirmation_link#:#Link zum Termin:
-dateplaner#:#cal_booking_confirmation_subject#:#Der Termin "%s" wurde gebucht
+dateplaner#:#cal_booking_confirmation_subject#:#Termin "%s" wurde gebucht
 dateplaner#:#cal_booking_confirmation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmed#:#Der Termin wurde erfolgreich gebucht.
 dateplaner#:#cal_cache#:#Kalender-Cache
@@ -8298,7 +8298,7 @@ search#:#search_grp_title#:#Gruppenname
 search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
 search#:#search_index#:#Indizierte Suche
 search#:#search_item_filter_form#:#Suche nach Typ
-search#:#search_item_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen
+search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
 search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
 search#:#search_lom#:#LOM Metadaten
@@ -9726,6 +9726,7 @@ dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
+dcl#:#dcl_list_visibility_and_filter#:#Sichtbarkeit und Filter
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
@@ -9746,7 +9747,7 @@ dcl#:#dcl_text_selection#:#Auswahlmenü Text
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_datetime#:#Datumseingabe
-dcl#:#dcl_date_selection#:#Auwahlmenü Datum
+dcl#:#dcl_date_selection#:#Auswahlmenü Datum
 dcl#:#dcl_fileupload#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
@@ -9921,7 +9922,7 @@ content#:#cont_show_adv#:#Vertiefungswissen anzeigen
 content#:#cont_hide_adv#:#Vertiefungswissen verbergen
 registration#:#reg_email_domains#:#Die folgenden E-Mail-Adressdomains sind gültig: %s
 registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
-registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Registrierungscodes heben diese Prüfung auf.
+registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Zum Beispiel "*@ilias.de".  Registrierungscodes heben diese Prüfung auf.
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
 pd#:#block_show_pdsysmess#:#Systemnachrichten anzeigen
@@ -10914,9 +10915,9 @@ dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung
 dateplaner#:#cal_ch_field_ch#:#Sprechstundentermine
 dateplaner#:#cal_ch_export_apps#:#Gebuchte Termine
 dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung "%s"
-dateplaner#:#cal_ch_booking_reminder_body#:#ihr Termin mit "%s" findet in wenigen Tagen statt.
+dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit "%s" findet in wenigen Tagen statt.
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
-dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, werden Erinnerungen über bevorstehende Sprechstundentermine versandt. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
+dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen, werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option Terminbuchung(en) absagen auswählen.
 dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen, werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option Terminbuchung(en) löschen auswählen.
@@ -11427,7 +11428,8 @@ search#:#search_mime_excel#:#Excel-Dateien
 search#:#search_mime_powerpoint#:#Powerpoint-Dateien
 search#:#search_mime_image#:#Bilder
 search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
-search#:#search_mime_filter_form#:#Dateityp-Filter
+search#:#search_mime_filter_form#:#Dateitypen-Filter
+search#:#search_mime_filter_form_info#:#Suche wird auf die ausgewählten Dateitypen beschränkt.
 search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: "*LIAS" findet "ILIAS"
 rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
@@ -12589,6 +12591,7 @@ crs#:#crs_hide_all_obj#:#Alle verbergen
 notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
 notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
 orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
+orgu#:#ou_more_than_one_match_found#:#Mehr als ein Treffer wurde gefunden.
 blog#:#blog_profile_picture_repository_info#:#Profilbilder der Autoren werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Autoren ihre Rolle entziehen?
 news#:#news_rss#:#RSS
@@ -14130,7 +14133,7 @@ dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender
 dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
 dateplaner#:#cal_subscription#:#Abonnieren
 dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
-dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunden für %1
+dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunde %1
 dateplaner#:#cal_open_calendar#:#Kalender öffnen
 dateplaner#:#cal_delete_cal#:#Kalender löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
@@ -14326,7 +14329,7 @@ lti#:#lti_exited#:#LTI Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeigten Beiträgen
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.
-orgu#:#org_op_access_enrolments#:#Einsicht Einschreibungen
+orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
 orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
 orgu#:#user_assignments#:#Benutzerzuweisung
@@ -14361,7 +14364,7 @@ common#:#position_permission_settings#:#Rechte nach Positionen
 common#:#org_permission_settings#:#Rechte der Positionen in Organisationseinheiten
 common#:#org_op_read_learning_progress#:#Lernfortschritt untergeordneter Benutzer einsehen
 common#:#org_op_manage_members#:#Untergeordnete Mitglieder verwalten
-common#:#org_op_access_enrolments#:#Teilnehmer-Status einsehen
+common#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 sahs#:#sahs_add#:#SCORM-Lernmodul anlegen
 sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
 sahs#:#sahs_glo_info#:#Bitte beachten Sie, daß interne Links in Glossarbegriffen nicht unterstützt werden.
@@ -14559,8 +14562,11 @@ mme#:#mm_translation_trans#:#Übersetzung
 mme#:#additional_langs#:#Zusätzliche Sprachen
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
+mme#:#msg_translations_deleted#:#Übersetzungen gelöscht.
 mme#:#topitem_css_id#:#CSS-ID
-common#:#deleted_item#:#Keine Zuordnung
+common#:#mme_lost_item_title#:#Keine Zuordnung
+common#:#mme_lost_item_reason#:#Eintrag wird nicht mehr angeboten.
+mme#:#type_lost#:#Lost
 mme#:#component_not_active#:#Komponente ist nicht aktiviert.
 mme#:#item_must_be_always_active#:#Eintrag muss aktiv sein.
 mme#:#msg_subitem_deleted#:#Eintrag gelöscht.
@@ -14577,6 +14583,7 @@ common#:#obj_mme#:#Hauptmenü
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Trenner
+mme#:#type_separator_info#:#Der Titel des Trenners wird in einem grauen Bereich angezeigt. Sie erhalten eine Trennlinie, wenn Sie den Titel leer lassen.
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link Liste
 mme#:#type_complex#:#Komplex
@@ -14761,7 +14768,7 @@ sess#:#sess_contact#:#Kontakt
 sess#:#sess_mem_contacts#:#Tutorielle Betreuung
 dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
 sess#:#sess_members#:#Teilnehmer
-grp#:#grp_contact#:#Kontakt
+grp#:#grp_contact#:#Betreuung
 grp#:#grp_mem_contacts#:#Tutorielle Betreuung
 common#:#lso_new#:#Neue Lernsequenz
 common#:#lso_add#:#Lernsequenz hinzufügen
@@ -14859,7 +14866,6 @@ lso#:#first_access#:#Erster Zugriff
 lso#:#last_access#:#Letzter Zugriff
 lso#:#lso_settings_availability#:#Verfügbarkeit
 lso#:#avail_time_period#:#Zeitraum
-lso#:#lso_settings_misc#:#Weitere Einstelleungen
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#members_gallery#:#Mitgliedergalerie
@@ -14896,27 +14902,29 @@ common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
-survey#:#svy_self_ev_mode#:#Self-Evaluation Only###10 11 2018 new variable
-survey#:#svy_self_ev_info#:#Use for self evaluation.###10 11 2018 new variable
-survey#:#svy_self_ev_access_results_none#:#No Access to Results###10 11 2018 new variable
-survey#:#svy_self_ev_access_results_own#:#Access to Own Self-Evaluations###10 11 2018 new variable
-survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants###10 11 2018 new variable
-survey#:#svy_participant#:#Participant###10 11 2018 new variable
-iass#:#iass_location#:#Location###10 11 2018 new variable
-iass#:#iass_further_field_headline#:#Detailed Information###10 11 2018 new variable
-iass#:#iass_no_entries#:#No entries found.###10 11 2018 new variable
-iass#:#iass_filter_all#:#All###10 11 2018 new variable
-iass#:#iass_filter_not_started#:#Not started only###10 11 2018 new variable
-iass#:#iass_filter_not_finalized#:#Not completed only###10 11 2018 new variable
-iass#:#iass_filter_finalized#:#Completed only###10 11 2018 new variable
-iass#:#iass_filter_failed#:#Failed only###10 11 2018 new variable
-iass#:#iass_file#:#File###10 11 2018 new variable
-iass#:#iass_download#:#Download###10 11 2018 new variable
-iass#:#iass_sort#:#Sortation###10 11 2018 new variable
-iass#:#iass_sort_name_asc#:#Username ascending###10 11 2018 new variable
-iass#:#iass_sort_name_desc#:#Username descending###10 11 2018 new variable
-iass#:#iass_sort_examiner_login_asc#:#Examiner ascending###10 11 2018 new variable
-iass#:#iass_sort_examiner_login_desc#:#Examiner descending###10 11 2018 new variable
+survey#:#svy_self_ev_mode#:#Nur Selbst-Evaluation
+survey#:#svy_self_ev_info#:#Für Selbst-Evaluation verwenden
+survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
+survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
+survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
+survey#:#svy_participant#:#Teilnehmer
+iass#:#iass_location#:#Ort
+iass#:#iass_further_field_headline#:#Detaillierte Informationen
+iass#:#iass_no_entries#:#Keine Einträge gefunden
+iass#:#iass_filter_all#:#Alle
+iass#:#iass_filter_not_started#:#Nur nicht bewertete
+iass#:#iass_filter_not_finalized#:#Nur nicht abgeschlossene
+iass#:#iass_filter_finalized#:#Nur bestandene
+iass#:#iass_filter_failed#:#Nur nicht bestanden
+iass#:#iass_file#:#Datei
+iass#:#iass_download#:#Download
+iass#:#iass_sort#:#Sortierung
+iass#:#iass_sort_name_asc#:#Benutzername → aufsteigend
+iass#:#iass_sort_name_desc#:#Benutzername → absteigend
+iass#:#iass_sort_examiner_login_asc#:#Prüfer → aufsteigend
+iass#:#iass_sort_examiner_login_desc#:#Prüfer → absteigend
+iass#:#iass_sort_changetime_asc#:#Letzte Änderung → aufsteigend
+iass#:#iass_sort_changetime_desc#:#Letzte Änderung → absteigend
 book#:#participants#:#Teilnehmer
 book#:#book_assign_object#:#Buchungsobjekt zuweisen
 book#:#book_assign#:#Zuweisen
@@ -14929,23 +14937,23 @@ rep#:#rep_default#:#Standardwert
 rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
 rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
 obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
-obj#:#obj_show_header_actions#:#Show Header Actions###10 11 2018 new variable
-cont#:#cont_list_presentation#:#Item Presentation###10 11 2018 new variable
-cont#:#cont_item_list#:#List###10 11 2018 new variable
-cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
-obj#:#obj_tile_image#:#Tile Image###10 11 2018 new variable
+obj#:#obj_show_header_actions#:#Aktionen anzeigen
+cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
+cont#:#cont_item_list#:#Liste
+cont#:#cont_tile_view#:#Kacheln
+obj#:#obj_tile_image#:#Kachelbild
 obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
 fold#:#fold_presentation#:#Darstellung
-validation#:#not_an_int#:#Value of type '%s' is not an integer.###10 11 2018 new variable
-validation#:#not_a_string#:#Value of type '%s' is not a string.###10 11 2018 new variable
-validation#:#not_a_null#:#Value of type '%s' is not a null.###10 11 2018 new variable
-validation#:#not_greater_than#:#'%s' is not greater than '%s'.###10 11 2018 new variable
-validation#:#not_less_than#:#'%s' is not less than '%s'.###10 11 2018 new variable
-validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.###10 11 2018 new variable
-validation#:#not_numeric#:#'%s' is not numeric.###10 11 2018 new variable
-validation#:#not_generic#:#It is not the case that: %s###10 11 2018 new variable
-validation#:#not_max_length#:#The entered text has a length more than '%s'.###10 11 2018 new variable
-validation#:#not_an_array#:#'%s' is not an array.###10 11 2018 new variable
+validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
+validation#:#not_a_string#:#Wert vom Typ '%s' ist kein String.
+validation#:#not_a_null#:#Wert vom Typ '%s' ist keine Null.
+validation#:#not_greater_than#:#'%s' ist nicht größer als '%s'.
+validation#:#not_less_than#:#'%s' ist nicht kleiner als '%s'.
+validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
+validation#:#not_numeric#:#'%s' ist nicht nummerisch.
+validation#:#not_generic#:#Es ist nicht der Fall, dass %s
+validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als '%s'.
+validation#:#not_an_array#:#'%s' ist kein Array.
 validation#:#not_an_array_of#:#The elements of the array fail constraints: %s###10 11 2018 new variable
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
 rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
@@ -14973,9 +14981,13 @@ sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
-skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
-skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ von $3$ ist selbst zugewiesen.
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ von $3$ wurde selbst zugewiesen in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
 exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
-lso#:#lso_news_online_title#:#Neues Lern-Sequenz-Objekt ist online!
-lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lern Sequenz online gestellt.
+lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
+lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
+lti#:#lti_cron_title#:#LTI Outcome Service
+lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
+crs#:#crs_timings_short_end#:#Enddatum
+lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.

@@ -4480,13 +4480,6 @@ class ilUtil
 		$result = $txt_output;
 		$is_html = self::isHTML($result);
 
-		if ($prepare_for_latex_output)
-		{
-			include_once './Services/MathJax/classes/class.ilMathJax.php';
-			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-		}
-
 		// removed: did not work with magic_quotes_gpc = On
 		if (!$is_html )
 		{
@@ -4513,6 +4506,16 @@ class ilUtil
 				}
 			}
 		}
+		
+		// since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
+		// do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
+		if ($prepare_for_latex_output)
+		{
+			include_once './Services/MathJax/classes/class.ilMathJax.php';
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+		}
+
 		if ($prepare_for_latex_output)
 		{
 			// replace special characters to prevent problems with the ILIAS template system
@@ -4803,6 +4806,26 @@ class ilUtil
 	}
 
 	/**
+	 * Get HTML for a system message
+     *
+     * ATTENTION: This method is deprecated. Use MessageBox from the
+     * UI-framework instead.
+	 */
+	public static function getSystemMessageHTML($a_txt, $a_type = "info")
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+		$mtpl->setCurrentBlock($a_type."_message");
+		$mtpl->setVariable("TEXT", $a_txt);
+		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
+		$mtpl->parseCurrentBlock();
+
+		return $mtpl->get();
+	}
+
+	/**
 	* Send Info Message to Screen.
 	*
 	* @param	string	message
@@ -4815,7 +4838,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("info", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("info", $a_info, $a_keep);
 	}
 
 	/**
@@ -4833,7 +4856,7 @@ class ilUtil
 		if(isset($DIC["tpl"]))
 		{
 			$tpl = $DIC["tpl"];
-			$tpl->setMessage("failure", $a_info, $a_keep);
+			$tpl->setOnScreenMessage("failure", $a_info, $a_keep);
 		}
 	}
 
@@ -4848,7 +4871,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("question", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("question", $a_info, $a_keep);
 	}
 
 	/**
@@ -4865,7 +4888,7 @@ class ilUtil
 
 		/** @var ilTemplate $tpl */
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("success", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("success", $a_info, $a_keep);
 	}
 
 	public static function infoPanel($a_keep = true)

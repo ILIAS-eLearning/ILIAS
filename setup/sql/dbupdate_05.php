@@ -88,3 +88,172 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5441>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5442>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_personal_skill s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_personal_skill WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#5443>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_assigned_material s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_assigned_material WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#5444>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_profile_user s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_profile_user WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#5445>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_skill_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#5446>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_has_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#5447>
+<?php
+//FIX 0020168: Delete orgus in Trash - Organisational units could not be restored from trash / imports lead to ambiguous import_ids
+$set = $ilDB->query("SELECT * FROM object_data as obj inner join object_reference as ref on ref.obj_id = obj.obj_id and ref.deleted is not null where type = 'orgu'");
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$ilDB->manipulate("DELETE FROM object_data where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
+	$ilDB->manipulate("DELETE FROM object_reference where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
+}
+?>
+<#5448>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$tpl_perms = [
+	'il_grp_member' => [
+		'participate'
+	],
+	'il_crs_member' => [
+		'participate'
+	],
+	'il_grp_admin' => [
+		'participate',
+		'unparticipate',
+		'manage_members',
+		'create_htlm',
+		'create_iass',
+		'create_copa',
+		'create_svy',
+		'create_svy',
+		'create_lm',
+		'create_exc',
+		'create_tst',
+		'create_sahs',
+		'create_file',
+		'edit_learning_progress'
+	],
+	'il_crs_admin' => [
+		'participate',
+		'unparticipate',
+		'manage_members',
+		'create_htlm',
+		'create_iass',
+		'create_copa',
+		'create_svy',
+		'create_svy',
+		'create_lm',
+		'create_exc',
+		'create_tst',
+		'create_sahs',
+		'create_file',
+		'edit_learning_progress'
+	],
+	'il_crs_tutor' => [
+		'participate',
+		'unparticipate',
+		'manage_members',
+		'edit_learning_progress',
+		'create_htlm',
+		'create_iass',
+		'create_copa',
+		'create_svy',
+		'create_svy',
+		'create_lm',
+		'create_exc',
+		'create_tst',
+		'create_sahs',
+		'create_file'
+	]
+];
+
+foreach($tpl_perms as $template=>$perms){
+	$query = "SELECT obj_id FROM object_data"
+		." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+		." AND title = " .$ilDB->quote($template,'text');
+	$result = $ilDB->query($query);
+	$rol_id = array_shift($ilDB->fetchAssoc($result));
+
+	$op_ids = [];
+	$query = "SELECT ops_id FROM rbac_operations"
+		." WHERE operation IN ('"
+		.implode("', '", $perms)
+		."')";
+	$result = $ilDB->query($query);
+	while($row = $ilDB->fetchAssoc($result)) {
+		$op_ids[] = $row['ops_id'];
+	}
+	ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', $op_ids,	ROLE_FOLDER_ID);
+}
+?>

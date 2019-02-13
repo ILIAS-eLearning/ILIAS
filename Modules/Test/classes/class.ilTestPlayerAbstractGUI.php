@@ -1788,7 +1788,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if ($this->object->getKioskMode())
 		{
 			$this->tpl->setBodyClass("kiosk");
-			$this->tpl->setAddFooter(FALSE);
+			$this->tpl->hideFooter();
 			return "CONTENT";
 		}
 		else
@@ -2754,6 +2754,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 // fau: testNav - new function populateNavWhenChangedModal
 	protected function populateNavWhenChangedModal()
 	{
+		return; // usibility fix: get rid of popup
+		
 		if (!empty($_SESSION['save_on_navigation_prevent_confirmation']))
 		{
 			return;

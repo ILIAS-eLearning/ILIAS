@@ -50,7 +50,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
 		$modal->addButton($closeButton);
 		
 		$inp = new ilTextWizardInputGUI('', '');
-		$inp->setValues($this->values['answers_all']);
+		$inp->setValues(current($this->values['answers_all']));
 		$inp->setDisabled(true);
 		
 		$modal->setBody($inp->render());

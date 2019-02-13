@@ -123,7 +123,7 @@ class HTML_Template_ITX extends HTML_Template_IT
         parent::__construct($root);
     } // end func constructor
 
-    function init()
+    protected function init()
     {
         $this->free();
         $this->buildFunctionlist();

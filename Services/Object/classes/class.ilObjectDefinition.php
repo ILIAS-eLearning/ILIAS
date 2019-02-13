@@ -1237,7 +1237,8 @@ class ilObjectDefinition// extends ilSaxParser
 					'administration' => $isInAdministration?'1':'0',
 					"sideblock" => "0",
 					'export' => $ilPluginAdmin->supportsExport($component, $slotName, $slotId, $pl_name),
-					'offline_handling' => '0'
+					'offline_handling' => '0',
+					'orgunit_permissions' => $pl->useOrguPermissions() ? '1' : '0'
 				);
 				$parent_types = $pl->getParentTypes();
 				foreach($parent_types as $parent_type) {

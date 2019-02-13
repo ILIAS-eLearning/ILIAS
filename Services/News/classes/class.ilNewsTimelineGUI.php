@@ -500,7 +500,7 @@ class ilNewsTimelineGUI
 		$modal->addButton($cancel);
 		
 		$modal->setBody("<p id='news_delete_news_title'></p>".
-			$this->tpl->getMessageHTML($this->lng->txt("news_really_delete_news"), "question"));
+			ilUtil::getSystemMessageHTML($this->lng->txt("news_really_delete_news"), "question"));
 
 		return $modal->getHTML();
 

@@ -45,7 +45,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	/** @var ilLanguage $lng */
 	protected $lng = null;
 
-	/** @var ilTemplate $tpl */
+	/** @var ilGlobalTemplate $tpl */
 	protected $tpl = null;
 
 	/** @var ilTree $tree */
@@ -82,7 +82,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		ilCtrl $ctrl,
 		ilAccessHandler $access,
 		ilLanguage $lng,
-		ilTemplate $tpl,
 		ilTree $tree,
 		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
@@ -90,10 +89,12 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		ilObjTestGUI $testGUI
 	)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$this->ctrl = $ctrl;
 		$this->access = $access;
 		$this->lng = $lng;
-		$this->tpl = $tpl;
+		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->tree = $tree;
 		$this->db = $db;
 		$this->pluginAdmin = $pluginAdmin;
@@ -187,7 +188,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$link = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_RESET_TPL_CONFIRM);
 			$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
 
-			$msgHTML = $tpl->getMessageHTML(
+			$msgHTML = ilUtil::getSystemMessageHTML(
 				sprintf($this->lng->txt("test_using_template"), $title, $link), "info"
 			);
 

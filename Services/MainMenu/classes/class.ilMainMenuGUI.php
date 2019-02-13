@@ -62,7 +62,7 @@ class ilMainMenuGUI {
 	var $start_template;
 	var $mail; // [bool]
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $main_tpl;
 	protected $mode; // [int]
@@ -79,7 +79,7 @@ class ilMainMenuGUI {
 	 * @param    boolean $a_use_start_template        true means: target scripts should
 	 *                                                be called through start template
 	 */
-	public function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null) {
+	public function __construct($a_target = "_top", $a_use_start_template = false, ilGlobalTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl != null) {
@@ -335,7 +335,7 @@ class ilMainMenuGUI {
 				// #13058
 				$target_str = ($this->getLoginTargetPar() != "")
 					? $this->getLoginTargetPar()
-					: ilTemplate::buildLoginTarget();
+					: $this->buildLoginTarget();
 				$this->tpl->setVariable(
 					"LINK_LOGIN",
 					$link_dir . "login.php?target=" . $target_str . "&client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $ilUser->getCurrentLanguage()
@@ -611,7 +611,7 @@ class ilMainMenuGUI {
 	 * @param \ilTemplate $mainTpl
 	 * @param \ilLanguage $lng
 	 */
-	private function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng) {
+	private function renderOnScreenNotifications(\ilObjUser $user, \ilGlobalTemplate $mainTpl, \ilLanguage $lng) {
 		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
 			$this->tpl->touchBlock('osd_container');
 
@@ -722,5 +722,43 @@ class ilMainMenuGUI {
 		}
 	}
 
+	protected function buildLoginTarget() {
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilUser = $DIC->user();
+
+		$target_str = "";
+
+		// repository
+		if ($_GET["ref_id"] != "")
+		{
+			if ($tree->isInTree($_GET["ref_id"]) && $_GET["ref_id"] != $tree->getRootId())
+			{
+				$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+				$type = ilObject::_lookupType($obj_id);
+				$target_str = $type."_".$_GET["ref_id"];
+			}
+		}
+		// personal workspace
+		else if ($_GET["wsp_id"] != "" && $_GET["wsp_id"] > 0)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$obj_id = $tree->lookupObjectId((int)$_GET["wsp_id"]);
+			if($obj_id)
+			{
+				$type = ilObject::_lookupType($obj_id);
+				$target_str = $type."_".(int)$_GET["wsp_id"]."_wsp";
+			}
+		}
+		// portfolio
+		else if ($_GET["prt_id"] != "")
+		{
+			$target_str = "prtf_".(int)$_GET["prt_id"];
+		}
+
+		return $target_str;
+	}
 }
 

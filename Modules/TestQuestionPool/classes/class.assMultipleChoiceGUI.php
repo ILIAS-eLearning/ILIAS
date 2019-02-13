@@ -729,7 +729,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $tpl->get();
 	}
 	
-	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplate $tpl)
 	{
 		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
 	}

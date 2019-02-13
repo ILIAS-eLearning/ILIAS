@@ -644,7 +644,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		global $DIC;
 		$lng = $DIC['lng'];
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 	}
 
 	/**

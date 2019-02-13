@@ -422,7 +422,7 @@ if ($this->private_enabled && $this->public_enabled
 				if ($this->ajax && !$comments_col)
 				{
 					$ntpl->setVariable("COMMENTS_MESS",
-						$ntpl->getMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
+						ilUtil::getSystemMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
 				}
 			}
 			$ntpl->parseCurrentBlock();
@@ -935,7 +935,7 @@ if ($this->private_enabled && $this->public_enabled
 		}
 		if ($mtxt != "")
 		{
-			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+			$tpl->setVariable("MESS", ilUtil::getSystemMessageHTML($mtxt, $mtype));
 		}
 		else
 		{
@@ -1587,7 +1587,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/ 
 	function exportNotesHTML()
 	{
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		$this->export_html = true;
 		$this->multi_selection = false;
@@ -1665,7 +1665,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilTemplate $a_main_tpl = null)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilGlobalTemplate $a_main_tpl = null)
 	{
 		global $DIC;
 

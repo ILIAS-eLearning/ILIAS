@@ -244,7 +244,8 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
 
 	/**
-	 * FSX get from Main
+	 * @deprecated
+	 * @see getPossibleSubItemTypesWithInformation
 	 *
 	 * @return array
 	 */
@@ -264,6 +265,26 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
 
 	/**
+	 * @return \ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation[]
+	 */
+	public function getPossibleSubItemTypesWithInformation(): array {
+		$types = [];
+		foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
+			if ($information->isCreationPrevented()) {
+				continue;
+			}
+			if ($information->isChild()) {
+				$types[$information->getType()] = $information;
+			}
+		}
+
+		return $types;
+	}
+
+
+	/**
+	 * @deprecated
+	 * @see getPossibleTopItemTypesWithInformation
 	 * @return array
 	 */
 	public function getPossibleTopItemTypesForForm(): array {
@@ -271,6 +292,21 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 		foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
 			if ($information->isTop()) {
 				$types[$information->getType()] = $information->getTypeNameForPresentation();
+			}
+		}
+
+		return $types;
+	}
+
+
+	/**
+	 * @return \ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation[]
+	 */
+	public function getPossibleTopItemTypesWithInformation(): array {
+		$types = [];
+		foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
+			if ($information->isTop()) {
+				$types[$information->getType()] = $information;
 			}
 		}
 

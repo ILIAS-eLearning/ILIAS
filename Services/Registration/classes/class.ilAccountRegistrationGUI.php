@@ -83,7 +83,7 @@ class ilAccountRegistrationGUI
 				break;
 		}
 		$tpl->setPermanentLink('usr', null, 'registration');
-		$tpl->show();
+		$tpl->printToStdout();
 		return true;
 	}
 

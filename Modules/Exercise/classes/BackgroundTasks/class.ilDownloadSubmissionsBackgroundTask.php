@@ -84,18 +84,14 @@ class ilDownloadSubmissionsBackgroundTask
 		$bucket = new BasicBucket();
 		$bucket->setUserId($this->user_id);
 
-		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilExerciseManagementCollectFilesJob.php';
-		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilSubmissionsZipJob.php';
-		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilExDownloadSubmissionsZipInteraction.php';
-
 		$this->logger->debug("* Create task 'collect_data_job' using the following values:");
 		$this->logger->debug("job class = ". ilExerciseManagementCollectFilesJob::class);
 		$this->logger->debug("exc_id = ".$this->exc_id.", exc_ref_id = ".$this->exc_ref_id.", ass_id = ".(int)$this->ass_id.", participant_id = ".(int)$this->participant_id.", user_id = ".(int)$this->user_id);
 
 		$collect_data_job = $this->task_factory->createTask(ilExerciseManagementCollectFilesJob::class,
 			[
-				$this->exc_id,
-				$this->exc_ref_id,
+				(int)$this->exc_id,
+				(int)$this->exc_ref_id,
 				(int)$this->ass_id,
 				(int)$this->participant_id,
 				(int)$this->user_id
