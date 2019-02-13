@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilMailTaskWorkerTest extends \ilMailBaseTest
+class ilMailTaskProcessorTest extends \ilMailBaseTest
 {
 
 	private $languageMock;
@@ -57,7 +57,7 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 			->willReturn($backgroundTask);
 
 
-		$worker = new ilMailTaskWorker(
+		$worker = new ilMailTaskProcessor(
 			$taskManager,
 			$taskFactory,
 			$this->languageMock,
@@ -66,6 +66,7 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 		);
 
 		$mailValueObject = new ilMailValueObject(
+			'ilias@server.com',
 			'somebody@iliase.de',
 			'',
 			'',
@@ -118,11 +119,11 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 			->willReturn(array());
 
 		$taskFactory
-			->expects($this->exactly(4))
+			->expects($this->exactly(2))
 			->method('createTask')
 			->willReturn($backgroundTask);
 
-		$worker = new ilMailTaskWorker(
+		$worker = new ilMailTaskProcessor(
 			$taskManager,
 			$taskFactory,
 			$this->languageMock,
@@ -133,6 +134,7 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 		$mailValueObjects = array();
 
 		$mailValueObjects[] = new ilMailValueObject(
+			'ilias@server.com',
 			'somebody@iliase.de',
 			'',
 			'',
@@ -143,6 +145,7 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
+			'ilias@server.com',
 			'somebodyelse@iliase.de',
 			'',
 			'',
@@ -191,11 +194,11 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 			->willReturn(array());
 
 		$taskFactory
-			->expects($this->exactly(6))
+			->expects($this->exactly(4))
 			->method('createTask')
 			->willReturn($backgroundTask);
 
-		$worker = new ilMailTaskWorker(
+		$worker = new ilMailTaskProcessor(
 			$taskManager,
 			$taskFactory,
 			$this->languageMock,
@@ -206,6 +209,7 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 		$mailValueObjects = array();
 
 		$mailValueObjects[] = new ilMailValueObject(
+			'ilias@server.com',
 			'somebody@iliase.de',
 			'',
 			'',
@@ -216,6 +220,7 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
+			'ilias@server.com',
 			'somebodyelse@iliase.de',
 			'',
 			'',
@@ -226,6 +231,72 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
+			'ilias@server.com',
+			'somebody@iliase.de',
+			'',
+			'',
+			'That is awesome!',
+			'Hey Alan! Alan! Alan!',
+			null,
+			array()
+		);
+
+		$userId = 100;
+		$contextId = 5;
+		$contextParameters = array();
+
+		$worker->run(
+			$mailValueObjects,
+			$userId,
+			$contextId,
+			$contextParameters,
+			2
+		);
+	}
+
+	/**
+	 * @expectedException ilException
+	 */
+	public function testRunHasWrongTypeAndWillResultInException()
+	{
+		$taskManager = $this->getMockBuilder('\ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager')
+			->setMethods(array('run'))
+			->disableOriginalConstructor()
+			->getMock();
+
+		$taskManager
+			->expects($this->exactly(1))
+			->method('run');
+
+		$taskFactory = $this->getMockBuilder('ILIAS\BackgroundTasks\Task\TaskFactory')
+			->setMethods(array('createTask'))
+			->disableOriginalConstructor()
+			->getMock();
+
+		$backgroundTask = $this->getMockbuilder('ilMailDeliveryJob')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$backgroundTask->method('unfoldTask')
+			->willReturn(array());
+
+		$taskFactory
+			->expects($this->exactly(2))
+			->method('createTask')
+			->willReturn($backgroundTask);
+
+		$worker = new ilMailTaskProcessor(
+			$taskManager,
+			$taskFactory,
+			$this->languageMock,
+			$this->loggerMock,
+			$this->dicMock
+		);
+
+		$mailValueObjects = array();
+
+		$mailValueObjects[] = new ilMailValueObject(
+			'ilias@server.com',
 			'somebody@iliase.de',
 			'',
 			'',
@@ -234,6 +305,19 @@ class ilMailTaskWorkerTest extends \ilMailBaseTest
 			null,
 			array()
 		);
+
+		$mailValueObjects[] = new ilMailValueObject(
+			'ilias@server.com',
+			'somebodyelse@iliase.de',
+			'',
+			'',
+			'Greate',
+			'Steve, Steve, Steve. Wait that is not Steve',
+			null,
+			array()
+		);
+
+		$mailValueObjects[] = 'This should fail';
 
 		$userId = 100;
 		$contextId = 5;
