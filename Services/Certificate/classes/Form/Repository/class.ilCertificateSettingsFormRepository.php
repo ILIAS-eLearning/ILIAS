@@ -60,7 +60,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param integer $objectId
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
-	 * @param ilGlobalTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
