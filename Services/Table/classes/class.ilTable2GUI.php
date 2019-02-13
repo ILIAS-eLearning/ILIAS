@@ -48,7 +48,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $ext_seg = false;
 	protected $context = "";
 
-	protected $mi_sel_buttons = null;
+	protected $mi_sel_buttons = [];
 	protected $disable_filter_hiding = false;
 	protected $selected_filter = false;
 	protected $top_commands = true;
@@ -93,6 +93,8 @@ class ilTable2GUI extends ilTableGUI
 	 * @var bool
 	 */
 	protected $select_all_on_top = false;
+
+	protected $sel_buttons = [];
 
 
 	const FILTER_TEXT = 1;
