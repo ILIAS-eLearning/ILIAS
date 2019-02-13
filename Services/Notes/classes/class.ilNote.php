@@ -1045,7 +1045,7 @@ class ilNote
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+				$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($user_id),
 					"", "", $subject, $message, array(), array("system"));
 			}
 		}
