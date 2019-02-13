@@ -36,9 +36,8 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 		ilObject $object,
 		string $certificatePath,
 		ilLanguage $language,
-		ilGlobalTemplate $template,
 		ilCtrl $controller,
-		ilAccess $access,
+		ilAccessHandler $access,
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
 		ilCertificateSettingsFormRepository $settingsFormFactory = null
@@ -51,7 +50,6 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 				$object->getId(),
 				$certificatePath,
 				$language,
-				$template,
 				$controller,
 				$access,
 				$toolbar,
