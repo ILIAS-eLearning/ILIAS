@@ -95,9 +95,9 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
 		if ($input->isDisabled()) {
-			$remove_glyph = $f->glyph()->remove()->withUnavailableAction(true);
+			$remove_glyph = $f->glyph()->remove()->withUnavailableAction();
 		} else {
-			$remove_glyph = $f->glyph()->remove()->withAdditionalOnLoadCode(function ($id) {
+			$remove_glyph = $f->glyph()->remove("")->withAdditionalOnLoadCode(function ($id) {
 				$code = "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
