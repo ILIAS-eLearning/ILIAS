@@ -138,9 +138,9 @@ class Renderer extends AbstractComponentRenderer {
 		$apply = $f->button()->bulky($f->glyph()->apply(), $this->txt("apply"), "");
 
 		if (!$component->isActivated()) {
-			$apply = $apply->withUnavailableAction(true);
+			$apply = $apply->withUnavailableAction();
 			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), "")
-			->withUnavailableAction(true);
+			->withUnavailableAction();
 		} else {
 
 			$apply = $apply->withOnLoadCode(function ($id) {
