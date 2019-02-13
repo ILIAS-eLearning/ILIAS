@@ -269,7 +269,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 			return ilObject::_getIcon(0, 'tiny', 'frm');
 		}
 
-		return ilObject::_getIcon(0, 'tiny', 'frm');
+		return ilObject::_getIcon(0, 'tiny', 'frmp');
 	}
 
 	/**
