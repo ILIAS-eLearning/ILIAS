@@ -39,7 +39,5 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
 		// Setting action not possible for non custom items
 		return;
 	}
-
-
 }
 

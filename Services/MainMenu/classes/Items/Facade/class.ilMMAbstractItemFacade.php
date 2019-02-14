@@ -5,7 +5,14 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\isTopItem;
+use ILIAS\GlobalScreen\MainMenu\Item\Complex;
+use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
 use ILIAS\GlobalScreen\MainMenu\Item\Lost;
+use ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink;
+use ILIAS\GlobalScreen\MainMenu\Item\Separator;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
+use ILIAS\UI\Component\Link\Link;
 
 /**
  * Class ilMMAbstractItemFacade
@@ -198,6 +205,30 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 		}
 
 		return "";
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isCustomType(): bool {
+		$known_core_types = [
+			Complex::class,
+			Link::class,
+			LinkList::class,
+			Lost::class,
+			RepositoryLink::class,
+			Separator::class,
+			TopLinkItem::class,
+			TopParentItem::class,
+		];
+		foreach ($known_core_types as $known_core_type) {
+			if (get_class($this->gs_item) === $known_core_type) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 
