@@ -532,7 +532,7 @@ class ilObjectDefinition// extends ilSaxParser
 				}
 			}
 
-			$subs2 = ilUtil::sortArray($subs, "pos", ASC, true, true);
+			$subs2 = ilUtil::sortArray($subs, "pos", 'ASC', true, true);
 
 			return $subs2;
 		}
