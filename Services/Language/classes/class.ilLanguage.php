@@ -156,7 +156,7 @@ class ilLanguage
 		global $DIC;
 		$ilIliasIniFile = $DIC->iliasIni();
 
-		$this->log = $DIC->logger()->root();
+		$this->log = $DIC->logger()->lang();
 
 		$this->lang_key = $a_lang_key;
 		
@@ -278,7 +278,7 @@ class ilLanguage
 		{
 			if (ILIAS_LOG_ENABLED && is_object($this->log))
 			{
-				$this->log->debug("Language (".$a_lang_key."): topic -".$a_topic."- not present");
+				$this->log->debug("Language (".$this->lang_key."): topic -".$a_topic."- not present");
 			}
 			return "-".$a_topic."-";
 		}
