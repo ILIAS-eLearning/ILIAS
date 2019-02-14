@@ -72,11 +72,14 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
 			return $this->handleAuthenticationFail($status, 'err_wrong_login');
 		}
 		$this->getCredentials()->setUsername(phpCAS::getUser());
+		$this->getLogger()->debug('CAS authentication OK for user ' . phpCAS::getUser());
 
 		// check and handle ldap data sources
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
-		if(ilLDAPServer::isDataSourceActive(AUTH_CAS))
+		// Fixed : AUTH_CAS -> AUTH_LDAP
+		if(ilLDAPServer::isDataSourceActive(AUTH_LDAP))
 		{
+			$this->getLogger()->debug('CAS LDAP DataSource is active');
 			return $this->handleLDAPDataSource($status);
 		}
 
@@ -89,6 +92,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
 			$status->setAuthenticatedUserId(ilObjUser::_lookupId($local_user));
 			return true;
 		}
+		$this->getLogger()->debug('CAS found user : [' . $local_user . ']');
 
 		if(!$this->getSettings()->isUserCreationEnabled())
 		{
@@ -121,17 +125,32 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
 	protected function handleLDAPDataSource(\ilAuthStatus $status)
 	{
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		// Fixed : AUTH_CAS -> AUTH_LDAP
 		$server = ilLDAPServer::getInstanceByServerId(
-			ilLDAPServer::getDataSource(AUTH_CAS)
+			ilLDAPServer::getDataSource(AUTH_LDAP)
 		);
 
+		$this->getLogger()->debug('LDAP Serveur :' . $server->getName());
 		$this->getLogger()->debug('Using ldap data source for user: ' . $this->getCredentials()->getUsername());
 
 		include_once './Services/LDAP/classes/class.ilLDAPUserSynchronisation.php';
-		$sync = new ilLDAPUserSynchronisation('cas', $server->getServerId());
+		// TODO check if Sync works
+		// Fixed : synh to LDAP
+		//$sync = new ilLDAPUserSynchronisation('cas', $server->getServerId());
+		$sync = new ilLDAPUserSynchronisation('ldap_'.$server->getServerId(), $server->getServerId());
 		$sync->setExternalAccount($this->getCredentials()->getUsername());
 		$sync->setUserData(array());
-		$sync->forceCreation(true);
+
+		// Fixed : check if user does not exist to force creation
+		$ldap_user = ilObjUser::_checkExternalAuthAccount('ldap_'.$server->getServerId(), $this->getCredentials()->getUsername());
+
+		if ( strlen($ldap_user) == 0 )
+			$force_creation = true;
+		else
+			$force_creation = false;
+
+		$this->getLogger()->debug('LDAP force creation : ' . ($force_creation ? '1' : '0'));
+		$sync->forceCreation($_force_creation);
 
 		try {
 			$internal_account = $sync->sync();
