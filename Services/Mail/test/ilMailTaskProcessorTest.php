@@ -57,7 +57,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			->willReturn($backgroundTask);
 
 
-		$worker = new ilMailTaskProcessor(
+		$worker = new ilMassMailTaskProcessor(
 			$taskManager,
 			$taskFactory,
 			$this->languageMock,
@@ -123,7 +123,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			->method('createTask')
 			->willReturn($backgroundTask);
 
-		$worker = new ilMailTaskProcessor(
+		$worker = new ilMassMailTaskProcessor(
 			$taskManager,
 			$taskFactory,
 			$this->languageMock,
@@ -198,7 +198,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			->method('createTask')
 			->willReturn($backgroundTask);
 
-		$worker = new ilMailTaskProcessor(
+		$worker = new ilMassMailTaskProcessor(
 			$taskManager,
 			$taskFactory,
 			$this->languageMock,
@@ -285,7 +285,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			->method('createTask')
 			->willReturn($backgroundTask);
 
-		$worker = new ilMailTaskProcessor(
+		$worker = new ilMassMailTaskProcessor(
 			$taskManager,
 			$taskFactory,
 			$this->languageMock,

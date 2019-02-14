@@ -5152,7 +5152,7 @@ return array(
     'ilMailSearchLuceneResultParser' => $baseDir . '/../../Services/Mail/classes/class.ilMailSearchLuceneResultParser.php',
     'ilMailSearchResult' => $baseDir . '/../../Services/Mail/classes/class.ilMailSearchResult.php',
     'ilMailSummaryNotification' => $baseDir . '/../../Services/Mail/classes/class.ilMailSummaryNotification.php',
-    'ilMailTaskProcessor' => $baseDir . '/../../Services/Mail/classes/BackgroundTask/class.ilMailTaskProcessor.php',
+    'ilMassMailTaskProcessor' => $baseDir . '/../../Services/Mail/classes/BackgroundTask/class.ilMailTaskProcessor.php',
     'ilMailTemplate' => $baseDir . '/../../Services/Mail/classes/class.ilMailTemplate.php',
     'ilMailTemplateContext' => $baseDir . '/../../Services/Mail/classes/class.ilMailTemplateContext.php',
     'ilMailTemplateContextService' => $baseDir . '/../../Services/Mail/classes/class.ilMailTemplateContextService.php',

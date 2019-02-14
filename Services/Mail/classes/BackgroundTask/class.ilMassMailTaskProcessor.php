@@ -9,7 +9,7 @@ use ILIAS\DI\Container;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilMailTaskProcessor
+class ilMassMailTaskProcessor
 {
 	/**
 	 * @var TaskManager

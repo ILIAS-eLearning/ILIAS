@@ -253,7 +253,7 @@ class ilMailEventNotificationSender extends ilMailNotification
 			$contextParameters = array();
 		}
 
-		$processor = new ilMailTaskProcessor();
+		$processor = new ilMassMailTaskProcessor();
 
 		$processor->run(
 			$mailObjects,

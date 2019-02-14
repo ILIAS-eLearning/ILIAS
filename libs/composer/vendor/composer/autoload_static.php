@@ -5489,7 +5489,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMailSearchLuceneResultParser' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailSearchLuceneResultParser.php',
         'ilMailSearchResult' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailSearchResult.php',
         'ilMailSummaryNotification' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailSummaryNotification.php',
-        'ilMailTaskProcessor' => __DIR__ . '/../..' . '/../../Services/Mail/classes/BackgroundTask/class.ilMailTaskProcessor.php',
+        'ilMassMailTaskProcessor' => __DIR__ . '/../..' . '/../../Services/Mail/classes/BackgroundTask/class.ilMailTaskProcessor.php',
         'ilMailTemplate' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailTemplate.php',
         'ilMailTemplateContext' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailTemplateContext.php',
         'ilMailTemplateContextService' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailTemplateContextService.php',
