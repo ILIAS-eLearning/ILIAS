@@ -168,7 +168,7 @@ class ilAdministrationSettingsFormHandler
 		include_once "Services/Cron/classes/class.ilCronManagerGUI.php";
 		$gui = new ilCronManagerGUI();
 		$data = $gui->addToExternalSettingsForm($a_form_id);
-		if(sizeof($data))
+		if(is_array($data) && sizeof($data))
 		{
 			self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
 		}
