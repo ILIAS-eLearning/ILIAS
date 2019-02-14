@@ -140,21 +140,22 @@ interface Factory {
 	 *       Secondary Panels are used to display marginal content related to the current page context.
 	 *   composition: >
 	 *       Secondary Panels consist of content section and may have a title.
-	 *       The content section may contain a Listing Panel.
-	 *       The content section may contain a Standard Panel when legacy content has to be presented.
+	 *       The content section may contain a Listing Panel or UI Legacy component. A Good example of when use a Legacy
+	 *       component is current mini calendar block.
 	 *       The content section may contain a Pagination view controller or a Section view controller.
 	 *   rivals:
 	 *      Slate: >
-	 *        Secondary Panels should be used to contain content or components that have a strong relationship to the current
-	 *        screen context. Slates are used to display components that should be available independent from the current screen.
-	 *        Slates depend on a component that toggles their visibility, Secondary Panels don't.
+	 *        Secondary Panels are used to present secondary information or content that should appear in combination with the current
+	 *        Center Content. Secondary panels are configured by the institution.
+	 *        The visibility of Slates is usually triggered by a user interaction and thus not a result of
+	 *        configuration done by the institution.
 	 *
 	 * rules:
 	 *   usage:
 	 *      1: Secondary Panels MUST NOT be inside the Center Content as primary Container for grouping content of varying content.
 	 *
 	 *   composition:
-	 *      1: Secondary Panels MUST contain a Listing Panel or Standard Panel.
+	 *      1: Secondary Panels MUST contain a Listing Panel or an UI Legacy component.
 	 *      2: Secondary Panels MAY contain a Section view control to change the current presentation of the content.
 	 *      3: Secondary Panels MAY contain a Pagination view control to display data in chunks.
 	 *      4: Secondary Panels MUST NOT contain more than one UI ViewControl.
