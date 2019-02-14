@@ -631,7 +631,7 @@ class ilObjectDefinition// extends ilSaxParser
 				$recursivesubs[$a_obj_type]['pos'] = -1;
 			}
 		}
-		return ilUtil::sortArray($recursivesubs, "pos", ASC, true, true);
+		return ilUtil::sortArray($recursivesubs, "pos", 'ASC', true, true);
 	}
 	
 
