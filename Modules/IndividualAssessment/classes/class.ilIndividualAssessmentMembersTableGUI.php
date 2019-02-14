@@ -123,9 +123,15 @@ class ilIndividualAssessmentMembersTableGUI {
 			return [];
 		}
 
+		$changer = array();
+		if (!is_null($record->changerId())) {
+			$changer = $this->getChangerText((int)$record->changerId());
+		}
+
 		return array_merge(
 			$this->getGradedInformations($record->eventTime()),
-			$this->getExaminerLogin($this->getExaminerId($record))
+			$this->getExaminerLogin($this->getExaminerId($record)),
+			$changer
 		);
 	}
 
@@ -261,6 +267,16 @@ class ilIndividualAssessmentMembersTableGUI {
 
 		return array(
 			$this->txt("iass_graded_by").": " => ilObjUser::_lookupLogin($examiner_id)
+		);
+	}
+
+	/**
+	 * Returns changer, if exists.
+	 */
+	protected function getChangerText(int $changer_id): array
+	{
+		return array(
+			$this->txt("iass_changed_last_by").": " => ilObjUser::_lookupLogin($changer_id)
 		);
 	}
 

@@ -14912,6 +14912,7 @@ iass#:#iass_filter_failed#:#Nur nicht bestanden
 iass#:#iass_file#:#Datei
 iass#:#iass_download#:#Download
 iass#:#iass_sort#:#Sortierung
+iass#:#iass_changed_last_by#:#Prüfungsdaten zuletzt geändert durch
 iass#:#iass_sort_name_asc#:#Benutzername → aufsteigend
 iass#:#iass_sort_name_desc#:#Benutzername → absteigend
 iass#:#iass_sort_examiner_login_asc#:#Prüfer → aufsteigend
