@@ -35,6 +35,34 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 		$this->settings = $settings;
 	}
 
+	protected function printMembers()
+	{
+		$this->checkPermission('read');
+		if($this->checkRbacOrPositionAccessBool('manage_members','manage_members')) {
+			$back_cmd = 'participants';
+		} else {
+			$back_cmd = 'jump2UsersGallery';
+		}
+
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('back'),
+			$this->ctrl->getLinkTarget($this, $back_cmd)
+		);
+
+		$list = $this->initAttendanceList();
+		$form = $list->initForm('printMembersOutput');
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	public function getDefaultCommand()
+	{
+		$back_cmd = $_GET['back_cmd'];
+		return $back_cmd;
+	}
+
 	/**
 	 * Filter user ids by access
 	 * @param int[] $a_user_ids
@@ -71,7 +99,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 				case $object->getDefaultAdminRole():
 					$members->add($new_member, IL_LSO_ADMIN);
 					$members->sendNotification(
-						ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER,
 						$new_member
 					);
 					$assigned = true;
@@ -79,7 +107,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 				case $object->getDefaultMemberRole();
 					$members->add($new_member, IL_LSO_MEMBER);
 					$members->sendNotification(
-						ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER,
 						$new_member
 					);
 					$assigned = true;
@@ -95,14 +123,14 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 					}
 
 					$members->sendNotification(
-						ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER,
 						$new_member
 					);
 					$assigned = true;
 					break;
 			}
 		}
-		
+
 		if ($assigned) {
 			ilUtil::sendSuccess($this->lng->txt("lso_msg_member_assigned"),true);
 		} else {
