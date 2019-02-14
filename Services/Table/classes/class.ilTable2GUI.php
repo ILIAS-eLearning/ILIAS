@@ -65,7 +65,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $open_form_tag = true;
 	protected $close_form_tag = true;
 
-	protected $export_formats;
+	protected $export_formats = [];
 	protected $export_mode;
 	protected $print_mode;
 
