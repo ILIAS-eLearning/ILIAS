@@ -52,4 +52,15 @@ class Group extends Input implements C\Input\Field\Group {
 		$clone->inputs = $inputs;
 		return $clone;
 	}
+
+	public function withRequired($is_required) {
+		$clone = parent::withRequired($is_required);
+		$inputs = [];
+		foreach ($this->inputs as $key => $input)
+		{
+			$inputs[$key] = $input->withRequired($is_required);
+		}
+		$clone->inputs = $inputs;
+		return $clone;
+	}
 }

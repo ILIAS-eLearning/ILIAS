@@ -49,4 +49,24 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
 	}
+
+	public function testWithRequiredRequiresChildren() {
+		$this->assertNotSame($this->child1, $this->child2);
+
+		$this->child1
+			->expects($this->once())
+			->method("withRequired")
+			->with(true)
+			->willReturn($this->child2);
+		$this->child2
+			->expects($this->once())
+			->method("withRequired")
+			->with(true)
+			->willReturn($this->child1);
+
+		$new_group = $this->group->withRequired(true);
+
+		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
+	}
+	
 }
