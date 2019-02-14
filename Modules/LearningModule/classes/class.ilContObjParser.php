@@ -504,8 +504,9 @@ class ilContObjParser extends ilMDSaxParser
 
 		if (is_array($attr))
 		{
-			while (list($k,$v) = each($attr))
-				$tag.= " ".$k."=\"$v\"";
+			foreach ($attr as $k => $v) {
+				$tag .= " " . $k . "=\"$v\"";
+			}
 		}
 
 		$tag.= ">";
