@@ -61,7 +61,7 @@ class ilLoggingErrorSettings {
 	protected function read() {
 		$this->setFolder($this->ilias_ini->readVariable("log","error_path"));
 
-		if($this->gClientIniFile) {
+		if ($this->gClientIniFile instanceof \ilIniFile) {
 			$this->setMail($this->gClientIniFile->readVariable("log","error_recipient"));
 		}
 	}
@@ -70,8 +70,10 @@ class ilLoggingErrorSettings {
 	 * writes mail recipient into client.ini.php
 	 */
 	public function update() {
-		$this->gClientIniFile->addGroup("log");
-		$this->gClientIniFile->setVariable("log", "error_recipient", trim($this->mail()));
-		$this->gClientIniFile->write();
+		if ($this->gClientIniFile instanceof \ilIniFile) {
+			$this->gClientIniFile->addGroup("log");
+			$this->gClientIniFile->setVariable("log", "error_recipient", trim($this->mail()));
+			$this->gClientIniFile->write();
+		}
 	}
 }
