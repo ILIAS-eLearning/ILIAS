@@ -51,6 +51,9 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	 * @var ilForumPost|null
 	 */
 	protected $root_node = null;
+	
+	/** @var \ilForumAuthorInformation[]  */
+	protected $authorInformation = [];
 
 	/**
 	 * {@inheritdoc}
@@ -185,12 +188,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 			return $tpl->get();
 		}
 
-		$authorinfo = new ilForumAuthorInformation(
-			$a_node['pos_author_id'],
-			$a_node['pos_display_user_id'],
-			$a_node['pos_usr_alias'],
-			$a_node['import_name']
-		);
+		$authorinfo = $this->getAuthorInformationByNode($a_node);
 
 		$tpl->setCurrentBlock('unlinked-node-content-block');
 		$tpl->setVariable('UNLINKED_CONTENT_CLASS', $this->getUnlinkedNodeContentClass());
@@ -253,6 +251,24 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	}
 
 	/**
+	 * @param array $node
+	 * @return \ilForumAuthorInformation
+	 */
+	private function getAuthorInformationByNode(array $node): \ilForumAuthorInformation
+	{
+		if (isset($this->authorInformation[(int)$node['pos_pk']])) {
+			return $this->authorInformation[(int)$node['pos_pk']];
+		}
+
+		return $this->authorInformation[(int)$node['pos_pk']] = new ilForumAuthorInformation(
+			$node['pos_author_id'],
+			$node['pos_display_user_id'],
+			$node['pos_usr_alias'],
+			$node['import_name']
+		);
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getNodeId($a_node)
@@ -269,7 +285,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 			return ilObject::_getIcon(0, 'tiny', 'frm');
 		}
 
-		return ilObject::_getIcon(0, 'tiny', 'frmp');
+		return $this->getAuthorInformationByNode($a_node)->getProfilePicture();
 	}
 
 	/**
