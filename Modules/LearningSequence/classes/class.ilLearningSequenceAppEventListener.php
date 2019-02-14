@@ -28,6 +28,19 @@ class ilLearningSequenceAppEventListener
 						break;
 				}
 				break;
+
+			case "Modules/LearningSequence":
+				switch ($event) {
+					case "deleteParticipant":
+						self::onParticipantDeletion($parameter);
+
+						break;
+					case "addParticipant":
+					default:
+						break;
+				}
+				break;
+
 			default:
 				throw new ilException(
 					"ilLearningSequenceAppEventListener::handleEvent: ".
@@ -44,10 +57,23 @@ class ilLearningSequenceAppEventListener
 
 	private static function onObjectDeletion($parameter)
 	{
-		$handler = new ilLSEventHandler(self::getIlTree());
+		$handler = self::getLSEventHandler();
 		$handler->handleObjectDeletion($parameter);
 	}
 
+	private static function onParticipantDeletion($parameter)
+	{
+		$handler = self::getLSEventHandler();
+		$obj_id = (int)$parameter['obj_id'];
+		$usr_id = (int)$parameter['usr_id'];
+
+		$handler->handleParticipantDeletion($obj_id, $usr_id);
+	}
+
+	protected static function getLSEventHandler(): ilLSEventHandler
+	{
+		return new ilLSEventHandler(self::getIlTree());
+	}
 
 	protected static function getIlTree(): ilTree
 	{
