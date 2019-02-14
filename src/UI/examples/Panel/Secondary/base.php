@@ -12,7 +12,7 @@ function base() {
 
 	$panel = $f->panel()->secondary(
 		"Secondary Panel Title",
-		$f->panel()->standard("Standard Panel Title",$f->legacy("Standard panel content")))->withActions($actions);
+		$f->legacy("Legacy content here"))->withActions($actions);
 
 	return $renderer->render($panel);
 }
