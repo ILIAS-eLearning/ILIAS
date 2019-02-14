@@ -42,8 +42,11 @@ class PluginSerializer implements SerializerInterface {
 		if (!class_exists($class_name)) {
 			return new NullPluginIdentification($plugin_id, $serialized_string, $internal_identifier);
 		}
-
-		$f = new PluginIdentificationProvider(new $class_name($DIC), $plugin_id, $this, $map);
+		try {
+			$f = new PluginIdentificationProvider(new $class_name($DIC), $plugin_id, $this, $map);
+		} catch (\TypeError $e) {
+			return new NullIdentification();
+		}
 
 		return $f->identifier($internal_identifier);
 	}

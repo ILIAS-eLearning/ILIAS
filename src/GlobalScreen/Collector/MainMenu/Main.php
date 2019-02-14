@@ -239,9 +239,6 @@ class Main {
 				if ($top_item instanceof hasTitle && $this->information) {
 					$top_item = $this->information->translateItemForUser($top_item);
 				}
-				if ($top_item instanceof isItem) {
-					$top_item->setTypeInformation($this->type_information_collection->get(get_class($top_item)));
-				}
 				$this->addItemToMap($top_item);
 				// self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
 				// self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
@@ -361,6 +358,10 @@ class Main {
 	 * @param isItem $item
 	 */
 	private function addItemToMap(isItem $item) {
+		if ($item instanceof isItem) {
+			$item->setTypeInformation($this->type_information_collection->get(get_class($item)));
+		}
+
 		if ($item instanceof isTopItem) {
 			self::$topitems[$item->getProviderIdentification()->serialize()] = $item;
 		}
