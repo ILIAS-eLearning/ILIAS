@@ -6,13 +6,14 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
+use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use ILIAS\UI\Component\Input\Field\Input;
 use \ILIAS\Data;
 use \ILIAS\Validation;
 use \ILIAS\Transformation;
 
-interface Input1 extends Input {};
-interface Input2 extends Input {};
+interface Input1 extends InputInternal {};
+interface Input2 extends InputInternal {};
 
 class GroupInputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
@@ -68,5 +69,17 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
 	}
-	
+
+	public function testGroupMayOnlyHaveInputChildren() {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->group = new Group(
+			$this->data_factory,
+			$this->validation_factory,
+			$this->transformation_factory,
+			["foo", "bar"],
+			"LABEL",
+			"BYLINE"
+		);
+	}
 }
