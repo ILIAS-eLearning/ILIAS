@@ -89,7 +89,7 @@ class ilMassMailTaskProcessor
 	 * @param int $userId - User ID of the user who executes the background task
 	 * @param string $contextId - context ID of the Background task
 	 * @param array $contextParameters - context parameters for the background tasks
-	 * @param int $tasksBeforeExecution - Defines how many tasks will be added consecutive before running
+	 * @param int $mailsPerTask - Defines how many mails will be added before a background task is executed
 	 * @throws ilException
 	 */
 	public function run(
@@ -97,12 +97,16 @@ class ilMassMailTaskProcessor
 		int $userId,
 		string $contextId,
 		array $contextParameters,
-		int $tasksBeforeExecution = 100
+		int $mailsPerTask = 100
 	) {
 		$objectsServiceSize = sizeof($mailValueObjects);
 
 		if ($objectsServiceSize <= 0) {
 			throw new ilException('First parameter must contain at least 1 array element');
+		}
+
+		if ($mailsPerTask <= 0) {
+			throw new ilException(sprintf('The mails per task MUST be a positive integer, "%s" given', $mailsPerTask));
 		}
 
 		$lastTask = null;
@@ -117,7 +121,7 @@ class ilMassMailTaskProcessor
 			$taskCounter++;
 
 			$remainingObjects[] = $mailValueObject;
-			if ($taskCounter === $tasksBeforeExecution) {
+			if ($taskCounter === $mailsPerTask) {
 				$jsonString = $this->objectJsonService->convertToJson($remainingObjects);
 
 				$task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
