@@ -403,7 +403,7 @@ class ilForumPostDraft
 	 * @param $thread_id
 	 * @return \ilForumPostDraft[]
 	 */
-	public static function getInstancesByUserIdAndThreadId($user_id, $thread_id): array 
+	public static function getInstancesByUserIdAndThreadId($user_id, $thread_id) 
 	{
 		if(!self::$instances[$user_id])
 		{
