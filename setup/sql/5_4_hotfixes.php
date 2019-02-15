@@ -285,3 +285,7 @@ foreach($tpl_perms as $template=>$perms){
 	ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', $op_ids,	ROLE_FOLDER_ID);
 }
 ?>
+<#23>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
