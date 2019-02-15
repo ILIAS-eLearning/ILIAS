@@ -1072,7 +1072,7 @@ abstract class ilPlugin {
 	 *
 	 * @return ilPlugin
 	 */
-	public static function getPluginObject(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname): ilPlugin {
+	public static function getPluginObject(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) {
 		$slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
 		$cached_component = ilCachedComponentData::getInstance();
