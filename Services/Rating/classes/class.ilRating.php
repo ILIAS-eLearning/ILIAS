@@ -297,7 +297,7 @@ class ilRating
 		
 		$set = $ilDB->query("SELECT id, rating".
 			" FROM content_object".
-			" WHERE ".$ilDB->in("id", $a_obj_ids, "", integer));
+			" WHERE ".$ilDB->in("id", $a_obj_ids, "", 'integer'));
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$id = "lm/".$row["id"];
