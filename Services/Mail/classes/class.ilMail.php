@@ -25,6 +25,9 @@ class ilMail
 	/** @var ilMailOptions */
 	protected $mail_options;
 
+	/** @var \ilMailbox */
+	protected $mailbox;
+
 	/** @var int */
 	public $user_id;
 
@@ -117,6 +120,7 @@ class ilMail
 
 		$this->mfile            = new ilFileDataMail($this->user_id);
 		$this->mail_options     = new ilMailOptions($a_user_id);
+		$this->mailbox          = new ilMailbox($this->user_id);
 
 		$this->setSaveInSentbox(false);
 		$this->readMailObjectReferenceId();
@@ -660,7 +664,7 @@ class ilMail
 	* @param    array|null  $a_tpl_context_params
 	* @return	integer mail_id
 	*/
-	public function sendInternalMail(
+	private function sendInternalMail(
 		$a_folder_id, $a_sender_id, $a_attachments, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc,
 		$a_status, $a_m_type, $a_m_email, $a_m_subject, $a_m_message, $a_user_id = 0,
 		$a_use_placeholders = 0, $a_tpl_context_id = null, $a_tpl_context_params = array()
@@ -707,16 +711,23 @@ class ilMail
 			'tpl_ctx_params' => array('blob', @json_encode((array)$a_tpl_context_params))
 		));
 
-		$this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
-			'id' => (int)$nextId,
-			'subject' => (string)$a_m_subject,
-			'body' => (string)$a_m_message,
-			'from_usr_id' => (int)$a_sender_id,
-			'to_usr_id' => (int)$a_user_id,
-			'rcp_to' => (string)$a_rcp_to,
-			'rcp_cc' => (string)$a_rcp_cc,
-			'rcp_bcc' => (string)$a_rcp_bcc,
-		]);
+		$raiseEvent = (int)$a_user_id !== (int)$this->mailbox->getUserId();
+		if (!$raiseEvent) {
+			$raiseEvent = (int)$a_folder_id !== (int)$this->mailbox->getSentFolder();
+		}
+
+		if ($raiseEvent) {
+			$this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
+				'id'          => (int)$nextId,
+				'subject'     => (string)$a_m_subject,
+				'body'        => (string)$a_m_message,
+				'from_usr_id' => (int)$a_sender_id,
+				'to_usr_id'   => (int)$a_user_id,
+				'rcp_to'      => (string)$a_rcp_to,
+				'rcp_cc'      => (string)$a_rcp_cc,
+				'rcp_bcc'     => (string)$a_rcp_bcc,
+			]);
+		}
 
 		return $nextId;
 	}
@@ -1312,13 +1323,8 @@ class ilMail
 	 */
 	protected function saveInSentbox($a_attachment, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_type, $a_m_subject, $a_m_message)
 	{
-		require_once 'Services/Mail/classes/class.ilMailbox.php';
-
-		$mbox           = new ilMailbox($this->user_id);
-		$sent_folder_id = $mbox->getSentFolder();
-
 		return $this->sendInternalMail(
-			$sent_folder_id, $this->user_id, $a_attachment, 
+			$this->mailbox->getSentFolder(), $this->user_id, $a_attachment, 
 			$a_rcp_to,$a_rcp_cc, $a_rcp_bcc,
 			'read', $a_type, 0,
 			$a_m_subject, $a_m_message, $this->user_id, 0

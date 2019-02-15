@@ -472,7 +472,15 @@ class ilMailbox
 	{
 		$this->user_id = $a_user_id;
 	}
-	
+
+	/**
+	 * @return int
+	 */
+	public function getUserId(): int
+	{
+		return (int)$this->user_id;
+	}
+
 	/**
 	* deletes user's mailbox and all db entries related to mailbox
 	* TODO: stefan, bitte nochmal kontrollieren, ob auch wirklich alles gel�scht wird.
