@@ -83,7 +83,7 @@ class ilSearchSettings
 		return array(
 			'crs' => array('filter' => 'type:crs','trans' => 'objs_crs'),
 			'grp' => array('filter' => 'type:grp', 'trans' => 'objs_grp'),
-			'lms' => array('filter' => 'type:lm OR type:htlm OR type:sahs OR type:dbk','trans' => 'learning_resource'),
+			'lms' => array('filter' => 'type:lm OR type:htlm','trans' => 'obj_lrss'),
 			'glo' => array('filter' => 'type:glo','trans' => 'objs_glo'),
 			'mep' => array('filter' => 'type:mep', 'trans' => 'objs_mep'),
 			'tst' => array('filter' => 'type:tst OR type:svy OR type:qpl OR type:spl','trans' => 'search_tst_svy'),
