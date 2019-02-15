@@ -388,7 +388,7 @@ class ilFileUploadGUI
 	
 	private function makeJqueryId($a_id)
 	{
-		if ($a_id != null && count($a_id) > 0)
+		if ($a_id != null && is_array($a_id) && count($a_id) > 0)
 		{
 			if ($a_id[0] != "#")
 				return "#" . $a_id;
