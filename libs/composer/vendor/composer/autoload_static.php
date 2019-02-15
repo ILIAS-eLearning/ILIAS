@@ -917,6 +917,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\GlobalScreen\\Provider\\DynamicProvider' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/DynamicProvider.php',
         'ILIAS\\GlobalScreen\\Provider\\DynamicProvider\\DynamicMainMenuProvider' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/DynamicProvider/DynamicMainMenuProvider.php',
         'ILIAS\\GlobalScreen\\Provider\\Provider' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/Provider.php',
+        'ILIAS\\GlobalScreen\\Provider\\ProviderFactory' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/ProviderFactory.php',
+        'ILIAS\\GlobalScreen\\Provider\\ProviderFactoryInterface' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/ProviderFactoryInterface.php',
         'ILIAS\\GlobalScreen\\Provider\\StaticProvider' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/StaticProvider.php',
         'ILIAS\\GlobalScreen\\Provider\\StaticProvider\\AbstractStaticMainMenuProvider' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/StaticProvider/AbstractStaticMainMenuProvider.php',
         'ILIAS\\GlobalScreen\\Provider\\StaticProvider\\AbstractStaticPluginMainMenuProvider' => __DIR__ . '/../..' . '/../../src/GlobalScreen/Provider/StaticProvider/AbstractStaticPluginMainMenuProvider.php',

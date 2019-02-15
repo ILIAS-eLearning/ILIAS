@@ -580,6 +580,8 @@ return array(
     'ILIAS\\GlobalScreen\\Provider\\DynamicProvider' => $baseDir . '/../../src/GlobalScreen/Provider/DynamicProvider.php',
     'ILIAS\\GlobalScreen\\Provider\\DynamicProvider\\DynamicMainMenuProvider' => $baseDir . '/../../src/GlobalScreen/Provider/DynamicProvider/DynamicMainMenuProvider.php',
     'ILIAS\\GlobalScreen\\Provider\\Provider' => $baseDir . '/../../src/GlobalScreen/Provider/Provider.php',
+    'ILIAS\\GlobalScreen\\Provider\\ProviderFactory' => $baseDir . '/../../src/GlobalScreen/Provider/ProviderFactory.php',
+    'ILIAS\\GlobalScreen\\Provider\\ProviderFactoryInterface' => $baseDir . '/../../src/GlobalScreen/Provider/ProviderFactoryInterface.php',
     'ILIAS\\GlobalScreen\\Provider\\StaticProvider' => $baseDir . '/../../src/GlobalScreen/Provider/StaticProvider.php',
     'ILIAS\\GlobalScreen\\Provider\\StaticProvider\\AbstractStaticMainMenuProvider' => $baseDir . '/../../src/GlobalScreen/Provider/StaticProvider/AbstractStaticMainMenuProvider.php',
     'ILIAS\\GlobalScreen\\Provider\\StaticProvider\\AbstractStaticPluginMainMenuProvider' => $baseDir . '/../../src/GlobalScreen/Provider/StaticProvider/AbstractStaticPluginMainMenuProvider.php',
