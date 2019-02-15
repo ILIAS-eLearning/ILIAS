@@ -45,6 +45,9 @@ class ilMail
 
 	protected $appendInstallationSignature = false;
 
+	/** @var ilAppEventHandler */
+	private $eventHandler;
+
 	/**
 	 * Used to store properties which should be set/get at runtime
 	 * @var array
@@ -60,9 +63,7 @@ class ilMail
 	/** @var ilMailRfc822AddressParserFactory */
 	private $mailAddressParserFactory;
 
-	/**
-	 * @var mixed|null
-	 */
+	/** @var mixed|null */
 	protected $contextId = null;
 
 	/**
@@ -71,15 +72,17 @@ class ilMail
 	protected $contextParameters = [];
 
 	/**
-	 * @param integer $a_user_id
-	 * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
+	 * @param integer                               $a_user_id
+	 * @param ilMailAddressTypeFactory|null         $mailAddressTypeFactory
 	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
+	 * @param ilAppEventHandler|null                $eventHandler
 	 */
 	public function __construct(
 		$a_user_id,
 		ilMailAddressTypeFactory $mailAddressTypeFactory = null,
-		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
-	{
+		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null,
+		\ilAppEventHandler $eventHandler = null
+	) {
 		global $DIC;
 
 		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
@@ -93,8 +96,13 @@ class ilMail
 			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
 		}
 
+		if ($eventHandler === null) {
+			$eventHandler = $DIC->event();
+		}
+
 		$this->mailAddressParserFactory = $mailAddressParserFactory;
 		$this->mailAddressTypeFactory = $mailAddressTypeFactory;
+		$this->eventHandler = $eventHandler;
 
 		$this->lng              = $DIC->language();
 		$this->db               = $DIC->database();
@@ -648,9 +656,9 @@ class ilMail
 		if(!$a_m_subject)	$a_m_subject = NULL;
 		if(!$a_m_message)	$a_m_message = NULL;
 
-		$next_id = $this->db->nextId($this->table_mail);
+		$nextId = $this->db->nextId($this->table_mail);
 		$this->db->insert($this->table_mail, array(
-			'mail_id'        => array('integer', $next_id),
+			'mail_id'        => array('integer', $nextId),
 			'user_id'        => array('integer', $a_user_id),
 			'folder_id'      => array('integer', $a_folder_id),
 			'sender_id'      => array('integer', $a_sender_id),
@@ -668,7 +676,18 @@ class ilMail
 			'tpl_ctx_params' => array('blob', @json_encode((array)$a_tpl_context_params))
 		));
 
-		return $next_id;
+		$this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
+			'id' => (int)$nextId,
+			'subject' => (string)$a_m_subject,
+			'body' => (string)$a_m_message,
+			'from_usr_id' => (int)$a_sender_id,
+			'to_usr_id' => (int)$a_user_id,
+			'rcp_to' => (string)$a_rcp_to,
+			'rcp_cc' => (string)$a_rcp_cc,
+			'rcp_bcc' => (string)$a_rcp_bcc,
+		]);
+
+		return $nextId;
 	}
 
 	/**
