@@ -110,7 +110,6 @@ class ilTestPDFGenerator
 		{
 			$filename .= '.pdf';
 		}
-		$filename = ilUtil::getASCIIFilename($filename);
 		$pdf_factory = new ilHtmlToPdfTransformerFactory();
 		$pdf_factory->deliverPDFFromHTMLString($pdf_output, $filename, $output_mode, self::service, $purpose);
 
