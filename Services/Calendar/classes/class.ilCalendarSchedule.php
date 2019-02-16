@@ -365,7 +365,7 @@ class ilCalendarSchedule
 	{
 		if(!sizeof($a_cats))
 		{
-			return;
+			return $a_cats;
 		}
 		
 		foreach($this->filters as $filter)
