@@ -17,7 +17,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
-		global $lng;
+		global $DIC;
 
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
@@ -40,7 +40,10 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		if($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK)
 		{
@@ -55,7 +58,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("IMG_PATH", $img_path);
 		$this->tpl->setVariable("IMG_INFO", $img_info);
 
-		$link = $ilCtrl->getLinkTargetByClass(array(ilpermissiongui), 'perm', '', true);
+		$link = $ilCtrl->getLinkTargetByClass(array('ilpermissiongui'), 'perm', '', true);
 		$this->tpl->setVariable("ROLE_LINK", $link);
 		$this->tpl->setVariable("TXT_ROLE", $a_set["role"]);
 
