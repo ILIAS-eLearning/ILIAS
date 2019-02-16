@@ -120,7 +120,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 			'showAcceptanceHistory',
 			$this->criterionTypeFactory,
 			$this->uiFactory,
-			$this->uiRenderer
+			$this->uiRenderer,
+			$this->tpl
 		);
 		$table->setProvider($this->tableDataProviderFactory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
 
