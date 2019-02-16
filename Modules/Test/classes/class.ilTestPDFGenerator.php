@@ -106,8 +106,6 @@ class ilTestPDFGenerator
 			$filename .= '.pdf';
 		}
 		
-		$filename = ilUtil::getASCIIFilename($filename);
-		
 		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
 		
 		$job = new ilPDFGenerationJob();
