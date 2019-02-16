@@ -762,6 +762,17 @@ abstract class assQuestion
 	{
 		return $this->title;
 	}
+	
+	/**
+	 * returns the object title prepared to be used as a filename
+	 *
+	 * @return string
+	 */
+	public function getTitleFilenameCompliant()
+	{
+		require_once 'Services/Utilities/classes/class.ilUtil.php';
+		return ilUtil::getASCIIFilename($this->getTitle());
+	}
 
 	/**
 	* Gets the id of the assQuestion object

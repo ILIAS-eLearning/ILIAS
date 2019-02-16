@@ -3249,7 +3249,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $isPdfDeliveryRequest )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant());
 		}
 		else
 		{
@@ -3328,7 +3328,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if($isPdfDeliveryRequest)
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant());
 		}
 		else
 		{
