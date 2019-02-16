@@ -19,7 +19,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilObjTermsOfService */
 	protected $tos;
 
-	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTemplate */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilGlobalTemplate */
 	protected $tpl;
 
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilCtrl */
@@ -73,7 +73,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 		$this->tos = $this->getMockBuilder(\ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 		$this->criterionTypeFactory = $this->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-		$this->tpl = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->setMethods(['g'])->getMock();
+		$this->tpl = $this->getMockBuilder(\ilGlobalTemplate::class)->disableOriginalConstructor()->getMock();
 		$this->ctrl = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock();
 		$this->lng = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
 		$this->rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
