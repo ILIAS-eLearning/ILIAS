@@ -71,7 +71,7 @@ class ilPersonalProfileGUI
 				$pub_profile_gui = new ilPublicUserProfileGUI($_GET["user_id"]);
 				$pub_profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "showPersonalData"));
 				$ilCtrl->forwardCommand($pub_profile_gui);
-				$tpl->show();
+				$tpl->printToStdout();
 				break;
 
 			case 'ilcertificatemigrationgui':
@@ -793,7 +793,7 @@ class ilPersonalProfileGUI
 
 		$this->tpl->setContent($this->form->getHTML());
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -1052,7 +1052,7 @@ class ilPersonalProfileGUI
 		$pub_profile = new ilPublicUserProfileGUI($ilUser->getId());
 		$ptpl->setVariable("PREVIEW", $pub_profile->getEmbeddable());
 		$this->tpl->setContent($ptpl->get());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -1448,7 +1448,7 @@ class ilPersonalProfileGUI
 		$ilToolbar->addButton($this->lng->txt("pd_import_personal_data"),
 			$ilCtrl->getLinkTarget($this, "importPersonalDataSelection"));
 		
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	
@@ -1503,7 +1503,7 @@ class ilPersonalProfileGUI
 		$this->initPersonalDataImportForm();
 		
 		$tpl->setContent($this->form->getHTML());
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	/**
@@ -1591,7 +1591,7 @@ class ilPersonalProfileGUI
 			$this->setHeader();
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHtml());
-			$tpl->show();
+			$tpl->printToStdout();
 		}
 	}
 

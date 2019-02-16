@@ -708,7 +708,7 @@ class ilDBGenerator {
 	 * @param    string        output filename, if no filename is given, script is echoed
 	 */
 	public function getHTMLOverview($a_filename = "") {
-		$tpl = new ilTemplate("tpl.db_overview.html", true, true, "Services/Database");
+		$tpl = new ilGlobalTemplate("tpl.db_overview.html", true, true, "Services/Database");
 
 		$this->getTables();
 		$cnt = 1;

@@ -388,7 +388,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$mail->setSaveInSentbox(false);
 		$mail->appendInstallationSignature(true);
-		$mail->sendMail($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array(), $type);
+		$mail->validateAndEnqueue($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array(), $type);
 
 		ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));
 		$this->showExternalSettingsFormObject();

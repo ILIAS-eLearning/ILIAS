@@ -248,7 +248,7 @@ class ilLearningProgressBaseGUI
 		{
 			case self::LP_CONTEXT_PERSONAL_DESKTOP:
 
-				$this->tpl->show(true);
+				$this->tpl->printToStdout(true);
 		}
 	}
 

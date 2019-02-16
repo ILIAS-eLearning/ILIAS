@@ -114,6 +114,12 @@ interface ilMMItemFacadeInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isCustomType(): bool;
+
+
+	/**
 	 * @return string
 	 */
 	public function getParentIdentificationString(): string;
@@ -129,6 +135,12 @@ interface ilMMItemFacadeInterface {
 	 * @return bool
 	 */
 	public function isTopItem(): bool;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isInLostItem(): bool;
 
 
 	//

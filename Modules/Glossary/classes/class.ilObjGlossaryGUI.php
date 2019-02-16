@@ -346,13 +346,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			{
 				if (!$this->getCreationMode())
 				{
-					$this->tpl->show();
+					$this->tpl->printToStdout();
 				}
 			}
 		}
 		else
 		{
-			$this->tpl->show(false);
+			$this->tpl->printToStdout(false);
 		}
 	}
 
@@ -1336,7 +1336,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function getTemplate()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		$title = $this->object->getTitle();
 

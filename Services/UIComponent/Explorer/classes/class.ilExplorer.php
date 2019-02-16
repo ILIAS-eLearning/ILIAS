@@ -900,7 +900,7 @@ class ilExplorer
 		
 		if ($this->getUseStandardFrame())
 		{
-			$mtpl = new ilTemplate("tpl.main.html", true, true);
+			$mtpl = new ilGlobalTemplate("tpl.main.html", true, true);
 			$mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 			$mtpl->setVariable("BODY_CLASS", "il_Explorer");
 			$mtpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");

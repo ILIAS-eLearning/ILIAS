@@ -276,7 +276,6 @@ class ilExAssignmentEditorGUI
 
 			// Radio for creators
 			$rd_team = new ilRadioGroupInputGUI($lng->txt("exc_team_formation"), "team_creator");
-			$rd_team->setRequired(true);
 
 			$radio_participants = new ilRadioOption(
 				$lng->txt("exc_team_by_participants"),

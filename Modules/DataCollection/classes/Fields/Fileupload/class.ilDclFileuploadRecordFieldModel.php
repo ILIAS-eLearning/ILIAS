@@ -41,6 +41,18 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 				$file_obj->storeUnzipedFile($move_file, $file["name"]);
 			} else {
 				$move_file = $file['tmp_name'];
+				/**
+				 * @var \ILIAS\FileUpload\FileUpload $upload
+				 */
+				$upload = $DIC->upload();
+
+				if (false === $upload->hasBeenProcessed()) {
+					$upload->process();
+				}
+
+				if (false === $upload->hasUploads()) {
+					throw new ilException($this->lng->txt('upload_error_file_not_found'));
+				}
 				$file_obj->getUploadFile($move_file, $file["name"]);
 			}
 

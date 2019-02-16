@@ -1844,7 +1844,7 @@ class ilSurveyParticipantsGUI
 					$mytxt = str_replace("[code]", $user["code"], $mytxt); 		
 					
 					$mail = new ilMail($sender_id);					
-					$mail->sendMail(
+					$mail->validateAndEnqueue(
 						$rcp, // to
 						"", // cc
 						"", // bcc

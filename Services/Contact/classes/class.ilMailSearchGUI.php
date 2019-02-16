@@ -252,7 +252,7 @@ class ilMailSearchGUI
 		{
 			if($_GET["ref"] != "wsp")
 			{
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 			}
 			return;
 		}
@@ -591,7 +591,7 @@ class ilMailSearchGUI
 
 		if($_GET["ref"] != "wsp")
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	

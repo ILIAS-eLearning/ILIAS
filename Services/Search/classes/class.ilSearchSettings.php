@@ -91,7 +91,8 @@ class ilSearchSettings
 			'exc' => array('filter' => 'type:exc','trans' => 'objs_exc'),
 			'file' => array('filter' => 'type:file','trans' => 'objs_file'),
 			'mcst' => array('filter' => 'type:mcst','trans' => 'objs_mcst'),
-			'wiki' => array('filter' => 'type:wiki','trans' => 'objs_wiki')
+			'wiki' => array('filter' => 'type:wiki','trans' => 'objs_wiki'),
+			'copa' => array('filter' => 'type:copa','trans' => 'objs_copa'),
 		);
 	}
 	

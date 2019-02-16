@@ -214,10 +214,14 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		return $data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getDataFromDB()
 	{
 		$query = "SELECT rbac_id, obj_id, obj_type FROM il_meta_rights ".
 			"WHERE description = ".$this->db->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->copyright_id,'text').
+			' AND rbac_id != '.$this->db->quote(0,'integer').
 			" GROUP BY rbac_id";
 
 		$result = $this->db->query($query);

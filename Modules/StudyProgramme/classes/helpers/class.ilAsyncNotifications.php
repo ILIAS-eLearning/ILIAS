@@ -47,10 +47,10 @@ class ilAsyncNotifications {
 		if(!$this->js_init) {
 			$tpl->addJavaScript($this->getJsPath().'ilStudyProgramme.js');
 
-			$templates['info'] = $tpl->getMessageHTML("[MESSAGE]");
-			$templates['success'] = $tpl->getMessageHTML("[MESSAGE]", 'success');
-			$templates['failure'] = $tpl->getMessageHTML("[MESSAGE]", 'failure');
-			$templates['question'] = $tpl->getMessageHTML("[MESSAGE]", 'question');
+			$templates['info'] = ilUtil::getSystemMessageHTML("[MESSAGE]");
+			$templates['success'] = ilUtil::getSystemMessageHTML("[MESSAGE]", 'success');
+			$templates['failure'] = ilUtil::getSystemMessageHTML("[MESSAGE]", 'failure');
+			$templates['question'] = ilUtil::getSystemMessageHTML("[MESSAGE]", 'question');
 
 			$this->addJsConfig('templates', $templates);
 

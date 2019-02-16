@@ -57,6 +57,13 @@ class ilDbSetup {
 		return self::$instances[$client->getId()];
 	}
 
+	/**
+	 * @param \ilClient $client
+	 * @return \ilDbSetup
+	 */
+	public static function getNewInstanceForClient(\ilClient $client): \ilDbSetup {
+		return new self($client);
+	}
 
 	/**
 	 * @param $client_name

@@ -88,7 +88,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI {
 			$ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
 			$action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
 			$m = $factory->modal()
-				->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
+				->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)
 				->withAffectedItems([$ditem]);
 
 			$items[] = $shy = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), "")->withOnClick($m->getShowSignal());

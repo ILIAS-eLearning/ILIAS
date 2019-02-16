@@ -1430,7 +1430,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	{
 		$this->ilHelp->setScreenIdComponent("frm");
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		ilUtil::sendInfo();
 		ilUtil::infoPanel();
 

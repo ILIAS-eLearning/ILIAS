@@ -262,5 +262,16 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	{
 		return false;
 	}
+
+	/**
+	* Decide if this repository plugin uses OrgUnit Permissions
+	*
+	* @return bool
+	*/
+	public function useOrguPermissions(): bool
+	{
+		return false;
+	}
+
 }
 ?>

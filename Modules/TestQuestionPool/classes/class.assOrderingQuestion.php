@@ -911,6 +911,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function validateSolutionSubmit()
 	{
 		$submittedSolutionList = $this->getSolutionListFromPostSubmit();
+		
+		if( !$submittedSolutionList->hasElements() )
+		{
+			return true;
+		}
+		
 		return $this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($submittedSolutionList);
 	}
 
