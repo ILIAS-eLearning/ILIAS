@@ -76,7 +76,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 				
 		$data = array();
 		
-		if(sizeof($a_data))
+		if(is_array($a_data) && sizeof($a_data))
 		{
 			if(!$this->user_id)
 			{
