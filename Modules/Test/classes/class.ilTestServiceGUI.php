@@ -1047,7 +1047,7 @@ class ilTestServiceGUI
 		}
 
 		require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
-		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitle(),PDF_USER_RESULT);
+		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitleFilenameCompliant(),PDF_USER_RESULT);
 	}
 
 	/**
@@ -1184,7 +1184,7 @@ class ilTestServiceGUI
 			require_once 'class.ilTestPDFGenerator.php';
 
 			ilTestPDFGenerator::generatePDF(
-				$content, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT
+				$content, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT
 			);
 		}
 		else
