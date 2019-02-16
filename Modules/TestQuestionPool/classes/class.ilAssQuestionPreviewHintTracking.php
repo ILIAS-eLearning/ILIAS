@@ -119,6 +119,7 @@ class ilAssQuestionPreviewHintTracking
 			$points += $hint->getPoints();
 		}
 		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
 		$requestsStatisticData = new ilAssQuestionHintRequestStatisticData();
 		$requestsStatisticData->setRequestsCount($count);
 		$requestsStatisticData->setRequestsPoints($points);
