@@ -196,12 +196,12 @@ class Main {
 		return $DIC->globalScreen()->mainmenu()->custom(Lost::class, new NullIdentification($identification))
 			->withAlwaysAvailable(true)
 			->setTypeInformation($this->type_information_collection->get(Lost::class))
-			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('deleted_item')}"))
+			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
 			->withVisibilityCallable(
 				function () use ($DIC) {
 					return (bool)($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
 				}
-			)->withTitle($DIC->language()->txt("deleted_item"));
+			)->withTitle($DIC->language()->txt("mme_lost_item_title"));
 	}
 
 
@@ -238,9 +238,6 @@ class Main {
 			foreach ($provider->getStaticTopItems() as $top_item) {
 				if ($top_item instanceof hasTitle && $this->information) {
 					$top_item = $this->information->translateItemForUser($top_item);
-				}
-				if ($top_item instanceof isItem) {
-					$top_item->setTypeInformation($this->type_information_collection->get(get_class($top_item)));
 				}
 				$this->addItemToMap($top_item);
 				// self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
@@ -361,6 +358,10 @@ class Main {
 	 * @param isItem $item
 	 */
 	private function addItemToMap(isItem $item) {
+		if ($item instanceof isItem) {
+			$item->setTypeInformation($this->type_information_collection->get(get_class($item)));
+		}
+
 		if ($item instanceof isTopItem) {
 			self::$topitems[$item->getProviderIdentification()->serialize()] = $item;
 		}

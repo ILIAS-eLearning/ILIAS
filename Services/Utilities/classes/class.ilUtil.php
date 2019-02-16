@@ -1680,37 +1680,26 @@ class ilUtil
 		return ilObjUser::_getUsersOnline($a_user_id);
 	}
 
+
 	/**
-	* Create a temporary file in an ILIAS writable directory
-	*
-	* @return	string File name of the temporary file
-	* @static
-	* 
-	*/
-	public static function ilTempnam($a_temp_path = null)
-	{
-		if($a_temp_path === null )
-		{
+	 * Returns a unique and non existing Path for e temporary file or directory
+	 *
+	 * @param string $a_temp_path
+	 *
+	 * @return    string
+	 */
+	public static function ilTempnam($a_temp_path = null) {
+		if ($a_temp_path === null) {
 			$temp_path = ilUtil::getDataDir() . "/temp";
-		}
-		else
-		{
+		} else {
 			$temp_path = $a_temp_path;
 		}
-		
-		if (!is_dir($temp_path))
-		{
+
+		if (!is_dir($temp_path)) {
 			ilUtil::createDirectory($temp_path);
 		}
-		$temp_name = tempnam($temp_path, "tmp");
-		// --->
-		// added the following line because tempnam creates a backslash on some
-		// Windows systems which leads to problems, because the "...\tmp..." can be
-		// interpreted as "...{TAB-CHARACTER}...". The normal slash works fine
-		// even under windows (Helmut Schottmüller, 2005-08-31)
-		$temp_name = str_replace("\\", "/", $temp_name);
-		// --->
-		unlink($temp_name);
+		$temp_name = $temp_path."/".uniqid("tmp");
+
 		return $temp_name;
 	}
 

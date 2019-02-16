@@ -241,5 +241,12 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
             $this->tpl->setContent($table->getHtml());
         }
+
+	private function saveConfigMatrixObject() {
+		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+
+		ilNotificationDatabaseHandler::setUserConfig(-1, $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
+		$this->showConfigMatrixObject();
+	}
 } // END class.ilObjFileGUI
 ?>

@@ -624,13 +624,13 @@ class ilInitialisation
 	 */
 	protected static function initMail(\ILIAS\DI\Container $c)
 	{
-		$c["mail.mime.transport.factory"] = function ($c) {
-			return new \ilMailMimeTransportFactory($c["ilSetting"]);
+		$c["mail.mime.transport.factory"] = function (\ILIAS\DI\Container $c) {
+			return new \ilMailMimeTransportFactory($c->settings(), $c->event());
 		};
-		$c["mail.mime.sender.factory"] = function ($c) {
-			return new \ilMailMimeSenderFactory($c["ilSetting"]);
+		$c["mail.mime.sender.factory"] = function (\ILIAS\DI\Container $c) {
+			return new \ilMailMimeSenderFactory($c->settings());
 		};
-		$c["mail.texttemplates.service"] = function ($c) {
+		$c["mail.texttemplates.service"] = function (\ILIAS\DI\Container $c) {
 			return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
 		};
 	}
@@ -1664,7 +1664,8 @@ class ilInitialisation
 		}
 		else if (
 			$_REQUEST["baseClass"] == "ilStartUpGUI" ||
-			$_GET["baseClass"] == "ilStartUpGUI"
+			$_GET["baseClass"] == "ilStartUpGUI" ||
+			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
 			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
 		}

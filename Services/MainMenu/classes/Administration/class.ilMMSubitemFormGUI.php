@@ -81,8 +81,12 @@ class ilMMSubitemFormGUI {
 
 		// TYPE
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('sub_type'), $this->lng->txt('sub_type_byline'))->withRequired(true);
-		foreach ($this->repository->getPossibleSubItemTypesWithInformation() as $class_name => $information) {
-			if ($this->item_facade->isEmpty() || (!$this->item_facade->isEmpty() && $this->item_facade->getType() === $class_name && $this->item_facade->isCustom())) {
+		$type_informations = $this->repository->getPossibleSubItemTypesWithInformation();
+
+		foreach ($type_informations as $class_name => $information) {
+			if ($this->item_facade->isEmpty()
+				|| (!$this->item_facade->isEmpty() && $this->item_facade->getType() === $class_name && ($this->item_facade->isCustom() || $this->item_facade->isCustomType()))
+			) {
 				$type = $type->withOption(
 					$this->hash($class_name), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $this->repository->getTypeHandlerForType($class_name)
 					->getAdditionalFieldsForSubForm($this->item_facade->identification())
@@ -90,12 +94,15 @@ class ilMMSubitemFormGUI {
 			}
 		}
 
-		if (!$this->item_facade->isEmpty() && $this->item_facade->isCustom()) {
+		if (!$this->item_facade->isEmpty() && ($this->item_facade->isCustom()||$this->item_facade->isCustomType())) {
 			$type = $type->withValue($this->hash($this->item_facade->getType()));
 		} elseif ($this->item_facade->isCustom()) {
-			$type = $type->withValue($this->hash(reset(array_keys($this->repository->getPossibleSubItemTypesForForm()))));
+			$type = $type->withValue($this->hash(reset(array_keys($type_informations))));
 		}
-		$items[self::F_TYPE] = $type;
+
+		if ($this->item_facade->isEmpty() || $this->item_facade->isCustom() || $this->item_facade->isCustomType()) {
+			$items[self::F_TYPE] = $type;
+		}
 
 		// PARENT
 		$parent = $this->ui_fa->input()->field()->select($this->lng->txt('sub_parent'), $this->repository->getPossibleParentsForFormAndTable())

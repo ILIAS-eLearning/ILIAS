@@ -49,7 +49,10 @@ class Complex extends AbstractChildItem implements hasAsyncContent, hasContent {
 	 * @return Complex
 	 */
 	public function withContent(Component $ui_component): hasContent {
-		$this->content = $ui_component;
+		$clone = clone($this);
+		$clone->content = $ui_component;
+
+		return $clone;
 	}
 
 

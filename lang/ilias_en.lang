@@ -14574,7 +14574,9 @@ mme#:#msg_languages_added#:#Added languages
 mme#:#msg_translations_saved#:#Translations saved
 mme#:#msg_translations_deleted#:#Translations deleted
 mme#:#topitem_css_id#:#CSS-ID
-common#:#deleted_item#:#Deleted Item
+common#:#mme_lost_item_title#:#No assignment
+common#:#mme_lost_item_reason#:#Item is no longer provided.
+mme#:#type_lost#:#Lost
 mme#:#component_not_active#:#Component is not activated.
 mme#:#item_must_be_always_active#:#Item must be active.
 mme#:#msg_subitem_deleted#:#Item deleted.
@@ -14830,7 +14832,7 @@ lso#:#entries_deleted#:#Successfuly delete entries
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
-lso#:#lso_search_users#:#Search user
+lso#:#lso_search_users#:#Search Users
 lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence

@@ -367,7 +367,7 @@ abstract class ilMailNotification
 			}
 		}
 		$recipients = implode(',',$recipients);
-		$errors = $this->getMail()->sendMail(
+		$errors = $this->getMail()->validateAndEnqueue(
 			$recipients,
 			'',
 			'',

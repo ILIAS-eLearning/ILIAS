@@ -137,7 +137,7 @@ Examples:
 * ...
 
 The intended public API for sending messages is
-the `sendMail()` method.
+the `validateAndEnqueue()` method.
 Other methods like `sendMimeMail()` are public
 as well but not intended to be used by consumers.
 
@@ -156,7 +156,7 @@ $message = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr,\nsed diam 
 $attachments = [];
 
 $mail = new \ilMail($senderUserId);
-$mail->sendMail(
+$mail->validateAndEnqueue(
     $to,
     $cc,
     $bc,
@@ -329,7 +329,7 @@ $attachment->copyAttachmentFile(
 );
 
 $mail = new \ilMail($senderUserId);
-$mail->sendMail(
+$mail->validateAndEnqueue(
     $to,
     $cc,
     $bc,
