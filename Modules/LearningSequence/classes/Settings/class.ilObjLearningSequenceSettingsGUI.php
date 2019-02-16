@@ -45,7 +45,7 @@ class ilObjLearningSequenceSettingsGUI
 		ilObjLearningSequence $obj,
 		ilCtrl $il_ctrl,
 		ilLanguage $il_language,
-		ilTemplate $il_template
+		ilGlobalTemplate $il_template
 	) {
 		$this->obj = $obj;
 		$this->settings = $obj->getLSSettings();
