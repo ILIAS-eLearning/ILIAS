@@ -193,7 +193,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		ilPDFGeneration::prepareGeneration();
 		
 		require_once 'class.ilTestPDFGenerator.php';
-		ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD);
+		ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, PDF_USER_RESULT);
 		
 		exit;
 	}
