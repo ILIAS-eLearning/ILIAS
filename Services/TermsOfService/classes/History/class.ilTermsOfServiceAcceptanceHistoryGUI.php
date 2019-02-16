@@ -17,7 +17,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	/** @var \ilObjTermsOfService */
 	protected $tos;
 
-	/** @var \ilTemplate */
+	/** @var \ilGlobalTemplate */
 	protected $tpl;
 
 	/** @var \ilCtrl */
@@ -48,7 +48,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	 * ilTermsOfServiceDocumentGUI constructor.
 	 * @param \ilObjTermsOfService $tos
 	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-	 * @param \ilTemplate $tpl
+	 * @param \ilGlobalTemplate $tpl
 	 * @param \ilCtrl $ctrl
 	 * @param \ilLanguage $lng
 	 * @param \ilRbacSystem $rbacsystem
@@ -61,7 +61,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	public function __construct(
 		\ilObjTermsOfService $tos,
 		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-		\ilTemplate $tpl,
+		\ilGlobalTemplate $tpl,
 		\ilCtrl $ctrl,
 		\ilLanguage $lng,
 		\ilRbacSystem $rbacsystem,
