@@ -564,7 +564,15 @@ abstract class assQuestionGUI
 	
 	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplate $tpl)
 	{
-		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+		foreach($this->getPresentationJavascripts() as $jsFile)
+		{
+			$tpl->addJavaScript($jsFile);
+		}
+	}
+	
+	public function getPresentationJavascripts()
+	{
+		return array();
 	}
 
 	/**

@@ -795,6 +795,22 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		return $neworder;
 	}
+	
+	public function getPresentationJavascripts()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$files = array();
+		
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			$files[] = './libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js';
+		}
+		
+		$files[] = 'Modules/TestQuestionPool/js/ilMatchingQuestion.js';
+		
+		return $files;
+	}
 
 	// hey: prevPassSolutions - pass will be always available from now on
 	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
