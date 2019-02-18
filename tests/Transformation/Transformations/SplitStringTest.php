@@ -3,7 +3,6 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Transformation;
-use PHPUnit\Framework\TestCase;
 
 /**
  * TestCase for SplitString transformations
@@ -15,6 +14,12 @@ class SplitStringTest extends TestCase {
 	protected static $result = array("I am", "a test string", "for split");
 
 	protected function setUp(): void{
+	/**
+	 * @var Transformation\Transformations\SplitString
+	 */
+	private $split_string;
+
+	protected function setUp() {
 		$this->f = new Transformation\Factory();
 		$this->split_string = $this->f->splitString("#");
 	}
@@ -93,5 +98,24 @@ class SplitStringTest extends TestCase {
 			$raised = true;
 		}
 		$this->assertTrue($raised);
+	}
+
+	public function testApplyToWithValidValueReturnsAnOkResult() {
+		$factory = new \ILIAS\Data\Factory();
+		$valueObject = $factory->ok(self::STRING_TO_SPLIT);
+
+		$resultObject = $this->split_string->applyTo($valueObject);
+
+		$this->assertEquals(self::$result, $resultObject->value());
+		$this->assertFalse($resultObject->isError());
+	}
+
+	public function testApplyToWithInvalidValueWillLeadToErrorResult() {
+		$factory = new \ILIAS\Data\Factory();
+		$valueObject = $factory->ok(42);
+
+		$resultObject = $this->split_string->applyTo($valueObject);
+
+		$this->assertTrue($resultObject->isError());
 	}
 }
