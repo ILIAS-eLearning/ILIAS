@@ -10,7 +10,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
 use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Transformation;
 
 class CheckboxInputTest extends ILIAS_UI_TestBase {
 

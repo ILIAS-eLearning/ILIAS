@@ -9,10 +9,10 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component as CI;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\Transformation\Transformation;
+use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Data;
 use ILIAS\Validation;
-use ILIAS\Transformation as T;
+use ILIAS\Refinery\Transformation as T;
 
 use Psr\Http\Message\ServerRequestInterface;
 

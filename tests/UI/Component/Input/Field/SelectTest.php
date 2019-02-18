@@ -16,7 +16,7 @@ class SelectInputTest extends ILIAS_UI_TestBase {
 		$select = new SelectForTest(
 			$this->createMock(ILIAS\Data\Factory::class),
 			$this->createMock(ILIAS\Validation\Factory::class),
-			$this->createMock(ILIAS\Transformation\Factory::class),
+			$this->createMock(ILIAS\Refinery\Transformation\Factory::class),
 			"",
 			$options,
 			""
@@ -33,7 +33,7 @@ class SelectInputTest extends ILIAS_UI_TestBase {
 		$select = new SelectForTest(
 			$this->createMock(ILIAS\Data\Factory::class),
 			$this->createMock(ILIAS\Validation\Factory::class),
-			$this->createMock(ILIAS\Transformation\Factory::class),
+			$this->createMock(ILIAS\Refinery\Transformation\Factory::class),
 			"",
 			$options,
 			""
@@ -47,7 +47,7 @@ class SelectInputTest extends ILIAS_UI_TestBase {
 		$select = (new SelectForTest(
 			$this->createMock(ILIAS\Data\Factory::class),
 			$this->createMock(ILIAS\Validation\Factory::class),
-			$this->createMock(ILIAS\Transformation\Factory::class),
+			$this->createMock(ILIAS\Refinery\Transformation\Factory::class),
 			"",
 			$options,
 			""

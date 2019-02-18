@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Factory as ValidationFactory;
 
 /**

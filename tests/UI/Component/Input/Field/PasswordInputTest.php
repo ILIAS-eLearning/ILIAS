@@ -12,7 +12,7 @@ use ILIAS\Data\Password as PWD;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
 use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Transformation;
 
 class _PWDInputData implements InputData {
 	public function get($name) {

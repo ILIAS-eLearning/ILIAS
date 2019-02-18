@@ -12,10 +12,10 @@ use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
-use \ILIAS\Transformation\Factory as TransformationFactory;
+use \ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 use \ILIAS\Data;
 use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Transformation;
 
 use Psr\Http\Message\ServerRequestInterface;
 

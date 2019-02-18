@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Transformation\Transformations;
+namespace ILIAS\Refinery\Transformation\Transformations;
 
-use ILIAS\Transformation\Transformation;
+use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Data\Factory as DataFactory;
 
 /**

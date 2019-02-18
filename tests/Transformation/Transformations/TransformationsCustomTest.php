@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Transformation;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
 /**

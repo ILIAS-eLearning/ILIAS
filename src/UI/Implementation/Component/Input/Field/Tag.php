@@ -56,12 +56,12 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 *
 	 * @param \ILIAS\Data\Factory           $data_factory
 	 * @param \ILIAS\Validation\Factory     $validation_factory
-	 * @param \ILIAS\Transformation\Factory $transformation_factory
+	 * @param \ILIAS\Refinery\Transformation\Factory $transformation_factory
 	 * @param string                        $label
 	 * @param string                        $byline
 	 * @param array                         $tags
 	 */
-	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, \ILIAS\Transformation\Factory $transformation_factory, $label, $byline, array $tags) {
+	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, \ILIAS\Refinery\Transformation\Factory $transformation_factory, $label, $byline, array $tags) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 		$this->tags = $tags;
 	}

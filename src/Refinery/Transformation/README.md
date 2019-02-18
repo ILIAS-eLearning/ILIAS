@@ -34,7 +34,7 @@ interfaces to other systems or even users.
 
 require_once(__DIR__."\Factory.php");
 
-$f = new \ILIAS\Transformation\Factory;
+$f = new \ILIAS\Refinery\Transformation\Factory;
 
 // Adding labels to an array to name the elements.
 $add_abc_label = $f->addLabels(["a", "b", "c"]);

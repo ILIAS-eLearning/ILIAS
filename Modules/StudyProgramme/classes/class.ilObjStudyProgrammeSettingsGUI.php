@@ -77,7 +77,7 @@ class ilObjStudyProgrammeSettingsGUI {
 	protected $request;
 
 	/**
-	 * @var ILIAS\Transformation\Factory
+	 * @var ILIAS\Refinery\Transformation\Factory
 	 */
 	protected $trafo_factory;
 
@@ -109,7 +109,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->input_factory = $DIC->ui()->factory()->input();
 		$this->renderer = $DIC->ui()->renderer();
 		$this->request = $DIC->http()->request();
-		$this->trafo_factory = new \ILIAS\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
+		$this->trafo_factory = new \ILIAS\Refinery\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
 		$this->data = new \ILIAS\Data\Factory();
 		$this->validation = new \ILIAS\Validation\Factory($this->data, $this->lng);
 		

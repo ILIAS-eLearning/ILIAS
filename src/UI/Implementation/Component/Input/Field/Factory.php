@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\Validation;
-use ILIAS\Transformation;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**

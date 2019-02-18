@@ -9,7 +9,7 @@ use \ILIAS\UI\Implementation\Component\Input\Field\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\Data\Factory as DataFactory;
-use \ILIAS\Transformation\Factory as TransformationFactory;
+use \ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 use \ILIAS\Validation\Factory as ValidationFactory;
 use \ILIAS\Data\Result;
 

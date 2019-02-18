@@ -2,7 +2,7 @@
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Transformation;
+namespace ILIAS\Refinery\Transformation;
 
 /**
  * Factory for basic transformations.
