@@ -3,6 +3,7 @@
 
 namespace ILIAS\Refinery\Transformation\Transformations;
 
+use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Data\Factory as DataFactory;
 
@@ -21,13 +22,24 @@ class Data implements Transformation {
 	protected $value;
 
 	/**
-	 * @param string 	$type
+	 * @var DataFactory|Factory|null
 	 */
-	public function __construct($type) {
+	private $factory;
+
+	/**
+	 * @param string $type
+	 * @param DataFactory $factory
+	 */
+	public function __construct($type, DataFactory $factory = null) {
 		$this->type = $type;
 		if(! method_exists($this->getDataFactory(), $type)) {
 			throw new \InvalidArgumentException("No such type to transform to: $type");
 		}
+
+		if (null === $factory) {
+			$factory = new DataFactory();
+		}
+		$this->factory = $factory;
 	}
 
 	/**
@@ -48,9 +60,24 @@ class Data implements Transformation {
 
 	/**
 	 * Get an instance of the data-factory
-	 * @return Data\Factory
+	 * @return DataFactory
 	 */
 	protected function getDataFactory() {
 		return new DataFactory();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function applyTo(Result $data) : Result
+	{
+		$dataValue = $data->value();
+		if(false === method_exists($this->factory, $this->type)) {
+			$exception = new \InvalidArgumentException(__METHOD__ . " the method does NOT exist.");
+			return $this->factory->error($exception);
+		}
+
+		$type = $this->type;
+		return $this->factory->$type($dataValue);
 	}
 }

@@ -2,6 +2,9 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Transformation\Transformations;
+
+use ILIAS\Data\Factory;
+use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
 
 /**
@@ -14,10 +17,21 @@ class SplitString implements Transformation {
 	protected $delimiter;
 
 	/**
-	 * @param string 	$delimiter
+	 * @var DataFactory
 	 */
-	public function __construct($delimiter) {
+	private $factory;
+
+	/**
+	 * @param string $delimiter
+	 * @param Factory $factory
+	 */
+	public function __construct($delimiter, Factory $factory = null) {
 		$this->delimiter = $delimiter;
+
+		if (null === $factory) {
+			$factory = new Factory();
+		}
+		$this->factory = $factory;
 	}
 
 	/**
@@ -25,7 +39,7 @@ class SplitString implements Transformation {
 	 */
 	public function transform($from) {
 		if(!is_string($from)) {
-			throw new \InvalidArgumentException(__METHOD__." the argument is not a string.");
+			throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
 		}
 
 		return explode($this->delimiter, $from);
@@ -36,5 +50,20 @@ class SplitString implements Transformation {
 	 */
 	public function __invoke($from) {
 		return $this->transform($from);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function applyTo(Result $data): Result
+	{
+		$dataValue = $data->value();
+		if(false === is_string($dataValue)) {
+			$exception = new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+			return $this->factory->error($exception);
+		}
+
+		$value = explode($this->delimiter, $dataValue);
+		return $this->factory->ok($value);
 	}
 }
