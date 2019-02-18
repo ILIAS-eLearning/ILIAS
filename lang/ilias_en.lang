@@ -14983,3 +14983,5 @@ lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
 crs#:#crs_timings_short_end#:#End Date
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
+dateplaner#:#cal_crs_timing_start#:#Suggested Start
+dateplaner#:#cal_crs_timing_end#:#Suggested End
