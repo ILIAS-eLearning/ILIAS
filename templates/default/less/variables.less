@@ -683,22 +683,38 @@
 @il-chart-item-inactive-bg: #e0e0e0;
 @il-chart-item-inactive-color: @il-light-text-color;
 @il-chart-item-space: 2px;
+
+//** Progress Meter: minimal width
+@il-chart-progressmeter-min-width: 80px;
+//** Progress Meter: maximal width / height
+@il-chart-progressmeter-max-width: 800px;
+//** Progress Meter: background stroke width
+@il-chart-progressmeter-bg-stroke-width: 6;
+//** Progress Meter: multi bar progress stroke width
+@il-chart-progressmeter-multi-stroke-width: (@il-chart-progressmeter-mini-bg-stroke-width / 3);
+//** Progress Meter: single bar progress stroke width
+@il-chart-progressmeter-mono-stroke-width: (@il-chart-progressmeter-mini-bg-stroke-width - 1);
 //** Progress Meter: background color
-@il-chart-progressmeter-background: #dddddd;
-//** Progress Meter standard/fixedSize: text color
-@il-chart-progressmeter-text: #aaaaaa;
-//** Progress Meter standard/fixedSize: marker color
-@il-chart-progressmeter-marker: #f0f0f0;
-//** Progress Meter standard/fixedSize: marker shadow
-@il-chart-progressmeter-marker-shadow: #bcbcbc;
+@il-chart-progressmeter-bg-color: #dddddd;
+//** Progress Meter: marker color
+@il-chart-progressmeter-marker-color: #efefef;
+//** Progress Meter: marker border color
+@il-chart-progressmeter-marker-shadow-color: #bcbcbc;
 //** Progress Meter main bar: success color
-@il-chart-progressmeter-bar-success: #6ea03c;
+@il-chart-progressmeter-success: #6ea03c;
 //** Progress Meter main bar: no-success color
-@il-chart-progressmeter-bar-no-success: #d9534f;
+@il-chart-progressmeter-no-success: #d9534f;
 //** Progress Meter comparision bar: no-user-score color
-@il-chart-progressmeter-bar-active: #f0ad4e;
+@il-chart-progressmeter-not-active: #f0ad4e;
 //** Progress Meter comparision bar: user-score color
-@il-chart-progressmeter-bar-inactive: #aaaaaa;
+@il-chart-progressmeter-active: #aaaaaa;
+//** Progress Meter score text color
+@il-chart-progressmeter-score-text-color: #000000;
+//** Progress Meter info-text color
+@il-chart-progressmeter-info-text-color: #bcbcbc;
+
+//** Progress Meter Fixed-Size: width
+@il-chart-progressmeter-fixed-size: 350px;
 
 //** Progress Meter Mini: minimal width
 @il-chart-progressmeter-mini-min-width: 20px;

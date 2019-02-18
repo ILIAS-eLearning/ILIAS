@@ -9,7 +9,7 @@
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-class ilAwarenessUserCollection
+class ilAwarenessUserCollection implements \Countable
 {
 	protected $users = array();
 
@@ -56,7 +56,13 @@ class ilAwarenessUserCollection
 		return $this->users;
 	}
 
-
+	/**
+	 * @inheritdoc
+	 */
+	public function count()
+	{
+		return count($this->users);
+	}
 }
 
 ?>

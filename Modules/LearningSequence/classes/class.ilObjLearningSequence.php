@@ -628,6 +628,7 @@ class ilObjLearningSequence extends ilContainer
 
 	public function isCompletedByUser(int $usr_id): bool
 	{
+		\ilLPStatusWrapper::_updateStatus($this->getId(), $usr_id);
 		$tracking_active = ilObjUserTracking::_enabledLearningProgress();
 		$user_completion = ilLPStatus::_hasUserCompleted($this->getId(), $usr_id);
 		return ($tracking_active && $user_completion);

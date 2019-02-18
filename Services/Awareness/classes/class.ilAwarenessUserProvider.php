@@ -155,9 +155,9 @@ abstract class ilAwarenessUserProvider
 	/**
 	 * Collect all users
 	 *
-	 * @return ilAwarenessUserCollection collection
+	 * @return \ilAwarenessUserCollection
 	 */
-	function collectUsers()
+	function collectUsers(): \ilAwarenessUserCollection
 	{
 		$coll = ilAwarenessUserCollection::getInstance();
 

@@ -116,11 +116,13 @@ class ilObjLearningSequenceSettingsGUI
 		$form->setTitle($this->lng->txt('lso_edit'));
 
 		$title = new ilTextInputGUI($txt("title"), self::PROP_TITLE);
+		$title->setRequired(true);
 		$desc = new ilTextAreaInputGUI($txt("description"), self::PROP_DESC);
 
 		$section_avail = new ilFormSectionHeaderGUI();
 		$section_avail->setTitle($txt('lso_settings_availability'));
 		$online = new ilCheckboxInputGUI($txt("online"), self::PROP_ONLINE);
+		$online->setInfo($this->lng->txt('lso_activation_online_info'));
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
 		$duration->setStart(new ilDateTime((string)$activation->getActivationStart()->getTimestamp(), IL_CAL_UNIX));

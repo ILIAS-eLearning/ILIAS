@@ -290,6 +290,11 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+		}
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		return $questionoutput;
 	}
@@ -343,6 +348,11 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		{
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
+		}
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
 		}
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		$questionoutput = $template->get();

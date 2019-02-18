@@ -534,7 +534,7 @@ class ilObjectDefinition// extends ilSaxParser
 				}
 			}
 
-			$subs2 = ilUtil::sortArray($subs, "pos", ASC, true, true);
+			$subs2 = ilUtil::sortArray($subs, "pos", 'ASC', true, true);
 
 			return $subs2;
 		}
@@ -631,7 +631,7 @@ class ilObjectDefinition// extends ilSaxParser
 				$recursivesubs[$a_obj_type]['pos'] = -1;
 			}
 		}
-		return ilUtil::sortArray($recursivesubs, "pos", ASC, true, true);
+		return ilUtil::sortArray($recursivesubs, "pos", 'ASC', true, true);
 	}
 	
 

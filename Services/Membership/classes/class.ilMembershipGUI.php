@@ -1348,7 +1348,7 @@ class ilMembershipGUI
 				if ($this instanceof ilLearningSequenceMembershipGUI) {
 					$this->getMembersObject()->sendNotification(
 						ilLearningSequenceMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
-						$user_id
+						$usr_id
 					);
 				}
 			}

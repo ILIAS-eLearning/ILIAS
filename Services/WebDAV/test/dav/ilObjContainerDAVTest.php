@@ -357,12 +357,12 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
      * @test
      * @small
      */
-    public function CreateFile_NoWriteAccess_ThrowForbidde()
+    public function CreateFile_NoCreateAccess_ThrowForbidden()
     {
         // Arrange
         $file_title = 'some_file.txt';
 
-        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturn(false);
+        $this->mocked_repo_helper->shouldReceive('checkCreateAccessForType')->andReturn(false);
 
         // Act
         try
@@ -384,13 +384,13 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
      * @test
      * @small
      */
-    public function CreateFile_InvalidFileExtension_ThrowForbidde()
+    public function CreateFile_InvalidFileExtension_ThrowForbidden()
     {
         // Arrange
         $file_title = 'some_file.exe';
 
-        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturn(true);
-        $this->mocked_repo_helper->shouldReceive('isValidFileNameWithValidFileExtension')->andReturn(false);
+        $this->mocked_repo_helper->shouldReceive('checkCreateAccessForType')->andReturn(true);
+        $this->mocked_dav_helper->shouldReceive('isValidFileNameWithValidFileExtension')->andReturn(false);
 
         // Act
         try

@@ -14557,7 +14557,9 @@ mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
 mme#:#msg_translations_deleted#:#Übersetzungen gelöscht.
 mme#:#topitem_css_id#:#CSS-ID
-common#:#deleted_item#:#Keine Zuordnung
+common#:#mme_lost_item_title#:#Keine Zuordnung
+common#:#mme_lost_item_reason#:#Eintrag wird nicht mehr angeboten.
+mme#:#type_lost#:#Lost
 mme#:#component_not_active#:#Komponente ist nicht aktiviert.
 mme#:#item_must_be_always_active#:#Eintrag muss aktiv sein.
 mme#:#msg_subitem_deleted#:#Eintrag gelöscht.
@@ -14910,6 +14912,7 @@ iass#:#iass_filter_failed#:#Nur nicht bestanden
 iass#:#iass_file#:#Datei
 iass#:#iass_download#:#Download
 iass#:#iass_sort#:#Sortierung
+iass#:#iass_changed_last_by#:#Prüfungsdaten zuletzt geändert durch
 iass#:#iass_sort_name_asc#:#Benutzername → aufsteigend
 iass#:#iass_sort_name_desc#:#Benutzername → absteigend
 iass#:#iass_sort_examiner_login_asc#:#Prüfer → aufsteigend
@@ -14978,5 +14981,8 @@ exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überp
 lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
 lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 lti#:#lti_cron_title#:#LTI Outcome Service
-lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
+lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
+lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
+dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
+dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende

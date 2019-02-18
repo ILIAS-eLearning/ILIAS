@@ -35,14 +35,14 @@ interface MessageBox extends Component {
 	 *
 	 * @return array
 	 */
-	public function getButtons();
+	public function getButtons(): array;
 
 	/**
 	 * Get the links of the Message Box.
 	 *
 	 * @return array
 	 */
-	public function getLinks();
+	public function getLinks(): array;
 
 	/**
 	 * Get a Message Box like this, but with buttons.

@@ -1214,8 +1214,7 @@ class ilTemplate extends HTML_Template_ITX
 		$count = 0;
 		reset($this->vars);
 
-		while(list($key, $val) = each($this->vars))
-		{
+		foreach ($this->vars as $key => $val) {
 			if (is_array($this->blockvariables[$this->activeBlock]))
 			{
 				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))

@@ -136,7 +136,7 @@ class ilPluginAdmin {
 	 * Should the plugin be updated
 	 *
 	 * @param string[] &$plugin_data
-	 * @param string   $last_update_version
+	 * @param string    $last_update_version
 	 *
 	 * @return void
 	 */
@@ -206,7 +206,7 @@ class ilPluginAdmin {
 	 * db value $active
 	 *
 	 * @param string[] &$plugin_data
-	 * @param bool     $active
+	 * @param bool      $active
 	 *
 	 * @return void
 	 */
@@ -567,10 +567,12 @@ class ilPluginAdmin {
 	 */
 	public static function getAllGlobalScreenProviders(): array {
 		$providers = array();
-		return array(); // current fix
+		// return array(); // current fix
 		foreach (self::getActivePlugins() as $plugin) {
 			$pl = self::getPluginObjectById($plugin['plugin_id']);
-			array_push($providers, $pl->promoteGlobalScreenProvider());
+			if ($pl instanceof ilPlugin) {
+				array_push($providers, $pl->promoteGlobalScreenProvider());
+			}
 		}
 
 		return $providers;

@@ -236,10 +236,17 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             $table->setFormAction($this->ctrl->getFormAction($this, 'saveConfigMatrix'));
             $table->setData(ilNotificationDatabaseHandler::getAvailableTypes());
             $table->setDescription($this->lng->txt('notification_admin_matrix_settings_table_desc'));
-            $table->addCommandButton('saveConfigMatrix', $lng->txt('save'));
-            $table->addCommandButton('showConfigMatrix', $lng->txt('cancel'));
+            $table->addCommandButton('saveConfigMatrix', $this->lng->txt('save'));
+            $table->addCommandButton('showConfigMatrix', $this->lng->txt('cancel'));
 
             $this->tpl->setContent($table->getHtml());
         }
+
+	private function saveConfigMatrixObject() {
+		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+
+		ilNotificationDatabaseHandler::setUserConfig(-1, $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
+		$this->showConfigMatrixObject();
+	}
 } // END class.ilObjFileGUI
 ?>

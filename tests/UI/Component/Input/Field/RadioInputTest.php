@@ -5,9 +5,8 @@
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
+use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Implementation\Component\Input\PostData;
-use ILIAS\Data\Password as PWD;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
 use \ILIAS\Validation;
@@ -29,7 +28,7 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-	protected function buildRadio() {
+	protected function buildRadio(): Radio {
 		$f = $this->buildFactory();
 		$label = "label";
 		$byline = "byline";
@@ -68,6 +67,7 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 						."<div class=\"form-control form-control-sm il-input-radiooption\">"
 							."<input type=\"radio\" id=\"id_1_".$opt_value."_opt\" name=\"$name\" value=\"$opt_value\" />"
 							."<label for=\"id_1_".$opt_value."_opt\">$opt_label</label>"
+							."<div class=\"help-block\">{$radio->getBylineFor($opt_value)}</div>"
 						."</div>";
 		}
 
@@ -104,6 +104,7 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 			}
 			$expected .= ""
 							."<label for=\"id_1_".$opt_value."_opt\">$opt_label</label>"
+							."<div class=\"help-block\">{$radio->getBylineFor($opt_value)}</div>"
 						."</div>";
 		}
 

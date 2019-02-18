@@ -207,6 +207,92 @@ while ($rec = $ilDB->fetchAssoc($set))
 
 <#22>
 <?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$tpl_perms = [
+	'il_grp_member' => [
+		'participate'
+	],
+	'il_crs_member' => [
+		'participate'
+	],
+	'il_grp_admin' => [
+		'participate',
+		'unparticipate',
+		'manage_members',
+		'create_htlm',
+		'create_iass',
+		'create_copa',
+		'create_svy',
+		'create_svy',
+		'create_lm',
+		'create_exc',
+		'create_tst',
+		'create_sahs',
+		'create_file',
+		'edit_learning_progress'
+	],
+	'il_crs_admin' => [
+		'participate',
+		'unparticipate',
+		'manage_members',
+		'create_htlm',
+		'create_iass',
+		'create_copa',
+		'create_svy',
+		'create_svy',
+		'create_lm',
+		'create_exc',
+		'create_tst',
+		'create_sahs',
+		'create_file',
+		'edit_learning_progress'
+	],
+	'il_crs_tutor' => [
+		'participate',
+		'unparticipate',
+		'manage_members',
+		'edit_learning_progress',
+		'create_htlm',
+		'create_iass',
+		'create_copa',
+		'create_svy',
+		'create_svy',
+		'create_lm',
+		'create_exc',
+		'create_tst',
+		'create_sahs',
+		'create_file'
+	]
+];
+
+foreach($tpl_perms as $template=>$perms){
+	$query = "SELECT obj_id FROM object_data"
+		." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+		." AND title = " .$ilDB->quote($template,'text');
+	$result = $ilDB->query($query);
+	$rol_id = array_shift($ilDB->fetchAssoc($result));
+
+	$op_ids = [];
+	$query = "SELECT ops_id FROM rbac_operations"
+		." WHERE operation IN ('"
+		.implode("', '", $perms)
+		."')";
+	$result = $ilDB->query($query);
+	while($row = $ilDB->fetchAssoc($result)) {
+		$op_ids[] = $row['ops_id'];
+	}
+	ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', $op_ids,	ROLE_FOLDER_ID);
+}
+?>
+
+<#23>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#24>
+<?php
 if(!$ilDB->tableExists('lso_activation'))
 {
 	$ilDB->createTable('lso_activation', array(
@@ -236,7 +322,7 @@ if(!$ilDB->tableExists('lso_activation'))
 }
 ?>
 
-<#23>
+<#25>
 <?php
 if ($ilDB->tableColumnExists('lso_settings', 'online'))
 {
@@ -244,7 +330,7 @@ if ($ilDB->tableColumnExists('lso_settings', 'online'))
 }
 ?>
 
-<#24>
+<#26>
 <?php
 if(!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
 	$ilDB->addTableColumn('lso_activation', 'effective_online',
