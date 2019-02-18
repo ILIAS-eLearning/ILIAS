@@ -1389,9 +1389,8 @@ class ilPersonalProfileGUI
 			include_once "Services/Badge/classes/class.ilBadgeHandler.php";
 			$handler = ilBadgeHandler::getInstance();
 			if($handler->isActive())
-			{		
-				if(sizeof($_POST["bpos"]))
-				{
+			{
+				if(isset($_POST["bpos"]) && is_array($_POST["bpos"]) && sizeof($_POST["bpos"])) {
 					include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 					ilBadgeAssignment::updatePositions($ilUser->getId(), $_POST["bpos"]);
 				}				
