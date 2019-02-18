@@ -678,8 +678,7 @@ class ilObjectLP
 			}
 			
 			// last resort: use read_event?
-			if(sizeof($find_by_parent))
-			{				
+			if (is_array($find_by_parent) && count($find_by_parent) > 0) {
 				$set = $ilDB->query("SELECT obj_id".
 					" FROM read_event".
 					" WHERE ".$ilDB->in("obj_id", $find_by_parent, "", "integer").
