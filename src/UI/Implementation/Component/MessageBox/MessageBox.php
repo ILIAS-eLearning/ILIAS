@@ -23,12 +23,12 @@ class MessageBox implements C\MessageBox\MessageBox {
 	/**
 	 * @var	array
 	 */
-	private $buttons;
+	private $buttons = [];
 
 	/**
 	 * @var	array
 	 */
-	private $links;
+	private $links = [];
 
 	/**
 	 * @var array
@@ -67,14 +67,14 @@ class MessageBox implements C\MessageBox\MessageBox {
 	/**
 	 * @inheritdoc
 	 */
-	public function getButtons() {
+	public function getButtons(): array {
 		return $this->buttons;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getLinks() {
+	public function getLinks(): array {
 		return $this->links;
 	}
 

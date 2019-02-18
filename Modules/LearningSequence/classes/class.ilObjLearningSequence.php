@@ -174,7 +174,7 @@ class ilObjLearningSequence extends ilContainer
 	{
 		$admin = $this->getDefaultAdminRole();
 		$new_admin = $new_obj->getDefaultAdminRole();
-		
+
 		if(!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId()) {
 			$this->log->write(__METHOD__.' : Error cloning auto generated role: il_lso_admin');
 		}
@@ -593,6 +593,7 @@ class ilObjLearningSequence extends ilContainer
 
 	public function isCompletedByUser(int $usr_id): bool
 	{
+		\ilLPStatusWrapper::_updateStatus($this->getId(), $usr_id);
 		$tracking_active = ilObjUserTracking::_enabledLearningProgress();
 		$user_completion = ilLPStatus::_hasUserCompleted($this->getId(), $usr_id);
 		return ($tracking_active && $user_completion);

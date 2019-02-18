@@ -114,6 +114,12 @@ interface ilMMItemFacadeInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isCustomType(): bool;
+
+
+	/**
 	 * @return string
 	 */
 	public function getParentIdentificationString(): string;
