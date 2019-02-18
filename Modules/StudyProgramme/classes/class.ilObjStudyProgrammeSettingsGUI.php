@@ -111,7 +111,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->request = $DIC->http()->request();
 		$this->trafo_factory = new \ILIAS\Refinery\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
 		$this->data = new \ILIAS\Data\Factory();
-		$this->validation = new \ILIAS\Validation\Factory($this->data, $this->lng);
+		$this->validation = new \ILIAS\Refinery\Validation\Factory($this->data, $this->lng);
 		
 		$this->object = null;
 

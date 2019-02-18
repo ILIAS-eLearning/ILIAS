@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Validation\Constraints\Password;
+namespace ILIAS\Refinery\Validation\Constraints\Password;
 
 use ILIAS\Data;
 

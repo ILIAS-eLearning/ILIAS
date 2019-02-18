@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 
 /**

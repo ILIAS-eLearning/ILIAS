@@ -6,7 +6,7 @@ docs/LICENSE */
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Triggerable;

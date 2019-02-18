@@ -14,7 +14,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 use \ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 use \ILIAS\Data;
-use \ILIAS\Validation;
+use \ILIAS\Refinery\Validation;
 use \ILIAS\Refinery\Transformation;
 
 use Psr\Http\Message\ServerRequestInterface;

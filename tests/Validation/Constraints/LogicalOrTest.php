@@ -4,8 +4,8 @@
 require_once 'libs/composer/vendor/autoload.php';
 
 use ILIAS\Data;
-use ILIAS\Validation;
-use ILIAS\Validation\Constraints\LogicalOr;
+use ILIAS\Refinery\Validation;
+use ILIAS\Refinery\Validation\Constraints\LogicalOr;
 use PHPUnit\Framework\TestCase;
 
 /**

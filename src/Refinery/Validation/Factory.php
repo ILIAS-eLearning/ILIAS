@@ -2,7 +2,7 @@
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Validation;
+namespace ILIAS\Refinery\Validation;
 use ILIAS\Data;
 /**
  * Factory for creating constraints.
@@ -191,7 +191,7 @@ class Factory {
 	/**
 	 * Get the factory for password constraints.
 	 *
-	 * @return   ILIAS\Validation\Constraints\Password\Factory;
+	 * @return   ILIAS\Refinery\Validation\Constraints\Password\Factory;
 	 */
 	public function password() {
 		return new Constraints\Password\Factory($this->data_factory, $this->lng);

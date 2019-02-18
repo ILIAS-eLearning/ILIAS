@@ -16,7 +16,7 @@ client side someday.
 ```php
 
 // In reality this has dependencies that need to be satisfied...
-$f = new ILIAS\Validation\Factory;
+$f = new ILIAS\Refinery\Validation\Factory;
 
 // Build some basic constraints
 $gt0 = $f->greaterThan(0);
@@ -55,6 +55,6 @@ $between_0_10->withProblemBuilder(function($txt, $value) {
 });
 
 // To perform internationalisation, the provided $txt could be used, please
-// see `ILIAS\Validation\Constraint::withProblemBuilder` for further information.
+// see `ILIAS\Refinery\Validation\Constraint::withProblemBuilder` for further information.
 
 ```

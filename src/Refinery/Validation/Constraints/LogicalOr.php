@@ -1,14 +1,14 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Validation\Constraints;
+namespace ILIAS\Refinery\Validation\Constraints;
 
-use ILIAS\Validation\Constraint;
+use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
 
 /**
  * Class LogicalOr
- * @package ILIAS\Validation\Constraints
+ * @package ILIAS\Refinery\Validation\Constraints
  * @author  Michael Jansen <mjansen@databay.de>
  */
 class LogicalOr extends Custom implements Constraint

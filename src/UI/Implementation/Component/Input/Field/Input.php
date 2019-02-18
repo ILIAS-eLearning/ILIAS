@@ -13,8 +13,8 @@ use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Constraint;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 

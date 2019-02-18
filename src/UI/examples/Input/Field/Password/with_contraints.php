@@ -10,7 +10,7 @@ function with_contraints() {
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Validation\Factory($data, $lng);
+    $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
     $pw_validation = $validation->password();
 
     //Step 1: Define the input field

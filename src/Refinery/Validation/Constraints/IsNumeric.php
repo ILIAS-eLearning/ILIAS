@@ -2,8 +2,8 @@
 /* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
 docs/LICENSE */
 
-namespace ILIAS\Validation\Constraints;
-use ILIAS\Validation\Constraint;
+namespace ILIAS\Refinery\Validation\Constraints;
+use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
 use ILIAS\Data\Result;
 

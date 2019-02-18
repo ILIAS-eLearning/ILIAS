@@ -1228,7 +1228,7 @@ interface Transformation {
 }
 ```
 
-The current `ILIAS\Validation\Constraint` interface can then implement this interface
+The current `ILIAS\Refinery\Validation\Constraint` interface can then implement this interface
 by simply renaming `Constraint::restrict` to `Constraint::applyTo`. This change
 will allow simplification in the current form-implementation of the UI-Framework,
 on the consumer side as well as on the implementation side. This will also allow

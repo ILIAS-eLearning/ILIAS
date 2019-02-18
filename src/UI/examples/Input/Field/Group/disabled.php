@@ -10,7 +10,7 @@ function disabled() {
 	$renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
 	$data = new \ILIAS\Data\Factory();
-	$validation = new \ILIAS\Validation\Factory($data, $lng);
+	$validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
 	$trafo = new \ILIAS\Refinery\Transformation\Factory();
 
 	//Step 1: Implement transformation and constraints

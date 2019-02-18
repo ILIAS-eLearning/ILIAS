@@ -9,7 +9,7 @@ function data_processing() {
     $lng = $DIC->language();
     $trafo = new \ILIAS\Refinery\Transformation\Factory();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Validation\Factory($data, $lng);
+    $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
 

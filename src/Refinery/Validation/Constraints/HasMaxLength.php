@@ -1,8 +1,8 @@
 <?php
 /* Copyright (c) 2017 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Validation\Constraints;
-use ILIAS\Validation\Constraint;
+namespace ILIAS\Refinery\Validation\Constraints;
+use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
 
 class HasMaxLength extends Custom implements Constraint {

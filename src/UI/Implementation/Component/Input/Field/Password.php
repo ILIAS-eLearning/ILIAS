@@ -8,7 +8,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\Data\Password as PWD;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
