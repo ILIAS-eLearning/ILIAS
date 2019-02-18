@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.4.x 2019-01-13
+* @version	5.4.x 2019-02-18
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -32,7 +32,7 @@ meta#:#meta_order#:#Rendezés
 meta#:#meta_copyright_change_warning_title#:#Szerzői jogi beállítások módosítása
 meta#:#meta_copyright_change_info#:#Módosítani fogja az ehhez a tartalomhoz rendelt lincencet. Ez csak a szerzői jog tulajdonosának a belegyezésével történhet csak meg, továbbá az új licenc nem lehet szigorúbb, korlátozóbb, mint a jelenlegi.
 auth#:#auth_oidconnect#:#OpenID
-auth#:#auth_oidc_settings_title#:#OpenID hitelesítési beálltásai
+auth#:#auth_oidc_settings_title#:#OpenID hitelesítés beálltásai
 auth#:#auth_oidc_settings_activation#:#OpenID bekapcsolása
 auth#:#auth_oidc_settings_provider#:#Szolgáltató-Url
 auth#:#auth_oidc_settings_client_id#:#Kliens-ID
@@ -1181,7 +1181,18 @@ assessment#:#tst_nr_of_tries_of_user#:#Eddigi kitöltések
 assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma
 assessment#:#tst_participating_users#:#Felhasználók
 assessment#:#tst_tbl_invited_users#:#Manuálisan kiválasztott résztvevők
+assessment#:#tst_tbl_participants#:#Résztevők
 assessment#:#tst_tbl_results_grades#:#Eredmények és érdemjegyek
+assessment#:#tst_answered_questions_of_total#:#%s / %s
+assessment#:#tst_reached_points_of_max#:#%s / %s
+assessment#:#tst_passed#:#Sikeresen teljesítette
+assessment#:#tst_failed#:#Nem sikerült
+assessment#:#tst_tbl_col_scored_pass#:#Elért pontszám
+assessment#:#tst_tbl_col_answered_questions#:#Megválaszolt kérdések
+assessment#:#tst_tbl_col_reached_points#:#Elért pontszám
+assessment#:#tst_tbl_col_percent_result#:#Elért százalék
+assessment#:#tst_tbl_col_passed_status#:#Értékelés
+assessment#:#tst_tbl_col_final_mark#:#Érdemjegy
 assessment#:#tst_pass_best_pass#:#Legnagyobb elért pontszám számít
 assessment#:#tst_pass_best_pass_desc#:#Amennyiben többször töltheti ki egy résztvevő a tesztet, a legjobb eredményét vesszük figyelembe.
 assessment#:#tst_pass_details#:#Részletes eredmények
@@ -3461,6 +3472,7 @@ common#:#select_max_one_item#:#Csak egy elemet jelöljön ki!
 common#:#select_object_to_link#:#Válassza ki a linkelni kívánt objektumot!
 common#:#select_one#:#Válasszon ki egyet!
 common#:#select_questionpool#:#Kérdések beszúrása ide:
+common#:#select_question_pool_info#:#Amennyiben az importálandó fájl kérdéseket tartalmaz, azokat a kiválasztott kérdségyűjteménybe fogjuk importálni.
 common#:#select#:#Kiválasztás
 common#:#selected_items_back#:#Vissza
 common#:#selected_items#:#Kiválasztott objektumok
@@ -4176,9 +4188,9 @@ content#:#cont_list_properties#:#Listatulajdonságok
 content#:#cont_List#:#Lista
 content#:#cont_lk_chapter_new#:#Fejezet (új keret)
 content#:#cont_lk_chapter#:#Fejezet
-content#:#cont_lk_media_faq#:#Média (GYIK keret)
-content#:#cont_lk_media_inline#:#Média (inline)
-content#:#cont_lk_media_media#:#Média (média-keret)
+content#:#cont_lk_media_faq#:#Média (GYIK-keret)
+content#:#cont_lk_media_inline#:#Média (sorban)
+content#:#cont_lk_media_media#:#Média (médiakeret)
 content#:#cont_lk_media_new#:#Média (új keret)
 content#:#cont_lk_page_faq#:#Lap (GYIK-keret)
 content#:#cont_lk_page_new#:#Lap (új keret)
@@ -7871,7 +7883,7 @@ dateplaner#:#cal_notification_info#:#Ha be van kapcsolva, minden kurzus-/csoport
 dateplaner#:#cal_adm_notification_info#:#Kurzus-/csoporttagok e-mail értesítést kérhetnek módosult naptáreseményekről.
 rbac#:#rbac_add_new_local_role#:#Új helyi szerep létrehozása
 search#:#search_item_filter_form#:#Keresés típus szerint
-search#:#search_item_filter_form_info#:#A keresés a kiválasztott fájltípusokra korlátozható.
+search#:#search_item_filter_form_info#:#A keresés a kiválasztott objektumtípusokra korlátozható.
 administration#:#group_export#:#Látható a csoportokban
 tbl#:#tbl_export_csv#:#Exportálás vesszővel tagolt (.csv) fájlba
 tbl#:#tbl_export_excel#:#Exportálás Excel (.xlsx) fájlba
@@ -9897,6 +9909,7 @@ dcl#:#dcl_activate_notification#:#Értesítés engedélyezése
 dcl#:#dcl_table_id#:#Tábla-ID
 dcl#:#dcl_add_new_record#:#Új bejegyzés létrehozása
 dcl#:#dcl_list_fields#:#Mezők
+dcl#:#dcl_list_visibility_and_filter#:#Láthatóság és szűrés
 dcl#:#dcl_add_new_field#:#Új mező létrehozása
 dcl#:#dcl_add_new_table#:#Új tábla létrehozása
 dcl#:#dcl_add_new_view#:#Új nézet létrehozása
@@ -10031,7 +10044,7 @@ content#:#cont_show_adv#:#Mélyebb ismeretek megjelenítése
 content#:#cont_hide_adv#:#Mélyebb ismeretek elrejtése
 registration#:#reg_email_domains#:#Az alábbi e-mail cím domain-ek érvényesek: %s
 registration#:#reg_allowed_domains#:#Engedélyezett e-mail cím domain-ek
-registration#:#reg_allowed_domains_info#:#Használjon helyettesítőnek *-ot, elválasztónak ;-t.
+registration#:#reg_allowed_domains_info#:#Használjon helyettesítőnek *-ot, elválasztónak ;-t, például '*@cegem.hu;*@egyetem.hu'. A regisztrációs kódok felülírják ezt a szabályt.
 pd#:#block_show_pdcal#:#Naptár megjelenítése
 pd#:#block_show_pdmail#:#E-mail megjelenítése
 pd#:#block_show_pdsysmess#:#Rendszerüzenetek megjelenítése
@@ -10950,6 +10963,7 @@ assessment#:#tst_imap_qst_mode#:#Mód
 assessment#:#tst_imap_qst_mode_sc#:#Egyválaszos kérdés (rádiógombos)
 assessment#:#tst_imap_qst_mode_mc#:#Többválaszos kérdés (jelölőnégyzetes)
 assessment#:#fixedparticipants_subtab#:#Manuálisan kiválasztott résztvevők
+assessment#:#autoparticipants_subtab#:#Résztvevők
 assessment#:#redirect_after_finishing_tst#:#Átirányítás
 assessment#:#redirect_after_finishing_tst_desc#:#A teszt befejezése után az összes résztvevő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez.
 assessment#:#redirect_after_finishing_rule#:#Átirányítás
@@ -11251,8 +11265,8 @@ mst#:#mst_show_courses#:#Felvételek
 mst#:#mst_courses_of#:#%s beiratkozásai
 orgu#:#msg_position_udpated#:#A pozíciót sikeresen módosította
 orgu#:#remove_successful#:#A felhasználót sikeresen eltávolította.
-orgu#:#orgu_enable_my_staff#:#A 'Munkatársak' nézete bekapcsolása
-orgu#:#orgu_enable_my_staff_info#:#A 'Munkatársak' nézet a saját beosztottak tanulási haladását jeleníti meg.
+orgu#:#orgu_enable_my_staff#:#A 'Munkatársak' bekapcsolása
+orgu#:#orgu_enable_my_staff_info#:#A 'Munkatársak' a saját beosztottak tanulási haladását jeleníti meg.
 orgu#:#org_op_manage_members#:#Tagok kezelése
 orgu#:#org_op_access_results#:#Hozzáférés az eredményekhez
 rbac#:#org_op_access_results#:#Hozzáférés az alárendelt felhasználók eredményeihez
@@ -11460,6 +11474,7 @@ search#:#search_mime_powerpoint#:#PowerPoint fájlok
 search#:#search_mime_image#:#Képek
 search#:#lucene_show_sub_relevance#:#Altételek relevanciájának megjelenítése
 search#:#search_mime_filter_form#:#MIME-típus szűrő
+search#:#search_mime_filter_form_info#:#A keresés a kiválasztott MIME-típusokra korlátozható.
 search#:#lucene_prefix_wildcard#:#Helyettesítő jellel keresés
 search#:#lucene_prefix_wildcard_info#:#Helyettesítő jellel végzett keresések támogatása: '*LIAS' találata 'ILIAS'
 obj#:#obj_select_master_lang#:#Válasszon elsődleges nyelvet. A jelenlegi tartalom a elsődleges nyelvhez lesz hozzárendelve.
@@ -12562,6 +12577,7 @@ crs#:#crs_hide_all_obj#:#Összes becsukása
 notes#:#notes_comment_deleted#:#A hozzászólást törölték.
 notes#:#notes_comments_deleted#:#A hozzászólásokat törölték.
 orgu#:#ou_id_not_valid#:#Import-ID nem található.
+orgu#:#ou_more_than_one_match_found#:#Több, mint egy egyezést találtunk.
 blog#:#blog_profile_picture_repository_info#:#A szerzők profilképe megjelenik a bejegyzések oldalain, de az áttekintő oldalakon nem.
 blog#:#blog_confirm_delete_contributors#:#Biztos, hogy törli a következő blogszerzőket?
 news#:#news_rss#:#RSS
@@ -12788,7 +12804,7 @@ exc#:#exc_peer_review_simple_unlock#:#Hozzáférés a kapott visszajelzésekhez
 exc#:#exc_peer_review_simple_unlock_active#:#Legalább egy érvényes visszajelzés beérkezése után.
 exc#:#exc_peer_review_simple_unlock_inactive#:#Az összes szükséges visszajelzés beérkezése után.
 exc#:#exc_peer_review_completion#:#'Sikeresen megfelelt' állapot meghatározása
-exc#:#exc_peer_review_completion_none#:#Nem szükséges visszajelzés
+exc#:#exc_peer_review_completion_none#:#Nem szükséges a tanulói visszajelzés
 exc#:#exc_peer_review_completion_none_info#:#A beadandó feladat automatikusan 'Sikeresen teljesítette' lesz a megoldás beadása után, attól függetlenül,hogy érkezett-e visszajelzés vagy sem.
 exc#:#exc_peer_review_completion_one#:#Legalább egy visszajelzés
 exc#:#exc_peer_review_completion_one_info#:#A beadandó feladat automatikusan 'Sikeresen teljesítette' lesz a megoldás beadása és egy visszajelzés beérkezése után.
@@ -12833,8 +12849,8 @@ exc#:#exc_criteria_type_text#:#Szöveg
 exc#:#exc_criteria_type_file#:#Fájlfeltöltés
 exc#:#exc_criteria_catalogue_default#:#Nem gyűjtemény alapján, hanem:
 exc#:#exc_peer_review_text#:#Szöveg
-exc#:#exc_crit_cat_protected_assignment#:#Aktív visszajelzések
-exc#:#exc_crit_cat_protected_assignment_info#:#Aktív visszajelzéssel rendelkező gyakorlatok szempontgyűjteménye már nem módosítható.
+exc#:#exc_crit_cat_protected_assignment#:#Aktív tanulói visszajelzések
+exc#:#exc_crit_cat_protected_assignment_info#:#Aktív tanulói visszajelzéssel rendelkező gyakorlatok szempontgyűjteménye már nem módosítható.
 content#:#cont_mycourses_sortorder#:#Alapértelmezett rendezés
 content#:#cont_mycourses_sortorder_alphabetical#:#Alfabetikus
 content#:#cont_mycourses_sortorder_location#:#Hely szerint
@@ -13774,8 +13790,8 @@ exc#:#exc_tbl_action_feedback_text#:#Szöveges értékelés írása
 exc#:#exc_tbl_action_feedback_mail#:#Értékelés küldése levélben
 exc#:#exc_tbl_action_feedback_file#:#Értékelés küldése fájlban
 exc#:#exc_tbl_action_team_log#:#Csapatnaplók megjelenítése
-exc#:#exc_tbl_action_peer_review_given#:#Küldött visszajelzés megjelenítése
-exc#:#exc_tbl_action_peer_review_received#:#Kapott visszajelzés megjelenítése
+exc#:#exc_tbl_action_peer_review_given#:#Küldött tanulói visszajelzés megjelenítése
+exc#:#exc_tbl_action_peer_review_received#:#Kapott tanulói visszajelzés megjelenítése
 exc#:#exc_feedback#:#Tutori értékelés
 exc#:#exc_settings_feedback#:#Értékelés
 exc#:#exc_settings_feedback_text#:#Szövegdobozban
@@ -14458,7 +14474,7 @@ exc#:#feedback_from#:#Visszajelzés feladója
 exc#:#text_assignment#:#Szövegkiosztás
 exc#:#not_yet#:#még nem
 exc#:#grade_evaluate#:#Minősítés és értékelés
-exc#:#submissions_feedback#:#A beadványok és a visszajelzések
+exc#:#submissions_feedback#:#A beadványok és a tanulói visszajelzések
 exc#:#submissions_only#:#Csak a beadványok
 exc#:#filter#:#Szűrő
 exc#:#fiter_no_results#:#A jelenlegi szűrés alapján egy beadványt sem találtunk.
@@ -14550,8 +14566,11 @@ mme#:#mm_translation_trans#:#Fordítás
 mme#:#additional_langs#:#További nyelvek
 mme#:#msg_languages_added#:#Hozzáadott nyelvek
 mme#:#msg_translations_saved#:#A fordítást sikeresen mentette
+mme#:#msg_translations_deleted#:#A fordításokat sikeresen törölte
 mme#:#topitem_css_id#:#CSS-ID
-common#:#deleted_item#:#Törölt elem
+common#:#mme_lost_item_title#:#Nincs hozzárendelve
+common#:#mme_lost_item_reason#:#Nincs többé ilyen eleme.
+mme#:#type_lost#:#Elveszett
 mme#:#component_not_active#:#A komponens nincs aktiválva.
 mme#:#item_must_be_always_active#:#Az elemnek aktívnak kell lennie.
 mme#:#msg_subitem_deleted#:#Az elemet sikeresen törölte.
@@ -14563,11 +14582,12 @@ mme#:#field_external_info#:#A link új ablakban nyílik meg.
 mme#:#field_url#:#URL
 mme#:#field_url_info#:#Link a kívánt weboldalra, elején http(s)://
 mme#:#field_ref_id#:#ILIAS Reference-ID
-mme#:#field_ref_id_info#:#A kivánt ILIAS-objektum  Reference-ID-je, amit az objektum URL-ben is megtalálható (...?ref_id=123)
+mme#:#field_ref_id_info#:#A kívánt ILIAS-objektum  Reference-ID-je, amit az objektum URL-ben is megtalálható (...?ref_id=123)
 common#:#obj_mme#:#Főmenű
 mme#:#type_top_parent_item#:#Tartalmazza
 mme#:#type_top_link_item#:#Linkel
 mme#:#type_separator#:#Elválasztó
+mme#:#type_separator_info#:#Ennek az elemnek a címe egy szűrke sávban fog megjelenni. Amennyiben nem ad meg címet, egy egyszerű vonal fog ott megjelenni.
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Linklista
 mme#:#type_complex#:#Komplex
@@ -14668,7 +14688,7 @@ lhist#:#lhist_cont_placeholder_text#:#Ez az elem a tanulási történelmet jelen
 lhist#:#lhist_lhist#:#Tanulási történelem
 skmg#:#skmg_materials_ressources#:#Erőforrások/Segédanyagok
 wsp#:#error_creating_certificate_pdf#:#Az igazolást nem sikerült létrehozni. Kérem, keresse a szerver üzemeltetőjét.
-cert#:#certificate_migration_confirm_start#:#Az ILIAS 5.4.x verzióban módosultak az igazolások. Az megszerzett igazolások letölthetőségét állandóvá tesszük, megszüntetjük azok függését az adott tanulási objektum pillanatnyi elérhetőségétől és engedélyeitől, illetve az tanulási objektumhoz tartozó pillanatnyi állapotától. Ezért indítsa el a migrálást.
+cert#:#certificate_migration_confirm_start#:#Az ILIAS 5.4-es verziójától módosulnak az igazolások, a már megszerzett igazolások állandóvá válnakm azaz egy már megszerzett igazolás akkor is elérhető marad, ha annak a kurzusát, tesztjét, illetve tananyagát törlik. Az új funkció használatához, el kell indítania a régi igazolásai migrálását.
 cert#:#certificate_migration_lastrun_failed#:#Az igazolások migrációja nem sikerült. Megpróbálja újra?
 cert#:#certificate_migration_confirm_started#:#A migráció elindult.
 cert#:#certificate_migration_go#:#Migráció indítása
@@ -14709,6 +14729,8 @@ iass#:#iass_sort_name_asc#:#Felhasználónév (növekvő)
 iass#:#iass_sort_name_desc#:#Felhasználónév (csökkenő)
 iass#:#iass_sort_examiner_login_asc#:#Értékelő (növekvő)
 iass#:#iass_sort_examiner_login_desc#:#Értékelő (csökkenő)
+iass#:#iass_sort_changetime_asc#:#Utolsó módosítás (növekvő)
+iass#:#iass_sort_changetime_desc#:#Utolsó módosítás (csökkenő)
 exc#:#exc_team_formation#:#Csapatlétrehozás
 exc#:#exc_team_by_participants#:#Önszerveződő csapatok
 exc#:#exc_team_by_participants_info#:#A résztvevők maguk jelentkeznek a csapatba.
@@ -14774,7 +14796,7 @@ sess#:#sess_contact#:#Kapcsolat
 sess#:#sess_mem_contacts#:#Tutori támogatás
 dateplaner#:#cal_calendar_subscription_modal_title#:#Naptárelőfizetés
 sess#:#sess_members#:#Résztvevők
-grp#:#grp_contact#:#Kapcsolat
+grp#:#grp_contact#:#Támogatás
 grp#:#grp_mem_contacts#:#Tutori támogatás
 common#:#lso_new#:#Új tanulási sor
 common#:#lso_add#:#Tanulási sor létrehozása
@@ -14804,7 +14826,7 @@ lso#:#entries_deleted#:#Az objektumokat sikeresen törölte.
 lso#:#no_entries_selected_for_delete#:#Legalább egy bejegyzést ki kell választania.
 lso#:#lso_member_administration#:#Résztvevők módosítása
 lso#:#lso_members_gallery#:#Tanulási sor tagképgalériája
-lso#:#lso_search_users#:#Felhasználó keresése
+lso#:#lso_search_users#:#Felhasználók keresése
 lso#:#lso_print_list#:#Lista nyomtatása
 lso#:#lso_mem_tbl_header#:#Tanulási sor tagja
 lso#:#lso_users_already_assigned#:#A felhasználó már hozzá van rendelve ehhez a tanulási sorhoz
@@ -14872,7 +14894,6 @@ lso#:#first_access#:#Első hozzáférés
 lso#:#last_access#:#Utolsó hozzáférés
 lso#:#lso_settings_availability#:#elérhetőség
 lso#:#avail_time_period#:#Időköz
-lso#:#lso_settings_misc#:#Beállítások
 lso#:#completed_steps#:#Megtett lépések
 lso#:#last_visited_step#:#Utoljára meglátogatott lépés
 lso#:#members_gallery#:#Tagok képgalériája
@@ -14937,7 +14958,7 @@ crs#:#crs_view_timing_relative#:#Relatív dátumok
 crs#:#crs_view_info_timing_relative#:#A kezdő és a záró dátum a regisztrációtól való eltéréssel lesz meghatározva.
 dateplaner#:#btn_ical#:#iCal
 style#:#sty_type_code_block#:#Kód (blokk)
-style#:#sty_type_code_inline#:#Kód (inline)
+style#:#sty_type_code_inline#:#Kód (sorban)
 sess#:#sess_material_assigned#:#Hozzárendelve
 sess#:#sess_material_not_assigned#:#Nincs hozzárendelve
 rbac#:#iass_amend_grading#:#Értékelés utólagos módosítása egy Személyes értékelésben
@@ -14956,3 +14977,10 @@ skll#:#skll_lhist_skill_self_eval#:#$3$ önértékelés, összesen $4$.
 skll#:#skll_lhist_skill_self_eval_in#:#$3$  önértékelés, összesen $4$, itt: $1$.
 blog#:#blog_download_submission#:#Benyújtás letöltése
 exc#:#exc_down_files_started_bg#:#A beküldött fájlok letöltése megkezdődött. Kérem, ellenőrizze a háttérfolyamatokat a jobb felső sarokban.
+lso#:#lso_news_online_title#:#A tanulási sorban egy új objektum lett online!
+lso#:#lso_news_online_txt#:#A tanulási sor egy új objektumát éppen most tette közzé.
+user#:#user_profile_info_std#:#Alapértelmezett Felhasználói Profil Információ
+lti#:#lti_cron_title#:#LTI-kimeneti Szolgáltatás
+lti#:#lti_cron_title_desc#:#Az LTI-felhasználók tanulási haladási állapotát szinkonizálja egy LTI-eszközfogyasztóval, amennyiben az támogatja a kimeneti szolgáltatást. Erre az ütemezett feladatra csak a tanulási haladás beállításainak módosítása után van szükség.
+crs#:#crs_timings_short_end#:#Záró dárum
+lso#:#lso_activation_online_info#:#Állítsa a tanulási haladást online-ra, hogy az látható és elérhető legyen a tanulás sor tagjai számára. A nem aktív sort csak a vezetők és a tutorok érhetik el.
