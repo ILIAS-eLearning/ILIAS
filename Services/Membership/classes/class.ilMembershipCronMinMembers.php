@@ -156,8 +156,7 @@ class ilMembershipCronMinMembers extends ilCronJob
 		
 		// #17097
 		$ntf->setReasonLangId("mem_cron_min_members_reason");
-		$ntf->setTaskLangId("mem_cron_min_members_task");
-		
+
 		// user specific language
 		$lng = $ntf->getUserLanguage($a_reci_id);
 			
@@ -175,10 +174,15 @@ class ilMembershipCronMinMembers extends ilCronJob
 		}						
 		$list = implode($ntf->getBlockBorder(), $list);
 				
-		$ntf->addAdditionalInfo("mem_cron_min_members_intro", $list, true);		
 		
 		$mail = new ilMail(ANONYMOUS_USER_ID);
 		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_reci_id), 
+		$ntf->addAdditionalInfo("mem_cron_min_members_intro", $list, true);
+		$ntf->addAdditionalInfo("mem_cron_min_members_task", "");
+
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		$mail->enableSOAP(false); // #10410
+		$mail->sendMail(ilObjUser::_lookupLogin($a_reci_id), 
 			null, 
 			null,
 			$lng->txt("mem_cron_min_members_subject"), 
