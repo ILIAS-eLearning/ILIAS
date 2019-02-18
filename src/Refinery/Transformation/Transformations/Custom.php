@@ -49,12 +49,9 @@ class Custom implements Transformation {
 	public function applyTo(Result $data) : Result
 	{
 		$dataValue = $data->value();
-		if(false === is_callable($dataValue)) {
-			$exception = new \InvalidArgumentException(__METHOD__ . " argument is not a callable.");
-			return $this->factory->error($exception);
-		}
 
-		$value = call_user_func($this->transform, $dataValue);
+		$value = $this->transform($dataValue);
+
 		$result = $this->factory->ok($value);
 
 		return $result;
