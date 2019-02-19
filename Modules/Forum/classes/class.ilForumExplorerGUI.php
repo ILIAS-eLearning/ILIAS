@@ -311,16 +311,6 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	{
 		$this->preloadChildren();
 
-		if(isset($_GET['post_created_below']) && (int)$_GET['post_created_below'] > 0)
-		{
-			$parent  = (int)$_GET['post_created_below'];
-			do
-			{
-				$this->setNodeOpen((int)$parent);
-			}
-			while($parent = $this->node_id_to_parent_node_id_map[$parent]);
-		}
-
 		$html = parent::getHTML();
 
 		$this->tpl->addOnLoadCode('il.ForumExplorer.init(' . json_encode(array(
