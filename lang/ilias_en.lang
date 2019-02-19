@@ -14994,3 +14994,4 @@ lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it v
 dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_crs_timing_end#:#Suggested End
 crs#:#crs_timings_edit_personal#:#Edit Personal Timings
+crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
