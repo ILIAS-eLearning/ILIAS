@@ -81,7 +81,7 @@ class Custom implements Constraint {
 	/**
 	 * @inheritdoc
 	 */
-	final public function restrict(Result $result) {
+	final public function applyTo(Result $result) {
 		if($result->isError()) {
 			return $result;
 		}

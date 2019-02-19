@@ -51,7 +51,7 @@ interface Constraint {
 	 * @param   Result $result
 	 * @return  Result
 	 */
-	public function restrict(Result $result);
+	public function applyTo(Result $result);
 
 	/**
 	 * Get a constraint like this one with a builder for a custom error

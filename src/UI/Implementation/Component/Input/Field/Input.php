@@ -344,7 +344,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	protected function setAdditionalConstraint(Constraint $constraint) {
 		$this->operations[] = $constraint;
 		if ($this->content !== null) {
-			$this->content = $constraint->restrict($this->content);
+			$this->content = $constraint->applyTo($this->content);
 			if ($this->content->isError()) {
 				$this->setError("" . $this->content->error());
 			}
@@ -438,7 +438,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($op instanceof Transformation) {
 				$res = $res->map($op);
 			} elseif ($op instanceof Constraint) {
-				$res = $op->restrict($res);
+				$res = $op->applyTo($res);
 			}
 		}
 
