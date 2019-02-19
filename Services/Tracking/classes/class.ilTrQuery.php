@@ -360,7 +360,7 @@ class ilTrQuery
 			return;
 		}
 		
-		if(sizeof($a_udf))
+		if(is_array($a_udf) && count($a_udf) > 0)
 		{
 			$query = "SELECT usr_id, field_id, value FROM udf_text WHERE ".$ilDB->in("field_id", $a_udf, false, "integer");
 			$set = $ilDB->query($query);
