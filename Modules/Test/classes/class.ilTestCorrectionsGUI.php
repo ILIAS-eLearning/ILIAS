@@ -326,11 +326,6 @@ class ilTestCorrectionsGUI
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
 		$participantData->load($this->testOBJ->getTestId());
 		
-		// remove question from test and reindex remaining questions
-		$this->testOBJ->removeQuestion($questionGUI->object->getId());
-		$this->testOBJ->reindexFixedQuestionOrdering();
-		$this->testOBJ->loadQuestions();
-		
 		// remove question solutions
 		$questionGUI->object->removeAllExistingSolutions();
 		
@@ -343,8 +338,15 @@ class ilTestCorrectionsGUI
 		// trigger learning progress
 		ilLPStatusWrapper::_refreshStatus($this->testOBJ->getId(), $participantData->getUserIds());
 		
+		// remove question from test and reindex remaining questions
+		$this->testOBJ->removeQuestion($questionGUI->object->getId());
+		$reindexedSequencePositionMap = $this->testOBJ->reindexFixedQuestionOrdering();
+		$this->testOBJ->loadQuestions();
+		
 		// remove questions from all sequences
-		$this->testOBJ->removeQuestionFromSequences($questionGUI->object->getId(), $participantData->getActiveIds());
+		$this->testOBJ->removeQuestionFromSequences(
+			$questionGUI->object->getId(), $participantData->getActiveIds(), $reindexedSequencePositionMap
+		);
 		
 		// finally delete the question itself
 		$questionGUI->object->delete($questionGUI->object->getId());
