@@ -46,6 +46,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	const CAL_ACTIVATION_END = 4;
 	const CAL_COURSE_START = 5;
 	const CAL_COURSE_END = 6;
+	const CAL_COURSE_TIMING_START = 7;
+	const CAL_COURSE_TIMING_END = 8;
+
 	
 	const STATUS_DETERMINATION_LP = 1;
 	const STATUS_DETERMINATION_MANUAL = 2;
@@ -86,14 +89,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	private $timing_mode = ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE;
 
 	/**
-	 *
-	 * 
-	 *
 	 * @var boolean
 	 * @access private
 	 * 
 	 */
 	private $auto_notification = true;
+
 
 	/**
 	* Constructor
@@ -1247,16 +1248,15 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 
-
 	/**
-	* update complete object
-	*/
-	function update()
+	 * update complete object
+	 */
+	public function update()
 	{
 		global $DIC;
 
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$ilLog = $DIC['ilLog'];
+		$ilLog = $DIC->logger()->crs();
 
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		$sorting = new ilContainerSortingSettings($this->getId());
@@ -1266,7 +1266,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->updateMetaData();
 		$this->updateSettings();
 		parent::update();
-		
+
 		$ilAppEventHandler->raise('Modules/Course',
 			'update',
 			array('object' => $this,
@@ -2011,8 +2011,34 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					$app->setFullday(true);
 					$apps[] = $app;
 				}
-				
-				
+				if(
+					$this->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING &&
+					$this->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
+				{
+					$active = ilObjectActivation::getTimingsItems($this->getRefId());
+					foreach($active as $null => $item)
+					{
+						if($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING)
+						{
+							// create calendar entry for fixed types
+							$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_TIMING_START);
+							$app->setTitle($item['title']);
+							$app->setSubtitle('cal_crs_timing_start');
+							$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+							$app->setStart(new ilDate($item['suggestion_start'],IL_CAL_UNIX));
+							$app->setFullday(true);
+							$apps[] = $app;
+
+							$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_TIMING_END);
+							$app->setTitle($item['title']);
+							$app->setSubtitle('cal_crs_timing_end');
+							$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+							$app->setStart(new ilDate($item['suggestion_end'],IL_CAL_UNIX));
+							$app->setFullday(true);
+							$apps[] = $app;
+						}
+					}
+				}
 				return $apps ? $apps : array();
 				
 			case 'delete':
