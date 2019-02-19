@@ -1149,9 +1149,15 @@ class ilObjectCopyGUI
 			$ref_id = $this->getFirstTarget();
 		}
 
+		ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
+		ilUtil::redirect(ilLink::_getLink($ref_id));
+
+		// see bug discussion 24472
+		/*
 		$gui_fac = new ilObjectGUIFactory();
 		$obj_gui = $gui_fac->getInstanceByRefId($ref_id);
 		$obj_gui->redirectAfterCreation();
+		*/
 	}
 	
 	/**
