@@ -13,7 +13,7 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  */
 class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 {
-	protected $obj_ids = [];
+	protected $obj_ids = null;
 	protected $objective_ids = [];
 	protected $sco_ids = [];
 	protected $subitem_ids = [];
@@ -167,7 +167,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			// so we use all available columns, should be ok anyways
 			$this->obj_ids = $this->getItems(array_keys($user_cols[0]), $user_cols[1]);
 		}
-		if($this->obj_ids)
+		if(is_array($this->obj_ids))
 		{
 			$tmp_cols = array();
 			foreach($this->obj_ids as $obj_id)
