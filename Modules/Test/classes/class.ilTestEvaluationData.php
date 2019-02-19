@@ -211,7 +211,7 @@ class ilTestEvaluationData
 
 	function getParticipants()
 	{
-		if (count($this->arrFilter))
+		if (is_array($this->arrFilter) && count($this->arrFilter) > 0)
 		{
 			$filteredParticipants = array();
 			$courseids = array();
