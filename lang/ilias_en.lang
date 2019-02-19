@@ -14993,3 +14993,4 @@ crs#:#crs_timings_short_end#:#End Date
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
 dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_crs_timing_end#:#Suggested End
+crs#:#crs_timings_edit_personal#:#Edit Personal Timings

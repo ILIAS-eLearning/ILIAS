@@ -12578,7 +12578,7 @@ tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte 
 tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
 tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
-cntr#:#cont_custom_icon#:#Custom Icon
+cntr#:#cont_custom_icon#:#Angepasstes Icon
 rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich.
 content#:#cont_license#:#Lizenz
 content#:#cont_license_info#:#Reiter und Funktion "Lizenz" werden angezeigt.
@@ -14994,3 +14994,4 @@ crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
 dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
 dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende
+crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
