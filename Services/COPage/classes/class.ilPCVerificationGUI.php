@@ -119,6 +119,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 	 *
 	 * @param bool $a_insert
 	 * @return ilPropertyFormGUI
+	 * @throws ilDateTimeException
 	 */
 	protected function initForm($a_insert = false)
 	{
@@ -197,7 +198,15 @@ class ilPCVerificationGUI extends ilPageContentGUI
 			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 		} else {
 			$data = $this->content_obj->getData();
-			$workspaceCertificates->setValue($data["id"]);
+
+			if ($data['type'] === 'crta') {
+				$certificateSource->setValue('certificate_persistent_option');
+				$persistentObject->setValue($data["id"]);
+			} else {
+				$certificateSource->setValue('certificate_workspace_option');
+				$workspaceCertificates->setValue($data["id"]);
+			}
+
 
 			$form->addCommandButton("update", $this->lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
