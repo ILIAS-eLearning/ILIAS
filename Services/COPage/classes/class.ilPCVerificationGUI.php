@@ -217,6 +217,9 @@ class ilPCVerificationGUI extends ilPageContentGUI
 
 	/**
 	 * Create new verification
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDateTimeException
 	 * @throws ilException
 	 */
 	function create()
@@ -271,15 +274,70 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		$form = $this->initForm(true);
 		if($form->checkInput())
 		{
-			$type = ilObject::_lookupType($form->getInput("object"));
-			if($type)
-			{	
-				$this->content_obj->setData($type, $form->getInput("object"));
+			$option = $form->getInput('certificate_selection');
+			if ('certificate_workspace_option' === $option) {
+				$object = $form->getInput("object");
+				$type = ilObject::_lookupType($object);
+				if($type) {
+					$oldContentData = $this->content_obj->getData();
+
+					if ('crta' === $oldContentData['type']) {
+						$userId = $this->user->getId();
+						$oldObjectId = $oldContentData['id'];
+
+						$certificateFileService = new ilPortfolioCertificateFileService();
+						try {
+							$certificateFileService->deleteCertificateFile($userId, $oldObjectId);
+						} catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+							ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'));
+							$this->log->warning($e->getMessage());
+						} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+							ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'));
+							$this->log->warning($e->getMessage());
+						}
+					}
+
+					$this->content_obj->setData($type, $object);
+					$this->updated = $this->pg_obj->update();
+					if ($this->updated === true) {
+						$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+					}
+				}
+			} elseif ('certificate_persistent_option' === $option) {
+				$oldContentData = $this->content_obj->getData();
+
+				$objectId = $form->getInput("persistent_object");
+
+				$certificateFileService = new ilPortfolioCertificateFileService();
+
+				try {
+					$userId = $this->user->getId();
+
+					$certificateFileService->createCertificateFile($userId, $objectId);
+					if ('crta' === $oldContentData['type']) {
+						$oldObjectId = $oldContentData['id'];
+						$certificateFileService->deleteCertificateFile($userId, $oldObjectId);
+					}
+				} catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'));
+					$this->log->warning($e->getMessage());
+				}
+				catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'));
+					$this->log->warning($e->getMessage());
+				} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'));
+					$this->log->warning($e->getMessage());
+				} catch (ilException $e) {
+				}
+
+				$this->content_obj->setData('crta', $objectId);
 				$this->updated = $this->pg_obj->update();
-				if ($this->updated === true)
-				{
+				if ($this->updated === true) {
 					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 				}
+
+				$this->log->info('File could not be created');
 			}
 		}
 
