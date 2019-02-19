@@ -217,9 +217,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
 
 	/**
 	 * Create new verification
-	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-	 * @throws \ILIAS\Filesystem\Exception\IOException
-	 * @throws ilDateTimeException
 	 * @throws ilException
 	 */
 	function create()
@@ -248,7 +245,20 @@ class ilPCVerificationGUI extends ilPageContentGUI
 				$userId = $this->user->getId();
 
 				$certificateFileService = new ilPortfolioCertificateFileService();
-				$certificateFileService->createCertificateFile($userId, $objectId);
+				try {
+					$certificateFileService->createCertificateFile($userId, $objectId);
+				} catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
+					$this->log->warning($e->getMessage());
+				} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'), true);
+					$this->log->error($e->getMessage());
+					return $this->ctrl->redirect($this, 'initForm');
+				} catch (ilException $e) {
+					ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'), true);
+					$this->log->error($e->getMessage());
+					return $this->ctrl->redirect($this, 'initForm');
+				}
 
 				$this->content_obj = new ilPCVerification($this->getPage());
 				$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -319,16 +329,19 @@ class ilPCVerificationGUI extends ilPageContentGUI
 						$certificateFileService->deleteCertificateFile($userId, $oldObjectId);
 					}
 				} catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'));
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
 					$this->log->warning($e->getMessage());
 				}
 				catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
-					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'));
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
 					$this->log->warning($e->getMessage());
 				} catch (\ILIAS\Filesystem\Exception\IOException $e) {
-					ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'));
+					ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'), true);
 					$this->log->warning($e->getMessage());
 				} catch (ilException $e) {
+					ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'), true);
+					$this->log->error($e->getMessage());
+					return $this->ctrl->redirect($this, 'initForm');
 				}
 
 				$this->content_obj->setData('crta', $objectId);
