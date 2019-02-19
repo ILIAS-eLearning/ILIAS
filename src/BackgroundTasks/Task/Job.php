@@ -33,6 +33,13 @@ interface Job extends Task {
 	 */
 	public function isStateless();
 
+
+	/**
+	 * @return mixed returns the input array
+	 */
+	public function getInput();
+
+
 	/**
 	 * @return int the amount of seconds this task usually taskes. If your task-duration scales
 	 *             with the the amount of data, try to set a possible high value of try to
