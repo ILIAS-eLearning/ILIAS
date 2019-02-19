@@ -13,14 +13,14 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  */
 class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 {
-	protected $obj_ids = NULL;
-	protected $objective_ids = NULL;
-	protected $sco_ids = NULL;
-	protected $subitem_ids = NULL;
+	protected $obj_ids = [];
+	protected $objective_ids = [];
+	protected $sco_ids = [];
+	protected $subitem_ids = [];
 	protected $in_course; // int
 	protected $in_group; // int
-	protected $privacy_fields; // array
-	protected $privacy_cols = array(); // array
+	protected $privacy_fields = []; 
+	protected $privacy_cols = [];
 	protected $has_multi; // bool
 
 	/**

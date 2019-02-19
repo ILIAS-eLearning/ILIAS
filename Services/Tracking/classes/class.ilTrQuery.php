@@ -1027,7 +1027,7 @@ class ilTrQuery
 
 		$having = array();
 
-		if(sizeof($a_filters))
+		if(is_array($a_filters) && sizeof($a_filters) > 0)
 		{
 			foreach($a_filters as $id => $value)
 			{
@@ -1652,8 +1652,11 @@ class ilTrQuery
 					}
 				}
 			}
-			
-			$result["cnt"] = sizeof($result["set"]);	
+
+			$result["cnt"] = 0;
+			if (is_array($result["set"])) {
+				$result["cnt"] = count($result["set"]);
+			}
 			$result["users"] = $a_users;	
 			
 			self::getUDFAndHandlePrivacy($result, $udf, $a_check_agreement, $a_privacy_fields, $a_additional_fields);																									
