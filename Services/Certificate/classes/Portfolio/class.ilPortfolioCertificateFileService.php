@@ -112,6 +112,24 @@ class ilPortfolioCertificateFileService
 	/**
 	 * @param int $userId
 	 * @param int $objectId
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 */
+	public function deleteCertificateFile(int $userId, int $objectId)
+	{
+		$dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
+
+		$completePath = $dirPath . '/' . $objectId . '_' . self::CERTIFICATE_FILENAME;
+
+		if ($this->filesystem->has($completePath)) {
+			$this->filesystem->delete($completePath);
+		}
+	}
+
+
+	/**
+	 * @param int $userId
+	 * @param int $objectId
 	 * @return string
 	 * @throws ilException
 	 */
