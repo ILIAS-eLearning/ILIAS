@@ -140,6 +140,7 @@ class ilTestResultsImportParser extends ilSaxParser
 							'tstamp' => array('integer', $a_attribs['tstamp']),
 							'importname' => array('text', $a_attribs['fullname']),
 							'last_finished_pass' => array('integer', $this->fetchLastFinishedPass($a_attribs)),
+							'last_started_pass' => array('integer', $this->fetchLastStartedPass($a_attribs)),
 							'answerstatusfilter' => array('integer', $this->fetchAttribute($a_attribs, 'answer_status_filter')),
 							'objective_container' => array('integer', $this->fetchAttribute($a_attribs, 'objective_container'))
 						));
@@ -295,6 +296,21 @@ class ilTestResultsImportParser extends ilSaxParser
 		if( isset($attribs['last_finished_pass']) )
 		{
 			return $attribs['last_finished_pass'];
+		}
+		
+		if( $attribs['tries'] > 0 )
+		{
+			return $attribs['tries'] - 1;
+		}
+		
+		return null;
+	}
+	
+	private function fetchLastStartedPass($attribs)
+	{
+		if( isset($attribs['last_started_pass']) )
+		{
+			return $attribs['last_started_pass'];
 		}
 		
 		if( $attribs['tries'] > 0 )
