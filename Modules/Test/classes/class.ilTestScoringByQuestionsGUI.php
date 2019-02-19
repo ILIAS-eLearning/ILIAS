@@ -45,9 +45,19 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$tpl = $DIC->ui()->mainTemplate();
+		$ilAccess = $DIC['ilAccess'];
 		
 		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
-		
+
+		if(
+			!$ilAccess->checkAccess("write", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
+		)
+		{
+			ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
+		}
+
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 
@@ -75,6 +85,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		$qst_id  = $table->getFilterItemByPostVar('question')->getValue();
 		$passNr = $table->getFilterItemByPostVar('pass')->getValue();
+		$finalized_filter = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
 
 		$table_data = array();
 
@@ -91,6 +102,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 				$selected_questionData = $info;
 			}
 		}
+		$complete_feedback = $this->object->getCompleteManualFeedback($qst_id);
 
 		if($selected_questionData && is_numeric($passNr))
 		{
@@ -113,7 +125,23 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 				$testResultData = $this->object->getTestResult($active_id, $passNr - 1);
 				foreach($testResultData as $questionData)
 				{
+					$feedback = array();
+					if(array_key_exists($active_id, $complete_feedback)
+						&& array_key_exists($passNr - 1, $complete_feedback[$active_id])
+						&& array_key_exists($qst_id, $complete_feedback[$active_id][$passNr - 1]))
+					{
+						$feedback = $complete_feedback[$active_id][$passNr - 1][$qst_id];
+					}
 					if( !isset($questionData['qid']) || $questionData['qid'] != $selected_questionData['question_id'] )
+					{
+						continue;
+					}
+					if(($finalized_filter == 1 && $feedback['finalized_evaluation'] != 1) ||
+						(array_key_exists('finalized_evaluation', $feedback) &&
+							($finalized_filter == 2 &&
+								$feedback['finalized_evaluation'] == 1)
+						)
+					)
 					{
 						continue;
 					}
@@ -125,6 +153,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 						'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
 						'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
 						'participant'    => $participant,
+						'feedback'       => $feedback,
 					);
 				}
 			}
@@ -156,11 +185,28 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$table->setData($table_data);
 		$tpl->setContent($table->getHTML());
 	}
-	
-	protected function saveManScoringByQuestion()
+
+	/**
+	 * @param bool $ajax
+	 */
+	protected function saveManScoringByQuestion($ajax = false)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
+		$ilAccess = $DIC['ilAccess'];
+
+		if(
+			!$ilAccess->checkAccess("write", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
+		)
+		{
+			if ($ajax) {
+				echo $this->lng->txt('cannot_edit_test');
+				exit();
+			}
+			ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
+		}
+
 		if(!isset($_POST['scoring']) || !is_array($_POST['scoring']))
 		{
 			ilUtil::sendFailure($this->lng->txt('tst_save_manscoring_failed_unknown'));
@@ -208,6 +254,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			
 			foreach((array)$questions as $qst_id => $reached_points)
 			{
+				$this->saveFeedback($active_id, $qst_id, $pass);
+
 				if( !isset($manPointsPost[$pass]) )
 				{
 					$manPointsPost[$pass] = array();
@@ -238,6 +286,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		
 		$changed_one = false;
 		$lastAndHopefullyCurrentQuestionId = null;
+
 		foreach($participantData->getActiveIds() as $active_id)
 		{
 			$questions = $activeData[$active_id];
@@ -268,6 +317,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			}
 		}
 
+		$correction_feedback = array();
+		$correction_points = 0;
+
 		if($changed_one)
 		{
 			$qTitle = '';
@@ -285,9 +337,37 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			$scorer = new ilTestScoring($this->object);
 			$scorer->setPreserveManualScores(true);
 			$scorer->recalculateSolutions();
+			if(isset($active_id))
+			{
+				$scorer->recalculateSolution($active_id, $pass);
+				$correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);
+				$correction_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+			}
+			else
+			{
+				$scorer->recalculateSolutions();
+			}
 		}
-		
-		$this->showManScoringByQuestionParticipantsTable();
+		if($ajax && is_array($correction_feedback) && count($correction_feedback) > 0)
+		{
+			$correction_feedback['finalized_by'] = ilObjUser::_lookupFullname($correction_feedback['finalized_by_usr_id']);
+			if(strlen($correction_feedback['finalized_tstamp']) > 0)
+			{
+				$time = new ilDateTime($correction_feedback['finalized_tstamp'], IL_CAL_UNIX);
+				$correction_feedback['finalized_on_date'] = $time->get(IL_CAL_DATETIME);
+			}
+			else
+			{
+				$correction_feedback['finalized_on_date'] = '';
+			}
+
+			echo json_encode(array( 'feedback' => $correction_feedback, 'points' => $correction_points));
+			exit();
+		}
+		else
+		{
+			$this->showManScoringByQuestionParticipantsTable();
+		}
 	}
 
 	/**
@@ -327,13 +407,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		
 		$data = $this->object->getCompleteEvaluationData(FALSE);
 		$participant = $data->getParticipant($active_id);
-		
 		$question_gui = $this->object->createQuestionGUI('', $question_id);
+		$result_output  = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE, $this->object->getShowSolutionFeedback(), FALSE, TRUE);
+		$maxpoints = $question_gui->object->getMaximumPoints();
 
 		$tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', TRUE, TRUE, 'Modules/Test');
-		$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE, $this->object->getShowSolutionFeedback(), FALSE, TRUE);
+		$this->appendUserNameToModal($tmp_tpl, $participant);
+		$this->appendQuestionTitleToModal($tmp_tpl, $question_id, $maxpoints, $question_gui->object->getTitle());
+		$this->appendSolutionAndPointsToModal($tmp_tpl, $result_output, $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints);
+		$this->appendFormToModal($tmp_tpl, $pass, $active_id, $question_id, $maxpoints);
 		$tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') .' '. $participant->getName());
-		$maxpoints = $question_gui->object->getMaximumPoints();
 
 		$add_title = ' ['. $this->lng->txt('question_id_short') . ': ' . $question_id  . ']';
 		
@@ -350,5 +433,226 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		echo $tmp_tpl->get();
 		exit();
+	}
+
+	public function checkConstraintsBeforeSaving()
+	{
+		$this->saveManScoringByQuestion(true);
+	}
+
+
+	private function enforceAccessConstraint()
+	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		global $ilAccess;
+		if(
+			!$ilAccess->checkAccess("write", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
+		)
+		{
+			exit();
+		}
+	}
+
+	/**
+	 * @param ilTemplate $tmp_tpl
+	 * @param $participant
+	 */
+	private function appendUserNameToModal($tmp_tpl, $participant)
+	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		global $ilAccess;
+
+		if($this->object->isFullyAnonymized() ||
+			($this->object->getAnonymity() == 2 && !$ilAccess->checkAccess('write', '', $this->object->getRefId())))
+		{
+			$tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') . ' ' . $this->lng->txt('anonymous'));
+		}
+		else
+		{
+			$tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') . ' ' . $participant->getName());
+		}
+	}
+
+	/**
+	 * @param ilTemplate $tmp_tpl
+	 * @param $question_id
+	 * @param $max_points
+	 * @param $title
+	 */
+	private function appendQuestionTitleToModal($tmp_tpl, $question_id, $max_points, $title)
+	{
+		$add_title = ' [' . $this->lng->txt('question_id_short') . ': ' . $question_id . ']';
+
+		if($max_points == 1)
+		{
+			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($title) . ' (' . $max_points . ' ' . $this->lng->txt('point') . ')' . $add_title);
+		}
+		else
+		{
+			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($title) . ' (' . $max_points . ' ' . $this->lng->txt('points') . ')' . $add_title);
+		}
+	}
+
+	/**
+	 * @param ilTemplate $tmp_tpl
+	 * @param $pass
+	 * @param $active_id
+	 * @param $question_id
+	 * @param $max_points
+	 */
+	private function appendFormToModal($tmp_tpl, $pass, $active_id, $question_id, $max_points)
+	{
+		/**
+		 * ilCtrl $ilCtrl
+		 */
+		global $ilCtrl;
+		require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$post_var = '[' . $pass . '][' . $active_id . '][' . $question_id . ']';
+		$scoring_post_var = 'scoring'.$post_var;
+		$reached_points = assQuestion::_getReachedPoints($active_id, $question_id, $pass);
+
+		$form             = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, 'showManScoringByQuestionParticipantsTable'));
+		$form->setTitle($this->lng->txt('manscoring'));
+
+		$feedback = $this->object->getSingleManualFeedback($active_id, $question_id, $pass);
+		$disable = false;
+		if(array_key_exists('finalized_evaluation', $feedback) && $feedback['finalized_evaluation'] == 1)
+		{
+			$disable = true;
+			$hidden_points = new ilHiddenInputGUI($scoring_post_var);
+			$hidden_points->setValue($reached_points);
+			$form->addItem($hidden_points);
+			$scoring_post_var = $scoring_post_var . '_disabled';
+		}
+
+		$text_area = new ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var);
+		$feedback_text = '';
+		if(array_key_exists('feedback', $feedback))
+		{
+			$feedback_text = $feedback['feedback'];
+		}
+		$text_area->setDisabled($disable);
+		$text_area->setValue($feedback_text);
+		$form->addItem($text_area);
+		$reached_points_form = new ilNumberInputGUI($this->lng->txt('tst_change_points_for_question'), $scoring_post_var);
+		$reached_points_form->allowDecimals(true);
+		$reached_points_form->setSize(5);
+		$reached_points_form->setMaxValue($max_points, true);
+		$reached_points_form->setMinValue(0);
+		$reached_points_form->setDisabled($disable);
+		$reached_points_form->setValue($reached_points);
+		$form->addItem($reached_points_form);
+
+		$hidden_points = new ilHiddenInputGUI('qst_max_points');
+		$hidden_points->setValue($max_points);
+		$form->addItem($hidden_points);
+		$hidden_points_name = new ilHiddenInputGUI('qst_hidden_points_name');
+		$hidden_points_name->setValue('scoring' . $post_var);
+		$form->addItem($hidden_points_name);
+		$hidden_feedback_name = new ilHiddenInputGUI('qst_hidden_feedback_name');
+		$hidden_feedback_name->setValue('m_feedback' . $post_var);
+		$form->addItem($hidden_feedback_name);
+		$hidden_feedback_id = new ilHiddenInputGUI('qst_hidden_feedback_id');
+		$post_id = '__' . $pass . '____' . $active_id . '____' . $question_id . '__';
+		$hidden_feedback_id->setValue('m_feedback' . $post_id);
+		$form->addItem($hidden_feedback_id);
+
+		$evaluated = new ilCheckboxInputGUI($this->lng->txt('finalized_evaluation'), 'evaluated' . $post_var);
+		if(array_key_exists('finalized_evaluation', $feedback) && $feedback['finalized_evaluation'] == 1)
+		{
+			$evaluated->setChecked(true);
+		}
+		$form->addItem($evaluated);
+
+		$form->addCommandButton('checkConstraintsBeforeSaving', $this->lng->txt('save'));
+		$tmp_tpl->setVariable('MANUAL_FEEDBACK', $form->getHTML());
+		$tmp_tpl->setVariable('MODAL_AJAX_URL', $this->ctrl->getLinkTarget($this, 'checkConstraintsBeforeSaving', '', true, false));
+		$tmp_tpl->setVariable('INFO_TEXT_MAX_POINTS_EXCEEDS', sprintf($this->lng->txt('tst_manscoring_maxpoints_exceeded_input_alert'), $max_points));
+	}
+
+	/**
+	 * @param ilTemplate $tmp_tpl
+	 * @param $result_output
+	 * @param $reached_points
+	 * @param $max_points
+	 */
+	private function appendSolutionAndPointsToModal($tmp_tpl, $result_output, $reached_points, $max_points)
+	{
+		$tmp_tpl->setVariable('SOLUTION_OUTPUT', $result_output);
+		$tmp_tpl->setVariable('RECEIVED_POINTS', sprintf($this->lng->txt('part_received_a_of_b_points'), $reached_points, $max_points));
+	}
+
+	/**
+	 * @param $active_id
+	 * @param $qst_id
+	 * @param $pass
+	 */
+	protected function saveFeedback($active_id, $qst_id, $pass)
+	{
+		$feedback = '';
+		if($this->doesValueExistsInPostArray('feedback',$active_id, $qst_id, $pass))
+		{
+			$feedback = ilUtil::stripSlashes($_POST['feedback'][$pass][$active_id][$qst_id]);
+		}
+		else if($this->doesValueExistsInPostArray('m_feedback',$active_id, $qst_id, $pass))
+		{
+			$feedback = ilUtil::stripSlashes($_POST['m_feedback'][$pass][$active_id][$qst_id]);
+		}
+		$this->saveFinalization($active_id, $qst_id, $pass, $feedback);
+	}
+
+	/**
+	 * @param $active_id
+	 * @param $qst_id
+	 * @param $pass
+	 * @param $feedback
+	 */
+	protected function saveFinalization($active_id, $qst_id, $pass, $feedback)
+	{
+		$evaluated = false;
+		if($this->doesValueExistsInPostArray('evaluated', $active_id, $qst_id, $pass))
+		{
+			$evaluated = (int)$_POST['evaluated'][$pass][$active_id][$qst_id];
+			if($evaluated === 1)
+			{
+				$evaluated = true;
+			}
+		}
+		$this->object->saveManualFeedback($active_id, $qst_id, $pass, $feedback, $evaluated);
+	}
+	/**
+	 * @param $post_value
+	 * @param $active_id
+	 * @param $qst_id
+	 * @param $pass
+	 * @return bool
+	 */
+	protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass)
+	{
+		if(array_key_exists($post_value, $_POST))
+		{
+			if(array_key_exists($pass, $_POST[$post_value]))
+			{
+				if(array_key_exists($active_id, $_POST[$post_value][$pass]))
+				{
+					if(array_key_exists($qst_id, $_POST[$post_value][$pass][$active_id]))
+					{
+						if(strlen($_POST[$post_value][$pass][$active_id][$qst_id]) > 0)
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

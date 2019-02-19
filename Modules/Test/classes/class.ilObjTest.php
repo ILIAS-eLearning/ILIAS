@@ -9793,6 +9793,14 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isFullyAnonymized()
+	{
+		return $this->anonymity == 1;
+	}
+
+	/**
 	* Sets the anonymity status of the test
 	*
 	* @param integer $a_value The value for the anonymity status (0 = personalized, 1 = anonymized)
@@ -10524,7 +10532,58 @@ function getAnswerFeedbackPoints()
 		}
 		return $feedback;
 	}
-	
+
+	/**
+	 * Retrieves the manual feedback for a question in a test
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @return array The feedback text
+	 * @access public
+	 */
+	public static function getSingleManualFeedback($active_id, $question_id, $pass)
+	{
+		global $ilDB;
+		$feedback = array();
+		$result = $ilDB->queryF("SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer', 'integer', 'integer'),
+			array($active_id, $question_id, $pass)
+		);
+		if ($result->numRows())
+		{
+			$row = $ilDB->fetchAssoc($result);
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$feedback = $row;
+			$feedback['feedback'] = ilRTE::_replaceMediaObjectImageSrc($feedback['feedback'], 1);
+		}
+		return $feedback;
+	}
+
+	/**
+	 * Retrieves the manual feedback for a question in a test
+	 *
+	 * @param integer $question_id Question ID
+	 * @return array The feedback text
+	 * @access public
+	 */
+	public static function getCompleteManualFeedback($question_id)
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		global $ilDB;
+		$feedback = array();
+		$result = $ilDB->queryF("SELECT * FROM tst_manual_fb WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$feedback[$row['active_fi']][$row['pass']][$row['question_fi']] = $row;
+			$feedback[$row['active_fi']][$row['pass']][$row['question_fi']]['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+		}
+		return $feedback;
+	}
+
 	/**
 	* Saves the manual feedback for a question in a test
 	*
@@ -10535,12 +10594,25 @@ function getAnswerFeedbackPoints()
 	* @return boolean TRUE if the operation succeeds, FALSE otherwise
 	* @access public
 	*/
-	function saveManualFeedback($active_id, $question_id, $pass, $feedback)
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$feedback_old = $this->getSingleManualFeedback($active_id, $question_id, $pass);
+		if($feedback_old['finalized_evaluation'] == 1)
+		{
+			$user = $feedback_old['finalized_by_usr_id'];
+			$finalized_time = $feedback_old['finalized_tstamp'];
+		}
+		else
+		{
+			$user = $ilUser->getId();
+			$finalized_time = time();
+		}
+
+		$ilDB->manipulateF("DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
@@ -10549,21 +10621,32 @@ function getAnswerFeedbackPoints()
 		{
 			$next_id = $ilDB->nextId('tst_manual_fb');
 			/** @var ilDBInterface $ilDB */
-			$result = $ilDB->insert('tst_manual_fb', array(
-													   'manual_feedback_id'		=> array( 'integer', 	$next_id ),
-													   'active_fi'				=> array( 'integer', 	$active_id ),
-													   'question_fi'			=> array( 'integer', 	$question_id ),
-													   'pass'					=> array( 'integer',	$pass),
-													   'feedback'				=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0) ),
-													   'tstamp'					=> array( 'integer',	time() ),
-												   )
-			);
+			$update_default = array(
+								   'manual_feedback_id'		=> array( 'integer', 	$next_id ),
+								   'active_fi'				=> array( 'integer', 	$active_id ),
+								   'question_fi'			=> array( 'integer', 	$question_id ),
+								   'pass'					=> array( 'integer',	$pass ),
+								   'feedback'				=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0) ),
+								   'tstamp'					=> array( 'integer',	time() ));
+
+			if($finalized === true)
+			{
+				$finalize = array('finalized_evaluation'	=> array( 'integer', 1),
+					'finalized_by_usr_id'		=> array( 'integer', $user),
+					'finalized_tstamp'		=> array( 'integer', $finalized_time));
+				$update_default = array_merge($update_default, $finalize);
+				$result = $ilDB->insert('tst_manual_fb', $update_default);
+			}
+			else
+			{
+				$result = $ilDB->insert('tst_manual_fb', $update_default);
+			}
+
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				global $DIC;
 				$lng = $DIC['lng'];
-				$ilUser = $DIC['ilUser'];
 				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 				$username = ilObjTestAccess::_getParticipantData($active_id);
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
