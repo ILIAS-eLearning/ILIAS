@@ -14994,3 +14994,8 @@ crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
 dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
 dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende
+assessment#:#finalized_evaluation#:#Endgültig bewertet
+assessment#:#evaluated_users#:#Bewertete Benutzer
+assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
+assessment#:#finalized_by#:#Bewertung abgeschlossen von
+assessment#:#finalized_on#:#Bewertung abgeschlossen am

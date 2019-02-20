@@ -77,7 +77,11 @@ class ilTestScoring
 	 */
 	public function recalculateSolution($active_id, $pass)
 	{
-		$user_data = $this->test->getCompleteEvaluationData(false)->getParticipant($active_id)->getPass($pass);
+		$user_data = $this->test
+			->getCompleteEvaluationData(false)
+			->getParticipant($active_id)
+			->getPass($pass);
+
 		$this->recalculatePass( $user_data, $active_id , $pass);
 		assQuestion::_updateTestResultCache($active_id);
 	}

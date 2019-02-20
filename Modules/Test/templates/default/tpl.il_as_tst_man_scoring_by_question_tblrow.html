@@ -10,7 +10,8 @@
 		<!-- END reached_points_alert -->
 	</td>
 	<td>{VAL_MAX_POINTS}</td>
-	<td class="tinyLateInit">{VAL_MODAL_CORRECTION}</td>
+	<td style="display:none">{VAL_MODAL_CORRECTION_HIDDEN}</td>
+	<td>{VAL_MODAL_CORRECTION}</td>
 	<td>{VAL_EVALUATED}</td>
 	<td class="finalized_by_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_BY}</td>
 	<td class="finalized_on_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_ON}</td>
@@ -21,7 +22,10 @@
 		<script type="text/javascript">
 			(function($) {
 				$().ready(function() {
+
+					$(".iosAssAnswerModalTrigger").off("click");
 					$(".iosAssAnswerModalTrigger").on("click", function(e) {
+
 						var $this = $(this),
 							modal = $this.data("modal");
 
@@ -52,19 +56,6 @@
 						} else {
 							modal.show();
 						}
-					});
-					$( '.tinyLateInit > textarea' ).off('focus');
-					$( '.tinyLateInit > textarea' ).focus(function() {
-						tinyMCE.init({
-							mode : "exact",
-							theme : "simple",
-							elements : $(this).attr('id'),
-							plugins : "xhtmlxtras,style,layer,table,save,advhr,advlink,emotions,iespell,insertdatetime,preview,searchreplace,print,paste,directionality,fullscreen,nonbreaking,noneditable,style",
-							theme_advanced_toolbar_location : "top",
-							theme_advanced_toolbar_align : "left",
-							theme_advanced_statusbar_location : "bottom",
-							theme_advanced_resizing : true
-						});
 					});
 					<!-- BEGIN scoring_by_question_refresher -->
 					il.TestScoringByQuestion  = (function (scope) {
