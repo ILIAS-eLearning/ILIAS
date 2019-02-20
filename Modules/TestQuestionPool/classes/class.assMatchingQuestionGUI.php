@@ -488,6 +488,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						$template->parseCurrentBlock();
 					}
 					
+					require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 					$answerImageSrc = ilWACSignedPath::signFile(
 						$this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture
 					);
@@ -519,6 +520,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						$template->parseCurrentBlock();
 					}
 
+					require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 					$answerImageSrc = ilWACSignedPath::signFile(
 						$this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture
 					);
