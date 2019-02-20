@@ -109,15 +109,18 @@ class ilMassMailTaskProcessor
 			throw new ilException(sprintf('The mails per task MUST be a positive integer, "%s" given', $mailsPerTask));
 		}
 
+		foreach ($mailValueObjects as $mailValueObject) {
+			if (false === ($mailValueObject instanceof ilMailValueObject)) {
+				throw new ilException('Array MUST contain ilMailValueObjects ONLY');
+			}
+		}
+
+
 		$lastTask = null;
 		$taskCounter = 0;
 
 		$remainingObjects = array();
 		foreach ($mailValueObjects as $mailValueObject) {
-			if (false === ($mailValueObject instanceof ilMailValueObject)) {
-				throw new ilException('Array MUST contain ilMailValueObjects ONLY');
-			}
-
 			$taskCounter++;
 
 			$remainingObjects[] = $mailValueObject;
