@@ -66,6 +66,16 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
 	public function getToolsButton(): Button\Bulky;
 
 	/**
+	 * Set button for further entries that do not fit on the screen.
+	 */
+	public function withMoreButton(Button\Bulky $button): MainBar;
+
+	/**
+	 * Returns the button for further entrie.
+	 */
+	public function getMoreButton(): Button\Bulky;
+
+	/**
 	 * Get the signal that is triggered when any entry in the bar is clicked.
 	 */
 	public function getEntryClickSignal(): Signal;

@@ -15,8 +15,15 @@ function buildMainbar($f, $r)
 		'Tools',
 		'#'
 	);
+	$more_btn = $f->button()->bulky(
+		$f->icon()->standard('', ''),
+		'more',
+		'#'
+	);
+
 	$mainbar = $f->mainControls()->mainbar()
-		->withToolsButton($tools_btn);
+		->withToolsButton($tools_btn)
+		->withMoreButton($more_btn);
 
 
 	$entries = [];
@@ -95,28 +102,28 @@ function getDemoEntryPersonalWorkspace($f, $r)
 function getDemoEntryAchievements($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/achievements.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->combined('Achievements', $symbol, '');
+	$slate = $f->maincontrols()->slate()->legacy('Achievements', $symbol, 'content: Achievements');
 	return $slate;
 }
 
 function getDemoEntryCommunication($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/communication.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->combined('Communication', $symbol, '');
+	$slate = $f->maincontrols()->slate()->legacy('Communication', $symbol, 'content: Communication');
 	return $slate;
 }
 
 function getDemoEntryOrganisation($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/organisation.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->combined('Organisation', $symbol, '');
+	$slate = $f->maincontrols()->slate()->legacy('Organisation', $symbol, 'content: Organisation');
 	return $slate;
 }
 
 function getDemoEntryAdministration($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/administration.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->combined('Administration', $symbol, '');
+	$slate = $f->maincontrols()->slate()->legacy('Administration', $symbol, 'content: Administration');
 	return $slate;
 }
 

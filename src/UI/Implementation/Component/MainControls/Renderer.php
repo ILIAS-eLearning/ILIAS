@@ -18,6 +18,7 @@ class Renderer extends AbstractComponentRenderer {
 	const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
 	const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
 	const BLOCK_METABAR_ENTRIES = 'meta_element';
+	const NUMBER_OF_TOOLENTRIES = 5;
 
 	/**
 	 * @inheritdoc
@@ -80,7 +81,23 @@ class Renderer extends AbstractComponentRenderer {
 				$tools,
 				$active
 			);
+
+			if(count($tools) < static::NUMBER_OF_TOOLENTRIES) {
+				foreach (range(count($tools) + 1, static::NUMBER_OF_TOOLENTRIES) as $blank) {
+					$tpl->touchBlock("tool_trigger_item_blank");
+				}
+			}
 		}
+
+		$more_label = $component->getMoreButton()->getLabel();
+		$more_symbol = $component->getMoreButton()->getIconOrGlyph();
+		$more_slate = $f->maincontrols()->slate()->legacy($more_label, $more_symbol, '');
+		$this->renderTriggerButtonsAndSlates(
+			$tpl, $default_renderer, $entry_signal,
+			static::BLOCK_MAINBAR_ENTRIES,
+			[$more_slate],
+			$active
+		);
 
 		$component = $component->withOnLoadCode(
 			function($id) use ($entry_signal, $close_slates_signal, $tools_signal, $tool_removal_signal) {
@@ -92,6 +109,8 @@ class Renderer extends AbstractComponentRenderer {
 						'{$tools_signal}',
 						'{$tool_removal_signal}'
 					);
+					il.UI.maincontrols.mainbar.initMore();
+					$(window).resize(il.UI.maincontrols.mainbar.initMore);
 				";
 			}
 		);
