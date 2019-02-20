@@ -16,6 +16,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			,_cls_slates_wrapper = 'il-mainbar-slates' //encapsulating div of mainbar's slates
 			,_cls_single_slate = false //class of one single slate, will be set on registerSignals
 			,_cls_slate_engaged = false //engaged class of a slate, will be set on registerSignals
+			,_cls_mainbar = 'il-mainbar';
 		;
 
 		var registerSignals = function (
@@ -114,8 +115,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var onClickToolRemoval = function(event, signalData) {
 			var search = '#' + id + ' .' + _cls_toolentries_wrapper + ' .btn',
-			active_tool_btn = $(search).filter(' .' + _cls_btn_engaged),
-			remaining;
+				active_tool_btn = $(search).filter(' .' + _cls_btn_engaged),
+				remaining;
 
 			active_tool_btn.remove();
 			remaining = $(search);
@@ -198,11 +199,12 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		};
 
 		var _disengageAllButtons = function() {
-			_getAllButtons().filter('.' + _cls_btn_engaged).each(
-				function(i, btn) {
+			var f = function(i, btn) {
 					_disengageButton($(btn));
 				}
-			);
+			_getAllButtons().filter('.' + _cls_btn_engaged).each(f);
+			_getMoreSlate().find('.' + _cls_btn_engaged).each(f);
+
 		};
 
 		var _disengageAllToolButtons = function() {
@@ -220,12 +222,78 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				function(i, slate) {
 					il.UI.maincontrols.slate.disengage($(slate));
 				}
-			)
+			);
 		};
+
+
+		/**
+		  * "more" button
+		  */
+		var _isCompletelyOnScreen = function(btn) {
+			var window_height = $(window).height(),
+				btn_offset = $(btn).offset().top,
+				btn_height = $(btn).height();
+
+			return (btn_offset + btn_height) < window_height;
+		};
+
+		var _getInvisibleButtons = function() {
+			var all_buttons = _getAllButtons(),
+				buttons = all_buttons.slice(0, -1),
+				last_visible = buttons.length,
+				invisible_buttons;
+
+			buttons.each(
+				function(index, btn) {
+					if(!_isCompletelyOnScreen(btn)) {
+						last_visible = index - 1; //make room for the more-button
+						return false;
+					}
+				}
+			);
+			if(last_visible == buttons.length) {
+				return [];
+			}
+			return buttons.slice(last_visible);
+		};
+
+		var _getMoreButton = function() {
+			var buttons = _getAllButtons();
+			return $(buttons[buttons.length - 1]);
+		}
+
+		var _getMoreSlate = function() {
+			var slates = $('#' + id + ' .' + _cls_slates_wrapper)
+				.children('.' + _cls_single_slate);
+			return $(slates[slates.length - 1]);
+		}
+
+		var initMore = function() {
+			var more_button = _getMoreButton(),
+				more_slate = _getMoreSlate(),
+				invisible;
+
+			//reset:
+			more_slate.find('.btn-bulky').insertBefore(more_button);
+
+			invisible = _getInvisibleButtons();
+			if(invisible.length > 0) {
+				invisible.appendTo(more_slate.children('.il-maincontrols-slate-content'));
+				more_button.show();
+			} else {
+				more_button.hide();
+				if(_isEngaged(more_slate)) {
+					_setPageSlatesActive(false);
+					_disengageButton(more_button);
+					il.UI.maincontrols.slate.disengage(more_slate);
+				}
+			}
+		}
 
 		return {
 			registerSignals: registerSignals,
-			initActive: initActive
+			initActive: initActive,
+			initMore: initMore
 		}
 
 	})($);

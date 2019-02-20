@@ -60,6 +60,11 @@ class MainBar implements MainControls\MainBar
 	private $tools_button;
 
 	/**
+	 * @var Button\Bulky
+	 */
+	private $more_button;
+
+	/**
 	 * @var string | null
 	 */
 	private $active;
@@ -129,6 +134,24 @@ class MainBar implements MainControls\MainBar
 	public function getToolsButton(): Button\Bulky
 	{
 		return $this->tools_button;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withMoreButton(Button\Bulky $button): MainControls\MainBar
+	{
+		$clone = clone $this;
+		$clone->more_button = $button;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getMoreButton(): Button\Bulky
+	{
+		return $this->more_button;
 	}
 
 	/**
