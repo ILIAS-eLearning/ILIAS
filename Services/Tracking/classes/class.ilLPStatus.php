@@ -201,8 +201,10 @@ class ilLPStatus
 	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_force_raise = false)
 	{
 		$log = ilLoggerFactory::getLogger('trac');
-		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_usr_id.", object: ".
-			get_class($a_obj));
+		$log->debug(sprintf(
+			"obj_id: %s, user id: %s, object: %s",
+			$a_obj_id, $a_usr_id, (is_object($a_obj) ? get_class($a_obj) : 'null')
+		));
 
 		$status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
