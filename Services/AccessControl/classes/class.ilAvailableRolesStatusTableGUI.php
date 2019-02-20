@@ -19,6 +19,8 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 	{
 		global $DIC;
 
+		$lng = $DIC->language();
+
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
 		$this->setId('available_roles'.$this->parent_obj->user->getId());
