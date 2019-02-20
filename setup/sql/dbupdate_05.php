@@ -273,3 +273,19 @@ if( !$ilDB->tableColumnExists('tst_tests', 'block_after_passed') )
 	));
 }
 ?>
+
+<#5451>
+<?php
+if(!$ilDB->tableColumnExists('cal_entries','context_info'))
+{
+	$ilDB->addTableColumn(
+		'cal_entries',
+		'context_info',
+		[
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		]
+	);
+}
+?>
