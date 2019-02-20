@@ -616,6 +616,9 @@ class ilTable2GUI extends ilTableGUI
 		}
 
 		$this->row_data = $a_data;
+		if (!is_array($this->row_data)) {
+			$this->row_data = [];
+		}
 	}
 
 	final public function getData()
