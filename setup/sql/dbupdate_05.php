@@ -261,3 +261,15 @@ foreach($tpl_perms as $template=>$perms){
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5450>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'block_after_passed') )
+{
+	$ilDB->addTableColumn('tst_tests', 'block_after_passed', array(
+		'type' => 'integer',
+		'notnull' => false,
+		'length' => 1,
+		'default' => 0
+	));
+}
+?>
