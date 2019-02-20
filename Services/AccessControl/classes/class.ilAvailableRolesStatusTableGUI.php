@@ -19,7 +19,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 	{
 		global $DIC;
 
-		$lng = $DIC['lng'];
+		$lng = $DIC->language();
 
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
