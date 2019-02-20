@@ -190,5 +190,3 @@ class ilMembershipCronMinMembers extends ilCronJob
 			array("system"));
 	}
 }
-
-?>
