@@ -289,3 +289,20 @@ foreach($tpl_perms as $template=>$perms){
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#24>
+<?php
+if(!$ilDB->tableColumnExists('cal_entries','context_info'))
+{
+	$ilDB->addTableColumn(
+		'cal_entries',
+		'context_info',
+		[
+            'type' => 'text',
+            'length' => 255,
+            'notnull' => false
+		]
+	);
+}
+?>
+
