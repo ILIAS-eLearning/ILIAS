@@ -175,15 +175,14 @@ class ilMembershipCronMinMembers extends ilCronJob
 		$list = implode($ntf->getBlockBorder(), $list);
 				
 		
-		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_reci_id), 
 		$ntf->addAdditionalInfo("mem_cron_min_members_intro", $list, true);
 		$ntf->addAdditionalInfo("mem_cron_min_members_task", "");
 
 		$mail = new ilMail(ANONYMOUS_USER_ID);
 		$mail->enableSOAP(false); // #10410
-		$mail->sendMail(ilObjUser::_lookupLogin($a_reci_id), 
-			null, 
+		$mail->validateAndEnqueue(
+			ilObjUser::_lookupLogin($a_reci_id),
+			null,
 			null,
 			$lng->txt("mem_cron_min_members_subject"), 
 			$ntf->composeAndGetMessage($a_reci_id, null, "read", true), 
