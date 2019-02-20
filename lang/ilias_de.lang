@@ -431,6 +431,9 @@ adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
 assessment#:#autosave_ival#:#Speicherintervall
+assessment#:#tst_block_passes_after_passed#:#Weitere Testdurchläufe nach dem Bestehen des Tests verhindern
+assessment#:#tst_block_passes_after_passed_info#:#Nachdem ein Teilnehmer den Test bestanden hat werden dem Teilnehmer mit dieser Option keine weiteren Testdurchläufe erlaubt.
+assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#for#:#für
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s

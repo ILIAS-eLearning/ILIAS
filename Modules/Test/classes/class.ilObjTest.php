@@ -196,6 +196,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 */
   	var $nr_of_tries;
 
+  	protected $blockPassesAfterPassedEnabled = false;
+  	
 	/**
 * Tells ILIAS to use the previous answers of a learner in a later test pass
 * The default is 1 which shows the previous answers in the next pass.
@@ -1282,6 +1284,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'show_marker'                => array('integer', $this->getShowMarker()),
 				'fixed_participants'         => array('text', $this->getFixedParticipants()),
 				'nr_of_tries'                => array('integer', $this->getNrOfTries()),
+				'block_after_passed'         => array('integer', (int)$this->isBlockPassesAfterPassedEnabled()),
 				'kiosk'                      => array('integer', $this->getKiosk()),
 				'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
 				'title_output'               => array('text', $this->getTitleOutput()),
@@ -1405,6 +1408,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'show_marker'                => array('integer', $this->getShowMarker()),
 						'fixed_participants'         => array('text', $this->getFixedParticipants()),
 						'nr_of_tries'                => array('integer', $this->getNrOfTries()),
+						'block_after_passed'         => array('integer', (int)$this->isBlockPassesAfterPassedEnabled()),
 						'kiosk'                      => array('integer', $this->getKiosk()),
 						'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
 						'title_output'               => array('text', $this->getTitleOutput()),
@@ -1929,6 +1933,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setShowMarker($data->show_marker);
 			$this->setFixedParticipants($data->fixed_participants);
 			$this->setNrOfTries($data->nr_of_tries);
+			$this->setBlockPassesAfterPassedEnabled((bool)$data->block_after_passed);
 			$this->setKiosk($data->kiosk);
 			$this->setUsePreviousAnswers($data->use_previous_answers);
 			$this->setRedirectionMode($data->redirection_mode);
@@ -2757,6 +2762,22 @@ function getAnswerFeedbackPoints()
 	function getNrOfTries()
 	{
 		return ($this->nr_of_tries) ? $this->nr_of_tries : 0;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isBlockPassesAfterPassedEnabled()
+	{
+		return $this->blockPassesAfterPassedEnabled;
+	}
+	
+	/**
+	 * @param bool $blockPassesAfterPassedEnabled
+	 */
+	public function setBlockPassesAfterPassedEnabled($blockPassesAfterPassedEnabled)
+	{
+		$this->blockPassesAfterPassedEnabled = $blockPassesAfterPassedEnabled;
 	}
 
 	/**
@@ -6016,6 +6037,9 @@ function getAnswerFeedbackPoints()
 				case "nr_of_tries":
 					$this->setNrOfTries($metadata["entry"]);
 					break;
+				case 'block_after_passed':
+					$this->setBlockPassesAfterPassedEnabled((bool)$metadata['entry']);
+					break;
 				case "pass_waiting":
 					$this->setPassWaiting($metadata["entry"]);
 					break;				
@@ -6469,6 +6493,12 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_of_tries");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		// number of tries
+		$a_xml_writer->xmlStartTag('qtimetadatafield');
+		$a_xml_writer->xmlElement('fieldlabel', NULL, 'block_after_passed');
+		$a_xml_writer->xmlElement('fieldentry', NULL, (int)$this->isBlockPassesAfterPassedEnabled());
+		$a_xml_writer->xmlEndTag('qtimetadatafield');
 		
 		// pass_waiting
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -8709,6 +8739,16 @@ function getAnswerFeedbackPoints()
 				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 				return $result;
 			}
+			
+			if( $this->isBlockPassesAfterPassedEnabled() && !$testPassesSelector->openPassExists() )
+			{
+				if( ilObjTestAccess::_isPassed($user_id, $this->getId()) )
+				{
+					$result['executable'] = false;
+					$result['errormessage'] = $this->lng->txt("tst_addit_passes_blocked_after_passed_msg");
+					return $result;
+				}
+			}
 		}
 		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass() !== null)
 		{
@@ -10159,6 +10199,7 @@ function getAnswerFeedbackPoints()
 			"ShowMarker"                 => $this->getShowMarker(),
 			"ReportingDate"              => $this->getReportingDate(),
 			"NrOfTries"                  => $this->getNrOfTries(),
+			'BlockAfterPassed'           => (int)$this->isBlockPassesAfterPassedEnabled(),
 			"Shuffle"                    => $this->getShuffleQuestions(),
 			"Kiosk"                      => $this->getKiosk(),
 			"UsePreviousAnswers"         => $this->getUsePreviousAnswers(),
@@ -10280,6 +10321,7 @@ function getAnswerFeedbackPoints()
 		$this->setShowMarker($testsettings["ShowMarker"]);
 		$this->setReportingDate($testsettings["ReportingDate"]);
 		$this->setNrOfTries($testsettings["NrOfTries"]);
+		$this->setBlockPassesAfterPassedEnabled((bool)$testsettings['BlockAfterPassed']);
 		$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
 		$this->setRedirectionMode($testsettings['redirection_mode']);
 		$this->setRedirectionUrl($testsettings['redirection_url']);
