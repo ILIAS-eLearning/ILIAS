@@ -167,7 +167,7 @@ class ilCertificateTemplateImportAction
 		$certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
 		$currentVersion = (int) $certificate->getVersion();
-		$newVersion = $currentVersion;
+		$newVersion = $currentVersion + 1;
 		$backgroundImagePath = $certificate->getBackgroundImagePath();
 		$cardThumbnailImagePath = $certificate->getThumbnailImagePath();
 
@@ -187,7 +187,6 @@ class ilCertificateTemplateImportAction
 						return 'url(' . $basePath . '/' . $fileName . ')';
 					}, $xsl);
 				} elseif (strpos($file['entry'], '.jpg') !== false) {
-					$newVersion = $currentVersion + 1;
 					$newBackgroundImageName = 'background_' . $newVersion . '.jpg';
 					$newPath = $this->certificatePath . $newBackgroundImageName;
 					$this->filesystem->copy($filePath, $newPath);
@@ -207,7 +206,6 @@ class ilCertificateTemplateImportAction
 						100
 					);
 				} elseif (strpos($file['entry'], '.svg') !== false) {
-					$newVersion = $currentVersion + 1;
 					$newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
 					$newPath = $this->certificatePath . $newCardThumbnailName;
 
