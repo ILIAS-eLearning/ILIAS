@@ -111,6 +111,7 @@ class ilCertificateTemplateImportAction
 	 * @param string $filename
 	 * @param string $rootDir
 	 * @param string $iliasVerision
+	 * @param string $installationID
 	 * @return bool
 	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
 	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
@@ -168,7 +169,9 @@ class ilCertificateTemplateImportAction
 		$currentVersion = (int) $certificate->getVersion();
 		$newVersion = $currentVersion;
 		$backgroundImagePath = '';
-		$thumbnailImagePath = '';
+		$cardThumbnailImagePath = '';
+
+		$xsl = '';
 
 		foreach ($directoryInformation as $file) {
 			if (strcmp($file['type'], 'file') == 0) {
@@ -183,36 +186,7 @@ class ilCertificateTemplateImportAction
 
 						return 'url(' . $basePath . '/' . $fileName . ')';
 					}, $xsl);
-
-					$jsonEncodedTemplateValues = json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions());
-
-					$newHashValue = hash(
-						'sha256',
-						implode('', array(
-							$xsl,
-							$backgroundImagePath,
-							$jsonEncodedTemplateValues,
-							$thumbnailImagePath
-						))
-					);
-
-					$template = new ilCertificateTemplate(
-						$this->objectId,
-						$this->objectHelper->lookupType($this->objectId),
-						$xsl,
-						$newHashValue,
-						$jsonEncodedTemplateValues,
-						$newVersion,
-						$iliasVerision,
-						time(),
-						true,
-						$backgroundImagePath,
-						$thumbnailImagePath
-					);
-
-					$this->templateRepository->save($template);
-				}
-				else if (strpos($file['entry'], '.jpg') !== false) {
+				} elseif (strpos($file['entry'], '.jpg') !== false) {
 					$newVersion = $currentVersion + 1;
 					$newBackgroundImageName = 'background_' . $newVersion . '.jpg';
 					$newPath = $this->certificatePath . $newBackgroundImageName;
@@ -232,13 +206,45 @@ class ilCertificateTemplateImportAction
 						'JPEG',
 						100
 					);
+				} elseif (strpos($file['entry'], '.svg') !== false) {
+					$newVersion = $currentVersion + 1;
+					$newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
+					$newPath = $this->certificatePath . $newCardThumbnailName;
 
-					$newThumbnailImagePath = 'thumbnail_' . $newVersion . '.svg';
+					$this->filesystem->copy($filePath, $newPath);
 
-					$thumbnailImagePath = $this->certificatePath . $newThumbnailImagePath;
+					$cardThumbnailImagePath = $this->certificatePath . $newCardThumbnailName;
 				}
 			}
 		}
+
+		$jsonEncodedTemplateValues = json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions());
+
+		$newHashValue = hash(
+			'sha256',
+			implode('', array(
+				$xsl,
+				$backgroundImagePath,
+				$jsonEncodedTemplateValues,
+				$cardThumbnailImagePath
+			))
+		);
+
+		$template = new ilCertificateTemplate(
+			$this->objectId,
+			$this->objectHelper->lookupType($this->objectId),
+			$xsl,
+			$newHashValue,
+			$jsonEncodedTemplateValues,
+			$newVersion,
+			$iliasVerision,
+			time(),
+			true,
+			$backgroundImagePath,
+			$cardThumbnailImagePath
+		);
+
+		$this->templateRepository->save($template);
 
 		$this->utilHelper->delDir($importPath);
 
