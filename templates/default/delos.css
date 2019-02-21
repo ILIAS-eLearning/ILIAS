@@ -6874,9 +6874,13 @@ button.close {
   width: 100%;
   position: relative;
   background-color: white;
+  /* see bug #24947 */
 }
 .il-card img {
   width: 100%;
+}
+.il-card a {
+  overflow: hidden;
 }
 .il-card .thumbnail {
   margin-bottom: 0px;
