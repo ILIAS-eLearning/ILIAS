@@ -438,7 +438,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		include_once("./Services/Container/classes/class.ilContainerSorting.php");	
 		$sort = ilContainerSorting::_getInstance($parent_obj_id);									
 		$block_pos = $sort->getBlockPositions();
-		if (sizeof($block_pos))
+		if (is_array($block_pos) && count($block_pos) > 0)
 		{
 			$tmp = $this->type_grps[$parent_type];						
 
