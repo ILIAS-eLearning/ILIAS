@@ -161,10 +161,8 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
 	{
 		$lng = $this->lng;
 
-		if ($this->getRequired() && count($_POST[$this->getPostVar()]) == 0)
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-
+		if ($this->getRequired() && (!is_array($_POST[$this->getPostVar()]) || count($_POST[$this->getPostVar()]) === 0)) {
+			$this->setAlert($lng->txt('msg_input_is_required'));
 			return false;
 		}
 
