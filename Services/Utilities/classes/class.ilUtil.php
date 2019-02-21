@@ -2484,18 +2484,18 @@ class ilUtil
 		{
 			if(is_dir($a_dir."/".$file) and ($file != "." and $file!=".."))
 			{
-				ilUtil::delDir(${a_dir}."/".${file});
+				ilUtil::delDir($a_dir."/".$file);
 			}
 			elseif ($file != "." and $file != "..")
 			{
-				unlink(${a_dir}."/".${file});
+				unlink($a_dir."/".$file);
 			}
 		}
 
 		closedir($current_dir);
 		if (!$a_clean_only)
 		{
-			@rmdir(${a_dir});
+			@rmdir($a_dir);
 		}
 	}
 
