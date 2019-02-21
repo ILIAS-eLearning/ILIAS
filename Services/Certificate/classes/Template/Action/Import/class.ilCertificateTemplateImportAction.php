@@ -168,10 +168,10 @@ class ilCertificateTemplateImportAction
 
 		$currentVersion = (int) $certificate->getVersion();
 		$newVersion = $currentVersion;
-		$backgroundImagePath = '';
-		$cardThumbnailImagePath = '';
+		$backgroundImagePath = $certificate->getBackgroundImagePath();
+		$cardThumbnailImagePath = $certificate->getThumbnailImagePath();
 
-		$xsl = '';
+		$xsl = $certificate->getCertificateContent();
 
 		foreach ($directoryInformation as $file) {
 			if (strcmp($file['type'], 'file') == 0) {
