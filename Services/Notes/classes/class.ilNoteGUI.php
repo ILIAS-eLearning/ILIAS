@@ -57,6 +57,9 @@ class ilNoteGUI
 	var $old = false;
 
 	protected $default_command = "getNotesHTML";
+	
+	/** @var array */
+	protected $observer = [];
 
 	/**
 	 * @var \ILIAS\DI\UIServices
@@ -1798,18 +1801,16 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 */
 	protected function notifyObserver($a_action, $a_note)
 	{
-		if(sizeof($this->observer))
-		{
-			foreach($this->observer as $item)
-			{
-				$param = $a_note->getObject();			
+		if (is_array($this->observer) && count($this->observer) > 0) {
+			foreach ($this->observer as $item) {
+				$param = $a_note->getObject();
 				$param["action"] = $a_action;
 				$param["note_id"] = $a_note->getId();
-				
-				call_user_func_array($item, $param);				
+
+				call_user_func_array($item, $param);
 			}
 		}
-	}	
+	}
 	
 	protected function listSortAsc()
 	{
