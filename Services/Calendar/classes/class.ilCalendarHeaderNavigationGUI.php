@@ -133,7 +133,7 @@ class ilCalendarHeaderNavigationGUI
 		ilDatePresentation::setUseRelativeDates(true);
 		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
 		if($contains_today){
-			$b2 = $ui->factory()->button()->standard($lng->txt("today"), "#")->withEngagedState(true);
+			$b2 = $ui->factory()->button()->standard($lng->txt("today"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd))->withEngagedState(true);
 		} else {
 			$b2 = $ui->factory()->button()->standard($lng->txt("today"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
 		}
