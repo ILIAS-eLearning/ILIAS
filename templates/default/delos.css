@@ -12027,10 +12027,16 @@ div.ilFrmPostHeader span.small {
 .ilFrmBottomToolbar {
   margin-top: 20px;
 }
+.ilForumTreeTitle {
+  display: inline-block;
+}
 .ilForumTreeTitleUnread {
   font-weight: bold;
 }
 .ilForumTreeUnlinkedContent {
+  display: block;
+  line-height: 0.9em;
+  margin-bottom: 10px;
   text-decoration: none;
   cursor: text;
   font-size: smaller;
