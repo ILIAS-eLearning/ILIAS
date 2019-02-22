@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -28,16 +30,21 @@ class ilStartUpGUI
 	/** @var \ilTermsOfServiceDocumentEvaluation */
 	protected $termsOfServiceEvaluation;
 
+	/** @var ServerRequestInterface*/
+	protected $httpRequest;
+
 	/**
 	 * ilStartUpGUI constructor.
-	 * @param \ilObjUser|null $user
+	 * @param \ilObjUser|null              $user
 	 * @param \ilTermsOfServiceDocumentEvaluation|null
-	 * @param \ilGlobalTemplate|null $mainTemplate
+	 * @param \ilGlobalTemplate|null       $mainTemplate
+	 * @param ServerRequestInterface|null $httpRequest
 	 */
 	public function __construct(
 		\ilObjUser $user = null,
 		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-		\ilGlobalTemplate $mainTemplate = null
+		\ilGlobalTemplate $mainTemplate = null,
+		ServerRequestInterface $httpRequest = null
 	)
 	{
 		global $DIC;
@@ -56,6 +63,11 @@ class ilStartUpGUI
 			$mainTemplate = $DIC->ui()->mainTemplate();
 		}
 		$this->mainTemplate = $mainTemplate;
+
+		if ($httpRequest === null) {
+			$httpRequest = $DIC->http()->request();
+		}
+		$this->httpRequest = $httpRequest;
 
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
@@ -189,10 +201,8 @@ class ilStartUpGUI
 		global $tpl, $ilSetting;
 		
 		$this->getLogger()->debug('Showing login page');
-	
-		// try apache auth
-		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
-		$frontend = new ilAuthFrontendCredentialsApache();
+
+		$frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
 		$frontend->tryAuthenticationOnLoginPage();
 		
 		// Instantiate login template
@@ -856,20 +866,16 @@ class ilStartUpGUI
 	{
 		$this->getLogger()->debug('Trying apache authentication');
 
-		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
-		$credentials = new ilAuthFrontendCredentialsApache();
+		$credentials = new \ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
 		$credentials->initFromRequest();
 
-		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
-		$provider_factory = new ilAuthProviderFactory();
+		$provider_factory = new \ilAuthProviderFactory();
 		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_APACHE);
 
-		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
-		$status = ilAuthStatus::getInstance();
+		$status = \ilAuthStatus::getInstance();
 
-		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
-		$frontend_factory = new ilAuthFrontendFactory();
-		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend_factory = new \ilAuthFrontendFactory();
+		$frontend_factory->setContext(\ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
 		$frontend = $frontend_factory->getFrontend(
 			$GLOBALS['DIC']['ilAuthSession'],
 			$status,
@@ -879,42 +885,36 @@ class ilStartUpGUI
 
 		$frontend->authenticate();
 
-		switch($status->getStatus())
-		{
-			case ilAuthStatus::STATUS_AUTHENTICATED:
-				if($credentials->hasValidTargetUrl())
-				{
-					ilLoggerFactory::getLogger('auth')->debug(sprintf(
+		switch ($status->getStatus()) {
+			case \ilAuthStatus::STATUS_AUTHENTICATED:
+				if ($credentials->hasValidTargetUrl()) {
+					\ilLoggerFactory::getLogger('auth')->debug(sprintf(
 						'Authentication successful. Redirecting to starting page: %s',
 						$credentials->getTargetUrl()
 					));
-					ilUtil::redirect($credentials->getTargetUrl());
-				}
-				else
-				{
-					require_once './Services/Init/classes/class.ilInitialisation.php';
-					ilLoggerFactory::getLogger('auth')->debug(
+					$this->ctrl->redirectToURL($credentials->getTargetUrl());
+				} else {
+					\ilLoggerFactory::getLogger('auth')->debug(
 						'Authentication successful, but no valid target URL given. Redirecting to default starting page.'
 					);
-					ilInitialisation::redirectToStartingPage();
+					\ilInitialisation::redirectToStartingPage();
 				}
-				return;
+				break;
 
-			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+			case \ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				$this->ctrl->redirect($this, 'showAccountMigration');
+				break;
 
-			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				ilUtil::sendFailure($status->getTranslatedReason(), true);
-				ilUtil::redirect(
-					ilUtil::appendUrlParameterString(
-						$GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage', '', false, false),
-						'passed_sso=1'
-					)
-				);
-				return false;
+			case \ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				\ilUtil::sendFailure($status->getTranslatedReason(), true);
+				$this->ctrl->redirectToURL(\ilUtil::appendUrlParameterString(
+					$this->ctrl->getLinkTarget($this, 'showLoginPage', '', false, false),
+					'passed_sso=1'
+				));
+				break;
 		}
 
-		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		\ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 		$this->showLoginPage();
 		return false;
 	}
