@@ -9,8 +9,8 @@ namespace ILIAS\Transformation;
  *
  * It MUST NOT perform any sideeffects, i.e. it must be morally impossible to observe
  * how often the transformation was actually performed. It MUST NOT touch the provided
- * value, i.e. it is allowed to create new values but not to modify existing values.i
- * This would be an observable sideeffect.  
+ * value, i.e. it is allowed to create new values but not to modify existing values.
+ * This would be an observable sideeffect.
  */
 interface Transformation {
 	/**

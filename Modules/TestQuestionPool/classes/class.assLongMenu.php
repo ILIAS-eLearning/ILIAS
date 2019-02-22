@@ -200,21 +200,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				array_push($points, $correct_answers_row[1]);
 			}
 		}
-		if(! $this->getIdenticalScoring() && ! $this->checkIfEnoughUniqueAnswersExists($correct_answers))
-		{
-			if( $forn !== null)
-			{
-				foreach($form->getItems() as $key => $item)
-				{
-					if($item->getPostVar() == 'identical_scoring')
-					{
-						$item->setAlert($this->lng->txt('lome_ident_score_multiple'));
-					}
-				}
-				return false;
-			}
-
-		}
 		if(sizeof($correct_answers) != sizeof($points))
 		{
 			return false;
@@ -225,30 +210,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			if($row <= 0)
 			{
 				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * @param $correct_answers
-	 * @return bool
-	 */
-	protected function checkIfEnoughUniqueAnswersExists($correct_answers)
-	{
-		$map = array();
-		foreach($correct_answers as $key => $correct_answers_row)
-		{
-			foreach($correct_answers_row[0] as $position => $answer)
-			{
-				if(array_key_exists($answer, $map))
-				{
-					return false;
-				}
-				else
-				{
-					$map[$answer] = 1;
-				}
 			}
 		}
 		return true;
@@ -310,11 +271,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				(int)$this->getIdenticalScoring()
 			)
 		);
-
-		if($this->getIdenticalScoring() == 0 && ! $this->checkIfEnoughUniqueAnswersExists($this->getCorrectAnswers()))
-		{
-			ilUtil::sendQuestion($this->lng->txt('not_enough_unique_answers'), true);
-		}
 
 		$this->createFileFromArray();
 	}

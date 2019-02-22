@@ -126,9 +126,8 @@ class ilCalendarSchedule
 				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));		
 			}
 			
-			// exercise 
-			include_once './Services/Calendar/classes/class.ilCalendarScheduleFilterExercise.php';
 			$this->addFilter(new ilCalendarScheduleFilterExercise($this->user->getId()));
+			$this->addFilter(new ilCalendarScheduleFilterTimings($this->user->getId()));
 		}
 		
 	}
@@ -368,7 +367,7 @@ class ilCalendarSchedule
 	{
 		if(!sizeof($a_cats))
 		{
-			return;
+			return $a_cats;
 		}
 		
 		foreach($this->filters as $filter)

@@ -3,18 +3,21 @@
 
 class ilMailMimeTransportFactory
 {
-	/**
-	 * @var \ilSetting
-	 */
+	/** @var \ilSetting */
 	protected $settings;
+
+	/** @var ilAppEventHandler */
+	private $eventHandler;
 
 	/**
 	 * ilMailMimeTransportFactory constructor.
-	 * @param ilSetting $settings
+	 * @param ilSetting         $settings
+	 * @param ilAppEventHandler $eventHandler
 	 */
-	public function __construct(\ilSetting $settings)
+	public function __construct(\ilSetting $settings, \ilAppEventHandler $eventHandler)
 	{
 		$this->settings = $settings;
+		$this->eventHandler = $eventHandler;
 	}
 
 	/**
@@ -22,21 +25,14 @@ class ilMailMimeTransportFactory
 	 */
 	public function getTransport()
 	{
-		if(!(bool)$this->settings->get('mail_allow_external'))
-		{
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportNull.php';
+		if (!(bool)$this->settings->get('mail_allow_external')) {
 			return new ilMailMimeTransportNull();
 		}
 
-		if((bool)$this->settings->get('mail_smtp_status'))
-		{
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportSmtp.php';
-			return new ilMailMimeTransportSmtp($this->settings);
-		}
-		else
-		{
-			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportSendmail.php';
-			return new ilMailMimeTransportSendmail($this->settings);
+		if ((bool)$this->settings->get('mail_smtp_status')) {
+			return new ilMailMimeTransportSmtp($this->settings, $this->eventHandler);
+		} else {
+			return new ilMailMimeTransportSendmail($this->settings, $this->eventHandler);
 		}
 	}
 }

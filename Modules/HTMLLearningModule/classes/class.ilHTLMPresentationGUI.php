@@ -128,7 +128,7 @@ class ilHTLMPresentationGUI
 				require_once ("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php");
 				$fblm_gui = new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
 				$ilCtrl->forwardCommand($fblm_gui);
-				$tpl->show();
+				$tpl->printToStdout();
 				break;
 
 			default:

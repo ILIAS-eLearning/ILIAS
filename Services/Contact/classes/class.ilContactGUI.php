@@ -154,7 +154,7 @@ class ilContactGUI
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryContacts.php';
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
 				$this->ctrl->forwardCommand(new ilUsersGalleryGUI(new ilUsersGalleryContacts()));
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case 'ilpublicuserprofilegui':
@@ -162,7 +162,7 @@ class ilContactGUI
 				$profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($_GET['user']));
 				$profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));
 				$this->ctrl->forwardCommand($profile_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			default:
@@ -344,7 +344,7 @@ class ilContactGUI
 		$table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
 		$table->populate();
 		$this->tpl->setContent($table->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -610,6 +610,6 @@ class ilContactGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail_invite_users_to_chat'));
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 }

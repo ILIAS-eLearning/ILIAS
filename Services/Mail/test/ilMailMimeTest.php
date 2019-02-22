@@ -7,9 +7,6 @@
  */
 class ilMailMimeTest extends \ilMailBaseTest
 {
-	/**
-	 *
-	 */
 	const USER_ID = 6;
 
 	/**
@@ -92,7 +89,11 @@ class ilMailMimeTest extends \ilMailBaseTest
 		}));
 		$this->setGlobalVariable('ilSetting', $settings);
 
-		$factory = new \ilMailMimeTransportFactory($settings);
+		$eventHandler = $this->getMockBuilder(\ilAppEventHandler::class)->disableOriginalConstructor()->setMethods(array(
+			'raise',
+		))->getMock();
+
+		$factory = new \ilMailMimeTransportFactory($settings, $eventHandler);
 		$this->assertInstanceOf('\ilMailMimeTransportNull', $factory->getTransport());
 	}
 
@@ -119,7 +120,11 @@ class ilMailMimeTest extends \ilMailBaseTest
 		}));
 		$this->setGlobalVariable('ilSetting', $settings);
 
-		$factory = new \ilMailMimeTransportFactory($settings);
+		$eventHandler = $this->getMockBuilder(\ilAppEventHandler::class)->disableOriginalConstructor()->setMethods(array(
+			'raise',
+		))->getMock();
+
+		$factory = new \ilMailMimeTransportFactory($settings, $eventHandler);
 		$this->assertInstanceOf('\ilMailMimeTransportSmtp', $factory->getTransport());
 	}
 
@@ -147,7 +152,11 @@ class ilMailMimeTest extends \ilMailBaseTest
 		}));
 		$this->setGlobalVariable('ilSetting', $settings);
 
-		$factory = new \ilMailMimeTransportFactory($settings);
+		$eventHandler = $this->getMockBuilder(\ilAppEventHandler::class)->disableOriginalConstructor()->setMethods(array(
+			'raise',
+		))->getMock();
+
+		$factory = new \ilMailMimeTransportFactory($settings, $eventHandler);
 		$this->assertInstanceOf('\ilMailMimeTransportSendMail', $factory->getTransport());
 	}
 

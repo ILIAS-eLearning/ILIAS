@@ -949,10 +949,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
-			if($form->getInput('timing_mode') != $this->object->getTimingMode())
-			{
-				ilUtil::sendInfo($this->lng->txt("crs_view_info_timing_mode"), true);
-			}
 			$this->object->setTimingMode((int) $form->getInput('timing_mode'));
 		}
 		$this->object->setTimingMode($form->getInput('timing_mode'));
@@ -2268,7 +2264,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$header_action = true;
-
 		switch($next_class)
 		{
 			case 'illtiproviderobjectsettinggui':
@@ -2340,6 +2335,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->activateSubTab('groupings');
 				$crs_grp_gui = new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 				$this->ctrl->forwardCommand($crs_grp_gui);
+				break;
+
+
+			case "ilpropertyformgui":
+				// only case is currently adv metadata internal link in info settings, see #24497
+				$form = $this->initInfoEditor();
+				$this->ctrl->forwardCommand($form);
 				break;
 
 			case "ilcolumngui":

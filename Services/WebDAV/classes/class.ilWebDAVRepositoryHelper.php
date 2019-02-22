@@ -35,7 +35,7 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id ref_id of object to delete
      * @throws ilRepositoryException
      */
-    public function deleteObject($a_ref_id)
+    public function deleteObject(int $a_ref_id)
     {
         include_once("./Services/Repository/classes/class.ilRepUtil.php");
         $repository_util = new ilRepUtil($this);
@@ -50,9 +50,21 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return bool
      */
-    public function checkAccess($a_permission, $a_ref_id)
+    public function checkAccess(string $a_permission, int $a_ref_id) : bool
     {
         return $this->access->checkAccess($a_permission, '', $a_ref_id);
+    }
+
+    /**
+     * Just a redirect to the checkAccess method of ilAccess to check for creation of certain obj types
+     *
+     * @param int $a_ref_id
+     * @param string $a_type
+     * @return bool
+     */
+    public function checkCreateAccessForType(int $a_ref_id, string $a_type) : bool
+    {
+        return $this->access->checkAccess('create', '', $a_ref_id, $a_type);
     }
 
     /**
@@ -61,7 +73,7 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return bool
      */
-    public function objectWithRefIdExists($a_ref_id)
+    public function objectWithRefIdExists(int $a_ref_id) : int
     {
         return ilObject::_exists($a_ref_id, true);
     }
@@ -72,7 +84,7 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return int+
      */
-    public function getObjectIdFromRefId($a_ref_id)
+    public function getObjectIdFromRefId(int $a_ref_id) : int
     {
         return ilObject::_lookupObjectId($a_ref_id);
     }
@@ -83,21 +95,18 @@ class ilWebDAVRepositoryHelper
      * @param $a_obj_id
      * @return
      */
-    public function getObjectTitleFromObjId($a_obj_id)
+    public function getObjectTitleFromObjId(int $a_obj_id, bool $escape_forbidden_fileextension = false) : string
     {
-        return ilObject::_lookupTitle($a_obj_id);
-    }
+        if($escape_forbidden_fileextension && ilObject::_lookupType($a_obj_id))
+        {
+            $title = ilFileUtils::getValidFilename(ilObject::_lookupTitle($a_obj_id));
+        }
+        else
+        {
+            $title = ilObject::_lookupTitle($a_obj_id);
+        }
 
-    /**
-     * Just a shortcut and redirect to get a title from a given ref_id
-     *
-     * @param $a_ref_id
-     * @return mixed
-     */
-    public function getObjectTitleFromRefId($a_ref_id)
-    {
-        $obj_id = $this->getObjectIdFromRefId($a_ref_id);
-        return ilObject::_lookupTitle($obj_id);
+        return $title;
     }
 
     /**
@@ -106,7 +115,32 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return mixed
      */
-    public function getObjectTypeFromRefId($a_ref_id)
+    public function getObjectTypeFromObjId(int $a_obj_id) : string
+    {
+        return ilObject::_lookupType($a_obj_id, false);
+    }
+
+
+    /**
+     * Just a shortcut and redirect to get a title from a given ref_id
+     *
+     * @param $a_ref_id
+     * @return mixed
+     */
+    public function getObjectTitleFromRefId(int $a_ref_id, bool $escape_forbidden_fileextension = false) : string
+    {
+        $obj_id = $this->getObjectIdFromRefId($a_ref_id);
+
+        return $this->getObjectTitleFromObjId($obj_id, $escape_forbidden_fileextension);
+    }
+
+    /**
+     * Just a redirect to the ilObject::_lookupType function
+     *
+     * @param $a_ref_id
+     * @return mixed
+     */
+    public function getObjectTypeFromRefId(int $a_ref_id) : string
     {
         return ilObject::_lookupType($a_ref_id, true);
     }
@@ -117,19 +151,8 @@ class ilWebDAVRepositoryHelper
      * @param $a_ref_id
      * @return mixed
      */
-    public function getChildrenOfRefId($a_ref_id)
+    public function getChildrenOfRefId(int $a_ref_id)
     {
         return $this->tree->getChildIds($a_ref_id);
-    }
-
-    /**
-     * @param $a_title
-     * @return bool
-     * @throws ilFileUtilsException
-     */
-    public function isValidFileNameWithValidFileExtension($a_title)
-    {
-        include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-        return $a_title == ilFileUtils::getValidFilename($a_title);
     }
 }

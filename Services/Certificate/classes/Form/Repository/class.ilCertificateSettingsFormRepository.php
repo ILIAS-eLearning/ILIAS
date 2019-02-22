@@ -17,11 +17,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	private $language;
 
 	/**
-	 * @var ilTemplate
-	 */
-	private $template;
-
-	/**
 	 * @var ilCtrl
 	 */
 	private $controller;
@@ -65,7 +60,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param integer $objectId
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
-	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
@@ -80,7 +74,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		int $objectId,
 		string $certificatePath,
 		ilLanguage $language,
-		ilTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
@@ -95,7 +88,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
 		$this->objectId                     = $objectId;
 		$this->language                     = $language;
-		$this->template                     = $template;
 		$this->controller                   = $controller;
 		$this->access                       = $access;
 		$this->toolbar                      = $toolbar;

@@ -223,10 +223,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		}
 		else						// otherwise show standard frameset
 		{
-			$this->tpl = new ilTemplate("tpl.sahs_edit_frameset.html", false, false, "Modules/ScormAicc");
+			$this->tpl = new ilGlobalTemplate("tpl.sahs_edit_frameset.html", false, false, "Modules/ScormAicc");
 			$this->tpl->setVariable("SRC",
 			$this->ctrl->getLinkTarget($this, "properties"));
-			$this->tpl->show("DEFAULT", false);
+			$this->tpl->printToStdout("DEFAULT", false);
 		}
 		exit;
 	}
@@ -1347,7 +1347,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$_SESSION["scexpand"] = array($mtree->readRootId());
 		}
 		
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		$this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
@@ -1412,7 +1412,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery($this->tpl);
 
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		
 		
 		exit;

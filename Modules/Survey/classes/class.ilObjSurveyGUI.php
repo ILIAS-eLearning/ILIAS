@@ -282,7 +282,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
 			$this->getCreationMode() != true)
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 				
@@ -1549,7 +1549,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
 			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_using_template_link")."</a>";
 			$message = "<div style=\"margin-top:10px\">".
-				$this->tpl->getMessageHTML(sprintf($this->lng->txt("survey_using_template"), 
+				ilUtil::getSystemMessageHTML(sprintf($this->lng->txt("survey_using_template"), 
 					ilSettingsTemplate::lookupTitle($this->object->getTemplate()), $link), "info"). // #10651
 				"</div>";
 		}
@@ -2458,8 +2458,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			null,
 			sprintf($this->lng->txt($subject), $this->object->getTitle()),
 			$body,
-			null,
-			true
+			null
 		);
 	}
 		

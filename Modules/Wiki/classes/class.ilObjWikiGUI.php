@@ -1583,7 +1583,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "");
 		}		
 								
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());				
 		$this->setContentStyleSheet($tpl);
 
@@ -1630,12 +1630,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		if(!$a_pdf_export)
 		{
-			$tpl->show(false);
+			$tpl->printToStdout(false);
 			exit;		
 		}
 		else
 		{			
-			return $tpl->get("DEFAULT", false, false, false, true, false, false);
+			return $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
 		}
 	}
 	

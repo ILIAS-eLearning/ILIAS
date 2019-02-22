@@ -51,7 +51,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 			if ($mm instanceof ilMMCustomItemStorage) {
 				$default_title = $this->getDefaultTitle();
 				$mm->setDefaultTitle($default_title);
-				$mm->setType($this->getType()); // FSX
+				$mm->setType($this->getType());
 				$mm->update();
 			}
 		}

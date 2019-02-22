@@ -162,7 +162,24 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tabs_gui->setTabActive('learning_progress');
 				break;
-		
+
+			case "ilpropertyformgui":
+				// only case is currently adv metadata internal link in info settings, see #24497
+				if (!is_object($this->object))
+				{
+					$form = $this->initCreateForm("sess");
+				}
+				else
+				{
+					$form = $this->initForm("edit");
+					if ($form === true)
+					{
+						$form = $this->form;
+					}
+				}
+				$ilCtrl->forwardCommand($form);
+				break;
+
 			default:
 				if($cmd == "applyFilter") {
 					$cmd == "applyFilter";
@@ -853,6 +870,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$file->putInTree($tree->getParentId($this->object->getRefId()));
 			$file->setPermissions($tree->getParentId($this->object->getRefId()));
 			$file->createDirectory();
+
+			$upload = $DIC->upload();
+			if(!$upload->hasBeenProcessed())
+			{
+				$upload->process();
+			}
 			$file->getUploadFile(
 				$_FILES['files']['tmp_name'][$counter],
 				$_FILES['files']['name'][$counter]

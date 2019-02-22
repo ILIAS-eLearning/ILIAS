@@ -4,6 +4,8 @@ use ILIAS\GlobalScreen\Identification\CoreIdentification;
 use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 
 /**
  * Class CoreSerializer
@@ -28,11 +30,14 @@ class CoreSerializer implements SerializerInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function unserialize(string $serialized_string, IdentificationMap $map): IdentificationInterface {
-		global $DIC;
+	public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactoryInterface $provider_factory): IdentificationInterface {
 		list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-		$f = new CoreIdentificationProvider(new $class_name($DIC), $this, $map);
+		if (!$provider_factory->isInstanceCreationPossible($class_name)) {
+			return new NullIdentification();
+		}
+
+		$f = new CoreIdentificationProvider($provider_factory->getProviderByClassName($class_name), $this, $map);
 
 		return $f->identifier($internal_identifier);
 	}

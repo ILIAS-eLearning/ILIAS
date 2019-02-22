@@ -58,7 +58,7 @@ class ilSystemSupportContactsGUI
 	function showContacts()
 	{
 		$this->lng->loadLanguageModule("adm");
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitle($this->lng->txt("adm_support_contacts"));
 		include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
 		$panel = ilPanelGUI::getInstance();
@@ -78,7 +78,7 @@ class ilSystemSupportContactsGUI
 		$panel->setBody($html);
 
 		$this->tpl->setContent($panel->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	

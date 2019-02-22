@@ -1450,4 +1450,14 @@ abstract class ilBlockGUI
 	protected function preloadData(array $data)
 	{
 	}
+
+	/**
+	 * Use this for final get before sending asynchronous output (ajax)
+	 * per echo to output.
+	 */
+	public function getAsynch()
+	{
+		header("Content-type: text/html; charset=UTF-8");
+		return $this->tpl->get();
+	}
 }

@@ -2910,6 +2910,22 @@
 			</audio>
 		</xsl:when>
 
+		<!-- wav (mediaelement.js) -->
+		<xsl:when test = "$type='audio/x-wav'">
+			<audio class="ilPageAudio" height="30">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$mode != 'edit' and
+					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
+					<xsl:attribute name="autoplay">true</xsl:attribute>
+				</xsl:if>
+			</audio>
+		</xsl:when>
+
 		<!-- flv, mp4 (mediaelement.js) -->
 		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4' or $type = 'video/webm'">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
@@ -2993,7 +3009,7 @@
 
 		<!-- all other mime types: output standard object/embed tag -->
 		<xsl:otherwise>
-			<!--<object>
+			<object>
 				<xsl:attribute name="data"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -3002,7 +3018,7 @@
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">elements</xsl:with-param>
 					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>-->
+				</xsl:call-template>
 				<embed>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
@@ -3019,7 +3035,7 @@
 					</xsl:call-template>
 					<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 				</embed>
-			<!--</object>-->
+			</object>
 		</xsl:otherwise>
 
 	</xsl:choose>

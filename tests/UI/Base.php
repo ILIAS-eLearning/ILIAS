@@ -21,7 +21,7 @@ use ILIAS\UI\Factory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
 	public function getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks) {
-		return new ilIndependentTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
+		return new ilIndependentGlobalTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
 	}
 }
 
@@ -66,7 +66,7 @@ class ilLanguageMock extends \ilLanguage {
 		$this->requested[] = $a_topic;
 		return $a_topic;
 	}
-	public function toJS($a_key, ilTemplate $a_tpl = NULL) {
+	public function toJS($a_key, ilGlobalTemplate $a_tpl = NULL) {
 	}
 	public $lang_module = 'common';
 	public function loadLanguageModule($lang_module) {}

@@ -65,6 +65,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 
 		$this->addColumn('', 'f', "1");
 		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
+		$this->addColumn($this->lng->txt('login'), 'login');
 
 		$all_cols = $this->getSelectableColumns();
 		foreach ($this->getSelectedColumns() as $col) {
@@ -96,6 +97,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 	{
 		$this->tpl->setVariable('VAL_ID',$set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME',$set['lastname'].', '.$set['firstname']);
+		$this->tpl->setVariable('VAL_LOGIN',$set['login']);
 
 		if (
 			!$this->access->checkAccessOfUser($set['usr_id'], 'read','',$this->getRepositoryObject()->getRefId()) &&

@@ -175,7 +175,7 @@ class ilMailFormGUI
 
 		$mailer->setSaveInSentbox(true);
 
-		if ($errors = $mailer->sendMail(
+		if ($errors = $mailer->validateAndEnqueue(
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
@@ -312,7 +312,7 @@ class ilMailFormGUI
 		$form->addCommandButton('cancelSearch', $this->lng->txt("cancel"));
 
 		$this->tpl->setContent($form->getHtml());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -813,7 +813,7 @@ class ilMailFormGUI
 		$this->tpl->setVariable('FORM', $form_gui->getHTML());
 
 		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	public function lookupRecipientAsync()

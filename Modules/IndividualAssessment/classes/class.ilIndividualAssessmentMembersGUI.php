@@ -32,6 +32,8 @@ class ilIndividualAssessmentMembersGUI {
 	const S_NAME_DESC = "user_lastname:desc";
 	const S_EXAMINER_ASC = "examiner_login:asc";
 	const S_EXAMINER_DESC = "examiner_login:desc";
+	const S_CHANGETIME_ASC = "change_time:asc";
+	const S_CHANGETIME_DESC = "change_time:desc";
 
 	public function __construct(
 		ilObjIndividualAssessmentGUI $a_parent_gui,
@@ -350,7 +352,9 @@ class ilIndividualAssessmentMembersGUI {
 			self::S_NAME_ASC => $this->txt("iass_sort_name_asc"),
 			self::S_NAME_DESC => $this->txt("iass_sort_name_desc"),
 			self::S_EXAMINER_ASC => $this->txt("iass_sort_examiner_login_asc"),
-			self::S_EXAMINER_DESC => $this->txt("iass_sort_examiner_login_desc")
+			self::S_EXAMINER_DESC => $this->txt("iass_sort_examiner_login_desc"),
+			self::S_CHANGETIME_ASC  => $this->txt("iass_sort_changetime_asc"),
+			self::S_CHANGETIME_DESC  => $this->txt("iass_sort_changetime_desc")
 		);
 	}
 
@@ -368,7 +372,9 @@ class ilIndividualAssessmentMembersGUI {
 						self::S_NAME_ASC,
 						self::S_NAME_DESC,
 						self::S_EXAMINER_ASC,
-						self::S_EXAMINER_DESC
+						self::S_EXAMINER_DESC,
+						self::S_CHANGETIME_ASC,
+						self::S_CHANGETIME_DESC
 					]
 				)
 		) {
