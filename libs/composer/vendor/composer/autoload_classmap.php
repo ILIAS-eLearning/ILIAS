@@ -7247,6 +7247,7 @@ return array(
     'ilWebResourceImporter' => $baseDir . '/../../Modules/WebResource/classes/class.ilWebResourceImporter.php',
     'ilWebResourceLinkTableGUI' => $baseDir . '/../../Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php',
     'ilWebresourceSearch' => $baseDir . '/../../Services/Search/classes/class.ilWebresourceSearch.php',
+    'ilWhiteListUrlValidator' => $baseDir . '/../../Services/AuthApache/classes/class.ilWhiteListUrlValidator.php',
     'ilWidthHeightInputGUI' => $baseDir . '/../../Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php',
     'ilWikiContentSearch' => $baseDir . '/../../Services/Search/classes/class.ilWikiContentSearch.php',
     'ilWikiContributor' => $baseDir . '/../../Modules/Wiki/classes/class.ilWikiContributor.php',
