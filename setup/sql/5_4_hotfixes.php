@@ -433,8 +433,8 @@ while ($row = $ilDB->fetchAssoc($res)) {
 				parent_pos = %s
 			WHERE thr_fk = %s AND fpt_pk = %s
 		",
-		['integer', 'integer'],
-		[$nextId, $row['fpt_pk']]
+		['integer', 'integer', 'integer'],
+		[$nextId, $row['thr_fk'], $row['fpt_pk']]
 	);
 	$GLOBALS['ilLog']->info(sprintf(
 		"Set parent to %s for posting with id %s in thread with id %s in database hotfix step %s",
