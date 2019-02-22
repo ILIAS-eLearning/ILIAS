@@ -116,8 +116,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 	 */
 	public function hasValidTargetUrl()
 	{
-		if(!isset($_GET['r']) || 0 == strlen(trim($_GET['r'])))
-		{
+		if (!isset($_GET['r']) || !is_string($_GET['r']) || 0 == strlen(trim($_GET['r']))) {
 			return false;
 		}
 
@@ -125,40 +124,17 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 
 		$validDomains = array();
 		$path         = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
-		if(file_exists($path) && is_readable($path))
-		{
-			foreach(file($path) as $line)
-			{
-				if(trim($line))
-				{
+		if (file_exists($path) && is_readable($path)) {
+			foreach (file($path) as $line) {
+				if (trim($line)) {
 					$validDomains[] = trim($line);
 				}
 			}
 		}
 
-		$urlParts       = parse_url($url);
-		$redirectDomain = $urlParts['host'];
+		$validator = new ilWhiteListUrlValidator($url, $validDomains);
 
-		$validRedirect = false;
-		foreach($validDomains as $validDomain)
-		{
-			if($redirectDomain === $validDomain)
-			{
-				$validRedirect = true;
-				break;
-			}
-
-			if(strlen($redirectDomain) > (strlen($validDomain) + 1))
-			{
-				if(substr($redirectDomain, (0 - strlen($validDomain) - 1)) === '.' . $validDomain)
-				{
-					$validRedirect = true;
-					break;
-				}
-			}
-		}
-
-		return $validRedirect;
+		return $validator->isValid();
 	}
 
 	/**
