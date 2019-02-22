@@ -36,7 +36,7 @@ class ilMailValueObjectJsonService
 
 	/**
 	 * @param string $json
-	 * @return array
+	 * @return ilMailValueObject[]
 	 */
 	public function convertFromJson(string $json)
 	{
