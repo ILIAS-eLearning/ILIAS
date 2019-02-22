@@ -7615,6 +7615,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilWebResourceImporter' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebResourceImporter.php',
         'ilWebResourceLinkTableGUI' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php',
         'ilWebresourceSearch' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilWebresourceSearch.php',
+        'ilWhiteListUrlValidator' => __DIR__ . '/../..' . '/../../Services/AuthApache/classes/class.ilWhiteListUrlValidator.php',
         'ilWidthHeightInputGUI' => __DIR__ . '/../..' . '/../../Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php',
         'ilWikiContentSearch' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilWikiContentSearch.php',
         'ilWikiContributor' => __DIR__ . '/../..' . '/../../Modules/Wiki/classes/class.ilWikiContributor.php',
