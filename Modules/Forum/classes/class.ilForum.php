@@ -1108,7 +1108,7 @@ class ilForum
 					  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
 					  MAX(pos_date) post_date,
 					  SUM(tree1.parent_pos != 0) num_posts, 
-					  SUM(tree1.parent_pos != 0) - COUNT(DISTINCT(postread.post_id)) num_unread_posts, ";
+					  SUM(tree1.parent_pos != 0) - SUM(tree1.parent_pos != 0 AND postread.post_id IS NOT NULL) num_unread_posts, ";
 
 			// new posts query  
 			if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
