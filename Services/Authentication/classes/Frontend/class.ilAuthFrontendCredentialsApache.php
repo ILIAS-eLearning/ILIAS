@@ -31,7 +31,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 		$this->ctrl = $ctrl;
 		parent::__construct();
 
-		$this->settings = new ilSetting('apache_auth');
+		$this->settings = new \ilSetting('apache_auth');
 	}
 	
 	/**
@@ -88,7 +88,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 	/**
 	 * @return \ilSetting
 	 */
-	protected function getSettings()
+	protected function getSettings(): \ilSetting
 	{
 		return $this->settings;
 	}
@@ -119,7 +119,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 	/**
 	 * @return bool
 	 */
-	public function hasValidTargetUrl()
+	public function hasValidTargetUrl(): bool
 	{
 		$targetUrl = trim((string)($this->httpRequest->getQueryParams()['r'] ?? ''));
 		if (0 == strlen($targetUrl)) {
@@ -144,7 +144,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 	/**
 	 * @return string
 	 */
-	public function getTargetUrl()
+	public function getTargetUrl(): string
 	{
 		return \ilUtil::appendUrlParameterString(trim($this->httpRequest->getQueryParams()['r']), 'passed_sso=1');
 	}
