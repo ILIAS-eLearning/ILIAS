@@ -325,6 +325,8 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	$ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
 }
 
+$step = 5453;
+
 $query = "
 	SELECT fp.*, fpt.fpt_pk, fpt.thr_fk, fpt.lft, fpt.rgt, fpt.fpt_date
 	FROM frm_posts_tree fpt
@@ -339,7 +341,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	));
 	if (isset($ignoredThreadIds[$row['thr_fk']])) {
 		$GLOBALS['ilLog']->warning(sprintf(
-			"Cannot migrate forum tree for thread id %s in database update step %s", $row['thr_fk'], $nr
+			"Cannot migrate forum tree for thread id %s in database update step %s", $row['thr_fk'], $step
 		));
 		continue;
 	}
@@ -357,7 +359,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 		[$row['thr_fk']]
 	);
 	$GLOBALS['ilLog']->info(sprintf(
-		"Created gaps in tree for thread with id %s in database update step %s", $row['thr_fk'], $nr
+		"Created gaps in tree for thread with id %s in database update step %s", $row['thr_fk'], $step
 	));
 
 	// Create a posting as new root
@@ -383,7 +385,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	));
 	$GLOBALS['ilLog']->info(sprintf(
 		"Created new root posting with id %s in thread with id %s in database update step %s",
-		$postId, $row['thr_fk'], $nr
+		$postId, $row['thr_fk'], $step
 	));
 
 	// Insert the new root and, set dept = 1, lft = 1, rgt = <OLR_ROOT_RGT> + 2
@@ -405,7 +407,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	);
 	$GLOBALS['ilLog']->info(sprintf(
 		"Created new tree root with id %s in thread with id %s in database update step %s",
-		$nextId, $row['thr_fk'], $nr
+		$nextId, $row['thr_fk'], $step
 	));
 
 	// Set parent_pos for old root
@@ -420,7 +422,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	);
 	$GLOBALS['ilLog']->info(sprintf(
 		"Set parent to %s for posting with id %s in thread with id %s in database update step %s",
-		$nextId, $row['fpt_pk'], $row['thr_fk'], $nr
+		$nextId, $row['fpt_pk'], $row['thr_fk'], $step
 	));
 
 	// Mark as migrated
