@@ -882,14 +882,20 @@ class ilStartUpGUI
 		switch($status->getStatus())
 		{
 			case ilAuthStatus::STATUS_AUTHENTICATED:
-				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
 				if($credentials->hasValidTargetUrl())
 				{
+					ilLoggerFactory::getLogger('auth')->debug(sprintf(
+						'Authentication successful. Redirecting to starting page: %s',
+						$credentials->getTargetUrl()
+					));
 					ilUtil::redirect($credentials->getTargetUrl());
 				}
 				else
 				{
 					require_once './Services/Init/classes/class.ilInitialisation.php';
+					ilLoggerFactory::getLogger('auth')->debug(
+						'Authentication successful, but no valid target URL given. Redirecting to default starting page.'
+					);
 					ilInitialisation::redirectToStartingPage();
 				}
 				return;
