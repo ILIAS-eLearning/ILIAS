@@ -42,15 +42,6 @@ class ilMassMailDeliveryJob extends AbstractJob
 	 */
 	public function run(array $input, Observer $observer)
 	{
-		$arguments = array_map(function($value) {
-			return $value->getValue();
-		}, $input);
-
-		$this->dic->logger()->mail()->info(sprintf(
-			'Mail delivery background task executed for input: %s',
-			json_encode($arguments, JSON_PRETTY_PRINT)
-		));
-
 		$mailValueObjects = $this->mailJsonService->convertFromJson((string)$input[1]->getValue());
 
 		foreach ($mailValueObjects as $mailValueObject) {
@@ -62,22 +53,31 @@ class ilMassMailDeliveryJob extends AbstractJob
 				->withContextId((string)$contextId)
 				->withContextParameters((array)unserialize($input[3]->getValue()));
 
+			$recipients = (string)$mailValueObject->getRecipients();
+			$recipientsCC = (string)$mailValueObject->getRecipientsCC();
+			$recipientsBCC = (string)$mailValueObject->getRecipientsBCC();
+
+			$this->dic->logger()->mail()->info(
+				sprintf(
+					'Mail delivery to recipients: "%s" CC: "%s" BCC: "%s" From sender: "%s"',
+					$recipients,
+					$recipientsCC,
+					$recipientsBCC,
+					$mailValueObject->getFrom()
+				)
+			);
+
 			$mail->sendMail(
-				(string)$mailValueObject->getRecipients(),    // To
-				(string)$mailValueObject->getRecipientsCC(),  // Cc
-				(string)$mailValueObject->getRecipientsCC(),  // Bcc
-				(string)$mailValueObject->getSubject(),       // Subject
-				(string)$mailValueObject->getBody(),          // Message
-				(array)$mailValueObject->getAttachment(),     // Attachments
-				(array)$mailValueObject->getTypes(),          // Type
-				(bool)$mailValueObject->isUsingPlaceholders() // Use Placeholders
+				$recipients,
+				$recipientsCC,
+				$recipientsBCC,
+				(string)$mailValueObject->getSubject(),
+				(string)$mailValueObject->getBody(),
+				(array)$mailValueObject->getAttachment(),
+				(array)$mailValueObject->getTypes(),
+				(bool)$mailValueObject->isUsingPlaceholders()
 			);
 		}
-
-		$this->dic->logger()->mail()->info(sprintf(
-			'Mail delivery background task finished',
-			json_encode($arguments, JSON_PRETTY_PRINT)
-		));
 
 		$output = new BooleanValue();
 		$output->setValue(true);
