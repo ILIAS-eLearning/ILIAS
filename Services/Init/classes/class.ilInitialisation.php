@@ -1472,7 +1472,8 @@ class ilInitialisation
 				$c["ui.factory.messagebox"],
 				$c["ui.factory.card"],
 				$c["ui.factory.layout"],
-				$c["ui.factory.maincontrols"]
+				$c["ui.factory.maincontrols"],
+				$c["ui.factory.tree"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1625,8 +1626,13 @@ class ilInitialisation
 		$c["ui.javascript_binding"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
 		};
+
+		$c["ui.factory.tree"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+		};
+
 	}
-	
+
 	/**
 	 * init HTML output (level 3)
 	 */

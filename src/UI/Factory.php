@@ -805,4 +805,14 @@ interface Factory {
 	 */
 	public function mainControls(): C\MainControls\Factory;
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Trees present hierarchically structured data.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Tree\Factory
+	 */
+	public function tree();
 }

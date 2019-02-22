@@ -1,0 +1,70 @@
+<?php
+declare(strict_types=1);
+
+/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
+namespace ILIAS\UI\Implementation\Component\Tree;
+
+use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Renderer as RendererInterface;
+use ILIAS\UI\Component;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Tree;
+
+class Renderer extends AbstractComponentRenderer {
+	/**
+	 * @inheritdoc
+	 */
+	public function render(Component\Component $component, RendererInterface $default_renderer) {
+		$this->checkComponent($component);
+
+		$tpl_name = "tpl.tree.html";
+		$tpl = $this->getTemplate($tpl_name, true, true);
+
+		$recursion =
+		$environment = $component->getEnvironment();
+
+		$nodes = [];
+		foreach($component->getData() as $record) {
+			$nodes[] = $this->buildNode(
+				$component->getRecursion(),
+				$record,
+				$component->getEnvironment()
+			);
+		}
+
+		$nodes_html = $default_renderer->render($nodes);
+		$tpl->setVariable('NODES', $nodes_html);
+
+		return $tpl->get();
+	}
+
+	protected function buildNode(
+		Tree\TreeRecursion $recursion,
+		$record,
+		$environment
+	): Tree\Node\Node {
+
+		$node = $recursion->build(
+			$this->getUIFactory()->tree()->node(),
+			$record
+		);
+
+		foreach ($recursion->getChildren($record) as $sub_record) {
+			$node = $node->withAdditionalSubnode(
+				$this->buildNode($recursion, $sub_record, $environment)
+			);
+		}
+
+		return $node;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getComponentInterfaceName() {
+		return array(
+			Tree\Tree::class
+		);
+	}
+}
