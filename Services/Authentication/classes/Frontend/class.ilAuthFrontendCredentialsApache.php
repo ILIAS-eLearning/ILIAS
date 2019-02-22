@@ -126,8 +126,6 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 			return false;
 		}
 
-		$url = trim($_GET['r']);
-
 		$validDomains = array();
 		$path         = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
 		if (file_exists($path) && is_readable($path)) {
@@ -138,7 +136,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 			}
 		}
 
-		$validator = new \ilWhiteListUrlValidator($url, $validDomains);
+		$validator = new \ilWhiteListUrlValidator($targetUrl, $validDomains);
 
 		return $validator->isValid();
 	}
