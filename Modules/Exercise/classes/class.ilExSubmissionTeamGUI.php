@@ -280,7 +280,9 @@ class ilExSubmissionTeamGUI
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return false;
 		}
-			
+
+		$new_users = [];
+
 		foreach($a_user_ids as $user_id)
 		{		
 			if($this->team->addTeamMember($user_id, $this->exercise->getRefId()))
