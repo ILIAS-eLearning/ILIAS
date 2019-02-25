@@ -222,7 +222,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$cb->setValue(1);
 		$cb->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($cb);
-		
+
 		include_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
 		$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
 		$incoming_mail_gui->setDisabled(!$this->isEditingAllowed());
@@ -521,10 +521,10 @@ class ilObjMailGUI extends ilObjectGUI
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
 		$placeholders = new ilManualPlaceholderInputGUI('mail_system_sys_signature');
 		foreach (array(
-			         array('placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')),
-			         array('placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')),
-			         array('placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url'))
-		         ) as $key => $value) {
+					 array('placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')),
+					 array('placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')),
+					 array('placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url'))
+				 ) as $key => $value) {
 			$placeholders->addPlaceholder($value['placeholder'], $value['label']);
 		}
 		$placeholders->setDisabled(!$this->isEditingAllowed());
