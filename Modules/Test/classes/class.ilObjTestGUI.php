@@ -1855,26 +1855,25 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
-	* Called when a selection of questions should be removed from the test
-	*
-	* Called when a selection of questions should be removed from the test
-	*
-	* @access	public
-	*/
-	function removeQuestionsObject()
+	 * Called when a selection of questions should be removed from the test
+	 */
+	public function removeQuestionsObject()
 	{
 		$this->getTabsManager()->getQuestionsSubTabs();
+
 		$checked_questions = $_REQUEST["q_id"];
+
 		if (!is_array($checked_questions) && $checked_questions) {
-		    $checked_questions = array($checked_questions);
+			$checked_questions = array($checked_questions);
 		}
-		if (count($checked_questions) > 0) 
-		{			
+
+		if (!is_array($checked_questions)) {
+			$checked_questions = [];
+		}
+
+		if (count($checked_questions) > 0) {
 			$this->removeQuestionsForm($checked_questions);
-			return;
-		} 
-		elseif (count($checked_questions) == 0) 
-		{
+		} elseif (0 === count($checked_questions)) {
 			ilUtil::sendFailure($this->lng->txt("tst_no_question_selected_for_removal"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
@@ -1907,7 +1906,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// get all questions to move
 		$move_questions = $_SESSION['tst_qst_move_' . $this->object->getTestId()];
 
-		if (count($_POST['q_id']) == 0)
+		if (!is_array($_POST['q_id']) || 0 === count($_POST['q_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_target_selected_for_move"), true);
 			$this->ctrl->redirect($this, 'questions');
@@ -1931,7 +1930,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		// get all questions to move
 		$move_questions = $_SESSION['tst_qst_move_' . $this->object->getTestId()];
-		if (count($_POST['q_id']) == 0)
+		if (!is_array($_POST['q_id']) || 0 === count($_POST['q_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_target_selected_for_move"), true);
 			$this->ctrl->redirect($this, 'questions');
@@ -2658,7 +2657,7 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	public function applyDefaultsObject($confirmed = false)
 	{
-		if( count($_POST["chb_defaults"]) != 1 )
+		if( !is_array($_POST["chb_defaults"]) || 1 !== count($_POST["chb_defaults"]))
 		{
 			ilUtil::sendInfo(
 				$this->lng->txt("tst_defaults_apply_select_one")
