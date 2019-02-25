@@ -1857,7 +1857,7 @@ class ilObjTestGUI extends ilObjectGUI
 	/**
 	 * Called when a selection of questions should be removed from the test
 	 */
-	function removeQuestionsObject()
+	public function removeQuestionsObject()
 	{
 		$this->getTabsManager()->getQuestionsSubTabs();
 
