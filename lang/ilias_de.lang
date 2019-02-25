@@ -14987,3 +14987,4 @@ dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
 dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende
 crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
 crs#:#crs_timings_short_start_end_rel#:#Empfohlener Start (Tage nach Kursbeitritt)
+crs#:#crs_tile_and_objective_view_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Lernziel-orientierter Ansicht wird nicht unterstützt.

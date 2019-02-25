@@ -119,7 +119,9 @@ abstract class ilContainerContentGUI
 
 		$this->log = ilLoggerFactory::getLogger('cont');
 
-		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel())
+		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" &&
+			!$this->container_gui->isActiveAdministrationPanel() &&
+			!$this->container_gui->isActiveOrdering())
 			? self::VIEW_MODE_TILE
 			: self::VIEW_MODE_LIST;
 
@@ -779,12 +781,14 @@ abstract class ilContainerContentGUI
 		}
 		else
 		{
+//			$path = ilObject::_getIcon($a_item_data['obj_id']);
 			$path = ilUtil::getImagePath("empty.png");
 		}
 
+		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
 		{
-			$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
+			$image = $image->withAction($def_command["link"]);
 		}
 
 		// card
