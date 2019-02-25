@@ -90,7 +90,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 				$this->db->quote('y', 'text'), $this->db->quote('g', 'text')
 			),
 			sprintf(
-				"(CASE WHEN ((profpref.value = %s OR profpref.value = %s AND pubemail.value = %s)) THEN email ELSE '' END) email",
+				"(CASE WHEN ((profpref.value = %s OR profpref.value = %s) AND pubemail.value = %s) THEN email ELSE '' END) email",
 				$this->db->quote('y', 'text'), $this->db->quote('g', 'text'), $this->db->quote('y', 'text')
 			),
 		);
