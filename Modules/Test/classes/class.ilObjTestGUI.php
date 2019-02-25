@@ -1950,13 +1950,9 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
-	* Called when a selection of questions should be removed from the test
-	*
-	* Called when a selection of questions should be removed from the test
-	*
-	* @access	public
-	*/
-	function removeQuestionsObject()
+	 * Called when a selection of questions should be removed from the test
+	 */
+	public function removeQuestionsObject()
 	{
 		$this->getQuestionsSubTabs();
 		$checked_questions = $_REQUEST["q_id"];
