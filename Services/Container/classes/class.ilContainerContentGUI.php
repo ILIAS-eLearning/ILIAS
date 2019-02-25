@@ -779,12 +779,14 @@ abstract class ilContainerContentGUI
 		}
 		else
 		{
+//			$path = ilObject::_getIcon($a_item_data['obj_id']);
 			$path = ilUtil::getImagePath("empty.png");
 		}
 
+		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
 		{
-			$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
+			$image = $image->withAction($def_command["link"]);
 		}
 
 		// card
