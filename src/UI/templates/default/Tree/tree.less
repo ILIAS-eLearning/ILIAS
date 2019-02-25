@@ -1,0 +1,24 @@
+.il-tree {
+	list-style-type: none;
+	ul {
+		list-style-type: none;
+	}
+
+	.il-tree-node > ul {
+		display: none;
+	}
+
+	.il-tree-node.expanded > ul {
+		display: block;
+	}
+
+	.il-tree-node.expandable > span:before {
+		font-family: 'Glyphicons Halflings';
+		content: "\e250";
+	}
+	.il-tree-node.expandable.expanded > span:before {
+		font-family: 'Glyphicons Halflings';
+		content: "\e252";
+	}
+}
+

@@ -17,12 +17,19 @@ interface TreeRecursion
 	 * Also, each record will be asked for Sub-Nodes using this function.
 	 * @return array
 	 */
-	public function getChildren($data): array;
+	public function getChildren(
+		$data,
+		$environment = null
+	): array;
 
 	/**
 	 * Build and return a Node.
 	 * @return Node
 	 */
-	public function build(Node\Factory $factory, $record): Node\Node;
+	public function build(
+		Node\Factory $factory,
+		$record,
+		$environment = null
+	): Node\Node;
 
 }

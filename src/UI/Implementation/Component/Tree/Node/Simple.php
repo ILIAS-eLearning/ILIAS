@@ -12,5 +12,4 @@ use ILIAS\UI\Component\Tree\Node\Simple as ISimple;
  */
 class Simple extends Node implements ISimple
 {
-
 }

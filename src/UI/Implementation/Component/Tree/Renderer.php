@@ -47,10 +47,11 @@ class Renderer extends AbstractComponentRenderer {
 
 		$node = $recursion->build(
 			$this->getUIFactory()->tree()->node(),
-			$record
+			$record,
+			$environment
 		);
 
-		foreach ($recursion->getChildren($record) as $sub_record) {
+		foreach ($recursion->getChildren($record, $environment) as $sub_record) {
 			$node = $node->withAdditionalSubnode(
 				$this->buildNode($recursion, $sub_record, $environment)
 			);
