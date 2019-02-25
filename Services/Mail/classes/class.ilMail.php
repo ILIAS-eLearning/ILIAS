@@ -1414,7 +1414,13 @@ class ilMail
 	 */
 	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments)
 	{
-		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
+		$subjectPrefix = self::getSubjectPrefix();
+
+		if ('' !== $subjectPrefix) {
+			$subjectPrefix = $subjectPrefix . ' ';
+		}
+
+		$a_m_subject = $subjectPrefix . $a_m_subject;
 
 		/** @var \ilMailMimeSenderFactory $senderFactory */
 		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
