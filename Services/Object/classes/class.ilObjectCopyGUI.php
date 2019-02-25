@@ -1188,6 +1188,12 @@ class ilObjectCopyGUI
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
+			if($this->getSubMode() == self::SUBMODE_CONTENT_ONLY)
+			{
+				// return to parent container
+				return $this->ctrl->returnToParent($this);
+			}
+			// return to last target
 			$link = ilLink::_getLink($result['ref_id']);
 			$ilCtrl->redirectToUrl($link);
 		}
