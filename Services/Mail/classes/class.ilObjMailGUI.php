@@ -542,9 +542,9 @@ class ilObjMailGUI extends ilObjectGUI
 	 */
 	protected function populateExternalSettingsForm(ilPropertyFormGUI $form)
 	{
-		$subject = $this->settings->get('mail_subject_prefix');
-		if (false === $subject) {
-			$subject = '[ILIAS]';
+		$subjectPrefix = $this->settings->get('mail_subject_prefix');
+		if (false === $subjectPrefix) {
+			$subjectPrefix = '[ILIAS]';
 		}
 
 		$form->setValuesByArray(array(
@@ -554,7 +554,7 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_smtp_user'                => $this->settings->get('mail_smtp_user'),
 			'mail_smtp_password'            => strlen($this->settings->get('mail_smtp_password')) > 0 ? self::PASSWORD_PLACE_HOLDER : '',
 			'mail_smtp_encryption'          => $this->settings->get('mail_smtp_encryption'),
-			'mail_subject_prefix'           => $subject,
+			'mail_subject_prefix'           => $subjectPrefix,
 			'mail_send_html'                => (int)$this->settings->get('mail_send_html'),
 			'mail_system_usr_from_addr'     => $this->settings->get('mail_system_usr_from_addr'),
 			'mail_system_usr_from_name'     => $this->settings->get('mail_system_usr_from_name'),
