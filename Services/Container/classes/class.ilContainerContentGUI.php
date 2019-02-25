@@ -781,8 +781,11 @@ abstract class ilContainerContentGUI
 		}
 		else
 		{
-//			$path = ilObject::_getIcon($a_item_data['obj_id']);
-			$path = ilUtil::getImagePath("empty.png");
+			$path = ilUtil::getImagePath("cont_tile/cont_tile_default_".$a_item_data['type'].".svg");
+			if (!is_file($path))
+			{
+				$path = ilUtil::getImagePath("cont_tile/cont_tile_default.svg");
+			}
 		}
 
 		$image = $f->image()->responsive($path, "");
