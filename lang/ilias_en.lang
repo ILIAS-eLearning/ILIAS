@@ -4564,7 +4564,8 @@ crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
 crs#:#crs_groupings#:#Course groupings
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
+crs#:#crs_grp_already_assigned#:#You are already member of this grouping of courses.
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
