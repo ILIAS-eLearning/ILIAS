@@ -117,6 +117,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->navigation_history = $DIC['ilNavigationHistory'];
 		$this->obj_definition = $DIC['objDefinition'];
 		$this->tpl = $DIC["tpl"];
+		$this->obj_service = $DIC->object();
 
 		$this->help->setScreenIdComponent($this->obj_type);
 		$this->lng->loadLanguageModule($this->obj_type);
@@ -295,7 +296,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->getObject(),
 			$this->ctrl,
 			$this->lng,
-			$this->template
+			$this->template,
+			$this->obj_service
 		);
 		$this->ctrl->setCmd($cmd);
 		$this->ctrl->forwardCommand($gui);
