@@ -3916,7 +3916,7 @@ common#:#rolt#:#Rollenvorlage
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
-rbac#:#rbac_create_cat#:#Benutzer kann Kategorien anlegen
+rbac#:#rbac_create_cat#:#Kategorien anlegen
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS-System
 rbac#:#root_visible#:#ILIAS-System ist sichtbar
@@ -7764,6 +7764,10 @@ rbac#:#mds_visible#:# Metadaten-Administration ist sichtbar
 rbac#:#mds_write#:#Einstellungen in Metadaten-Administration bearbeiten
 rbac#:#moderate#:#Moderieren
 rbac#:#moderate_frm#:#Moderieren
+rbac#:#mme_visible#:#Administration des Hauptmenüs ist sichtbar
+rbac#:#mme_read#:#Lesezugriff auf Administration des Hauptmenüs
+rbac#:#mme_write#:#Einstellungen der Administration des Hauptmenüs bearbeiten
+rbac#:#mme_edit_permission#:#Rechteeinstellung der Administration des Hauptmenüs ändern
 rbac#:#msg_no_roles_of_type#:#Keine Rollen vorhanden mit der gewählten Filtereinstellung
 rbac#:#otpl_edit_permission#:#Rechteeinstellungen in Administration der Didaktischen Vorlagen ändern
 rbac#:#otpl_read#:#Lesezugriff auf Administration der Didaktischen Vorlagen
@@ -7924,6 +7928,10 @@ rbac#:#svyf_read#:#Lesezugriff auf Umfrage-Administration
 rbac#:#svyf_visible#:#Umfrage-Administration ist sichtbar
 rbac#:#svyf_write#:#Einstellungen in Umfrage-Administration bearbeiten
 rbac#:#rbac_create_usr#:#Benutzer anlegen können
+rbac#:#wfe_visible#:#Administration der Workflow Engine ist sichtbar
+rbac#:#wfe_read#:#Lesezugriff auf Administration der Workflow Engine
+rbac#:#wfe_write#:#Einstellungen der Administration der Workflow Engine bearbeiten
+rbac#:#wfe_edit_permission#:#Rechteeinstellung der Administration der Workflow Engine ändern
 rbac#:#write#:#Einstellungen bearbeiten
 rcrs#:#rcrs_call#:#ECS-Kurs aufrufen
 registration#:#auth_radius_name#:#Name der RADIUS Konfiguration
