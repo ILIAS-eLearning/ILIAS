@@ -222,7 +222,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$cb->setValue(1);
 		$cb->setDisabled(!$this->isEditingAllowed());
 		$form->addItem($cb);
-		
+
 		include_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
 		$incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
 		$incoming_mail_gui->setDisabled(!$this->isEditingAllowed());
@@ -521,10 +521,10 @@ class ilObjMailGUI extends ilObjectGUI
 		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
 		$placeholders = new ilManualPlaceholderInputGUI('mail_system_sys_signature');
 		foreach (array(
-			         array('placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')),
-			         array('placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')),
-			         array('placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url'))
-		         ) as $key => $value) {
+					 array('placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')),
+					 array('placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')),
+					 array('placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url'))
+				 ) as $key => $value) {
 			$placeholders->addPlaceholder($value['placeholder'], $value['label']);
 		}
 		$placeholders->setDisabled(!$this->isEditingAllowed());
@@ -542,6 +542,11 @@ class ilObjMailGUI extends ilObjectGUI
 	 */
 	protected function populateExternalSettingsForm(ilPropertyFormGUI $form)
 	{
+		$subjectPrefix = $this->settings->get('mail_subject_prefix');
+		if (false === $subjectPrefix) {
+			$subjectPrefix = ilMail::MAIL_SUBJECT_PREFIX;
+		}
+
 		$form->setValuesByArray(array(
 			'mail_smtp_status'              => (bool)$this->settings->get('mail_smtp_status'),
 			'mail_smtp_host'                => $this->settings->get('mail_smtp_host'),
@@ -549,7 +554,7 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_smtp_user'                => $this->settings->get('mail_smtp_user'),
 			'mail_smtp_password'            => strlen($this->settings->get('mail_smtp_password')) > 0 ? self::PASSWORD_PLACE_HOLDER : '',
 			'mail_smtp_encryption'          => $this->settings->get('mail_smtp_encryption'),
-			'mail_subject_prefix'           => $this->settings->get('mail_subject_prefix') ? $this->settings->get('mail_subject_prefix') : '[ILIAS]',
+			'mail_subject_prefix'           => $subjectPrefix,
 			'mail_send_html'                => (int)$this->settings->get('mail_send_html'),
 			'mail_system_usr_from_addr'     => $this->settings->get('mail_system_usr_from_addr'),
 			'mail_system_usr_from_name'     => $this->settings->get('mail_system_usr_from_name'),
