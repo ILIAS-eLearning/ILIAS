@@ -456,7 +456,7 @@ assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Die Punkte werden au
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung bei Nennung eines Begriffs
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#Die Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird.
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
-assessment#:#assessment_scoring_adjust#:#Aktiviere Nachkorrekturmodus
+assessment#:#assessment_scoring_adjust#:#Nachkorrekturmodus aktivieren
 assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, um nachträglich die Bewertung von Fragen in Tests anzupassen.
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
@@ -1914,7 +1914,7 @@ certificate#:#cert_form_sec_availability#:#Verfügbarkeit
 certificate#:#cert_form_sec_layout#:#Layout und Text
 certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
 common#:#chat_chatviewer#:#Chatviewer
-chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
+chatroom#:#chat_enable_autoscroll#:#Automatisches Scrollen aktivieren
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
@@ -1924,8 +1924,8 @@ chatroom#:#autogen_usernames#:#Automatisch generierte Benutzernamen
 chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzernamen bei anonymen Benutzern. '#' wird automatisch durch eine Zahl ersetzt
 chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
 chatroom#:#ban_table_title#:#Gesperrte Benutzer
-chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt
-chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen
+chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
+chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen.
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_ban#:#Sperren
@@ -2180,7 +2180,7 @@ rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
 common#:#advanced_editing_frm_post_settings#:#Einstellungen Forenbeiträge
-common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
+common#:#advanced_editing_rep_page_editing#:#Seitenbearbeitung im Magazin aktivieren
 common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
@@ -2641,7 +2641,7 @@ common#:#desktop_items#:#Ausgewählte Angebote
 common#:#details#:#Details
 common#:#disable#:#ausschalten
 common#:#disable_check#:#Nicht überprüfen
-common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
+common#:#disable_ext_lang_maint#:#Eweiterte Sprachenverwaltung deaktivieren
 common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
 common#:#disabled#:#Ausgeschaltet
 common#:#disk_quota#:#Disk-Quota
@@ -3948,11 +3948,11 @@ common#:#save_settings#:#Einstellungen speichern
 common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#saving#:#Sichert...
-common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
-common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
-common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
-common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
-common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
+common#:#scorm_create_export_file_html#:#HTML-Exportdatei erzeugen
+common#:#scorm_create_export_file_pdf#:#PDF-Exportdatei erzeugen
+common#:#scorm_create_export_file_scrom12#:#SCORM 1.2-Exportdatei erzeugen
+common#:#scorm_create_export_file_scrom2004#:#SCORM 2004-Exportdatei erzeugen
+common#:#scorm_create_export_file_scrom2004_4th#:#SCORM 2004-4th_edition-Exportdatei erstellen
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
@@ -4446,10 +4446,10 @@ content#:#cont_act_number#:#Kapitelnummerierung
 content#:#cont_activate_html#:#HTML-Rendering aktivieren
 content#:#cont_activate_js#:#Javascript-Modus aktivieren
 content#:#cont_activate_media#:#Medien aktivieren
-content#:#cont_activate_page#:#Aktiviere Seite
+content#:#cont_activate_page#:#Seite aktivieren
 content#:#cont_activated#:#Aktiviert
 content#:#cont_activation#:#Aktivierung
-content#:#cont_active#:#Aktiviere Menü
+content#:#cont_active#:#Menü aktivieren
 content#:#cont_active_areas#:#Auslöser
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
@@ -5678,7 +5678,7 @@ dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer
 dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
 dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor der Sprechstunde eine Anmeldung ermöglicht werden soll.
 dateplaner#:#cal_ch_duration#:#Dauer eines Termins
-dateplaner#:#cal_ch_form#:#Aktiviere Sprechstundenverwaltung
+dateplaner#:#cal_ch_form#:#Sprechstundenverwaltung aktivieren
 dateplaner#:#cal_ch_form_header#:#Sprechstundenverwaltung
 dateplaner#:#cal_ch_form_info#:#Diese Option aktiviert die Sprechstundenverwaltung im Kalender
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
@@ -6333,7 +6333,7 @@ didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_edit_members#:#Teilnehmerverwaltung
-grp#:#grp_enable_map#:#Aktiviere Gruppenkarte
+grp#:#grp_enable_map#:#Gruppenkarte aktivieren
 grp#:#grp_export_members#:#Teilnehmerexport
 grp#:#grp_general_informations#:#Allgemeine Informationen
 grp#:#grp_grp_info_reg#:#Die folgenden Gruppen unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einer dieser Gruppen beitreten:
@@ -7450,7 +7450,7 @@ news#:#news_default_visibility#:#Voreinstellung Zugriff
 news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
 news#:#news_enable_internal_news_info#:#Aktiviert Blöcke "Neuigkeiten" für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Neuigkeiten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
-news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Neuigkeiten
+news#:#news_enable_internal_rss#:#RSS für interne Neuigkeiten aktivieren
 news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Neuigkeiten über RSS. Auf diese Beiträge kann von außen ohne Authentifizierung zugegriffen werden.
 news#:#news_enable_private_feed#:#Privaten RSS-Feed aktivieren
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
@@ -7633,8 +7633,8 @@ ps#:#ps_error_message_password_min1_because_chars#:#Minimale Passwortlänge darf
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
 ps#:#ps_export_admin#:#Administratoren
-ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
-ps#:#ps_export_confirm_group#:#Aktiviere Nutzungsvereinbarung für Gruppenmitglieder
+ps#:#ps_export_confirm#:#Nutzungsvereinbarung für Kursmitglieder aktivieren
+ps#:#ps_export_confirm_group#:#Nutzungsvereinbarung für Gruppenmitglieder aktivieren
 ps#:#ps_export_course#:#Persönliche Daten in Kursen anzeigen und exportieren
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
@@ -8471,11 +8471,11 @@ style#:#sty_colors#:#Farben
 style#:#sty_commands#:#Aktionen
 style#:#sty_confirm_char_deletion#:#Sind Sie sicher, dass Sie die folgende Styleklassen löschen möchten?
 style#:#sty_confirm_color_deletion#:#Löschen der Farbe bestätigen
-style#:#sty_confirm_del_ind_styles#:#Bestätige Löschen der individuellen Lernmodul-Stylesheets
+style#:#sty_confirm_del_ind_styles#:#Löschen der individuellen Lernmodul-Stylesheets bestätigen
 style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit individuellen Stylesheets werden dem Stil '%s' zugeordnet. Die individuellen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
 style#:#sty_confirm_template_deletion#:#Löschen des Templates bestätigen
 style#:#sty_copied_please_select_target#:#Die Styleklassen wurden kopiert. Bitte wechseln Sie zum gewünschten Zielstyle und wählen "Styleklassen einfügen".
-style#:#sty_copy_other_stylesheet#:#Kopiere Stylesheet aus lokaler Quelle
+style#:#sty_copy_other_stylesheet#:#Stylesheet aus lokaler Quelle kopieren
 style#:#sty_create_ind_style#:#Individuelles Stylesheet anlegen
 style#:#sty_create_new_stylesheet#:#Neues Stylesheet anlegen
 style#:#sty_create_pgl#:#Seitenlayout erstellen
@@ -8514,7 +8514,7 @@ style#:#sty_images#:#Bilder
 style#:#sty_import_page_layout#:#Seitenlayout importieren
 style#:#sty_import_stylesheet#:#Stylesheet importieren
 style#:#sty_individual_styles#:#Individuelle Stylesheets
-style#:#sty_keep_existing#:#Bestehnde Klasse erhalten
+style#:#sty_keep_existing#:#Bestehende Klasse erhalten
 style#:#sty_left#:#Links
 style#:#sty_left_right_padding#:#Innenabstand Links/Rechts
 style#:#sty_letter_spacing#:#Zeichenabstand
@@ -10930,7 +10930,7 @@ crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
 pd#:#pd_info_delete_sure_remove#:#Wollen Sie die folgenden Objekte aus der Liste "Ausgewählte Angebote" auf Ihrem Persönlichen Schreibtisch entfernen?
 pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgenden Objekten abmelden?
-file#:#enable_personal_workspace_disk_quota#:#Aktiviere Disk-Quota für den Persönlichen Arbeitsraum
+file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen Arbeitsraum aktivieren
 file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
 file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
@@ -11804,10 +11804,10 @@ obj#:#obj_multilinguality#:#Mehrsprachigkeit
 obj#:#obj_deactivate_content_transl_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte im Seiteneditor wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
 obj#:#obj_cont_transl_deactivated#:#Die Unterstützung für mehrsprachige Inhalte im Seiteneditor wurde deaktiviert.
 obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite gestalten") kann separat aktiviert werden.
-obj#:#obj_activate_content_lang#:#Aktiviere Mehrsprachigkeit für Seiteneditor
+obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren
 obj#:#obj_add_languages#:#Sprachen hinzufügen
-obj#:#obj_activate_multilang#:#Aktiviere Mehrsprachigkeit
-obj#:#obj_deactivate_multilang#:#Deaktiviere Mehrsprachigkeit
+obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
+obj#:#obj_deactivate_multilang#:#Mehrsprachigkeit deaktivieren
 obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
@@ -12290,7 +12290,7 @@ content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer 
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
 maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
-maps#:#maps_enable_maps#:#Aktiviere Karten
+maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_extt_maps#:#Karten
 maps#:#maps_latitude#:#Breitengrad
 maps#:#maps_longitude#:#Längengrad
@@ -12889,8 +12889,8 @@ note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_comment_notification_link#:#Link
-lng#:#lng_enable_language_detection#:#Aktiviere automatische Spracherkennung
-lng#:#lng_disable_language_detection#:#Deaktiviere automatische Spracherkennung
+lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
+lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
 trac#:#trac_mode_content_visited#:#Besuch
 trac#:#trac_mode_content_visited_info#:#Der Lernstand wird über das Ausliefern des Inhalts bestimmt.
 trac#:#trac_mode_collection_mobs#:#Auswahl an Medien-Objekten
@@ -13082,7 +13082,7 @@ awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
 common#:#obj_awra#:#„Wer ist online?“-Anzeige
 awrn#:#awareness_settings#:#Einstellungen
-awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
+awrn#:#awrn_enable#:#„Wer ist online?“-Anzeige aktivieren
 crs#:#crs_mem_contacts#:#Tutorielle Betreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet. Achtung: Wird die Option "Online und offline" gewählt, ist bei hoher Benutzerzahl mit erheblichen Performanzeinbußen zu rechnen.
@@ -13930,7 +13930,7 @@ chatroom#:#chat_osc_send#:#Senden
 chatroom#:#chat_osc_invite_to_conversation#:#Zu Konversation hinzufügen
 chatroom#:#chat_osc_add_user#:#Weitere Benutzer zum Chat hinzufügen
 chatroom#:#chat_osc_user#:#Benutzer
-chatroom#:#chat_osc_write_a_msg#:#Verfasse eine Nachricht ...
+chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
 chatroom#:#chat_osc_section_head_other_rooms#:#Öffentlicher Chatraum
@@ -14527,7 +14527,7 @@ mme#:#topitem_type_parent#:#Haupteintrag
 mme#:#topitem_type_link#:#Link
 mme#:#topitem_title_default#:#Titel (Standard-Sprache)
 mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
-mme#:#topitem_active_byline#:#Aktiviere diesen Haupteintrag.
+mme#:#topitem_active_byline#:#Diesen Haupteintrag aktivieren
 mme#:#topitem_type#:#Typ
 mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
 mme#:#subitem_add#:#Eintrag hinzufügen
@@ -14547,7 +14547,7 @@ mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
 mme#:#sub_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#sub_type_byline#:#Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig.
-mme#:#sub_active_byline#:#Aktiviere diesen Eintrag.
+mme#:#sub_active_byline#:Diesen Eintrag aktivieren
 mme#:#add_languages#:#Sprache hinzufügen
 mme#:#mm_translation_lang#:#Sprache
 mme#:#mm_translation_trans#:#Übersetzung
