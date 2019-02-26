@@ -10,7 +10,7 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
 
 class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 {
-	private $answerType, $long_menu_text, $answers, $correct_answers, $json_structure, $ilDB;
+	private $answerType, $long_menu_text, $json_structure, $ilDB;
 	private $specificFeedbackSetting, $minAutoComplete;
 	
 	const ANSWER_TYPE_SELECT_VAL	= 0;
@@ -18,6 +18,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	const GAP_PLACEHOLDER			= 'Longmenu';
 	const MIN_LENGTH_AUTOCOMPLETE 	= 3;
 	const MAX_INPUT_FIELDS 			= 500;
+
+	/** @var array */
+	private $correct_answers = [];
+	
+	/** @var array */
+	private $answers = [];
 
 	function __construct(
 		$title 		= "",
