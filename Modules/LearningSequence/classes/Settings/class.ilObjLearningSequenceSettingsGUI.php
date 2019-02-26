@@ -45,7 +45,8 @@ class ilObjLearningSequenceSettingsGUI
 		ilObjLearningSequence $obj,
 		ilCtrl $il_ctrl,
 		ilLanguage $il_language,
-		ilGlobalTemplate $il_template
+		ilGlobalTemplate $il_template,
+		ilObjectService $obj_service
 	) {
 		$this->obj = $obj;
 		$this->settings = $obj->getLSSettings();
@@ -55,6 +56,11 @@ class ilObjLearningSequenceSettingsGUI
 		$this->ctrl = $il_ctrl;
 		$this->lng = $il_language;
 		$this->tpl = $il_template;
+		$this->object_service = $object_service;
+		$this->obj_service = $obj_service;
+
+		$this->lng->loadLanguageModule('content');
+		$this->lng->loadLanguageModule('obj');
 	}
 
 	public function executeCommand()
@@ -79,6 +85,7 @@ class ilObjLearningSequenceSettingsGUI
 	{
 		$form = $this->buildForm();
 		$this->fillForm($form);
+		$this->addCommonFieldsToForm($form);
 		return $form->getHTML();
 	}
 
@@ -180,6 +187,7 @@ class ilObjLearningSequenceSettingsGUI
 
 		$form->addCommandButton(self::CMD_SAVE, $txt("save"));
 		$form->addCommandButton(self::CMD_CANCEL, $txt("cancel"));
+
 		return $form;
 	}
 
@@ -201,10 +209,24 @@ class ilObjLearningSequenceSettingsGUI
 		return $form;
 	}
 
+	protected function addCommonFieldsToForm(\ilPropertyFormGUI $form)
+	{
+		$txt = function($id) { return $this->lng->txt($id); };
+		$section_appearance = new ilFormSectionHeaderGUI();
+		$section_appearance->setTitle($txt('cont_presentation'));
+		$form->addItem($section_appearance);
+		$form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->obj);
+		$form = $form_service->addTitleIconVisibility();
+		$form = $form_service->addTopActionsVisibility();
+		$form = $form_service->addIcon();
+		$form = $form_service->addTileImage();
+	}
+
 
 	protected function update()
 	{
 		$form = $this->buildForm();
+		$this->addCommonFieldsToForm($form);
 		if(!$form->checkInput()) {
 			$form->setValuesByPost();
 			ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
@@ -256,6 +278,12 @@ class ilObjLearningSequenceSettingsGUI
 				$settings = $settings->withUpload($img, ilLearningSequenceFilesystem::IMG_EXTRO);
 			}
 		}
+
+		$form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->obj);
+		$form_service->saveTitleIconVisibility();
+		$form_service->saveTopActionsVisibility();
+		$form_service->saveIcon();
+		$form_service->saveTileImage();
 
 		$lso->updateSettings($settings);
 		$lso->updateActivation($activation);
