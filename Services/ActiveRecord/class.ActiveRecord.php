@@ -501,11 +501,14 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	public function read() {
 		$records = $this->getArConnector()->read($this);
-		if (count($records) == 0 AND $this->ar_safe_read == true) {
+		$hasRecords = (is_array($records) && count($records) > 0);
+
+		if (!$hasRecords AND $this->ar_safe_read == true) {
 			throw new arException(arException::RECORD_NOT_FOUND, $this->getPrimaryFieldValue());
-		} elseif (count($records) == 0 AND $this->ar_safe_read == false) {
+		} elseif (!$hasRecords AND $this->ar_safe_read == false) {
 			$this->is_new = true;
 		}
+
 		$records = is_array($records) ? $records : array();
 		foreach ($records as $rec) {
 			foreach ($this->getArrayForConnector() as $k => $v) {
