@@ -7,6 +7,10 @@
 
 namespace ILIAS\Refinery\To;
 
+use ILIAS\Refinery\To\Transformation\BooleanTransformation;
+use ILIAS\Refinery\To\Transformation\FloatTransformation;
+use ILIAS\Refinery\To\Transformation\IntegerTransformation;
+use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\Transformation\Transformation;
 
 interface Group
@@ -16,28 +20,28 @@ interface Group
 	 * to a string value
 	 * @return Transformation
 	 */
-	public function string() : Transformation;
+	public function string() : StringTransformation;
 
 	/**
 	 * Returns an object that allows to transform a value
 	 * to an integer value
 	 * @return Transformation
 	 */
-	public function int() : Transformation;
+	public function int() : IntegerTransformation;
 
 	/**
 	 * Returns an object that allows to transform a value
 	 * to a float value
 	 * @return Transformation
 	 */
-	public function float() : Transformation;
+	public function float() : FloatTransformation;
 
 	/**
 	 * Returns an object that allows to transform a value
 	 * to a boolean value
 	 * @return Transformation
 	 */
-	public function bool() : Transformation;
+	public function bool() : BooleanTransformation;
 
 	/**
 	 * Returns an object that allows to transform an value in a given array
