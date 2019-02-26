@@ -25,12 +25,8 @@ class SplitString implements Transformation {
 	 * @param string $delimiter
 	 * @param Factory $factory
 	 */
-	public function __construct($delimiter, Factory $factory = null) {
+	public function __construct($delimiter, Factory $factory ) {
 		$this->delimiter = $delimiter;
-
-		if (null === $factory) {
-			$factory = new Factory();
-		}
 		$this->factory = $factory;
 	}
 

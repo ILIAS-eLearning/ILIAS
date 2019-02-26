@@ -24,11 +24,8 @@ class AddLabels implements Transformation {
 	 * @param string[] | int[] $labels
 	 * @param Factory|null $factory
 	 */
-	public function __construct(array $labels, Factory $factory = null) {
+	public function __construct(array $labels, Factory $factory) {
 		$this->labels = $labels;
-		if (null === $factory) {
-			$factory = new Factory();
-		}
 		$this->factory = $factory;
 	}
 

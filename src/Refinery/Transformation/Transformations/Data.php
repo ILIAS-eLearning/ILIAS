@@ -30,15 +30,12 @@ class Data implements Transformation {
 	 * @param string $type
 	 * @param DataFactory $factory
 	 */
-	public function __construct($type, DataFactory $factory = null) {
+	public function __construct($type, DataFactory $factory) {
 		$this->type = $type;
 		if(! method_exists($this->getDataFactory(), $type)) {
 			throw new \InvalidArgumentException("No such type to transform to: $type");
 		}
 
-		if (null === $factory) {
-			$factory = new DataFactory();
-		}
 		$this->factory = $factory;
 	}
 

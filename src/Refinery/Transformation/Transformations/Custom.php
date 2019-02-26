@@ -20,13 +20,9 @@ class Custom implements Transformation {
 	 * @param callable $transform
 	 * @param Factory|null $factory
 	 */
-	public function __construct(callable $transform, Factory $factory = null) {
-		if (null === $factory) {
-			$factory = new Factory();
-		}
-		$this->factory = $factory;
-
+	public function __construct(callable $transform, Factory $factory) {
 		$this->transform = $transform;
+		$this->factory = $factory;
 	}
 
 	/**

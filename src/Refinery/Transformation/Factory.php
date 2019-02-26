@@ -18,7 +18,7 @@ class Factory {
 	 * @return  Transformation
 	 */
 	public function addLabels(array $labels) {
-		return new Transformations\AddLabels($labels);
+		return new Transformations\AddLabels($labels, new \ILIAS\Data\Factory());
 	}
 
 	/**
@@ -30,7 +30,7 @@ class Factory {
 	 * @return  Transformation
 	 */
 	public function splitString($delimiter) {
-		return new Transformations\SplitString($delimiter);
+		return new Transformations\SplitString($delimiter, new \ILIAS\Data\Factory());
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Factory {
 	 * @return  Transformation
 	 */
 	public function custom(callable $f) {
-		return new Transformations\Custom($f);
+		return new Transformations\Custom($f, new \ILIAS\Data\Factory());
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Factory {
 	 * @return  Transformation
 	 */
 	public function toData($type) {
-		return new Transformations\Data($type);
+		return new Transformations\Data($type, new \ILIAS\Data\Factory());
 	}
 
 
