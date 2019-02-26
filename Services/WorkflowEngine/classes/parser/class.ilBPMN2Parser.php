@@ -181,7 +181,7 @@ class ilBPMN2Parser
 	 */
 	public function determineWorkflowClassName($workflow_name, $bpmn2_array, $process)
 	{
-		$hasChildren = (isset($bpmn2_array['children']) && is_array($process['$bpmn2_array']) && count($bpmn2_array['children']) > 0);
+		$hasChildren = (isset($bpmn2_array['children']) && is_array($bpmn2_array['children']) && count($bpmn2_array['children']) > 0);
 		if (!$workflow_name && !$hasChildren)
 		{
 			$workflow_name = $bpmn2_array['attributes']['id'];

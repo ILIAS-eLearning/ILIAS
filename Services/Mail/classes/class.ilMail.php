@@ -13,6 +13,8 @@ class ilMail
 	/** @var string */
 	const ILIAS_HOST = 'ilias';
 
+	const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+
 	/** @var ilLanguage */
 	protected $lng;
 
@@ -726,6 +728,7 @@ class ilMail
 				'rcp_to'      => (string)$a_rcp_to,
 				'rcp_cc'      => (string)$a_rcp_cc,
 				'rcp_bcc'     => (string)$a_rcp_bcc,
+				'type'        => (array)$a_m_type,
 			]);
 		}
 
@@ -1603,7 +1606,12 @@ class ilMail
 	{
 		global $DIC;
 
-		return $DIC->settings()->get('mail_subject_prefix', '');
+		$subjectPrefix = $DIC->settings()->get('mail_subject_prefix');
+		if (false === $subjectPrefix) {
+			$subjectPrefix = self::MAIL_SUBJECT_PREFIX;
+		}
+
+		return $subjectPrefix;
 	}
 
 	/**
