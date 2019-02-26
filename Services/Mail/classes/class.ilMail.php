@@ -726,6 +726,7 @@ class ilMail
 				'rcp_to'      => (string)$a_rcp_to,
 				'rcp_cc'      => (string)$a_rcp_cc,
 				'rcp_bcc'     => (string)$a_rcp_bcc,
+				'type'        => (array)$a_m_type,
 			]);
 		}
 
