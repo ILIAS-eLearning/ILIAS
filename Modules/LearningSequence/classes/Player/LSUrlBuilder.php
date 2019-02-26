@@ -18,11 +18,11 @@ class LSUrlBuilder implements URLBuilder
 
 	public function getURL(string $command, int $param = null): ILIAS\Data\URI
 	{
-		$query = $this->base_url->getQuery();
+		$query = $this->base_url->query();
 		if(!$query) {
 			$params = [];
 		} else {
-			parse_str($this->base_url->getQuery(), $params);
+			parse_str($this->base_url->query(), $params);
 		}
 
 		$params[self::PARAM_LSO_COMMAND] = $command;
@@ -38,6 +38,6 @@ class LSUrlBuilder implements URLBuilder
 	public function getHref(string $command, int $param = null): string
 	{
 		$url = $this->getURL($command, $param);
-		return $url->getBaseURI().'?'.$url->getQuery();
+		return $url->baseURI().'?'.$url->query();
 	}
 }
