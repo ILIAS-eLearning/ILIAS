@@ -10483,8 +10483,8 @@ content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgef
 common#:#edited_on#:#Bearbeitet am
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_tos#:#Nutzungsvereinbarungen
-tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt.
-tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt.
+tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
+tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
 tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
@@ -10493,8 +10493,8 @@ tos#:#tos_agreement_missing#:#Nicht vorhanden
 tos#:#tos_agreement_document#:#Dokument
 tos#:#tos_agreement_document_missing#:#Nicht vorhanden
 tos#:#tos_tos_settings#:#Einstellungen
-tos#:#tos_status_enable#:#Aktivieren
-tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
+tos#:#tos_status_enable#:#Nutzungsvereinbarungen aktivieren
+tos#:#tos_status_desc#:#Benutzer werden zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
 tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die z.B. für die SOAP Web-Services genutzt werden.
 tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
@@ -10520,20 +10520,20 @@ tos#:#tos_tbl_docs_head_sorting#:#Sortierung
 tos#:#tos_tbl_docs_head_title#:#Titel
 tos#:#tos_tbl_docs_head_created#:#Erstellungsdatum
 tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
-tos#:#tos_tbl_docs_head_criteria#:#Kriterien
-tos#:#tos_tbl_docs_action_add_criterion#:#Kriterium hinzufügen
-tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Kriterium zugewiesen
-tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Kriterium zugewiesen
-tos#:#tos_doc_detach_crit_confirm_title#:#Kriterium entfernen
+tos#:#tos_tbl_docs_head_criteria#:#Vorlagekriterien
+tos#:#tos_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
+tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+tos#:#tos_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
 tos#:#tos_doc_delete#:#Dokument löschen
-tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Kriterium entfernt werden soll?
-tos#:#tos_doc_crit_detached#:#Das Kriterium wurde entfernt.
-tos#:#tos_doc_crit_attached#:#Das Kriterium wurde zugewiesen.
-tos#:#tos_doc_crit_changed#:#Das Kriterium wurde aktualisiert.
-tos#:#tos_form_attach_criterion_head#:#Kriterium hinzufügen
-tos#:#tos_form_edit_criterion_head#:#Kriteriumzuweisung bearbeiten
-tos#:#tos_form_criterion#:#Kriterium
-tos#:#tos_form_criterion_info#:#Bitte wählen Sie ein entsprechendes Kriterium für das Dokument.
+tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
+tos#:#tos_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
+tos#:#tos_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
+tos#:#tos_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
+tos#:#tos_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
+tos#:#tos_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
+tos#:#tos_form_criterion#:#Vorlagekriterium
+tos#:#tos_form_criterion_info#:#Bitte wählen Sie ein entsprechendes Kriterium für das Dokument.###DEPRECATED - Wird nicht länger genutzt.
 tos#:#tos_document#:#Dokument
 tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
 tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
@@ -10547,13 +10547,13 @@ tos#:#tos_tbl_hist_head_login#:#Benutzername
 tos#:#tos_tbl_hist_head_firstname#:#Vorname
 tos#:#tos_tbl_hist_head_lastname#:#Nachname
 tos#:#tos_tbl_hist_head_document#:#Dokument
-tos#:#tos_tbl_hist_head_criteria#:#Kriterien
-tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Kriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
-tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Kriteriums nicht wie gewünscht ändern.  Es existiert bereits eine identische Zuweisung.
-tos#:#tos_crit_type_usr_global_role#:#Benutzer hat Globale Rolle
-tos#:#tos_crit_type_usr_global_role_info#:#Das Kriterium gilt als erfüllt, wenn ein Benutzer der hier gewählten Rolle zugewiesen ist.
-tos#:#tos_crit_type_usr_language#:#Profilesprache
-tos#:#tos_crit_type_usr_language_info#:#Das Kriterium gilt als erfüllt, wenn die hier gewählte Sprache im Benutzerprofil eingestellt ist. Bitte beachten Sie, dass Sie nur ein Kriterium dieses Typs hinzufügen können.
+tos#:#tos_tbl_hist_head_criteria#:#Vorlagekriterien
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
+tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
+tos#:#tos_crit_type_usr_global_role#:#Globale Rolle
+tos#:#tos_crit_type_usr_global_role_info#:#Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments.
+tos#:#tos_crit_type_usr_language#:#Bbenutzersprache
+tos#:#tos_crit_type_usr_language_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
