@@ -3684,7 +3684,7 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_results#:#Test Results
-rbac#:#tst_tst_results#:#User has access to test results
+rbac#:#tst_tst_results#:#User has access to test results of others
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
@@ -13363,6 +13363,8 @@ rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration
 rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#read_results#:#Survey Results
+rbac#:#svy_read_results#:#User has access to survey results of others
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings
 crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"
 crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"
