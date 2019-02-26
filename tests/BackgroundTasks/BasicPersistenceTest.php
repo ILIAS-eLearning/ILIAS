@@ -146,7 +146,7 @@ class BasicPersistenceTest extends TestCase {
 		\arConnectorMap::register(new BucketContainer(), $observerConnector);
 
 		// Observer is updated after tasks are added.
-		$observerConnector->shouldReceive("read")->once()->andReturn(1);
+		$observerConnector->shouldReceive("read")->once()->andReturn([]);
 		$observerConnector->shouldReceive("update")->once()->andReturn(true);
 
 		$this->persistence->setConnector($observerConnector);
