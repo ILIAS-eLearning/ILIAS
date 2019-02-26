@@ -510,10 +510,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		if ( $this->checkAccess("read")) {
-
-			if ($this->getObject()->getLSSettings()->getMembersGallery()
-				|| $this->checkAccess("edit_members"))
-			{
+			if ($this->checkAccess("edit_members")
+				|| (
+					$this->getObject()->getLSSettings()->getMembersGallery()
+					&&
+					$this->object->isMember((int)$this->user->getId())
+				)
+			){
 				$this->tabs->addTab(
 					self::TAB_MEMBERS
 					, $this->lng->txt(self::TAB_MEMBERS)
