@@ -849,6 +849,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			return $this->editObject($form);
 		}
 
+		// Additional checks: both tile and session limitation activated (not supported)
+		if ($form->getInput('sl') == "1" &&
+			$form->getInput('list_presentation') == "tile")
+		{
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('crs_tile_and_session_limit_not_supported'));
+			return $this->editObject($form);
+		}
+
 		// check successful
 
 		// title/desc
