@@ -525,6 +525,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function getContentGUI()
 	{
+		$courseTimingView = -1;
+		if (defined('IL_CRS_VIEW_TIMING')) {
+			$courseTimingView = IL_CRS_VIEW_TIMING;
+		}
+
 		switch ($this->object->getViewMode())
 		{
 			// all items in one block
@@ -540,7 +545,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			// all items in one block
 			case ilContainer::VIEW_SESSIONS:
-			case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
+			case $courseTimingView: // not nice this workaround
 				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
