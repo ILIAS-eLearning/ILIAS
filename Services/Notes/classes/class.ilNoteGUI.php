@@ -1812,8 +1812,28 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 				call_user_func_array($item, $param);
 			}
 		}
-	}
-	
+
+		//ajax calls don't have callbacks in the observer. (modals)
+		if($this->ajax)
+		{
+			$ref = (int)$_GET['ref_id'];
+			if(in_array($ref,ilObject::_getAllReferences($this->rep_obj_id)))
+			{
+				if($this->obj_type == "pg")
+				{
+					$gui = new ilLMPresentationGUI();
+					$gui->observeNoteAction($this->rep_obj_id,$this->obj_id,$this->obj_type,$a_action,$a_note->getId());
+				}
+
+				if($this->obj_type == "wpg")
+				{
+					$gui = new ilWikiPageGUI($this->obj_id, 0, $ref);
+					$gui->observeNoteAction($this->obj_id,$this->obj_id,$this->obj_type,$a_action,$a_note->getId());
+				}
+			}
+		}
+	}	
+
 	protected function listSortAsc()
 	{
 		$_SESSION["comments_sort_asc"] = 1;
