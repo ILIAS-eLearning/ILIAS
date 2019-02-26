@@ -9824,7 +9824,7 @@ wiki#:#wiki_deactivate_page_rating#:#Bewertung nicht erlauben
 rating#:#rating_overlay_submit#:#Bewerten
 rep#:#rep_activation_availability#:#Verfügbarkeit
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Tutoren verfügbar.
+crs#:#crs_activation_online_info#:#Schalten Sie den Kurs online geschaltet ist, damit Benutzer den Kurs sehen und ihm beitreten können. Wenn nicht, ist der Kurs nur für Kursadministratoren und -tutoren zugänglich.
 rep#:#rep_activation_access#:#Zugriff
 rep#:#rep_activation_limited_start#:#Anfang
 rep#:#rep_activation_limited_end#:#Ende

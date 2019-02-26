@@ -9812,7 +9812,7 @@ tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selecte
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and accessible for users. If not, only course administrators and tutors are able see and enter the course.
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Start Time
 rep#:#rep_activation_limited_end#:#Finish Time
