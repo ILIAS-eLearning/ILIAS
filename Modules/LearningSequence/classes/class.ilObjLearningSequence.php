@@ -740,4 +740,14 @@ class ilObjLearningSequence extends ilContainer
 		return $this->getLsRoles()->readMemberData($user_ids, $columns);
 	}
 
+	public function getParentObjectInfo(int $ref_id, array $search_types)
+	{
+		foreach($this->tree->getPathFull($ref_id) as $hop) {
+			if(in_array($hop['type'], $search_types)) {
+				return $hop;
+			}
+		}
+		return null;
+	}
+
 }
