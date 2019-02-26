@@ -89,7 +89,6 @@ class ilTermsOfServiceCriterionFormGUI extends \ilPropertyFormGUI
 		$this->addItem($document);
 
 		$criteriaSelection = new \ilRadioGroupInputGUI($this->lng->txt('tos_form_criterion'), 'criterion');
-		$criteriaSelection->setInfo($this->lng->txt('tos_form_criterion_info'));
 		$criteriaSelection->setRequired(true);
 		$criteriaSelection->setValue($this->assignment->getCriterionId());
 
