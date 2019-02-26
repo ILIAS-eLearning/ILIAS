@@ -448,6 +448,7 @@ if (!$ilDB->indexExistsByFields('frm_posts_tree', ['parent_pos'])) {
 	$ilDB->addIndex('frm_posts_tree', ['parent_pos'], 'i3');
 }
 ?>
+<<<<<<< HEAD:setup/sql/dbupdate_05.php
 <#5456>
 <?php
 if(!$ilDB->tableExists('lso_activation'))
@@ -497,4 +498,10 @@ if(!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
 		)
 	);
 }
+?>
+<#5459>
+<?php
+require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::updateOperationOrder('participate', 1010);
+ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 ?>
