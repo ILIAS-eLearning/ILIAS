@@ -14672,7 +14672,7 @@ user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotex
 lhist#:#lhist_first_login#:#First Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
-content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
+content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
 content#:#cont_ed_insert_learning_history#:#Lernverlauf
 lhist#:#lhist_all#:#All
