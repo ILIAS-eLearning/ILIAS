@@ -464,3 +464,10 @@ if (!$ilDB->indexExistsByFields('frm_posts_tree', ['parent_pos'])) {
 	$ilDB->addIndex('frm_posts_tree', ['parent_pos'], 'i3');
 }
 ?>
+
+<#29>
+<?php
+require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::updateOperationOrder('participate', 1010);
+ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
+?>
