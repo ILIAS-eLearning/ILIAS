@@ -10531,7 +10531,6 @@ tos#:#tos_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
 tos#:#tos_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
 tos#:#tos_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
 tos#:#tos_form_criterion#:#Vorlagekriterium
-tos#:#tos_form_criterion_info#:#Bitte wählen Sie ein entsprechendes Kriterium für das Dokument.###DEPRECATED - Wird nicht länger genutzt.
 tos#:#tos_document#:#Dokument
 tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
 tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?

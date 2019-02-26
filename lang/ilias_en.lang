@@ -10505,7 +10505,6 @@ tos#:#tos_form_attach_criterion_head#:#Attach Criterion
 tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
 tos#:#tos_form_criterion#:#Criterion
 tos#:#tos_document#:#Document
-tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
 tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
