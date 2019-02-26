@@ -13,6 +13,8 @@ class ilMail
 	/** @var string */
 	const ILIAS_HOST = 'ilias';
 
+	const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+
 	/** @var ilLanguage */
 	protected $lng;
 
@@ -1603,7 +1605,12 @@ class ilMail
 	{
 		global $DIC;
 
-		return $DIC->settings()->get('mail_subject_prefix', '');
+		$subjectPrefix = $DIC->settings()->get('mail_subject_prefix');
+		if (false === $subjectPrefix) {
+			$subjectPrefix = self::MAIL_SUBJECT_PREFIX;
+		}
+
+		return $subjectPrefix;
 	}
 
 	/**
