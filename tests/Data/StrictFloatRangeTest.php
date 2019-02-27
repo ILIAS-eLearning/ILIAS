@@ -9,14 +9,14 @@ namespace ILIAS\Data;
 
 require_once 'libs/composer/vendor/autoload.php';
 
-class FloatRangeTest extends \PHPUnit_Framework_TestCase
+class StrictFloatRangeTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @throws \InvalidArgumentException
 	 */
 	public function testValidFloatRanges()
 	{
-		$floatRange = new FloatRange(3.0 , 100.4);
+		$floatRange = new StrictFloatRange(3.0 , 100.4);
 
 		$this->assertSame($floatRange->minimumAsFloat(), 3.0);
 		$this->assertSame($floatRange->maximumAsFloat(), 100.4);
@@ -27,7 +27,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testHexIsAllowForRanges()
 	{
-		$floatRange = new FloatRange(0x3 , 0xA);
+		$floatRange = new StrictFloatRange(0x3 , 0xA);
 
 		$this->assertSame($floatRange->minimumAsFloat(), 3.0);
 		$this->assertSame($floatRange->maximumAsFloat(), 10.0);
@@ -38,21 +38,18 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
-		$floatRange = new FloatRange(0b11 , 0b1010);
+		$floatRange = new StrictFloatRange(0b11 , 0b1010);
 
 		$this->assertSame($floatRange->minimumAsFloat(), 3.0);
 		$this->assertSame($floatRange->maximumAsFloat(), 10.0);
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @expectedException  \InvalidArgumentException
 	 */
-	public function testRangeCanBeSame()
+	public function testRangeIsSameThrowsException()
 	{
-		$floatRange = new FloatRange(3.0, 3.0);
-
-		$this->assertSame($floatRange->minimumAsFloat(), 3.0);
-		$this->assertSame($floatRange->maximumAsFloat(), 3.0);
+		$floatRange = new StrictFloatRange(3.0, 3.0);
 	}
 
 	/**
@@ -60,6 +57,6 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testMaximumsIsLowerThanMinimumThrowsException()
 	{
-		$floatRange = new FloatRange(3.0, 1.0);
+		$floatRange = new StrictFloatRange(3.0, 1.0);
 	}
 }
