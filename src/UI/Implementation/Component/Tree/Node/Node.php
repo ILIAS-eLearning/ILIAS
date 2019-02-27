@@ -45,6 +45,12 @@ abstract class Node implements INode
 	 * @var bool
 	 */
 	protected $asynch = false;
+
+	/**
+	 * @var string
+	 */
+	protected $asynch_url = '';
+
 	/**
 	 * @var Node[]
 	 */
@@ -90,6 +96,19 @@ abstract class Node implements INode
 	public function hasAsyncLoading(): bool
 	{
 		return $this->asynch;
+	}
+
+	public function withAsyncURL(string $url): INode
+	{
+		$clone = clone $this;
+		$clone->asynch = true;
+		$clone->asynch_url = $url;
+		return $clone;
+	}
+
+	public function getAsyncURL(): string
+	{
+		return $this->asynch_url;
 	}
 
 	public function withOnClick(Signal $signal)

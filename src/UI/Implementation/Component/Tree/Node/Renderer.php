@@ -24,59 +24,63 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("LABEL", $component->getLabel());
 
-		$subnodes = $component->getSubnodes();
+		if($component->hasAsyncLoading()) {
+			$tpl->setVariable("ASYNCURL", $component->getAsyncURL());
+		}
 
-
-		$component = $component->withAdditionalOnLoadCode(function ($id) use ($signals){
-			return "
-				$('#$id > span').click(function(e){
-					$('#$id').toggleClass('expanded');
-					return false;
-				});";
-		});
-
+/*
 		$triggered_signals = $component->getTriggeredSignals();
 		if(count($triggered_signals) > 0) {
-
-			foreach ($triggered_signals as $s) {
-				$signals[] = [
-					"signal_id" => $s->getSignal()->getId(),
-					"event" => $s->getEvent(),
-					"options" => $s->getSignal()->getOptions()
-				];
-			}
-			$signals = json_encode($signals);
-
-			$component = $component->withAdditionalOnLoadCode(function ($id) use ($signals){
-				return "
-				$('#$id > span').click(function(e){
-					var node = $('#$id'),
-						signals = $signals;
-
-					for (var i = 0; i < signals.length; i++) {
-						var s = signals[i];
-						node.trigger(s.signal_id, s);
-					}
-
-					return false;
-				});";
-			});
+			$component = $this->triggerFurtherSignals($component, $triggered_signals);
 		}
 
 		$id = $this->bindJavaScript($component);
 		$tpl->setVariable("ID", $id);
+*/
+		$subnodes = $component->getSubnodes();
 
-		if(count($subnodes) > 0) {
+		if(count($subnodes) > 0 || $component->hasAsyncLoading()) {
 			$tpl->touchBlock("expandable");
 			if($component->isExpanded()) {
 				$tpl->touchBlock("expanded");
 			}
+		}
 
+		if(count($subnodes) > 0) {
 			$subnodes_html = $default_renderer->render($subnodes);
 			$tpl->setVariable("SUBNODES", $subnodes_html);
 		}
 
 		return $tpl->get();
+	}
+
+
+	protected function triggerFurtherSignals(Node\Node $component, array $triggered_signals)
+	{
+		$signals = [];
+		foreach ($triggered_signals as $s) {
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+		}
+		$signals = json_encode($signals);
+
+		return $component->withAdditionalOnLoadCode(function ($id) use ($signals) {
+			return "
+			$('#$id > span').click(function(e){
+				var node = $('#$id'),
+					signals = $signals;
+
+				for (var i = 0; i < signals.length; i++) {
+					var s = signals[i];
+					node.trigger(s.signal_id, s);
+				}
+
+				return false;
+			});";
+		});
 	}
 
 	/**

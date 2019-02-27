@@ -36,6 +36,14 @@ class Renderer extends AbstractComponentRenderer {
 		$nodes_html = $default_renderer->render($nodes);
 		$tpl->setVariable('NODES', $nodes_html);
 
+
+		$component = $component->withAdditionalOnLoadCode(function ($id) {
+			return "il.UI.tree.init('$id')";
+		});
+		$id = $this->bindJavaScript($component);
+		$tpl->setVariable("ID", $id);
+
+
 		return $tpl->get();
 	}
 
@@ -59,6 +67,15 @@ class Renderer extends AbstractComponentRenderer {
 
 		return $node;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Tree/tree.js');
+	}
+
 
 	/**
 	 * @inheritdoc

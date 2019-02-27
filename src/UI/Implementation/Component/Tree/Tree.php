@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Tree;
 
 use ILIAS\UI\Component\Tree as ITree;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Tree Control
@@ -14,6 +15,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 class Tree implements ITree\Tree
 {
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var mixed

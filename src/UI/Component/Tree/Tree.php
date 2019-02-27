@@ -6,11 +6,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Tree;
 
 use \ILIAS\UI\Component\Component;
+use \ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Tree Control
  */
-interface Tree extends Component
+interface Tree extends Component, JavaScriptBindable
 {
 	/**
 	 * Configure the Tree with additional information that will be

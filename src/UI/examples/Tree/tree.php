@@ -29,8 +29,6 @@ function tree() {
 		]]
 	];
 
-
-
 	$recursion = new class implements \ILIAS\UI\Component\Tree\TreeRecursion
 	{
 		public function getChildren($record, $environment = null): array
@@ -45,9 +43,15 @@ function tree() {
 		): \ILIAS\UI\Component\Tree\Node\Node {
 			$label = $record['label'];
 			$node = $factory->simple($label);
+
 			if(count($record['children']) === 0) {
 				$node = $node->withOnClick($environment['modal']->getShowSignal());
 			}
+
+			if($label === "root" || $label === "2"){
+				$node = $node->withExpanded(true);
+			}
+
 			return $node;
 		}
 	};
