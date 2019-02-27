@@ -49,6 +49,7 @@ class ilObjLearningSequenceSettingsGUI
 	) {
 		$this->obj = $obj;
 		$this->settings = $obj->getLSSettings();
+		$this->activation = $obj->getLSActivation();
 		$this->obj_title = $obj->getTitle();
 		$this->obj_description = $obj->getDescription();
 		$this->ctrl = $il_ctrl;
@@ -107,6 +108,7 @@ class ilObjLearningSequenceSettingsGUI
 	{
 		$txt = function($id) { return $this->lng->txt($id); };
 		$settings = $this->settings;
+		$activation = $this->activation;
 		$obj_id = $settings->getObjId();
 
 		$form = new ilPropertyFormGUI();
@@ -117,15 +119,19 @@ class ilObjLearningSequenceSettingsGUI
 		$title->setRequired(true);
 		$desc = new ilTextAreaInputGUI($txt("description"), self::PROP_DESC);
 
-		// activation
 		$section_avail = new ilFormSectionHeaderGUI();
 		$section_avail->setTitle($txt('lso_settings_availability'));
 		$online = new ilCheckboxInputGUI($txt("online"), self::PROP_ONLINE);
 		$online->setInfo($this->lng->txt('lso_activation_online_info'));
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
-		$duration->setStart(new ilDateTime($settings->getActivationStart(), IL_CAL_UNIX));
-		$duration->setEnd(new ilDateTime($settings->getActivationEnd(), IL_CAL_UNIX));
+		$duration->setStart(new ilDateTime((string)$activation->getActivationStart()->getTimestamp(), IL_CAL_UNIX));
+		$duration->setEnd(new ilDateTime((string)$activation->getActivationEnd()->getTimestamp(), IL_CAL_UNIX));
+
+		$section_misc = new ilFormSectionHeaderGUI();
+		$section_misc->setTitle($txt('lso_settings_misc'));
+		$show_members_gallery = new ilCheckboxInputGUI($txt("members_gallery"), self::PROP_GALLERY);
+		$show_members_gallery->setInfo($txt('lso_show_members_info'));
 
 		$abstract = $this->initRTEInput(
 			new ilTextAreaInputGUI($txt("abstract"), self::PROP_ABSTRACT)
@@ -179,6 +185,7 @@ class ilObjLearningSequenceSettingsGUI
 	protected function fillForm(\ilPropertyFormGUI $form): \ilPropertyFormGUI
 	{
 		$settings = $this->settings;
+		$activation = $this->activation;
 		$values = [
 			self::PROP_TITLE => $this->obj_title,
 			self::PROP_DESC => $this->obj_description,
@@ -186,7 +193,7 @@ class ilObjLearningSequenceSettingsGUI
 			self::PROP_EXTRO => $settings->getExtro(),
 			self::PROP_ABSTRACT_IMAGE => $settings->getAbstractImage(),
 			self::PROP_EXTRO_IMAGE => $settings->getExtroImage(),
-			self::PROP_ONLINE => $settings->getIsOnline(),
+			self::PROP_ONLINE => $activation->getIsOnline(),
 			self::PROP_GALLERY => $settings->getMembersGallery()
 		];
 		$form->setValuesByArray($values);
@@ -212,9 +219,22 @@ class ilObjLearningSequenceSettingsGUI
 		$settings = $this->settings
 			->withAbstract($post[self::PROP_ABSTRACT])
 			->withExtro($post[self::PROP_EXTRO])
-			->withIsOnline((bool)$post[self::PROP_ONLINE])
 			->withMembersGallery((bool)$post[self::PROP_GALLERY])
 		;
+
+		$inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
+		$start = $inpt->getStart();
+		$end = $inpt->getEnd();
+		if($start) {
+			$start = \DateTime::createFromFormat('U' ,(string)$start->get(IL_CAL_UNIX));
+			$end = \DateTime::createFromFormat('U' ,(string)$end->get(IL_CAL_UNIX));
+		}
+
+		$activation = $this->activation
+			->withIsOnline((bool)$post[self::PROP_ONLINE])
+			->withActivationStart($start)
+			->withActivationEnd($end)
+			;
 
 		$inpt = $form->getItemByPostVar(self::PROP_ABSTRACT_IMAGE);
 		if($inpt->getDeletionFlag()) {
@@ -237,6 +257,7 @@ class ilObjLearningSequenceSettingsGUI
 		}
 
 		$lso->updateSettings($settings);
+		$lso->updateActivation($activation);
 		$lso->update();
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);

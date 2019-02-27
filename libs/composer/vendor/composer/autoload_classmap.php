@@ -4843,6 +4843,8 @@ return array(
     'ilLearningProgressAccess' => $baseDir . '/../../Services/Tracking/classes/class.ilLearningProgressAccess.php',
     'ilLearningProgressBaseGUI' => $baseDir . '/../../Services/Tracking/classes/class.ilLearningProgressBaseGUI.php',
     'ilLearningProgressGUI' => $baseDir . '/../../Services/Tracking/classes/class.ilLearningProgressGUI.php',
+    'ilLearningSequenceActivation' => $baseDir . '/../../Modules/LearningSequence/classes/Activation/class.ilLearningSequenceActivation.php',
+    'ilLearningSequenceActivationDB' => $baseDir . '/../../Modules/LearningSequence/classes/Activation/class.ilLearningSequenceActivationDB.php',
     'ilLearningSequenceAppEventListener' => $baseDir . '/../../Modules/LearningSequence/classes/class.ilLearningSequenceAppEventListener.php',
     'ilLearningSequenceConditionController' => $baseDir . '/../../Modules/LearningSequence/classes/class.ilLearningSequenceConditionController.php',
     'ilLearningSequenceEditParticipantsTableGUI' => $baseDir . '/../../Modules/LearningSequence/classes/Members/class.ilLearningSequenceEditParticipantsTableGUI.php',

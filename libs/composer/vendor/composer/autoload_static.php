@@ -5180,6 +5180,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilLearningProgressAccess' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLearningProgressAccess.php',
         'ilLearningProgressBaseGUI' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLearningProgressBaseGUI.php',
         'ilLearningProgressGUI' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLearningProgressGUI.php',
+        'ilLearningSequenceActivation' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Activation/class.ilLearningSequenceActivation.php',
+        'ilLearningSequenceActivationDB' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Activation/class.ilLearningSequenceActivationDB.php',
         'ilLearningSequenceAppEventListener' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilLearningSequenceAppEventListener.php',
         'ilLearningSequenceConditionController' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilLearningSequenceConditionController.php',
         'ilLearningSequenceEditParticipantsTableGUI' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Members/class.ilLearningSequenceEditParticipantsTableGUI.php',
