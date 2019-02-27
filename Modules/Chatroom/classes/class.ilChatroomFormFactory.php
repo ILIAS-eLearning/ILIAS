@@ -407,6 +407,8 @@ class ilChatroomFormFactory
 		$interval = new ilNumberInputGUI($this->lng->txt('osd_intervall'), 'osd_intervall');
 		$interval->setMinValue(1);
 		$interval->setRequired(true);
+		$interval->setSuffix($this->lng->txt('seconds'));
+		$interval->setSize(5);
 		$interval->setInfo($this->lng->txt('hint_osd_interval'));
 		$osd->addSubItem($interval);
 

@@ -2044,7 +2044,7 @@ chatroom_adm#:#enable_osd#:#Magazin-Chat: On-Screen Benachrichtigungen aktiviere
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#https#:#HTTPS
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
-chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
+chatroom_adm#:#osd_intervall#:#Abfrageintervall
 chatroom_adm#:#play_invitation_sound#:#Ton abspielen
 chatroom_adm#:#play_invitation_sound_info#:#Ton abspielen bei Erhalt einer neuen Einladung in Magazin-Chats abspielen.
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
