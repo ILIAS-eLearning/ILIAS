@@ -79,7 +79,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
@@ -109,7 +109,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		}
 		foreach($dbdata as $data) {
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
 			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
@@ -175,7 +175,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
@@ -214,7 +214,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		}
 		foreach($dbdata as $data) {
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
 			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
@@ -253,7 +253,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
@@ -293,7 +293,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		}
 		foreach($dbdata as $data) {
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
 			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
@@ -332,7 +332,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy=false, $obj_id) {
+	function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
@@ -358,7 +358,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		}
 		foreach($dbdata as $data) {
 			$data["lm_id"] = $data["scope_id"];
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["Status"] = "".$data["status"];
 			$data["satisfied"] = "".$data["satisfied"];
@@ -397,7 +397,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
@@ -451,7 +451,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			if($a_incorrect[$skey] != null) $incorrect = $a_incorrect[$skey];
 			$other = $all-($correct+$incorrect);
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
 			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
 //			$data["id"] = "".$data["id"];
@@ -498,7 +498,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
@@ -571,7 +571,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			if($a_other[$skey] != null) $other = $a_other[$skey];
 			$all = $correct+$incorrect+$other;
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
 			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
@@ -684,7 +684,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
@@ -764,7 +764,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				if ($a_interactionUser[$ukey] != null) $data[$intdesc] = $a_interactionUser[$ukey];
 			}
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
 			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
@@ -775,7 +775,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 	
 
-	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		$ilDB = $this->db;
 
 		$scoCounter = 0;
@@ -861,7 +861,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			$dbdata[] = $row;
 		}
 		
-		return self::exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id);
+		return self::exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id, $lmTitle);
 		//CertificateDate?
 	}
 
