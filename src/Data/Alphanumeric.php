@@ -19,14 +19,14 @@ class Alphanumeric
 
 	/**
 	 * @param $value
-	 * @throws \ilException
+	 * @throws \InvalidArgumentException
 	 */
 	public function __construct($value)
 	{
 		$matches = null;
-		preg_match('/^[a-zA-Z0-9]+$/', $value, $matches);
+		preg_match('/^[a-zA-Z0-9]+$/', (string) $value, $matches);
 		if (null === $matches || array() === $matches) {
-			throw new \ilException(sprintf('The value "%s" is not an alphanumeric value.', $value));
+			throw new \InvalidArgumentException(sprintf('The value "%s" is not an alphanumeric value.', $value));
 		}
 
 		$this->value = $value;
