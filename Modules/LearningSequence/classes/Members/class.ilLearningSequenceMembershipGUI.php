@@ -311,12 +311,6 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
 	protected function showParticipantsToolbar()
 	{
-		$search_params = ['crs', 'grp'];
-		$parent_container = $this->obj->getParentObjectInfo(
-			(int)$this->obj->getRefId(),
-			$search_params
-		);
-		$container_id = $parent_container['ref_id'];
 
 		$toolbar_entries = [
 			'auto_complete_name' => $this->lng->txt('user'),
@@ -326,7 +320,13 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 			'add_search' => true,
 		];
 
-		if($container_id !== 0) {
+		$search_params = ['crs', 'grp'];
+		$parent_container = $this->obj->getParentObjectInfo(
+			(int)$this->obj->getRefId(),
+			$search_params
+		);
+		if(! is_null($parent_container)) {
+			$container_id = $parent_container['ref_id'];
 			$toolbar_entries['add_from_container'] = $container_id;
 		}
 

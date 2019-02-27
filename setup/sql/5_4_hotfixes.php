@@ -285,6 +285,7 @@ foreach($tpl_perms as $template=>$perms){
 	ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', $op_ids,	ROLE_FOLDER_ID);
 }
 ?>
+
 <#23>
 <?php
 $ilCtrlStructureReader->getStructure();
@@ -463,4 +464,58 @@ if ($ilDB->tableExists('frm_thread_tree_mig')) {
 if (!$ilDB->indexExistsByFields('frm_posts_tree', ['parent_pos'])) {
 	$ilDB->addIndex('frm_posts_tree', ['parent_pos'], 'i3');
 }
+?>
+<#29>
+<?php
+if(!$ilDB->tableExists('lso_activation'))
+{
+	$ilDB->createTable('lso_activation', array(
+		'ref_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			'notnull' => true
+		),
+		'online' => array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		),
+		'activation_start' => array(
+			'type' => 'timestamp',
+			"notnull" => false
+		),
+		'activation_end' => array(
+			'type' => 'timestamp',
+			"notnull" => false
+		)
+	));
+	$ilDB->addPrimaryKey("lso_activation", array("ref_id"));
+}
+?>
+<#30>
+<?php
+if ($ilDB->tableColumnExists('lso_settings', 'online'))
+{
+	$ilDB->dropTableColumn('lso_settings', 'online');
+}
+?>
+<#31>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
+	$ilDB->addTableColumn('lso_activation', 'effective_online',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 1,
+			"default" => 0
+		)
+	);
+}
+?>
+<#32>
+<?php
+require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::updateOperationOrder('participate', 1010);
+ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 ?>

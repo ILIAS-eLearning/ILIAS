@@ -48,22 +48,7 @@ class ilLearningSequenceSettings
 	/**
 	 * @var bool
 	 */
-	protected $online;
-
-	/**
-	 * @var bool
-	 */
 	protected $members_gallery;
-
-	/**
-	 * @var string|null
-	 */
-	protected $activation_start;
-
-	/**
-	 * @var string|null
-	 */
-	protected $activation_end;
 
 
 	public function __construct(
@@ -72,20 +57,14 @@ class ilLearningSequenceSettings
 		string $extro = '',
 		string $abstract_image = null,
 		string $extro_image = null,
-		bool $online = false,
-		bool $members_gallery = false,
-		string $activation_start = null,
-		string $activation_end = null
+		bool $members_gallery = false
 	) {
 		$this->obj_id = $obj_id;
 		$this->abstract = $abstract;
 		$this->extro = $extro;
 		$this->abstract_image = $abstract_image;
 		$this->extro_image = $extro_image;
-		$this->online = $online;
 		$this->members_gallery = $members_gallery;
-		$this->activation_start = $activation_start;
-		$this->activation_end = $activation_end;
 	}
 
 	public function getObjId(): int
@@ -162,43 +141,6 @@ class ilLearningSequenceSettings
 	{
 		$clone = clone $this;
 		$clone->deletions[] = $which;
-		return $clone;
-	}
-
-	public function getIsOnline(): bool
-	{
-		return $this->online;
-	}
-
-	public function withIsOnline(bool $online): ilLearningSequenceSettings
-	{
-		$clone = clone $this;
-		$clone->online = $online;
-		return $clone;
-	}
-
-	public function getActivationStart()
-	{
-		return $this->activation_start;
-	}
-
-	public function withActivationStart(string $activation_start): ilLearningSequenceSettings
-	{
-		$clone = clone $this;
-		$clone->activation_start = $activation_start;
-		return $clone;
-	}
-
-	public function getActivationEnd()
-	{
-		return $this->activation_end;
-
-	}
-
-	public function withActivationEnd(string $activation_end): ilLearningSequenceSettings
-	{
-		$clone = clone $this;
-		$clone->activation_end = $activation_end;
 		return $clone;
 	}
 

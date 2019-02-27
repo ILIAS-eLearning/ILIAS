@@ -3684,7 +3684,7 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_results#:#Test Results
-rbac#:#tst_tst_results#:#User has access to test results
+rbac#:#tst_tst_results#:#User has access to test results of others
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
@@ -4564,7 +4564,8 @@ crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
 crs#:#crs_groupings#:#Course groupings
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
+crs#:#crs_grp_already_assigned#:#You are already member of this grouping of courses.
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
@@ -5745,7 +5746,7 @@ mail#:#mail_select_group#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
@@ -6673,6 +6674,10 @@ rbac#:#mds_read#:#User has read access to Metadata administration
 rbac#:#mds_visible#:#Metadata administration is visible
 rbac#:#mds_write#:#User can edit settings in Metadata administration
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
+rbac#:#mme_visible#:#Administration of Main Menu is visible
+rbac#:#mme_read#:#User has read access to administration of Main Menu
+rbac#:#mme_write#:#User can edit settings of Main Menu administration
+rbac#:#mme_edit_permission#:#User can change permission settings of Main Menu administration
 rbac#:#pdts_edit_permission#:#User can change permission settings of Personal Desktop administration
 rbac#:#pdts_read#:#User has read access to Personal Desktop administration
 rbac#:#pdts_visible#:#Personal Desktop administration is visible
@@ -6737,6 +6742,10 @@ rbac#:#svyf_edit_permission#:#User change permission settings in Survey administ
 rbac#:#svyf_read#:#User has read access to Survey administration
 rbac#:#svyf_visible#:#Survey administration is visible
 rbac#:#svyf_write#:#Edit settings in Survey administration
+rbac#:#wfe_visible#:#Administration of Workflow Engine is visible
+rbac#:#wfe_read#:#User has read access to administration of Workflow Engine
+rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration
+rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration
 rcrs#:#rcrs_call#:#Call ECS Course
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
 registration#:#auth_radius_name#:#Name of RADIUS Configuration
@@ -9812,7 +9821,7 @@ tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selecte
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and accessible for users. If not, only course administrators and tutors are able see and enter the course.
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Start Time
 rep#:#rep_activation_limited_end#:#Finish Time
@@ -10505,7 +10514,6 @@ tos#:#tos_form_attach_criterion_head#:#Attach Criterion
 tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
 tos#:#tos_form_criterion#:#Criterion
 tos#:#tos_document#:#Document
-tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
 tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
@@ -13355,6 +13363,8 @@ rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration
 rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#read_results#:#Survey Results
+rbac#:#svy_read_results#:#User has access to survey results of others
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings
 crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"
 crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"
