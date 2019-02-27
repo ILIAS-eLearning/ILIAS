@@ -146,7 +146,9 @@ class ilVirusScannerClamAV extends ilVirusScanner
 		exec($cmd, $out, $ret);
 		$this->scanResult = implode("\n", $out);
 
-		chmod($currentPermission);
+		if ($perm != $currentPermission) {
+			chmod($a_filepath, $currentPermission);
+		}
 
 		// sophie could be called
 		if( $this->hasDetections($this->scanResult) )
