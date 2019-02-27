@@ -31,13 +31,19 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('hello', $transformedValue);
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testIntegerToStringTransformation()
 	{
 		$transformedValue = $this->transformation->transform(200);
 
-		$this->assertEquals('200', $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testNegativeIntegerToIntegerTransformation()
 	{
 		$transformedValue = $this->transformation->transform(-200);
@@ -45,32 +51,44 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('-200', $transformedValue);
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testZeroIntegerToIntegerTransformation()
 	{
 		$transformedValue = $this->transformation->transform(0);
 
-		$this->assertEquals('0', $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testFloatToStringTransformation()
 	{
 		$transformedValue = $this->transformation->transform(10.5);
 
-		$this->assertEquals('10.5', $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testPositiveBooleanToStringTransformation()
 	{
 		$transformedValue = $this->transformation->transform(true);
 
-		$this->assertEquals('1', $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testNegativeBooleanToStringTransformation()
 	{
 		$transformedValue = $this->transformation->transform(false);
 
-		$this->assertEquals('', $transformedValue);
+		$this->fail();
 	}
 
 	public function testStringToStringApply()
@@ -88,7 +106,7 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals('200', $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testNegativeIntegerToIntegerApply()
@@ -97,7 +115,7 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals('-200', $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testZeroIntegerToIntegerApply()
@@ -106,7 +124,7 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals('0', $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testFloatToStringApply()
@@ -115,7 +133,7 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals('10.5', $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testBooleanToStringApply()
@@ -124,6 +142,6 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals('1', $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 }

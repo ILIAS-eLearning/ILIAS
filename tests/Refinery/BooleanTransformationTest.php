@@ -24,67 +24,79 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->transformation = new BooleanTransformation();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testIntegerToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(200);
-
-		$this->assertEquals(true, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testNegativeIntegerToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(-200);
-
-		$this->assertEquals(true, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testZeroIntegerToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(0);
-
-		$this->assertEquals(false, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testStringToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform('hello');
-
-		$this->assertEquals(true, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testFloatToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(10.5);
-
-		$this->assertEquals(true, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testNegativeFloatToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(-10.5);
-
-		$this->assertEquals(true, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testZeroFloatToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(0.0);
-
-		$this->assertEquals(false, $transformedValue);
+		$this->fail();
 	}
 
 	public function testPositiveBooleanToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(true);
-
-		$this->assertEquals(true, $transformedValue);
+		$this->assertTrue($transformedValue);
 	}
 
 	public function testNegativeBooleanToBooleanTransformation()
 	{
 		$transformedValue = $this->transformation->transform(false);
-
-		$this->assertEquals(false, $transformedValue);
+		$this->assertFalse($transformedValue);
 	}
 
 	public function testStringToBooleanApply()
@@ -93,7 +105,7 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(true, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testPositiveIntegerToBooleanApply()
@@ -102,7 +114,7 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(true, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testNegativeIntegerToBooleanApply()
@@ -111,7 +123,7 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(true, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testZeroIntegerToBooleanApply()
@@ -120,7 +132,7 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(false, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testFloatToBooleanApply()
@@ -129,7 +141,7 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(true, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testBooleanToBooleanApply()
@@ -138,6 +150,6 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(true, $transformedObject->value());
+		$this->assertTrue($transformedObject->value());
 	}
 }

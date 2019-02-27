@@ -20,6 +20,9 @@ class IntegerTransformation
 	 */
 	public function transform($from)
 	{
+		if (false === is_int($from)) {
+			throw new \InvalidArgumentException('The value MUST be of type integer');
+		}
 		return (int) $from;
 	}
 
@@ -30,7 +33,11 @@ class IntegerTransformation
 	{
 		$value = $data->value();
 
-		$resultValue = (int) $value;
+		try {
+			$resultValue = $this->transform($value);
+		} catch (\Exception $exception) {
+			return new Result\Error($exception);
+		}
 
 		return new Result\Ok($resultValue);
 	}

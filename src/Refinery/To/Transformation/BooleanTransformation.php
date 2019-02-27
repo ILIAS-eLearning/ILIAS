@@ -19,6 +19,9 @@ class BooleanTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (false === is_bool($from)) {
+			throw new \InvalidArgumentException('The value MUST be of type boolean');
+		}
 		return (bool) $from;
 	}
 
@@ -29,7 +32,11 @@ class BooleanTransformation implements Transformation
 	{
 		$value = $data->value();
 
-		$resultValue = (bool) $value;
+		try {
+			$resultValue = $this->transform($value);
+		} catch (\Exception $exception) {
+			return new Result\Error($exception);
+		}
 
 		return new Result\Ok($resultValue);
 	}

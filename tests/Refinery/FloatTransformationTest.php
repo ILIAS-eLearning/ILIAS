@@ -24,18 +24,24 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->transformation = new FloatTransformation();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testIntegerToFloatTransformation()
 	{
 		$transformedValue = $this->transformation->transform(200);
 
-		$this->assertEquals(200, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testStringToFloatTransformation()
 	{
 		$transformedValue = $this->transformation->transform('hello');
 
-		$this->assertEquals(0, $transformedValue);
+		$this->fail();
 	}
 
 	public function testFloatToFloatTransformation()
@@ -45,18 +51,24 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(10.5, $transformedValue);
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testNegativeIntegerToFloatTransformation()
 	{
 		$transformedValue = $this->transformation->transform(-200);
 
-		$this->assertEquals(-200, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testZeroIntegerToFloatTransformation()
 	{
 		$transformedValue = $this->transformation->transform(0);
 
-		$this->assertEquals(0, $transformedValue);
+		$this->fail();
 	}
 
 	public function testZeroFloatToFloatTransformation()
@@ -72,7 +84,7 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(200, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testNegativeIntegerToFloatApply()
@@ -81,7 +93,7 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(-200, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testZeroIntegerToFloatApply()
@@ -90,7 +102,7 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(0, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testStringToFloatApply()
@@ -99,7 +111,7 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(0, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testIntegerToFloatApply()
@@ -108,7 +120,7 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(200, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testFloatToFloatApply()
@@ -126,6 +138,6 @@ class FloatTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(1, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 }

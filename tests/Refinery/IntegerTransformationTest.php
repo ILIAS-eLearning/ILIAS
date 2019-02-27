@@ -45,32 +45,44 @@ class IntegerTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(0, $transformedValue);
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testStringToIntegerTransformation()
 	{
 		$transformedValue = $this->transformation->transform('hello');
 
-		$this->assertEquals(0, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testFloatToIntegerTransformation()
 	{
 		$transformedValue = $this->transformation->transform(10.5);
 
-		$this->assertEquals(10, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testPositiveBooleanToIntegerTransformation()
 	{
 		$transformedValue = $this->transformation->transform(true);
 
-		$this->assertEquals(1, $transformedValue);
+		$this->fail();
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testNegativeBooleanToIntegerTransformation()
 	{
 		$transformedValue = $this->transformation->transform(false);
 
-		$this->assertEquals(0, $transformedValue);
+		$this->fail();
 	}
 
 	public function testStringToIntegerApply()
@@ -79,7 +91,7 @@ class IntegerTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(0, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testPositiveIntegerToIntegerApply()
@@ -115,7 +127,7 @@ class IntegerTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(10, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 
 	public function testBooleanToIntegerApply()
@@ -124,6 +136,6 @@ class IntegerTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(1, $transformedObject->value());
+		$this->assertTrue($transformedObject->isError());
 	}
 }

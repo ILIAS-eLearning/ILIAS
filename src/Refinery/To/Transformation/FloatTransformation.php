@@ -19,6 +19,9 @@ class FloatTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (false === is_float($from)) {
+			throw new \InvalidArgumentException('The value MUST be of type float');
+		}
 		return (float) $from;
 	}
 
@@ -29,7 +32,11 @@ class FloatTransformation implements Transformation
 	{
 		$value = $data->value();
 
-		$resultValue = (float) $value;
+		try {
+			$resultValue = $this->transform($value);
+		} catch (\Exception $exception) {
+			return new Result\Error($exception);
+		}
 
 		return new Result\Ok($resultValue);
 	}

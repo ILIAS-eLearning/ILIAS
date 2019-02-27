@@ -19,6 +19,9 @@ class StringTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (false === is_string($from)) {
+			throw new \InvalidArgumentException('The value MUST be of type string');
+		}
 		return (string) $from;
 	}
 
@@ -29,7 +32,11 @@ class StringTransformation implements Transformation
 	{
 		$value = $data->value();
 
-		$resultValue = (string) $value;
+		try {
+			$resultValue = $this->transform($value);
+		} catch (\Exception $exception) {
+			return new Result\Error($exception);
+		}
 
 		return new Result\Ok($resultValue);
 	}
