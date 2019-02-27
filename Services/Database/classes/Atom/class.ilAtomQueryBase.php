@@ -245,7 +245,7 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * @throws \ilAtomQueryException
 	 */
 	protected function checkQueries() {
-		if (count($this->query) == 0) {
+		if ((is_array($this->query) && 0 === count($this->query)) && !($this->query instanceof \Traversable)) {
 			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
 		}
 		foreach ($this->query as $query) {
