@@ -62,7 +62,11 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
 		$obj = ilObjectFactory::getInstanceByRefId($ref_id);
 		$act = $obj->getLSActivation();
 		$online = $act->getIsOnline();
-		if(!$online) {
+
+		if(!$online
+			&& !is_null($act->getActivationStart())
+			&& !is_null($act->getActivationEnd())
+		) {
 			$now = new \DateTime();
 			$ts_now = $now->getTimestamp();
 			$ts_start = $act->getActivationStart()->getTimestamp();
