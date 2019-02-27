@@ -515,3 +515,9 @@ if(!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
 	);
 }
 ?>
+<#32>
+<?php
+require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::updateOperationOrder('participate', 1010);
+ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
+?>
