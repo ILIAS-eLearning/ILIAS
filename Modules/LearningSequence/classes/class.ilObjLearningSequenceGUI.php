@@ -102,7 +102,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->lng = $DIC['lng'];
-		$this->template = $DIC['tpl'];
 		$this->user = $DIC['ilUser'];
 		$this->tabs = $DIC['ilTabs'];
 		$this->toolbar = $DIC['ilToolbar'];
@@ -297,7 +296,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->getObject(),
 			$this->ctrl,
 			$this->lng,
-			$this->template,
+			$this->tpl,
 			$this->obj_service
 		);
 		$this->ctrl->setCmd($cmd);
