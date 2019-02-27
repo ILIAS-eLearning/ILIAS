@@ -127,7 +127,7 @@ class ilMainMenuGUI
 		$this->start_template = $a_use_start_template;
 		
 		$this->mail = false;
-		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		if(!$ilUser->isAnonymous() && $ilUser->getId() > 0)
 		{
 			if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 			{
@@ -325,7 +325,7 @@ class ilMainMenuGUI
 				: "";
 		
 			// login stuff
-			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
+			if ($GLOBALS['DIC']['ilUser']->isAnonymous() || 0 == $GLOBALS['DIC']['ilUser']->getId())
 			{
 				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
@@ -464,7 +464,7 @@ class ilMainMenuGUI
 		$ilAccess = $this->access;
 
 		// personal desktop
-		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
+		if (!$GLOBALS['DIC']['ilUser']->isAnonymous() && $GLOBALS['DIC']['ilUser']->getId() > 0)
 		{
 			$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"), "#");
@@ -480,7 +480,7 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			if($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
+			if(!$GLOBALS['DIC']['ilUser']->isAnonymous() && $GLOBALS['DIC']['ilUser']->getId() > 0)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
@@ -1123,7 +1123,7 @@ class ilMainMenuGUI
 	 */
 	protected function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng)
 	{
-		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
+		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous() && $user->getId() > 0) {
 			$this->tpl->touchBlock('osd_container');
 
 			require_once 'Services/Notifications/classes/class.ilNotificationOSDGUI.php';
