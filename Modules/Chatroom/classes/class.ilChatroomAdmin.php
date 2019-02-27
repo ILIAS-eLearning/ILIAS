@@ -191,19 +191,21 @@ class ilChatroomAdmin
 		{
 			$settings = json_decode($row['client_settings'], true);
 
-			if(!$settings['osd_intervall'])
-			{
+			if (!$settings['osd_intervall']) {
 				$settings['osd_intervall'] = 60;
 			}
 
-			if(!$settings['client'])
-			{
+			if (!$settings['client']) {
 				$settings['client'] = CLIENT_ID;
 			}
 
 			$settings['client_name'] = (string)$settings['name'];
 			if (!$settings['client_name']) {
 				$settings['client_name'] = CLIENT_ID;
+			}
+
+			if (!is_numeric($settings['web_notification_idle_time'])) {
+				$settings['web_notification_idle_time'] = 1;
 			}
 
 			return $settings;

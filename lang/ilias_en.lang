@@ -14,6 +14,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+chatroom_adm#:#osc_adm_web_noti_label#:#Browser Notificatons
+chatroom_adm#:#osc_adm_web_noti_info#:#If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs outside of ILIAS and ILIAS itself is considered as „hidden“.
+chatroom_adm#:#osc_adm_web_noti_idle_time_label#:#Notification Idle Time
+chatroom_adm#:#osc_adm_web_noti_idle_time_info#:#Cut off notifications by giving a minimum interval at which they are triggered for incoming messages.
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl

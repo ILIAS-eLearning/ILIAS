@@ -383,6 +383,23 @@ class ilChatroomFormFactory
 		$enable_osc->setInfo($this->lng->txt('chatroom_enable_osc_info'));
 		$enable_chat->addSubItem($enable_osc);
 
+		$oscWebNotificationStatus = new \ilCheckboxInputGUI(
+			$this->lng->txt('osc_adm_web_noti_label'), 'enable_web_notifications'
+		);
+		$oscWebNotificationStatus->setInfo($this->lng->txt('osc_adm_web_noti_info'));
+		$oscWebNotificationStatus->setValue(1);
+		$enable_osc->addSubItem($oscWebNotificationStatus);
+
+		$oscWebNotificationIdleTime = new \ilNumberInputGUI(
+			$this->lng->txt('osc_adm_web_noti_idle_time_label'), 'web_notification_idle_time'
+		);
+		$oscWebNotificationIdleTime->allowDecimals(false);
+		$oscWebNotificationIdleTime->setSuffix($this->lng->txt('minutes'));
+		$oscWebNotificationIdleTime->setMinValue(1);
+		$oscWebNotificationIdleTime->setSize(5);
+		$oscWebNotificationIdleTime->setInfo($this->lng->txt('osc_adm_web_noti_idle_time_info'));
+		$enable_osc->addSubItem($oscWebNotificationIdleTime);
+
 		$osd = new ilCheckboxInputGUI($this->lng->txt('enable_osd'), 'enable_osd');
 		$osd->setInfo($this->lng->txt('hint_osd'));
 		$enable_chat->addSubItem($osd);

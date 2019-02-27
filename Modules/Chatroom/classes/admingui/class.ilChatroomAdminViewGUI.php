@@ -245,14 +245,16 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 		}
 
 		$settings = array(
-			'name'                  => (string)$form->getInput('client_name'),
-			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
-			'enable_osc'            => (boolean)$form->getInput('enable_osc'),
-			'osd_intervall'         => (int)$form->getInput('osd_intervall'),
-			'chat_enabled'          => ((boolean)$form->getInput('chat_enabled')),
-			'enable_smilies'        => (boolean)$form->getInput('enable_smilies'),
+			'name' => (string)$form->getInput('client_name'),
+			'enable_osd' => (boolean)$form->getInput('enable_osd'),
+			'enable_osc' => (boolean)$form->getInput('enable_osc'),
+			'enable_web_notifications' => (boolean)$form->getInput('enable_web_notifications'),
+			'web_notification_idle_time' => (int)$form->getInput('web_notification_idle_time'),
+			'osd_intervall' => (int)$form->getInput('osd_intervall'),
+			'chat_enabled' => ((boolean)$form->getInput('chat_enabled')),
+			'enable_smilies' => (boolean)$form->getInput('enable_smilies'),
 			'play_invitation_sound' => (boolean)$form->getInput('play_invitation_sound'),
-			'auth'                  => $form->getInput('auth')
+			'auth' => $form->getInput('auth')
 		);
 
 		if (!$settings['chat_enabled']) {
@@ -265,6 +267,8 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
 		$chatSettings = new ilSetting('chatroom');
 		$chatSettings->set('chat_enabled', $settings['chat_enabled']);
+		$chatSettings->set('enable_web_notifications', $settings['enable_web_notifications']);
+		$chatSettings->set('web_notification_idle_time', $settings['web_notification_idle_time']);
 		$chatSettings->set('enable_osc', $settings['enable_osc']);
 		$chatSettings->set('play_invitation_sound', (boolean)$form->getInput('play_invitation_sound'));
 

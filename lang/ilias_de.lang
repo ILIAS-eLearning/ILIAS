@@ -14,6 +14,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+chatroom_adm#:#osc_adm_web_noti_label#:#Browser-Benachrichtigungen
+chatroom_adm#:#osc_adm_web_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrihten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn der Benutzer in anderen Browser-Tabs aktiv und ILIAS im Hintergrund ist. 
+chatroom_adm#:#osc_adm_web_noti_idle_time_label#:#Zeit zwischen Nachrichten
+chatroom_adm#:#osc_adm_web_noti_idle_time_info#:#Definieren Sie hier die Zeit, die nach Erhalt eine Nachricht vergangen sein muss, bevor eine neue Nachricht zu einer Browser-Benachrichtigung führt.
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
