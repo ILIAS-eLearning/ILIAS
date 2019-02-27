@@ -12,7 +12,7 @@ require_once 'libs/composer/vendor/autoload.php';
 class FloatRangeTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @throws \ilException
+	 * @throws \InvalidArgumentException
 	 */
 	public function testValidFloatRanges()
 	{
@@ -23,7 +23,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @throws \ilException
+	 * @throws \InvalidArgumentException
 	 */
 	public function testHexIsAllowForRanges()
 	{
@@ -34,7 +34,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @throws \ilException
+	 * @throws \InvalidArgumentException
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
@@ -45,7 +45,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException  \ilException
+	 * @expectedException  \InvalidArgumentException
 	 */
 	public function testRangeIsSameThrowsException()
 	{
@@ -53,7 +53,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException  \ilException
+	 * @expectedException  \InvalidArgumentException
 	 */
 	public function testMaximumsIsLowerThanMinimumThrowsException()
 	{

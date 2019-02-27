@@ -17,16 +17,15 @@ class FloatRange
 	/**
 	 * @param float $minimum
 	 * @param float $maximum
-	 * @throws \ilException
 	 */
 	public function __construct(float $minimum, float $maximum)
 	{
 		if ($maximum === $minimum) {
-			throw new \ilException(sprintf('The maximum("%s") can NOT be same than the minimum("%s")', $maximum, $minimum));
+			throw new \InvalidArgumentException(sprintf('The maximum("%s") can NOT be same than the minimum("%s")', $maximum, $minimum));
 		}
 
 		if ($maximum < $minimum) {
-			throw new \ilException(sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum));
+			throw new \InvalidArgumentException(sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum));
 		}
 
 		$this->minimum = $minimum;
