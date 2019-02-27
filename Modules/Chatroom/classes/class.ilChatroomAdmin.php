@@ -204,8 +204,8 @@ class ilChatroomAdmin
 				$settings['client_name'] = CLIENT_ID;
 			}
 
-			if (!is_numeric($settings['web_notification_idle_time'])) {
-				$settings['web_notification_idle_time'] = 1;
+			if (!is_numeric($settings['browser_notification_idle_time'])) {
+				$settings['browser_notification_idle_time'] = 1;
 			}
 
 			return $settings;

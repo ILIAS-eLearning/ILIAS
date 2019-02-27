@@ -65,6 +65,9 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		$this->lng      = $DIC['lng'];
 		$this->event    = $DIC->event();
 
+		$this->lng->loadLanguageModule('chatroom');
+		$this->lng->loadLanguageModule('chatroom_adm');
+
 		$this->chatSettings         = new ilSetting('chatroom');
 		$this->notificationSettings = new ilSetting('notifications');
 
@@ -133,19 +136,28 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		$this->setFormAction($this->ctrl->getFormAction($this, 'saveChatOptions'));
 		$this->setTitle($this->lng->txt("chat_settings"));
 
-		if($this->shouldShowNotificationOptions())
-		{
-			$chb = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
-			$chb->setInfo($this->lng->txt('play_invitation_sound_info'));
-			$this->addItem($chb);
+		if ($this->shouldShowOnScreenChatOptions()) {
+			$acceptOscMessages = new ilCheckboxInputGUI($this->lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
+			$acceptOscMessages->setInfo($this->lng->txt('chat_osc_accept_msg_info'));
+			$acceptOscMessages->setDisabled(
+				(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)
+			);
+			$this->addItem($acceptOscMessages);
+
+			$browserNotifications = new ilCheckboxInputGUI(
+				$this->lng->txt('osc_enable_browser_notifications_label'), 'chat_osc_browser_notifications'
+			);
+			$browserNotifications->setValue(1);
+			$browserNotifications->setInfo($this->lng->txt('osc_enable_browser_notifications_label_info'));
+			$acceptOscMessages->addSubItem($browserNotifications);
 		}
 
-		if($this->shouldShowOnScreenChatOptions())
-		{
-			$chb = new ilCheckboxInputGUI($this->lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
-			$chb->setInfo($this->lng->txt('chat_osc_accept_msg_info'));
-			$chb->setDisabled((bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false));
-			$this->addItem($chb);
+		if ($this->shouldShowNotificationOptions()) {
+			$playOsdSound = new ilCheckboxInputGUI(
+				$this->lng->txt('play_invitation_sound'), 'play_invitation_sound'
+			);
+			$playOsdSound->setInfo($this->lng->txt('play_invitation_sound_info'));
+			$this->addItem($playOsdSound);
 		}
 
 		$this->addCommandButton('saveChatOptions', $this->lng->txt('save'));
@@ -161,10 +173,11 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 			$this->ctrl->returnToParent($this);
 		}
 
-		$this->setValuesByArray(array(
+		$this->setValuesByArray([
 			'play_invitation_sound' => $this->user->getPref('chat_play_invitation_sound'),
-			'chat_osc_accept_msg'   => ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
-		));
+			'chat_osc_accept_msg'   => ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg')),
+			'chat_osc_browser_notifications' => ilUtil::yn2tf($this->user->getPref('chat_osc_browser_notifications')),
+		]);
 
 		$this->mainTpl->setContent($this->getHTML());
 		$this->mainTpl->printToStdout();
@@ -175,25 +188,31 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 	 */
 	protected function saveChatOptions()
 	{
-		if(!$this->isAccessible())
-		{
+		if (!$this->isAccessible()) {
 			$this->ctrl->returnToParent($this);
 		}
 
-		if(!$this->checkInput())
-		{
+		if (!$this->checkInput()) {
 			$this->showChatOptions();
 			return;
 		}
 
-		if($this->shouldShowNotificationOptions())
-		{
+		if ($this->shouldShowNotificationOptions()) {
 			$this->user->setPref('chat_play_invitation_sound', (int)$this->getInput('play_invitation_sound'));
 		}
 
-		if($this->shouldShowOnScreenChatOptions() && !(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false))
-		{
-			$this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn((bool)$this->getInput('chat_osc_accept_msg')));
+		if ($this->shouldShowOnScreenChatOptions()) {
+			if (!(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)) {
+				$this->user->setPref(
+					'chat_osc_accept_msg',
+					ilUtil::tf2yn((bool)$this->getInput('chat_osc_accept_msg'))
+				);
+			}
+
+			$this->user->setPref(
+				'chat_osc_browser_notifications',
+				ilUtil::tf2yn((bool)$this->getInput('chat_osc_browser_notifications'))
+			);
 		}
 
 		$this->user->writePrefs();

@@ -383,22 +383,22 @@ class ilChatroomFormFactory
 		$enable_osc->setInfo($this->lng->txt('chatroom_enable_osc_info'));
 		$enable_chat->addSubItem($enable_osc);
 
-		$oscWebNotificationStatus = new \ilCheckboxInputGUI(
-			$this->lng->txt('osc_adm_web_noti_label'), 'enable_web_notifications'
+		$oscBrowserNotificationStatus = new \ilCheckboxInputGUI(
+			$this->lng->txt('osc_adm_browser_noti_label'), 'enable_browser_notifications'
 		);
-		$oscWebNotificationStatus->setInfo($this->lng->txt('osc_adm_web_noti_info'));
-		$oscWebNotificationStatus->setValue(1);
-		$enable_osc->addSubItem($oscWebNotificationStatus);
+		$oscBrowserNotificationStatus->setInfo($this->lng->txt('osc_adm_browser_noti_info'));
+		$oscBrowserNotificationStatus->setValue(1);
+		$enable_osc->addSubItem($oscBrowserNotificationStatus);
 
-		$oscWebNotificationIdleTime = new \ilNumberInputGUI(
-			$this->lng->txt('osc_adm_web_noti_idle_time_label'), 'web_notification_idle_time'
+		$oscBrowserNotificationIdleTime = new \ilNumberInputGUI(
+			$this->lng->txt('osc_adm_browser_noti_idle_time_label'), 'browser_notification_idle_time'
 		);
-		$oscWebNotificationIdleTime->allowDecimals(false);
-		$oscWebNotificationIdleTime->setSuffix($this->lng->txt('minutes'));
-		$oscWebNotificationIdleTime->setMinValue(1);
-		$oscWebNotificationIdleTime->setSize(5);
-		$oscWebNotificationIdleTime->setInfo($this->lng->txt('osc_adm_web_noti_idle_time_info'));
-		$enable_osc->addSubItem($oscWebNotificationIdleTime);
+		$oscBrowserNotificationIdleTime->allowDecimals(false);
+		$oscBrowserNotificationIdleTime->setSuffix($this->lng->txt('minutes'));
+		$oscBrowserNotificationIdleTime->setMinValue(1);
+		$oscBrowserNotificationIdleTime->setSize(5);
+		$oscBrowserNotificationIdleTime->setInfo($this->lng->txt('osc_adm_browser_noti_idle_time_info'));
+		$enable_osc->addSubItem($oscBrowserNotificationIdleTime);
 
 		$osd = new ilCheckboxInputGUI($this->lng->txt('enable_osd'), 'enable_osd');
 		$osd->setInfo($this->lng->txt('hint_osd'));

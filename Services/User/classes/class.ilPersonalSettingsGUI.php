@@ -36,9 +36,6 @@ class ilPersonalSettingsGUI
         $this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
-//		$lng->loadLanguageModule("jsmath");
-		$lng->loadLanguageModule('chatroom');
-		$lng->loadLanguageModule('chatroom_adm');
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
