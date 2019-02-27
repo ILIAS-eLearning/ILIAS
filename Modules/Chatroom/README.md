@@ -280,6 +280,14 @@ RestartSec=3
 WantedBy=multi-user.target
 ```
 
+It is recommended to use a specific user and group for running the Node.js chat server instance:
+
+```
+useradd --system -d /%path%/%to%/%onscreenchat% -c "ILIAS onscreenchat" onscreenchat;
+chown onscreenchat:onscreenchat -R /%path%/%to%/%onscreenchat%/;
+usermod -a -G onscreenchat onscreenchat;
+```
+
 ## Proxy configuration
 
 It is recommended to make the chat server publicly available only through a proxy server.
