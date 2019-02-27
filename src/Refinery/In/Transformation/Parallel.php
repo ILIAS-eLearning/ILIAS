@@ -20,13 +20,13 @@ class Parallel implements Transformation
 
 	/**
 	 * @param array $transformations
-	 * @throws \ilException
+	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(array $transformations)
 	{
 		foreach ($transformations as $transformation) {
 			if (!$transformation instanceof Transformation) {
-				throw new \ilException(sprintf('The array MUST contain only "%s" instances', Transformation::class));
+				throw new \InvalidArgumentException(sprintf('The array MUST contain only "%s" instances', Transformation::class));
 			}
 		}
 		$this->transformationStrategies = $transformations;
@@ -52,14 +52,19 @@ class Parallel implements Transformation
 	{
 		$results = array();
 		foreach ($this->transformationStrategies as $strategy) {
-			$results[] = $strategy->applyTo($data);
+			$resultObject = $strategy->applyTo($data);
+
+			if (true === $resultObject->isError()) {
+				return $resultObject;
+			}
+			$results[] = $resultObject->value();
 		}
 
 		if (array() === $results) {
 			$results[] = $data;
 		}
 
-		return $results;
+		return new Result\Ok($results);
 	}
 
 	/**

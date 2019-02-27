@@ -16,10 +16,18 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class SeriesTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @throws \ilException
-	 */
 	public function testSeriesTransformation()
+	{
+		$series = new Series(array(new StringTransformation()));
+
+		$result = $series->transform('hello');
+
+		$this->assertEquals('hello', $result);
+	}
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testSeriesTransformationFails()
 	{
 		$series = new Series(array(
 			new IntegerTransformation(),
@@ -43,11 +51,11 @@ class SeriesTest extends \PHPUnit_Framework_TestCase
 
 		$result = $series->applyTo(new Ok(42.0));
 
-		$this->assertEquals('42', $result->value());
+		$this->assertTrue($result->isError());
 	}
 
 	/**
-	 * @expectedException  \ilException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testInvalidTransformationThrowsException()
 	{

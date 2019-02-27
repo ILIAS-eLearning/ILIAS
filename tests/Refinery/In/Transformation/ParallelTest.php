@@ -7,6 +7,7 @@
 
 namespace ILIAS\Refinery;
 
+use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\Data\Result\Ok;
 use ILIAS\In\Transformation\Parallel;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
@@ -18,26 +19,32 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class ParallelTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @throws \ilException
-	 */
 	public function testParallelTransformation()
 	{
-		$parallel = new Parallel(array(
+		$parallel = new Parallel(
+			array(
 				new StringTransformation(),
-				new IntegerTransformation(),
-				new FloatTransformation()
+				new StringTransformation()
 			)
 		);
 
-		$result = $parallel->transform(42.0);
+		$result = $parallel->transform('hello');
 
-		$this->assertEquals(array('42', 42, 42.0), $result);
+		$this->assertEquals($result, array('hello', 'hello'));
 	}
 
 	/**
-	 * @throws \ilException
+	 * @expectedException InvalidArgumentException
 	 */
+	public function testParallelTransformationFailsBecauseOfInvalidType()
+	{
+		$parallel = new Parallel(array(new StringTransformation()));
+
+		$result = $parallel->transform(42.0);
+
+		$this->fail();
+	}
+
 	public function testParallelApply()
 	{
 		$parallel = new Parallel(array(
@@ -49,11 +56,11 @@ class ParallelTest extends \PHPUnit_Framework_TestCase
 
 		$result = $parallel->applyTo(new Ok(42));
 
-		$this->assertEquals(array('42', 42, 42.0), $result->value());
+		$this->assertTrue($result->isError());
 	}
 
 	/**
-	 * @expectedException  \ilException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testInvalidTransformationThrowsException()
 	{

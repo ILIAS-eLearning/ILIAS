@@ -26,7 +26,7 @@ class Series implements Transformation
 	{
 		foreach ($transformations as $transformation) {
 			if (!$transformation instanceof Transformation) {
-				throw new \ilException(sprintf('The array MUST contain only "%s" instances', Transformation::class));
+				throw new \InvalidArgumentException(sprintf('The array MUST contain only "%s" instances', Transformation::class));
 			}
 		}
 		$this->transformationStrategies = $transformations;
@@ -52,10 +52,13 @@ class Series implements Transformation
 	{
 		$result = $data;
 		foreach ($this->transformationStrategies as $strategy) {
-			$result = $strategy->applyTo($data);
+			$resultObject = $strategy->applyTo($data);
+			if ($resultObject->isError()) {
+				return $resultObject;
+			}
 		}
 
-		return $result;
+		return new Result\Ok($result);
 	}
 
 	/**
