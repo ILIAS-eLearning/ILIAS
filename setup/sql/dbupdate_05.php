@@ -448,3 +448,60 @@ if (!$ilDB->indexExistsByFields('frm_posts_tree', ['parent_pos'])) {
 	$ilDB->addIndex('frm_posts_tree', ['parent_pos'], 'i3');
 }
 ?>
+<<<<<<< HEAD:setup/sql/dbupdate_05.php
+<#5456>
+<?php
+if(!$ilDB->tableExists('lso_activation'))
+{
+	$ilDB->createTable('lso_activation', array(
+		'ref_id' => array(
+			"type"    => "integer",
+			"length"  => 4,
+			'notnull' => true
+		),
+		'online' => array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		),
+		'activation_start' => array(
+			'type' => 'integer',
+			"notnull" => false,
+			"length" => 11
+		),
+		'activation_end' => array(
+			'type' => 'integer',
+			"notnull" => false,
+			"length" => 11
+		)
+	));
+	$ilDB->addPrimaryKey("lso_activation", array("ref_id"));
+}
+?>
+<#5457>
+<?php
+if ($ilDB->tableColumnExists('lso_settings', 'online'))
+{
+	$ilDB->dropTableColumn('lso_settings', 'online');
+}
+?>
+<#5458>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
+	$ilDB->addTableColumn('lso_activation', 'effective_online',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 1,
+			"default" => 0
+		)
+	);
+}
+?>
+<#5459>
+<?php
+require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::updateOperationOrder('participate', 1010);
+ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
+?>
