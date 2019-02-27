@@ -9,7 +9,7 @@ require_once("./libs/composer/vendor/autoload.php");
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class IntegerRangeTest extends \PHPUnit_Framework_TestCase
+class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @throws \InvalidArgumentException
@@ -26,6 +26,15 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testMaximumCanNotBeLowerThanMinimum()
+	{
+		$range = new IntegerRange(3, 1);
+		$this->fail();
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testMaximumCanNotBeEqualMinimum()
 	{
 		$range = new IntegerRange(3, 1);
 		$this->fail();

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,17 +8,14 @@ declare(strict_types=1);
 namespace ILIAS\Data;
 
 
-class IntegerRange
+use phpDocumentor\Reflection\Types\Integer;
+
+class StrictIntegerRange
 {
 	/**
-	 * @var int
+	 * @var Integer
 	 */
-	private $minimum;
-
-	/**
-	 * @var int
-	 */
-	private $maximum;
+	private $integerRange;
 
 	/**
 	 * @param int $minimum
@@ -28,12 +24,11 @@ class IntegerRange
 	 */
 	public function __construct(int $minimum, int $maximum)
 	{
-		if ($maximum < $minimum) {
-			throw new \InvalidArgumentException(sprintf('The maximum value("%s") is not a integer', $maximum));
+		if ($minimum === $maximum) {
+			throw new \InvalidArgumentException(sprintf('The minimum value("%s") is not a integer', $minimum));
 		}
 
-		$this->minimum = $minimum;
-		$this->maximum = $maximum;
+		$this->integerRange = new IntegerRange($minimum, $maximum);
 	}
 
 	/**
@@ -41,7 +36,7 @@ class IntegerRange
 	 */
 	public function minimumAsInteger() : int
 	{
-		return $this->minimum;
+		return $this->integerRange->minimumAsInteger();
 	}
 
 	/**
@@ -49,6 +44,6 @@ class IntegerRange
 	 */
 	public function maximumAsInteger() : int
 	{
-		return $this->maximum;
+		return $this->integerRange->maximumAsInteger();
 	}
 }
