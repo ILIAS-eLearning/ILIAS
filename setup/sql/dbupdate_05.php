@@ -466,14 +466,12 @@ if(!$ilDB->tableExists('lso_activation'))
 			"default" => 0
 		),
 		'activation_start' => array(
-			'type' => 'integer',
-			"notnull" => false,
-			"length" => 11
+			'type' => 'timestamp',
+			"notnull" => false
 		),
 		'activation_end' => array(
-			'type' => 'integer',
-			"notnull" => false,
-			"length" => 11
+			'type' => 'timestamp',
+			"notnull" => false
 		)
 	));
 	$ilDB->addPrimaryKey("lso_activation", array("ref_id"));
