@@ -104,7 +104,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI {
 			foreach ($plugin_slots as $plugin_slot) {
 				$slot = new ilPluginSlot($core_type, $core_item["subdir"], $plugin_slot["id"]);
 				foreach ($slot->getPluginsInformation() as $plugin) {
-					if ($core_type && $slot && $core_item["subdir"] && $plugin) {
+					if ($core_type && $slot && $core_item["subdir"] && is_array($plugin) && count($plugin) > 0) {
 						$plugins[] = $this->gatherPluginData($core_type, $slot, $core_item["subdir"], $plugin);
 					}
 				}
@@ -124,6 +124,9 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI {
 	 * @return array
 	 */
 	protected function gatherPluginData($a_type, ilPluginSlot $a_slot, $a_slot_subdir, array $a_plugin) {
+		if(!$a_plugin["component_type"]) {
+			return array();
+		}
 		$plugin_db_data = ilPlugin::getPluginRecord($a_plugin["component_type"], $a_plugin["component_name"], $a_plugin["slot_id"], $a_plugin["name"]);
 
 		$config_class = null;
