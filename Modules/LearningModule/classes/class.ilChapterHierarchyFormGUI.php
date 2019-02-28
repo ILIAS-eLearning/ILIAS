@@ -81,6 +81,11 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 		$ilUser = $this->user;
 		
 		$cmds = array();
+
+		if ($a_childs == null)
+		{
+			$a_childs = [];
+		}
 		
 		if (!$a_first_child)		// drop area of node
 		{
@@ -178,7 +183,12 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 		$lng = $this->lng;
 		
 		$this->makeDragContent($a_node["node_id"], "grp_".$a_node["type"]);
-		
+
+		if ($a_childs == null)
+		{
+			$a_childs = [];
+		}
+
 		if (!$a_first_child_drop_area)
 		{
 			if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0 && $this->getMaxDepth() != 0))
