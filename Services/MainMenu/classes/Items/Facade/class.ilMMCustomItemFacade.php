@@ -49,7 +49,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 		if ($this->isCustom()) {
 			$mm = $this->getCustomStorage();
 			if ($mm instanceof ilMMCustomItemStorage) {
-				$default_title = $this->getDefaultTitle();
+				$default_title = ilMMItemTranslationStorage::getDefaultTranslation($this->identification());
 				$mm->setDefaultTitle($default_title);
 				$mm->setType($this->getType());
 				$mm->update();

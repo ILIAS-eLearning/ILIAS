@@ -123,11 +123,11 @@ class ilMMSubitemFormGUI {
 
 		// RETURN FORM
 		if ($this->item_facade->isEmpty()) {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_ADD));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_ADD), "");
 			$this->form = $this->ui_fa->input()->container()->form()
 				->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CREATE), [$section]);
 		} else {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_EDIT));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_EDIT), "");
 			$this->form = $this->ui_fa->input()->container()->form()
 				->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_UPDATE), [$section]);
 		}
