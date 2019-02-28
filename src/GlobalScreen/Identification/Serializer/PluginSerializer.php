@@ -29,8 +29,8 @@ class PluginSerializer implements SerializerInterface {
 
 		$str = "{$identification->getPluginId()}{$divider}{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
 
-		if (strlen($str) > 64) {
-			throw new \LogicException("Serialized Identifications MUST be shorter than 64 characters");
+		if (strlen($str) > SerializerInterface::MAX_LENGTH) {
+			throw new \LogicException("Serialized Identifications MUST be shorter than " . SerializerInterface::MAX_LENGTH . " characters");
 		}
 
 		return $str;
