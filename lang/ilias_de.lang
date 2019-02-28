@@ -15,13 +15,13 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
-chatroom#:#osc_enable_browser_notifications_label_info#:#Wenn aktiviert, erhalten Sie beim Erhalten neuer Konversationen oder Nachrichten Browser-Benachrichtigungen, sofern ILIAS im Hintergrund läuft.
+chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Konversationen oder Chat-Nachrichten eine Browser-Benachrichtigung, sofern ILIAS im Hintergrund läuft und Sie zum Beispiel in einem anderen Browser-Tab aktiv sind. Für neue Nachrichten einer Konversation erhalten Sie nur dann eine Browser-Benachrichtigung, wenn zwischen zwei Nachrichten mehr als %s Minute(n) vergehen.
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
-chatroom#:#osc_browser_noti_permission_error#:#Die Browser-Benachrichtigungen konnten nicht aktiviert werden, da Sie den Zugriff in Ihrem Browser verweigert haben.
+chatroom#:#osc_browser_noti_req_permission_error#:#Die Browser-Benachrichtigungen konnten nicht aktiviert werden, da Sie den Zugriff in Ihrem Browser verweigert haben.
 chatroom_adm#:#osc_adm_browser_noti_label#:#Browser-Benachrichtigungen
-chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrihten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn der Benutzer in anderen Browser-Tabs aktiv und ILIAS im Hintergrund ist. 
-chatroom_adm#:#osc_adm_browser_noti_idle_time_label#:#Zeit zwischen Nachrichten
-chatroom_adm#:#osc_adm_browser_noti_idle_time_info#:#Definieren Sie hier die Zeit, die nach Erhalt eine Nachricht für eine Konversation vergangen sein muss, bevor eine neue Nachricht für die gleiche Konversation zu einer Browser-Benachrichtigung führt.
+chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn der Benutzer in anderen Browser-Tabs aktiv und ILIAS im Hintergrund ist. 
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Leerlaufstatus für Konversationen
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten einer Konversation, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird.
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben

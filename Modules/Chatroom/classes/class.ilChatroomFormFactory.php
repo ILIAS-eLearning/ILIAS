@@ -391,13 +391,13 @@ class ilChatroomFormFactory
 		$enable_osc->addSubItem($oscBrowserNotificationStatus);
 
 		$oscBrowserNotificationIdleTime = new \ilNumberInputGUI(
-			$this->lng->txt('osc_adm_browser_noti_idle_time_label'), 'browser_notification_idle_time'
+			$this->lng->txt('osc_adm_conv_idle_state_threshold_label'), 'conversation_idle_state_in_minutes'
 		);
 		$oscBrowserNotificationIdleTime->allowDecimals(false);
 		$oscBrowserNotificationIdleTime->setSuffix($this->lng->txt('minutes'));
 		$oscBrowserNotificationIdleTime->setMinValue(1);
 		$oscBrowserNotificationIdleTime->setSize(5);
-		$oscBrowserNotificationIdleTime->setInfo($this->lng->txt('osc_adm_browser_noti_idle_time_info'));
+		$oscBrowserNotificationIdleTime->setInfo($this->lng->txt('osc_adm_conv_idle_state_threshold_info'));
 		$enable_osc->addSubItem($oscBrowserNotificationIdleTime);
 
 		$osd = new ilCheckboxInputGUI($this->lng->txt('enable_osd'), 'enable_osd');
