@@ -23,7 +23,13 @@ class CoreSerializer implements SerializerInterface {
 	public function serialize(IdentificationInterface $identification): string {
 		$divider = self::DIVIDER;
 
-		return "{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
+		$str = "{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
+
+		if (strlen($str) > 64) {
+			throw new \LogicException("Serialized Identifications MUST be shorter than 64 characters");
+		}
+
+		return $str;
 	}
 
 
