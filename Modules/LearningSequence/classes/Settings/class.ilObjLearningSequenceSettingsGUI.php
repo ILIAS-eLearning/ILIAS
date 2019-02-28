@@ -132,8 +132,12 @@ class ilObjLearningSequenceSettingsGUI
 		$online->setInfo($this->lng->txt('lso_activation_online_info'));
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
-		$duration->setStart(new ilDateTime((string)$activation->getActivationStart()->getTimestamp(), IL_CAL_UNIX));
-		$duration->setEnd(new ilDateTime((string)$activation->getActivationEnd()->getTimestamp(), IL_CAL_UNIX));
+		if(! is_null($activation->getActivationStart())) {
+			$duration->setStart(new ilDateTime((string)$activation->getActivationStart()->getTimestamp(), IL_CAL_UNIX));
+		}
+		if(! is_null($activation->getActivationEnd())) {
+			$duration->setEnd(new ilDateTime((string)$activation->getActivationEnd()->getTimestamp(), IL_CAL_UNIX));
+		}
 
 		$section_misc = new ilFormSectionHeaderGUI();
 		$section_misc->setTitle($txt('lso_settings_misc'));

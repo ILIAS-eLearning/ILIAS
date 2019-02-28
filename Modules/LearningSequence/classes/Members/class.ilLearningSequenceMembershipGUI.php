@@ -23,7 +23,8 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 		ilCtrl $ctrl,
 		ilAccess $access,
 		ilRbacReview $rbac_review,
-		ilSetting $settings
+		ilSetting $settings,
+		ilToolbarGUI $toolbar
 	) {
 		parent::__construct($repository_gui, $repository_obj);
 
@@ -33,6 +34,8 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 		$this->access = $access;
 		$this->rbac_review = $rbac_review;
 		$this->settings = $settings;
+		$this->obj = $repository_obj;
+		$this->toolbar = $toolbar;
 	}
 
 	protected function printMembers()
@@ -305,4 +308,42 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 			);
 		}
 	}
+
+	protected function showParticipantsToolbar()
+	{
+
+		$toolbar_entries = [
+			'auto_complete_name' => $this->lng->txt('user'),
+			'user_type'	=> $this->getParentGUI()->getLocalRoles(),
+			'user_type_default'	=> $this->getDefaultRole(),
+			'submit_name' => $this->lng->txt('add'),
+			'add_search' => true,
+		];
+
+		$search_params = ['crs', 'grp'];
+		$parent_container = $this->obj->getParentObjectInfo(
+			(int)$this->obj->getRefId(),
+			$search_params
+		);
+		if(! is_null($parent_container)) {
+			$container_id = $parent_container['ref_id'];
+			$toolbar_entries['add_from_container'] = $container_id;
+		}
+
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$this->toolbar,
+			$toolbar_entries
+		);
+
+		$this->toolbar->addSeparator();
+
+		$this->toolbar->addButton(
+			$this->lng->txt($this->getParentObject()->getType(). "_print_list"),
+			$this->ctrl->getLinkTarget($this, 'printMembers')
+		);
+
+		$this->showMailToMemberToolbarButton($this->toolbar, 'participants', false);
+	}
+
 }
