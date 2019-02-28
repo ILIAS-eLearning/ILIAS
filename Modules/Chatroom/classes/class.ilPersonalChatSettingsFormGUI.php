@@ -137,7 +137,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		$this->setTitle($this->lng->txt("chat_settings"));
 
 		if ($this->shouldShowOnScreenChatOptions()) {
-			$this->mainTpl->addJavascript('./Services/Notifications/templates/js/browser_notifications.js');
+			$this->mainTpl->addJavascript('./Services/Notifications/js/browser_notifications.js');
 
 			$acceptOscMessages = new ilCheckboxInputGUI($this->lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
 			$acceptOscMessages->setInfo($this->lng->txt('chat_osc_accept_msg_info'));
