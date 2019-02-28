@@ -59,7 +59,7 @@ class ilQueryParser
 
 		$lng = $DIC['lng'];
 
-		define(MIN_WORD_LENGTH,3);
+		define('MIN_WORD_LENGTH',3);
 
 		$this->lng = $lng;
 

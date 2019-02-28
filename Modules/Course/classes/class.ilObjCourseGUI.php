@@ -827,7 +827,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			return $this->editObject($form);
 		}
 		
-		// Additional checks
+		// Additional checks: subsription min/max
 		if(
 			$form->getInput('subscription_max') &&
 			$form->getInput('subscription_min') &&
@@ -837,6 +837,23 @@ class ilObjCourseGUI extends ilContainerGUI
 			$min = $form->getItemByPostVar('subscription_min');
 			$min->setAlert($this->lng->txt('crs_subscription_min_members_err'));
 			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}
+
+		// Additional checks: both tile and objective view activated (not supported)
+		if(
+			$form->getInput('list_presentation') == "tile" &&
+			$form->getInput('view_mode') == IL_CRS_VIEW_OBJECTIVE)
+		{
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('crs_tile_and_objective_view_not_supported'));
+			return $this->editObject($form);
+		}
+
+		// Additional checks: both tile and session limitation activated (not supported)
+		if ($form->getInput('sl') == "1" &&
+			$form->getInput('list_presentation') == "tile")
+		{
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('crs_tile_and_session_limit_not_supported'));
 			return $this->editObject($form);
 		}
 
@@ -949,10 +966,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
-			if($form->getInput('timing_mode') != $this->object->getTimingMode())
-			{
-				ilUtil::sendInfo($this->lng->txt("crs_view_info_timing_mode"), true);
-			}
 			$this->object->setTimingMode((int) $form->getInput('timing_mode'));
 		}
 		$this->object->setTimingMode($form->getInput('timing_mode'));

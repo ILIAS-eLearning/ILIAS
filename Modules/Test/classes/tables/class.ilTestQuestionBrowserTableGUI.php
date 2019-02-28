@@ -40,7 +40,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	protected $ctrl;
 
 	/**
-	 * @var \ilTemplate
+	 * @var \ilGlobalTemplate
 	 */
 	protected $mainTpl;
 
@@ -81,18 +81,18 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
 	/**
 	 * ilTestQuestionBrowserTableGUI constructor.
-	 * @param ilCtrl          $ctrl
-	 * @param ilTemplate      $mainTpl
-	 * @param ilTabsGUI       $tabs
-	 * @param ilLanguage      $lng
-	 * @param ilTree          $tree
-	 * @param ilDBInterface   $db
-	 * @param ilPluginAdmin   $pluginAdmin
-	 * @param ilObjTest       $testOBJ
-	 * @param ilAccessHandler $access
+	 * @param ilCtrl           $ctrl
+	 * @param ilGlobalTemplate $mainTpl
+	 * @param ilTabsGUI        $tabs
+	 * @param ilLanguage       $lng
+	 * @param ilTree           $tree
+	 * @param ilDBInterface    $db
+	 * @param ilPluginAdmin    $pluginAdmin
+	 * @param ilObjTest        $testOBJ
+	 * @param ilAccessHandler  $access
 	 */
 	public function __construct(
-		ilCtrl $ctrl, ilTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
+		ilCtrl $ctrl, ilGlobalTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
 		ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ,
 		ilAccessHandler $access
 	)

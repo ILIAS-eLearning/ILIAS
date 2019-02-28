@@ -6874,9 +6874,13 @@ button.close {
   width: 100%;
   position: relative;
   background-color: white;
+  /* see bug #24947 */
 }
 .il-card img {
   width: 100%;
+}
+.il-card a {
+  overflow: hidden;
 }
 .il-card .thumbnail {
   margin-bottom: 0px;
@@ -11736,10 +11740,16 @@ div.ilFrmPostHeader span.small {
 .ilFrmBottomToolbar {
   margin-top: 20px;
 }
+.ilForumTreeTitle {
+  display: inline-block;
+}
 .ilForumTreeTitleUnread {
   font-weight: bold;
 }
 .ilForumTreeUnlinkedContent {
+  display: block;
+  line-height: 0.9em;
+  margin-bottom: 10px;
   text-decoration: none;
   cursor: text;
   font-size: smaller;

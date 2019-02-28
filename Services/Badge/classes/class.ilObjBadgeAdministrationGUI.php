@@ -261,9 +261,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$this->assertActive();
 		
 		$ids = $_POST["id"];		
-		if($this->checkPermissionBool("write") && 
-			sizeof($ids))
-		{
+		if ($this->checkPermissionBool("write") && is_array($ids) && count($ids) > 0) {
 			$handler = ilBadgeHandler::getInstance();
 			$inactive = array();
 			foreach($handler->getInactiveTypes() as $type)
@@ -286,10 +284,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		
 		$this->assertActive();
 		
-		$ids = $_POST["id"];		
-		if($this->checkPermissionBool("write") && 
-			sizeof($ids))
-		{
+		$ids = $_POST["id"];
+		if ($this->checkPermissionBool("write") && is_array($ids) && count($ids) > 0) {
 			$handler = ilBadgeHandler::getInstance();
 			$inactive = array_merge($handler->getInactiveTypes(), $ids);				
 			$handler->setInactiveTypes($inactive);	

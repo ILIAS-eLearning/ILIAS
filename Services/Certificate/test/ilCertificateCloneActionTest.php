@@ -138,6 +138,6 @@ class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
 		$newObject->method('getId')
 			->willReturn(10);
 
-		$cloneAction->cloneCertificate($oldObject, $newObject, 'v5.4.0');
+		$cloneAction->cloneCertificate($oldObject, $newObject, 'v5.4.0', '/some/web/dir');
 	}
 }

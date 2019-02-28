@@ -88,7 +88,8 @@ class ilCertificateCloneAction
 	public function cloneCertificate(
 		ilObject $oldObject,
 		ilObject $newObject,
-		string $iliasVersion = ILIAS_VERSION_NUMERIC
+		string $iliasVersion = ILIAS_VERSION_NUMERIC,
+		string $webDir = CLIENT_WEB_DIR
 	) {
 		$oldType = $oldObject->getType();
 		$newType = $newObject->getType();
@@ -112,7 +113,7 @@ class ilCertificateCloneAction
 			$backgroundImageThumbnail = dirname($backgroundImagePath) . '/background.jpg.thumb.jpg';
 
 			$newBackgroundImage = $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
-			$newBackgroundImageThumbnail = str_replace(CLIENT_WEB_DIR, '', $newCertificate->getBackgroundImageThumbPath());
+			$newBackgroundImageThumbnail = str_replace($webDir, '', $newCertificate->getBackgroundImageThumbPath());
 
 			if ($this->fileSystem->has($backgroundImagePath)) {
 				if ($this->fileSystem->has($newBackgroundImage)) {

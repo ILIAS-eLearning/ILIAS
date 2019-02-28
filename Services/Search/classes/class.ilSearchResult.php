@@ -393,7 +393,8 @@ class ilSearchResult
 				if($this->callListeners($entry['obj_id'],$entry))
 				{
 					$this->addResult($entry['obj_id'],$entry['obj_id'],$type);
-					if (count($entry['child'])) {
+					if (is_array($entry['child']))
+					{
 						$counter += count($entry['child']);
 					}
 					// Stop if maximum of hits is reached

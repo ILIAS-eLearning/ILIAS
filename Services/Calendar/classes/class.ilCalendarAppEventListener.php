@@ -214,6 +214,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		{
 			$app = new ilCalendarEntry();
 			$app->setContextId($app_templ->getContextId());
+			$app->setContextInfo($app_templ->getContextInfo());
 			$app->setTitle($app_templ->getTitle());
 			$app->setSubtitle($app_templ->getSubtitle());
 			$app->setDescription($app_templ->getDescription());
