@@ -11,7 +11,7 @@
 abstract class ilADT
 {
 	protected $definition; // [ilADTDefinition]
-	protected $validation_errors; // [array]
+	protected $validation_errors = []; // [array]
 	
 	
 	// :TODO: error codes for ALL types - see self::translateErrorMessage()
@@ -262,7 +262,9 @@ abstract class ilADT
 	 */
 	public function translateErrorCode($a_code)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		// $lng->txt("msg_wrong_format");
 		

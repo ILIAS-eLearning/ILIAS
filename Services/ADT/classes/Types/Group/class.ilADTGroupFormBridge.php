@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 
 class ilADTGroupFormBridge extends ilADTFormBridge
 {
-	protected $elements; // [array]
+	protected $elements = []; // [array]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{
@@ -108,7 +108,9 @@ class ilADTGroupFormBridge extends ilADTFormBridge
 	
 	public function validate()
 	{				
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 		
 		$valid = true;
 		
@@ -152,5 +154,3 @@ class ilADTGroupFormBridge extends ilADTFormBridge
 		return $valid;
 	}
 }
-
-?>
