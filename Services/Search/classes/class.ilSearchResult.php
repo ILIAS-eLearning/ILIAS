@@ -159,6 +159,7 @@ class ilSearchResult
 			$this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
 			$this->entries[$a_obj_id]['type'] = $a_type;
 			$this->entries[$a_obj_id]['found'] = $found;
+			$this->entries[$a_obj_id]['child'] = [];
 
 			if($a_child_id and $a_child_id != $a_obj_id)
 			{
