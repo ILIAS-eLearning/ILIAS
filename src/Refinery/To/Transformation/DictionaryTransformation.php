@@ -47,7 +47,7 @@ class DictionaryTransformation implements Transformation
 		$result = array();
 		foreach ($from as $key => $value) {
 			if (false === is_string($key)) {
-				throw new \ilException(
+				throw new \InvalidArgumentException(
 					sprintf(
 						'The key "%s" is NOT a string',
 						$key
@@ -85,13 +85,13 @@ class DictionaryTransformation implements Transformation
 		$from = $data->value();
 
 		if (false === is_array($from)) {
-			return new Result\Error(new \ilException('The value MUST be an array'));
+			return new Result\Error(new \InvalidArgumentException('The value MUST be an array'));
 		}
 
 		$result = array();
 		foreach ($from as $key => $value) {
 			if (false === is_string($key)) {
-				return new Result\Error(new \ilException(
+				return new Result\Error(new \InvalidArgumentException(
 					sprintf(
 						'The key "%s" is NOT a string',
 						$key
