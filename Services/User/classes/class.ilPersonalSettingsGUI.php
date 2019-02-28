@@ -72,7 +72,8 @@ class ilPersonalSettingsGUI
 				$this->__initSubTabs($this->ctrl->getCmd());
 				$this->setHeader();
 
-				require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
+				$DIC->tabs()->activateTab('chat_settings');
+
 				$chatSettingsGui = new ilPersonalChatSettingsFormGUI();
 				$this->ctrl->forwardCommand($chatSettingsGui);
 				break;
@@ -90,6 +91,7 @@ class ilPersonalSettingsGUI
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilTabs ilTabsGUI
 		 */
 		global $DIC;
 
@@ -128,13 +130,11 @@ class ilPersonalSettingsGUI
 			);
 		}
 
-		require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
-		$chatSettingsGui = new ilPersonalChatSettingsFormGUI(false);
-		if($chatSettingsGui->isAccessible())
-		{
-			/** @var $ilTabs ilTabsGUI */
+		$chatSettingsGui = new ilPersonalChatSettingsFormGUI();
+		if ($chatSettingsGui->isAccessible()) {
 			$ilTabs->addTarget(
-				'chat_settings', $this->ctrl->getLinkTarget($chatSettingsGui, 'showChatOptions'), '', 'ilPersonalChatSettingsFormGUI', '', method_exists($chatSettingsGui, $a_cmd)
+				'chat_settings',
+				$this->ctrl->getLinkTarget($chatSettingsGui, 'showChatOptions'), '', ['ilPersonalChatSettingsFormGUI']
 			);
 		}
 
