@@ -199,7 +199,7 @@ class Factory {
 
 	/**
 	 * Checks if all values in an array are of the same type
-	 * @param array $array
+	 * 
 	 * @return Constraints\IsArrayOfSameType
 	 */
 	public function isArrayOfSameType() {
