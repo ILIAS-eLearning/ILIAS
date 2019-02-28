@@ -14557,7 +14557,7 @@ mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
 mme#:#sub_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#sub_type_byline#:#Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig.
-mme#:#sub_active_byline#:Diesen Eintrag aktivieren
+mme#:#sub_active_byline#:#Diesen Eintrag aktivieren
 mme#:#add_languages#:#Sprache hinzufügen
 mme#:#mm_translation_lang#:#Sprache
 mme#:#mm_translation_trans#:#Übersetzung
