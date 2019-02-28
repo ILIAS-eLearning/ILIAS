@@ -523,3 +523,11 @@ ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#34>
+<?php
+/**
+ * @var $ilDB ilDBInterface
+ */
+$ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
+$ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
+?>
