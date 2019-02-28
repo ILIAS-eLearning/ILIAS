@@ -24,15 +24,24 @@ class IsArrayOfSameType extends Custom implements Constraint
 	{
 		parent::__construct(
 			function (array $values) {
-				$oldType = '';
-				foreach ($values as $key => $value) {
+				$previousType = '';
+				$previousValue = null;
+
+				foreach ($values as $value) {
 					$currentType = gettype($value);
 
-					if ('' !== $oldType && $oldType !== $currentType) {
-						return false;
+					if ('' !== $previousType) {
+						if ($previousType !== $currentType) {
+							return false;
+						} elseif ('object' === $currentType) {
+							if (get_class($value) !== get_class($previousValue)) {
+								return false;
+							}
+						}
 					}
 
-					$oldType = $currentType;
+					$previousValue = $value;
+					$previousType = $currentType;
 				}
 
 				return true;

@@ -9,6 +9,7 @@ namespace ILIAS\Validation\Constraints;
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 use ILIAS\Refinery\Validation\Factory;
 
 require_once("libs/composer/vendor/autoload.php");
@@ -98,4 +99,52 @@ class IsArrayOfSameTypeTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertTrue($resultObject->isError());
 	}
+
+	public function testArrayOfSamClassesIsValid()
+	{
+		$resultObject = $this->constraint->applyTo(
+			new Ok(
+				array(
+					new IsArrayOfSameExampleClass(),
+					new IsArrayOfSameExampleClass(),
+				)
+			)
+		);
+
+		$this->assertTrue($resultObject->isOK());
+	}
+
+	public function testArrayOfDifferentClassesIsInvalid()
+	{
+		$resultObject = $this->constraint->applyTo(
+			new Ok(
+				array(
+					new IsArrayOfSameExampleClass(),
+					new IsArrayOfSameAnotherExampleClass(),
+				)
+			)
+		);
+
+		$this->assertTrue($resultObject->isError());
+	}
+
+	public function testMixedArrayOfClassesAndOthersIsInvalid()
+	{
+		$resultObject = $this->constraint->applyTo(
+			new Ok(
+				array(
+					new IsArrayOfSameExampleClass(),
+					1,
+				)
+			)
+		);
+
+		$this->assertTrue($resultObject->isError());
+	}
 }
+
+class IsArrayOfSameExampleClass
+{}
+
+class IsArrayOfSameAnotherExampleClass
+{}
