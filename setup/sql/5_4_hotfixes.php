@@ -26,7 +26,6 @@ $perms = [
 	'create_iass',
 	'create_copa',
 	'create_svy',
-	'create_svy',
 	'create_lm',
 	'create_exc',
 	'create_tst',
@@ -409,7 +408,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	$nextId = $ilDB->nextId('frm_posts_tree');
 	$ilDB->manipulateF('
 		INSERT INTO frm_posts_tree
-		( 
+		(
 			fpt_pk,
 			thr_fk,
 			pos_fk,
@@ -518,4 +517,81 @@ if(!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
 require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::updateOperationOrder('participate', 1010);
 ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
+?>
+
+<#33>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$query = "SELECT obj_id FROM object_data"
+	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+	." AND title = " .$ilDB->quote('il_lso_member','text');
+$result = $ilDB->query($query);
+$rol_id_member = array_shift($ilDB->fetchAssoc($result));
+
+$query = "SELECT obj_id FROM object_data"
+	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+	." AND title = " .$ilDB->quote('il_lso_admin','text');
+$result = $ilDB->query($query);
+$rol_id_admin = array_shift($ilDB->fetchAssoc($result));
+
+$op_ids = [];
+$query = "SELECT operation, ops_id FROM rbac_operations";
+$result = $ilDB->query($query);
+while($row = $ilDB->fetchAssoc($result)) {
+	$op_ids[$row['operation']] = $row['ops_id'];
+}
+
+$types = [
+	'copa',
+	'exc',
+	'file',
+	'htlm',
+	'sahs',
+	'lm',
+	'svy',
+	'tst'
+];
+
+$member_ops = [
+	$op_ids['visible'],
+	$op_ids['read'],
+];
+$admin_ops = [
+	$op_ids['visible'],
+	$op_ids['read'],
+	$op_ids['edit_learning_progress'],
+	$op_ids['read_learning_progress']
+];
+
+foreach ($types as $type) {
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_member, $type, $member_ops, ROLE_FOLDER_ID);
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $admin_ops, ROLE_FOLDER_ID);
+}
+
+$type_perms = [
+	'iass' => [
+		$op_ids['visible'],
+		$op_ids['read'],
+		$op_ids['manage_members'],
+		$op_ids['edit_members'],
+		$op_ids['edit_learning_progress'],
+		$op_ids['read_learning_progress']
+	],
+	'exc' => [
+		$op_ids['edit_submissions_grades']
+	],
+	'svy' => [
+		$op_ids['invite'],
+		$op_ids['read_results']
+	],
+	'tst' => [
+		$op_ids['tst_results'],
+		$op_ids['tst_statistics']
+	]
+];
+
+foreach ($type_perms as $type => $ops) {
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $ops, ROLE_FOLDER_ID);
+}
 ?>
