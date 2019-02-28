@@ -62,7 +62,7 @@ class ilMMItemInformation implements ItemInformation {
 		if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])) {
 			$item = $item->withTitle((string)$this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
 		} elseif ($item instanceof hasTitle && ilMMItemTranslationStorage::hasDefaultTranslation($item->getProviderIdentification())) {
-			$item = $item->withTitle((string)$this->translations["{$item->getProviderIdentification()->serialize()}|$default_language"]);
+			// $item = $item->withTitle((string)$this->translations["{$item->getProviderIdentification()->serialize()}|$default_language"]);
 		}
 
 		return $item;
