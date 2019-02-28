@@ -12,6 +12,10 @@ use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 interface SerializerInterface {
 
 	/**
+	 * The string MUST be shorter than 64 characters
+	 *
+	 * @throws \LogicException whn longer than 64 characters
+	 *
 	 * @param IdentificationInterface $identification
 	 *
 	 * @return string
