@@ -289,3 +289,8 @@ if(!$ilDB->tableColumnExists('cal_entries','context_info'))
 	);
 }
 ?>
+<#5452>
+<?php
+$settings = new \ilSetting('chatroom');
+$settings->set('conversation_idle_state_in_minutes', 5);
+?>
