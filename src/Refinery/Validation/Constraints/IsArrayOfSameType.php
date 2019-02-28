@@ -23,7 +23,7 @@ class IsArrayOfSameType extends Custom implements Constraint
 	public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
 	{
 		parent::__construct(
-			function (array $values) {
+			function (array $values) : bool{
 				$previousType = '';
 				$previousValue = null;
 

@@ -202,7 +202,7 @@ class Factory {
 	 * 
 	 * @return Constraints\IsArrayOfSameType
 	 */
-	public function isArrayOfSameType() {
+	public function isArrayOfSameType() : Constraints\IsArrayOfSameType {
 		return new Constraints\IsArrayOfSameType($this->data_factory, $this->lng);
 	}
 }
