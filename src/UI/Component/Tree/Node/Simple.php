@@ -6,6 +6,9 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Tree\Node;
 
 /**
- * This describes the simplest of all Tree Nodes
+ * This describes a very basic Tree Node.
  */
-interface Simple extends Node {}
+interface Simple extends Node, AsyncNode
+{
+
+}

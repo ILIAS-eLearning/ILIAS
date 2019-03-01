@@ -12,4 +12,25 @@ use ILIAS\UI\Component\Tree\Node\Simple as ISimple;
  */
 class Simple extends Node implements ISimple
 {
+	/**
+	 * @var string
+	 */
+	protected $asynch_url = '';
+
+	public function getAsyncLoading(): bool
+	{
+		return $this->getAsyncURL() != '';
+	}
+
+	public function withAsyncURL(string $url): ISimple
+	{
+		$clone = clone $this;
+		$clone->asynch_url = $url;
+		return $clone;
+	}
+
+	public function getAsyncURL(): string
+	{
+		return $this->asynch_url;
+	}
 }

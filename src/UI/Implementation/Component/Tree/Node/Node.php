@@ -22,16 +22,6 @@ abstract class Node implements INode
 	use Triggerer;
 
 	/**
-	 * @var SignalGeneratorInterface
-	 */
-	protected $signal_generator;
-
-	/**
-	 * @var Signal
-	 */
-	protected $toggle_signal;
-
-	/**
 	 * @var string
 	 */
 	protected $label;
@@ -42,30 +32,21 @@ abstract class Node implements INode
 	protected $expanded = false;
 
 	/**
-	 * @var bool
-	 */
-	protected $asynch = false;
-
-	/**
-	 * @var string
-	 */
-	protected $asynch_url = '';
-
-	/**
 	 * @var Node[]
 	 */
 	protected $subnodes = [];
 
-
-	public function __construct(SignalGeneratorInterface $signal_generator, string $label)
+	public function getLabel(): string
 	{
-		$this->signal_generator = $signal_generator;
-		$this->label = $label;
-
-		$this->initSignals();
+		return $this->label;
 	}
 
-	public function withAdditionalSubnode(INode $node)
+	public function __construct(string $label)
+	{
+		$this->label = $label;
+	}
+
+	public function withAdditionalSubnode(INode $node): INode
 	{
 		$this->subnodes[] = $node;
 		return $this;
@@ -74,11 +55,6 @@ abstract class Node implements INode
 	public function getSubnodes(): array
 	{
 		return $this->subnodes;
-	}
-
-	public function getLabel(): string
-	{
-		return $this->label;
 	}
 
 	public function withExpanded(bool $expanded): INode
@@ -93,51 +69,20 @@ abstract class Node implements INode
 		return $this->expanded;
 	}
 
-	public function hasAsyncLoading(): bool
-	{
-		return $this->asynch;
-	}
-
-	public function withAsyncURL(string $url): INode
-	{
-		$clone = clone $this;
-		$clone->asynch = true;
-		$clone->asynch_url = $url;
-		return $clone;
-	}
-
-	public function getAsyncURL(): string
-	{
-		return $this->asynch_url;
-	}
-
+	/**
+	 * @inhertidoc
+	 */
 	public function withOnClick(Signal $signal)
 	{
 		return $this->withTriggeredSignal($signal, 'click');
 	}
 
+	/**
+	 * @inhertidoc
+	 */
 	public function appendOnClick(Signal $signal)
 	{
 		return $this->appendTriggeredSignal($signal, 'click');
-	}
-
-	protected function initSignals()
-	{
-		$this->toggle_signal = $this->signal_generator->create();
-	}
-	/**
-	 * @inheritdoc
-	 */
-	public function withResetSignals(): INode
-	{
-		$clone = clone $this;
-		$clone->initSignals();
-		return $clone;
-	}
-
-	public function getToggleSignal(): Signal
-	{
-		return $this->toggle_signal;
 	}
 
 }

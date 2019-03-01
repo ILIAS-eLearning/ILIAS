@@ -22,11 +22,13 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl_name = "tpl.node.html";
 		$tpl = $this->getTemplate($tpl_name, true, true);
 
-		$tpl->setVariable("LABEL", $component->getLabel());
-
-		if($component->hasAsyncLoading()) {
+		$async = false;
+		if ($component instanceof Node\AsyncNode && $component->getAsyncLoading()) {
 			$tpl->setVariable("ASYNCURL", $component->getAsyncURL());
+			$async = true;
 		}
+
+		$tpl->setVariable("LABEL", $component->getLabel());
 
 		$triggered_signals = $component->getTriggeredSignals();
 
@@ -39,7 +41,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$subnodes = $component->getSubnodes();
 
-		if(count($subnodes) > 0 || $component->hasAsyncLoading()) {
+		if(count($subnodes) > 0 || $async) {
 			$tpl->touchBlock("expandable");
 			if($component->isExpanded()) {
 				$tpl->touchBlock("expanded");

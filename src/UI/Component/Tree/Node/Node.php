@@ -7,21 +7,36 @@ namespace ILIAS\UI\Component\Tree\Node;
 
 use \ILIAS\UI\Component\Component;
 use \ILIAS\UI\Component\Clickable;
-use \ILIAS\UI\Component\Triggerable;
-use \ILIAS\UI\Component\Signal;
 
 /**
  * This describes a Tree Node
  */
 interface Node extends Component, Clickable
 {
+	/**
+	 * Get the label of this Node.
+	 */
 	public function getLabel(): string;
 
+	/**
+	 * Add a Node under this one.
+	 */
+	public function withAdditionalSubnode(Node $node): Node;
+
+	/**
+	 * Get all Nodes under this one.
+	 * @return Node[]
+	 */
+	public function getSubnodes(): array;
+
+	/**
+	 * Set $expanded to true to have this node expanded on loading.
+	 */
 	public function withExpanded(bool $expanded): Node;
 
+	/**
+	 * Should this Node be expanded on loading?
+	 */
 	public function isExpanded(): bool;
 
-	public function hasAsyncLoading(): bool;
-
-	public function getToggleSignal(): Signal;
 }

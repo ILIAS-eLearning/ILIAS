@@ -354,8 +354,8 @@ class Factory implements \ILIAS\UI\Factory
 	}
 
 	/**
-	* @inheritdoc
-	*/
+	 * @inheritdoc
+	 */
 	public function messageBox()
 	{
 		return $this->messagebox_factory;
