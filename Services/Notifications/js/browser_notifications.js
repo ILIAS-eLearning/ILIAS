@@ -192,6 +192,14 @@
 	 *
 	 * @returns {boolean}
 	 */
+	methods.isGranted = function() {
+		return !methods.needsPermission();
+	};
+
+	/**
+	 *
+	 * @returns {boolean}
+	 */
 	methods.needsPermission = function() {
 		return !(
 			root.Notification &&
@@ -226,7 +234,7 @@
 						case PERMISSION_DEFAULT:
 						case PERMISSION_DENIED:
 						default:
-							reject();
+							reject(permission);
 							break;
 					}
 				}).catch(() => reject());
