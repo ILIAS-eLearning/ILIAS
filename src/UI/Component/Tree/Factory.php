@@ -12,10 +12,8 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *
+	 *     Nodes are entries in a Tree.
 	 *   composition: >
-	 *
-	 *   effect: >
 	 *
 	 * rules:
 	 *   usage:
@@ -32,10 +30,8 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *
+	 *     A Tree presents data in a hierarchically structured form.
 	 *   composition: >
-	 *
-	 *   effect: >
 	 *
 	 * rules:
 	 *   usage:

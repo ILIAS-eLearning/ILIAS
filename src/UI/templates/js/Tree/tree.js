@@ -17,6 +17,7 @@ il.UI = il.UI || {};
 					return false;
 				}
 			);
+
 		};
 
 		var initNodesForAsyncLoading = function (tree) {
@@ -30,12 +31,11 @@ il.UI = il.UI || {};
 						}).done(
 							function(html) {
 								node.attr('data-async_loaded', true);
+
 								if(!html) {
 									node.removeClass('expandable');
 								}
 								$(html).insertAfter($(e.target));
-								var tree_id = $(html).first().attr('id');
-								il.UI.tree.init(tree_id);
 							}
 						);
 					}

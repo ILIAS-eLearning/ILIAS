@@ -28,15 +28,15 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("ASYNCURL", $component->getAsyncURL());
 		}
 
-/*
 		$triggered_signals = $component->getTriggeredSignals();
+
 		if(count($triggered_signals) > 0) {
 			$component = $this->triggerFurtherSignals($component, $triggered_signals);
 		}
 
 		$id = $this->bindJavaScript($component);
 		$tpl->setVariable("ID", $id);
-*/
+
 		$subnodes = $component->getSubnodes();
 
 		if(count($subnodes) > 0 || $component->hasAsyncLoading()) {

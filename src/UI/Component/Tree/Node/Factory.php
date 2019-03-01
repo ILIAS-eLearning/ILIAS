@@ -12,7 +12,7 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *
+	 *     The Simple Nodes is the most basic entry in a Tree.
 	 *   composition: >
 	 *
 	 *   effect: >
