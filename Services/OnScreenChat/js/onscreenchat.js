@@ -486,6 +486,29 @@
 			conversation.action = ACTION_SHOW_CONV;
 			getModule().storage.save(conversation, function() {
 				getModule().addMessage(messageObject, false);
+
+				if (
+					getConfig().enabledBrowserNotifications &&
+					messageObject.hasOwnProperty("uuid") && messageObject.uuid
+				) {
+					/*
+					let t = parseInt(1);
+					let la = conversation.lastActivity;
+					// TODO :Check activity/idle time
+					*/
+
+					if (
+						getModule().user !== undefined &&
+						parseInt(getModule().user.id) !== parseInt(messageObject.userId)
+					) {
+						il.OnScreenChatNotifications.send(
+							messageObject.uuid,
+							il.Language.txt('osc_noti_title'),
+							messageObject.message, // TODO: Maybe handle security etc.
+							getConfig().notificationIconPath
+						);
+					}
+				}
 			});
 		},
 
