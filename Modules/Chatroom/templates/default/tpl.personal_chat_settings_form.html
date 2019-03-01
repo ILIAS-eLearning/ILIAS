@@ -1,16 +1,87 @@
-<script type="text/javascript">
-	(function ($) {
-		$(function () {
-			const callbackUrls = {
-				"noSupport": "{CALLBACK_URL_NO_SUPPORT}",
-				"noPerms": "{CALLBACK_URL_NO_PERMISSION}"
-			};
+<script type="text/javascript" id="pers-chat-settings-js">
+	(function ($, root) {
+		const templates = {
+			modal: '<div class="help-block alert alert-danger"><img src="{ALERT_IMAGE_SRC}" /><span></span></div>'
+		};
 
-			if (!il.BrowserNotifications.isSupported()) {
+		const callbackUrls = {
+			noSupport: "{CALLBACK_URL_NO_SUPPORT}",
+			noPerms: "{CALLBACK_URL_NO_PERMISSION}"
+		};
 
-			} else {
+		/**
+		 *
+		 * @param $parent
+		 * @param {string} languageVariable
+		 */
+		var showErrorMessage = function showErrorMessage($parent, languageVariable) {
+			let $warning = $(templates.modal);
 
-			}
+			$warning.addClass("dynamic");
+			$parent.find(".dynamic").remove();
+			$parent.append($warning);
+			$warning.find("span").html(il.Language.txt(languageVariable));
+		};
+		
+		var deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
+			$elm.prop("disabled", true);
+			$elm.prop("checked", false);
+        } ;
+
+		il.Util.addOnLoad(function () {
+			// Nesting the addOnLoad code is required because otherwise we cannot use il.Language.txt
+			il.Util.addOnLoad(function () {
+				let $form = $("#pers-chat-settings-js").parent().find("form:first"),
+					$checkboxes = $form.find('input[type="checkbox"]'),
+					$notificationToggle = null;
+
+				// Very fucked up!!!
+				if (3 === $checkboxes.size()) {
+					$notificationToggle = $checkboxes.eq(1);
+				} else if (2 === $checkboxes.size()) {
+					if ($.contains($checkboxes.eq(0).parent().get(0), $checkboxes.eq(1).get(0))) {
+						$notificationToggle = $checkboxes.eq(1);
+					}
+				}
+
+				if (null !== $notificationToggle) {
+					let $container = $notificationToggle.parent();
+
+					root.setInterval(() => {
+						if (il.BrowserNotifications.isSupported()) {
+							if (il.BrowserNotifications.isBlocked()) {
+								$notificationToggle.prop("disabled", true);
+							} else {
+								$notificationToggle.prop("disabled", false);
+							}
+						}
+					}, 1000);
+
+					if (!il.BrowserNotifications.isSupported()) {
+						showErrorMessage($container, 'osc_browser_noti_no_support_error');
+						deselectAndLockCheckbox($notificationToggle);
+					} else if (il.BrowserNotifications.isBlocked()) {
+						showErrorMessage($container, 'osc_browser_noti_no_permission_error');
+						deselectAndLockCheckbox($notificationToggle);
+					}
+
+					$notificationToggle.on("change", function () {
+						let $elm = $(this),
+							currentValue = $elm.is(":checked");
+
+						if (currentValue) {
+							il.BrowserNotifications.requestPermission().then(() => {
+								$elm.prop("disabled", false);
+							}).catch(() => {
+								if (!il.BrowserNotifications.isGranted()) {
+									showErrorMessage($container, 'osc_browser_noti_req_permission_error');
+									deselectAndLockCheckbox($notificationToggle);
+								}
+							});
+						}
+					});
+				}
+			});
 		});
-	})(jQuery);
+	})(jQuery, window);
 </script>

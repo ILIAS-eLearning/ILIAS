@@ -235,10 +235,12 @@ class ilPersonalChatSettingsFormGUI
 				'CALLBACK_URL_NO_PERMISSION',
 				$this->ctrl->getLinkTarget($this, 'deactivateBlockedBrowserNotifications')
 			);
+			$tpl->setVariable('ALERT_IMAGE_SRC', \ilUtil::getImagePath('icon_alert.svg'));
 
 			$this->lng->toJSMap([
 				'osc_browser_noti_no_permission_error' => $this->lng->txt('osc_browser_noti_no_permission_error'),
 				'osc_browser_noti_no_support_error' => $this->lng->txt('osc_browser_noti_no_support_error'),
+				'osc_browser_noti_req_permission_error' => $this->lng->txt('osc_browser_noti_req_permission_error'),
 			], $this->mainTpl);
 		}
 
