@@ -11,7 +11,7 @@ il.UI = il.UI || {};
 		};
 
 		var initNodesForExpansion = function (tree) {
-			tree.find('.il-tree-node > span').click(
+			tree.find('.il-tree-node .node-line').click(
 				function(e){
 					$(this).parent('.il-tree-node').toggleClass('expanded');
 					return false;
@@ -21,9 +21,10 @@ il.UI = il.UI || {};
 		};
 
 		var initNodesForAsyncLoading = function (tree) {
-			tree.find(".il-tree-node[data-async_url][data-async_loaded='false'] > span").click(
+			tree.find(".il-tree-node[data-async_url][data-async_loaded='false'] .node-line").click(
 				function(e){
-					var node = $(e.target).parent('.il-tree-node');
+					var node = $(e.currentTarget).parent('.il-tree-node');
+
 					if(node.attr('data-async_loaded') == 'false') {
 						$.ajax({
 							url: node.attr('data-async_url'),
@@ -35,7 +36,7 @@ il.UI = il.UI || {};
 								if(!html) {
 									node.removeClass('expandable');
 								}
-								$(html).insertAfter($(e.target));
+								$(html).insertAfter($(e.currentTarget));
 							}
 						);
 					}

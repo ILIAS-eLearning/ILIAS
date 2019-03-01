@@ -12,13 +12,21 @@
 		display: block;
 	}
 
-	.il-tree-node.expandable > span:before {
-		font-family: 'Glyphicons Halflings';
-		content: "\e250";
-	}
-	.il-tree-node.expandable.expanded > span:before {
-		font-family: 'Glyphicons Halflings';
-		content: "\e252";
+	.il-tree-node.expandable {
+
+		.node-label {
+			padding-left: 2px;
+		}
+
+		> .node-line:before {
+			font-family: 'Glyphicons Halflings';
+			content: "\e250";
+		}
+
+		&.expanded > .node-line:before {
+			font-family: 'Glyphicons Halflings';
+			content: "\e252";
+		}
 	}
 }
 
