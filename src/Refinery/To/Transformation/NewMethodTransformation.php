@@ -67,6 +67,8 @@ class NewMethodTransformation implements Transformation
 			$value = $reflectionMethod->invokeArgs($this->instance, $value);
 		} catch (\Exception $exception) {
 			return new Result\Error($exception);
+		} catch (\Error $error) {
+			return new Result\Error($error->getMessage());
 		}
 
 		return new Result\Ok($value);
