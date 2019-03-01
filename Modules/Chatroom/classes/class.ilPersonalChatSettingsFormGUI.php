@@ -237,7 +237,8 @@ class ilPersonalChatSettingsFormGUI
 			);
 
 			$this->lng->toJSMap([
-				'osc_browser_noti_no_permission_error' => $this->lng->txt('osc_browser_noti_no_permission_error')
+				'osc_browser_noti_no_permission_error' => $this->lng->txt('osc_browser_noti_no_permission_error'),
+				'osc_browser_noti_no_support_error' => $this->lng->txt('osc_browser_noti_no_support_error'),
 			], $this->mainTpl);
 		}
 
