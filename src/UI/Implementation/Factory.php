@@ -132,7 +132,8 @@ class Factory implements \ILIAS\UI\Factory
 		C\Input\Factory $input_factory,
 		C\Table\Factory $table_factory,
 		C\MessageBox\Factory $messagebox_factory,
-		C\Card\Factory $card_factory
+		C\Card\Factory $card_factory,
+		C\Drilldown\Factory $drilldown_factory
 	) {
 		$this->counter_factory = $counter_factory;
 		$this->glyph_factory = $glyph_factory;
@@ -154,6 +155,7 @@ class Factory implements \ILIAS\UI\Factory
 		$this->table_factory = $table_factory;
 		$this->messagebox_factory = $messagebox_factory;
 		$this->card_factory = $card_factory;
+		$this->drilldown_factory = $drilldown_factory;
 	}
 
 	/**
@@ -337,6 +339,15 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function messageBox()
 	{
-        return $this->messagebox_factory;
+		return $this->messagebox_factory;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function drilldown()
+	{
+		return $this->drilldown_factory;
+	}
+
 }

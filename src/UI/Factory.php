@@ -760,4 +760,25 @@ interface Factory {
 	 */
 	public function messageBox();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Drilldown
+	 *   composition: >
+	 *     Drilldown
+	 *   effect: >
+	 *     Drilldown
+	 *
+	 * rules:
+	 *   interaction:
+	 *      1: >
+	 *          X
+	 *      2: >
+	 *          X
+	 * ---
+	 * @return  \ILIAS\UI\Component\Drilldown\Factory
+	 */
+	public function drilldown();
+
 }
