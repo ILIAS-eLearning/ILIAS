@@ -9,7 +9,7 @@
 		 * @param $parent
 		 * @param {string} languageVariable
 		 */
-		var showErrorMessage = function showErrorMessage($parent, languageVariable) {
+		let showErrorMessage = function showErrorMessage($parent, languageVariable) {
 			let $warning = $(templates.modal);
 
 			$warning.addClass("dynamic");
@@ -17,8 +17,8 @@
 			$parent.append($warning);
 			$warning.find("span").html(il.Language.txt(languageVariable));
 		};
-		
-		var deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
+
+		let deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
 			$elm.prop("disabled", true);
 			$elm.prop("checked", false);
         } ;
