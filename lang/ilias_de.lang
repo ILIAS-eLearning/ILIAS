@@ -14,7 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
+chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Konversationen oder Chat-Nachrichten eine Browser-Benachrichtigung, sofern ILIAS im Hintergrund läuft und Sie zum Beispiel in einem anderen Browser-Tab aktiv sind. Für neue Nachrichten einer Konversation erhalten Sie nur dann eine Browser-Benachrichtigung, wenn zwischen zwei Nachrichten mehr als %s Minute(n) vergehen.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser-Benachrichtigungen werden mit Ihrem aktuellem Browser nicht unterstützt. Bitte stellen Sie sicher, dass Sie via HTTPS auf ILIAS zugreifen, und Ihr Browser als <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">unterstützter Browser</a> aufgelistet wird.
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
