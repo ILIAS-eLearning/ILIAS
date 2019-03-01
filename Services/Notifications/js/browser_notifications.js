@@ -173,14 +173,6 @@
 			return false;
 		}
 
-		try {
-			new root.Notification("");
-		} catch (e) {
-			if (e.name === "TypeError") {
-				return false;
-			}
-		}
-
 		return true;
 	};
 
