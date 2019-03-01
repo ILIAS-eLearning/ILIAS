@@ -43,7 +43,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \ilException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
 	{
