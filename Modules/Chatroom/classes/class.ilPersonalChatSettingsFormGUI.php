@@ -186,6 +186,8 @@ class ilPersonalChatSettingsFormGUI
 				$fields[self::PROP_ENABLE_OSC] = $enabledOsc->withDependantGroup(
 					$fieldFactory->dependantGroup($oscSubFormGroup)
 				);
+			} else {
+				$fields[self::PROP_ENABLE_OSC] = $enabledOsc;
 			}
 		}
 
@@ -202,7 +204,9 @@ class ilPersonalChatSettingsFormGUI
 			[
 				$fieldFactory->section($fields, $this->lng->txt('chat_settings'), '')
 			]
-		);
+		)->withAdditionalTransformation($this->transformationFactory->custom(function($values) {
+			return call_user_func_array("array_merge", $values);
+		}));
 	}
 
 	/**
@@ -253,10 +257,10 @@ class ilPersonalChatSettingsFormGUI
 			$this->ctrl->returnToParent($this);
 		}
 
-		$form = $this->buildForm()->withRequest($this->httpRequest);
+		$form =  $this->buildForm();
 
 		if ('POST' === $this->httpRequest->getMethod()) {
-			$form = $form->withRequest($this->httpRequest);
+			$form =  $form->withRequest($this->httpRequest);
 
 			$formData = $form->getData();
 			$update_possible = !is_null($formData);
@@ -271,33 +275,62 @@ class ilPersonalChatSettingsFormGUI
 	
 	private function saveFormData(array $formData)
 	{
-		$playASound = $formData[0][self::PROP_ENABLE_SOUND];
-		$enableOsc = $formData[0][self::PROP_ENABLE_OSC]['value'];
-		$sendBrowserNotifications = $formData[0][self::PROP_ENABLE_OSC]['group_values']['dependant_group'][self::PROP_ENABLE_BROWSER_NOTIFICATIONS];
+		$preferencesUpdated = false;
 
 		if ($this->shouldShowNotificationOptions()) {
-			$this->user->setPref('chat_play_invitation_sound', (int)$playASound);
+			$oldPlaySoundValue = (int)$this->user->getPref('chat_play_invitation_sound');
+			$playASound = (int)($formData[self::PROP_ENABLE_SOUND] ?? 0);
+
+			if ($oldPlaySoundValue !== $playASound) {
+				$this->user->setPref('chat_play_invitation_sound', $playASound);
+				$preferencesUpdated = true;
+			}
 		}
 
 		if ($this->shouldShowOnScreenChatOptions()) {
+			$oldEnableOscValue = \ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'));
+			$enableOsc = $formData[self::PROP_ENABLE_OSC] ?? null;
+			if (!is_bool($enableOsc)) {
+				if (is_array($enableOsc)) {
+					$enableOsc = (bool)($formData[self::PROP_ENABLE_OSC]['value'] ?? false);
+				} else {
+					$enableOsc = (bool)($formData[self::PROP_ENABLE_OSC]['value'] ?? $oldEnableOscValue);
+				}
+			}
+
 			if (!(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)) {
-				$this->user->setPref('chat_osc_accept_msg', \ilUtil::tf2yn($enableOsc));
+				$preferencesUpdated = true;
+				if ($oldEnableOscValue !== $enableOsc) {
+					$this->user->setPref('chat_osc_accept_msg', \ilUtil::tf2yn($enableOsc));
+					$preferencesUpdated = true;
+				}
 			}
 
 			if ($this->chatSettings->get('enable_browser_notifications', false) && $enableOsc) {
-				$this->user->setPref('chat_osc_browser_notifications', \ilUtil::tf2yn($sendBrowserNotifications));
+				$oldBrowserNotificationValue = \ilUtil::yn2tf($this->user->getPref('chat_osc_browser_notifications'));
+				$sendBrowserNotifications = (bool)(
+					$formData[self::PROP_ENABLE_OSC]['group_values']['dependant_group'][self::PROP_ENABLE_BROWSER_NOTIFICATIONS]
+					?? $oldBrowserNotificationValue
+				);
+
+				if ($oldBrowserNotificationValue !== $sendBrowserNotifications) {
+					$this->user->setPref('chat_osc_browser_notifications', \ilUtil::tf2yn($sendBrowserNotifications));
+					$preferencesUpdated = true;
+				}
 			}
 		}
 
-		$this->user->writePrefs();
+		if ($preferencesUpdated) {
+			$this->user->writePrefs();
 
-		$this->event->raise(
-			'Services/User',
-			'chatSettingsChanged',
-			[
-				'user' => $this->user
-			]
-		);
+			$this->event->raise(
+				'Services/User',
+				'chatSettingsChanged',
+				[
+					'user' => $this->user
+				]
+			);
+		}
 
 		\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		$this->ctrl->redirect($this);
