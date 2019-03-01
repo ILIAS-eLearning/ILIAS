@@ -411,7 +411,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				|| strtolower($_GET['baseClass']) == 'ilrepositorygui') 
 			&& $this->getCreationMode() != true)
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	

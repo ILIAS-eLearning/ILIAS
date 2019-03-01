@@ -10,11 +10,11 @@ namespace ILIAS\UI\Implementation\Render;
  */
 class ilResourceRegistry implements ResourceRegistry {
 	/**
-	 * @var	ilTemplate
+	 * @var	ilGlobalTemplate
 	 */
 	protected $il_template;
 
-	public function __construct(\ilTemplate	$il_template) {
+	public function __construct(\ilGlobalTemplate $il_template) {
 		$this->il_template = $il_template;
 	}
 

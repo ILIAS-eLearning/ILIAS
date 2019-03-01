@@ -31,7 +31,7 @@ class ilObjLearningSequenceLearnerGUI
 		int $current_item,
 		ilCtrl $ctrl,
 		ilLanguage $lng,
-		ilTemplate $tpl,
+		ilGlobalTemplate $tpl,
 		ilToolbarGUI $toolbar,
 		ILIAS\UI\Factory $ui_factory,
 		ILIAS\UI\Renderer $ui_renderer

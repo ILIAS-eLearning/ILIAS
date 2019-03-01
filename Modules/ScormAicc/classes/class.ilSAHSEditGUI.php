@@ -135,7 +135,7 @@ class ilSAHSEditGUI
 			die ("ilSAHSEdit: Class $next_class not found.");;
 		}
 		
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 }
 ?>

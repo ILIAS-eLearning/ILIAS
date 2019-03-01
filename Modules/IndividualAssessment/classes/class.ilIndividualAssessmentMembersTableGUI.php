@@ -123,9 +123,15 @@ class ilIndividualAssessmentMembersTableGUI {
 			return [];
 		}
 
+		$changer = array();
+		if (!is_null($record->changerId())) {
+			$changer = $this->getChangerText((int)$record->changerId());
+		}
+
 		return array_merge(
 			$this->getGradedInformations($record->eventTime()),
-			$this->getExaminerLogin($this->getExaminerId($record))
+			$this->getExaminerLogin($this->getExaminerId($record)),
+			$changer
 		);
 	}
 
@@ -261,6 +267,16 @@ class ilIndividualAssessmentMembersTableGUI {
 
 		return array(
 			$this->txt("iass_graded_by").": " => ilObjUser::_lookupLogin($examiner_id)
+		);
+	}
+
+	/**
+	 * Returns changer, if exists.
+	 */
+	protected function getChangerText(int $changer_id): array
+	{
+		return array(
+			$this->txt("iass_changed_last_by").": " => ilObjUser::_lookupLogin($changer_id)
 		);
 	}
 
@@ -455,6 +471,14 @@ class ilIndividualAssessmentMembersTableGUI {
 	}
 
 	/**
+	 * User may download attachment
+	 */
+	protected function userMayDownloadAttachment(int $usr_id): bool
+	{
+		return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
+	}
+
+	/**
 	 * User may view grades
 	 */
 	protected function userMayViewGrades(): bool
@@ -505,9 +529,9 @@ class ilIndividualAssessmentMembersTableGUI {
 	/**
 	 * Check the set was edited by viewing user
 	 */
-	protected function wasEditedByViewer(int $examiner_id): bool
+	protected function wasEditedByViewer(int $examiner_id = null): bool
 	{
-		return $examiner_id === $this->current_user_id || 0 === $examiner_id;
+		return $examiner_id === $this->current_user_id || null === $examiner_id;
 	}
 
 	protected function txt(string $code): string

@@ -2,6 +2,8 @@
 
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerFactory;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 
 /**
  * Class IdentificationFactory
@@ -32,6 +34,10 @@ use ILIAS\GlobalScreen\Identification\Serializer\SerializerFactory;
 class IdentificationFactory {
 
 	/**
+	 * @var ProviderFactory|ProviderFactoryInterface
+	 */
+	protected $provider_factory;
+	/**
 	 * @var SerializerFactory
 	 */
 	protected $serializer_factory;
@@ -44,9 +50,10 @@ class IdentificationFactory {
 	/**
 	 * IdentificationFactory constructor.
 	 */
-	public final function __construct() {
+	public final function __construct(ProviderFactoryInterface $provider_factory = null) {
 		$this->serializer_factory = new SerializerFactory();
 		$this->map = new IdentificationMap();
+		$this->provider_factory = $provider_factory ? $provider_factory : new ProviderFactory();
 	}
 
 
@@ -92,7 +99,7 @@ class IdentificationFactory {
 			return $this->map->getFromMap($serialized_string);
 		}
 
-		return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string, $this->map);
+		return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string, $this->map, $this->provider_factory);
 	}
 }
 

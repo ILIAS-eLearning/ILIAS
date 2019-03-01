@@ -34,7 +34,7 @@ class ilSurveyPageGUI
 	protected $tabs;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $tpl;
 

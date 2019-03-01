@@ -17,7 +17,7 @@ class ilMailFolderGUI
 	/** @var bool */
 	private $errorDelete = false;
 
-	/** @var \ilTemplate */
+	/** @var \ilGlobalTemplate */
 	private $tpl;
 
 	/** @var \ilCtrl */
@@ -149,7 +149,7 @@ class ilMailFolderGUI
 				if ($ret != '') {
 					$this->tpl->setContent($ret);
 				}
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			default:
@@ -206,7 +206,7 @@ class ilMailFolderGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail'));
 		$this->tpl->setContent($this->ctrl->getHTML($profile_gui));
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -354,7 +354,7 @@ class ilMailFolderGUI
 		}
 
 		$this->tpl->setVariable('MAIL_TABLE', $table_html);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -455,7 +455,7 @@ class ilMailFolderGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail'));
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -500,7 +500,7 @@ class ilMailFolderGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail'));
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -894,7 +894,7 @@ class ilMailFolderGUI
 		}
 
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -902,8 +902,7 @@ class ilMailFolderGUI
 	 */
 	public function printMail()
 	{
-		$tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
-		$tplprint->setVariable('JSPATH', $this->tpl->tplPath);
+		$tplprint = new ilGlobalTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
 
 		$mailData = $this->umail->getMail((int)($this->httpRequest->getQueryParams()['mail_id'] ?? 0));
 
@@ -947,7 +946,7 @@ class ilMailFolderGUI
 		$tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
 		$tplprint->setVariable('MAIL_MESSAGE', nl2br(htmlspecialchars($mailData['m_message'])));
 
-		$tplprint->show();
+		$tplprint->printToStdout();
 	}
 
 	protected function deliverFile()

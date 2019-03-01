@@ -311,7 +311,7 @@ class ilObjectGUI
 		$tpl = $this->tpl;
 		$ilUser = $this->user;
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		// administration prepare output
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{

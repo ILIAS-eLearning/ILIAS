@@ -371,7 +371,7 @@ class ilObjStudyProgrammeTreeGUI {
 			 * AND creating crs references is activated in administration
 			 */
 			if(!$parent->hasChildren() && $this->ilSetting->get("obj_dis_creation_crsr") === "") {
-				$content_new_leaf = $this->tpl->getMessageHTML($this->lng->txt('prg_please_select_a_course_for_creating_a_leaf'));
+				$content_new_leaf = ilUtil::getSystemMessageHTML($this->lng->txt('prg_please_select_a_course_for_creating_a_leaf'));
 				$content_new_leaf .= $this->getContainerSelectionExplorer();
 
 				$accordion->addItem($this->lng->txt('prg_create_new_leaf'), $content_new_leaf);

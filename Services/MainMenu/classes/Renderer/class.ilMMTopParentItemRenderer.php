@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Collector\MainMenu\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
+use ILIAS\GlobalScreen\MainMenu\hasContent;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ILIAS\GlobalScreen\MainMenu\isItem;
 use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
@@ -33,6 +34,9 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 		foreach ($item->getChildren() as $child) {
 			$i = $child->getProviderIdentification()->getInternalIdentifier();
 			switch (true) {
+				case ($child instanceof hasContent && $child->getAsyncContentURL() === ''):
+					$this->handleContent($child, $gl);
+					break;
 				case ($child instanceof hasAsyncContent):
 					$this->handleAsyncContent($child, $gl);
 					break;
@@ -107,6 +111,21 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 		$atpl->setVariable("ASYNC_URL", $child->getAsyncContentURL());
 		$gl->addEntry(
 			$atpl->get(), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+		);
+	}
+
+
+	/**
+	 * @param $child
+	 * @param $gl
+	 *
+	 * @throws ilTemplateException
+	 */
+	private function handleContent(hasContent $child, $gl) {
+		global $DIC;
+		$identifier = $child->getProviderIdentification()->getInternalIdentifier();
+		$gl->addEntry(
+			$DIC->ui()->renderer()->render($child->getContent()), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
 		);
 	}
 

@@ -203,7 +203,7 @@ trait ComponentHelper {
 	 * @throws	\InvalidArgumentException	if any element is not an instance of $classes
 	 * @return	null
 	 */
-	protected function checkArgListElements($which, array &$values, &$classes) {
+	protected function checkArgListElements($which, array &$values, $classes) {
 		$classes = $this->toArray($classes);
 		$this->checkArgList
 			( $which

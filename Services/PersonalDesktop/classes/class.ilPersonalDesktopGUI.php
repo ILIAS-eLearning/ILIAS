@@ -192,7 +192,7 @@ class ilPersonalDesktopGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
 				$cal = new ilCalendarPresentationGUI();
 				$ret = $this->ctrl->forwardCommand($cal);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 			
 				// pd notes
@@ -250,7 +250,7 @@ class ilPersonalDesktopGUI
 				include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
 				$wsgui = new ilPersonalWorkspaceGUI();
 				$ret = $this->ctrl->forwardCommand($wsgui);								
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 			
 			case 'ilportfoliorepositorygui':
@@ -259,7 +259,7 @@ class ilPersonalDesktopGUI
 				include_once 'Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php';
 				$pfgui = new ilPortfolioRepositoryGUI();
 				$ret = $this->ctrl->forwardCommand($pfgui);				
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case 'ilachievementsgui':
@@ -281,7 +281,7 @@ class ilPersonalDesktopGUI
 				include_once './Modules/Group/UserActions/classes/class.ilGroupUserActionsGUI.php';
 				$ggui = new ilGroupUserActionsGUI();
 				$ret = $this->ctrl->forwardCommand($ggui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 			case 'redirect':
 				$this->redirect();
@@ -303,7 +303,7 @@ class ilPersonalDesktopGUI
 	*/
 	function getStandardTemplates()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 	}
 	
 	/**
@@ -354,7 +354,7 @@ class ilPersonalDesktopGUI
 			$tpl->setHeaderActionMenu($htpl->get());
 		}
 		
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	
@@ -512,7 +512,7 @@ class ilPersonalDesktopGUI
 	{
 		// add template for content
 		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 				
 		// display infopanel if something happened
 		ilUtil::infoPanel();

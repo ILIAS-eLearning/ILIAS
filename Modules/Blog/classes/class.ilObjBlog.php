@@ -806,7 +806,7 @@ class ilObjBlog extends ilObject2
 		$feed->setChannelLink($url);
 		
 		// needed for blogpostinggui / pagegui
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");					
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");			

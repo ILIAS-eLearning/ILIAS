@@ -59,6 +59,16 @@ class ilObjLearningSequence extends ilContainer
 	 */
 	protected $settings_db;
 
+	/*
+	 * @var ilLearningSequenceSettingsDB
+	 */
+	protected $activation_db;
+
+	/*
+	 * @var ilLearningSequenceActivation
+	 */
+	protected $ls_activation;
+
 	/**
 	 * @var LSItemOnlineStatus
 	 */
@@ -99,7 +109,10 @@ class ilObjLearningSequence extends ilContainer
 
 	public function read()
 	{
-		$this->ls_settings = $this->getLSSettings((int)$this->getId());
+		$this->getLSSettings();
+		if($this->getRefId()) {
+			$this->getLSActivation();
+		}
 		parent::read();
 	}
 
@@ -121,10 +134,6 @@ class ilObjLearningSequence extends ilContainer
 		}
 		$this->raiseEvent(self::E_UPDATE);
 
-		if ($this->getLSSettings()->getIsOnline()) {
-			$this->announceLSOOnline();
-		}
-
 		return true;
 	}
 
@@ -137,6 +146,7 @@ class ilObjLearningSequence extends ilContainer
 		ilLearningSequenceParticipants::_deleteAllEntries($this->getId());
 		$this->getSettingsDB()->delete((int)$this->getId());
 		$this->getStateDB()->deleteFor((int)$this->getRefId());
+		$this->getActivationDB()->deleteForRefId((int)$this->getRefId());
 
 		$this->raiseEvent(self::E_DELETE);
 
@@ -174,7 +184,7 @@ class ilObjLearningSequence extends ilContainer
 	{
 		$admin = $this->getDefaultAdminRole();
 		$new_admin = $new_obj->getDefaultAdminRole();
-		
+
 		if(!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId()) {
 			$this->log->write(__METHOD__.' : Error cloning auto generated role: il_lso_admin');
 		}
@@ -234,6 +244,31 @@ class ilObjLearningSequence extends ilContainer
 			);
 		}
 		return $this->settings_db;
+	}
+
+	protected function getActivationDB(): ilLearningSequenceActivationDB
+	{
+		if (!$this->activation_db) {
+			$this->activation_db = new ilLearningSequenceActivationDB(
+				$this->database
+			);
+		}
+		return $this->activation_db;
+	}
+
+	public function getLSActivation(): ilLearningSequenceActivation
+	{
+		if (!$this->ls_activation) {
+			$this->ls_activation = $this->getActivationDB()->getActivationForRefId((int)$this->getRefId());
+		}
+
+		return $this->ls_activation;
+	}
+
+	public function updateActivation(ilLearningSequenceActivation $settings)
+	{
+		$this->getActivationDB()->store($settings);
+		$this->ls_activation = $settings;
 	}
 
 	public function getLSFileSystem()
@@ -593,6 +628,7 @@ class ilObjLearningSequence extends ilContainer
 
 	public function isCompletedByUser(int $usr_id): bool
 	{
+		\ilLPStatusWrapper::_updateStatus($this->getId(), $usr_id);
 		$tracking_active = ilObjUserTracking::_enabledLearningProgress();
 		$user_completion = ilLPStatus::_hasUserCompleted($this->getId(), $usr_id);
 		return ($tracking_active && $user_completion);
@@ -613,7 +649,7 @@ class ilObjLearningSequence extends ilContainer
 		return $this->access->checkAccess('participate', '', $this->getRefId());
 	}
 
-	protected function announceLSOOnline()
+	public function announceLSOOnline()
 	{
 		$ns = $this->il_news;
 		$context = $ns->contextForRefId((int)$this->getRefId());
@@ -624,6 +660,15 @@ class ilObjLearningSequence extends ilContainer
 		$item->setContent("lso_news_online_txt");
 		$news_id = $ns->data()->save($item);
 	}
+	public function announceLSOOffline(){
+		//NYI
+	}
+
+	public function setEffectiveOnlineStatus(bool $status) {
+		$act_db = $this->getActivationDB();
+		$act_db->setEffectiveOnlineStatus((int)$this->getRefId(), $status);
+	}
+
 
 
 	/***************************************************************************
@@ -693,6 +738,16 @@ class ilObjLearningSequence extends ilContainer
 	public function readMemberData(array $user_ids, array $columns = null)
 	{
 		return $this->getLsRoles()->readMemberData($user_ids, $columns);
+	}
+
+	public function getParentObjectInfo(int $ref_id, array $search_types)
+	{
+		foreach($this->tree->getPathFull($ref_id) as $hop) {
+			if(in_array($hop['type'], $search_types)) {
+				return $hop;
+			}
+		}
+		return null;
 	}
 
 }

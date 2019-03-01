@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
 use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
@@ -319,27 +320,36 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 *
 	 * @param string $type
 	 *
-	 * @return \ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler
+	 * @return TypeHandler
 	 */
-	public function getTypeHandlerForType(string $type): \ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler {
+	public function getTypeHandlerForType(string $type): TypeHandler {
 		$item = $this->services->mainmenu()->custom($type, new NullIdentification());
 
 		return $this->main_collector->getHandlerForItem($item);
 	}
 
 
+	/**
+	 * @param ilMMItemFacadeInterface $item_facade
+	 */
 	public function updateItem(ilMMItemFacadeInterface $item_facade) {
 		$item_facade->update();
 		$this->storage->cache()->flush();
 	}
 
 
+	/**
+	 * @param ilMMItemFacadeInterface $item_facade
+	 */
 	public function createItem(ilMMItemFacadeInterface $item_facade) {
 		$item_facade->create();
 		$this->storage->cache()->flush();
 	}
 
 
+	/**
+	 * @param ilMMItemFacadeInterface $item_facade
+	 */
 	public function deleteItem(ilMMItemFacadeInterface $item_facade) {
 		if ($item_facade->isCustom()) {
 			$item_facade->delete();

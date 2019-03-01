@@ -120,6 +120,11 @@ class ilTestPassesSelector
 	{
 		return count($this->getExistingPasses());
 	}
+	
+	public function openPassExists()
+	{
+		return count($this->getExistingPasses()) > count($this->getClosedPasses());
+	}
 
 	public function getClosedPasses()
 	{

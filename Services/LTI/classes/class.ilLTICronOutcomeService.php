@@ -85,7 +85,7 @@ class ilLTICronOutcomeService extends ilCronJob
 		{
 			$last_ts = time() - 24 * 7 * 3600;
 		}
-		$since = new ilDateTime($last_ts);
+		$since = new ilDateTime($last_ts,IL_CAL_UNIX);
 
 
 		$result = new \ilCronJobResult();

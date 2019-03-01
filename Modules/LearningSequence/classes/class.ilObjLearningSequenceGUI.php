@@ -102,7 +102,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->lng = $DIC['lng'];
-		$this->template = $DIC['tpl'];
 		$this->user = $DIC['ilUser'];
 		$this->tabs = $DIC['ilTabs'];
 		$this->toolbar = $DIC['ilToolbar'];
@@ -117,6 +116,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->navigation_history = $DIC['ilNavigationHistory'];
 		$this->obj_definition = $DIC['objDefinition'];
 		$this->tpl = $DIC["tpl"];
+		$this->obj_service = $DIC->object();
+		$this->toolbar = $DIC['ilToolbar'];
 
 		$this->help->setScreenIdComponent($this->obj_type);
 		$this->lng->loadLanguageModule($this->obj_type);
@@ -295,7 +296,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->getObject(),
 			$this->ctrl,
 			$this->lng,
-			$this->template
+			$this->tpl,
+			$this->obj_service
 		);
 		$this->ctrl->setCmd($cmd);
 		$this->ctrl->forwardCommand($gui);
@@ -384,7 +386,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->ctrl,
 			$this->access,
 			$this->rbac_review,
-			$this->settings
+			$this->settings,
+			$this->toolbar
 		);
 
 		$this->ctrl->setCmd($cmd);
@@ -451,6 +454,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$participant->add($this->user->getId(),IL_LSO_ADMIN);
 		$participant->updateNotification($this->user->getId(),$this->settings->get('mail_lso_admin_notification', true));
 
+
+		$settings = new \ilContainerSortingSettings($new_object->getId());
+		$settings->setSortMode(\ilContainer::SORT_MANUAL);
+		$settings->setSortDirection(\ilContainer::SORT_DIRECTION_ASC);
+		$settings->setSortNewItemsOrder(\ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
+		$settings->setSortNewItemsPosition(\ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
+		$settings->save();
+
 		ilUtil::sendSuccess($this->lng->txt('object_added'), true);
 		$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
 		ilUtil::redirect(
@@ -502,10 +513,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		if ( $this->checkAccess("read")) {
-
-			if ($this->getObject()->getLSSettings()->getMembersGallery()
-				|| $this->checkAccess("edit_members"))
-			{
+			if ($this->checkAccess("edit_members")
+				|| (
+					$this->getObject()->getLSSettings()->getMembersGallery()
+					&&
+					$this->object->isMember((int)$this->user->getId())
+				)
+			){
 				$this->tabs->addTab(
 					self::TAB_MEMBERS
 					, $this->lng->txt(self::TAB_MEMBERS)

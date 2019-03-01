@@ -199,7 +199,7 @@ class ilPersonalSettingsGUI
 			$this->initPasswordForm();
 		}
 		$this->tpl->setContent(!$hide_form ? $this->form->getHTML() : '');
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -464,7 +464,7 @@ class ilPersonalSettingsGUI
 			$this->initGeneralSettingsForm();
 		}
 		$this->tpl->setContent($this->form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -940,7 +940,7 @@ class ilPersonalSettingsGUI
 		$ilToolbar->addButton($this->lng->txt('btn_next'),
 			$this->ctrl->getLinkTarget($this, 'deleteOwnAccount2'));
 		
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -971,7 +971,7 @@ class ilPersonalSettingsGUI
 		$cgui->setCancel($this->lng->txt("cancel"), "abortDeleteOwnAccount");
 		$cgui->setConfirm($this->lng->txt("user_delete_own_account_logout_button"), "deleteOwnAccountLogout");		
 		$this->tpl->setContent($cgui->getHTML());			
-		$this->tpl->show();	
+		$this->tpl->printToStdout();	
 	}
 	
 	protected function abortDeleteOwnAccount()
@@ -1033,7 +1033,7 @@ class ilPersonalSettingsGUI
 		$cgui->setCancel($this->lng->txt("cancel"), "abortDeleteOwnAccount");
 		$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount4");		
 		$this->tpl->setContent($cgui->getHTML());			
-		$this->tpl->show();	
+		$this->tpl->printToStdout();	
 	}
 	
 	/**
@@ -1084,12 +1084,12 @@ class ilPersonalSettingsGUI
 		// to user, admin as bcc
 		if($user_email)
 		{											
-			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null, true);		
+			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null);
 		}
 		// admin only
 		else if($admin_mail)
 		{
-			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null, true);		
+			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null);
 		}
 		
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");

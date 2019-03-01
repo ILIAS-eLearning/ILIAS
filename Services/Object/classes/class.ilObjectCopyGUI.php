@@ -1149,9 +1149,15 @@ class ilObjectCopyGUI
 			$ref_id = $this->getFirstTarget();
 		}
 
+		ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
+		ilUtil::redirect(ilLink::_getLink($ref_id));
+
+		// see bug discussion 24472
+		/*
 		$gui_fac = new ilObjectGUIFactory();
 		$obj_gui = $gui_fac->getInstanceByRefId($ref_id);
 		$obj_gui->redirectAfterCreation();
+		*/
 	}
 	
 	/**
@@ -1182,6 +1188,12 @@ class ilObjectCopyGUI
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
+			if($this->getSubMode() == self::SUBMODE_CONTENT_ONLY)
+			{
+				// return to parent container
+				return $this->ctrl->returnToParent($this);
+			}
+			// return to last target
 			$link = ilLink::_getLink($result['ref_id']);
 			$ilCtrl->redirectToUrl($link);
 		}

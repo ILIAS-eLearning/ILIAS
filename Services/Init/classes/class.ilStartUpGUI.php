@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -19,7 +21,7 @@ class ilStartUpGUI
 	protected $lng;
 	protected $logger;
 
-	/** @var \ilTemplate */
+	/** @var \ilGlobalTemplate */
 	protected $mainTemplate;
 
 	/** @var \ilObjUser */
@@ -28,16 +30,21 @@ class ilStartUpGUI
 	/** @var \ilTermsOfServiceDocumentEvaluation */
 	protected $termsOfServiceEvaluation;
 
+	/** @var ServerRequestInterface*/
+	protected $httpRequest;
+
 	/**
 	 * ilStartUpGUI constructor.
-	 * @param \ilObjUser|null $user
+	 * @param \ilObjUser|null              $user
 	 * @param \ilTermsOfServiceDocumentEvaluation|null
-	 * @param \ilTemplate|null $mainTemplate
+	 * @param \ilGlobalTemplate|null       $mainTemplate
+	 * @param ServerRequestInterface|null $httpRequest
 	 */
 	public function __construct(
 		\ilObjUser $user = null,
 		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-		\ilTemplate $mainTemplate = null
+		\ilGlobalTemplate $mainTemplate = null,
+		ServerRequestInterface $httpRequest = null
 	)
 	{
 		global $DIC;
@@ -56,6 +63,11 @@ class ilStartUpGUI
 			$mainTemplate = $DIC->ui()->mainTemplate();
 		}
 		$this->mainTemplate = $mainTemplate;
+
+		if ($httpRequest === null) {
+			$httpRequest = $DIC->http()->request();
+		}
+		$this->httpRequest = $httpRequest;
 
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
@@ -189,10 +201,8 @@ class ilStartUpGUI
 		global $tpl, $ilSetting;
 		
 		$this->getLogger()->debug('Showing login page');
-	
-		// try apache auth
-		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
-		$frontend = new ilAuthFrontendCredentialsApache();
+
+		$frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
 		$frontend->tryAuthenticationOnLoginPage();
 		
 		// Instantiate login template
@@ -229,7 +239,7 @@ class ilStartUpGUI
 		$tpl->fillWindowTitle();
 		$tpl->fillCssFiles();
 		$tpl->fillJavaScriptFiles();
-		$tpl->show("DEFAULT", false);
+		$tpl->printToStdout("DEFAULT", false);
 	}
 
 	/**
@@ -489,7 +499,7 @@ class ilStartUpGUI
 		$tpl->fillCssFiles();
 		$tpl->fillJavaScriptFiles();
 
-		$tpl->show("DEFAULT", false);
+		$tpl->printToStdout("DEFAULT", false);
 	}
 	
 	protected function showCodeForm($a_username = null, $a_form = null)
@@ -506,7 +516,7 @@ class ilStartUpGUI
 		}
 		
 		$tpl->setVariable("FORM", $a_form->getHTML());
-		$tpl->show("DEFAULT", false);
+		$tpl->printToStdout("DEFAULT", false);
 	}
 	
 	protected function initCodeForm($a_username)
@@ -856,20 +866,16 @@ class ilStartUpGUI
 	{
 		$this->getLogger()->debug('Trying apache authentication');
 
-		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
-		$credentials = new ilAuthFrontendCredentialsApache();
+		$credentials = new \ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
 		$credentials->initFromRequest();
 
-		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
-		$provider_factory = new ilAuthProviderFactory();
+		$provider_factory = new \ilAuthProviderFactory();
 		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_APACHE);
 
-		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
-		$status = ilAuthStatus::getInstance();
+		$status = \ilAuthStatus::getInstance();
 
-		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
-		$frontend_factory = new ilAuthFrontendFactory();
-		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+		$frontend_factory = new \ilAuthFrontendFactory();
+		$frontend_factory->setContext(\ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
 		$frontend = $frontend_factory->getFrontend(
 			$GLOBALS['DIC']['ilAuthSession'],
 			$status,
@@ -879,36 +885,36 @@ class ilStartUpGUI
 
 		$frontend->authenticate();
 
-		switch($status->getStatus())
-		{
-			case ilAuthStatus::STATUS_AUTHENTICATED:
-				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-				if($credentials->hasValidTargetUrl())
-				{
-					ilUtil::redirect($credentials->getTargetUrl());
+		switch ($status->getStatus()) {
+			case \ilAuthStatus::STATUS_AUTHENTICATED:
+				if ($credentials->hasValidTargetUrl()) {
+					\ilLoggerFactory::getLogger('auth')->debug(sprintf(
+						'Authentication successful. Redirecting to starting page: %s',
+						$credentials->getTargetUrl()
+					));
+					$this->ctrl->redirectToURL($credentials->getTargetUrl());
+				} else {
+					\ilLoggerFactory::getLogger('auth')->debug(
+						'Authentication successful, but no valid target URL given. Redirecting to default starting page.'
+					);
+					\ilInitialisation::redirectToStartingPage();
 				}
-				else
-				{
-					require_once './Services/Init/classes/class.ilInitialisation.php';
-					ilInitialisation::redirectToStartingPage();
-				}
-				return;
+				break;
 
-			case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-				return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+			case \ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
+				$this->ctrl->redirect($this, 'showAccountMigration');
+				break;
 
-			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-				ilUtil::sendFailure($status->getTranslatedReason(), true);
-				ilUtil::redirect(
-					ilUtil::appendUrlParameterString(
-						$GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage', '', false, false),
-						'passed_sso=1'
-					)
-				);
-				return false;
+			case \ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
+				\ilUtil::sendFailure($status->getTranslatedReason(), true);
+				$this->ctrl->redirectToURL(\ilUtil::appendUrlParameterString(
+					$this->ctrl->getLinkTarget($this, 'showLoginPage', '', false, false),
+					'passed_sso=1'
+				));
+				break;
 		}
 
-		ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+		\ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
 		$this->showLoginPage();
 		return false;
 	}
@@ -1333,7 +1339,7 @@ class ilStartUpGUI
 	public function showAccountMigration($a_message = '')
 	{
 		/**
-		 * @var $tpl ilTemplate
+		 * @var $tpl ilGlobalTemplate
 		 * @var $lng ilLanguage
 		 */
 		global $tpl, $lng;
@@ -1389,7 +1395,7 @@ class ilStartUpGUI
 			ilUtil::sendFailure($a_message);
 		}
 
-		$tpl->show('DEFAULT');
+		$tpl->printToStdout('DEFAULT');
 	}
 	
 	/**
@@ -1612,7 +1618,7 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**
@@ -1679,7 +1685,7 @@ class ilStartUpGUI
 		$tpl->setVariable("PASSWORD", ilUtil::prepareFormOutput($_POST["password"]));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**
@@ -1696,8 +1702,7 @@ class ilStartUpGUI
 		}
 
 		// fix #21612
-	//	$tpl = new ilTemplate("tpl.main.html", true, true);
-		$tpl->setAddFooter(false); // no client yet
+		$tpl->hideFooter(); // no client yet
 
 		$tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
         $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -1787,7 +1792,7 @@ class ilStartUpGUI
 		
 		// render table
 		$tbl->render();
-		$tpl->show("DEFAULT", true, true);
+		$tpl->printToStdout("DEFAULT", true, true);
 	}
 
 	/**
@@ -1818,7 +1823,7 @@ class ilStartUpGUI
 			<br/>- Check 'Always allow session cookies'
 			</p>";
 		$tpl->setVariable("CONTENT", $str);
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**
@@ -1879,7 +1884,7 @@ class ilStartUpGUI
 			);
 		}
 
-		$this->mainTemplate->show();
+		$this->mainTemplate->printToStdout();
 	}
 
 	/**
@@ -2205,9 +2210,8 @@ class ilStartUpGUI
 	
 				$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
 				$body .= $oUser->getProfileAsString($lng);
-				$mail_obj->enableSoap(false);
 				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail($oUser->getEmail(), '', '',
+				$mail_obj->validateAndEnqueue($oUser->getEmail(), '', '',
 					$subject,
 					$body,
 					array(), array('normal'));
@@ -2615,6 +2619,6 @@ class ilStartUpGUI
 		$mainTpl->fillWindowTitle();
 		$mainTpl->fillCssFiles();
 		$mainTpl->fillJavaScriptFiles();
-		$mainTpl->show('DEFAULT', false);
+		$mainTpl->printToStdout('DEFAULT', false);
 	}
 }

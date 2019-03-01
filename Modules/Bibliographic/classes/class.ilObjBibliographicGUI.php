@@ -139,7 +139,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			case strtolower(ilObjectCopyGUI::class):
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('bibl');
-				$this->dic()['tpl']->getStandardTemplate();
+				$this->dic()['tpl']->loadStandardTemplate();
 				$this->ctrl->forwardCommand($cp);
 				break;
 			case strtolower(ilObjFileGUI::class):

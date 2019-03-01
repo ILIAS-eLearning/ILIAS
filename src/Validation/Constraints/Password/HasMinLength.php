@@ -14,8 +14,7 @@ class HasMinLength extends Constraints\Custom implements Constraint {
 	 */
 	protected $min_length;
 
-	public function __construct($min_length, Data\Factory $data_factory, \ilLanguage $lng) {
-		assert('is_int($min_length)');
+	public function __construct(int $min_length, Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->min_length = $min_length;
 		parent::__construct( function (Data\Password $value) {
 				return strlen($value->toString()) >= $this->min_length;

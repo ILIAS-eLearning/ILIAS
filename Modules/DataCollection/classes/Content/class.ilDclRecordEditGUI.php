@@ -586,7 +586,7 @@ class ilDclRecordEditGUI {
 				$this->record_id = $record_obj->getId();
 				$this->initForm();
 				$this->setFormValues();
-				echo $this->tpl->getMessageHTML($this->lng->txt('msg_obj_modified'), 'success') . $this->form->getHTML();
+				echo ilUtil::getSystemMessageHTML($this->lng->txt('msg_obj_modified'), 'success') . $this->form->getHTML();
 				exit();
 			} else {
 				$this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
@@ -646,7 +646,7 @@ class ilDclRecordEditGUI {
 		$keep = ($this->ctrl->isAsynch()) ? false : true;
 		$this->form->setValuesByPost();
 		if ($this->ctrl->isAsynch()) {
-			echo $this->tpl->getMessageHTML($message, 'failure') . $this->form->getHTML();
+			echo ilUtil::getSystemMessageHTML($message, 'failure') . $this->form->getHTML();
 			exit();
 		} else {
 			ilUtil::sendFailure($message, $keep);

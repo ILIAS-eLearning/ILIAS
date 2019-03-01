@@ -135,9 +135,9 @@ class ilWebDAVLockObject
             $obj_id,                            // obj_id
             $DIC->user()->getId(),              // ilias_owner
             $lock_info->owner,                  // dav_owner
-            time() + 3600,                      // expires
+            time() + 360,              // expires (hard coded like in the old webdav)
             $lock_info->depth,                  // depth
-            'w',                                // type
+            'w',                          // type
             $lock_info->scope);                 // scope
             
         return $ilias_lock;

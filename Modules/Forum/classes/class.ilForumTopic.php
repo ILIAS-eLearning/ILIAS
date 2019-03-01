@@ -292,34 +292,36 @@ class ilForumTopic
 	* @return	integer		number of posts
 	* @access	public
 	*/
-	public function countPosts()
+	public function countPosts($ignoreRoot = false)
 	{
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
-			WHERE pos_thr_fk = %s',
+			INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
+			WHERE pos_thr_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
 			array('integer'), array($this->id));
 		
 		$rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
-	
+
 	/**
-	* Fetches and returns the number of active posts for the given user id.
-	* 
-	* @param  	integer		$a_user_id		user id
-	* @return	integer		number of active posts
-	* @access	public
-	*/
-	public function countActivePosts()
+	 * Fetches and returns the number of active posts for the given user id.
+	 *
+	 * @param bool $ignoreRoot
+	 * @return    integer        number of active posts
+	 * @access    public
+	 */
+	public function countActivePosts($ignoreRoot = false)
 	{
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
+			INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
 			WHERE (pos_status = %s
 				 OR (pos_status = %s AND pos_display_user_id = %s))
-			AND pos_thr_fk = %s',
+			AND pos_thr_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
 			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $this->user->getId(), $this->id));
 			
 		$rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -468,7 +470,7 @@ class ilForumTopic
 				AND			fur.post_id = pos_pk
 				AND			fur.usr_id = %s
 				 
-			WHERE 			lft BETWEEN %s AND %s 
+			WHERE 			lft > %s AND lft < %s 
 				AND 		thr_fk = %s';
 		
 		array_push($data_types, 'integer', 'integer', 'integer', 'integer');
@@ -1248,14 +1250,6 @@ class ilForumTopic
 			),
 			array('thr_pk' => array('integer', $this->getId())));
 	}
-
-	public static function deleteByThreadId($thr_id)
-	{
-		global $DIC; 
-		$DIC->database()->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s',
-			array('integer'), array($thr_id));
-	}
-
 
 	/**
 	 * @param integer $thread_id
