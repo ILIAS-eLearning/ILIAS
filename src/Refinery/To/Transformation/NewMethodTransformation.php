@@ -9,6 +9,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 
 use ILIAS\Data\Result;
+use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Refinery\Transformation\Transformation;
 
 class NewMethodTransformation implements Transformation
@@ -64,8 +65,8 @@ class NewMethodTransformation implements Transformation
 			$reflectionMethod = new \ReflectionMethod($this->instance, $this->method);
 
 			$value = $reflectionMethod->invokeArgs($this->instance, $value);
-		} catch (\ReflectionException $exception) {
-			return new Result\Error($value);
+		} catch (\Exception $exception) {
+			return new Result\Error($exception);
 		}
 
 		return new Result\Ok($value);

@@ -7,6 +7,7 @@
 
 namespace ILIAS\Refinery;
 
+use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\NewMethodTransformation;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -64,6 +65,48 @@ class NewMethodTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$this->fail();
 	}
+
+	/**
+	 * @expectedException \ReflectionException
+	 */
+	public function testPrivateMethodCanNotBeCalledInTransform()
+	{
+		$transformation = new NewMethodTransformation($this->instance, 'myPrivateMethod');
+
+		$object = $transformation->transform(array('hello', 10));
+
+		$this->fail();
+	}
+
+	public function testPrivateMethodCanNotBeCalledInApplyto()
+	{
+		$transformation = new NewMethodTransformation($this->instance, 'myPrivateMethod');
+
+		$object = $transformation->applyTo(new Ok(array('hello', 10)));
+
+		$this->assertTrue($object->isError());
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testMethodThrowsExceptionInTransform()
+	{
+		$transformation = new NewMethodTransformation($this->instance, 'methodThrowsException');
+
+		$object = $transformation->transform(array('hello', 10));
+
+		$this->fail();
+	}
+
+	public function testMethodThrowsExceptionInApplyTo()
+	{
+		$transformation = new NewMethodTransformation($this->instance, 'methodThrowsException');
+
+		$object = $transformation->applyTo(new Ok(array('hello', 10)));
+
+		$this->assertTrue($object->isError());
+	}
 }
 
 class NewMethodTransformationTestClass
@@ -71,5 +114,15 @@ class NewMethodTransformationTestClass
 	public function myMethod(string $string, int $integer)
 	{
 		return array($string, $integer);
+	}
+
+	private function myPrivateMethod(string $string, int $integer)
+	{
+		return array($string, $integer);
+	}
+
+	public function methodThrowsException(string $string, int $integer)
+	{
+		throw new \Exception('SomeException');
 	}
 }
