@@ -3,7 +3,7 @@
 }(window, il, function init(root, $) {
 	"use strict";
 
-	const lsScope = "osc_web_noti",
+	const lsScope = "osc_web_noti_",
 		tabNegotiationPrefix = "osc_at_",
 		ignoreNotificationPrefix = "osc_ig_";
 
@@ -80,7 +80,7 @@
 	 * @param {jQuery.Event} e
 	 */
 	let onWebNotificationBroadCast = function onWebNotificationBroadCast(e) {
-		if (e.originalEvent !== undefined && typeof e.originalEvent.key === 'string' && e.originalEvent.key === lsScope) {
+		if (e.originalEvent !== undefined && typeof e.originalEvent.key === 'string' && e.originalEvent.key.indexOf(lsScope) !== -1) {
 			let notification = e.originalEvent.newValue;
 			if (typeof notification === "string") {
 				notification = JSON.parse(notification);
@@ -124,12 +124,12 @@
 				console.log("OSC Web Notifications| Propagating event because current tab is hidden for chat message: " + notification.uuid);
 
 				// Emit event to all other browser tabs
-				ls.setItem(lsScope, JSON.stringify(notification));
+				ls.setItem(lsScope + notification.uuid, JSON.stringify(notification));
 
 				// Emit event for the current tab
 				let e = $.Event("storage");
 				e.originalEvent = {
-					key: lsScope,
+					key: lsScope + notification.uuid,
 					oldValue: "oldValue",
 					newValue: notification
 				};
