@@ -91,14 +91,6 @@ class ilPersonalChatSettingsFormGUI
 				$this->saveChatOptions();
 				break;
 
-			case 'deactivateUnsupportedBrowserNotifications':
-				$this->deactivateUnsupportedBrowserNotifications();
-				break;
-
-			case 'deactivateBlockeddBrowserNotifications':
-				$this->deactivateBlockedBrowserNotifications();
-				break;
-
 			case 'showChatOptions':
 			default:
 				$this->showChatOptions();
@@ -227,14 +219,6 @@ class ilPersonalChatSettingsFormGUI
 		if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', false)) {
 			$this->mainTpl->addJavascript('./Services/Notifications/js/browser_notifications.js');
 
-			$tpl->setVariable(
-				'CALLBACK_URL_NO_SUPPORT',
-				$this->ctrl->getLinkTarget($this, 'deactivateUnsupportedBrowserNotifications')
-			);
-			$tpl->setVariable(
-				'CALLBACK_URL_NO_PERMISSION',
-				$this->ctrl->getLinkTarget($this, 'deactivateBlockedBrowserNotifications')
-			);
 			$tpl->setVariable('ALERT_IMAGE_SRC', \ilUtil::getImagePath('icon_alert.svg'));
 
 			$this->lng->toJSMap([
@@ -337,29 +321,5 @@ class ilPersonalChatSettingsFormGUI
 
 		\ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		$this->ctrl->redirect($this);
-	}
-
-	/**
-	 * 
-	 */
-	public function deactivateUnsupportedBrowserNotifications()
-	{
-		$this->user->setPref('chat_osc_browser_notifications', \ilUtil::tf2yn(false));
-		$this->user->writePrefs();
-
-		\ilUtil::sendFailure($this->lng->txt('osc_browser_noti_no_support_error'));
-		$this->showChatOptions();
-	}
-
-	/**
-	 *
-	 */
-	public function deactivateBlockedBrowserNotifications()
-	{
-		$this->user->setPref('chat_osc_browser_notifications', \ilUtil::tf2yn(false));
-		$this->user->writePrefs();
-
-		\ilUtil::sendFailure($this->lng->txt('osc_browser_noti_req_permission_error'));
-		$this->showChatOptions();
 	}
 }
