@@ -46,8 +46,10 @@ class NewObjectTransformation implements Transformation
 		try {
 			$class = new \ReflectionClass($this->className);
 			$instance = $class->newInstanceArgs($value);
-		} catch (\ReflectionException $e) {
+		} catch (\Exception $e) {
 			return new Result\Error($e);
+		} catch (\Error $error) {
+			return new Result\Error($error->getMessage());
 		}
 
 		return new Result\Ok($instance);

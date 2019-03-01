@@ -56,9 +56,6 @@ class NewObjectTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array('hello', 42), $result);
 	}
 
-	/**
-	 * @expectedException \TypeError
-	 */
 	public function testNewObjectApplyResultsErrorObjectOnInvalidConstructorArguments()
 	{
 		$transformation = new NewObjectTransformation(MyClass::class);
@@ -68,6 +65,26 @@ class NewObjectTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($resultObject->isError());
 	}
 
+	public function testExceptionInConstructorWillResultInErrorObject()
+	{
+		$transformation = new NewObjectTransformation(MyClassThrowsException::class);
+
+		$resultObject = $transformation->applyTo(new Ok(array('hello', 100)));
+
+		$this->assertTrue($resultObject->isError());
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testExceptionInConstructorWillThrowException()
+	{
+		$transformation = new NewObjectTransformation(MyClassThrowsException::class);
+
+		$resultObject = $transformation->transform(array('hello', 100));
+
+		$this->fail();
+	}
 }
 
 class MyClass
@@ -85,5 +102,13 @@ class MyClass
 	public function myMethod()
 	{
 		return array($this->string, $this->integer);
+	}
+}
+
+class MyClassThrowsException
+{
+	public function __construct(string $string, int $integer)
+	{
+		throw new \Exception();
 	}
 }
