@@ -14999,3 +14999,6 @@ crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
 crs#:#crs_timings_short_start_end_rel#:#Empfohlener Start (Tage nach Kursbeitritt)
 crs#:#crs_tile_and_objective_view_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Lernziel-orientierter Ansicht wird nicht unterstützt.
 crs#:#crs_tile_and_session_limit_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Begrenzung der angezeigten Sitzungen wird nicht unterstützt.
+content#:#cont_choose_file_source#:#Quelle
+content#:#cont_choose_local#:#Lokales Verzeichnis
+content#:#cont_choose_upload_dir#:#Upload-Verzeichnis

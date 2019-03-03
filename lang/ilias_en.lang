@@ -14998,3 +14998,6 @@ crs#:#crs_timings_edit_personal#:#Edit Personal Timings
 crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
 crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
 crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile Presentation" and "Session Limitation" at the same time.
+content#:#cont_choose_file_source#:#Source
+content#:#cont_choose_local#:#Local directory
+content#:#cont_choose_upload_dir#:#Upload directory

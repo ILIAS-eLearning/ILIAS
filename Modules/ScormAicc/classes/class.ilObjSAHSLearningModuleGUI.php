@@ -324,32 +324,47 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$si->setOptions($options);
 		$this->form->addItem($si);
 		
-		// input file
-		$fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
 		
-		// todo "uploaded file"
 		// todo wysiwyg editor removement
 		
+		$options = array();
 		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 		if (ilUploadFiles::_getUploadDirectory())
 		{
-			$options = array();
-			$fi->setRequired(false);
-			$files = ilUploadFiles::_getUploadFiles();
 			$options[""] = $this->lng->txt("cont_select_from_upload_dir");
+			$files = ilUploadFiles::_getUploadFiles();
 			foreach($files as $file)
 			{
 				$file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
 				$options[$file] = $file;
 			}
-			// 
+		}
+		if (count($options) > 1)
+		{
+			// choose upload directory
+			$radg = new ilRadioGroupInputGUI($lng->txt("cont_choose_file_source"), "file_source");
+			$op0 = new ilRadioOption($this->lng->txt("cont_choose_local"), "local");
+			$radg->addOption($op0);
+			$op1 = new ilRadioOption($this->lng->txt("cont_choose_upload_dir"), "upload_dir");
+			$radg->addOption($op1);
+			$radg->setValue("local");
+
+			$fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
+			$fi->setRequired(true);
+			$op0->addSubItem($fi);
+
 			$si = new ilSelectInputGUI($this->lng->txt("cont_uploaded_file"), "uploaded_file");
 			$si->setOptions($options);
-			$this->form->addItem($si);
+			$op1->addSubItem($si);
+			
+			$this->form->addItem($radg);
 		}
-
+		else
+		{
+			$fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
+			$fi->setRequired(true);
+			$this->form->addItem($fi);
+		}
 		
 		// validate file
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
