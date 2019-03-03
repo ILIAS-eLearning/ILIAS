@@ -527,6 +527,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->setTitle($name);
 		$newObj->setSubType($_POST["sub_type"]);
 		$newObj->setDescription("");
+		$newObj->setOfflineStatus(true);
 		$newObj->create(true);
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
