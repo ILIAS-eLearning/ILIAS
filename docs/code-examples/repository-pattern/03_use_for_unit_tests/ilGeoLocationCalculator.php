@@ -2,22 +2,31 @@
 
 class ilGeoLocationCalculator
 {
-    /** @var ilGeoLocationRepository */
-    protected $geo_repository;
+	/** @var ilGeoLocationRepository */
+	protected $geo_repository;
 
-    public function __construct(ilGeoLocationRepository $a_geo_repository)
-    {
-        $this->geo_repository = $a_geo_repository;
-    }
+	public function __construct(ilGeoLocationRepository $a_geo_repository)
+	{
+		$this->geo_repository = $a_geo_repository;
+	}
 
-    public function calculateTimeTillNextExpiredGeoLocation(ilGeoLocation $given_geolocation)
-    {
-        $geo_locations = $this->geo_repository->getGeoLocationsByCoordinates("48° 52' 0\" N","2° 20' 0\" E");
+	public function calculateTimeTillNextExpiredGeoLocationAt(float $latitude, float $longitude)
+	{
+		$geo_locations = $this->geo_repository->getGeoLocationsByCoordinates($latitude, $longitude);
 
-        foreach($geo_locations as $geo_location)
-        {
-            if($given_geolocation <= $geo_location)
-                return $geo_location;
-        }
-    }
+		if (count($geo_locations) === 0) {
+			return null;
+		}
+
+		$current = array_shift($geo_locations);
+
+		foreach($geo_locations as $geo_location)
+		{
+			if($current->getExpirationAsTimestamp() >= $geo_location->getExpirationAsTimestamp()) {
+				$current = $geo_location;
+			}
+		}
+
+		return $geo_location;
+	}
 }

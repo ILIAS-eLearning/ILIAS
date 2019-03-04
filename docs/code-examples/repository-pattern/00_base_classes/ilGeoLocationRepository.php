@@ -11,53 +11,60 @@
  */
 interface ilGeoLocationRepository {
 
-    /**
-     * Create a new geo location entry
-     */
-    public function createGeoLocation(array $obj) : ilGeoLocation;
+	/**
+	 * Create a new geo location entry
+	 */
+	public function createGeoLocation(
+		string $a_title,
+		float $a_latitude,
+		float $a_longitude,
+		\DateTimeImmutable $a_expiration_timestamp
+	) : ilGeoLocation;
 
-    /**
-     * Get a single geo location, identified by its id
-     */
-    public function getGeoLocationById(int $a_id) : ilGeoLocation;
+	/**
+	 * Get a single geo location, identified by its id
+	 */
+	public function getGeoLocationById(int $a_id) : ilGeoLocation;
 
-    /**
-     * Example for reading an array of geo locations which have a given attribute
-     */
-    public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude) : array;
+	/**
+	 * Example for reading an array of geo locations which have a given attribute
+	 *
+	 * @return ilGeoLocation[]
+	 */
+	public function getGeoLocationsByCoordinates(float $a_latitude, float $a_longitude) : array;
 
-    /**
-     * Example for checking if geo location with a certain id exists
-     */
-    public function checkIfGeoLocationExistsById(int $a_id) : bool;
+	/**
+	 * Example for checking if geo location with a certain id exists
+	 */
+	public function checkIfGeoLocationExistsById(int $a_id) : bool;
 
-    /**
-     * Example for checking if a geo location (one or more) with a given attribute exists
-     */
-    public function checkIfAnyGeoLocationExistsByCoordinates(string $a_latitude, string $a_longitude) : bool;
+	/**
+	 * Example for checking if a geo location (one or more) with a given attribute exists
+	 */
+	public function checkIfAnyGeoLocationExistsByCoordinates(float $a_latitude, float $a_longitude) : bool;
 
-    /**
-     * Example for updating all attributes of a given geo location
-     */
-    public function updateGeoLocationObject(ilGeoLocation $a_obj);
+	/**
+	 * Example for updating all attributes of a given geo location
+	 */
+	public function updateGeoLocation(ilGeoLocation $a_obj);
 
-    /**
-     * Example for updating multiple objects at once
-     */
-    public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp);
+	/**
+	 * Example for updating multiple objects at once
+	 */
+	public function updateGeoLocationTimestampByCoordinates(float $a_searched_latitude, float $a_searched_longitude, int $a_update_timestamp);
 
-    /**
-     * Exaple for deleting single geo location identified by its id
-     */
-    public function deleteGeoLocationObject(int $a_id);
+	/**
+	 * Exaple for deleting single geo location identified by its id
+	 */
+	public function deleteGeoLocation(int $a_id);
 
-    /**
-     * Example for a condition based deletion of multiple geo locations
-     */
-    public function purgeGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
+	/**
+	 * Example for a condition based deletion of multiple geo locations
+	 */
+	public function purgeGeoLocationsByCoordinates(float $a_latitude, float $a_longitude);
 
-    /**
-     * Example for a condition based deletion of multiple geo locations
-     */
-    public function purgeExpiredGeoLocations();
+	/**
+	 * Example for a condition based deletion of multiple geo locations
+	 */
+	public function purgeExpiredGeoLocations();
 }

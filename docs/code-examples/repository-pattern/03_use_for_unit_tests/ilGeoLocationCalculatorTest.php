@@ -6,26 +6,29 @@ use PHPUnit\Framework\TestCase;
 class ilGeoLocationCalculatorTest extends TestCase
 {
 
-    /**
-     * @test
-     * @small
-     */
-    public function calculateNearestExpiration_validTime_correctNearestExpired()
-    {
-        // Arrange
-        $obj1 = new ilGeoLocation(1, "older", "", "", microtime() - 1000);
-        $obj2 = new ilGeoLocation(1, "newer", "", "", microtime());
-        $mocked_repo = $this->createMock(ilGeoLocationRepository::class);
-        $mocked_repo->expects($this->once())
-                    ->method('getGeoLocationsByCoordinates')
-                    ->with($this->equalTo("48° 52' 0\" N", "2° 20' 0\" E")
-                    ->will($this->returnValue(array($obj1, $obj2)));
-        $calc = new ilGeoLocationCalculator($mocked_repo);
+	/**
+	 * @test
+	 * @small
+	 */
+	public function calculateNearestExpiration_validTime_correctNearestExpired()
+	{
+		$now = microtime();
+		$before = microtime() - 1000;
 
-        // Act
-        $result = $calc->calculateNearestExpiration(array("48° 52' 0\" N", "2° 20' 0\" E")) 
-        
-        // Assert
-        $this->assertEqual($result, $obj2)
-    }
+		// Arrange
+		$obj1 = new ilGeoLocation(1, "older", 0, 0, new \DateTimeImmutable($before));
+		$obj2 = new ilGeoLocation(1, "newer", 0, 0, new \DateTimeImmutable($now));
+		$mocked_repo = $this->createMock(ilGeoLocationRepository::class);
+		$mocked_repo->expects($this->once())
+					->method('getGeoLocationsByCoordinates')
+					->with(1, 2)
+					->will($this->returnValue(array($obj1, $obj2)));
+		$calc = new ilGeoLocationCalculator($mocked_repo);
+
+		// Act
+		$result = $calc->calculateNearestExpiration(1, 2);
+
+		// Assert
+		$this->assertEqual($result, $before);
+	}
 }
