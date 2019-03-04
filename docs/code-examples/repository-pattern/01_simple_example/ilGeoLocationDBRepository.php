@@ -91,7 +91,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		return $locations;
 	}
 
-	public function checkIfGeoLocationExistsById(int $a_id) : bool
+	public function ifGeoLocationExistsById(int $a_id) : bool
 	{
 		// Set up SQL-Statement
 		$query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
@@ -104,7 +104,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		return $result['count'] > 0;
 	}
 
-	public function checkIfAnyGeoLocationExistsByCoordinates(float $a_latitude, float $a_longitude) : bool
+	public function ifAnyGeoLocationExistsByCoordinates(float $a_latitude, float $a_longitude) : bool
 	{
 		// Set up SQL-Statement
 		$query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
@@ -132,12 +132,12 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		);
 	}
 
-	public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp)
+	public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, \DateTimeImmutable $a_update_timestamp)
 	{
 		// Update for single attribute of a set of geo location objects
 		$this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
 			// Update columns (in this case only the timestamp):
-			array('expiration_timestamp' => array('timestamp', $a_update_timestamp)),
+			array('expiration_timestamp' => array('timestamp', $a_update_timestamp->getTimestamp())),
 			// Where (in this case every object on the given location):
 			array('latitude' => array($a_searched_latitude, 'float'),
 				  'longitude' => array($a_searched_longitude, 'float'))
@@ -154,7 +154,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		$this->db->manipulate($query);
 	}
 
-	public function purgeGeoLocationsByCoordinates(float $a_latitude, float $a_longitude)
+	public function deleteGeoLocationsByCoordinates(float $a_latitude, float $a_longitude)
 	{
 		// Set up delete query
 		$query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
@@ -165,7 +165,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		$this->db->manipulate($query);
 	}
 
-	public function purgeExpiredGeoLocations()
+	public function deleteExpiredGeoLocations()
 	{
 		// Set up delete query
 		$query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .

@@ -36,12 +36,12 @@ interface ilGeoLocationRepository {
 	/**
 	 * Example for checking if geo location with a certain id exists
 	 */
-	public function checkIfGeoLocationExistsById(int $a_id) : bool;
+	public function ifGeoLocationExistsById(int $a_id) : bool;
 
 	/**
 	 * Example for checking if a geo location (one or more) with a given attribute exists
 	 */
-	public function checkIfAnyGeoLocationExistsByCoordinates(float $a_latitude, float $a_longitude) : bool;
+	public function ifAnyGeoLocationExistsByCoordinates(float $a_latitude, float $a_longitude) : bool;
 
 	/**
 	 * Example for updating all attributes of a given geo location
@@ -51,7 +51,7 @@ interface ilGeoLocationRepository {
 	/**
 	 * Example for updating multiple objects at once
 	 */
-	public function updateGeoLocationTimestampByCoordinates(float $a_searched_latitude, float $a_searched_longitude, int $a_update_timestamp);
+	public function updateGeoLocationTimestampByCoordinates(float $a_searched_latitude, float $a_searched_longitude, \DateTimeImmutable $a_update_timestamp);
 
 	/**
 	 * Exaple for deleting single geo location identified by its id
@@ -61,10 +61,10 @@ interface ilGeoLocationRepository {
 	/**
 	 * Example for a condition based deletion of multiple geo locations
 	 */
-	public function purgeGeoLocationsByCoordinates(float $a_latitude, float $a_longitude);
+	public function deleteGeoLocationsByCoordinates(float $a_latitude, float $a_longitude);
 
 	/**
 	 * Example for a condition based deletion of multiple geo locations
 	 */
-	public function purgeExpiredGeoLocations();
+	public function deleteExpiredGeoLocations();
 }

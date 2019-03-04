@@ -75,7 +75,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 	/**
 	 * Example for checking if a geo location (one or more) with a given attribute exists
 	 */
-	public function checkIfGeoLocationExistsById(int $a_id): bool
+	public function ifGeoLocationExistsById(int $a_id): bool
 	{
 		$file = fopen('mocked_geolocation_data.txt', 'r');
 
@@ -95,7 +95,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 	/**
 	 * Example for checking if a geo location (one or more) with a given attribute exists
 	 */
-	public function checkIfAnyGeoLocationExistsByCoordinates(float $a_latitude, float $a_longitude): bool
+	public function ifAnyGeoLocationExistsByCoordinates(float $a_latitude, float $a_longitude): bool
 	{
 		$file = fopen('mocked_geolocation_data.txt', 'r');
 
@@ -142,7 +142,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 	/**
 	 * Example for updating multiple objects at once
 	 */
-	public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp)
+	public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, \DateTimeImmutable $a_update_timestamp)
 	{
 		// Read entire file
 		$file = fopen('mocked_geolocation_data.txt', 'r');
@@ -154,7 +154,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 		{
 			if($row[2] == $a_searched_latitude && $row[3] == $a_searched_longitude)
 			{
-				$row[4] = $a_update_timestamp;
+				$row[4] = $a_update_timestamp->getTimestamp();
 			}
 		}
 
@@ -189,7 +189,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 		fclose($file);
 	}
 
-	public function purgeGeoLocationsByCoordinates(string $a_latitude, string $a_longitude)
+	public function deleteGeoLocationsByCoordinates(string $a_latitude, string $a_longitude)
 	{
 		// Read all geo locations from file
 		$file = fopen('mocked_geolocation_data.txt', 'r');
@@ -216,7 +216,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 	/**
 	 * Example for a condition based deletion of multiple geo locations
 	 */
-	public function purgeExpiredGeoLocations()
+	public function deleteExpiredGeoLocations()
 	{
 		// Read all geo locations from file
 		$file = fopen('mocked_geolocation_data.txt', 'r');
