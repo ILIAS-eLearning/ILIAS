@@ -5,7 +5,7 @@
  * 'ilGeoLocation*Repository'-classes
  * 
  * Classes, which implement this interface persist/read/update an object of the class
- * ilObjGeoLocation to/from either a database, a file or something else. Due to this conditions,
+ * ilGeoLocation to/from either a database, a file or something else. Due to this conditions,
  * this interface is as abstract as possible and should not contain any database or filesystem 
  * specific methods.
  */
@@ -14,12 +14,12 @@ interface ilGeoLocationRepository {
     /**
      * Create a new geo location entry
      */
-    public function createGeoLocation(array $obj) : ilObjGeoLocation;
+    public function createGeoLocation(array $obj) : ilGeoLocation;
 
     /**
      * Get a single geo location, identified by its id
      */
-    public function getGeoLocationById(int $a_id) : ilObjGeoLocation;
+    public function getGeoLocationById(int $a_id) : ilGeoLocation;
 
     /**
      * Example for reading an array of geo locations which have a given attribute
@@ -39,7 +39,7 @@ interface ilGeoLocationRepository {
     /**
      * Example for updating all attributes of a given geo location
      */
-    public function updateGeoLocationObject(ilObjGeoLocation $a_obj);
+    public function updateGeoLocationObject(ilGeoLocation $a_obj);
 
     /**
      * Example for updating multiple objects at once

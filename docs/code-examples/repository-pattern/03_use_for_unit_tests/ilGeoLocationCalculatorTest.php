@@ -13,8 +13,8 @@ class ilGeoLocationCalculatorTest extends TestCase
     public function calculateNearestExpiration_validTime_correctNearestExpired()
     {
         // Arrange
-        $obj1 = new ilObjGeoLocation(1, "older", "", "", microtime() - 1000);
-        $obj2 = new ilObjGeoLocation(1, "newer", "", "", microtime());
+        $obj1 = new ilGeoLocation(1, "older", "", "", microtime() - 1000);
+        $obj2 = new ilGeoLocation(1, "newer", "", "", microtime());
         $mocked_repo = $this->createMock(ilGeoLocationRepository::class);
         $mocked_repo->expects($this->once())
                     ->method('getGeoLocationsByCoordinates')

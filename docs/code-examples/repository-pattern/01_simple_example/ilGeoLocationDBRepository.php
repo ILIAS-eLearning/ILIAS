@@ -9,7 +9,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         $this->db = $a_db;
     }
 
-    public function createGeoLocation(array $obj_data) : ilObjGeoLocation
+    public function createGeoLocation(array $obj_data) : ilGeoLocation
     {
         // Get next free id for object
         $id = $this->db->nextId($this->db->quoteIdentifier(self::TABLE_NAME));
@@ -24,14 +24,14 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         )));
 
         // Return the new created object or just the id
-        return new ilObjGeoLocation($id,
+        return new ilGeoLocation($id,
                                     $obj_data['title'],
                                     $obj_data['latitude'],
                                     $obj_data['longitude'],
                                     $obj_data['expiration_timestamp']);
     }
 
-    public function getGeoLocationById(int $a_id) : ilObjGeoLocation
+    public function getGeoLocationById(int $a_id) : ilGeoLocation
     {
         // Set up SQL-Statement
         $query = 'Select * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
@@ -44,7 +44,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         if($row = $this->db->fetchAssoc($result))
         {
             // Create object out of fetched data and return it
-            return new ilObjGeoLocation($row['id'],
+            return new ilGeoLocation($row['id'],
                                         $row['title'],
                                         $row['latitude'],
                                         $row['longitude'],
@@ -72,7 +72,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         while($row = $this->db->fetchAssoc($result))
         {
             // Create object and add it to list
-            $locations[] = new ilObjGeoLocation($row['id'],
+            $locations[] = new ilGeoLocation($row['id'],
                                                 $row['title'],
                                                 $row['latitude'],
                                                 $row['longitude'],
@@ -110,7 +110,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
         return $result['count'] > 0;
     }
 
-    public function updateGeoLocationObject(ilObjGeoLocation $a_obj)
+    public function updateGeoLocationObject(ilGeoLocation $a_obj)
     {
         // Update of one entire geo location object
         $this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),

@@ -198,10 +198,10 @@ even found some more possible usages, which after further analysis turned out to
 anti patterns. They are documented under the chapter of non-examples
 
 For simplicity reasons, the class of the objects to persist is in all following
-example the same. The class is called `ilObjGeoLocation` and is immutable:
+example the same. The class is called `ilGeoLocation` and is immutable:
 
 ```php
-    class ilObjGeoLocation {
+    class ilGeoLocation {
         protected $id;
         protected $title;
         protected $latitude;
@@ -257,7 +257,7 @@ implementation differs from example to example.
         public function checkIfAnyLocationExistsByGeoLocation(string $a_latitude, string $a_longitude) : bool;
         
         // Update operations
-        public function updateGeoLocationObject(ilObjGeoLocation $a_obj);
+        public function updateGeoLocationObject(ilGeoLocation $a_obj);
         public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp);
         
         // Delete operations
@@ -275,7 +275,7 @@ A simple example for the Repository-Pattern would be a class, that *writes* obje
 to a database and *reads* them from the database if needed.
 
 In the following example, we want to *write* and *read* objects that contains
-GeoLocations. We call the class for this objects `ilObjGeoLocation` and the class
+GeoLocations. We call the class for this objects `ilGeoLocation` and the class
 that is used to persist them `ilGeoLocationRepository`.
 
 In this simple example, these operations are written in *SQL* and executed with
@@ -309,7 +309,7 @@ the different methods for different CRUD-Operations
     )));
 
     // Return the new created object or just the id
-    return new ilObjGeoLocation($id,
+    return new ilGeoLocation($id,
                                 $obj_data['title'],
                                 $obj_data['latitude'],
                                 $obj_data['longitude'],
@@ -319,7 +319,7 @@ the different methods for different CRUD-Operations
 **Read operations**
 
 * Get specific object by unique identifier. Returns object: get____ById($id)
-    * For example: get*GeoLocation*ById(int $id) : ilObjGeoLocation
+    * For example: get*GeoLocation*ById(int $id) : ilGeoLocation
 
 ```php
     // Set up SQL-Statement
@@ -333,7 +333,7 @@ the different methods for different CRUD-Operations
     if($row = $this->db->fetchAssoc($result))
     {
         // Create object out of fetched data and return it
-        return new ilObjGeoLocation($row['id'],
+        return new ilGeoLocation($row['id'],
                                     $row['title'],
                                     $row['latitude'],
                                     $row['longitude'],
@@ -361,7 +361,7 @@ the different methods for different CRUD-Operations
     while($row = $this->db->fetchAssoc($result))
     {
         // Create object and add it to list
-        $locations[] = new ilObjGeoLocation($row['id'],
+        $locations[] = new ilGeoLocation($row['id'],
                                             $row['title'],
                                             $row['latitude'],
                                             $row['longitude'],
@@ -406,7 +406,7 @@ the different methods for different CRUD-Operations
 **Update operations**
 
 * Update specific object, identified by its id: update______Object($id)
-    * update*GeoLocation*Object(ilObjGeoLocation $a_obj)
+    * update*GeoLocation*Object(ilGeoLocation $a_obj)
 
 ```php
     // Update of one entire geo location object
@@ -483,7 +483,7 @@ the different methods for different CRUD-Operations
 
 Imagine following scenario: You are a developer and you have the mission the 
 mission to implement a plugin which works with geo locations. So you implement
-an obj-class as given with `ilObjGeoLocation`. In the planing phase you see, that 
+an obj-class as given with `ilGeoLocation`. In the planing phase you see, that 
 there are different formats to use coordinates. Since there might be some confusion 
 you go for the decimal "*degrees format*" (looks like this: 47.05016819; 8.30930720). 
 This coordinates can be stored as two float values in the database.
@@ -504,7 +504,7 @@ system regarding the miserable integrity, lack of joining tables etc. But for qu
 and tests during the development process, this flexible way of persisting and 
 reading data comes in pretty useful.
 
-With the example of the `ilObjGeoLocation`-object, we a text file could look like this:
+With the example of the `ilGeoLocation`-object, we a text file could look like this:
 
 ```
 1;Paris;48° 52' 0" N;2° 20' 0" E;1539377900
@@ -538,8 +538,8 @@ look like this:
 
 ```php
 // Create predefined return values
-$obj1 = new ilObjGeoLocation(1, "older", "", "", microtime() - 1000);
-$obj2 = new ilObjGeoLocation(1, "newer", "", "", microtime());
+$obj1 = new ilGeoLocation(1, "older", "", "", microtime() - 1000);
+$obj2 = new ilGeoLocation(1, "newer", "", "", microtime());
 
 // Create mock
 $mocked_repo = $this->createMock(ilGeoLocationRepository::class);
@@ -588,7 +588,7 @@ The following code snippet shows how both case would look like:
 
 ```php
 // Scenario with 2 repositories
-public function getGeoLocationById(int $a_id) : ilObjGeoLocation
+public function getGeoLocationById(int $a_id) : ilGeoLocation
 {
     /* Insert read data from DB part here */
     
@@ -599,7 +599,7 @@ public function getGeoLocationById(int $a_id) : ilObjGeoLocation
 }
 
 // Scenario with circular dependency
-public function getGeoLocationById(int $a_id) : ilObjGeoLocation
+public function getGeoLocationById(int $a_id) : ilGeoLocation
 {
     /* Insert read data from DB part here */
     $obj = $this->geo_location_factory->createGeoLocation($obj, $this);
@@ -618,7 +618,7 @@ Access.
 In case of updating an object with the first scenario, the method would look like this:
 
 ```php
-public function updateGeoLocationObject(ilObjGeoLocation $a_obj) 
+public function updateGeoLocationObject(ilGeoLocation $a_obj) 
 {
     $a_obj->update();
 }
@@ -634,14 +634,14 @@ how such a function could look like:
 
 ```php
 // Class for objects to work with
-class ilObjGeoLocation {}
+class ilGeoLocation {}
 
 // Class to interact with the database
-class ilObjGeoLocationAR extends ActiveRecord {}
+class ilGeoLocationAR extends ActiveRecord {}
 
-public function updateGeoLocationObject(ilObjGeoLocation $a_obj) 
+public function updateGeoLocationObject(ilGeoLocation $a_obj) 
 {
-    $ar_obj = new ilObjGeoLocationAR($a_obj);
+    $ar_obj = new ilGeoLocationAR($a_obj);
     $ar_obj->update();
 }
 ```

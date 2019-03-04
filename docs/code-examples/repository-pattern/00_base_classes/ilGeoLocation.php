@@ -1,6 +1,6 @@
 <?php
 
-class ilObjGeoLocation {
+class ilGeoLocation {
 
     /** @var int */
     protected $id;

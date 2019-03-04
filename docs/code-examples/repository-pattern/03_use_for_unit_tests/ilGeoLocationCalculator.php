@@ -10,7 +10,7 @@ class ilGeoLocationCalculator
         $this->geo_repository = $a_geo_repository;
     }
 
-    public function calculateTimeTillNextExpiredGeoLocation(ilObjGeoLocation $given_geolocation)
+    public function calculateTimeTillNextExpiredGeoLocation(ilGeoLocation $given_geolocation)
     {
         $geo_locations = $this->geo_repository->getGeoLocationsByCoordinates("48° 52' 0\" N","2° 20' 0\" E");
 

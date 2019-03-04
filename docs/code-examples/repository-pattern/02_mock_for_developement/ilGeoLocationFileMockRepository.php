@@ -6,7 +6,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Create a new geo location entry
      */
-    public function createGeoLocation(array $obj_data) : ilObjGeoLocation
+    public function createGeoLocation(array $obj_data) : ilGeoLocation
     {
         // Generate a random object id. This should just work fine for development
         $generated_id = rand(1, 100000);
@@ -19,7 +19,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         fwrite($file, $write_string);
         fclose($file);
 
-        return new ilObjGeoLocation($generated_id,
+        return new ilGeoLocation($generated_id,
                                     $obj_data['title'],
                                     $obj_data['latitude'],
                                     $obj_data['longitude'],
@@ -38,7 +38,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         {
             if($row[0] == $a_id)
             {
-                return new ilObjGeoLocation($a_id, $row[1], $row[2], $row[3], new DateTimeImmutable($row[4]));
+                return new ilGeoLocation($a_id, $row[1], $row[2], $row[3], new DateTimeImmutable($row[4]));
             }
         }
 
@@ -58,7 +58,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
         {
             if($row[2] == $a_latitude && $row[3] == $a_longitude)
             {
-                $geo_locations[] = new ilObjGeoLocation($row[0], $row[1], $row[2], $row[3], new DateTimeImmutable($row[4]));
+                $geo_locations[] = new ilGeoLocation($row[0], $row[1], $row[2], $row[3], new DateTimeImmutable($row[4]));
             }
         }
 
@@ -107,7 +107,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
     /**
      * Update all attributes of a given geo location
      */
-    public function updateGeoLocationObject(ilObjGeoLocation $a_obj)
+    public function updateGeoLocationObject(ilGeoLocation $a_obj)
     {
         // Read entire file
         $file = fopen('mocked_geolocation_data.txt', 'r');
