@@ -1,4 +1,4 @@
-# Repository Pattern
+# Repository Patterno
 
 ## What, why and how?
 
@@ -175,3 +175,472 @@ the repository controls.
 
 
 ## Examples
+
+The following code-snippets are examples to get a better understanding of the
+repository pattern. Furthermore, these examples can be used as templates for
+the development of new features and refactoring of already existing ones.
+
+In the start of this chapter, we discuss and describe at first how and why the
+examples are implemented as they are. If you are just really interested in an 
+example implementation of the pattern with the usage of SQL, skip to the chapter 
+*Simple example* or just look at the code examples folder.
+
+Note that this examples are not perfect for every situation. Like always in
+software development, the developer has to decide which is the best way of usage
+for his or hers applications.
+
+For the moment, we found 3 types of examples to use the repository pattern for. We
+even found some more possible usages, which after further analysis turned out to be
+anti patterns. They are documented under the chapter of non-examples
+
+For simplicity reasons, the class of the objects to persist is in all following
+example the same. The class is called `ilObjGeoLocation` and is immutable:
+
+```php
+    class ilObjGeoLocation {
+        protected $id;
+        protected $title;
+        protected $latitude;
+        protected $longitude;
+        protected $expiration_timestamp;
+
+        public __construct(int $a_id, string $a_title, string $a_latitude, 
+                           string $a_longitude, int $a_expiration_timestamp)
+        {
+            $this->id = $a_id;
+            $this->title = $a_title;
+            $this->latitude = $latitude;
+            $this->longitude = $longitude;
+            $this->expiration_timestamp = $a_expiration_timestamp;
+        }
+
+        public function getId() : int { return $this->id; }
+        public function getTitle() : string { return $this->title; }
+        public function getLatitude() : string { return $this->latitude; }
+        public function getLongitude() : string { return $this->longitude; }
+        public function getExpirationTimestamp() : int { return $this->getExpirationTimestamp; }
+    }
+```
+
+For these examples, we define an interface called `ilGeoLocationRepository`, which is
+the base for all the other example Repository-Classes. The implementing classes
+of this interface do interact with the database or whatever medium is used. In most
+cases, those interactions are a set of different **CRUD**-Operations (**C**eate,
+**R**ead, **U**pdate and **D**elete). E.g. the *read*-Operation contains simple
+methods like returning a single object, identified by an ID. On the other hand,
+others return an array of objects or just a boolean, if a requested object exists.
+The same rules apply for updating or even deleting multiple objects at once.
+
+Always keep in mind, that those CRUD-Operations are not only limited to an
+SQL-Statement for a database, but also are possible for a filesystem. But for most of this
+examples, we use a database. The database is injected in the constructor. The
+benefit of injecting the database to the repository class is to make mocking for
+unit tests easier.
+
+The following few lines of code are a template for different `ilGeoLocation*Repository`-
+class we use in the example. The function blocks are on purpose blank, since the
+implementation differs from example to example.
+
+```php
+    interface ilGeoLocationRepository {
+        // Create operations
+        public function createGeoLocation(array $obj_data);
+
+        // Read operations
+        public function getGeoLocationById(int $a_id);
+        public function getGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
+        public function checkIfLocationExistsById(int $a_id) : bool;
+        public function checkIfAnyLocationExistsByGeoLocation(string $a_latitude, string $a_longitude) : bool;
+        
+        // Update operations
+        public function updateGeoLocationObject(ilObjGeoLocation $a_obj);
+        public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, int $a_update_timestamp);
+        
+        // Delete operations
+        public function deleteGeoLocationById(int $a_id);
+        public function purgeGeoLocationsByCoordinates(string $a_latitude, string $a_longitude);
+        public function purgeExpiredGeoLocations();
+    }
+```
+
+For the full code of each example, be sure to visit the "code-examples"-folder.
+
+### Simple example
+
+A simple example for the Repository-Pattern would be a class, that *writes* objects
+to a database and *reads* them from the database if needed.
+
+In the following example, we want to *write* and *read* objects that contains
+GeoLocations. We call the class for this objects `ilObjGeoLocation` and the class
+that is used to persist them `ilGeoLocationRepository`.
+
+In this simple example, these operations are written in *SQL* and executed with
+*ilDB*. Depending on the operation, the data for the SQL instruction is read from
+the object/array or an object will be create from the response of the database. Following
+the different methods for different CRUD-Operations
+
+#### CRUD-Operations
+
+**Create operations**
+
+* Create an object out of the given data: create_____($obj_data)
+    * For example: createGeoLocation(array: $obj_data)
+    * *Note:* There is a good reason, why the argument is an array (or something 
+    else) instead of an actual object. The actual object needs to have an id.
+    Since the only object which interacts with the database is the repository 
+    object, the repository object is the only one who can read the next id from
+    the database.
+
+```php
+    // Get next free id for object
+    $id = $this->db->nextId($this->db->quoteIdentifier(self::TABLE_NAME));
+
+    // Insert in database
+    $this->db->insert($this->db->quoteIdentifier(self::TABLE_NAME), array(
+        'id' => array('integer', $id),
+        'title' => array('text', $obj_data['title']),
+        'latitude' => array('float', $obj_data['latitude'],
+        'longitude' => array('float', $obj_data['longitude']),
+        'expiration_timestamp' => array('timestamp', $obj_data['expirationAsTimestamp'])
+    )));
+
+    // Return the new created object or just the id
+    return new ilObjGeoLocation($id,
+                                $obj_data['title'],
+                                $obj_data['latitude'],
+                                $obj_data['longitude'],
+                                $obj_data['expiration_timestamp']);
+```
+
+**Read operations**
+
+* Get specific object by unique identifier. Returns object: get____ById($id)
+    * For example: get*GeoLocation*ById(int $id) : ilObjGeoLocation
+
+```php
+    // Set up SQL-Statement
+    $query = 'Select * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+
+    // Execute query
+    $result = $this->db->query($query);
+
+    // Fetch row for returning
+    if($row = $this->db->fetchAssoc($result))
+    {
+        // Create object out of fetched data and return it
+        return new ilObjGeoLocation($row['id'],
+                                    $row['title'],
+                                    $row['latitude'],
+                                    $row['longitude'],
+                                    new DateTimeImmutable($row['expiration_timestamp']));
+    }
+    else
+    {
+        // Return NULL if nothing was found (throw an exception is also a possiblity)
+        return NULL;
+    }
+```
+
+* Get all objects with specified attributes. Returns Array: get____By____($attribute)
+    * get*GeoLocations*By*Coordinates*($a_latitude, $a_longitude) : array
+
+```php
+    // Set up SQL-Statement
+    $query = 'Select * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+    // Execute query
+    $result = $this->db->query($query);
+
+    // Fill array with all matching objects
+    $locations = array();
+    while($row = $this->db->fetchAssoc($result))
+    {
+        // Create object and add it to list
+        $locations[] = new ilObjGeoLocation($row['id'],
+                                            $row['title'],
+                                            $row['latitude'],
+                                            $row['longitude'],
+                                            new DateTimeImmutable($row['expiration_timestamp']));
+    }
+
+    // Return list of objects (might be empty if no object was found)
+    return $locations;
+```
+
+* Check if specific object exists. Returns Boolean: checkIf____ExistsById($id)
+    * checkIf*GeoLocation*ExistsBy*Id*(int $id) : bool
+    
+```php
+    // Set up SQL-Statement
+    $query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+    
+    // Execute statement
+    $result = $this->db->query($query);
+    
+    // Return if object was found
+    return $result['count'] > 0;
+```
+
+* Check if any object with given attributes exist. Returns Boolean: checkIfAny____ExistsBy____($attribute)
+    * checkIfAny*GeoLocation*ExistsBy*Coordinates*(string $a_latitude, string $a_longitude) : bool
+
+```php
+    // Set up SQL-Statement
+    $query = 'Select count(*) AS count FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+             ' WHERE latitude = ' . $this->db->quote($a_latitude, 'text') .
+             ' AND longitude = ' . $this->db->quote($a_longitude, 'text');
+
+    // Execute statement
+    $result = $this->db->query($query);
+
+    // Return if any object was found
+    return $result['count'] > 0;
+```
+
+**Update operations**
+
+* Update specific object, identified by its id: update______Object($id)
+    * update*GeoLocation*Object(ilObjGeoLocation $a_obj)
+
+```php
+    // Update of one entire geo location object
+    $this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
+        // Update columns (in this case all except for id):
+        array('title' => array($a_obj->getTitle(), 'text')),
+        array('latitude' => array($a_obj->getLatitude(), 'text')),
+        array('longitude' => array($a_obj->getLongitude(), 'text')),
+        array('expiration_timestamp' => array($a_obj->getExpirationAsTimestamp(), 'timestamp')),
+        // Where (in this case only the object with the given id):
+        array('id' => array($a_obj->getId(), 'int'))
+    );
+```
+
+* Update a set of objects with the same attributes at once: update____By____($_searched_attributes, $a_new_attributes)
+    * update*GeoLocation*By*Coordinates*($a_searched_latitude, $a_searched_longitude, $a_new_timestamp)
+    * *Note:* This function seems to be anti-pattern. For a lot of use cases 
+    this is true. You should prefer updating an entire object instead 
+    of just a single attribute. But if you want to update some specific attributes 
+    on a set of object, an update query like this is a lot faster than fetching 
+    a list of all wanted objects and update them one by one.
+
+```php
+    // Update for single attribute of a set of geo location objects
+    $this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
+        // Update columns (in this case only the timestamp):
+        array('expiration_timestamp' => array('timestamp', $a_update_timestamp)),
+        // Where (in this case every object on the given location):
+        array('latitude' => array($a_searched_latitude, 'latitude'),
+              'longitude' => array($a_searched_longitude, 'longitude'))
+    );
+```
+
+**Delete operations**
+
+* Delete specific object: delete____Object($id)
+    * delete*GeoLocation*Object($a_id)
+
+```php
+    // Set up delete query
+    $query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+    ' WHERE id = ' . $this->db->quote($a_id, 'integer');
+
+    // Execute delete query
+    $this->db->manipulate($query);
+```
+
+* Delete a set of objects with a given attribute. Attributes are given as Argument: purge____By____($attribute)
+    * purge*GeoLocations*By*Coordinates*($a_latitude, $a_longitude)
+
+```php
+    // Set up delete query
+    $query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+        ' WHERE latitude < ' . $this->db->quote($a_latitude, 'text') .
+        ' AND longitude = ' . $this->db->quote($a_longitude, 'text');
+
+    // Execute delete query
+    $this->db->manipulate($query);
+```
+
+* Delete a set of objects with a given attribute. Attributes are implied in function title: purge____()
+    * purge*ExpiredGeoLocations*()
+    
+```php
+   // Set up delete query
+   $query = 'DELETE FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) .
+       ' WHERE expiration_timestamp < ' . $this->db->quote(time(), 'timestamp');
+
+   // Execute delete query
+   $this->db->manipulate($query);
+```
+
+### Mock to use while developing
+
+Imagine following scenario: You are a developer and you have the mission the 
+mission to implement a plugin which works with geo locations. So you implement
+an obj-class as given with `ilObjGeoLocation`. In the planing phase you see, that 
+there are different formats to use coordinates. Since there might be some confusion 
+you go for the decimal "*degrees format*" (looks like this: 47.05016819; 8.30930720). 
+This coordinates can be stored as two float values in the database.
+
+Later during the development some requirements might change and there are some 
+new ideas. Maybe the "*degrees, minutes, seconds*" (looks like this: 48° 52' 0" 
+N;2° 20' 0" E) would have fitted better. And maybe an additional description to 
+the title would also be a good idea. But changes like this require a change in 
+the "dbupdate.php"-file, a change in the Database columns itself, a change in the
+DB-queries and a change in the strict typing of all functions.
+
+A possible solution for this type of problem is the usage of a "mocked" repository 
+object. But not mocked in the case of unit tests, but mocked in the case of the 
+implementation. Instead of writing into a database table, a simple file is used.
+Obviously, this file doesn't care about data types and formats. They can also be 
+manually edited with a simple editor. This might be a horrible idea for a production
+system regarding the miserable integrity, lack of joining tables etc. But for quick changes
+and tests during the development process, this flexible way of persisting and 
+reading data comes in pretty useful.
+
+With the example of the `ilObjGeoLocation`-object, we a text file could look like this:
+
+```
+1;Paris;48° 52' 0" N;2° 20' 0" E;1539377900
+2;Berlin;52° 31' 0" N;13° 24' 0" E;1539177900
+3;Bern;46° 55' 0" N;7° 28' 0" E;1539077900
+```
+
+Now we can read a line as csv like this:
+
+```php
+$file = fopen('mocked_geolocation_data.txt', 'r');
+$row = fgetcsv($file);
+fclose($file);
+```
+
+And write a line like this:
+
+```php
+$file = fopen('mocked_geolocation_data.txt', 'r');
+$write_string = $obj_data[0].';' .$obj_data[1].';' .$obj_data[2].';' .$obj_data[3].';'                 .$obj_data[4]."\n";
+fwrite($file, $write_string);
+fclose($file);
+```
+
+
+### Mock to use in unit tests
+
+As already mentioned: The repository pattern is really helpful in terms of writing unit 
+tests if used correctly. They can be mocked to return predefined objects This could
+look like this:
+
+```php
+// Create predefined return values
+$obj1 = new ilObjGeoLocation(1, "older", "", "", microtime() - 1000);
+$obj2 = new ilObjGeoLocation(1, "newer", "", "", microtime());
+
+// Create mock
+$mocked_repo = $this->createMock(ilGeoLocationRepository::class);
+
+// Set mocked method
+$mocked_repo->expects($this->once())
+    ->method('getGeoLocationsByCoordinates')
+    ->with($this->equalTo("48° 52' 0\" N", "2° 20' 0\" E")
+    ->will($this->returnValue(array($obj1, $obj2)));
+```
+
+After this, the mocked repository can be injected to an object for unit tests. If the
+testing object now calls the mocked repository, it will return our predefined value:
+
+```php
+// Inject mocked repository to the testing class
+$calc = new ilGeoLocationCalculator($mocked_repo);
+
+// Execute testing method
+$result = $calc->calculateNearestExpiration(array("48° 52' 0\" N", "2° 20' 0\" E")) 
+
+// Assert test
+$this->assertEqual($result, $obj2)
+```
+
+# Bad examples
+
+During the writing of this documentation, we also tried to use the repository 
+pattern in combination with some different patterns. We determined, that some 
+of this combinations are bad examples. With the following subchapters, we 
+show, why we considered these examples as bad and why we do not recommend
+them.
+
+## Factory Pattern inside a Repository
+
+Don't get us wrong, a repository can absolutely be used inside of a factory and 
+and we would even recommend it. Sadly, the other way doesn't work so well.
+In most cases, the factory would also need a repository if it needs to load data
+from the database to construct a new object.
+
+In this case, a factory would either use another repository for database access.
+Or worse, it uses the repository in which it exists inside. This would create a
+circular dependency between a repository and a factory which should be avoided.
+
+The following code snippet shows how both case would look like:
+
+```php
+// Scenario with 2 repositories
+public function getGeoLocationById(int $a_id) : ilObjGeoLocation
+{
+    /* Insert read data from DB part here */
+    
+    // Create second repository
+    $second_repo = new ilOtherGeoLocationRepository($this->db);
+    $obj = $this->geo_location_factory->createGeoLocation($obj, $second_repo);
+    return $obj;
+}
+
+// Scenario with circular dependency
+public function getGeoLocationById(int $a_id) : ilObjGeoLocation
+{
+    /* Insert read data from DB part here */
+    $obj = $this->geo_location_factory->createGeoLocation($obj, $this);
+    return $obj;
+}
+```
+
+## Active Record inside a Repository
+
+We determined two scenarios, how active record could be used inside a repository.
+The first scenario would, that the object which should be persisted **extends** from
+`ActiveRecord`. The other scenario would be, that there is for each class an 
+**additional** class, which extends from `ActiveRecord` and only is used for database
+Access.
+
+In case of updating an object with the first scenario, the method would look like this:
+
+```php
+public function updateGeoLocationObject(ilObjGeoLocation $a_obj) 
+{
+    $a_obj->update();
+}
+```
+
+As you can see, it doesn't make any sense to pass an object to the repository,
+just to call the `->update()`-method. Developers would just skip the repository and
+would update the object direct by them self.
+
+The other scenario would be to create an additional class, which extends from 
+`ActiveRecord` and is used for database access. The following code snippet shows, 
+how such a function could look like:
+
+```php
+// Class for objects to work with
+class ilObjGeoLocation {}
+
+// Class to interact with the database
+class ilObjGeoLocationAR extends ActiveRecord {}
+
+public function updateGeoLocationObject(ilObjGeoLocation $a_obj) 
+{
+    $ar_obj = new ilObjGeoLocationAR($a_obj);
+    $ar_obj->update();
+}
+```
+
+Like in the first scenario, the repository is just used to create the ActiveRecord-Object
+and call the update method.
