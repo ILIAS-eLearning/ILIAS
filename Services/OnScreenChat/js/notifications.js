@@ -3,14 +3,6 @@
 }(window, il, function init(root, $) {
 	"use strict";
 
-	const lsScope = "osc_web_noti_",
-		tabNegotiationPrefix = "osc_at_",
-		ignoreNotificationPrefix = "osc_ig_";
-
-	let methods = {},
-		ls = root.localStorage,
-		sendNotifications = {};
-
 	let Logger = (function () {
 		const defineLogLevel = function defineLogLevel(value, name) {
 			return {
@@ -93,13 +85,180 @@
 
 	let logger = new Logger(Logger.DEBUG);
 
-	let markNotificationAsIgnored = function markNotificationAsIgnored(uuid) {
-		localStorage.setItem(ignoreNotificationPrefix + uuid, "1");
-	};
+	let NotificationStorage = (function() {
+		let sentNotifications = {};
 
-	let isNotificationIgnored = function isNotificationIgnored(uuid) {
-		return ls.getItem(ignoreNotificationPrefix + uuid) === "1";
-	};
+		const lsScope = "osc_webnoti_",
+			tabNegotiationPrefix = "osc_webnotiat_",
+			ignoreNotificationPrefix = "osc_webnotiig_";
+
+		class NotificationStorage {
+			/**
+			 * 
+			 */
+			constructor() {
+				this.gc();
+			}
+
+			/**
+			 *
+			 * @param {jQuery.Event} e
+			 * @returns {boolean}
+			 */
+			shouldHandleEvent(e) {
+				return (
+					e.originalEvent !== undefined &&
+					typeof e.originalEvent.key === 'string' &&
+					e.originalEvent.key.indexOf(lsScope) !== -1
+				);
+			}
+
+			/**
+			 *
+			 * @param {Object} notification
+			 */
+			markAsSent(notification) {
+				sentNotifications[notification.uuid] = true
+			}
+
+			/**
+			 *
+			 * @param {Object} notification
+			 * @returns {boolean}
+			 */
+			isMarkedAsSent(notification) {
+				return sentNotifications.hasOwnProperty(notification.uuid);
+			}
+
+			/**
+			 * 
+			 * @param {Object} notification
+			 */
+			markAsIgnored(notification) {
+				localStorage.setItem(ignoreNotificationPrefix + notification.uuid, "1");
+			}
+
+			/**
+			 * 
+			 * @param {Object} notification
+			 * @returns {boolean}
+			 */
+			isIgnored(notification) {
+				return ls.getItem(ignoreNotificationPrefix + notification.uuid) === "1";
+			}
+
+			/**
+			 *
+			 * @param {Object} notification
+			 * @returns {(String|null)}
+			 */
+			getHandlingTab(notification)  {
+				return ls.getItem(tabNegotiationPrefix + notification.uuid);
+			}
+
+			/**
+			 *
+			 * @param {Object} notification
+			 * @returns {boolean}
+			 */
+			hasHandlingTab(notification)  {
+				let handlingTab = ls.getItem(tabNegotiationPrefix + notification.uuid);
+
+				return null !== handlingTab;
+			}
+
+			/**
+			 *
+			 * @param {Object} notification
+			 * @param {String} tabId
+			 */
+			setHandlingTab(notification, tabId)  {
+				ls.setItem(tabNegotiationPrefix + notification.uuid, tabId);
+			}
+
+			/**
+			 * 
+			 * @param {Object} notification
+			 */
+			emit(notification) {
+				// Emit event to all other browser tabs
+				ls.setItem(lsScope + notification.uuid, JSON.stringify(notification));
+
+				// Emit event for the current tab
+				let e = $.Event("storage");
+				e.originalEvent = {
+					key: lsScope + notification.uuid,
+					oldValue: "oldValue",
+					newValue: notification
+				};
+				$(root).trigger(e);
+			}
+
+			/**
+			 * 
+			 */
+			gc() {
+				root.setInterval(function() {
+					const items = {...ls};
+
+					for (let key in items) {
+						if (key.indexOf(lsScope) !== -1) {
+							let notification;
+
+							if (!ls.hasOwnProperty(key)) {
+								continue;
+							}
+
+							notification = ls[key];
+							if (typeof notification === "string") {
+								notification = JSON.parse(notification);
+							}
+
+							if (notification.ts < (new Date()).getTime() - (60 * 1000)) {
+								logger.debug("Garbage collected: " + notification.uuid);
+								ls.removeItem(ignoreNotificationPrefix + notification.uuid);
+								ls.removeItem(tabNegotiationPrefix + notification.uuid);
+								ls.removeItem(key);
+							}
+						}
+					}
+				}, (60 * 1000));
+			}
+		}
+
+		return NotificationStorage;
+	})();
+
+	if (!("localStorage" in root)) {
+		logger.warn("No 'localStorage' support.");
+	}
+
+	let methods = {},
+		ls = "localStorage" in root ? root.localStorage : (function() {
+			let items = {};
+
+			return {
+				removeItem: function (key) {
+					if (items.hasOwnProperty(key)) {
+						return items.key;
+					}
+				},
+
+				getItem: function (key) {
+					if (items.hasOwnProperty(key)) {
+						return items[key];
+					}
+
+					return null;
+				},
+
+				setItem: function (key, value) {
+					items[key] = value;
+				}
+			};
+		})();
+
+	let storage = new NotificationStorage(ls);
 
 	/**
 	 * 
@@ -107,9 +266,9 @@
 	 */
 	let delegateBrowserNotification = function delegateBrowserNotification(notification) {
 		logger.debug("Entered final browser notification handling for message with id: " + notification.uuid);
-		if (!sendNotifications.hasOwnProperty(notification.uuid)) {
+		if (!storage.isMarkedAsSent(notification)) {
 			if (il.BrowserNotifications.isSupported()) {
-				sendNotifications[notification.uuid] = true;
+				storage.markAsSent(notification);
 				il.BrowserNotifications.requestPermission().then(() => {
 					il.BrowserNotifications.notification(notification.title, {
 						closeOnClick: true,
@@ -127,8 +286,6 @@
 		} else {
 			logger.debug("Notification already sent for message: " + notification.uuid);
 		}
-
-		ls.removeItem(lsScope + notification.uuid);
 	};
 
 	/**
@@ -136,18 +293,17 @@
 	 * @param {Object} notification
 	 */
 	let tabNegotiationHandler = function tabNegotiationHandler(notification) {
-		let tabId = Math.random() * 10000,
-			activeTabIdentifier = tabNegotiationPrefix + notification.uuid;
+		let tabId = Math.random() * 10000;
 
 		logger.debug("Entered tab negotiation (tab id: " + tabId + ") for notification: " + notification.uuid);
-		if (null === ls.getItem(activeTabIdentifier)) {
+		if (!storage.hasHandlingTab(notification)) {
 			logger.info("Setting tab id to storage for notification: " + notification.uuid);
-			ls.setItem(activeTabIdentifier, tabId);
+			storage.setHandlingTab(notification, tabId);
 		} else {
 			logger.debug("Another tab already set it's tab id to storage for notification: " + notification.uuid);
 		}
 
-		let handlingTab = ls.getItem(activeTabIdentifier);
+		let handlingTab = storage.getHandlingTab(notification);
 		if (handlingTab === tabId.toString()) {
 			logger.debug("Tab negotiated, using browser API to send notification: " + notification.uuid);
 			delegateBrowserNotification(notification);
@@ -161,16 +317,16 @@
 	 * @param {jQuery.Event} e
 	 */
 	let onWebNotificationBroadCast = function onWebNotificationBroadCast(e) {
-		if (e.originalEvent !== undefined && typeof e.originalEvent.key === 'string' && e.originalEvent.key.indexOf(lsScope) !== -1) {
+		if (storage.shouldHandleEvent(e)) {
 			let notification = e.originalEvent.newValue;
 			if (typeof notification === "string") {
 				notification = JSON.parse(notification);
 			}
 
 			if (il.UICore.isPageVisible()) {
-				markNotificationAsIgnored(notification.uuid);
+				storage.markAsIgnored(notification);
 				logger.debug("Ignoring event because event receiving tab is visible: " + notification.uuid);
-			} else if (isNotificationIgnored(notification.uuid)) {
+			} else if (storage.isIgnored(notification)) {
 				logger.debug("Ignoring event because one tab marked notification as 'to be ignored': " + notification.uuid);
 			} else {
 				logger.debug("Tab is invisible, no other tab seems to be visible. Delegating event for: " + notification.uuid);
@@ -194,29 +350,20 @@
 			uuid: uuid,
 			title: title,
 			body: body,
-			icon: icon
+			icon: icon,
+			ts: (new Date()).getTime()
 		};
 
 		logger.debug("Started browser notification handling for incoming chat message with id: " + notification.uuid);
 
 		if (il.UICore.isPageVisible()) {
 			logger.debug("Current tab is visible, ignoring message. The user was able to notice the chat message: " + notification.uuid);
-			markNotificationAsIgnored(notification.uuid);
+			storage.markAsIgnored(notification);
 		} else {
 			root.setTimeout(function() {
 				logger.debug("Propagating event because current tab is hidden for chat message: " + notification.uuid);
 
-				// Emit event to all other browser tabs
-				ls.setItem(lsScope + notification.uuid, JSON.stringify(notification));
-
-				// Emit event for the current tab
-				let e = $.Event("storage");
-				e.originalEvent = {
-					key: lsScope + notification.uuid,
-					oldValue: "oldValue",
-					newValue: notification
-				};
-				$(root).trigger(e);
+				storage.emit(notification);
 			}, 50);
 		}
 	};
