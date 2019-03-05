@@ -46,8 +46,11 @@
 				if (null !== $notificationToggle) {
 					let $container = $notificationToggle.parent();
 
-					root.setInterval(() => {
-						if (il.BrowserNotifications.isSupported()) {
+					if (!il.BrowserNotifications.isSupported()) {
+						showErrorMessage($container, 'osc_browser_noti_no_support_error');
+						deselectAndLockCheckbox($notificationToggle);
+					} else {
+						root.setInterval(() => {
 							if (il.BrowserNotifications.isBlocked()) {
 								showErrorMessage($container, 'osc_browser_noti_no_permission_error');
 								deselectAndLockCheckbox($notificationToggle);
@@ -55,15 +58,7 @@
 								$notificationToggle.prop("disabled", false);
 								emptyErrorMessages($container);
 							}
-						}
-					}, 1000);
-
-					if (!il.BrowserNotifications.isSupported()) {
-						showErrorMessage($container, 'osc_browser_noti_no_support_error');
-						deselectAndLockCheckbox($notificationToggle);
-					} else if (il.BrowserNotifications.isBlocked()) {
-						showErrorMessage($container, 'osc_browser_noti_no_permission_error');
-						deselectAndLockCheckbox($notificationToggle);
+						}, 1000);
 					}
 
 					$notificationToggle.on("change", function () {
