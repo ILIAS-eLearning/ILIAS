@@ -135,7 +135,7 @@
 			 * @param {Object} notification
 			 */
 			markAsIgnored(notification) {
-				localStorage.setItem(ignoreNotificationPrefix + notification.uuid, "1");
+				ls.setItem(ignoreNotificationPrefix + notification.uuid, "1");
 			}
 
 			/**
