@@ -419,22 +419,22 @@ il.UICore = {
 
 	right_panel_wrapper: "",
 
-	is_page_visbile: true,
+	is_page_visible: true,
 
 	/**
 	 * 
 	 * @param {boolean} status
 	 */
 	setPageVisibilityStatus: function(status) {
-		il.UICore.is_page_visbile = status
+		il.UICore.is_page_visible = status
 	},
 
 	/**
 	 * 
 	 * @returns {boolean}
 	 */
-	isPageVisibile: function() {
-		return il.UICore.is_page_visbile;
+	isPageVisible: function() {
+		return il.UICore.is_page_visible;
 	},
 
 	scrollToHash: function () {
