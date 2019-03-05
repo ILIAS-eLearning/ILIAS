@@ -199,7 +199,7 @@
 			 */
 			gc() {
 				root.setInterval(function() {
-					const items = {...ls};
+					let items = {...ls};
 
 					for (let key in items) {
 						if (key.indexOf(lsScope) !== -1) {
@@ -319,6 +319,11 @@
 	let onWebNotificationBroadCast = function onWebNotificationBroadCast(e) {
 		if (storage.shouldHandleEvent(e)) {
 			let notification = e.originalEvent.newValue;
+
+			if (null === notification) {
+				return;
+			}
+
 			if (typeof notification === "string") {
 				notification = JSON.parse(notification);
 			}
