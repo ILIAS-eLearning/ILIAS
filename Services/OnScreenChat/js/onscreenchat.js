@@ -504,7 +504,7 @@
 						il.OnScreenChatNotifications.send(
 							messageObject.uuid,
 							il.Language.txt('osc_noti_title'),
-							messageObject.message, // TODO: Maybe handle security etc.
+							$("<span>").html(messageObject.message).text(),
 							getConfig().notificationIconPath
 						);
 					}
