@@ -11,81 +11,87 @@
 		ls = root.localStorage,
 		sendNotifications = {};
 
-	let defineLogLevel = function(value, name) {
-		return {
-			value: value,
-			name: name
+	let Logger = (function () {
+		const defineLogLevel = function defineLogLevel(value, name) {
+			return {
+				value: value,
+				name: name
+			};
 		};
-	};
 
-	let Logger = function () {
-		this.setLevel(Logger.DEBUG);
-	};
+		const invoke = function invoke(level, messageArguments) {
+			if (messageArguments.length > 0) {
+				let firstElement = messageArguments.shift();
+				if (typeof firstElement === "string") {
+					firstElement = "OSC Web Notifications | " + firstElement;
 
-	Logger.prototype = {
-		setLevel: function (level) {
-			if (level && "value" in level) {
-				this.level = level;
-			}
-		},
-
-		getLevel: function () {
-			return this.level;
-		},
-
-		enabledFor: function (level) {
-			return level.value >= this.level.value;
-		}
-	};
-
-	Logger.TRACE = defineLogLevel(1, 'TRACE');
-	Logger.DEBUG = defineLogLevel(2, 'DEBUG');
-	Logger.INFO = defineLogLevel(3, 'INFO');
-	Logger.TIME = defineLogLevel(4, 'TIME');
-	Logger.WARN = defineLogLevel(5, 'WARN');
-
-	Logger.prototype.trace = function(...args) {
-		this.invoke(Logger.TRACE, args);
-	};
-
-	Logger.prototype.error = function(...args) {
-		this.invoke(Logger.ERROR, args);
-	};
-
-	Logger.prototype.info = function(...args) {
-		this.invoke(Logger.INFO, args);
-	};
-
-	Logger.prototype.debug = function(...args) {
-		this.invoke(Logger.DEBUG, args);
-	};
-
-	Logger.prototype.warn = function(...args) {
-		this.invoke(Logger.WARN, args);
-	};
-
-	Logger.prototype.invoke = function(level, messageArguments) {
-		if (messageArguments.length > 0) {
-			let firstElement = messageArguments.shift();
-			if (typeof firstElement === "string") {
-				firstElement = "OSC Web Notifications | " + firstElement;
-
-				if (0 === messageArguments.length) {
-					messageArguments = firstElement
-				} else {
-					messageArguments.unshift(firstElement);
+					if (0 === messageArguments.length) {
+						messageArguments = firstElement
+					} else {
+						messageArguments.unshift(firstElement);
+					}
 				}
 			}
+
+			if (this.enabledFor(level) && level.name.toLowerCase() in console) {
+				console[level.name.toLowerCase()](messageArguments);
+			}
+		};
+
+		class Logger {
+			constructor(level) {
+				this.setLevel(level);
+			}
+
+			setLevel(level) {
+				if (level && "value" in level) {
+					this.level = level;
+				}
+			}
+
+			getLevel() {
+				return this.level;
+			}
+
+			enabledFor(level) {
+				return level.value >= this.level.value;
+			}
+
+			error(...args) {
+				invoke.call(this, Logger.ERROR, args);
+			}
+
+			info(...args) {
+				invoke.call(this, Logger.INFO, args);
+			}
+
+			trace(...args) {
+				invoke.call(this, Logger.TRACE, args);
+			}
+
+			debug(...args) {
+				invoke.call(this, Logger.DEBUG, args);
+			}
+
+			warn(...args) {
+				invoke.call(this, Logger.WARN, args);
+			}
+			
+			log(...args) {
+				this.info(args);
+			}
 		}
 
-		if (this.enabledFor(level) && level.name.toLowerCase() in console) {
-			console[level.name.toLowerCase()](messageArguments);
-		}
-	};
+		Logger.TRACE = defineLogLevel(1, 'TRACE');
+		Logger.DEBUG = defineLogLevel(2, 'DEBUG');
+		Logger.DEBUG = defineLogLevel(3, 'INFO');
+		Logger.WARN = defineLogLevel(4, 'WARN');
+		Logger.ERROR = defineLogLevel(5, 'ERROR');
 
-	Logger.log = Logger.info;
+		return Logger;
+	})();
 
-	let logger = new Logger();
+	let logger = new Logger(Logger.DEBUG);
 
 	let markNotificationAsIgnored = function markNotificationAsIgnored(uuid) {
 		localStorage.setItem(ignoreNotificationPrefix + uuid, "1");
