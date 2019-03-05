@@ -11,18 +11,99 @@
 		ls = root.localStorage,
 		sendNotifications = {};
 
-	// TODO: Optimize storage/check of ignored events / Cleanup of LocalStorage
+	let defineLogLevel = function(value, name) {
+		return {
+			value: value,
+			name: name
+		};
+	};
+
+	let Logger = function () {
+		this.setLevel(Logger.DEBUG);
+	};
+
+	Logger.prototype = {
+		setLevel: function (level) {
+			if (level && "value" in level) {
+				this.level = level;
+			}
+		},
+
+		getLevel: function () {
+			return this.level;
+		},
+
+		enabledFor: function (level) {
+			return level.value >= this.level.value;
+		}
+	};
+
+	Logger.TRACE = defineLogLevel(1, 'TRACE');
+	Logger.DEBUG = defineLogLevel(2, 'DEBUG');
+	Logger.INFO = defineLogLevel(3, 'INFO');
+	Logger.TIME = defineLogLevel(4, 'TIME');
+	Logger.WARN = defineLogLevel(5, 'WARN');
+
+	Logger.prototype.trace = function(...args) {
+		this.invoke(Logger.TRACE, args);
+	};
+
+	Logger.prototype.error = function(...args) {
+		this.invoke(Logger.ERROR, args);
+	};
+
+	Logger.prototype.info = function(...args) {
+		this.invoke(Logger.INFO, args);
+	};
+
+	Logger.prototype.debug = function(...args) {
+		this.invoke(Logger.DEBUG, args);
+	};
+
+	Logger.prototype.warn = function(...args) {
+		this.invoke(Logger.WARN, args);
+	};
+
+	Logger.prototype.invoke = function(level, messageArguments) {
+		if (messageArguments.length > 0) {
+			let firstElement = messageArguments.shift();
+			if (typeof firstElement === "string") {
+				firstElement = "OSC Web Notifications | " + firstElement;
+
+				if (0 === messageArguments.length) {
+					messageArguments = firstElement
+				} else {
+					messageArguments.unshift(firstElement);
+				}
+			}
+		}
+
+		if (this.enabledFor(level) && level.name.toLowerCase() in console) {
+			console[level.name.toLowerCase()](messageArguments);
+		}
+	};
+
+	Logger.log = Logger.info;
+
+	let logger = new Logger();
+
+	let markNotificationAsIgnored = function markNotificationAsIgnored(uuid) {
+		localStorage.setItem(ignoreNotificationPrefix + uuid, "1");
+	};
+
+	let isNotificationIgnored = function isNotificationIgnored(uuid) {
+		return ls.getItem(ignoreNotificationPrefix + uuid) === "1";
+	};
 
 	/**
 	 * 
 	 * @param {Object} notification
 	 */
 	let delegateBrowserNotification = function delegateBrowserNotification(notification) {
-		console.log("OSC Web Notifications| Finally handling notification for for message with ID: " + notification.uuid);
+		logger.debug("Entered final browser notification handling for message with id: " + notification.uuid);
 		if (!sendNotifications.hasOwnProperty(notification.uuid)) {
 			if (il.BrowserNotifications.isSupported()) {
 				sendNotifications[notification.uuid] = true;
-
 				il.BrowserNotifications.requestPermission().then(() => {
 					il.BrowserNotifications.notification(notification.title, {
 						closeOnClick: true,
@@ -30,49 +111,43 @@
 						body: notification.body,
 						icon: notification.icon
 					}).show();
-					console.log("OSC Web Notifications| Notification sent for message: " + notification.uuid);
+					logger.info("Notification sent for message: " + notification.uuid);
 				}).catch(() => {
-					console.log("OSC Web Notifications| Exception, permissions not granted");
+					logger.error("Exception, permissions not granted");
 				});
 			} else {
-				console.log("OSC Web Notifications| Exception, Web Notifications not supported");
+				logger.error("Exception, Web Notifications not supported");
 			}
 		} else {
-			console.log("OSC Web Notifications| Notification already sent for message: " + notification.uuid);
+			logger.debug("Notification already sent for message: " + notification.uuid);
 		}
+
+		ls.removeItem(lsScope + notification.uuid);
 	};
 
 	/**
 	 * 
 	 * @param {Object} notification
 	 */
-	let tagNegotiationHandler = function tabNegotiationHandler(notification) {
+	let tabNegotiationHandler = function tabNegotiationHandler(notification) {
 		let tabId = Math.random() * 10000,
 			activeTabIdentifier = tabNegotiationPrefix + notification.uuid;
 
-		console.log("OSC Web Notifications| Entered tab negotiation (tab id: " + tabId + ") for notification: " + notification.uuid);
+		logger.debug("Entered tab negotiation (tab id: " + tabId + ") for notification: " + notification.uuid);
 		if (null === ls.getItem(activeTabIdentifier)) {
-			console.log("OSC Web Notifications| Setting tab id to storage for notification: " + notification.uuid);
+			logger.info("Setting tab id to storage for notification: " + notification.uuid);
 			ls.setItem(activeTabIdentifier, tabId);
 		} else {
-			console.log("OSC Web Notifications| Another tab already set it's tab id to storage for notification: " + notification.uuid);
+			logger.debug("Another tab already set it's tab id to storage for notification: " + notification.uuid);
 		}
 
 		let handlingTab = ls.getItem(activeTabIdentifier);
 		if (handlingTab === tabId.toString()) {
-			console.log("OSC Web Notifications| Tab negotiated, using browser API to send notification: " + notification.uuid);
+			logger.debug("Tab negotiated, using browser API to send notification: " + notification.uuid);
 			delegateBrowserNotification(notification);
 		} else {
-			console.log("OSC Web Notifications| Tab ignored, another tab (tab id: " + handlingTab + ") will send notification: " + notification.uuid);
+			logger.debug("Tab ignored, another tab (tab id: " + handlingTab + ") will send notification: " + notification.uuid);
 		}
-	};
-	
-	let markNotificationAsIgnored = function markNotificationAsIgnored(uuid) {
-		localStorage.setItem(ignoreNotificationPrefix + uuid, "1");
-	};
-
-	let isNotificationIgnored = function isNotificationIgnored(uuid) {
-		return ls.getItem(ignoreNotificationPrefix + uuid) === "1";
 	};
 
 	/**
@@ -86,14 +161,14 @@
 				notification = JSON.parse(notification);
 			}
 
-			if (il.UICore.isPageVisibile()) {
+			if (il.UICore.isPageVisible()) {
 				markNotificationAsIgnored(notification.uuid);
-				console.log("OSC Web Notifications| Ignoring event because event receiving tab is visible: " + notification.uuid);
+				logger.debug("Ignoring event because event receiving tab is visible: " + notification.uuid);
 			} else if (isNotificationIgnored(notification.uuid)) {
-				console.log("OSC Web Notifications| Ignoring event because one tab marked notification as 'to be ignored': " + notification.uuid);
+				logger.debug("Ignoring event because one tab marked notification as 'to be ignored': " + notification.uuid);
 			} else {
-				console.log("OSC Web Notifications| Tab is invisible, no other tab seems to be visible. Delegating event for: " + notification.uuid);
-				tagNegotiationHandler(notification);
+				logger.debug("Tab is invisible, no other tab seems to be visible. Delegating event for: " + notification.uuid);
+				tabNegotiationHandler(notification);
 			}
 		}
 	};
@@ -116,12 +191,14 @@
 			icon: icon
 		};
 
-		if (il.UICore.isPageVisibile()) {
-			console.log("OSC Web Notifications| Current tab is visible, ignoring message. The user was able to notice the chat message: " + notification.uuid);
+		logger.debug("Started browser notification handling for incoming chat message with id: " + notification.uuid);
+
+		if (il.UICore.isPageVisible()) {
+			logger.debug("Current tab is visible, ignoring message. The user was able to notice the chat message: " + notification.uuid);
 			markNotificationAsIgnored(notification.uuid);
 		} else {
 			root.setTimeout(function() {
-				console.log("OSC Web Notifications| Propagating event because current tab is hidden for chat message: " + notification.uuid);
+				logger.debug("Propagating event because current tab is hidden for chat message: " + notification.uuid);
 
 				// Emit event to all other browser tabs
 				ls.setItem(lsScope + notification.uuid, JSON.stringify(notification));
