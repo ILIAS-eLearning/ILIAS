@@ -10,6 +10,7 @@ namespace ILIAS\Refinery;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\Validation\Factory;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -18,16 +19,18 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @var \ILIAS\Refinery\Validation\Factory
 	 */
-	private $validationFactory;
+	private $validation;
 
 	public function setUp()
 	{
 		$language = $this->getMockBuilder('ilLanguage')
 			->disableOriginalConstructor()
 			->getMock();
+
 		$dataFactory = new \ILIAS\Data\Factory();
 
-		$this->validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+		$validationFactory = new Factory($dataFactory, $language);
+		$this->validation = $validationFactory->isArrayOfSameType();
 	}
 
 	/**
@@ -35,7 +38,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testDictionaryTransformationValid()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->transform(array('hello' => 'world'));
 
@@ -47,7 +50,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->transform(array('world'));
 
@@ -59,7 +62,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testDictionaryTransformationInvalidBecauseValueIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->transform(array('hello' => 1));
 
@@ -71,7 +74,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->transform(1);
 
@@ -80,7 +83,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 
 	public function testDictionaryApplyValid()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->applyTo(new Ok(array('hello' => 'world')));
 
@@ -89,7 +92,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 
 	public function testDictionaryApplyInvalidBecauseKeyIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->applyTo(new Ok(array('world')));
 
@@ -98,7 +101,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 
 	public function testDictionaryApplyInvalidBecauseValueIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->applyTo(new Ok(array('hello' => 1)));
 
@@ -107,7 +110,7 @@ class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 
 	public function testDictonaryNonArrayToTransformThrowsException()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validationFactory);
+		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
 		$result = $transformation->applyTo(new Ok(1));
 

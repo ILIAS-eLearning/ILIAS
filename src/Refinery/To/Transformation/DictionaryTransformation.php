@@ -11,6 +11,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 
 class DictionaryTransformation implements Transformation
 {
@@ -20,18 +21,18 @@ class DictionaryTransformation implements Transformation
 	private $transformation;
 
 	/**
-	 * @var \ILIAS\Refinery\Validation\Factory
+	 * @var IsArrayOfSameType
 	 */
-	private $validationFactory;
+	private $validation;
 
 	/**
 	 * @param Transformation $transformation
-	 * @param \ILIAS\Refinery\Validation\Factory $factory
+	 * @param IsArrayOfSameType $arraySameTypeValidation
 	 */
-	public function __construct(Transformation $transformation, \ILIAS\Refinery\Validation\Factory $factory)
+	public function __construct(Transformation $transformation, IsArrayOfSameType $arraySameTypeValidation)
 	{
 		$this->transformation = $transformation;
-		$this->validationFactory = $factory;
+		$this->validation = $arraySameTypeValidation;
 	}
 
 	/**
@@ -69,11 +70,11 @@ class DictionaryTransformation implements Transformation
 			$result[$key] = $value;
 		}
 
-		$isOk = $this->validationFactory->isArrayOfSameType($result);
-
+		$isOk = $this->validation->applyTo(new Result\Ok($result));
 		if (false === $isOk) {
-			return new \ilException((sprintf('The values of in the result are not of the same type')));
+			throw new \ilException('The values of the result MUST all be of the same type');
 		}
+
 		return $result;
 	}
 
@@ -118,8 +119,7 @@ class DictionaryTransformation implements Transformation
 			$result[$key] = $value;
 		}
 
-		$isOk = $this->validationFactory->isArrayOfSameType($result);
-
+		$isOk = $this->validation->applyTo(new Result\Ok($result));
 		if (false === $isOk) {
 			return new Result\Error((sprintf('The values of in the result are not of the same type')));
 		}
