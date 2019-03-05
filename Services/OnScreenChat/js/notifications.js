@@ -84,7 +84,7 @@
 
 		Logger.TRACE = defineLogLevel(1, 'TRACE');
 		Logger.DEBUG = defineLogLevel(2, 'DEBUG');
-		Logger.DEBUG = defineLogLevel(3, 'INFO');
+		Logger.INFO = defineLogLevel(3, 'INFO');
 		Logger.WARN = defineLogLevel(4, 'WARN');
 		Logger.ERROR = defineLogLevel(5, 'ERROR');
 
