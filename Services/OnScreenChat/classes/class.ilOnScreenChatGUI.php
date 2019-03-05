@@ -218,7 +218,7 @@ class ilOnScreenChatGUI
 					(bool)ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
 				),
 				'conversationIdleTimeThreshold' => max(1, (int)$clientSettings->get('conversation_idle_state_in_minutes', 1)),
-				'notificationIconPath' => \ilUtil::getImagePath('icon_chta.svg"'),
+				'notificationIconPath' => \ilUtil::getImagePath('icon_chta.svg'),
 			);
 
 			$chatConfig = array(
