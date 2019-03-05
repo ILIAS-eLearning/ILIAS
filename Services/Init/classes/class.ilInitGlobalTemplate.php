@@ -1396,7 +1396,7 @@ class ilInitGlobalTemplate
 
 			// these fill blocks in tpl.adm_content.html
 			$this->fillHeader();
-			$this->fillSideIcons();
+//			$this->fillSideIcons();
 			$this->fillScreenReaderFocus();
 			$this->fillLeftContent();
 			$this->fillLeftNav();
@@ -1527,7 +1527,7 @@ class ilInitGlobalTemplate
 
 					// these fill blocks in tpl.adm_content.html
 					$this->fillHeader();
-					$this->fillSideIcons();
+//					$this->fillSideIcons();
 					$this->fillScreenReaderFocus();
 					$this->fillLeftContent();
 					$this->fillLeftNav();
