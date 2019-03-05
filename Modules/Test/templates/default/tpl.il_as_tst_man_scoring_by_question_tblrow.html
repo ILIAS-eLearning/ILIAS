@@ -1,21 +1,11 @@
 <tr class="{CSS_ROW} <!-- BEGIN tst_manual_scoring --> tst_manual_scoring_feedback_finalized <!-- END tst_manual_scoring --> table_row_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
 	<td class="std">{VAL_NAME}</td>
-	<td class="std">
-		{VAL_REACHED_POINTS}
-		<!-- BEGIN reached_points_alert -->
-		<div class="ilFormInfo">
-				<img border="0" alt="{REACHED_POINTS_ALT_ALERT}" src="{REACHED_POINTS_IMG_ALERT}">
-				{REACHED_POINTS_TXT_ALERT}
-		</div>
-		<!-- END reached_points_alert -->
-	</td>
+	<td class="reached_points_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_REACHED_POINTS}</td>
 	<td>{VAL_MAX_POINTS}</td>
-	<td style="display:none">{VAL_MODAL_CORRECTION_HIDDEN}</td>
-	<td>{VAL_MODAL_CORRECTION}</td>
-	<td>{VAL_EVALUATED}</td>
+	<td class="feedback_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_MODAL_CORRECTION}</td>
+	<td class="finalized_evaluation_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_EVALUATED}</td>
 	<td class="finalized_by_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_BY}</td>
 	<td class="finalized_on_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_ON}</td>
-	<td>
 	<td class="std">
 		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" href="#">{VAL_TXT_ANSWER}</a>
 		<!-- BEGIN row_js -->
@@ -66,51 +56,19 @@
 						pub.correctTableData = function(data)
 						{
 							data = JSON.parse(data);
-							var sub_string    = '__' + data.feedback.pass +'____' + data.feedback.active_fi +'____' + data.feedback.question_fi +'__';
-							var sub_string2   = '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_' + data.feedback.question_fi;
-							var $feedback     = $('#il_center_col #feedback' + sub_string);
-							var $evaluated    = $('#il_center_col #evaluated' + sub_string);
-							var $scoring      = $('#il_center_col #scoring' + sub_string);
-							var $scoring_d    = $('#il_center_col #scoring' + sub_string + '__disabled');
-							var $finalized_by = $('.finalized_by' + sub_string2);
-							var $finalized_on = $('.finalized_on' + sub_string2);
-							var $table_row    = $('.table_row' + sub_string2);
+							console.log(data);
+							var sub_string   = '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_' + data.feedback.question_fi;
+							var $scoring       = $('.reached_points' + sub_string);
+							var $feedback     = $('.feedback' + sub_string);
+							var $finalized	  = $('.finalized_evaluation' + sub_string);
+							var $finalized_by = $('.finalized_by' + sub_string);
+							var $finalized_on = $('.finalized_on' + sub_string);
 
-
-							$feedback.val(data.feedback.feedback);
-							if($('#feedback' + sub_string + '_ifr').size() >= 1)
-							{
-								tinymce.get('feedback' + sub_string).setContent(data.feedback.feedback);
-							}
-
-							$scoring.val(data.points);
+							$scoring.html(data.points);
+							$feedback.html(data.feedback.feedback);
+							$finalized.html(data.feedback.finalized_evaluation);
 							$finalized_by.html(data.feedback.finalized_by);
 							$finalized_on.html(data.feedback.finalized_on_date);
-
-							if(data.feedback.finalized_evaluation == "1")
-							{
-								$evaluated.prop('checked', true);
-								$scoring.prop('disabled', true);
-								$scoring_d.prop('disabled', true);
-								$feedback.prop('disabled', true);
-							}
-							else
-							{
-								$evaluated.prop('checked', false);
-								$scoring.prop('disabled', false);
-								$scoring_d.prop('disabled', false);
-								$feedback.prop('disabled', false);
-							}
-
-							if(data.feedback.feedback.length > 0)
-							{
-								$table_row.addClass('tst_manual_scoring_feedback_finalized');
-							}
-							else
-							{
-								$table_row.removeClass('tst_manual_scoring_feedback_finalized');
-							}
-
 						};
 
 						pub.protect = pro;

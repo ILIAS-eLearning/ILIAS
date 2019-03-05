@@ -10520,15 +10520,16 @@ function getAnswerFeedbackPoints()
 		global $DIC;
 		$ilDB 		= $DIC['ilDB'];
 		$feedback 	= "";
-		$result		= $ilDB->queryF("SELECT feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$result		= $ilDB->queryF("SELECT finalized_evaluation,feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
-
 		if ($result->numRows()){
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$row 		= $ilDB->fetchAssoc($result);
-			$feedback 	= ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+			if($row['inalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
+				$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+			}
 		}
 
 		return $feedback;

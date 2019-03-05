@@ -311,12 +311,15 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			}
 		}
 
-		if($ajax && is_array($correction_feedback) && count($correction_feedback) > 0){
+		if($ajax && is_array($correction_feedback)){
 			$correction_feedback['finalized_by'] 		= ilObjUser::_lookupFullname($correction_feedback['finalized_by_usr_id']);
 			$correction_feedback['finalized_on_date'] 	= '';
 			if(strlen($correction_feedback['finalized_tstamp']) > 0){
 				$time = new ilDateTime($correction_feedback['finalized_tstamp'], IL_CAL_UNIX);
 				$correction_feedback['finalized_on_date'] = $time->get(IL_CAL_DATETIME);
+			}
+			if(!$correction_feedback['feedback']){
+				$correction_feedback['feedback'] = [];
 			}
 
 			echo json_encode(array( 'feedback' => $correction_feedback, 'points' => $correction_points));
