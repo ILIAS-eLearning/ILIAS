@@ -4,6 +4,10 @@
 			modal: '<div class="help-block alert alert-danger"><img src="{ALERT_IMAGE_SRC}" /><span></span></div>'
 		};
 
+		let emptyErrorMessages = function emptyErrorMessages($parent) {
+			$parent.find(".dynamic-errors").remove();
+		};
+
 		/**
 		 *
 		 * @param $parent
@@ -12,8 +16,8 @@
 		let showErrorMessage = function showErrorMessage($parent, languageVariable) {
 			let $warning = $(templates.modal);
 
-			$warning.addClass("dynamic");
-			$parent.find(".dynamic").remove();
+			$warning.addClass("dynamic-errors");
+			emptyErrorMessages($parent);
 			$parent.append($warning);
 			$warning.find("span").html(il.Language.txt(languageVariable));
 		};
@@ -45,9 +49,11 @@
 					root.setInterval(() => {
 						if (il.BrowserNotifications.isSupported()) {
 							if (il.BrowserNotifications.isBlocked()) {
-								$notificationToggle.prop("disabled", true);
+								showErrorMessage($container, 'osc_browser_noti_no_permission_error');
+								deselectAndLockCheckbox($notificationToggle);
 							} else {
 								$notificationToggle.prop("disabled", false);
+								emptyErrorMessages($container);
 							}
 						}
 					}, 1000);
