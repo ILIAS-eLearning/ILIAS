@@ -111,10 +111,10 @@ interface Group
 	 * an transformation object to execute a certain method with variation of
 	 * parameters on the objects.
 	 *
-	 * @param string $className
+	 * @param string|array $className
 	 * @return Transformation
 	 */
-	public function toNew(string $className)  : Transformation;
+	public function toNew($classNameOrArray)  : Transformation;
 
 	/**
 	 * Returns a data factory to create a certain data type
