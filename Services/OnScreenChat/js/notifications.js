@@ -240,20 +240,20 @@
 			return {
 				removeItem: function (key) {
 					if (items.hasOwnProperty(key)) {
-						return items.key;
+						delete items.key;
 					}
 				},
 
 				getItem: function (key) {
 					if (items.hasOwnProperty(key)) {
-						return items[key];
+						return items.key;
 					}
 
 					return null;
 				},
 
 				setItem: function (key, value) {
-					items[key] = value;
+					items.key = value;
 				}
 			};
 		})();
