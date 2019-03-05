@@ -93,7 +93,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 			if(!in_array($id, $assigned))
 			{
 				$data[] = array("id" => $id,
-					"name" => ilUserUtil::getNamePresentation($id, false, false, "", true));		
+					"name" => ilUserUtil::getNamePresentation($id, false, false, "", false));
 			}
 		}
 		
