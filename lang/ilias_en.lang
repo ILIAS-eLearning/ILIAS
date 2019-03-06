@@ -15012,3 +15012,4 @@ crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile 
 content#:#cont_choose_file_source#:#Source
 content#:#cont_choose_local#:#Local directory
 content#:#cont_choose_upload_dir#:#Upload directory
+sess#:#sess_assign#:#Assign to session

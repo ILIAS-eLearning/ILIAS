@@ -1218,7 +1218,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$tbl->setDisableFilterHiding(true);
 
-		$tbl->addMultiCommand('saveMaterials', $this->lng->txt("assign"));
+		$tbl->addMultiCommand('saveMaterials', $this->lng->txt('sess_assign'));
 		$tbl->addMultiCommand("removeMaterials",$this->lng->txt("remove"));
 
 		$tbl->setTitle($this->lng->txt("event_assign_materials_table"));
