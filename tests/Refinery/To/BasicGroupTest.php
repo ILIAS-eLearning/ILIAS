@@ -117,6 +117,28 @@ class BasicGroupTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @throws \ilException
+	 */
+	public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven()
+	{
+		$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod', 'hello'));
+
+		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+	}
+
+	/**
+	 * @expectedException  \InvalidArgumentException
+	 * @throws \ilException
+	 */
+	public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven()
+	{
+		$transformation = $this->basicGroup->toNew(array(new MyClass()));
+
+		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+	}
 }
 
 class MyClass

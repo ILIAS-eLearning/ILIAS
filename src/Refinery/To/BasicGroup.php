@@ -163,7 +163,7 @@ class BasicGroup implements Group
 	{
 		if (is_array($classNameOrArray)) {
 			if (2 !== count($classNameOrArray)) {
-				throw new InvalidArgumentException('The array MUST contain exactly two elements');
+				throw new \InvalidArgumentException('The array MUST contain exactly two elements');
 			}
 			return new NewMethodTransformation($classNameOrArray[0], $classNameOrArray[1]);
 		}
