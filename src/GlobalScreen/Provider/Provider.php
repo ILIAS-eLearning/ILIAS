@@ -1,7 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Services;
 
 /**
  * Interface Provider

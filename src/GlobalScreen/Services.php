@@ -4,7 +4,7 @@ use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
-use ILIAS\GlobalScreen\MainMenu\MainMenuItemFactory;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
  * Class Services
