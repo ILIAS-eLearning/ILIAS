@@ -116,14 +116,15 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 						$feedback = $complete_feedback[$active_id][$passNr - 1][$qst_id];
 					}
 
+					if(false == isset($feedback['finalized_evaluation'])){
+						$feedback['finalized_evaluation'] = "";
+					}
+					
 					if(
 						isset($questionData['qid']) &&
 						$questionData['qid'] == $selected_questionData['question_id'] &&
 						($finalized_filter != 1 || $feedback['finalized_evaluation'] == 1) &&
-						(
-							!array_key_exists('finalized_evaluation', $feedback) ||
-							($finalized_filter != 2 && $feedback['finalized_evaluation'] != 1)
-						)
+						($finalized_filter != 2 || $feedback['finalized_evaluation'] != 1)
 					){
 						$table_data[] = [
 							'pass_id' 			=> $passNr - 1,
