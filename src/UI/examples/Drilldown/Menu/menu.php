@@ -1,6 +1,5 @@
 <?php
-function drilldown() {
-
+function menu() {
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$fd = $f->drilldown();
@@ -16,48 +15,48 @@ function drilldown() {
 		->withOnClick($modal->getShowSignal());
 
 
-	$dd = $f->drilldown()->drilldown('root', $ico->withAbbreviation('0'))
+	$dd = $fd->menu('root', $ico->withAbbreviation('0'))
 		->withAdditionalEntry(
-			$fd->level('1', $ico->withAbbreviation('1'))
-				->withAdditionalEntry($fd->level('1.1')
+			$fd->submenu('1', $ico->withAbbreviation('1'))
+				->withAdditionalEntry($fd->submenu('1.1')
 					->withAdditionalEntry($button)
 					->withAdditionalEntry($button)
 				)
 				->withAdditionalEntry(
-					$fd->level('1.2')
+					$fd->submenu('1.2')
 						->withAdditionalEntry(
-							$fd->level('1.2.1')
+							$fd->submenu('1.2.1')
 								->withAdditionalEntry($button)
 								->withAdditionalEntry($button)
 								->withAdditionalEntry($button)
 						)
 						->withAdditionalEntry($button)
 						->withAdditionalEntry(
-							$fd->level('1.2.2')
+							$fd->submenu('1.2.2')
 								->withAdditionalEntry($button)
 							)
 				)
 				->withAdditionalEntry(
-					$fd->level('1.3')
+					$fd->submenu('1.3')
 						->withAdditionalEntry(
-							$fd->level('1.3.1')
+							$fd->submenu('1.3.1')
 								->withAdditionalEntry($button)
 						)
 						->withAdditionalEntry($button)
 				)
 		)
 		->withAdditionalEntry(
-			$fd->level('2', $ico->withAbbreviation('2'))
+			$fd->submenu('2', $ico->withAbbreviation('2'))
 				->withAdditionalEntry(
-					$fd->level('2.1')
+					$fd->submenu('2.1')
 						->withAdditionalEntry($button)
 				)
 		)
 		->withAdditionalEntry($button)
 		->withAdditionalEntry(
-			$fd->level('3', $ico->withAbbreviation('3'))
+			$fd->submenu('3', $ico->withAbbreviation('3'))
 				->withAdditionalEntry(
-					$fd->level('3.1')
+					$fd->submenu('3.1')
 						->withAdditionalEntry($button)
 				)
 		)

@@ -9,9 +9,9 @@ use \ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
- * This describes a Drilldown Control
+ * This describes a Drilldown Menu Control
  */
-interface Drilldown extends Component, JavaScriptBindable
+interface Menu extends Component, JavaScriptBindable
 {
 	/**
 	 * Get the label for the root-level of Drilldown.
@@ -27,7 +27,7 @@ interface Drilldown extends Component, JavaScriptBindable
 	 * Add an entry to the Drilldown.
 	 * @param Button|Level 	$entry
 	 */
-	public function withAdditionalEntry($entry): Drilldown;
+	public function withAdditionalEntry($entry): Menu;
 
 	/**
 	 * Get the Entries of this drilldown.

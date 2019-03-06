@@ -10,9 +10,9 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
- * Drilldown Control
+ * Drilldown Menu Control
  */
-class Drilldown implements IDrilldown\Drilldown
+class Menu implements IDrilldown\Menu
 {
 	use ComponentHelper;
 	use JavaScriptBindable;
@@ -49,7 +49,7 @@ class Drilldown implements IDrilldown\Drilldown
 
 		global $DIC;
 		$f = $DIC['ui.factory']->drilldown();
-		$this->self_entry = $f->level($label, $icon_or_glyph);
+		$this->self_entry = $f->submenu($label, $icon_or_glyph);
 	}
 
 	/**
@@ -71,9 +71,9 @@ class Drilldown implements IDrilldown\Drilldown
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalEntry($entry): IDrilldown\Drilldown
+	public function withAdditionalEntry($entry): IDrilldown\Menu
 	{
-		$classes = [IDrilldown\Level::class, \ILIAS\UI\Component\Button\Button::class];
+		$classes = [IDrilldown\Submenu::class, \ILIAS\UI\Component\Button\Button::class];
 		$check = [$entry];
 		$this->checkArgListElements("entry", $check, $classes);
 

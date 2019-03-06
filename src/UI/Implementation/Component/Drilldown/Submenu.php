@@ -12,7 +12,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 /**
  * Level of Drilldown Control
  */
-class Level implements IDrilldown\Level
+class Submenu implements IDrilldown\Submenu
 {
 	use ComponentHelper;
 	use JavaScriptBindable;
@@ -57,9 +57,9 @@ class Level implements IDrilldown\Level
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalEntry($entry): IDrilldown\Level
+	public function withAdditionalEntry($entry): IDrilldown\Submenu
 	{
-		$classes = [IDrilldown\Level::class, \ILIAS\UI\Component\Button\Button::class];
+		$classes = [IDrilldown\Submenu::class, \ILIAS\UI\Component\Button\Button::class];
 		$check = [$entry];
 		$this->checkArgListElements("entry", $check, $classes);
 

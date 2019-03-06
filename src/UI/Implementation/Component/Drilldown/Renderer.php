@@ -17,7 +17,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		if ($component instanceof Drilldown\Drilldown) {
+		if ($component instanceof Drilldown\Menu) {
 			$tpl_name = "tpl.drilldown.html";
 			$tpl = $this->getTemplate($tpl_name, true, true);
 
@@ -27,7 +27,7 @@ class Renderer extends AbstractComponentRenderer {
 
 			$tpl->setVariable('ENTRIES', $default_renderer->render($component->getEntries()));
 
-		} else if ($component instanceof Drilldown\Level) {
+		} else if ($component instanceof Drilldown\Submenu) {
 			$tpl_name = "tpl.entry.html";
 			$tpl = $this->getTemplate($tpl_name, true, true);
 
@@ -83,8 +83,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			Drilldown\Drilldown::class,
-			Drilldown\Level::class
+			Drilldown\Menu::class,
+			Drilldown\Submenu::class
 		);
 	}
 }

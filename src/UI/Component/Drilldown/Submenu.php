@@ -11,7 +11,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes a Level of Drilldowns
  */
-interface Level extends Component, JavaScriptBindable
+interface Submenu extends Component, JavaScriptBindable
 {
 	/**
 	 * Get the label for this level.
@@ -27,7 +27,7 @@ interface Level extends Component, JavaScriptBindable
 	 * Add an entry to the level.
 	 * @param Button|Level 	$entry
 	 */
-	public function withAdditionalEntry($entry): Level;
+	public function withAdditionalEntry($entry): Submenu;
 
 	/**
 	 * Get the Entries of this level.

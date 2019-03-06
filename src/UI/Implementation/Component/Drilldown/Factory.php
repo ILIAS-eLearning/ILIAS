@@ -10,17 +10,17 @@ class Factory implements IDrilldown\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function drilldown(string $label, $icon_or_glyph = null): IDrilldown\Drilldown
+	public function menu(string $label, $icon_or_glyph = null): IDrilldown\Menu
 	{
-		return new Drilldown($label, $icon_or_glyph);
+		return new Menu($label, $icon_or_glyph);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function level(string $label, $icon_or_glyph = null): IDrilldown\Level
+	public function submenu(string $label, $icon_or_glyph = null): IDrilldown\Submenu
 	{
-		return new Level($label, $icon_or_glyph);
+		return new Submenu($label, $icon_or_glyph);
 	}
 
 }
