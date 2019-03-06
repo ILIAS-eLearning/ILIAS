@@ -1821,7 +1821,7 @@ class ilGlobalTemplate
 		}
 
 		$toolb = $this->admin_panel_commands_toolbar;
-		assert($toolbar instanceof \ilToolbarGUI);
+		assert($toolb instanceof \ilToolbarGUI);
 
 		// Add arrow if desired.
 		if($this->admin_panel_arrow)
