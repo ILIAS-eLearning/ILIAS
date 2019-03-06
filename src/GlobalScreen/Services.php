@@ -4,6 +4,8 @@ use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
+use ILIAS\GlobalScreen\Scope\Context\ContextServices;
+use ILIAS\GlobalScreen\Scope\Context\Stack\ContextCallService;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
@@ -13,20 +15,27 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  */
 class Services {
 
+	const CONTEXT_SERVICES = 'context_services';
+	const MAINBAR_SERVICES = 'mainbar_services';
+	const COLLECTOR_SERVICES = 'collector_services';
+	const STORAGE_FACADE = 'storage_facade';
+	const IDENTIFICATION_SERVICES = 'identification_services';
+	private static $instance = null;
 	/**
-	 * @var bool
+	 * @var array
 	 */
-	protected static $constructed = false;
+	private static $instances = [];
 
 
 	/**
-	 * Services constructor.
+	 * @return Services
 	 */
-	public function __construct() {
-		if (self::$constructed === true) {
-			// throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
+	public static function getInstance() {
+		if (!isset(self::$instance)) {
+			self::$instance = new self();
 		}
-		self::$constructed = true;
+
+		return self::$instance;
 	}
 
 
@@ -36,7 +45,15 @@ class Services {
 	 * @return MainMenuItemFactory
 	 */
 	public function mainmenu(): MainMenuItemFactory {
-		return new MainMenuItemFactory();
+		return $this->get(MainMenuItemFactory::class);
+	}
+
+
+	/**
+	 * @return ContextServices
+	 */
+	public function context(): ContextServices {
+		return $this->get(ContextServices::class);
 	}
 
 
@@ -44,7 +61,7 @@ class Services {
 	 * @return CollectorFactory
 	 */
 	public function collector(): CollectorFactory {
-		return new CollectorFactory();
+		return $this->get(CollectorFactory::class);
 	}
 
 
@@ -52,7 +69,7 @@ class Services {
 	 * @return StorageFacade
 	 */
 	public function storage(): StorageFacade {
-		return new CoreStorageFacade();
+		return $this->get(CoreStorageFacade::class);
 	}
 
 
@@ -62,6 +79,20 @@ class Services {
 	 * @return IdentificationFactory
 	 */
 	public function identification(): IdentificationFactory {
-		return new IdentificationFactory();
+		return $this->get(IdentificationFactory::class);
+	}
+
+
+	/**
+	 * @param string $class_name
+	 *
+	 * @return mixed
+	 */
+	private function get(string $class_name) {
+		if (!isset(self::$instances[$class_name])) {
+			self::$instances[$class_name] = new $class_name();
+		}
+
+		return self::$instances[$class_name];
 	}
 }

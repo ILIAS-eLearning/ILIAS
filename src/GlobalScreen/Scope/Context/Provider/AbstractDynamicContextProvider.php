@@ -24,7 +24,7 @@ abstract class AbstractDynamicContextProvider extends AbstractProvider implement
 	/**
 	 * this method will be called whenever you context seems to active in the
 	 * current situation. We will need to pass some specific data to the context
-	 * which you need wehile providing a specisic global screen item.
+	 * which you need while providing a specific global screen item.
 	 *
 	 * @param ContextInterface $context
 	 *

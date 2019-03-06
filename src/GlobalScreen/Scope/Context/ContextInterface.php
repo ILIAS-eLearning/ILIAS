@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Context;
 
 use ILIAS\Data\ReferenceId;
+use ILIAS\GlobalScreen\Scope\Context\AdditionalData\Collection;
 
 /**
  * Interface ContextInterface
@@ -27,4 +28,12 @@ interface ContextInterface {
 	 * @return ContextInterface
 	 */
 	public function withReferenceId(ReferenceId $reference_id): ContextInterface;
+
+
+	/**
+	 * @param Collection $collection
+	 *
+	 * @return ContextInterface
+	 */
+	public function withAdditionalData(Collection $collection): ContextInterface;
 }
