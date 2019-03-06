@@ -19,6 +19,10 @@ class FloatTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (true === is_object($from)) {
+			throw new \InvalidArgumentException('Can not cast an object to float');
+		}
+
 		return (float) $from;
 	}
 
@@ -33,6 +37,8 @@ class FloatTransformation implements Transformation
 			$resultValue = $this->transform($value);
 		} catch (\Exception $exception) {
 			return new Result\Error($exception);
+		} catch (\Error $error) {
+			return new Result\Error($error->getMessage());
 		}
 
 		return new Result\Ok($resultValue);

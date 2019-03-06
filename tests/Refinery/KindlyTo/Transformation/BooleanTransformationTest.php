@@ -14,6 +14,7 @@ use ILIAS\Refinery\KindlyTo\Transformation\BooleanTransformation;
 
 class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 {
+
 	/**
 	 * @var BooleanTransformation
 	 */
@@ -130,5 +131,37 @@ class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
 		$transformedObject = $this->transformation->applyTo($resultObject);
 
 		$this->assertTrue($transformedObject->value());
+	}
+
+	public function testInstanceApplyTo()
+	{
+		$resultObject = new Result\Ok($this->getMockBuilder('Something')->getMock());
+
+		$transformedObject = $this->transformation->applyTo($resultObject);
+
+		$this->assertTrue($transformedObject->value());
+	}
+
+	public function testInstanceTransform()
+	{
+		$value = $this->transformation->transform($this->getMockBuilder('Something'));
+
+		$this->assertTrue($value);
+	}
+
+	public function testArrayTransform()
+	{
+		$value = $this->transformation->transform(array());
+
+		$this->assertFalse($value);
+	}
+
+	public function testArrayApplyTo()
+	{
+		$resultObject = new Result\Ok(array());
+
+		$transformedObject = $this->transformation->applyTo($resultObject);
+
+		$this->assertFalse($transformedObject->value());
 	}
 }

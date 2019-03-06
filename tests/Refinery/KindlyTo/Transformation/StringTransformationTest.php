@@ -126,4 +126,42 @@ class StringTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals('1', $transformedObject->value());
 	}
+
+	public function testInstanceApplyTo()
+	{
+		$resultObject = new Result\Ok($this->getMockBuilder('Something'));
+
+		$transformedObject = $this->transformation->applyTo($resultObject);
+
+		$this->assertTrue($transformedObject->isError());
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testInstanceTransform()
+	{
+		$value = $this->transformation->transform($this->getMockBuilder('Something'));
+
+		$this->fail();
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testArrayTransform()
+	{
+		$value = $this->transformation->transform(array());
+
+		$this->fail();
+	}
+
+	public function testArrayApplyTo()
+	{
+		$resultObject = new Result\Ok(array());
+
+		$transformedObject = $this->transformation->applyTo($resultObject);
+
+		$this->assertTrue($transformedObject->isError());
+	}
 }

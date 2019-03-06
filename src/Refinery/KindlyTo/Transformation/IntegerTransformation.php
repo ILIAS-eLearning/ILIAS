@@ -19,6 +19,10 @@ class IntegerTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (true === is_object($from)) {
+			throw new \InvalidArgumentException('Can not cast an object to integer');
+		}
+
 		return (int) $from;
 	}
 
