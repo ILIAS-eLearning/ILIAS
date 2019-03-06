@@ -6,7 +6,7 @@
     "coordinator": [
         ""
     ],
-    "tester": "",
+    "tester": "oliver.samoila(26160)",
     "testcase_writer": "",
     "path": "Services/LearningHistory",
     "belong_to_component": "Learning History",
