@@ -15002,3 +15002,4 @@ crs#:#crs_tile_and_session_limit_not_supported#:#Die gleichzeitige Aktivierung v
 content#:#cont_choose_file_source#:#Quelle
 content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
+sess#:#sess_assign#:#der Sitzung zuordnen
