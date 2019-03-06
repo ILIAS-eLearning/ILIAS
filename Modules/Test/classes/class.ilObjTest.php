@@ -10512,10 +10512,11 @@ function getAnswerFeedbackPoints()
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
+	* @param boolean $force ignore validation
 	* @return string The feedback text
 	* @access public
 	*/
-	static function getManualFeedback($active_id, $question_id, $pass)
+	static function getManualFeedback($active_id, $question_id, $pass, $force = false)
 	{
 		global $DIC;
 		$ilDB 		= $DIC['ilDB'];
@@ -10527,7 +10528,7 @@ function getAnswerFeedbackPoints()
 		if ($result->numRows()){
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$row 		= $ilDB->fetchAssoc($result);
-			if($row['inalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
+			if($force || $row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
 				$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 			}
 		}
