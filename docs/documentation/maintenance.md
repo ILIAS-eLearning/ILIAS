@@ -208,6 +208,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
+* **GlobalScreen**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Glossary**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
 	* 2nd Maintainer: MISSING
@@ -310,6 +316,12 @@ The code base is deviced in several components:
 	* Testcases: [amersch](http://www.ilias.de/docu/goto_docu_usr_15114.html)
 	* Tester: [amersch](http://www.ilias.de/docu/goto_docu_usr_15114.html)
 
+* **MainMenu**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Maps**
 	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* 2nd Maintainer: [dkloepfer](http://www.ilias.de/docu/goto_docu_usr_42712.html)
@@ -336,7 +348,7 @@ The code base is deviced in several components:
 
 * **MediaCast**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
-	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
 	* Testcases: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 	* Tester: [berggold](http://www.ilias.de/docu/goto_docu_usr_22199.html)
 
@@ -372,7 +384,7 @@ The code base is deviced in several components:
 
 * **Notes and Comments**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
-	* 2nd Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 2nd Maintainer: MISSING
 	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 
@@ -600,10 +612,9 @@ The following directories are currently maintained under the [Coordinator Model]
 The following directories are currently unmaintained:
 * Services/AssessmentQuestion
 * Services/DiskQuota
-* Services/GlobalScreen
 * Services/Like
 * Services/OpenIdConnect
-* src/GlobalScreen
 * Services/Membership
+* Services/PHPUnit
 * Services/QTI
 * Services/Randomization
