@@ -1,13 +1,13 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
-use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\MainMenu\hasTitle;
-use ILIAS\GlobalScreen\MainMenu\isChild;
-use ILIAS\GlobalScreen\MainMenu\isItem;
-use ILIAS\GlobalScreen\MainMenu\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 
 /**
  * Class ilMMItemInformation

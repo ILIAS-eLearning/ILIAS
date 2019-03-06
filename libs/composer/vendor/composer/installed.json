@@ -22,7 +22,7 @@
             "composer/composer": "~1.0",
             "phpunit/phpunit": "~4.6"
         },
-        "time": "2016-03-28 18:54:21",
+        "time": "2016-03-28T18:54:21+00:00",
         "type": "composer-plugin",
         "extra": {
             "class": "cweagans\\Composer\\Patches"
@@ -69,7 +69,7 @@
             "phpunit/phpunit": "~4.5",
             "squizlabs/php_codesniffer": "~2.3"
         },
-        "time": "2016-03-28 09:10:18",
+        "time": "2016-03-28T09:10:18+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -120,7 +120,7 @@
         "require-dev": {
             "simpletest/simpletest": "^1.1"
         },
-        "time": "2018-02-23 01:58:20",
+        "time": "2018-02-23T01:58:20+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -176,7 +176,7 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2017-11-23 18:22:44",
+        "time": "2017-11-23T18:22:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -226,7 +226,7 @@
             "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
             "shasum": ""
         },
-        "time": "2016-02-01 23:14:34",
+        "time": "2016-02-01T23:14:34+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -281,7 +281,7 @@
             "twig/extensions": "Is necessary if you want to use the Twig extractor",
             "twig/twig": "Is necessary if you want to use the Twig extractor"
         },
-        "time": "2016-08-01 18:09:57",
+        "time": "2016-08-01T18:09:57+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -333,7 +333,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4"
         },
-        "time": "2017-03-23 17:02:28",
+        "time": "2017-03-23T17:02:28+00:00",
         "bin": [
             "bin/export-plural-rules",
             "bin/export-plural-rules.php"
@@ -400,7 +400,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2017-03-20 17:10:46",
+        "time": "2017-03-20T17:10:46+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -460,7 +460,7 @@
         "require": {
             "php": ">=5.6.0"
         },
-        "time": "2016-09-18 04:22:22",
+        "time": "2016-09-18T04:22:22+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -502,7 +502,7 @@
         "require": {
             "twig/extensions": "^1.3"
         },
-        "time": "2016-10-03 12:34:15",
+        "time": "2016-10-03T12:34:15+00:00",
         "type": "project",
         "installation-source": "dist",
         "autoload": {
@@ -548,7 +548,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2017-03-27 21:12:55",
+        "time": "2017-03-27T21:12:55+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -589,7 +589,7 @@
             "php": ">=5.4",
             "phpseclib/phpseclib": "2.0.1"
         },
-        "time": "2018-10-15 20:32:30",
+        "time": "2018-10-15T20:32:30+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -644,7 +644,7 @@
             "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter",
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage"
         },
-        "time": "2017-04-28 10:15:08",
+        "time": "2017-04-28T10:15:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -716,7 +716,7 @@
             "sebastian/phpcpd": "2.*",
             "squizlabs/php_codesniffer": "^3.3.0"
         },
-        "time": "2018-07-31 08:38:40",
+        "time": "2018-07-31T08:38:40+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -822,7 +822,7 @@
             "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
             "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
         },
-        "time": "2018-11-16 00:41:32",
+        "time": "2018-11-16T00:41:32+00:00",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -905,7 +905,7 @@
             "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
             "tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
         },
-        "time": "2018-08-06 02:58:06",
+        "time": "2018-08-06T02:58:06+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -977,7 +977,7 @@
             "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
             "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
         },
-        "time": "2016-01-18 17:07:21",
+        "time": "2016-01-18T17:07:21+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1056,7 +1056,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-11 15:10:35",
+        "time": "2015-09-11T15:10:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1104,7 +1104,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06 14:39:51",
+        "time": "2016-08-06T14:39:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1156,7 +1156,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-10-10 12:19:37",
+        "time": "2016-10-10T12:19:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1205,7 +1205,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2017-10-23 01:57:42",
+        "time": "2017-10-23T01:57:42+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1259,7 +1259,7 @@
             "phpunit/phpunit": "~3.7.0",
             "satooshi/php-coveralls": ">=1.0"
         },
-        "time": "2016-02-11 07:05:27",
+        "time": "2016-02-11T07:05:27+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1300,7 +1300,7 @@
         "suggest": {
             "ext-openssl": "OpenSSL extension"
         },
-        "time": "2017-08-31 09:27:07",
+        "time": "2017-08-31T09:27:07+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1364,7 +1364,7 @@
             "ext-curl": "*",
             "ext-pdo": "*"
         },
-        "time": "2017-02-15 03:06:08",
+        "time": "2017-02-15T03:06:08+00:00",
         "bin": [
             "bin/sabredav",
             "bin/naturalselection"
@@ -1428,7 +1428,7 @@
             "phpunit/phpunit": "*",
             "sabre/cs": "~0.0.4"
         },
-        "time": "2015-11-05 20:14:39",
+        "time": "2015-11-05T20:14:39+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1494,7 +1494,7 @@
         "suggest": {
             "ext-curl": " to make http requests with the Client class"
         },
-        "time": "2018-02-23 11:10:29",
+        "time": "2018-02-23T11:10:29+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1545,7 +1545,7 @@
             "phpunit/phpunit": ">=4.0,<6.0",
             "sabre/cs": "~1.0.0"
         },
-        "time": "2017-02-20 19:59:28",
+        "time": "2017-02-20T19:59:28+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1603,7 +1603,7 @@
         "suggest": {
             "hoa/bench": "If you would like to run the benchmark scripts"
         },
-        "time": "2018-04-20 07:22:50",
+        "time": "2018-04-20T07:22:50+00:00",
         "bin": [
             "bin/vobject",
             "bin/generate_vcards"
@@ -1702,7 +1702,7 @@
             "phpunit/phpunit": "*",
             "sabre/cs": "~1.0.0"
         },
-        "time": "2016-10-09 22:57:52",
+        "time": "2016-10-09T22:57:52+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1771,7 +1771,7 @@
             "sensiolabs/security-checker": "~1.1",
             "squizlabs/php_codesniffer": "~1.4"
         },
-        "time": "2018-09-27 14:09:06",
+        "time": "2018-09-27T14:09:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1837,7 +1837,7 @@
             "mikey179/vfsstream": "~1.6",
             "phpunit/phpunit": "~4.8.35"
         },
-        "time": "2018-09-28 13:06:14",
+        "time": "2018-09-28T13:06:14+00:00",
         "type": "project",
         "extra": {
             "patches_applied": {
@@ -1900,7 +1900,7 @@
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2016-07-17 14:02:08",
+        "time": "2016-07-17T14:02:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1951,7 +1951,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2012-03-14 16:36:15",
+        "time": "2012-03-14T16:36:15+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1997,7 +1997,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-12 10:08:34",
+        "time": "2015-09-12T10:08:34+00:00",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -2074,7 +2074,7 @@
         "suggest": {
             "symfony/translation": "Allow the time_diff output to be translated"
         },
-        "time": "2017-06-08 18:19:53",
+        "time": "2017-06-08T18:19:53+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2130,7 +2130,7 @@
             "symfony/debug": "^2.7",
             "symfony/phpunit-bridge": "^3.3"
         },
-        "time": "2018-03-20 04:25:58",
+        "time": "2018-03-20T04:25:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2195,7 +2195,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.0.*"
         },
-        "time": "2015-02-11 11:06:42",
+        "time": "2015-02-11T11:06:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2238,7 +2238,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2017-02-14 16:28:37",
+        "time": "2017-02-14T16:28:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2289,7 +2289,7 @@
         "require": {
             "psr/container": "^1.0"
         },
-        "time": "2017-02-14 19:40:03",
+        "time": "2017-02-14T19:40:03+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2325,7 +2325,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.8.35|~5.7"
         },
-        "time": "2018-02-13 20:26:39",
+        "time": "2018-02-13T20:26:39+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2382,7 +2382,7 @@
             "phpunit/phpunit": "^4.0",
             "squizlabs/php_codesniffer": "^2.5"
         },
-        "time": "2018-09-16 10:54:21",
+        "time": "2018-09-16T10:54:21+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2473,7 +2473,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2018-11-05 09:00:11",
+        "time": "2018-11-05T09:00:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

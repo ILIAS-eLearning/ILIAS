@@ -1,17 +1,17 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Main;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\MainMenu\isChild;
-use ILIAS\GlobalScreen\MainMenu\isItem;
-use ILIAS\GlobalScreen\MainMenu\isTopItem;
-use ILIAS\GlobalScreen\MainMenu\Item\Complex;
-use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
-use ILIAS\GlobalScreen\MainMenu\Item\Lost;
-use ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink;
-use ILIAS\GlobalScreen\MainMenu\Item\Separator;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Link\Link;
 
 /**
@@ -22,7 +22,7 @@ use ILIAS\UI\Component\Link\Link;
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 	/**
-	 * @var \ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation
+	 * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation
 	 */
 	protected $type_information;
 	/**
@@ -114,7 +114,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	public function getAmountOfChildren(): int {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isParent) {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent) {
 			return count($this->gs_item->getChildren());
 		}
 
@@ -159,7 +159,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 		if ($default_translation !== "") {
 			return $default_translation;
 		}
-		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle) {
 			$this->default_title = $this->gs_item->getTitle();
 		}
 
