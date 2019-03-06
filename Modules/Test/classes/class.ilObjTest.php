@@ -365,56 +365,56 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var int
 */
-	var $certificate_visibility;
+	public $certificate_visibility;
 
 	/**
 * Anonymity of the test users
 *
 * @var int
 */
-	var $anonymity;
+	public $anonymity;
 
 	/**
 * determines wheather a cancel test button is shown or not
 *
 * @var int
 */
-	var $show_cancel;
+	public $show_cancel;
 
 	/**
 * determines wheather a marker button is shown or not
 *
 * @var int
 */
-	var $show_marker;
+	public $show_marker;
 
 	/**
 * determines wheather a test may have fixed participants or not
 *
 * @var int
 */
-	var $fixed_participants;
+	public $fixed_participants;
 
 	/**
 * determines wheather an answer specific feedback is shown or not
 *
 * @var int
 */
-	var $answer_feedback;
+	public $answer_feedback;
 	
 	/**
 	* contains the test session data
 	*
 	* @var object
 	*/
-	var $testSession;
+	public $testSession;
 
 	/**
 	* contains the test sequence data
 	*
 	* @var object
 	*/
-	var $testSequence;
+	public $testSequence;
 
 	/**
 	* Determines whether or not a final statement should be shown on test completion
@@ -9793,14 +9793,6 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isFullyAnonymized()
-	{
-		return $this->anonymity == 1;
-	}
-
-	/**
 	* Sets the anonymity status of the test
 	*
 	* @param integer $a_value The value for the anonymity status (0 = personalized, 1 = anonymized)
@@ -10432,7 +10424,7 @@ function getAnswerFeedbackPoints()
 		xslt_free($xh);
 		return $output;
 	}
-	
+
 	/**
 	* Delivers a PDF file from XHTML
 	*
@@ -10507,27 +10499,32 @@ function getAnswerFeedbackPoints()
 	}
 	
 	/**
-	* Retrieves the manual feedback for a question in a test
+	* Retrieves the feedback comment for a question in a test
 	*
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
-	* @param boolean $force ignore validation
+	* @param boolean $force ignore access right
 	* @return string The feedback text
 	* @access public
 	*/
 	static function getManualFeedback($active_id, $question_id, $pass, $force = false)
 	{
 		global $DIC;
+
 		$ilDB 		= $DIC['ilDB'];
 		$feedback 	= "";
-		$result		= $ilDB->queryF("SELECT finalized_evaluation,feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$result		= $ilDB->queryF(
+			"SELECT finalized_evaluation,feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
+
 		if ($result->numRows()){
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$row 		= $ilDB->fetchAssoc($result);
+
+			$row = $ilDB->fetchAssoc($result);
+
 			if($force || $row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
 				$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 			}
@@ -10548,15 +10545,18 @@ function getAnswerFeedbackPoints()
 	public static function getSingleManualFeedback($active_id, $question_id, $pass)
 	{
 		global $DIC;
+
 		$ilDB 		= $DIC['ilDB'];
 		$feedback 	= array();
-		$result 	= $ilDB->queryF("SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$result 	= $ilDB->queryF(
+			"SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
 
 		if ($result->numRows()){
 			include_once("./Services/RTE/classes/class.ilRTE.php");
+
 			$row 					= $ilDB->fetchAssoc($result);
 			$feedback 				= $row;
 			$feedback['feedback'] 	= ilRTE::_replaceMediaObjectImageSrc($feedback['feedback'], 1);
@@ -10574,15 +10574,17 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function getCompleteManualFeedback($question_id)
 	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
 		global $DIC;
+
 		$ilDB 		= $DIC['ilDB'];
 		$feedback 	= array();
-		$result 	= $ilDB->queryF("SELECT * FROM tst_manual_fb WHERE question_fi = %s",
+		$result 	= $ilDB->queryF(
+			"SELECT * FROM tst_manual_fb WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
 
-		include_once("./Services/RTE/classes/class.ilRTE.php");
 		while ($row = $ilDB->fetchAssoc($result)){
 			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
 			$feedback[$row['active_fi']][$row['pass']][$row['question_fi']] = $row;
@@ -10598,77 +10600,97 @@ function getAnswerFeedbackPoints()
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
 	* @param string $feedback The feedback text
+	* @param boolean $finalized In Feedback is final
 	* @return boolean TRUE if the operation succeeds, FALSE otherwise
 	* @access public
 	*/
 	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
 	{
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-
 		global $DIC;
+
+		$DIC['ilDB']->manipulateF(
+			"DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer', 'integer', 'integer'),
+			array($active_id, $question_id, $pass)
+		);
+
+		if (strlen($feedback)) {
+			$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
+
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+				$this->logManualFeedback($active_id, $question_id, $feedback);
+			}
+		}
+		return TRUE;
+	}
+
+	/**
+	 * Inserts a manual feedback into the DB
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @param string  $feedback The feedback text
+	 * @param boolean $finalized In Feedback is final
+	 */
+	private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized){
+		global $DIC;
+
 		$ilDB 			= $DIC['ilDB'];
 		$ilUser 		= $DIC['ilUser'];
-		$lng 			= $DIC['lng'];
-		$feedback_old 	= $this->getSingleManualFeedback($active_id, $question_id, $pass);
-		$user 			= $ilUser->getId();
+		$next_id 		= $ilDB->nextId('tst_manual_fb');
+		$user			= $ilUser->getId();
 		$finalized_time = time();
+		$feedback_old 	= $this->getSingleManualFeedback($active_id, $question_id, $pass);
+		$update_default = [
+			'manual_feedback_id'	=> [ 'integer', $next_id],
+			'active_fi'				=> [ 'integer', $active_id],
+			'question_fi'			=> [ 'integer', $question_id],
+			'pass'					=> [ 'integer', $pass],
+			'feedback'				=> [ 'clob', ilRTE::_replaceMediaObjectImageSrc( $feedback, 0)],
+			'tstamp'				=> [ 'integer', time()]
+		];
 
 		if($feedback_old['finalized_evaluation'] == 1){
 			$user 			= $feedback_old['finalized_by_usr_id'];
 			$finalized_time = $feedback_old['finalized_tstamp'];
 		}
 
-		$ilDB->manipulateF("DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer', 'integer', 'integer'),
-			array($active_id, $question_id, $pass)
-		);
-
-		if (strlen($feedback)) {
-
-			$next_id 		= $ilDB->nextId('tst_manual_fb');
-			/** @var ilDBInterface $ilDB */
-			$update_default = array(
-								   'manual_feedback_id'	=> array( 'integer', $next_id ),
-								   'active_fi'			=> array( 'integer', $active_id ),
-								   'question_fi'		=> array( 'integer', $question_id ),
-								   'pass'				=> array( 'integer', $pass ),
-								   'feedback'			=> array( 'clob',
-									   ilRTE::_replaceMediaObjectImageSrc( $feedback, 0)
-								   ),
-								   'tstamp'				=> array( 'integer', time() )
-			);
-
-			if($finalized === true) {
-
-				$finalize 		= array(
-					'finalized_evaluation'	=> array( 'integer', 1),
-					'finalized_by_usr_id'	=> array( 'integer', $user),
-					'finalized_tstamp'		=> array( 'integer', $finalized_time)
-				);
-				$update_default = array_merge($update_default, $finalize);
-			}
-
-			$result = $ilDB->insert('tst_manual_fb', $update_default);
-
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-
-				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-
-				$username = ilObjTestAccess::_getParticipantData($active_id);
-
-				$this->logAction(
-					sprintf(
-						$lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()),
-						$ilUser->getFullname() . " (" . $ilUser->getLogin() . ")",
-						$username,
-						assQuestion::_getQuestionTitle($question_id),
-						$feedback
-					)
-				);
-			}
+		if($finalized === true) {
+			$update_default['finalized_evaluation'] = ['integer', 1];
+			$update_default['finalized_by_usr_id'] 	= ['integer', $user];
+			$update_default['finalized_tstamp'] 	= ['integer', $finalized_time];
 		}
-		return TRUE;
+
+		$ilDB->insert('tst_manual_fb', $update_default);
+	}
+
+	/**
+	 * Creates a log for the manual feedback
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param string  $feedback The feedback text
+	 */
+	private function logManualFeedback($active_id, $question_id, $feedback){
+		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		global $DIC;
+
+		$ilUser 		= $DIC['ilUser'];
+		$lng 			= $DIC['lng'];
+		$username = ilObjTestAccess::_getParticipantData($active_id);
+
+		$this->logAction(
+			sprintf(
+				$lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()),
+				$ilUser->getFullname() . " (" . $ilUser->getLogin() . ")",
+				$username,
+				assQuestion::_getQuestionTitle($question_id),
+				$feedback
+			)
+		);
 	}
 	
 	/**

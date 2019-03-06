@@ -72,12 +72,15 @@ class ilTestScoring
 	}
 
 	/**
+	 * Updates passed status of the Test
+	 *
 	 * @param $active_id
 	 * @param $pass
 	 */
 	public function recalculateSolution($active_id, $pass)
 	{
-		$user_data = $this->test
+		$user_data = $this
+			->test
 			->getCompleteEvaluationData(false)
 			->getParticipant($active_id)
 			->getPass($pass);

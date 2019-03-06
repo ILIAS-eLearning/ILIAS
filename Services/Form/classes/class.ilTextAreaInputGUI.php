@@ -677,7 +677,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 					$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template'], $this->rteSupport['hide_switch']);
 				}else{
 					// disable all plugins for mini-tagset
-					if(!array_diff($this->getRteTags(), $this->getRteTagSet("mini"))){
+					if(false == array_diff($this->getRteTags(), $this->getRteTagSet("mini"))){
 						$rte->removeAllPlugins();
 
 						// #13603 - "paste from word" is essential
@@ -709,7 +709,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				$ttpl->setCurrentBlock("prop_textarea");
 				$ttpl->setVariable("ROWS", $this->getRows());
 			}
-			if (!$this->getDisabled()){
+			if (false == $this->getDisabled()){
 				$ttpl->setVariable("POST_VAR", $this->getPostVar());
 			}
 			$ttpl->setVariable("ID", $this->getFieldId());

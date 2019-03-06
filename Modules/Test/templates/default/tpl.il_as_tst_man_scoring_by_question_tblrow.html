@@ -51,18 +51,19 @@
 					il.TestScoringByQuestion  = (function (scope) {
 						'use strict';
 
-						var pub = {}, pro = {};
+						var pub = {};
+						var pro = {};
 
 						pub.correctTableData = function(data)
 						{
 							data = JSON.parse(data);
 							console.log(data);
-							var sub_string   = '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_' + data.feedback.question_fi;
-							var $scoring       = $('.reached_points' + sub_string);
-							var $feedback     = $('.feedback' + sub_string);
-							var $finalized	  = $('.finalized_evaluation' + sub_string);
-							var $finalized_by = $('.finalized_by' + sub_string);
-							var $finalized_on = $('.finalized_on' + sub_string);
+							var sub_string 		= '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_' + data.feedback.question_fi;
+							var $scoring 		= $('.reached_points' + sub_string);
+							var $feedback 		= $('.feedback' + sub_string);
+							var $finalized 		= $('.finalized_evaluation' + sub_string);
+							var $finalized_by 	= $('.finalized_by' + sub_string);
+							var $finalized_on 	= $('.finalized_on' + sub_string);
 
 							$scoring.html(data.points);
 							$feedback.html(data.feedback.feedback);

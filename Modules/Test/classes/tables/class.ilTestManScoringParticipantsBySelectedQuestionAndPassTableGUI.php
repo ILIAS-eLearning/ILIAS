@@ -26,29 +26,20 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 	 */
 	protected $first_row_rendered = false;
 
-	protected $selectable_columns = array();
-
 	/**
 	 * @var bool
 	 */
 	protected $first_row = true;
 
-	/**
-	 * @var array
-	 */
-	protected $selected = array();
-
 	public function __construct($parentObj)
 	{
 		$this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
 		$this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
-
 		global $DIC;
+
 		$ilCtrl = $DIC['ilCtrl'];
 		$tpl = $DIC['tpl'];
-
 		$tpl->addJavaScript('./Services/RTE/tiny_mce_3_5_11/tiny_mce.js');
-
 		$this->setId('man_scor_by_qst_' . $parentObj->object->getId());
 
 		parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
@@ -80,7 +71,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 		$available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
 		$select_questions    = array();
-		if(!$this->getParentObject()->object->isRandomTest()){
+		if(false == $this->getParentObject()->object->isRandomTest()){
 			$questions = $this->getParentObject()->object->getTestQuestions();
 		}else{
 			$questions = $this->getParentObject()->object->getPotentialRandomTestQuestions();
@@ -100,7 +91,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 				$select_questions[$data["question_id"]] = $data['title'] . $maxpoints. ' ['. $this->lng->txt('question_id_short') . ': ' . $data["question_id"]  . ']';
 			}
 		}
-		if(!$select_questions){
+		if(false == $select_questions){
 			$select_questions[0] = $this->lng->txt('tst_no_scorable_qst_available');
 		}
 		$available_questions->setOptions(array('' => $this->lng->txt('please_choose')) + $select_questions);
@@ -134,21 +125,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getSelectableColumns()
-	{
-		$columns = array();
-		foreach($this->selectable_columns as $column){
-			$columns[$column] = array(
-				'txt' 		=> $this->lng->txt($column),
-				'default' 	=> true
-			);
-		}
-		return $columns;
-	}
-
-	/**
 	 * @global    ilCtrl     $ilCtrl
 	 * @global    ilLanguage $lng
 	 * @param    array       $row
@@ -161,16 +137,16 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
 		$this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
 		if (
-			$this->getParentObject()->object->isFullyAnonymized()  ||
+			$this->getParentObject()->object->anonymity == 1  ||
 			(
 				$this->getParentObject()->object->getAnonymity() == 2 &&
-				!$ilAccess->checkAccess('write','',$this->getParentObject()->object->getRefId())
+				false == $ilAccess->checkAccess('write','',$this->getParentObject()->object->getRefId())
 			)
 		){
 			$this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
 		}
 
-		if(!$this->first_row_rendered){
+		if(false == $this->first_row_rendered){
 			$this->first_row_rendered = true;
 			$this->tpl->touchBlock('row_js');
 		}
@@ -210,28 +186,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		$ilCtrl->setParameter($this->getParentObject(), 'active_id', '');
 		$ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
 		$this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
-	}
-	
-	private function isMaxPointsExceededByPostValue($pass_id, $active_id, $qst_id)
-	{
-		if( !isset($this->manPointsPostData[$pass_id]) )
-		{
-			return false;
-		}
-		
-		if( !isset($this->manPointsPostData[$pass_id][$active_id]) )
-		{
-			return false;
-		}
-		
-		if( !isset($this->manPointsPostData[$pass_id][$active_id][$qst_id]) )
-		{
-			return false;
-		}
-		
-		$submittedPoints = $this->manPointsPostData[$pass_id][$active_id][$qst_id];
-		
-		return $submittedPoints > $this->getCurQuestionMaxPoints();
 	}
 	
 	public function setManualScoringPointsPostData($manPointsPostData)
