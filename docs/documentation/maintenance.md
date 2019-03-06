@@ -5,7 +5,7 @@ The development of the ILIAS source code is coordinated and maintained by a coor
 # Special Roles
 
 * **Product Management**: [Matthias Kunkel]
-* **Technical Board**: [Alexander Killing], [Michael Jansen], [Fabian Schmid], [Timon Amstutz], [Richard Klees]
+* **Technical Board**: [Alexander Killing], [Michael Jansen], [Timon Amstutz], [Richard Klees], vakant
 * **Testcase Management**: [Fabian Kruse]
 * **Documentation**: [Florian Suittenpointner]
 * **Online Help**: [Alexandra Tödt]
@@ -16,6 +16,7 @@ We highly appreciate to get new developers but we have to guarantee the sustaina
 Communication among developers that are working on a specific component needs to be assured. Final decision about getting write access to the ILIAS development system (Github) is handled by the product manager.
  
 ILIAS is currently maintained by three types of Maintainerships:
+
 - First Component Maintainer
 - Second Component Maintainer
 - [Coordinator Model](maintenance-coordinator.md) 
@@ -33,6 +34,7 @@ Responsibilities of a component maintainer:
 
 
 The code base is deviced in several components:
+
 <!-- REMOVE -->
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
@@ -600,21 +602,24 @@ The code base is deviced in several components:
 
 
 Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
+
 * **UI-Service**
-	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), 
-	* Used in Directories: src/UI, 
+	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* Used in Directories: src/UI
 
 
 The following directories are currently maintained under the [Coordinator Model](maintenance-coordinator.md):
+
 * src/UI
 
 
 The following directories are currently unmaintained:
+
 * Services/AssessmentQuestion
 * Services/DiskQuota
 * Services/Like
-* Services/OpenIdConnect
 * Services/Membership
+* Services/OpenIdConnect
 * Services/PHPUnit
 * Services/QTI
 * Services/Randomization
