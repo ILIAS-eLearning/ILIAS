@@ -115,7 +115,7 @@ The code base is deviced in several components:
 	* Tester: [elenak](http://www.ilias.de/docu/goto_docu_usr_49160.html)
 
 * **Cloud Object**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
 	* 2nd Maintainer: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html)
 	* Testcases: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
 	* Tester: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
@@ -151,7 +151,7 @@ The code base is deviced in several components:
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **Data Collection**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: [ttruffer](http://www.ilias.de/docu/goto_docu_usr_42894.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
 	* Tester: [kim.herms](http://www.ilias.de/docu/goto_docu_usr_28720.html)
@@ -373,7 +373,7 @@ The code base is deviced in several components:
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **MyStaff**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
@@ -397,7 +397,7 @@ The code base is deviced in several components:
 	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
 * **Organisational Units**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
 	* Testcases: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
 	* Tester: [wischniak](http://www.ilias.de/docu/goto_docu_usr_21896.html)
@@ -415,7 +415,7 @@ The code base is deviced in several components:
 	* Tester: [Fabian](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 
 * **Plugin Slots**
-	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
+	* 1st Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
 	* 2nd Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: Future Learning
