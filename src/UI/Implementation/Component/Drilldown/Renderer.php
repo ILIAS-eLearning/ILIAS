@@ -45,22 +45,22 @@ class Renderer extends AbstractComponentRenderer {
 			if(count($entries) > 0) {
 				foreach ($entries as $entry) {
 					if($entry instanceof Drilldown\Level) {
-						$tpl->setCurrentBlock('level_entry');
-						$tpl->setVariable('LEVEL_ENTRY', $default_renderer->render($entry));
-						$tpl->parseCurrentBlock();
+						$entry_html = $default_renderer->render($entry);
 					} else {
-						$tpl->setCurrentBlock('btn_entry');
-						$tpl->setVariable('BTN_ENTRY', $default_renderer->render($entry));
-						$tpl->parseCurrentBlock();
-
+						$temp_tpl = $this->getTemplate('tpl.entry_wrapper.html', true, true);
+						$temp_tpl->setVariable('ENTRY', $default_renderer->render($entry));
+						$entry_html = $temp_tpl->get();
 					}
+
+					$tpl->setCurrentBlock('entry');
+					$tpl->setVariable('ENTRY', $entry_html);
+					$tpl->parseCurrentBlock();
 				}
 			}
 		}
 
 		$id = $this->bindJavaScript($component);
 		$tpl->setVariable("ID", $id);
-
 
 		return $tpl->get();
 	}

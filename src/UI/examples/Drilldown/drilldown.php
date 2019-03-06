@@ -31,21 +31,35 @@ function drilldown() {
 								->withAdditionalEntry($button)
 								->withAdditionalEntry($button)
 						)
-						->withAdditionalEntry($fd->level('1.2.2'))
+						->withAdditionalEntry($button)
+						->withAdditionalEntry(
+							$fd->level('1.2.2')
+								->withAdditionalEntry($button)
+							)
 				)
 				->withAdditionalEntry(
 					$fd->level('1.3')
-						->withAdditionalEntry($fd->level('1.3.1'))
-						->withAdditionalEntry($fd->level('1.3.2'))
+						->withAdditionalEntry(
+							$fd->level('1.3.1')
+								->withAdditionalEntry($button)
+						)
+						->withAdditionalEntry($button)
 				)
 		)
 		->withAdditionalEntry(
 			$fd->level('2', $ico->withAbbreviation('2'))
-				->withAdditionalEntry($fd->level('2.1'))
+				->withAdditionalEntry(
+					$fd->level('2.1')
+						->withAdditionalEntry($button)
+				)
 		)
+		->withAdditionalEntry($button)
 		->withAdditionalEntry(
 			$fd->level('3', $ico->withAbbreviation('3'))
-				->withAdditionalEntry($fd->level('3.1'))
+				->withAdditionalEntry(
+					$fd->level('3.1')
+						->withAdditionalEntry($button)
+				)
 		)
 		;
 
