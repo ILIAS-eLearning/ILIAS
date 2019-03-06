@@ -320,6 +320,12 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$this->splitParams($data["params"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);

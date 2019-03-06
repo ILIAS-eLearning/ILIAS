@@ -269,6 +269,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
