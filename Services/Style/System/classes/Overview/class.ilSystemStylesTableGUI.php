@@ -203,14 +203,15 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 			$categories = [];
 
 			foreach($assignments as $assignment) {
-				$categories[] = ilObject::_lookupTitle(ilObject::_lookupObjId($assignment["ref_id"]));
+				$category_title = ilObject::_lookupTitle(ilObject::_lookupObjId($assignment["ref_id"]));
+				if($category_title){
+					$categories[] = $category_title;
+				}
 			}
 
 			$listing = $DIC->ui()->factory()->listing()->unordered($categories);
-			$this->tpl->setVariable("CATEGORIES",$this->lng->txt("local").$DIC->ui()
-					->renderer()
-					->render
-			($listing));
+			$this->tpl->setVariable("CATEGORIES",
+				$this->lng->txt("local").$DIC->ui()->renderer()->render($listing));
 		}else{
 			$this->tpl->setVariable("SUB_STYLE_OF", "");
 			$this->tpl->setVariable("CATEGORIES", $this->lng->txt("global"));
