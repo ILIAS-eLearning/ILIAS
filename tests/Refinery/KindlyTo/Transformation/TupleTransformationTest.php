@@ -8,11 +8,9 @@
 namespace ILIAS\Refinery\KindlyTo\Refinery;
 
 use ILIAS\Data\Result;
-use ILIAS\Refinery\To\Transformation\IntegerTransformation;
-use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\To\Transformation\TupleTransformation;
-use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
-use ILIAS\Refinery\Validation\Factory;
+use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
+use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
+use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -32,9 +30,6 @@ class TupleTransformationTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array(1, 2), $result);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testTupleWithDifferentTransformation()
 	{
 		$transformation = new TupleTransformation(
@@ -43,7 +38,7 @@ class TupleTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$result = $transformation->transform(array(1.3, 2));
 
-		$this->assertSame(array(1, "2"), $result);
+		$this->assertSame(array('1', '2'), $result);
 	}
 
 	/**
@@ -77,9 +72,9 @@ class TupleTransformationTest extends \PHPUnit_Framework_TestCase
 			array(new IntegerTransformation(), new StringTransformation())
 		);
 
-		$result = $transformation->applyTo(new Result\Ok(array(1, 2)));
+		$result = $transformation->applyTo(new Result\Ok(array(1.3, 2)));
 
-		$this->assertTrue($result->isError());
+		$this->assertSame(array('1', '2'), $result->value());
 	}
 
 	public function testToManyValuesForApply()
