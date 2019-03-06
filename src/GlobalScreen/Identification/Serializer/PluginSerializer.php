@@ -2,7 +2,6 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
-use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;

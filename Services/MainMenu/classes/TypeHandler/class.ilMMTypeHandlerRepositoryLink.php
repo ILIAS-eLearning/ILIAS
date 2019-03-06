@@ -1,8 +1,8 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
-use ILIAS\GlobalScreen\MainMenu\hasAction;
-use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 /**
  * Class ilMMTypeHandlerRepositoryLink
@@ -12,7 +12,7 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
 
 	public function matchesForType(): string {
-		return \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink::class;
+		return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink::class;
 	}
 
 
@@ -20,7 +20,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
 	 * @inheritdoc
 	 */
 	public function enrichItem(isItem $item): isItem {
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
+		if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
 			$item = $item->withRefId((int)$this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION]);
 		}
 
