@@ -9,6 +9,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/MyStaff",
-    "belong_to_component": "MyStaff",
+    "belong_to_component": "Staff",
     "used_in_components": []
 }

@@ -69,7 +69,7 @@ The code base is deviced in several components:
 * **Blog**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Testcases: [KlausVorkauf](http://www.ilias.de/docu/goto_docu_usr_5890.html)
 	* Tester: [PaBer](http://www.ilias.de/docu/goto_docu_usr_33766.html)
 
 * **Booking Tool**
@@ -129,7 +129,7 @@ The code base is deviced in several components:
 * **Contacts**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Testcases: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
 	* Tester: [abaulig1](http://www.ilias.de/docu/goto_docu_usr_44386.html)
 
 * **ContentPage**
@@ -303,8 +303,8 @@ The code base is deviced in several components:
 * **Learning Sequence**
 	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Testcases: [scarlino](http://www.ilias.de/docu/goto_docu_usr_56074.html)
+	* Tester: [mglaubitz](http://www.ilias.de/docu/goto_docu_usr_28309.html)
 
 * **Logging**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
@@ -315,7 +315,7 @@ The code base is deviced in several components:
 * **Login, Auth & Registration**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Testcases: FH Aachen
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **Mail**
@@ -376,13 +376,7 @@ The code base is deviced in several components:
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-
-* **MyStaff**
-	* 1st Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
-	* 2nd Maintainer: MISSING
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [KlausVorkauf](http://www.ilias.de/docu/goto_docu_usr_5890.html)
 
 * **News**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
@@ -483,7 +477,7 @@ The code base is deviced in several components:
 * **Search**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: MISSING
-	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Testcases: FH Aachen
 	* Tester: Future Learning
 
 * **Session**
@@ -501,6 +495,12 @@ The code base is deviced in several components:
 * **Shibboleth Authentication**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
+	* Testcases: iLUB Universität Bern
+	* Tester: iLUB Universität Bern
+
+* **Staff**
+	* 1st Maintainer: [mstuder](http://www.ilias.de/docu/goto_docu_usr_8473.html)
+	* 2nd Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
@@ -518,7 +518,7 @@ The code base is deviced in several components:
 
 * **Survey**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
-	* 2nd Maintainer: MISSING
+	* 2nd Maintainer: [Xus](http://www.ilias.de/docu/goto_docu_usr_50418.html)
 	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 	* Tester: ILIAS open source e-Learning e.V.
 
