@@ -118,7 +118,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * unzip: 6.0+
   * Imagemagick: 6.8.9-9+
   * PhantomJS: 2.0.0+
-  * NodeJS: 8.9.4 (TLS) - 9.7.1
+  * NodeJS: 8.9.4 (TLS) - 10.15.3 (LTS)
   * Java: Version 7 and 8 are suported
   
 <a name="client"></a>
