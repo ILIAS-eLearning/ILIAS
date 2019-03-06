@@ -14158,8 +14158,8 @@ book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Open Session
 dateplaner#:#cal_show_weeks#:#Show Weeks
-dateplaner#:#cal_def_show_weeks#:#Default Show Weeks
-dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
+dateplaner#:#cal_def_show_weeks#:#Show Weeks
+dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_repo_obj#:#Repository Objects
@@ -15001,4 +15001,4 @@ crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile 
 content#:#cont_choose_file_source#:#Source
 content#:#cont_choose_local#:#Local directory
 content#:#cont_choose_upload_dir#:#Upload directory
-sess#:#sess_assign#:#Assign to session
+sess#:#sess_assign#:#Assign

@@ -14137,8 +14137,8 @@ book#:#book_open#:#Buchungspool öffnen
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Sitzung öffnen
 dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
-dateplaner#:#cal_def_show_weeks#:#Default-Anzeige Wochenspalte
-dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
+dateplaner#:#cal_def_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
 dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
 dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
 dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
@@ -15002,4 +15002,4 @@ crs#:#crs_tile_and_session_limit_not_supported#:#Die gleichzeitige Aktivierung v
 content#:#cont_choose_file_source#:#Quelle
 content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
-sess#:#sess_assign#:#der Sitzung zuordnen
+sess#:#sess_assign#:#Zuordnen
