@@ -78,7 +78,7 @@ class TupleTransformation implements Transformation
 		foreach ($dataValue as $value) {
 			$transformedValue = $value;
 			foreach ($this->transformations as $transformation) {
-				$resultObject = $transformation->applyTo(new Result\Ok($value));
+				$resultObject = $transformation->applyTo(new Result\Ok($transformedValue));
 
 				if ($resultObject->isError()) {
 					return $resultObject;
