@@ -35,11 +35,17 @@ class Renderer extends AbstractComponentRenderer {
 				return "";
 			});
 
+
 			$icon = $component->getIconOrGlyph();
-			if(!is_null($icon)) {
-				$tpl->setVariable('ICON', $default_renderer->render($icon));
+			$label = $component->getLabel();
+			$button_factory = $this->getUIFactory()->button();
+			if(is_null($icon)) {
+				$entry_button = $button_factory->shy($label, '');
+			} else {
+				$entry_button = $button_factory->bulky($icon, $label, '');
 			}
-			$tpl->setVariable('LABEL', $component->getLabel());
+
+			$tpl->setVariable('ENTRY', $default_renderer->render($entry_button));
 
 			$entries = $component->getEntries();
 			if(count($entries) > 0) {
@@ -52,8 +58,8 @@ class Renderer extends AbstractComponentRenderer {
 						$entry_html = $temp_tpl->get();
 					}
 
-					$tpl->setCurrentBlock('entry');
-					$tpl->setVariable('ENTRY', $entry_html);
+					$tpl->setCurrentBlock('subentry');
+					$tpl->setVariable('SUBENTRY', $entry_html);
 					$tpl->parseCurrentBlock();
 				}
 			}

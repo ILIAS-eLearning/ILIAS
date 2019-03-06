@@ -73,7 +73,10 @@ class Drilldown implements IDrilldown\Drilldown
 	 */
 	public function withAdditionalEntry($entry): IDrilldown\Drilldown
 	{
-		//TODO: check component-type of $entry
+		$classes = [IDrilldown\Level::class, \ILIAS\UI\Component\Button\Button::class];
+		$check = [$entry];
+		$this->checkArgListElements("entry", $check, $classes);
+
 		$clone = clone $this;
 		$clone->self_entry = $clone->self_entry->withAdditionalEntry($entry);
 		return $clone;

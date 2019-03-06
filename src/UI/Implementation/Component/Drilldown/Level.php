@@ -59,6 +59,10 @@ class Level implements IDrilldown\Level
 	 */
 	public function withAdditionalEntry($entry): IDrilldown\Level
 	{
+		$classes = [IDrilldown\Level::class, \ILIAS\UI\Component\Button\Button::class];
+		$check = [$entry];
+		$this->checkArgListElements("entry", $check, $classes);
+
 		$clone = clone $this;
 		$clone->entries[] = $entry;
 		return $clone;

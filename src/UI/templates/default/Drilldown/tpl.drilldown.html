@@ -4,16 +4,19 @@
 	list-style: none;
 	padding: 0;
 }
+
 .il-drilldown-entry .entry{
 	cursor: pointer;
 }
 
+.il-drilldown-current,
 .il-drilldown-backlink,
 .il-drilldown-visible {
 	border: 1px solid;
 }
 
 .il-drilldown-structure,
+.il-drilldown-current ul,
 .il-drilldown-backlink ul,
 .il-drilldown-visible ul {
 	display: none;
@@ -29,6 +32,9 @@
 	</ul>
 
 	<ul class="il-drilldown-backlink">
+	</ul>
+
+	<ul class="il-drilldown-current">
 	</ul>
 
 	<ul class="il-drilldown-visible">
