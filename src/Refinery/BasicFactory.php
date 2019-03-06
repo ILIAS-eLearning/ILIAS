@@ -28,8 +28,7 @@ class BasicFactory implements Factory
 	}
 
 	/**
-	 *
-	 * Combined validations and transformations for primitive datatypes that
+	 * Combined validations and transformations for primitive data types that
 	 * establish a baseline for further constraints and more complex transformations
 	 *
 	 * @return To\Group
@@ -49,5 +48,19 @@ class BasicFactory implements Factory
 	public function in(): In\Group
 	{
 		return new In\BasicGroup();
+	}
+
+	/**
+	 * Combined validations and transformations for primitive data types that
+	 * establish a baseline for further constraints and more complex transformations
+	 *
+	 * Offers the same transformations like **to** but will be more
+	 * forgiving regarding the input
+	 *
+	 * @return KindlyTo\Group
+	 */
+	public function kindlyTo(): KindlyTo\Group
+	{
+		return new KindlyTo\BasicGroup();
 	}
 }

@@ -10,8 +10,7 @@ namespace ILIAS\Refinery;
 interface Factory
 {
 	/**
-	 *
-	 * Combined validations and transformations for primitive datatypes that
+	 * Combined validations and transformations for primitive data types that
 	 * establish a baseline for further constraints and more complex transformations
 	 *
 	 * @return To\Group
@@ -26,4 +25,15 @@ interface Factory
 	 * @return In\Group
 	 */
 	public function in() : In\Group;
+
+	/**
+	 * Combined validations and transformations for primitive data types that
+	 * establish a baseline for further constraints and more complex transformations
+	 *
+	 * Offers the same transformations like **to** but will be more
+	 * forgiving regarding the input
+	 *s
+	 * @return KindlyTo\Group
+	 */
+	public function kindlyTo() : KindlyTo\Group;
 }

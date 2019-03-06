@@ -35,10 +35,17 @@ class BasicFactoryTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(To\Group::class, $group);
 	}
 
-	public function testCreateFromGroup()
+	public function testCreateInGroup()
 	{
 		$group = $this->basicFactory->in();
 
 		$this->assertInstanceOf(In\Group::class, $group);
+	}
+
+	public function testCreateKindlyToGroup()
+	{
+		$group = $this->basicFactory->kindlyTo();
+
+		$this->assertInstanceOf(KindlyTo\Group::class, $group);
 	}
 }
