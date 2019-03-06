@@ -7,9 +7,9 @@
 
 namespace ILIAS\Refinery\In;
 
-use ILIAS\In\BasicGroup;
 use ILIAS\In\Transformation\Parallel;
 use ILIAS\In\Transformation\Series;
+use ILIAS\Refinery\In\BasicGroup;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 
