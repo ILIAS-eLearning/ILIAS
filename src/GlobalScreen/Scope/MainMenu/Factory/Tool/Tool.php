@@ -1,9 +1,9 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\AbstractParentItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasAsyncContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
 
 /**

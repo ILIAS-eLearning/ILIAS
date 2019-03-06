@@ -1,7 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-
 /**
  * Interface Provider
  *
@@ -13,16 +11,4 @@ interface Provider {
 	 * @return string
 	 */
 	public function getFullyQualifiedClassName(): string;
-
-
-	/**
-	 * @return IdentificationInterface[]
-	 */
-	public function getAllIdentifications(): array;
-
-
-	/**
-	 * @return string
-	 */
-	public function getProviderNameForPresentation(): string;
 }

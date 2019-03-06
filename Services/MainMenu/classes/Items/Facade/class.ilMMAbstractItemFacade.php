@@ -159,7 +159,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 		if ($default_translation !== "") {
 			return $default_translation;
 		}
-		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Items\hasTitle) {
+		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle) {
 			$this->default_title = $this->gs_item->getTitle();
 		}
 

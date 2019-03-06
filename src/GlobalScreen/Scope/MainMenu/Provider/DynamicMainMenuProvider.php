@@ -7,12 +7,12 @@ use ILIAS\GlobalScreen\Provider\DynamicProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface DynamicMainMenuProvider extends DynamicProvider {
+interface DynamicMainMenuProvider extends DynamicProvider, MainMenuProviderInterface {
 
 	/**
 	 * @see DynamicProvider
 	 *
-	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem\TopParentItem[] These Slates
+	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem[] These Slates
 	 * can be passed to the MainMenu dynamicly for a specific location/context.
 	 *
 	 * This is currently not used for Core components but plugins may use it.

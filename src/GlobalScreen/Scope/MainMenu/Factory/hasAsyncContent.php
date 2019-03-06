@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Items;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 /**
  * Interface hasAsyncContent

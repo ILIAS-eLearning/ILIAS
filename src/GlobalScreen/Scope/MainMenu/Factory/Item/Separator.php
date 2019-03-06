@@ -1,7 +1,7 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Items\Item;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\AbstractChildItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 
 /**
  * Class Separator

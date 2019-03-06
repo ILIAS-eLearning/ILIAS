@@ -5,10 +5,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TypeRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isChild;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isTopItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 
 /**
  * Class TypeInformation

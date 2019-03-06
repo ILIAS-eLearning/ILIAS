@@ -1,16 +1,16 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Items\Item;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\AbstractBaseItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasAction;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasAsyncContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isChild;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
 
 /**

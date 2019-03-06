@@ -2,15 +2,15 @@
 
 use ILIAS\GlobalScreen\Provider\StaticProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 
 /**
  * Interface StaticMainMenuProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface StaticMainMenuProvider extends StaticProvider {
+interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterface {
 
 	/**
 	 * @return TopParentItem[] These are Slates which will be

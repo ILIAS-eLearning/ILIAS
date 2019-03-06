@@ -1,10 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isChild;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 
 /**
  * Class ItemInformation

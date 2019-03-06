@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 /**
  * Class BaseTypeHandler

@@ -1,8 +1,8 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\AbstractParentItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 
 /**
  * Class TopParentItem

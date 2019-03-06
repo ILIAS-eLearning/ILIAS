@@ -4,7 +4,7 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\MainMenuItemFactory;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
  * Interface StaticMainMenuProvider

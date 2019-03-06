@@ -7,13 +7,13 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isChild;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\isTopItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\Lost;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
@@ -212,8 +212,8 @@ class MainMenuMainCollector {
 		if ($this->loaded === false || $this->loaded === null) {
 			/**
 			 * @var $provider            \ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider
-			 * @var $top_item            \ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem\TopParentItem
-			 * @var $sub_item            \ILIAS\GlobalScreen\Scope\MainMenu\Items\isChild
+			 * @var $top_item            \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem
+			 * @var $sub_item            \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild
 			 */
 			try {
 				$this->loaded = true;

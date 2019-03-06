@@ -1,15 +1,15 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Items;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\Complex;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\Link;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\LinkList;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\Lost;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\RepositoryLink;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\Item\Separator;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem\Tool;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem\TopLinkItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Items\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\Tool;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 
 /**
  * Class MainMenuItemFactory
