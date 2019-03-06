@@ -6,27 +6,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Drilldown;
 
 use \ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Drilldown Control
  */
-interface Drilldown extends Component
+interface Drilldown extends Component, JavaScriptBindable
 {
-	/**
-	 * Configure the number of backlinks to be shown (default=1).
-	 */
-	public function withStackingLength(int $stacking): Drilldown;
-
-	/**
-	 * Configure the backlinks to feature this symbol.
-	 */
-	public function withGeneralBackIcon($icon_or_glyph): Drilldown;
-
-	/**
-	 * @return Icon|Glyph|null
-	 */
-	public function getGeneralBackIcon();
-
 	/**
 	 * Get the label for the root-level of Drilldown.
 	 */

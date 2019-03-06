@@ -6,11 +6,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Drilldown;
 
 use \ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Level of Drilldowns
  */
-interface Level extends Component
+interface Level extends Component, JavaScriptBindable
 {
 	/**
 	 * Get the label for this level.

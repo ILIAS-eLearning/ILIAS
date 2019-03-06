@@ -1,6 +1,16 @@
-<li class="il-drilldown-entry">
-	{ENTRY}
+<li class="il-drilldown-entry" id="{ID}" data-active="false">
+	<span class="entry">
+		{ICON}<span class="entry-label">{LABEL}</span>
+	</span>
 	<ul class="il-drilldown-level">
-		{ENTRIES}
+		<!-- BEGIN level_entry -->
+			{LEVEL_ENTRY}
+		<!-- END level_entry -->
+		<!-- BEGIN btn_entry -->
+			<li class="il-drilldown-entry">
+				{BTN_ENTRY}
+			</li>
+		<!-- END btn_entry -->
+
 	</ul>
 </li>

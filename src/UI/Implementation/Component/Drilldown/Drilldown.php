@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Drilldown;
 
 use ILIAS\UI\Component\Drilldown as IDrilldown;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-//use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Drilldown Control
@@ -15,6 +15,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 class Drilldown implements IDrilldown\Drilldown
 {
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var string
@@ -45,34 +46,10 @@ class Drilldown implements IDrilldown\Drilldown
 	{
 		$this->label = $label;
 		$this->icon_or_glyph = $icon_or_glyph;
-	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withStackingLength(int $stacking): IDrilldown\Drilldown
-	{
-		$clone = clone $this;
-		$clone->stacking = $stacking;
-		return $clone;
-	}
-
-	/**
-	 * Configure the backlinks to feature this symbol.
-	 */
-	public function withGeneralBackIcon($icon_or_glyph): IDrilldown\Drilldown
-	{
-		//TODO: check component-type of $entry
-		$clone = clone $this;
-		$clone->back_icon = $icon_or_glyph;
-		return $clone;
-	}
-
-	/**
-	 * @return Icon|Glyph|null
-	 */
-	public function getGeneralBackIcon() {
-		return $this->back_icon;
+		global $DIC;
+		$f = $DIC['ui.factory']->drilldown();
+		$this->self_entry = $f->level($label, $icon_or_glyph);
 	}
 
 	/**
@@ -98,7 +75,7 @@ class Drilldown implements IDrilldown\Drilldown
 	{
 		//TODO: check component-type of $entry
 		$clone = clone $this;
-		$clone->entries[] = $entry;
+		$clone->self_entry = $clone->self_entry->withAdditionalEntry($entry);
 		return $clone;
 	}
 
@@ -107,6 +84,6 @@ class Drilldown implements IDrilldown\Drilldown
 	 */
 	public function getEntries(): array
 	{
-		return $this->entries;
+		return [$this->self_entry];
 	}
 }

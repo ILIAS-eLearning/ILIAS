@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Drilldown;
 
 use ILIAS\UI\Component\Drilldown as IDrilldown;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-//use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Level of Drilldown Control
@@ -15,6 +15,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 class Level implements IDrilldown\Level
 {
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var string
