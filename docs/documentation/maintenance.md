@@ -132,6 +132,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [abaulig1](http://www.ilias.de/docu/goto_docu_usr_44386.html)
 
+* **ContentPage**
+	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Course Management**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
