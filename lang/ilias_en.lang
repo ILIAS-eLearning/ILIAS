@@ -1539,6 +1539,14 @@ assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#saved_adjustment#:#Changes saved.
+assessment#:#qst_lifecycle_filter_all#:#All Lifecycles
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Draft
+assessment#:#qst_lifecycle_review#:#To be Reviewed
+assessment#:#qst_lifecycle_rejected#:#Rejected
+assessment#:#qst_lifecycle_final#:#Final
+assessment#:#qst_lifecycle_sharable#:#Sharable
+assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#sign_submission#:#Digitally Sign Test Submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
