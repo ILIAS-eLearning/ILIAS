@@ -196,6 +196,12 @@ The code base is deviced in several components:
 	* Testcases: FH Aachen
 	* Tester: [e.coroian](http://www.ilias.de/docu/goto_docu_usr_37215.html)
 
+* **General Kiosk-Mode**
+	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **GlobalCache**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
@@ -256,6 +262,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 
+* **Learning History**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Learning Module HTML**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
 	* 2nd Maintainer: MISSING
@@ -273,6 +285,12 @@ The code base is deviced in several components:
 	* 2nd Maintainer: MISSING
 	* Testcases: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
 	* Tester: [suittenpointner](http://www.ilias.de/docu/goto_docu_usr_3458.html)
+
+* **Learning Sequence**
+	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **Logging**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
@@ -336,6 +354,12 @@ The code base is deviced in several components:
 
 * **My Workspace**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
+* **MyStaff**
+	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: MISSING
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
@@ -449,7 +473,7 @@ The code base is deviced in several components:
 	* Tester: iLUB Universität Bern
 
 * **Setup**
-	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 	* Tester: [aarsenij](http://www.ilias.de/docu/goto_docu_usr_41159.html)
@@ -565,7 +589,7 @@ The code base is deviced in several components:
 
 Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
 * **UI-Service**
-	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), 
 	* Used in Directories: src/UI, 
 
 
@@ -574,9 +598,12 @@ The following directories are currently maintained under the [Coordinator Model]
 
 
 The following directories are currently unmaintained:
+* Services/AssessmentQuestion
 * Services/DiskQuota
-* Modules/ContentPage
-* Services/License
+* Services/GlobalScreen
+* Services/Like
+* Services/OpenIdConnect
+* src/GlobalScreen
 * Services/Membership
 * Services/QTI
 * Services/Randomization

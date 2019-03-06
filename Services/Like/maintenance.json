@@ -1,14 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "rklees(34047)",
+    "first_maintainer": "",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": [
-        ""
-    ],
+    "coordinator": [],
     "tester": "",
     "testcase_writer": "",
-    "path": "src/KioskMode",
-    "belong_to_component": "General Kiosk-Mode",
+    "path": "Services/Like",
+    "belong_to_component": "None",
     "used_in_components": []
 }
