@@ -717,8 +717,6 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->questionSetConfig->setLastQuestionSyncTimestamp(0);
 		$this->questionSetConfig->saveToDb();
 
-		$this->sourcePoolDefinitionList->saveDefinitions();
-
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
