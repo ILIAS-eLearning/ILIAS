@@ -372,7 +372,7 @@ class ilIndividualAssessmentMemberGUI {
 		$form->addItem($txt);
 
 		$date = new ilDateTimeInputGUI($this->lng->txt('iass_event_time'), 'event_time');
-		$date->setShowTime(false);
+		$date->setShowTime(true);
 		$date->setRequired($settings->eventTimePlaceRequired());
 		$date->setDisabled(!$may_be_edited);
 		$form->addItem($date);
@@ -616,7 +616,7 @@ class ilIndividualAssessmentMemberGUI {
 
 	private function createDatetime($datetime)
 	{
-		return new ilDateTime($datetime." 00:00:00", IL_CAL_DATETIME);
+		return new ilDateTime($datetime, IL_CAL_DATETIME);
 	}
 
 	protected function uploadFile($file)
