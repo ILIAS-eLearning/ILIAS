@@ -17,9 +17,11 @@ use ILIAS\UI\Component\Dropdown\Dropdown;
 /**
  * List of members fo iass
  */
-class ilIndividualAssessmentMembersTableGUI {
+class ilIndividualAssessmentMembersTableGUI
+{
 
-	public function __construct(
+	public function __construct
+	(
 		ilIndividualAssessmentMembersGUI $parent,
 		ilLanguage $lng,
 		ilCtrl $ctrl,
@@ -130,7 +132,7 @@ class ilIndividualAssessmentMembersTableGUI {
 
 		return array_merge(
 			$this->getGradedInformations($record->eventTime()),
-			$this->getExaminerLogin($this->getExaminerId($record)),
+			$this->getExaminerName($this->getExaminerId($record)),
 			$changer
 		);
 	}
@@ -259,14 +261,17 @@ class ilIndividualAssessmentMembersTableGUI {
 	 *
 	 * @return string[]
 	 */
-	protected function getExaminerLogin(int $examiner_id = null): array
+	protected function getExaminerName(int $examiner_id = null): array
 	{
 		if(is_null($examiner_id)) {
 			return array();
 		}
 
+		$name_fields = ilObjUser::_lookupName($examiner_id);
+		$name = $name_fields["lastname"].", ".$name_fields["firstname"]." [".$name_fields["login"]."]";
+
 		return array(
-			$this->txt("iass_graded_by").": " => ilObjUser::_lookupLogin($examiner_id)
+			$this->txt("iass_graded_by").": " => $name
 		);
 	}
 
@@ -276,7 +281,7 @@ class ilIndividualAssessmentMembersTableGUI {
 	protected function getChangerText(int $changer_id): array
 	{
 		return array(
-			$this->txt("iass_changed_last_by").": " => ilObjUser::_lookupLogin($changer_id)
+			$this->txt("iass_changed_last_by").": " => ilObjUser::_lookupName($changer_id)
 		);
 	}
 
