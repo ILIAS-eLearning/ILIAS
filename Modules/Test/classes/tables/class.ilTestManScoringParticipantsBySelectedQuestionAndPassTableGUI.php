@@ -37,7 +37,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		$this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 		global $DIC;
 
-		$ilCtrl = $DIC['ilCtrl'];
+		$ilCtrl = $DIC->ctrl();
 		$tpl = $DIC['tpl'];
 		$tpl->addJavaScript('./Services/RTE/tiny_mce_3_5_11/tiny_mce.js');
 		$this->setId('man_scor_by_qst_' . $parentObj->object->getId());
@@ -132,8 +132,8 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 	public function fillRow($row)
 	{
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
+		$ilCtrl = $DIC->ctrl();
+		$ilAccess = $DIC->access();
 
 		$this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
 		if (

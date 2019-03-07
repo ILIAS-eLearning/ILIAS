@@ -14,6 +14,10 @@ include_once 'Modules/Test/classes/class.ilTestScoringGUI.php';
  */
 class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 {
+
+	const ONLY_FINALIZED = 1;
+	const EXCEPT_FINALIZED = 2;
+
 	/**
 	 * @param ilObjTest $a_object
 	 */
@@ -43,14 +47,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	 */
 	protected function showManScoringByQuestionParticipantsTable($manPointsPost = array())
 	{
-		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
-		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-		include_once 'Services/YUI/classes/class.ilYuiUtil.php';
-		/* @var ILIAS\DI\Container $DIC */
 		global $DIC;
 
 		$tpl 		= $DIC->ui()->mainTemplate();
-		$ilAccess 	= $DIC['ilAccess'];
+		$ilAccess 	= $DIC->access();
 		
 		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
 
@@ -94,7 +94,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		}
 
 		if($selected_questionData && is_numeric($passNr)){
-			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 
 			$data 				= $this->object->getCompleteEvaluationData(FALSE);
 			$participants 		= $data->getParticipants();
@@ -119,12 +118,15 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 					if(false == isset($feedback['finalized_evaluation'])){
 						$feedback['finalized_evaluation'] = "";
 					}
-					
+
+					$check_filter =
+						($finalized_filter != self::ONLY_FINALIZED || $feedback['finalized_evaluation'] == 1) &&
+						($finalized_filter != self::EXCEPT_FINALIZED || $feedback['finalized_evaluation'] != 1);
+
 					if(
 						isset($questionData['qid']) &&
 						$questionData['qid'] == $selected_questionData['question_id'] &&
-						($finalized_filter != 1 || $feedback['finalized_evaluation'] == 1) &&
-						($finalized_filter != 2 || $feedback['finalized_evaluation'] != 1)
+						$check_filter
 					){
 						$table_data[] = [
 							'pass_id' 			=> $passNr - 1,
@@ -168,7 +170,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	protected function saveManScoringByQuestion($ajax = false)
 	{
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
+		$ilAccess = $DIC->access();
 
 		if(
 			false == $ilAccess->checkAccess("write", "", $this->ref_id) &&
@@ -188,11 +190,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			$this->showManScoringByQuestionParticipantsTable();
 			return;
 		}
-
-		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
-		include_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-		include_once 'Modules/Test/classes/class.ilObjTestAccess.php';
-		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
 		$pass 					= key($_POST['scoring']);
 		$activeData 			= current($_POST['scoring']);
@@ -273,8 +270,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$correction_points 		= 0;
 
 		if($changed_one){
-			require_once './Modules/Test/classes/class.ilTestScoring.php';
-
 			$qTitle = '';
 
 			if($lastAndHopefullyCurrentQuestionId){
@@ -326,7 +321,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	 */
 	protected function applyManScoringByQuestionFilter()
 	{
-		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
 		$table->resetOffset();
 		$table->writeFilterToSession();
@@ -338,7 +332,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	 */
 	protected function resetManScoringByQuestionFilter()
 	{
-		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
 		$table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
 		$table->resetOffset();
 		$table->resetFilter();
@@ -414,29 +407,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	}
 
 	/**
-	 *
-	 */
-	private function enforceAccessConstraint()
-	{
-		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
-
-		if(
-			false == $ilAccess->checkAccess("write", "", $this->ref_id) &&
-			false == $ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
-		){
-			exit();
-		}
-	}
-
-	/**
 	 * @param ilTemplate $tmp_tpl
 	 * @param $participant
 	 */
 	private function appendUserNameToModal($tmp_tpl, $participant)
 	{
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
+		$ilAccess = $DIC->access();
 
 		$tmp_tpl->setVariable(
 			'TEXT_YOUR_SOLUTION',
@@ -484,11 +461,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	 */
 	private function appendFormToModal($tmp_tpl, $pass, $active_id, $question_id, $max_points)
 	{
-		require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		global $DIC;
 
-		$ilCtrl 			= $DIC['ilCtrl'];
+		$ilCtrl 			= $DIC->ctrl();
 		$post_var 			= '[' . $pass . '][' . $active_id . '][' . $question_id . ']';
 		$scoring_post_var 	= 'scoring'.$post_var;
 		$reached_points 	= assQuestion::_getReachedPoints($active_id, $question_id, $pass);
