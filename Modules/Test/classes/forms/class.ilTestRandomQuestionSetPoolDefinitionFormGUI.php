@@ -219,6 +219,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 		$lifecycleCheckbox = new ilCheckboxInputGUI($this->lng->txt('tst_filter_lifecycle_enabled'),'filter_lifecycle_enabled');
 		$lifecycleCheckbox->setChecked(!empty($lifecycleFilterValues));
 		$lifecycleFilter = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'filter_lifecycle');
+		$lifecycleFilter->setRequired(true);
 		$lifecycleFilter->setMulti(true);
 		$lifecycleFilter->setOptions(ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng));
 		$lifecycleFilter->setValue($lifecycleFilterValues);
