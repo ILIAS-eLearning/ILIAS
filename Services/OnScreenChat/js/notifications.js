@@ -358,19 +358,20 @@
 	 */
 	methods.init = function (settings) {
 		globalSettings = $.extend({}, defaults, settings);
-		console.log(globalSettings);
 	};
 
 	/**
 	 * 
 	 * @param {string} uuid
+	 * @param {string} conversationUuid
 	 * @param {string} title
 	 * @param {string} body
 	 * @param {string} icon
 	 */
-	methods.send = function(uuid, title, body, icon = "") {
+	methods.send = function(uuid, conversationUuid, title, body, icon = "") {
 		let notification = {
 			uuid: uuid,
+			conversationUuid: conversationUuid,
 			title: title,
 			body: body,
 			icon: icon,
