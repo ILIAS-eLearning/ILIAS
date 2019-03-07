@@ -554,7 +554,7 @@ class ilTestServiceGUI
 					
 					$scoretemplate->setCurrentBlock("feedback");
 					$scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
-					$feedback = $this->object->getManualFeedback($active_id, $question, $pass);
+					$feedback = $this->object->getManualFeedback($active_id, $question, $pass, true);
 					$scoretemplate->setVariable("VALUE_FEEDBACK", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($feedback, TRUE)));
 					$scoretemplate->setVariable("TEXT_MANUAL_FEEDBACK", $this->lng->txt("set_manual_feedback"));
 					$scoretemplate->parseCurrentBlock();

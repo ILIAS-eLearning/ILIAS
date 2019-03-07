@@ -84,14 +84,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	var $test_id;
+  	public $test_id;
 
 	/**
 * Defines if the test will be placed on users personal desktops
 *
 * @var integer
 */
-	var $invitation = INVITATION_OFF;
+	public $invitation = INVITATION_OFF;
 
 	/**
 * A text representation of the authors name. The name of the author must
@@ -99,21 +99,21 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var string
 */
-  	var $author;
+  	public $author;
 
 	/**
 * A reference to an IMS compatible matadata set
 *
 * @var object
 */
-  	var $metadata;
+  	public $metadata;
 
 	/**
 * An array which contains all the test questions
 *
 * @var array
 */
-  	var $questions;
+  	public $questions;
 
 	/**
 	 * @var bool
@@ -133,7 +133,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var ASS_MarkSchema
 */
-  	var $mark_schema;
+  	public $mark_schema;
 
 	/**
 * Defines the sequence settings for the test user. There are two values:
@@ -142,7 +142,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	var $sequence_settings;
+  	public $sequence_settings;
 
 	/**
 * Defines the score reporting for the test. There are two values:
@@ -153,7 +153,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	var $score_reporting;
+  	public $score_reporting;
 
 	/**
 * Defines the question verification type for the test. When set to 1
@@ -162,14 +162,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-	var $instant_verification;
+	public $instant_verification;
 
 	/**
 * Defines wheather or not the reached points are shown as answer feedback
 *
 * @var integer
 */
-	var $answer_feedback_points;
+	public $answer_feedback_points;
 
 	/**
 * A time/date value to set the earliest reporting time for the test score.
@@ -179,14 +179,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var string
 */
-  	var $reporting_date;
+  	public $reporting_date;
 
 	/**
 * Contains the evaluation data settings the tutor defines for the user
 *
 * @var object
 */
-  	var $evaluation_data;
+  	public $evaluation_data;
 
 	/**
 * Number of tries the user is allowed to do. If set to 0, the user has
@@ -194,7 +194,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	var $nr_of_tries;
+  	public $nr_of_tries;
 
 	/**
 * Tells ILIAS to use the previous answers of a learner in a later test pass
@@ -202,7 +202,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-	var $use_previous_answers;
+	public $use_previous_answers;
 
 	/**
 * Tells ILIAS how to deal with the test titles. The test title will be shown with
@@ -212,28 +212,28 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	var $title_output;
+  	public $title_output;
 
 	/**
 * The maximum processing time as hh:mm:ss string the user is allowed to do.
 *
 * @var integer
 */
-  	var $processing_time;
+  	public $processing_time;
 
 	/**
 * Contains 0 if the processing time is disabled, 1 if the processing time is enabled
 *
 * @var integer
 */
-	var $enable_processing_time;
+	public $enable_processing_time;
 
 	/**
 * Contains 0 if the processing time should not be reset, 1 if the processing time should be reset
 *
 * @var integer
 */
-	var $reset_processing_time;
+	public $reset_processing_time;
 
 	/**
 	 * @var bool
@@ -284,21 +284,21 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-	var $count_system;
+	public $count_system;
 
 	/**
 * Indicates if the points unchecked multiple choice questions are given or not
 *
 * @var integer
 */
-	var $mc_scoring;
+	public $mc_scoring;
 
 	/**
 * Defines which pass should be used for scoring
 *
 * @var integer
 */
-	var $pass_scoring;
+	public $pass_scoring;
 
 	/**
 * Indicates if the questions in a test are shuffled before
@@ -306,28 +306,28 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var boolean
 */
-	var $shuffle_questions;
+	public $shuffle_questions;
 
 	/**
 * Contains the presentation settings for the test results
 *
 * @var integer
 */
-	var $results_presentation;
+	public $results_presentation;
 
 	/**
 * Determines wheather or not a question summary is shown to the users
 *
 * @var boolean
 */
-	var $show_summary;
+	public $show_summary;
 
 	/**
 * Determines if the score of every question should be cut at 0 points or the score of the complete test
 *
 * @var boolean
 */
-	var $score_cutting;
+	public $score_cutting;
 
 	/**
 	 * @var bool
@@ -365,56 +365,56 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var int
 */
-	var $certificate_visibility;
+	public $certificate_visibility;
 
 	/**
 * Anonymity of the test users
 *
 * @var int
 */
-	var $anonymity;
+	public $anonymity;
 
 	/**
 * determines wheather a cancel test button is shown or not
 *
 * @var int
 */
-	var $show_cancel;
+	public $show_cancel;
 
 	/**
 * determines wheather a marker button is shown or not
 *
 * @var int
 */
-	var $show_marker;
+	public $show_marker;
 
 	/**
 * determines wheather a test may have fixed participants or not
 *
 * @var int
 */
-	var $fixed_participants;
+	public $fixed_participants;
 
 	/**
 * determines wheather an answer specific feedback is shown or not
 *
 * @var int
 */
-	var $answer_feedback;
+	public $answer_feedback;
 	
 	/**
 	* contains the test session data
 	*
 	* @var object
 	*/
-	var $testSession;
+	public $testSession;
 
 	/**
 	* contains the test sequence data
 	*
 	* @var object
 	*/
-	var $testSequence;
+	public $testSequence;
 
 	/**
 	* Determines whether or not a final statement should be shown on test completion
@@ -10424,7 +10424,7 @@ function getAnswerFeedbackPoints()
 		xslt_free($xh);
 		return $output;
 	}
-	
+
 	/**
 	* Delivers a PDF file from XHTML
 	*
@@ -10499,32 +10499,98 @@ function getAnswerFeedbackPoints()
 	}
 	
 	/**
-	* Retrieves the manual feedback for a question in a test
+	* Retrieves the feedback comment for a question in a test
 	*
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
+	* @param boolean $ignore_access_validation ignore access right
 	* @return string The feedback text
 	* @access public
 	*/
-	static function getManualFeedback($active_id, $question_id, $pass)
+	static function getManualFeedback($active_id, $question_id, $pass, $ignore_access_validation = false)
 	{
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$feedback = "";
-		$result = $ilDB->queryF("SELECT feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+
+		$ilDB 		= $DIC->database();
+		$feedback 	= "";
+		$result		= $ilDB->queryF(
+			"SELECT finalized_evaluation,feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
-		if ($result->numRows())
-		{
-			$row = $ilDB->fetchAssoc($result);
+
+		if ($result->numRows()){
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+
+			$row = $ilDB->fetchAssoc($result);
+
+			if($ignore_access_validation || $row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
+				$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+			}
 		}
+
 		return $feedback;
 	}
-	
+
+	/**
+	 * Retrieves the manual feedback for a question in a test
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @return array The feedback text
+	 * @access public
+	 */
+	public static function getSingleManualFeedback($active_id, $question_id, $pass)
+	{
+		global $DIC;
+
+		$ilDB 	= $DIC->database();
+		$row 	= array();
+		$result = $ilDB->queryF(
+			"SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer', 'integer', 'integer'),
+			array($active_id, $question_id, $pass)
+		);
+
+		if ($result->numRows()){
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+
+			$row 				= $ilDB->fetchAssoc($result);
+			$row['feedback'] 	= ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+		}
+
+		return $row;
+	}
+
+	/**
+	 * Retrieves the manual feedback for a question in a test
+	 *
+	 * @param integer $question_id Question ID
+	 * @return array The feedback text
+	 * @access public
+	 */
+	public static function getCompleteManualFeedback($question_id)
+	{
+		global $DIC;
+
+		$ilDB 		= $DIC->database();
+		$feedback 	= array();
+		$result 	= $ilDB->queryF(
+			"SELECT * FROM tst_manual_fb WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
+		);
+
+		while ($row = $ilDB->fetchAssoc($result)){
+			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+			$feedback[$row['active_fi']][$row['pass']][$row['question_fi']] = $row;
+		}
+
+		return $feedback;
+	}
+
 	/**
 	* Saves the manual feedback for a question in a test
 	*
@@ -10532,45 +10598,94 @@ function getAnswerFeedbackPoints()
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
 	* @param string $feedback The feedback text
+	* @param boolean $finalized In Feedback is final
 	* @return boolean TRUE if the operation succeeds, FALSE otherwise
 	* @access public
 	*/
-	function saveManualFeedback($active_id, $question_id, $pass, $feedback)
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
 	{
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$DIC->database()->manipulateF(
+			"DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
 
-		if (strlen($feedback))
-		{
-			$next_id = $ilDB->nextId('tst_manual_fb');
-			/** @var ilDBInterface $ilDB */
-			$result = $ilDB->insert('tst_manual_fb', array(
-													   'manual_feedback_id'		=> array( 'integer', 	$next_id ),
-													   'active_fi'				=> array( 'integer', 	$active_id ),
-													   'question_fi'			=> array( 'integer', 	$question_id ),
-													   'pass'					=> array( 'integer',	$pass),
-													   'feedback'				=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0) ),
-													   'tstamp'					=> array( 'integer',	time() ),
-												   )
-			);
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-			{
-				global $DIC;
-				$lng = $DIC['lng'];
-				$ilUser = $DIC['ilUser'];
-				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				$username = ilObjTestAccess::_getParticipantData($active_id);
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				$this->logAction(sprintf($lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()), $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")", $username, assQuestion::_getQuestionTitle($question_id), $feedback));
+		if (strlen($feedback)) {
+			$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
+
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+				$this->logManualFeedback($active_id, $question_id, $feedback);
 			}
 		}
 		return TRUE;
+	}
+
+	/**
+	 * Inserts a manual feedback into the DB
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @param string  $feedback The feedback text
+	 * @param boolean $finalized In Feedback is final
+	 */
+	private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized){
+		global $DIC;
+
+		$ilDB 			= $DIC->database();
+		$ilUser 		= $DIC->user();
+		$next_id 		= $ilDB->nextId('tst_manual_fb');
+		$user			= $ilUser->getId();
+		$finalized_time = time();
+		$feedback_old 	= $this->getSingleManualFeedback($active_id, $question_id, $pass);
+		$update_default = [
+			'manual_feedback_id'	=> [ 'integer', $next_id],
+			'active_fi'				=> [ 'integer', $active_id],
+			'question_fi'			=> [ 'integer', $question_id],
+			'pass'					=> [ 'integer', $pass],
+			'feedback'				=> [ 'clob', ilRTE::_replaceMediaObjectImageSrc( $feedback, 0)],
+			'tstamp'				=> [ 'integer', time()]
+		];
+
+		if($feedback_old['finalized_evaluation'] == 1){
+			$user 			= $feedback_old['finalized_by_usr_id'];
+			$finalized_time = $feedback_old['finalized_tstamp'];
+		}
+
+		if($finalized === true) {
+			$update_default['finalized_evaluation'] = ['integer', 1];
+			$update_default['finalized_by_usr_id'] 	= ['integer', $user];
+			$update_default['finalized_tstamp'] 	= ['integer', $finalized_time];
+		}
+
+		$ilDB->insert('tst_manual_fb', $update_default);
+	}
+
+	/**
+	 * Creates a log for the manual feedback
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param string  $feedback The feedback text
+	 */
+	private function logManualFeedback($active_id, $question_id, $feedback){
+		global $DIC;
+
+		$ilUser 		= $DIC->user();
+		$lng 			= $DIC->language();
+		$username = ilObjTestAccess::_getParticipantData($active_id);
+
+		$this->logAction(
+			sprintf(
+				$lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()),
+				$ilUser->getFullname() . " (" . $ilUser->getLogin() . ")",
+				$username,
+				assQuestion::_getQuestionTitle($question_id),
+				$feedback
+			)
+		);
 	}
 	
 	/**
