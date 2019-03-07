@@ -4401,6 +4401,7 @@ function getAnswerFeedbackPoints()
 		$found["test"]["total_requested_hints"] = $results['hint_count'];
 		$found["test"]["total_hint_points"] = $results['hint_points'];
 		$found["test"]["result_pass"] = $results['pass'];
+		$found['test']['result_tstamp'] = $results['tstamp'];
 		$found['test']['obligations_answered'] = $results['obligations_answered'];
 		
 		if( (!$total_reached_points) or (!$total_max_points) )
