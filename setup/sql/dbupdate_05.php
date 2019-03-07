@@ -510,3 +510,26 @@ ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
 ?>
+<#5461>
+<?php
+if( !$ilDB->tableColumnExists('qpl_questions', 'lifecycle') )
+{
+	$ilDB->addTableColumn('qpl_questions', 'lifecycle', array(
+		'type' => 'text',
+		'length' => 16,
+		'notnull' => false,
+		'default' => 'draft'
+	));
+	
+	$ilDB->queryF('UPDATE qpl_questions SET lifecycle = %s', array('text'), array('draft'));
+}
+?>
+<#5462>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'lifecycle_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'lifecycle_filter',
+		array('type' => 'text', 'length' => 250, 'notnull'	=> false, 'default'	=> null)
+	);
+}
+?>
