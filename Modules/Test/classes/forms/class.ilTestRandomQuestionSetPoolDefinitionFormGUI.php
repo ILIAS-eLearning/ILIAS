@@ -215,6 +215,16 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 			$this->addItem($nonEditableNoTax);
 		}
 		
+		$lifecycleFilterValues = $sourcePool->getLifecycleFilter();
+		$lifecycleCheckbox = new ilCheckboxInputGUI($this->lng->txt('tst_filter_lifecycle_enabled'),'filter_lifecycle_enabled');
+		$lifecycleCheckbox->setChecked(!empty($lifecycleFilterValues));
+		$lifecycleFilter = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'filter_lifecycle');
+		$lifecycleFilter->setMulti(true);
+		$lifecycleFilter->setOptions(ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng));
+		$lifecycleFilter->setValue($lifecycleFilterValues);
+		$lifecycleCheckbox->addSubItem($lifecycleFilter);
+		$this->addItem($lifecycleCheckbox);
+		
 		// fau: taxFilter/typeFilter - show type filter selection
 		$typeFilterOptions = array();
 		require_once ("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -299,6 +309,14 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 			$filter = $this->getItemByPostVar("filter_type")->getMultiValues();
 		}
 		$sourcePoolDefinition->setTypeFilter($filter);
+		
+		$filter = array();
+		if ($this->getItemByPostVar("filter_lifecycle_enabled")->getChecked())
+		{
+			$filter = $this->getItemByPostVar("filter_lifecycle")->getMultiValues();
+		}
+		$sourcePoolDefinition->setLifecycleFilter($filter);
+		
 		// fau.
 		
 		if( $this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )

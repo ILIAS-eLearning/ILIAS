@@ -59,6 +59,11 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	// fau.
 	// fau.
 
+	/**
+	 * @var array
+	 */
+	private $lifecycleFilter = array();
+	
 	private $questionAmount = null;
 	
 	private $sequencePosition = null;
@@ -240,6 +245,39 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	{
 		$this->typeFilter = empty($value) ? array() : unserialize($value);
 	}
+	
+	/**
+	 * @return array
+	 */
+	public function getLifecycleFilter()
+	{
+		return $this->lifecycleFilter;
+	}
+	
+	/**
+	 * @param array $lifecycleFilter
+	 */
+	public function setLifecycleFilter($lifecycleFilter)
+	{
+		$this->lifecycleFilter = $lifecycleFilter;
+	}
+	
+	/**
+	 * @return null|string		serialized lifecycle filter
+	 */
+	public function getLifecycleFilterForDbValue()
+	{
+		return empty($this->lifecycleFilter) ? null : serialize($this->lifecycleFilter);
+	}
+	
+	/**
+	 * @param null|string		serialized lifecycle filter
+	 */
+	public function setLifecycleFilterFromDbValue($dbValue)
+	{
+		$this->lifecycleFilter = empty($dbValue) ? array() : unserialize($dbValue);
+	}
+	
 	/*
 	public function setOriginalFilterTaxId($originalFilterTaxId)
 	{
@@ -327,6 +365,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 				case 'origin_tax_filter':	$this->setOriginalTaxonomyFilterFromDbValue($value);	break;
 				case 'mapped_tax_filter':	$this->setMappedTaxonomyFilterFromDbValue($value);		break;
 				case 'type_filter':			$this->setTypeFilterFromDbValue($value);	break;
+				case 'lifecycle_filter':			$this->setLifecycleFilterFromDbValue($value);	break;
 				// fau.
 				case 'quest_amount':		$this->setQuestionAmount($value);			break;
 				case 'sequence_pos':		$this->setSequencePosition($value);			break;
@@ -398,6 +437,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 				'origin_tax_filter' => array('text', $this->getOriginalTaxonomyFilterForDbValue()),
 				'mapped_tax_filter' => array('text', $this->getMappedTaxonomyFilterForDbValue()),
 				'type_filter' => array('text', $this->getTypeFilterForDbValue()),
+				'lifecycle_filter' => array('text', $this->getLifecycleFilterForDbValue()),
 				// fau.
 				'quest_amount' => array('integer', $this->getQuestionAmount()),
 				'sequence_pos' => array('integer', $this->getSequencePosition())
@@ -430,6 +470,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 				'origin_tax_filter' => array('text', $this->getOriginalTaxonomyFilterForDbValue()),
 				'mapped_tax_filter' => array('text', $this->getMappedTaxonomyFilterForDbValue()),
 				'type_filter' => array('text', $this->getTypeFilterForDbValue()),
+				'lifecycle_filter' => array('text', $this->getLifecycleFilterForDbValue()),
 				// fau.
 				'quest_amount' => array('integer', $this->getQuestionAmount()),
 				'sequence_pos' => array('integer', $this->getSequencePosition())
