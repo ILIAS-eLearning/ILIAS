@@ -2581,6 +2581,7 @@ return array(
     'ilAccountCodesTableGUI' => $baseDir . '/../../Services/User/classes/class.ilAccountCodesTableGUI.php',
     'ilAccountMail' => $baseDir . '/../../Services/Mail/classes/class.ilAccountMail.php',
     'ilAccountRegistrationGUI' => $baseDir . '/../../Services/Registration/classes/class.ilAccountRegistrationGUI.php',
+    'ilAccountRegistrationMail' => $baseDir . '/../../Services/Registration/classes/class.ilAccountRegistrationMail.php',
     'ilActivationEmitter' => $baseDir . '/../../Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php',
     'ilActivity' => $baseDir . '/../../Services/WorkflowEngine/interfaces/ilActivity.php',
     'ilAdminSubItemsTableGUI' => $baseDir . '/../../Services/Repository/classes/class.ilAdminSubItemsTableGUI.php',
