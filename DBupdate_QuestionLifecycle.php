@@ -11,16 +11,25 @@ if( !$ilAccess->checkAccess('read', '', SYSTEM_FOLDER_ID) )
 /* @var \ILIAS\DI\Container $DIC */
 try
 {
-	if( !$DIC->database()->tableColumnExists('qpl_questions', 'lifecycle') )
+	$ilDB = $DIC->database();
+	
+	if( !$ilDB->tableColumnExists('qpl_questions', 'lifecycle') )
 	{
-		$DIC->database()->addTableColumn('qpl_questions', 'lifecycle', array(
+		$ilDB->addTableColumn('qpl_questions', 'lifecycle', array(
 			'type' => 'text',
 			'length' => 16,
 			'notnull' => false,
 			'default' => 'draft'
 		));
 		
-		$DIC->database()->queryF('UPDATE qpl_questions SET lifecycle = %s', array('text'), array('draft'));
+		$ilDB->queryF('UPDATE qpl_questions SET lifecycle = %s', array('text'), array('draft'));
+	}
+	
+	if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'lifecycle_filter'))
+	{
+		$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'lifecycle_filter',
+			array('type' => 'text', 'length' => 250, 'notnull'	=> false, 'default'	=> null)
+		);
 	}
 	
 	echo '[ OK ]';
