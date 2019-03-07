@@ -15,9 +15,10 @@ class ilADTActiveRecordByType
 	protected $properties; // [ilADTGroupDBBridge]
 	protected $element_column; // [string]
 	protected $element_column_type; // [string]
-	protected $tables_map; // [array]
-	protected $tables_map_type; // [array]
-	
+	protected $tables_map = []; // [array]
+	protected $tables_map_type = []; // [array]
+
+	/** @var array|null */
 	static protected $preloaded; // [array]
 	
 	const SINGLE_COLUMN_NAME = "value";
@@ -180,7 +181,9 @@ class ilADTActiveRecordByType
 	 */
 	public function read($a_return_additional_data = false)
 	{		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// reset all group elements
 		$this->properties->getADT()->reset();
@@ -279,7 +282,9 @@ class ilADTActiveRecordByType
 	 */
 	public function write(array $a_additional_data = null)
 	{		
-		global $ilDB;				
+		global $DIC;				
+
+		$ilDB = $DIC['ilDB'];
 				
 		// find existing entries
 		$existing = array();
@@ -387,7 +392,9 @@ class ilADTActiveRecordByType
 	/*
 	public function delete()
 	{
-		global $ilDB;			
+		global $DIC;			
+
+		$ilDB = $DIC['ilDB'];
 		
 		foreach(array_keys($this->tables_map) as $table)
 		{
@@ -411,7 +418,9 @@ class ilADTActiveRecordByType
 	 */
 	protected static function buildPartialPrimaryWhere(array $a_primary)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// using DB only, no object instances required
 	
@@ -444,7 +453,9 @@ class ilADTActiveRecordByType
 	 */
 	public static function deleteByPrimary($a_table, array $a_primary, $a_type = null)
 	{
-		global $ilDB;		
+		global $DIC;		
+
+		$ilDB = $DIC['ilDB'];
 		
 		// using DB only, no object instances required
 		
@@ -493,7 +504,9 @@ class ilADTActiveRecordByType
 	 */
 	public static function preloadByPrimary($a_table, array $a_primary)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		$where = self::buildPartialPrimaryWhere($a_primary);
 		if(!$where)
@@ -546,7 +559,9 @@ class ilADTActiveRecordByType
 	 */
 	public static function cloneByPrimary($a_table, array $a_primary_def, array $a_source_primary, array $a_target_primary, array $a_additional = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// using DB only, no object instances required
 		
@@ -626,7 +641,9 @@ class ilADTActiveRecordByType
 	 */
 	public static function readByPrimary($a_table, array $a_primary, $a_type = null)
 	{
-		global $ilDB;		
+		global $DIC;		
+
+		$ilDB = $DIC['ilDB'];
 		
 		// using DB only, no object instances required
 		
@@ -689,7 +706,9 @@ class ilADTActiveRecordByType
 	 */
 	public static function writeByPrimary($a_table, array $a_primary, $a_type, $a_value)
 	{
-		global $ilDB;		
+		global $DIC;		
+
+		$ilDB = $DIC['ilDB'];
 		
 		// using DB only, no object instances required
 		
@@ -732,7 +751,9 @@ class ilADTActiveRecordByType
 	 */
 	public static function find($a_table, $a_type, $a_field_id, $a_condition, $a_additional_fields = null)	
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
 		
 		// type-specific table	
 		$found = null;

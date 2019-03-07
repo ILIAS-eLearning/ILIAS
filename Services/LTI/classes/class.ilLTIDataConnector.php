@@ -1636,9 +1636,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			'from lti2_user_result ur join lti2_resource_link rl on rl.resource_link_pk = ur.resource_link_pk '.
 			'join lti2_consumer c on rl.consumer_pk = c.consumer_pk '.
 			'join lti_ext_consumer ec on c.ext_consumer_id = ec.id '.
-			'join lti2_context con on rl.context_pk = con.context_pk '.
 			'where c.enabled = '.$db->quote(1,'integer').' '.
-			'and con.lti_context_id = '.$db->quote($a_ext_consumer, 'integer'). ' '.
+			'and ref_id = '. $db->quote($a_ref_id,'integer').' '.
 			'and ur.lti_user_id = '.$db->quote($a_lti_user,'text').' '.
 			'and ec.id = '.$db->quote($a_ext_consumer,'integer');
 

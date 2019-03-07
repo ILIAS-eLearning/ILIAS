@@ -111,8 +111,6 @@ class ilCalendarRemoteAccessHandler
 		$this->getTokenHandler()->setIcal($export->getExportString());
 		$this->getTokenHandler()->storeIcal();
 		
-		$GLOBALS['DIC']['ilAuthSession']->logout();
-		
 		ilUtil::deliverData($export->getExportString(),'calendar.ics','text/calendar','utf-8');
 		#echo $export->getExportString();
 		#echo nl2br($export->getExportString());

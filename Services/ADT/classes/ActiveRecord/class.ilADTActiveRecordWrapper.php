@@ -18,7 +18,7 @@ class ilADTActiveRecordWrapper extends ActiveRecord
 {
 	protected $properties; // [ilADTGroupActiveRecordBridge]
 	protected $fields; // [arFieldList]
-	protected $field_element_map; // [array]
+	protected $field_element_map = []; // [array]
 	
 	/**
 	 * Constructor

@@ -682,30 +682,21 @@ class ilLDAPServer
 	{
 		$this->group_name = $a_value;
 	}
+
 	/**
 	 * Get group names as array
-	 *
-	 * @access public
-	 * @param
-	 * 
+	 * @return string[]
 	 */
 	public function getGroupNames()
 	{
 	 	$names = explode(',',$this->getGroupName());
-		 	
+
 		if(!is_array($names))
 		{
 			return array();
 		}
-		foreach($names as $name)
-		{
-			$name = trim($name);
-			if(strlen($name))
-			{
-				$new_names[] = trim($name);
-			}
-		}
-		return $new_names;
+
+		return array_filter(array_map('trim', $names));
 	}
 	
 	

@@ -352,7 +352,7 @@ class ilTrQuery
 			return;
 		}
 		
-		if(sizeof($a_udf))
+		if(is_array($a_udf) && count($a_udf) > 0)
 		{
 			$query = "SELECT usr_id, field_id, value FROM udf_text WHERE ".$ilDB->in("field_id", $a_udf, false, "integer");
 			$set = $ilDB->query($query);
@@ -1005,7 +1005,7 @@ class ilTrQuery
 
 		$having = array();
 
-		if(sizeof($a_filters))
+		if(is_array($a_filters) && sizeof($a_filters) > 0)
 		{
 			foreach($a_filters as $id => $value)
 			{
@@ -1625,8 +1625,11 @@ class ilTrQuery
 					}
 				}
 			}
-			
-			$result["cnt"] = sizeof($result["set"]);	
+
+			$result["cnt"] = 0;
+			if (is_array($result["set"])) {
+				$result["cnt"] = count($result["set"]);
+			}
 			$result["users"] = $a_users;	
 			
 			self::getUDFAndHandlePrivacy($result, $udf, $a_check_agreement, $a_privacy_fields, $a_additional_fields);																									
