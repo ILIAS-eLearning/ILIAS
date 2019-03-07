@@ -4,16 +4,18 @@ The `Refinery` library is used to unify the way input is
 processed by the ILIAS project.
 
 **Table of Contents**
-- [Refinery](#refinery)
+- [General](#general)
+- [Usage](#usage)
   * [Factory](#factory)
     + [Groups](#groups)
-      - [To](#to)
-      - [In](#in)
+      - [to](#to)
+      - [kindlyTo](#kindlyto)
+      - [in](#in)
         * [series](#series)
         * [parallel](#parallel)
-  * [Libraries](#libraries)
-    + [Transformation](#transformation)
-    + [Validation](#validation)
+- [Libraries](#libraries)
+  * [Transformation](#transformation)
+  * [Validation](#validation)
 
 ## General
 
@@ -47,6 +49,10 @@ different [groups](#groups).
 Checkout the [examples](/src/Refinery/examples) to
 see how these library can be used.
 
+_Info: These examples are just for a show case.
+These examples are non-operable from the console,
+because of the missing initialization of ILIAS_
+
 #### Groups
 
 The different groups are used to validate and/or transform
@@ -57,7 +63,6 @@ these groups can interact with each other and
 with other implementation interfaces.
 E.g. transformation from the `to` group can be used in
 the `in` group and vice versa.
-
 
 ##### to
 
@@ -94,6 +99,18 @@ Find out more about the `applyTo` method of instances of the `Transformation`
 interface in the
 [README about Transformations](/src/Refinery/Transformation/README.md).
 
+###### Primitives
+
+As seen in the example of the [previous chaptger](#to)
+there are transformations which cover the primitive data
+types of PHP (`int`, `string`, `float` and `boolean`).
+
+###### Structures
+
+Beside the [primitive transformations](#primitives) there also
+transformation to create structures like `list`, `dictonary`,
+`record` and `tuple`.
+
 ##### kindlyTo
 
 The `kindlyTo` group consists of combined validations and transformations
@@ -123,6 +140,17 @@ The casting of primitive values into another is based on the
 In comparision with the `to` group equivalent this method tries to convert
 all kinds of values.
 
+###### Primitives
+
+As seen in the example of the [previous chaptger](#to)
+there are transformations which cover the primitive data
+types of PHP (`int`, `string`, `float` and `boolean`).
+
+###### Structures
+
+Beside the [primitive transformations](#primitives) there also
+transformation to create structures like `list`, `dictonary`,
+`record` and `tuple`.
 
 ##### in
 
