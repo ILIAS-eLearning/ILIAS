@@ -11,7 +11,7 @@
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjWorkspaceRootFolderGUI, ilObjWorkspaceFolderGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjectCopyGUI, ilObjFileGUI, ilObjBlogGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjTestVerificationGUI, ilObjExerciseVerificationGUI
-* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLinkResourceGUI, ilObjCourseVerificationGUI
+* @ilCtrl_Calls ilPersonalWorkspaceGUI: ILIAS\Modules\WebResource\ObjLinkResourceGUI, ilObjCourseVerificationGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjSCORMVerificationGUI
 *
 * @ingroup ServicesPersonalWorkspace

@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\WebResource\ObjLinkResourceGUI;
+
 /**
  * Workspace deep link handler GUI
  *
@@ -8,7 +10,7 @@
  * @version $Id$
  * 
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjBlogGUI, ilObjFileGUI, ilObjTestVerificationGUI
- * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI, ilObjLinkResourceGUI
+ * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI, ILIAS\Modules\WebResource\ObjLinkResourceGUI
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjPortfolioGUI
  *
  * @ingroup ServicesPersonalWorkspace
@@ -163,9 +165,8 @@ class ilSharedResourceGUI
 				$ilCtrl->forwardCommand($egui);
 				break;		
 			
-			case "ilobjlinkresourcegui":
-				include_once "Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
-				$lgui = new ilObjLinkResourceGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
+			case strtolower(ObjLinkResourceGUI::class):
+				$lgui = new ObjLinkResourceGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
 				$ilCtrl->forwardCommand($lgui);
 				break;		
 			

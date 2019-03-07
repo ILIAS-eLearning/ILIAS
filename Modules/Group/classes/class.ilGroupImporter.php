@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\WebResource\WebLinkXmlParserException;
+
 include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
 /**
@@ -61,7 +63,7 @@ class ilGroupImporter extends ilXmlImporter
 		{
 			$GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "'.$e->getMessage().'".');
 		}
-		catch(ilWebLinkXMLParserException $e)
+		catch(WebLinkXMLParserException $e)
 		{
 			$GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "'.$e->getMessage().'".');
 		}

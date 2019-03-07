@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\WebResource\ObjLinkResourceGUI;
+
 /**
 * redirection script
 * todo: (a better solution should control the processing
@@ -174,8 +176,7 @@ switch($target_type)
 
 	// please migrate to default branch implementation
 	case "webr":
-		require_once("./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php");
-		ilObjLinkResourceGUI::_goto($target_id, $rest);
+		ObjLinkResourceGUI::_goto($target_id, $rest);
 		break;
 
 	// please migrate to default branch implementation

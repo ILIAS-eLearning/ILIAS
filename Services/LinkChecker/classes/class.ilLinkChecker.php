@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\WebResource\LinkResourceItems;
+
 /**
 * class for checking external links in page objects
 * Normally used in Cron jobs, but should be extensible for use in learning modules. In this case set second parameter of 
@@ -443,7 +445,7 @@ class ilLinkChecker
 		
 
 
-		$link_res_obj = new ilLinkResourceItems($this->getObjId());
+		$link_res_obj = new LinkResourceItems($this->getObjId());
 
 		foreach($check_links = $link_res_obj->getCheckItems($this->getCheckPeriod()) as $item_data)
 		{

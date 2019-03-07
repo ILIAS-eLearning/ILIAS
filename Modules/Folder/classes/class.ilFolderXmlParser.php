@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\WebResource\WebLinkXmlParserException;
 
 include_once './Services/Xml/classes/class.ilSaxParser.php';
 
@@ -60,7 +61,7 @@ class ilFolderXmlParser extends ilSaxParser
 	 * 
 	 * @return 
 	 * @throws	ilSaxParserException	if invalid xml structure is given
-	 * @throws	ilWebLinkXMLParserException	missing elements
+	 * @throws	WebLinkXMLParserException	missing elements
 	 */
 	
 	public function start()
@@ -118,7 +119,7 @@ class ilFolderXmlParser extends ilSaxParser
 	* @param	resource	$a_xml_parser		xml parser
 	* @param	string		$a_name				element name
 	* @throws	ilSaxParserException	if invalid xml structure is given
-	* @throws	ilWebLinkXMLParserException	missing elements
+	* @throws	WebLinkXMLParserException	missing elements
 	*/
 	public function handlerEndTag($a_xml_parser,$a_name)
 	{

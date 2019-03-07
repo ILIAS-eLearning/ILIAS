@@ -1,6 +1,11 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\WebResource\ObjLinkResource;
+use ILIAS\Modules\WebResource\WebLinkXmlParser;
+use ILIAS\Modules\WebResource\WebLinkXmlParserException;
+use ILIAS\Modules\WebResource\WebLinkXmlWriter;
+
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 /**
@@ -84,8 +89,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 
 		try
 		{
-			include_once './Modules/WebResource/classes/class.ilWebLinkXmlWriter.php';
-			$writer = new ilWebLinkXmlWriter();
+			$writer = new WebLinkXmlWriter();
 			$writer->setObjId($obj_id);
 			$writer->write();
 		
@@ -146,10 +150,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 		
 		
 		// create object, put it into the tree and use the parser to update the settings
-		include_once './Modules/WebResource/classes/class.ilObjLinkResource.php';
-		include_once './Modules/WebResource/classes/class.ilWebLinkXmlParser.php';
-
-		$webl = new ilObjLinkResource();
+		$webl = new ObjLinkResource();
 		$webl->setTitle('XML Import');
 		$webl->create(true);
 		$webl->createReference();
@@ -158,15 +159,15 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 		
 		try 
 		{
-			$parser = new ilWebLinkXmlParser($webl,$weblink_xml);
-			$parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
+			$parser = new WebLinkXmlParser($webl,$weblink_xml);
+			$parser->setMode(WebLinkXmlParser::MODE_CREATE);
 			$parser->start();
 		}
 		catch(ilSaxParserException $e)
 		{
 			return $this->__raiseError($e->getMessage(),'Client');
 		}
-		catch(ilWebLinkXMLParserException $e)
+		catch(WebLinkXMLParserException $e)
 		{
 			return $this->__raiseError($e->getMessage(),'Client');
 		}
@@ -236,16 +237,15 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 
 		try 
 		{
-			include_once './Modules/WebResource/classes/class.ilWebLinkXmlParser.php';
-			$parser = new ilWebLinkXmlParser($webl,$weblink_xml);
-			$parser->setMode(ilWebLinkXmlParser::MODE_UPDATE);
+			$parser = new WebLinkXmlParser($webl,$weblink_xml);
+			$parser->setMode(WebLinkXmlParser::MODE_UPDATE);
 			$parser->start();
 		}
 		catch(ilSaxParserException $e)
 		{
 			return $this->__raiseError($e->getMessage(),'Client');
 		}
-		catch(ilWebLinkXMLParserException $e)
+		catch(WebLinkXMLParserException $e)
 		{
 			return $this->__raiseError($e->getMessage(),'Client');
 		}

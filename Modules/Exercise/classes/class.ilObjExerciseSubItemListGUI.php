@@ -78,8 +78,8 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('exc_assignment'));
 			$this->tpl->setVariable('SEPERATOR',':');
 			
-			#$link_data = ilLinkResourceItems::lookupItem($this->getObjId(),$sub_item);
-			#$link_data = ilParameterAppender::_append($link_data);
+			#$link_data = LinkResourceItems::lookupItem($this->getObjId(),$sub_item);
+			#$link_data = ParameterAppender::_append($link_data);
 
 			#$this->getItemListGUI()->setChildId($sub_item);
 			$this->tpl->setVariable('LINK','ilias.php?baseClass=ilExerciseHandlerGUI&cmd=showOverview&ref_id='.$this->getRefId().'&ass_id='.$sub_item);
