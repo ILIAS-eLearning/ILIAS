@@ -1,26 +1,26 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-include_once './Services/Container/classes/class.ilContainerSorting.php';
-include_once './Services/Container/classes/class.ilContainer.php';
-include_once './Services/Container/classes/class.ilContainerSorting.php';
-include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+namespace ILIAS\Modules\WebResource;
 
+use ilAdvancedSelectionListGUI;
+use ilContainerSortingSettings;
+use ilLinkInputGUI;
+use ilTable2GUI;
 
 /**
-* TableGUI class for search results
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWebResource
-*/
+ * Class WebResourceLinkTableGUI
+ *
+ * TableGUI class for search results
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ModulesWebResource
+ *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ */
+class WebResourceLinkTableGUI extends ilTable2GUI {
 
-class ilWebResourceLinkTableGUI extends ilTable2GUI
-{
 	protected $editable = false;
 	protected $web_res = null;
 	
@@ -47,9 +47,8 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		}
 		
 		$this->enableLinkSorting($a_sorting);
-		$this->web_res = new ilLinkResourceItems($this->getParentObject()->object->getId());
-		
-		
+		$this->web_res = new LinkResourceItems($this->getParentObject()->object->getId());
+
 		$this->setTitle($lng->txt('web_resources'));
 		
 		if($this->isEditable())
@@ -79,7 +78,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-		$this->setRowTemplate("tpl.webr_link_row.html", 'Modules/WebResource');
+		$this->setRowTemplate("tpl.webr_link_row.html", 'src/Modules/WebResource');
 		$this->setEnableTitle(true);
 		$this->setEnableNumInfo(false);
 		
@@ -115,17 +114,14 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		
 		$items = $this->getWebResourceItems()->getActivatedItems();
 		$items = $this->getWebResourceItems()->sortItems($items);
-		
-		include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-		include_once "Services/Form/classes/class.ilLinkInputGUI.php";										
-		
+
 		$counter = 1;
 		foreach($items as $link)
 		{
 			/* now done in ObjLinkRessourceGUI::callLink()
-			if(ilParameterAppender::_isEnabled())
+			if(ParameterAppender::_isEnabled())
 			{
-				$link = ilParameterAppender::_append($link);
+				$link = ParameterAppender::_append($link);
 			}
 			*/
 			$tmp['position'] = ($counter++) * 10;
@@ -208,7 +204,8 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 	
 	/**
 	 * Get Web resource items object
-	 * @return object	ilLinkResourceItems
+	 *
+	 * @return LinkResourceItems
 	 */
 	protected function getWebResourceItems()
 	{

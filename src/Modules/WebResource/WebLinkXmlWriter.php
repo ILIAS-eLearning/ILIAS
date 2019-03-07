@@ -1,18 +1,25 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+namespace ILIAS\Modules\WebResource;
+
+use ilObjectFactory;
+use ilXmlWriter;
+use UnexpectedValueException;
 
 /**
-* XML writer for weblinks
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWebResource
-*/
-class ilWebLinkXmlWriter extends ilXmlWriter
-{
+ * Class WebLinkXmlWriter
+ *
+ * XML writer for weblinks
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ModulesWebResource
+ *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ */
+class WebLinkXmlWriter extends ilXmlWriter {
+
 	private $add_header = true;
 	
 	private $obj_id = 0;
@@ -79,10 +86,8 @@ class ilWebLinkXmlWriter extends ilXmlWriter
 		{
 			throw new UnexpectedValueException('No obj_id given: ');
 		}
-		include_once './Services/Object/classes/class.ilObjectFactory.php';
-		if(!$this->weblink = ilObjectFactory::getInstanceByObjId($this->obj_id,false))
-		{
-			throw new UnexpectedValueException('Invalid obj_id given: '.$this->obj_id);
+		if (!$this->weblink = ilObjectFactory::getInstanceByObjId($this->obj_id, false)) {
+			throw new UnexpectedValueException('Invalid obj_id given: ' . $this->obj_id);
 		}
 		if($this->weblink->getType() != 'webr')
 		{

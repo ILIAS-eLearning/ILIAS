@@ -1,30 +1,39 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php" ;
+namespace ILIAS\Modules\WebResource;
+
+use ilCheckboxInputGUI;
+use ilObjectGUI;
+use ilObjPropertyFormGUI;
+use ilPermissionGUI;
+use ilPropertyFormGUI;
 
 /**
+ * Class ObjWebResourceAdministrationGUI
+ *
  * Web Resource Administration Settings.
  *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
+ * @package      ILIAS\Modules\WebResource
  *
- * @ilCtrl_Calls ilObjWebResourceAdministrationGUI: ilPermissionGUI
+ * @ingroup      ModulesWebResource
  *
- * @ingroup ModulesWebResource
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ILIAS\Modules\WebResource\ObjWebResourceAdministrationGUI: ilPermissionGUI
  */
-class ilObjWebResourceAdministrationGUI extends ilObjectGUI
-{	
-	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-	{
+class ObjWebResourceAdministrationGUI extends ilObjectGUI {
+
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
 		$this->type = "wbrs";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule("webr");
 	}
 
-	public function executeCommand()
-	{		
+
+	public function executeCommand() {
 		global $DIC;
 
 		$ilAccess = $DIC['ilAccess'];
@@ -44,7 +53,6 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive("perm_settings");
-				include_once "Services/AccessControl/classes/class.ilPermissionGUI.php";
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -121,7 +129,6 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 		$ilSetting = $DIC['ilSetting'];
 		$ilAccess = $DIC['ilAccess'];
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
 		$form->setTitle($this->lng->txt("settings"));

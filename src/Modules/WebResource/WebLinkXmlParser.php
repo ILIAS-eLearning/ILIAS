@@ -1,24 +1,30 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
-include_once("Services/MetaData/classes/class.ilMD.php");
-include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
+namespace ILIAS\Modules\WebResource;
 
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilWebLinkXmlParserException.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+use ilContainer;
+use ilContainerSorting;
+use ilContainerSortingSettings;
+use ilLoggerFactory;
+use ilMD;
+use ilMDSaxParser;
+use ilObject;
+use ilSaxParserException;
 
 /**
-* XML  parser for weblink xml
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWebResource
-*/
-class ilWebLinkXmlParser extends ilMDSaxParser
-{
+ * Class WebLinkXmlParser
+ *
+ * XML parser for weblink xml
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ModulesWebResource
+ *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ */
+class WebLinkXmlParser extends ilMDSaxParser {
+
 	const MODE_UNDEFINED = 0;
 	const MODE_UPDATE = 1;
 	const MODE_CREATE = 2;
@@ -83,10 +89,10 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 	}
 	
 	/**
-	 * 
-	 * @return 
-	 * @throws	ilSaxParserException	if invalid xml structure is given
-	 * @throws	ilWebLinkXMLParserException	missing elements
+	 *
+	 * @return
+	 * @throws    ilSaxParserException    if invalid xml structure is given
+	 * @throws    WebLinkXmlParserException    missing elements
 	 */
 	
 	public function start()
@@ -148,26 +154,20 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 				if($this->getMode() == self::MODE_CREATE or (isset($a_attribs['action']) and $a_attribs['action'] == 'Create'))
 				{
 					// New weblink
-					$this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
-				}
-				elseif($this->getMode() == self::MODE_UPDATE and $a_attribs['action'] == 'Delete')
-				{
+					$this->current_link = new LinkResourceItems($this->getWebLink()->getId());
+				} elseif ($this->getMode() == self::MODE_UPDATE and $a_attribs['action'] == 'Delete') {
 					$this->current_link_delete = true;
-					$this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
+					$this->current_link = new LinkResourceItems($this->getWebLink()->getId());
 					$this->current_link->delete($a_attribs['id']);
 					break;
-				}
-				elseif($this->getMode() == self::MODE_UPDATE and ($a_attribs['action'] == 'Update' or !isset($a_attribs['action'])))
-				{
-					$this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
+				} elseif ($this->getMode() == self::MODE_UPDATE and ($a_attribs['action'] == 'Update' or !isset($a_attribs['action']))) {
+					$this->current_link = new LinkResourceItems($this->getWebLink()->getId());
 					$this->current_link->readItem($a_attribs['id']);
 					$this->current_link_update = true;
 					
 					// Delete all dynamic parameter
-					include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-					foreach(ilParameterAppender::getParameterIds($this->getWebLink()->getId(), $a_attribs['id']) as $param_id)
-					{
-						$param = new ilParameterAppender($this->getWebLink()->getId());
+					foreach (ParameterAppender::getParameterIds($this->getWebLink()->getId(), $a_attribs['id']) as $param_id) {
+						$param = new ParameterAppender($this->getWebLink()->getId());
 						$param->delete($param_id);
 					}
 				}
@@ -202,8 +202,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
 
 			case 'Sorting':
-				
-				include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 				$sort = new ilContainerSortingSettings($this->getWebLink()->getId());
 				$sort->delete();
 				
@@ -229,8 +227,8 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 				break;
 				
 			case 'DynamicParameter':
-				
-				$param = new ilParameterAppender($this->getWebLink()->getId());
+
+				$param = new ParameterAppender($this->getWebLink()->getId());
 				$param->setName($a_attribs['name']);
 				
 				switch($a_attribs['type'])
@@ -248,7 +246,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 						break;
 						
 					default:
-						throw new ilWebLinkXmlParserException('Invalid attribute "type" given for element "Dynamic parameter". Aborting');
+						throw new WebLinkXmlParserException('Invalid attribute "type" given for element "Dynamic parameter". Aborting');
 						break;
 				}
 				
@@ -258,18 +256,17 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 	}
 	
 	/**
-	* handler for end of element
-	*
-	* @param	resource	$a_xml_parser		xml parser
-	* @param	string		$a_name				element name
-	* @throws	ilSaxParserException	if invalid xml structure is given
-	* @throws	ilWebLinkXMLParserException	missing elements
-	*/
-	public function handlerEndTag($a_xml_parser,$a_name)
-	{
-		if($this->in_metadata)
-		{
-			parent::handlerEndTag($a_xml_parser,$a_name);
+	 * handler for end of element
+	 *
+	 * @param    resource $a_xml_parser xml parser
+	 * @param    string   $a_name       element name
+	 *
+	 * @throws    ilSaxParserException    if invalid xml structure is given
+	 * @throws    WebLinkXmlParserException    missing elements
+	 */
+	public function handlerEndTag($a_xml_parser, $a_name) {
+		if ($this->in_metadata) {
+			parent::handlerEndTag($a_xml_parser, $a_name);
 		}
 		
 
@@ -285,7 +282,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 				$this->getWebLink()->update();
 				
 				// save sorting
-				include_once './Services/Container/classes/class.ilContainerSorting.php';
 				$sorting = ilContainerSorting::_getInstance($this->getWebLink()->getId());
 				$sorting->savePost($this->sorting_positions);
 				ilLoggerFactory::getLogger('webr')->dump($this->sorting_positions);
@@ -301,9 +297,8 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 				{
 					throw new ilSaxParserException('Invalid xml structure given. Missing start tag "WebLink"');
 				}
-				if(!$this->current_link->validate())
-				{
-					throw new ilWebLinkXmlParserException('Missing required elements "Title, Target"');
+				if (!$this->current_link->validate()) {
+					throw new WebLinkXmlParserException('Missing required elements "Title, Target"');
 				}
 				
 				if($this->current_link_update)

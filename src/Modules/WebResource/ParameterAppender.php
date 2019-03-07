@@ -21,10 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define("LINKS_USER_ID",1);
-define("LINKS_SESSION_ID",2);
-define("LINKS_LOGIN",3);
-define('LINKS_MATRICULATION',4);
+namespace ILIAS\Modules\WebResource;
+
+use ilDBConstants;
+
+define("LINKS_USER_ID", 1);
+define("LINKS_SESSION_ID", 2);
+define("LINKS_LOGIN", 3);
+define('LINKS_MATRICULATION', 4);
 
 // Errors
 define("LINKS_ERR_NO_NAME",1);
@@ -32,17 +36,15 @@ define("LINKS_ERR_NO_VALUE",2);
 define("LINKS_ERR_NO_NAME_VALUE",3);
 
 /**
-* Class ilParameterAppender
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de> 
-* @version $Id$
-* 
-* @ingroup ModulesWebResource
-*/
-class ilParameterAppender
-{
-	var $webr_id = null;
-	var $db = null;
+ * Class ParameterAppender
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ModulesWebResource
+ *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ */
+class ParameterAppender {
 
 	var $err = null;
 
@@ -203,7 +205,7 @@ class ilParameterAppender
 		{
 			return false;
 		}
-		if(count($params = ilParameterAppender::_getParams($a_link_data['link_id'])))
+		if(count($params = ParameterAppender::_getParams($a_link_data['link_id'])))
 		{
 			// Check for prefix
 			foreach($params as $param_data)

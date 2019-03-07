@@ -21,14 +21,13 @@
 	+-----------------------------------------------------------------------------+
 */
 
-class ilModulesWebResourceSuite extends PHPUnit_Framework_TestSuite
+class ModulesWebResourceSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
-		$suite = new ilModulesWebResourceSuite();
+		$suite = new ModulesWebResourceSuite();
 		
-		include_once("./Modules/WebResource/test/ilWebResourceTest.php");
-		$suite->addTestSuite("ilWebResourceTest");
+		$suite->addTestSuite("WebResourceTest");
 
 		return $suite;
     }

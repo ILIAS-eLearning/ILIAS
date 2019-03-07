@@ -1,19 +1,20 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectAccess.php";
+namespace ILIAS\Modules\WebResource;
+
+use ilObjectAccess;
 
 /**
- * Class ilObjWebResourceAdministrationAccess
+ * Class ObjWebResourceAdministrationAccess
  *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
+ * @package ILIAS\Modules\WebResource
  *
  * @ingroup ModulesWebResource
+ *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilObjWebResourceAdministrationAccess extends ilObjectAccess
-{
+class ObjWebResourceAdministrationAccess extends ilObjectAccess {
 
 }
-
-?>

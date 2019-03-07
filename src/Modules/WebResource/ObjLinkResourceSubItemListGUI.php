@@ -21,23 +21,23 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+namespace ILIAS\Modules\WebResource;
 
-include_once './Services/Link/classes/class.ilLink.php';
+use ilSubItemListGUI;
 
-/** 
-* Show glossary terms
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-*
-* @ingroup ModulesGlossary
-*/
-class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
-{
+/**
+ * Class ObjLinkResourceSubItemListGUI
+ *
+ * Show glossary terms
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ModulesGlossary
+ *
+ * @author  Stefan Meyer <meyer@leifos.com>
+ */
+class ObjLinkResourceSubItemListGUI extends ilSubItemListGUI {
+
 	/**
 	 * get html 
 	 * @return
@@ -58,11 +58,11 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock('subitem');
-			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('webr'));
-			$this->tpl->setVariable('SEPERATOR',':');
-			
-			$link_data = ilLinkResourceItems::lookupItem($this->getObjId(),$sub_item);
-			$link_data = ilParameterAppender::_append($link_data);
+			$this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('webr'));
+			$this->tpl->setVariable('SEPERATOR', ':');
+
+			$link_data = LinkResourceItems::lookupItem($this->getObjId(), $sub_item);
+			$link_data = ParameterAppender::_append($link_data);
 
 			// handle internal links (#10620)
 			if(stristr($link_data["target"], "|"))

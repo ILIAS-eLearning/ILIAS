@@ -1,19 +1,29 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
+namespace ILIAS\Modules\WebResource;
+
+use ilCronJob;
+use ilCronJobResult;
+use ilLinkChecker;
+use ilObjectFactory;
+use ilUtil;
 
 /**
- * This cron check links in web resources
- * 
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
+ * Class WebResourceCronLinkCheck
  *
- * @package ModulesWebResource
+ * This cron check links in web resources
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ModulesWebResource
+ *
+ * @author  Stefan Meyer <meyer@leifos.com>
  */
-class ilWebResourceCronLinkCheck extends ilCronJob
-{	
-	public function getId()
+class WebResourceCronLinkCheck extends ilCronJob {
+
+    public function getId()
 	{
 		return "webr_link_check";
 	}
@@ -66,8 +76,6 @@ class ilWebResourceCronLinkCheck extends ilCronJob
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 	
-		include_once'./Services/LinkChecker/classes/class.ilLinkChecker.php';
-
 		$counter = 0;
 		foreach(ilUtil::_getObjectsByOperations('webr','write',$ilUser->getId(),-1) as $node)
 		{

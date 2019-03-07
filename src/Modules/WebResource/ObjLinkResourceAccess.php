@@ -1,20 +1,23 @@
 <?php
 
+namespace ILIAS\Modules\WebResource;
+
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+use ilDBConstants;
+use ilObjectAccess;
 
 /**
- * Class ilObjLinkResourceAccess
+ * Class ObjLinkResourceAccess
  *
- *
- * @author 		Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @package ILIAS\Modules\WebResource
  *
  * @ingroup ModulesWebResource
+ *
+ * @author  Alex Killing <alex.killing@gmx.de>
  */
-class ilObjLinkResourceAccess extends ilObjectAccess
-{
+class ObjLinkResourceAccess extends ilObjectAccess {
+
 	static $item = array();
 	static $single_link = array();
 	
@@ -192,10 +195,9 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 		{
 			return self::$single_link[$a_obj_id];
 		}
-		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-		return self::$single_link[$a_obj_id] = ilLinkResourceItems::_isSingular($a_obj_id);
-	}
 
+		return self::$single_link[$a_obj_id] = LinkResourceItems::_isSingular($a_obj_id);
+	}
 }
 
 ?>

@@ -21,21 +21,24 @@
 	+-----------------------------------------------------------------------------+
 */
 
+namespace ILIAS\Modules\WebResource;
 
 /**
-* Handles user interface for link resources.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
-*
-* @ingroup ModulesWebResource
-*/
-class ilLinkResourceHandlerGUI
-{
-	public function __construct()
-	{
+ * Class LinkResourceHandlerGUI
+ *
+ * Handles user interface for link resources.
+ *
+ * @package      ILIAS\Modules\WebResource
+ *
+ * @ingroup      ModulesWebResource
+ *
+ * @author       Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ILIAS\Modules\WebResource\LinkResourceHandlerGUI: ObjLinkResourceGUI
+ */
+class LinkResourceHandlerGUI {
+
+	public function __construct() {
 		global $DIC;
 
 		$ilCtrl = $DIC['ilCtrl'];
@@ -64,7 +67,7 @@ class ilLinkResourceHandlerGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		if ($next_class == "")
 		{
-			$this->ctrl->setCmdClass("ilobjlinkresourcegui");
+			$this->ctrl->setCmdClass("objlinkresourcegui");
 			$next_class = $this->ctrl->getNextClass($this);
 		}
 
@@ -72,14 +75,13 @@ class ilLinkResourceHandlerGUI
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "webr");
+				"ilias.php?baseClass=" . LinkResourceHandlerGUI::class . "&cmd=infoScreen&ref_id=".$_GET["ref_id"], "webr");
 		}
 
 		switch ($next_class)
 		{
-			case 'ilobjlinkresourcegui':
-				require_once "./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
-				$link_gui = new ilObjLinkResourceGUI((int)$_GET["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
+			case 'objlinkresourcegui':
+				$link_gui = new ObjLinkResourceGUI((int)$_GET["ref_id"], ObjLinkResourceGUI::REPOSITORY_NODE_ID);
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 		}

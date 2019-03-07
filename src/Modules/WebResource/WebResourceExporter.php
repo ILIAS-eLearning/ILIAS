@@ -1,22 +1,26 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+namespace ILIAS\Modules\WebResource;
 
-include_once './Modules/WebResource/classes/class.ilWebLinkXmlWriter.php';
-include_once './Services/Export/classes/class.ilXmlExporter.php';
+use ilXmlExporter;
+use UnexpectedValueException;
 
 /**
-* Booking definition
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesBooking
-*/
-class ilWebResourceExporter extends ilXmlExporter
-{
-	private $writer = null;
+ * Class WebResourceExporter
+ *
+ * Booking definition
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ServicesBooking
+ *
+ * @author  Stefan Meyer <meyer@leifos.com>
+ */
+class WebResourceExporter extends ilXmlExporter {
+
+	private $writer = NULL;
+
 
 	/**
 	 * Constructor
@@ -41,11 +45,9 @@ class ilWebResourceExporter extends ilXmlExporter
 	 * @param object $a_id
 	 * @return 
 	 */
-	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
-	{
-		try 
-		{
-			$this->writer = new ilWebLinkXmlWriter(false);
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) {
+		try {
+			$this->writer = new WebLinkXmlWriter(false);
 			$this->writer->setObjId($a_id);
 			$this->writer->write();
 			return $this->writer->xmlDumpMem(false);

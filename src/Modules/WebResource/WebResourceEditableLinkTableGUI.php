@@ -1,23 +1,26 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-include_once './Services/Form/classes/class.ilFormPropertyGUI.php';
-include_once './Services/Form/classes/class.ilLinkInputGUI.php';
+namespace ILIAS\Modules\WebResource;
+
+use ilDatePresentation;
+use ilDateTime;
+use ilLinkInputGUI;
+use ilTable2GUI;
+use ilUtil;
 
 /**
-* TableGUI class for search results
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWebResource
-*/
-class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
-{
-	protected $web_res = null;
+ * Class WebResourceEditableLinkTableGUI
+ *
+ * TableGUI class for search results
+ *
+ * @ingroup ModulesWebResource
+ *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ */
+class WebResourceEditableLinkTableGUI extends ilTable2GUI {
+
+	protected $web_res = NULL;
 	protected $invalid = array();
 
 	/**
@@ -34,9 +37,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		
 		// Initialize
-		$this->web_res = new ilLinkResourceItems($this->getParentObject()->object->getId());
-		
-		
+		$this->web_res = new LinkResourceItems($this->getParentObject()->object->getId());
+
 		$this->setTitle($lng->txt('webr_edit_links'));
 		
 		$this->addColumn('','','1px');
@@ -52,7 +54,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 		// TODO: sorting
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-		$this->setRowTemplate("tpl.webr_editable_link_row.html", 'Modules/WebResource');
+		$this->setRowTemplate("tpl.webr_editable_link_row.html", 'src/Modules/WebResource');
 		$this->setEnableTitle(true);
 		$this->setEnableNumInfo(true);
 		$this->setSelectAllCheckbox('link_ids');
@@ -160,9 +162,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$tmp['disable_check'] = $link['disable_check'];
 			$tmp['valid'] = $link['valid'];
 			$tmp['last_check'] = $link['last_check'];
-			
-			$tmp['params'] = ilParameterAppender::_getParams($link['link_id']);
-			
+
+			$tmp['params'] = ParameterAppender::_getParams($link['link_id']);
+
 			$rows[] = $tmp;
 		}
 		$this->setData($rows);
@@ -243,7 +245,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('TXT_DYN_DEL',$this->lng->txt('delete'));
 			$ilCtrl->setParameterByClass(get_class($this->getParentObject()),'param_id',$param_id);
 			$this->tpl->setVariable('DYN_DEL_LINK',$ilCtrl->getLinkTarget($this->getParentObject(),'deleteParameter'));
-			$this->tpl->setVariable('VAL_DYN',ilParameterAppender::parameterToInfo($param['name'],$param['value']));
+			$this->tpl->setVariable('VAL_DYN',ParameterAppender::parameterToInfo($param['name'],$param['value']));
 			$this->tpl->parseCurrentBlock();
 		}
 		if($a_set['params'])
@@ -252,9 +254,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('TXT_EXISTING',$this->lng->txt('links_existing_params'));
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		if(ilParameterAppender::_isEnabled())
-		{
+
+		if (ParameterAppender::_isEnabled()) {
 			$this->tpl->setCurrentBlock('dyn_add');
 			$this->tpl->setVariable('TXT_DYN_ADD',$this->lng->txt('links_add_param'));
 			
@@ -267,7 +268,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 				ilUtil::formSelect(
 					$a_set['value'] ? $a_set['value'] : 0,
 					'links['.$a_set['id'].'][val]',
-					ilParameterAppender::_getOptionSelect(),
+					ParameterAppender::_getOptionSelect(),
 					false,
 					true)
 			);
@@ -297,7 +298,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 		
 	/**
 	 * Get Web resource items object
-	 * @return object	ilLinkResourceItems
+	 *
+	 * @return LinkResourceItems
 	 */
 	protected function getWebResourceItems()
 	{

@@ -21,23 +21,32 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/** 
-* Unit tests for tree table
-* @group needsInstalledILIAS
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-*
-* @ingroup ServicesTree
-*/
-class ilwebresourceTest extends PHPUnit_Framework_TestCase
-{
-	protected $backupGlobals = FALSE;
+namespace ILIAS\Modules\WebResource\Test;
 
-	protected function setUp()
-	{
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+use ILIAS\Modules\WebResource\ParameterAppender;
+use ilLinkCheckNotify;
+use ilUnitUtil;
+use PHPUnit_Framework_TestCase;
+
+/**
+ * Class WebResourceTest
+ *
+ * Unit tests for tree table
+ *
+ * @package ILIAS\Modules\WebResource\Test
+ *
+ * @group   needsInstalledILIAS
+ *
+ * @ingroup ServicesTree
+ *
+ * @author  Stefan Meyer <meyer@leifos.com>
+ */
+class WebResourceTest extends PHPUnit_Framework_TestCase {
+
+	protected $backupGlobals = false;
+
+
+	protected function setUp() {
 		ilUnitUtil::performInitialisation();
 	}
 	
@@ -52,9 +61,7 @@ class ilwebresourceTest extends PHPUnit_Framework_TestCase
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		
-		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
-		
+
 		$not = new ilLinkCheckNotify($ilDB);
 		$not->setObjId(99999);
 		$not->setUserId(13);
@@ -74,18 +81,14 @@ class ilwebresourceTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @group IL_Init
 	 */
-	public function testWebResourceParameters()
-	{
-		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-		
-		$appender = new ilParameterAppender(999);
+	public function testWebResourceParameters() {
+		$appender = new ParameterAppender(999);
 		$appender->setName('first');
 		$appender->setValue(1);
 		$appender->add(888);
-		
-		$params = ilParameterAppender::_getParams(888);
-		foreach($params as $key => $data)
-		{
+
+		$params = ParameterAppender::_getParams(888);
+		foreach ($params as $key => $data) {
 			$appender->delete($key);
 			$this->assertEquals($data['name'],'first');
 			$this->assertEquals($data['value'],1);

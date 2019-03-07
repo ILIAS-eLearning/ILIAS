@@ -21,21 +21,27 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./Services/Object/classes/class.ilObject.php";
+namespace ILIAS\Modules\WebResource;
 
-/** @defgroup ModulesWebResource Modules/WebResource
- */
+use ilContainer;
+use ilContainerSortingSettings;
+use ilLinkCheckNotify;
+use ilMD;
+use ilMD2XML;
+use ilObject;
+use ilXmlWriter;
 
 /**
-* Class ilObjLinkResource
-* 
-* @author Stefan Meyer <meyer@leifos.com> 
-* @version $Id$
-*
-* @ingroup ModulesWebResource
-*/
-class ilObjLinkResource extends ilObject
-{
+ * Class ObjLinkResource
+ *
+ * @package ILIAS\Modules\WebResource
+ *
+ * @ingroup ModulesWebResource
+ *
+ * @author  Stefan Meyer <meyer@leifos.com>
+ */
+class ObjLinkResource extends ilObject {
+
 	/**
 	* Constructor
 	* @access	public
@@ -98,23 +104,21 @@ class ilObjLinkResource extends ilObject
 			$description = $md_des->getDescription();
 			break;
 		}
-	 	switch($a_element)
-	 	{
-	 		case 'General':
-					include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-					if(ilLinkResourceItems::lookupNumberOfLinks($this->getId()) == 1)
-					{
-						$link_arr = ilLinkResourceItems::_getFirstLink($this->getId());
-						$link = new ilLinkResourceItems($this->getId());
-						$link->readItem($link_arr['link_id']);
-						$link->setTitle($title);
-						$link->setDescription($description);
-						$link->update();
-					}
-		 			break;
-	 		default:
-	 			return true;
-	 	}
+		switch ($a_element) {
+			case 'General':
+				if (LinkResourceItems::lookupNumberOfLinks($this->getId()) == 1) {
+					$link_arr = LinkResourceItems::_getFirstLink($this->getId());
+					$link = new LinkResourceItems($this->getId());
+					$link->readItem($link_arr['link_id']);
+					$link->setTitle($title);
+					$link->setDescription($description);
+					$link->update();
+				}
+				break;
+			default:
+				return true;
+		}
+
 		return true;
 	}
 	
@@ -135,12 +139,9 @@ class ilObjLinkResource extends ilObject
 		}
 
 		// delete items
-		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-		ilLinkResourceItems::_deleteAll($this->getId());
-
+		LinkResourceItems::_deleteAll($this->getId());
 
 		// Delete notify entries
-		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 		ilLinkCheckNotify::_deleteObject($this->getId());
 
 		// delete meta data
@@ -149,93 +150,78 @@ class ilObjLinkResource extends ilObject
 		return true;
 	}
 
-	function initLinkResourceItemsObject()
-	{
-		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
-		$this->items_obj = new ilLinkResourceItems($this->getId());
+	function initLinkResourceItemsObject() {
+		$this->items_obj = new LinkResourceItems($this->getId());
 
 		return true;
 	}
-	
+
+
 	/**
 	 * Clone
 	 *
 	 * @access public
+	 *
 	 * @param int target id
 	 * @param int copy id
-	 * 
+	 *
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
-	{
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
-	 	$this->cloneMetaData($new_obj);
-	 	
-	 	// object created now copy other settings
-	 	include_once('Modules/WebResource/classes/class.ilLinkResourceItems.php');
-	 	$links = new ilLinkResourceItems($this->getId());
-	 	$links->cloneItems($new_obj->getId());
-		
+	public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) {
+		$new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+		$this->cloneMetaData($new_obj);
+
+		// object created now copy other settings
+		$links = new LinkResourceItems($this->getId());
+		$links->cloneItems($new_obj->getId());
+
 		// append copy info weblink title
-		if(ilLinkResourceItems::_isSingular($new_obj->getId()))
-		{
-			$first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
-			ilLinkResourceItems::updateTitle($first['link_id'], $new_obj->getTitle());
+		if (LinkResourceItems::_isSingular($new_obj->getId())) {
+			$first = LinkResourceItems::_getFirstLink($new_obj->getId());
+			LinkResourceItems::updateTitle($first['link_id'], $new_obj->getTitle());
 		}
-		
-	 	return $new_obj;
+
+		return $new_obj;
 	}
+
 
 	/**
 	 * Write webresource xml
+	 *
 	 * @param ilXmlWriter $writer
-	 * @return 
+	 *
+	 * @return
 	 */
-	public function toXML(ilXmlWriter $writer)
-	{
-		$attribs = array("obj_id" => "il_".IL_INST_ID."_webr_".$this->getId());
+	public function toXML(ilXmlWriter $writer) {
+		$attribs = array( "obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId() );
 
-		$writer->xmlStartTag('WebLinks',$attribs);
-				
+		$writer->xmlStartTag('WebLinks', $attribs);
+
 		// LOM MetaData
-		include_once 'Services/MetaData/classes/class.ilMD2XML.php';
-		$md2xml = new ilMD2XML($this->getId(),$this->getId(),'webr');
+		$md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
 		$md2xml->startExport();
 		$writer->appendXML($md2xml->getXML());
 
 		// Sorting
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		switch(ilContainerSortingSettings::_lookupSortMode($this->getId()))
-		{
+		switch (ilContainerSortingSettings::_lookupSortMode($this->getId())) {
 			case ilContainer::SORT_MANUAL:
-				$writer->xmlElement(
-					'Sorting',
-					array('type'	=> 'Manual')
-				);
+				$writer->xmlElement('Sorting', array( 'type' => 'Manual' ));
 				break;
-			
+
 			case ilContainer::SORT_TITLE:
 			default:
-				$writer->xmlElement(
-					'Sorting',
-					array('type'	=> 'Title')
-				);
+				$writer->xmlElement('Sorting', array( 'type' => 'Title' ));
 				break;
 		}
-		
+
 		// All links
-		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-		$links = new ilLinkResourceItems($this->getId());
+		$links = new LinkResourceItems($this->getId());
 		$links->toXML($writer);
-		
-		
+
 		$writer->xmlEndTag('WebLinks');
-		return true;		
+
+		return true;
 	}
-
-
 	// PRIVATE
 
-
-} // END class.ilObjLinkResource
-?>
+}

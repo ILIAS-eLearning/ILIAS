@@ -8,7 +8,7 @@
     ],
     "tester": "nadine.bauser(34662)",
     "testcase_writer": "nadine.bauser(34662)",
-    "path": "Modules/WebResource",
+    "path": "src/Modules/WebResource",
     "belong_to_component": "Weblink",
     "used_in_components": []
 }
