@@ -764,18 +764,28 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Drilldown
-	 *   composition: >
-	 *     Drilldown
-	 *   effect: >
-	 *     Drilldown
+	 *     A Drilldown lets the user navigate through a hierarchically structured
+	 *     set of navigation possibilities, allowing to narrow down her choice
+	 *     by "drilling down" through the structure.
+	 *     Parallel levels are never visible at the same time.
+	 *   rivals:
+	 *      Tree: >
+	 *        A Tree lets the user expand several levels simultaneously, while in
+	 *        a Drilldown only one level (plus maybe the upper ones) is visible at a time.
+	 *      Dropdown: >
+	 *        A Dropdown holds a one-dimensional list of entries, the Drilldown navigates
+	 *        through a hierarchy.
 	 *
 	 * rules:
-	 *   interaction:
+	 *   usage:
 	 *      1: >
-	 *          X
+	 *        Drilldowns SHOULD be used whenever navigational options can be
+	 *        clustered into purposeful sections that - on their part - offer
+	 *        multiple options.
 	 *      2: >
-	 *          X
+	 *        All entries in Drilldowns SHOULD be unique, i.e. the same entry
+	 *        SHOULD NOT occur in different levels.
+	 *
 	 * ---
 	 * @return  \ILIAS\UI\Component\Drilldown\Factory
 	 */
