@@ -217,7 +217,6 @@ class ilOnScreenChatGUI
 					$clientSettings->get('enable_browser_notifications', false) &&
 					(bool)ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
 				),
-				'conversationIdleTimeThreshold' => max(1, (int)$clientSettings->get('conversation_idle_state_in_minutes', 1)),
 				'notificationIconPath' => \ilUtil::getImagePath('icon_chta.svg'),
 			);
 
@@ -249,6 +248,9 @@ class ilOnScreenChatGUI
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/notifications.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/chat.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
+			$DIC['tpl']->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
+				'conversationIdleTimeThreshold' => max(1, (int)$clientSettings->get('conversation_idle_state_in_minutes', 1))
+			]) . ');');
 			$DIC['tpl']->addOnLoadCode("il.Chat.setConfig(".json_encode($chatConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".json_encode($guiConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.init();");

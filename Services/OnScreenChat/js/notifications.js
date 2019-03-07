@@ -3,6 +3,14 @@
 }(window, il, function init(root, $) {
 	"use strict";
 
+	/**
+	 *
+	 * @type {{conversationIdleTimeThreshold: Number}}
+	 */
+	const defaults = {
+		conversationIdleTimeThreshold: 1
+	};
+
 	let Logger = (function () {
 		const defineLogLevel = function defineLogLevel(value, name) {
 			return {
@@ -234,6 +242,7 @@
 	}
 
 	let methods = {},
+		globalSettings = defaults,
 		ls = "localStorage" in root ? root.localStorage : (function() {
 			let items = {};
 
@@ -342,6 +351,15 @@
 
 	// Register listener for storage events
 	$(root).on("storage", onWebNotificationBroadCast);
+
+	/**
+	 *
+	 * @param settings
+	 */
+	methods.init = function (settings) {
+		globalSettings = $.extend({}, defaults, settings);
+		console.log(globalSettings);
+	};
 
 	/**
 	 * 
