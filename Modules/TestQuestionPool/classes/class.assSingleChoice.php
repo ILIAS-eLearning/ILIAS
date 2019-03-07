@@ -234,6 +234,12 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			$this->isSingleline = ($data['allow_images']) ? false : true;
 			$this->lastChange = $data['tstamp'];
 			$this->feedback_setting = $data['feedback_setting'];
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
 
 			try
 			{

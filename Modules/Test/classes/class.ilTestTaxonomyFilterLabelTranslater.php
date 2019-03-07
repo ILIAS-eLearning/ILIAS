@@ -182,6 +182,26 @@ class ilTestTaxonomyFilterLabelTranslater
 		}
 		return implode($filterDelimiter, $labels);
 	}
+	
+	/**
+	 * Get the label for a lifecycle filter
+	 * @param array $filter	list of lifecycle identifiers
+	 */
+	public function getLifecycleFilterLabel($filter = array())
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$lifecycles = array();
+		
+		$lifecycleTranslations = ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($DIC->language());
+		
+		foreach ($filter as $lifecycle)
+		{
+			$lifecycles[] = $lifecycleTranslations[$lifecycle];
+		}
+		asort($lifecycles);
+		return implode(', ', $lifecycles);
+	}
 
 	/**
 	 * Get the label for a type filter

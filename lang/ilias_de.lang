@@ -545,6 +545,7 @@ assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
+assessment#:#tst_filter_lifecycle_enabled#:#Lifecycle Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#assClozeTest#:#Lückentextfrage
@@ -1696,6 +1697,14 @@ assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
+assessment#:#qst_lifecycle_filter_all#:#Alle Lifecycle
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Entwurf
+assessment#:#qst_lifecycle_review#:#Überarbeitung notwendig
+assessment#:#qst_lifecycle_rejected#:#Abgelehnt
+assessment#:#qst_lifecycle_final#:#Endgültig
+assessment#:#qst_lifecycle_sharable#:#Verteilbar
+assessment#:#qst_lifecycle_outdated#:#Veraltet
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
