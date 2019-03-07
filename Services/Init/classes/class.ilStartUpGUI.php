@@ -16,7 +16,8 @@ class ilStartUpGUI
 {
 	const ACCOUNT_MIGRATION_MIGRATE = 1;
 	const ACCOUNT_MIGRATION_NEW = 2;
-	
+
+	/** @var \ilCtrl */
 	protected $ctrl;
 	protected $lng;
 	protected $logger;
@@ -2084,123 +2085,67 @@ class ilStartUpGUI
 
 	public function confirmRegistration()
 	{
-		global $lng, $ilias, $ilLog;
+		\ilUtil::setCookie('iltest', 'cookie', false);
 
-		ilUtil::setCookie('iltest', 'cookie', false);
-
-		if(!isset($_GET['rh']) || !strlen(trim($_GET['rh'])))
-		{
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
+		if (!isset($_GET['rh']) || !strlen(trim($_GET['rh']))) {
+			$this->ctrl->redirectToURL('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
 		}	
 
-		try
-		{
-			require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
-			$oRegSettings = new ilRegistrationSettings();
-			
-			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
-			$oUser = ilObjectFactory::getInstanceByObjId($usr_id);
-			$oUser->setActive(true);
-			if($oRegSettings->passwordGenerationEnabled())
-            {
-            	$passwd = ilUtil::generatePasswords(1);
-				$password =  $passwd[0];				
-				$oUser->setPasswd($password, IL_PASSWD_PLAIN);
-				$oUser->setLastPasswordChangeTS( time() );				
-            }
-			$oUser->update();
-			
-			$usr_lang = $oUser->getPref('language');
-			
-			if($lng->getLangKey() != $usr_lang)
-			{
-				$lng = new ilLanguage($usr_lang);
-			}
+		try {
+			$oRegSettings = new \ilRegistrationSettings();
 
-			$target = $oUser->getPref('reg_target');
-			if(strlen($target) > 0)
-			{
+			$usr_id = \ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
+			/** @var \ilObjUser $user */
+			$user = \ilObjectFactory::getInstanceByObjId($usr_id);
+			$user->setActive(true);
+			$password = '';
+			if ($oRegSettings->passwordGenerationEnabled()) {
+				$passwords = \ilUtil::generatePasswords(1);
+				$password = $passwords[0];
+				$user->setPasswd($password, IL_PASSWD_PLAIN);
+				$user->setLastPasswordChangeTS(time());
+			}
+			$user->update();
+
+			$target = $user->getPref('reg_target');
+			if (strlen($target) > 0) {
+				// Used for \ilAccountMail in \ilAccountRegistrationMail, which relies on this super global ...
 				$_GET['target'] = $target;
 			}
 
-			// send email
-			// try individual account mail in user administration
-			include_once("Services/Mail/classes/class.ilAccountMail.php");
-			include_once './Services/User/classes/class.ilObjUserFolder.php';
-			$amail = ilObjUserFolder::_lookupNewAccountMail($usr_lang);
-			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
-			{				
-	            $acc_mail = new ilAccountMail();
-	            $acc_mail->setUser($oUser);
-	            if($oRegSettings->passwordGenerationEnabled())
-	            {
-	                $acc_mail->setUserPassword($password);
-	            }
-	            $acc_mail->send();
-			}
-			else	// do default mail
-			{				
-				include_once 'Services/Mail/classes/class.ilMail.php';
-				$mail_obj = new ilMail(ANONYMOUS_USER_ID);			
-	
-				// mail subject
-				$subject = $lng->txt("reg_mail_subject");
-	
-				// mail body
-				$body = $lng->txt("reg_mail_body_salutation")." ".$oUser->getFullname().",\n\n".
-					$lng->txt("reg_mail_body_text1")."\n\n".
-					$lng->txt("reg_mail_body_text2")."\n".
-					ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID."\n";			
-				$body .= $lng->txt("login").": ".$oUser->getLogin()."\n";
-				
-				if($oRegSettings->passwordGenerationEnabled())
-				{
-					$body.= $lng->txt("passwd").": ".$password."\n";
-				}
-				
-				$body.= "\n";
-				$body.= $lng->txt('reg_mail_body_forgot_password_info')."\n";
-				
-				$body.= "\n";
-	
-				$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
-				$body .= $oUser->getProfileAsString($lng);
-				$mail_obj->enableSoap(false);
-				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail($oUser->getEmail(), '', '',
-					$subject,
-					$body,
-					array(), array('normal'));
-			}	
-			
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang='.$usr_lang);
-		}
-		catch(ilRegConfirmationLinkExpiredException $exception)
-		{
-			include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';			
-			$soap_client = new ilSoapClient();
+			$accountMail = new \ilAccountRegistrationMail($oRegSettings, $this->lng);
+			$accountMail->withEmailConfirmationRegistrationMode()->send($user, $password);
+
+			$this->ctrl->redirectToURL(sprintf(
+				'./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang=%s',
+				$user->getLanguage()
+			));
+		} catch(\ilRegConfirmationLinkExpiredException $exception) {
+			$soap_client = new \ilSoapClient();
 			$soap_client->setResponseTimeout(1);
 			$soap_client->enableWSDL(true);
 			$soap_client->init();
-			
-			$ilLog->write(__METHOD__.': Triggered soap call (background process) for deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
 
-			$soap_client->call
-			(
+			$this->logger->info('Triggered soap call (background process) for deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
+
+			$soap_client->call(
 				'deleteExpiredDualOptInUserObjects',
-				array
-				(
-					$_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'], // session id and client id, not used for checking access -> not possible for anonymous
+				[
+					$_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],
 					$exception->getCode() // user id
-				)
+				]
 			);
-			
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage()."&lang=".$usr_lang);
+
+			$this->ctrl->redirectToURL(sprintf(
+				'./login.php?cmd=force_login&reg_confirmation_msg=%s',
+				$exception->getMessage()
+			));
+		} catch(\ilRegistrationHashNotFoundException $exception) {
+			$this->ctrl->redirectToURL(sprintf(
+				'./login.php?cmd=force_login&reg_confirmation_msg=%s',
+				$exception->getMessage()
+			));
 		}
-		catch(ilRegistrationHashNotFoundException $exception)
-		{
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage()."&lang=".$usr_lang);
-		}				
 	}
 
 	/**

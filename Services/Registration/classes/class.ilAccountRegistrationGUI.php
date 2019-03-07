@@ -26,6 +26,8 @@ class ilAccountRegistrationGUI
 	protected $registration_settings; // [object]
 	protected $code_enabled; // [bool]
 	protected $code_was_used; // [bool]
+	/** @var \ilObjUser|null */
+	protected $userObj;
 
 	public function __construct()
 	{
@@ -432,7 +434,7 @@ class ilAccountRegistrationGUI
 		else
 		{
 			$password = $this->__createUser($valid_role);
-			$this->__distributeMails($password, $this->form->getInput("usr_language"));
+			$this->__distributeMails($password);
 			$this->login($password);
 			return true;
 		}		
@@ -704,7 +706,7 @@ class ilAccountRegistrationGUI
 		return $password;
 	}
 
-	protected function __distributeMails($password, $a_language = null)
+	protected function __distributeMails($password)
 	{
 		global $ilSetting;
 
@@ -730,12 +732,11 @@ class ilAccountRegistrationGUI
 			$mail->setAdditionalInformation(array('usr' => $this->userObj));
 			$mail->send();
 			
-		}		
+		}
+
 		// Send mail to new user
-		
-		// Registration with confirmation link ist enabled		
-		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION && !$this->code_was_used)
-		{
+		// Registration with confirmation link ist enabled
+		if ($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION && !$this->code_was_used) {
 			include_once './Services/Registration/classes/class.ilRegistrationMimeMailNotification.php';
 
 			$mail = new ilRegistrationMimeMailNotification();
@@ -748,78 +749,9 @@ class ilAccountRegistrationGUI
 				)
 			);
 			$mail->send();
-		}
-		else
-		{
-			// try individual account mail in user administration
-			include_once("Services/Mail/classes/class.ilAccountMail.php");
-			include_once './Services/User/classes/class.ilObjUserFolder.php';
-			
-			$amail = ilObjUserFolder::_lookupNewAccountMail($a_language);
-			if (trim($amail["body"]) == "" || trim($amail["subject"]) == "")
-			{
-				$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
-			}
-			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
-			{				
-				$acc_mail = new ilAccountMail();
-				$acc_mail->setUser($this->userObj);
-				if ($this->registration_settings->passwordGenerationEnabled())
-				{
-					$acc_mail->setUserPassword($password);
-				}
-				
-				if($amail["att_file"])
-				{
-					include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
-					$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
-					$fs->create();
-					$path = $fs->getAbsolutePath()."/";
-					
-					$acc_mail->addAttachment($path."/".$amail["lang"], $amail["att_file"]);
-				}
-				
-				$acc_mail->send();
-			}
-			else	// do default mail
-			{
-				include_once "Services/Mail/classes/class.ilMimeMail.php";
-
-				/** @var ilMailMimeSenderFactory $senderFactory */
-				$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
-
-				$mmail = new ilMimeMail();
-				$mmail->From($senderFactory->system());
-				$mmail->To($this->userObj->getEmail());
-	
-				// mail subject
-				$subject = $this->lng->txt("reg_mail_subject");
-	
-				// mail body
-				$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
-					$this->lng->txt("reg_mail_body_text1")."\n\n".
-					$this->lng->txt("reg_mail_body_text2")."\n".
-					ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID."\n";			
-				$body .= $this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
-	
-				if ($this->registration_settings->passwordGenerationEnabled())
-				{
-					$body.= $this->lng->txt("passwd").": ".$password."\n";
-				}
-				$body.= "\n";
-	
-				// Info about necessary approvement
-				if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE && !$this->code_was_used)
-				{
-					$body .= ($this->lng->txt('reg_mail_body_pwd_generation')."\n\n");
-				}			
-				
-				$body .= ($this->lng->txt("reg_mail_body_text3")."\n\r");
-				$body .= $this->userObj->getProfileAsString($this->lng);
-				$mmail->Subject($subject);
-				$mmail->Body($body);
-				$mmail->Send();
-			}
+		} else {
+			$accountMail = new \ilAccountRegistrationMail($this->registration_settings, $this->lng);
+			$accountMail->withDirectRegistrationMode()->send($this->userObj, $password, $this->code_was_used);
 		}
 	}
 
