@@ -1,6 +1,6 @@
 (function (root, scope, factory) {
-	scope.OnScreenChatNotifications = factory(root, root.jQuery);
-}(window, il, function init(root, $) {
+	scope.OnScreenChatNotifications = factory(root, scope, root.jQuery);
+}(window, il, function init(root, scope, $) {
 	"use strict";
 
 	/**
@@ -202,6 +202,42 @@
 				$(root).trigger(e);
 			}
 
+			shouldTriggerForConversation(uuid) {
+				if (scope.OnScreenChat.storage === undefined) {
+					return true;
+				}
+
+				let conversation = scope.OnScreenChat.storage.get(uuid);
+				if (null === conversation) {
+					return false;
+				}
+
+				if (conversation.lastTriggeredNotificationTs !== undefined) {
+					logger.info("Last Triggered: " + (new Date(conversation.lastTriggeredNotificationTs)).toISOString());
+					logger.info("Now: " + (new Date().toISOString()));
+				} else {
+					logger.info("No timestamp registered for last sent notification");
+				}
+
+				return (
+					conversation.lastTriggeredNotificationTs === undefined ||
+					conversation.lastTriggeredNotificationTs < (new Date()).getTime() - (globalSettings.conversationIdleTimeThreshold * 60 * 1000)
+				);
+			}
+
+			markTriggeredForConversation(uuid) {
+				if (scope.OnScreenChat.storage === undefined) {
+					return;
+				}
+
+				let conversation = scope.OnScreenChat.storage.get(uuid);
+
+				if (null !== conversation) {
+					conversation.lastTriggeredNotificationTs = (new Date()).getTime();
+					scope.OnScreenChat.storage.save(conversation);
+				}
+			}
+
 			/**
 			 * 
 			 */
@@ -278,6 +314,13 @@
 		if (!storage.isMarkedAsSent(notification)) {
 			if (il.BrowserNotifications.isSupported()) {
 				storage.markAsSent(notification);
+
+				if (!storage.shouldTriggerForConversation(notification.conversationUuid)) {
+					logger.info("Notification not triggered because idle time was not exceeded for conversation with id: " + notification.conversationUuid + " (message id: " + notification.uuid + ")");
+					return;
+				}
+
+				storage.markTriggeredForConversation(notification.conversationUuid);
 				il.BrowserNotifications.requestPermission().then(() => {
 					il.BrowserNotifications.notification(notification.title, {
 						closeOnClick: true,

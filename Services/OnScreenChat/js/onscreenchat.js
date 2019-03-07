@@ -475,7 +475,7 @@
 		},
 
 		receiveMessage: function(messageObject) {
-			var conversation = getModule().storage.get(messageObject.conversationId);
+			let conversation = getModule().storage.get(messageObject.conversationId);
 
 			if(getModule().historyTimestamps[conversation.id] === undefined) {
 				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
@@ -486,30 +486,22 @@
 			conversation.action = ACTION_SHOW_CONV;
 			getModule().storage.save(conversation, function() {
 				getModule().addMessage(messageObject, false);
-
-				if (
-					getConfig().enabledBrowserNotifications &&
-					messageObject.hasOwnProperty("uuid") && messageObject.uuid
-				) {
-					/*
-					let t = parseInt(1);
-					let la = conversation.lastActivity;
-					// TODO :Check activity/idle time
-					*/
-
-					if (
-						getModule().user !== undefined &&
-						parseInt(getModule().user.id) !== parseInt(messageObject.userId)
-					) {
-						il.OnScreenChatNotifications.send(
-							messageObject.uuid,
-							il.Language.txt('osc_noti_title'),
-							$("<span>").html(messageObject.message).text(),
-							getConfig().notificationIconPath
-						);
-					}
-				}
 			});
+
+			if (
+				(!messageObject.hasOwnProperty("isNeutral") || !messageObject.isNeutral) &&
+				messageObject.hasOwnProperty("uuid") && messageObject.uuid &&
+				getModule().user !== undefined &&
+				parseInt(getModule().user.id) !== parseInt(messageObject.userId)
+			) {
+				il.OnScreenChatNotifications.send(
+					messageObject.uuid,
+					conversation.id,
+					il.Language.txt('osc_noti_title'),
+					$("<span>").html(messageObject.message).text(),
+					getConfig().notificationIconPath
+				);
+			}
 		},
 
 		onParticipantsSuppressedMessages: function(messageObject) {
@@ -1028,17 +1020,21 @@
 		};
 
 		this.syncUIStateWithStored = function mergeWithStored(conversation) {
-			var oldValue = this.get(conversation.id);
+			let oldValue = this.get(conversation.id);
 
 			if (oldValue != null && oldValue.open !== undefined && (conversation.open === undefined || conversation.open !== oldValue.open)) {
 				conversation.open = oldValue.open;
+			}
+
+			if (oldValue != null && oldValue.lastTriggeredNotificationTs !== undefined && (conversation.lastTriggeredNotificationTs === undefined || conversation.lastTriggeredNotificationTs < oldValue.lastTriggeredNotificationTs)) {
+				conversation.lastTriggeredNotificationTs = oldValue.lastTriggeredNotificationTs;
 			}
 
 			return conversation;
 		}; 
 
 		this.save = function save(conversation, callback) {
-			var oldValue = this.get(conversation.id);
+			let oldValue = this.get(conversation.id);
 
 			conversation.messages = [];
 

@@ -243,17 +243,17 @@ class ilOnScreenChatGUI
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/Notifications/js/browser_notifications.js');
+			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/notifications.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');
 			$DIC['tpl']->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
-			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/notifications.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/chat.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
-			$DIC['tpl']->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
-				'conversationIdleTimeThreshold' => max(1, (int)$clientSettings->get('conversation_idle_state_in_minutes', 1))
-			]) . ');');
 			$DIC['tpl']->addOnLoadCode("il.Chat.setConfig(".json_encode($chatConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".json_encode($guiConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.init();");
+			$DIC['tpl']->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
+				'conversationIdleTimeThreshold' => max(1, (int)$clientSettings->get('conversation_idle_state_in_minutes', 1))
+			]) . ');');
 
 			self::$frontend_initialized = true;
 		}
