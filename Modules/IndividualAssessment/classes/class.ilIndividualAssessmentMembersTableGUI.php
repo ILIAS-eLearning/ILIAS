@@ -123,18 +123,20 @@ class ilIndividualAssessmentMembersTableGUI
 	{
 		$finalized = $record->finalized();
 
-		if((!$this->userMayViewGrades() && !$this->userMayEditGrades()) || !$finalized) {
+		if ((!$this->userMayViewGrades() && !$this->userMayEditGrades()) || !$finalized) {
 			return [];
 		}
 
 		$changer = array();
 		if (!is_null($record->changerId())) {
-			$changer = $this->getChangerText((int)$record->changerId());
+			$changer_id = $this->getChangerId($record);
+			$changer = $this->getPortfolioLink(self::CHANGED, $this->getFullNameFor($changer_id), $changer_id);
 		}
 
+		$examiner_id = $this->getExaminerId($record);
 		return array_merge(
 			$this->getGradedInformations($record->eventTime()),
-			$this->getExaminerName($this->getExaminerId($record)),
+			$this->getPortfolioLink(self::GRADED, $this->getFullNameFor($examiner_id), $examiner_id),
 			$changer
 		);
 	}
@@ -263,27 +265,47 @@ class ilIndividualAssessmentMembersTableGUI
 	 *
 	 * @return string[]
 	 */
-	protected function getExaminerName(int $examiner_id = null): array
+	protected function getFullNameFor(int $user_id = null): string
 	{
-		if(is_null($examiner_id)) {
+		if(is_null($user_id)) {
+			return "";
+		}
+
+		$name_fields = ilObjUser::_lookupName($user_id);
+		$name = $name_fields["lastname"].", ".$name_fields["firstname"]." [".$name_fields["login"]."]";
+
+		return $name;
+	}
+
+	protected function getPortfolioLink(string $case, string $examiner, int $examiner_id)
+	{
+		if ($examiner === "") {
 			return array();
 		}
 
-		$name_fields = ilObjUser::_lookupName($examiner_id);
-		$name = $name_fields["lastname"].", ".$name_fields["firstname"]." [".$name_fields["login"]."]";
+		if (!$this->hasPublicProfile($examiner_id)) {
+			return array(
+				$this->txt("iass_".$case."_by") => $examiner
+			);
+		}
+		$back_url = $this->ctrl->getLinkTarget($this->parent, "view");
+		$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', $examiner_id);
+		$this->ctrl->setParameterByClass('ilpublicuserprofilegui', "back_url", rawurlencode($back_url));
+		$link = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
+
+		$link = $this->factory->link()->standard($examiner, $link);
 
 		return array(
-			$this->txt("iass_graded_by").": " => $name
+			$this->txt("iass_".$case."_by") => $this->renderer->render($link)
 		);
 	}
 
-	/**
-	 * Returns changer, if exists.
-	 */
-	protected function getChangerText(int $changer_id): array
+	protected function hasPublicProfile(int $examiner_id): bool
 	{
-		return array(
-			$this->txt("iass_changed_last_by").": " => ilObjUser::_lookupName($changer_id)
+		$user = ilObjectFactory::getInstanceByObjId($examiner_id);
+		return (
+			($user->getPref('public_profile') == 'y') ||
+			$user->getPref('public_profile') == 'g'
 		);
 	}
 
@@ -390,6 +412,17 @@ class ilIndividualAssessmentMembersTableGUI
 		}
 
 		return (int)$examiner_id;
+	}
+
+	protected function getChangerId(ilIndividualAssessmentMember $record)
+	{
+		$changer_id = $record->changerId();
+
+		if (is_null($changer_id)) {
+			return null;
+		}
+
+		return (int)$changer_id;
 	}
 
 	/**
