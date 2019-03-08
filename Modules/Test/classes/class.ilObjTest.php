@@ -10520,14 +10520,14 @@ function getAnswerFeedbackPoints()
 			array($active_id, $question_id, $pass)
 		);
 
-		if ($result->numRows()){
-			include_once("./Services/RTE/classes/class.ilRTE.php");
+		$row = $ilDB->fetchAssoc($result);
+		if($ignore_access_validation || $row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
+			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+		}
 
-			$row = $ilDB->fetchAssoc($result);
-
-			if($ignore_access_validation || $row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
-				$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
-			}
+		if ($result->numRows() > 1){
+			$DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for ".
+				"active_fi = $active_id , question_fi = $question_id and pass = $pass");
 		}
 
 		return $feedback;
@@ -10555,7 +10555,6 @@ function getAnswerFeedbackPoints()
 		);
 
 		if ($result->numRows()){
-			include_once("./Services/RTE/classes/class.ilRTE.php");
 
 			$row 				= $ilDB->fetchAssoc($result);
 			$row['feedback'] 	= ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
@@ -10584,8 +10583,13 @@ function getAnswerFeedbackPoints()
 		);
 
 		while ($row = $ilDB->fetchAssoc($result)){
+			$active 	= $row['active_fi'];
+			$pass 		= $row['pass'];
+			$question 	= $row['question_fi'];
+
 			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
-			$feedback[$row['active_fi']][$row['pass']][$row['question_fi']] = $row;
+
+			$feedback[$active][$pass][$question] = $row;
 		}
 
 		return $feedback;
@@ -10602,7 +10606,7 @@ function getAnswerFeedbackPoints()
 	* @return boolean TRUE if the operation succeeds, FALSE otherwise
 	* @access public
 	*/
-	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback, bool $finalized = false)
 	{
 		global $DIC;
 
@@ -10612,13 +10616,12 @@ function getAnswerFeedbackPoints()
 			array($active_id, $question_id, $pass)
 		);
 
-		if (strlen($feedback)) {
-			$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
+		$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
 
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-				$this->logManualFeedback($active_id, $question_id, $feedback);
-			}
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+			$this->logManualFeedback($active_id, $question_id, $feedback);
 		}
+
 		return TRUE;
 	}
 
@@ -10679,8 +10682,8 @@ function getAnswerFeedbackPoints()
 
 		$this->logAction(
 			sprintf(
-				$lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()),
-				$ilUser->getFullname() . " (" . $ilUser->getLogin() . ")",
+				$lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
+				$ilUser->getFullname() . ' (' . $ilUser->getLogin() . ')',
 				$username,
 				assQuestion::_getQuestionTitle($question_id),
 				$feedback
