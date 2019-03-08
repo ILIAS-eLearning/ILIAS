@@ -71,6 +71,19 @@ class Menu implements IDrilldown\Menu
 	/**
 	 * @inheritdoc
 	 */
+	public function withEntries(array $entries): IDrilldown\Menu
+	{
+		$classes = [IDrilldown\Submenu::class, \ILIAS\UI\Component\Button\Button::class];
+		$this->checkArgListElements("entry", $entries, $classes);
+
+		$clone = clone $this;
+		$clone->self_entry = $clone->self_entry->withEntries($entries);
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function withAdditionalEntry($entry): IDrilldown\Menu
 	{
 		$classes = [IDrilldown\Submenu::class, \ILIAS\UI\Component\Button\Button::class];

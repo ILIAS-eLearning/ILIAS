@@ -57,6 +57,19 @@ class Submenu implements IDrilldown\Submenu
 	/**
 	 * @inheritdoc
 	 */
+	public function withEntries(array $entries): IDrilldown\Submenu
+	{
+		$classes = [IDrilldown\Submenu::class, \ILIAS\UI\Component\Button\Button::class];
+		$this->checkArgListElements("entry", $entries, $classes);
+
+		$clone = clone $this;
+		$clone->entries = $entries;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function withAdditionalEntry($entry): IDrilldown\Submenu
 	{
 		$classes = [IDrilldown\Submenu::class, \ILIAS\UI\Component\Button\Button::class];

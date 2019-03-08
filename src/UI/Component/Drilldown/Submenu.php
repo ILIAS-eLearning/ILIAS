@@ -24,8 +24,15 @@ interface Submenu extends Component, JavaScriptBindable
 	public function getIconOrGlyph();
 
 	/**
+	 * Set entries of this Submenu.
+	 * @param array<Button|Submenu> 	$entries
+	 */
+	public function withEntries(array $entries): Submenu;
+
+
+	/**
 	 * Add an entry to the level.
-	 * @param Button|Level 	$entry
+	 * @param Button|Submenu 	$entry
 	 */
 	public function withAdditionalEntry($entry): Submenu;
 
