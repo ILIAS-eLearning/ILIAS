@@ -531,3 +531,51 @@ $ilCtrlStructureReader->getStructure();
 $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
 ?>
+<#35>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_start_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#36>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_end_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#37>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+	.'	WHERE activation_start IS NOT NULL'
+);
+?>
+<#38>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+	.'	WHERE activation_end IS NOT NULL'
+);
+?>
+<#39>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_start");
+?>
+<#40>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_end");
+?>

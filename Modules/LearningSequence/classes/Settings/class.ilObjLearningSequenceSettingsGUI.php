@@ -132,11 +132,21 @@ class ilObjLearningSequenceSettingsGUI
 		$online->setInfo($this->lng->txt('lso_activation_online_info'));
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
-		if(! is_null($activation->getActivationStart())) {
-			$duration->setStart(new ilDateTime((string)$activation->getActivationStart()->getTimestamp(), IL_CAL_UNIX));
+		if($activation->getActivationStart()->getTimestamp() > 0) {
+			$duration->setStart(
+				new ilDateTime(
+					(string)$activation->getActivationStart()->format('Y-m-d H:i:s'),
+					IL_CAL_DATETIME
+				)
+			);
 		}
-		if(! is_null($activation->getActivationEnd())) {
-			$duration->setEnd(new ilDateTime((string)$activation->getActivationEnd()->getTimestamp(), IL_CAL_UNIX));
+		if($activation->getActivationEnd()->getTimestamp() > 0) {
+			$duration->setEnd(
+				new ilDateTime(
+					(string)$activation->getActivationEnd()->format('Y-m-d H:i:s'),
+					IL_CAL_DATETIME
+				)
+			);
 		}
 
 		$section_misc = new ilFormSectionHeaderGUI();
@@ -252,14 +262,19 @@ class ilObjLearningSequenceSettingsGUI
 		$start = $inpt->getStart();
 		$end = $inpt->getEnd();
 		if($start) {
-			$start = \DateTime::createFromFormat('U' ,(string)$start->get(IL_CAL_UNIX));
-			$end = \DateTime::createFromFormat('U' ,(string)$end->get(IL_CAL_UNIX));
+			$start_obj = \DateTime::createFromFormat('Y-m-d H:i:s' ,(string)$start->get(IL_CAL_DATETIME));
+			$end_obj = \DateTime::createFromFormat('Y-m-d H:i:s' ,(string)$end->get(IL_CAL_DATETIME));
+		} else {
+			$start_obj = new \DateTime();
+			$start_obj->setTimestamp(0);
+			$end_obj = new \DateTime();
+			$end_obj->setTimestamp(0);
 		}
 
 		$activation = $this->activation
 			->withIsOnline((bool)$post[self::PROP_ONLINE])
-			->withActivationStart($start)
-			->withActivationEnd($end)
+			->withActivationStart($start_obj)
+			->withActivationEnd($end_obj)
 			;
 
 		$inpt = $form->getItemByPostVar(self::PROP_ABSTRACT_IMAGE);

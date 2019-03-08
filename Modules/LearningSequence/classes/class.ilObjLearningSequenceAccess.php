@@ -64,8 +64,8 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
 		$online = $act->getIsOnline();
 
 		if(!$online
-			&& !is_null($act->getActivationStart())
-			&& !is_null($act->getActivationEnd())
+			&& $act->getActivationStart()->getTimestamp() > 0
+			&& $act->getActivationEnd()->getTimestamp() > 0
 		) {
 			$now = new \DateTime();
 			$ts_now = $now->getTimestamp();

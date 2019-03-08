@@ -74,7 +74,7 @@ class ilLearningSequenceActivation
 	/**
 	 * @return \DateTime | null
 	 */
-	public function getActivationStart()
+	public function getActivationStart() : \DateTime
 	{
 		return $this->activation_start;
 	}
@@ -89,7 +89,7 @@ class ilLearningSequenceActivation
 	/**
 	 * @return \DateTime | null
 	 */
-	public function getActivationEnd()
+	public function getActivationEnd() : \DateTime
 	{
 		return $this->activation_end;
 	}
