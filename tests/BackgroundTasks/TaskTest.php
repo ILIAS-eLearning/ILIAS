@@ -54,7 +54,7 @@ class TaskTest extends TestCase {
 
 		$this->assertTrue($t2->getOutputType()->equals(new SingleType(IntegerValue::class)));
 
-		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
+		$taskManager = new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
 		$finalValue = $taskManager->executeTask($t2, new MockObserver());
 		$this->assertEquals($finalValue->getValue(), 6);
@@ -70,7 +70,7 @@ class TaskTest extends TestCase {
 		$t = $factory->createInstance(PlusJob::class);
 		$t->setInput([1, 4]);
 
-		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
+		$taskManager = new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
 		$finalValue = $taskManager->executeTask($t, new MockObserver());
 		$this->assertEquals($finalValue->getValue(), 5);
@@ -140,7 +140,7 @@ class TaskTest extends TestCase {
 		$this->assertEquals($list, [$t2, $t1, $t0, $t25]);
 
 		/** @var IntegerValue $finalValue */
-		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
+		$taskManager = new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
 		$finalValue = $taskManager->executeTask($t2, new MockObserver());
 		$this->assertEquals($finalValue->getValue(), 8);
