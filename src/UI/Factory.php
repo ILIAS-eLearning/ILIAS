@@ -771,7 +771,7 @@ interface Factory {
 	 *   rivals:
 	 *      Tree: >
 	 *        A Tree lets the user expand several levels simultaneously, while in
-	 *        a Drilldown only one level (plus maybe the upper ones) is visible at a time.
+	 *        a Drilldown only one level (plus maybe the upper one) is visible at a time.
 	 *      Dropdown: >
 	 *        A Dropdown holds a one-dimensional list of entries, the Drilldown navigates
 	 *        through a hierarchy.

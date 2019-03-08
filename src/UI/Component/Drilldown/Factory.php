@@ -76,7 +76,7 @@ interface Factory
 	 *   wording:
 	 *      1: >
 	 *          Label and Symbol of the Submenu MUST reflect/subsume the meaning
-	 *          or purpuse of contained entries.
+	 *          or purpose of contained entries.
 	 *
 	 * ---
 	 * @param 	string $label
