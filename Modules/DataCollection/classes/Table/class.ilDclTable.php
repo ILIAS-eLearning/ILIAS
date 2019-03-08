@@ -1530,7 +1530,7 @@ class ilDclTable {
 		// Save record-ids in session to enable prev/next links in detail view
 		$_SESSION['dcl_record_ids'] = array();
 		$_SESSION['dcl_table_id'] = $this->getId();
-		$ref = array_pop(ilObject::_getAllReferences($this->getObjId()));
+		$ref = filter_input(INPUT_GET, 'ref_id');
 		$is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref) || ilObjDataCollectionAccess::hasEditAccess($ref));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			// Quick check if the current user is allowed to view the record
