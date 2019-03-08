@@ -74,7 +74,13 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 		$file_types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
 		return $this->parseSupportedExtensions($file_types);
 	}
-	
+
+
+	/**
+	 * @param $input_value
+	 *
+	 * @return array
+	 */
 	protected function parseSupportedExtensions($input_value) {
 		$supported_extensions = explode(",", $input_value);
 
@@ -84,6 +90,33 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 
 		return array_map($trim_function, $supported_extensions);
 	}
+
+	/**
+	 * @param      $value
+	 * @param null $record_id
+	 *
+	 * @return bool
+	 * @throws ilDclInputException
+	 */
+	public function checkValidity($value, $record_id = null) {
+		//Don't check empty values
+		if ($value == null || $value['size'] == 0) {
+			return true;
+		}
+
+		if ($this->isUnique()) {
+			$title = $value['name'];
+			$table = ilDclCache::getTableCache($this->getTableId());
+			foreach ($table->getRecords() as $record) {
+				if ($this->normalizeValue($record->getRecordFieldExportValue($this->getId())) == $this->normalizeValue($title) && ($record->getId() != $record_id || $record_id == 0)) {
+					throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
+				}
+			}
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * @inheritDoc
