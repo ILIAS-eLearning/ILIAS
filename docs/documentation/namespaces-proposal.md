@@ -45,7 +45,7 @@ existing in this Module / Service. Possible asset types:
 of the entry point classes.
 * Existing include statements outside of the entry point classes MUST be removed.
 * The required dependencies of a class (outside of its own namespace) MUST be imported via '*use*' statements at 
-the beginning of the class definition. This helps to get a quick overview over all dependencies of a class.
+the beginning of the class definition. This helps to get a good overview over all dependencies of a class.
 * The '*use*' statements SHOULD always import the absolute namespace of a file.
 * Fully-qualified names to call a class MUST never be used. 
 * Ambiguous classes MUST be imported with aliases.
@@ -75,25 +75,39 @@ None required.
  
 ### Migration
 
-The migration can be divided into two phases:
+The migration can be divided into three phases:
 
-#### 1: General Revision
+#### 1: Move Library-Like Components
 
-As a first step, the central Services must be adapted to work with migrated components as well as with components still to be migrated. This allows a coexistence of the current and the future state and therefore supports a step-by-step migration of the Modules and Services. 
+The *./src* directory is currently used for library-like components only. This will change and to keep a good structure, all these components must be moved to a new subdirectory: *./src/libs*
+
+After creating this new subdirectory, the following steps must be done for each component:
+
+* Move the whole component from *./src* to *./src/libs*
+* Change each namespace of the component from *ILIAS\\[component]\\[possible_subnamespaces]* to *ILIAS\\libs\\[component]\\[possible_subnamespaces]*
+* Search for all occurrences of the namespaces and adapt these as well
+
+##### Procedure
+
+Each maintainer of these components must migrate their component(s), but can do this at any given time. After this is done, a Pull Request must be provided. Since the Pull Request is likely to contain changes in other maintainers components, these maintainers must be notified and have to review the changes as soon as possible.
+
+#### 2: General Revision
+
+As second step, the central Services must be adapted to work with migrated components as well as with components still to be migrated. This allows a coexistence of the current and the future state and therefore supports a step-by-step migration of the Modules and Services. 
 
 The Revision consists of the following steps:
 
-* Revise ilCtrl, ilObjectFactory & ilObjectDefinition to work both with namespaces and with the old structure
+* Revise ilCtrl, ilObjectFactory, ilObjectDefinition & ilRepositoryGUI to work both with namespaces and with the old structure
 * Move composer.json (and all corresponding files) to the root directory and adjust paths inside the file accordingly.
 * Include the autoloader in all entry point classes.
 
 ##### Procedure
 
-The General Revision must be done in a single Pull Request, together with the migration of one Module or Service (see below) to test this revision. It must then be thoroughly tested before starting the second phase.
+The General Revision must be done in a single Pull Request, together with the migration of one Module or Service (see below) to test this revision. It must then be thoroughly tested before starting the third phase.
 
-#### 2: Migration of Modules and Services
+#### 3: Migration of Modules and Services
 
-After the general revision, each Module and Service must be migrated. Since the General Revision supports both the old and the new structure, maintainers can decide for themselves when they want to migrate their component. 
+After the general revision, each Module and Service must be migrated. 
 
 The following steps must be done for each Module and Service:
 
@@ -109,11 +123,9 @@ The following steps must be done for each Module and Service:
 
 ##### Procedure
     
-After a component is migrated, the maintainer provides a single Pull Request with all changes. Since these Pull Requests are likely to contain changes in other maintainers components, the providing maintainer must notify the affected maintainers which in return will review the changes as soon as possible.
+Since the General Revision supports both the old and the new structure, maintainers can decide for themselves when they want to migrate their component. After a component is migrated, the maintainer provides a single Pull Request with all changes. Since these Pull Requests are likely to contain changes in other maintainers components, the providing maintainer must notify the affected maintainers which in return will review the changes as soon as possible.
 
 To avoid conflicts, the maintainers must inform the community about the intention to migrate a component at the Jour Fixe. Strongly connected components can thereby be coordinated in such a way that they are not migrated at the same time.
-    
-### Organisation
     
 ### Possible Problems
 
