@@ -314,6 +314,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
 			case "ilcontainernewssettingsgui":
 				$this->tabs_gui->setTabActive('settings');
+				$this->lng->loadLanguageModule('cont');
 				$this->tabs_gui->activateSubTab('obj_news_settings');
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
 				$news_set_gui->setNewsBlockForced(true);
@@ -1047,82 +1048,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		
 		$this->tpl->parseCurrentBlock();
 		return true;
-	}
-	
-	/**
-	 * @param string $object_type
-	 */
-	private function initForumCreateForm($object_type)
-	{
-		$this->create_form_gui = new ilPropertyFormGUI();
-		$this->create_form_gui->setTableWidth('600px');
-		
-		$this->create_form_gui->setTitle($this->lng->txt('frm_new'));
-		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.svg'));
-		
-		// form action
-		$this->ctrl->setParameter($this, 'new_type', $object_type);
-		$this->create_form_gui->setFormAction($this->ctrl->getFormAction($this, 'save'));		
-		
-		// title
-		$title_gui = new ilTextInputGUI($this->lng->txt('title'), 'title');
-		$title_gui->setSize(min(40, ilObject::TITLE_LENGTH));
-		$title_gui->setMaxLength(ilObject::TITLE_LENGTH);
-		$this->create_form_gui->addItem($title_gui);
-		
-		// description
-		$description_gui = new ilTextAreaInputGUI($this->lng->txt('desc'), 'desc');
-		$description_gui->setCols(40);
-		$description_gui->setRows(2);
-		$this->create_form_gui->addItem($description_gui);
-		
-		// custom properties
-		$this->forum_settings_gui->getCustomForm($this->create_form_gui);
-		
-		// view sorting threads
-		$sort_man = new ilCheckboxInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
-		$sort_man->setInfo($this->lng->txt('sticky_threads_always_on_top'));
-		$sort_man->setValue(1);
-		$this->create_form_gui->addItem($sort_man);
-
-		// view
-		$view_group_gui = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'sort');
-			$view_hir = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), ilForumProperties::VIEW_TREE);
-		$view_group_gui->addOption($view_hir);
-			$view_dat = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), ilForumProperties::VIEW_DATE);
-		$view_group_gui->addOption($view_dat);
-		$this->create_form_gui->addItem($view_group_gui);
-		$view_direction_group_gui = new ilRadioGroupInputGUI('', 'default_view_sort_dir');		
-		$view_desc = new ilRadioOption($this->lng->txt('frm_post_sort_desc'), ilForumProperties::VIEW_DATE_DESC);
-		$view_direction_group_gui->addOption($view_desc);
-		$view_asc = new ilRadioOption($this->lng->txt('frm_post_sort_asc'), ilForumProperties::VIEW_DATE_ASC);
-		$view_direction_group_gui->addOption($view_asc);
-		$view_dat->addSubItem($view_direction_group_gui);
-		
-		// anonymized or not
-		$anonymize_gui = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'), 'anonymized');
-		$anonymize_gui->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
-		$anonymize_gui->setValue(1);
-
-		if($this->settings->get('enable_anonymous_fora', false))
-			$anonymize_gui->setDisabled(true);
-		$this->create_form_gui->addItem($anonymize_gui);
-		
-		// statistics enabled or not
-		$statistics_gui = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
-		$statistics_gui->setInfo($this->lng->txt('frm_statistics_enabled_desc'));
-		$statistics_gui->setValue(1);
-		if(!$this->settings->get('enable_fora_statistics', false))
-			$statistics_gui->setDisabled(true);
-		$this->create_form_gui->addItem($statistics_gui);
-		
-		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('activate_new_posts'), 'post_activation');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($this->lng->txt('post_activation_desc'));
-		$this->create_form_gui->addItem($cb_prop);
-		
-		$this->create_form_gui->addCommandButton('save', $this->lng->txt('save'));
-		$this->create_form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
 	}
 
 	/**
