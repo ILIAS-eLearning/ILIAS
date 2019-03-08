@@ -252,7 +252,8 @@ class ilOnScreenChatGUI
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.setConfig(".json_encode($guiConfig).");");
 			$DIC['tpl']->addOnLoadCode("il.OnScreenChat.init();");
 			$DIC['tpl']->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
-				'conversationIdleTimeThreshold' => max(1, (int)$clientSettings->get('conversation_idle_state_in_minutes', 1))
+				'conversationIdleTimeThreshold' => max(1, (int)$clientSettings->get('conversation_idle_state_in_minutes', 1)),
+				'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),
 			]) . ');');
 
 			self::$frontend_initialized = true;

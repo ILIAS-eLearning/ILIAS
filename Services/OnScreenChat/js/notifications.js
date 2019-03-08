@@ -3,14 +3,6 @@
 }(window, il, function init(root, scope, $) {
 	"use strict";
 
-	/**
-	 *
-	 * @type {{conversationIdleTimeThreshold: Number}}
-	 */
-	const defaults = {
-		conversationIdleTimeThreshold: 1
-	};
-
 	let Logger = (function () {
 		const defineLogLevel = function defineLogLevel(value, name) {
 			return {
@@ -33,8 +25,16 @@
 				}
 			}
 
-			if (this.enabledFor(level) && level.name.toLowerCase() in console) {
-				console[level.name.toLowerCase()](messageArguments);
+			if (this.enabledFor(level)) {
+				if (level.name.toLowerCase() in console) {
+					console[level.name.toLowerCase()](messageArguments);
+				} else {
+					if (level.value > Logger.ERROR.value) {
+						console.error(messageArguments);
+					} else if (level.value > Logger.INFO.value) {
+						console.info(messageArguments);
+					}
+				}
 			}
 		};
 
@@ -57,14 +57,6 @@
 				return level.value >= this.level.value;
 			}
 
-			error(...args) {
-				invoke.call(this, Logger.ERROR, args);
-			}
-
-			info(...args) {
-				invoke.call(this, Logger.INFO, args);
-			}
-
 			trace(...args) {
 				invoke.call(this, Logger.TRACE, args);
 			}
@@ -73,27 +65,81 @@
 				invoke.call(this, Logger.DEBUG, args);
 			}
 
-			warn(...args) {
-				invoke.call(this, Logger.WARN, args);
+			notice(...args) {
+				invoke.call(this, Logger.NOTICE, args);
 			}
-			
+
+			info(...args) {
+				invoke.call(this, Logger.INFO, args);
+			}
+
+			warn(...args) {
+				invoke.call(this, Logger.WARNING, args);
+			}
+
+			error(...args) {
+				invoke.call(this, Logger.ERROR, args);
+			}
+
+			critical(...args) {
+				invoke.call(this, Logger.CRITICAL, args);
+			}
+
+			alert(...args) {
+				invoke.call(this, Logger.ALERT, args);
+			}
+
+			emergency(...args) {
+				invoke.call(this, Logger.EMERGENCY, args);
+			}
+
 			log(...args) {
-				this.info(args);
+				this.info(...args);
+			}
+
+			static levelForNumericValue(numericLevel) {
+				if (!!isNaN(numericLevel)) {
+					return Logger.DEBUG;
+				}
+
+				for (let level of Logger.LEVELS) {
+					if (parseInt(numericLevel) === level.value) {
+						return level;
+					}
+				}
+
+				return Logger.DEBUG;
 			}
 		}
 
-		Logger.TRACE = defineLogLevel(1, 'TRACE');
-		Logger.DEBUG = defineLogLevel(2, 'DEBUG');
-		Logger.INFO = defineLogLevel(3, 'INFO');
-		Logger.WARN = defineLogLevel(4, 'WARN');
-		Logger.ERROR = defineLogLevel(5, 'ERROR');
+		Logger.TRACE = defineLogLevel(50, 'TRACE');
+		Logger.DEBUG = defineLogLevel(100, 'DEBUG');
+		Logger.INFO = defineLogLevel(200, 'INFO');
+		Logger.NOTICE = defineLogLevel(250, 'NOTICE');
+		Logger.WARNING = defineLogLevel(300, 'WARN');
+		Logger.ERROR = defineLogLevel(400, 'ERROR');
+		Logger.CRITICAL = defineLogLevel(500, 'CRITICAL');
+		Logger.ALERT = defineLogLevel(550, 'ALERT');
+		Logger.EMERGENCY = defineLogLevel(600, 'EMERGENCY');
+		Logger.OFF = defineLogLevel(1000, 'OFF');
+
+		Logger.LEVELS = [
+			Logger.TRACE,
+			Logger.DEBUG,
+			Logger.INFO,
+			Logger.NOTICE,
+			Logger.WARNING,
+			Logger.ERROR,
+			Logger.CRITICAL,
+			Logger.ALERT,
+			Logger.EMERGENCY,
+			Logger.OFF
+		];
 
 		return Logger;
 	})();
 
-	let logger = new Logger(Logger.DEBUG);
-
-	let NotificationStorage = (function() {
+	const NotificationStorage = (function() {
 		let sentNotifications = {};
 
 		const lsScope = "osc_webnoti_",
@@ -273,12 +319,14 @@
 		return NotificationStorage;
 	})();
 
-	if (!("localStorage" in root)) {
-		logger.warn("No 'localStorage' support.");
-	}
-
 	let methods = {},
-		globalSettings = defaults,
+		logger = null,
+		storage = null,
+		globalSettings,
+		defaults = {
+			conversationIdleTimeThreshold: 1,
+			logLevel: Logger.DEBUG
+		},
 		ls = "localStorage" in root ? root.localStorage : (function() {
 			let items = {};
 
@@ -303,13 +351,11 @@
 			};
 		})();
 
-	let storage = new NotificationStorage(ls);
-
 	/**
 	 * 
 	 * @param {Object} notification
 	 */
-	let delegateBrowserNotification = function delegateBrowserNotification(notification) {
+	const delegateBrowserNotification = function delegateBrowserNotification(notification) {
 		logger.debug("Entered final browser notification handling for message with id: " + notification.uuid);
 		if (!storage.isMarkedAsSent(notification)) {
 			if (il.BrowserNotifications.isSupported()) {
@@ -344,7 +390,7 @@
 	 * 
 	 * @param {Object} notification
 	 */
-	let tabNegotiationHandler = function tabNegotiationHandler(notification) {
+	const tabNegotiationHandler = function tabNegotiationHandler(notification) {
 		let tabId = Math.random() * 10000;
 
 		logger.debug("Entered tab negotiation (tab id: " + tabId + ") for notification: " + notification.uuid);
@@ -368,7 +414,7 @@
 	 * 
 	 * @param {jQuery.Event} e
 	 */
-	let onWebNotificationBroadCast = function onWebNotificationBroadCast(e) {
+	const onWebNotificationBroadCast = function onWebNotificationBroadCast(e) {
 		if (storage.shouldHandleEvent(e)) {
 			let notification = e.originalEvent.newValue;
 
@@ -392,15 +438,22 @@
 		}
 	};
 
-	// Register listener for storage events
-	$(root).on("storage", onWebNotificationBroadCast);
-
 	/**
 	 *
 	 * @param settings
 	 */
-	methods.init = function (settings) {
+	methods.init = function(settings) {
 		globalSettings = $.extend({}, defaults, settings);
+
+		logger = new Logger(Logger.levelForNumericValue(globalSettings.logLevel));
+
+		if (!("localStorage" in root)) {
+			logger.warn("No 'localStorage' support.");
+		}
+
+		storage = new NotificationStorage(ls);
+
+		$(root).on("storage", onWebNotificationBroadCast);
 	};
 
 	/**
