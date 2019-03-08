@@ -19,6 +19,8 @@ use ILIAS\UI\Component\Dropdown\Dropdown;
  */
 class ilIndividualAssessmentMembersTableGUI
 {
+	const CHANGED = "changed";
+	const GRADED = "graded";
 
 	public function __construct
 	(
