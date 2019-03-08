@@ -23,6 +23,14 @@ class ilDclRecordListGUI {
 
 	const MODE_VIEW = 1;
 	const MODE_MANAGE = 2;
+
+	const CMD_LIST_RECORDS = 'listRecords';
+	const CMD_SHOW = 'show';
+	const CMD_CONFIRM_DELETE_RECORDS = 'confirmDeleteRecords';
+	const CMD_CANCEL_DELETE = 'cancelDelete';
+	const CMD_DELETE_RECORDS = 'deleteRecords';
+	const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
+
 	/**
 	 * Stores current mode active
 	 *
@@ -104,30 +112,30 @@ class ilDclRecordListGUI {
 		}
 
 		$this->ctrl->saveParameter($this, 'mode');
-		$cmd = $this->ctrl->getCmd('show');
+		$cmd = $this->ctrl->getCmd(self::CMD_SHOW);
 
 		// 'show' fills all filters with the predefined values from the tableview,
 		// whereas 'listRecords' handels the filters "normally", filling them from the POST-variable
 		switch ($cmd) {
-			case 'show':
+			case self::CMD_SHOW:
 				$this->setSubTabs();
 				$this->listRecords(true);
 				break;
-			case 'listRecords':
+			case self::CMD_LIST_RECORDS:
 				$this->setSubTabs();
 				$this->listRecords();
 				break;
-			case 'confirmDeleteRecords':
+			case self::CMD_CONFIRM_DELETE_RECORDS:
 				$this->confirmDeleteRecords();
 				break;
-			case 'cancelDelete':
+			case self::CMD_CANCEL_DELETE:
 				$this->setSubTabs();
 				$this->listRecords();
 				break;
-			case 'deleteRecords':
+			case self::CMD_DELETE_RECORDS:
 				$this->deleteRecords();
 				break;
-			case 'showImportExcel':
+			case self::CMD_SHOW_IMPORT_EXCEL:
 				$ilTabs->setBack2Target($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
 				$this->$cmd();
 				break;
@@ -312,7 +320,7 @@ class ilDclRecordListGUI {
 		$table->initFilter();
 		$table->resetOffset();
 		$table->writeFilterToSession();
-		$this->ctrl->redirect($this, 'listRecords');
+		$this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
 	}
 
 	/**
@@ -323,7 +331,7 @@ class ilDclRecordListGUI {
 		$table->initFilter();
 		$table->resetOffset();
 		$table->resetFilter();
-		$this->ctrl->redirect($this, 'listRecords');
+		$this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
 	}
 
 
@@ -395,8 +403,8 @@ class ilDclRecordListGUI {
 			}
 		}
 		$conf->addHiddenItem('table_id', $this->table_id);
-		$conf->setConfirm($this->lng->txt('dcl_delete_records'), 'deleteRecords');
-		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
+		$conf->setConfirm($this->lng->txt('dcl_delete_records'), self::CMD_DELETE_RECORDS);
+		$conf->setCancel($this->lng->txt('cancel'), self::CMD_CANCEL_DELETE);
 		$tpl->setContent($conf->getHTML());
 	}
 
@@ -431,7 +439,7 @@ class ilDclRecordListGUI {
 		if ($n_skipped) {
 			ilUtil::sendInfo(sprintf($this->lng->txt('dcl_skipped_delete_records'), $n_skipped), true);
 		}
-		$this->ctrl->redirect($this, 'listRecords');
+		$this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
 	}
 
 
@@ -459,12 +467,12 @@ class ilDclRecordListGUI {
 
 		/** @var ilTabsGUI $ilTabs */
 		$this->ctrl->setParameter($this, 'mode', self::MODE_VIEW);
-		$ilTabs->addSubTab('mode_1', $this->lng->txt('view'), $this->ctrl->getLinkTarget($this, 'listRecords'));
+		$ilTabs->addSubTab('mode_1', $this->lng->txt('view'), $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
 		$this->ctrl->clearParameters($this);
 		
 		if ($this->table_obj->hasPermissionToDeleteRecords((int)$_GET['ref_id'])) {
 			$this->ctrl->setParameter($this, 'mode', self::MODE_MANAGE);
-			$ilTabs->addSubTab('mode_2', $this->lng->txt('dcl_manage'), $this->ctrl->getLinkTarget($this, 'listRecords'));
+			$ilTabs->addSubTab('mode_2', $this->lng->txt('dcl_manage'), $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
 			$this->ctrl->clearParameters($this);
 		}
 

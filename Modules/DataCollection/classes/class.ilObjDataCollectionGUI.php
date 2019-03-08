@@ -231,7 +231,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$recordview_gui = new ilDclDetailedViewGUI($this);
 				$this->ctrl->forwardCommand($recordview_gui);
 				$ilTabs->clearTargets();
-				$ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
+				$ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass(ilDclRecordListGUI::class, ilDclRecordListGUI::CMD_LIST_RECORDS));
 				break;
 
 			case 'ilnotegui':
