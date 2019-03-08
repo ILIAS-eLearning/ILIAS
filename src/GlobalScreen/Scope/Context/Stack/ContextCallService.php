@@ -10,9 +10,25 @@ use ILIAS\GlobalScreen\Scope\Context\ContextInterface;
 class ContextCallService {
 
 	/**
+	 * @var CalledContexts
+	 */
+	private $stack;
+
+
+	/**
+	 * ContextCallService constructor.
+	 *
+	 * @param CalledContexts $stack
+	 */
+	public function __construct(CalledContexts $stack) {
+		$this->stack = $stack;
+	}
+
+
+	/**
 	 * @param ContextInterface $context
 	 */
 	public function currentComponentClaimsContext(ContextInterface $context) {
-
+		$this->stack->push($context);
 	}
 }

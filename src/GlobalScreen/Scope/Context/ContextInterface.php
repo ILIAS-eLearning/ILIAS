@@ -11,6 +11,12 @@ use ILIAS\GlobalScreen\Scope\Context\AdditionalData\Collection;
 interface ContextInterface {
 
 	/**
+	 * @return string
+	 */
+	public function getUniqueContextIdentifier(): string;
+
+
+	/**
 	 * @return bool
 	 */
 	public function hasReferenceId(): bool;
@@ -36,4 +42,10 @@ interface ContextInterface {
 	 * @return ContextInterface
 	 */
 	public function withAdditionalData(Collection $collection): ContextInterface;
+
+
+	/**
+	 * @return Collection
+	 */
+	public function getAdditionalData(): Collection;
 }

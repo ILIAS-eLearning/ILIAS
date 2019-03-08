@@ -127,6 +127,12 @@ class ilPersonalDesktopGUI
 	*/
 	function executeCommand()
 	{
+		global $DIC;
+
+		$context = $DIC->globalScreen()->context();
+		$context->call()->currentComponentClaimsContext($context->repository()->main());
+		$context->call()->currentComponentClaimsContext($context->repository()->desktop());
+
 		$ilSetting = $this->settings;
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
