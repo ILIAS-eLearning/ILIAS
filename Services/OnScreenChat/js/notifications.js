@@ -258,17 +258,22 @@
 					return false;
 				}
 
+				let now = new Date();
+
 				if (conversation.lastTriggeredNotificationTs !== undefined) {
-					logger.info("Last Triggered: " + (new Date(conversation.lastTriggeredNotificationTs)).toISOString());
-					logger.info("Now: " + (new Date().toISOString()));
-				} else {
-					logger.info("No timestamp registered for last sent notification");
+					let triggered = new Date(conversation.lastTriggeredNotificationTs);
+
+					logger.info("Now: " + now.toLocaleTimeString());
+					logger.info("Last Triggered: " + triggered.toLocaleTimeString());
+					logger.info("Idle Time (Minutes): " + globalSettings.conversationIdleTimeThreshold);
+
+					return (
+						triggered.getTime() < now.getTime() - (globalSettings.conversationIdleTimeThreshold * 60 * 1000)
+					);
 				}
 
-				return (
-					conversation.lastTriggeredNotificationTs === undefined ||
-					conversation.lastTriggeredNotificationTs < (new Date()).getTime() - (globalSettings.conversationIdleTimeThreshold * 60 * 1000)
-				);
+				logger.info("No timestamp registered for last sent notification");
+				return true;
 			}
 
 			markTriggeredForConversation(uuid) {
