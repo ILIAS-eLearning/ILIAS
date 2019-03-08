@@ -118,19 +118,25 @@ class ilForumSettingsGUI
 		$a_form->addItem($moderatorFunctionsHeader);
 
 		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('activate_new_posts'), 'post_activation');
-		$cb_prop->setValue('1');
+		$cb_prop->setValue(1);
 		$cb_prop->setInfo($this->lng->txt('post_activation_desc'));
 		$a_form->addItem($cb_prop);
 
 		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('mark_moderator_posts'), 'mark_mod_posts');
-		$cb_prop->setValue('1');
+		$cb_prop->setValue(1);
 		$cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
 		$a_form->addItem($cb_prop);
 
-		$cb_sort = new ilCheckboxInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
-		$cb_sort->setValue('1');
-		$cb_sort->setInfo($this->lng->txt('sticky_threads_always_on_top'));
-		$a_form->addItem($cb_sort);
+		
+		$stickyThreadSorting = new ilRadioGroupInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
+		$latestAtTop = new ilRadioOption($this->lng->txt('frm_sticky_threads_latest_at_top'), 0);
+		$latestAtTop->setInfo($this->lng->txt('frm_sticky_threads_latest_at_top_info'));
+		$latestAtTop->setValue(0);
+		$stickyThreadSorting->addOption($latestAtTop);
+		$manualSorting = new ilRadioOption($this->lng->txt('frm_sticky_threads_manual_sorting'), 1);
+		$manualSorting->setInfo($this->lng->txt('frm_sticky_threads_manual_sorting_info'));
+		$stickyThreadSorting->addOption($manualSorting);
+		$a_form->addItem($stickyThreadSorting);
 
 		$privacyHeader = new \ilFormSectionHeaderGUI();
 		$privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
@@ -138,14 +144,14 @@ class ilForumSettingsGUI
 
 		if ($this->settings->get('enable_fora_statistics', false)) {
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
-			$cb_prop->setValue('1');
+			$cb_prop->setValue(1);
 			$cb_prop->setInfo($this->lng->txt('frm_statistics_enabled_desc'));
 			$a_form->addItem($cb_prop);
 		}
 
 		if ($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized()) {
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'), 'anonymized');
-			$cb_prop->setValue('1');
+			$cb_prop->setValue(1);
 			$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
 			$a_form->addItem($cb_prop);
 		}
