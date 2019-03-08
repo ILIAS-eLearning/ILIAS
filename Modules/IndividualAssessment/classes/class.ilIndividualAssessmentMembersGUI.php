@@ -142,8 +142,12 @@ class ilIndividualAssessmentMembersGUI {
 
 		$filter = $this->getFilterValue($get);
 		$sort = $this->getSortValue($get);
-
-		$entries = $this->object->loadMembersAsSingleObjects($filter, $sort);
+		$orgu_based = (bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->object->getId());
+		if ($orgu_based) {
+			$entries = $this->object->loadMembersAsSingleObjectsOrguBased($filter, $sort);
+		} else {
+			$entries = $this->object->loadMembersAsSingleObjects($filter, $sort);
+		}
 		$table->setData($entries);
 		$view_constrols = $this->getViewControls($get);
 
