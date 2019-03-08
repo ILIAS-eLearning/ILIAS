@@ -10568,7 +10568,10 @@ rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
-forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
+forum#:#frm_sticky_threads_latest_at_top#:#Top-Themen mit neuestem Beitrag oben
+forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Innerhalb der Top-Themen wird automatisch dasjenige mit dem neuesten Beitrag nach oben sortiert.
+forum#:#frm_sticky_threads_manual_sorting#:#Top-Themen manuell sortieren
+forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Top-Themen können händisch in eine sinnvolle Reihenfolge gebracht werden.
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 forum#:#merge#:#Zusammenführen
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
@@ -13273,6 +13276,11 @@ forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller daz
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht.
+forum#:#frm_settings_form_header#:#Einstellungen des Forums
+forum#:#frm_settings_presentation_header#:#Darstellung
+forum#:#frm_settings_user_functions_header#:#Funktionen für Teilnehmer
+forum#:#frm_settings_mod_functions_header#:#Funktionen für Moderatoren
+forum#:#frm_settings_privacy_header#:#Datenschutz
 meta#:#meta_advmd_select_options#:#Einträge
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
 search#:#btn_search#:#Suchen
