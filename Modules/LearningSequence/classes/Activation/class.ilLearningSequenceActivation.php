@@ -74,12 +74,12 @@ class ilLearningSequenceActivation
 	/**
 	 * @return \DateTime | null
 	 */
-	public function getActivationStart() : \DateTime
+	public function getActivationStart()
 	{
 		return $this->activation_start;
 	}
 
-	public function withActivationStart(\DateTime $activation_start = null): ilLearningSequenceActivation
+	public function withActivationStart(\DateTime $activation_start = null) : ilLearningSequenceActivation
 	{
 		$clone = clone $this;
 		$clone->activation_start = $activation_start;
@@ -89,12 +89,12 @@ class ilLearningSequenceActivation
 	/**
 	 * @return \DateTime | null
 	 */
-	public function getActivationEnd() : \DateTime
+	public function getActivationEnd()
 	{
 		return $this->activation_end;
 	}
 
-	public function withActivationEnd(\DateTime $activation_end = null): ilLearningSequenceActivation
+	public function withActivationEnd(\DateTime $activation_end = null) : ilLearningSequenceActivation
 	{
 		$clone = clone $this;
 		$clone->activation_end = $activation_end;
