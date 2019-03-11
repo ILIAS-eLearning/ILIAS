@@ -66,7 +66,7 @@ class Renderer extends AbstractComponentRenderer {
 		$id = null;
 		$dependant_group_html = null;
 
-		if($input instanceof Component\Input\Field\DependantGroupProviding) {
+		if($input instanceof Component\Input\Field\CanHaveDependantGroup) {
 			if ($input->getDependantGroup()) {
 				$dependant_group_html = $default_renderer->render($input->getDependantGroup());
 				$id = $this->bindJavaScript($input);
@@ -79,6 +79,11 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Checkbox) {
 			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+			$dependant_group = $input->getDependantGroup();
+			if (!is_null($dependant_group)) {
+				$dependant_group_html = $default_renderer->render($dependant_group);
+				$id = $this->bindJavaScript($input);
+			}
 		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} elseif ($input instanceof Password) {
