@@ -5,9 +5,10 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\To;
+namespace ILIAS\Tests\Refinery\To;
 
 
+use ILIAS\Refinery\To\BasicGroup;
 use ILIAS\Refinery\To\Transformation\BooleanTransformation;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
