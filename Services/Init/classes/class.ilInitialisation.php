@@ -2008,7 +2008,7 @@ class ilInitialisation
 
 		$c["bt.task_manager"] = function ($c) use ($sync) {
 			if ($sync == 'sync') {
-				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager($c["bt.persistence"]);
 			} elseif ($sync == 'async') {
 				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
 			} else {
