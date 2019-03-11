@@ -93,9 +93,6 @@ class ilObjLearningSequence extends ilContainer
 		$this->ilias = $DIC['ilias'];
 		$this->il_settings = $DIC['ilSetting'];
 		$this->il_news = $DIC->news();
-
-		$this->data_factory = new \ILIAS\Data\Factory();
-
 		parent::__construct($id, $call_by_reference);
 	}
 

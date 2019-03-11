@@ -124,6 +124,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->lng->loadLanguageModule($this->obj_type);
 
 		$this->object = $this->getObject();
+		$this->data_factory = new \ILIAS\Data\Factory();
+
 	}
 
 	public function executeCommand()
@@ -356,9 +358,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->lng,
 			$this->tpl,
 			$this->toolbar,
+			$this->kiosk_mode_service,
+			$this->access,
+			$this->settings,
 			$this->ui_factory,
 			$this->ui_renderer,
-			$this->kiosk_mode_service
+			$this->data_factory
 		);
 
 		$this->ctrl->setCmd($cmd);
