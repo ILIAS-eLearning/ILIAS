@@ -36,7 +36,7 @@ class ilLearningSequenceActivationDB
 				$start = null;
 			}
 
-			if($data['activation_start_ts']) {
+			if($data['activation_end_ts']) {
 				$end = new \DateTime();
 				$end->setTimestamp((int)$data['activation_end_ts']);
 			} else {
