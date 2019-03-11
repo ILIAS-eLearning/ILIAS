@@ -646,3 +646,56 @@ foreach ($type_perms as $type => $ops) {
 	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $ops, ROLE_FOLDER_ID);
 }
 ?>
+
+<#46>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
+    $ilDB->addTableColumn(
+                          'lso_activation',
+                          'activation_start_ts',
+                          array(
+                                "type"    => "integer",
+                                "notnull" => false,
+                                "length"  => 4
+                          )
+    );
+}
+?>
+<#47>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
+    $ilDB->addTableColumn(
+                          'lso_activation',
+                          'activation_end_ts',
+                          array(
+                                "type"    => "integer",
+                                "notnull" => false,
+                                "length"  => 4
+                          )
+    );
+}
+?>
+<#48>
+<?php
+$ilDB->manipulate(
+                  'UPDATE lso_activation'
+                  .'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+                  .'	WHERE activation_start IS NOT NULL'
+);
+?>
+<#49>
+<?php
+$ilDB->manipulate(
+                  'UPDATE lso_activation'
+                  .'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+                  .'	WHERE activation_end IS NOT NULL'
+);
+?>
+<#50>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_start");
+?>
+<#51>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_end");
+?>
