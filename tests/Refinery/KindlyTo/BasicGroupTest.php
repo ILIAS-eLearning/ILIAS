@@ -5,9 +5,9 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\KindlyTo;
+namespace ILIAS\Tests\Refinery\KindlyTo;
 
-
+use ILIAS\Refinery\KindlyTo\BasicGroup;
 use ILIAS\Refinery\KindlyTo\Transformation\BooleanTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\FloatTransformation;
