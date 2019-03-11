@@ -5,7 +5,9 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery;
+namespace ILIAS\Tests\Refinery;
+
+use ILIAS\Refinery\BasicFactory;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -32,20 +34,20 @@ class BasicFactoryTest extends \PHPUnit_Framework_TestCase
 	{
 		$group = $this->basicFactory->to();
 
-		$this->assertInstanceOf(To\Group::class, $group);
+		$this->assertInstanceOf(\ILIAS\Refinery\To\Group::class, $group);
 	}
 
 	public function testCreateInGroup()
 	{
 		$group = $this->basicFactory->in();
 
-		$this->assertInstanceOf(In\Group::class, $group);
+		$this->assertInstanceOf(\ILIAS\Refinery\In\Group::class, $group);
 	}
 
 	public function testCreateKindlyToGroup()
 	{
 		$group = $this->basicFactory->kindlyTo();
 
-		$this->assertInstanceOf(KindlyTo\Group::class, $group);
+		$this->assertInstanceOf(\ILIAS\Refinery\KindlyTo\Group::class, $group);
 	}
 }
