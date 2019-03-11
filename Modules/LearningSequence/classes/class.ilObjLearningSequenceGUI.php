@@ -111,6 +111,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->rbac_review = $DIC['rbacreview'];
 		$this->ui_factory = $DIC['ui.factory'];
 		$this->ui_renderer = $DIC['ui.renderer'];
+		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
 		$this->app_event_handler = $DIC['ilAppEventHandler'];
 		$this->navigation_history = $DIC['ilNavigationHistory'];
@@ -356,7 +357,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->tpl,
 			$this->toolbar,
 			$this->ui_factory,
-			$this->ui_renderer
+			$this->ui_renderer,
+			$this->kiosk_mode_service
 		);
 
 		$this->ctrl->setCmd($cmd);
