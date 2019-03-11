@@ -5,7 +5,7 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\In\Transformation;
+namespace ILIAS\Tests\Refinery\In\Transformation;
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\In\Transformation\Series;
