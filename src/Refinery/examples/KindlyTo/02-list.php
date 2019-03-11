@@ -17,5 +17,5 @@ function toList() {
 
 	$result = $transformation->transform(array(5, '1', 4.3));
 
-	return $result;
+	return assert(array(5, 1, 4) === $result);
 }

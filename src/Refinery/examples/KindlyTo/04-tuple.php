@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function toList() {
+function toTuple() {
 	global $DIC;
 
 	$language = $DIC->language();
@@ -22,5 +22,5 @@ function toList() {
 
 	$result = $transformation->transform(array(5.3, 2));
 
-	return $result;
+	return assert(array(5, 2) === $result);
 }

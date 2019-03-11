@@ -17,5 +17,5 @@ function primitive() {
 
 	$result = $transformation->transform('5');
 
-	return $result;
+	return assert(5 === $result);
 }
