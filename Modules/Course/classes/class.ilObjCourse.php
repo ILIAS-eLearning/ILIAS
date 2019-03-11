@@ -2365,9 +2365,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$tree = $GLOBALS['DIC']->repositoryTree();
 		
 		$res = array();
-		
-		$now = time();
-		
+
+		$before = new ilDateTime(time(),IL_CAL_UNIX);
+		$before->increment(IL_CAL_DAY, -1);
+		$now = $before->get(IL_CAL_UNIX);
+
 		include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 		
 		$set = $ilDB->query("SELECT obj_id, min_members".
