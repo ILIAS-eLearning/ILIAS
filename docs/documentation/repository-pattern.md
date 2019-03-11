@@ -1,4 +1,4 @@
-# Repository Patterno
+# Repository Pattern
 
 ## What, why and how?
 
@@ -26,7 +26,7 @@ application.
 This rather abstract perspective can be complemented with a more technical one.
 Here, we can see, that a `Repository` in fact abstract the underlying database.
 Via its interface it captures common patterns of access, may it be read or write,
-to the knowledge in the domain it is reponsible for. Since it is a single entity
+to the knowledge in the domain it is responsible for. Since it is a single entity
 that mediates all access to the database, we can control where, if and when
 persistence to the database actually happens.
 
@@ -79,8 +79,8 @@ This of course means, that components using the repository do no create instance
 of it themselves but instead get that dependency injected.
 * **The explicit interface makes writing alternative implementations (import/export,
 caching, ...) easy.** - The explicit interface has even more advantages. Although we
-will most propably implement repositories over a relational database mostly, we are
-not limited to that. We could well implement a repository that adds chaching over
+will most probably implement repositories over a relational database mostly, we are
+not limited to that. We could well implement a repository that adds caching over
 another repository or reads its data from other sources like files.
 * **The database schema is completely contained in the implementation of the
 repository.** - If we implement the repository over a relational database, no other
@@ -101,7 +101,7 @@ especially helpful compared to bare queries that only reveal their intent grudgi
 components that want to use persistence need the repository we can see clearer where
 persistency actually happens. Objects read from the repository may be passed to
 other components for further processing while we can be sure that these may only
-change these objects on the persitence layer if they also have the repository. Compared
+change these objects on the persistence layer if they also have the repository. Compared
 to active records that could be saved by every component seeing the active record
 objects this will clarify the architecture of a component regarding persistence.
 
@@ -165,8 +165,8 @@ through the program.** - A repository conceptually is a source and/or sink in so
 data flow. A typical request might pull some entity from a repository, modify it
 according to some user input and then put the modified version back to the
 repository. If this request is modeled using immutable objects, the actual flow
-of data can become more obvious then in typical statefull OOP implementations
-since changes need to be propagated explicitely. 
+of data can become more obvious then in typical stateful OOP implementations
+since changes need to be propagated explicitly. 
 * **Reference other domains by ID only, only tell and acknowledge facts you know
 about.** - A core idea of the repository pattern is, that conceptually there only
 is one source of truth for a given bunch of facts (i.e. domain). If we need to
@@ -202,7 +202,7 @@ abstract interface to the repository and use it as a convenient entry point to
 add data to or query data from the service.
 * **Organize and partition storage of data in plugins** - Plugins deal with
 similar problems then ilObjects. The requirement to store and retrieve data, often
-times for different domains, fits repository well. Repositories can structurei
+times for different domains, fits repository well. Repositories can structure
 these accesses and make a plugin more testable.
 
 ## Conventions 
@@ -213,17 +213,17 @@ conventions:
 * The interface to the repository SHOULD be called `XYZRepository`, where XYZ
 is the domain of your component which the repository controls.
 * Implementations of the repository SHOULD repeat the `XYZRepository` name and
-also tell how they implement the repository. E.g. "XYZDatabaseRepository` or
+also tell how they implement the repository. E.g. `XYZDatabaseRepository` or
 `XYZAPCCacheRepository`.
 * The methods to request data from the repository SHOULD be prefixed with `get`
-or `is``, `has` or `does` if they return booleans. They SHOULD be named according to the pattern
+or `is`, `has` or `does` if they return booleans. They SHOULD be named according to the pattern
 in which they request information.
 * The methods to change data in the repos SHOULD be prefixed with `update`.
 They SHOULD be named according to the pattern in which they update information. 
 * The methods to remove data from the repo SHOULD be prefixed with `delete`.
 They SHOULD be named according to the pattern in which they delete information. 
 * Repositories SHOULD NOT be dealing with primitive data if they could deal
-with structured and typed data instead. This means that objects should be prefered
+with structured and typed data instead. This means that objects should be preferred
 over arrays when requesting or inserting data.
 
 ## Examples
@@ -243,7 +243,7 @@ for his or hers applications.
 
 For the moment, we found 3 types of examples to use the repository pattern for. We
 even found some more possible usages, which after further analysis turned out to be
-anti-patterns. They are documented under the chapter of non-examples
+anti-patterns. They are documented under the chapter of *Bad Examples*
 
 For simplicity reasons, the class of the objects to persist is in all following
 example the same. The class is called `ilGeoLocation` and is immutable:
@@ -257,7 +257,7 @@ example the same. The class is called `ilGeoLocation` and is immutable:
         protected $expiration_timestamp;
 
         public __construct(int $a_id, string $a_title, float $a_latitude, 
-                           float $a_longitude, int $a_expiration_timestamp)
+                           float $a_longitude, \DateTimeImmutable $a_expiration_timestamp)
         {
             $this->id = $a_id;
             $this->title = $a_title;
@@ -270,7 +270,8 @@ example the same. The class is called `ilGeoLocation` and is immutable:
         public function getTitle() : string { return $this->title; }
         public function getLatitude() : float { return $this->latitude; }
         public function getLongitude() : float { return $this->longitude; }
-        public function getExpirationTimestamp() : int { return $this->getExpirationTimestamp; }
+        public function getExpirationAsTimestamp() : int { return $this->ExpirationTimestamp->getTimestamp(); }
+        public function getExpirationAsImmutablDateTime() : \DateTimeImmutable { return $this->expirationTimestamp; }
     }
 ```
 
@@ -289,12 +290,12 @@ examples, we use a database. The database is injected in the constructor. The
 benefit of injecting the database to the repository class is to make mocking for
 unit tests easier.
 
-The following few lines of code are a template for different `ilGeoLocationRepository`-
-class we use in the example. The function blocks are on purpose blank, since the
-implementation differs from example to example.
+The following few lines of code represent an interface for a repository, called 
+`ilGeoLocationRepository`:
 
 ```php
     interface ilGeoLocationRepository {
+    
         // Create operations
         public function createGeoLocation(
 			string $a_title,
@@ -344,7 +345,7 @@ the different methods for different CRUD-Operations
     * For example: createGeoLocation(string $a_title, float $a_latitude, float $a_longitude, \DateTimeImmutable $a_expiration_timestamp)
     * *Note:* There is a good reason, why the arguments are given as primitives
     instead of an actual object. The actual object needs to have an id.
-    Since the only entity which nows about facts of the domain, and ids are also
+    Since the only entity which knows about facts of the domain, and ids are also
 	facts of the domain, is the repository, the repository object is the only
 	entity that can create new ids for new objects.
 
@@ -650,7 +651,7 @@ data, we would need another repository or source to retrieve that data from.
 This would either create a dependency on another repository to resolve that
 requirement inside the repository or we would have some odd dependency graph
 where a repository would depend on a factory and that factory would in turn
-depend on another repository (which would again mmost likely depend on some
+depend on another repository (which would again most likely depend on some
 factory). In the second case we see no benefit in making the repo depend on
 the factory in the first place instead of just using what the factory returns.
 

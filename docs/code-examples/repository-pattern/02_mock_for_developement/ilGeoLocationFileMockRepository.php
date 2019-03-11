@@ -26,7 +26,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 
 		return new ilGeoLocation(
 			$generated_id,
-			$a_title
+			$a_title,
 			$a_latitude,
 			$a_longitude,
 			$a_expiration_timestamp
@@ -36,7 +36,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 	/**
 	 * Get a single geo location, identified by its id
 	 */
-	public function getGeoLocationById(int $a_id)
+	public function getGeoLocationById(int $a_id) : ilGeoLocation
 	{
 		$file = fopen('mocked_geolocation_data.txt', 'r');
 
@@ -55,7 +55,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 	/**
 	 * Example for reading an array of geo locations which have a given attribute
 	 */
-	public function getGeoLocationsByCoordinates(float $a_latitude, float $a_longitude)
+	public function getGeoLocationsByCoordinates(float $a_latitude, float $a_longitude) : array
 	{
 		$file = fopen('mocked_geolocation_data.txt', 'r');
 		$geo_locations = array();
@@ -142,7 +142,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 	/**
 	 * Example for updating multiple objects at once
 	 */
-	public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, \DateTimeImmutable $a_update_timestamp)
+	public function updateGeoLocationTimestampByCoordinates(float $a_searched_latitude, float $a_searched_longitude, \DateTimeImmutable $a_update_timestamp)
 	{
 		// Read entire file
 		$file = fopen('mocked_geolocation_data.txt', 'r');
@@ -189,7 +189,7 @@ class ilGeoLocationFileMockRepository implements ilGeoLocationRepository
 		fclose($file);
 	}
 
-	public function deleteGeoLocationsByCoordinates(string $a_latitude, string $a_longitude)
+	public function deleteGeoLocationsByCoordinates(float $a_latitude, float $a_longitude)
 	{
 		// Read all geo locations from file
 		$file = fopen('mocked_geolocation_data.txt', 'r');

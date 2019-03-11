@@ -23,7 +23,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		$this->db->insert($this->db->quoteIdentifier(self::TABLE_NAME), array(
 			'id' => array('integer', $id),
 			'title' => array('text', $a_title),
-			'latitude' => array('float', $a_latitude)
+			'latitude' => array('float', $a_latitude),
 			'longitude' => array('float', $a_longitude),
 			'expiration_timestamp' => array('timestamp', $a_expiration_timestamp->getTimestamp())
 		));
@@ -31,7 +31,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		// Return the new created object or just the id
 		return new ilGeoLocation(
 			$id,
-			$a_title
+			$a_title,
 			$a_latitude,
 			$a_longitude,
 			$a_expiration_timestamp
@@ -132,7 +132,7 @@ class ilGeoLocationDBRepository implements ilGeoLocationRepository {
 		);
 	}
 
-	public function updateGeoLocationTimestampByCoordinates(string $a_searched_latitude, string $a_searched_longitude, \DateTimeImmutable $a_update_timestamp)
+	public function updateGeoLocationTimestampByCoordinates(float $a_searched_latitude, float $a_searched_longitude, \DateTimeImmutable $a_update_timestamp)
 	{
 		// Update for single attribute of a set of geo location objects
 		$this->db->update($this->db->quoteIdentifier(self::TABLE_NAME),
