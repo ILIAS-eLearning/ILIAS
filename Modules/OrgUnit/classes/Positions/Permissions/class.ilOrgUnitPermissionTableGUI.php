@@ -102,9 +102,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			$this->tpl->setVariable('POSITION_ID', $position->getId());
 			$this->tpl->setVariable('PERM_ID', $op_id);
 
-			$this->tpl->setVariable('TXT_PERM', $this->dic()->language()->txt('org_op_'
-			                                                                  . $operation->getOperationString()));
-			$this->tpl->setVariable('PERM_LONG', $op_id);
+			$this->tpl->setVariable('TXT_PERM', $this->dic()->language()->txt('org_op_'.$operation->getOperationString()));
+			//$this->tpl->setVariable('PERM_LONG', $op_id);
 
 			if ($permission['permission_set']) {
 				$this->tpl->setVariable('PERM_CHECKED', 'checked="checked"');
