@@ -72,6 +72,17 @@ data in the existing inputs. It should also show a message that says why the dat
 was not processed and that the user should check the input again. A mechanism
 like this will become even more valuable once we want to process forms asynchronously.
 
+### Propose Context Parameter for Escaping on ilTemplate::setVariable (advanced, ~8h)
+
+Currently there is no generalized way to handle escaping when outputting text.
+In the long-term we would like to switch to a templating engine that is aware
+of the context in which placeholders are filled. As a short-term improvement we
+would like to introduce an context-parameter for `ilTemplate::setVariable`, based
+on which `ilTemplate` could determine the required escaping for the output context.
+The contexts should e.g. be "html", "html-attribute", "js-string". Depending on
+feedback from other devs, we could either default to a very strict context that
+escapes a lot, or to a context that does not escape and a dicto-rule.
+
 
 ## Long Term
 
