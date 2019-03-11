@@ -673,6 +673,55 @@ foreach ($type_perms as $type => $ops) {
 
 <#5474>
 <?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_start_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#5475>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_end_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#5476>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+	.'	WHERE activation_start IS NOT NULL'
+);
+?>
+<#5477>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+	.'	WHERE activation_end IS NOT NULL'
+);
+?>
+<#5478>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_start");
+?>
+<#5479>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_end");
+?>
+
+<#5480>
+<?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId("lso");
 

@@ -22,7 +22,7 @@ class LSUrlBuilderTest extends TestCase
 		$uri = $this->ub->getURL('command', 123);
 		$expected = LSUrlBuilder::PARAM_LSO_COMMAND.'=command&'
 			.LSUrlBuilder::PARAM_LSO_PARAMETER.'=123';
-		$this->assertEquals($expected, $uri->getQuery());
+		$this->assertEquals($expected, $uri->query());
 	}
 
 }
