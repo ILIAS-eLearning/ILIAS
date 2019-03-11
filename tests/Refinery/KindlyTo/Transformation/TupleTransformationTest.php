@@ -5,7 +5,7 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\KindlyTo\Refinery;
+namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
