@@ -22,5 +22,5 @@ function series() {
 
 	$result = $transformation->transform(5.3);
 
-	return $result;
+	return assert('5' === $result);
 }

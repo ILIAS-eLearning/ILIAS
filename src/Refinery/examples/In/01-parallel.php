@@ -22,7 +22,5 @@ function parallel() {
 
 	$result = $transformation->transform(5.3);
 
-	return $result;
+	return assert(array(5, '5.3'), $result);
 }
-
-echo parallel();
