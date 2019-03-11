@@ -5,11 +5,13 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\KindlyTo\Transformation;
+namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
 require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result\Ok;
+use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
+use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 
 class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
 {
