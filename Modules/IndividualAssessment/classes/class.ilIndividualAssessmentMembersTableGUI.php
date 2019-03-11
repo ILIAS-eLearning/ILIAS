@@ -253,7 +253,7 @@ class ilIndividualAssessmentMembersTableGUI
 	 *
 	 * @return string[]
 	 */
-	protected function getGradedInformations(ilDateTime $event_time): array
+	protected function getGradedInformations(ilDate $event_time): array
 	{
 		return array(
 			$this->txt("iass_event_time").": " => ilDatePresentation::formatDate($event_time)
