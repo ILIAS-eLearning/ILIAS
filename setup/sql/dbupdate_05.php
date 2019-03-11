@@ -533,3 +533,63 @@ if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'lifecycle_filter'))
 	);
 }
 ?>
+<#5463>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['context_id'])) {
+	$ilDB->addIndex('il_orgu_permissions', array( 'context_id' ), 'co');
+}
+?>
+<#5464>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['position_id'])) {
+$ilDB->addIndex('il_orgu_permissions', array('position_id'), 'po');
+}
+?>
+<#5465>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
+$ilDB->modifyTableColumn('il_orgu_permissions', 'operations', array("length" => 256));
+}
+?>
+<#5466>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['position_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('position_id'), 'pi');
+}
+?>
+<#5467>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['user_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('user_id'), 'ui');
+}
+?>
+<#5468>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['orgu_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
+}
+?>
+<#5469>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
+$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
+}
+?>
+<#5470>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['position_id','orgu_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('position_id','orgu_id'), 'po');
+}
+?>
+<#5471>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['position_id','user_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
+}
+?>
+<#5472>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations','parent_id'])) {
+$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
+}
+?>
