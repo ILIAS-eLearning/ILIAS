@@ -531,3 +531,43 @@ $ilCtrlStructureReader->getStructure();
 $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
 ?>
+<#35>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('context_id'), 'co');
+?>
+<#36>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('position_id'), 'po');
+?>
+<#37>
+<?php
+$ilDB->modifyTableColumn('il_orgu_permissions', 'operations', array("length" => 256));
+?>
+<#38>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id'), 'pi');
+?>
+<#39>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('user_id'), 'ui');
+?>
+<#40>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
+?>
+<#41>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
+?>
+<#42>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','orgu_id'), 'po');
+?>
+<#43>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
+?>
+<#44>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
+?>
