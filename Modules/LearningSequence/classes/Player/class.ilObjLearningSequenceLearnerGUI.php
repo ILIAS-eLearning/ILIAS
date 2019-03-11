@@ -33,9 +33,12 @@ class ilObjLearningSequenceLearnerGUI
 		ilLanguage $lng,
 		ilTemplate $tpl,
 		ilToolbarGUI $toolbar,
+		ilKioskModeService $kiosk_mode_service,
+		ilAccess $access,
+		ilSetting $il_settings,
 		ILIAS\UI\Factory $ui_factory,
 		ILIAS\UI\Renderer $ui_renderer,
-		ilKioskModeService $kiosk_mode_service
+		ILIAS\Data\Factory $data_factory
 	) {
 		$this->ls_object = $ls_object;
 		$this->usr_id = $usr_id;
@@ -45,9 +48,12 @@ class ilObjLearningSequenceLearnerGUI
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->toolbar = $toolbar;
+		$this->kiosk_mode_service = $kiosk_mode_service;
+		$this->access = $access;
+		$this->il_settings = $il_settings;
 		$this->ui_factory = $ui_factory;
 		$this->renderer = $ui_renderer;
-		$this->kiosk_mode_service = $kiosk_mode_service;
+		$this->data_factory = $data_factory;
 	}
 
 	public function executeCommand()
@@ -285,7 +291,7 @@ class ilObjLearningSequenceLearnerGUI
 		$lso_ref_id = $this->ls_object->getRefId();
 		$lso_title = $this->ls_object->getTitle();
 
-		$player_url = $this->ctrl->getLinkTarget($gui, $player_command, '', false, false);
+		$player_url = $this->ctrl->getLinkTarget($this, $player_command, '', false, false);
 		$items = $this->ls_object->getLSLearnerItems($usr_id);
 		$url_builder = $this->getUrlBuilder($player_url);
 
@@ -336,7 +342,7 @@ class ilObjLearningSequenceLearnerGUI
 		if (!$this->kiosk_renderer) {
 			$kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
 
-			$toc_gui = new ilLSTOCGUI($url_builder, $this->template, $this->ctrl);
+			$toc_gui = new ilLSTOCGUI($url_builder, $this->tpl, $this->ctrl);
 			$loc_gui = new ilLSLocatorGUI($url_builder, $this->ui_factory);
 
 			$window_title = $this->il_settings->get('short_inst_name');
@@ -345,7 +351,7 @@ class ilObjLearningSequenceLearnerGUI
 			}
 
 			$this->kiosk_renderer = new ilKioskPageRenderer(
-				$this->template,
+				$this->tpl,
 				$this->renderer,
 				$kiosk_template,
 				$toc_gui,
