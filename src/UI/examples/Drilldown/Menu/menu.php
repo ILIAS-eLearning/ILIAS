@@ -32,11 +32,14 @@ function menu() {
 			]),
 			$button
 		]),
+
 		$fd->submenu('2', $ico)->withEntries([
 			$fd->submenu('2.1'),
 			$fd->submenu('2.2'),
 			$fd->submenu('2.3')
-		]),
+		])
+		->withInitiallyActive(),
+
 		$fd->submenu('3', $ico)
 			->withAdditionalEntry($button)
 			->withAdditionalEntry($button)

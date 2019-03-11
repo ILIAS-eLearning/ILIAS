@@ -56,9 +56,14 @@ il.UI = il.UI || {};
 
 			initEntries(dd);
 		};
-
+		var setActiveById = function(id) {
+			var entry = $('#' + id);
+			console.log(entry);
+			setActive(entry);
+		}
 		return {
-			init: init
+			init: init,
+			setActiveById: setActiveById
 		}
 
 	})($);

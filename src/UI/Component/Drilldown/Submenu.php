@@ -41,4 +41,13 @@ interface Submenu extends Component, JavaScriptBindable
 	 */
 	public function getEntries(): array;
 
+	/**
+	 * Configure this Submenu to be active when the drilldown is loaded.
+	 */
+	public function withInitiallyActive(): Submenu;
+
+	/**
+	 * Is this initially active?
+	 */
+	public function isInitiallyActive(): bool;
 }

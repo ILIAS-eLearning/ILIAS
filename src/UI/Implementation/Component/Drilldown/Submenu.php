@@ -32,6 +32,11 @@ class Submenu implements IDrilldown\Submenu
 	 */
 	protected $entries = [];
 
+	/**
+	 * @var bool
+	 */
+	protected $active = false;
+
 	public function __construct(string $label, $icon_or_glyph = null)
 	{
 		$this->label = $label;
@@ -87,6 +92,25 @@ class Submenu implements IDrilldown\Submenu
 	public function getEntries(): array
 	{
 		return $this->entries;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withInitiallyActive(): IDrilldown\Submenu
+	{
+		$clone = clone $this;
+		$clone->active = true;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isInitiallyActive(): bool
+	{
+		return $this->active;
 	}
 
 }

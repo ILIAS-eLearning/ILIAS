@@ -31,10 +31,16 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl_name = "tpl.entry.html";
 			$tpl = $this->getTemplate($tpl_name, true, true);
 
-			$component = $component->withAdditionalOnLoadCode(function ($id) {
-				return "";
-			});
+			if($component->isInitiallyActive()) {
+				$component = $component->withAdditionalOnLoadCode(function ($id) {
+					return "$(document).ready(function(){ il.UI.drilldown.setActiveById('{$id}');});";
+				});
 
+			} else {
+				$component = $component->withAdditionalOnLoadCode(function ($id) {
+					return '';
+				});
+			}
 
 			$icon = $component->getIconOrGlyph();
 			$label = $component->getLabel();
