@@ -73,7 +73,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 
 		$item = $this->globalScreen()->mainmenu()->custom($storage->getType(), $identification);
 
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle && $storage->getDefaultTitle() !== '') {
 			$item = $item->withTitle($storage->getDefaultTitle());
 		}
 		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\hasAction) {

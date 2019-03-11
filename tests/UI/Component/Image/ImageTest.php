@@ -155,7 +155,7 @@ class ImageTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($i));
 
-		$expected = "<a id=\"id_1\"><img src=\"source\" class=\"img-standard\" alt=\"alt\" /></a>";
+		$expected = "<a href=\"#\" id=\"id_1\"><img src=\"source\" class=\"img-standard\" alt=\"alt\" /></a>";
 
 		$this->assertEquals($expected, $html);
 	}

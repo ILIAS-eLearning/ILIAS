@@ -133,6 +133,11 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 			// fau.
 		}
 		
+		if( count($definition->getLifecycleFilter()) )
+		{
+			$this->stagingPoolQuestionList->setLifecycleFilter($definition->getLifecycleFilter());
+		}
+		
 		// fau: taxFilter/typeFilter - use type filter
 		if ($this->hasTypeFilter($definition))
 		{

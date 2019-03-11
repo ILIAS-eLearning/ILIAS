@@ -57,7 +57,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 		$this->lmTitle = $a_parent_obj->object->getTitle();
 		$this->setId('2004'.$this->report);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setLimit(9999);
+		// $this->setLimit(9999); //#23582
 
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
