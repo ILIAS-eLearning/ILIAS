@@ -29,9 +29,19 @@ class ilLearningSequenceActivationDB
 			$settings = $this->buildActivationSettings($ref_id);
 			$this->insert($settings);
 		} else {
+			if($data['activation_start_ts']) {
+				$start = new \DateTime();
+				$start->setTimestamp((int)$data['activation_start_ts']);
+			} else {
+				$start = null;
+			}
 
-			$start = (int)$data['activation_start_ts'];
-			$end = (int)$data['activation_end_ts'];
+			if($data['activation_start_ts']) {
+				$end = new \DateTime();
+				$end->setTimestamp((int)$data['activation_end_ts']);
+			} else {
+				$end = null;
+			}
 
 			$settings = $this->buildActivationSettings(
 				(int)$data['ref_id'],
@@ -64,6 +74,8 @@ class ilLearningSequenceActivationDB
 
 		if($start) {
 			$start = $start->getTimestamp();
+		}
+		if($end) {
 			$end = $end->getTimestamp();
 		}
 		$values = array(
@@ -80,6 +92,8 @@ class ilLearningSequenceActivationDB
 		$end = $settings->getActivationEnd();
 		if($start) {
 			$start = $start->getTimestamp();
+		}
+		if($end) {
 			$end = $end->getTimestamp();
 		}
 		$values = array(
@@ -115,19 +129,16 @@ class ilLearningSequenceActivationDB
 		int $ref_id,
 		bool $online = false,
 		bool $effective_online = false,
-		int $activation_start = 0,
-		int $activation_end = 0
-	): ilLearningSequenceActivation {
-		$activation_start_obj = new \DateTime();
-		$activation_start_obj->setTimestamp($activation_start);
-		$activation_end_obj = new \DateTime();
-		$activation_end_obj->setTimestamp($activation_end);
+		\DateTime $activation_start = null,
+		\DateTime $activation_end = null
+	) : ilLearningSequenceActivation
+	{
 		return new ilLearningSequenceActivation(
 			$ref_id,
 			$online,
 			$effective_online,
-			$activation_start_obj,
-			$activation_end_obj
+			$activation_start,
+			$activation_end
 		);
 	}
 

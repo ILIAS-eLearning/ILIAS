@@ -132,7 +132,7 @@ class ilObjLearningSequenceSettingsGUI
 		$online->setInfo($this->lng->txt('lso_activation_online_info'));
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
-		if($activation->getActivationStart()->getTimestamp() > 0) {
+		if($activation->getActivationStart() !== null) {
 			$duration->setStart(
 				new ilDateTime(
 					(string)$activation->getActivationStart()->format('Y-m-d H:i:s'),
@@ -140,7 +140,7 @@ class ilObjLearningSequenceSettingsGUI
 				)
 			);
 		}
-		if($activation->getActivationEnd()->getTimestamp() > 0) {
+		if($activation->getActivationEnd() !== null) {
 			$duration->setEnd(
 				new ilDateTime(
 					(string)$activation->getActivationEnd()->format('Y-m-d H:i:s'),
@@ -261,21 +261,31 @@ class ilObjLearningSequenceSettingsGUI
 		$inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
 		$start = $inpt->getStart();
 		$end = $inpt->getEnd();
-		if($start) {
-			$start_obj = \DateTime::createFromFormat('Y-m-d H:i:s' ,(string)$start->get(IL_CAL_DATETIME));
-			$end_obj = \DateTime::createFromFormat('Y-m-d H:i:s' ,(string)$end->get(IL_CAL_DATETIME));
-		} else {
-			$start_obj = new \DateTime();
-			$start_obj->setTimestamp(0);
-			$end_obj = new \DateTime();
-			$end_obj->setTimestamp(0);
-		}
-
 		$activation = $this->activation
-			->withIsOnline((bool)$post[self::PROP_ONLINE])
-			->withActivationStart($start_obj)
-			->withActivationEnd($end_obj)
-			;
+			->withIsOnline((bool)$post[self::PROP_ONLINE]);
+
+		if($start) {
+			$activation = $activation
+							->withActivationStart(
+								\DateTime::createFromFormat(
+									'Y-m-d H:i:s',
+									(string)$start->get(IL_CAL_DATETIME)
+								)
+							);
+		} else {
+			$activation = $activation->withActivationStart();
+		}
+		if($end) {
+			$activation = $activation
+							->withActivationEnd(
+								\DateTime::createFromFormat(
+									'Y-m-d H:i:s',
+									(string)$end->get(IL_CAL_DATETIME)
+								)
+							);
+		}else {
+			$activation = $activation->withActivationEnd();
+		}
 
 		$inpt = $form->getItemByPostVar(self::PROP_ABSTRACT_IMAGE);
 		if($inpt->getDeletionFlag()) {
