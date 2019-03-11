@@ -5,7 +5,7 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\In;
+namespace ILIAS\Tests\Refinery\In;
 
 use ILIAS\In\Transformation\Parallel;
 use ILIAS\In\Transformation\Series;
