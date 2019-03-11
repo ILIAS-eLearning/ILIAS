@@ -164,15 +164,10 @@ class ilIndividualAssessmentMembersGUI
 		);
 
 		if ($orgu_based && !$this->iass_access->mayEditMembers()) {
-			$read_lp_progress = $this->iass_access->mayViewUser();
-			$edit_lp_progress = $this->iass_access->mayGradeUser();
-
-			if ($read_lp_progress || $edit_lp_progress) {
-				$ia_orgu_helper = $this->object->getIndividualAssessmentOrguHelper();
-				$actual_user_id = (int)$this->user->getId();
-				$employees_ids = $ia_orgu_helper->getEmployeesForUserId($actual_user_id);
-				$entries = $ia_orgu_helper->getRelevantEmployees($employees_ids, $entries);
-			}
+			$ia_orgu_helper = $this->object->getIndividualAssessmentOrguHelper();
+			$actual_user_id = (int)$this->user->getId();
+			$employees_ids = $ia_orgu_helper->getMembersWhereUserHasAuthorityAndEditOrViewPermission($actual_user_id);
+			$entries = $ia_orgu_helper->getRelevantMembersWhereUserHasAuthority($employees_ids, $entries);
 		}
 
 		$table->setData($entries);
