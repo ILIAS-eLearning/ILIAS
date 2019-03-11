@@ -14,39 +14,50 @@ class ilMStListCourses {
 	 * @return array|bool|int
 	 */
 	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+
+		//Permission Filter
+		$operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+
+		if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
+			$operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
+		}
+		$tmp_table_user_matrix = ilMyStaffAccess::getInstance()
+			->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($ilUser->getId(), $operation_access, 'crs', ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX);
+
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
 		$ilDB = $GLOBALS['DIC']->database();
 
-		//Permissions
-		/*if (count($arr_usr_ids) == 0) {
-			return false;
-		}*/
-
 		$_options = array(
 			'filters' => array(),
-			'sort'    => array(),
-			'limit'   => array(),
-			'count'   => false,
+			'sort' => array(),
+			'limit' => array(),
+			'count' => false,
 		);
 		$options = array_merge($_options, $options);
 
 		$udf = ilUserDefinedFields::_getInstance();
-
 		$select = 'SELECT crs_ref.ref_id as crs_ref_id, crs.title as crs_title, reg_status, lp_status, usr_data.usr_id as usr_id, usr_data.login as usr_login, usr_data.lastname as usr_lastname, usr_data.firstname as usr_firstname, usr_data.email as usr_email  from (
-	                    select reg.obj_id, reg.usr_id, '
-		          . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' as reg_status, lp.status as lp_status from obj_members as reg
+	                    select reg.obj_id, reg.usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' as reg_status, lp.status as lp_status from obj_members 
+		          as reg
                         left join ut_lp_marks as lp on lp.obj_id = reg.obj_id and lp.usr_id = reg.usr_id
+                         WHERE ' . $ilDB->in('reg.usr_id', $arr_usr_ids, false, 'integer') . '
 		            UNION
 	                    select obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST . ' as reg_status, 0 as lp_status from crs_waiting_list as waiting
+	                    WHERE ' . $ilDB->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
                     UNION
-	                    select obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED . ' as reg_status, 0 as lp_status from il_subscribers as requested) as memb
+	                    select obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED . ' as reg_status, 0 as lp_status from il_subscribers as requested
+	                  WHERE ' . $ilDB->in('requested.usr_id', $arr_usr_ids, false, 'integer') . '  
+	                    ) as memb
+	           
                     inner join object_data as crs on crs.obj_id = memb.obj_id and crs.type = "crs"
                     inner join object_reference as crs_ref on crs_ref.obj_id = crs.obj_id
 	                inner join usr_data on usr_data.usr_id = memb.usr_id and usr_data.active = 1';
 
-		$select .= static::createWhereStatement(array(), $options['filters']);
+		$select .= static::createWhereStatement($arr_usr_ids, $options['filters'], $tmp_table_user_matrix);
 
 		if ($options['count']) {
 			$result = $ilDB->query($select);
@@ -55,14 +66,12 @@ class ilMStListCourses {
 		}
 
 		if ($options['sort']) {
-			$select .= " ORDER BY " . $options['sort']['field'] . " "
-			           . $options['sort']['direction'];
+			$select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
 		}
 
 		if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
 			$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
 		}
-
 		$result = $ilDB->query($select);
 		$crs_data = array();
 
@@ -93,7 +102,7 @@ class ilMStListCourses {
 	 *
 	 * @return bool|string
 	 */
-	public static function createWhereStatement($arr_usr_ids, $arr_filter) {
+	public static function createWhereStatement($arr_usr_ids, $arr_filter, $tmp_table_user_matrix) {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -101,13 +110,14 @@ class ilMStListCourses {
 
 		$where = array();
 
-		$where[] = '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * from tmp_ilobj_user_matrix)';
+		$where[] = '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * from ' . $tmp_table_user_matrix . ')';
 
-		//$where[] = $ilDB->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
+		if (count($arr_usr_ids)) {
+			$where[] = $ilDB->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
+		}
 
 		if (!empty($arr_filter['crs_title'])) {
-			$where[] = '(crs.title LIKE ' . $ilDB->quote('%' . $arr_filter['crs_title']
-			                                             . '%', 'text') . ')';
+			$where[] = '(crs.title LIKE ' . $ilDB->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
 		}
 
 		if ($arr_filter['course'] > 0) {
@@ -125,10 +135,6 @@ class ilMStListCourses {
 					$where[] = '(lp_status = ' . $ilDB->quote($arr_filter['lp_status'], 'integer') . ')';
 					break;
 			}
-
-
-
-
 		}
 
 		if (!empty($arr_filter['memb_status'])) {
@@ -136,19 +142,14 @@ class ilMStListCourses {
 		}
 
 		if (!empty($arr_filter['user'])) {
-			$where[] = "(" . $ilDB->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%")
-			           . " " . "OR " . $ilDB->like("usr_data.firstname", "text", "%"
-			                                                                     . $arr_filter['user']
-			                                                                     . "%") . " "
-			           . "OR " . $ilDB->like("usr_data.lastname", "text", "%" . $arr_filter['user']
-			                                                              . "%") . " " . "OR "
-			           . $ilDB->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%")
-			           . ") ";
+			$where[] = "(" . $ilDB->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR "
+				. $ilDB->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR "
+				. $ilDB->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $ilDB->like("usr_data.email", "text", "%"
+					. $arr_filter['user'] . "%") . ") ";
 		}
 
 		if (!empty($arr_filter['org_unit'])) {
-			$where[] = 'usr_data.usr_id in (SELECT user_id from il_orgu_ua where orgu_id = '
-			           . $ilDB->quote($arr_filter['org_unit'], 'integer') . ')';
+			$where[] = 'usr_data.usr_id in (SELECT user_id from il_orgu_ua where orgu_id = ' . $ilDB->quote($arr_filter['org_unit'], 'integer') . ')';
 		}
 
 		if (!empty($where)) {

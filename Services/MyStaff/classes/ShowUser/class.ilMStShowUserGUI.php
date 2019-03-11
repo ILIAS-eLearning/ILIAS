@@ -40,7 +40,8 @@ class ilMStShowUserGUI {
 			$this->ctrl()->redirectByClass('ilPersonalDesktopGUI', "");
 		}
 
-		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()
+			&& ilMyStaffAccess::getInstance()->hasCurrentUserAccessToUser($this->usr_id)) {
 			return true;
 		} else {
 			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
@@ -89,8 +90,7 @@ class ilMStShowUserGUI {
 
 	protected function listUsers() {
 		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
-		$this->table->setTitle(sprintf($this->lng()
-		                                    ->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
+		$this->table->setTitle(sprintf($this->lng()->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
 
 		/*$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
 
