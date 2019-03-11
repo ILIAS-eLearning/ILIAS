@@ -5,7 +5,7 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery;
+namespace ILIAS\Tests\Refinery\In\Transformation;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\Data\Result\Ok;
