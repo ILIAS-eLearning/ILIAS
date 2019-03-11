@@ -6,8 +6,8 @@
  */
 function toList() {
 	class SomeClass {
-		public function say(string $line) {
-			echo $line;
+		public function say(string $firstWord, string $secondWord) {
+			return $firstWord . $secondWord;
 		}
 	}
 
@@ -25,7 +25,7 @@ function toList() {
 		array($instance, 'say')
 	);
 
-	$result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));
+	$result = $transformation->transform(array('Hello', ' World!'));
 
-	return $result;
+	return assert('Hello World!' === $result);
 }

@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function dictonary() {
+function toDictionary() {
 	global $DIC;
 
 	$language = $DIC->language();
@@ -17,5 +17,5 @@ function dictonary() {
 
 	$result = $transformation->transform(array('sum' => 5, 'user_id' => 1, 'size' => 4));
 
-	return $result;
+	return assert(array('sum' => 5, 'user_id' => 1, 'size' => 4) === $result);
 }

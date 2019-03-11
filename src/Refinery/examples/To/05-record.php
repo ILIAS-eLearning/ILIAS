@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function toList() {
+function toRecord() {
 	global $DIC;
 
 	$language = $DIC->language();
@@ -22,5 +22,5 @@ function toList() {
 
 	$result = $transformation->transform(array('user_id' => 5, 'points' => 1));
 
-	return $result;
+	return assert(array('user_id' => 5, 'points' => 1) === $result);
 }

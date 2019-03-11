@@ -4,10 +4,24 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function toList() {
+function toNewObject() {
 	class SomeClass {
-		public function say(string $line) {
-			echo $line;
+		private $firstParameter;
+		private $secondParameter;
+		private $thirdParameter;
+
+		public function __construct(
+			string $firstParameter,
+			int $secondParameter,
+			string $thirdParameter
+		) {
+			$this->firstParameter = $firstParameter;
+			$this->secondParameter = $secondParameter;
+			$this->thirdParameter = $thirdParameter;
+		}
+
+		public function say() {
+			return $this->firstParameter;
 		}
 	}
 
@@ -25,5 +39,5 @@ function toList() {
 
 	$result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));
 
-	return $result;
+	return assert('firstParameter' === $result);
 }
