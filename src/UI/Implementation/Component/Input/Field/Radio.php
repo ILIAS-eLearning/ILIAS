@@ -132,17 +132,21 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 
 			foreach ($dep_fields as $name => $field) {
 				$filled = $field->withInput($post_input);
-
 				$content = $filled->getContent();
+
 				if ($content->isOk()) {
 					$values['group_values'][$name] = $content->value();
 				} else {
-					$error = true;
+					$clone = $clone->withError($name .' - '. $content->error());
 				}
 
 				$clone->dependant_fields[$value][$name] = $filled;
 			}
 			$clone->content = $clone->applyOperationsTo($values);
+		}
+
+		if($clone->getError()) {
+			$clone->content = $clone->data_factory->error($clone->getError());
 		}
 
 		return $clone;

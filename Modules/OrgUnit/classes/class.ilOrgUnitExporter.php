@@ -22,13 +22,24 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 				continue;
 			$attributes = $this->getAttributesForOrgu($orgu);
 			$writer->xmlStartTag("OrgUnit", $attributes);
-			$writer->xmlElement("external_id", null, $this->buildExternalId($orgu_ref_id));
+			$writer->xmlElement("external_id", null, $this->getExternalId($orgu_ref_id));
 			$writer->xmlElement("title", null, $orgu->getTitle());
 			$writer->xmlElement("description", null, $orgu->getDescription());
 			$writer->xmlEndTag("OrgUnit");
 		}
 		$writer->xmlEndTag("OrgUnits");
 		return $writer;
+	}
+
+
+	/**
+	 * @param $orgu_ref_id
+	 *
+	 * @return string
+	 */
+	protected function getExternalId($orgu_ref_id) {
+		$import_id = ilObjOrgunit::_lookupImportId(ilObjOrgUnit::_lookupObjectId($orgu_ref_id));
+		return $import_id ?: $this->buildExternalId($orgu_ref_id);
 	}
 
 	/**
@@ -56,10 +67,9 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		$worksheet->setCell($row, 2, "ou_parent_id");
 		$worksheet->setCell($row, 3, "ou_parent_id_type");
 		$worksheet->setCell($row, 4, "reference_id");
-		$worksheet->setCell($row, 5, "external_id");
-		$worksheet->setCell($row, 6, "title");
-		$worksheet->setCell($row, 7, "description");
-		$worksheet->setCell($row, 8, "action");
+		$worksheet->setCell($row, 5, "title");
+		$worksheet->setCell($row, 6, "description");
+		$worksheet->setCell($row, 7, "action");
 
 		// Rows
 		$nodes = $this->getStructure($orgu_ref_id);
@@ -76,10 +86,9 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 			$worksheet->setCell($row, 2, $attrs["ou_parent_id"]);
 			$worksheet->setCell($row, 3, $attrs["ou_parent_id_type"]);
 			$worksheet->setCell($row, 4, $orgu->getRefId());
-			$worksheet->setCell($row, 5, $orgu->getImportId());
-			$worksheet->setCell($row, 6, $orgu->getTitle());
-			$worksheet->setCell($row, 7, $orgu->getDescription());
-			$worksheet->setCell($row, 8, "create");
+			$worksheet->setCell($row, 5, $orgu->getTitle());
+			$worksheet->setCell($row, 6, $orgu->getDescription());
+			$worksheet->setCell($row, 7, "create");
 		}
 		$worksheet->sendToClient($file_name);
 	}
@@ -149,13 +158,13 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		$tree = $DIC['tree'];
 		$parent_ref = $tree->getParentId($orgu->getRefId());
 		if($parent_ref != ilObjOrgUnit::getRootOrgRefId()){
-			$ou_parent_id = $this->buildExternalId($parent_ref);
+			$ou_parent_id = $this->getExternalId($parent_ref);
 		} else {
 			$ou_parent_id = "__ILIAS";
 		}
 		// Only the ref id is guaranteed to be unique.
 		$ref_id = $orgu->getRefId();
-		$attr = array("ou_id" => $this->buildExternalId($ref_id), "ou_id_type" => "external_id", "ou_parent_id" => $ou_parent_id, "ou_parent_id_type" => "external_id", "action" => "create");
+		$attr = array("ou_id" => $this->getExternalId($ref_id), "ou_id_type" => "external_id", "ou_parent_id" => $ou_parent_id, "ou_parent_id_type" => "external_id", "action" => "create");
 		return $attr;
 	}
 }

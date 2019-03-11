@@ -132,11 +132,21 @@ class ilObjLearningSequenceSettingsGUI
 		$online->setInfo($this->lng->txt('lso_activation_online_info'));
 		$duration = new ilDateDurationInputGUI($txt('avail_time_period'), self::PROP_AVAIL_PERIOD);
 		$duration->setShowTime(true);
-		if(! is_null($activation->getActivationStart())) {
-			$duration->setStart(new ilDateTime((string)$activation->getActivationStart()->getTimestamp(), IL_CAL_UNIX));
+		if($activation->getActivationStart() !== null) {
+			$duration->setStart(
+				new ilDateTime(
+					(string)$activation->getActivationStart()->format('Y-m-d H:i:s'),
+					IL_CAL_DATETIME
+				)
+			);
 		}
-		if(! is_null($activation->getActivationEnd())) {
-			$duration->setEnd(new ilDateTime((string)$activation->getActivationEnd()->getTimestamp(), IL_CAL_UNIX));
+		if($activation->getActivationEnd() !== null) {
+			$duration->setEnd(
+				new ilDateTime(
+					(string)$activation->getActivationEnd()->format('Y-m-d H:i:s'),
+					IL_CAL_DATETIME
+				)
+			);
 		}
 
 		$section_misc = new ilFormSectionHeaderGUI();
@@ -251,16 +261,31 @@ class ilObjLearningSequenceSettingsGUI
 		$inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
 		$start = $inpt->getStart();
 		$end = $inpt->getEnd();
-		if($start) {
-			$start = \DateTime::createFromFormat('U' ,(string)$start->get(IL_CAL_UNIX));
-			$end = \DateTime::createFromFormat('U' ,(string)$end->get(IL_CAL_UNIX));
-		}
-
 		$activation = $this->activation
-			->withIsOnline((bool)$post[self::PROP_ONLINE])
-			->withActivationStart($start)
-			->withActivationEnd($end)
-			;
+			->withIsOnline((bool)$post[self::PROP_ONLINE]);
+
+		if($start) {
+			$activation = $activation
+							->withActivationStart(
+								\DateTime::createFromFormat(
+									'Y-m-d H:i:s',
+									(string)$start->get(IL_CAL_DATETIME)
+								)
+							);
+		} else {
+			$activation = $activation->withActivationStart();
+		}
+		if($end) {
+			$activation = $activation
+							->withActivationEnd(
+								\DateTime::createFromFormat(
+									'Y-m-d H:i:s',
+									(string)$end->get(IL_CAL_DATETIME)
+								)
+							);
+		}else {
+			$activation = $activation->withActivationEnd();
+		}
 
 		$inpt = $form->getItemByPostVar(self::PROP_ABSTRACT_IMAGE);
 		if($inpt->getDeletionFlag()) {

@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
@@ -73,7 +74,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 
 		$item = $this->globalScreen()->mainmenu()->custom($storage->getType(), $identification);
 
-		if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle) {
+		if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
 			$item = $item->withTitle($storage->getDefaultTitle());
 		}
 		if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction) {

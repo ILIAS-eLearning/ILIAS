@@ -26,7 +26,6 @@ $perms = [
 	'create_iass',
 	'create_copa',
 	'create_svy',
-	'create_svy',
 	'create_lm',
 	'create_exc',
 	'create_tst',
@@ -409,7 +408,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	$nextId = $ilDB->nextId('frm_posts_tree');
 	$ilDB->manipulateF('
 		INSERT INTO frm_posts_tree
-		( 
+		(
 			fpt_pk,
 			thr_fk,
 			pos_fk,
@@ -530,4 +529,173 @@ $ilCtrlStructureReader->getStructure();
  */
 $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
+?>
+<#35>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('context_id'), 'co');
+?>
+<#36>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('position_id'), 'po');
+?>
+<#37>
+<?php
+$ilDB->modifyTableColumn('il_orgu_permissions', 'operations', array("length" => 256));
+?>
+<#38>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id'), 'pi');
+?>
+<#39>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('user_id'), 'ui');
+?>
+<#40>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
+?>
+<#41>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
+?>
+<#42>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','orgu_id'), 'po');
+?>
+<#43>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
+?>
+<#44>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
+?>
+<#45>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$query = "SELECT obj_id FROM object_data"
+	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+	." AND title = " .$ilDB->quote('il_lso_member','text');
+$result = $ilDB->query($query);
+$rol_id_member = array_shift($ilDB->fetchAssoc($result));
+
+$query = "SELECT obj_id FROM object_data"
+	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+	." AND title = " .$ilDB->quote('il_lso_admin','text');
+$result = $ilDB->query($query);
+$rol_id_admin = array_shift($ilDB->fetchAssoc($result));
+
+$op_ids = [];
+$query = "SELECT operation, ops_id FROM rbac_operations";
+$result = $ilDB->query($query);
+while($row = $ilDB->fetchAssoc($result)) {
+	$op_ids[$row['operation']] = $row['ops_id'];
+}
+
+$types = [
+	'copa',
+	'exc',
+	'file',
+	'htlm',
+	'sahs',
+	'lm',
+	'svy',
+	'tst'
+];
+
+$member_ops = [
+	$op_ids['visible'],
+	$op_ids['read'],
+];
+$admin_ops = [
+	$op_ids['visible'],
+	$op_ids['read'],
+	$op_ids['edit_learning_progress'],
+	$op_ids['read_learning_progress']
+];
+
+foreach ($types as $type) {
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_member, $type, $member_ops, ROLE_FOLDER_ID);
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $admin_ops, ROLE_FOLDER_ID);
+}
+
+$type_perms = [
+	'iass' => [
+		$op_ids['visible'],
+		$op_ids['read'],
+		$op_ids['manage_members'],
+		$op_ids['edit_members'],
+		$op_ids['edit_learning_progress'],
+		$op_ids['read_learning_progress']
+	],
+	'exc' => [
+		$op_ids['edit_submissions_grades']
+	],
+	'svy' => [
+		$op_ids['invite'],
+		$op_ids['read_results']
+	],
+	'tst' => [
+		$op_ids['tst_results'],
+		$op_ids['tst_statistics']
+	]
+];
+
+foreach ($type_perms as $type => $ops) {
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $ops, ROLE_FOLDER_ID);
+}
+?>
+
+<#46>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
+    $ilDB->addTableColumn(
+                          'lso_activation',
+                          'activation_start_ts',
+                          array(
+                                "type"    => "integer",
+                                "notnull" => false,
+                                "length"  => 4
+                          )
+    );
+}
+?>
+<#47>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
+    $ilDB->addTableColumn(
+                          'lso_activation',
+                          'activation_end_ts',
+                          array(
+                                "type"    => "integer",
+                                "notnull" => false,
+                                "length"  => 4
+                          )
+    );
+}
+?>
+<#48>
+<?php
+$ilDB->manipulate(
+                  'UPDATE lso_activation'
+                  .'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+                  .'	WHERE activation_start IS NOT NULL'
+);
+?>
+<#49>
+<?php
+$ilDB->manipulate(
+                  'UPDATE lso_activation'
+                  .'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+                  .'	WHERE activation_end IS NOT NULL'
+);
+?>
+<#50>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_start");
+?>
+<#51>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_end");
 ?>
