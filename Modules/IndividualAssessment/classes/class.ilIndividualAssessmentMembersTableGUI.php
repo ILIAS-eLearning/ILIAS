@@ -130,13 +130,13 @@ class ilIndividualAssessmentMembersTableGUI
 		$changer = array();
 		if (!is_null($record->changerId())) {
 			$changer_id = $this->getChangerId($record);
-			$changer = $this->getPortfolioLink(self::CHANGED, $this->getFullNameFor($changer_id), $changer_id);
+			$changer = $this->getProfileLink(self::CHANGED, $this->getFullNameFor($changer_id), $changer_id);
 		}
 
 		$examiner_id = $this->getExaminerId($record);
 		return array_merge(
 			$this->getGradedInformations($record->eventTime()),
-			$this->getPortfolioLink(self::GRADED, $this->getFullNameFor($examiner_id), $examiner_id),
+			$this->getProfileLink(self::GRADED, $this->getFullNameFor($examiner_id), $examiner_id),
 			$changer
 		);
 	}
@@ -277,7 +277,7 @@ class ilIndividualAssessmentMembersTableGUI
 		return $name;
 	}
 
-	protected function getPortfolioLink(string $case, string $examiner, int $examiner_id)
+	protected function getProfileLink(string $case, string $examiner, int $examiner_id)
 	{
 		if ($examiner === "") {
 			return array();
