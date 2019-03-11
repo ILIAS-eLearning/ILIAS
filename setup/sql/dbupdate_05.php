@@ -723,12 +723,14 @@ $ilDB->dropTableColumn("lso_activation", "activation_end");
 <#5480>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
-$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId("lso");
 
-if ($lp_type_id) {
-	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
-	if ($ops_id) {
-		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ops_id);
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if($lp_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('lp_other_users', 'See learning progress overview of other users', 'object', 3595);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $new_ops_id);
 	}
 }
 ?>
