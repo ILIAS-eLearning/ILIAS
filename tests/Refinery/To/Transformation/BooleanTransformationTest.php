@@ -5,7 +5,7 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery;
+namespace ILIAS\Tests\Refinery\To\Transformation;
 
 require_once('./libs/composer/vendor/autoload.php');
 
