@@ -475,3 +475,43 @@ if (count($user_ids) > 0)
 		.$ilDB->in("user_id", $user_ids, false, "integer"));
 }
 ?>
+<#33>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('context_id'), 'co');
+?>
+<#34>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('position_id'), 'po');
+?>
+<#35>
+<?php
+$ilDB->modifyTableColumn('il_orgu_permissions', 'operations', array("length" => 256));
+?>
+<#36>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id'), 'pi');
+?>
+<#37>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('user_id'), 'ui');
+?>
+<#38>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
+?>
+<#39>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
+?>
+<#40>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','orgu_id'), 'po');
+?>
+<#41>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
+?>
+<#42>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
+?>

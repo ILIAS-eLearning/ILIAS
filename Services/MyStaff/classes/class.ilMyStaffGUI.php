@@ -26,19 +26,7 @@ class ilMyStaffGUI {
 	}
 
 
-	protected function checkAccessOrFail() {
-		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
-			return true;
-		} else {
-			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
-			$this->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
-		}
-	}
-
-
 	public function executeCommand() {
-		$this->checkAccessOrFail();
-
 		// determine next class in the call structure
 		$next_class = $this->ctrl()->getNextClass($this);
 
@@ -82,5 +70,77 @@ class ilMyStaffGUI {
 		if ($active_tab_id) {
 			$tabs->activateTab($active_tab_id);
 		}
+	}
+
+
+	/**
+	 * @param ilAdvancedSelectionListGUI $selection
+	 * @param int                        $usr_id
+	 * @param string                     $return_url
+	 *
+	 * @return ilAdvancedSelectionListGUI
+	 */
+	public static function extendActionMenuWithUserActions(ilAdvancedSelectionListGUI $selection, int $usr_id = 0, $return_url = ""): ilAdvancedSelectionListGUI {
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+
+		$user_action_collector = ilUserActionCollector::getInstance($ilUser->getId(), new ilAwarenessUserActionContext());
+		$action_collection = $user_action_collector->getActionsForTargetUser($usr_id);
+		if (count($action_collection->getActions()) > 0) {
+			foreach ($action_collection->getActions() as $action) {
+				/**
+				 * @var ilUserAction $action
+				 */
+				switch ($action->getType()) {
+					case "profile": //personal profile
+						$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $return_url);
+						break;
+					case "compose": //mail
+					case "invite": //public chat
+					case "invite_osd": //direct chat (start conversation)
+						//do only display those actions if the displayed user is not the current user
+						if ($usr_id != $ilUser->getId()) {
+							$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "", "", "", "", true, $action->getData());
+						}
+						break;
+					default:
+						$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "", "", "", "", true, $action->getData());
+						break;
+				}
+			}
+		}
+
+		return $selection;
+	}
+
+
+	public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course) {
+		global $DIC;
+		$dic = $DIC;
+
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
+			$f = $dic->ui()->factory();
+			$renderer = $dic->ui()->renderer();
+			$lp_icon = $f->image()
+				->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()), ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus()));
+
+			return $renderer->render($lp_icon) . ' ' . ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus());
+		}
+
+		return '&nbsp';
+	}
+
+
+	/**
+	 * @param ilMStListCourse $my_staff_course
+	 *
+	 * @return string
+	 */
+	public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course) {
+		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
+			return ilLearningProgressBaseGUI::_getStatusText((int)$my_staff_course->getUsrLpStatus());
+		}
+
+		return '';
 	}
 }

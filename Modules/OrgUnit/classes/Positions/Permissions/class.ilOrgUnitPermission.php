@@ -33,7 +33,7 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  text
-	 * @con_length     2048
+	 * @con_length     256
 	 */
 	protected $operations = [];
 	/**
