@@ -13874,6 +13874,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the â
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_user_removed#:#Successfully remove participant.
 iass#:#iass_assessment_not_completed#:#Not completed yet
 iass#:#iass_changed_by#:#Changed after finalization
 iass#:#iass_upload_file#:#Record file
@@ -14960,7 +14961,7 @@ common#:#il_lso_member#:#Learning Sequence Member
 lso#:#entries_updated#:#Entries saved
 lso#:#curriculum#:#Curriculum
 lso#:#unparticipate#:#Unsubscribe
-lso#:#participate#:#Subsribe
+lso#:#participate#:#Subscribe
 lhist#:#lhist_show_more#:#Show More
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
 book#:#book_objects_available#:#Objects available %s
