@@ -2098,14 +2098,14 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		if(!$a_force_registration)
 		{
 			// offline
-			if(!ilObjCourseAccess::_isOnline($this->getId()))
+			if(ilObjCourseAccess::_isOffline($this->getId()))
 			{
 				throw new ilMembershipRegistrationException(
 					"Can't register to course, course is offline.",
 					ilMembershipRegistrationException::REGISTRATION_INVALID_OFFLINE
 				);
+
 			}
-			
 			// activation
 			if(!ilObjCourseAccess::_isActivated($this->getId()))
 			{
