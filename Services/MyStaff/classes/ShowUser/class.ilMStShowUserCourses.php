@@ -20,13 +20,13 @@ class ilMStShowUserCourses extends ilMStListCourses {
 
 
 	/**
-	 * Returns the WHERE Part for the Queries using parameter $user_ids and local variable $filters
-	 *
-	 * @param array $arr_filter
+	 * @param array  $arr_usr_ids
+	 * @param array  $arr_filter
+	 * @param string $tmp_table_user_matrix
 	 *
 	 * @return bool|string
 	 */
-	public static function createWhereStatement($arr_usr_ids, $arr_filter) {
+	public static function createWhereStatement($arr_usr_ids, $arr_filter, $tmp_table_user_matrix) {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -36,7 +36,7 @@ class ilMStShowUserCourses extends ilMStListCourses {
 			return false;
 		}
 
-		$where = parent::createWhereStatement($arr_usr_ids, $arr_filter);
+		$where = parent::createWhereStatement($arr_usr_ids, $arr_filter, $tmp_table_user_matrix);
 		$usr_filter = "usr_data.usr_id = " . $ilDB->quote($arr_filter['usr_id'], 'integer');
 
 		if (empty($where)) {

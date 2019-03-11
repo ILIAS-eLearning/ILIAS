@@ -57,7 +57,7 @@ class ilCronManagerGUI
 		switch($class)
 		{
 			case "ilpropertyformgui":
-				$form = $this->initEditForm();
+				$form = $this->initEditForm($_REQUEST['jid']);
 				$this->ctrl->forwardCommand($form);
 				break;
 		}
