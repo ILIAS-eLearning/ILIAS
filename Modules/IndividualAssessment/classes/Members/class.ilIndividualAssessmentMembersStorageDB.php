@@ -58,31 +58,6 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 		return $members;
 	}
 
-	public function loadMembersAsSingleObjectsOrguBased(
-		ilObjIndividualAssessment $obj,
-		string $filter = null,
-		string $sort = null
-	): array {
-		$members = [];
-		$sql = $this->loadMemberQuery();
-		$sql .= "   JOIN ";
-		$sql .= "	WHERE obj_id = ".$this->db->quote($obj->getId(), 'integer');
-
-		if(!is_null($filter)) {
-			$sql .= $this->getWhereFromFilter($filter);
-		}
-
-		if(!is_null($sort)) {
-			$sql .= $this->getOrderByFromSort($sort);
-		}
-		$res = $this->db->query($sql);
-		while($rec = $this->db->fetchAssoc($res)) {
-			$usr = new ilObjUser($rec["usr_id"]);
-			$members[] = new ilIndividualAssessmentMember($obj, $usr, $rec);
-		}
-		return $members;
-	}
-
 	/**
 	 * @inheritdoc
 	 */
