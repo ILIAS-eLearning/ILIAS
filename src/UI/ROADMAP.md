@@ -44,7 +44,7 @@ test for all existing examples, i.e. checks if the example can be executed at
 all and delivers a string to be included in the documentation of the UI frame-
 work.
 
-### Examples on Main Page (Beginner, ~4h)
+### Examples on Main Page (beginner, ~4h)
 
 We want to have examples on the main pages of some components family of the 
 documentation displayed in ILIAS System Styles Section. E.g. there should
