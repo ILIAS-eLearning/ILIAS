@@ -5,7 +5,7 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\KindlyTo\Transformation;
+namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\KindlyTo\Transformation\ListTransformation;
