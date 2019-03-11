@@ -17,9 +17,19 @@ use ILIAS\Data\Factory as DataFactory;
  * This implements the group input.
  */
 class Group extends Input implements C\Input\Field\Group {
-
 	use ComponentHelper;
-	use GroupHelper;
+
+	/**
+	 * Inputs that are contained by this group
+	 *
+	 * @var    Input[]
+	 */
+	protected $inputs = [];
+
+	/**
+	 * @var	\ilLanguage
+	 */
+	protected $lng;
 
 	/**
 	 * Group constructor.
@@ -75,5 +85,105 @@ class Group extends Input implements C\Input\Field\Group {
 		}
 		$clone->inputs = $inputs;
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function isClientSideValueOk($value) {
+		if (!is_array($value)) {
+			return false;
+		}
+		if (count($this->getInputs()) !== count($value)) {
+			return false;
+		}
+		foreach ($this->getInputs() as $key => $input) {
+			if (!array_key_exists($key, $value)) {
+				return false;
+			}
+			if (!$input->isClientSideValueOk($value[$key])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Collects the input, applies trafos and forwards the input to its children and returns
+	 * a new input group reflecting the inputs with data that was putted in.
+	 *
+	 * @inheritdoc
+	 */
+	public function withInput(PostData $post_input) {
+		/**
+		 * @var $clone Group
+		 */
+		$clone = $this;
+
+		if (sizeof($this->getInputs()) === 0) {
+			return $clone;
+		}
+
+		$inputs = [];
+		$contents = [];
+		$error = false;
+
+		foreach ($this->getInputs() as $key => $input) {
+			$inputs[$key] = $input->withInput($post_input);
+			$content = $inputs[$key]->getContent();
+			if ($content->isError()) {
+				$error = true;
+			}
+			else {
+				$contents[$key] = $content->value();
+			}
+		}
+
+		$clone->inputs = $inputs;
+		if ($error) {
+			// TODO: use lng here
+			$clone->content = $clone->data_factory->error("error_in_group");
+		}
+		else {
+			$clone->content = $clone->applyOperationsTo($contents);
+		}
+
+		if ($clone->content->isError()) {
+			$clone = $clone->withError("".$clone->content->error());
+		}
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withNameFrom(NameSource $source) {
+		$clone = parent::withNameFrom($source);
+		/**
+		 * @var $clone Group
+		 */
+		$named_inputs = [];
+		foreach ($this->getInputs() as $key => $input) {
+			$named_inputs[$key] = $input->withNameFrom($source);
+		}
+
+		$clone->inputs = $named_inputs;
+
+		return $clone;
+	}
+
+	/**
+	 * @return Input[]
+	 */
+	public function getInputs() {
+		return $this->inputs;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getConstraintForRequirement() {
+		return null;
 	}
 }
