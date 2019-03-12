@@ -10499,7 +10499,7 @@ function getAnswerFeedbackPoints()
 	}
 	
 	/**
-	* Retrieves the feedback comment for a question in a test
+	* Retrieves the feedback comment for a question in a test if it is finalized
 	*
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
