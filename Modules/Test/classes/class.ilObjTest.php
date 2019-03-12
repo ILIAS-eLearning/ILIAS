@@ -10499,7 +10499,7 @@ function getAnswerFeedbackPoints()
 	}
 	
 	/**
-	* Retrieves the feedback comment for a question in a test
+	* Retrieves the feedback comment for a question in a test if it is finalized
 	*
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
@@ -10510,24 +10510,11 @@ function getAnswerFeedbackPoints()
 	*/
 	static function getManualFeedback($active_id, $question_id, $pass, $ignore_access_validation = false)
 	{
-		global $DIC;
+		$feedback = "";
+		$row      = self::getSingleManualFeedback($active_id, $question_id, $pass);
 
-		$ilDB 		= $DIC->database();
-		$feedback 	= "";
-		$result		= $ilDB->queryF(
-			"SELECT finalized_evaluation,feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer', 'integer', 'integer'),
-			array($active_id, $question_id, $pass)
-		);
-
-		if ($result->numRows()){
-			include_once("./Services/RTE/classes/class.ilRTE.php");
-
-			$row = $ilDB->fetchAssoc($result);
-
-			if($ignore_access_validation || $row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
-				$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
-			}
+		if (count($row) > 0 && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id))) {
+			$feedback = $row['feedback'];
 		}
 
 		return $feedback;
@@ -10546,19 +10533,21 @@ function getAnswerFeedbackPoints()
 	{
 		global $DIC;
 
-		$ilDB 	= $DIC->database();
-		$row 	= array();
+		$ilDB   = $DIC->database();
+		$row    = array();
 		$result = $ilDB->queryF(
 			"SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
 
-		if ($result->numRows()){
-			include_once("./Services/RTE/classes/class.ilRTE.php");
+		if ($result->numRows() === 1){
 
-			$row 				= $ilDB->fetchAssoc($result);
-			$row['feedback'] 	= ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+			$row             = $ilDB->fetchAssoc($result);
+			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+		}else{
+			$DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for ".
+			"active_fi = $active_id , question_fi = $question_id and pass = $pass");
 		}
 
 		return $row;
@@ -10571,21 +10560,26 @@ function getAnswerFeedbackPoints()
 	 * @return array The feedback text
 	 * @access public
 	 */
-	public static function getCompleteManualFeedback($question_id)
+	public static function getCompleteManualFeedback(int $question_id)
 	{
 		global $DIC;
 
-		$ilDB 		= $DIC->database();
-		$feedback 	= array();
-		$result 	= $ilDB->queryF(
+		$ilDB     = $DIC->database();
+		$feedback = array();
+		$result   = $ilDB->queryF(
 			"SELECT * FROM tst_manual_fb WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
 
 		while ($row = $ilDB->fetchAssoc($result)){
+			$active   = $row['active_fi'];
+			$pass     = $row['pass'];
+			$question = $row['question_fi'];
+
 			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
-			$feedback[$row['active_fi']][$row['pass']][$row['question_fi']] = $row;
+
+			$feedback[$active][$pass][$question] = $row;
 		}
 
 		return $feedback;
@@ -10612,13 +10606,12 @@ function getAnswerFeedbackPoints()
 			array($active_id, $question_id, $pass)
 		);
 
-		if (strlen($feedback)) {
-			$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
+		$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
 
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-				$this->logManualFeedback($active_id, $question_id, $feedback);
-			}
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+			$this->logManualFeedback($active_id, $question_id, $feedback);
 		}
+
 		return TRUE;
 	}
 
@@ -10634,30 +10627,30 @@ function getAnswerFeedbackPoints()
 	private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized){
 		global $DIC;
 
-		$ilDB 			= $DIC->database();
-		$ilUser 		= $DIC->user();
-		$next_id 		= $ilDB->nextId('tst_manual_fb');
-		$user			= $ilUser->getId();
+		$ilDB           = $DIC->database();
+		$ilUser         = $DIC->user();
+		$next_id        = $ilDB->nextId('tst_manual_fb');
+		$user           = $ilUser->getId();
 		$finalized_time = time();
-		$feedback_old 	= $this->getSingleManualFeedback($active_id, $question_id, $pass);
+		$feedback_old   = $this->getSingleManualFeedback($active_id, $question_id, $pass);
 		$update_default = [
-			'manual_feedback_id'	=> [ 'integer', $next_id],
-			'active_fi'				=> [ 'integer', $active_id],
-			'question_fi'			=> [ 'integer', $question_id],
-			'pass'					=> [ 'integer', $pass],
-			'feedback'				=> [ 'clob', ilRTE::_replaceMediaObjectImageSrc( $feedback, 0)],
-			'tstamp'				=> [ 'integer', time()]
+			'manual_feedback_id' => [ 'integer', $next_id],
+			'active_fi'	         => [ 'integer', $active_id],
+			'question_fi'        => [ 'integer', $question_id],
+			'pass'               => [ 'integer', $pass],
+			'feedback'           => [ 'clob', ilRTE::_replaceMediaObjectImageSrc( $feedback, 0)],
+			'tstamp'             => [ 'integer', time()]
 		];
 
 		if($feedback_old['finalized_evaluation'] == 1){
-			$user 			= $feedback_old['finalized_by_usr_id'];
+			$user           = $feedback_old['finalized_by_usr_id'];
 			$finalized_time = $feedback_old['finalized_tstamp'];
 		}
 
 		if($finalized === true) {
 			$update_default['finalized_evaluation'] = ['integer', 1];
-			$update_default['finalized_by_usr_id'] 	= ['integer', $user];
-			$update_default['finalized_tstamp'] 	= ['integer', $finalized_time];
+			$update_default['finalized_by_usr_id']  = ['integer', $user];
+			$update_default['finalized_tstamp']     = ['integer', $finalized_time];
 		}
 
 		$ilDB->insert('tst_manual_fb', $update_default);
@@ -10673,14 +10666,14 @@ function getAnswerFeedbackPoints()
 	private function logManualFeedback($active_id, $question_id, $feedback){
 		global $DIC;
 
-		$ilUser 		= $DIC->user();
-		$lng 			= $DIC->language();
+		$ilUser   = $DIC->user();
+		$lng      = $DIC->language();
 		$username = ilObjTestAccess::_getParticipantData($active_id);
 
 		$this->logAction(
 			sprintf(
-				$lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()),
-				$ilUser->getFullname() . " (" . $ilUser->getLogin() . ")",
+				$lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
+				$ilUser->getFullname() . ' (' . $ilUser->getLogin() . ')',
 				$username,
 				assQuestion::_getQuestionTitle($question_id),
 				$feedback
