@@ -244,7 +244,6 @@ class ilSoapAdministration
 		if (!is_object($ilClientIniFile)) {
 		    return $this->__raiseError("Client ini is not initialized","Server");
 		}
-
 		$auth_modes = ilAuthUtils::_getActiveAuthModes();
 		$auth_mode_default =  strtoupper(ilAuthUtils::_getAuthModeName(array_shift($auth_modes)));
 		$auth_mode_names = array();
@@ -258,7 +257,8 @@ class ilSoapAdministration
 		// create advanced meta data record xml
 		$record_ids = array();
 		$record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
-		foreach($record_types as $type) {
+		foreach($record_types as $type_info) {
+			$type = $type_info['obj_type'];
 			$records = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type);
 			foreach ($records as $record){
 				$record_ids [] = $record->getRecordId();

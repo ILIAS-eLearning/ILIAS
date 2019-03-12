@@ -175,7 +175,8 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 			$record_ids = array();
 			$record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
 			
-			foreach($record_types as $type) {
+			foreach($record_types as $type_info) {
+				$type = $type_info['obj_type'];
 				$records = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type);
 				foreach ($records as $record){
 					$record_ids [] = $record->getRecordId();
