@@ -33,14 +33,53 @@ existing in this Module / Service. Possible asset types:
 * Only classes and interfaces which provide functionality to other Components SHOULD be located in the Component's top level directory.
 
 *Examples:*
+* Hypothetical Folder Structure:
 
+		src/
+		  Modules/
+		    Course/
+		      Object/
+		        ObjCourse.php
+		        ObjCourseGUI.php
+		        ObjCourseAccess.php
+		      Administration/
+		        CourseAdministration.php
+		        CourseAdministrationAccess.php
+		        CourseAdministrationGUI.php
+		      Participant/
+		        Member/
+		          CourseMember.php
+		          CourseMembers.php
+		          CourseMemberGUI.php
+		          CourseMemberTableGUI.php
+	            Tutor/
+	              CourseTutor.php
+	              CourseTutors.php
+	              CourseTutorGUI.php
+	              CourseTutorTableGUI.php
+	            AbstractCourseParticipantGUI.php
+	            AbstractCourseParticipantTableGUI.php  
+	            AbstractCourseParticipant.php
+		      CourseParticipantFactory.php
+	          CourseParticipantInterface.php
+	          CourseProvider.php
+		      ...
+		      js/
+		        participants.js
+		        ...
+		      css/
+		        participants_table.css
+		        ...
+		      templates/
+		        tpl.participant_row.html
+		        ...
 * The class *ilObjCourse* would be renamed *ObjCourse*.
 * The file *class.ilObjCourse.php* would be renamed *ObjCourse.php*.
-* The file would be moved to *src/Modules/Course/*.
-* The namespace would be *ILIAS\Modules\Course*.
+* The file would be moved to *src/Modules/Course/Object*.
+* The namespace would be *ILIAS\Modules\Course\Object*.
 * Any JavaScript files used in the Course Module would be located at *src/Modules/Course/js/*.
-* The classes *CourseParticipant*, *CourseParticipants*, *CourseParticipantsGroupsGUI*, *CourseParticipantsGroupsTableGUI* and *CourseParticipantsTableGUI* should be located at *src/Modules/Course/Participants*
-* The (hypothetical) class *CourseParticipantsFactory* - which can be used by other Components - should be located at *src/Modules/Course*. 
+* All classes which are used to handle the participants would be located at *src/Modules/Course/Participants*. 
+* A (hypothetical) class *CourseParticipantsFactory* - which can be used by other Components - should be located at *src/Modules/Course*.
 
 ### Autoloading & Class Imports
 
