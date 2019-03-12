@@ -1539,8 +1539,6 @@ assessment#:#tst_final_information#:#Teszt befejezése
 assessment#:#saved_adjustment#:#Változások mentése sikerült.
 assessment#:#sign_submission#:#Tesztbeadványok digitális aláírása
 assessment#:#sign_submission_info#:#Ha ez be van kapcsolva, és az aláíró-bővítmények telepítve van és aktív, akkor a résztvevő digitálisan aláírják beadványukat.
-assessment#:#preserve_manscoring#:#Manuális pontozások megőrzése
-assessment#:#preserve_manscoring_info#:#A kérdés pontozásának módosítása a manuális pontok érvénytelenítését vonhatja maga után. Ez az opció megengedi az ÖSSZES kézzel adott pontot érvénytelenítését a tesztben, amit csak kivételes esetben használunk.
 assessment#:#tst_qst_added_to_pool_s#:#A kérdést sikeresen hozzáadta a kiválasztott kérdésgyűjteményhez.
 assessment#:#tst_qst_added_to_pool_p#:#A kérdéseket sikeresen hozzáadta a kiválasztott kérdésgyűjteményhez.
 auth#:#auth_account_migration_keep#:#Felhasználói fiókok migrálása
@@ -2994,7 +2992,6 @@ common#:#no_global_role_left#:#Minden felhasználónak legalább egy szerepe kel
 common#:#user_not_found_to_delete#:#A törlendő felhasználó nem található.
 common#:#no_import_file_found#:#Nem található importfájl.
 common#:#no_items#:#Ez az objektum üres, egy elemet sem tartalmaz.
-common#:#no_license_available#:#Nincs elérhető licenc.
 common#:#no_limit#:#Nincs korlát
 common#:#no_mkisofs_configured#:#Konfigurálnia kell az mkisofs utility-t az ILIAS-setupban az ISO-export futtatásához
 common#:#no_owner#:#Nincs tulajdonos
@@ -10507,7 +10504,6 @@ tos#:#tos_form_attach_criterion_head#:#Feltétel csatolása
 tos#:#tos_form_edit_criterion_head#:#Feltételhozzárendelés módosítása
 tos#:#tos_form_criterion#:#Feltétel
 tos#:#tos_document#:#Dokumentum
-tos#:#tos_form_criterion_info#:#Válassza ki a dokumentumhoz a kívánt feltételt.
 tos#:#tos_sure_delete_documents_s#:#Biztos, hogy törli a kiválasztott dokumentumot?
 tos#:#tos_sure_delete_documents_p#:#Biztos, hogy törli a kiválasztott dokumentumokat?
 tos#:#tos_deleted_documents_s#:#A dokumentumot sikeresen mentette.
@@ -14984,3 +14980,36 @@ lti#:#lti_cron_title#:#LTI-kimeneti Szolgáltatás
 lti#:#lti_cron_title_desc#:#Az LTI-felhasználók tanulási haladási állapotát szinkonizálja egy LTI-eszközfogyasztóval, amennyiben az támogatja a kimeneti szolgáltatást. Erre az ütemezett feladatra csak a tanulási haladás beállításainak módosítása után van szükség.
 crs#:#crs_timings_short_end#:#Záró dárum
 lso#:#lso_activation_online_info#:#Állítsa a tanulási haladást online-ra, hogy az látható és elérhető legyen a tanulás sor tagjai számára. A nem aktív sort csak a vezetők és a tutorok érhetik el.
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:###12 03 2019 new variable
+assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.###12 03 2019 new variable
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###12 03 2019 new variable
+rbac#:#mme_visible#:#Administration of Main Menu is visible###12 03 2019 new variable
+rbac#:#mme_read#:#User has read access to administration of Main Menu###12 03 2019 new variable
+rbac#:#mme_write#:#User can edit settings of Main Menu administration###12 03 2019 new variable
+rbac#:#mme_edit_permission#:#User can change permission settings of Main Menu administration###12 03 2019 new variable
+rbac#:#wfe_visible#:#Administration of Workflow Engine is visible###12 03 2019 new variable
+rbac#:#wfe_read#:#User has read access to administration of Workflow Engine###12 03 2019 new variable
+rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration###12 03 2019 new variable
+rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration###12 03 2019 new variable
+forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top###12 03 2019 new variable
+forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.###12 03 2019 new variable
+forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’###12 03 2019 new variable
+forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. The ‘Sticky Threads’ can be sorted manually.###12 03 2019 new variable
+forum#:#frm_settings_form_header#:#Forum Settings###12 03 2019 new variable
+forum#:#frm_settings_presentation_header#:#Presentation###12 03 2019 new variable
+forum#:#frm_settings_user_functions_header#:#User Functions###12 03 2019 new variable
+forum#:#frm_settings_mod_functions_header#:#Moderator Functions###12 03 2019 new variable
+forum#:#frm_settings_privacy_header#:#Privacy###12 03 2019 new variable
+rbac#:#read_results#:#Survey Results###12 03 2019 new variable
+rbac#:#svy_read_results#:#User has access to survey results of others###12 03 2019 new variable
+iass#:#iass_user_removed#:#Successfully remove participant.###12 03 2019 new variable
+dateplaner#:#cal_crs_timing_start#:#Suggested Start###12 03 2019 new variable
+dateplaner#:#cal_crs_timing_end#:#Suggested End###12 03 2019 new variable
+crs#:#crs_timings_edit_personal#:#Edit Personal Timings###12 03 2019 new variable
+crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)###12 03 2019 new variable
+crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.###12 03 2019 new variable
+crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile Presentation" and "Session Limitation" at the same time.###12 03 2019 new variable
+content#:#cont_choose_file_source#:#Source###12 03 2019 new variable
+content#:#cont_choose_local#:#Local directory###12 03 2019 new variable
+content#:#cont_choose_upload_dir#:#Upload directory###12 03 2019 new variable
+sess#:#sess_assign#:#Assign###12 03 2019 new variable

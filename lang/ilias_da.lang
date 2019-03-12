@@ -6321,27 +6321,8 @@ assessment#:#tst_finish_notification#:#Mail ved afslutning
 assessment#:#tst_finish_notification_simple#:#Send navn og afslutningstidspunkt til testens ejer
 assessment#:#tst_finish_notification_advanced#:#Send komplet testresultat til testens ejer.
 assessment#:#tst_user_finished_test#:#User finished test (%s)###24 07 2009 new variable
-common#:#license#:#Licens
-common#:#licenses#:#Licenser
-common#:#no_license_available#:#Ingen tilgængelig licens!
-license#:#license_counter#:#Licenstæller
-license#:#license_counter_info#:#Gør det muligt at tælle de brugte licenser af købt SCORM og HTML læremoduler
-license#:#license_warning#:#Licensadvarsel
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###24 07 2009 new variable
-license#:#arbitrary#:#arbitrær
-license#:#course_licenses_rare#:#Advarsel: Der er kun %s tilgængelige licenser til kursusobjektet. Se i fanebladet 'licenser' hvis du vil vide hvilke licenser der skal forlænges.
-license#:#edit_license#:#Ret licens
-license#:#existing_licenses#:#Til rådighed
-license#:#license_updated#:#Licensdata opdateret.
-license#:#potential_accesses#:#Potentielle
-license#:#potential_accesses_explanation#:#Alle brugere der har læseadgang, men endnu ikke er tilgået materialet tæller som potentielle.
-license#:#remaining_licenses#:#Til rådighed
-license#:#remaining_licenses_explanation#:#Det tilrådeværende antal licenser beregnes som købte minus forbrugte.
-license#:#used_licenses#:#Forbrugte licenser
-license#:#used_licenses_explanation#:#Første gang brugeren tilgår materialet forbruges en licens.
 user#:#user_access_limited#:#Periodisk
 user#:#user_access_unlimited#:#Altid
-license#:#zero_licenses_explanation#:#Vælg 0 for at deaktivere licenser.
 common#:#birthday#:#Fødselsdag
 content#:#cont_replace_mob_feature#:#Erstat medier i indhold
 content#:#cont_replace_mob_feature_info#:#Aktiverer en funktion der tillader at erstatte medieobjekter men beholde alle andre egenskaber ved mediet i indholdet.
@@ -10624,8 +10605,6 @@ content#:#cont_languages#:#Languages###30 12 2013 new variable
 content#:#cont_language#:#Language###30 12 2013 new variable
 content#:#cont_finish_editing#:#Finish Editing###30 12 2013 new variable
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.###30 12 2013 new variable
-assessment#:#preserve_manscoring#:#Preserve manual scorings###04 01 2014 new variable
-assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.###04 01 2014 new variable
 dcl#:#dcl_please_select#:#--- Please select ---###04 01 2014 new variable
 assessment#:#oq_btn_use_order_pictures#:#Use answer pictures###22 01 2014 new variable
 assessment#:#oq_btn_use_order_terms#:#Use answer terms###22 01 2014 new variable
@@ -14304,7 +14283,6 @@ tos#:#tos_form_attach_criterion_head#:#Attach Criterion###10 11 2018 new variabl
 tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment###10 11 2018 new variable
 tos#:#tos_form_criterion#:#Criterion###10 11 2018 new variable
 tos#:#tos_document#:#Document###10 11 2018 new variable
-tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.###10 11 2018 new variable
 tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?###10 11 2018 new variable
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?###10 11 2018 new variable
 tos#:#tos_deleted_documents_s#:#The document has been deleted.###10 11 2018 new variable
@@ -14555,7 +14533,6 @@ mme#:#additional_langs#:#Additional Languages###10 11 2018 new variable
 mme#:#msg_languages_added#:#Added languages###10 11 2018 new variable
 mme#:#msg_translations_saved#:#Translations saved###10 11 2018 new variable
 mme#:#topitem_css_id#:#CSS-ID###10 11 2018 new variable
-common#:#deleted_item#:#Deleted Item###10 11 2018 new variable
 mme#:#component_not_active#:#Component is not activated.###10 11 2018 new variable
 mme#:#item_must_be_always_active#:#Item must be active.###10 11 2018 new variable
 mme#:#msg_subitem_deleted#:#Item deleted.###10 11 2018 new variable
@@ -14740,7 +14717,6 @@ exc#:#exc_ass_submission_zip#:#Submissions###10 11 2018 new variable
 exc#:#exc_submission_file#:#Submission File###10 11 2018 new variable
 exc#:#exc_submission_text#:#Submission Text###10 11 2018 new variable
 common#:#open#:#Open###10 11 2018 new variable
-exc#:#exc_down_files_started#:#Download of submission files has started.###10 11 2018 new variable
 book#:#participants#:#Participants###10 11 2018 new variable
 book#:#book_assign_object#:#Assign Booking Object###10 11 2018 new variable
 book#:#book_assign#:#Assign###10 11 2018 new variable
@@ -14790,13 +14766,11 @@ common#:#obj_lso#:#Learning Sequence###10 11 2018 new variable
 common#:#objs_lso#:#Learning Sequences###10 11 2018 new variable
 common#:#obj_lso_duplicate#:#Copy Learning Sequence###10 11 2018 new variable
 common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.###10 11 2018 new variable
-common#:#slo_wizard_page#:#Copy Learning Sequence###10 11 2018 new variable
 rbac#:#lso_visible#:#Learning Sequence is visible###10 11 2018 new variable
 rbac#:#lso_copy#:#User can copy Learning Sequence###10 11 2018 new variable
 rbac#:#lso_write#:#User can edit settings of Learning Sequence###10 11 2018 new variable
 rbac#:#lso_delete#:#User can delete Learning Sequence###10 11 2018 new variable
 lso#:#learner_view#:#Overview###10 11 2018 new variable
-lso#:#manage_content#:#Manage###10 11 2018 new variable
 lso#:#manage_content_maintab#:#Content###10 11 2018 new variable
 lso#:#show_summary#:#Info###10 11 2018 new variable
 lso#:#table_sequence_content#:#Content Management###10 11 2018 new variable
@@ -14843,7 +14817,6 @@ lso#:#lso_player_finish#:#Finish###10 11 2018 new variable
 lso#:#lso_player_suspend#:#Suspend###10 11 2018 new variable
 lso#:#lso_player_previous#:#Previous###10 11 2018 new variable
 lso#:#lso_player_next#:#Next###10 11 2018 new variable
-lso#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###10 11 2018 new variable
 lso#:#lso_read#:#User has read access to Learning Sequence###10 11 2018 new variable
 lso#:#lso_edit_permission#:#User can change permission settings###10 11 2018 new variable
 lso#:#condition_always#:#Always###10 11 2018 new variable
@@ -14878,7 +14851,6 @@ lso#:#first_access#:#First Access###10 11 2018 new variable
 lso#:#last_access#:#Last Access###10 11 2018 new variable
 lso#:#lso_settings_availability#:#availability###10 11 2018 new variable
 lso#:#avail_time_period#:#Period###10 11 2018 new variable
-lso#:#lso_settings_misc#:#Settings###10 11 2018 new variable
 lso#:#completed_steps#:#Passed Steps###10 11 2018 new variable
 lso#:#last_visited_step#:#Last visited Step###10 11 2018 new variable
 lso#:#members_gallery#:#Member Gallery###10 11 2018 new variable
@@ -14933,3 +14905,111 @@ meta#:#meta_info_only_repository_objects#:#Only repository objects are listed be
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable
 book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.###10 11 2018 new variable
 book#:#booking_multiple_succesfully#:#Bookings created successfully.###10 11 2018 new variable
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:###12 03 2019 new variable
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.###12 03 2019 new variable
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.###12 03 2019 new variable
+assessment#:#tst_tbl_participants#:#Participants###12 03 2019 new variable
+assessment#:#tst_answered_questions_of_total#:#%s of %s###12 03 2019 new variable
+assessment#:#tst_reached_points_of_max#:#%s of %s###12 03 2019 new variable
+assessment#:#tst_passed#:#Passed###12 03 2019 new variable
+assessment#:#tst_failed#:#Failed###12 03 2019 new variable
+assessment#:#tst_tbl_col_scored_pass#:#Scored Pass###12 03 2019 new variable
+assessment#:#tst_tbl_col_answered_questions#:#Answered Questions###12 03 2019 new variable
+assessment#:#tst_tbl_col_reached_points#:#Reached Points###12 03 2019 new variable
+assessment#:#tst_tbl_col_percent_result#:#Percent Solved###12 03 2019 new variable
+assessment#:#tst_tbl_col_passed_status#:#Grading###12 03 2019 new variable
+assessment#:#tst_tbl_col_final_mark#:#Mark###12 03 2019 new variable
+assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.###12 03 2019 new variable
+common#:#add_remove_edit_entries_of_main_menu#:#Add, remove or edit entries of the main menu###12 03 2019 new variable
+common#:#all#:#All###12 03 2019 new variable
+common#:#only_active#:#Only Active###12 03 2019 new variable
+common#:#only_inactive#:#Only Inactive###12 03 2019 new variable
+common#:#entry_status#:#Entry status###12 03 2019 new variable
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.###12 03 2019 new variable
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###12 03 2019 new variable
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###12 03 2019 new variable
+chatroom#:#chatviewer_no_rooms#:#No Chat Room available, yet.###12 03 2019 new variable
+rbac#:#mme_visible#:#Administration of Main Menu is visible###12 03 2019 new variable
+rbac#:#mme_read#:#User has read access to administration of Main Menu###12 03 2019 new variable
+rbac#:#mme_write#:#User can edit settings of Main Menu administration###12 03 2019 new variable
+rbac#:#mme_edit_permission#:#User can change permission settings of Main Menu administration###12 03 2019 new variable
+rbac#:#wfe_visible#:#Administration of Workflow Engine is visible###12 03 2019 new variable
+rbac#:#wfe_read#:#User has read access to administration of Workflow Engine###12 03 2019 new variable
+rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration###12 03 2019 new variable
+rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration###12 03 2019 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###12 03 2019 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page###12 03 2019 new variable
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###12 03 2019 new variable
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###12 03 2019 new variable
+forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top###12 03 2019 new variable
+forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.###12 03 2019 new variable
+forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’###12 03 2019 new variable
+forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. The ‘Sticky Threads’ can be sorted manually.###12 03 2019 new variable
+assessment#:#autoparticipants_subtab#:#Participants###12 03 2019 new variable
+search#:#search_mime_filter_form_info#:#Search can be restricted to the chosen mime types.###12 03 2019 new variable
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.###12 03 2019 new variable
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.###12 03 2019 new variable
+orgu#:#ou_more_than_one_match_found#:#More then one match found.###12 03 2019 new variable
+forum#:#frm_settings_form_header#:#Forum Settings###12 03 2019 new variable
+forum#:#frm_settings_presentation_header#:#Presentation###12 03 2019 new variable
+forum#:#frm_settings_user_functions_header#:#User Functions###12 03 2019 new variable
+forum#:#frm_settings_mod_functions_header#:#Moderator Functions###12 03 2019 new variable
+forum#:#frm_settings_privacy_header#:#Privacy###12 03 2019 new variable
+rbac#:#read_results#:#Survey Results###12 03 2019 new variable
+rbac#:#svy_read_results#:#User has access to survey results of others###12 03 2019 new variable
+iass#:#iass_user_removed#:#Successfully remove participant.###12 03 2019 new variable
+mme#:#msg_translations_deleted#:#Translations deleted###12 03 2019 new variable
+common#:#mme_lost_item_title#:#No assignment###12 03 2019 new variable
+common#:#mme_lost_item_reason#:#Item is no longer provided.###12 03 2019 new variable
+mme#:#type_lost#:#Lost###12 03 2019 new variable
+mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.###12 03 2019 new variable
+iass#:#iass_sort_changetime_asc#:#Last Change ascending###12 03 2019 new variable
+iass#:#iass_sort_changetime_desc#:#Last Change descending###12 03 2019 new variable
+lso#:#manage#:#Manage###12 03 2019 new variable
+common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###12 03 2019 new variable
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.###12 03 2019 new variable
+rbac#:#sess_edit_metadata#:#Edit Metadata###12 03 2019 new variable
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###12 03 2019 new variable
+crs#:#crs_view_timings#:#Timings View Type###12 03 2019 new variable
+crs#:#crs_view_timing_absolute#:#Absolute Dates###12 03 2019 new variable
+crs#:#crs_view_info_timing_absolute#:#Start and end date will be set absolute.###12 03 2019 new variable
+crs#:#crs_view_timing_relative#:#Relative Dates###12 03 2019 new variable
+crs#:#crs_view_info_timing_relative#:#Start and end date will be set relative to the subscription date.###12 03 2019 new variable
+dateplaner#:#btn_ical#:#iCal###12 03 2019 new variable
+style#:#sty_type_code_block#:#Code (Block)###12 03 2019 new variable
+style#:#sty_type_code_inline#:#Code (Inline)###12 03 2019 new variable
+sess#:#sess_material_assigned#:#Assigned###12 03 2019 new variable
+sess#:#sess_material_not_assigned#:#Not Assigned###12 03 2019 new variable
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment###12 03 2019 new variable
+rbac#:#lso_read#:#Users can access the Learning Sequence###12 03 2019 new variable
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence###12 03 2019 new variable
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence###12 03 2019 new variable
+common#:#unparticipate#:#Unsubscribe###12 03 2019 new variable
+common#:#participate#:#Subscribe###12 03 2019 new variable
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence###12 03 2019 new variable
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence###12 03 2019 new variable
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings###12 03 2019 new variable
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings###12 03 2019 new variable
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###12 03 2019 new variable
+user#:#msg_spoint_not_modified#:#Starting point not modified###12 03 2019 new variable
+skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.###12 03 2019 new variable
+skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.###12 03 2019 new variable
+blog#:#blog_download_submission#:#Download Submission###12 03 2019 new variable
+exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.###12 03 2019 new variable
+lso#:#lso_news_online_title#:#A new learning sequence object is online!###12 03 2019 new variable
+lso#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###12 03 2019 new variable
+user#:#user_profile_info_std#:#Default User Profile Info###12 03 2019 new variable
+lti#:#lti_cron_title#:#LTI Outcome Service###12 03 2019 new variable
+lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###12 03 2019 new variable
+crs#:#crs_timings_short_end#:#End Date###12 03 2019 new variable
+lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.###12 03 2019 new variable
+dateplaner#:#cal_crs_timing_start#:#Suggested Start###12 03 2019 new variable
+dateplaner#:#cal_crs_timing_end#:#Suggested End###12 03 2019 new variable
+crs#:#crs_timings_edit_personal#:#Edit Personal Timings###12 03 2019 new variable
+crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)###12 03 2019 new variable
+crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.###12 03 2019 new variable
+crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile Presentation" and "Session Limitation" at the same time.###12 03 2019 new variable
+content#:#cont_choose_file_source#:#Source###12 03 2019 new variable
+content#:#cont_choose_local#:#Local directory###12 03 2019 new variable
+content#:#cont_choose_upload_dir#:#Upload directory###12 03 2019 new variable
+sess#:#sess_assign#:#Assign###12 03 2019 new variable
