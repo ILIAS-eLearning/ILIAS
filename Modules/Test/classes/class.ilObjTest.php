@@ -10504,30 +10504,16 @@ function getAnswerFeedbackPoints()
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
-	* @param boolean $even_if_evaluation_is_not_finalized ignore access right
 	* @return string The feedback text
 	* @access public
 	*/
-	static function getManualFeedback($active_id, $question_id, $pass, $even_if_evaluation_is_not_finalized = false)
+	static function getManualFeedback($active_id, $question_id, $pass)
 	{
-		global $DIC;
-
-		$ilDB     = $DIC->database();
 		$feedback = "";
-		$result	  = $ilDB->queryF(
-			"SELECT finalized_evaluation,feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer', 'integer', 'integer'),
-			array($active_id, $question_id, $pass)
-		);
+		$row      = self::getSingleManualFeedback($active_id, $question_id, $pass);
 
-		$row = $ilDB->fetchAssoc($result);
-		if($even_if_evaluation_is_not_finalized || $row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id)) {
-			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
-		}
-
-		if ($result->numRows() > 1){
-			$DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for ".
-				"active_fi = $active_id , question_fi = $question_id and pass = $pass");
+		if (count($row) > 0 && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id))) {
+			$feedback = $row['feedback'];
 		}
 
 		return $feedback;
@@ -10554,10 +10540,13 @@ function getAnswerFeedbackPoints()
 			array($active_id, $question_id, $pass)
 		);
 
-		if ($result->numRows()){
+		if ($result->numRows() === 1){
 
 			$row             = $ilDB->fetchAssoc($result);
 			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+		}else{
+			$DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for ".
+			"active_fi = $active_id , question_fi = $question_id and pass = $pass");
 		}
 
 		return $row;
