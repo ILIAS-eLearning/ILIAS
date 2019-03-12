@@ -11,10 +11,11 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\Validation\Factory;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
+class DictionaryTransformationTest extends TestCase
 {
 	/**
 	 * @var \ILIAS\Refinery\Validation\Factory

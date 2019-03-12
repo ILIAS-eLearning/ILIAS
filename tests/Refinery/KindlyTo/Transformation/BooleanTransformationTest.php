@@ -11,8 +11,9 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\KindlyTo\Transformation\BooleanTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
-class BooleanTransformationTest extends \PHPUnit_Framework_TestCase
+class BooleanTransformationTest extends TestCase
 {
 
 	/**

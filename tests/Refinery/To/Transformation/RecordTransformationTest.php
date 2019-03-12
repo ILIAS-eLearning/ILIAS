@@ -11,10 +11,11 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class RecordTransformationTest extends \PHPUnit_Framework_TestCase
+class RecordTransformationTest extends TestCase
 {
 	/**
 	 * @throws \ilException

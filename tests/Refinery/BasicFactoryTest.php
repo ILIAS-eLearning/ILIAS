@@ -10,8 +10,9 @@ namespace ILIAS\Tests\Refinery;
 use ILIAS\Refinery\BasicFactory;
 
 require_once('./libs/composer/vendor/autoload.php');
+require_once('./tests/Refinery/TestCase.php');
 
-class BasicFactoryTest extends \PHPUnit_Framework_TestCase
+class BasicFactoryTest extends TestCase
 {
 	/**
 	 * @var BasicFactory

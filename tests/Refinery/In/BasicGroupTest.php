@@ -12,10 +12,11 @@ use ILIAS\In\Transformation\Series;
 use ILIAS\Refinery\In\BasicGroup;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class BasicGroupTest extends \PHPUnit_Framework_TestCase
+class BasicGroupTest extends TestCase
 {
 	/**
 	 * @var BasicGroup

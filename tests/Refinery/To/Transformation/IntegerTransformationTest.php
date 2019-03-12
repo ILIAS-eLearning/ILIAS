@@ -11,8 +11,9 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
-class IntegerTransformationTest extends \PHPUnit_Framework_TestCase
+class IntegerTransformationTest extends TestCase
 {
 	/**
 	 * @var IntegerTransformation

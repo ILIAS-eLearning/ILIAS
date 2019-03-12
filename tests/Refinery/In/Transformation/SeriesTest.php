@@ -11,10 +11,11 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\In\Transformation\Series;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class SeriesTest extends \PHPUnit_Framework_TestCase
+class SeriesTest extends TestCase
 {
 	public function testSeriesTransformation()
 	{

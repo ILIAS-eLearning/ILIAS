@@ -9,10 +9,11 @@ namespace ILIAS\Tests\Refinery\To\Transformation;
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\NewObjectTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class NewObjectTransformationTest extends \PHPUnit_Framework_TestCase
+class NewObjectTransformationTest extends TestCase
 {
 	/**
 	 * @throws \ReflectionException

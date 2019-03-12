@@ -12,8 +12,9 @@ require_once('./libs/composer/vendor/autoload.php');
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
-class DictionaryTransformationTest extends \PHPUnit_Framework_TestCase
+class DictionaryTransformationTest extends TestCase
 {
 	/**
 	 * @throws \ilException

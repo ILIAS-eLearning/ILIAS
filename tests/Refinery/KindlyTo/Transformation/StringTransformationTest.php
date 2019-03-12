@@ -11,8 +11,9 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
-class StringTransformationTest extends \PHPUnit_Framework_TestCase
+class StringTransformationTest extends TestCase
 {
 	/**
 	 * @var StringTransformation

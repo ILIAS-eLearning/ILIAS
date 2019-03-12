@@ -19,8 +19,9 @@ use ILIAS\Refinery\KindlyTo\Transformation\RecordTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Refinery\Validation\Factory;
+use ILIAS\Tests\Refinery\TestCase;
 
-class BasicGroupTest extends \PHPUnit_Framework_TestCase
+class BasicGroupTest extends TestCase
 {
 	/**
 	 * @var BasicGroup

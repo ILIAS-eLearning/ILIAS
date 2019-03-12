@@ -11,10 +11,11 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class TupleTransformationTest extends \PHPUnit_Framework_TestCase
+class TupleTransformationTest extends TestCase
 {
 	/**
 	 * @throws \ilException

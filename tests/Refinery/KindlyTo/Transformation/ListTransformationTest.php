@@ -10,10 +10,11 @@ namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\KindlyTo\Transformation\ListTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class ListTransformationTest extends \PHPUnit_Framework_TestCase
+class ListTransformationTest extends TestCase
 {
 	/**
 	 * @throws \ilException

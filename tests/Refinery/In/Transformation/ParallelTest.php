@@ -13,11 +13,12 @@ use ILIAS\In\Transformation\Parallel;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
 
-class ParallelTest extends \PHPUnit_Framework_TestCase
+class ParallelTest extends TestCase
 {
 	public function testParallelTransformation()
 	{

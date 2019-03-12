@@ -7,7 +7,6 @@
 
 namespace ILIAS\Tests\Refinery\To;
 
-
 use ILIAS\Refinery\To\BasicGroup;
 use ILIAS\Refinery\To\Transformation\BooleanTransformation;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
@@ -20,8 +19,11 @@ use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use ILIAS\Refinery\Validation\Factory;
+use ILIAS\Tests\Refinery\TestCase;
 
-class BasicGroupTest extends \PHPUnit_Framework_TestCase
+require_once('./libs/composer/vendor/autoload.php');
+
+class BasicGroupTest extends TestCase
 {
 	/**
 	 * @var BasicGroup

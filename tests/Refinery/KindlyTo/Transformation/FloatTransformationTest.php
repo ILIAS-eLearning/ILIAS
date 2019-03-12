@@ -11,8 +11,9 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\KindlyTo\Transformation\FloatTransformation;
+use ILIAS\Tests\Refinery\TestCase;
 
-class FloatTransformationTest extends \PHPUnit_Framework_TestCase
+class FloatTransformationTest extends TestCase
 {
 	/**
 	 * @var FloatTransformation
