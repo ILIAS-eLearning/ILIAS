@@ -36,6 +36,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 
+    const INSTALL_README_PATH = '/docs/configuration/install.md';
 	const CMD_EDIT_DOWNLOADING_SETTINGS = 'editDownloadingSettings';
 	const CMD_EDIT_WEBDAV_SETTINGS = 'editWebDAVSettings';
 	
@@ -322,6 +323,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	    $cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
 	    $cb_prop->setValue('1');
 	    $cb_prop->setChecked($this->object->isWebdavEnabled());
+	    $cb_prop->setInfo($this->getAdditionalWebDAVInformation());
 	    $form->addItem($cb_prop);
 	    
 	    $rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
@@ -361,8 +363,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		}
 
 		$form = $this->initWebDAVSettingsForm();
-
-		$tpl->setContent($form->getHTML());
+        $tpl->setContent($form->getHTML());
 	}
 
 
@@ -373,6 +374,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	    global $DIC;
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilErr = $DIC['ilErr'];
+        $tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 
@@ -395,10 +397,21 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		else 
 		{
 		    $form->setValuesByPost();
-		    $tpl->setContent($form->getHTML());
-		}
-	}
+            $tpl->setContent($form->getHTML());
+        }
+    }
 
+    public function getAdditionalWebDAVInformation() {
+        global $DIC;
+        $lng = $DIC->language();
+
+        return $furtherInformation = sprintf($lng->txt('webdav_additional_information'), $this->getInstallationDocsLink());
+    }
+
+    public function getInstallationDocsLink()
+    {
+        return ilUtil::_getHttpPath() . self::INSTALL_README_PATH;
+    }
 
 	/**
 	 * called by prepare output
