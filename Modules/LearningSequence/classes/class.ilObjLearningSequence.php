@@ -83,6 +83,7 @@ class ilObjLearningSequence extends ilContainer
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->user = $DIC['ilUser'];
 		$this->tree = $DIC['tree'];
+		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
 		$this->template = $DIC['tpl'];
 		$this->database = $DIC['ilDB'];
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
