@@ -28,8 +28,8 @@ class LSItemOnlineStatus
 
 		switch ($obj->getType()) {
 			case self::S_TEST:
-				$obj->setOnline($status);
-				$obj->saveToDb(true);
+				$obj->setOfflineStatus(!$status);
+				$obj->update();
 				break;
 			case self::S_SAHS:
 			case self::S_LEARNMODULE_IL:
