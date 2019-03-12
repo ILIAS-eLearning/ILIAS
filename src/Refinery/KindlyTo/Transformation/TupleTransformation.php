@@ -49,11 +49,9 @@ class TupleTransformation implements Transformation
 		$this->validateValueLength($from);
 
 		$result = array();
-		foreach ($from as $value) {
+		foreach ($from as $key => $value) {
 			$transformedValue = $value;
-			foreach ($this->transformations as $transformation) {
-				$transformedValue = $transformation->transform($transformedValue);
-			}
+			$transformedValue = $this->transformations[$key]->transform($transformedValue);
 
 			$result[] = $transformedValue;
 		}
@@ -75,17 +73,15 @@ class TupleTransformation implements Transformation
 		}
 
 		$result = array();
-		foreach ($dataValue as $value) {
+		foreach ($dataValue as $key => $value) {
 			$transformedValue = $value;
-			foreach ($this->transformations as $transformation) {
-				$resultObject = $transformation->applyTo(new Result\Ok($transformedValue));
+			$resultObject = $this->transformations[$key]->applyTo(new Result\Ok($transformedValue));
 
-				if ($resultObject->isError()) {
-					return $resultObject;
-				}
-
-				$transformedValue = $resultObject->value();
+			if ($resultObject->isError()) {
+				return $resultObject;
 			}
+
+			$transformedValue = $resultObject->value();
 			$result[] = $transformedValue;
 		}
 

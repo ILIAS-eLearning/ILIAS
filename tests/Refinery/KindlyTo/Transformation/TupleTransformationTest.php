@@ -38,7 +38,7 @@ class TupleTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$result = $transformation->transform(array(1.3, 2));
 
-		$this->assertSame(array('1', '2'), $result);
+		$this->assertSame(array(1, '2'), $result);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class TupleTransformationTest extends \PHPUnit_Framework_TestCase
 
 		$result = $transformation->applyTo(new Result\Ok(array(1.3, 2)));
 
-		$this->assertSame(array('1', '2'), $result->value());
+		$this->assertSame(array(1, '2'), $result->value());
 	}
 
 	public function testToManyValuesForApply()
