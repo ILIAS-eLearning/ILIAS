@@ -3929,9 +3929,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			if ($allow_lso) {
-				$whiltelist = $exp->getTypeWhiteList();
+				$whitelist = $exp->getTypeWhiteList();
 				$whitelist[] = 'lso';
-				$exp->setTypeWhiteList($whiltelist);
+				$exp->setTypeWhiteList($whitelist);
 			}
 		}
 
