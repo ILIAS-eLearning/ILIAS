@@ -84,14 +84,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	public $test_id;
+  	var $test_id;
 
 	/**
 * Defines if the test will be placed on users personal desktops
 *
 * @var integer
 */
-	public $invitation = INVITATION_OFF;
+	var $invitation = INVITATION_OFF;
 
 	/**
 * A text representation of the authors name. The name of the author must
@@ -99,21 +99,21 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var string
 */
-  	public $author;
+  	var $author;
 
 	/**
 * A reference to an IMS compatible matadata set
 *
 * @var object
 */
-  	public $metadata;
+  	var $metadata;
 
 	/**
 * An array which contains all the test questions
 *
 * @var array
 */
-  	public $questions;
+  	var $questions;
 
 	/**
 	 * @var bool
@@ -133,7 +133,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var ASS_MarkSchema
 */
-  	public $mark_schema;
+  	var $mark_schema;
 
 	/**
 * Defines the sequence settings for the test user. There are two values:
@@ -142,7 +142,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	public $sequence_settings;
+  	var $sequence_settings;
 
 	/**
 * Defines the score reporting for the test. There are two values:
@@ -153,7 +153,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	public $score_reporting;
+  	var $score_reporting;
 
 	/**
 * Defines the question verification type for the test. When set to 1
@@ -162,14 +162,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-	public $instant_verification;
+	var $instant_verification;
 
 	/**
 * Defines wheather or not the reached points are shown as answer feedback
 *
 * @var integer
 */
-	public $answer_feedback_points;
+	var $answer_feedback_points;
 
 	/**
 * A time/date value to set the earliest reporting time for the test score.
@@ -179,14 +179,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var string
 */
-  	public $reporting_date;
+  	var $reporting_date;
 
 	/**
 * Contains the evaluation data settings the tutor defines for the user
 *
 * @var object
 */
-  	public $evaluation_data;
+  	var $evaluation_data;
 
 	/**
 * Number of tries the user is allowed to do. If set to 0, the user has
@@ -194,7 +194,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	public $nr_of_tries;
+  	var $nr_of_tries;
 
 	/**
 * Tells ILIAS to use the previous answers of a learner in a later test pass
@@ -202,7 +202,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-	public $use_previous_answers;
+	var $use_previous_answers;
 
 	/**
 * Tells ILIAS how to deal with the test titles. The test title will be shown with
@@ -212,28 +212,28 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-  	public $title_output;
+  	var $title_output;
 
 	/**
 * The maximum processing time as hh:mm:ss string the user is allowed to do.
 *
 * @var integer
 */
-  	public $processing_time;
+  	var $processing_time;
 
 	/**
 * Contains 0 if the processing time is disabled, 1 if the processing time is enabled
 *
 * @var integer
 */
-	public $enable_processing_time;
+	var $enable_processing_time;
 
 	/**
 * Contains 0 if the processing time should not be reset, 1 if the processing time should be reset
 *
 * @var integer
 */
-	public $reset_processing_time;
+	var $reset_processing_time;
 
 	/**
 	 * @var bool
@@ -284,21 +284,21 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var integer
 */
-	public $count_system;
+	var $count_system;
 
 	/**
 * Indicates if the points unchecked multiple choice questions are given or not
 *
 * @var integer
 */
-	public $mc_scoring;
+	var $mc_scoring;
 
 	/**
 * Defines which pass should be used for scoring
 *
 * @var integer
 */
-	public $pass_scoring;
+	var $pass_scoring;
 
 	/**
 * Indicates if the questions in a test are shuffled before
@@ -306,28 +306,28 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var boolean
 */
-	public $shuffle_questions;
+	var $shuffle_questions;
 
 	/**
 * Contains the presentation settings for the test results
 *
 * @var integer
 */
-	public $results_presentation;
+	var $results_presentation;
 
 	/**
 * Determines wheather or not a question summary is shown to the users
 *
 * @var boolean
 */
-	public $show_summary;
+	var $show_summary;
 
 	/**
 * Determines if the score of every question should be cut at 0 points or the score of the complete test
 *
 * @var boolean
 */
-	public $score_cutting;
+	var $score_cutting;
 
 	/**
 	 * @var bool
@@ -365,56 +365,56 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 *
 * @var int
 */
-	public $certificate_visibility;
+	var $certificate_visibility;
 
 	/**
 * Anonymity of the test users
 *
 * @var int
 */
-	public $anonymity;
+	var $anonymity;
 
 	/**
 * determines wheather a cancel test button is shown or not
 *
 * @var int
 */
-	public $show_cancel;
+	var $show_cancel;
 
 	/**
 * determines wheather a marker button is shown or not
 *
 * @var int
 */
-	public $show_marker;
+	var $show_marker;
 
 	/**
 * determines wheather a test may have fixed participants or not
 *
 * @var int
 */
-	public $fixed_participants;
+	var $fixed_participants;
 
 	/**
 * determines wheather an answer specific feedback is shown or not
 *
 * @var int
 */
-	public $answer_feedback;
+	var $answer_feedback;
 	
 	/**
 	* contains the test session data
 	*
 	* @var object
 	*/
-	public $testSession;
+	var $testSession;
 
 	/**
 	* contains the test sequence data
 	*
 	* @var object
 	*/
-	public $testSequence;
+	var $testSequence;
 
 	/**
 	* Determines whether or not a final statement should be shown on test completion
@@ -10570,7 +10570,7 @@ function getAnswerFeedbackPoints()
 	 * @return array The feedback text
 	 * @access public
 	 */
-	public static function getCompleteManualFeedback($question_id)
+	public static function getCompleteManualFeedback(int $question_id)
 	{
 		global $DIC;
 
@@ -10606,7 +10606,7 @@ function getAnswerFeedbackPoints()
 	* @return boolean TRUE if the operation succeeds, FALSE otherwise
 	* @access public
 	*/
-	function saveManualFeedback($active_id, $question_id, $pass, $feedback, bool $finalized = false)
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
 	{
 		global $DIC;
 
