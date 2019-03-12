@@ -50,11 +50,9 @@ class TupleTransformation implements Transformation
 		$this->validateValueLength($from);
 
 		$result = array();
-		foreach ($from as $value) {
+		foreach ($from as $key => $value) {
 			$transformedValue = $value;
-			foreach ($this->transformations as $transformation) {
-				$transformedValue = $transformation->transform($transformedValue);
-			}
+			$transformedValue = $this->transformations[$key]->transform($transformedValue);
 
 			if ($value !== $transformedValue) {
 				throw new \ilException(
@@ -91,31 +89,39 @@ class TupleTransformation implements Transformation
 		}
 
 		$result = array();
-		foreach ($dataValue as $value) {
-			$transformedValue = $value;
-			foreach ($this->transformations as $transformation) {
-				$resultObject = $transformation->applyTo(new Result\Ok($value));
-
-				if ($resultObject->isError()) {
-					return $resultObject;
-				}
-
-				$transformedValue = $resultObject->value();
-
-				if ($value !== $transformedValue) {
-					return new Result\Error(
-						new \ilException(
-							sprintf(
-								'The origin value "%s" and transformed value "%s" are not strictly equal',
-								$value,
-								$transformedValue
-							)
+		foreach ($dataValue as $key => $value) {
+			if (false === array_key_exists($key, $this->transformations)) {
+				return new Result\Error(
+					new \ilException(
+						sprintf(
+							'There is no entry "%s" defined in the transformation array',
+							$key
 						)
-					);
-				}
-
-				$transformedValue = $resultObject->value();
+					)
+				);
 			}
+
+			$resultObject = $this->transformations[$key]->applyTo(new Result\Ok($value));
+
+			if ($resultObject->isError()) {
+				return $resultObject;
+			}
+
+			$transformedValue = $resultObject->value();
+
+			if ($value !== $transformedValue) {
+				return new Result\Error(
+					new \ilException(
+						sprintf(
+							'The origin value "%s" and transformed value "%s" are not strictly equal',
+							$value,
+							$transformedValue
+						)
+					)
+				);
+			}
+
+			$transformedValue = $resultObject->value();
 			$result[] = $transformedValue;
 		}
 
