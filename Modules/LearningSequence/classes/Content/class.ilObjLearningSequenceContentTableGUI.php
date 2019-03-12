@@ -61,8 +61,12 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 				$this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $set->getRefId())
 			);
 			$cb->setChecked($set->isOnline());
-			$this->tpl->setVariable("ONLINE", $cb->render());
+		} else {
+			$cb = new ilCheckboxInputGUI("","");
+			$cb->setChecked(true);
+			$cb->setDisabled(true);
 		}
+		$this->tpl->setVariable("ONLINE", $cb->render());
 
 		$si = new ilSelectInputGUI(
 			"",
