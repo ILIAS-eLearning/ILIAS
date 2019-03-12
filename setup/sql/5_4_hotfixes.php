@@ -556,7 +556,7 @@ $ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
 ?>
 <#41>
 <?php
-$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
+//$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
 ?>
 <#42>
 <?php
@@ -568,7 +568,7 @@ $ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
 ?>
 <#44>
 <?php
-$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
+//$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
 ?>
 <#45>
 <?php
