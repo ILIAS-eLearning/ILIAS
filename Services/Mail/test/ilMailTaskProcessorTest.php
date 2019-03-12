@@ -62,7 +62,9 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			$taskFactory,
 			$this->languageMock,
 			$this->loggerMock,
-			$this->dicMock
+			$this->dicMock,
+			new ilMailValueObjectJsonService(),
+			'SomeAnonymousUserId'
 		);
 
 		$mailValueObject = new ilMailValueObject(
@@ -128,7 +130,9 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			$taskFactory,
 			$this->languageMock,
 			$this->loggerMock,
-			$this->dicMock
+			$this->dicMock,
+			new ilMailValueObjectJsonService(),
+			'SomeAnonymousUserId'
 		);
 
 		$mailValueObjects = array();
@@ -203,7 +207,9 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			$taskFactory,
 			$this->languageMock,
 			$this->loggerMock,
-			$this->dicMock
+			$this->dicMock,
+			new ilMailValueObjectJsonService(),
+			'SomeAnonymousUserId'
 		);
 
 		$mailValueObjects = array();
@@ -255,7 +261,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 	}
 
 	/**
-	 * @expectedException ilException
+	 * @expectedException \ilException
 	 */
 	public function testRunHasWrongTypeAndWillResultInException()
 	{
@@ -265,7 +271,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			->getMock();
 
 		$taskManager
-			->expects($this->exactly(1))
+			->expects($this->never())
 			->method('run');
 
 		$taskFactory = $this->getMockBuilder('ILIAS\BackgroundTasks\Task\TaskFactory')
@@ -281,7 +287,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			->willReturn(array());
 
 		$taskFactory
-			->expects($this->exactly(2))
+			->expects($this->never())
 			->method('createTask')
 			->willReturn($backgroundTask);
 
@@ -290,7 +296,9 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			$taskFactory,
 			$this->languageMock,
 			$this->loggerMock,
-			$this->dicMock
+			$this->dicMock,
+			new ilMailValueObjectJsonService(),
+			'SomeAnonymousUserId'
 		);
 
 		$mailValueObjects = array();
