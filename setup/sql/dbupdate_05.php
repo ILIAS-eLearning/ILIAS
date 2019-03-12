@@ -668,12 +668,12 @@ foreach ($type_perms as $type => $ops) {
 	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $ops, ROLE_FOLDER_ID);
 }
 ?>
-<#5473>
+<#5474>
 <?php
 $settings = new \ilSetting('chatroom');
 $settings->set('conversation_idle_state_in_minutes', 5);
 ?>
-<#5474>
+<#5475>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
