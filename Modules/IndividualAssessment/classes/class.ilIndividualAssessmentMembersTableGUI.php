@@ -149,7 +149,8 @@ class ilIndividualAssessmentMembersTableGUI
 	protected function getContent(ilIndividualAssessmentMember $record): array
 	{
 		$examiner_id = $this->getExaminerId($record);
-		if(!$this->checkEditable($record->finalized(), $examiner_id, (int)$record->id())
+		if (
+			!$this->checkEditable($record->finalized(), $examiner_id, (int)$record->id())
 			&& !$this->checkAmendable($record->finalized())
 		) {
 			return [];
@@ -174,7 +175,7 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function getFurtherFields(ilIndividualAssessmentMember $record): array
 	{
-		if(!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
+		if (!$this->userMayViewGrades() && !$this->userMayEditGrades()) {
 			return [];
 		}
 
@@ -203,24 +204,24 @@ class ilIndividualAssessmentMembersTableGUI
 
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
 
-		if($this->checkEditable($finalized, $examiner_id, $usr_id)) {
+		if ($this->checkEditable($finalized, $examiner_id, $usr_id)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
 			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_edit'), $target);
 		}
 
-		if($this->checkUserRemoveable($finalized)) {
+		if ($this->checkUserRemoveable($finalized)) {
 			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', $usr_id);
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMembersGUI', 'removeUserConfirmation');
 			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_remove'), $target);
 			$this->ctrl->setParameterByClass('ilIndividualAssessmentMembersGUI', 'usr_id', null);
 		}
 
-		if($this->checkAmendable($finalized)) {
+		if ($this->checkAmendable($finalized)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
 			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_amend'), $target);
 		}
 
-		if($this->checkDownloadFile($usr_id, $file_name)) {
+		if ($this->checkDownloadFile($usr_id, $file_name)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
 			$items[] = $ui_factory->button()->shy($this->txt('iass_usr_download_attachment'), $target);
 		}
@@ -235,13 +236,11 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function getStatus(bool $finalized, int $status, int $examiner_id = null): string
 	{
-		if($status == 0)
-		{
+		if ($status == 0) {
 			$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
 		}
 
-		if(!$finalized && !is_null($examinerId))
-		{
+		if (!$finalized && !is_null($examinerId)) {
 			$status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
 		}
 
@@ -267,7 +266,7 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function getFullNameFor(int $user_id = null): string
 	{
-		if(is_null($user_id)) {
+		if (is_null($user_id)) {
 			return "";
 		}
 
@@ -288,11 +287,11 @@ class ilIndividualAssessmentMembersTableGUI
 				$this->txt("iass_".$case."_by") => $examiner
 			);
 		}
+
 		$back_url = $this->ctrl->getLinkTarget($this->parent, "view");
 		$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', $examiner_id);
 		$this->ctrl->setParameterByClass('ilpublicuserprofilegui', "back_url", rawurlencode($back_url));
 		$link = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
-
 		$link = $this->factory->link()->standard($examiner, $link);
 
 		return array(
@@ -320,7 +319,7 @@ class ilIndividualAssessmentMembersTableGUI
 		int $examiner_id = null,
 		int $usr_id
 	): array {
-		if(!$this->viewLocation($finalized, $examiner_id, $usr_id)) {
+		if (!$this->viewLocation($finalized, $examiner_id, $usr_id)) {
 			return array();
 		}
 
@@ -352,7 +351,7 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function getInternalRecordNote(string $internal_note = null)
 	{
-		if(is_null($internal_note)) {
+		if (is_null($internal_note)) {
 			$internal_note = "";
 		}
 
@@ -369,7 +368,6 @@ class ilIndividualAssessmentMembersTableGUI
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
 		$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
-
 		$link = $this->factory->link()->standard($this->txt("iass_download"), $target);
 
 		return array(
@@ -382,7 +380,7 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function getEntryForStatus(int $a_status): string
 	{
-		switch($a_status) {
+		switch ($a_status) {
 			case ilIndividualAssessmentMembers::LP_IN_PROGRESS :
 				return $this->txt('iass_status_pending');
 				break;
@@ -407,7 +405,7 @@ class ilIndividualAssessmentMembersTableGUI
 	{
 		$examiner_id = $record->examinerId();
 
-		if(is_null($examiner_id)) {
+		if (is_null($examiner_id)) {
 			return null;
 		}
 
@@ -439,12 +437,14 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function checkViewable(bool $finalized, int $examiner_id = null, int $usr_id): bool
 	{
-		if (($this->userIsSystemAdmin() && $finalized)
-			|| ($finalized && (
-				($this->userMayEditGradesOf($usr_id)
-					&& $this->wasEditedByViewer($examiner_id))
+		if (
+			($this->userIsSystemAdmin() && $finalized)
+			|| (
+				$finalized
+				&& (($this->userMayEditGradesOf($usr_id) && $this->wasEditedByViewer($examiner_id))
 				|| $this->userMayViewGrades())
 			)
+			|| ($finalized && $this->userMayViewLPOfOtherUsers())
 		) {
 			return true;
 		}
@@ -457,10 +457,9 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function checkEditable(bool $finalized, int $examiner_id = null, int $usr_id): bool
 	{
-		if(($this->userIsSystemAdmin() && !$finalized)
-			|| (!$finalized && $this->userMayEditGradesOf($usr_id)
-				&& $this->wasEditedByViewer($examiner_id)
-			)
+		if (
+			($this->userIsSystemAdmin() && !$finalized)
+			|| (!$finalized && $this->userMayEditGradesOf($usr_id) && $this->wasEditedByViewer($examiner_id))
 		) {
 			return true;
 		}
@@ -473,7 +472,8 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function checkAmendable(bool $finalized): bool
 	{
-		if(($this->userIsSystemAdmin() && $finalized)
+		if (
+			($this->userIsSystemAdmin() && $finalized)
 			|| ($finalized && $this->userMayAmendGrades())
 		) {
 			return true;
@@ -487,9 +487,7 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function checkUserRemoveable(bool $finalized): bool
 	{
-		if(($this->userIsSystemAdmin() && !$finalized)
-			|| (!$finalized && $this->userMayEditMembers())
-		) {
+		if (($this->userIsSystemAdmin() && !$finalized) || (!$finalized && $this->userMayEditMembers())) {
 			return true;
 		}
 
@@ -501,7 +499,7 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function checkDownloadFile(int $usr_id, string $file_name = null): bool
 	{
-		if((!is_null($file_name) && $file_name !== '')
+		if ((!is_null($file_name) && $file_name !== '')
 			&& ($this->userIsSystemAdmin() || $this->userMayDownloadAttachment($usr_id))
 		) {
 			return true;
@@ -510,65 +508,41 @@ class ilIndividualAssessmentMembersTableGUI
 		return false;
 	}
 
-	/**
-	 * User may download attachment
-	 */
 	protected function userMayDownloadAttachment(int $usr_id): bool
 	{
 		return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
 	}
 
-	/**
-	 * User may view grades
-	 */
 	protected function userMayViewGrades(): bool
 	{
 		return $this->iass_access->mayViewUser();
 	}
 
-	/**
-	 * User may edit grades
-	 */
 	protected function userMayEditGrades(): bool
 	{
 		return $this->iass_access->mayGradeUser();
 	}
 
-	/**
-	 * User may amend grades
-	 */
 	protected function userMayAmendGrades(): bool
 	{
 		return $this->iass_access->mayAmendGradeUser();
 	}
 
-	/**
-	 * User may amend members records.
-	 */
 	protected function userMayEditMembers(): bool
 	{
 		return $this->iass_access->mayEditMembers();
 	}
 
-	/**
-	 * Check whether usr is admin.
-	 */
 	protected function userIsSystemAdmin(): bool
 	{
 		return $this->iass_access->isSystemAdmin();
 	}
 
-	/**
-	 * User may edit grades of a specific user.
-	 */
 	protected function userMayEditGradesOf(int $usr_id): bool
 	{
 		return $this->iass_access->mayGradeUserById($usr_id);
 	}
 
-	/**
-	 * Check the set was edited by viewing user
-	 */
 	protected function wasEditedByViewer(int $examiner_id = null): bool
 	{
 		return $examiner_id === $this->current_user_id || null === $examiner_id;
