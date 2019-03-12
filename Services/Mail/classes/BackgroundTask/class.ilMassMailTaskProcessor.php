@@ -37,12 +37,18 @@ class ilMassMailTaskProcessor
 	private $objectJsonService;
 
 	/**
+	 * @var string
+	 */
+	private $anonymousUserId;
+
+	/**
 	 * @param TaskManager $taskManager
 	 * @param TaskFactory|null $taskFactory
 	 * @param ilLanguage|null $language
 	 * @param ilLogger|null $logger
 	 * @param Container|null $dic
 	 * @param ilMailValueObjectJsonService|null $objectJsonService
+	 * @param string $anonymousUserId
 	 */
 	public function __construct(
 		TaskManager $taskManager = null,
@@ -50,9 +56,9 @@ class ilMassMailTaskProcessor
 		ilLanguage  $language = null,
 		ilLogger $logger = null,
 		Container $dic = null,
-		ilMailValueObjectJsonService $objectJsonService = null
+		ilMailValueObjectJsonService $objectJsonService = null,
+		string $anonymousUserId = ANONYMOUS_USER_ID
 	) {
-
 		if (null === $dic) {
 			global $DIC;
 			$dic = $DIC;
@@ -82,6 +88,8 @@ class ilMassMailTaskProcessor
 			$objectJsonService = new ilMailValueObjectJsonService();
 		}
 		$this->objectJsonService = $objectJsonService;
+
+		$this->anonymousUserId = $anonymousUserId;
 	}
 
 	/**
@@ -178,7 +186,11 @@ class ilMassMailTaskProcessor
 			(string) serialize($contextParameters),
 		]);
 
-		$parameters = [$task, (int)$userId];
+		if ($userId === (int) $this->anonymousUserId) {
+			return $task;
+		}
+
+		$parameters = [$task, (int) $userId];
 
 		$interaction = $this->taskFactory->createTask(
 			\ilMailDeliveryJobUserInteraction::class,
