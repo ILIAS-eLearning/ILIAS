@@ -63,6 +63,13 @@
   src: url('fonts/OpenSansEmoji/OpenSansEmoji.ttf') format('truetype'), url('fonts/OpenSansEmoji/OpenSansEmoji.otf') format('otf');
   font-style: normal;
 }
+@font-face {
+  font-family: 'milos';
+  src: url('fonts/milos/milos.eot');
+  src: url('fonts/milos/milos.eot') format('embedded-opentype'), url('fonts/milos/milos.woff') format('woff'), url('fonts/milos/milos.ttf') format('truetype'), url('fonts/milos/milos.svg#milos') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 /* rtl-review is this font safe for RTL languages? */
 /* rtl-review */
 [dir="ltr"] * {
@@ -6791,7 +6798,7 @@ button.close {
 .il-glyphicon-astounded:before,
 .il-glyphicon-sad:before,
 .il-glyphicon-angry:before {
-  font-family: "Open Sans Emoji";
+  font-family: "milos";
 }
 .il-glyphicon-like:before {
   content: "\1f44d";
@@ -6803,16 +6810,16 @@ button.close {
   content: "\1f44e";
 }
 .il-glyphicon-laugh:before {
-  content: "\1f604";
+  content: "\1f600";
 }
 .il-glyphicon-astounded:before {
   content: "\1f62e";
 }
 .il-glyphicon-sad:before {
-  content: "\1f625";
+  content: "\1f622";
 }
 .il-glyphicon-angry:before {
-  content: "\1f620";
+  content: "\1f621";
 }
 .il-panel-report .thumbnail {
   margin-bottom: 0;
