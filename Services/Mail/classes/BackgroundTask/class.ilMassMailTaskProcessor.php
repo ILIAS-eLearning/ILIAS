@@ -119,26 +119,12 @@ class ilMassMailTaskProcessor
 		$lastTask = null;
 		$taskCounter = 0;
 
-		$remainingObjects = array();
 		foreach ($mailValueObjects as $mailValueObject) {
 			$taskCounter++;
 
 			$remainingObjects[] = $mailValueObject;
 			if ($taskCounter === $mailsPerTask) {
-				$jsonString = $this->objectJsonService->convertToJson($remainingObjects);
-
-				$task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
-					(int) $userId,
-					(string) $jsonString,
-					(string) $contextId,
-					serialize($contextParameters),
-				]);
-				$parameters = [$task, (int) $userId];
-
-				$interaction = $this->taskFactory->createTask(
-					\ilMailDeliveryJobUserInteraction::class,
-					$parameters
-				);
+				$interaction = $this->createInteraction($userId, $contextId, $contextParameters, $remainingObjects);
 
 				$this->runTask($interaction, $userId);
 
@@ -148,26 +134,16 @@ class ilMassMailTaskProcessor
 		}
 
 		if (array() !== $remainingObjects) {
-			$jsonString = $this->objectJsonService->convertToJson($remainingObjects);
-
-			$task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
-				(int) $userId,
-				(string) $jsonString,
-				(string) $contextId,
-				serialize($contextParameters),
-			]);
-
-			$parameters = [$task, (int) $userId];
-
-			$interaction = $this->taskFactory->createTask(
-				\ilMailDeliveryJobUserInteraction::class,
-				$parameters
-			);
+			$interaction = $this->createInteraction($userId, $contextId, $contextParameters, $remainingObjects);
 
 			$this->runTask($interaction, $userId);
 		}
 	}
 
+	/**
+	 * @param \ILIAS\BackgroundTasks\Task $task
+	 * @param int $userId
+	 */
 	private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId)
 	{
 		$bucket = new BasicBucket();
@@ -178,5 +154,37 @@ class ilMassMailTaskProcessor
 
 		$this->logger->info('Delegated delivery to background task');
 		$this->taskManager->run($bucket);
+	}
+
+	/**
+	 * @param int $userId
+	 * @param string $contextId
+	 * @param array $contextParameters
+	 * @param $remainingObjects
+	 * @return \ILIAS\BackgroundTasks\Task
+	 */
+	private function createInteraction(
+		int $userId,
+		string $contextId,
+		array $contextParameters,
+		$remainingObjects
+	) : \ILIAS\BackgroundTasks\Task {
+		$jsonString = $this->objectJsonService->convertToJson($remainingObjects);
+
+		$task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
+			(int) $userId,
+			(string) $jsonString,
+			(string) $contextId,
+			(string) serialize($contextParameters),
+		]);
+
+		$parameters = [$task, (int)$userId];
+
+		$interaction = $this->taskFactory->createTask(
+			\ilMailDeliveryJobUserInteraction::class,
+			$parameters
+		);
+
+		return $interaction;
 	}
 }
