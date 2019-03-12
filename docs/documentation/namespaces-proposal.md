@@ -28,6 +28,9 @@ existing in this Module / Service. Possible asset types:
     * templates
     * images
     * docs
+* The classes of each Module and Service SHOULD be *structured by feature*, i.e. multiple classes implementing the same feature/view should be located
+ in the same subdirectory.
+* Only classes and interfaces which provide functionality to other Components SHOULD be located in the Component's top level directory.
 
 *Examples:*
 
@@ -36,6 +39,8 @@ existing in this Module / Service. Possible asset types:
 * The file would be moved to *src/Modules/Course/*.
 * The namespace would be *ILIAS\Modules\Course*.
 * Any JavaScript files used in the Course Module would be located at *src/Modules/Course/js/*.
+* The classes *CourseParticipant*, *CourseParticipants*, *CourseParticipantsGroupsGUI*, *CourseParticipantsGroupsTableGUI* and *CourseParticipantsTableGUI* should be located at *src/Modules/Course/Participants*
+* The (hypothetical) class *CourseParticipantsFactory* - which can be used by other Components - should be located at *src/Modules/Course*. 
 
 ### Autoloading & Class Imports
 
