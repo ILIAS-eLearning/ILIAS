@@ -139,7 +139,8 @@ interface Factory {
 	 *       Secondary Panels are used to group content not located in the center section.
 	 *       Secondary Panels are used to display marginal content related to the current page context.
 	 *   composition: >
-	 *       Secondary Panels consist of content section and may have a title.
+	 *       Secondary Panels consist of content section and top section.
+	 *       The top section may contain a title, sortation and a dropdown.
 	 *       The content section may contain a Listing Panel or UI Legacy component. A Good example of when use a Legacy
 	 *       component is current mini calendar block.
 	 *       The content section may contain a Pagination view controller or a Section view controller.
@@ -160,7 +161,7 @@ interface Factory {
 	 *      1: Secondary Panels MUST contain a Listing Panel or an UI Legacy component.
 	 *      2: Secondary Panels MAY contain a Section view control to change the current presentation of the content.
 	 *      3: Secondary Panels MAY contain a Pagination view control to display data in chunks.
-	 *      4: Secondary Panels MUST NOT contain more than one UI ViewControl.
+	 *      4: Secondary Panels MUST NOT contain more than one UI ViewControl in the main content.
 	 *      5: Secondary Panels MAY have a Button to perform actions listed in a Standard Dropdown.
 	 *      6: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
 	 *
