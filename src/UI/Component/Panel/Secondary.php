@@ -14,40 +14,40 @@ use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
 interface Secondary extends Panel {
 	/**
 	 * Set Sortation view controller.
-	 * @param \ILIAS\UI\Component\ViewControl\Sortation $sortation
+	 * @param Sortation $sortation
 	 * @return Secondary
 	 */
-	public function withSortation(Sortation $sortation);
+	public function withSortation(Sortation $sortation): Secondary;
 
 	/**
 	 * Get Sortation view controller or null
 	 * @return Sortation | null
 	 */
-	public function getSortation();
+	public function getSortation(): ?Sortation;
 
 	/**
 	 * Set Pagination
 	 * @param Pagination $pagination
 	 * @return Secondary
 	 */
-	public function withPagination(Pagination $pagination);
+	public function withPagination(Pagination $pagination): Secondary;
 
 	/**
 	 * Get Pagination view controller or null
 	 * @return Pagination | null
 	 */
-	public function getPagination();
+	public function getPagination(): ?Pagination;
 
 	/**
 	 * Set Section view controller
 	 * @param Section $section
 	 * @return Secondary
 	 */
-	public function withSection(Section $section);
+	public function withSection(Section $section): Secondary;
 
 	/**
 	 * Get Section view controller or null
 	 * @return Section | null
 	 */
-	public function getSection();
+	public function getSection(): ?Section;
 }

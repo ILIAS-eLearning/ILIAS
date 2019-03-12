@@ -34,7 +34,8 @@ class Secondary extends Panel implements C\Panel\Secondary
 	 * @param Sortation $sortation
 	 * @return C\Panel\Secondary
 	 */
-	public function withSortation(Sortation $sortation) {
+	public function withSortation(Sortation $sortation): C\Panel\Secondary
+	{
 		$clone = clone $this;
 		$clone->sortation = $sortation;
 		return $clone;
@@ -43,7 +44,8 @@ class Secondary extends Panel implements C\Panel\Secondary
 	/**
 	 * @return Sortation|null
 	 */
-	public function getSortation() {
+	public function getSortation(): ?Sortation
+	{
 		return $this->sortation;
 	}
 
@@ -51,7 +53,7 @@ class Secondary extends Panel implements C\Panel\Secondary
 	 * @param Pagination $pagination
 	 * @return C\Panel\Secondary
 	 */
-	public function withPagination(Pagination $pagination)
+	public function withPagination(Pagination $pagination): C\Panel\Secondary
 	{
 		$clone = clone $this;
 		$clone->pagination = $pagination;
@@ -61,7 +63,7 @@ class Secondary extends Panel implements C\Panel\Secondary
 	/**
 	 * @return Pagination|null
 	 */
-	public function getPagination()
+	public function getPagination(): ?Pagination
 	{
 		return $this->pagination;
 	}
@@ -70,7 +72,7 @@ class Secondary extends Panel implements C\Panel\Secondary
 	 * @param Section $section
 	 * @return C\Panel\Secondary|Secondary
 	 */
-	public function withSection(Section $section)
+	public function withSection(Section $section): C\Panel\Secondary
 	{
 		$clone = clone $this;
 		$clone->section = $section;
@@ -80,7 +82,7 @@ class Secondary extends Panel implements C\Panel\Secondary
 	/**
 	 * @return Section|null
 	 */
-	public function getSection()
+	public function getSection(): ?Section
 	{
 		return $this->section;
 	}
