@@ -118,7 +118,7 @@ class ilObjLearningSequence extends ilContainer
 	{
 		$id = parent::create();
 		if (!$id) {
-			return false;
+			return 0;
 		}
 		$this->raiseEvent(self::E_CREATE);
 
