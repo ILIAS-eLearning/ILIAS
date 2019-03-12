@@ -159,6 +159,7 @@ class ilSearchResult
 			$this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
 			$this->entries[$a_obj_id]['type'] = $a_type;
 			$this->entries[$a_obj_id]['found'] = $found;
+			$this->entries[$a_obj_id]['child'] = [];
 
 			if($a_child_id and $a_child_id != $a_obj_id)
 			{
@@ -392,7 +393,10 @@ class ilSearchResult
 				if($this->callListeners($entry['obj_id'],$entry))
 				{
 					$this->addResult($entry['obj_id'],$entry['obj_id'],$type);
-					$counter += count($entry['child']);
+					if (is_array($entry['child']))
+					{
+						$counter += count($entry['child']);
+					}
 					// Stop if maximum of hits is reached
 					if(++$counter > $this->getMaxHits())
 					{

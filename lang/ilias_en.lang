@@ -81,6 +81,7 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -466,6 +467,7 @@ assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Quest
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
+assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#assClozeTest#:#Cloze Question
@@ -1549,6 +1551,14 @@ assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#saved_adjustment#:#Changes saved.
+assessment#:#qst_lifecycle_filter_all#:#All Lifecycles
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Draft
+assessment#:#qst_lifecycle_review#:#To be Reviewed
+assessment#:#qst_lifecycle_rejected#:#Rejected
+assessment#:#qst_lifecycle_final#:#Final
+assessment#:#qst_lifecycle_sharable#:#Sharable
+assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#sign_submission#:#Digitally Sign Test Submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
@@ -3696,7 +3706,7 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_results#:#Test Results
-rbac#:#tst_tst_results#:#User has access to test results
+rbac#:#tst_tst_results#:#User has access to test results of others
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
@@ -4576,7 +4586,8 @@ crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
 crs#:#crs_groupings#:#Course groupings
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
+crs#:#crs_grp_already_assigned#:#You are already member of this grouping of courses.
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
@@ -5306,7 +5317,7 @@ forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
 forum#:#forums_new_thread#:#New Thread
-forum#:#forums_no_posts_available#:#This thread has no posts yet or the moderator deactivated the first post.
+forum#:#forums_no_posts_available#:#This thread has no posts.
 forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
@@ -5757,7 +5768,7 @@ mail#:#mail_select_group#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
@@ -6685,6 +6696,10 @@ rbac#:#mds_read#:#User has read access to Metadata administration
 rbac#:#mds_visible#:#Metadata administration is visible
 rbac#:#mds_write#:#User can edit settings in Metadata administration
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
+rbac#:#mme_visible#:#Administration of Main Menu is visible
+rbac#:#mme_read#:#User has read access to administration of Main Menu
+rbac#:#mme_write#:#User can edit settings of Main Menu administration
+rbac#:#mme_edit_permission#:#User can change permission settings of Main Menu administration
 rbac#:#pdts_edit_permission#:#User can change permission settings of Personal Desktop administration
 rbac#:#pdts_read#:#User has read access to Personal Desktop administration
 rbac#:#pdts_visible#:#Personal Desktop administration is visible
@@ -6749,6 +6764,10 @@ rbac#:#svyf_edit_permission#:#User change permission settings in Survey administ
 rbac#:#svyf_read#:#User has read access to Survey administration
 rbac#:#svyf_visible#:#Survey administration is visible
 rbac#:#svyf_write#:#Edit settings in Survey administration
+rbac#:#wfe_visible#:#Administration of Workflow Engine is visible
+rbac#:#wfe_read#:#User has read access to administration of Workflow Engine
+rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration
+rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration
 rcrs#:#rcrs_call#:#Call ECS Course
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
 registration#:#auth_radius_name#:#Name of RADIUS Configuration
@@ -10517,7 +10536,6 @@ tos#:#tos_form_attach_criterion_head#:#Attach Criterion
 tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
 tos#:#tos_form_criterion#:#Criterion
 tos#:#tos_document#:#Document
-tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
 tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
@@ -10552,6 +10570,10 @@ ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
+forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top
+forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.
+forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’
+forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. The ‘Sticky Threads’ can be sorted manually.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
@@ -13264,6 +13286,11 @@ forum#:#forums_threads_deleted#:#The selected threads including all postings hav
 forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
 forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
 forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.
+forum#:#frm_settings_form_header#:#Forum Settings
+forum#:#frm_settings_presentation_header#:#Presentation
+forum#:#frm_settings_user_functions_header#:#User Functions
+forum#:#frm_settings_mod_functions_header#:#Moderator Functions
+forum#:#frm_settings_privacy_header#:#Privacy
 meta#:#meta_advmd_select_options#:#Entries
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 search#:#btn_search#:#Search
@@ -13367,6 +13394,8 @@ rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration
 rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#read_results#:#Survey Results
+rbac#:#svy_read_results#:#User has access to survey results of others
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings
 crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"
 crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"
@@ -14159,8 +14188,8 @@ book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Open Session
 dateplaner#:#cal_show_weeks#:#Show Weeks
-dateplaner#:#cal_def_show_weeks#:#Default Show Weeks
-dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
+dateplaner#:#cal_def_show_weeks#:#Show Weeks
+dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_repo_obj#:#Repository Objects
@@ -14960,7 +14989,7 @@ common#:#il_lso_member#:#Learning Sequence Member
 lso#:#entries_updated#:#Entries saved
 lso#:#curriculum#:#Curriculum
 lso#:#unparticipate#:#Unsubscribe
-lso#:#participate#:#Subsribe
+lso#:#participate#:#Subscribe
 lhist#:#lhist_show_more#:#Show More
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
 book#:#book_objects_available#:#Objects available %s
@@ -15007,3 +15036,9 @@ dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_crs_timing_end#:#Suggested End
 crs#:#crs_timings_edit_personal#:#Edit Personal Timings
 crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
+crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
+crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile Presentation" and "Session Limitation" at the same time.
+content#:#cont_choose_file_source#:#Source
+content#:#cont_choose_local#:#Local directory
+content#:#cont_choose_upload_dir#:#Upload directory
+sess#:#sess_assign#:#Assign

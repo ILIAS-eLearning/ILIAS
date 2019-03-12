@@ -13,6 +13,8 @@ class ilMail
 	/** @var string */
 	const ILIAS_HOST = 'ilias';
 
+	const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+
 	/** @var ilLanguage */
 	protected $lng;
 
@@ -1414,7 +1416,13 @@ class ilMail
 	 */
 	public function sendMimeMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachments)
 	{
-		$a_m_subject = self::getSubjectPrefix() . ' ' . $a_m_subject;
+		$subjectPrefix = self::getSubjectPrefix();
+
+		if ('' !== $subjectPrefix) {
+			$subjectPrefix = $subjectPrefix . ' ';
+		}
+
+		$a_m_subject = $subjectPrefix . $a_m_subject;
 
 		/** @var \ilMailMimeSenderFactory $senderFactory */
 		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
@@ -1630,7 +1638,12 @@ class ilMail
 	{
 		global $DIC;
 
-		return $DIC->settings()->get('mail_subject_prefix', '');
+		$subjectPrefix = $DIC->settings()->get('mail_subject_prefix');
+		if (false === $subjectPrefix) {
+			$subjectPrefix = self::MAIL_SUBJECT_PREFIX;
+		}
+
+		return $subjectPrefix;
 	}
 
 	/**

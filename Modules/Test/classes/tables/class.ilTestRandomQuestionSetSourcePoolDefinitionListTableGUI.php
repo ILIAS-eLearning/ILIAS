@@ -139,6 +139,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		$this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($set['taxonomy_filter'],'<br />'));
 		#$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));
 		#$this->tpl->setVariable('FILTER_TAX_NODE', $this->getTaxonomyNodeLabel($set['filter_tax_node']));
+		$this->tpl->setVariable('LIFECYCLE_FILTER', $this->taxonomyLabelTranslater->getLifecycleFilterLabel($set['lifecycle_filter']));
 		$this->tpl->setVariable('TYPE_FILTER', $this->taxonomyLabelTranslater->getTypeFilterLabel($set['type_filter']));
 		// fau.
 	}
@@ -278,6 +279,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 		$this->addColumn($this->lng->txt("tst_filter_taxonomy").' / '. $this->lng->txt("tst_filter_tax_node"),'tst_filter_taxonomy', '');
 		#$this->addColumn($this->lng->txt("tst_filter_taxonomy"),'tst_filter_taxonomy', '');
 		#$this->addColumn($this->lng->txt("tst_filter_tax_node"),'tst_filter_tax_node', '');
+		$this->addColumn($this->lng->txt("qst_lifecycle"),'tst_filter_lifecycle', '');
 		$this->addColumn($this->lng->txt("tst_filter_question_type"),'tst_filter_question_type', '');
 		// fau.
 
@@ -318,6 +320,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 			}
 			#$set['filter_taxonomy'] = $sourcePoolDefinition->getMappedFilterTaxId();
 			#$set['filter_tax_node'] = $sourcePoolDefinition->getMappedFilterTaxNodeId();
+			$set['lifecycle_filter'] = $sourcePoolDefinition->getLifecycleFilter();
 			$set['type_filter'] = $sourcePoolDefinition->getTypeFilter();
 			// fau.
 			$set['question_amount'] = $sourcePoolDefinition->getQuestionAmount();

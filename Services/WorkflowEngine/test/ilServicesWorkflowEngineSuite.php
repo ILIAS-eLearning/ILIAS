@@ -110,8 +110,8 @@ class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
 		// ---------------------------------------------------------------------
 		//
 
-		require_once './Services/WorkflowEngine/test/workflows/ilBaseWorkflowTest.php';
-		$suite->addTestSuite('ilBaseWorkflowTest');
+		//require_once './Services/WorkflowEngine/test/workflows/ilBaseWorkflowTest.php';
+		//$suite->addTestSuite('ilBaseWorkflowTest');
 
 		//return $suite; // Uncomment to exclude parsertests for more meaningful coverage data.
 
@@ -161,12 +161,12 @@ class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
 		$suite->addTestSuite('test_009_EndEvent');
 
 		// 010_ComplexGateway
-		require_once './Services/WorkflowEngine/test/parser/010_ComplexGateway/class.test_010_ComplexGateway.php';
-		$suite->addTestSuite('test_010_ComplexGateway');
+		//require_once './Services/WorkflowEngine/test/parser/010_ComplexGateway/class.test_010_ComplexGateway.php';
+		//$suite->addTestSuite('test_010_ComplexGateway');
 
 		// 011_EventBasedGateway
-		require_once './Services/WorkflowEngine/test/parser/011_EventBasedGateway/class.test_011_EventBasedGateway.php';
-		$suite->addTestSuite('test_011_EventBasedGateway');
+		//require_once './Services/WorkflowEngine/test/parser/011_EventBasedGateway/class.test_011_EventBasedGateway.php';
+		//$suite->addTestSuite('test_011_EventBasedGateway');
 
 		// 012_DataInput
 		require_once './Services/WorkflowEngine/test/parser/012_DataInput/class.test_012_DataInput.php';

@@ -40,7 +40,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	protected $ctrl;
 
 	/**
-	 * @var \ilTemplate
+	 * @var \ilGlobalTemplate
 	 */
 	protected $mainTpl;
 
@@ -81,18 +81,18 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
 	/**
 	 * ilTestQuestionBrowserTableGUI constructor.
-	 * @param ilCtrl          $ctrl
-	 * @param ilTemplate      $mainTpl
-	 * @param ilTabsGUI       $tabs
-	 * @param ilLanguage      $lng
-	 * @param ilTree          $tree
-	 * @param ilDBInterface   $db
-	 * @param ilPluginAdmin   $pluginAdmin
-	 * @param ilObjTest       $testOBJ
-	 * @param ilAccessHandler $access
+	 * @param ilCtrl           $ctrl
+	 * @param ilGlobalTemplate $mainTpl
+	 * @param ilTabsGUI        $tabs
+	 * @param ilLanguage       $lng
+	 * @param ilTree           $tree
+	 * @param ilDBInterface    $db
+	 * @param ilPluginAdmin    $pluginAdmin
+	 * @param ilObjTest        $testOBJ
+	 * @param ilAccessHandler  $access
 	 */
 	public function __construct(
-		ilCtrl $ctrl, ilTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
+		ilCtrl $ctrl, ilGlobalTemplate $mainTpl, ilTabsGUI $tabs, ilLanguage $lng,
 		ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ,
 		ilAccessHandler $access
 	)
@@ -120,6 +120,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("description"),'description', '');
 		$this->addColumn($this->lng->txt("tst_question_type"),'ttype', '');
 		$this->addColumn($this->lng->txt("author"),'author', '');
+		$this->addColumn($this->lng->txt('qst_lifecycle'),'lifecycle', '');
 		$this->addColumn($this->lng->txt("create_date"),'created', '');
 		$this->addColumn($this->lng->txt("last_update"),'tstamp', '');  // name of col is proper "updated" but in data array the key is "tstamp"
 		$this->addColumn($this->getParentObjectLabel(),'qpl', '');
@@ -389,6 +390,26 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$ti->readFromSession();
 		$this->filter["description"] = $ti->getValue();
 		
+		// author
+		$ti = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$ti->setMaxLength(64);
+		$ti->setSize(20);
+		$this->addFilterItem($ti);
+		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
+		$ti->readFromSession();
+		$this->filter["author"] = $ti->getValue();
+		
+		// lifecycle
+		$lifecycleOptions = array_merge(
+			array('' => $this->lng->txt('qst_lifecycle_filter_all')),
+			ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
+		);
+		$lifecycleInp = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
+		$lifecycleInp->setOptions($lifecycleOptions);
+		$this->addFilterItem($lifecycleInp);
+		$lifecycleInp->readFromSession();
+		$this->filter['lifecycle'] = $lifecycleInp->getValue();
+		
 		// questiontype
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -405,15 +426,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		$this->filter["type"] = $si->getValue();
-		
-		// author
-		$ti = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$this->addFilterItem($ti);
-		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
-		$ti->readFromSession();
-		$this->filter["author"] = $ti->getValue();
 		
 		// question pool
 		$ti = new ilTextInputGUI($this->getParentObjectLabel(), 'parent_title');
@@ -448,6 +460,18 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
 		return '';
 	}
+	
+	protected function getTranslatedLifecycle($lifecycle)
+	{
+		try
+		{
+			return ilAssQuestionLifecycle::getInstance($lifecycle)->getTranslation($this->lng);
+		}
+		catch(ilTestQuestionPoolInvalidArgumentException $e)
+		{
+			return '';
+		}
+	}
 
 	public function fillRow($data)
 	{
@@ -457,6 +481,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+		$this->tpl->setVariable("QUESTION_LIFECYCLE", $this->getTranslatedLifecycle($data['lifecycle']));
 		$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_POOL", $data['parent_title']);
@@ -498,6 +523,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 					case 'title':
 					case 'description':
 					case 'author':
+					case 'lifecycle':
 					case 'type':
 					case 'parent_title':
 						

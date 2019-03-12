@@ -213,7 +213,6 @@ class URI
 	 */
 	public function withSchema(string $schema) : URI
 	{
-		assert('is_string($schema)');
 		$shema = $this->digestSchema($schema);
 		$other = clone $this;
 		$other->schema = $schema;
@@ -243,7 +242,6 @@ class URI
 	 */
 	public function withAuthority(string $authority) : URI
 	{
-		assert('is_string($authority)');
 		$parts = explode(':', $authority);
 		if(count($parts) > 2) {
 			throw new \InvalidArgumentException('ill-formated component '.$authority);
@@ -364,7 +362,6 @@ class URI
 	 */
 	public function withFragment(string $fragment = null) : URI
 	{
-		assert('is_string($fragment) || is_null($fragment)');
 		$fragment = $this->digestFragment($fragment);
 		$other = clone $this;
 		$other->fragment = $fragment;
@@ -385,5 +382,4 @@ class URI
 		}
 		return $this->getSchema().'://'.$this->getAuthority().'/'.$path;
 	}
-
 }

@@ -77,8 +77,8 @@ class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
 	private function deleteTestsParticipantsQuestionData(assQuestion $question)
 	{
 		$activeIds = $this->getActiveIds();
-		
-		if( !count($activeIds) )
+
+		if( !is_array($activeIds) || 0 === count($activeIds) )
 		{
 			return null;
 		}

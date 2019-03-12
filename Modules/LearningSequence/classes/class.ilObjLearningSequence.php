@@ -59,6 +59,16 @@ class ilObjLearningSequence extends ilContainer
 	 */
 	protected $settings_db;
 
+	/*
+	 * @var ilLearningSequenceSettingsDB
+	 */
+	protected $activation_db;
+
+	/*
+	 * @var ilLearningSequenceActivation
+	 */
+	protected $ls_activation;
+
 	/**
 	 * @var LSItemOnlineStatus
 	 */
@@ -73,8 +83,6 @@ class ilObjLearningSequence extends ilContainer
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->user = $DIC['ilUser'];
 		$this->tree = $DIC['tree'];
-		$this->ui_factory = $DIC['ui.factory'];
-		$this->ui_renderer = $DIC["ui.renderer"];
 		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
 		$this->template = $DIC['tpl'];
 		$this->database = $DIC['ilDB'];
@@ -99,7 +107,10 @@ class ilObjLearningSequence extends ilContainer
 
 	public function read()
 	{
-		$this->ls_settings = $this->getLSSettings((int)$this->getId());
+		$this->getLSSettings();
+		if($this->getRefId()) {
+			$this->getLSActivation();
+		}
 		parent::read();
 	}
 
@@ -121,10 +132,6 @@ class ilObjLearningSequence extends ilContainer
 		}
 		$this->raiseEvent(self::E_UPDATE);
 
-		if ($this->getLSSettings()->getIsOnline()) {
-			$this->announceLSOOnline();
-		}
-
 		return true;
 	}
 
@@ -137,6 +144,7 @@ class ilObjLearningSequence extends ilContainer
 		ilLearningSequenceParticipants::_deleteAllEntries($this->getId());
 		$this->getSettingsDB()->delete((int)$this->getId());
 		$this->getStateDB()->deleteFor((int)$this->getRefId());
+		$this->getActivationDB()->deleteForRefId((int)$this->getRefId());
 
 		$this->raiseEvent(self::E_DELETE);
 
@@ -234,6 +242,31 @@ class ilObjLearningSequence extends ilContainer
 			);
 		}
 		return $this->settings_db;
+	}
+
+	protected function getActivationDB(): ilLearningSequenceActivationDB
+	{
+		if (!$this->activation_db) {
+			$this->activation_db = new ilLearningSequenceActivationDB(
+				$this->database
+			);
+		}
+		return $this->activation_db;
+	}
+
+	public function getLSActivation(): ilLearningSequenceActivation
+	{
+		if (!$this->ls_activation) {
+			$this->ls_activation = $this->getActivationDB()->getActivationForRefId((int)$this->getRefId());
+		}
+
+		return $this->ls_activation;
+	}
+
+	public function updateActivation(ilLearningSequenceActivation $settings)
+	{
+		$this->getActivationDB()->store($settings);
+		$this->ls_activation = $settings;
 	}
 
 	public function getLSFileSystem()
@@ -422,9 +455,11 @@ class ilObjLearningSequence extends ilContainer
 	 */
 	public function getCurriculumBuilder(array $items, LSUrlBuilder $url_builder=null): ilLSCurriculumBuilder
 	{
+		global $DIC;
+
 		return new ilLSCurriculumBuilder(
 			$items,
-			$this->ui_factory,
+			$DIC["ui.factory"],
 			$this->lng,
 			ilLSPlayer::LSO_CMD_GOTO,
 			$url_builder
@@ -443,6 +478,8 @@ class ilObjLearningSequence extends ilContainer
 	 */
 	public function getSequencePlayer($gui, string $player_command, int $usr_id): ilLSPlayer
 	{
+		global $DIC;
+
 		$lso_ref_id = $this->getRefId();
 		$lso_title = $this->getTitle();
 
@@ -458,7 +495,7 @@ class ilObjLearningSequence extends ilContainer
 		$state_db = $this->getStateDB();
 
 		$control_builder = new LSControlBuilder(
-			$this->ui_factory,
+			$DIC["ui.factory"],
 			$url_builder,
 			$this->lng
 		);
@@ -482,17 +519,19 @@ class ilObjLearningSequence extends ilContainer
 			$curriculum_builder,
 			$view_factory,
 			$kiosk_renderer,
-			$this->ui_factory
+			$DIC["ui.factory"]
 		);
 	}
 
 	protected function getKioskRenderer(LSUrlBuilder $url_builder)
 	{
 		if (!$this->kiosk_renderer) {
+			global $DIC;
+
 			$kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
 
 			$toc_gui = new ilLSTOCGUI($url_builder, $this->template, $this->ctrl);
-			$loc_gui = new ilLSLocatorGUI($url_builder, $this->ui_factory);
+			$loc_gui = new ilLSLocatorGUI($url_builder, $DIC["ui.factory"]);
 
 			$window_title = $this->il_settings->get('short_inst_name');
 			if($window_title === false) {
@@ -501,7 +540,7 @@ class ilObjLearningSequence extends ilContainer
 
 			$this->kiosk_renderer = new ilKioskPageRenderer(
 				$this->template,
-				$this->ui_renderer,
+				$DIC["ui.renderer"],
 				$kiosk_template,
 				$toc_gui,
 				$loc_gui,
@@ -614,7 +653,7 @@ class ilObjLearningSequence extends ilContainer
 		return $this->access->checkAccess('participate', '', $this->getRefId());
 	}
 
-	protected function announceLSOOnline()
+	public function announceLSOOnline()
 	{
 		$ns = $this->il_news;
 		$context = $ns->contextForRefId((int)$this->getRefId());
@@ -625,6 +664,15 @@ class ilObjLearningSequence extends ilContainer
 		$item->setContent("lso_news_online_txt");
 		$news_id = $ns->data()->save($item);
 	}
+	public function announceLSOOffline(){
+		//NYI
+	}
+
+	public function setEffectiveOnlineStatus(bool $status) {
+		$act_db = $this->getActivationDB();
+		$act_db->setEffectiveOnlineStatus((int)$this->getRefId(), $status);
+	}
+
 
 
 	/***************************************************************************
@@ -694,6 +742,16 @@ class ilObjLearningSequence extends ilContainer
 	public function readMemberData(array $user_ids, array $columns = null)
 	{
 		return $this->getLsRoles()->readMemberData($user_ids, $columns);
+	}
+
+	public function getParentObjectInfo(int $ref_id, array $search_types)
+	{
+		foreach($this->tree->getPathFull($ref_id) as $hop) {
+			if(in_array($hop['type'], $search_types)) {
+				return $hop;
+			}
+		}
+		return null;
 	}
 
 }

@@ -903,7 +903,6 @@ class ilMailFolderGUI
 	public function printMail()
 	{
 		$tplprint = new ilGlobalTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
-		$tplprint->setVariable('JSPATH', $this->tpl->tplPath);
 
 		$mailData = $this->umail->getMail((int)($this->httpRequest->getQueryParams()['mail_id'] ?? 0));
 

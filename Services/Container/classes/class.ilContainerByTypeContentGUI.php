@@ -105,7 +105,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
 		// Show introduction, if repository is empty
 		// @todo: maybe we move this
-		if (count($this->items) == 0 &&
+		if ((!is_array($this->items) || count($this->items) == 0) &&
 			$this->getContainerObject()->getRefId() == ROOT_FOLDER_ID &&
 			$ilAccess->checkAccess("write", "", $this->getContainerObject()->getRefId()))
 		{

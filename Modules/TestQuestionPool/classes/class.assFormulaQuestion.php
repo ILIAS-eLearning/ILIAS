@@ -741,6 +741,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
 			$this->setOwner($data["owner"]);
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
 
 			try
 			{

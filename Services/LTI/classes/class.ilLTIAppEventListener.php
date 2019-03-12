@@ -70,6 +70,10 @@ class ilLTIAppEventListener implements \ilAppEventListener
 				$ext_account,
 				$consumer
 			);
+
+			$this->logger->debug('Resources for update:');
+			$this->logger->dump($resources, ilLogLevel::DEBUG);
+
 			foreach($resources as $resource)
 			{
 				$this->tryOutcomeService($resource,$ext_account, $a_status, $a_percentage);
@@ -138,6 +142,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
 			$this->logger->debug('No outcome service available for resource id: ' . $resource);
 			return false;
 		}
+		$this->logger->debug('Trying outcome service');
 		$user = \IMSGlobal\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
 
 		if($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM)
@@ -157,6 +162,8 @@ class ilLTIAppEventListener implements \ilAppEventListener
 		else {
 			$score = (int) $a_percentage / 100;
 		}
+
+		$this->logger->debug('Sending score: ' . (string) $score);
 
 		$outcome = new \IMSGlobal\LTI\ToolProvider\Outcome($score);
 

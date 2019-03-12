@@ -40,6 +40,12 @@ class ilLSEventHandler
 		}
 	}
 
+	public function handleParticipantDeletion(int $obj_id, int $usr_id)
+	{
+		$lso = $this->getInstanceByObjId($obj_id);
+		$db = $lso->getStateDB();
+		$db->deleteFor($lso->getRefId(), [$usr_id]);
+	}
 
 	/**
 	 * get the LSO up from $child_ref_if
@@ -63,6 +69,13 @@ class ilLSEventHandler
 	protected function getInstanceByRefId(int $ref_id): ilObjLearningSequence
 	{
 		return ilObjectFactory::getInstanceByRefId($ref_id);
+	}
+
+	protected function getInstanceByObjId(int $obj_id): ilObjLearningSequence
+	{
+		$refs = \ilObject::_getAllReferences($obj_id);
+		$ref_id = array_shift(array_keys($refs));
+		return $this->getInstanceByRefId($ref_id);
 	}
 
 }
