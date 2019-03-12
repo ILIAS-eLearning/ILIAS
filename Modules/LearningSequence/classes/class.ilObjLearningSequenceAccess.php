@@ -50,15 +50,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
 		return self::$using_code;
 	}
 
-	/*
-	public static function _isOffline($obj_id)
-	{
-		$obj = ilObjectFactory::getInstanceByObjId($obj_id);
-		return !$obj->getLSActivation()->getIsOnline();
-	}
-	*/
-
-	protected function isOffline($ref_id) {
+	public static function isOffline($ref_id) {
 		$obj = ilObjectFactory::getInstanceByRefId($ref_id);
 		$act = $obj->getLSActivation();
 		$online = $act->getIsOnline();
