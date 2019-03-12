@@ -55,7 +55,7 @@ class ilLearningSequenceActivationDB
 		return $settings;
 	}
 
-	protected function deleteForRefId(int $ref_id)
+	public function deleteForRefId(int $ref_id)
 	{
 		$query = "DELETE FROM ". static::TABLE_NAME .PHP_EOL
 			."WHERE ref_id = " .$this->database->quote($ref_id, "integer").PHP_EOL
