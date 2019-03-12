@@ -115,10 +115,10 @@ class ilMassMailTaskProcessor
 			}
 		}
 
-
 		$lastTask = null;
 		$taskCounter = 0;
 
+		$remainingObjects = array();
 		foreach ($mailValueObjects as $mailValueObject) {
 			$taskCounter++;
 
