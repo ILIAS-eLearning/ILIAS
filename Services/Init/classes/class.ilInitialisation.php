@@ -1103,7 +1103,8 @@ class ilInitialisation
 				ilECSTaskScheduler::start();					
 				
 				self::initHTML();		
-			}							
+			}
+			self::initRefinery($GLOBALS['DIC']);
 		}					
 	}
 	
@@ -1644,6 +1645,20 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
 		};
 
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $container
+	 */
+	protected static function initRefinery(\ILIAS\DI\Container $container)
+	{
+		$dataFactory = new \ILIAS\Data\Factory();
+		$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $container->language());
+		$refineryFactory = new \ILIAS\Refinery\BasicFactory($validationFactory);
+
+		$container['refinery'] = function ($container) use ($refineryFactory) {
+			return $refineryFactory;
+		};
 	}
 
 	/**

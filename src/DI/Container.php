@@ -6,6 +6,7 @@ namespace ILIAS\DI;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\Refinery\BasicFactory;
 use ILIAS\NavigationContext\ContextServices;
 
 /**
@@ -266,6 +267,14 @@ class Container extends \Pimple\Container {
 	 */
 	public function task() {
 		return new \ilTaskService($this->user(), $this->language(), $this->ui(), $this->access());
+	}
+
+
+	/**
+	 * @return BasicFactory
+	 */
+	public function refinery() {
+		return $this['refinery'];
 	}
 
 
