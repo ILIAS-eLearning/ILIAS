@@ -571,9 +571,9 @@ $ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
 ?>
 <#5469>
 <?php
-if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
+/*if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
 $ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
-}
+}*/
 ?>
 <#5470>
 <?php
@@ -589,9 +589,9 @@ $ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
 ?>
 <#5472>
 <?php
-if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations','parent_id'])) {
+/*if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations','parent_id'])) {
 $ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
-}
+}*/
 ?>
 <#5473>
 <?php
