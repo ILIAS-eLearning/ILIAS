@@ -22,5 +22,5 @@ function toTuple() {
 
 	$result = $transformation->transform(array(5.3, 2));
 
-	return assert(array('5', '2') === $result);
+	return assert(array(5, '2') === $result);
 }
