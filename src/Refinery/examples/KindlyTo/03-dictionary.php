@@ -17,5 +17,5 @@ function toDictionary() {
 
 	$result = $transformation->transform(array('sum' => '5', 'user_id' => 1, 'size' => 4.3));
 
-	return assert(array('sum' => 5, 'user_id' => 1, 'size' => 4.3) === $result);
+	return assert(array('sum' => 5, 'user_id' => 1, 'size' => 4) === $result);
 }
