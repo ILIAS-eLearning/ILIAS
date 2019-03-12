@@ -24,13 +24,13 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	protected $label;
 
 	/**
-	 * @var array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal>
+	 * @var array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard>
 	 */
 	protected $items;
 
 	/**
 	 * Dropdown constructor.
-	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal> $items
+	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard> $items
 	 */
 	public function __construct($items) {
 		$this->items = $items;
