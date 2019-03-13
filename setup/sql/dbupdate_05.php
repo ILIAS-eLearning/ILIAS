@@ -672,6 +672,21 @@ foreach ($type_perms as $type => $ops) {
 <?php
 $settings = new \ilSetting('chatroom');
 $settings->set('conversation_idle_state_in_minutes', 5);
+
+$res = $ilDB->query("SELECT * FROM chatroom_admconfig");
+while ($row = $ilDB->fetchAssoc($res)) {
+	$settings = json_decode($row['client_settings'], true);
+
+	if (!is_numeric($settings['conversation_idle_state_in_minutes'])) {
+		$settings['conversation_idle_state_in_minutes'] = 5;
+	}
+
+	$ilDB->update('chatroom_admconfig', [
+		'client_settings' => ['text', json_encode($settings)]
+	], [
+		'instance_id' => ['integer', $row['instance_id']]
+	]);
+}
 ?>
 <#5475>
 <?php
