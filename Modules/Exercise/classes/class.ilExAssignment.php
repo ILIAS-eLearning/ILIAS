@@ -1123,10 +1123,10 @@ class ilExAssignment
 	/**
 	 * Order assignments by deadline date
 	 */
-	function orderAssByDeadline($a_ex_id)
+	static function orderAssByDeadline($a_ex_id)
 	{
 		global $ilDB;
-		
+
 		$set = $ilDB->query("SELECT id FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_ex_id, "integer").
 			" ORDER BY time_stamp ASC"
