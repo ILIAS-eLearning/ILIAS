@@ -36,7 +36,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 
-    const INSTALL_README_PATH = '/docs/configuration/install.md';
+	const INSTALL_README_PATH = '/docs/configuration/install.md';
 	const CMD_EDIT_DOWNLOADING_SETTINGS = 'editDownloadingSettings';
 	const CMD_EDIT_WEBDAV_SETTINGS = 'editWebDAVSettings';
 	
@@ -363,7 +363,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		}
 
 		$form = $this->initWebDAVSettingsForm();
-        $tpl->setContent($form->getHTML());
+		$tpl->setContent($form->getHTML());
 	}
 
 
@@ -374,7 +374,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	    global $DIC;
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilErr = $DIC['ilErr'];
-        $tpl = $DIC['tpl'];
+		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 
@@ -397,16 +397,16 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		else 
 		{
 		    $form->setValuesByPost();
-            $tpl->setContent($form->getHTML());
-        }
+		    $tpl->setContent($form->getHTML());
+		}
     }
 
     public function getAdditionalWebDAVInformation() {
-        global $DIC;
-        $lng = $DIC->language();
+	    global $DIC;
+	    $lng = $DIC->language();
 
-        return $furtherInformation = sprintf($lng->txt('webdav_additional_information'), $this->getInstallationDocsLink());
-    }
+	    return $furtherInformation = sprintf($lng->txt('webdav_additional_information'), $this->getInstallationDocsLink());
+	}
 
     public function getInstallationDocsLink()
     {
