@@ -357,10 +357,12 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	}
 
 	/**
-	 * 
+	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
 	private function handleDeletedUser()
 	{
+		$portfolioFileService = new ilPortfolioCertificateFileService();
+
 		if (false === array_key_exists('usr_id', $this->parameters)) {
 			$this->logger->error('User ID is not added to the event. Abort.');
 			return;
@@ -375,6 +377,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$this->certificateQueueRepository->removeFromQueueByUserId((int)$userId);
 
 		$this->migrationRepository->deleteFromMigrationJob((int)$userId);
+
+		$portfolioFileService->deleteUserDirectory($userId);
 
 		$this->logger->info(sprintf('All relevant data sources for the user certificates for user(user_id: "%s" deleted)', $userId));
 	}

@@ -176,6 +176,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 	$ilDB->manipulate("DELETE FROM object_reference where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
 }
 ?>
+
 <#5448>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
@@ -570,9 +571,9 @@ $ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
 ?>
 <#5469>
 <?php
-if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
+/*if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
 $ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
-}
+}*/
 ?>
 <#5470>
 <?php
@@ -588,9 +589,9 @@ $ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
 ?>
 <#5472>
 <?php
-if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations','parent_id'])) {
+/*if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations','parent_id'])) {
 $ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
-}
+}*/
 ?>
 <#5473>
 <?php
@@ -666,5 +667,67 @@ $type_perms = [
 
 foreach ($type_perms as $type => $ops) {
 	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $ops, ROLE_FOLDER_ID);
+}
+?>
+<#5474>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_start_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#5475>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_end_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#5476>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+	.'	WHERE activation_start IS NOT NULL'
+);
+?>
+<#5477>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+	.'	WHERE activation_end IS NOT NULL'
+);
+?>
+<#5478>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_start");
+?>
+<#5479>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_end");
+?>
+<#5480>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if($lp_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('lp_other_users', 'See learning progress overview of other users', 'object', 3595);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $new_ops_id);
+	}
 }
 ?>
