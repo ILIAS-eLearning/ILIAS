@@ -196,6 +196,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	var $nr_of_tries;
 
+	protected $blockPassesAfterPassedEnabled = false;
+
 	/**
 	 * Tells ILIAS to use the previous answers of a learner in a later test pass
 	 * The default is 1 which shows the previous answers in the next pass.
@@ -1282,6 +1284,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'show_marker'                => array('integer', $this->getShowMarker()),
 				'fixed_participants'         => array('text', $this->getFixedParticipants()),
 				'nr_of_tries'                => array('integer', $this->getNrOfTries()),
+				'block_after_passed'         => array('integer', (int)$this->isBlockPassesAfterPassedEnabled()),
 				'kiosk'                      => array('integer', $this->getKiosk()),
 				'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
 				'title_output'               => array('text', $this->getTitleOutput()),
@@ -1405,6 +1408,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 					'show_marker'                => array('integer', $this->getShowMarker()),
 					'fixed_participants'         => array('text', $this->getFixedParticipants()),
 					'nr_of_tries'                => array('integer', $this->getNrOfTries()),
+					'block_after_passed'         => array('integer', (int)$this->isBlockPassesAfterPassedEnabled()),
 					'kiosk'                      => array('integer', $this->getKiosk()),
 					'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
 					'title_output'               => array('text', $this->getTitleOutput()),
@@ -1929,6 +1933,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setShowMarker($data->show_marker);
 			$this->setFixedParticipants($data->fixed_participants);
 			$this->setNrOfTries($data->nr_of_tries);
+			$this->setBlockPassesAfterPassedEnabled((bool)$data->block_after_passed);
 			$this->setKiosk($data->kiosk);
 			$this->setUsePreviousAnswers($data->use_previous_answers);
 			$this->setRedirectionMode($data->redirection_mode);
@@ -2760,6 +2765,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isBlockPassesAfterPassedEnabled()
+	{
+		return $this->blockPassesAfterPassedEnabled;
+	}
+
+	/**
+	 * @param bool $blockPassesAfterPassedEnabled
+	 */
+	public function setBlockPassesAfterPassedEnabled($blockPassesAfterPassedEnabled)
+	{
+		$this->blockPassesAfterPassedEnabled = $blockPassesAfterPassedEnabled;
+	}
+
+	/**
 	 * Returns the kiosk mode
 	 *
 	 * @return integer Kiosk mode
@@ -3448,7 +3469,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		return false;
 	}
 
-	public function removeQuestionFromSequences($questionId, $activeIds)
+	/**
+	 * @param int $questionId
+	 * @param array $activeIds
+	 * @param ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
+	 */
+	public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -3466,7 +3492,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
 				$testSequence->loadFromDb();
 
-				$testSequence->removeQuestion($questionId);
+				$testSequence->removeQuestion($questionId, $reindexedSequencePositionMap);
 				$testSequence->saveToDb();
 			}
 		}
@@ -6011,6 +6037,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				case "nr_of_tries":
 					$this->setNrOfTries($metadata["entry"]);
 					break;
+				case 'block_after_passed':
+					$this->setBlockPassesAfterPassedEnabled((bool)$metadata['entry']);
+					break;
 				case "pass_waiting":
 					$this->setPassWaiting($metadata["entry"]);
 					break;
@@ -6464,6 +6493,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_of_tries");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// number of tries
+		$a_xml_writer->xmlStartTag('qtimetadatafield');
+		$a_xml_writer->xmlElement('fieldlabel', NULL, 'block_after_passed');
+		$a_xml_writer->xmlElement('fieldentry', NULL, (int)$this->isBlockPassesAfterPassedEnabled());
+		$a_xml_writer->xmlEndTag('qtimetadatafield');
 
 		// pass_waiting
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -8704,6 +8739,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 				return $result;
 			}
+
+			if( $this->isBlockPassesAfterPassedEnabled() && !$testPassesSelector->openPassExists() )
+			{
+				if( ilObjTestAccess::_isPassed($user_id, $this->getId()) )
+				{
+					$result['executable'] = false;
+					$result['errormessage'] = $this->lng->txt("tst_addit_passes_blocked_after_passed_msg");
+					return $result;
+				}
+			}
 		}
 		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass() !== null)
 		{
@@ -10154,6 +10199,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			"ShowMarker"                 => $this->getShowMarker(),
 			"ReportingDate"              => $this->getReportingDate(),
 			"NrOfTries"                  => $this->getNrOfTries(),
+			'BlockAfterPassed'           => (int)$this->isBlockPassesAfterPassedEnabled(),
 			"Shuffle"                    => $this->getShuffleQuestions(),
 			"Kiosk"                      => $this->getKiosk(),
 			"UsePreviousAnswers"         => $this->getUsePreviousAnswers(),
@@ -10275,6 +10321,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->setShowMarker($testsettings["ShowMarker"]);
 		$this->setReportingDate($testsettings["ReportingDate"]);
 		$this->setNrOfTries($testsettings["NrOfTries"]);
+		$this->setBlockPassesAfterPassedEnabled((bool)$testsettings['BlockAfterPassed']);
 		$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
 		$this->setRedirectionMode($testsettings['redirection_mode']);
 		$this->setRedirectionUrl($testsettings['redirection_url']);
@@ -10499,7 +10546,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	 * Retrieves the feedback comment for a question in a test if it is finalized
+	 * Retrieves the manual feedback for a question in a test
 	 *
 	 * @param integer $active_id Active ID of the user
 	 * @param integer $question_id Question ID
@@ -10509,78 +10556,19 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	static function getManualFeedback($active_id, $question_id, $pass)
 	{
-		$feedback = "";
-		$row      = self::getSingleManualFeedback($active_id, $question_id, $pass);
-
-		if (count($row) > 0 && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id))) {
-			$feedback = $row['feedback'];
-		}
-
-		return $feedback;
-	}
-
-	/**
-	 * Retrieves the manual feedback for a question in a test
-	 *
-	 * @param integer $active_id Active ID of the user
-	 * @param integer $question_id Question ID
-	 * @param integer $pass Pass number
-	 * @return array The feedback text
-	 * @access public
-	 */
-	public static function getSingleManualFeedback($active_id, $question_id, $pass)
-	{
 		global $DIC;
-
-		$ilDB   = $DIC->database();
-		$row    = array();
-		$result = $ilDB->queryF(
-			"SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$ilDB = $DIC['ilDB'];
+		$feedback = "";
+		$result = $ilDB->queryF("SELECT feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
-
-		if ($result->numRows() === 1){
-
-			$row             = $ilDB->fetchAssoc($result);
-			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
-		}else{
-			$DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for ".
-				"active_fi = $active_id , question_fi = $question_id and pass = $pass");
+		if ($result->numRows())
+		{
+			$row = $ilDB->fetchAssoc($result);
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
-
-		return $row;
-	}
-
-	/**
-	 * Retrieves the manual feedback for a question in a test
-	 *
-	 * @param integer $question_id Question ID
-	 * @return array The feedback text
-	 * @access public
-	 */
-	public static function getCompleteManualFeedback(int $question_id)
-	{
-		global $DIC;
-
-		$ilDB     = $DIC->database();
-		$feedback = array();
-		$result   = $ilDB->queryF(
-			"SELECT * FROM tst_manual_fb WHERE question_fi = %s",
-			array('integer'),
-			array($question_id)
-		);
-
-		while ($row = $ilDB->fetchAssoc($result)){
-			$active   = $row['active_fi'];
-			$pass     = $row['pass'];
-			$question = $row['question_fi'];
-
-			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
-
-			$feedback[$active][$pass][$question] = $row;
-		}
-
 		return $feedback;
 	}
 
@@ -10591,93 +10579,45 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @param integer $question_id Question ID
 	 * @param integer $pass Pass number
 	 * @param string $feedback The feedback text
-	 * @param boolean $finalized In Feedback is final
 	 * @return boolean TRUE if the operation succeeds, FALSE otherwise
 	 * @access public
 	 */
-	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback)
 	{
 		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-		$DIC->database()->manipulateF(
-			"DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
 
-		$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
-
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-			$this->logManualFeedback($active_id, $question_id, $feedback);
+		if (strlen($feedback))
+		{
+			$next_id = $ilDB->nextId('tst_manual_fb');
+			/** @var ilDBInterface $ilDB */
+			$result = $ilDB->insert('tst_manual_fb', array(
+					'manual_feedback_id'		=> array( 'integer', 	$next_id ),
+					'active_fi'				=> array( 'integer', 	$active_id ),
+					'question_fi'			=> array( 'integer', 	$question_id ),
+					'pass'					=> array( 'integer',	$pass),
+					'feedback'				=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0) ),
+					'tstamp'					=> array( 'integer',	time() ),
+				)
+			);
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				global $DIC;
+				$lng = $DIC['lng'];
+				$ilUser = $DIC['ilUser'];
+				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+				$username = ilObjTestAccess::_getParticipantData($active_id);
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+				$this->logAction(sprintf($lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()), $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")", $username, assQuestion::_getQuestionTitle($question_id), $feedback));
+			}
 		}
-
 		return TRUE;
-	}
-
-	/**
-	 * Inserts a manual feedback into the DB
-	 *
-	 * @param integer $active_id Active ID of the user
-	 * @param integer $question_id Question ID
-	 * @param integer $pass Pass number
-	 * @param string  $feedback The feedback text
-	 * @param boolean $finalized In Feedback is final
-	 */
-	private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized){
-		global $DIC;
-
-		$ilDB           = $DIC->database();
-		$ilUser         = $DIC->user();
-		$next_id        = $ilDB->nextId('tst_manual_fb');
-		$user           = $ilUser->getId();
-		$finalized_time = time();
-		$feedback_old   = $this->getSingleManualFeedback($active_id, $question_id, $pass);
-		$update_default = [
-			'manual_feedback_id' => [ 'integer', $next_id],
-			'active_fi'	         => [ 'integer', $active_id],
-			'question_fi'        => [ 'integer', $question_id],
-			'pass'               => [ 'integer', $pass],
-			'feedback'           => [ 'clob', ilRTE::_replaceMediaObjectImageSrc( $feedback, 0)],
-			'tstamp'             => [ 'integer', time()]
-		];
-
-		if($feedback_old['finalized_evaluation'] == 1){
-			$user           = $feedback_old['finalized_by_usr_id'];
-			$finalized_time = $feedback_old['finalized_tstamp'];
-		}
-
-		if($finalized === true) {
-			$update_default['finalized_evaluation'] = ['integer', 1];
-			$update_default['finalized_by_usr_id']  = ['integer', $user];
-			$update_default['finalized_tstamp']     = ['integer', $finalized_time];
-		}
-
-		$ilDB->insert('tst_manual_fb', $update_default);
-	}
-
-	/**
-	 * Creates a log for the manual feedback
-	 *
-	 * @param integer $active_id Active ID of the user
-	 * @param integer $question_id Question ID
-	 * @param string  $feedback The feedback text
-	 */
-	private function logManualFeedback($active_id, $question_id, $feedback){
-		global $DIC;
-
-		$ilUser   = $DIC->user();
-		$lng      = $DIC->language();
-		$username = ilObjTestAccess::_getParticipantData($active_id);
-
-		$this->logAction(
-			sprintf(
-				$lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
-				$ilUser->getFullname() . ' (' . $ilUser->getLogin() . ')',
-				$username,
-				assQuestion::_getQuestionTitle($question_id),
-				$feedback
-			)
-		);
 	}
 
 	/**
@@ -11402,6 +11342,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->poolUsage = (boolean)$usage;
 	}
 
+	/**
+	 * @return ilTestReindexedSequencePositionMap
+	 */
 	public function reindexFixedQuestionOrdering()
 	{
 		global $DIC;
@@ -11414,9 +11357,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$questionSetConfig = $qscFactory->getQuestionSetConfig();
 
 		/* @var ilTestFixedQuestionSetConfig $questionSetConfig */
-		$questionSetConfig->reindexQuestionOrdering();
+		$reindexedSequencePositionMap = $questionSetConfig->reindexQuestionOrdering();
 
 		$this->loadQuestions();
+
+		return $reindexedSequencePositionMap;
 	}
 
 	public function setQuestionOrderAndObligations($orders, $obligations)
