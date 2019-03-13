@@ -11294,7 +11294,7 @@ function getAnswerFeedbackPoints()
 	public function setPoolUsage($usage) {
 	    $this->poolUsage = (boolean)$usage;
 	}
-
+	
 	public function reindexFixedQuestionOrdering()
 	{
 		global $DIC;
