@@ -393,9 +393,9 @@ FromLineOverride=YES
 <a name="webdav-configuration-optional"></a>
 ## WebDAV Configuration (OPTIONAL)
 
-Because of an error in the Windows Explorer, it sometimes fails to add a WebDAV connection with the error code "0x80070043 The Network Name Cannot Be Found".
+Because of a special behaviour in the Windows Explorer, it sometimes fails to add a WebDAV connection with the error code "0x80070043 The Network Name Cannot Be Found".
 
-To prevent this error, add following rewrite rules to the root of your website:
+To prevent this behaviour, add the following rewrite rules to a .htaccess file in your webroot or to the corresponding section of the configuration of your webserver:
 ```
 RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
 RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
