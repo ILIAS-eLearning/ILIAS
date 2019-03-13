@@ -530,7 +530,7 @@ class ilObjLearningSequence extends ilContainer
 
 			$kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
 
-			$toc_gui = new ilLSTOCGUI($url_builder, $this->template, $this->ctrl);
+			$toc_gui = new ilLSTOCGUI($url_builder, $this->ctrl);
 			$loc_gui = new ilLSLocatorGUI($url_builder, $DIC["ui.factory"]);
 
 			$window_title = $this->il_settings->get('short_inst_name');
