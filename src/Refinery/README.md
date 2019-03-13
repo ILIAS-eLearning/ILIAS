@@ -4,18 +4,23 @@ The `Refinery` library is used to unify the way input is
 processed by the ILIAS project.
 
 **Table of Contents**
-- [General](#general)
-- [Usage](#usage)
-  * [Factory](#factory)
-    + [Groups](#groups)
-      - [to](#to)
-      - [kindlyTo](#kindlyto)
-      - [in](#in)
-        * [series](#series)
-        * [parallel](#parallel)
-- [Libraries](#libraries)
-  * [Transformation](#transformation)
-  * [Validation](#validation)
+- [Refinery](#refinery)
+  * [General](#general)
+  * [Usage](#usage)
+    + [Factory](#factory)
+      - [Groups](#groups)
+        * [to](#to)
+          + [Natives](#natives)
+          + [Structures](#structures)
+        * [kindlyTo](#kindlyto)
+          + [Natives](#natives-1)
+          + [Structures](#structures-1)
+        * [in](#in)
+          + [series](#series)
+          + [parallel](#parallel)
+  * [Libraries](#libraries)
+    + [Transformation](#transformation)
+    + [Validation](#validation)
 
 ## General
 
@@ -45,6 +50,16 @@ A concrete implementation of the `Refinery\Factory`
 interface is `Refinery\Factory\BasicFactory`.
 This implementation will create new instances of the
 different [groups](#groups).
+The `Refinery\Factory\BasicFactory` can also be accessed
+via the `ILIAS Dependency Injection Container(DIC)`.
+
+```php
+global $DIC;
+
+$factory = $DIC['refinery'];
+$transformation = $factory->kindlyTo()->string();
+// ...
+```
 
 Checkout the [examples](/src/Refinery/examples) to
 see how these library can be used.
@@ -67,7 +82,7 @@ the `in` group and vice versa.
 ##### to
 
 The `to` group consists of combined validations and transformations
-for primitive data types that establish a baseline for further constraints
+for native data types that establish a baseline for further constraints
 and more complex transformations.
 
 A concrete implementation for the `Refinery\To\Group` interface
@@ -99,22 +114,55 @@ Find out more about the `applyTo` method of instances of the `Transformation`
 interface in the
 [README about Transformations](/src/Refinery/Transformation/README.md).
 
-###### Primitives
+Currently supported methods:
 
-As seen in the example of the [previous chaptger](#to)
-there are transformations which cover the primitive data
+* `string()`   - Returns an object that allows to transform a value to a string value.
+* `int()`      - Returns an object that allows to transform a value to a integer value.
+* `float()`    - Returns an object that allows to transform a value to a float value.
+* `bool()`     - Returns an object that allows to transform a value to a boolean value.
+* `listOf()`   - Returns an object that allows to transform an value in a given array
+                 with the given transformation object.
+                 The transformation will be executed on every element of the array.
+* `dictOf()`   - Returns an object that allows to transform an value in a given array
+                 with the given transformation object.
+                 The transformation will be executed on every element of the array.
+* `tupleOf()`  - Returns an object that allows to transform the values of an array
+                 with the given array of transformations objects.
+                 The length of the array of transformations MUST be identical to the
+                 array of values to transform.
+                 The keys of the transformation array will be the same as the key
+                 from the value array e.g. Transformation on position 2 will transform
+                 value on position 2 of the value array.
+* `recordOf()` - Returns an object that allows to transform the values of an
+                 associative array with the given associative array of
+                 transformations objects.
+                 The length of the array of transformations MUST be identical to the
+                 array of values to transform.
+                 The keys of the transformation array will be the same as the key
+                 from the value array e.g. Transformation with the key "hello" will transform
+                 value with the key "hello" of the value array.
+* `toNew()`    - Returns either an transformation object to create objects of an
+                 existing class, with variations of constructor parameters OR returns
+                 an transformation object to execute a certain method with variation of
+                 parameters on the objects.
+* `data()`     - Returns a data factory to create a certain data type
+
+###### Natives
+
+As seen in the example of the [previous chapter](#to)
+there are transformations which cover the native data
 types of PHP (`int`, `string`, `float` and `boolean`).
 
 ###### Structures
 
-Beside the [primitive transformations](#primitives) there also
+Beside the [native transformations](#natives) there also
 transformation to create structures like `list`, `dictonary`,
 `record` and `tuple`.
 
 ##### kindlyTo
 
 The `kindlyTo` group consists of combined validations and transformations
-for primitive data types that establish a baseline for further constraints
+for native data types that establish a baseline for further constraints
 and more complex transformations.
 
 A concrete implementation for the `Refinery\KindlyTo\Group` interface
@@ -135,20 +183,58 @@ $result = $transformation->transform(10); // $result => 10
 
 The above example will always try to convert the given values
 with the `KindlyTo\Transformation\IntegerTransformation` into an integer.
-The casting of primitive values into another is based on the
+The casting of native values into another is based on the
 [PHP default behavior for type casting](http://php.net/manual/de/language.types.type-juggling.php)
 In comparision with the `to` group equivalent this method tries to convert
 all kinds of values.
 
-###### Primitives
+To avoid exception handling the `applyTo` method can be used instead.
+Find out more about the `applyTo` method of instances of the `Transformation`
+interface in the
+[README about Transformations](/src/Refinery/Transformation/README.md).
 
-As seen in the example of the [previous chaptger](#to)
-there are transformations which cover the primitive data
+Currently supported methods:
+
+* `string()`   - Returns an object that allows to transform a value to a string value.
+* `int()`      - Returns an object that allows to transform a value to a integer value.
+* `float()`    - Returns an object that allows to transform a value to a float value.
+* `bool()`     - Returns an object that allows to transform a value to a boolean value.
+* `listOf()`   - Returns an object that allows to transform an value in a given array
+                 with the given transformation object.
+                 The transformation will be executed on every element of the array.
+* `dictOf()`   - Returns an object that allows to transform an value in a given array
+                 with the given transformation object.
+                 The transformation will be executed on every element of the array.
+* `tupleOf()`  - Returns an object that allows to transform the values of an array
+                 with the given array of transformations objects.
+                 The length of the array of transformations MUST be identical to the
+                 array of values to transform.
+                 The keys of the transformation array will be the same as the key
+                 from the value array e.g. Transformation on position 2 will transform
+                 value on position 2 of the value array.
+* `recordOf()` - Returns an object that allows to transform the values of an
+                 associative array with the given associative array of
+                 transformations objects.
+                 The length of the array of transformations MUST be identical to the
+                 array of values to transform.
+                 The keys of the transformation array will be the same as the key
+                 from the value array e.g. Transformation with the key "hello" will transform
+                 value with the key "hello" of the value array.
+* `toNew()`    - Returns either an transformation object to create objects of an
+                 existing class, with variations of constructor parameters OR returns
+                 an transformation object to execute a certain method with variation of
+                 parameters on the objects.
+* `data()`     - Returns a data factory to create a certain data type
+
+###### Natives
+
+As seen in the example of the [previous chapter](#to)
+there are transformations which cover the native data
 types of PHP (`int`, `string`, `float` and `boolean`).
 
 ###### Structures
 
-Beside the [primitive transformations](#primitives) there also
+Beside the [native transformations](#natives) there also
 transformation to create structures like `list`, `dictonary`,
 `record` and `tuple`.
 
@@ -160,7 +246,11 @@ as parameters that define the content at the indices.
 A concrete implementation for the `Refinery\In\Group` interface
 is the `Refinery\In\BasicGroup`.
 
-There are currently two different strategies supported by this group.
+There are currently two different strategies supported by this group,
+that are accessible by the methods:
+
+* [series](#series)
+* [parallel](#parallel)
 
 ###### series
 
@@ -218,4 +308,3 @@ which have their own descriptions.
 ### Validation
 
 [README for Validation Library](/src/Refinery/Validation/README.md)
-
