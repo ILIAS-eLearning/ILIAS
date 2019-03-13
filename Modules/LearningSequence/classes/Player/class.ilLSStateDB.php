@@ -191,6 +191,9 @@ class ilLSStateDB
 		foreach ($all_states as $usr_id=>$state_entry) {
 			list($current_item, $states) = $state_entry;
 
+			if (!is_array($states)) {
+				$states = array();
+			}
 			if ($current_item === $item_ref_id) {
 				$current_item = -1;
 			}
