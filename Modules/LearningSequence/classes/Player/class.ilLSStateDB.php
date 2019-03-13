@@ -171,7 +171,7 @@ class ilLSStateDB
 			."WHERE lso_ref_id = ".$this->db->quote($lso_ref_id, "integer").PHP_EOL
 		;
 
-		if (count($user_ids) > 0) {
+		if (count($usr_ids) > 0) {
 			$query .= "AND usr_id IN ("	.implode(',', $usr_ids)	.")";
 		}
 
