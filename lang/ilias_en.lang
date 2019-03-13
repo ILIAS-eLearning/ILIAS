@@ -14840,7 +14840,7 @@ lso#:#table_title#:#Title
 lso#:#table_online#:#Online
 lso#:#table_may_proceed#:#User may proceed
 lso#:#table_actions#:#Actions
-lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
+lso#:#delete_confirmation#:#Are you sure you want to delete these objects?
 lso#:#entries_deleted#:#Successfuly delete entries
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants

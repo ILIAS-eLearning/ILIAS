@@ -5,6 +5,8 @@ define ("IL_LIST_AS_TRIGGER", "trigger");
 define ("IL_LIST_FULL", "full");
 require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
+use ILIAS\UI\Component\Signal;
+
 /**
 * Class ilObjectListGUI
 *
@@ -2183,11 +2185,15 @@ class ilObjectListGUI
 			
 			$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
 				"", $prevent_background_click, $a_onclick);
-		}				
+		}
+	}
+
+	function insertSignalCommand(string $label, Signal $signal, array $components) {
+		$this->current_selection_list->addSignalItem($label, $signal, $components);
 	}
 
 	/**
-	* insert cut command
+	* insert delete command
 	*
 	* @access	private
 	* @param	object		$a_tpl		template object
@@ -2213,15 +2219,36 @@ class ilObjectListGUI
 			}
 			return false;
 		}
-		
-		if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
+
+		if($this->checkCommandAccess('delete','',$this->ref_id, $this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
-			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
-			$this->insertCommand($cmd_link, $this->lng->txt("delete"), "",
-				"");
+			$this->ctrl->setParameter($this->container_obj, "item_ref_id",
+				$this->getCommandId()
+			);
+
+			$target_obj = \ilObjectFactory::getInstanceByRefId($this->getCommandId());
+			$item_title = $target_obj->getTitle();
+			$item_description = $target_obj->getDescription();
+			$item_type = $target_obj->getType();
+			$item_ref = $target_obj->getRefId();
+
+			$modal_title = $this->lng->txt('delete_selected_items');
+			$modal_message = $this->lng->txt('info_delete_sure');
+			$form_action = $this->ctrl->getFormAction($this->container_obj, "confirmedDelete");
+
+			$factory = $this->ui->factory();
+			//$icon = $factory->icon()->standard($type, $title);
+			$item_icon = $factory->image()->standard('./templates/default/images/icon_' .$item_type .'.svg', '');
+
+			$item = $factory->modal()->interruptiveItem($item_ref, $item_title, $item_icon, $item_description);
+			$modal = $factory->modal()->interruptive($modal_title, $modal_message, $form_action)
+				->withAffectedItems([$item]);
+
+			$sig = $modal->getShowSignal();
+			$this->insertSignalCommand($this->lng->txt("delete"), $sig, [$modal]);
+
 			$this->adm_commands_included = true;
 		}
 	}

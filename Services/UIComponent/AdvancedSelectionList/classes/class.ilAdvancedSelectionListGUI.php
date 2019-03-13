@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Component\Signal;
 
 /**
 * User interface class for advanced drop-down selection lists
@@ -60,18 +61,20 @@ class ilAdvancedSelectionListGUI
 	</select>
 	<input class="ilEditSubmit" type="submit" value="Go"/>
 	</form>
-	
+
 	*/
 
 	/**
 	* Constructor.
-	*	
+	*
 	*/
 	public function __construct()
 	{
+		global $DIC;
 		$this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
 		$this->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$this->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF);
+		$this->ui = $DIC->ui();
 	}
 
 	/**
@@ -130,7 +133,17 @@ class ilAdvancedSelectionListGUI
 			"onclick" => $a_onclick, "ttip" => $a_ttip, "tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
 			"tt_use_htmlspecialchars" => $a_tt_use_htmlspecialchars, "data" => $a_data);
 	}
-	
+
+	function addSignalItem(string $label, Signal $signal, array $components)
+	{
+		$this->items[] = [
+			'title' => $label,
+			'signal' => $signal,
+			'components' => $components
+		];
+	}
+
+
 	/**
 	 * Set Grouped List
 	 *
@@ -585,6 +598,9 @@ class ilAdvancedSelectionListGUI
 		}
 		else
 		{
+
+			$additional_components = [];
+
 			if ($this->getGroupedList() != null)
 			{
 				$tpl->setVariable("GROUPED_LIST_HTML", $this->getGroupedList()->getHTML());
@@ -666,15 +682,28 @@ class ilAdvancedSelectionListGUI
 						}
 						else
 						{
-							if ($item["onclick"] == "")
+							if (array_key_exists('onclick', $item) && $item["onclick"] == "")
 							{
 								$tpl->setVariable("ONCLICK_ITEM",
 									'onclick="'."return il.AdvancedSelectionList.openTarget('".$item["link"]."','".$item["frame"]."');".'"');
 							}
-							else
+							if (array_key_exists('onclick', $item) && $item["onclick"] != "")
 							{
 								$tpl->setVariable("ONCLICK_ITEM",
 									'onclick="'."return ".$item["onclick"].";".'"');
+							}
+							if (!array_key_exists('onclick', $item) && array_key_exists('signal', $item))
+							{
+								$js = 'onclick="$(document).trigger('
+									."'" .$item['signal']->getId()."'"
+									.", {id:'" .$item['signal']->getId() ."'}"
+									.');return false;"';
+								$tpl->setVariable("ONCLICK_ITEM", $js);
+
+								$additional_components = array_merge(
+									$additional_components,
+									$item['components']
+								);
 							}
 						}
 
@@ -730,7 +759,9 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
 					$tpl->setVariable("IT_HID_VAL", $item["value"]);
 					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
-					$tpl->parseCurrentBlock();					 					
+					$tpl->parseCurrentBlock();
+
+					$tpl->setVariable("COMPONENTS", $this->ui->renderer()->render($additional_components));
 				}
 
 				// output hidden input, if click mode is form submission
