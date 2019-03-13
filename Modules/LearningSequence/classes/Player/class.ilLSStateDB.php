@@ -189,11 +189,9 @@ class ilLSStateDB
 		$ilAtomQuery->addTableLock(static::TABLE_NAME);
 
 		foreach ($all_states as $usr_id=>$state_entry) {
-			list($current_item, $states) = $state_entry;
+			$current_item = $state_entry['current_item'];
+			$states = $state_entry['states'];
 
-			if (!is_array($states)) {
-				$states = array();
-			}
 			if ($current_item === $item_ref_id) {
 				$current_item = -1;
 			}
