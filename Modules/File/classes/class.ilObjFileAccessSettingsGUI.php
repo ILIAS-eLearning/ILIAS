@@ -371,7 +371,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	 * Save settings
 	 */
 	public function saveWebDAVSettings()  {
-	    global $DIC;
+		global $DIC;
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilErr = $DIC['ilErr'];
 		$tpl = $DIC['tpl'];
@@ -399,19 +399,19 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		    $form->setValuesByPost();
 		    $tpl->setContent($form->getHTML());
 		}
-    }
-
-    public function getAdditionalWebDAVInformation() {
-	    global $DIC;
-	    $lng = $DIC->language();
-
-	    return $furtherInformation = sprintf($lng->txt('webdav_additional_information'), $this->getInstallationDocsLink());
 	}
 
-    public function getInstallationDocsLink()
-    {
-        return ilUtil::_getHttpPath() . self::INSTALL_README_PATH;
-    }
+	public function getAdditionalWebDAVInformation() {
+		global $DIC;
+		$lng = $DIC->language();
+
+		return $furtherInformation = sprintf($lng->txt('webdav_additional_information'), $this->getInstallationDocsLink());
+	}
+
+	public function getInstallationDocsLink()
+	{
+		return ilUtil::_getHttpPath() . self::INSTALL_README_PATH;
+	}
 
 	/**
 	 * called by prepare output
