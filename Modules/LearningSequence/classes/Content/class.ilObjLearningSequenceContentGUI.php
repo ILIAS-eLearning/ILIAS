@@ -83,7 +83,7 @@ class ilObjLearningSequenceContentGUI
 
 		$table->addCommandButton(self::CMD_SAVE, $this->lng->txt("save"));
 
-		$this->tpl->setContent($table->getHtml().$btn);
+		$this->tpl->setContent($table->getHtml());
 	}
 
 	/**
