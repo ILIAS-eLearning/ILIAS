@@ -83,27 +83,14 @@ EOT;
 	}
 
 	public function getUIFactory() {
-		return new \ILIAS\UI\Implementation\Factory(
-			$this->createMock(C\Counter\Factory::class),
-			$this->createMock(C\Glyph\Factory::class),
-			new I\Component\Button\Factory,
-			$this->createMock(C\Listing\Factory::class),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			new I\Component\Dropdown\Factory,
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
-		);
+		$factory = new class extends NoUIFactory {
+			public function button() {
+				return new I\Component\Button\Factory();
+			}
+			public function dropdown() {
+				return new I\Component\Dropdown\Factory();
+			}
+		};
+		return $factory;
 	}
 }

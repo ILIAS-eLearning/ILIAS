@@ -20,17 +20,11 @@ class Renderer extends AbstractComponentRenderer {
 	{
 		$ui_fac = $this->getUIFactory();
 
-		// @todo: workaround for tests... there should be a better way...
-		if($ui_fac instanceof \NoUIFactory) {
-			$ui_fac = new \ILIAS\UI\Implementation\Factory();
-		}
-
 		/**
 		 * @var Component\MessageBox\MessageBox $component
 		 */
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.messagebox.html", true, true);
-
 
 		$buttons = $component->getButtons();
 		if (count($buttons) > 0) {
