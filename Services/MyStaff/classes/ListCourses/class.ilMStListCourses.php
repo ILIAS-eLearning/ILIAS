@@ -46,7 +46,8 @@ class ilMStListCourses {
 	                  WHERE ' . $DIC->database()->in('requested.usr_id', $arr_usr_ids, false, 'integer') . '  
 	                    ) AS memb
 	           
-                    INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . ilMyStaffAccess::DEFAULT_CONTEXT . '
+                    INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $DIC->database()
+				->quote(ilMyStaffAccess::DEFAULT_CONTEXT, 'text') . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
 
