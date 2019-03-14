@@ -4655,6 +4655,7 @@ return array(
     'ilIndividualAssessmentMembersStorageDB' => $baseDir . '/../../Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php',
     'ilIndividualAssessmentMembersTableGUI' => $baseDir . '/../../Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php',
     'ilIndividualAssessmentNotificator' => $baseDir . '/../../Modules/IndividualAssessment/interfaces/Notification/interface.ilIndividualAssessmentNotificator.php',
+    'ilIndividualAssessmentOrguHelper' => $baseDir . '/../../Modules/IndividualAssessment/classes/Orgu/class.ilIndividualAssessmentOrguHelper.php',
     'ilIndividualAssessmentPrimitiveInternalNotificator' => $baseDir . '/../../Modules/IndividualAssessment/classes/Notification/class.ilIndividualAssessmentPrimitiveInternalNotificator.php',
     'ilIndividualAssessmentSettings' => $baseDir . '/../../Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php',
     'ilIndividualAssessmentSettingsGUI' => $baseDir . '/../../Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php',

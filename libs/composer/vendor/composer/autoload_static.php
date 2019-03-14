@@ -4992,6 +4992,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilIndividualAssessmentMembersStorageDB' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php',
         'ilIndividualAssessmentMembersTableGUI' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php',
         'ilIndividualAssessmentNotificator' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/interfaces/Notification/interface.ilIndividualAssessmentNotificator.php',
+        'ilIndividualAssessmentOrguHelper' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/Orgu/class.ilIndividualAssessmentOrguHelper.php',
         'ilIndividualAssessmentPrimitiveInternalNotificator' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/Notification/class.ilIndividualAssessmentPrimitiveInternalNotificator.php',
         'ilIndividualAssessmentSettings' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php',
         'ilIndividualAssessmentSettingsGUI' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php',
