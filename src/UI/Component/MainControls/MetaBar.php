@@ -27,7 +27,7 @@ interface MetaBar extends Component, JavaScriptBindable
 	public function getEntries(): array;
 
 	/**
-	 * The Signal is triggered when any Enntry is being clicked.
+	 * The Signal is triggered when any Entry is being clicked.
 	 */
 	public function getEntryClickSignal(): Signal;
 }
