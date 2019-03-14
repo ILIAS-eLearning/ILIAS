@@ -13,6 +13,7 @@ class ilMStListUsersGUI {
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_INDEX = 'index';
+	const CMD_GET_ACTIONS = "getActions";
 	const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
 	/**
 	 * @var  ilTable2GUI
@@ -44,6 +45,7 @@ class ilMStListUsersGUI {
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_INDEX:
 			case self::CMD_ADD_USER_AUTO_COMPLETE:
+			case self::CMD_GET_ACTIONS:
 				$this->$cmd();
 				break;
 			default:
@@ -83,5 +85,27 @@ class ilMStListUsersGUI {
 
 	public function cancel() {
 		$this->ctrl()->redirect($this);
+	}
+
+
+	public function getActions() {
+
+		$mst_lus_usr_id = $this->dic()->http()->request()->getQueryParams()['mst_lus_usr_id'];
+		if ($mst_lus_usr_id > 0) {
+			$selection = new ilAdvancedSelectionListGUI();
+
+			$this->ctrl()->setParameterByClass('ilMStShowUserGUI', 'usr_id', $mst_lus_usr_id);
+			$selection->addItem($this->lng()->txt('mst_show_courses'), '', $this->ctrl()->getLinkTargetByClass(array(
+					'ilPersonalDesktopGUI',
+					'ilMyStaffGUI',
+					'ilMStShowUserGUI',
+				)));
+
+			$selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_lus_usr_id, rawurlencode($this->ctrl()
+				->getLinkTarget($this, self::CMD_INDEX)));
+
+			echo $selection->getHTML(true);
+		}
+		exit;
 	}
 }

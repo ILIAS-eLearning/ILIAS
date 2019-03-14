@@ -171,7 +171,7 @@ class ilLSStateDB
 			."WHERE lso_ref_id = ".$this->db->quote($lso_ref_id, "integer").PHP_EOL
 		;
 
-		if (count($user_ids) > 0) {
+		if (count($usr_ids) > 0) {
 			$query .= "AND usr_id IN ("	.implode(',', $usr_ids)	.")";
 		}
 
@@ -189,7 +189,8 @@ class ilLSStateDB
 		$ilAtomQuery->addTableLock(static::TABLE_NAME);
 
 		foreach ($all_states as $usr_id=>$state_entry) {
-			list($current_item, $states) = $state_entry;
+			$current_item = $state_entry['current_item'];
+			$states = $state_entry['states'];
 
 			if ($current_item === $item_ref_id) {
 				$current_item = -1;
