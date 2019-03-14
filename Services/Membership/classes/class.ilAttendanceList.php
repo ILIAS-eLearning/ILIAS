@@ -700,10 +700,6 @@ class ilAttendanceList
 		}
 
 		$valid_user_ids = ilUtil::_sortIds(array_unique($valid_user_ids),'usr_data','lastname','usr_id');						
-		
-		
-		// rows 
-		
 		foreach($valid_user_ids as $user_id)
 		{
 			if($this->callback)
