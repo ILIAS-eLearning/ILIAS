@@ -15,7 +15,7 @@ use ILIAS\UI\Component\Image\Image;
 interface Standard extends Component
 {
 	/**
-	 * @return Component|Component[]
+	 * @return Component[]
 	 */
 	public function getContent();
 

@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI;
 
+use \ILIAS\UI\Component as C;
+
 /**
  * This is how the factory for UI elements looks. This should provide access
  * to all UI elements at some point.
@@ -777,7 +779,7 @@ interface Factory {
 	 *
 	 * @return \ILIAS\UI\Component\Layout\Factory
 	 */
-	public function layout();
+	public function layout(): C\Layout\Factory;
 
 	/**
 	 * ---
@@ -801,6 +803,6 @@ interface Factory {
 	 *
 	 * @return \ILIAS\UI\Component\MainControls\Factory
 	 */
-	public function mainControls();
+	public function mainControls(): C\MainControls\Factory;
 
 }

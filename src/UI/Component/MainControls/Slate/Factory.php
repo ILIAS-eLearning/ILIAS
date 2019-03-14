@@ -16,7 +16,7 @@ interface Factory
 	 *     may vanish with the progress of specific slates.
 	 *
 	 *   composition: >
-	 *     The Legacy Slate will take any HTML-string and render it.
+	 *     The Legacy Slate will take a Legacy-Component and render it.
 	 *
 	 * rules:
 	 *   usage:
@@ -28,10 +28,10 @@ interface Factory
 	 *
 	 * @param string $name
 	 * @param \ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph $symbol
-	 * @param string $contents
+	 * @param \ILIAS\UI\Component\Legacy\Legacy $content
 	 * @return \ILIAS\UI\Component\MainControls\Slate\Legacy
 	 */
-	public function legacy(string $name, $symbol, string $contents): Legacy;
+	public function legacy(string $name, $symbol, \ILIAS\UI\Component\Legacy\Legacy $content): Legacy;
 
 
 	/**
@@ -53,7 +53,7 @@ interface Factory
 	 *     Clicking on a Button not connected to a Slate will carry out its action.
  	 *
 	 * context:
-	 *     - The Combined Slate is used in the Main Bar.
+	 *   - The Combined Slate is used in the Main Bar.
 	 *
 	 * ----
 	 *

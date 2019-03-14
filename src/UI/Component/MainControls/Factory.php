@@ -55,7 +55,7 @@ interface Factory {
 	 *       user", while the direction is "user to system" for elements of the Main Bar.
 	 *
 	 * context:
-	 *    - The Meta Bar is used in the Standard Page.
+	 *   - The Meta Bar is used in the Standard Page.
 	 *
 	 * rules:
 	 *   usage:
@@ -164,7 +164,7 @@ interface Factory {
 	 *       can lead to the same page.
 	 *
 	 * context:
-	 *    - The Main Bar is used in the Standard Page.
+	 *   - The Main Bar is used in the Standard Page.
 	 *
 	 * rules:
 	 *   usage:

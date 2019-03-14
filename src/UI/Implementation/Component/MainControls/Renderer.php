@@ -91,7 +91,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$more_label = $component->getMoreButton()->getLabel();
 		$more_symbol = $component->getMoreButton()->getIconOrGlyph();
-		$more_slate = $f->maincontrols()->slate()->legacy($more_label, $more_symbol, '');
+		$more_slate = $f->maincontrols()->slate()->legacy($more_label, $more_symbol, $f->legacy(''));
 		$this->renderTriggerButtonsAndSlates(
 			$tpl, $default_renderer, $entry_signal,
 			static::BLOCK_MAINBAR_ENTRIES,

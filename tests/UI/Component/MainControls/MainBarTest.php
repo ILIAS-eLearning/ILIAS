@@ -60,32 +60,29 @@ class MainBarTest extends ILIAS_UI_TestBase
 
 	public function testDisallowedEntry()
 	{
-		try {
-			$mb = $this->mainbar->withAdditionalEntry('test', 'wrong_param');
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$mb = $this->mainbar->withAdditionalEntry('test', 'wrong_param');
+	}
+
+	public function testDouplicateIdEntry()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		$btn = $this->getButton();
+		$mb = $this->mainbar
+			->withAdditionalEntry('test', $btn)
+			->withAdditionalEntry('test', $btn);
 	}
 
 	public function testDisallowedToolEntry()
 	{
-		try {
-			$mb = $this->mainbar->withAdditionalToolEntry('test', 'wrong_param');
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$mb = $this->mainbar->withAdditionalToolEntry('test', 'wrong_param');
 	}
 
 	public function testAddToolEntryWithoutToolsButton()
 	{
-		try {
-			$mb = $this->mainbar->withAdditionalToolEntry('test', $this->getSlate());
-		}
-		catch (\LogicException $e) {
-			$this->assertTrue(true);
-		}
+		$this->expectException(\LogicException::class);
+		$mb = $this->mainbar->withAdditionalToolEntry('test', $this->getSlate());
 	}
 
 	public function testAddToolEntry()
@@ -97,6 +94,17 @@ class MainBarTest extends ILIAS_UI_TestBase
 		$entries = $mb->getToolEntries();
 		$this->assertEquals($slate, $entries['test']);
 	}
+
+	public function testDouplicateIdToolEntry()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		$btn = $this->getButton();
+		$slate = $this->getSlate();
+		$mb = $this->mainbar->withToolsButton($btn)
+			->withAdditionalToolEntry('test', $slate)
+			->withAdditionalToolEntry('test', $slate);
+	}
+
 
 	public function testActive()
 	{

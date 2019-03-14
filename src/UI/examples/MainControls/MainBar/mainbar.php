@@ -27,8 +27,6 @@ function buildMainbar($f, $r)
 
 
 	$entries = [];
-
-
 	$entries['repository'] = getDemoEntryRepository($f);
 	$entries['pws'] = getDemoEntryPersonalWorkspace($f, $r);
 	$entries['achievements'] = getDemoEntryAchievements($f);
@@ -77,10 +75,10 @@ function getDemoEntryPersonalWorkspace($f, $r)
 	$slate = $f->maincontrols()->slate()->combined('Personal Workspace', $symbol, '');
 
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/bookmarks.svg', '')->withSize('small');
-	$bookmarks = implode('<br />', [
+	$bookmarks = $f->legacy(implode('<br />', [
 		$r->render($f->button()->shy('my bookmark 1', '#')),
 		$r->render($f->button()->shy('my bookmark 2', '#'))
-	]);
+	]));
 	$slate_bookmarks = $f->maincontrols()->slate()->legacy('Bookmarks', $symbol, $bookmarks);
 
 
@@ -102,28 +100,28 @@ function getDemoEntryPersonalWorkspace($f, $r)
 function getDemoEntryAchievements($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/achievements.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->legacy('Achievements', $symbol, 'content: Achievements');
+	$slate = $f->maincontrols()->slate()->legacy('Achievements', $symbol, $f->legacy('content: Achievements'));
 	return $slate;
 }
 
 function getDemoEntryCommunication($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/communication.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->legacy('Communication', $symbol, 'content: Communication');
+	$slate = $f->maincontrols()->slate()->legacy('Communication', $symbol, $f->legacy('content: Communication'));
 	return $slate;
 }
 
 function getDemoEntryOrganisation($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/organisation.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->legacy('Organisation', $symbol, 'content: Organisation');
+	$slate = $f->maincontrols()->slate()->legacy('Organisation', $symbol, $f->legacy('content: Organisation'));
 	return $slate;
 }
 
 function getDemoEntryAdministration($f)
 {
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/administration.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->legacy('Administration', $symbol, 'content: Administration');
+	$slate = $f->maincontrols()->slate()->legacy('Administration', $symbol, $f->legacy('content: Administration'));
 	return $slate;
 }
 
@@ -132,13 +130,13 @@ function getDemoEntryTools($f)
 	$tools = [];
 
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/question.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->legacy('Help', $symbol, '<h2>tool 1</h2><p>Some Text for Tool 1 entry</p>');
+	$slate = $f->maincontrols()->slate()->legacy('Help', $symbol, $f->legacy('<h2>tool 1</h2><p>Some Text for Tool 1 entry</p>'));
 	$tools['tool1'] = $slate;
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/pencil.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->legacy('Editor', $symbol, '<h2>tool 2</h2><p>Some Text for Tool 1 entry</p>');
+	$slate = $f->maincontrols()->slate()->legacy('Editor', $symbol, $f->legacy('<h2>tool 2</h2><p>Some Text for Tool 1 entry</p>'));
 	$tools['tool2'] = $slate;
 	$symbol = $f->icon()->custom('./src/UI/examples/Layout/Page/Standard/notebook.svg', '')->withSize('small');
-	$slate = $f->maincontrols()->slate()->legacy('Local Navigation', $symbol, loremIpsum());
+	$slate = $f->maincontrols()->slate()->legacy('Local Navigation', $symbol, $f->legacy(loremIpsum()));
 	$tools['tool3'] = $slate;
 
 	return $tools;

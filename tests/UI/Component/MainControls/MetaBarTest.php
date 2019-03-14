@@ -63,12 +63,8 @@ class MetaBarTest extends ILIAS_UI_TestBase
 
 	public function testDisallowedEntry()
 	{
-		try {
-			$mb = $this->metabar->withAdditionalEntry('test', 'wrong_param');
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$mb = $this->metabar->withAdditionalEntry('test', 'wrong_param');
 	}
 
 	public function testSignalsPresent()

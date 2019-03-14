@@ -47,7 +47,7 @@ class MainBar implements MainControls\MainBar
 	/**
 	 * @var array <string, Bulky|Slate>
 	 */
-	protected $entries;
+	protected $entries = [];
 
 	/**
 	 * @var array <string, Slate>
@@ -92,6 +92,10 @@ class MainBar implements MainControls\MainBar
 		$check = [$entry];
 		$this->checkArgListElements("Bulky or Slate", $check, $classes);
 
+		if(array_key_exists($id, $this->entries)) {
+			throw new \InvalidArgumentException("The id of this entry is already taken.", 1);
+		}
+
 		$clone = clone $this;
 		$clone->entries[$id] = $entry;
 		return $clone;
@@ -112,6 +116,14 @@ class MainBar implements MainControls\MainBar
 	{
 		$class = MainControls\Slate\Slate::class;
 		$this->checkArgInstanceOf("Tools must be Slates", $entry, $class);
+
+		if(! $this->tools_button) {
+			throw new \LogicException("There must be a tool-button configured to add tool-entries", 1);
+		}
+
+		if(array_key_exists($id, $this->tool_entries)) {
+			throw new \InvalidArgumentException("The id of this entry is already taken.", 1);
+		}
 
 		$clone = clone $this;
 		$clone->tool_entries[$id] = $entry;
