@@ -28,17 +28,14 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		$this->access = $access;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getObjectClass(): string
-	{
-		return get_class($this->object);
-	}
-
 	protected function getObjectTitle(): string
 	{
 		return $this->object->getTitle();
+	}
+
+	protected function getType(): string
+	{
+		return $this->object->getType();
 	}
 
 	/**
@@ -72,7 +69,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 	public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
 	{
 		$builder->start (
-			'start ' .$this->getObjectClass(),
+			'start ' .$this->getTitleByType($this->getType()),
 			self::CMD_START_OBJECT,
 			0
 		);
@@ -225,6 +222,44 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		;
 
 		return $builder;
+	}
+
+	private function getTitleByType(string $type): string
+	{
+		switch ($type) {
+			case "file":
+				$title = $this->lng->txt("obj_file");
+				break;
+			case "copa":
+				$title = $this->lng->txt("obj_copa");
+				break;
+			case "lm":
+				$title = $this->lng->txt("obj_lm");
+				break;
+			case "html":
+				$title = $this->lng->txt("obj_htlm");
+				break;
+			case "sahs":
+				$title = $this->lng->txt("obj_sahs");
+				break;
+			case "iass":
+				$title = $this->lng->txt("obj_iass");
+				break;
+			case "exc":
+				$title = $this->lng->txt("obj_exc");
+				break;
+			case "tst":
+				$title = $this->lng->txt("obj_tst");
+				break;
+			case "svy":
+				$title = $this->lng->txt("obj_svy");
+				break;
+			default:
+				$title = "";
+				break;
+		}
+
+		return $title;
 	}
 
 }
