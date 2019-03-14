@@ -5040,6 +5040,9 @@ class ilUtil
 		}
 		else
 		{
+			if (strlen($ilIliasIniFile->readVariable('server', 'http_path')) > 0) {
+				return $ilIliasIniFile->readVariable('server', 'http_path');
+			}
 			return ILIAS_HTTP_PATH;
 		}
 	}
