@@ -578,7 +578,7 @@ class ilTestServiceGUI
 		return $maintemplate->get();
 	}
 
-	protected function getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null)
+	protected function getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null, $multipleObjectivesInvolved = true)
 	{
 		$this->ctrl->setParameter($targetGUI, 'active_id', $active_id);
 		$this->ctrl->setParameter($targetGUI, 'pass', $pass);
@@ -594,6 +594,8 @@ class ilTestServiceGUI
 			$tableGUI->setQuestionRelatedObjectivesList($objectivesList);
 			$tableGUI->setObjectiveOrientedPresentationEnabled(true);
 		}
+		
+		$tableGUI->setMultipleObjectivesInvolved($multipleObjectivesInvolved);
 
 		$tableGUI->setActiveId($active_id);
 		$tableGUI->setShowSuggestedSolution(false);
