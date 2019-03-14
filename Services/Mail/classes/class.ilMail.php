@@ -730,288 +730,185 @@ class ilMail
 	}
 
 	/**
-	 * @param string $a_rcp_to
-	 * @param string $a_rcp_cc
-	 * @param string $a_rcp_bcc
-	 * @param string $a_subject
-	 * @param string $a_message
-	 * @param array $a_attachments
-	 * @param int $sent_mail_id
-	 * @param array $a_type
-	 * @param bool $a_use_placeholders
-	 * @return bool
+	 * @param string $rcpTo
+	 * @param string $rcpCc
+	 * @param string $rcpBcc
+	 * @param array $usrIds
+	 * @param string $subject
+	 * @param string $message
+	 * @param array $attachments
+	 * @param int $sentMailId
+	 * @param array $type
+	 * @param bool $usePlaceholders
 	 */
-	protected function distributeMail(
-		string $a_rcp_to,
-		string $a_rcp_cc,
-		string $a_rcp_bcc,
-		string $a_subject,
-		string $a_message,
-		array $a_attachments,
-		int $sent_mail_id,
-		array $a_type,
-		bool $a_use_placeholders = false
-	)
-	{
-		require_once 'Services/Mail/classes/class.ilMailbox.php';
-		require_once 'Services/User/classes/class.ilObjUser.php';
+	protected function sendChanneledMails(
+		string $rcpTo,
+		string $rcpCc,
+		string $rcpBcc,
+		array $usrIds,
+		string $subject,
+		string $message,
+		array $attachments,
+		int $sentMailId,
+		array $type,
+		$usePlaceholders = false
+	) {
+		$usrIdToExternalEmailAddressesMap = [];
+		$usrIdToMessageMap = [];
 
-		$mbox = new ilMailbox();
-		if(!$a_use_placeholders)
-		{
-			$rcp_ids = $this->getUserIds(array($a_rcp_to, $a_rcp_cc, $a_rcp_bcc));
+		foreach ($usrIds as $usrId) {
+			$user = self::getCachedUserInstance($usrId);
+			$mailOptions = new \ilMailOptions($user->getId());
 
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Parsed TO/CC/BCC user ids from given recipients: %s", implode(', ', $rcp_ids)
-			));
+			$canReadInternalMails = !$user->hasToAcceptTermsOfService() && $user->checkTimeLimit();
 
-			$as_email = array();
+			if (in_array('system', $type) && !$canReadInternalMails) {
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
+					$user->getId(),
+					var_export(!$user->hasToAcceptTermsOfService(), 1),
+					var_export(!$user->checkTimeLimit(), 1)
+				));
+				continue;
+			}
 
-			foreach($rcp_ids as $id)
-			{
-				$tmp_mail_options = new ilMailOptions($id);
+			$individualMessage = $message;
+			if ($usePlaceholders) {
+				$individualMessage = $this->replacePlaceholders($message, $user->getId());;
+				$usrIdToMessageMap[$user->getId()] = $individualMessage;
+			}
 
-				$tmp_user                     = self::getCachedUserInstance($id);
-				$user_is_active               = $tmp_user->getActive();
-				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
-
-				if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
-					ilLoggerFactory::getLogger('mail')->debug(sprintf(
-						"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
-						$id,
-						var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
-						var_export(!$tmp_user->checkTimeLimit(), 1)
-					));
-					continue;
-				}
-
-				if($user_is_active)
-				{
-					if(!$user_can_read_internal_mails 
-						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
-						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
-					{
-						$newEmailAddresses = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
-						$as_email = array_unique(array_merge($newEmailAddresses, $as_email));
-
-						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
-							ilLoggerFactory::getLogger('mail')->debug(sprintf(
-								"Recipient with id %s will only receive external emails sent to: %s",
-								$id,
-								implode(', ', $newEmailAddresses)
-							));
-							continue;
-						} else {
-							ilLoggerFactory::getLogger('mail')->debug(sprintf(
-								"Recipient with id %s will additionally receive external emails sent to: %s",
-								$id,
-								implode(', ', $newEmailAddresses)
-							));
-						}
-					}
-				}
-
-				$mbox->setUserId($id);
-				$inbox_id = $mbox->getInboxFolder();
-
-				$mail_id = $this->sendInternalMail(
-					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $a_message, $id, 0
+			if ($user->getActive()) {
+				$wantsToReceiveExternalEmail = (
+					$mailOptions->getIncomingType() == ilMailOptions::INCOMING_EMAIL ||
+					$mailOptions->getIncomingType() == ilMailOptions::INCOMING_BOTH
 				);
 
-				if($a_attachments)
-				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
+				if (!$canReadInternalMails || $wantsToReceiveExternalEmail) {
+					$emailAddresses = \ilMailOptions::getExternalEmailsByUser($user, $mailOptions);
+					$usrIdToExternalEmailAddressesMap[$user->getId()] = $emailAddresses;
+
+					if ($mailOptions->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
+						ilLoggerFactory::getLogger('mail')->debug(sprintf(
+							"Recipient with id %s will only receive external emails sent to: %s",
+							$user->getId(),
+							implode(', ', $emailAddresses)
+						));
+						continue;
+					} else {
+						ilLoggerFactory::getLogger('mail')->debug(sprintf(
+							"Recipient with id %s will additionally receive external emails sent to: %s",
+							$user->getId(),
+							implode(', ', $emailAddresses)
+						));
+					}
 				}
 			}
 
-			$as_email = array_unique($as_email);
-			if (1 === count($as_email)) {
-				$this->sendMimeMail(
-					implode(',', $as_email), '', '',
-					$a_subject, $this->formatLinebreakMessage($a_message), (array)$a_attachments
-				);
-			} elseif (count($as_email) > 1) {
+			$mbox = clone $this->mailbox;
+			$mbox->setUserId($user->getId());
+			$recipientInboxId = $mbox->getInboxFolder();
+
+			$internalMailId = $this->sendInternalMail(
+				$recipientInboxId, $this->user_id, $attachments, $rcpCc, $rcpBcc, '',
+				'unread', $type, 0, $subject, $individualMessage, $user->getId(), 0
+			);
+
+			if (count($attachments) > 0) {
+				$this->mfile->assignAttachmentsToDirectory($internalMailId, $sentMailId);
+			}
+		}
+
+		if (1 === count($usrIdToExternalEmailAddressesMap)) {
+			if ($usePlaceholders) {
+				$message = array_values($usrIdToMessageMap)[0];
+			}
+
+			$this->sendMimeMail(
+				implode(',', array_values($usrIdToExternalEmailAddressesMap)[0]), '', '',
+				$subject, $this->formatLinebreakMessage($message), (array)$attachments
+			);
+		} elseif (count($usrIdToExternalEmailAddressesMap) > 1) {
+			if ($usePlaceholders) {
+				foreach ($usrIdToExternalEmailAddressesMap as $usrId => $addresses) {
+					if (0 == count($addresses)) {
+						continue;
+					}
+
+					$this->sendMimeMail(
+						implode(',', $addresses), '', '',
+						$subject, $this->formatLinebreakMessage($usrIdToMessageMap[$usrId]), (array)$attachments
+					);
+				}
+			} else {
+				$flattenEmailAddresses = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator(
+					$usrIdToExternalEmailAddressesMap
+				)), false);
+
 				$offset = 0;
 				$limit = 25;
-				while ($bccSliced = array_slice($as_email, $offset, $limit, true)) {
+				while ($bccSliced = array_slice($flattenEmailAddresses, $offset, $limit, true)) {
 					$this->sendMimeMail(
 						'', '', implode(',', $bccSliced),
-						$a_subject, $this->formatLinebreakMessage($a_message), (array)$a_attachments
+						$subject, $this->formatLinebreakMessage($message), (array)$attachments
 					);
 
 					$offset += $limit;
 				}
 			}
 		}
-		else
-		{
-			$rcp_ids_replace    = $this->getUserIds(array($a_rcp_to));
-			$rcp_ids_no_replace = $this->getUserIds(array($a_rcp_cc, $a_rcp_bcc));
+	}
+
+	/**
+	 * @param string $rcpTo
+	 * @param string $rcpCc
+	 * @param string $rcpBcc
+	 * @param string $subject
+	 * @param string $message
+	 * @param array $attachments
+	 * @param int $sentMailId
+	 * @param array $type
+	 * @param bool $usePlaceholders
+	 * @return bool
+	 */
+	protected function distributeMail(
+		string $rcpTo,
+		string $rcpCc,
+		string $rcpBcc,
+		string $subject,
+		string $message,
+		array $attachments,
+		int $sentMailId,
+		array $type,
+		bool $usePlaceholders = false
+	)
+	{
+		if ($usePlaceholders) {
+			$toUsrIds = $this->getUserIds([$rcpTo]);
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Parsed TO user ids from given recipients for serial letter notification: %s", implode(', ', $toUsrIds)
+			));
+			$this->sendChanneledMails(
+				$rcpTo, $rcpCc, $rcpBcc, $toUsrIds, $subject, $message, $attachments, $sentMailId, $type, true
+			);
+
+			$otherUsrIds = $this->getUserIds([$rcpCc, $rcpBcc]);
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				"Parsed CC/BCC user ids from given recipients for serial letter notification: %s", implode(', ', $otherUsrIds)
+			));
+			$this->sendChanneledMails(
+				$rcpTo, $rcpCc, $rcpBcc, $otherUsrIds, $subject, $this->replacePlaceholders($message, 0, false), $attachments, $sentMailId, $type, false
+			);
+		} else {
+			$usrIds = $this->getUserIds([$rcpTo, $rcpCc, $rcpBcc]);
 
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Parsed TO user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_replace)
-			));
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				"Parsed CC/BCC user ids from given recipients for serial letter notification: %s", implode(', ', $rcp_ids_no_replace)
+				"Parsed TO/CC/BCC user ids from given recipients: %s", implode(', ', $usrIds)
 			));
 
-			$as_email          = array();
-			$id_to_message_map = array();
-
-			foreach($rcp_ids_replace as $id)
-			{
-				$tmp_mail_options = new ilMailOptions($id);
-
-				$tmp_user                     = self::getCachedUserInstance($id);
-				$user_is_active               = $tmp_user->getActive();
-				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
-
-				if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
-					ilLoggerFactory::getLogger('mail')->debug(sprintf(
-						"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
-						$id,
-						var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
-						var_export(!$tmp_user->checkTimeLimit(), 1)
-					));
-					continue;
-				}
-
-				$id_to_message_map[$id] = $this->replacePlaceholders($a_message, $id);
-
-				if($user_is_active)
-				{
-					if(!$user_can_read_internal_mails 
-						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
-						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
-					{
-						$as_email[$tmp_user->getId()] = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
-	
-						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
-							ilLoggerFactory::getLogger('mail')->debug(sprintf(
-								"Recipient with id %s will only receive external emails sent to: %s",
-								$id,
-								implode(', ', $as_email[$tmp_user->getId()])
-							));
-							continue;
-						} else {
-							ilLoggerFactory::getLogger('mail')->debug(sprintf(
-								"Recipient with id %s will additionally receive external emails sent to: %s",
-								$id,
-								implode(', ', $as_email[$tmp_user->getId()])
-							));
-						}
-					}
-				}
-
-				$mbox->setUserId($id);
-				$inbox_id = $mbox->getInboxFolder();
-
-				$mail_id = $this->sendInternalMail(
-					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $id_to_message_map[$id], $id, 0
-				);
-
-				if($a_attachments)
-				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
-				}
-			}
-
-			if (count($as_email) > 0) {
-				foreach ($as_email as $id => $emails) {
-					if (0 == count($emails)) {
-						continue;
-					}
-
-					$this->sendMimeMail(
-						implode(',', $emails), '', '',
-						$a_subject, $this->formatLinebreakMessage($id_to_message_map[$id]), (array)$a_attachments
-					);
-				}
-			}
-
-			$as_email = array();
-
-			$cc_and_bcc_message = $this->replacePlaceholders($a_message, 0, false);
-
-			foreach($rcp_ids_no_replace as $id)
-			{
-				$tmp_mail_options = new ilMailOptions($id);
-
-				$tmp_user                     = self::getCachedUserInstance($id);
-				$user_is_active               = $tmp_user->getActive();
-				$user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
-
-				if($user_is_active)
-				{
-					if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
-						ilLoggerFactory::getLogger('mail')->debug(sprintf(
-							"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
-							$id,
-							var_export(!$tmp_user->hasToAcceptTermsOfService(), 1),
-							var_export(!$tmp_user->checkTimeLimit(), 1)
-						));
-						continue;
-					}
-					
-					
-					if(!$user_can_read_internal_mails
-						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
-						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
-					{
-						$newEmailAddresses = ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options); 
-						$as_email = array_unique(array_merge($newEmailAddresses, $as_email));
-
-						if ($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
-							ilLoggerFactory::getLogger('mail')->debug(sprintf(
-								"Recipient with id %s will only receive external emails sent to: %s",
-								$id,
-								implode(', ', $newEmailAddresses)
-							));
-							continue;
-						} else {
-							ilLoggerFactory::getLogger('mail')->debug(sprintf(
-								"Recipient with id %s will additionally receive external emails sent to: %s",
-								$id,
-								implode(', ', $newEmailAddresses)
-							));
-						}
-					}
-				}
-
-				$mbox->setUserId($id);
-				$inbox_id = $mbox->getInboxFolder();
-
-				$mail_id = $this->sendInternalMail(
-					$inbox_id, $this->user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, '',
-					'unread', $a_type, 0, $a_subject, $cc_and_bcc_message, $id, 0
-				);
-
-				if($a_attachments)
-				{
-					$this->mfile->assignAttachmentsToDirectory($mail_id, $sent_mail_id);
-				}
-			}
-
-			$as_email = array_unique($as_email);
-			if (1 === count($as_email)) {
-				$this->sendMimeMail(
-					implode(',', $as_email), '', '',
-					$a_subject, $this->formatLinebreakMessage($cc_and_bcc_message), (array)$a_attachments
-				);
-			} elseif (count($as_email) > 1) {
-				$offset = 0;
-				$limit = 25;
-				while ($bccSliced = array_slice($as_email, $offset, $limit, true)) {
-					$this->sendMimeMail(
-						'', '', implode(',', $bccSliced),
-						$a_subject, $this->formatLinebreakMessage($cc_and_bcc_message), (array)$a_attachments
-					);
-
-					$offset += $limit;
-				}
-			}
+			$this->sendChanneledMails(
+				$rcpTo, $rcpCc, $rcpBcc, $usrIds, $subject, $message, $attachments, $sentMailId, $type, false
+			);
 		}
 
 		return true;
