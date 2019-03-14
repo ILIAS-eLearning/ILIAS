@@ -39,30 +39,13 @@ class MessageBoxTest extends ILIAS_UI_TestBase {
 	);
 
 	public function getUIFactory() {
-		return new \ILIAS\UI\Implementation\Factory(
-			$this->createMock(C\Counter\Factory::class),
-			$this->createMock(C\Glyph\Factory::class),
-			$this->createMock(C\Button\Factory::class),
-            new IC\Listing\Factory(),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			$this->createMock(C\Dropdown\Factory::class),
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
-		);
+		$factory = new class extends NoUIFactory {
+			public function listing() {
+				return new IC\Listing\Factory();
+			}
+		};
+		return $factory;
 	}
-
 
 	/**
 	 * @dataProvider messagebox_type_provider
