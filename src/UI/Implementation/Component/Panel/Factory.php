@@ -45,8 +45,8 @@ class Factory implements \ILIAS\UI\Component\Panel\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function secondary($title,$content) {
-		return new Secondary($title,$content);
+	public function secondary() {
+		return new Secondary\Factory();
 	}
 
 	/**

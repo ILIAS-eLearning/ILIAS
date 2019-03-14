@@ -2,8 +2,9 @@
 
 /* Copyright (c) 2019 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Panel;
+namespace ILIAS\UI\Component\Panel\Secondary;
 
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\ViewControl\Pagination as Pagination;
 use ILIAS\UI\Component\ViewControl\Section as Section;
 use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
@@ -11,7 +12,8 @@ use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
 /**
  * This describes a Secondary Panel.
  */
-interface Secondary extends Panel {
+interface Secondary extends C\Component
+{
 	/**
 	 * Set Sortation view controller.
 	 * @param Sortation $sortation

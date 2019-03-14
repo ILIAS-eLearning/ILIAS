@@ -166,9 +166,7 @@ interface Factory {
 	 *      6: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
 	 *
 	 * ---
-	 * @param string $title
-	 * @param Component
-	 * @return \ILIAS\UI\Component\Panel\Secondary
+	 * @return \ILIAS\UI\Component\Panel\Secondary\Factory
 	 */
-	public function secondary($title,$content);
+	public function secondary();
 }

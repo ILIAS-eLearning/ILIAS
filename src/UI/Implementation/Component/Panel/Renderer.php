@@ -32,11 +32,6 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var Component\Panel\Sub $component
 			 */
 			return $this->renderSub($component, $default_renderer);
-		} else if($component instanceof Component\Panel\Secondary) {
-			/**
-			 * @var Component\Panel\Secondary $component
-			 */
-			return $this->renderSecondary($component, $default_renderer);
 		}
 		/**
 		 * @var Component\Panel\Report $component
@@ -128,40 +123,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.report.html", true, true);
 		$tpl->setVariable("TITLE",  $component->getTitle());
 		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
-		return $tpl->get();
-	}
-
-	/**
-	 * @param Component\Panel\Secondary $component
-	 * @param RendererInterface $default_renderer
-	 * @return string
-	 */
-	protected function renderSecondary(Component\Panel\Secondary $component, RendererInterface $default_renderer)
-	{
-		$actions = $component->getActions();
-		$sortation = $component->getSortation();
-		$pagination = $component->getPagination();
-		$section = $component->getSection();
-
-		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
-		$tpl->setVariable("TITLE",  $component->getTitle());
-
-		if($actions !== null) {
-			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-		}
-		if($sortation) {
-			$tpl->setVariable("SORTATION", $default_renderer->render($sortation));
-		}
-		if($pagination)
-		{
-			$tpl->setVariable("PAGINATION", $default_renderer->render($pagination));
-		}
-		if($section)
-		{
-			$tpl->setVariable("SECTION", $default_renderer->render($section));
-		}
-		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
-		
 		return $tpl->get();
 	}
 
