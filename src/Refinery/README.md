@@ -6,6 +6,7 @@ processed by the ILIAS project.
 **Table of Contents**
 - [Refinery](#refinery)
   * [General](#general)
+  * [Quickstart example](#quickstart-example)
   * [Usage](#usage)
     + [Factory](#factory)
       - [Groups](#groups)
@@ -36,6 +37,26 @@ that can be used for transformations and
 validation.
 Checkout the [chapter](#libraries) about these
 additional libraries.
+
+## Quickstart example
+
+This is an example to transform a float value to a string value and
+will create a data type from the result of this transformation:
+
+```php
+$transformation = $factory->in()->series(
+    array(
+        new Refinery\KindlyTo\IntegerTransformation(),
+        new Refinery\KindlyTo\StringTransformation()
+    )
+);
+
+$result = $transformation->transform(5.5);
+
+$data = new Alphanumeric($result);
+
+echo $data->getData();
+```
 
 ## Usage
 
@@ -114,12 +135,24 @@ Find out more about the `applyTo` method of instances of the `Transformation`
 interface in the
 [README about Transformations](/src/Refinery/Transformation/README.md).
 
-Currently supported methods:
+
+###### Natives
+
+As seen in the example of the [previous chapter](#to)
+there are transformations which cover the native data
+types of PHP (`int`, `string`, `float` and `boolean`).
 
 * `string()`   - Returns an object that allows to transform a value to a string value.
 * `int()`      - Returns an object that allows to transform a value to a integer value.
 * `float()`    - Returns an object that allows to transform a value to a float value.
 * `bool()`     - Returns an object that allows to transform a value to a boolean value.
+
+###### Structures
+
+Beside the [native transformations](#natives) there also
+transformation to create structures like `list`, `dictonary`,
+`record` and `tuple`.
+
 * `listOf()`   - Returns an object that allows to transform an value in a given array
                  with the given transformation object.
                  The transformation will be executed on every element of the array.
@@ -146,18 +179,6 @@ Currently supported methods:
                  an transformation object to execute a certain method with variation of
                  parameters on the objects.
 * `data()`     - Returns a data factory to create a certain data type
-
-###### Natives
-
-As seen in the example of the [previous chapter](#to)
-there are transformations which cover the native data
-types of PHP (`int`, `string`, `float` and `boolean`).
-
-###### Structures
-
-Beside the [native transformations](#natives) there also
-transformation to create structures like `list`, `dictonary`,
-`record` and `tuple`.
 
 ##### kindlyTo
 
@@ -193,12 +214,23 @@ Find out more about the `applyTo` method of instances of the `Transformation`
 interface in the
 [README about Transformations](/src/Refinery/Transformation/README.md).
 
-Currently supported methods:
+###### Natives
+
+As seen in the example of the [previous chapter](#to)
+there are transformations which cover the native data
+types of PHP (`int`, `string`, `float` and `boolean`).
 
 * `string()`   - Returns an object that allows to transform a value to a string value.
 * `int()`      - Returns an object that allows to transform a value to a integer value.
 * `float()`    - Returns an object that allows to transform a value to a float value.
 * `bool()`     - Returns an object that allows to transform a value to a boolean value.
+
+###### Structures
+
+Beside the [native transformations](#natives) there also
+transformation to create structures like `list`, `dictonary`,
+`record` and `tuple`.
+
 * `listOf()`   - Returns an object that allows to transform an value in a given array
                  with the given transformation object.
                  The transformation will be executed on every element of the array.
@@ -225,18 +257,6 @@ Currently supported methods:
                  an transformation object to execute a certain method with variation of
                  parameters on the objects.
 * `data()`     - Returns a data factory to create a certain data type
-
-###### Natives
-
-As seen in the example of the [previous chapter](#to)
-there are transformations which cover the native data
-types of PHP (`int`, `string`, `float` and `boolean`).
-
-###### Structures
-
-Beside the [native transformations](#natives) there also
-transformation to create structures like `list`, `dictonary`,
-`record` and `tuple`.
 
 ##### in
 
