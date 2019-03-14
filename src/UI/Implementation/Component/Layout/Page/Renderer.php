@@ -29,11 +29,13 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
 		$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
 
-		if($breadcrumbs = $component->getBreadcrumbs()) {
+		$breadcrumbs = $component->getBreadcrumbs();
+		if($breadcrumbs) {
 			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
 		}
 
-		if($logo = $component->getLogo()) {
+		$logo = $component->getLogo();
+		if($logo) {
 			$tpl->setVariable("LOGO", $default_renderer->render($logo));
 		}
 
@@ -108,18 +110,9 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @inheritdoc
 	 */
-	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
-		parent::registerResources($registry);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	protected function getComponentInterfaceName() {
 		return array(
 			Component\Layout\Page\Standard::class
 		);
-
 	}
-
 }

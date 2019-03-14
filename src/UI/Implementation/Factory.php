@@ -343,7 +343,7 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function layout()
+	public function layout(): C\Layout\Factory
 	{
 		return new Component\Layout\Factory();
 	}
@@ -351,7 +351,7 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function mainControls()
+	public function mainControls(): C\MainControls\Factory
 	{
 		return new Component\MainControls\Factory(new SignalGenerator());
 	}

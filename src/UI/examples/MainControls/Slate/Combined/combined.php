@@ -6,7 +6,7 @@ function combined() {
 	$renderer = $DIC->ui()->renderer();
 
 	$icon = $f->glyph()->comment();
-	$contents = "some contents.";
+	$contents = $f->legacy("some contents.");
 	$slate1 = $f->maincontrols()->slate()->legacy('legacy1', $icon, $contents);
 	$slate2 = $f->maincontrols()->slate()->legacy('legacy2', $icon, $contents);
 

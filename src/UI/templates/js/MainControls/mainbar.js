@@ -114,7 +114,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		};
 
 		var onClickToolRemoval = function(event, signalData) {
-			var search = '#' + id + ' .' + _cls_toolentries_wrapper + ' .btn',
+			var inst_id = '#' + id,
+				search = [inst_id, _cls_toolentries_wrapper, 'btn'].join(' .'),
 				active_tool_btn = $(search).filter(' .' + _cls_btn_engaged),
 				remaining;
 

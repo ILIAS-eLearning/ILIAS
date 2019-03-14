@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
+use ILIAS\UI\Component\Legacy\Legacy as ILegacy;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
@@ -22,23 +23,15 @@ class Legacy extends Slate implements ISlate\Legacy
 		SignalGeneratorInterface $signal_generator,
 		string $name,
 		$symbol,
-		string $contents
+		ILegacy $content
 	) {
 		parent::__construct($signal_generator, $name, $symbol);
-		$this->contents = $this->transformToLegacyComponent($contents);
-	}
-
-
-	protected function transformToLegacyComponent(string $contents): \ILIAS\UI\Component\Legacy\Legacy
-	{
-		global $DIC;
-		$factory = $DIC['ui.factory'];
-		return $factory->legacy($contents);
+		$this->contents = [$content];
 	}
 
 	public function getContents(): array
 	{
-		return [$this->contents];
+		return $this->contents;
 	}
 
 }

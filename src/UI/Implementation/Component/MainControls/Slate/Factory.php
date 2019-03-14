@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
+use ILIAS\UI\Component\Legacy\Legacy as ILegacy;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements ISlate\Factory
@@ -19,9 +20,9 @@ class Factory implements ISlate\Factory
 		$this->signal_generator = $signal_generator;
 	}
 
-	public function legacy(string $name, $symbol, string $contents): ISlate\Legacy
+	public function legacy(string $name, $symbol, ILegacy $content): ISlate\Legacy
 	{
-		return new Legacy($this->signal_generator, $name, $symbol, $contents);
+		return new Legacy($this->signal_generator, $name, $symbol, $content);
 	}
 
 	public function combined(string $name, $symbol): ISlate\Combined

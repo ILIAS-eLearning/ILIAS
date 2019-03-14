@@ -49,10 +49,13 @@ class Standard implements Page\Standard {
 	public function __construct(
 		MetaBar $metabar,
 		MainBar $mainbar,
-		$content,
+		array $content,
 		Breadcrumbs $locator = null,
 		Image $logo = null
 	) {
+		$allowed = [\ILIAS\UI\Component\Component::class];
+		$this->checkArgListElements("content", $content, $allowed);
+
 		$this->metabar = $metabar;
 		$this->mainbar = $mainbar;
 		$this->content = $content;

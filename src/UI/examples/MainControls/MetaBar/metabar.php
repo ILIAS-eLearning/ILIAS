@@ -17,7 +17,7 @@ function buildMetabar($f)
 	$notes = $f->maincontrols()->slate()->legacy(
 		'Notification',
 		$f->glyph()->notification(),
-		'some content'
+		$f->legacy('some content')
 	);
 
 	$metabar = $f->mainControls()->metabar()

@@ -18,7 +18,6 @@ class Combined extends Slate implements ISlate\Combined
 	 */
 	protected $contents = [];
 
-
 	public function __construct(
 		SignalGeneratorInterface $signal_generator,
 		string $name,
@@ -32,7 +31,6 @@ class Combined extends Slate implements ISlate\Combined
 	 */
 	public function withAdditionalEntry($entry): ISlate\Combined
 	{
-
 		$classes = [IBulky::class, ISlate\Slate::class];
 		$check = [$entry];
 		$this->checkArgListElements("Slate or Bulky-Button", $check, $classes);
@@ -49,5 +47,4 @@ class Combined extends Slate implements ISlate\Combined
 	{
 		return $this->contents;
 	}
-
 }
