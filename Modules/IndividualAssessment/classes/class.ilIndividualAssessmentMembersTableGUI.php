@@ -444,7 +444,7 @@ class ilIndividualAssessmentMembersTableGUI
 				&& (($this->userMayEditGradesOf($usr_id) && $this->wasEditedByViewer($examiner_id))
 				|| $this->userMayViewGrades())
 			)
-			|| ($finalized && $this->userMayViewLPOfOtherUsers())
+			|| ($finalized && $this->userMayViewGrades())
 		) {
 			return true;
 		}
