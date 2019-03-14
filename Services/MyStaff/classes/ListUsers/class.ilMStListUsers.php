@@ -18,7 +18,11 @@ class ilMStListUsers {
 
 		//Permissions
 		if (count($arr_usr_ids) == 0) {
-			return array();
+			if ($options['count']) {
+				return 0;
+			} else {
+				return array();
+			}
 		}
 
 		$_options = array(
