@@ -731,3 +731,7 @@ if($lp_type_id)
 	}
 }
 ?>
+<#5481>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
