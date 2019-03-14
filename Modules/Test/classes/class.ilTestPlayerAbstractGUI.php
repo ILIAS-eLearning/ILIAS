@@ -1044,6 +1044,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if( count($testPassesSelector->getReportablePasses()) )
 		{
+			if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+			{
+				$this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'));
+			}
+			
 			$this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
 

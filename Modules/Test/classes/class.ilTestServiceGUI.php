@@ -319,28 +319,6 @@ class ilTestServiceGUI
 		return $cmd;
 	}
 	
-	protected function handleTabs($activeTabId)
-	{
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-			
-			$this->tabs->addTab(
-				'results_pass_oriented', $this->lng->txt('tst_tab_results_pass_oriented'),
-				$this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outUserResultsOverview')
-			);
-			
-			$this->tabs->addTab(
-				'results_objective_oriented', $this->lng->txt('tst_tab_results_objective_oriented'),
-				$this->ctrl->getLinkTargetByClass('ilTestEvalObjectiveOrientedGUI', 'showVirtualPass')
-			);
-			
-			$this->tabs->setTabActive($activeTabId);
-		}
-	}
-	
 	/**
 	 * @return bool
 	 */
