@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
@@ -16,7 +17,10 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	protected $top_item;
 
 
-	public function __construct(\ILIAS\DI\Container $dic) {
+	/**
+	 * @param Container $dic
+	 */
+	public function __construct(Container $dic) {
 		parent::__construct($dic);
 		$this->top_item = (new ilPDGlobalScreenProvider($dic))->getTopItem();
 	}
@@ -46,21 +50,14 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 * @inheritDoc
 	 */
 	public function getStaticSubItems(): array {
-		$dic = $this->dic;
-
-		return [$this->mainmenu->link($this->if->identifier('mm_pd_mst'))
-			        ->withTitle($this->dic->language()->txt("my_staff"))
-			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff")
-			        ->withParent($this->getTopItem())
-			        ->withAvailableCallable(
-				        function () use ($dic) {
-					        return (bool)($dic->settings()->get("enable_my_staff"));
-				        }
-			        )
-			        ->withVisibilityCallable(
-				        function () {
-					        return (bool)ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
-				        }
-			        )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"))];
+		return [
+			$this->mainmenu->link($this->if->identifier('mm_pd_mst'))->withTitle($this->dic->language()->txt("my_staff"))
+				->withAction("ilias.php?baseClass=" . ilPersonalDesktopGUI::class . "&cmd=jumpToMyStaff")->withParent($this->getTopItem())
+				->withAvailableCallable(function (): bool {
+					return boolval($this->dic->settings()->get("enable_my_staff"));
+				})->withVisibilityCallable(function (): bool {
+					return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+				})->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+		];
 	}
 }

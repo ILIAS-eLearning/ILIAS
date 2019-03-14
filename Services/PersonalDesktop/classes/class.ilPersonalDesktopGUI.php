@@ -269,9 +269,8 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($achievegui);
 				break;
 
-			case 'ilmystaffgui':
+			case strtolower(ilMyStaffGUI::class):
 				$this->getStandardTemplates();
-				include_once './Services/MyStaff/classes/class.ilMyStaffGUI.php';
 				$mstgui = new ilMyStaffGUI();
 				$ret = $this->ctrl->forwardCommand($mstgui);
 				break;
@@ -765,7 +764,7 @@ class ilPersonalDesktopGUI
 
 	protected function jumpToMyStaff()
 	{
-		$this->ctrl->redirectByClass("ilmystaffgui");
+		$this->ctrl->redirectByClass(ilMyStaffGUI::class);
 	}
 	
 	/**
