@@ -45,7 +45,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	/** @var ilLanguage $lng */
 	protected $lng = null;
 
-	/** @var ilTemplate $tpl */
+	/** @var ilGlobalTemplate $tpl */
 	protected $tpl = null;
 
 	/** @var ilTree $tree */
@@ -82,7 +82,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		ilCtrl $ctrl,
 		ilAccessHandler $access,
 		ilLanguage $lng,
-		ilTemplate $tpl,
 		ilTree $tree,
 		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
@@ -90,10 +89,12 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		ilObjTestGUI $testGUI
 	)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$this->ctrl = $ctrl;
 		$this->access = $access;
 		$this->lng = $lng;
-		$this->tpl = $tpl;
+		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->tree = $tree;
 		$this->db = $db;
 		$this->pluginAdmin = $pluginAdmin;
@@ -187,7 +188,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$link = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_RESET_TPL_CONFIRM);
 			$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
 
-			$msgHTML = $tpl->getMessageHTML(
+			$msgHTML = ilUtil::getSystemMessageHTML(
 				sprintf($this->lng->txt("test_using_template"), $title, $link), "info"
 			);
 
@@ -211,6 +212,18 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$form = $this->buildForm();
 
 		// form validation and initialisation
+		
+		if($isConfirmedSave)
+		{
+			// since confirmation does only pickup POST and no FILES
+			// mocking the tile image file upload field is neccessary
+			// due to checkInput() behaviour (fixes mantis #24226)
+			$_FILES['tile_image'] = array(
+				'name' => '', 'type' => '', 'size' => '', 'tmp_name' => '', 'error' => ''
+			);
+			
+			// TODO: get rid of question selection mode setting in settings form (move to creation screen)
+		}
 
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
@@ -697,6 +710,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
+		$dur->setRequired(true);
 		$dur->setShowTime(true);
 		$date = $this->testOBJ->getActivationStartingTime();
 		$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
@@ -1000,12 +1014,19 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$nr_of_tries->setMinvalueShouldBeGreater(false);
 		$nr_of_tries->setValue($this->testOBJ->getNrOfTries() ? $this->testOBJ->getNrOfTries() : 1);
 		$nr_of_tries->setRequired(true);
+		$limitPasses->addSubItem($nr_of_tries);
+		$blockAfterPassed = new ilCheckboxInputGUI(
+			$this->lng->txt('tst_block_passes_after_passed'), 'block_after_passed'
+		);
+		$blockAfterPassed->setInfo($this->lng->txt('tst_block_passes_after_passed_info'));
+		$blockAfterPassed->setChecked( $this->testOBJ->isBlockPassesAfterPassedEnabled() );
+		$limitPasses->addSubItem($blockAfterPassed);
 		if( $this->testOBJ->participantDataExist() )
 		{
 			$limitPasses->setDisabled(true);
+			$blockAfterPassed->setDisabled(true);
 			$nr_of_tries->setDisabled(true);
 		}
-		$limitPasses->addSubItem($nr_of_tries);
 		$form->addItem($limitPasses);
 
 		// pass_waiting time between testruns
@@ -1110,10 +1131,15 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				if ($form->getItemByPostVar('limitPasses')->getChecked())
 				{
 					$this->testOBJ->setNrOfTries($form->getItemByPostVar('nr_of_tries')->getValue());
+
+					$this->testOBJ->setBlockPassesAfterPassedEnabled(
+						(bool)$form->getItemByPostVar('block_after_passed')->getChecked()
+					);
 				}
 				else
 				{
 					$this->testOBJ->setNrOfTries(0);
+					$this->testOBJ->setBlockPassesAfterPassedEnabled(false);
 				}
 			}
 

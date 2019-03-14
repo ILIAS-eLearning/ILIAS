@@ -23,7 +23,7 @@ class ilSCORM2004StoreData
 			$userId=(int) $data->p;
 			self::checkIfAllowed($packageId,$userId,$data->hash); 
 		}
-		$last_visited = "";
+		$last_visited = null;
 		if ($data->last !="") $last_visited = $data->last;
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
 		$total_time_sec = null;
@@ -335,7 +335,8 @@ class ilSCORM2004StoreData
 
 	// private function setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data) {
 
-		// global $ilLog;
+		// global $DIC;
+		// $ilLog = $DIC['ilLog'];
 		// $changed_seq_utilities=$data->changed_seq_utilities;
 		// $ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
 		// if ($changed_seq_utilities == 1) {
@@ -624,7 +625,7 @@ class ilSCORM2004StoreData
 
 		require_once './Services/Object/classes/class.ilObjectDataCache.php';
 		$ilObjDataCache = new ilObjectDataCache();
-		$GLOBALS['ilObjDataCache'] = $ilObjDataCache;
+		$GLOBALS['DIC']['ilObjDataCache'] = $ilObjDataCache;
 	}
 
 

@@ -71,7 +71,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$ilLocator = $DIC['ilLocator'];
 		$lng = $DIC['lng'];
 		
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 //		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
 //		$this->tpl->setLocator();

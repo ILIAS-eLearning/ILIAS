@@ -9,4 +9,5 @@ use ILIAS\UI\Implementation\Component\LoadingAnimationOnClick;
 
 class Standard extends Button implements C\Button\Standard {
 	use LoadingAnimationOnClick;
+	use Engageable;
 }

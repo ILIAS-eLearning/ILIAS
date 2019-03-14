@@ -31,7 +31,7 @@ class ilWebDAVMountInstructions
     {
         global $DIC;
         
-        $this->settings = $DIC->settings();
+        $this->settings = new ilSetting('file_access');
         $this->lng = $DIC->language();
         
         $this->user_agent = $a_user_agent == '' ? strtolower($_SERVER['HTTP_USER_AGENT']) : $a_user_agent;
@@ -121,7 +121,7 @@ class ilWebDAVMountInstructions
         return fread(fopen($this->path_to_template, "rb"),filesize($this->path_to_template));
     }
     
-    public function getCustomInstructions()
+    public function getCustomInstruction()
     {
         return $this->settings->get('custom_webfolder_instructions');
     }

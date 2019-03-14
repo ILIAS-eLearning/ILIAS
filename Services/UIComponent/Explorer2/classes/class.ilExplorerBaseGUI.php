@@ -26,7 +26,7 @@ abstract class ilExplorerBaseGUI
 	protected $ctrl;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $tpl;
 
@@ -124,7 +124,7 @@ abstract class ilExplorerBaseGUI
 	 *
 	 * @param ilTemplate|null $a_main_tpl
 	 */
-	function setMainTemplate(ilTemplate $a_main_tpl = null)
+	function setMainTemplate(ilGlobalTemplate $a_main_tpl = null)
 	{
 		$this->tpl = $a_main_tpl;
 	}
@@ -860,7 +860,10 @@ abstract class ilExplorerBaseGUI
 				$tpl->setVariable("ICON", ilUtil::img($this->getNodeIcon($a_node), $this->getNodeIconAlt($a_node)) . " ");
 			}
 			$tpl->setVariable("CONTENT", $this->getNodeContent($a_node));
-			$tpl->setVariable("HREF", $this->getNodeHref($a_node));
+			if ($this->isNodeClickable($a_node))
+			{
+				$tpl->setVariable("HREF", $this->getNodeHref($a_node));
+			}
 			$target = $this->getNodeTarget($a_node);
 			if ($target != "")
 			{

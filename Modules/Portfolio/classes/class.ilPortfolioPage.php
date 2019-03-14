@@ -446,22 +446,6 @@ class ilPortfolioPage extends ilPageObject
 		}
 	}
 
-	/**
-	 * Fix internal portfolio links
-	 *
-	 * @param array
-	 */
-	static function fixLinksOnTitleChange($a_port_id, $a_title_changes)
-	{
-		foreach(ilPortfolioPage::getAllPortfolioPages($a_port_id) as $port_page)
-		{
-			$page = new ilPortfolioPage($port_page["id"]);
-			if ($page->renameLinksOnTitleChange($a_title_changes))
-			{
-				$page->update(true, true);
-			}
-		}
-	}
 
 	/**
 	 * @param $a_title_changes
@@ -496,6 +480,29 @@ class ilPortfolioPage extends ilPageObject
 		unset($xpc);
 
 		return $changed;
+	}
+
+	/**
+	 * Get portfolio pages for blog
+	 *
+	 * @param int $a_blog_id
+	 * @return ilPortfolioPage[]
+	 */
+	static function getPagesForBlog($a_blog_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
+			" WHERE title = ".$ilDB->quote($a_blog_id, "text").
+			" AND type = ".$ilDB->quote(self::TYPE_BLOG, "integer"));
+		$pages = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$pages[] = new ilPortfolioPage($rec["id"]);
+		}
+		return $pages;
 	}
 
 }

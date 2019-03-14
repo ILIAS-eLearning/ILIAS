@@ -83,7 +83,7 @@ class ilForumExportGUI
 
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$tpl                 = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+		$tpl                 = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
@@ -112,7 +112,7 @@ class ilForumExportGUI
 				$this->renderPostHtml($tpl, $post, $z++, self::MODE_EXPORT_WEB);
 			}
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	public function printPost()
@@ -127,7 +127,7 @@ class ilForumExportGUI
 
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$tpl                 = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+		$tpl                 = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
@@ -143,7 +143,7 @@ class ilForumExportGUI
 
 			$this->renderPostHtml($tpl, $post, 0, self::MODE_EXPORT_WEB);
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**
@@ -161,7 +161,7 @@ class ilForumExportGUI
 
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$tpl = new ilTemplate('tpl.forums_export_html.html', true, true, 'Modules/Forum');
+		$tpl = new ilGlobalTemplate('tpl.forums_export_html.html', true, true, 'Modules/Forum');
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 		$tpl->setVariable('BASE', (substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
@@ -193,11 +193,11 @@ class ilForumExportGUI
 				$tpl->setVariable('T_TITLE', $topic->getSubject());
 				if($this->is_moderator)
 				{
-					$tpl->setVariable('T_NUM_POSTS', $topic->countPosts());
+					$tpl->setVariable('T_NUM_POSTS', $topic->countPosts(true));
 				}
 				else
 				{
-					$tpl->setVariable('T_NUM_POSTS', $topic->countActivePosts());
+					$tpl->setVariable('T_NUM_POSTS', $topic->countActivePosts(true));
 				}
 				$tpl->setVariable('T_NUM_VISITS', $topic->getVisits());
 				$tpl->setVariable('T_FORUM', $thread_data['top_name']);
@@ -220,16 +220,16 @@ class ilForumExportGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		ilUtil::deliverData($tpl->get('DEFAULT', false, false, false, true, false, false), 'forum_html_export_' . $_GET['ref_id'] . '.html');
+		ilUtil::deliverData($tpl->getSpecial('DEFAULT', false, false, false, true, false, false), 'forum_html_export_' . $_GET['ref_id'] . '.html');
 	}
 
 	/**
-	 * @param ilTemplate $tpl
+	 * @param \ilGlobalTemplate $tpl
 	 * @param ilForumPost $post
 	 * @param int $counter
 	 * @param int $mode
 	 */
-	protected function renderPostHtml(ilTemplate $tpl, ilForumPost $post, $counter, $mode)
+	protected function renderPostHtml(\ilGlobalTemplate $tpl, ilForumPost $post, $counter, $mode)
 	{
 		$tpl->setCurrentBlock('posts_row');
 

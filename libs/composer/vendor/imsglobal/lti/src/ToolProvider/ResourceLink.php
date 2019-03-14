@@ -1026,7 +1026,6 @@ EOF;
  */
     public static function fromRecordId($id, $dataConnector)
     {
-
         $resourceLink = new ResourceLink();
         $resourceLink->dataConnector = $dataConnector;
         $resourceLink->load($id);
@@ -1155,6 +1154,9 @@ EOF;
             $params = $this->getConsumer()->signParameters($url, $type, $this->getConsumer()->ltiVersion, $params);
 // Connect to tool consumer
             $http = new HTTPMessage($url, 'POST', $params);
+            \ilLoggerFactory::getLogger('lti')->debug('Sending to ' . $url);
+			\ilLoggerFactory::getLogger('lti')->dump($params);
+
 // Parse XML response
             if ($http->send()) {
                 $this->extResponse = $http->response;

@@ -449,9 +449,7 @@ class ilObjectCopyGUI
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showTargetSelectionTree");
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "lso"));
-		// begin-patch mc
 		$exp->setSelectMode("target", TRUE);
-		// end-patch multi copy
 		if ($exp->handleCommand())
 		{
 			return;
@@ -1142,15 +1140,24 @@ class ilObjectCopyGUI
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-			ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
+			$ref_id = $new_obj->getRefId();
 		}
 		else
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
-			ilUtil::redirect(ilLink::_getLink($this->getFirstTarget()));
+			$ref_id = $this->getFirstTarget();
 		}
 
+		ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
+		ilUtil::redirect(ilLink::_getLink($ref_id));
+
+		// see bug discussion 24472
+		/*
+		$gui_fac = new ilObjectGUIFactory();
+		$obj_gui = $gui_fac->getInstanceByRefId($ref_id);
+		$obj_gui->redirectAfterCreation();
+		*/
 	}
 	
 	/**
@@ -1181,6 +1188,12 @@ class ilObjectCopyGUI
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
+			if($this->getSubMode() == self::SUBMODE_CONTENT_ONLY)
+			{
+				// return to parent container
+				return $this->ctrl->returnToParent($this);
+			}
+			// return to last target
 			$link = ilLink::_getLink($result['ref_id']);
 			$ilCtrl->redirectToUrl($link);
 		}

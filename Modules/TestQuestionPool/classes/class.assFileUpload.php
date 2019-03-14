@@ -138,6 +138,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$this->setAllowedExtensions($data["allowedextensions"]);
 			$this->setCompletionBySubmission($data['compl_by_submission'] == 1 ? true : false);
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -301,21 +307,39 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 		
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		
-		if (is_null($pass))
+		if( $this->isCompletionBySubmissionEnabled() )
 		{
-			$pass = $this->getSolutionMaxPass($active_id);
+			if (is_null($pass))
+			{
+				$pass = $this->getSolutionMaxPass($active_id);
+			}
+			
+			global $DIC;
+			
+			$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+			
+			while ($data = $DIC->database()->fetchAssoc($result))
+			{
+				if( $this->isDummySolutionRecord($data) )
+				{
+					continue;
+				}
+				
+				return $this->getPoints();
+			}
 		}
-		$points = 0;
-		return $points;
+		
+		return 0;
 	}
-
+	
 	protected function calculateReachedPointsForSolution($userSolution)
 	{
-		$points = 0;
-		return $points;
+		if( $this->isCompletionBySubmissionEnabled() && count($userSolution) )
+		{
+			return $this->getPoints();
+		}
+		
+		return 0;
 	}
 	
 	/**
@@ -386,9 +410,15 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		
 		// check suffixes
-		if (strlen($suffix) && count($this->getAllowedExtensionsArray()))
+		if( count($this->getAllowedExtensionsArray()) )
 		{
-			if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray()))
+			if( !strlen($suffix) )
+			{
+				ilUtil::sendFailure($this->lng->txt("form_msg_file_missing_file_ext"), true);
+				return false;
+			}
+			
+			if( !in_array(strtolower($suffix), $this->getAllowedExtensionsArray()) )
 			{
 				ilUtil::sendFailure($this->lng->txt("form_msg_file_wrong_file_type"), true);
 				return false;
@@ -730,9 +760,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 					$extension = $filename_arr["extension"];
 					$newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
 					
+					include_once 'Services/Utilities/classes/class.ilFileUtils.php';
+					$dispoFilename = ilFileUtils::getValidFilename($_FILES['upload']['name']);
+					$newfile = ilFileUtils::getValidFilename($newfile);
+					
 					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 					
-					$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], false,
+					$this->saveCurrentSolution($active_id, $pass, $newfile, $dispoFilename, false,
 						$solutionFileVersioningUploadTS
 					);
 
@@ -740,7 +774,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 				}
 			}
 
-			if ($authorized == true)
+			if ($authorized == true && $this->intermediateSolutionExists($active_id, $pass))
 			{
 				// remove the dummy record of the intermediate solution
 				$this->deleteDummySolutionRecord($active_id, $pass);
@@ -888,14 +922,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 
 		$previewSession->setParticipantsSolution($userSolution);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		$this->handleSubmission($active_id, $pass, $obligationsAnswered, $authorized);
 	}
 	
 	/**

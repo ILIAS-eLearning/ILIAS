@@ -174,7 +174,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
+				$output =  $this->tpl->getSpecial("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');
@@ -207,7 +207,7 @@ class ilLMEditorGUI
 	 */
 	function main_header()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");

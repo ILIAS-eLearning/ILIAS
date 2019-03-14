@@ -8,6 +8,12 @@
 class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $type;
+
+
+	/**
 	 * @return bool
 	 */
 	public function isCustom(): bool {
@@ -16,12 +22,13 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
 
 
 	// Setter
+
+
 	/**
 	 * @inheritDoc
 	 */
 	public function setType(string $type) {
 		$this->type = $type;
-		// throw new LogicException("Can't change type");
 	}
 
 

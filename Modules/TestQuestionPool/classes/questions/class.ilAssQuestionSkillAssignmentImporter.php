@@ -261,10 +261,22 @@ class ilAssQuestionSkillAssignmentImporter
 	
 	protected function getSkillIdMapping($importSkillBaseId, $importSkillTrefId)
 	{
+		if( $this->getImportInstallationId() == $this->getLocalInstallationId() )
+		{
+			return array( 'skill_id' => $importSkillBaseId, 'tref_id' => $importSkillTrefId );
+		}
+		
 		$foundSkillData = ilBasicSkill::getCommonSkillIdForImportId(
 			$this->getImportInstallationId(), $importSkillBaseId, $importSkillTrefId
 		);
 		
 		return current($foundSkillData);
+	}
+	
+	protected function getLocalInstallationId()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		return $DIC->settings()->get('inst_id', 0);
 	}
 }

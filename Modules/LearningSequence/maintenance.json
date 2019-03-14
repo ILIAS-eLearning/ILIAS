@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "rklees(34047)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "mglaubitz(28309)",
+    "testcase_writer": "scarlino(56074)",
+    "path": "Modules/LearningSequence",
+    "belong_to_component": "Learning Sequence",
+    "used_in_components": []
+}

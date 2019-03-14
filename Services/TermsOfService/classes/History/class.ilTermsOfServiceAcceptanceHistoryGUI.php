@@ -17,7 +17,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	/** @var \ilObjTermsOfService */
 	protected $tos;
 
-	/** @var \ilTemplate */
+	/** @var \ilGlobalTemplate */
 	protected $tpl;
 
 	/** @var \ilCtrl */
@@ -48,7 +48,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	 * ilTermsOfServiceDocumentGUI constructor.
 	 * @param \ilObjTermsOfService $tos
 	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-	 * @param \ilTemplate $tpl
+	 * @param \ilGlobalTemplate $tpl
 	 * @param \ilCtrl $ctrl
 	 * @param \ilLanguage $lng
 	 * @param \ilRbacSystem $rbacsystem
@@ -61,7 +61,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 	public function __construct(
 		\ilObjTermsOfService $tos,
 		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-		\ilTemplate $tpl,
+		\ilGlobalTemplate $tpl,
 		\ilCtrl $ctrl,
 		\ilLanguage $lng,
 		\ilRbacSystem $rbacsystem,
@@ -93,8 +93,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 		$cmd       = $this->ctrl->getCmd();
 
 		if (
-			!$this->rbacsystem->checkAccess('read', '', $this->tos->getRefId()) ||
-			!$this->rbacsystem->checkAccess('read', '', USER_FOLDER_ID)
+			!$this->rbacsystem->checkAccess('read', $this->tos->getRefId()) ||
+			!$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
 		) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
@@ -120,7 +120,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
 			'showAcceptanceHistory',
 			$this->criterionTypeFactory,
 			$this->uiFactory,
-			$this->uiRenderer
+			$this->uiRenderer,
+			$this->tpl
 		);
 		$table->setProvider($this->tableDataProviderFactory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
 

@@ -78,7 +78,6 @@ class ilDiskQuotaReminderMail
 	{
 		if (!is_array($this->amail[$a_lang]))
 		{
-			require_once('./Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php');
 			$this->amail[$a_lang] = ilObjDiskQuotaSettings::_lookupReminderMailTemplate($a_lang);
 			$this->amail["body"] = trim($this->amail["body"]);
 			$this->amail["subject"] = trim($this->amail["subject"]);
@@ -153,7 +152,7 @@ class ilDiskQuotaReminderMail
 		
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
-		$mail->sendMail($this->data['login'],"","",$mail_subject,$mail_body,array(),array("normal"));
+		$mail->validateAndEnqueue($this->data['login'],"","",$mail_subject,$mail_body,array(),array("normal"));
 
 
 

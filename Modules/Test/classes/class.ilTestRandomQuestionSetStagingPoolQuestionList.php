@@ -55,6 +55,11 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	/**
 	 * @var array
 	 */
+	private $lifecycleFilter = array();
+	
+	/**
+	 * @var array
+	 */
 	private $questions = array();
 
 	/**
@@ -118,6 +123,22 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 		$this->typeFilter = $typeFilter;
 	}
 	// fau.
+	
+	/**
+	 * @return array
+	 */
+	public function getLifecycleFilter(): array
+	{
+		return $this->lifecycleFilter;
+	}
+	
+	/**
+	 * @param array $lifecycleFilter
+	 */
+	public function setLifecycleFilter(array $lifecycleFilter)
+	{
+		$this->lifecycleFilter = $lifecycleFilter;
+	}
 
 	public function loadQuestions()
 	{		
@@ -167,6 +188,8 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 		// fau: taxFilter/typeFilter - add the type filter expression to conditions
 		$CONDITIONS = array_merge($CONDITIONS,  $this->getTypeFilterExpressions());
 		// fau.
+		
+		$CONDITIONS = array_merge($CONDITIONS,  $this->getLifecycleFilterExpressions());
 
 		$CONDITIONS = implode(' AND ', $CONDITIONS);
 
@@ -212,6 +235,18 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 		}
 
 		return $expressions;
+	}
+	
+	private function getLifecycleFilterExpressions()
+	{
+		if( count($this->lifecycleFilter) )
+		{
+			return array(
+				$this->db->in('lifecycle', $this->lifecycleFilter, false, 'text')
+			);
+		}
+		
+		return array();
 	}
 	
 	// fau: taxFilter/typeFilter - get the expressions for a type filter

@@ -27,7 +27,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
 	{
 		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
-		$this->cut_enabled = false;
+		$this->cut_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = false;
@@ -41,7 +41,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
 	{
 		$props = parent::getProperties();
 
-		if(ilObjLearningSequenceAccess::_isOffline($this->obj_id))
+		if(ilObjLearningSequenceAccess::isOffline($this->ref_id))
 		{
 			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
 				"value" => $this->lng->txt("offline"));

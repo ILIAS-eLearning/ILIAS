@@ -29,7 +29,7 @@ il.TestPlayerQuestionEditControl = new function() {
      *                                  should be long enough for question initialisation
      *                                  should be shorter than a possible manual interaction
      */
-    var START_TIMERS_DELAY = 10;
+    var START_TIMERS_DELAY = 100;
 
     /**
      * @var object config               initial configuration
@@ -143,7 +143,7 @@ il.TestPlayerQuestionEditControl = new function() {
             $('#tst_cancel_next_changed_answer_button').click(hideFollowupQuestionLocksCurrentAnswerModal);
             
             // handle the buttons in next locks empty answer confirmation modal
-            $('#tst_nav_next_empty_answer_button').click(saveWithNavigation);
+            $('#tst_nav_next_empty_answer_button').click(saveWithNavigationEmptyAnswer);
             $('#tst_cancel_next_empty_answer_button').click(hideFollowupQuestionLocksEmptyAnswerModal);
         }
 
@@ -198,6 +198,12 @@ il.TestPlayerQuestionEditControl = new function() {
      * This gives question scripts some time for their initialisation
      */
     function startTimers() {
+
+        // restore tinyMCE reformated content to its textarea
+        // before remembering origina formdata
+        if (typeof tinyMCE != 'undefined') {
+            tinyMCE.triggerSave();
+        }
 
         // save the initial form status
         origData = $(FORM_SELECTOR).serialize();
@@ -391,8 +397,6 @@ il.TestPlayerQuestionEditControl = new function() {
             
             if( !answerChanged && !answered )
             {
-                console.log('rubbel die katz x 2');
-
                 showFollowupQuestionLocksEmptyAnswerModal();
             }
             else if( $('#tst_next_locks_changed_modal').length > 0 )
@@ -479,7 +483,6 @@ il.TestPlayerQuestionEditControl = new function() {
     
     function showFollowupQuestionLocksEmptyAnswerModal()
     {
-        console.log($('#tst_next_locks_unchanged_modal'));
         $('#tst_next_locks_unchanged_modal').modal('show');
     }
     
@@ -539,6 +542,12 @@ il.TestPlayerQuestionEditControl = new function() {
         // submit the solution
         // the answering status will be appended by handleFormSubmit()
         $(FORM_SELECTOR).submit();
+    }
+
+    function saveWithNavigationEmptyAnswer() {
+        $(FORM_SELECTOR).find('input[name=orderresult]').remove();
+        $(FORM_SELECTOR).find('input[name*=order_elems]').remove();
+        saveWithNavigation();
     }
 
     /**

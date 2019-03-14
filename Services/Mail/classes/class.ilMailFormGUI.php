@@ -43,12 +43,18 @@ class ilMailFormGUI
 	/** @var ilMailTemplateService */
 	protected $templateService;
 
+	/** @var ilMailBodyPurifier */
+	private $purifier;
+
 	/**
 	 * ilMailFormGUI constructor.
 	 * @param ilMailTemplateService|null $templateService
+	 * @param ilMailBodyPurifier|null $bodyPurifier
 	 */
-	public function __construct(\ilMailTemplateService $templateService = null)
-	{
+	public function __construct(
+		\ilMailTemplateService $templateService = null,
+		\ilMailBodyPurifier $bodyPurifier = null
+	) {
 		global $DIC;
 
 		if (null === $templateService) {
@@ -67,6 +73,11 @@ class ilMailFormGUI
 		$this->umail = new ilFormatMail($this->user->getId());
 		$this->mfile = new ilFileDataMail($this->user->getId());
 		$this->mbox  = new ilMailbox($this->user->getId());
+
+		if (null === $bodyPurifier) {
+			$bodyPurifier = new ilMailBodyPurifier();
+		}
+		$this->purifier = $bodyPurifier;
 
 		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
@@ -150,8 +161,11 @@ class ilMailFormGUI
 	{
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
-		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
-		$message = str_replace("\r", '', $message);
+		$message = (string) $_POST['m_message'];
+
+		$mailBody = new ilMailBody($message, $this->purifier);
+
+		$sanitizedMessage = $mailBody->getContent();
 
 		$files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array)$_POST['attachments'] : array());
 
@@ -161,11 +175,12 @@ class ilMailFormGUI
 
 		$mailer->setSaveInSentbox(true);
 
-		if ($errors = $mailer->sendMail(
+		if ($errors = $mailer->validateAndEnqueue(
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
-			ilUtil::securePlainString($_POST['m_subject']), $message,
+			ilUtil::securePlainString($_POST['m_subject']),
+			$sanitizedMessage,
 			$files,
 			$m_type,
 			(int)$_POST['use_placeholders']
@@ -297,7 +312,7 @@ class ilMailFormGUI
 		$form->addCommandButton('cancelSearch', $this->lng->txt("cancel"));
 
 		$this->tpl->setContent($form->getHtml());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -798,28 +813,38 @@ class ilMailFormGUI
 		$this->tpl->setVariable('FORM', $form_gui->getHTML());
 
 		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	public function lookupRecipientAsync()
 	{
-		$search = $_REQUEST["term"];
+		$search = '';
+		if (isset($_GET["term"]) && is_string($_GET["term"])) {
+			$search = $_GET["term"];
+		}
+		if (isset($_POST["term"]) && is_string($_POST["term"])) {
+			$search = $_POST["term"];
+		}
+
+		$search = trim($search);
+
 		$result = array();
-		if (!$search)
-		{			
-			echo ilJsonUtil::encode($result);
+
+		require_once 'Services/Utilities/classes/class.ilStr.php';
+		if (\ilStr::strLen($search) < 3) {
+			echo json_encode($result);
 			exit;
 		}
-		
+
 		// #14768
 		$quoted = ilUtil::stripSlashes($search);
 		$quoted = str_replace('%', '\%', $quoted);
 		$quoted = str_replace('_', '\_', $quoted);
-		
+
 		$mailFormObj = new ilMailForm;
 		$result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
-		
-		echo ilJsonUtil::encode($result);
+
+		echo json_encode($result);
 		exit;
 	}
 

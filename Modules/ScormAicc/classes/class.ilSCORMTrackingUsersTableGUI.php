@@ -82,7 +82,8 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 	 */
 	protected function  fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->tpl->setVariable('CHECKBOX_ID', $a_set['user']);
 		$this->tpl->setVariable('VAL_USERNAME', $a_set['name']);
@@ -101,7 +102,8 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 	 */
 	protected function initTable()
 	{
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->setFilterCommand('applyUserTableFilter');
 		$this->setResetCommand('resetUserTableFilter');
@@ -113,7 +115,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('cont_tracking_items'));
 
 		$this->addColumn('','','1px');
-		$this->addColumn($this->lng->txt('user'), 'lastname','35%');
+		$this->addColumn($this->lng->txt('user'), 'name','35%');
 		$this->addColumn($this->lng->txt('last_access'), 'last_access', '25%');
 		$this->addColumn($this->lng->txt('attempts'), 'attempts', '20%');
 		$this->addColumn($this->lng->txt('version'), 'version','20%');

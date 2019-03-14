@@ -29,7 +29,7 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
 	/**
 	 * @param string $title
 	 *
-	 * @return hasTitle
+	 * @return hasTitle|TopLinkItem
 	 */
 	public function withTitle(string $title): hasTitle {
 		$clone = clone($this);
@@ -50,7 +50,7 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
 	/**
 	 * @param string $action
 	 *
-	 * @return hasAction
+	 * @return hasAction|TopLinkItem
 	 */
 	public function withAction(string $action): hasAction {
 		$clone = clone($this);

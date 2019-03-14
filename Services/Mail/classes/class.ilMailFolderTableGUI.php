@@ -497,11 +497,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				$data = ilMailBoxQuery::_getMailBoxListData();
 			}
 		} catch (Exception $e) {
-			$this->setTitleData($txt_folder, 0, 0, $img_folder);
-
 			if ('mail_search_empty_result' === $e->getMessage()) {
 				$data['set'] = array();
 				$data['cnt'] = 0;
+				$data['cnt_unread'] = 0;
 			} else {
 				throw $e;
 			}
@@ -611,7 +610,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$this->setMaxCount((int)$data['cnt']);
 		$this->setNumberOfMails((int)$data['cnt']);
 
-		$this->setTitleData($txt_folder, $data['cnt'], $data['cnt_unread'], $img_folder);
+		$this->setTitleData($txt_folder, (int)$data['cnt'], (int)$data['cnt_unread'], $img_folder);
 
 		return $this;
 	}

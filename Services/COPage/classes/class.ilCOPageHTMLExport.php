@@ -115,6 +115,7 @@ class ilCOPageHTMLExport
 		ilUtil::makeDir($this->js_dir);
 		ilUtil::makeDir($this->js_yahoo_dir);
 		ilUtil::makeDir($this->css_dir);
+		ilUtil::makeDir($this->css_dir."/yahoo");
 	}
 	
 	/**
@@ -194,7 +195,9 @@ class ilCOPageHTMLExport
 			$this->js_yahoo_dir.'/container-min.js');
 		copy(ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
 			$this->css_dir.'/container.css');
-		
+		copy(ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
+			$this->css_dir.'/yahoo/container.css');		// see #23083
+
 		// accordion
 		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 		foreach (ilAccordionGUI::getLocalJavascriptFiles() as $f)
@@ -273,7 +276,7 @@ class ilCOPageHTMLExport
 		else
 		{
 			// template workaround: reset of template
-			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		}
 		
 		// scripts needed
@@ -567,7 +570,7 @@ class ilCOPageHTMLExport
 			unset($xh);
 						
 			// render fullscreen html
-			$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");						
+			$tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");						
 			$tpl = $this->getPreparedMainTemplate($tpl); // adds js/css		
 			$tpl->setCurrentBlock("ilMedia");			
 			$tpl->setVariable("MEDIA_CONTENT", $output);

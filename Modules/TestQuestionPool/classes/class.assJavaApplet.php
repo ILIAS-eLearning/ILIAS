@@ -320,6 +320,12 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$this->splitParams($data["params"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -678,7 +684,10 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 				$points += $solution['points'];
 			}
 		}
-		return $points;
+
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	// hey: prevPassSolutions - bypass intermediate solution requests and deligate
@@ -891,14 +900,6 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 		// nothing to save!
 
 		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	/**

@@ -176,6 +176,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$this->element_height = $data["element_height"];
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -737,7 +743,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$previewSession->getParticipantsSolution()
 		);
 		
-		return $this->calculateReachedPointsForSolution($solutionOrderingElementList);
+		$reachedPoints = $this->calculateReachedPointsForSolution($solutionOrderingElementList);
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 
 	/**
@@ -908,6 +917,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function validateSolutionSubmit()
 	{
 		$submittedSolutionList = $this->getSolutionListFromPostSubmit();
+		
+		if( !$submittedSolutionList->hasElements() )
+		{
+			return true;
+		}
+		
 		return $this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($submittedSolutionList);
 	}
 
@@ -1000,14 +1015,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$this->rebuildThumbnails();
 			$this->cleanImagefiles();
 		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	/**

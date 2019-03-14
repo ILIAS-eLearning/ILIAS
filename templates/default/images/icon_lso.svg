@@ -1,46 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
-	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
-	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
-	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
-	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
-	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
-	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
-	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
-]>
-<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
-	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<switch>
-	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-		</i:pgfRef>
-	</foreignObject>
-	<g i:extraneous="self">
-		<g>
-			<g>
-				<defs>
-					<rect id="SVGID_1_" width="31.999" height="31.999"/>
-				</defs>
-				<clipPath id="SVGID_2_">
-					<use xlink:href="#SVGID_1_"  overflow="visible"/>
-				</clipPath>
-				
-					<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-399.2628" y1="-289.4604" x2="-398.2628" y2="-289.4604" gradientTransform="matrix(32 0 0 32 12776.4092 9278.7334)">
-					<stop  offset="0" style="stop-color:#536387"/>
-					<stop  offset="0.0198" style="stop-color:#536387"/>
-					<stop  offset="1" style="stop-color:#6276A2"/>
-				</linearGradient>
-				<rect clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="31.999" height="31.999"/>
-			</g>
-		</g>
-		<path fill="#FFFFFF" d="M20.761,18.099h-2.193c0.008,0.022,0.013,0.045,0.023,0.068l1.835,3.994h-8.853l1.835-3.994
-			c0.011-0.023,0.015-0.046,0.024-0.068h-2.194l-3.897,8.482c-0.23,0.502-0.011,1.096,0.491,1.327
-			c0.135,0.062,0.277,0.091,0.417,0.091c0.379,0,0.741-0.216,0.909-0.582l1.496-3.256h10.691l1.496,3.256
-			c0.168,0.366,0.531,0.582,0.909,0.582c0.14,0,0.282-0.029,0.417-0.091c0.502-0.231,0.722-0.825,0.491-1.327L20.761,18.099z"/>
-		<rect x="6" y="3.999" fill="#FFFFFF" width="20" height="12"/>
+<svg id="Layer_1" width="32px" height="32px" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 24">
+	<defs>
+		<style>
+			.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:url(#linear-gradient);}.cls-4{clip-path:url(#clip-path-2);}.cls-5{fill:url(#linear-gradient-2);}.cls-6{clip-path:url(#clip-path-3);}.cls-7{fill:url(#linear-gradient-3);}
+		</style>
+		<clipPath id="clip-path" transform="translate(-6 -4)">
+			<polygon class="cls-1" points="6 17 16 28 26 17 6 17"/>
+		</clipPath>
+		<linearGradient id="linear-gradient" x1="-185.9" y1="239.27" x2="-184.9" y2="239.27"
+						gradientTransform="matrix(20, 0, 0, -20, 3718, 4804)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#e66e1e"/>
+			<stop offset="1" stop-color="#ff8e2c"/>
+			<stop offset="1" stop-color="#ff8e2c"/>
+		</linearGradient>
+		<clipPath id="clip-path-2" transform="translate(-6 -4)">
+			<polygon class="cls-1" points="6 10.5 16 21.5 26 10.5 6 10.5"/>
+		</clipPath>
+		<linearGradient id="linear-gradient-2" x1="-185.9" y1="239.27" x2="-184.9" y2="239.27"
+						gradientTransform="matrix(20, 0, 0, -20, 3718, 4797.5)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#4c6586"/>
+			<stop offset="0.02" stop-color="#4c6586"/>
+			<stop offset="1" stop-color="#5a78a0"/>
+		</linearGradient>
+		<clipPath id="clip-path-3" transform="translate(-6 -4)">
+			<polygon class="cls-1" points="6 4 16 15 26 4 6 4"/>
+		</clipPath>
+		<linearGradient id="linear-gradient-3" x1="-185.9" y1="239.27" x2="-184.9" y2="239.27"
+						gradientTransform="matrix(20, 0, 0, -20, 3718, 4791)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#2f5a28"/>
+			<stop offset="0.02" stop-color="#2f5a28"/>
+			<stop offset="1" stop-color="#6ea03c"/>
+		</linearGradient>
+	</defs>
+	<title>icon_lrnng-sqnce-bjct_v3</title>
+	<g class="cls-2">
+		<rect class="cls-3" y="13" width="20" height="11"/>
 	</g>
-</switch>
+	<g class="cls-4">
+		<rect class="cls-5" y="6.5" width="20" height="11"/>
+	</g>
+	<g class="cls-6">
+		<rect class="cls-7" width="20" height="11"/>
+	</g>
 </svg>

@@ -102,8 +102,7 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 		
 		$draft_as_array = array();
 		$data = array();
-		if(is_array($drafts_instances) || count($drafts_instances) > 0 )
-		{
+		if (is_array($drafts_instances) && count($drafts_instances) > 0) {
 			foreach($drafts_instances as $draft)
 			{
 				$is_thread = false;

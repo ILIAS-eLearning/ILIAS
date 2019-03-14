@@ -142,7 +142,7 @@ class ilWikiHandlerGUI
 				break;
 		}
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 }

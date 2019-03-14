@@ -251,6 +251,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$fixed->setInfo($this->lng->txt("book_schedule_type_fixed_info"));
 		$type->addOption($fixed);
 
+		#23637
+		//period
+		$period = new ilNumberInputGUI($this->lng->txt("book_reservation_filter_period"), "period");
+		$period->setInfo($this->lng->txt("book_reservation_filter_period_info"));
+		$period->setSuffix($this->lng->txt("days"));
+		$period->setSize(3);
+		$period->setMinValue(0);
+		$fixed->addSubItem($period);
+
 		// reminder
 		$rmd = new ilCheckboxInputGUI($this->lng->txt("book_reminder_setting"), "rmd");
 		$rmd->setChecked($this->object->getReminderStatus());
@@ -277,14 +286,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
 		$public->setInfo($this->lng->txt("book_public_log_info"));
-		$a_form->addItem($public);		
-		
-		$period = new ilNumberInputGUI($this->lng->txt("book_reservation_filter_period"), "period");
-		$period->setInfo($this->lng->txt("book_reservation_filter_period_info"));
-		$period->setSuffix($this->lng->txt("days"));
-		$period->setSize(3);
-		$period->setMinValue(0);
-		$a_form->addItem($period);
+		$a_form->addItem($public);
 
 		// presentation
 		$pres = new ilFormSectionHeaderGUI();
@@ -561,6 +563,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			else
 			{
 				$dates = array();
+
+				//loop for 1 week
 				$has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
 				
 				// find first open slot
@@ -700,16 +704,21 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		foreach(ilCalendarUtil::_buildWeekDayList($seed,$week_start)->get() as $date)
 		{
 			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
-			
-			if($av_from || 
-				$av_to)
+
+			#24045 and #24936
+			if($av_from || $av_to)
 			{
-				$today = $date->get(IL_CAL_DATE);						
-				if($av_from > $today ||
-					$av_to < $today)
+				$today = $date->get(IL_CAL_DATE);
+
+				if ($av_from && $av_from > $today)
 				{
 					continue;
-				}			
+				}
+
+				if($av_to && $av_to < $today)
+				{
+					continue;
+				}
 			}
 
 			$slots = array();

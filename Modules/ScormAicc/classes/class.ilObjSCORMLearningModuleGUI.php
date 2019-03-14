@@ -18,7 +18,6 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilInfoScreenGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilCertificateGUI
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLicenseGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMOfflineModeUsersTableGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMTrackingItemsPerScoFilterGUI, ilSCORMTrackingItemsPerUserFilterGUI, ilSCORMTrackingItemsTableGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLTIProviderObjectSettingGUI
@@ -41,7 +40,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$lng->loadLanguageModule("content");
 		$lng->loadLanguageModule("search");
@@ -73,7 +73,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting, $ilTabs;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilSetting = $DIC['ilSetting'];
+		$ilTabs = $DIC['ilTabs'];
 
 		$lng->loadLanguageModule("style");
 
@@ -360,7 +368,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function newModuleVersion()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 		ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
 		$ilTabs->setSubTabActive('cont_sc_new_version');
 
@@ -444,7 +453,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	
 	function newModuleVersionUpload()
 	{
-		global $_FILES, $rbacsystem;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$unzip = PATH_TO_UNZIP;
 		$tocheck = "imsmanifest.xml";
@@ -520,13 +530,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			strcmp ($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest),$old_manifest) == 0 ){
 
 			//get exisiting module version
-			$module_version = $this->object->getModuleVersion();
+			$module_version = $this->object->getModuleVersion()+1;
 
 			if ($_FILES["scormfile"]["name"])
 			{
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_FILES["scormfile"]["name"].".".$module_version;
-				
+				$file_path = str_replace(".zip.".$module_version, ".".$module_version.".zip",$file_path);
 				//move to data directory and add subfix for versioning
 				ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],$_FILES["scormfile"]["name"], $file_path);
 			}
@@ -534,6 +544,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			{
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
+				$file_path = str_replace(".zip.".$module_version, ".".$module_version.".zip",$file_path);
 				// move the already copied file to the lm_data directory
 				ilFileUtils::rename($source, $file_path);
 			}
@@ -543,7 +554,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			ilUtil::renameExecutables($this->object->getDataDirectory()); //(security)
 			
 			//increase module version
-			$this->object->setModuleVersion($module_version+1);
+			$this->object->setModuleVersion($module_version);
 			$this->object->update();
 			
 			//redirect to properties and display success
@@ -620,7 +631,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	protected function showTrackingItemsBySco()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		ilObjSCORMLearningModuleGUI::setSubTabs();
 		$ilTabs->setTabActive("cont_tracking_data");
@@ -671,7 +683,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	public function showTrackingItems()
 	{
-		global $ilTabs, $ilAccess;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilAccess = $DIC['ilAccess'];
 
 		$ilTabs->setTabActive('cont_tracking_data');
 
@@ -732,7 +746,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	}
 	protected function modifyTrackingItems()
 	{
-		global $ilAccess;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
 		if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
 			include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 			$privacy = ilPrivacySettings::_getInstance();
@@ -741,7 +756,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 			}
 
-			global $ilTabs, $ilToolbar;
+			global $DIC;
+			$ilTabs = $DIC['ilTabs'];
+			$ilToolbar = $DIC['ilToolbar'];
 
 			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 			$ilToolbar->addButton(
@@ -881,7 +898,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	protected function importForm()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'showTrackingItems'));
@@ -949,7 +967,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	protected function showTrackingItem()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
@@ -970,7 +989,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	protected function showTrackingItemSco()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
@@ -991,7 +1011,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	protected function showTrackingItemPerUser()
 	{
-		global $ilTabs;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
 
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
@@ -1014,7 +1035,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	//setTabs
 	function setSubTabs()
 	{
-		global $lng, $ilTabs, $ilCtrl, $ilAccess;
+		global $DIC;
+		$lng = $DIC['lng'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilAccess = $DIC['ilAccess'];
 
 		if($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
 			$ilTabs->addSubTabTarget("cont_tracking_byuser",
@@ -1040,10 +1065,17 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 */
 	protected function offlineModeManager()
 	{
-		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting;
+		global $DIC;
+		$rbacsystem = $DIC['rbacsystem'];
+		$tree = $DIC['tree'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilSetting = $DIC['ilSetting'];
 
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(!ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		if(!ilLearningProgressAccess::checkAccess($this->object->getRefId()) && !$rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}

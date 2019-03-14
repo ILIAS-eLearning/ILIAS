@@ -480,13 +480,16 @@ class ilLMTracker
 					}
 					// if an item is failed or in progress or (not attempted and contains questions)
 					// the next item has predecessing incorrect answers
-					if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS ||
-						($c_stat == ilLMTracker::NOT_ATTEMPTED && is_array($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0))
+					if ($this->tree_arr["nodes"][$c["child"]]["type"] == "pg")
 					{
-						$a_has_pred_incorrect_answers = true;
-						if (!$this->tree_arr["nodes"][$c["child"]]["unlocked"])
+						if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS ||
+							($c_stat == ilLMTracker::NOT_ATTEMPTED && is_array($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0))
 						{
-							$a_has_pred_incorrect_not_unlocked_answers = true;
+							$a_has_pred_incorrect_answers = true;
+							if (!$this->tree_arr["nodes"][$c["child"]]["unlocked"])
+							{
+								$a_has_pred_incorrect_not_unlocked_answers = true;
+							}
 						}
 					}
 				}
@@ -656,7 +659,6 @@ class ilLMTracker
 		// load question answer information
 		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
 		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions);
-
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		foreach ($this->answer_status as $as)
 		{

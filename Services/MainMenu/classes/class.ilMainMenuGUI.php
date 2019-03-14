@@ -62,7 +62,7 @@ class ilMainMenuGUI {
 	var $start_template;
 	var $mail; // [bool]
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $main_tpl;
 	protected $mode; // [int]
@@ -79,7 +79,7 @@ class ilMainMenuGUI {
 	 * @param    boolean $a_use_start_template        true means: target scripts should
 	 *                                                be called through start template
 	 */
-	public function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null) {
+	public function __construct($a_target = "_top", $a_use_start_template = false, ilGlobalTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl != null) {
@@ -285,8 +285,7 @@ class ilMainMenuGUI {
 				if (strlen($html))
 				{
 					$this->tpl->setVariable('SEARCHBOX',$html);
-					ilTooltipGUI::addTooltip("ilMMSearch", ilHelp::getMainMenuTooltip("mm_tb_search"),
-						"", "top center", "bottom center", false);
+					$this->addToolbarTooltip("ilMMSearch", "mm_tb_search");
 				}
 			}
 
@@ -336,7 +335,7 @@ class ilMainMenuGUI {
 				// #13058
 				$target_str = ($this->getLoginTargetPar() != "")
 					? $this->getLoginTargetPar()
-					: ilTemplate::buildLoginTarget();
+					: $this->buildLoginTarget();
 				$this->tpl->setVariable(
 					"LINK_LOGIN",
 					$link_dir . "login.php?target=" . $target_str . "&client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $ilUser->getCurrentLanguage()
@@ -362,8 +361,7 @@ class ilMainMenuGUI {
 				$this->tpl->setVariable("EMAIL", $ilUser->getEmail());
 				$this->tpl->parseCurrentBlock();
 
-				ilTooltipGUI::addTooltip("userlog", ilHelp::getMainMenuTooltip("mm_tb_user"),
-					"", "top center", "bottom center", false);
+				$this->addToolbarTooltip("userlog", "mm_tb_user");
 			}
 		} else {
 			// member view info
@@ -427,8 +425,7 @@ class ilMainMenuGUI {
 
 			$a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
 			$a_tpl->setVariable('STATUS_ID', "sb_mail");
-			ilTooltipGUI::addTooltip("sb_mail", ilHelp::getMainMenuTooltip("mm_tb_mail"),
-				"", "top center", "bottom center", false);
+			$this->addToolbarTooltip("sb_mail", "mm_tb_mail");
 			$a_tpl->parseCurrentBlock();
 		}
 	}
@@ -462,7 +459,7 @@ class ilMainMenuGUI {
 		// the main menu does not need the YUI connection, but many other
 		// features since they rely on il.Util.sendAjaxGetRequestToUrl (see Services/Javascript)
 		// which still uses YUI. This should be migrated to jQuery with a future major release
-		ilYUIUtil::initConnection();
+		ilYuiUtil::initConnection();
 
 		$this->setTemplateVars();
 
@@ -554,14 +551,13 @@ class ilMainMenuGUI {
 			$helpl->addEntry('<span id="help_tt_switch_on" class="glyphicon glyphicon-ok"></span> ' . $lng->txt("help_tooltips"), "#", "", "return il.Help.switchTooltips(event);");
 		}
 
-		if ($help_active) {
+		if ($help_active && $ilHelp->hasSections()) {
 			$this->tpl->setCurrentBlock("help");
 			$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
 			$this->tpl->setVariable("HELP_CLICK", "il.Help.listHelp(event, false);");
 			$this->tpl->parseCurrentBlock();
 
-			ilTooltipGUI::addTooltip("mm_help", ilHelp::getMainMenuTooltip("mm_tb_help"),
-				"", "top center", "bottom center", false);
+			$this->addToolbarTooltip("mm_help", "mm_tb_help");
 
 
 			// always set ajax url
@@ -593,8 +589,7 @@ class ilMainMenuGUI {
 	private function renderOnScreenChatMenu() {
 		$menu = new ilOnScreenChatMenuGUI();
 		$this->tpl->setVariable('ONSCREENCHAT', $menu->getMainMenuHTML());
-		ilTooltipGUI::addTooltip("onscreenchatmenu-dropdown", ilHelp::getMainMenuTooltip("mm_tb_oschat"),
-			"", "top center", "bottom center", false);
+		$this->addToolbarTooltip("onscreenchatmenu-dropdown", "mm_tb_oschat");
 	}
 
 
@@ -607,9 +602,7 @@ class ilMainMenuGUI {
 		$aw = ilAwarenessGUI::getInstance();
 
 		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
-		ilTooltipGUI::addTooltip("awareness_trigger", ilHelp::getMainMenuTooltip("mm_tb_aware"),
-			"", "top center", "bottom center", false);
-
+		$this->addToolbarTooltip("awareness_trigger", "mm_tb_aware");
 	}
 
 
@@ -618,7 +611,7 @@ class ilMainMenuGUI {
 	 * @param \ilTemplate $mainTpl
 	 * @param \ilLanguage $lng
 	 */
-	private function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng) {
+	private function renderOnScreenNotifications(\ilObjUser $user, \ilGlobalTemplate $mainTpl, \ilLanguage $lng) {
 		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
 			$this->tpl->touchBlock('osd_container');
 
@@ -659,6 +652,10 @@ class ilMainMenuGUI {
 		global $DIC;
 
 		$main_tpl = $this->main_tpl;
+
+		if ($DIC->user()->isAnonymous() || (int)$DIC->user()->getId() === 0) {
+			return;
+		}
 
 		$DIC->language()->loadLanguageModule("background_tasks");
 		$factory = $DIC->ui()->factory();
@@ -711,9 +708,61 @@ class ilMainMenuGUI {
 
 		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
 
-		ilTooltipGUI::addTooltip("mm_tb_background_tasks", ilHelp::getMainMenuTooltip("mm_tb_bgtasks"),
-			"", "top center", "bottom center", false);
+		$this->addToolbarTooltip("mm_tb_background_tasks", "mm_tb_bgtasks");
+	}
 
+	/**
+	 * Add toolbar tooltip
+	 *
+	 * @param string $element_id
+	 * @param string $help_id
+	 */
+	protected function addToolbarTooltip(string $element_id, string $help_id)
+	{
+		if (ilHelp::getMainMenuTooltip($help_id) != "")
+		{
+			ilTooltipGUI::addTooltip($element_id, ilHelp::getMainMenuTooltip($help_id),
+				"", "top center", "bottom center", false);
+		}
+	}
+
+	protected function buildLoginTarget() {
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilUser = $DIC->user();
+
+		$target_str = "";
+
+		// repository
+		if ($_GET["ref_id"] != "")
+		{
+			if ($tree->isInTree($_GET["ref_id"]) && $_GET["ref_id"] != $tree->getRootId())
+			{
+				$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+				$type = ilObject::_lookupType($obj_id);
+				$target_str = $type."_".$_GET["ref_id"];
+			}
+		}
+		// personal workspace
+		else if ($_GET["wsp_id"] != "" && $_GET["wsp_id"] > 0)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$obj_id = $tree->lookupObjectId((int)$_GET["wsp_id"]);
+			if($obj_id)
+			{
+				$type = ilObject::_lookupType($obj_id);
+				$target_str = $type."_".(int)$_GET["wsp_id"]."_wsp";
+			}
+		}
+		// portfolio
+		else if ($_GET["prt_id"] != "")
+		{
+			$target_str = "prtf_".(int)$_GET["prt_id"];
+		}
+
+		return $target_str;
 	}
 }
 

@@ -25,8 +25,12 @@ class ilSCORMOfflineModeGUI
 	var $tracking_url;
 	var $vers = "v1";
 	
-	function ilSCORMOfflineModeGUI($type) {
-		global $ilias, $tpl, $lng, $ilCtrl;
+	function __construct($type) {
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 		include_once "./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php";
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
@@ -40,7 +44,11 @@ class ilSCORMOfflineModeGUI
 	
 	function executeCommand()
 	{
-		global $log, $tpl, $ilCtrl, $lng;
+		global $DIC;
+		$log = $DIC['log'];
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
 		$this->refId = $_GET["ref_id"];
 		$this->lmId = ilObject::_lookupObjectId($this->refId);
 		$this->clientIdSop = $this->offlineMode->getClientIdSop();
@@ -54,7 +62,7 @@ class ilSCORMOfflineModeGUI
 		switch($cmd) {
 			case 'offlineMode_sop' :
 				$log->write("offlineMode_sop");
-				$sop_cache = new ilTemplate('tpl.cache.html',true,true,'Modules/ScormAicc');
+				$sop_cache = new ilGlobalTemplate('tpl.cache.html',true,true,'Modules/ScormAicc');
 				//$sop_cache->setVariable("APPCACHE_URL",$ilCtrl->getLinkTarget($this,"offlineMode_sopcache")."&client_id=" . CLIENT_ID);
 				$sop_cache->setVariable("APPCACHE_URL",$this->sopcache_url);
 				$sop_cache->setVariable("CACHE_TITLE","SOP Cache Page");
@@ -72,7 +80,7 @@ class ilSCORMOfflineModeGUI
 				
 			case 'offlineMode_il2sop':
 				$log->write("offlineMode_il2sop");
-				$lm_cache = new ilTemplate('tpl.cache.html',true,true,'Modules/ScormAicc');
+				$lm_cache = new ilGlobalTemplate('tpl.cache.html',true,true,'Modules/ScormAicc');
 				//$lm_cache->setVariable("APPCACHE_URL",$ilCtrl->getLinkTarget($this,"offlineMode_lmcache")."&client_id=" . CLIENT_ID);
 				$lm_cache->setVariable("APPCACHE_URL",$this->lmcache_url);
 				$lm_cache->setVariable("CACHE_TITLE","LM Cache Page");
@@ -116,7 +124,7 @@ class ilSCORMOfflineModeGUI
 				
 			case 'offlineMode_player12' :
 				$log->write("offlineMode_player12");
-				$player12 = new ilTemplate('tpl.player12.html',true,true,'Modules/ScormAicc');
+				$player12 = new ilGlobalTemplate('tpl.player12.html',false,false,'Modules/ScormAicc');
 				$player12->setVariable("SOP_TITLE","ILIAS SCORM 1.2 Offline Player"); // ToDo: Language Support
 				$js_data = file_get_contents("./Modules/ScormAicc/scripts/basisAPI.js");
 				$js_data .= file_get_contents("./Modules/ScormAicc/scripts/SCORM1_2standard.js");
@@ -145,7 +153,7 @@ class ilSCORMOfflineModeGUI
 				// $config['langstrings'] = $langstrings;
 
 				//template variables	
-				$player2004 = new ilTemplate('tpl.player2004.html',true,true,'Modules/ScormAicc');
+				$player2004 = new ilGlobalTemplate('tpl.player2004.html',true,true,'Modules/ScormAicc');
 
 				include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 				$player2004->setVariable("JS_FILE",iljQueryUtil::getLocaljQueryPath());
@@ -179,7 +187,7 @@ class ilSCORMOfflineModeGUI
 				
 			case 'offlineMode_som' :
 				$log->write("offlineMode_som");
-				$som = new ilTemplate('tpl.som.html',true,true,'Modules/ScormAicc');
+				$som = new ilGlobalTemplate('tpl.som.html',true,true,'Modules/ScormAicc');
 				$som->setVariable("SOM_TITLE","ILIAS SCORM Offline Manager"); // ToDo: Language Support
 				$som->setVariable("PLAYER12_URL",$this->offlineMode->player12_url);
 				$som->setVariable("PLAYER2004_URL",$this->offlineMode->player2004_url);
@@ -193,7 +201,9 @@ class ilSCORMOfflineModeGUI
 	}
 	
 	function view($offline_mode, $cmd) {
-		global $tpl, $ilCtrl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->setOfflineModeTabs($offline_mode);
 		$tpl->addJavascript('./Modules/ScormAicc/scripts/ilsop.js');
 		$tpl->addJavascript('./libs/bower/bower_components/pouchdb/dist/pouchdb.min.js');
@@ -202,6 +212,8 @@ class ilSCORMOfflineModeGUI
 		$tpl->setCurrentBlock('offline_content');
 		$tpl->setVariable("Command",$cmd);
 		$tpl->setVariable("CHECK_SYSTEM_REQUIREMENTS",$this->lng->txt('sop_check_system_requirements'));
+		$tpl->setVariable("SOP_SYSTEM_CHECK_HTTPS",$this->lng->txt('sop_system_check_https'));
+		$tpl->setVariable("SOP_SYSTEM_CHECK_ERROR",$this->lng->txt('sop_system_check_error'));
 		$tpl->setVariable("LM_NOT_EXISTS",$this->lng->txt('sop_lm_not_exists'));
 		$tpl->setVariable("EXPORT",$this->lng->txt('sop_export'));
 		$tpl->setVariable("DESC_EXPORT",$this->lng->txt('sop_desc_export'));
@@ -226,18 +238,22 @@ class ilSCORMOfflineModeGUI
 		$tpl->setVariable("SOM_URL",$this->offlineMode->som_url);
 		$tpl->setVariable("TRACKING_URL",$this->tracking_url);
 		$tpl->parseCurrentBlock();
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	function setOfflineModeTabs($offline_mode)
 	{	
-		global $ilTabs, $ilLocator,$tpl,$log;
+		global $DIC;
+		$ilTabs = $DIC['ilTabs'];
+		$ilLocator = $DIC['ilLocator'];
+		$tpl = $DIC['tpl'];
+		$log = $DIC['log'];
 		$icon = ($offline_mode == "online") ? "icon_sahs.svg" : "icon_sahs_offline.svg";
 		$tabTitle = $this->lng->txt("offline_mode");
 		$thisurl =$this->ctrl->getLinkTarget($this, $a_active);
 		$ilTabs->addTab($a_active, $tabTitle, $thisurl);
 		$ilTabs->activateTab($a_active);
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		$tpl->setTitle(ilObject::_lookupTitle($this->lmId));
 		$tpl->setTitleIcon(ilUtil::getImagePath($icon));
 		$ilLocator->addRepositoryItems();

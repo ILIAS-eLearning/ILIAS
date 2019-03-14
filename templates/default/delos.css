@@ -6473,7 +6473,9 @@ button.close {
 .modal-header:before,
 .modal-header:after,
 .modal-footer:before,
-.modal-footer:after {
+.modal-footer:after,
+.il-table-presentation-row .il-table-presentation-row-expanded:before,
+.il-table-presentation-row .il-table-presentation-row-expanded:after {
   content: " ";
   display: table;
 }
@@ -6492,7 +6494,8 @@ button.close {
 .pager:after,
 .panel-body:after,
 .modal-header:after,
-.modal-footer:after {
+.modal-footer:after,
+.il-table-presentation-row .il-table-presentation-row-expanded:after {
   clear: both;
 }
 .center-block {
@@ -6871,9 +6874,13 @@ button.close {
   width: 100%;
   position: relative;
   background-color: white;
+  /* see bug #24947 */
 }
 .il-card img {
   width: 100%;
+}
+.il-card a {
+  overflow: hidden;
 }
 .il-card .thumbnail {
   margin-bottom: 0px;
@@ -6901,7 +6908,7 @@ button.close {
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -6918,6 +6925,14 @@ button.close {
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
   float: left;
+}
+.il-card .il-card-repository-head .il-chart-progressmeter-box {
+  width: 41px;
+  height: 38px;
+}
+.il-card .il-card-repository-head .il-chart-progressmeter-box > .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
+  max-width: 100%;
+  filter: brightness(1.2);
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown {
   float: right;
@@ -8386,6 +8401,9 @@ ul.breadcrumb li:hover {
 [dir="rtl"] ul.breadcrumb {
   padding-right: 12px;
 }
+/************/
+/* ScaleBar */
+/************/
 .il-chart-scale-bar {
   min-width: 100px;
   overflow: hidden;
@@ -8417,411 +8435,117 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
-.il-chart-progressmeter-container {
-  display: block;
-  position: relative;
-  background-color: transparent;
-  height: 130%;
-  width: 100%;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-  background-color: #dddddd;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer {
-  position: absolute;
-  transform-origin: 100% 100%;
-  transform: rotate(-25deg) skew(90deg);
-  width: 50%;
-  height: 50%;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer {
-  background-color: #6ea03c;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer {
-  background-color: #d9534f;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox {
-  position: absolute;
-  width: 94%;
-  height: 94%;
-  border-radius: 50%;
-  top: 3%;
-  left: 3%;
-  background-color: #dddddd;
-  border: 5px solid transparent;
-  overflow: hidden;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer {
-  position: absolute;
-  transform-origin: 100% 100%;
-  transform: rotate(-24deg) skew(90deg);
-  height: 50%;
-  width: 50%;
-  background-color: #aaaaaa;
-  top: -1px;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer {
-  background-color: #f0ad4e;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover {
-  position: absolute;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  overflow: hidden;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  color: #000;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text {
-  position: absolute;
-  left: 25%;
-  top: 22%;
-  width: 50%;
-  text-align: center;
-  color: #aaaaaa;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-  position: absolute;
-  left: 20%;
-  top: 28%;
-  text-align: center;
-  font-weight: bold;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore {
-  position: absolute;
-  left: 25%;
-  top: 58%;
-  width: 50%;
-  text-align: center;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text {
-  position: absolute;
-  left: 25%;
-  top: 66%;
-  width: 50%;
-  text-align: center;
-  color: #aaaaaa;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score {
-  display: none;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-  position: absolute;
-  width: 93.3334%;
-  height: 93.3334%;
-  transform: rotate(0deg);
-  pointer-events: none;
-  background: transparent;
-  z-index: 3;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-  position: absolute;
-  left: 50%;
-  margin-left: -8px;
-  border-left: 9px solid transparent;
-  border-right: 9px solid transparent;
-  border-top: 11px solid #bcbcbc;
-  width: 1px;
-  height: 1px;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-  position: relative;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 13px solid #f0f0f0;
-  width: 1px;
-  height: 1px;
-  top: -14px;
-  left: -10.5px;
-}
-.il-chart-progressmeter-container {
-  padding: 10px;
-  font-size: 1.25rem;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-  border: 5px solid transparent;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox > .il-chart-progressmeter-cover {
-  width: 84.552%;
-  height: 84.552%;
-  top: 8.3224%;
-  left: 8.3224%;
-  border: 5px solid #dddddd;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox > .il-chart-progressmeter-cover {
-  width: 93.552%;
-  height: 93.552%;
-  top: 3.3224%;
-  left: 3.3224%;
-  border: 5px solid #dddddd;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-  width: 60%;
-  font-size: 3em;
-}
+/*****************/
+/* ProgressMeter */
+/*****************/
 .il-chart-progressmeter-box {
   overflow: hidden;
   position: relative;
-  /* new SVG styles */
 }
-.il-chart-progressmeter-box:before,
-.il-chart-progressmeter-box:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  background-color: #ddd;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+.il-chart-progressmeter-box.fixed-size {
+  width: 350px;
 }
-.il-chart-progressmeter-box:before {
-  bottom: 0;
-  left: 30px;
-  z-index: 2;
-}
-.il-chart-progressmeter-box:after {
-  bottom: 0;
-  right: 30px;
-  z-index: 2;
-}
-.il-chart-progressmeter-box .il-chart-progressmeter-container:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  width: 93%;
-  height: 93%;
-  bottom: -60%;
-  border-radius: 25%;
-  z-index: 1;
-  background-color: #f0f0f0;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-fixed-size {
-  width: 300px;
-  height: 230px;
-}
-@media (min-width: 1200px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 300px;
-    height: 230px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container:after {
-    bottom: -60%;
-    border-radius: 25%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 1.25rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 5px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 5px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-@media (min-width: 992px) and (max-width: 1199px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 250px;
-    height: 192px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before,
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    width: 26px;
-    height: 26px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before {
-    left: 26px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    right: 26px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 1.25rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-    width: 92.3334%;
-    height: 92.3334%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-top: 11px solid #bcbcbc;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 13px solid #f0f0f0;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 4px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox {
-    border: 4px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 4px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 200px;
-    height: 154px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before,
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    width: 21px;
-    height: 21px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before {
-    left: 22px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    right: 22px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 1rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-    width: 90.3334%;
-    height: 90.3334%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 9px solid #bcbcbc;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 11px solid #f0f0f0;
-    top: -12px;
-    left: -8.5px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 3px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox {
-    border: 3px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 3px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-@media (max-width: 767px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 150px;
-    height: 115px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before,
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    width: 16px;
-    height: 16px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before {
-    left: 18px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    right: 18px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 0.75rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-    width: 87.3334%;
-    height: 87.3334%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 8px solid #bcbcbc;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 10px solid #f0f0f0;
-    top: -11px;
-    left: -6.5px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 2px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox {
-    border: 2px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 2px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:before,
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:after {
-  content: none;
-}
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container {
+.il-chart-progressmeter-box .il-chart-progressmeter-container {
   position: relative;
-  min-width: 20px;
-  max-width: 250px;
+  min-width: 80px;
+  max-width: 800px;
   width: 100%;
   height: auto;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox {
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
   display: block;
   max-width: 80%;
+  min-width: 80px;
+  max-height: 800px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
+  stroke: #dddddd;
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
+  fill: none;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-multicircle .il-chart-progressmeter-circle {
+  stroke-width: 1.66666667;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-monocircle .il-chart-progressmeter-circle {
+  stroke-width: 4;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
+  stroke: #d9534f;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
+  stroke: #6ea03c;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.not-active {
+  stroke: #f0ad4e;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.active {
+  stroke: #aaaaaa;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text text {
+  text-anchor: middle;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-score {
+  font-size: 7.5px;
+  font-weight: bold;
+  fill: #000000;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-comparision {
+  font-size: 2.5px;
+  fill: #000000;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-score-info,
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-comparision-info {
+  font-size: 2.5px;
+  fill: #bcbcbc;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle {
+  transform-origin: 24.6066px 22.8934px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle .il-chart-progressmeter-needle-border {
+  stroke: #bcbcbc;
+  stroke-width: 0.1;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle .il-chart-progressmeter-needle-fill {
+  fill: #efefef;
+  stroke-width: 0;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle.no-needle {
+  display: none;
+}
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container {
+  min-width: 20px;
+  max-width: 250px;
+}
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
   min-width: 20px;
   max-height: 250px;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
   stroke: #dddddd;
-  fill: none;
   stroke-width: 5;
-  stroke-linecap: round;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
-  fill: none;
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
   stroke-width: 5;
-  stroke-linecap: round;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
   stroke: #d9534f;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
   stroke: #6ea03c;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle {
   stroke: #bcbcbc;
   fill: none;
   stroke-width: 4;
   stroke-linecap: round;
   transform-origin: 25px 23.25px;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini.no-needle {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle.no-needle {
   stroke: transparent;
 }
 .il-standard-form {
@@ -8913,6 +8637,19 @@ ul.breadcrumb li:hover {
   outline: 0;
   background-color: #4c6586;
 }
+.il-input-tag.disabled {
+  background-color: #EEEEEE;
+  cursor: not-allowed;
+}
+.il-input-tag.disabled input {
+  cursor: not-allowed;
+}
+.il-input-tag.disabled .bootstrap-tagsinput {
+  pointer-events: none;
+}
+.il-input-tag.disabled .tag [data-role="remove"] {
+  cursor: not-allowed;
+}
 .il-input-password .revelation-glyph {
   float: right;
   margin-top: -21px;
@@ -8939,17 +8676,91 @@ ul.breadcrumb li:hover {
   list-style: none;
   padding-left: 0px;
 }
-.il-table-presentation-viewcontrols {
-  height: 40px;
+.il-standard-form textarea {
+  height: 76px;
 }
-.il-table-presentation-viewcontrols div {
-  display: table;
-  margin: 0 auto;
+.il-table-presentation-viewcontrols {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #e2e8ef;
+}
+.il-table-presentation-viewcontrols > div {
+  padding: 6px;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+  color: #4c6586;
+  background-color: white;
+  border-color: #708bae;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+  color: #4c6586;
+  background-color: #e6e6e6;
+  border-color: #3a4c65;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):hover {
+  color: #4c6586;
+  background-color: #e6e6e6;
+  border-color: #526c90;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+  color: #4c6586;
+  background-color: #e6e6e6;
+  border-color: #526c90;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active:hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active:hover,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active:focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active:focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active.focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active.focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+  color: #4c6586;
+  background-color: #d4d4d4;
+  border-color: #3a4c65;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+  background-image: none;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:hover,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled.focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled].focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+  background-color: white;
+  border-color: #708bae;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled) .badge {
+  color: white;
+  background-color: #4c6586;
+}
+.il-table-presentation-viewcontrols .il-viewcontrol-pagination {
+  order: 1;
+}
+.il-table-presentation-viewcontrols .il-viewcontrol-mode {
+  order: 2;
+}
+.il-table-presentation-viewcontrols .il-viewcontrol-sortation {
+  order: 3;
 }
 .il-table-presentation-row {
   white-space: nowrap;
+  margin: 0;
   border-top: 1px solid #ddd;
   padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: white;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
 .il-table-presentation-row .il-table-presentation-row-contents {
@@ -8958,6 +8769,7 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row .il-table-presentation-row-controls {
   width: 5%;
+  padding-left: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-collapser {
   display: none;
@@ -8968,10 +8780,8 @@ ul.breadcrumb li:hover {
   /*initially visible*/
 }
 .il-table-presentation-row .il-table-presentation-row-contents {
-  width: 95%;
-}
-.il-table-presentation-row .il-table-presentation-row-header {
   white-space: normal;
+  width: 95%;
 }
 .il-table-presentation-row .il-table-presentation-row-header h4 {
   font-size: 17px;
@@ -8985,25 +8795,56 @@ ul.breadcrumb li:hover {
   /*initially visible*/
 }
 .il-table-presentation-row .il-table-presentation-row-expanded {
+  margin-left: -15px;
+  margin-right: -15px;
   display: none;
   /*initially hidden*/
-  white-space: nowrap;
   margin-top: 6px;
-}
-.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist,
-.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
-  display: inline-block;
-  vertical-align: top;
-  white-space: normal;
+  margin-left: 0;
+  margin-right: 0;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
-  width: 60%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
+    float: left;
+    width: 58.33333333%;
+  }
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
-  width: 40%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-actions {
+  margin-bottom: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   font-size: 12px;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #909090;
@@ -9023,9 +8864,9 @@ ul.breadcrumb li:hover {
   color: white;
   content: "";
   font-family: Glyphicons Halflings;
-  font-size: 12px;
+  font-size: 10px;
   height: 20px;
-  line-height: 1.6em;
+  line-height: 18px;
   margin-left: 5px;
   padding-left: 1px;
   position: absolute;
@@ -9058,8 +8899,6 @@ ul.breadcrumb li:hover {
 }
 .il-workflow-container .no-longer-available:before {
   content: "\e023";
-  font-size: 1em;
-  line-height: 1.5em;
 }
 .il-workflow-container .completed-successfully:before,
 .il-workflow-container .completed-unsuccessfully:before {
@@ -9078,12 +8917,18 @@ ul.breadcrumb li:hover {
   background-color: #4c6586;
 }
 .il-workflow-container .active:before {
-  margin: 5px 0 0 0;
+  margin: 0;
   width: 30px;
   height: 30px;
+  font-size: 15px;
+}
+.il-workflow-container .active.completed-successfully:before,
+.il-workflow-container .active.completed-unsuccessfully:before {
+  line-height: 30px;
+  background-color: #4c6586;
 }
 .il-workflow-container .active .text {
-  padding-left: 40px;
+  padding-left: 30px;
 }
 .il-workflow-container .active .text .il-workflow-step-label,
 .il-workflow-container .active .text .il-workflow-step-label .btn.btn-link {
@@ -10646,6 +10491,11 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
     width: 24px;
   }
 }
+div.ilPermanentLinkWrapper .ilPermalinkContainer > input,
+div.ilPermanentLinkWrapper .ilPermalinkContainer .btn-group {
+  z-index: 0;
+  /* see bug #24567 */
+}
 div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
   width: 28px;
 }
@@ -11898,10 +11748,16 @@ div.ilFrmPostHeader span.small {
 .ilFrmBottomToolbar {
   margin-top: 20px;
 }
+.ilForumTreeTitle {
+  display: inline-block;
+}
 .ilForumTreeTitleUnread {
   font-weight: bold;
 }
 .ilForumTreeUnlinkedContent {
+  display: block;
+  line-height: 0.9em;
+  margin-bottom: 10px;
   text-decoration: none;
   cursor: text;
   font-size: smaller;
@@ -11926,6 +11782,11 @@ a.mailunread:visited {
 }
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;
+}
+.ilMailAvatar {
+  min-width: 45px !important;
+  max-width: 45px !important;
+  height: auto;
 }
 /* --- Services/COPage ---*/
 a.ilEditSubmit {
@@ -13249,6 +13110,12 @@ div.ilTopMemberView h3 {
     margin-top: 40px;
     padding-top: 0;
   }
+}
+ul.il-mm-selfloading {
+  width: 768px;
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
 }
 /* Services/UIComponent/Tabs */
 .nav-tabs > li {
@@ -15801,6 +15668,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 [data-onscreenchat-inact-userid] {
   opacity: .3 !important;
 }
+.ilOnScreenChatWindowHeaderTooltip ul {
+  text-align: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 #onscreenchat-container {
   position: fixed;
   bottom: 0;
@@ -16111,6 +15984,9 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
 }
+body.iosMyCertificates div.icon.small {
+  vertical-align: middle;
+}
 #tos_documents td.std .dropdown {
   display: inline-block;
 }
@@ -16146,6 +16022,11 @@ div.ilBadgeBackpackPanelContent img {
 span.ilProfileBadge {
   display: inline-block;
   padding: 5px;
+}
+span.ilProfileBadge a {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
 }
 /*!
  * Datetimepicker for Bootstrap 3
@@ -16678,8 +16559,16 @@ span.ilProfileBadge {
   line-height: 40px;
 }
 .ilLSOKioskTopBarControls .btn-link {
-  color: white;
-  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 1em;
+  font-weight: 600;
+  margin-left: 15px;
+}
+.ilLSOKioskTopBarControls .btn-link:before {
+  content: "« ";
+}
+.ilLSOKioskTopBarControls .btn-link:hover {
+  text-decoration: underline;
 }
 .ilLSOKioskTopBarTitle {
   text-align: center;
@@ -16699,6 +16588,10 @@ span.ilProfileBadge {
 }
 .ilLearningHistoryShowMore {
   text-align: center;
+}
+.ilPCLearnHist {
+  background-color: #f0f0f0;
+  padding: 3px 8px;
 }
 .noMargin {
   margin: 0;

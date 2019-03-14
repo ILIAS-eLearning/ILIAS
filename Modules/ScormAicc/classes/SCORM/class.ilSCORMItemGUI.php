@@ -44,7 +44,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
 	function view()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		// get ressource identifier
 		$id_ref = $this->sc_object->getIdentifierRef();
@@ -61,13 +62,13 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 					? "?".$this->sc_object->getParameters()
 					: "";
 
-				$this->tpl = new ilTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
 				$this->tpl->setVariable("ITEM_LOCATION",$slm_obj->getDataDirectory()."/".$resource->getHref().$param_str);
 				$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 				$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 				$this->tpl->setVariable("ADAPTER_NAME", $slm_obj->getAPIAdapterName());
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				exit;
 			}
 		}
@@ -107,7 +108,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
 	function api()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
@@ -123,7 +125,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 				
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));	
 		
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 		exit;
 	}
 }

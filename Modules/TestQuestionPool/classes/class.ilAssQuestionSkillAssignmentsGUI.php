@@ -40,7 +40,7 @@ class ilAssQuestionSkillAssignmentsGUI
 	private $access;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	private $tpl;
 
@@ -82,11 +82,11 @@ class ilAssQuestionSkillAssignmentsGUI
 	/**
 	 * @param ilCtrl $ctrl
 	 * @param ilAccessHandler $access
-	 * @param ilTemplate $tpl
+	 * @param ilGlobalTemplate $tpl
 	 * @param ilLanguage $lng
 	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTemplate $tpl, ilLanguage $lng, ilDBInterface $db)
+	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplate $tpl, ilLanguage $lng, ilDBInterface $db)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
@@ -609,7 +609,7 @@ class ilAssQuestionSkillAssignmentsGUI
 		);
 
 		$skillSelectorExplorerGUI->setSelectMode(self::PARAM_SKILL_SELECTION, true);
-		$skillSelectorExplorerGUI->setNodeOnclickEnabled(false);
+		//$skillSelectorExplorerGUI->setNodeOnclickEnabled(false);
 		
 		// parameter name for skill selection is actually taken from value passed to constructor,
 		// but passing a non empty name to setSelectMode is neccessary to keep input fields enabled

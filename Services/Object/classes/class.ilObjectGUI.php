@@ -311,7 +311,7 @@ class ilObjectGUI
 		$tpl = $this->tpl;
 		$ilUser = $this->user;
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		// administration prepare output
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -1659,8 +1659,8 @@ class ilObjectGUI
 		{
 			$this->ctrl->setParameter($this, "obj_id", $this->obj_id); 
 		}
-		$itab = new ilAdminSubItemsTableGUI($this, "view", $_GET["ref_id"]);
-		$itab->setEditable($this->checkPermissionBool('write'));
+		$itab = new ilAdminSubItemsTableGUI($this, "view", $_GET["ref_id"],
+			$this->checkPermissionBool('write'));
 		
 		$tpl->setContent($itab->getHTML());
 	}
@@ -2243,6 +2243,19 @@ class ilObjectGUI
 			}
 		}
 	}
-} // END class.ilObjectGUI (3.10: 2896 loc)
+
+	/**
+	 * Redirect after creation, see https://docu.ilias.de/goto_docu_wiki_wpage_5035_1357.html
+	 *
+	 * Should be overwritten and redirect to settings screen.
+	 */
+	public function redirectAfterCreation()
+	{
+		$ctrl = $this->ctrl;
+		$link = ilLink::_getLink($this->object->getRefId());
+		$ctrl->redirectToURL($link);
+	}
+
+}
 
 ?>

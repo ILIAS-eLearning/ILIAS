@@ -285,7 +285,7 @@ $( document ).ready( function() {
 							a_change.push([ "percentage_completed", Math.round(data.percentageCompleted) ]);
 						}
 						if (typeof data.totalTimeCentisec == "number") {
-							a_change.push([ "totalTimeCentisec", Math.round(data.totalTimeCentisec/100) ]);
+							a_change.push([ "sco_total_time_sec", Math.round(data.totalTimeCentisec/100) ]);
 						}
 						a_change.push([ "last_access", d_now.getTime() ]);
 						a_change.push([ "status", data.now_global_status ]);
@@ -325,7 +325,7 @@ $( document ).ready( function() {
 							a_change.push([ "percentage_completed", Math.round(data.percentageCompleted) ]);
 						}
 						if (typeof data.totalTimeCentisec == "number") {
-							a_change.push([ "totalTimeCentisec", Math.round(data.totalTimeCentisec/100) ]);
+							a_change.push([ "sco_total_time_sec", Math.round(data.totalTimeCentisec/100) ]);
 						}
 						a_change.push([ "last_access", d_now.getTime() ]);
 						a_change.push([ "status", data.now_global_status ]);

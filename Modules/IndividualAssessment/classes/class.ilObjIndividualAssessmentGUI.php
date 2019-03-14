@@ -44,7 +44,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 		$this->lng = $DIC['lng'];
 		$this->ilAccess = $DIC['ilAccess'];
 		$this->lng->loadLanguageModule('iass');
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->locator = $DIC['ilLocator'];
 
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -116,6 +116,12 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$md_gui = new ilObjectMetaDataGUI($this->object);
 				$this->ctrl->forwardCommand($md_gui);
 				break;
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('crs');
+				$this->ctrl->forwardCommand($cp);
+				break;
 			default:
 				if(!$cmd) {
 					$cmd = 'view';
@@ -157,6 +163,8 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'iass', $this->object->getId());
 			$record_gui->setInfoObject($info);
 			$record_gui->parse();
+
+			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 
 			$info = $this->addGeneralDataToInfo($info);
 			if($this->object->loadMembers()->userAllreadyMember($this->usr)) {
@@ -326,8 +334,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 
 	public static function _goto($a_target, $a_add = '') {
 		global $DIC;
+		if ($DIC['ilAccess']->checkAccess( 'write', '', $a_target)) {
+			ilObjectGUI::_gotoRepositoryNode($a_target, 'edit');
+		}
 		if ($DIC['ilAccess']->checkAccess( 'read', '', $a_target)) {
-			ilObjectGUI::_gotoRepositoryNode($a_target, 'view');
+			ilObjectGUI::_gotoRepositoryNode($a_target);
 		}
 	}
 

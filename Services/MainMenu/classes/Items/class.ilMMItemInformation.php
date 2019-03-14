@@ -51,11 +51,17 @@ class ilMMItemInformation implements ItemInformation {
 		 */
 		global $DIC;
 		static $usr_language_key;
+		static $default_language;
 		if (!$usr_language_key) {
 			$usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
 		}
+		if (!$default_language) {
+			$default_language = ilMMItemTranslationStorage::getDefaultLanguage();
+		}
 
-		if ($item instanceof hasTitle && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]) {
+		if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
+			&& $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
+		) {
 			$item = $item->withTitle((string)$this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
 		}
 

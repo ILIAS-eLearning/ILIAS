@@ -234,6 +234,12 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			$this->isSingleline = ($data['allow_images']) ? false : true;
 			$this->lastChange = $data['tstamp'];
 			$this->feedback_setting = $data['feedback_setting'];
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
 
 			try
 			{
@@ -609,15 +615,20 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
 		$participantSolution = $previewSession->getParticipantsSolution();
+		
+		$points = 0;
+		
 		foreach ($this->answers as $key => $answer)
 		{
 			if( is_numeric($participantSolution) && $key == $participantSolution )
 			{
-				return $answer->getPoints();
+				$points = $answer->getPoints();
 			}
 		}
 		
-		return 0;
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	/**
@@ -760,14 +771,6 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			);
 		}
 		$this->rebuildThumbnails();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	/**

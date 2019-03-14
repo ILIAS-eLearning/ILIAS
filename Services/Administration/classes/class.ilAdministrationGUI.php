@@ -288,7 +288,7 @@ class ilAdministrationGUI
 					{
 						$this->tpl->setVariable("OBJECTS", $html);
 					}
-					$this->tpl->show();
+					$this->tpl->printToStdout();
 				}
 				else	// 
 				{
@@ -490,7 +490,7 @@ class ilAdministrationGUI
 		$layout = array(
 			1 => array(
 				"basic" =>
-					array("adm", "stys", "mme", "adve", "lngf", "hlps", "accs", "cmps", "extt", "wfe"),
+					array("adm", "mme", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt", "wfe"),
 				"user_administration" =>
 					array("usrf", 'tos', "rolf", "orgu", "auth", "ps"),
 				"learning_outcomes" =>
@@ -543,7 +543,6 @@ class ilAdministrationGUI
 		
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$gl = new ilGroupedListGUI();
-		$gl->setAsDropDown(true);
 		
 		for ($i = 1; $i <= 3; $i++)
 		{

@@ -1252,12 +1252,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$lng->loadLanguageModule('crs');
 
 
-		if($a_perc_result)
+
+		if(is_numeric($a_perc_result))
 		{
 			$uiFactory = $DIC->ui()->factory();
 			$uiRenderer = $DIC->ui()->renderer();
 
-			$pMeter = $uiFactory->chart()->progressMeter()->standard(
+			$pMeter = $uiFactory->chart()->progressMeter()->fixedSize(
 				100,
 				(int) $a_perc_result,
 				(int) $a_perc_limit

@@ -14,13 +14,14 @@ for 'Certificates' to their component.
 * [Settings](#settings)
   * [Java Server](#java-server)
   * [Certificate Settings](#certificate-settings)
+* [GUI](#gui)
 * [Implementation for new Services/Module](#implementation-for-new-services-module)
   * [Placeholder Description](#placeholder-description)
     * [Methods](#methods)
   * [Placeholder Values](#placeholder-values)
     * [Methods](#methods-1)
 * [Cron Job](#cron-job)
-  * [GUI](#gui)
+  * [GUI](#gui-1)
     * [Custom Certificate Settings GUI](#custom-certificate-settings-gui)
   * [User Certificates Classes](#user-certificates-classes)
   * [Template Certificate Classes](#template-certificate-classes)
@@ -53,6 +54,27 @@ automatically be **updated**.
 If the ILIAS system will be upgraded from a ILIAS version <=5.3.0
 a migration MUST be executed.
 See the [migration](#migration) chapter for more information.
+
+Currently only a the newest version of a user certificate will
+be shown in the GUI.
+Previous certificate are also stored in the database,
+but are not displayed in the GUI.
+
+The user certificates can be created directly or via a cron job
+with a delay.
+
+* Creating user certificates instantly after resolving the learning progress
+  of a user is only recommended for systems with low up to mediocre user workload.
+  Due to the fact that learning progress events can be raised for different users
+  and different context objects in a very short amount of time
+  this can lead to response delays in the GUI.
+* Creating user certificates via the cron job is recommended for sytems
+  with a high user workload.
+  This approach stores an reminder of the learning progress event into a
+  queue.
+  The cron job will process the queue on execution.
+  To avoid high latencies we recommend to execute the cron job in a
+  few minute schedule.
 
 ## Settings
 

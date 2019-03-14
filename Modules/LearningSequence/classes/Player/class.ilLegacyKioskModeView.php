@@ -14,6 +14,7 @@ use ILIAS\UI\Factory;
 class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 {
 	const CMD_START_OBJECT = 'start_legacy_obj';
+	const GET_VIEW_CMD_FROM_LIST_GUI_FOR = ['sahs'];
 
 	protected $object;
 
@@ -93,6 +94,19 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 				false
 			);
 
+			$type = $this->object->getType();
+			if(in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
+				$obj_id = $this->object->getId();
+				$ref_id = $this->object->getRefId();
+				$item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
+				$item_list_gui->initItem($ref_id, $obj_id);
+				$view_lnk = $item_list_gui->getCommandLink('view');
+				$view_lnk = str_replace('&amp;', '&', $view_lnk);
+				$view_lnk = ILIAS_HTTP_PATH.'/'.$view_lnk;
+				$url = $view_lnk;
+			}
+
+
 			print implode("\n", [
 				'<script>',
 					'var il_ls_win = window.open("' .$url .'"),',
@@ -154,6 +168,9 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		$meta_data = [];
 
 		$section = $md->getGeneral();
+		if (!$section) {
+			return [];
+		}
 
 		$meta_data['language'] = [];
 		foreach ($section->getLanguageIds() as $id) {

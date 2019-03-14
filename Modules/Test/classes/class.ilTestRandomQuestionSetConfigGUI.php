@@ -64,7 +64,7 @@ class ilTestRandomQuestionSetConfigGUI
 	public $lng = null;
 	
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	public $tpl = null;
 	
@@ -120,7 +120,7 @@ class ilTestRandomQuestionSetConfigGUI
 	
 	public function __construct(
 		ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng,
-		ilTemplate $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
+		ilGlobalTemplate $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
 	)
 	{
 		$this->ctrl = $ctrl;
@@ -717,8 +717,6 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->questionSetConfig->setLastQuestionSyncTimestamp(0);
 		$this->questionSetConfig->saveToDb();
 
-		$this->sourcePoolDefinitionList->saveDefinitions();
-
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
 		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
@@ -892,14 +890,15 @@ class ilTestRandomQuestionSetConfigGUI
 				$deriver->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 				$deriver->setTargetContainerRef($targetRef);
 				$deriver->setOwnerId($GLOBALS['DIC']['ilUser']->getId());
-				$newPoolId = $deriver->derive($lostPool);
+				$newPool = $deriver->derive($lostPool);
 				
-				$this->sourcePoolDefinitionList->updateSourceQuestionPoolId(
-					$lostPool->getId(), $newPoolId
-				);
+				$srcPoolDefinition = $this->sourcePoolDefinitionList->getDefinitionBySourcePoolId($newPool->getId());
+				$srcPoolDefinition->setPoolTitle($newPool->getTitle());
+				$srcPoolDefinition->setPoolPath($this->questionSetConfig->getQuestionPoolPathString($newPool->getId()));
+				$srcPoolDefinition->saveToDb();
 				
 				ilTestRandomQuestionSetStagingPoolQuestionList::updateSourceQuestionPoolId(
-					$this->testOBJ->getTestId(), $lostPool->getId(), $newPoolId
+					$this->testOBJ->getTestId(), $lostPool->getId(), $newPool->getId()
 				);
 			}
 			

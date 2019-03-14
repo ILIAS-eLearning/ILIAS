@@ -141,6 +141,16 @@ class ilInitialisation
 		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
 		define ("PATH_TO_PHANTOMJS",$ilIliasIniFile->readVariable("tools","phantomjs"));
 
+		if ($ilIliasIniFile->groupExists('error')) {
+			if ($ilIliasIniFile->variableExists('error', 'editor_url')) {
+				define("ERROR_EDITOR_URL", $ilIliasIniFile->readVariable('error','editor_url'));
+			}
+
+			if ($ilIliasIniFile->variableExists('error', 'editor_path_translations')) {
+				define("ERROR_EDITOR_PATH_TRANSLATIONS", $ilIliasIniFile->readVariable('error','editor_path_translations'));
+			}
+		}
+
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
 		{
@@ -332,12 +342,11 @@ class ilInitialisation
 			$path = dirname($rq_uri);
 
 			// dirname cuts the last directory from a directory path e.g content/classes return content
-
 			$module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
 
 			$dirs = explode('/',$module);
 			$uri = $path;
-			if (count($dirs) > 0)
+			foreach($dirs as $dir)
 			{
 				$uri = dirname($uri);
 			}
@@ -359,38 +368,28 @@ class ilInitialisation
 		global $ilIliasIniFile;
 
 		// check whether ini file object exists
-		if (!is_object($ilIliasIniFile))
-		{
-			self::abortAndDie("Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.");
+		if (!is_object($ilIliasIniFile)) {
+			self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
 		}
-				
-		// set to default client if empty
-		if ($_GET["client_id"] != "")
-		{
-			$_GET["client_id"] = ilUtil::stripSlashes($_GET["client_id"]);
-			if (!defined("IL_PHPUNIT_TEST"))
-			{
-				if(ilContext::supportsPersistentSessions())
-				{
-					ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+
+		if (isset($_GET['client_id']) && strlen($_GET['client_id']) > 0) {
+			$_GET['client_id'] = \ilUtil::getClientIdByString((string)$_GET['client_id'])->toString();
+			if (!defined('IL_PHPUNIT_TEST')) {
+				if (ilContext::supportsPersistentSessions()) {
+					ilUtil::setCookie('ilClientId', $_GET['client_id']);
 				}
 			}
+		} elseif (!isset($_COOKIE['ilClientId'])) {
+			ilUtil::setCookie('ilClientId', $ilIliasIniFile->readVariable('clients','default'));
 		}
-		else if (!$_COOKIE["ilClientId"])
-		{
-			// to do: ilias ini raus nehmen
-			$client_id = $ilIliasIniFile->readVariable("clients","default");
-			ilUtil::setCookie("ilClientId", $client_id);
+
+		if (!defined('IL_PHPUNIT_TEST') && ilContext::supportsPersistentSessions()) {
+			$clientId = $_COOKIE['ilClientId'];
+		} else {
+			$clientId = $_GET['client_id'];
 		}
-		if (!defined("IL_PHPUNIT_TEST") && ilContext::supportsPersistentSessions())
-		{
-			
-			define ("CLIENT_ID", $_COOKIE["ilClientId"]);
-		}
-		else
-		{
-			define ("CLIENT_ID", $_GET["client_id"]);
-		}
+
+		define('CLIENT_ID', \ilUtil::getClientIdByString((string)$clientId)->toString());
 	}
 
 	/**
@@ -541,11 +540,10 @@ class ilInitialisation
 	 */
 	public static function setSessionHandler()
 	{
-		if(ini_get('session.save_handler') != 'user')
-		{
+		if (ini_get('session.save_handler') != 'user' && version_compare(PHP_VERSION, '7.2.0', '<')) {
 			ini_set("session.save_handler", "user");
 		}
-		
+
 		require_once "Services/Authentication/classes/class.ilSessionDBHandler.php";
 		$db_session_handler = new ilSessionDBHandler();
 		if (!$db_session_handler->setSaveHandler())
@@ -625,13 +623,13 @@ class ilInitialisation
 	 */
 	protected static function initMail(\ILIAS\DI\Container $c)
 	{
-		$c["mail.mime.transport.factory"] = function ($c) {
-			return new \ilMailMimeTransportFactory($c["ilSetting"]);
+		$c["mail.mime.transport.factory"] = function (\ILIAS\DI\Container $c) {
+			return new \ilMailMimeTransportFactory($c->settings(), $c->event());
 		};
-		$c["mail.mime.sender.factory"] = function ($c) {
-			return new \ilMailMimeSenderFactory($c["ilSetting"]);
+		$c["mail.mime.sender.factory"] = function (\ILIAS\DI\Container $c) {
+			return new \ilMailMimeSenderFactory($c->settings());
 		};
-		$c["mail.texttemplates.service"] = function ($c) {
+		$c["mail.texttemplates.service"] = function (\ILIAS\DI\Container $c) {
 			return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
 		};
 	}
@@ -1227,9 +1225,8 @@ class ilInitialisation
 				"./Services/Component/classes/class.ilPluginAdmin.php");
 		}
 
-		self::setSessionHandler();
-
 		self::initSettings();
+		self::setSessionHandler();
 		self::initMail($GLOBALS['DIC']);
 		self::initAvatar($GLOBALS['DIC']);
 		self::initCustomObjectIcons($GLOBALS['DIC']);
@@ -1636,11 +1633,44 @@ class ilInitialisation
 		if ($lti->isActive()) 
 		{
 			include_once "./Services/LTI/classes/class.ilTemplate.php";
-			$tpl = new LTI\ilTemplate("tpl.main.html", true, true, "Services/LTI");
+			$tpl = new LTI\ilGlobalTemplate("tpl.main.html", true, true, "Services/LTI");
+		}
+		else if (
+			$_REQUEST["baseClass"] == "ilLMPresentationGUI" ||
+			$_GET["baseClass"] == "ilLMPresentationGUI" ||
+			$_REQUEST["baseClass"] == "ilLMEditorGUI" ||
+			$_GET["baseClass"] == "ilLMEditorGUI"
+		) {
+			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
+		}
+		else if (
+			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
+			$_GET["cmdClass"] == "ilobjbloggui"
+		) {
+			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
+		}
+		else if (
+			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
+			$_GET["cmdClass"] == "ilobjportfoliotemplategui" ||
+			$_REQUEST["cmdClass"] == "ilobjportfoliogui" ||
+			$_GET["cmdClass"] == "ilobjportfoliogui" ||
+			$_REQUEST["cmdClass"] == "ilobjportfoliobasegui" ||
+			$_GET["cmdClass"] == "ilobjportfoliobasegui" ||
+			$_REQUEST["baseClass"] == "ilObjPortfolioGUI" ||
+			$_GET["baseClass"] == "ilObjPortfolioGUI"
+		) {
+			$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
+		}
+		else if (
+			$_REQUEST["baseClass"] == "ilStartUpGUI" ||
+			$_GET["baseClass"] == "ilStartUpGUI" ||
+			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
+		) {
+			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
 		}
 		else 
 		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		}
 		
 		self::initGlobal("tpl", $tpl);
@@ -2021,7 +2051,7 @@ class ilInitialisation
 
 		$c["bt.task_manager"] = function ($c) use ($sync) {
 			if ($sync == 'sync') {
-				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager($c["bt.persistence"]);
 			} elseif ($sync == 'async') {
 				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
 			} else {

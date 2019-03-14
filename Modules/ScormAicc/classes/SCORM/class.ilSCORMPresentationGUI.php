@@ -24,7 +24,11 @@ class ilSCORMPresentationGUI
 
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $DIC;
+		$ilias = $DIC['ilias'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
@@ -42,14 +46,18 @@ class ilSCORMPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilLog, $ilias, $lng;
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+		$ilLog = $DIC['ilLog'];
+		$ilias = $DIC['ilias'];
+		$lng = $DIC['lng'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("frameset");
 
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
 			(!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) ||
-			$this->object->getOfflineStatus()))
+			$this->slm->getOfflineStatus()))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
@@ -84,7 +92,8 @@ class ilSCORMPresentationGUI
 	* without the table of contents explorer frame on the left.
 	*/
 	function frameset()	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$javascriptAPI = true;
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
 		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
@@ -114,11 +123,11 @@ class ilSCORMPresentationGUI
 			// should be able to grep templates
 			if($debug)
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
 			}
 			else
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
 			}
 							
 			$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
@@ -128,18 +137,18 @@ class ilSCORMPresentationGUI
 			
 			if($debug)
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
 			}
 			else
 			{
-				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
+				$this->tpl = new ilGlobalTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
 			}
 
 			$this->ctrl->setParameter($this, "autolaunch", $items[0]);
 		}
 		$api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
 		$this->tpl->setVariable("API_LINK", $api_link);
-		$this->tpl->show("DEFAULT", false);
+		$this->tpl->printToStdout("DEFAULT", false);
 
 		
 		exit;
@@ -159,7 +168,9 @@ class ilSCORMPresentationGUI
 	*/
 	function get_actual_attempts() 
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
 			array('integer','integer'), array($this->slm->getId(),$ilUser->getId()));
 		$val_rec = $ilDB->fetchAssoc($val_set);
@@ -168,7 +179,9 @@ class ilSCORMPresentationGUI
 		return $attempts;
 	}
 	// function get_actual_attempts() {
-		// global $ilDB, $ilUser;
+		// global $DIC;
+		// $ilDB = $DIC['ilDB'];
+		// $ilUser = $DIC['ilUser'];
 		// $val_set = $ilDB->queryF('
 			// SELECT * FROM scorm_tracking 
 			// WHERE user_id =  %s
@@ -192,7 +205,9 @@ class ilSCORMPresentationGUI
 	* Increases attempts by one for this package
 	*/
 	// function increase_attempt() {
-		// global $ilDB, $ilUser;
+		// global $DIC;
+		// $ilDB = $DIC['ilDB'];
+		// $ilUser = $DIC['ilUser'];
 		
 		// //get existing account - sco id is always 0
 		// $val_set = $ilDB->queryF('
@@ -250,7 +265,9 @@ class ilSCORMPresentationGUI
 	*/
 	function increase_attemptAndsave_module_version()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
 		$res = $ilDB->queryF(
 			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s GROUP BY package_attempts',
 			array('integer','integer'),
@@ -280,7 +297,9 @@ class ilSCORMPresentationGUI
 	* save the active module version to scorm_tracking
 	*/
 	// function save_module_version() {
-		// global $ilDB, $ilUser;
+		// global $DIC;
+		// $ilDB = $DIC['ilDB'];
+		// $ilUser = $DIC['ilUser'];
 
 		// $val_set = $ilDB->queryF('
 			// SELECT * FROM scorm_tracking 
@@ -330,11 +349,13 @@ class ilSCORMPresentationGUI
 	*/
 	function explorer($a_target = "sahs_content")
 	{
-		global $ilBench, $ilLog;
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
+		$ilLog = $DIC['ilLog'];
 
 		$ilBench->start("SCORMExplorer", "initExplorer");
 		
-		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
 		
 		require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMExplorer.php");
 		$exp = new ilSCORMExplorer($this->ctrl->getLinkTarget($this, "view"), $this->slm);
@@ -377,7 +398,7 @@ class ilSCORMPresentationGUI
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		//BUG 16794? $this->tpl->show();
-		$this->tpl->show("DEFAULT", false);
+		$this->tpl->printToStdout("DEFAULT", false);
 	}
 
 
@@ -394,22 +415,28 @@ class ilSCORMPresentationGUI
 		}
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 	}
 
 	function contentSelect() {
-		global $lng;
-		$this->tpl = new ilTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
+		global $DIC;
+		$lng = $DIC['lng'];
+		$this->tpl = new ilGlobalTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt("seq_toc"));
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
 	* SCORM Data for Javascript-API
 	*/
 	function apiInitData() {
-//		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
+//		global $DIC;
+//		$ilias = $DIC['ilias'];
+//		$ilLog = $DIC['ilLog'];
+//		$ilUser = $DIC['ilUser'];
+//		$lng = $DIC['lng'];
+//		$ilDB = $DIC['ilDB'];
 
 		if ($_GET["ref_id"] == "") {
 			print ('alert("no start without ref_id");');
@@ -445,11 +472,12 @@ class ilSCORMPresentationGUI
 	
 	function api()
 	{
-		global $ilias;
+		global $DIC;
+		$ilias = $DIC['ilias'];
 
 		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
-		$this->tpl = new ilTemplate("tpl.sahs_api.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_api.html", true, true, "Modules/ScormAicc");
 		
 		// for scorm modules with only one presentable item: launch item
 		if ($_GET["autolaunch"] != "")
@@ -494,7 +522,7 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));
 		
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		exit;
 	}
 
@@ -504,7 +532,9 @@ class ilSCORMPresentationGUI
 	*/
 	function launchSahs()
 	{
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$sco_id = ($_GET["sahs_id"] == "")
 			? $_POST["sahs_id"]
@@ -524,7 +554,7 @@ class ilSCORMPresentationGUI
 		$resource->readByIdRef($id_ref, $item->getSLMId());
 		//$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 		$href = $resource->getHref();
-		$this->tpl = new ilTemplate("tpl.sahs_launch_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_launch_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
 
 		// set item data
@@ -631,7 +661,8 @@ class ilSCORMPresentationGUI
 			}
 		}
 
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.svg"));
@@ -688,14 +719,15 @@ class ilSCORMPresentationGUI
 			$item->insertTrackData("cmi.core.entry", "", $sahs_obj_id);
 		}
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 		//echo htmlentities($this->tpl->get()); exit;
 	}
 
 	function finishSahs ()
 	{
-		global $lng;
-		$this->tpl = new ilTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
+		global $DIC;
+		$lng = $DIC['lng'];
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		// block not in template
@@ -730,21 +762,23 @@ class ilSCORMPresentationGUI
 		// END Partial fix for SCO sequencing
 		$this->tpl->setVariable("SCO_LAUNCH_ID", $launch_id);
 		// $this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function unloadSahs ()
 	{
-		$this->tpl = new ilTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.sahs_unload_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
 	function launchAsset()
 	{
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
 
 		$sco_id = ($_GET["asset_id"] == "")
 			? $_POST["asset_id"]
@@ -764,9 +798,9 @@ class ilSCORMPresentationGUI
 		$resource->readByIdRef($id_ref, $item->getSLMId());
 		$href = $resource->getHref();
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
-		$this->tpl = new ilTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilGlobalTemplate("tpl.scorm_launch_asset.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function pingSession()
@@ -778,13 +812,15 @@ class ilSCORMPresentationGUI
 	}
 
 	function logMessage() {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$logString = file_get_contents('php://input');
 		$ilLog->write("ScormAicc: ApiLog: Message: ".$logString);
 	}
 
 	function logWarning() {
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$logString = file_get_contents('php://input');
 		$ilLog->write("ScormAicc: ApiLog: Warning: ".$logString,20);
 	}

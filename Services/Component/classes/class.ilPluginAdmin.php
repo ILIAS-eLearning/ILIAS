@@ -48,6 +48,7 @@ class ilPluginAdmin {
 	public function __construct() {
 		global $DIC;
 		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule("cmps");
 	}
 
 
@@ -566,7 +567,7 @@ class ilPluginAdmin {
 	 */
 	public static function getAllGlobalScreenProviders(): array {
 		$providers = array();
-		return array(); // current fix
+		// return array(); // current fix
 		foreach (self::getActivePlugins() as $plugin) {
 			$pl = self::getPluginObjectById($plugin['plugin_id']);
 			array_push($providers, $pl->promoteGlobalScreenProvider());

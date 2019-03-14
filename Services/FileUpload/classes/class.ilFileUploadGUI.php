@@ -385,15 +385,17 @@ class ilFileUploadGUI
 	
 		return $ilCtrl->getFormActionByClass(self::FILE_OBJ_GUI_CLASS, "uploadFiles", "", true, false);
 	}
-	
+
+	/**
+	 * @param mixed $a_id
+	 * @return string
+	 */
 	private function makeJqueryId($a_id)
 	{
-		if ($a_id != null && count($a_id) > 0)
-		{
-			if ($a_id[0] != "#")
-				return "#" . $a_id;
+		if (is_string($a_id) && strlen($a_id) > 0 && $a_id{0} !== '#') {
+			return '#' . $a_id;
 		}
-		
+
 		return $a_id;
 	}
 }

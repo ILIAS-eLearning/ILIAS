@@ -19,9 +19,15 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
 
 	/**
 	 * @param ilLanguage $language
+	 * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
 	 */
-	public function __construct(ilLanguage $language)
+	public function __construct(ilLanguage $language, ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null)
 	{
+		if (null === $userDefinedFieldPlaceHolderDescriptionObject) {
+			$userDefinedFieldPlaceHolderDescriptionObject = new ilUserDefinedFieldsPlaceholderDescription();
+		}
+		$userDefinedPlaceholderHtmlDescription = $userDefinedFieldPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+
 		$this->language = $language;
 
 		$this->placeholder = array(
@@ -42,6 +48,8 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
 			'DATE'               => $language->txt("certificate_ph_date"),
 			'DATETIME'           => $language->txt("certificate_ph_datetime"),
 		);
+
+		$this->placeholder = array_merge($this->placeholder, $userDefinedPlaceholderHtmlDescription);
 	}
 
 

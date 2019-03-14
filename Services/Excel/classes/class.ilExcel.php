@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /*
  * Wrapper for Microsoft Excel Import/Export (based on PHPSpreadsheet, formerPHPExcel which is deprecated)
@@ -106,8 +107,9 @@ class ilExcel
 	 */
 	public function addSheet($a_name, $a_activate = true)
 	{
+		#20749
 		// see Worksheet::$_invalidCharacters;
-		$invalid = array('*', ':', '/', '\\', '?', '[', ']');
+		$invalid = array('*', ':', '/', '\\', '?', '[', ']', '\'-','\'');
 		
 		$a_name = str_replace($invalid, "", $a_name);
 		
@@ -257,12 +259,25 @@ class ilExcel
 	 */
 	public function setCellByCoordinates($a_coords, $a_value)
 	{
-		$wb = $this->workbook->getActiveSheet()->setCellValue(
-			$a_coords, 
-			$this->prepareValue($a_value)
-		);
-		$cell = $wb->getCell($a_coords);
-		$this->setDateFormat($cell, $a_value);		
+		if($a_value instanceof ilDateTime)
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValue(
+				$a_coords,
+				$this->prepareValue($a_value)
+			);
+			$cell = $wb->getCell($a_coords);
+			$this->setDateFormat($cell, $a_value);
+		}
+		else
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicit(
+				$a_coords,
+				$this->prepareValue($a_value),
+				DataType::TYPE_STRING
+			);
+
+		}
+
 	}
 	
 	/**
@@ -274,12 +289,25 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
-		$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
-			$a_col, 
-			$a_row,			 
-			$this->prepareValue($a_value)
-		);			
-		$this->setDateFormat($wb->getCellByColumnAndRow($a_col, $a_row), $a_value);
+		if($a_value instanceof ilDateTime)
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
+				$a_col +1,
+				$a_row,
+				$this->prepareValue($a_value)
+			);
+			$this->setDateFormat($wb->getCellByColumnAndRow($a_col +1, $a_row), $a_value);
+		}
+		else
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+				$a_col +1,
+				$a_row,
+				$this->prepareValue($a_value),
+				DataType::TYPE_STRING
+			);
+		}
+
 	}
 	
 	/**
@@ -350,7 +378,7 @@ class ilExcel
 	 */
 	public function getColumnCoord($a_col)
 	{
-		return Coordinate::stringFromColumnIndex($a_col);
+		return Coordinate::stringFromColumnIndex($a_col + 1);
 	}
 	
 	/**
@@ -541,7 +569,7 @@ class ilExcel
 	 */
 	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
 	{
-		$columnLetter = Coordinate::stringFromColumnIndex($pColumn);
+		$columnLetter = Coordinate::stringFromColumnIndex($pColumn + 1);
 		return $columnLetter . $pRow;
 	}
 

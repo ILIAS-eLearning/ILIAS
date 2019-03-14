@@ -69,8 +69,15 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
-		$value = $post_input->getOr($this->getName(), "");
-		$clone = $this->withValue($value);
+		if (!$this->isDisabled()) {
+			$value = $post_input->getOr($this->getName(), "");
+			$clone = $this->withValue($value);
+		}
+		else {
+			$value = $this->getValue();
+			$clone = $this;
+		}
+
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());

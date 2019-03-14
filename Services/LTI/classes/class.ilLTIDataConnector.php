@@ -25,14 +25,20 @@ use IMSGlobal\LTI\ToolProvider\User;
 
 class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 {
-	
- 
-/**
- * Class constructor
- *
- */
+	/**
+	 * @var \ilLogger
+	 */
+	private $logger = null;
+
+
+	/**
+	 * ilLTIDataConnector constructor.
+	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->logger = $DIC->logger()->lti();
 		$this->db = "";
 		$this->dbTableNamePrefix = "";
 	}
@@ -1045,10 +1051,12 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
         $settingsValue = serialize($resourceLink->getSettings());
         if (!empty($resourceLink->getContext())) {
-            $consumerId = 'NULL';
+            //$consumerId = 'NULL';
+            $consumerId = strval($resourceLink->getConsumer()->getRecordId());
             $contextId = strval($resourceLink->getContext()->getRecordId());
         } else if (!empty($resourceLink->getContextId())) {
-            $consumerId = 'NULL';
+            //$consumerId = 'NULL';
+			$consumerId = strval($resourceLink->getConsumer()->getRecordId());
             $contextId = strval($resourceLink->getContextId());
         } else {
             $consumerId = strval($resourceLink->getConsumer()->getRecordId());
@@ -1080,6 +1088,13 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$values = array($contextId, $resourceLink->getId(), $settingsValue, $primaryResourceLinkId, $approved, $now, $consumerId, $id);
         }
         $ok =$ilDB->manipulateF($query,$types,$values);
+
+        $this->logger->info('Update resource link with query: ' . $query);
+        $this->logger->logStack();
+        $this->logger->dump($values, ilLogLevel::INFO);
+
+        $this->logger->dump($ok);
+
         if ($ok) {
             $resourceLink->updated = $time;
         }
@@ -1402,19 +1417,52 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 ###  User methods
 ###
 
-/**
- * Load user object.
- *
- * @param User $user User object
- *
- * @return boolean True if the user object was successfully loaded
- */
+	/**
+	 * Load user object.
+	 *
+	 * @param User $user User object
+	 *
+	 * @return boolean True if the user object was successfully loaded
+	 */
     public function loadUser($user)
     {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
 
         $ok = false;
+        if($user->getRecordId()) {
+
+        	$query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated '.
+				'FROM '.$this->dbTableNamePrefix.ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME.' '.
+				'WHERE user_pk = '.$ilDB->quote($user->getRecordId(),'integer');
+		}
+		else {
+			$query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated '.
+				'FROM '.$this->dbTableNamePrefix.ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME.' '.
+				'WHERE resource_link_pk = '. $ilDB->quote($user->getResourceLink()->getRecordId(),'integer').' '.
+				'AND lti_user_id = '. $ilDB->quote($user->getId(ToolProvider\ToolProvider::ID_SCOPE_ID_ONLY), 'text');
+		}
+
+		$this->logger->debug('Loading user with query: ' . $query);
+
+		$ok = false;
+		try {
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+				$user->setRecordId($row->user_pk);
+				$user->setResourceLinkId($row->resource_link_pk);
+				$user->ltiUserId = $row->lti_user_id;
+				$user->ltiResultSourcedId = $row->lti_result_sourcedid;
+				$user->created = strtotime($row->created);
+				$user->updated = strtotime($row->updated);
+				$ok = true;
+			}
+		}
+		catch(ilDatabaseException $e) {
+			$this->logger->error($e);
+		}
+		return $ok;
+
         // if (!empty($user->getRecordId())) {
             // $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
                            // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
@@ -1440,22 +1488,62 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 // $ok = true;
             // }
         // }
-
-        return $ok;
-
     }
 
-/**
- * Save user object.
- *
- * @param User $user User object
- *
- * @return boolean True if the user object was successfully saved
- */
+	/**
+	 * Save user object.
+	 *
+	 * @param User $user User object
+	 *
+	 * @return boolean True if the user object was successfully saved
+	 */
     public function saveUser($user)
     {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
+
+		$this->logger->info('Save user called');
+
+		$time = time();
+		$now = date($this->dateFormat.' '.$this->timeFormat, $time);
+		if(is_null($user->created)) {
+
+			$user->setRecordId($ilDB->nextId($this->dbTableNamePrefix.ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME));
+			$user->created = $time;
+			$query = 'INSERT INTO '.$this->dbTableNamePrefix.ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME.' '.
+				'(user_pk,resource_link_pk,lti_user_id, lti_result_sourcedid, created, updated) '.
+				'VALUES( '.
+				$ilDB->quote($user->getRecordId(),'integer').', '.
+				$ilDB->quote($user->getResourceLink()->getRecordId(),'integer').', '.
+				$ilDB->quote($user->getId(ToolProvider\ToolProvider::ID_SCOPE_ID_ONLY),'text').', '.
+				$ilDB->quote($user->ltiResultSourcedId,'text').', '.
+				$ilDB->quote($now,'text').', '.
+				$ilDB->quote($now,'text').
+				')';
+		}
+		else {
+			$user->updated = $time;
+			$query = 'UPDATE '.$this->dbTableNamePrefix.ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME.' '.
+				'SET lti_result_sourcedid = '. $ilDB->quote($user->ltiResultSourcedId,'text').', '.
+				'updated = '.$ilDB->quote($now,'text').' '.
+				'WHERE user_pk = '.$ilDB->quote($user->getRecordId(),'integer');
+		}
+
+		$this->logger->debug('Saving user data with query: ' . $query);
+
+		$ok = false;
+		try {
+
+			$ilDB->manipulate($query);
+			$ok = true;
+		}
+		catch(ilDatabaseException $e) {
+			$this->logger->error($e->getMessage());
+		}
+
+		return $ok;
+
+
 
         // $time = time();
         // $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
@@ -1487,17 +1575,31 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     }
 
-/**
- * Delete user object.
- *
- * @param User $user User object
- *
- * @return boolean True if the user object was successfully deleted
- */
+	/**
+	 * Delete user object.
+	 *
+	 * @param User $user User object
+	 *
+	 * @return boolean True if the user object was successfully deleted
+	 */
     public function deleteUser($user)
     {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
+
+		$query = 'DELETE from '.$this->dbTableNamePrefix.ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME.' '.
+			'WHERE user_pk = '. $ilDB->quote($user->getRecordId(),'integer');
+
+		$ok = false;
+		try {
+			$ilDB->manipulate($query);
+			$user->initialize();
+			$ok = true;
+		}
+		catch(ilDatabaseException $e) {
+			$this->logger->error($e);
+		}
+		return $ok;
 
         // $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                        // 'WHERE (user_pk = %d)',
@@ -1512,4 +1614,68 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     }
 
+
+	/**
+	 * Lookup resources for user object relation
+	 *
+	 * @param $a_ref_id
+	 * @param $a_lti_user
+	 * @param $a_ext_consumer
+	 * @param ilDateTime $since
+	 * @return int[]
+	 *
+	 */
+    public function lookupResourcesForUserObjectRelation($a_ref_id, $a_lti_user, $a_ext_consumer, ilDateTime $since = null)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$logger = $DIC->logger()->lti();
+
+		$query = 'select rl.resource_link_pk '.
+			'from lti2_user_result ur join lti2_resource_link rl on rl.resource_link_pk = ur.resource_link_pk '.
+			'join lti2_consumer c on rl.consumer_pk = c.consumer_pk '.
+			'join lti_ext_consumer ec on c.ext_consumer_id = ec.id '.
+			'where c.enabled = '.$db->quote(1,'integer').' '.
+			'and ref_id = '. $db->quote($a_ref_id,'integer').' '.
+			'and ur.lti_user_id = '.$db->quote($a_lti_user,'text').' '.
+			'and ec.id = '.$db->quote($a_ext_consumer,'integer');
+
+		$resource_links = [];
+		try {
+			$res = $db->query($query);
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+				$resource_links[] = $row->resource_link_pk;
+			}
+		}
+		catch(ilDatabaseException $e) {
+			$logger->error('Query execution failed with message: ' . $e->getMessage());
+		}
+		return $resource_links;
+	}
+
+	/**
+	 * @param \ilDateTime $since
+	 */
+	public function lookupResourcesForAllUsersSinceDate(ilDateTime $since)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$logger = $DIC->logger()->lti();
+
+		$query = 'select lti_user_id, rl.resource_link_pk, ec.id, ref_id ' .
+			'from lti2_resource_link rl join lti2_user_result ur on rl.resource_link_pk = ur.resource_link_pk ' .
+			'join lti2_consumer c on rl.consumer_pk = c.consumer_pk ' .
+			'join lti_ext_consumer ec on ext_consumer_id = ec.id '.
+			'where c.enabled = ' . $db->quote(1, 'integer') . ' ' .
+			'and rl.updated > ' . $db->quote($since->get(IL_CAL_DATETIME), 'timestamp');
+		$res = $db->query($query);
+
+		$results = [];
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+			$results[$row->id.'__'.$row->lti_user_id][] = $row->resource_link_pk . '__' . $row->ref_id;
+		}
+		return $results;
+	}
 }

@@ -290,6 +290,14 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+		}
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		return $questionoutput;
 	}
@@ -344,6 +352,14 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+			$this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+		}
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
@@ -363,6 +379,20 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
 		$this->object->cleanupMediaObjectUsage();
 		parent::saveFeedback();
+	}
+	
+	public function getPresentationJavascripts()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$files = array();
+		
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			$files[] = './libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js';
+		}
+		
+		return $files;
 	}
 
 	/**

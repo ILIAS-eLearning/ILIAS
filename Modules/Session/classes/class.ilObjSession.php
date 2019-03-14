@@ -510,7 +510,13 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
+		/**
+		 * @var ilObjSession
+		 */
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
+
+	 	$dtpl = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
+	 	$new_obj->applyDidacticTemplate($dtpl);
 
 	 	$this->read();
 	 	
@@ -551,7 +557,16 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneSettings(ilObjSession $new_obj)
 	{
-		// @var 
+		ilContainer::_writeContainerSetting(
+			$new_obj->getId(),
+			ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+			ilContainer::_lookupContainerSetting(
+				$this->getId(),
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA
+			)
+		);
+
+		// @var
 		$new_obj->setLocation($this->getLocation());
 		$new_obj->setName($this->getName());
 		$new_obj->setPhone($this->getPhone());
@@ -949,6 +964,15 @@ class ilObjSession extends ilObject
 			$this->initParticipants();
 		}
 		return $this->members_obj;
+	}
+
+	/**
+	 * ALways disabled
+	 * @return bool
+	 */
+	public function getEnableMap()
+	{
+		return false;
 	}
 }
 

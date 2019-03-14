@@ -650,9 +650,11 @@ class ilObjUserFolder extends ilObject
 		include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
 		$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
 		$path = $fs->getAbsolutePath()."/";
-		
-		unlink($path.$a_lang);
-		
+
+		if (file_exists($path . $a_lang)) {
+			unlink($path . $a_lang);
+		}
+
 		$ilDB->update('mail_template',
 				array('att_file' => array('text', '')),
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));

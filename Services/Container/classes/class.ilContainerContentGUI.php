@@ -119,7 +119,7 @@ abstract class ilContainerContentGUI
 
 		$this->log = ilLoggerFactory::getLogger('cont');
 
-		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile")
+		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel())
 			? self::VIEW_MODE_TILE
 			: self::VIEW_MODE_LIST;
 
@@ -747,7 +747,7 @@ abstract class ilContainerContentGUI
 	 * @param string $a_pos_prefix
 	 * @return string
 	 */
-	function renderCard($a_item_data,$a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
+	function renderCard($a_item_data, $a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
 	{
 		global $DIC;
 		$f = $DIC->ui()->factory();
@@ -779,21 +779,42 @@ abstract class ilContainerContentGUI
 		}
 		else
 		{
-			$path = ilUtil::getImagePath("empty.png");
+			$path = ilUtil::getImagePath("cont_tile/cont_tile_default_".$a_item_data['type'].".svg");
+			if (!is_file($path))
+			{
+				$path = ilUtil::getImagePath("cont_tile/cont_tile_default.svg");
+			}
 		}
 
-		$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
+		$image = $f->image()->responsive($path, "");
+		if ($def_command["link"] != "")	// #24256
+		{
+			$image = $image->withAction($def_command["link"]);
+		}
 
 		// card
+		$title = $a_item_data["title"];
+
+		if ($a_item_data["type"] == "sess" && $a_item_data["title"] == "")
+		{
+			$app_info = ilSessionAppointment::_lookupAppointment($a_item_data['obj_id']);
+			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+		}
+
 		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
 			->withIsOutlined(true);
 		$card = $f->card()->repositoryObject(
-			$a_item_data["title"],
+			$title."<span data-list-item-id='".$item_list_gui->getUniqueItemId(true)."'></span>",
 			$image
 		)->withObjectIcon(
 			$icon
 		)->withActions($dropdown
-		)->withTitleAction($def_command["link"]);
+		);
+
+		if ($def_command["link"] != "")	// #24256
+		{
+			$card = $card->withTitleAction($def_command["link"]);
+		}
 
 		// properties
 		$l = [];
@@ -801,7 +822,7 @@ abstract class ilContainerContentGUI
 		{
 			if ($p["property"] != $this->lng->txt("learning_progress"))
 			{
-				$l[$p["property"]] = $p["value"];
+				$l[(string) $p["property"]] = (string) $p["value"];
 			}
 		}
 		if (count($l) > 0)

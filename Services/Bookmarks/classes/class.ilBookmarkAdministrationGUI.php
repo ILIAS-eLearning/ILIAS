@@ -83,7 +83,7 @@ class ilBookmarkAdministrationGUI
 
 //		$tpl->enableAdvancedColumnLayout(true, false);
 
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		//print_r($_SESSION["error_post_vars"]);
 		// if no bookmark folder id is given, take dummy root node id (that is 1)
@@ -126,7 +126,7 @@ class ilBookmarkAdministrationGUI
 				}
 				break;
 		}
-		$this->tpl->show(true);
+		$this->tpl->printToStdout(true);
 		return true;
 	}
 

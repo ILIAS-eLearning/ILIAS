@@ -67,17 +67,17 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 		$options = array(
 			'filters' => $this->filter,
-			'limit'   => array(),
-			'count'   => true,
-			'sort'    => array(
-				'field'     => $this->getOrderField(),
+			'limit' => array(),
+			'count' => true,
+			'sort' => array(
+				'field' => $this->getOrderField(),
 				'direction' => $this->getOrderDirection(),
 			),
 		);
 		$count = ilMStListUsers::getData($arr_usr_id, $options);
 		$options['limit'] = array(
 			'start' => (int)$this->getOffset(),
-			'end'   => (int)$this->getLimit(),
+			'end' => (int)$this->getLimit(),
 		);
 		$options['count'] = false;
 		$data = ilMStListUsers::getData($arr_usr_id, $options);
@@ -89,8 +89,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 	public function initFilter() {
 		// User name, login, email filter
-		$item = new ilTextInputGUI($this->lng()->txt("login") . "/" . $this->lng()->txt("email")
-		                           . "/" . $this->lng()->txt("name"), "user");
+		$item = new ilTextInputGUI($this->lng()->txt("login") . "/" . $this->lng()->txt("email") . "/" . $this->lng()->txt("name"), "user");
 		//$item->setDataSource($this->ctrl()->getLinkTarget($this->getParentObject(),"addUserAutoComplete", "", true));
 		//$item->setSize(20);
 		//$item->setSubmitFormOnEnter(true);
@@ -98,7 +97,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$item->readFromSession();
 		$this->filter['user'] = $item->getValue();
 
-		if(ilUserSearchOptions::_isEnabled('org_units')) {
+		if (ilUserSearchOptions::_isEnabled('org_units')) {
 			$root = ilObjOrgUnit::getRootOrgRefId();
 			$tree = ilObjOrgUnitTree::_getInstance();
 			$nodes = $tree->getAllChildren($root);
@@ -151,7 +150,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 				if (isset($v['sort_field'])) {
 					$sort = $v['sort_field'];
 				} else {
-					$sort = null;
+					$sort = NULL;
 				}
 				$this->addColumn($v['txt'], $sort, $v['width']);
 			}
@@ -176,8 +175,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$f = $this->dic()->ui()->factory();
 		$renderer = $this->dic()->ui()->renderer();
 		$il_obj_user = $my_staff_user->returnIlUserObj();
-		$avatar = $f->image()
-		            ->standard($il_obj_user->getPersonalPicturePath('small'), $il_obj_user->getPublicName());
+		$avatar = $f->image()->standard($il_obj_user->getPersonalPicturePath('small'), $il_obj_user->getPublicName());
 		$this->tpl->setVariable('user_profile_picture', $renderer->render($avatar));
 		$this->tpl->parseCurrentBlock();
 
@@ -191,33 +189,29 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 						break;
 					case 'gender':
 						$this->tpl->setCurrentBlock('td');
-						$this->tpl->setVariable('VALUE', $this->lng()->txt('gender_'
-						                                                   . $my_staff_user->getGender()));
+						$this->tpl->setVariable('VALUE', $this->lng()->txt('gender_' . $my_staff_user->getGender()));
 						$this->tpl->parseCurrentBlock();
 						break;
 					case 'interests_general':
 						$this->tpl->setCurrentBlock('td');
 						$this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-						                                                ->getGeneralInterestsAsText() ? $my_staff_user->returnIlUserObj()
-						                                                                                              ->getGeneralInterestsAsText() : '&nbsp;'));
+							->getGeneralInterestsAsText() ? $my_staff_user->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
 						$this->tpl->parseCurrentBlock();
 						break;
 					case 'interests_help_offered':
 						$this->tpl->setCurrentBlock('td');
 						$this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-						                                                ->getOfferingHelpAsText() ? $my_staff_user->returnIlUserObj()
-						                                                                                          ->getOfferingHelpAsText() : '&nbsp;'));
+							->getOfferingHelpAsText() ? $my_staff_user->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
 						$this->tpl->parseCurrentBlock();
 						break;
 					case 'interests_help_looking':
 						$this->tpl->setCurrentBlock('td');
 						$this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-						                                                ->getLookingForHelpAsText() ? $my_staff_user->returnIlUserObj()
-						                                                                                            ->getLookingForHelpAsText() : '&nbsp;'));
+							->getLookingForHelpAsText() ? $my_staff_user->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
 						$this->tpl->parseCurrentBlock();
 						break;
 					default:
-						if ($propGetter($k) !== null) {
+						if ($propGetter($k) !== NULL) {
 							$this->tpl->setCurrentBlock('td');
 							$this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
 							$this->tpl->parseCurrentBlock();
@@ -231,46 +225,23 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 			}
 		}
 
-		//TODO Context!
-		$user_action_collector = ilUserActionCollector::getInstance($ilUser->getId(),new ilAwarenessUserActionContext());
-		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_user->getUsrId());
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setListTitle($this->dic()->language()->txt("actions"));
+		$actions->setAsynch(true);
+		$actions->setId($my_staff_user->getUsrId());
 
-		//TODO Async?
-		$selection = new ilAdvancedSelectionListGUI();
-		$selection->setListTitle($this->lng()->txt('actions'));
-		$selection->setId('selection_list_' . $my_staff_user->getUsrId());
-		$this->ctrl()
-		     ->setParameterByClass('ilMStShowUserGUI', 'usr_id', $my_staff_user->getUsrId());
-		$selection->addItem($this->lng()->txt('mst_show_courses'), '', $this->ctrl()
-		                                                                    ->getLinkTargetByClass(array(
-			                                                                    'ilPersonalDesktopGUI',
-			                                                                    'ilMyStaffGUI',
-			                                                                    'ilMStShowUserGUI',
-		                                                                    )));
-		foreach ($action_collection->getActions() as $action) {
-			switch ($action->getType()) {
-				case "profile": //personal profile
-					$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
-				break;
-				case "compose": //mail
-				case "invite": //public chat
-				case "invite_osd": //direct chat (start conversation)
-					//do only display those actions if the displayed user is not the current user
-					if($my_staff_user->getUsrId() != $ilUser->getId()) {
-						$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
-					}
-					break;
-				default:
-					$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
-				break;
-			}
-		}
-		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
+		$this->dic()->ctrl()->setParameterByClass(ilMStListUsersGUI::class, 'mst_lus_usr_id', $my_staff_user->getUsrId());
+
+		$actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic()->ctrl()
+			->getLinkTarget($this->parent_obj, ilMStListUsersGUI::CMD_GET_ACTIONS, "", true)));
+		$this->tpl->setVariable('ACTIONS', $actions->getHTML());
+		$this->tpl->parseCurrentBlock();
 	}
 
 
 	/**
 	 * Get profile back url
+	 *
 	 * @return string
 	 */
 	private function getProfileBackUrl() {
@@ -324,15 +295,13 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 					$field_values[$k] = $this->lng()->txt('gender_' . $my_staff_user->getGender());
 					break;
 				case 'interests_general':
-					$field_values[$k] = $my_staff_user->returnIlUserObj()
-					                                  ->getGeneralInterestsAsText();
+					$field_values[$k] = $my_staff_user->returnIlUserObj()->getGeneralInterestsAsText();
 					break;
 				case 'interests_help_offered':
 					$field_values[$k] = $my_staff_user->returnIlUserObj()->getOfferingHelpAsText();
 					break;
 				case 'interests_help_looking':
-					$field_values[$k] = $my_staff_user->returnIlUserObj()
-					                                  ->getLookingForHelpAsText();
+					$field_values[$k] = $my_staff_user->returnIlUserObj()->getLookingForHelpAsText();
 					break;
 				default:
 					$field_values[$k] = strip_tags($propGetter($k));

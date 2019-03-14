@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\MainMenu\AbstractChildItem;
 use ILIAS\GlobalScreen\MainMenu\hasAction;
 use ILIAS\GlobalScreen\MainMenu\hasTitle;
 use ilLink;
+use ilObject2;
 
 /**
  * Class Link
@@ -46,7 +47,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction {
 	 * @return string
 	 */
 	public function getTitle(): string {
-		return $this->title;
+		return $this->title !== null ? $this->title : ($this->getRefId() > 0 ? ilObject2::_lookupTitle(ilObject2::_lookupObjectId($this->getRefId())) : "");
 	}
 
 

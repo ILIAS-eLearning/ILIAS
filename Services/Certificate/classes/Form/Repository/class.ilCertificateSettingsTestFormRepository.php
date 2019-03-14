@@ -26,7 +26,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 	 * @param string $certificatePath
 	 * @param ilObjTest $testObject
 	 * @param ilLanguage $language
-	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
@@ -38,7 +37,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 		string $certificatePath,
 		ilObjTest $testObject,
 		ilLanguage $language,
-		ilTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
@@ -53,7 +51,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 				$objectId,
 				$certificatePath,
 				$language,
-				$template,
 				$controller,
 				$access,
 				$toolbar,

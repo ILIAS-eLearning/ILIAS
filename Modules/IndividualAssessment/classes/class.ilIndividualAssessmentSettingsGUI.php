@@ -13,7 +13,7 @@ class ilIndividualAssessmentSettingsGUI {
 	const PROP_INFO_RESPONSIBILITY = "responsibility";
 	const PROP_INFO_PHONE = "phone";
 	const PROP_INFO_MAILS = "mails";
-	const PROP_INFO_CONSULTATION = "consultatilon";	
+	const PROP_INFO_CONSULTATION = "consultation";
 
 	const TAB_EDIT = 'settings';
 	const TAB_EDIT_INFO = 'infoSettings';
@@ -30,8 +30,13 @@ class ilIndividualAssessmentSettingsGUI {
 		$this->tabs_gui = $a_parent_gui->tabsGUI();
 		$this->getSubTabs($this->tabs_gui);
 		$this->iass_access = $this->object->accessHandler();
+		$this->obj_service = $DIC->object();
+
+		$this->lng->loadLanguageModule('content');
+		$this->lng->loadLanguageModule('obj');
+		$this->lng->loadLanguageModule('cntr');
 	}
-	
+
 	protected function getSubTabs(ilTabsGUI $tabs) {
 		$tabs->addSubTab(self::TAB_EDIT,
 									$this->lng->txt("edit"),
@@ -67,6 +72,7 @@ class ilIndividualAssessmentSettingsGUI {
 		$form = $this->fillForm($this->initSettingsForm()
 					,$this->object
 					,$this->object->getSettings());
+		$this->addCommonFieldsToForm($form);
 		$this->renderForm($form);
 	}
 
@@ -89,7 +95,7 @@ class ilIndividualAssessmentSettingsGUI {
 				->setMails($_POST[self::PROP_INFO_MAILS])
 				->setConsultationHours($_POST[self::PROP_INFO_CONSULTATION]);
 			$this->object->updateInfo();
-			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'), true);
 		}
 		$this->ctrl->redirect($this, "editInfo");
 	}
@@ -102,6 +108,7 @@ class ilIndividualAssessmentSettingsGUI {
 		$this->tabs_gui->setSubTabActive(self::TAB_EDIT);
 		$form = $this->initSettingsForm();
 		$form->setValuesByArray($_POST);
+		$this->addCommonFieldsToForm($form);
 		if($form->checkInput()) {
 			$this->object->setTitle($_POST[self::PROP_TITLE]);
 			$this->object->setDescription($_POST[self::PROP_DESCRIPTION]);
@@ -118,7 +125,12 @@ class ilIndividualAssessmentSettingsGUI {
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				]
 			);
-			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'));
+			$form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->object);
+			$form_service->saveTitleIconVisibility();
+			$form_service->saveTopActionsVisibility();
+			$form_service->saveIcon();
+			$form_service->saveTileImage();
+			ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'), true);
 		}
 		$this->ctrl->redirect($this, "edit");
 	}
@@ -175,6 +187,18 @@ class ilIndividualAssessmentSettingsGUI {
 		);
 
 		return $form;
+	}
+
+	protected function addCommonFieldsToForm(\ilPropertyFormGUI $form)
+	{
+		$section_appearance = new ilFormSectionHeaderGUI();
+		$section_appearance->setTitle($this->lng->txt('cont_presentation'));
+		$form->addItem($section_appearance);
+		$form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->object);
+		$form = $form_service->addTitleIconVisibility();
+		$form = $form_service->addTopActionsVisibility();
+		$form = $form_service->addIcon();
+		$form = $form_service->addTileImage();
 	}
 
 	protected function initInfoSettingsForm() {

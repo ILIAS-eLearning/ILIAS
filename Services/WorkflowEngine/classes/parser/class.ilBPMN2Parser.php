@@ -32,7 +32,8 @@ class ilBPMN2Parser
 
 		$class_object->setWorkflowName($workflow_name);
 
-		if(count(@$process['children']))
+		$hasChildren = (isset($process['children']) && is_array($process['children']) && count($process['children']) > 0);
+		if($hasChildren)
 		{
 			$stashed_sequence_flows = array(); // There can be no assumption, that the workflow is modeled in sequence,
 											   // so we need to stash the connectors to add them after the nodes.
@@ -180,7 +181,8 @@ class ilBPMN2Parser
 	 */
 	public function determineWorkflowClassName($workflow_name, $bpmn2_array, $process)
 	{
-		if (!$workflow_name && !count( @$bpmn2_array['children'] ))
+		$hasChildren = (isset($bpmn2_array['children']) && is_array($bpmn2_array['children']) && count($bpmn2_array['children']) > 0);
+		if (!$workflow_name && !$hasChildren)
 		{
 			$workflow_name = $bpmn2_array['attributes']['id'];
 		}

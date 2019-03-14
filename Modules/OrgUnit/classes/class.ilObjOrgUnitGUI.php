@@ -21,6 +21,7 @@
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitUserAssignmentGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPropertyFormGUI
  */
 class ilObjOrgUnitGUI extends ilContainerGUI {
 
@@ -188,8 +189,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				break;
 			case "ilinfoscreengui":
 				$this->tabs_gui->activateTab("info_short");
-				if (!$this->ilAccess->checkAccess("read", "", $this->ref_id)
-				    AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+				if (!$this->ilAccess->checkAccess("read", "", $this->ref_id) AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
 				}
 				$info = new ilInfoScreenGUI($this);
@@ -210,7 +210,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 			case 'illearningprogressgui':
 			case 'illplistofprogressgui':
 				$this->tabs_gui->clearTargets();
-				$this->tabs_gui->setBackTarget($this->lng->txt('backto_staff'), $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", 'showStaff'));
+				$this->tabs_gui->setBackTarget($this->lng->txt('backto_staff'), $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_INDEX));
 				if (!ilObjOrgUnitAccess::_checkAccessToUserLearningProgress($this->object->getRefid(), $_GET['obj_id'])) {
 					ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 					$this->ctrl->redirectByClass("ilOrgUnitStaffGUI", "showStaff");
@@ -221,6 +221,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 			case 'ilorgunitexportgui':
+				if (!ilObjOrgUnitAccess::_checkAccessExport((int)$_GET['ref_id'])) {
+					ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+					$this->ctrl->redirect($this);
+				}
 				$this->tabs_gui->activateTab(self::TAB_EXPORT);;
 				$ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
 				$ilOrgUnitExportGUI->addFormat('xml');
@@ -257,14 +261,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						$this->view();
 						break;
 					case 'performPaste':
-						$this->performPaste();
-						break;
 					case 'paste':
 						$this->performPaste();
 						break;
 					case 'performPasteIntoMultipleObjects':
 						$this->performPasteIntoMultipleObjectsObject();
 						break;
+                    case 'keepObjectsInClipboard':
+                        $this->keepObjectsInClipboardObject();
+                        break;
 					case 'create':
 						parent::createObject();
 						break;
@@ -274,10 +279,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'delete':
 						$this->tabs_gui->clearTargets();
 						$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
-						parent::deleteObject();
+						$this->deleteObject();
 						break;
 					case 'confirmedDelete':
-						parent::confirmedDeleteObject();
+						$this->confirmedDeleteObject();
 						break;
 					case 'cut':
 						$this->tabs_gui->clearTargets();
@@ -334,12 +339,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	protected function afterSave(ilObject $a_new_object) {
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-		ilUtil::redirect(
-			$this->getReturnLocation(
-				"save",
-				$this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS, "", false, false)
-			)
-		);
+		ilUtil::redirect($this->getReturnLocation("save", $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS, "", false, false)));
 	}
 
 
@@ -373,7 +373,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 */
 	protected function initCreationForms($a_new_type) {
 		$forms = array(
-			self::CFORM_NEW    => $this->initCreateForm($a_new_type),
+			self::CFORM_NEW => $this->initCreateForm($a_new_type),
 			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
 		);
 
@@ -384,8 +384,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	public function showPossibleSubObjects() {
 		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());
 		$gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
-		$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"]
-		                     . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI");
+		$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI");
 		$gui->render();
 	}
 
@@ -393,6 +392,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	public function showTree() {
 		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
 		$tree->setTypeWhiteList($this->getTreeWhiteList());
+		$tree->setNodeOpen(ilObjOrgUnit::getRootOrgRefId());
+
 		if (!$tree->handleCommand()) {
 			$this->tpl->setLeftNavContent($tree->getHTML());
 		}
@@ -424,8 +425,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 			$icons_cache = ilObjOrgUnit::getIconsCache();
 			$icon_file = (isset($icons_cache[$this->object->getId()])) ? $icons_cache[$this->object->getId()] : '';
 			if ($icon_file) {
-				$this->tpl->setTitleIcon($icon_file, $this->lng->txt("obj_"
-				                                                     . $this->object->getType()));
+				$this->tpl->setTitleIcon($icon_file, $this->lng->txt("obj_" . $this->object->getType()));
 			}
 		}
 	}
@@ -545,8 +545,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	function setContentSubTabs() {
 		$this->addStandardContainerSubTabs();
 		//only display the import tab at the first level
-		if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) AND $this->object->getRefId()
-		                                                                   == ilObjOrgUnit::getRootOrgRefId()) {
+		if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) AND $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
 			$this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
 		}
 	}
@@ -645,7 +644,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		if (is_array($toolbar->items)) {
 			foreach ($toolbar->items as $key => $item) {
 				if ($item["cmd"] == "link" || $item["cmd"] == "copy"
-				    || $item["cmd"] == "download") {
+					|| $item["cmd"] == "download") {
 					unset($toolbar->items[$key]);
 				}
 			}
@@ -694,8 +693,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 		if ($_SESSION['clipboard']['cmd'] == 'cut') {
 			if (isset($_GET['ref_id']) && (int)$_GET['ref_id']) {
-				$_POST['nodes'] = array( $_GET['ref_id'] );
-				$this->performPasteIntoMultipleObjectsObject();
+				$this->pasteObject();
 			}
 		}
 		$this->ctrl->returnToParent($this);
@@ -717,6 +715,46 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 */
 	public function &__initTableGUI() {
 		return parent::__initTableGUI();
+	}
+
+
+	/**
+	 * confirmed deletion of org units -> org units are deleted immediately, without putting them to the trash
+	 */
+	public function confirmedDeleteObject() {
+
+		if (count($_POST['id']) > 0) {
+			foreach ($_POST['id'] as $ref_id) {
+				$il_obj_orgunit = new ilObjOrgUnit($ref_id);
+				$il_obj_orgunit->delete();
+			}
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+
+	/**
+	 * Display deletion confirmation screen for Org Units.
+	 * Information to the user that Org units will be deleted immediately.
+	 *
+	 * @access    public
+	 */
+	public function deleteObject($a_error = false) {
+		$ilCtrl = $this->ctrl;
+		require_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+
+		$arr_ref_ids = [];
+		//Delete via Manage (more than one)
+		if (count($_POST['id']) > 0) {
+			$arr_ref_ids = $_POST['id'];
+		} elseif($_GET['item_ref_id'] > 0) {
+			$arr_ref_ids = [$_GET['item_ref_id']];
+		}
+
+		if (!$ru->showDeleteConfirmation($arr_ref_ids, false)) {
+			$ilCtrl->returnToParent($this);
+		}
 	}
 
 

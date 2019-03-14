@@ -190,7 +190,10 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$thumbSize->setDecimals(false);
 			$thumbSize->setMinValue(20);
 			$thumbSize->setSize(6);
-			$thumbSize->setValue( $this->object->getThumbSize() );
+			if( $this->object->getThumbSize() > 0 )
+			{
+				$thumbSize->setValue($this->object->getThumbSize());
+			}
 			$form->addItem($thumbSize);
 		}
 

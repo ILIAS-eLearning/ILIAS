@@ -748,9 +748,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function finishTestCmd($requires_confirmation = true)
 	{
-		global $DIC;
-		$ilAuth = $DIC['ilAuth'];
-
 		unset($_SESSION["tst_next"]);
 
 		$active_id = $this->testSession->getActiveId();
@@ -1047,6 +1044,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if( count($testPassesSelector->getReportablePasses()) )
 		{
+			if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+			{
+				$this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'));
+			}
+			
 			$this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
 
@@ -1791,7 +1793,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if ($this->object->getKioskMode())
 		{
 			$this->tpl->setBodyClass("kiosk");
-			$this->tpl->setAddFooter(FALSE);
+			$this->tpl->hideFooter();
 			return "CONTENT";
 		}
 		else
@@ -2757,6 +2759,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 // fau: testNav - new function populateNavWhenChangedModal
 	protected function populateNavWhenChangedModal()
 	{
+		return; // usibility fix: get rid of popup
+		
 		if (!empty($_SESSION['save_on_navigation_prevent_confirmation']))
 		{
 			return;

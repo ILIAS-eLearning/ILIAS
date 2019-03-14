@@ -38,30 +38,6 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 		}
 	}
 
-	public function test_construction_label_type_wrong() {
-		$f = $this->button_factory;
-		$icon = $this->createMock(ILIAS\UI\Component\Icon\Icon::class);
-		try {
-			$f->bulky($icon, 1, "http://www.ilias.de");
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
-	}
-
-	public function test_construction_action_type_wrong() {
-		$f = $this->button_factory;
-		$icon = $this->createMock(ILIAS\UI\Component\Icon\Icon::class);
-		try {
-			$f->bulky($icon, "", 1);
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
-	}
-
 	public function test_glyph_or_icon_for_glyph() {
 		$b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
 		$this->assertEquals(
@@ -95,7 +71,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 		$b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
 
 		$expected = ''
-			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" aria-pressed="undefined">'
+			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
 			.'	<span class="glyph" aria-label="briefcase">'
 			.'		<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'
 			.'	</span>'
@@ -131,7 +107,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 		$b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de");
 
 		$expected = ''
-			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" aria-pressed="undefined">'
+			.'<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
 			.'	<div class="icon someExample small" aria-label="Example"></div>'
 			.'	<div><span class="bulky-label">label</span></div>'
 			.'</button>';

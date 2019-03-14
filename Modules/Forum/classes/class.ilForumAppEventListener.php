@@ -23,6 +23,7 @@ class ilForumAppEventListener implements ilAppEventListener
 	{
 		/**
 		 * @var $post ilForumPost
+		 * @var $logger ilLogger
 		 */
 		global $DIC;
 
@@ -46,84 +47,174 @@ class ilForumAppEventListener implements ilAppEventListener
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
+						$logger->debug(sprintf(
+							"Received event '%s' for posting with id %s (subject: %s|ref_id: %s)",
+							$a_event, $post->getId(), $post->getSubject(), $a_parameter['ref_id']
+						));
+
 						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
-						if($immediate_notifications_enabled && $post->isActivated())
-						{
+						if ($immediate_notifications_enabled && $post->isActivated()) {
+							$logger->debug(
+								'Immediate notification delivery is enabled, posting is already published: ' .
+								'Delegating "New Posting" notifications ...'
+							);
+
 							self::delegateNotification(
 								$provider,
 								ilForumMailNotification::TYPE_POST_NEW,
 								$logger
 							);
+						} elseif ($post->isActivated()) {
+							$logger->debug(
+								'Immediate notification delivery is disabled, posting is already published: ' .
+								'"New Posting" notifications will be send via cron job (if enabled) ...'
+							);
 						}
 
-						if($notify_moderators && !$post->isActivated())
-						{
+						// This notification will be NOT send via cron job
+						if ($notify_moderators && !$post->isActivated()) {
+							$logger->debug(
+								'Posting is not published, moderators have to be notified: ' . 
+								'Delegating "Activate Posting" notifications ...'
+							);
+
 							self::delegateNotification(
 								$provider,
 								ilForumMailNotification::TYPE_POST_ACTIVATION,
 								$logger
 							);
+						} else {
+							$logger->debug(
+								'Posting is already published or forum postings will be automatically published: ' .
+								'No "Activate Posting" notifications will be send ...'
+							);
 						}
 
 						// If the author of the parent post wants to be notified and the author of the new post is not the same individual: Send a message
-						// This is the only notification which is not send via cron job
-						if($immediate_notifications_enabled || ilCronManager::isJobActive('frm_notification'))
-						{
-							if($post->isActivated() && $post->getParentId() > 0)
-							{
+						// This notification will be NOT send via cron job
+						if ($immediate_notifications_enabled || ilCronManager::isJobActive('frm_notification')) {
+							if ($post->isActivated() && $post->getParentId() > 0) {
 								$parent_post = new ilForumPost($post->getParentId());
-								if($parent_post->isNotificationEnabled() && $parent_post->getPosAuthorId() != $post->getPosAuthorId())
-								{
+								if (
+									$parent_post->isNotificationEnabled() &&
+									$parent_post->getPosAuthorId() != $post->getPosAuthorId()
+								) {
+									$logger->debug(
+										'Author of parent posting wants to be notified: ' .
+										'Delegating "Reply to Posting" notification ...'
+									);
+
 									self::delegateNotification(
 										$provider,
 										ilForumMailNotification::TYPE_POST_ANSWERED,
 										$logger
 									);
+								} else {
+									$logger->debug(
+										'Author of parent posting does not want to be notified, or both authors are ' .
+										'identical: ' .
+										'No "Reply to Posting" notification will be send ...'
+									);
 								}
+							} else {
+								$logger->debug(
+									'Posting is not published yet or it is the root posting: ' .
+									'No "Reply to Posting" notification will be send ...'
+								);
 							}
+						} else {
+							$logger->debug(
+								'Neither immediate notifications, nor notifications via cron job are enabled: ' .
+								'No "Reply to Posting" notification will be send at all ...'
+							);
 						}
 						break;
 
 					case 'activatedPost':
 						$post = $a_parameter['post'];
-						if($immediate_notifications_enabled && $post->isActivated())
-						{
+
+						$logger->debug(sprintf(
+							"Received event '%s' for posting with id %s (subject: %s|ref_id: %s)",
+							$a_event, $post->getId(), $post->getSubject(), $a_parameter['ref_id']
+						));
+
+						if ($immediate_notifications_enabled && $post->isActivated()) {
 							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
+
+							$logger->debug(
+								'Immediate notification delivery is enabled, posting is already published: ' .
+								'Delegating "New Posting" notifications ...'
+							);
+
 							self::delegateNotification(
 								$provider,
 								ilForumMailNotification::TYPE_POST_NEW,
 								$logger
 							);
+						}  elseif ($post->isActivated()) {
+							$logger->debug(
+								'Immediate notification delivery is disabled, posting is already published: ' .
+								'"New Posting" notifications will be send via cron job (if enabled) ...'
+							);
 						}
+
+						// TODO Maybe an email regarding the parent posting's author notification is missing here
 						break;
 
 					case 'updatedPost':
-						if(!$a_parameter['old_status_was_active'])
-						{
-							return;
-						}
-
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
+						$logger->debug(sprintf(
+							"Received event '%s' for posting with id %s (subject: %s|ref_id: %s)",
+							$a_event, $post->getId(), $post->getSubject(), $a_parameter['ref_id']
+						));
+
+						if (!$a_parameter['old_status_was_active']) {
+							$logger->debug(
+								'Posting was "inactive" before raising event: ' .
+								'No "Modified Posting" or "Posting Published" notifications will be send ...'
+							);
+							return;
+						}
+
 						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
-						if($immediate_notifications_enabled && $post->isActivated())
-						{
+						if ($immediate_notifications_enabled && $post->isActivated()) {
+							$logger->debug(
+								'Immediate notification delivery is enabled, posting is already published: ' .
+								'Delegating "Modified Posting" notifications ...'
+							);
+							
 							self::delegateNotification(
 								$provider,
 								ilForumMailNotification::TYPE_POST_UPDATED,
 								$logger
 							);
+						} elseif ($post->isActivated()) {
+							$logger->debug(
+								'Immediate notification delivery is disabled, posting is already published: ' .
+								'"Modified Posting" notifications will be send via cron job (if enabled) ...'
+							);
 						}
 
-						if($notify_moderators && !$post->isActivated())
-						{
+						// This notification will be NOT send via cron job
+						if ($notify_moderators && !$post->isActivated()) {
+							$logger->debug(
+								'Posting is not published, moderators have to be notified: ' .
+								'Delegating immediate "Activate Posting" notifications ...'
+							);
+
 							self::delegateNotification(
 								$provider,
 								ilForumMailNotification::TYPE_POST_ACTIVATION,
 								$logger
+							);
+						} else {
+							$logger->debug(
+								'Posting is already published or forum postings will be automatically published: ' .
+								'No "Activate Posting" notifications will be send ...'
 							);
 						}
 						break;
@@ -131,49 +222,87 @@ class ilForumAppEventListener implements ilAppEventListener
 					case 'censoredPost':
 						$post = $a_parameter['post'];
 
-						if($immediate_notifications_enabled)
-						{
+						$logger->debug(sprintf(
+							"Received event '%s' for posting with id %s (subject: %s|ref_id: %s)",
+							$a_event, $post->getId(), $post->getSubject(), $a_parameter['ref_id']
+						));
+
+						if ($immediate_notifications_enabled) {
 							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
-							if($post->isCensored() && $post->isActivated())
-							{
+							if ($post->isCensored() && $post->isActivated()) {
+								$logger->debug(
+									'Immediate notification delivery is enabled, posting is already published and '.
+									'now censored: ' .
+									'Delegating "Posting Censored" notifications ...'
+								);
+
 								self::delegateNotification(
 									$provider,
 									ilForumMailNotification::TYPE_POST_CENSORED,
 									$logger
 								);
-							}
-							else if(!$post->isCensored() && $post->isActivated())
-							{
+							} else if (!$post->isCensored() && $post->isActivated()) {
+								$logger->debug(
+									'Immediate notification delivery is enabled, posting is already published and ' . 
+									'censorship has been revoked: ' .
+									'Delegating "Censorship Revoked" notifications ...'
+								);
+
 								self::delegateNotification(
 									$provider,
 									ilForumMailNotification::TYPE_POST_UNCENSORED,
 									$logger
 								);
+							} else {
+								$logger->debug(
+									'Posting is not published: ' .
+									'"Posting Censored" or "Censorship Revoked" notifications will not be send ...'
+								);
 							}
+						} else {
+							$logger->debug(
+								'Immediate notification delivery is disabled: ' .
+								'"Posting Censored" notifications will be send via cron job (if enabled) ...'
+							);
 						}
 						break;
 
 					case 'deletedPost':
 						$post = $a_parameter['post'];
 
+						$logger->debug(sprintf(
+							"Received event '%s' for posting with id %s (subject: %s|ref_id: %s)",
+							$a_event, $post->getId(), $post->getSubject(), $a_parameter['ref_id']
+						));
+
 						$thread_deleted = $a_parameter['thread_deleted'];
 
 						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
-						if($post->isActivated())
-						{
-							if(ilCronManager::isJobActive('frm_notification'))
-							{
+						if ($post->isActivated()) {
+							if (ilCronManager::isJobActive('frm_notification')) {
+								$logger->debug(
+									'Notification delivery via cron job is enabled: ' .
+									'Storing posting data for deferred "Posting/Thread Deleted" notifications ...'
+								);
+
 								$delObj = new ilForumPostsDeleted($provider);
 								$delObj->setThreadDeleted($thread_deleted);
 								$delObj->insert();
-							}
-							else if($immediate_notifications_enabled)
-							{
+							} elseif ($immediate_notifications_enabled) {
 								$notificationType = ilForumMailNotification::TYPE_POST_DELETED;
-								if($thread_deleted)
-								{
+								if ($thread_deleted) {
 									$notificationType = ilForumMailNotification::TYPE_THREAD_DELETED;
+
+									$logger->debug(
+										'Immediate notification delivery is enabled : ' .
+										'Delegating "Thread Deleted" notifications ...'
+									);
+								} else {
+									$logger->debug(
+										'Immediate notification delivery is enabled : ' .
+										'Delegating "Posting Deleted" notifications ...'
+									);
 								}
 
 								self::delegateNotification(
@@ -182,6 +311,11 @@ class ilForumAppEventListener implements ilAppEventListener
 									$logger
 								);
 							}
+						} else {
+							$logger->debug(
+								'Posting is not published: ' .
+								'"Posting Deleted" or "Thread Deleted" notifications will not be send ...'
+							);
 						}
 						break;
 					case 'savedAsDraft':
@@ -322,9 +456,11 @@ class ilForumAppEventListener implements ilAppEventListener
 
 			default:
 				// get recipients who wants to get forum notifications
+				$logger->debug('Determining subscribers for global forum notifications ...');
 				self::sendNotification($provider, $logger, $notification_type, $provider->getForumNotificationRecipients());
 
 				// get recipients who wants to get thread notifications
+				$logger->debug('Determining subscribers for thread notifications ...');
 				self::sendNotification($provider, $logger, $notification_type, $provider->getThreadNotificationRecipients());
 
 				break;
@@ -343,9 +479,18 @@ class ilForumAppEventListener implements ilAppEventListener
 		int $notificationTypes,
 		array $recipients
 	) {
-		$mailNotification = new ilForumMailNotification($provider, $logger);
-		$mailNotification->setType($notificationTypes);
-		$mailNotification->setRecipients($recipients);
-		$mailNotification->send();
+		if (count($recipients)) {
+			$logger->debug(sprintf(
+				'Will send %s notification(s) to: %s',
+				count($recipients), implode(', ', $recipients)
+			));
+
+			$mailNotification = new ilMailEventNotificationSender($provider, $logger);
+			$mailNotification->setType($notificationTypes);
+			$mailNotification->setRecipients($recipients);
+			$mailNotification->send();
+		} else {
+			$logger->debug('No recipients found, skipped notification delivery.');
+		}
 	}
 }

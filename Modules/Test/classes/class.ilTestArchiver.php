@@ -387,6 +387,9 @@ class ilTestArchiver
 		require_once 'Modules/Test/classes/class.ilParticipantsTestResultsGUI.php';
 		$gui = new ilParticipantsTestResultsGUI();
 		$gui->setTestObj($test);
+		require_once 'Modules/Test/classes/class.ilTestObjectiveOrientedContainer.php';
+		$objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
+		$gui->setObjectiveParent($objectiveOrientedContainer);
 		$array_of_actives = array();
 		$participants = $test->getParticipants();
 
@@ -398,7 +401,7 @@ class ilTestArchiver
 
 		require_once 'class.ilTestPDFGenerator.php';
 		$filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_pass_overview.pdf';
-		ilTestPDFGenerator::generatePDF($output_template->get(), ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
+		ilTestPDFGenerator::generatePDF($output_template->get(), ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
 		
 		return;
 	}

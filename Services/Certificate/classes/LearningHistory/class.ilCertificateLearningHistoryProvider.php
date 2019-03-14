@@ -30,6 +30,9 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	/** @var Renderer */
 	protected $uiRenderer;
 
+	/** @var ilCertificateUtilHelper|null */
+	private $utilHelper;
+
 	/**
 	 * @param int $user_id
 	 * @param ilLearningHistoryFactory $factory
@@ -41,6 +44,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 * @param ilSetting|null $certificateSettings
 	 * @param Factory|null $uiFactory
 	 * @param Renderer|null $uiRenderer
+	 * @param ilCertificateUtilHelper|null $utilHelper
 	 */
 	public function __construct(
 		int $user_id,
@@ -52,7 +56,8 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 		ilCtrl $controller = null,
 		ilSetting $certificateSettings = null,
 		Factory $uiFactory = null,
-		Renderer $uiRenderer = null
+		Renderer $uiRenderer = null,
+		ilCertificateUtilHelper $utilHelper = null
 	) {
 		$lng->loadLanguageModule("cert");
 
@@ -89,6 +94,11 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 			$uiRenderer = $dic->ui()->renderer();
 		}
 		$this->uiRenderer = $uiRenderer;
+
+		if (null === $utilHelper) {
+			$utilHelper = new ilCertificateUtilHelper();
+		}
+		$this->utilHelper = $utilHelper;
 	}
 
 	/**
@@ -122,26 +132,23 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 				'certificate_id',
 				$certificate->getUserCertificate()->getId()
 			);
-			$href = $this->controller->getLinkTargetByClass('ilUserCertificateGUI', 'download');
+			$href = $this->controller->getLinkTargetByClass(['ilPersonalDesktopGUI', 'ilAchievementsGUI', 'ilUserCertificateGUI'], 'download');
 			$this->controller->clearParametersByClass('ilUserCertificateGUI');
 
-			$text = sprintf(
+			$prefixTextWithLink = sprintf(
 				$this->lng->txt('certificate_achievement_sub_obj'),
-				$this->getEmphasizedTitle($certificate->getObjectTitle())
+				$this->uiRenderer->render($this->uiFactory->link()->standard($this->getEmphasizedTitle($certificate->getObjectTitle()), $href))
 			);
-
-			$link = $this->uiFactory->link()->standard($text, $href);
-			$link = $this->uiRenderer->render($link);
 
 			$text = sprintf(
 				$this->lng->txt('certificate_achievement'),
-				$link
+				$prefixTextWithLink
 			);
 
 			$entries[] = new ilLearningHistoryEntry(
 				$text,
 				$text,
-				ilUtil::getImagePath("icon_cert.svg"),
+				$this->utilHelper->getImagePath("icon_cert.svg"),
 				$certificate->getUserCertificate()->getAcquiredTimestamp(),
 				$objectId
 			);
@@ -154,7 +161,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 	 * Get name of provider (in user language)
 	 * @return string
 	 */
-	function getName(): string
+	public function getName(): string
 	{
 		return $this->lng->txt('certificates');
 	}

@@ -17,11 +17,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	private $language;
 
 	/**
-	 * @var ilTemplate
-	 */
-	private $template;
-
-	/**
 	 * @var ilCtrl
 	 */
 	private $controller;
@@ -65,7 +60,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 	 * @param integer $objectId
 	 * @param string $certificatePath
 	 * @param ilLanguage $language
-	 * @param ilTemplate $template
 	 * @param ilCtrl $controller
 	 * @param ilAccess $access
 	 * @param ilToolbarGUI $toolbar
@@ -80,7 +74,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		int $objectId,
 		string $certificatePath,
 		ilLanguage $language,
-		ilTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
@@ -95,7 +88,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
 		$this->objectId                     = $objectId;
 		$this->language                     = $language;
-		$this->template                     = $template;
 		$this->controller                   = $controller;
 		$this->access                       = $access;
 		$this->toolbar                      = $toolbar;
@@ -285,22 +277,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 		$certificate->setRows(20);
 		$certificate->setCols(80);
 
-		$common_desc_tpl = new ilTemplate(
-			"tpl.common_desc.html",
-			true,
-			true,
-			"Services/Certificate"
-		);
 
-		foreach (ilCertificate::getCustomCertificateFields() as $field) {
-			$common_desc_tpl->setCurrentBlock("cert_field");
-			$common_desc_tpl->setVariable("PH", $field["ph"]);
-			$common_desc_tpl->setVariable("PH_TXT", $field["name"]);
-			$common_desc_tpl->parseCurrentBlock();
-		}
-		$common_desc = $common_desc_tpl->get();
+		$placeholderHtmlDescription = $this->placeholderDescriptionObject->createPlaceholderHtmlDescription();
 
-		$certificate->setInfo($this->placeholderDescriptionObject->createPlaceholderHtmlDescription() . $common_desc);
+		$placeholderDescriptionInHtml = $placeholderHtmlDescription;
+
+		$certificate->setInfo($placeholderDescriptionInHtml);
+
 		$certificate->setUseRte(TRUE, '3.4.7');
 
 		$tags = array(

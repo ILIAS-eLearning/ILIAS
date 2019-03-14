@@ -126,21 +126,18 @@ class ilWebDAVLockObject
      * 
      * @param Sabre\DAV\Locks\LockInfo $lock_info
      */
-    public static function createFromSabreLock(Sabre\DAV\Locks\LockInfo $lock_info)
+    public static function createFromSabreLock(Sabre\DAV\Locks\LockInfo $lock_info, $obj_id)
     {
         global $DIC;
-        
-        $ref_id = ilWebDAVTree::getRefIdForWebDAVPath($lock_info->uri);
-        $obj_id = ilObject::_lookupObjectId($ref_id);
-        
+
         $ilias_lock = new ilWebDAVLockObject(
             $lock_info->token,                  // token
             $obj_id,                            // obj_id
             $DIC->user()->getId(),              // ilias_owner
             $lock_info->owner,                  // dav_owner
-            time() + 3600,                      // expires
+            time() + 360,              // expires (hard coded like in the old webdav)
             $lock_info->depth,                  // depth
-            'w',                                // type
+            'w',                          // type
             $lock_info->scope);                 // scope
             
         return $ilias_lock;

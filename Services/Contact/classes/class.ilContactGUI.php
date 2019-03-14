@@ -154,7 +154,7 @@ class ilContactGUI
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryContacts.php';
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
 				$this->ctrl->forwardCommand(new ilUsersGalleryGUI(new ilUsersGalleryContacts()));
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case 'ilpublicuserprofilegui':
@@ -162,7 +162,7 @@ class ilContactGUI
 				$profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($_GET['user']));
 				$profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));
 				$this->ctrl->forwardCommand($profile_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			default:
@@ -344,7 +344,7 @@ class ilContactGUI
 		$table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
 		$table->populate();
 		$this->tpl->setContent($table->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -558,7 +558,7 @@ class ilContactGUI
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 		$ilChatroom = new ilChatroom();
-		$chat_rooms = $ilChatroom->getAllRooms($this->user->getId());
+		$chat_rooms = $ilChatroom->getAccessibleRoomIdByTitleMap($this->user->getId());
 		$subrooms   = array();
 
 		foreach($chat_rooms as $room_id => $title)
@@ -574,6 +574,7 @@ class ilContactGUI
 		$psel    = new ilSelectInputGUI($this->lng->txt('chat_select_room'), 'room_id');
 		$options = array();
 
+		asort($chat_rooms);
 		foreach($chat_rooms as $room_id => $room)
 		{
 			$ref_id = $room_id;
@@ -609,6 +610,6 @@ class ilContactGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail_invite_users_to_chat'));
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 }

@@ -65,7 +65,7 @@ class ilAssQuestionFeedbackEditingGUI
 	 * global $tpl
 	 *
 	 * @access protected
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $tpl = null;
 
@@ -92,11 +92,11 @@ class ilAssQuestionFeedbackEditingGUI
 	 * @param assQuestionGUI $questionGUI 
 	 * @param ilCtrl $ctrl
 	 * @param ilAccessHandler $access
-	 * @param ilTemplate $tpl
+	 * @param ilGlobalTemplate $tpl
 	 * @param ilTabsGUI $tabs
 	 * @param ilLanguage $lng
 	 */
-	public function __construct(assQuestionGUI $questionGUI, ilCtrl $ctrl, ilAccessHandler $access, ilTemplate $tpl, ilTabsGUI $tabs, ilLanguage $lng)
+	public function __construct(assQuestionGUI $questionGUI, ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplate $tpl, ilTabsGUI $tabs, ilLanguage $lng)
 	{
 		$this->questionGUI = $questionGUI;
 		$this->questionOBJ = $questionGUI->object;
@@ -145,6 +145,11 @@ class ilAssQuestionFeedbackEditingGUI
 	 */
 	private function showFeedbackFormCmd()
 	{
+		require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
+		
 		$form = $this->buildForm();
 
 		$this->feedbackOBJ->initGenericFormProperties($form);
