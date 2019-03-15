@@ -112,10 +112,14 @@ class assKprimChoiceImport extends assQuestionImport
 				if( $decvar->getVarname() == 'SCORE' )
 				{
 					$this->object->setPoints($decvar->getMaxvalue());
-					
+
 					if( $decvar->getMinvalue() > 0 )
 					{
 						$this->object->setScorePartialSolutionEnabled(true);
+					}
+					else
+					{
+						$this->object->setScorePartialSolutionEnabled(false);
 					}
 				}
 			}
