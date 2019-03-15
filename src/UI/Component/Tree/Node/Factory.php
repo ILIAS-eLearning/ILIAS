@@ -14,10 +14,17 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The Simple Nodes is the most basic entry in a Tree.
+	 *     The Simple Node is a very basic entry for a Tree.
 	 *   composition: >
-	 *
+	 *     It consists of a string-label and an optional Icon.
 	 *   effect: >
+	 *     The Simple Node can be configured with an URL to load
+	 *     data asynchronously. In this case, before loading there is always
+	 *     an Expand Glyph in front of the Node.
+	 *     If there are no further levels, the Expand Glyph will disappear
+	 *     after loading.
+	 *     Furthermore, SimpleNode implements Clickable and can be configured to
+	 *     trigger an action.
 	 *
 	 * rules:
 	 *   usage:

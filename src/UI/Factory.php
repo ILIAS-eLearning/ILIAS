@@ -752,11 +752,11 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction:
-	 *      1: >
-	 *          In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
-	 *          provide interaction by using Buttons.
-	 *      2: >
-	 *          Navigation to other screens MUST by done by using Links.
+	 *     1: >
+	 *       In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
+	 *       provide interaction by using Buttons.
+	 *     2: >
+	 *       Navigation to other screens MUST by done by using Links.
 	 * ---
 	 * @return  \ILIAS\UI\Component\MessageBox\Factory
 	 */
@@ -810,6 +810,15 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *     Trees present hierarchically structured data.
+	 *   rivals:
+	 *     Drilldown: >
+	 *       A Drilldown shows only one level of the hierarchy, the Tree
+	 *       will show all at the same time.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Tree SHOULD NOT mix different kind of nodes, i.e.
+	 *       all nodes in the same Tree SHOULD be identical in structure.
 	 *
 	 * ---
 	 * @return \ILIAS\UI\Component\Tree\Factory
