@@ -430,28 +430,11 @@ class ilIndividualAssessmentMembersTableGUI
 	 */
 	protected function viewLocation(bool $finalized, int $examiner_id = null, int $usr_id): bool
 	{
-		return $this->checkEditable($finalized, $examiner_id, $usr_id)
-			|| $this->checkAmendable($finalized);
-	}
-
-	/**
-	 * Check the current user has visible permission on record
-	 */
-	protected function checkViewable(bool $finalized, int $examiner_id = null, int $usr_id): bool
-	{
-		if (
-			($this->userIsSystemAdmin() && $finalized)
-			|| (
-				$finalized
-				&& (($this->userMayEditGradesOf($usr_id) && $this->wasEditedByViewer($examiner_id))
-				|| $this->userMayViewGrades())
-			)
-			|| ($finalized && $this->userMayViewGrades())
-		) {
-			return true;
-		}
-
-		return false;
+		return
+			$this->checkEditable($finalized, $examiner_id, $usr_id)
+			|| $this->checkAmendable($finalized)
+			|| $this->userMayViewGrades()
+		;
 	}
 
 	/**
