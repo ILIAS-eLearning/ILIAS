@@ -1486,9 +1486,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
 			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
-				
+		
+		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+		$this->setShuffler(new ilArrayElementShuffler());
+		$seed = $this->getShuffler()->getSeed();
+		
 		$terms = array();
-		foreach ($this->getTerms() as $term)
+		$this->getShuffler()->setSeed($this->getShuffler()->buildSeedFromString($seed.'terms'));
+		foreach ($this->getShuffler()->shuffle($this->getTerms()) as $term)
 		{
 			$terms[] = array(
 				"text" => $this->formatSAQuestion($term->text),
@@ -1505,7 +1510,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// when the second one (the copy) is answered.
 
 		$definitions = array();
-		foreach ($this->getDefinitions() as $def)
+		$this->getShuffler()->setSeed($this->getShuffler()->buildSeedFromString($seed.'definitions'));
+		foreach ($this->getShuffler()->shuffle($this->getDefinitions()) as $def)
 		{
 			$definitions[] = array(
 				"text" => $this->formatSAQuestion((string) $def->text),
