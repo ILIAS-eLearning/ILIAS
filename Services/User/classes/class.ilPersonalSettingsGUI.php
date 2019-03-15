@@ -1086,7 +1086,7 @@ class ilPersonalSettingsGUI
 		{
 			$mmail->To($user_email);
 			$mmail->Bcc($admin_mail);
-			$mmail->Subject($subject);
+			$mmail->Subject($subject, true);
 			$mmail->Body($message);
 			$mmail->Send();
 		}
@@ -1094,7 +1094,7 @@ class ilPersonalSettingsGUI
 		else if($admin_mail)
 		{
 			$mmail->To($admin_mail);
-			$mmail->Subject($subject);
+			$mmail->Subject($subject, true);
 			$mmail->Body($message);
 			$mmail->Send();
 		}

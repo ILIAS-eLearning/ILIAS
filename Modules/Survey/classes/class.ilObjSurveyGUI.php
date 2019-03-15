@@ -2456,7 +2456,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$mmail = new ilMimeMail();
 		$mmail->From($senderFactory->system());
 		$mmail->To($a_recipient);
-		$mmail->Subject(sprintf($this->lng->txt($subject), $this->object->getTitle()));
+		$mmail->Subject(sprintf($this->lng->txt($subject), $this->object->getTitle()), true);
 		$mmail->Body($body);
 		$mmail->Send();
 	}
