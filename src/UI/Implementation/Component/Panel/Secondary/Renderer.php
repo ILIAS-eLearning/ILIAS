@@ -30,7 +30,7 @@ class Renderer extends AbstractComponentRenderer
 
 	protected function renderListing(C\Panel\Secondary\Listing $component, RendererInterface $default_renderer)
 	{
-		$tpl = $this->getTemplate("tpl.secondary_listing.html", true, true);
+		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
 		$tpl->setVariable("TITLE", $component->getTitle());
 
