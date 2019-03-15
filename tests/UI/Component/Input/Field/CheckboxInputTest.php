@@ -112,10 +112,10 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 	public function testRenderRequired() {
 		$f = $this->buildFactory();
 		$label = "label";
-        $checbox = $f->checkbox($label)->withNameFrom($this->name_source)->withRequired(true);
+		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withRequired(true);
 
 		$r = $this->getDefaultRenderer();
-		$html = $r->render($checbox);
+		$html = $r->render($checkbox);
 
 		$expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label> <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" class=\"form-control form-control-sm\" />                                  </div></div>";
 		$this->assertHTMLEquals($expected, $html);
