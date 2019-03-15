@@ -521,7 +521,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		if ( $this->checkAccess("read")) {
-			if ($this->checkAccess("edit_members")
+			if ($this->checkAccess("manage_members")
 				|| (
 					$this->getObject()->getLSSettings()->getMembersGallery()
 					&&
