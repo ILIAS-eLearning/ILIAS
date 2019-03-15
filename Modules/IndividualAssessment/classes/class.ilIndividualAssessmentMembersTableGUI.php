@@ -152,6 +152,8 @@ class ilIndividualAssessmentMembersTableGUI
 		if (
 			!$this->checkEditable($record->finalized(), $examiner_id, (int)$record->id())
 			&& !$this->checkAmendable($record->finalized())
+			&& !$this->userMayViewGrades()
+			&& !$this->userMayEditGrades()
 		) {
 			return [];
 		}
