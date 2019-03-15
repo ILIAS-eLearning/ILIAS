@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\UI\Component\Tree\Node\Simple as ISimple;
+use ILIAS\UI\Component\Icon\Icon;
 
 /**
  * A very simple Tree-Node
@@ -16,6 +17,22 @@ class Simple extends Node implements ISimple
 	 * @var string
 	 */
 	protected $asynch_url = '';
+
+	/**
+	 * @var Icon|null
+	 */
+	protected $icon;
+
+	public function __construct(string $label, Icon $icon=null)
+	{
+		parent::__construct($label);
+		$this->icon = $icon;
+	}
+
+	public function getIcon()
+	{
+		return $this->icon;
+	}
 
 	public function getAsyncLoading(): bool
 	{

@@ -1,5 +1,5 @@
 <?php
-function tree() {
+function expandable() {
 
 	global $DIC;
 	$f = $DIC->ui()->factory();
@@ -63,7 +63,7 @@ function tree() {
 		'modal' => $modal
 	];
 
-	$tree = $f->tree()->tree($recursion)
+	$tree = $f->tree()->expandable($recursion)
 		->withEnvironment($environment)
 		->withData($data);
 

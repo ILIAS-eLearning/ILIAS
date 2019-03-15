@@ -38,5 +38,4 @@ interface Node extends Component, Clickable
 	 * Should this Node be expanded on loading?
 	 */
 	public function isExpanded(): bool;
-
 }

@@ -15,6 +15,9 @@ interface Factory
 	 *     Nodes are entries in a Tree.
 	 *   composition: >
 	 *
+	 * context:
+	 *   - Nodes will only occur in Trees.
+	 *
 	 * rules:
 	 *   usage:
 	 *      1: X
@@ -32,6 +35,7 @@ interface Factory
 	 *   purpose: >
 	 *     A Tree presents data in a hierarchically structured form.
 	 *   composition: >
+	 *     A Tree is composed of Nodes.
 	 *
 	 * rules:
 	 *   usage:
@@ -42,8 +46,8 @@ interface Factory
 	 * ---
 	 * @param TreeRecursion $recursion
 	 *
-	 * @return \ILIAS\UI\Component\Tree\Tree
+	 * @return \ILIAS\UI\Component\Tree\Expandable
 	 */
-	public function tree(TreeRecursion $recursion): Tree;
+	public function expandable(TreeRecursion $recursion): Expandable;
 
 }

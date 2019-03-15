@@ -84,5 +84,4 @@ abstract class Node implements INode
 	{
 		return $this->appendTriggeredSignal($signal, 'click');
 	}
-
 }

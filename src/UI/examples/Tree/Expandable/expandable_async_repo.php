@@ -2,12 +2,11 @@
 
 if ($_GET['async_ref']) {
 	$ref = (int)$_GET['async_ref'];
-	tree_async($ref);
+	expandable_async_repo($ref);
 	exit();
 }
 
-
-function tree_async($ref = null) {
+function expandable_async_repo($ref = null) {
 	global $DIC;
 	$ilTree = $DIC['tree'];
 
@@ -39,11 +38,12 @@ function tree_async($ref = null) {
 		): \ILIAS\UI\Component\Tree\Node\Node {
 			$ref_id = $record['ref_id'];
 			$label = $record['title']
-				. ' (' .$ref_id .')';
+				.' ('.$record['type'].', '.$ref_id.')';
 
+			$icon = $environment['icon_factory']->standard($record["type"], '');
 			$url = $this->getAsyncURL($environment, $ref_id);
 
-			$node = $factory->simple($label)
+			$node = $factory->simple($label, $icon)
 				->withAsyncURL($url);
 
 			//find these under ILIAS->Administration in the example tree
@@ -78,10 +78,11 @@ function tree_async($ref = null) {
 
 	$environment = [
 		'url' => $DIC->http()->request()->getRequestTarget(),
-		'modal' => $modal
+		'modal' => $modal,
+		'icon_factory' => $f->icon()
 	];
 
-	$tree = $f->tree()->tree($recursion)
+	$tree = $f->tree()->expandable($recursion)
 		->withEnvironment($environment)
 		->withData($data);
 

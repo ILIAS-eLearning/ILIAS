@@ -82,7 +82,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			Tree\Tree::class
+			Tree\Expandable::class
 		);
 	}
 }

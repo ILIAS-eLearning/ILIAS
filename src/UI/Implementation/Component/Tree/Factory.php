@@ -19,8 +19,8 @@ class Factory implements ITree\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function tree(ITree\TreeRecursion $recursion): ITree\Tree
+	public function expandable(ITree\TreeRecursion $recursion): ITree\Expandable
 	{
-		return new Tree($recursion);
+		return new Expandable($recursion);
 	}
 }

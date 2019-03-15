@@ -10,5 +10,9 @@ namespace ILIAS\UI\Component\Tree\Node;
  */
 interface Simple extends Node, AsyncNode
 {
-
+	/**
+	 * Get the icon for this Node.
+	 * @return Icon|null
+	 */
+	public function getIcon();
 }

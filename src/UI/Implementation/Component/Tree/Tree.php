@@ -7,15 +7,13 @@ namespace ILIAS\UI\Implementation\Component\Tree;
 
 use ILIAS\UI\Component\Tree as ITree;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Tree Control
  */
-class Tree implements ITree\Tree
+abstract class Tree implements ITree\Tree
 {
 	use ComponentHelper;
-	use JavaScriptBindable;
 
 	/**
 	 * @var mixed
@@ -66,5 +64,4 @@ class Tree implements ITree\Tree
 	{
 		return $this->recursion;
 	}
-
 }

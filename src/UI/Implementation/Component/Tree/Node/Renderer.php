@@ -30,6 +30,12 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("LABEL", $component->getLabel());
 
+$icon=$component->getIcon();
+
+if($icon){
+	$tpl->setVariable("ICON", $default_renderer->render($icon));
+}
+
 		$triggered_signals = $component->getTriggeredSignals();
 
 		if(count($triggered_signals) > 0) {
