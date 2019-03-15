@@ -14860,8 +14860,9 @@ lso#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#condition_always#:#Immer
-lso#:#condition_completed#:#Abgeschlossen
-lso#:#condition_failed#:#Durchgefallen
+lso#:#finished#:#Abgeschlossen
+lso#:#failed#:#Durchgefallen
+lso#:#not_finished#:#Nicht Abgeschlossen
 rbac#:#rbac_create_lso#:#Lernsequenz erstellen
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
