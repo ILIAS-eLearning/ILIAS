@@ -881,7 +881,7 @@ class ilMail
 			$recipientInboxId = $mbox->getInboxFolder();
 
 			$internalMailId = $this->sendInternalMail(
-				$recipientInboxId, $this->user_id, $attachments, $cc, $bcc, '',
+				$recipientInboxId, $this->user_id, $attachments, $to, $cc, '',
 				'unread', $type, 0, $subject, $individualMessage, $user->getId(), 0
 			);
 
