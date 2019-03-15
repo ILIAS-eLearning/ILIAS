@@ -73,7 +73,10 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 			$this->addColumn($all_cols[$col]['txt'], $col);
 		}
 
-		if ($this->obj_user_tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
+		if (
+			$this->obj_user_tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS) &&
+			ilObjUserTracking::_enabledLearningProgress()
+		) {
 			$this->addColumn($this->lng->txt('first_access'), "first_access");
 			$this->addColumn($this->lng->txt('last_access'), "last_access");
 		}
