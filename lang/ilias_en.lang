@@ -14848,7 +14848,7 @@ rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
 rbac#:#lso_delete#:#User can delete Learning Sequence
-rbac#:#lso_lp_other_users#:#See learning progress overview of other users
+rbac#:#lso_lp_other_users#:#User can view learning progress of other users
 lso#:#learner_view#:#Overview
 lso#:#manage#:#Manage
 lso#:#manage_content_maintab#:#Content
