@@ -52,7 +52,7 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	public function getStaticSubItems(): array {
 		return [
 			$this->mainmenu->link($this->if->identifier('mm_pd_mst'))->withTitle($this->dic->language()->txt("my_staff"))
-				->withAction("ilias.php?baseClass=" . ilPersonalDesktopGUI::class . "&cmd=jumpToMyStaff")->withParent($this->getTopItem())
+				->withAction("ilias.php?baseClass=" . ilPersonalDesktopGUI::class . "&cmd=" . ilPersonalDesktopGUI::CMD_JUMP_TO_MY_STAFF)->withParent($this->getTopItem())
 				->withAvailableCallable(function (): bool {
 					return boolval($this->dic->settings()->get("enable_my_staff"));
 				})->withVisibilityCallable(function (): bool {

@@ -25,6 +25,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 */
 class ilPersonalDesktopGUI
 {
+	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
 	/**
 	 * @var ilCtrl
 	 */
