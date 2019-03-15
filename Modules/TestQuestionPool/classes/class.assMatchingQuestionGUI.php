@@ -1064,7 +1064,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($userSolution)
 	{
-		$matches = array_values($this->object->getMaximumScoringMatchingPairs());
+		$matches = array_values($this->object->matchingpairs);
 
 		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
@@ -1075,6 +1075,21 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		foreach ($matches as $idx => $ans)
 		{
+			if( !isset($userSolution[$ans->definition->identifier]) )
+			{
+				continue;
+			}
+			
+			if( !is_array($userSolution[$ans->definition->identifier]) )
+			{
+				continue;
+			}
+			
+			if( !in_array($ans->term->identifier, $userSolution[$ans->definition->identifier]) )
+			{
+				continue;
+			}
+			
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 				$this->object->getId(),0, $idx
 			);
