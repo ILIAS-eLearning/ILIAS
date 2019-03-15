@@ -761,7 +761,9 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 
-
+	/**
+	 *
+	 */
 	protected function jumpToMyStaff()
 	{
 		$this->ctrl->redirectByClass(ilMyStaffGUI::class);
