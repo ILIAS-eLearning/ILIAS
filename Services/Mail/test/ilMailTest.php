@@ -20,6 +20,7 @@ class ilMailTest extends \ilMailBaseTest
 	 */
 	public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected()
 	{
+		$senderUsrId = 666;
 		$loginToIdMap = [
 			'phpunit1' => 1,
 			'phpunit2' => 2,
@@ -54,6 +55,9 @@ class ilMailTest extends \ilMailBaseTest
 			$mailOptions->expects($this->any())->method('getIncomingType')->willReturn(\ilMailOptions::INCOMING_EMAIL);
 			$mailOptionsById[$usrId] = $mailOptions;
 		}
+
+		$user = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->getMock();
+		\ilMailMimeSenderUserById::addUserToCache($senderUsrId, $user);
 
 		$addressTypeFactory = $this
 			->getMockBuilder(\ilMailAddressTypeFactory::class)
@@ -114,7 +118,7 @@ class ilMailTest extends \ilMailBaseTest
 		$mailBox = $this->getMockBuilder(\ilMailbox::class)->disableOriginalConstructor()->getMock();
 
 		$mailService = new \ilMail(
-			6,
+			$senderUsrId,
 			$addressTypeFactory,
 			new \ilMailRfc822AddressParserFactory(),
 			$eventHandler,
