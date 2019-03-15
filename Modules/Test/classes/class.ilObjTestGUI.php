@@ -1008,21 +1008,33 @@ class ilObjTestGUI extends ilObjectGUI
 		// unzip file
 		ilUtil::unzip($full_path);
 
-		// determine filenames of xml files
-		$subdir = basename($file["basename"],".".$file["extension"]);
-		ilObjTest::_setImportDirectory($basedir);
-		$xml_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'.$subdir.".xml";
-		$qti_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
-		$results_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'. preg_replace("/test|tst/", "results", $subdir).".xml";
+		// look for extracted zip folder
+		$subdir = null;
+		foreach ((new DirectoryIterator($basedir)) as $fileinfo)
+		{
+			if ($fileinfo->isDir() && !$fileinfo->isDot())
+			{
+				$subdir = $fileinfo->getFilename();
+				break;
+			}
+		}
 
-		if(!is_file($qti_file))
+		// determine filenames of xml files
+		ilObjTest::_setImportDirectory($basedir);
+		if ($subdir)
+		{
+			$xml_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'.$subdir.".xml";
+			$qti_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
+			$results_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'. preg_replace("/test|tst/", "results", $subdir).".xml";
+		}
+
+		if(!$subdir || !is_file($qti_file))
 		{
 			ilUtil::delDir($basedir);
 			ilUtil::sendFailure($this->lng->txt("tst_import_non_ilias_zip"));
 			$this->createObject();
 			return;
 		}
-
 		// start verification of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
