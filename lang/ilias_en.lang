@@ -14883,8 +14883,9 @@ common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#condition_always#:#Always
-lso#:#condition_completed#:#Completed
-lso#:#condition_failed#:#Failed
+lso#:#finished#:#Finished
+lso#:#not_finished#:#Not Finished
+lso#:#failed#:#Failed
 rbac#:#rbac_create_lso#:#Create Learning Sequence
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_extro#:#Exitpage Settings
