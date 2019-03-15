@@ -116,8 +116,8 @@ class ilUIFilterService
 			$is_activated,
 			$is_expanded);
 
-		// handle apply and collapse command
-		$filter = $this->handleApplyAndCollapse($filter_id, $filter);
+		// handle apply command
+		$filter = $this->handleApply($filter_id, $filter);
 
 		return $filter;
 
@@ -160,7 +160,7 @@ class ilUIFilterService
 		}
 
 		if ($this->request->getFilterCmd() == self::CMD_COLLAPSE) {
-			$this->handleRendering($filter_id, $inputs);
+			$this->handleRendering($filter_id, $inputs);               //das eventuell raus, prüfen
 			$this->session->writeExpanded($filter_id, false);
 		}
 
@@ -205,16 +205,16 @@ class ilUIFilterService
 
 
 	/**
-	 * Handle apply and collapse command
+	 * Handle apply command
 	 *
 	 * @param string $filter_id
 	 * @param Filter\Standard $filter
 	 * @return Filter\Standard
 	 */
-	protected function handleApplyAndCollapse(string $filter_id, Filter\Standard $filter): Filter\Standard
+	protected function handleApply(string $filter_id, Filter\Standard $filter): Filter\Standard
 	{
 		if ((in_array($this->request->getFilterCmd(),
-			[self::CMD_APPLY, self::CMD_COLLAPSE])))
+			[self::CMD_APPLY])))
 		{
 			$filter = $this->request->getFilterWithRequest($filter);
 			foreach ($filter->getInputs() as $input_id => $i)
