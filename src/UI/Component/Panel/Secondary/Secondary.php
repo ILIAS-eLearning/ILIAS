@@ -19,33 +19,33 @@ interface Secondary extends C\Component
 	 * @param Sortation $sortation
 	 * @return Secondary
 	 */
-	public function withSortation(Sortation $sortation): Secondary;
+	public function withSortation(Sortation $sortation) : Secondary;
 
 	/**
 	 * Get Sortation view controller or null
 	 * @return Sortation | null
 	 */
-	public function getSortation(): ?Sortation;
+	public function getSortation() : ?Sortation;
 
 	/**
 	 * Set Pagination
 	 * @param Pagination $pagination
 	 * @return Secondary
 	 */
-	public function withPagination(Pagination $pagination): Secondary;
+	public function withPagination(Pagination $pagination) : Secondary;
 
 	/**
 	 * Get Pagination view controller or null
 	 * @return Pagination | null
 	 */
-	public function getPagination(): ?Pagination;
+	public function getPagination() : ?Pagination;
 
 	/**
 	 * Set Section view controller
 	 * @param Section $section
 	 * @return Secondary
 	 */
-	public function withSection(Section $section): Secondary;
+	public function withSection(Section $section) : Secondary;
 
 	/**
 	 * Get Section view controller or null

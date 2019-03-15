@@ -10,9 +10,11 @@ function base() {
 		$f->button()->shy("GitHub", "https://www.github.com")
 	));
 
-	$panel = $f->panel()->secondary(
-		"Secondary Panel Title",
-		$f->legacy("Legacy content here"))->withActions($actions);
+	$legacy = $f->legacy("Legacy content");
+
+	$panel = $f->panel()->secondary()->legacy(
+		"Legacy panel title",
+		$legacy)->withActions($actions);
 
 	return $renderer->render($panel);
 }

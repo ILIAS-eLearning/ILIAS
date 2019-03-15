@@ -1,6 +1,6 @@
 <?php
 
-function with_listing_panel() {
+function base() {
 	global $DIC;
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
@@ -26,19 +26,16 @@ function with_listing_panel() {
 		->withActions($actions)
 		->withDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
 
-	$listing_panel = $f->panel()->listing()->standard("List Title", array(
-		$f->item()->group("Subtitle 1", array(
+	$items = array(
+		$f->item()->group("Listing Subtitle 1", array(
 			$list_item1,
 			$list_item2
 		)),
-		$f->item()->group("Subtitle 2", array(
+		$f->item()->group("Listing Subtitle 2", array(
 			$list_item3
-		))
-	));
+		)));
 
-	$panel = $f->panel()->secondary(
-		"Secondary Panel Title",
-		$listing_panel)->withActions($actions);
+	$panel = $f->panel()->secondary()->listing("Listing panel Title", $items)->withActions($actions);
 
 	return $renderer->render($panel);
 
