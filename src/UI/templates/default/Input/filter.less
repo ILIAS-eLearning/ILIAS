@@ -41,6 +41,14 @@
 	font-size: @il-standard-filter-bar-font-size;
 	padding: @padding-small-vertical @padding-large-horizontal;
 
+	.il-filter-bar-opener {
+		font-size: @il-standard-filter-bar-opener-font-size;
+	}
+
+	.il-filter-bar-name {
+		font-size: @il-standard-filter-bar-name-font-size;
+	}
+
 	.il-toggle-button {
 		height: @il-standard-filter-bar-btn-toggle-height;
 		padding-left: @il-standard-filter-bar-btn-toggle-padding;
@@ -62,9 +70,6 @@
 			color: @il-standard-filter-font-color-disabled;
 		}
 	}
-	.il-filter-bar-opener-disabled {
-		font-size: @il-standard-filter-bar-opener-disabled;
-	}
 	.glyph {
 		padding-right: @il-standard-filter-bar-glyph-padding;
 	}
@@ -72,9 +77,6 @@
 
 .il-filter-bar-controls {
 	float: right;
-	.il-toggle-button {
-		vertical-align: middle;
-	}
 }
 
 .il-filter-inputs-active {
@@ -101,29 +103,6 @@
 	}
 }
 
-.il-filter-bar-opener-disabled {
-	display: none;
-}
-
-@media (min-width: @screen-sm) {
-	.il-filter.collapsed.enabled{
-		.il-filter-inputs-active, .il-filter-bar-opener {
-			display: none;
-		}
-		.il-filter-bar-opener-disabled {
-			display: inline-block;
-		}
-	}
-	.il-filter.enabled{
-		.il-filter-bar-opener {
-			display: none;
-		}
-		.il-filter-bar-opener-disabled {
-			display: inline-block;
-		}
-	}
-}
-
 @media (max-width: @screen-sm) {
 	.il-filter {
 		.webui-popover {
@@ -143,18 +122,6 @@
 			background-color: @il-secondary-container-bg;
 		}
 	}
-	.il-filter.collapsed .il-filter-input-section {
-		display: none;
-	}
-
-}
-
-.il-filter.collapsed.disabled .il-filter-input-section{
-	display: none;
-}
-
-.il-filter.expanded .il-filter-inputs-active {
-	display: none;
 }
 
 .il-filter.disabled {

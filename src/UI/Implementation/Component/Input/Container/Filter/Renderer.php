@@ -41,8 +41,8 @@ class Renderer extends AbstractComponentRenderer {
 		$id = $this->bindJavaScript($component);
 		$tpl->setVariable('ID_FILTER', $id);
 
-		// render expand
-		$this->renderExpandOrCollapse($tpl, $component, $default_renderer);
+		// render expand and collapse
+		$this->renderExpandAndCollapse($tpl, $component, $default_renderer);
 
 		// render apply and reset buttons
 		$this->renderApplyAndReset($tpl, $component, $default_renderer);
@@ -70,52 +70,72 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
-	 * Render expand section
+	 * Render expand/collapse section
 	 *
 	 * @param Template $tpl
 	 * @param Filter\Standard $component
 	 * @param RendererInterface $default_renderer
 	 */
-	protected function renderExpandOrCollapse(Template $tpl, Filter\Standard $component, RendererInterface $default_renderer)
+	protected function renderExpandAndCollapse(Template $tpl, Filter\Standard $component, RendererInterface $default_renderer)
 	{
 		$f = $this->getUIFactory();
+
 		$tpl->setCurrentBlock("action");
+		$tpl->setVariable("ACTION_NAME", "expand");
+		$tpl->setVariable("ACTION", $component->getExpandAction());
+		$tpl->parseCurrentBlock();
+
+		$opener_expand = $f->glyph()->expand("#")->withAdditionalOnLoadCode(function ($id) {
+			$code = "$('#$id').on('click', function(event) {
+					il.UI.filter.onAjax(event, '$id', 'expand');
+					event.preventDefault();
+			});";
+			return $code;
+		});
+
+		/*$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "#")
+			->withAdditionalOnLoadCode(function ($id) {
+				$code = "$('#$id').on('click', function(event) {
+					il.UI.filter.onAjax(event, '$id', 'expand');
+					event.preventDefault();
+			});";
+				return $code;
+			});*/
+
+		$tpl->setCurrentBlock("action");
+		$tpl->setVariable("ACTION_NAME", "collapse");
+		$tpl->setVariable("ACTION", $component->getCollapseAction());
+		$tpl->parseCurrentBlock();
+
+		$opener_collapse = $f->glyph()->collapse("#")->withAdditionalOnLoadCode(function ($id) {
+			$code = "$('#$id').on('click', function(event) {
+					il.UI.filter.onAjax(event, '$id', 'collapse');
+					event.preventDefault();
+			});";
+			return $code;
+		});
+
+		/*$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "#")
+			->withAdditionalOnLoadCode(function ($id) {
+				$code = "$('#$id').on('click', function(event) {
+					il.UI.filter.onAjax(event, '$id', 'collapse');
+					event.preventDefault();
+			});";
+				return $code;
+			});*/
+
 		if ($component->isExpanded() == false) {
-			$tpl->setVariable("ACTION_NAME", "expand");
-			$tpl->setVariable("ACTION", $component->getExpandAction());
-			$tpl->parseCurrentBlock();
-
-			$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
-				->withOnLoadCode(function ($id) {
-					$code = "$('#$id').on('click', function(event) {
-						il.UI.filter.onCmd(event, '$id', 'expand');
-						return false; // stop event propagation
-				});";
-					return $code;
-				});
-
-			$tpl->setVariable("OPENER", $default_renderer->render($opener_expand));
-			$tpl->touchBlock("collapsed");
+			$opener = [$opener_collapse, $opener_expand];
+			$tpl->setVariable("OPENER", $default_renderer->render($opener));
+			$tpl->setVariable("ARIA_EXPANDED", "'false'");
+			$tpl->setVariable("INPUTS_ACTIVE_EXPANDED", "in");
 		}
 		else {
-			$tpl->setVariable("ACTION_NAME", "collapse");
-			$tpl->setVariable("ACTION", $component->getCollapseAction());
-			$tpl->parseCurrentBlock();
-
-			$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
-				->withOnLoadCode(function ($id) {
-					$code = "$('#$id').on('click', function(event) {
-						il.UI.filter.onCmd(event, '$id', 'collapse');
-						return false; // stop event propagation
-				});";
-					return $code;
-				});
-
-			$tpl->setVariable("OPENER", $default_renderer->render($opener_collapse));
-			$tpl->touchBlock("expanded");
+			$opener = [$opener_expand, $opener_collapse];
+			$tpl->setVariable("OPENER", $default_renderer->render($opener));
+			$tpl->setVariable("ARIA_EXPANDED", "'true'");
+			$tpl->setVariable("INPUTS_EXPANDED", "in");
 		}
-		$tpl->setVariable("OPENER_TITLE", $this->txt("filter"));
-
 	}
 
 	/**
