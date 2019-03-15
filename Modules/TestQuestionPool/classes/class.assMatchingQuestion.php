@@ -1016,6 +1016,27 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		return $matchingPairsByDefinition;
 	}
+	
+	/**
+	 * @param array $valuePairs
+	 * @return array $indexedValues
+	 */
+	public function fetchIndexedValuesFromValuePairs(array $valuePairs)
+	{
+		$indexedValues = array();
+		
+		foreach($valuePairs as $valuePair)
+		{
+			if( !isset($indexedValues[$valuePair['value2']]) )
+			{
+				$indexedValues[$valuePair['value2']] = array();
+			}
+			
+			$indexedValues[$valuePair['value2']][] = $valuePair['value1'];
+		}
+		
+		return $indexedValues;
+	}
 
 	/**
 	* Returns the encrypted save filename of a matching picture
