@@ -19,7 +19,7 @@ class ilMailMimeTest extends \ilMailBaseTest
 		}
 
 		\ilMimeMail::setDefaultTransport(null);
-		\ilMailMimeSenderUser::addUserToCache(self::USER_ID, $this->getUserById(self::USER_ID));
+		\ilMailMimeSenderUserById::addUserToCache(self::USER_ID, $this->getUserById(self::USER_ID));
 
 		parent::setUp();
 	}

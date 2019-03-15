@@ -140,8 +140,10 @@ class ilMailSummaryNotification extends ilMailNotification
 
 			$mmail = new ilMimeMail();
 			$mmail->From($sender);
-			$mmail->To(ilMailOptions::getExternalEmailsByUserId($user_id));
-		
+
+			$mailOptions = new \ilMailOptions($user_id);
+			$mmail->To($mailOptions->getExternalEmailAddresses());
+
 			$mmail->Subject($this->getSubject());
 			$mmail->Body($this->getBody());
 			$mmail->Send();
