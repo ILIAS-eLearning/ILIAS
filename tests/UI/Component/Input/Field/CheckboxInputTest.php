@@ -29,7 +29,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function test_implements_factory_interface() {
+	public function testImplementsFactoryInterface() {
 		$f = $this->buildFactory();
 
 		$checkbox = $f->checkbox("label", "byline");
@@ -39,7 +39,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function test_render() {
+	public function testRender() {
 		$f = $this->buildFactory();
 		$label = "label";
 		$byline = "byline";
@@ -53,7 +53,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function test_render_error() {
+	public function testRenderError() {
 		$f = $this->buildFactory();
 		$label = "label";
 		$byline = "byline";
@@ -69,7 +69,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function test_render_no_byline() {
+	public function testRenderNoByline() {
 		$f = $this->buildFactory();
 		$label = "label";
         $checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
@@ -82,7 +82,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function test_render_value() {
+	public function testRenderValue() {
 		$f = $this->buildFactory();
 		$label = "label";
 		$value = "checked";
@@ -95,7 +95,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
         $this->assertHTMLEquals($expected, $html);
 	}
 
-    public function test_handle_invalid_value() {
+    public function testHandleInvalidValue() {
         $f = $this->buildFactory();
         $label = "label";
         $value = "invalid";
@@ -109,7 +109,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
     }
 
 
-	public function test_render_required() {
+	public function testRenderRequired() {
 		$f = $this->buildFactory();
 		$label = "label";
         $checbox = $f->checkbox($label)->withNameFrom($this->name_source)->withRequired(true);
@@ -121,7 +121,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 		$this->assertHTMLEquals($expected, $html);
 	}
 
-	public function test_render_disabled() {
+	public function testRenderDisabled() {
 		$f = $this->buildFactory();
 		$label = "label";
 		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withDisabled(true);
