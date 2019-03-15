@@ -246,19 +246,14 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	 */
 	public function getAttendanceListUserData($a_user_id)
 	{
-		if($this->filterUserIdsByRbacOrPositionOfCurrentUser([$a_user_id]))
+		if(is_array($this->member_data) && array_key_exists($a_user_id, $this->member_data))
 		{
-			$data = $this->member_data[$a_user_id];
-			$data['access'] = $data['access_time'];
-			$data['progress'] = $this->lng->txt($data['progress']);
-			return $data;
+			$user_data = $this->member_data[$a_user_id];
+			$user_data['access'] = $this->member_data['access_time'];
+			$user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+			return $user_data;
 		}
 		return [];
-		
-		
 	}
-	
-
-
 }
 ?>

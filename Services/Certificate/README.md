@@ -60,6 +60,22 @@ be shown in the GUI.
 Previous certificate are also stored in the database,
 but are not displayed in the GUI.
 
+The user certificates can be created directly or via a cron job
+with a delay.
+
+* Creating user certificates instantly after resolving the learning progress
+  of a user is only recommended for systems with low up to mediocre user workload.
+  Due to the fact that learning progress events can be raised for different users
+  and different context objects in a very short amount of time
+  this can lead to response delays in the GUI.
+* Creating user certificates via the cron job is recommended for sytems
+  with a high user workload.
+  This approach stores an reminder of the learning progress event into a
+  queue.
+  The cron job will process the queue on execution.
+  To avoid high latencies we recommend to execute the cron job in a
+  few minute schedule.
+
 ## Settings
 
 The feature to create certificate templates and therefore creating

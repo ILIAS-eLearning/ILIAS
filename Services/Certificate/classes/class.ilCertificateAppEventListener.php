@@ -192,11 +192,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	{
 		$status = $this->parameters['status'] ?? \ilLpStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
+		$settings = new ilSetting('certificate');
+
 		if ($status == \ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 			$objectId = $this->parameters['obj_id'] ?? 0;
 			$userId = $this->parameters['usr_id'] ?? 0;
 
 			$type  = $this->objectDataCache->lookupType($objectId);
+
 
 			if ($this->certificateClassMap->typeExistsInMap($type)) {
 				try {
@@ -213,6 +216,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 							$template->getId(),
 							time()
 						);
+
+
+						$mode = $settings->get('persistent_certificate_mode', '');
+						if ($mode === 'persistent_certificate_mode_instant') {
+							$cronjob = new ilCertificateCron();
+							$cronjob->init();
+							return $cronjob->processEntry(0, $entry, array());
+						}
 
 						$this->certificateQueueRepository->addToQueue($entry);
 					}
@@ -242,8 +253,16 @@ class ilCertificateAppEventListener implements ilAppEventListener
 									$userId,
 									$className,
 									\ilCronConstants::IN_PROGRESS,
+									$courseTemplate->getId(),
 									time()
 								);
+
+								$mode = $settings->get('persistent_certificate_mode', '');
+								if ($mode === 'persistent_certificate_mode_instant') {
+									$cronjob = new ilCertificateCron();
+									$cronjob->init();
+									return $cronjob->processEntry(0, $entry, array());
+								}
 
 								$this->certificateQueueRepository->addToQueue($entry);
 							}
@@ -357,10 +376,12 @@ class ilCertificateAppEventListener implements ilAppEventListener
 	}
 
 	/**
-	 * 
+	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
 	private function handleDeletedUser()
 	{
+		$portfolioFileService = new ilPortfolioCertificateFileService();
+
 		if (false === array_key_exists('usr_id', $this->parameters)) {
 			$this->logger->error('User ID is not added to the event. Abort.');
 			return;
@@ -375,6 +396,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$this->certificateQueueRepository->removeFromQueueByUserId((int)$userId);
 
 		$this->migrationRepository->deleteFromMigrationJob((int)$userId);
+
+		$portfolioFileService->deleteUserDirectory($userId);
 
 		$this->logger->info(sprintf('All relevant data sources for the user certificates for user(user_id: "%s" deleted)', $userId));
 	}

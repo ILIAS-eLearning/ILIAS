@@ -149,7 +149,6 @@ class ilObjectLP
 			}
 		}
 	}
-		
 	public static function isSupportedObjectType($a_type)
 	{
 		global $DIC;
