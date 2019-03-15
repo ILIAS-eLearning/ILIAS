@@ -1,18 +1,13 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/classes/class.ilObjUser.php';
-require_once 'Services/Mail/exceptions/class.ilMailException.php';
-
 /**
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMail
 {
-	/** @var string */
 	const ILIAS_HOST = 'ilias';
-
 	const MAIL_SUBJECT_PREFIX = '[ILIAS]';
 
 	/** @var ilLanguage */
@@ -58,9 +53,6 @@ class ilMail
 	 * @var array
 	 */
 	protected $properties = array();
-	
-	/** @var ilObjUser[] */
-	protected static $userInstances = array();
 
 	/** @var ilMailAddressTypeFactory */
 	private $mailAddressTypeFactory;
@@ -71,30 +63,41 @@ class ilMail
 	/** @var mixed|null */
 	protected $contextId = null;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	protected $contextParameters = [];
 
+	/** @var \ilLogger */
+	protected $logger;
+	
+	/** @var \ilMailOptions[] */
+	protected $mailOptionsByUsrIdMap = [];
+
+	/** @var \ilObjUser[] */
+	protected $userInstancesByIdMap = [];
+
 	/**
-	 * @param integer                               $a_user_id
-	 * @param ilMailAddressTypeFactory|null         $mailAddressTypeFactory
+	 * @param integer $a_user_id
+	 * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
 	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
-	 * @param ilAppEventHandler|null                $eventHandler
+	 * @param ilAppEventHandler|null $eventHandler
+	 * @param ilLogger|null $logger
 	 */
 	public function __construct(
 		$a_user_id,
 		ilMailAddressTypeFactory $mailAddressTypeFactory = null,
 		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null,
-		\ilAppEventHandler $eventHandler = null
+		\ilAppEventHandler $eventHandler = null,
+		\ilLogger $logger = null
 	) {
 		global $DIC;
 
-		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
+		if ($logger === null) {
+			$logger = \ilLoggerFactory::getLogger('mail');
+		}
+		$this->logger = $logger;
 
 		if ($mailAddressTypeFactory === null) {
-			$mailAddressTypeFactory = new ilMailAddressTypeFactory();
+			$mailAddressTypeFactory = new ilMailAddressTypeFactory(null, $logger);
 		}
 
 		if ($mailAddressParserFactory === null) {
@@ -180,7 +183,6 @@ class ilMail
 		{
 			if(is_object($DIC->user()))
 			{
-				require_once 'Services/Contact/classes/class.ilMailingLists.php';
 				$this->properties[$name] = new ilMailingLists($DIC->user());
 				return $this->properties[$name];
 			}
@@ -264,7 +266,7 @@ class ilMail
 				$pp = ilObjUser::_lookupPref($usr_id, 'public_profile');
 				if($pp == 'y' || ($pp == 'g' && !$DIC->user()->isAnonymous()))
 				{
-					$user    = self::getCachedUserInstance($usr_id);
+					$user    = $this->getUserInstanceById($usr_id);
 					$names[] = $user->getFullname() . ' [' . $recipient . ']';
 					continue;
 				}
@@ -647,7 +649,7 @@ class ilMail
 		{
 			$a_m_message = $this->replacePlaceholders($a_m_message, $a_user_id);
 		}
-		$a_m_message = $this->formatLinebreakMessage($a_m_message);
+		$a_m_message = $this->formatLinebreakMessage((string)$a_m_message);
 
 		if(!$a_user_id)		$a_user_id = '0';
 		if(!$a_folder_id)	$a_folder_id = '0';
@@ -718,21 +720,21 @@ class ilMail
 				$context = new ilMailTemplateGenericContext();
 			}
 
-			$user = $a_user_id > 0 ? self::getCachedUserInstance($a_user_id) : null;
+			$user = $a_user_id > 0 ? $this->getUserInstanceById($a_user_id) : null;
 
 			$processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
 			$a_message = $processor->resolve($user, $this->contextParameters, $replace_empty);
 		} catch (Exception $e) {
-			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
+			$this->logger->error(__METHOD__ . ' has been called with invalid context.');
 		}
 
 		return $a_message;
 	}
 
 	/**
-	 * @param string $rcpTo
-	 * @param string $rcpCc
-	 * @param string $rcpBcc
+	 * @param string $to
+	 * @param string $cc
+	 * @param string $bcc
 	 * @param array $usrIds
 	 * @param string $subject
 	 * @param string $message
@@ -742,9 +744,9 @@ class ilMail
 	 * @param bool $usePlaceholders
 	 */
 	protected function sendChanneledMails(
-		string $rcpTo,
-		string $rcpCc,
-		string $rcpBcc,
+		string $to,
+		string $cc,
+		string $bcc,
 		array $usrIds,
 		string $subject,
 		string $message,
@@ -757,13 +759,13 @@ class ilMail
 		$usrIdToMessageMap = [];
 
 		foreach ($usrIds as $usrId) {
-			$user = self::getCachedUserInstance($usrId);
-			$mailOptions = new \ilMailOptions($user->getId());
+			$user = $this->getUserInstanceById($usrId);
+			$mailOptions = $this->getMailOptionsByUserId($user->getId());
 
 			$canReadInternalMails = !$user->hasToAcceptTermsOfService() && $user->checkTimeLimit();
 
 			if (in_array('system', $type) && !$canReadInternalMails) {
-				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				$this->logger->debug(sprintf(
 					"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
 					$user->getId(),
 					var_export(!$user->hasToAcceptTermsOfService(), 1),
@@ -780,23 +782,23 @@ class ilMail
 
 			if ($user->getActive()) {
 				$wantsToReceiveExternalEmail = (
-					$mailOptions->getIncomingType() == ilMailOptions::INCOMING_EMAIL ||
-					$mailOptions->getIncomingType() == ilMailOptions::INCOMING_BOTH
+					$mailOptions->getIncomingType() == \ilMailOptions::INCOMING_EMAIL ||
+					$mailOptions->getIncomingType() == \ilMailOptions::INCOMING_BOTH
 				);
 
 				if (!$canReadInternalMails || $wantsToReceiveExternalEmail) {
 					$emailAddresses = \ilMailOptions::getExternalEmailsByUser($user, $mailOptions);
 					$usrIdToExternalEmailAddressesMap[$user->getId()] = $emailAddresses;
 
-					if ($mailOptions->getIncomingType() == ilMailOptions::INCOMING_EMAIL) {
-						ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					if ($mailOptions->getIncomingType() == \ilMailOptions::INCOMING_EMAIL) {
+						$this->logger->debug(sprintf(
 							"Recipient with id %s will only receive external emails sent to: %s",
 							$user->getId(),
 							implode(', ', $emailAddresses)
 						));
 						continue;
 					} else {
-						ilLoggerFactory::getLogger('mail')->debug(sprintf(
+						$this->logger->debug(sprintf(
 							"Recipient with id %s will additionally receive external emails sent to: %s",
 							$user->getId(),
 							implode(', ', $emailAddresses)
@@ -810,7 +812,7 @@ class ilMail
 			$recipientInboxId = $mbox->getInboxFolder();
 
 			$internalMailId = $this->sendInternalMail(
-				$recipientInboxId, $this->user_id, $attachments, $rcpCc, $rcpBcc, '',
+				$recipientInboxId, $this->user_id, $attachments, $cc, $bcc, '',
 				'unread', $type, 0, $subject, $individualMessage, $user->getId(), 0
 			);
 
@@ -841,7 +843,7 @@ class ilMail
 					);
 				}
 			} else {
-				$flattenEmailAddresses = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator(
+				$flattenEmailAddresses = iterator_to_array(new \RecursiveIteratorIterator(new \RecursiveArrayIterator(
 					$usrIdToExternalEmailAddressesMap
 				)), false);
 
@@ -860,9 +862,9 @@ class ilMail
 	}
 
 	/**
-	 * @param string $rcpTo
-	 * @param string $rcpCc
-	 * @param string $rcpBcc
+	 * @param string $to
+	 * @param string $cc
+	 * @param string $bcc
 	 * @param string $subject
 	 * @param string $message
 	 * @param array $attachments
@@ -872,9 +874,9 @@ class ilMail
 	 * @return bool
 	 */
 	protected function distributeMail(
-		string $rcpTo,
-		string $rcpCc,
-		string $rcpBcc,
+		string $to,
+		string $cc,
+		string $bcc,
 		string $subject,
 		string $message,
 		array $attachments,
@@ -884,30 +886,31 @@ class ilMail
 	)
 	{
 		if ($usePlaceholders) {
-			$toUsrIds = $this->getUserIds([$rcpTo]);
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			$toUsrIds = $this->getUserIds([$to]);
+			$this->logger->debug(sprintf(
 				"Parsed TO user ids from given recipients for serial letter notification: %s", implode(', ', $toUsrIds)
 			));
+
 			$this->sendChanneledMails(
-				$rcpTo, $rcpCc, $rcpBcc, $toUsrIds, $subject, $message, $attachments, $sentMailId, $type, true
+				$to, $cc, $bcc, $toUsrIds, $subject, $message, $attachments, $sentMailId, $type, true
 			);
 
-			$otherUsrIds = $this->getUserIds([$rcpCc, $rcpBcc]);
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			$otherUsrIds = $this->getUserIds([$cc, $bcc]);
+			$this->logger->debug(sprintf(
 				"Parsed CC/BCC user ids from given recipients for serial letter notification: %s", implode(', ', $otherUsrIds)
 			));
+
 			$this->sendChanneledMails(
-				$rcpTo, $rcpCc, $rcpBcc, $otherUsrIds, $subject, $this->replacePlaceholders($message, 0, false), $attachments, $sentMailId, $type, false
+				$to, $cc, $bcc, $otherUsrIds, $subject, $this->replacePlaceholders($message, 0, false), $attachments, $sentMailId, $type, false
 			);
 		} else {
-			$usrIds = $this->getUserIds([$rcpTo, $rcpCc, $rcpBcc]);
-
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			$usrIds = $this->getUserIds([$to, $cc, $bcc]);
+			$this->logger->debug(sprintf(
 				"Parsed TO/CC/BCC user ids from given recipients: %s", implode(', ', $usrIds)
 			));
 
 			$this->sendChanneledMails(
-				$rcpTo, $rcpCc, $rcpBcc, $usrIds, $subject, $message, $attachments, $sentMailId, $type, false
+				$to, $cc, $bcc, $usrIds, $subject, $message, $attachments, $sentMailId, $type, false
 			);
 		}
 
@@ -1074,7 +1077,7 @@ class ilMail
 	{
 		global $DIC;
 
-		ilLoggerFactory::getLogger('mail')->debug(
+		$this->logger->debug(
 			"New mail system task:" .
 			" To: " . $a_rcp_to .
 			" | CC: " . $a_rcp_cc .
@@ -1167,7 +1170,7 @@ class ilMail
 		$bucket->setTitle($this->lng->txt('mail_bg_task_title'));
 		$bucket->setDescription(sprintf($this->lng->txt('mail_bg_task_desc'), $a_m_subject));
 
-		ilLoggerFactory::getLogger('mail')->info('Delegated delivery to background task');
+		$this->logger->info('Delegated delivery to background task');
 		$taskManager->run($bucket);
 
 		return [];
@@ -1177,9 +1180,9 @@ class ilMail
 	 * This method is used to finally send internal messages and external emails
 	 * To use the mail system as a consumer, please use \ilMail::validateAndEnqueue
 	 * @see \ilMail::validateAndEnqueue()
-	 * @param string $rcpTo
-	 * @param string $rcpCc
-	 * @param string $rcpBcc
+	 * @param string $to
+	 * @param string $cc
+	 * @param string $bcc
 	 * @param string $subject
 	 * @param string $message
 	 * @param array $attachments
@@ -1189,9 +1192,9 @@ class ilMail
 	 * @internal 
 	 */
 	public function sendMail(
-		string $rcpTo,
-		string $rcpCc,
-		string $rcpBcc,
+		string $to,
+		string $cc,
+		string $bcc,
 		string $subject,
 		string $message,
 		array $attachments,
@@ -1200,9 +1203,9 @@ class ilMail
 	) {
 		$internalMessageId = $this->saveInSentbox(
 			$attachments,
-			$rcpTo,
-			$rcpCc,
-			$rcpBcc,
+			$to,
+			$cc,
+			$bcc,
 			$types,
 			$subject,
 			$message
@@ -1213,14 +1216,14 @@ class ilMail
 			$this->mfile->saveFiles($internalMessageId, $attachments);
 		}
 
-		$numberOfExternalAddresses = $this->getCountRecipients($rcpTo, $rcpCc, $rcpBcc, true);
+		$numberOfExternalAddresses = $this->getCountRecipients($to, $cc, $bcc, true);
 
 		if ($numberOfExternalAddresses > 0) {
-			$externalMailRecipientsTo  = $this->getEmailRecipients($rcpTo);
-			$externalMailRecipientsCc  = $this->getEmailRecipients($rcpCc);
-			$externalMailRecipientsBcc = $this->getEmailRecipients($rcpBcc);
+			$externalMailRecipientsTo  = $this->getEmailRecipients($to);
+			$externalMailRecipientsCc  = $this->getEmailRecipients($cc);
+			$externalMailRecipientsBcc = $this->getEmailRecipients($bcc);
 
-			ilLoggerFactory::getLogger('mail')->debug(
+			$this->logger->debug(
 				"Parsed external email addresses from given recipients /" .
 				" To: " . $externalMailRecipientsTo .
 				" | CC: " . $externalMailRecipientsCc .
@@ -1239,16 +1242,16 @@ class ilMail
 				$attachments
 			);
 		} else {
-			ilLoggerFactory::getLogger('mail')->debug('No external email addresses given in recipient string');
+			$this->logger->debug('No external email addresses given in recipient string');
 		}
 
 		$errors = [];
 
 		foreach (array_intersect($types, ['system', 'normal']) as $type) {
 			if (!$this->distributeMail(
-				$rcpTo,
-				$rcpCc,
-				$rcpBcc,
+				$to,
+				$cc,
+				$bcc,
 				$subject,
 				$message,
 				$attachments,
@@ -1313,15 +1316,14 @@ class ilMail
 	}
 
 	/**
-	 * Send mime mail using class.ilMimeMail.php. All external mails are send to SOAP::sendMail (if enabled) starting a kind of background process
 	 * @param string $to
 	 * @param string $cc
 	 * @param string $bcc
 	 * @param string $subject
 	 * @param string $message
-	 * @param array  $a_attachments
+	 * @param array  $attachments
 	 */
-	private function sendMimeMail(string $to, string $cc, string $bcc, $subject, $message, array $a_attachments)
+	private function sendMimeMail(string $to, string $cc, string $bcc, $subject, $message, array $attachments)
 	{
 		$subjectPrefix = self::getSubjectPrefix();
 
@@ -1334,30 +1336,28 @@ class ilMail
 		/** @var \ilMailMimeSenderFactory $senderFactory */
 		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
-		$mmail = new \ilMimeMail();
-		$mmail->From($senderFactory->getSenderByUsrId($this->user_id));
-		$mmail->To($to);
-		$mmail->Subject($subject);
-		$mmail->Body($message);
+		$mailer = new \ilMimeMail();
+		$mailer->From($senderFactory->getSenderByUsrId($this->user_id));
+		$mailer->To($to);
+		$mailer->Subject($subject);
+		$mailer->Body($message);
 
 		if ($cc) {
-			$mmail->Cc($cc);
+			$mailer->Cc($cc);
 		}
 
 		if ($bcc) {
-			$mmail->Bcc($bcc);
+			$mailer->Bcc($bcc);
 		}
 
-		if (is_array($a_attachments)) {
-			foreach ($a_attachments as $attachment) {
-				$mmail->Attach(
-					$this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '',
-					'inline', 	$attachment
-				);
-			}
+		foreach ($attachments as $attachment) {
+			$mailer->Attach(
+				$this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment), '',
+				'inline', 	$attachment
+			);
 		}
 
-		$mmail->Send();
+		$mailer->Send();
 	}
 
 	/**
@@ -1387,7 +1387,7 @@ class ilMail
 	protected function parseAddresses($addresses)
 	{
 		if (strlen($addresses) > 0) {
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			$this->logger->debug(sprintf(
 				"Started parsing of recipient string: %s", $addresses
 			));
 		}
@@ -1396,7 +1396,7 @@ class ilMail
 		$parsedAddresses = $parser->parse();
 
 		if (strlen($addresses) > 0) {
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			$this->logger->debug(sprintf(
 				"Parsed addresses: %s", implode(',', array_map(function (ilMailAddress $address) {
 					return (string)$address;
 				}, $parsedAddresses))
@@ -1470,7 +1470,6 @@ class ilMail
 
 		if(!($lang instanceof ilLanguage))
 		{
-			require_once 'Services/Language/classes/class.ilLanguageFactory.php';
 			$lang = ilLanguageFactory::_getLanguage();
 		}
 
@@ -1584,25 +1583,36 @@ class ilMail
 	}
 
 	/**
-	 * @param int $a_usr_id
-	 * @return ilObjUser
+	 * @param int $usrId
+	 * @return \ilObjUser
 	 */
-	protected static function getCachedUserInstance($a_usr_id)
+	protected function getUserInstanceById(int $usrId): \ilObjUser
 	{
-		if(isset(self::$userInstances[$a_usr_id]))
-		{
-			return self::$userInstances[$a_usr_id];
+		if (!isset($this->userInstancesByIdMap[$usrId])) {
+			$this->userInstancesByIdMap[$usrId] = new \ilObjUser($usrId);
 		}
 
-		self::$userInstances[$a_usr_id] = new ilObjUser($a_usr_id);
-		return self::$userInstances[$a_usr_id];
+		return $this->userInstancesByIdMap[$usrId];
+	}
+
+	/**
+	 * @param int $usrId
+	 * @return \ilMailOptions
+	 */
+	protected function getMailOptionsByUserId(int $usrId): \ilMailOptions
+	{
+		if (!isset($this->mailOptionsByUsrIdMap[$usrId])) {
+			$this->mailOptionsByUsrIdMap[$usrId] = new \ilMailOptions($usrId);
+		}
+
+		return $this->mailOptionsByUsrIdMap[$usrId];
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function formatLinebreakMessage($a_message)
+	public function formatLinebreakMessage(string $message): string 
 	{
-		return $a_message;
+		return $message;
 	}
 }
