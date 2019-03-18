@@ -33,9 +33,12 @@ class ilObjLearningSequenceLearnerGUI
 		ilLanguage $lng,
 		ilGlobalTemplate $tpl,
 		ilToolbarGUI $toolbar,
+		ilKioskModeService $kiosk_mode_service,
+		ilAccess $access,
+		ilSetting $il_settings,
 		ILIAS\UI\Factory $ui_factory,
-		ILIAS\UI\Renderer $ui_renderer
-
+		ILIAS\UI\Renderer $ui_renderer,
+		ILIAS\Data\Factory $data_factory
 	) {
 		$this->ls_object = $ls_object;
 		$this->usr_id = $usr_id;
@@ -45,8 +48,12 @@ class ilObjLearningSequenceLearnerGUI
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->toolbar = $toolbar;
+		$this->kiosk_mode_service = $kiosk_mode_service;
+		$this->access = $access;
+		$this->il_settings = $il_settings;
 		$this->ui_factory = $ui_factory;
 		$this->renderer = $ui_renderer;
+		$this->data_factory = $data_factory;
 	}
 
 	public function executeCommand()
@@ -191,7 +198,7 @@ class ilObjLearningSequenceLearnerGUI
 			}
 		}
 
-		$curriculum = $this->ls_object
+		$curriculum = $this
 			->getCurriculumBuilder($this->ls_learner_items)
 			->getLearnerCurriculum();
 
@@ -199,6 +206,20 @@ class ilObjLearningSequenceLearnerGUI
 			$curriculum = $curriculum->withActive($current_position);
 		}
 		return array($curriculum);
+	}
+
+	/**
+	 * @param LSLearnerItem[] 	$items
+	 */
+	public function getCurriculumBuilder(array $items, LSUrlBuilder $url_builder=null): ilLSCurriculumBuilder
+	{
+		return new ilLSCurriculumBuilder(
+			$items,
+			$this->ui_factory,
+			$this->lng,
+			ilLSPlayer::LSO_CMD_GOTO,
+			$url_builder
+		);
 	}
 
 	private function getMainContent(string $cmd): array
@@ -236,8 +257,8 @@ class ilObjLearningSequenceLearnerGUI
 		$_SESSION["il_rep_mode"] = 'tree';
 
 
-		$player = $this->ls_object->getSequencePlayer(
-			$this, self::CMD_VIEW, $this->usr_id
+		$player = $this->getSequencePlayer(
+			self::CMD_VIEW, $this->usr_id
 		);
 		$html = $player->render($_GET, $_POST);
 
@@ -260,6 +281,86 @@ class ilObjLearningSequenceLearnerGUI
 			$href = $this->ctrl->getLinkTarget($this, $cmd, '', false, false);
 			\ilUtil::redirect($href);
 		}
+	}
+
+	/**
+	 * factors the player
+	 */
+	public function getSequencePlayer(string $player_command, int $usr_id): ilLSPlayer
+	{
+		$lso_ref_id = $this->ls_object->getRefId();
+		$lso_title = $this->ls_object->getTitle();
+
+		$player_url = $this->ctrl->getLinkTarget($this, $player_command, '', false, false);
+		$items = $this->ls_object->getLSLearnerItems($usr_id);
+		$url_builder = $this->getUrlBuilder($player_url);
+
+		$curriculum_builder = $this->getCurriculumBuilder(
+			$items,
+			$url_builder
+		);
+
+		$state_db = $this->ls_object->getStateDB();
+
+		$control_builder = new LSControlBuilder(
+			$this->ui_factory,
+			$url_builder,
+			$this->lng
+		);
+
+		$view_factory = new ilLSViewFactory(
+			$this->kiosk_mode_service,
+			$this->lng,
+			$this->access
+		);
+
+		$kiosk_renderer = $this->getKioskRenderer($url_builder);
+
+		return new ilLSPlayer(
+			$lso_ref_id,
+			$lso_title,
+			$usr_id,
+			$items,
+			$state_db,
+			$control_builder,
+			$url_builder,
+			$curriculum_builder,
+			$view_factory,
+			$kiosk_renderer,
+			$this->ui_factory
+		);
+	}
+
+	public function getUrlBuilder(string $player_url): LSUrlBuilder
+	{
+		$player_url = $this->data_factory->uri(ILIAS_HTTP_PATH .'/'	.$player_url);
+		return new LSUrlBuilder($player_url);
+	}
+
+	protected function getKioskRenderer(LSUrlBuilder $url_builder)
+	{
+		if (!$this->kiosk_renderer) {
+			$kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
+
+			$toc_gui = new ilLSTOCGUI($url_builder, $this->tpl, $this->ctrl);
+			$loc_gui = new ilLSLocatorGUI($url_builder, $this->ui_factory);
+
+			$window_title = $this->il_settings->get('short_inst_name');
+			if($window_title === false) {
+				$window_title = 'ILIAS';
+			}
+
+			$this->kiosk_renderer = new ilKioskPageRenderer(
+				$this->tpl,
+				$this->renderer,
+				$kiosk_template,
+				$toc_gui,
+				$loc_gui,
+				$window_title
+			);
+		}
+
+		return $this->kiosk_renderer;
 	}
 
 }

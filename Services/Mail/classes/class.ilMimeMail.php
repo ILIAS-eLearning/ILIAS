@@ -6,29 +6,21 @@
  */
 class ilMimeMail
 {
-	/**
-	 * @var \ilMailMimeTransport|null
-	 */
+	const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+
+	/** @var \ilMailMimeTransport|null */
 	protected static $defaultTransport;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $subject = '';
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $body = '';
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $finalBody = '';
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $finalBodyAlt = '';
 
 	/**
@@ -73,10 +65,11 @@ class ilMimeMail
 	 */
 	protected $adisplay = array();
 
-	/**
-	 * @var \ilMailMimeSender
-	 */
-	protected $sender; 
+	/** @var \ilMailMimeSender */
+	protected $sender;
+
+	/** @var \ilSetting */
+	protected $settings;
 
 	/**
 	 * ilMimeMail constructor.
@@ -85,8 +78,9 @@ class ilMimeMail
 	{
 		global $DIC;
 
-		if(!(self::getDefaultTransport() instanceof \ilMailMimeTransport))
-		{
+		$this->settings = $DIC->settings();
+
+		if (!(self::getDefaultTransport() instanceof \ilMailMimeTransport)) {
 			$factory = $DIC["mail.mime.transport.factory"];
 			self::setDefaultTransport($factory->getTransport());
 		}
@@ -122,14 +116,14 @@ class ilMimeMail
 	 */
 	public function Subject($subject, $a_add_prefix = false)
 	{
-		if($a_add_prefix)
-		{
+		if ($a_add_prefix) {
 			// #9096
-			require_once 'Services/Mail/classes/class.ilMail.php';
-			$prefix = ilMail::getSubjectPrefix();
-			if(trim($prefix))
-			{
-				$subject = trim($prefix) . ' ' . $subject;
+			$subjectPrefix = $this->settings->get('mail_subject_prefix');
+			if (false === $subjectPrefix) {
+				$subjectPrefix = self::MAIL_SUBJECT_PREFIX;
+			}
+			if (strlen($subjectPrefix) > 0) {
+				$subject = $subjectPrefix . ' ' . $subject;
 			}
 		}
 
