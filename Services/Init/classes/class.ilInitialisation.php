@@ -1676,10 +1676,14 @@ class ilInitialisation
 			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
 			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-		}
-		else 
-		{
-			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+		} else {
+			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
+				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
+			} else {
+				// TODO FSX remove global
+				global $DIC;
+				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), "tpl.main.html", true, true);
+			}
 		}
 		
 		self::initGlobal("tpl", $tpl);

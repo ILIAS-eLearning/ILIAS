@@ -10,8 +10,7 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilGlobalTemplate
-{
+class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	
 
 	
