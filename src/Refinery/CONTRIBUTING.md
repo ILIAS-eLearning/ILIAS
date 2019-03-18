@@ -8,19 +8,25 @@ this repository before making a change.
 Please note we have a code of conduct,
 please follow it in all your interactions with the project.
 
+## Roles
+
+The ILIAS project has the role of the coordinator.
+[Check the documentation](/docs/documentation/maintenance-coordinator.md)
+about the function of this role.
+
 ## Reporting Bugs
 
-Bugs have to be reported via https://mantis.ilias.de and
+Bugs should be reported via https://mantis.ilias.de and
 one of the
-[maintainers and coordinators](/src/Refinery/maintenance.json)
-must be added to bug ticket.
+[coordinators](/src/Refinery/maintenance.json)
+must be added to the bug ticket.
 
 Bug fixes and improvements can always be entered via a Pull Request.
 
 ## Features
 
 Features and Breaking Changes must be discussed with the
-[maintainers and coordinators](/src/Refinery/maintenance.json)
+[coordinators](/src/Refinery/maintenance.json)
 of this component.
 
 ## Pull Request Process
@@ -28,8 +34,8 @@ of this component.
 * Update the README.md with details of changes to the interface,
   this includes new environment variables, exposed ports,
   useful file locations, container parameters, strategies and entry points.
-* Contact one of the maintainers or coordinators in the Pull Request.
-  The list of maintainers and coordinators can be found [here](/src/Refinery/maintenance.json)
+* Contact one of the coordinators in the Pull Request.
+  The list of coordinators can be found [here](/src/Refinery/maintenance.json)
 * Every Pull Request with actual code changes, have to add or adapt unit tests.
 * The Pull Request must pass the CI integration.
   Be aware of the currently supported PHP versions and optimize your code according
@@ -49,7 +55,7 @@ but instead Spaces for the line indentation we are using tabs.
 ### Our Pledge
 
 In the interest of fostering an open and welcoming environment,
-we as contributors and maintainers pledge to making participation
+we as contributors, maintainers and coordinators pledge to making participation
 in our project and our community a harassment-free experience for everyone,
 regardless of age, body size, disability, ethnicity,
 gender identity and expression, level of experience, nationality,
@@ -75,11 +81,11 @@ Examples of unacceptable behavior by participants include:
 
 ### Our Responsibilities
 
-Project maintainers are responsible for clarifying the standards of
+Project maintainers and coordinators are responsible for clarifying the standards of
 acceptable behavior and are expected to take appropriate and fair
 corrective action in response to any instances of unacceptable behavior.
 
-Project maintainers have the right and responsibility to remove, edit,
+Project maintainers and coordinators have the right and responsibility to remove, edit,
 or reject comments, commits, code, wiki edits, issues, and other contributions
 that are not aligned to this Code of Conduct, or to ban temporarily or permanently
 any contributor for other behaviors that they deem inappropriate,
@@ -95,7 +101,7 @@ using an official project e-mail address, posting via an
 official social media account, or acting as an appointed
 representative at an online or offline event.
 Representation of a project may be further defined and clarified
-by project maintainers.
+by project maintainers and coordinators.
 
 ### Enforcement
 
@@ -107,7 +113,7 @@ The project team is obligated to maintain confidentiality with regard to
 the reporter of an incident.
 Further details of specific enforcement policies may be posted separately.
 
-Project maintainers who do not follow or enforce the Code of Conduct
+Project maintainers and coordinators who do not follow or enforce the Code of Conduct
 in good faith may face temporary or permanent
 repercussions as determined by other members of the project's leadership.
 Attribution
