@@ -1,4 +1,16 @@
 parameters:
     ignoreErrors:
     excludes_analyse:
-        - libs/*
+        - 'libs/*'
+        - 'Customizing/*'
+        - '*/tests/*'
+        - '*/test/*'
+    autoload_directories:
+        - libs/composer/vendor/autoload.php
+    earlyTerminatingMethodCalls:
+        ilCtrl:
+          - redirect
+          - redirectByClass
+          - redirectToURL
+        ilUtil:
+          - redirect
