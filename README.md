@@ -1,4 +1,5 @@
 [![Build Status](https://api.travis-ci.com/ILIAS-eLearning/ILIAS.svg?branch=trunk)](https://travis-ci.com/ILIAS-eLearning/ILIAS)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true)](https://github.com/phpstan/phpstan)
 
 # ILIAS
 

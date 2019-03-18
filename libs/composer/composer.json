@@ -36,7 +36,8 @@
 		"phpunit/php-code-coverage": "^4.0",
 		"mockery/mockery": "^0.9.9",
 		"phpunit/php-token-stream": "^1.4",
-		"phpdocumentor/reflection-docblock": "^3.3"
+		"phpdocumentor/reflection-docblock": "^3.3",
+		"phpstan/phpstan": "^0.11.4"
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" },
@@ -305,6 +306,16 @@
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-12-03"
+		},
+		"phpstan/phpstan": {
+			"source": "https://github.com/phpstan/phpstan",
+			"used_version": "0.11.4",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": "",
+			"last_update": "",
+			"last_update_by": "",
+			"approved-by": "Jour Fixe",
+			"approved-date": ""
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
