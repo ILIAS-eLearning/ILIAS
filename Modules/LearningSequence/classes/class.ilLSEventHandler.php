@@ -40,6 +40,28 @@ class ilLSEventHandler
 		}
 	}
 
+	/**
+	 * @param  array  $parameter [obj_id, ref_id, old_parent_ref_id]
+	 */
+	public function handleObjectToTrash(array $parameter)
+	{
+		$obj_ref_id = (int)$parameter['ref_id'];
+		$old_parent_ref_id = (int)$parameter['old_parent_ref_id'];
+
+		if (empty($obj_ref_id) || !$this->tree->isInTree($obj_ref_id)) {
+			return;
+		}
+
+		$parent_lso = $this->getParentLSOInfo($old_parent_ref_id);
+		if ($parent_lso) {
+			$lso = $this->getInstanceByRefId($old_parent_ref_id);
+			$lso->getStateDB()->deleteForItem(
+				$old_parent_ref_id,
+				$obj_ref_id
+			);
+		}
+	}
+
 	public function handleParticipantDeletion(int $obj_id, int $usr_id)
 	{
 		$lso = $this->getInstanceByObjId($obj_id);

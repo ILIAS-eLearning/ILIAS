@@ -94,10 +94,10 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 				false
 			);
 
+			$type = $this->object->getType();
 			if(in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
 				$obj_id = $this->object->getId();
 				$ref_id = $this->object->getRefId();
-				$type = $this->object->getType();
 				$item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
 				$item_list_gui->initItem($ref_id, $obj_id);
 				$view_lnk = $item_list_gui->getCommandLink('view');
