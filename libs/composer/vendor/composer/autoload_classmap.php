@@ -37,10 +37,6 @@ return array(
     'Diff' => $baseDir . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
     'DiffFormatter' => $baseDir . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
     'DifferenceEngine' => $baseDir . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
-<<<<<<< cefbcb3f9182883e8d47952a14c9a0000babdded
-=======
-    'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
->>>>>>> clear/update composer files
     'EvalMath' => $baseDir . '/../../Services/Math/classes/class.EvalMath.php',
     'EvalMathStack' => $baseDir . '/../../Services/Math/classes/class.EvalMath.php',
     'FastRoute\\BadRouteException' => $vendorDir . '/nikic/fast-route/src/BadRouteException.php',
@@ -715,17 +711,6 @@ return array(
     'ILIAS\\UI\\Component\\Listing\\Workflow\\Linear' => $baseDir . '/../../src/UI/Component/Listing/Workflow/Linear.php',
     'ILIAS\\UI\\Component\\Listing\\Workflow\\Step' => $baseDir . '/../../src/UI/Component/Listing/Workflow/Step.php',
     'ILIAS\\UI\\Component\\Listing\\Workflow\\Workflow' => $baseDir . '/../../src/UI/Component/Listing/Workflow/Workflow.php',
-<<<<<<< cefbcb3f9182883e8d47952a14c9a0000babdded
-=======
-    'ILIAS\\UI\\Component\\MainControls\\Factory' => $baseDir . '/../../src/UI/Component/MainControls/Factory.php',
-    'ILIAS\\UI\\Component\\MainControls\\MainBar' => $baseDir . '/../../src/UI/Component/MainControls/MainBar.php',
-    'ILIAS\\UI\\Component\\MainControls\\MetaBar' => $baseDir . '/../../src/UI/Component/MainControls/MetaBar.php',
-    'ILIAS\\UI\\Component\\MainControls\\Slate\\Combined' => $baseDir . '/../../src/UI/Component/MainControls/Slate/Combined.php',
-    'ILIAS\\UI\\Component\\MainControls\\Slate\\Factory' => $baseDir . '/../../src/UI/Component/MainControls/Slate/Factory.php',
-    'ILIAS\\UI\\Component\\MainControls\\Slate\\Legacy' => $baseDir . '/../../src/UI/Component/MainControls/Slate/Legacy.php',
-    'ILIAS\\UI\\Component\\MainControls\\Slate\\Prompt' => $baseDir . '/../../src/UI/Component/MainControls/Slate/Prompt.php',
-    'ILIAS\\UI\\Component\\MainControls\\Slate\\Slate' => $baseDir . '/../../src/UI/Component/MainControls/Slate/Slate.php',
->>>>>>> clear/update composer files
     'ILIAS\\UI\\Component\\MessageBox\\Factory' => $baseDir . '/../../src/UI/Component/MessageBox/Factory.php',
     'ILIAS\\UI\\Component\\MessageBox\\MessageBox' => $baseDir . '/../../src/UI/Component/MessageBox/MessageBox.php',
     'ILIAS\\UI\\Component\\Modal\\Factory' => $baseDir . '/../../src/UI/Component/Modal/Factory.php',
@@ -875,19 +860,6 @@ return array(
     'ILIAS\\UI\\Implementation\\Component\\Listing\\Workflow\\Step' => $baseDir . '/../../src/UI/Implementation/Component/Listing/Workflow/Step.php',
     'ILIAS\\UI\\Implementation\\Component\\Listing\\Workflow\\Workflow' => $baseDir . '/../../src/UI/Implementation/Component/Listing/Workflow/Workflow.php',
     'ILIAS\\UI\\Implementation\\Component\\LoadingAnimationOnClick' => $baseDir . '/../../src/UI/Implementation/Component/Button/LoadingAnimationOnClick.php',
-<<<<<<< cefbcb3f9182883e8d47952a14c9a0000babdded
-=======
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Factory' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Factory.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\MainBar' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/MainBar.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\MetaBar' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/MetaBar.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Renderer' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Renderer.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Slate\\Combined' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Slate/Combined.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Slate\\Factory' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Slate/Factory.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Slate\\Legacy' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Slate/Legacy.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Slate\\Prompt' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Slate/Prompt.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Slate\\Renderer' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Slate/Renderer.php',
-    'ILIAS\\UI\\Implementation\\Component\\MainControls\\Slate\\Slate' => $baseDir . '/../../src/UI/Implementation/Component/MainControls/Slate/Slate.php',
->>>>>>> clear/update composer files
     'ILIAS\\UI\\Implementation\\Component\\MessageBox\\Factory' => $baseDir . '/../../src/UI/Implementation/Component/MessageBox/Factory.php',
     'ILIAS\\UI\\Implementation\\Component\\MessageBox\\MessageBox' => $baseDir . '/../../src/UI/Implementation/Component/MessageBox/MessageBox.php',
     'ILIAS\\UI\\Implementation\\Component\\MessageBox\\Renderer' => $baseDir . '/../../src/UI/Implementation/Component/MessageBox/Renderer.php',
@@ -1157,6 +1129,7 @@ return array(
     'Monolog\\Handler\\HandlerWrapper' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/HandlerWrapper.php',
     'Monolog\\Handler\\HipChatHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/HipChatHandler.php',
     'Monolog\\Handler\\IFTTTHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/IFTTTHandler.php',
+    'Monolog\\Handler\\InsightOpsHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/InsightOpsHandler.php',
     'Monolog\\Handler\\LogEntriesHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/LogEntriesHandler.php',
     'Monolog\\Handler\\LogglyHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/LogglyHandler.php',
     'Monolog\\Handler\\MailHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/MailHandler.php',
@@ -1195,27 +1168,24 @@ return array(
     'Monolog\\Processor\\MemoryUsageProcessor' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/MemoryUsageProcessor.php',
     'Monolog\\Processor\\MercurialProcessor' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/MercurialProcessor.php',
     'Monolog\\Processor\\ProcessIdProcessor' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/ProcessIdProcessor.php',
+    'Monolog\\Processor\\ProcessorInterface' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/ProcessorInterface.php',
     'Monolog\\Processor\\PsrLogMessageProcessor' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/PsrLogMessageProcessor.php',
     'Monolog\\Processor\\TagProcessor' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/TagProcessor.php',
     'Monolog\\Processor\\UidProcessor' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/UidProcessor.php',
     'Monolog\\Processor\\WebProcessor' => $vendorDir . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
     'Monolog\\Registry' => $vendorDir . '/monolog/monolog/src/Monolog/Registry.php',
+    'Monolog\\ResettableInterface' => $vendorDir . '/monolog/monolog/src/Monolog/ResettableInterface.php',
+    'Monolog\\SignalHandler' => $vendorDir . '/monolog/monolog/src/Monolog/SignalHandler.php',
+    'Monolog\\Utils' => $vendorDir . '/monolog/monolog/src/Monolog/Utils.php',
     'OnlyIncludeReplacer' => $baseDir . '/../../Services/Utilities/classes/Parser.php',
     'PDF417' => $vendorDir . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
     'PEAR' => $baseDir . '/../ilias/Init/PEAR/PEAR.php',
     'PEAR_Error' => $baseDir . '/../ilias/Init/PEAR/PEAR.php',
-<<<<<<< cefbcb3f9182883e8d47952a14c9a0000babdded
     'PHPMailer\\PHPMailer\\Exception' => $vendorDir . '/phpmailer/phpmailer/src/Exception.php',
     'PHPMailer\\PHPMailer\\OAuth' => $vendorDir . '/phpmailer/phpmailer/src/OAuth.php',
     'PHPMailer\\PHPMailer\\PHPMailer' => $vendorDir . '/phpmailer/phpmailer/src/PHPMailer.php',
     'PHPMailer\\PHPMailer\\POP3' => $vendorDir . '/phpmailer/phpmailer/src/POP3.php',
     'PHPMailer\\PHPMailer\\SMTP' => $vendorDir . '/phpmailer/phpmailer/src/SMTP.php',
-=======
-    'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
-    'PHPMailerOAuth' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauth.php',
-    'PHPMailerOAuthGoogle' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
-    'POP3' => $vendorDir . '/phpmailer/phpmailer/class.pop3.php',
->>>>>>> clear/update composer files
     'Parser' => $baseDir . '/../../Services/Utilities/classes/Parser.php',
     'PhpOffice\\PhpSpreadsheet\\Calculation\\Calculation' => $vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Calculation.php',
     'PhpOffice\\PhpSpreadsheet\\Calculation\\Category' => $vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Category.php',
@@ -1427,12 +1397,9 @@ return array(
     'Pimple\\Tests\\Fixtures\\Service' => $vendorDir . '/pimple/pimple/src/Pimple/Tests/Fixtures/Service.php',
     'Pimple\\Tests\\PimpleServiceProviderInterfaceTest' => $vendorDir . '/pimple/pimple/src/Pimple/Tests/PimpleServiceProviderInterfaceTest.php',
     'Pimple\\Tests\\PimpleTest' => $vendorDir . '/pimple/pimple/src/Pimple/Tests/PimpleTest.php',
-<<<<<<< cefbcb3f9182883e8d47952a14c9a0000babdded
     'Psr\\Container\\ContainerExceptionInterface' => $vendorDir . '/psr/container/src/ContainerExceptionInterface.php',
     'Psr\\Container\\ContainerInterface' => $vendorDir . '/psr/container/src/ContainerInterface.php',
     'Psr\\Container\\NotFoundExceptionInterface' => $vendorDir . '/psr/container/src/NotFoundExceptionInterface.php',
-=======
->>>>>>> clear/update composer files
     'Psr\\Http\\Message\\MessageInterface' => $vendorDir . '/psr/http-message/src/MessageInterface.php',
     'Psr\\Http\\Message\\RequestInterface' => $vendorDir . '/psr/http-message/src/RequestInterface.php',
     'Psr\\Http\\Message\\ResponseInterface' => $vendorDir . '/psr/http-message/src/ResponseInterface.php',
@@ -7406,10 +7373,6 @@ return array(
     'ilvCard' => $baseDir . '/../../Services/User/classes/class.ilvCard.php',
     'nusoap_base' => $baseDir . '/../../Services/SOAPAuth/include/nusoap.php',
     'pdoDB' => $baseDir . '/../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
-<<<<<<< cefbcb3f9182883e8d47952a14c9a0000babdded
-=======
-    'phpmailerException' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
->>>>>>> clear/update composer files
     'phpseclib\\Crypt\\AES' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
     'phpseclib\\Crypt\\Base' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',
     'phpseclib\\Crypt\\Blowfish' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Blowfish.php',

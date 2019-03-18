@@ -78,6 +78,7 @@
 		background-color: lighten(@brand-primary, 45%);
 		border: 0;
 		color: @mainbar-btn-color-engaged;
+		padding: 0;
 		img {
 			filter: invert(35%);
 		}
@@ -93,6 +94,7 @@
 	.btn-bulky {
 		background-color: lighten(@brand-primary, 25%);
 		color: @mainbar-btn-color;
+		padding: 0;
 		.icon {
 			filter: invert(100%);
 		}
@@ -156,4 +158,26 @@
  }
  .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
 	height: 0px; // forcing scrollbars in slate content
+}
+
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+
+
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+	.il-mainbar-triggers {
+	   background: @bg-mainbar;
+	   display: flex;
+	   position: relative;
+	   width: 100%;
+	   z-index: 1;
+	   .btn-bulky {
+		   border: 0;
+		   height: @mainbar-btn-height-sm;
+		   width: @mainbar-btn-width-sm;
+	   }
+	}
 }

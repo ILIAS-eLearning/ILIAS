@@ -172,8 +172,11 @@ header {
 }
 
 // logo-container
+
 .il-logo {
-    width: 40px;
+	height: @logo-height;
+	justify-self: start;
+	width: @logo-width;
 }
 
 /* breadcrumbs */
@@ -290,14 +293,6 @@ nav.il-maincontrols {
 	}
 }
 
-.il-logo {
-	justify-self: start;
-	img {
-		height: @logo-height;
-		width: @logo-width;
-	}
-}
-
 /* content */
 main {
 	display: block;
@@ -317,4 +312,235 @@ footer {
 	background-color: @brand-primary;
 	grid-area: footer;
 	z-index: 2;
+}
+
+
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@height-header-sm: 45px;
+@height-mainbar-sm: 50px;
+@mainbar-btn-height-sm: @height-mainbar-sm;
+@mainbar-btn-width-sm: 75px;
+
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+	// main grid without slates
+	.il-layout-page {
+		background: @body-bg;
+		display: -ms-grid;
+		display: grid;
+		grid-gap: 0px;
+		-ms-grid-columns: 1fr;
+	    grid-template-columns: 1fr;
+		-ms-grid-rows: @height-header-sm @height-breadcrumbs 1fr @height-mainbar-sm;
+	    grid-template-rows: @height-header-sm @height-breadcrumbs 1fr @height-mainbar-sm;
+	    height: 100%;
+		overflow: hidden;
+		width: 100%;
+		.nav.il-maincontrols {
+			.il-maincontrols-mainbar {
+				display: grid;
+				display: -ms-grid;
+				-ms-grid-columns: 1fr;
+				grid-template-columns: 1fr;
+				-ms-grid-rows: 0 @height-mainbar-sm;
+				grid-template-rows: 0 @height-mainbar-sm;
+				.il-mainbar-close-slates {
+					display: none;
+				}
+				.il-mainbar {
+					-ms-grid-column: 1;
+					-ms-grid-row: 2;
+					grid-column: 1;
+					grid-row: 2;
+				}
+				.il-mainbar-slates {
+					-ms-grid-column: 1;
+					-ms-grid-row: 1;
+					grid-column: 1;
+					grid-row: 1;
+				}
+			}
+		}
+		&.with-engaged-slates {
+			-ms-grid-columns: 1fr;
+			grid-template-columns: 1fr;
+			.nav.il-maincontrols {
+				-ms-grid-column: 1;
+				-ms-grid-row: 3;
+				-ms-grid-row-span: 2;
+				grid-column: 1;
+				grid-row: 3;
+				grid-row-end: 4;
+				height: 100%; // calc(100% - (@height-header-sm + @height-breadcrumbs);
+				.il-maincontrols-mainbar {
+					-ms-grid-columns: 1fr;
+				    grid-template-columns: 1fr;
+					-ms-grid-rows: 1fr @height-mainbar-sm;
+				    grid-template-rows: 1fr @height-mainbar-sm;
+					width: 100%;
+					.il-mainbar {
+					}
+					// slate
+					.il-mainbar-slates {
+						-ms-grid-column: 1;
+						-ms-grid-row: 1;
+						grid-column: 1;
+						grid-row: 1;
+						display: -ms-flexbox;
+						display: flex;
+						-ms-flex-direction: column;
+						flex-direction: column;
+						width: 100%;
+						z-index: 994;
+						.il-maincontrols-slate {
+							overflow-y: auto;
+						}
+					}
+					// show slate remove btn
+					.il-mainbar-close-slates {
+						display: -ms-flexbox;
+						display: flex;
+					}
+				}
+			}
+		}
+	}
+
+	/* metabar */
+	header {
+		-ms-grid-column: 1;
+		-ms-grid-row: 1;
+		grid-column: 1;
+		grid-row: 1;
+		z-index: 998;
+	}
+
+	// head-container with logo and metabar
+	.header-inner {
+	    height: @height-header-sm;
+	    padding: 0;
+	    width: 100%;
+	}
+
+	/* breadcrumbs */
+	.breadcrumbs {
+		-ms-flex-align: center;
+		align-items: center;
+		background-color: @bg-breadcrumbs;
+		border-top: 1px solid @light-border;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		-ms-grid-column: 1;
+		-ms-grid-row: 2;
+		grid-column: 1;
+		grid-row: 2;
+		z-index: 997;
+		.shadow-bottom();
+		ul.breadcrumb {
+			padding-left: @padding-content;
+			&>li+li:before {
+				content: " \e606";
+				color: @breadcrumb-divider-color;
+				font-family: "il-icons";
+			}
+		}
+	}
+
+	/* mainbar */
+	nav.il-maincontrols {
+		-ms-grid-column: 1;
+		-ms-grid-row: 4;
+		grid-column: 1;
+		grid-row: 4;
+		// bottom: 0;
+		// position: absolute;
+		width: 100%;
+		z-index: 996;
+	}
+
+	// Subgrid mainbar
+	.il-maincontrols-mainbar {
+		display: block;
+		width: 100%;
+		&.engaged {
+
+		}
+	}
+
+	// mainbar
+	.il-mainbar {
+		background-color: @bg-mainbar;
+		display: -ms-flexbox;
+		display: flex;
+		z-index: 995;
+	}
+
+	// tools section
+	.il-mainbar-tools-button {
+		display: -ms-flexbox;
+	    display: flex;
+		-ms-flex-direction: row;
+	    flex-direction: row;
+	}
+
+	.il-mainbar-tools-button button {
+		height:@mainbar-btn-height-sm;
+		width: @mainbar-btn-width-sm;
+	}
+
+	.il-mainbar-tools-entries {
+		button {
+			height:@mainbar-btn-height-sm;
+			width: @mainbar-btn-width-sm;
+		}
+		&.engaged {
+			display: -ms-flexbox;
+			display: flex;
+			-ms-flex-direction: row;
+			flex-direction: row;
+		}
+	}
+
+	// mainbar triggers
+	.il-mainbar-triggers {
+	}
+
+	// mainbar slates
+	.il-mainbar-slates {
+		-ms-grid-column: 2;
+		-ms-grid-row: 1;
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	// mainbar close slates
+	.il-mainbar-close-slates {
+	}
+
+	// remove tools
+	.il-mainbar-remove-tool {
+		display: none;
+		.il-mainbar-tools-entries.engaged & {
+			display: block;
+		}
+	}
+
+	/* content */
+	main {
+		display: block;
+	}
+
+	.il-layout-page-content {
+		-ms-grid-column: 1;
+		-ms-grid-row: 3;
+		grid-column: 1;
+		grid-row: 3;
+		overflow: auto;
+		padding: @padding-content;
+	}
 }
