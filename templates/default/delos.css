@@ -6879,8 +6879,8 @@ button.close {
   padding: 0;
   width: 100%;
   position: relative;
-  /* see bug #24947 */
   background-color: #ffffff;
+  /* see bug #24947 */
 }
 .il-card img {
   width: 100%;
@@ -9095,7 +9095,9 @@ header {
   justify-content: space-between;
 }
 .il-logo {
-  width: 40px;
+  height: 45px;
+  justify-self: start;
+  width: 45px;
 }
 /* breadcrumbs */
 .breadcrumbs {
@@ -9184,13 +9186,6 @@ nav.il-maincontrols {
 .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
   display: block;
 }
-.il-logo {
-  justify-self: start;
-}
-.il-logo img {
-  height: 45px;
-  width: 45px;
-}
 /* content */
 main {
   display: block;
@@ -9208,6 +9203,189 @@ footer {
   background-color: #4c6586;
   grid-area: footer;
   z-index: 2;
+}
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@media only screen and (max-width: 767px) {
+  .il-layout-page {
+    background: #f0f0f0;
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 0px;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 45px 33px 1fr 50px;
+    grid-template-rows: 45px 33px 1fr 50px;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar {
+    display: grid;
+    display: -ms-grid;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 0 50px;
+    grid-template-rows: 0 50px;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
+    display: none;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar {
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .il-layout-page.with-engaged-slates {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+  .il-layout-page.with-engaged-slates .nav.il-maincontrols {
+    -ms-grid-column: 1;
+    -ms-grid-row: 3;
+    -ms-grid-row-span: 2;
+    grid-column: 1;
+    grid-row: 3;
+    grid-row-end: 4;
+    height: 100%;
+  }
+  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 1fr 50px;
+    grid-template-rows: 1fr 50px;
+    width: 100%;
+  }
+  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    z-index: 994;
+  }
+  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
+    overflow-y: auto;
+  }
+  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
+    display: -ms-flexbox;
+    display: flex;
+  }
+  /* metabar */
+  header {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 998;
+  }
+  .header-inner {
+    height: 45px;
+    padding: 0;
+    width: 100%;
+  }
+  /* breadcrumbs */
+  .breadcrumbs {
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-top: 1px solid #dddddd;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+    grid-column: 1;
+    grid-row: 2;
+    z-index: 997;
+    box-shadow: 0 1px 4px #cccccc;
+  }
+  .breadcrumbs ul.breadcrumb {
+    padding-left: 20px;
+  }
+  .breadcrumbs ul.breadcrumb > li + li:before {
+    content: " \e606";
+    color: #bbbbbb;
+    font-family: "il-icons";
+  }
+  /* mainbar */
+  nav.il-maincontrols {
+    -ms-grid-column: 1;
+    -ms-grid-row: 4;
+    grid-column: 1;
+    grid-row: 4;
+    width: 100%;
+    z-index: 996;
+  }
+  .il-maincontrols-mainbar {
+    display: block;
+    width: 100%;
+  }
+  .il-mainbar {
+    background-color: #4a4a4a;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 995;
+  }
+  .il-mainbar-tools-button {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .il-mainbar-tools-button button {
+    height: 50px;
+    width: 75px;
+  }
+  .il-mainbar-tools-entries button {
+    height: 50px;
+    width: 75px;
+  }
+  .il-mainbar-tools-entries.engaged {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .il-mainbar-slates {
+    -ms-grid-column: 2;
+    -ms-grid-row: 1;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .il-mainbar-remove-tool {
+    display: none;
+  }
+  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+    display: block;
+  }
+  /* content */
+  main {
+    display: block;
+  }
+  .il-layout-page-content {
+    -ms-grid-column: 1;
+    -ms-grid-row: 3;
+    grid-column: 1;
+    grid-row: 3;
+    overflow: auto;
+    padding: 20px;
+  }
 }
 /*
 glyphicon-cog<!-- END settings -->
@@ -9511,6 +9689,7 @@ glyphicon-cog<!-- END settings -->
   background-color: #d2dae5;
   border: 0;
   color: #4a4a4a;
+  padding: 0;
 }
 .il-mainbar-tools-button .btn-bulky img,
 .il-mainbar-tools-button .btn-bulky.engaged img {
@@ -9526,6 +9705,7 @@ glyphicon-cog<!-- END settings -->
 .il-mainbar-tools-entries .btn-bulky {
   background-color: #91a5c1;
   color: #ffffff;
+  padding: 0;
 }
 .il-mainbar-tools-entries .btn-bulky .icon {
   filter: invert(100%);
@@ -9581,6 +9761,25 @@ glyphicon-cog<!-- END settings -->
 }
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
   height: 0px;
+}
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@media only screen and (max-width: 767px) {
+  .il-mainbar-triggers {
+    background: #4a4a4a;
+    display: flex;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+  .il-mainbar-triggers .btn-bulky {
+    border: 0;
+    height: 50px;
+    width: 75px;
+  }
 }
 /*		Color scheme
 		Dark BLue: #0f2152;

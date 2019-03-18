@@ -232,10 +232,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		  */
 		var _isCompletelyOnScreen = function(btn) {
 			var window_height = $(window).height(),
-				btn_offset = $(btn).offset().top,
-				btn_height = $(btn).height();
+				window_width = $(window).width(),
+				btn_offset_top = $(btn).offset().top,
+				btn_offset_left = $(btn).offset().left,
+				btn_height = $(btn).height(),
+				btn_width = $(btn).width(),
+				vertically_visible = (btn_offset_top + btn_height) < window_height,
+				horizontally_visible = (btn_offset_left + btn_width) < window_width;
 
-			return (btn_offset + btn_height) < window_height;
+			return (vertically_visible && horizontally_visible);
 		};
 
 		var _getInvisibleButtons = function() {
@@ -252,6 +257,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					}
 				}
 			);
+
 			if(last_visible == buttons.length) {
 				return [];
 			}

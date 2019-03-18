@@ -16,39 +16,46 @@ class Renderer extends AbstractComponentRenderer
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
-		return $this->renderSlate($component, $default_renderer);
+		if ($component instanceof ISlate\Combined) {
+			$contents = $this->getCombinedSlateContents($component);
+		} else {
+			$contents = $component->getContents();
+		}
+		return $this->renderSlate($component, $contents, $default_renderer);
+	}
+
+	protected function getCombinedSlateContents(
+		ISlate\Slate $component
+	) {
+		$f = $this->getUIFactory();
+		$contents = [];
+		foreach ($component->getContents() as $entry) {
+			if($entry instanceof ISlate\Slate) {
+				$init_state = 'disengaged';
+				if($entry->getEngaged()) {
+					$init_state = 'engaged';
+				}
+				$triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+					->withOnClick($entry->getToggleSignal())
+					->withAdditionalOnloadCode(
+						function($id) use ($init_state) {
+							return "$('#{$id}').addClass('{$init_state}');";
+						}
+					);
+
+				$contents[] = $triggerer;
+			}
+			$contents[] = $entry;
+		}
+		return $contents;
 	}
 
 	protected function renderSlate(
 		ISlate\Slate $component,
+		$contents,
 		RendererInterface $default_renderer
 	) {
 		$tpl = $this->getTemplate("Slate/tpl.slate.html", true, true);
-
-		if ($component instanceof ISlate\Combined) {
-			$f = $this->getUIFactory();
-			$contents = [];
-			foreach ($component->getContents() as $entry) {
-				if($entry instanceof ISlate\Slate) {
-					$init_state = 'disengaged';
-					if($entry->getEngaged()) {
-						$init_state = 'engaged';
-					}
-					$triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-						->withOnClick($entry->getToggleSignal())
-						->withAdditionalOnloadCode(
-							function($id) use ($init_state) {
-								return "$('#{$id}').addClass('{$init_state}');";
-							}
-						);
-
-					$contents[] = $triggerer;
-				}
-				$contents[] = $entry;
-			}
-		} else {
-			$contents = $component->getContents();
-		}
 
 		$tpl->setVariable('CONTENTS', $default_renderer->render($contents));
 
@@ -70,7 +77,6 @@ class Renderer extends AbstractComponentRenderer
 					il.UI.maincontrols.slate.onShowSignal(event, signalData, '{$id}');
 					return false;
 				});
-
 			";
 		});
 		$id = $this->bindJavaScript($component);
@@ -98,7 +104,6 @@ class Renderer extends AbstractComponentRenderer
 			ISlate\Awareness::class,
 			ISlate\Notification::class
 		);
-
 	}
 
 }

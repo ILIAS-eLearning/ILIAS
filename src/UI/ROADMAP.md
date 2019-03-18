@@ -163,6 +163,26 @@ needs to be coordinated with the components of ILIAS that currently do use featu
 of Bootstrap but do not use the UI-Framework.
 
 
+### Page-Layout and ilTemplate, CSS/JS Header
+
+When rendering the whole page, all needed resources like CSS and JS must be included.
+The issue is closely linked to the question of which Service is responsible for
+rendering the actual page, i.e. the overall output when calling an ILIAS-URL.
+
+In the present implementation of ILIAS\UI\Implementation\Component\Layout\Page,
+a tpl.standardpage.html-Template is acquired via the TemplateFactory, which in
+turn makes use of the global template. The resources of global template are then
+transported to the page's template (Layout\Page\Renderer::setHeaderVars).
+
+Since the UI Page-Component aspires to be _the_ topmost thing to be rendered,
+this should probably be done in a more direct and instructional way, similar to
+the already existent template, but more clearly distinguished, like, maybe, in
+registries for CSS- and JS-resources. These registries could then be passed to
+the page and would turn the aforementioned transportation from ilTemplate obsolete.
+In ultimo, there would be exactly one occurence of a line like
+"echo $renderer->render($page);exit();" to output the complete UI.
+
+
 ## Ideas and Food for Thought
 
 * Create a mechanism to wire less-files to delos.less that is more automatic than

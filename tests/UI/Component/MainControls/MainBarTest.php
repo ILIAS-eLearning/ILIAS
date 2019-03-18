@@ -105,7 +105,6 @@ class MainBarTest extends ILIAS_UI_TestBase
 			->withAdditionalToolEntry('test', $slate);
 	}
 
-
 	public function testActive()
 	{
 		$mb = $this->mainbar

@@ -51,6 +51,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * When rendering the whole page, all resources must be included.
 	 * This is for now and the page-demo to work, lateron this must be replaced
 	 * with resources set as properties at the page or similar mechanisms.
+	 * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
 	 */
 	protected function setHeaderVars($tpl) {
 
@@ -65,7 +66,7 @@ class Renderer extends AbstractComponentRenderer {
 		include_once("./Services/UICore/classes/class.ilUIFramework.php");
 		\ilUIFramework::init($il_tpl);
 
-		$il_js_files = $il_tpl->js_files_batch;
+		$il_js_files = $il_tpl->getJSFiles();
 		asort($il_js_files);
 
 		$js_files = array();
@@ -74,13 +75,13 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$css_files = array();
-		foreach($il_tpl->css_files as $il_css_file) {
+		foreach($il_tpl->getCSSFiles() as $il_css_file) {
 			$css_files[] = $il_css_file['file'];
 		}
 		$css_files[] = \ilUtil::getStyleSheetLocation("filesystem", "delos.css");
 		$css_files[] = \ilUtil::getNewContentStyleSheetLocation();
 
-		$css_inline = $il_tpl->inline_css;
+		$css_inline = $il_tpl->getInlineCSS();
 
 		$olc = '';
 		if($il_tpl->on_load_code) {

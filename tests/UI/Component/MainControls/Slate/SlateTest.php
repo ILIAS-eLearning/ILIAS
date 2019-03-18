@@ -10,8 +10,6 @@ use \ILIAS\UI\Implementation\Component as I;
 use \ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
 use \ILIAS\UI\Component\Signal;
 
-
-
 /**
  * A generic Slate
  */
