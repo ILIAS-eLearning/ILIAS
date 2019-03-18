@@ -51,6 +51,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * When rendering the whole page, all resources must be included.
 	 * This is for now and the page-demo to work, lateron this must be replaced
 	 * with resources set as properties at the page or similar mechanisms.
+	 * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
 	 */
 	protected function setHeaderVars($tpl) {
 
