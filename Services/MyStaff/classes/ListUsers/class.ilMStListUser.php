@@ -3,7 +3,7 @@
 /**
  * Class ilMStListUser
  *
- * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListUser {
 
