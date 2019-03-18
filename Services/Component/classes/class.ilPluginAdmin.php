@@ -563,7 +563,7 @@ class ilPluginAdmin {
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticPluginMainMenuProvider[]
+	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider[]
 	 */
 	public static function getAllGlobalScreenProviders(): array {
 		$providers = array();

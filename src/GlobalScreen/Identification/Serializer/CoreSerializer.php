@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
-use ILIAS\GlobalScreen\Identification\CoreIdentification;
 use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;

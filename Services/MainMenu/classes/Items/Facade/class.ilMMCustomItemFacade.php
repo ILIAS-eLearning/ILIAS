@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Main;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
@@ -145,7 +145,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	 * @inheritDoc
 	 */
 	public function isTopItem(): bool {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isItem) {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
 			return parent::isTopItem();
 		}
 
