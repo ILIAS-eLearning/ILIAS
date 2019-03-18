@@ -1,8 +1,8 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Renderer\BaseTypeRenderer;
-use ILIAS\GlobalScreen\MainMenu\isItem;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -19,7 +19,7 @@ class ilMMLostItemRenderer extends BaseTypeRenderer {
 	 */
 	public function getComponentForItem(isItem $item): Component {
 		/**
-		 * @var $item \ILIAS\GlobalScreen\MainMenu\Item\Lost
+		 * @var $item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost
 		 */
 		if ($item->hasChildren()) {
 			$r = new ilMMTopParentItemRenderer();

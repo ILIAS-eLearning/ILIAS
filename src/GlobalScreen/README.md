@@ -107,7 +107,7 @@ $this)->identifier('my_internal_id');
 
 ## Collectors
 In most cases, you won't need to implement a collector. For the
-StaticMainMenuProvider, for example, the necessary collectors (Main-Collector,
+StaticMainMenuProvider, for example, the necessary collectors (MainMenuMainCollector-Collector,
 which combines all necessary elements from the collectors "Plugins" and "Core")
 are already implemented in GlobalScreen\Collector\MainMenu.
 

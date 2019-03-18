@@ -1,13 +1,13 @@
 <?php
 
-use ILIAS\GlobalScreen\MainMenu\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
 
 /**
  * Class ilMMTypeHandlerSeparator
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler {
+class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler {
 
 	/**
 	 * @inheritDoc
@@ -20,7 +20,7 @@ class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Collector\MainMenu
 	/**
 	 * @inheritDoc
 	 */
-	public function enrichItem(\ILIAS\GlobalScreen\MainMenu\isItem $item): \ILIAS\GlobalScreen\MainMenu\isItem {
+	public function enrichItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item): \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem {
 		if ($item instanceof Separator && $item->getTitle() !== "") {
 			$item = $item->withVisibleTitle(true);
 		}

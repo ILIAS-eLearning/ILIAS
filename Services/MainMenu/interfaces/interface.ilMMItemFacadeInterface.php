@@ -23,9 +23,9 @@ interface ilMMItemFacadeInterface {
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
+	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
 	 */
-	public function item(): \ILIAS\GlobalScreen\MainMenu\isItem;
+	public function item(): \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 
 	/**
