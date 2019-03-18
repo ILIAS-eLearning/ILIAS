@@ -2,15 +2,13 @@
     "maintenance_model": "Classic",
     "first_maintainer": "",
     "second_maintainer": "",
-    "implicit_maintainers": [
-        "akill(149)"
-    ],
+    "implicit_maintainers": [],
     "coordinator": [
         ""
     ],
     "tester": "",
     "testcase_writer": "",
-    "path": "Services/Excel",
+    "path": "Services/Like",
     "belong_to_component": "None",
     "used_in_components": []
 }
