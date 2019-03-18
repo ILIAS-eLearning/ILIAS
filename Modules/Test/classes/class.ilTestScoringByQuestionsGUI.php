@@ -336,7 +336,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$maxpoints = $question_gui->object->getMaximumPoints();
 
 		$add_title = ' ['. $this->lng->txt('question_id_short') . ': ' . $question_id  . ']';
-		
+
+		$tmp_tpl->setVariable('TEXT_BEST_SOLUTION', $this->lng->txt("tst_best_solution_is"));
+
+		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
+		$best_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE, FALSE, FALSE);
+		if ($this->object->isBestSolutionPrintedWithResult() && strlen($best_output))
+		{
+			$tmp_tpl->setVariable("BEST_OUTPUT", $best_output);
+		}
+
 		if($maxpoints == 1)
 		{
 			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')' . $add_title);
