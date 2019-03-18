@@ -125,15 +125,13 @@ class ilMyStaffGUI {
 	 */
 	public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course) {
 		global $DIC;
-		$dic = $DIC;
 
 		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
-			$f = $dic->ui()->factory();
-			$renderer = $dic->ui()->renderer();
-			$lp_icon = $f->image()
+			$lp_icon = $DIC->ui()->factory()->image()
 				->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()), ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus())));
 
-			return $renderer->render($lp_icon) . ' ' . ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
+			return $DIC->ui()->renderer()->render($lp_icon) . ' '
+				. ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
 		}
 
 		return '&nbsp';
