@@ -83,7 +83,6 @@ class ilObjLearningSequence extends ilContainer
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->user = $DIC['ilUser'];
 		$this->tree = $DIC['tree'];
-		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
 		$this->template = $DIC['tpl'];
 		$this->database = $DIC['ilDB'];
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
@@ -94,7 +93,7 @@ class ilObjLearningSequence extends ilContainer
 		$this->ilias = $DIC['ilias'];
 		$this->il_settings = $DIC['ilSetting'];
 		$this->il_news = $DIC->news();
-
+		$this->il_condition_handler = new ilConditionHandler();
 		$this->data_factory = new \ILIAS\Data\Factory();
 
 		parent::__construct($id, $call_by_reference);
@@ -382,9 +381,19 @@ class ilObjLearningSequence extends ilContainer
 	/**
 	 * @return array<"value" => "option_text">
 	 */
-	public function getPossiblePostConditions(): array
+	public function getPossiblePostConditionsForType(string $type): array
 	{
-		return LSPostConditionTypesDB::getAvailableTypes();
+		$condition_types = $this->il_condition_handler->getOperatorsByTriggerType($type);
+		$conditions = [
+			$this->conditions_db::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
+		];
+		foreach ($condition_types as $cond_type) {
+			if(! in_array($cond_type, $this->conditions_db::EXCLUDE_OPERATORS)) {
+				$conditions[$cond_type] = $this->lng->txt($cond_type);
+			}
+		}
+		return $conditions;
+
 	}
 
 	protected function getLearnerProgressDB(): ilLearnerProgressDB
@@ -451,35 +460,11 @@ class ilObjLearningSequence extends ilContainer
 	}
 
 	/**
-	 * @param LSLearnerItem[] 	$items
-	 */
-	public function getCurriculumBuilder(array $items, LSUrlBuilder $url_builder=null): ilLSCurriculumBuilder
-	{
-		global $DIC;
-
-		return new ilLSCurriculumBuilder(
-			$items,
-			$DIC["ui.factory"],
-			$this->lng,
-			ilLSPlayer::LSO_CMD_GOTO,
-			$url_builder
-		);
-	}
-
-	public function getUrlBuilder(string $player_url): LSUrlBuilder
-	{
-		$player_url = $this->data_factory->uri(ILIAS_HTTP_PATH .'/'	.$player_url);
-		return new LSUrlBuilder($player_url);
-	}
-
-
-	/**
 	 * factors the player
 	 */
 	public function getSequencePlayer($gui, string $player_command, int $usr_id): ilLSPlayer
 	{
 		global $DIC;
-
 		$lso_ref_id = $this->getRefId();
 		$lso_title = $this->getTitle();
 
