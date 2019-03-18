@@ -80,6 +80,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'points', '', false, 'ilCenterForced');
 				if (strcmp($c, 'statistics') == 0) $this->addColumn($this->lng->txt('statistics'),'', '');
 				if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
+				if( $c == 'lifecycle' ) $this->addColumn($this->lng->txt('qst_lifecycle'),'lifecycle', '');
 				if( $this->isQuestionCommentingEnabled() && $c == 'comments')
 				{
 					$this->addColumn($this->lng->txt("ass_comments"),'comments', '');
@@ -222,6 +223,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				"txt" => $lng->txt("author"),
 				"default" => true
 			);
+			$cols['lifecycle'] = array(
+				'txt' => $lng->txt('qst_lifecycle'),
+				'default' => true
+			);
 			if($this->isQuestionCommentingEnabled())
 			{
 				$cols["comments"] = array(
@@ -285,6 +290,18 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			$ti->readFromSession();
 			$this->filter["author"] = $ti->getValue();
 		}
+		
+		// lifecycle
+		$lifecycleOptions = array_merge(
+			array('' => $this->lng->txt('qst_lifecycle_filter_all')),
+			ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
+		);
+		$lifecycleInp = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
+		$lifecycleInp->setOptions($lifecycleOptions);
+		$this->addFilterItem($lifecycleInp);
+		$lifecycleInp->readFromSession();
+		$this->filter['lifecycle'] = $lifecycleInp->getValue();
+		
 		// questiontype
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -414,6 +431,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setCurrentBlock('author');
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				if( $c == 'lifecycle')
+				{
+					$lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle']);
+					
+					$this->tpl->setCurrentBlock('lifecycle');
+					$this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle->getTranslation($this->lng));
 					$this->tpl->parseCurrentBlock();
 				}
 				if( $c == 'comments' && $this->isQuestionCommentingEnabled() )

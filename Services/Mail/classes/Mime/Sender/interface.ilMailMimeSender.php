@@ -3,41 +3,42 @@
 
 /**
  * Interface ilMailMimeTransport
+ * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilMailMimeSender
 {
 	/**
 	 * @return bool
 	 */
-	public function hasReplyToAddress();
+	public function hasReplyToAddress(): bool;
 
 	/**
 	 * @return string
 	 */
-	public function getReplyToAddress();
+	public function getReplyToAddress(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getReplyToName();
+	public function getReplyToName(): string;
 
 	/**
 	 * @return bool
 	 */
-	public function hasEnvelopFromAddress();
+	public function hasEnvelopFromAddress(): bool;
 
 	/**
 	 * @return string
 	 */
-	public function getEnvelopFromAddress();
+	public function getEnvelopFromAddress(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getFromAddress();
+	public function getFromAddress(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getFromName();
+	public function getFromName(): string;
 }

@@ -111,6 +111,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->rbac_review = $DIC['rbacreview'];
 		$this->ui_factory = $DIC['ui.factory'];
 		$this->ui_renderer = $DIC['ui.renderer'];
+		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
 		$this->app_event_handler = $DIC['ilAppEventHandler'];
 		$this->navigation_history = $DIC['ilNavigationHistory'];
@@ -123,6 +124,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->lng->loadLanguageModule($this->obj_type);
 
 		$this->object = $this->getObject();
+		$this->data_factory = new \ILIAS\Data\Factory();
+
 	}
 
 	public function executeCommand()
@@ -355,8 +358,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->lng,
 			$this->tpl,
 			$this->toolbar,
+			$this->kiosk_mode_service,
+			$this->access,
+			$this->settings,
 			$this->ui_factory,
-			$this->ui_renderer
+			$this->ui_renderer,
+			$this->data_factory
 		);
 
 		$this->ctrl->setCmd($cmd);
@@ -488,7 +495,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 	public function getTabs()
 	{
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("read")) {
 			$this->tabs->addTab(
 				self::TAB_CONTENT_MAIN
 				, $this->lng->txt(self::TAB_CONTENT_MAIN)
@@ -496,7 +503,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			);
 		}
 
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("read") || $this->checkAccess("visible")) {
 			$this->tabs->addTab(
 				self::TAB_INFO
 				, $this->lng->txt(self::TAB_INFO)

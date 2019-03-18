@@ -6,7 +6,6 @@ $perms = [
 	'create_iass',
 	'create_copa',
 	'create_svy',
-	'create_svy',
 	'create_lm',
 	'create_exc',
 	'create_tst',
@@ -177,6 +176,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 	$ilDB->manipulate("DELETE FROM object_reference where obj_id = ".$ilDB->quote($rec['obj_id'],'integer'));
 }
 ?>
+
 <#5448>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
@@ -392,7 +392,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 	$nextId = $ilDB->nextId('frm_posts_tree');
 	$ilDB->manipulateF('
 		INSERT INTO frm_posts_tree
-		( 
+		(
 			fpt_pk,
 			thr_fk,
 			pos_fk,
@@ -509,4 +509,253 @@ ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
  */
 $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
+?>
+<#5461>
+<?php
+if( !$ilDB->tableColumnExists('qpl_questions', 'lifecycle') )
+{
+	$ilDB->addTableColumn('qpl_questions', 'lifecycle', array(
+		'type' => 'text',
+		'length' => 16,
+		'notnull' => false,
+		'default' => 'draft'
+	));
+	
+	$ilDB->queryF('UPDATE qpl_questions SET lifecycle = %s', array('text'), array('draft'));
+}
+?>
+<#5462>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'lifecycle_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'lifecycle_filter',
+		array('type' => 'text', 'length' => 250, 'notnull'	=> false, 'default'	=> null)
+	);
+}
+?>
+<#5463>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['context_id'])) {
+	$ilDB->addIndex('il_orgu_permissions', array( 'context_id' ), 'co');
+}
+?>
+<#5464>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['position_id'])) {
+$ilDB->addIndex('il_orgu_permissions', array('position_id'), 'po');
+}
+?>
+<#5465>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
+$ilDB->modifyTableColumn('il_orgu_permissions', 'operations', array("length" => 256));
+}
+?>
+<#5466>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['position_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('position_id'), 'pi');
+}
+?>
+<#5467>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['user_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('user_id'), 'ui');
+}
+?>
+<#5468>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['orgu_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
+}
+?>
+<#5469>
+<?php
+/*if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations'])) {
+$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
+}*/
+?>
+<#5470>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['position_id','orgu_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('position_id','orgu_id'), 'po');
+}
+?>
+<#5471>
+<?php
+if (!$ilDB->indexExistsByFields('il_orgu_ua', ['position_id','user_id'])) {
+$ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
+}
+?>
+<#5472>
+<?php
+/*if (!$ilDB->indexExistsByFields('il_orgu_permissions', ['operations','parent_id'])) {
+$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
+}*/
+?>
+<#5473>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$query = "SELECT obj_id FROM object_data"
+	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+	." AND title = " .$ilDB->quote('il_lso_member','text');
+$result = $ilDB->query($query);
+$rol_id_member = array_shift($ilDB->fetchAssoc($result));
+
+$query = "SELECT obj_id FROM object_data"
+	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
+	." AND title = " .$ilDB->quote('il_lso_admin','text');
+$result = $ilDB->query($query);
+$rol_id_admin = array_shift($ilDB->fetchAssoc($result));
+
+$op_ids = [];
+$query = "SELECT operation, ops_id FROM rbac_operations";
+$result = $ilDB->query($query);
+while($row = $ilDB->fetchAssoc($result)) {
+	$op_ids[$row['operation']] = $row['ops_id'];
+}
+
+$types = [
+	'copa',
+	'exc',
+	'file',
+	'htlm',
+	'sahs',
+	'lm',
+	'svy',
+	'tst'
+];
+
+$member_ops = [
+	$op_ids['visible'],
+	$op_ids['read'],
+];
+$admin_ops = [
+	$op_ids['visible'],
+	$op_ids['read'],
+	$op_ids['edit_learning_progress'],
+	$op_ids['read_learning_progress']
+];
+
+foreach ($types as $type) {
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_member, $type, $member_ops, ROLE_FOLDER_ID);
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $admin_ops, ROLE_FOLDER_ID);
+}
+
+$type_perms = [
+	'iass' => [
+		$op_ids['visible'],
+		$op_ids['read'],
+		$op_ids['manage_members'],
+		$op_ids['edit_members'],
+		$op_ids['edit_learning_progress'],
+		$op_ids['read_learning_progress']
+	],
+	'exc' => [
+		$op_ids['edit_submissions_grades']
+	],
+	'svy' => [
+		$op_ids['invite'],
+		$op_ids['read_results']
+	],
+	'tst' => [
+		$op_ids['tst_results'],
+		$op_ids['tst_statistics']
+	]
+];
+
+foreach ($type_perms as $type => $ops) {
+	ilDBUpdateNewObjectType::setRolePermission($rol_id_admin, $type, $ops, ROLE_FOLDER_ID);
+}
+?>
+<#5474>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_start_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#5475>
+<?php
+if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
+	$ilDB->addTableColumn('lso_activation', 'activation_end_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => false,
+			"length"  => 4
+		)
+	);
+}
+?>
+<#5476>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+	.'	WHERE activation_start IS NOT NULL'
+);
+?>
+<#5477>
+<?php
+$ilDB->manipulate(
+	'UPDATE lso_activation'
+	.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+	.'	WHERE activation_end IS NOT NULL'
+);
+?>
+<#5478>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_start");
+?>
+<#5479>
+<?php
+$ilDB->dropTableColumn("lso_activation", "activation_end");
+?>
+<#5480>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if($lp_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('lp_other_users', 'See learning progress overview of other users', 'object', 3595);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $new_ops_id);
+	}
+}
+?>
+<#5481>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5482>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5483>
+<?php
+if (!$ilDB->tableColumnExists("post_conditions", "condition_operator")) {
+	$ilDB->addTableColumn("post_conditions", "condition_operator", [
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 32,
+		 	"fixed" => false
+	]);
+}
+
+if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'always' WHERE condition_type = 0");
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'finished' WHERE condition_type = 1");
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'passed' WHERE condition_type = 2");
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'failed' WHERE condition_type = 3");
+
+	$ilDB->dropTableColumn('post_conditions', 'condition_type');
+}
 ?>

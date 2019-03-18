@@ -71,6 +71,7 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
@@ -545,6 +546,7 @@ assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
+assessment#:#tst_filter_lifecycle_enabled#:#Lifecycle Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#assClozeTest#:#Lückentextfrage
@@ -956,8 +958,8 @@ assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem 
 assessment#:#tst_wf_info_answer_not_adopted#:#Es wurde aus früheren Versuchen keine Antwort übernommen. Daher müssen Sie diese Frage bearbeiten, andernfalls wird sich Ihr Lernzielergebnis verschlechtern.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind in vorherigen Versuchen erfolgreich beantwortet worden.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen erneut bearbeiten oder nur einsehen. Wenn Sie die aus früheren Versuchen übernommenen Antworten nicht verändern, können Sie Ihr Lernzielergebnis auch nicht verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten oder einsehen möchten, können Sie zurück gehen. Die Fragen werden in jedem Fall in der Auswertung berücksichtigt.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
-assessment#:#tst_tab_results_pass_oriented#:#Ergebnisse nach Versuchen
-assessment#:#tst_tab_results_objective_oriented#:#Ergebnisse nach Lernzielen
+assessment#:#tst_tab_results_pass_oriented#:#Testergebnisse nach Versuchen
+assessment#:#tst_tab_results_objective_oriented#:#Testergebnisse nach Lernzielen
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter
@@ -1177,7 +1179,7 @@ assessment#:#ass_create_question#:#Frage erstellen
 assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerergebnisse
 assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline.
 assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
@@ -1696,6 +1698,14 @@ assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
+assessment#:#qst_lifecycle_filter_all#:#Alle Lifecycle
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Entwurf
+assessment#:#qst_lifecycle_review#:#Überarbeitung notwendig
+assessment#:#qst_lifecycle_rejected#:#Abgelehnt
+assessment#:#qst_lifecycle_final#:#Endgültig
+assessment#:#qst_lifecycle_sharable#:#Verteilbar
+assessment#:#qst_lifecycle_outdated#:#Veraltet
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
@@ -10264,7 +10274,7 @@ survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Beiträge von
 blog#:#blog_enable_approval#:#Neue Beiträge freischalten
-blog#:#blog_enable_approval_info#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden.
+blog#:#blog_enable_approval_info#:#Alle Beiträge müssen durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden, bevor sie für andere Benutzer sichtbar werden.
 blog#:#blog_approve#:#Beitrag freischalten
 blog#:#blog_needs_approval#:#Beitrag ist noch nicht freigeschaltet
 sess#:#sess_copy#:#Sitzung kopieren
@@ -10569,7 +10579,10 @@ rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
-forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
+forum#:#frm_sticky_threads_latest_at_top#:#Top-Themen mit neuestem Beitrag oben
+forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Innerhalb der Top-Themen wird automatisch dasjenige mit dem neuesten Beitrag nach oben sortiert.
+forum#:#frm_sticky_threads_manual_sorting#:#Top-Themen manuell sortieren
+forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Top-Themen können händisch in eine sinnvolle Reihenfolge gebracht werden.
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 forum#:#merge#:#Zusammenführen
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
@@ -11863,11 +11876,11 @@ rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
 rbac#:#orgu_copy#:#Organisationseinheit kopieren
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Buchungsobjekt ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
-blog#:#blog_abstract_shorten#:#Auszug kürzen
+blog#:#blog_abstract_shorten#:#Nur Anfang des Beitrags zeigen
 blog#:#blog_abstract_shorten_length#:#Maximale Länge
 blog#:#blog_abstract_shorten_characters#:#Zeichen
-blog#:#blog_abstract_image#:#Bild zum Auszug hinzufügen
-blog#:#blog_abstract_image_info#:#Bilder, die kleiner sind, werden nicht benutzt.
+blog#:#blog_abstract_image#:#Erstes Bild anzeigen
+blog#:#blog_abstract_image_info#:#Das erste Bild des Beitrags wird auf die hier festgelegte Größe verkleinert. Bilder, die kleiner sind als die festgelegte Größe, werden nicht angezeigt.
 blog#:#blog_abstract_image_width#:#Breite
 blog#:#blog_abstract_image_height#:#Höhe
 blog#:#blog_abstract_image_pixels#:#Px
@@ -11944,24 +11957,24 @@ meta#:#md_adv_text_multi#:#Mehrzeilig
 meta#:#md_adv_number_suffix#:#Suffix
 survey#:#survey_results_finished#:#Umfrage beendet
 blog#:#blog_settings_navigation#:#Navigation
-blog#:#blog_presentation_frame#:#Präsentation
-blog#:#blog_presentation_overview#:#Übersicht
-blog#:#blog_nav_mode#:#Modus
-blog#:#blog_nav_mode_month_list#:#Monatsliste
-blog#:#blog_nav_mode_month_list_info#:#Liste aller Monate, optional mit Einträgen
+blog#:#blog_presentation_frame#:#Darstellung
+blog#:#blog_presentation_overview#:#Präsentation der Beiträge
+blog#:#blog_nav_mode#:#Monatsweise Navigation
+blog#:#blog_nav_mode_month_list#:#Aktuelle Monate als Liste
+blog#:#blog_nav_mode_month_list_info#:#Der Seitenblock zeigt eine Liste der Monate. Die Anzahl angezeigter Monate und Beiträge kann festgelegt werden.
 blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge (nach absteigendem Datum sortiert)
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in der Monatsansicht gelistet.
-blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl der Monate
-blog#:#blog_nav_mode_month_list_num_month_info#:#Zusätzliche Monate werden nur mit der Anzahl der Beiträge angezeigt.
-blog#:#blog_nav_mode_month_single#:#Kompletter Monat
-blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats. Der gewünschte Monat kann mit einem Dropdown gewählt werden.
+blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl angezeigter Monate
+blog#:#blog_nav_mode_month_list_num_month_info#:#Monate werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
+blog#:#blog_nav_mode_month_single#:#Alle Monate per Dropdown
+blog#:#blog_nav_mode_month_single_info#:#Im Seitenblock bietet ein Dropdown alle Monate zur Auswahl an. Für den gewählten Monat werden alle Beiträge aufgelistet.
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
 blog#:#blog_enable_keywords#:#Schlagwörter
-blog#:#blog_enable_keywords_info#:#Einträge können mit Schlagwörtern versehen werden, die zum Navigieren benutzt werden können.
-blog#:#blog_enable_nav_authors#:#Autoren
-blog#:#blog_enable_nav_authors_info#:#Autorennamen können zum Navigieren verwendet werden.
-blog#:#blog_nav_sortorder#:#Sortierung
+blog#:#blog_enable_keywords_info#:#Autoren können Beiträge mit Schlagwörtern versehen. Vergebene Schlagwörter werden im Seitenblock zum Filtern der Beiträge angeboten.
+blog#:#blog_enable_nav_authors#:#Nach Autoren filtern
+blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit allen Autorennamen eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieses Autoren an.
+blog#:#blog_nav_sortorder#:#Reihenfolge der Seitenblöcke
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
@@ -13274,6 +13287,11 @@ forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller daz
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht.
+forum#:#frm_settings_form_header#:#Einstellungen des Forums
+forum#:#frm_settings_presentation_header#:#Darstellung
+forum#:#frm_settings_user_functions_header#:#Funktionen für Teilnehmer
+forum#:#frm_settings_mod_functions_header#:#Funktionen für Moderatoren
+forum#:#frm_settings_privacy_header#:#Datenschutz
 meta#:#meta_advmd_select_options#:#Einträge
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
 search#:#btn_search#:#Suchen
@@ -13901,6 +13919,7 @@ iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+iass#:#iass_user_removed#:#Der Teilnehmer wurde erfolgreich entfernt.
 iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
@@ -14339,8 +14358,8 @@ lti#:#lti_session#:#LTI Sitzung
 lti#:#lti_exit#:#LTI Sitzung beenden
 lti#:#lti_exited#:#LTI Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
-blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeigten Beiträgen
-blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.
+blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit Links zu allen Beiträgen
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktuellster Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
 orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
 orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
@@ -14682,7 +14701,7 @@ user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotex
 lhist#:#lhist_first_login#:#First Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
-content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
+content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
 content#:#cont_ed_insert_learning_history#:#Lernverlauf
 lhist#:#lhist_all#:#All
@@ -14793,6 +14812,7 @@ rbac#:#lso_visible#:#Lernsequenz sichtbar
 rbac#:#lso_copy#:#Lernsequenz kopieren
 rbac#:#lso_write#:#Lernsequenz bearbeiten
 rbac#:#lso_delete#:#Lernsequenz löschen
+rbac#:#lso_lp_other_users#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 lso#:#learner_view#:#Übersicht
 lso#:#manage#:#Verwalten
 lso#:#manage_content_maintab#:#Inhalt
@@ -14840,8 +14860,9 @@ lso#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#condition_always#:#Immer
-lso#:#condition_completed#:#Abgeschlossen
-lso#:#condition_failed#:#Durchgefallen
+lso#:#finished#:#Abgeschlossen
+lso#:#failed#:#Durchgefallen
+lso#:#not_finished#:#Nicht Abgeschlossen
 rbac#:#rbac_create_lso#:#Lernsequenz erstellen
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
@@ -14903,7 +14924,7 @@ common#:#il_lso_admin#:#Lernsequenzadministrator
 common#:#il_lso_member#:#Lernsequenzmitglied
 lso#:#entries_updated#:#Einträge gespeichert
 lso#:#curriculum#:#Curriculum
-lso#:#unparticipate#:#Abmelden
+lso#:#unparticipate#:#Lernsequenz verlassen
 lso#:#participate#:#Anmelden
 lhist#:#lhist_show_more#:#Mehr anzeigen
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
@@ -15001,7 +15022,7 @@ exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überp
 lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
 lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 lti#:#lti_cron_title#:#LTI Outcome Service
-lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
+lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
 dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
@@ -15014,3 +15035,14 @@ content#:#cont_choose_file_source#:#Quelle
 content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
 sess#:#sess_assign#:#Zuordnen
+common#:#certificate_selection#:#Ursprung der Zertifikate
+common#:#certificate_persistent_option#:#Persistente Zertifikate
+common#:#certificate_workspace_option#:#Arbeitsraum Zertifikate
+common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
+common#:#certificate_file_not_found_error#:#Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
+common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
+certificate#:#persistent_certificate_mode#:#Benutzer Zertifikatserstellung
+certificate#:#persistent_certificate_mode_cron#:#Cron-Job
+certificate#:#persistent_certificate_mode_cron_info#:#Diese Option wird für Systeme mit hohen Benutzerinteraktion empfohlen
+certificate#:#persistent_certificate_mode_instant#:#Direkt
+certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteratkion empfohlen. Für System die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.

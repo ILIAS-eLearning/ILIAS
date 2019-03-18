@@ -269,6 +269,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -1010,6 +1016,27 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		return $matchingPairsByDefinition;
 	}
+	
+	/**
+	 * @param array $valuePairs
+	 * @return array $indexedValues
+	 */
+	public function fetchIndexedValuesFromValuePairs(array $valuePairs)
+	{
+		$indexedValues = array();
+		
+		foreach($valuePairs as $valuePair)
+		{
+			if( !isset($indexedValues[$valuePair['value2']]) )
+			{
+				$indexedValues[$valuePair['value2']] = array();
+			}
+			
+			$indexedValues[$valuePair['value2']][] = $valuePair['value1'];
+		}
+		
+		return $indexedValues;
+	}
 
 	/**
 	* Returns the encrypted save filename of a matching picture
@@ -1465,9 +1492,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
 			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
-				
+		
+		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+		$this->setShuffler(new ilArrayElementShuffler());
+		$seed = $this->getShuffler()->getSeed();
+		
 		$terms = array();
-		foreach ($this->getTerms() as $term)
+		$this->getShuffler()->setSeed($this->getShuffler()->buildSeedFromString($seed.'terms'));
+		foreach ($this->getShuffler()->shuffle($this->getTerms()) as $term)
 		{
 			$terms[] = array(
 				"text" => $this->formatSAQuestion($term->text),
@@ -1484,7 +1516,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// when the second one (the copy) is answered.
 
 		$definitions = array();
-		foreach ($this->getDefinitions() as $def)
+		$this->getShuffler()->setSeed($this->getShuffler()->buildSeedFromString($seed.'definitions'));
+		foreach ($this->getShuffler()->shuffle($this->getDefinitions()) as $def)
 		{
 			$definitions[] = array(
 				"text" => $this->formatSAQuestion((string) $def->text),

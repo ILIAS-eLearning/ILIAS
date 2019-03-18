@@ -44,11 +44,44 @@ test for all existing examples, i.e. checks if the example can be executed at
 all and delivers a string to be included in the documentation of the UI frame-
 work.
 
-### Examples on Main Page (Beginner, ~4h)
+### Examples on Main Page (beginner, ~4h)
 
 We want to have examples on the main pages of some components family of the 
 documentation displayed in ILIAS System Styles Section. E.g. there should
 also be examples on the "Buttons" Page for the complete Buttons family.
+
+### Check if Supplied Data Matches Evaluating Form (advanced, ~8h)
+
+When receiving data from the client we have no mechanism to make sure that the
+data is processed by the same form that created the original client-side HTML-
+form. This is especially interesting because the consumer of the form from
+the UI-Framework does not have control over the naming. When for some reason
+(e.g. some configuration in the Advanced Metadata) the fields in the form change,
+the naming will change accordingly (as correctly pointed out by @mjansenDatabay
+in [#24994](https://mantis.ilias.de/view.php?id=24994)). There could well be
+other reasons why the form processing the request is different from the one
+rendering the HTML, e.g. because endpoints are changed for some reason.
+
+We thus want to introduce a mechanism that checks if the data supplied by the
+client matches the form that is processing it. To implement this check, we want
+to introduce a checksum over the inputs in the form, attach that checksum to the
+data posted from the client and only evaluate the data when the checksum matches
+the processing form. If the checksums do not match, the form should try to show
+the data from the client as good as possible by using some heuristic to fill the
+data in the existing inputs. It should also show a message that says why the data
+was not processed and that the user should check the input again. A mechanism
+like this will become even more valuable once we want to process forms asynchronously.
+
+### Propose Context Parameter for Escaping on ilTemplate::setVariable (advanced, ~8h)
+
+Currently there is no generalized way to handle escaping when outputting text.
+In the long-term we would like to switch to a templating engine that is aware
+of the context in which placeholders are filled. As a short-term improvement we
+would like to introduce an context-parameter for `ilTemplate::setVariable`, based
+on which `ilTemplate` could determine the required escaping for the output context.
+The contexts should e.g. be "html", "html-attribute", "js-string". Depending on
+feedback from other devs, we could either default to a very strict context that
+escapes a lot, or to a context that does not escape and a dicto-rule.
 
 
 ## Long Term

@@ -240,7 +240,9 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				'USER_COUNTRY'       => 'Something',
 				'USER_MATRICULATION' => 'Something',
 				'DATE'               => '2018-09-09',
-				'DATETIME'           => '2018-09-09 14:00:30'
+				'DATETIME'           => '2018-09-09 14:00:30',
+				'DATE_COMPLETED'     => '2018-09-09',
+				'DATETIME_COMPLETED' => '2018-09-09 14:00:30'
 			),
 			$result
 		);

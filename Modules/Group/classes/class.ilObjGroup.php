@@ -2273,18 +2273,21 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$res = array();
 		
 		$now = date("Y-m-d H:i:s");
-		
-		include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-		
-		$set = $ilDB->query("SELECT obj_id, registration_min_members".
+
+		$before = new ilDateTime(time(),IL_CAL_UNIX);
+		$before->increment(IL_CAL_DAY, -1);
+		$now_date = $before->get(IL_CAL_DATETIME);
+		$now = $before->get(IL_CAL_UNIX);
+
+		$set = $ilDB->query($q = "SELECT obj_id, registration_min_members".
 			" FROM grp_settings".
 			" WHERE registration_min_members > ".$ilDB->quote(0, "integer").
 			" AND registration_mem_limit = ".$ilDB->quote(1, "integer"). // #17206				
 			" AND ((leave_end IS NOT NULL".
-				" AND leave_end < ".$ilDB->quote($now, "text").")".
+				" AND leave_end < ".$ilDB->quote($now, "integer").")".
 				" OR (leave_end IS NULL".
 				" AND registration_end IS NOT NULL".
-				" AND registration_end < ".$ilDB->quote($now, "text")."))".
+				" AND registration_end < ".$ilDB->quote($now_date, "text")."))".
 			" AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" );
 		while($row = $ilDB->fetchAssoc($set))
 		{
