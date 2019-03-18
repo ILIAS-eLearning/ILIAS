@@ -22,17 +22,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	const DEFAULT_PROCESSING_TIME_MINUTES = 90;
 
 	#region Properties
-	
+
 	/**
 	 * type setting value for fixed question set
 	 */
 	const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
-	
+
 	/**
 	 * type setting value for random question set
 	 */
 	const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
-	
+
 	/**
 	 * type setting value for dynamic question set (continues testing mode)
 	 */
@@ -49,10 +49,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	const HIGHSCORE_SHOW_TOP_TABLE = 2;
 
 	/**
-	 * 
+	 *
 	 */
 	const HIGHSCORE_SHOW_ALL_TABLES = 3;
-	
+
 	/**
 	 * question set type setting
 	 *
@@ -69,51 +69,51 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var array
 	 */
 	private $resultFilterTaxIds = array();
-	
-	/**
-	* Kiosk mode
-	*
-	* Tells wheather the test runs in a kiosk mode or not
-	*
-	* @var integer
-	*/
-	protected $_kiosk;
-	
-	/**
-* The database id of the additional test data dataset
-*
-* @var integer
-*/
-  	var $test_id;
 
 	/**
-* Defines if the test will be placed on users personal desktops
-*
-* @var integer
-*/
+	 * Kiosk mode
+	 *
+	 * Tells wheather the test runs in a kiosk mode or not
+	 *
+	 * @var integer
+	 */
+	protected $_kiosk;
+
+	/**
+	 * The database id of the additional test data dataset
+	 *
+	 * @var integer
+	 */
+	var $test_id;
+
+	/**
+	 * Defines if the test will be placed on users personal desktops
+	 *
+	 * @var integer
+	 */
 	var $invitation = INVITATION_OFF;
 
 	/**
-* A text representation of the authors name. The name of the author must
-* not necessary be the name of the owner.
-*
-* @var string
-*/
-  	var $author;
+	 * A text representation of the authors name. The name of the author must
+	 * not necessary be the name of the owner.
+	 *
+	 * @var string
+	 */
+	var $author;
 
 	/**
-* A reference to an IMS compatible matadata set
-*
-* @var object
-*/
-  	var $metadata;
+	 * A reference to an IMS compatible matadata set
+	 *
+	 * @var object
+	 */
+	var $metadata;
 
 	/**
-* An array which contains all the test questions
-*
-* @var array
-*/
-  	var $questions;
+	 * An array which contains all the test questions
+	 *
+	 * @var array
+	 */
+	var $questions;
 
 	/**
 	 * @var bool
@@ -129,110 +129,110 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	protected $introduction;
 
 	/**
-* Defines the mark schema
-*
-* @var ASS_MarkSchema
-*/
-  	var $mark_schema;
+	 * Defines the mark schema
+	 *
+	 * @var ASS_MarkSchema
+	 */
+	var $mark_schema;
 
 	/**
-* Defines the sequence settings for the test user. There are two values:
-* TEST_FIXED_SEQUENCE (=0) and TEST_POSTPONE (=1). The default value is
-* TEST_FIXED_SEQUENCE.
-*
-* @var integer
-*/
-  	var $sequence_settings;
+	 * Defines the sequence settings for the test user. There are two values:
+	 * TEST_FIXED_SEQUENCE (=0) and TEST_POSTPONE (=1). The default value is
+	 * TEST_FIXED_SEQUENCE.
+	 *
+	 * @var integer
+	 */
+	var $sequence_settings;
 
 	/**
-* Defines the score reporting for the test. There are two values:
-* REPORT_AFTER_TEST (=1), REPORT_ALWAYS (=2) AND REPORT_AFTER_DATE (=3). The default
-* value is REPORT_AFTER_TEST. If the score reporting is set to
-* REPORT_AFTER_TEST, it is also possible to use the $reporting_date
-* attribute to set a time/date for the earliest reporting time.
-*
-* @var integer
-*/
-  	var $score_reporting;
+	 * Defines the score reporting for the test. There are two values:
+	 * REPORT_AFTER_TEST (=1), REPORT_ALWAYS (=2) AND REPORT_AFTER_DATE (=3). The default
+	 * value is REPORT_AFTER_TEST. If the score reporting is set to
+	 * REPORT_AFTER_TEST, it is also possible to use the $reporting_date
+	 * attribute to set a time/date for the earliest reporting time.
+	 *
+	 * @var integer
+	 */
+	var $score_reporting;
 
 	/**
-* Defines the question verification type for the test. When set to 1
-* a instant verification button will be offered during the test to verify
-* the question solution
-*
-* @var integer
-*/
+	 * Defines the question verification type for the test. When set to 1
+	 * a instant verification button will be offered during the test to verify
+	 * the question solution
+	 *
+	 * @var integer
+	 */
 	var $instant_verification;
 
 	/**
-* Defines wheather or not the reached points are shown as answer feedback
-*
-* @var integer
-*/
+	 * Defines wheather or not the reached points are shown as answer feedback
+	 *
+	 * @var integer
+	 */
 	var $answer_feedback_points;
 
 	/**
-* A time/date value to set the earliest reporting time for the test score.
-* If you set this attribute, the sequence settings will be set to REPORT_AFTER_TEST
-* automatically. If $reporting_date is not set, the user will get a direct feedback.
-* The reporting date is given in database TIMESTAMP notation (yyyymmddhhmmss).
-*
-* @var string
-*/
-  	var $reporting_date;
+	 * A time/date value to set the earliest reporting time for the test score.
+	 * If you set this attribute, the sequence settings will be set to REPORT_AFTER_TEST
+	 * automatically. If $reporting_date is not set, the user will get a direct feedback.
+	 * The reporting date is given in database TIMESTAMP notation (yyyymmddhhmmss).
+	 *
+	 * @var string
+	 */
+	var $reporting_date;
 
 	/**
-* Contains the evaluation data settings the tutor defines for the user
-*
-* @var object
-*/
-  	var $evaluation_data;
+	 * Contains the evaluation data settings the tutor defines for the user
+	 *
+	 * @var object
+	 */
+	var $evaluation_data;
 
 	/**
-* Number of tries the user is allowed to do. If set to 0, the user has
-* infinite tries.
-*
-* @var integer
-*/
-  	var $nr_of_tries;
+	 * Number of tries the user is allowed to do. If set to 0, the user has
+	 * infinite tries.
+	 *
+	 * @var integer
+	 */
+	var $nr_of_tries;
 
 	/**
-* Tells ILIAS to use the previous answers of a learner in a later test pass
-* The default is 1 which shows the previous answers in the next pass.
-*
-* @var integer
-*/
+	 * Tells ILIAS to use the previous answers of a learner in a later test pass
+	 * The default is 1 which shows the previous answers in the next pass.
+	 *
+	 * @var integer
+	 */
 	var $use_previous_answers;
 
 	/**
-* Tells ILIAS how to deal with the test titles. The test title will be shown with
-* the full title and the points when title_output is 0. When title_output is 1,
-* the available points will be hidden and when title_output is 2, the full title
-* will be hidden.
-*
-* @var integer
-*/
-  	var $title_output;
+	 * Tells ILIAS how to deal with the test titles. The test title will be shown with
+	 * the full title and the points when title_output is 0. When title_output is 1,
+	 * the available points will be hidden and when title_output is 2, the full title
+	 * will be hidden.
+	 *
+	 * @var integer
+	 */
+	var $title_output;
 
 	/**
-* The maximum processing time as hh:mm:ss string the user is allowed to do.
-*
-* @var integer
-*/
-  	var $processing_time;
+	 * The maximum processing time as hh:mm:ss string the user is allowed to do.
+	 *
+	 * @var integer
+	 */
+	var $processing_time;
 
 	/**
-* Contains 0 if the processing time is disabled, 1 if the processing time is enabled
-*
-* @var integer
-*/
+	 * Contains 0 if the processing time is disabled, 1 if the processing time is enabled
+	 *
+	 * @var integer
+	 */
 	var $enable_processing_time;
 
 	/**
-* Contains 0 if the processing time should not be reset, 1 if the processing time should be reset
-*
-* @var integer
-*/
+	 * Contains 0 if the processing time should not be reset, 1 if the processing time should be reset
+	 *
+	 * @var integer
+	 */
 	var $reset_processing_time;
 
 	/**
@@ -279,54 +279,54 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 
 	/**
-* Indicates if the points for answers are counted for partial solutions
-* or only for correct solutions
-*
-* @var integer
-*/
+	 * Indicates if the points for answers are counted for partial solutions
+	 * or only for correct solutions
+	 *
+	 * @var integer
+	 */
 	var $count_system;
 
 	/**
-* Indicates if the points unchecked multiple choice questions are given or not
-*
-* @var integer
-*/
+	 * Indicates if the points unchecked multiple choice questions are given or not
+	 *
+	 * @var integer
+	 */
 	var $mc_scoring;
 
 	/**
-* Defines which pass should be used for scoring
-*
-* @var integer
-*/
+	 * Defines which pass should be used for scoring
+	 *
+	 * @var integer
+	 */
 	var $pass_scoring;
 
 	/**
-* Indicates if the questions in a test are shuffled before
-* a user accesses the test
-*
-* @var boolean
-*/
+	 * Indicates if the questions in a test are shuffled before
+	 * a user accesses the test
+	 *
+	 * @var boolean
+	 */
 	var $shuffle_questions;
 
 	/**
-* Contains the presentation settings for the test results
-*
-* @var integer
-*/
+	 * Contains the presentation settings for the test results
+	 *
+	 * @var integer
+	 */
 	var $results_presentation;
 
 	/**
-* Determines wheather or not a question summary is shown to the users
-*
-* @var boolean
-*/
+	 * Determines wheather or not a question summary is shown to the users
+	 *
+	 * @var boolean
+	 */
 	var $show_summary;
 
 	/**
-* Determines if the score of every question should be cut at 0 points or the score of the complete test
-*
-* @var boolean
-*/
+	 * Determines if the score of every question should be cut at 0 points or the score of the complete test
+	 *
+	 * @var boolean
+	 */
 	var $score_cutting;
 
 	/**
@@ -361,98 +361,98 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	protected $allowedUsersTimeGap;
 
 	/**
-* visiblity settings for a test certificate
-*
-* @var int
-*/
+	 * visiblity settings for a test certificate
+	 *
+	 * @var int
+	 */
 	var $certificate_visibility;
 
 	/**
-* Anonymity of the test users
-*
-* @var int
-*/
+	 * Anonymity of the test users
+	 *
+	 * @var int
+	 */
 	var $anonymity;
 
 	/**
-* determines wheather a cancel test button is shown or not
-*
-* @var int
-*/
+	 * determines wheather a cancel test button is shown or not
+	 *
+	 * @var int
+	 */
 	var $show_cancel;
 
 	/**
-* determines wheather a marker button is shown or not
-*
-* @var int
-*/
+	 * determines wheather a marker button is shown or not
+	 *
+	 * @var int
+	 */
 	var $show_marker;
 
 	/**
-* determines wheather a test may have fixed participants or not
-*
-* @var int
-*/
+	 * determines wheather a test may have fixed participants or not
+	 *
+	 * @var int
+	 */
 	var $fixed_participants;
 
 	/**
-* determines wheather an answer specific feedback is shown or not
-*
-* @var int
-*/
+	 * determines wheather an answer specific feedback is shown or not
+	 *
+	 * @var int
+	 */
 	var $answer_feedback;
-	
+
 	/**
-	* contains the test session data
-	*
-	* @var object
-	*/
+	 * contains the test session data
+	 *
+	 * @var object
+	 */
 	var $testSession;
 
 	/**
-	* contains the test sequence data
-	*
-	* @var object
-	*/
+	 * contains the test sequence data
+	 *
+	 * @var object
+	 */
 	var $testSequence;
 
 	/**
-	* Determines whether or not a final statement should be shown on test completion
-	*
-	* @var integer
-	*/
+	 * Determines whether or not a final statement should be shown on test completion
+	 *
+	 * @var integer
+	 */
 	private $_showfinalstatement;
 
 	/**
-	* A final statement for test completion
-	*
-	* @var string
-	*/
+	 * A final statement for test completion
+	 *
+	 * @var string
+	 */
 	private $_finalstatement;
 
 	/**
-	* Show the complete data on the test information page
-	*
-	* @var boolean
-	*/
+	 * Show the complete data on the test information page
+	 *
+	 * @var boolean
+	 */
 	private $_showinfo;
 
 	/**
-	* Force JavaScript for test questions
-	*
-	* @var boolean
-	*/
+	 * Force JavaScript for test questions
+	 *
+	 * @var boolean
+	 */
 	private $_forcejs = TRUE;
-	
+
 	/**
-	* Name of a custom style sheet for the test
-	*
-	* @var string;
-	*/
+	 * Name of a custom style sheet for the test
+	 *
+	 * @var string;
+	 */
 	private $_customStyle;
-	
+
 	protected $mailnotification;
-	
+
 	protected $mailnottype;
 
 	protected $exportsettings;
@@ -462,7 +462,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	private $template_id;
 
 	protected $oldOnlineStatus = null;
-	
+
 	/**
 	 * @var bool
 	 */
@@ -470,28 +470,28 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 	/**
 	 * defines wether question specific hints are offered or not
-	 * 
+	 *
 	 * @var boolean
 	 */
 	private $offeringQuestionHintsEnabled = null;
 
 	/**
 	 * defines wether it is possible to define obligatory questions
-	 * 
+	 *
 	 * @var boolean
 	 */
 	private $obligationsEnabled = null;
-	
+
 	protected $activation_visibility;
 
 	protected $activation_starting_time;
 
 	protected $activation_ending_time;
-	
+
 	protected $autosave;
 
 	protected $autosave_ival;
-	
+
 	/**
 	 * defines wether it is possible for users
 	 * to delete their own test passes or not
@@ -499,20 +499,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var boolean
 	 */
 	private $passDeletionAllowed = null;
-	
+
 	/**
 	 * holds the fact wether participant data exists or not
 	 * DO NOT USE TIS PROPERTY DRIRECTLY
 	 * ALWAYS USE ilObjTest::paricipantDataExist() since this method initialises this property
 	 */
 	private $participantDataExist = null;
-	
+
 	/** @var $enable_examview bool */
 	protected $enable_examview;
-	
+
 	/** @var $show_examview_html bool */
 	protected $show_examview_html;
-	
+
 	/** @var $show_examview_pdf bool */
 	protected $show_examview_pdf;
 
@@ -523,24 +523,24 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var int
 	 */
 	private $redirection_mode = 0;
-	
+
 	/**
 	 * @var string null
 	 */
 	private $redirection_url = NULL;
-	
+
 	/** @var bool $show_exam_id_in_test_pass_enabled */
 	protected $show_exam_id_in_test_pass_enabled;
 
 	/** @var bool $show_exam_id_in_test_results_enabled */
 	protected $show_exam_id_in_test_results_enabled;
-	
+
 	/** @var bool $sign_submission */
 	protected $sign_submission;
-	
+
 	/** @var mixed availability of selector for special characters  */
 	protected $char_selector_availability;
-	
+
 	/** @var string definition of selector for special characters  */
 	protected $char_selector_definition;
 
@@ -553,12 +553,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var bool
 	 */
 	protected $showGradingMarkEnabled;
-	
+
 	/**
 	 * @var bool
 	 */
 	protected $followupQuestionAnswerFixationEnabled;
-	
+
 	/**
 	 * @var bool
 	 */
@@ -578,19 +578,19 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var integer
 	 */
 	private $tmpCopyWizardCopyId;
-	
+
 	/**
 	 * @var string mm:ddd:hh:ii:ss
 	 */
 	protected $pass_waiting = "00:000:00:00:00";
 	#endregion
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param	$a_id 					integer		Reference_id or object_id.
 	 * @param	$a_call_by_reference	boolean		Treat the id as reference_id (true) or object_id (false).
-	 * 
+	 *
 	 * @return \ilObjTest
 	 */
 	public function __construct($a_id = 0,$a_call_by_reference = true)
@@ -614,7 +614,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			50,
 			1
 		);
-		
+
 		$this->test_id = -1;
 		$this->author = $ilUser->fullname;
 		$this->introductionEnabled = false;
@@ -666,7 +666,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->testSequence = FALSE;
 		$this->mailnotification = 0;
 		$this->poolUsage = 1;
-		
+
 		$this->ects_grades = array(
 			'A' => 90,
 			'B' => 65,
@@ -682,9 +682,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->show_examview_html = false;
 		$this->show_examview_pdf = false;
 		$this->enable_archiving = false;
-		
-        $this->express_mode = false;
-        $this->template_id = '';
+
+		$this->express_mode = false;
+		$this->template_id = '';
 		$this->redirection_mode = 0;
 		$this->redirection_url = NULL;
 		$this->show_exam_id_in_test_pass_enabled = false;
@@ -692,20 +692,20 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->sign_submission = false;
 		$this->char_selector_availability = 0;
 		$this->char_selector_definition = null;
-		
+
 		$this->showGradingStatusEnabled = true;
 		$this->showGradingMarkEnabled = true;
-		
+
 		$this->followupQuestionAnswerFixationEnabled = false;
 		$this->instantFeedbackAnswerFixationEnabled = false;
-		
+
 		$this->testFinalBroken = false;
-		
+
 		$this->tmpCopyWizardCopyId = null;
-		
+
 		parent::__construct($a_id, $a_call_by_reference);
 	}
-	
+
 	/**
 	 * returns the object title prepared to be used as a filename
 	 *
@@ -732,10 +732,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	{
 		$this->tmpCopyWizardCopyId = $tmpCopyWizardCopyId;
 	}
-	
+
 	/**
-	* create test object
-	*/
+	 * create test object
+	 */
 	function create()
 	{
 		$this->setOfflineStatus(true);
@@ -750,11 +750,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	* update object data
-	*
-	* @access	public
-	* @return	boolean
-	*/
+	 * update object data
+	 *
+	 * @access	public
+	 * @return	boolean
+	 */
 	function update()
 	{
 		if (!parent::update())
@@ -767,11 +767,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		return true;
 	}
 
-/**
-	* read object data from db into object
-	* @param	boolean
-	* @access	public
-	*/
+	/**
+	 * read object data from db into object
+	 * @param	boolean
+	 * @access	public
+	 */
 	public function read()
 	{
 		parent::read();
@@ -780,11 +780,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 
 	/**
-	* delete object and all related data
-	*
-	* @access	public
-	* @return	boolean	true if all object data were removed; false if only a references were removed
-	*/
+	 * delete object and all related data
+	 *
+	 * @access	public
+	 * @return	boolean	true if all object data were removed; false if only a references were removed
+	 */
 	function delete()
 	{
 		// always call parent delete function first!!
@@ -798,7 +798,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 		//put here your module specific stuff
 		$this->deleteTest();
-		
+
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
 		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
 		$qsaImportFails->deleteRegisteredImportFails();
@@ -809,11 +809,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		return true;
 	}
 
-/**
-* Deletes the test and all related objects, files and database entries
-*
-* @access	public
-*/
+	/**
+	 * Deletes the test and all related objects, files and database entries
+	 *
+	 * @access	public
+	 */
 	function deleteTest()
 	{
 		global $DIC;
@@ -826,7 +826,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$participantData = new ilTestParticipantData($ilDB, $lng);
 		$participantData->load($this->getTestId());
 		$this->removeTestResults($participantData);
-		
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_mark WHERE test_fi = %s",
 			array('integer'),
 			array($this->getTestId())
@@ -868,10 +868,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	* creates data directory for export files
-	* (data_dir/tst_data/tst_<id>/export, depending on data
-	* directory that is set in ILIAS setup/ini)
-	*/
+	 * creates data directory for export files
+	 * (data_dir/tst_data/tst_<id>/export, depending on data
+	 * directory that is set in ILIAS setup/ini)
+	 */
 	function createExportDirectory()
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -899,11 +899,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		}
 	}
 
-/**
-* Get the location of the export directory for the test
-*
-* @access	public
-*/
+	/**
+	 * Get the location of the export directory for the test
+	 *
+	 * @access	public
+	 */
 	function getExportDirectory()
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -911,12 +911,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		return $export_dir;
 	}
 
-/**
-* Get a list of the already exported files in the export directory
-*
-* @return array A list of file names
-* @access	public
-*/
+	/**
+	 * Get a list of the already exported files in the export directory
+	 *
+	 * @return array A list of file names
+	 * @access	public
+	 */
 	function getExportFiles($dir)
 	{
 		// quit if import dir not available
@@ -927,7 +927,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 		$files = array();
 		foreach(new DirectoryIterator($dir) as $file)
-		{			
+		{
 			/**
 			 * @var $file SplFileInfo
 			 */
@@ -945,8 +945,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	* set import directory
-	*/
+	 * set import directory
+	 */
 	public static function _setImportDirectory($a_import_dir = null)
 	{
 		if (strlen($a_import_dir))
@@ -959,12 +959,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		}
 	}
 
-/**
-* Get the import directory location of the test
-*
-* @return string The location of the import directory or false if the directory doesn't exist
-* @access	public
-*/
+	/**
+	 * Get the import directory location of the test
+	 *
+	 * @return string The location of the import directory or false if the directory doesn't exist
+	 * @access	public
+	 */
 	public static function _getImportDirectory()
 	{
 		if (strlen($_SESSION["tst_import_dir"]))
@@ -973,17 +973,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		}
 		return null;
 	}
-	
+
 	function getImportDirectory()
 	{
 		return ilObjTest::_getImportDirectory();
 	}
 
 	/**
-	* creates data directory for import files
-	* (data_dir/tst_data/tst_<id>/import, depending on data
-	* directory that is set in ILIAS setup/ini)
-	*/
+	 * creates data directory for import files
+	 * (data_dir/tst_data/tst_<id>/import, depending on data
+	 * directory that is set in ILIAS setup/ini)
+	 */
 	public static function _createImportDirectory()
 	{
 		global $DIC;
@@ -1009,11 +1009,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	* Returns TRUE if the test contains single choice results
-	*
-	* @return boolean 
-	* @access public
-	*/
+	 * Returns TRUE if the test contains single choice results
+	 *
+	 * @return boolean
+	 * @access public
+	 */
 	function hasSingleChoiceQuestions()
 	{
 		global $DIC;
@@ -1035,11 +1035,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	* Returns TRUE if the test contains single choice results only
-	*
-	* @return boolean 
-	* @access public
-	*/
+	 * Returns TRUE if the test contains single choice results only
+	 *
+	 * @return boolean
+	 * @access public
+	 */
 	function isSingleChoiceTest()
 	{
 		global $DIC;
@@ -1065,18 +1065,18 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	* Returns TRUE if the test contains single choice results and no shuffle only
-	*
-	* @return boolean 
-	* @access public
-	*/
+	 * Returns TRUE if the test contains single choice results and no shuffle only
+	 *
+	 * @return boolean
+	 * @access public
+	 */
 	function isSingleChoiceTestWithoutShuffle()
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
 		if (!$this->hasSingleChoiceQuestions()) return false;
-		
+
 		$result = $ilDB->queryF("
 				SELECT	DISTINCT(qpl_qst_sc.shuffle) foundshuffles
 				FROM	qpl_questions,
@@ -1104,7 +1104,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 	/**
 	 * Returns true, if a test is complete for use and can be set online
-	 * 
+	 *
 	 * @param ilTestQuestionSetConfig $testQuestionSetConfig
 	 * @return boolean
 	 */
@@ -1114,34 +1114,34 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		{
 			return false;
 		}
-		
+
 		if( !$testQuestionSetConfig->isQuestionSetConfigured() )
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
-/**
-* Returns true, if a test is complete for use
-*
-* @return boolean True, if the test is complete for use, otherwise false
-* @access public
-*/
+	/**
+	 * Returns true, if a test is complete for use
+	 *
+	 * @return boolean True, if the test is complete for use, otherwise false
+	 * @access public
+	 */
 	function _isComplete($obj_id)
 	{
 		global $DIC;
 		$tree = $DIC['tree'];
 		$ilDB = $DIC['ilDB'];
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
-		
+
 		$test = new ilObjTest($obj_id, false);
 		$test->loadFromDb();
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
-		
+
 		return $test->isComplete( $testQuestionSetConfigFactory->getQuestionSetConfig() );
 	}
 
@@ -1205,10 +1205,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	}
 
 	/**
-	* Returns the content of all RTE enabled text areas in the test
-	*
-	* @access private
-	*/
+	 * Returns the content of all RTE enabled text areas in the test
+	 *
+	 * @access private
+	 */
 	function getAllRTEContent()
 	{
 		$result = array();
@@ -1216,12 +1216,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		array_push($result, $this->getFinalStatement());
 		return $result;
 	}
-	
+
 	/**
-	* Cleans up the media objects for all text fields in a test which are using an RTE field
-	*
-	* @access private
-	*/
+	 * Cleans up the media objects for all text fields in a test which are using an RTE field
+	 *
+	 * @access private
+	 */
 	function cleanupMediaobjectUsage()
 	{
 		include_once("./Services/RTE/classes/class.ilRTE.php");
@@ -1236,7 +1236,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 	/**
 	 * Saves a ilObjTest object to a database
-	 * 
+	 *
 	 * @param bool $properties_only
 	 */
 	public function saveToDb($properties_only = FALSE)
@@ -1245,7 +1245,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$tree = $DIC['tree'];
 		$ilDB = $DIC['ilDB'];
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
-		
+
 		// moved online_status to ilObjectActivation (see below)
 
 		// cleanup RTE images
@@ -1254,13 +1254,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
-		
+
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if ($this->test_id == -1)
 		{
 			// Create new dataset
 			$next_id = $ilDB->nextId('tst_tests');
-			
+
 			$ilDB->insert('tst_tests', array(
 				'test_id'                    => array('integer', $next_id),
 				'obj_fi'                     => array('integer', $this->getId()),
@@ -1361,7 +1361,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
 				'pass_waiting'              => array('text', (string)$this->getPassWaiting())
 			));
-				    
+
 			$this->test_id = $next_id;
 
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -1384,110 +1384,110 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 					$oldrow = $ilDB->fetchAssoc($result);
 				}
 			}
-			
+
 			$ilDB->update('tst_tests',
-					array(
-						'author'                     => array('text', $this->getAuthor()),
-						'intro_enabled'              => array('integer', (int)$this->isIntroductionEnabled()),
-						'introduction'               => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
-						'finalstatement'             => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
-						'showinfo'                   => array('integer', $this->getShowInfo()),
-						'forcejs'                    => array('integer', $this->getForceJS()),
-						'customstyle'                => array('text', $this->getCustomStyle()),
-						'showfinalstatement'         => array('integer', $this->getShowFinalStatement()),
-						'sequence_settings'          => array('integer', $this->getSequenceSettings()),
-						'score_reporting'            => array('integer', $this->getScoreReporting()),
-						'instant_verification'       => array('text', $this->getInstantFeedbackSolution()),
-						'answer_feedback_points'     => array('text', $this->getAnswerFeedbackPoints()),
-						'answer_feedback'            => array('text', $this->getGenericAnswerFeedback()),
-						'anonymity'                  => array('text', $this->getAnonymity()),
-						'show_cancel'                => array('text', $this->getShowCancel()),
-						'show_marker'                => array('integer', $this->getShowMarker()),
-						'fixed_participants'         => array('text', $this->getFixedParticipants()),
-						'nr_of_tries'                => array('integer', $this->getNrOfTries()),
-						'kiosk'                      => array('integer', $this->getKiosk()),
-						'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
-						'title_output'               => array('text', $this->getTitleOutput()),
-						'processing_time'            => array('text', $this->getProcessingTime()),
-						'enable_processing_time'     => array('text', $this->getEnableProcessingTime()),
-						'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
-						'reporting_date'             => array('text', $this->getReportingDate()),
-						'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
-						'starting_time'              => array('integer', $this->getStartingTime()),
-						'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
-						'ending_time'                => array('integer', $this->getEndingTime()),
-						'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
-						'ects_output'                => array('text', $this->getECTSOutput()),
-						'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
-						'ects_b'                     => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL),
-						'ects_c'                     => array('float', strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL),
-						'ects_d'                     => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL),
-						'ects_e'                     => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL),
-						'ects_fx'                    => array('float', $this->getECTSFX()),
-						'count_system'               => array('text', $this->getCountSystem()),
-						'mc_scoring'                 => array('text', $this->getMCScoring()),
-						'score_cutting'              => array('text', $this->getScoreCutting()),
-						'pass_scoring'               => array('text', $this->getPassScoring()),
-						'shuffle_questions'          => array('text', $this->getShuffleQuestions()),
-						'results_presentation'       => array('integer', $this->getResultsPresentation()),
-						'show_summary'               => array('integer', $this->getListOfQuestionsSettings()),
-						'password_enabled'           => array('integer', (int)$this->isPasswordEnabled()),
-						'password'                   => array('text', $this->getPassword()),
-						'limit_users_enabled'        => array('integer', (int)$this->isLimitUsersEnabled()),
-						'allowedusers'               => array('integer', $this->getAllowedUsers()),
-						'alloweduserstimegap'        => array('integer', $this->getAllowedUsersTimeGap()),
-						'mailnottype'                => array('integer', $this->getMailNotificationType()),
-						'exportsettings'             => array('integer', $this->getExportSettings()),
-						'certificate_visibility'     => array('text', $this->getCertificateVisibility()),
-						'mailnotification'           => array('integer', $this->getMailNotification()),
-						'tstamp'                     => array('integer', time()),
-						'enabled_view_mode'          => array('text', $this->getEnabledViewMode()),
-						'template_id'                => array('integer', $this->getTemplate()),
-						'pool_usage'                 => array('integer', $this->getPoolUsage()),
-						'print_bs_with_res'          => array('integer', (int)$this->isBestSolutionPrintedWithResult()),
-						'obligations_enabled'        => array('integer', (int)$this->areObligationsEnabled()),
-						'offer_question_hints'       => array('integer', (int)$this->isOfferingQuestionHintsEnabled()),
-						'highscore_enabled'          => array('integer', (int)$this->getHighscoreEnabled()),
-						'highscore_anon'             => array('integer', (int)$this->getHighscoreAnon()),
-						'highscore_achieved_ts'      => array('integer', (int)$this->getHighscoreAchievedTS()),
-						'highscore_score'            => array('integer', (int)$this->getHighscoreScore()),
-						'highscore_percentage'       => array('integer', (int)$this->getHighscorePercentage()),
-						'highscore_hints'            => array('integer', (int)$this->getHighscoreHints()),
-						'highscore_wtime'            => array('integer', (int)$this->getHighscoreWTime()),
-						'highscore_own_table'        => array('integer', (int)$this->getHighscoreOwnTable()),
-						'highscore_top_table'        => array('integer', (int)$this->getHighscoreTopTable()),
-						'highscore_top_num'          => array('integer', (int)$this->getHighscoreTopNum()),
-						'specific_feedback'          => array('integer', (int)$this->getSpecificAnswerFeedback()),
-						'autosave'                   => array('integer', (int)$this->getAutosave()),
-						'autosave_ival'              => array('integer', (int)$this->getAutosaveIval()),
-						'pass_deletion_allowed'      => array('integer', (int)$this->isPassDeletionAllowed()),
-						'enable_examview'            => array('integer', (int)$this->getEnableExamview()),
-						'show_examview_html'         => array('integer', (int)$this->getShowExamviewHtml()),
-						'show_examview_pdf'          => array('integer', (int)$this->getShowExamviewPdf()),
-						'redirection_mode'           => array('integer', (int)$this->getRedirectionMode()),
-						'redirection_url'            => array('text', (string)$this->getRedirectionUrl()),
-						'enable_archiving'           => array('integer', (int)$this->getEnableArchiving()),
-						'examid_in_test_pass'        => array('integer', (int)$this->isShowExamIdInTestPassEnabled()),
-						'examid_in_test_res'         => array('integer', (int)$this->isShowExamIdInTestResultsEnabled()),
-						'sign_submission'            => array('integer', (int)$this->getSignSubmission()),
-						'question_set_type'          => array('text', $this->getQuestionSetType()),
-						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
-						'char_selector_definition'   => array('text', (string)$this->getCharSelectorDefinition()),
-						'skill_service'              => array('integer', (int)$this->isSkillServiceEnabled()),
-						'result_tax_filters'         => array('text', serialize((array)$this->getResultFilterTaxIds())),
-						'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
-						'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
-						'follow_qst_answer_fixation' => array('integer', (int)$this->isFollowupQuestionAnswerFixationEnabled()),
-						'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
-						'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
-						'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
-						'pass_waiting'              => array('text', (string)$this->getPassWaiting())
-					),
-					array(
-						'test_id' => array('integer', (int)$this->getTestId())
-					)
+				array(
+					'author'                     => array('text', $this->getAuthor()),
+					'intro_enabled'              => array('integer', (int)$this->isIntroductionEnabled()),
+					'introduction'               => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
+					'finalstatement'             => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
+					'showinfo'                   => array('integer', $this->getShowInfo()),
+					'forcejs'                    => array('integer', $this->getForceJS()),
+					'customstyle'                => array('text', $this->getCustomStyle()),
+					'showfinalstatement'         => array('integer', $this->getShowFinalStatement()),
+					'sequence_settings'          => array('integer', $this->getSequenceSettings()),
+					'score_reporting'            => array('integer', $this->getScoreReporting()),
+					'instant_verification'       => array('text', $this->getInstantFeedbackSolution()),
+					'answer_feedback_points'     => array('text', $this->getAnswerFeedbackPoints()),
+					'answer_feedback'            => array('text', $this->getGenericAnswerFeedback()),
+					'anonymity'                  => array('text', $this->getAnonymity()),
+					'show_cancel'                => array('text', $this->getShowCancel()),
+					'show_marker'                => array('integer', $this->getShowMarker()),
+					'fixed_participants'         => array('text', $this->getFixedParticipants()),
+					'nr_of_tries'                => array('integer', $this->getNrOfTries()),
+					'kiosk'                      => array('integer', $this->getKiosk()),
+					'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
+					'title_output'               => array('text', $this->getTitleOutput()),
+					'processing_time'            => array('text', $this->getProcessingTime()),
+					'enable_processing_time'     => array('text', $this->getEnableProcessingTime()),
+					'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
+					'reporting_date'             => array('text', $this->getReportingDate()),
+					'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
+					'starting_time'              => array('integer', $this->getStartingTime()),
+					'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
+					'ending_time'                => array('integer', $this->getEndingTime()),
+					'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
+					'ects_output'                => array('text', $this->getECTSOutput()),
+					'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
+					'ects_b'                     => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL),
+					'ects_c'                     => array('float', strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL),
+					'ects_d'                     => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL),
+					'ects_e'                     => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL),
+					'ects_fx'                    => array('float', $this->getECTSFX()),
+					'count_system'               => array('text', $this->getCountSystem()),
+					'mc_scoring'                 => array('text', $this->getMCScoring()),
+					'score_cutting'              => array('text', $this->getScoreCutting()),
+					'pass_scoring'               => array('text', $this->getPassScoring()),
+					'shuffle_questions'          => array('text', $this->getShuffleQuestions()),
+					'results_presentation'       => array('integer', $this->getResultsPresentation()),
+					'show_summary'               => array('integer', $this->getListOfQuestionsSettings()),
+					'password_enabled'           => array('integer', (int)$this->isPasswordEnabled()),
+					'password'                   => array('text', $this->getPassword()),
+					'limit_users_enabled'        => array('integer', (int)$this->isLimitUsersEnabled()),
+					'allowedusers'               => array('integer', $this->getAllowedUsers()),
+					'alloweduserstimegap'        => array('integer', $this->getAllowedUsersTimeGap()),
+					'mailnottype'                => array('integer', $this->getMailNotificationType()),
+					'exportsettings'             => array('integer', $this->getExportSettings()),
+					'certificate_visibility'     => array('text', $this->getCertificateVisibility()),
+					'mailnotification'           => array('integer', $this->getMailNotification()),
+					'tstamp'                     => array('integer', time()),
+					'enabled_view_mode'          => array('text', $this->getEnabledViewMode()),
+					'template_id'                => array('integer', $this->getTemplate()),
+					'pool_usage'                 => array('integer', $this->getPoolUsage()),
+					'print_bs_with_res'          => array('integer', (int)$this->isBestSolutionPrintedWithResult()),
+					'obligations_enabled'        => array('integer', (int)$this->areObligationsEnabled()),
+					'offer_question_hints'       => array('integer', (int)$this->isOfferingQuestionHintsEnabled()),
+					'highscore_enabled'          => array('integer', (int)$this->getHighscoreEnabled()),
+					'highscore_anon'             => array('integer', (int)$this->getHighscoreAnon()),
+					'highscore_achieved_ts'      => array('integer', (int)$this->getHighscoreAchievedTS()),
+					'highscore_score'            => array('integer', (int)$this->getHighscoreScore()),
+					'highscore_percentage'       => array('integer', (int)$this->getHighscorePercentage()),
+					'highscore_hints'            => array('integer', (int)$this->getHighscoreHints()),
+					'highscore_wtime'            => array('integer', (int)$this->getHighscoreWTime()),
+					'highscore_own_table'        => array('integer', (int)$this->getHighscoreOwnTable()),
+					'highscore_top_table'        => array('integer', (int)$this->getHighscoreTopTable()),
+					'highscore_top_num'          => array('integer', (int)$this->getHighscoreTopNum()),
+					'specific_feedback'          => array('integer', (int)$this->getSpecificAnswerFeedback()),
+					'autosave'                   => array('integer', (int)$this->getAutosave()),
+					'autosave_ival'              => array('integer', (int)$this->getAutosaveIval()),
+					'pass_deletion_allowed'      => array('integer', (int)$this->isPassDeletionAllowed()),
+					'enable_examview'            => array('integer', (int)$this->getEnableExamview()),
+					'show_examview_html'         => array('integer', (int)$this->getShowExamviewHtml()),
+					'show_examview_pdf'          => array('integer', (int)$this->getShowExamviewPdf()),
+					'redirection_mode'           => array('integer', (int)$this->getRedirectionMode()),
+					'redirection_url'            => array('text', (string)$this->getRedirectionUrl()),
+					'enable_archiving'           => array('integer', (int)$this->getEnableArchiving()),
+					'examid_in_test_pass'        => array('integer', (int)$this->isShowExamIdInTestPassEnabled()),
+					'examid_in_test_res'         => array('integer', (int)$this->isShowExamIdInTestResultsEnabled()),
+					'sign_submission'            => array('integer', (int)$this->getSignSubmission()),
+					'question_set_type'          => array('text', $this->getQuestionSetType()),
+					'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
+					'char_selector_definition'   => array('text', (string)$this->getCharSelectorDefinition()),
+					'skill_service'              => array('integer', (int)$this->isSkillServiceEnabled()),
+					'result_tax_filters'         => array('text', serialize((array)$this->getResultFilterTaxIds())),
+					'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
+					'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
+					'follow_qst_answer_fixation' => array('integer', (int)$this->isFollowupQuestionAnswerFixationEnabled()),
+					'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
+					'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
+					'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
+					'pass_waiting'              => array('text', (string)$this->getPassWaiting())
+				),
+				array(
+					'test_id' => array('integer', (int)$this->getTestId())
+				)
 			);
-			
+
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -1562,7 +1562,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				}
 			}
 		}
-		
+
 		// news item creation/update/deletion
 		include_once 'Services/News/classes/class.ilNewsItem.php';
 		if( !$this->getOldOnlineStatus() && !$this->getOfflineStatus() )
@@ -1595,27 +1595,27 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				$newsItem->update();
 			}
 		}
-				
+
 		// moved activation to ilObjectActivation
 		if($this->ref_id)
 		{
-			include_once "./Services/Object/classes/class.ilObjectActivation.php";		
+			include_once "./Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::getItem($this->ref_id);
-			
-			$item = new ilObjectActivation;			
+
+			$item = new ilObjectActivation;
 			if(!$this->isActivationLimited())
 			{
 				$item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
 			}
 			else
-			{				
+			{
 				$item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
 				$item->setTimingStart($this->getActivationStartingTime());
 				$item->setTimingEnd($this->getActivationEndingTime());
 				$item->toggleVisible($this->getActivationVisibility());
-			}						
-			
-			$item->update($this->ref_id);		
+			}
+
+			$item->update($this->ref_id);
 		}
 
 		if (!$properties_only)
@@ -1624,17 +1624,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			{
 				$this->saveQuestionsToDb();
 			}
-			
+
 			$this->mark_schema->saveToDb($this->test_id);
 		}
-  }
+	}
 
-/**
-* Saves the test questions to the database
-*
-* @access public
-* @see $questions
-*/
+	/**
+	 * Saves the test questions to the database
+	 *
+	 * @access public
+	 * @see $questions
+	 */
 	function saveQuestionsToDb()
 	{
 		global $DIC;
@@ -1669,14 +1669,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			array($this->getTestId())
 		);
 		// create new category relations
-		foreach ($this->questions as $key => $value) 
+		foreach ($this->questions as $key => $value)
 		{
 			// workaround for import witout obligations information
 			if( !isset($obligatoryQuestionState[$value]) || is_null($obligatoryQuestionState[$value]) )
 			{
 				$obligatoryQuestionState[$value] = 0;
 			}
-			
+
 			// insert question
 			$next_id = $ilDB->nextId('tst_test_question');
 			$ilDB->insert('tst_test_question', array(
@@ -1727,7 +1727,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks wheather the test is a new random test (using tst_rnd_cpy) or an old one
 	 *
@@ -1973,9 +1973,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setObligationsEnabled($data->obligations_enabled);
 			$this->setOfferingQuestionHintsEnabled($data->offer_question_hints);
 			$this->setCertificateVisibility($data->certificate_visibility);
-            $this->setEnabledViewMode($data->enabled_view_mode);
-            $this->setTemplate($data->template_id);
-			$this->setPoolUsage($data->pool_usage);			
+			$this->setEnabledViewMode($data->enabled_view_mode);
+			$this->setTemplate($data->template_id);
+			$this->setPoolUsage($data->pool_usage);
 			$this->setPrintBestSolutionWithResult((bool) $data->print_bs_with_res);
 			$this->setHighscoreEnabled((bool) $data->highscore_enabled);
 			$this->setHighscoreAnon((bool) $data->highscore_anon);
@@ -2018,75 +2018,75 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		if($this->ref_id)
 		{
 			include_once "./Services/Object/classes/class.ilObjectActivation.php";
-			$activation = ilObjectActivation::getItem($this->ref_id);			
+			$activation = ilObjectActivation::getItem($this->ref_id);
 			switch($activation["timing_type"])
-			{				
-				case ilObjectActivation::TIMINGS_ACTIVATION:	
+			{
+				case ilObjectActivation::TIMINGS_ACTIVATION:
 					$this->setActivationLimited(true);
 					$this->setActivationStartingTime($activation["timing_start"]);
 					$this->setActivationEndingTime($activation["timing_end"]);
 					$this->setActivationVisibility($activation["visible"]);
 					break;
-				
-				default:			
+
+				default:
 					$this->setActivationLimited(false);
-					break;							
+					break;
 			}
 		}
 	}
 
-/**
-* Load the test question id's from the database
-*
-* @param integer $user_id The user id of the test user (necessary for random tests)
-* @access	public
-*/
-function loadQuestions($active_id = "", $pass = NULL)
-{
-	global $DIC;
-	$ilUser = $DIC['ilUser'];
-	$ilDB = $DIC['ilDB'];
-
-	$this->questions = array();
-	if ($this->isRandomTest())
+	/**
+	 * Load the test question id's from the database
+	 *
+	 * @param integer $user_id The user id of the test user (necessary for random tests)
+	 * @access	public
+	 */
+	function loadQuestions($active_id = "", $pass = NULL)
 	{
-		if (strcmp($active_id, "") == 0)
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilDB = $DIC['ilDB'];
+
+		$this->questions = array();
+		if ($this->isRandomTest())
 		{
-			$active_id = $this->getActiveIdOfUser($ilUser->getId());
+			if (strcmp($active_id, "") == 0)
+			{
+				$active_id = $this->getActiveIdOfUser($ilUser->getId());
+			}
+			if (is_null($pass))
+			{
+				$pass = self::_getPass($active_id);
+			}
+			$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = %s ORDER BY sequence",
+				array('integer', 'integer'),
+				array($active_id, $pass)
+			);
+			// The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
+			// is only one test pass (pass = 0) in tst_test_rnd_qst while with ILIAS 3.8 there are questions for every test pass.
+			// To prevent problems with tests started in an older version and continued in ILIAS 3.8, the first pass should be taken if
+			// no questions are present for a newer pass.
+			if ($result->numRows() == 0)
+			{
+				$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = 0 ORDER BY sequence",
+					array('integer'),
+					array($active_id)
+				);
+			}
 		}
-		if (is_null($pass))
+		else
 		{
-			$pass = self::_getPass($active_id);
-		}
-		$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = %s ORDER BY sequence",
-			array('integer', 'integer'),
-			array($active_id, $pass)
-		);
-		// The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
-		// is only one test pass (pass = 0) in tst_test_rnd_qst while with ILIAS 3.8 there are questions for every test pass.
-		// To prevent problems with tests started in an older version and continued in ILIAS 3.8, the first pass should be taken if
-		// no questions are present for a newer pass.
-		if ($result->numRows() == 0)
-		{
-			$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = 0 ORDER BY sequence",
+			$result = $ilDB->queryF("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
 				array('integer'),
-				array($active_id)
+				array($this->test_id)
 			);
 		}
+		$index = 1;
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			$this->questions[$index++] = $data["question_fi"];
+		}
 	}
-	else
-	{
-		$result = $ilDB->queryF("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
-			array('integer'),
-			array($this->test_id)
-		);
-	}
-	$index = 1;
-	while ($data = $ilDB->fetchAssoc($result))
-	{
-		$this->questions[$index++] = $data["question_fi"];
-	}
-}
 
 	/**
 	 * @return boolean
@@ -2129,72 +2129,72 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 
 	/**
-	* Sets the final statement text of the ilObjTest object
-	*
-	* @param string $a_statement A final statement
-	* @access public
-	* @see $_finalstatement
-	*/
+	 * Sets the final statement text of the ilObjTest object
+	 *
+	 * @param string $a_statement A final statement
+	 * @access public
+	 * @see $_finalstatement
+	 */
 	public function setFinalStatement($a_statement = "")
 	{
 		$this->_finalstatement = $a_statement;
 	}
 
 	/**
-	* Set whether the complete information page is shown or the required data only
-	*
-	* @param integer $a_info 1 for the complete information, 0 otherwise
-	* @access public
-	* @see $_showinfo
-	*/
+	 * Set whether the complete information page is shown or the required data only
+	 *
+	 * @param integer $a_info 1 for the complete information, 0 otherwise
+	 * @access public
+	 * @see $_showinfo
+	 */
 	public function setShowInfo($a_info = 1)
 	{
 		$this->_showinfo = ($a_info) ? 1 : 0;
 	}
 
 	/**
-	* Set whether JavaScript should be forced for tests
-	*
-	* @param integer $a_js 1 to force JavaScript, 0 otherwise
-	* @access public
-	* @see $_forcejs
-	*/
+	 * Set whether JavaScript should be forced for tests
+	 *
+	 * @param integer $a_js 1 to force JavaScript, 0 otherwise
+	 * @access public
+	 * @see $_forcejs
+	 */
 	public function setForceJS($a_js = 1)
 	{
 		$this->_forcejs = ($a_js) ? 1 : 0;
 	}
-	
+
 	/**
-	* Set the custom style
-	*
-	* @param string $a_customStyle The custom style
-	* @access public
-	* @see $_customStyle
-	*/
+	 * Set the custom style
+	 *
+	 * @param string $a_customStyle The custom style
+	 * @access public
+	 * @see $_customStyle
+	 */
 	public function setCustomStyle($a_customStyle = NULL)
 	{
 		$this->_customStyle = $a_customStyle;
 	}
-	
+
 	/**
-	* Get the custom style
-	*
-	* @return mixed The custom style, NULL if empty
-	* @access public
-	* @see $_customStyle
-	*/
+	 * Get the custom style
+	 *
+	 * @return mixed The custom style, NULL if empty
+	 * @access public
+	 * @see $_customStyle
+	 */
 	public function getCustomStyle()
 	{
 		return (strlen($this->_customStyle)) ? $this->_customStyle : NULL;
 	}
-	
+
 	/**
-	* Return the available custom styles
-	*
-	* @return array An array of strings containing the available custom styles
-	* @access public
-	* @see $_customStyle
-	*/
+	 * Return the available custom styles
+	 *
+	 * @return array An array of strings containing the available custom styles
+	 * @access public
+	 * @see $_customStyle
+	 */
 	public function getCustomStyles()
 	{
 		$css_path = ilUtil::getStyleSheetLocation("filesystem", "ta.css", "Modules/Test");
@@ -2218,14 +2218,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		return $customstyles;
 	}
-	
+
 	/**
-	* get full style sheet file name (path inclusive) of current user
-	*
-	* @param $mode string Output mode of the style sheet ("output" or "filesystem"). !"filesystem" generates the ILIAS
-	* version number as attribute to force the reload of the style sheet in a different ILIAS version
-	* @access	public
-	*/
+	 * get full style sheet file name (path inclusive) of current user
+	 *
+	 * @param $mode string Output mode of the style sheet ("output" or "filesystem"). !"filesystem" generates the ILIAS
+	 * version number as attribute to force the reload of the style sheet in a different ILIAS version
+	 * @access	public
+	 */
 	public function getTestStyleLocation($mode = "output")
 	{
 		if (strlen($this->getCustomStyle()))
@@ -2250,71 +2250,71 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Sets whether the final statement should be shown or not
-	*
-	* @param integer $show 1 if TRUE or 0 if FALSE
-	* @access public
-	* @see $_finalstatement
-	*/
+	 * Sets whether the final statement should be shown or not
+	 *
+	 * @param integer $show 1 if TRUE or 0 if FALSE
+	 * @access public
+	 * @see $_finalstatement
+	 */
 	public function setShowFinalStatement($show = 0)
 	{
 		$this->_showfinalstatement = ($show) ? 1 : 0;
 	}
 
 	/**
-	* Gets the final statement
-	*
-	* @return mixed The final statement, NULL if empty
-	* @see $_finalstatement
-	*/
+	 * Gets the final statement
+	 *
+	 * @return mixed The final statement, NULL if empty
+	 * @see $_finalstatement
+	 */
 	public function getFinalStatement()
 	{
 		return (strlen($this->_finalstatement)) ? $this->_finalstatement : NULL;
 	}
 
 	/**
-	* Gets whether the complete information page is shown or the required data only
-	*
-	* @return integer 1 for the complete information, 0 otherwise
-	* @access public
-	* @see $_showinfo
-	*/
+	 * Gets whether the complete information page is shown or the required data only
+	 *
+	 * @return integer 1 for the complete information, 0 otherwise
+	 * @access public
+	 * @see $_showinfo
+	 */
 	public function getShowInfo()
 	{
 		return ($this->_showinfo) ? 1 : 0;
 	}
 
 	/**
-	* Gets whether JavaScript should be forced for tests
-	*
-	* @return integer 1 to force JavaScript, 0 otherwise
-	* @access public
-	* @see $_forcejs
-	*/
+	 * Gets whether JavaScript should be forced for tests
+	 *
+	 * @return integer 1 to force JavaScript, 0 otherwise
+	 * @access public
+	 * @see $_forcejs
+	 */
 	public function getForceJS()
 	{
 		return ($this->_forcejs) ? 1 : 0;
 	}
 
 	/**
-	* Returns whether the final statement should be shown or not
-	*
-	* @return integer 0 if false, 1 if true
-	* @access public
-	* @see $_showfinalstatement
-	*/
+	 * Returns whether the final statement should be shown or not
+	 *
+	 * @return integer 0 if false, 1 if true
+	 * @access public
+	 * @see $_showfinalstatement
+	 */
 	public function getShowFinalStatement()
 	{
 		return ($this->_showfinalstatement) ? 1 : 0;
 	}
 
-/**
-* Gets the database id of the additional test data
-*
-* @return integer The database id of the additional test data
-* @access public
-* @see $test_id
-*/
+	/**
+	 * Gets the database id of the additional test data
+	 *
+	 * @return integer The database id of the additional test data
+	 * @access public
+	 * @see $test_id
+	 */
 	function getTestId()
 	{
 		return $this->test_id;
@@ -2405,25 +2405,25 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-* Sets the score reporting of the ilObjTest object
-*
-* @param integer $score_reporting The score reporting
-* @access public
-* @see $score_reporting
-*/
+	 * Sets the score reporting of the ilObjTest object
+	 *
+	 * @param integer $score_reporting The score reporting
+	 * @access public
+	 * @see $score_reporting
+	 */
 	function setScoreReporting($score_reporting = 0)
 	{
 		$this->score_reporting = $score_reporting;
 	}
 
-/**
-* Sets the instant feedback for the solution
-*
-* @param integer $instant_feedback If 1, the solution will be shown after answering a question
-* @access public
-* @see $instant_verification
-*/
-  function setInstantFeedbackSolution($instant_feedback = 0)
+	/**
+	 * Sets the instant feedback for the solution
+	 *
+	 * @param integer $instant_feedback If 1, the solution will be shown after answering a question
+	 * @access public
+	 * @see $instant_verification
+	 */
+	function setInstantFeedbackSolution($instant_feedback = 0)
 	{
 		switch ($instant_feedback)
 		{
@@ -2434,53 +2434,53 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->instant_verification = 0;
 				break;
 		}
-  }
-
-/**
-* Sets the generic feedback for the test
-* @deprecate Use setGenericAnswerFeedback instead.
-* @param integer $answer_feedback If 1, answer specific feedback will be shown after answering a question
-* @access public
-* @see $answer_feedback
-*/
-function setAnswerFeedback($answer_feedback = 0)
-{
-	switch ($answer_feedback)
-	{
-		case 1:
-			$this->answer_feedback = 1;
-			break;
-		default:
-			$this->answer_feedback = 0;
-			break;
 	}
-}
 
-/**
- * Sets if the generic feedback is to be shown in the test.
- * 
- * @param int $generic_answer_feedback
- */
-function setGenericAnswerFeedback($generic_answer_feedback = 0)
-{
-	switch ($generic_answer_feedback)
+	/**
+	 * Sets the generic feedback for the test
+	 * @deprecate Use setGenericAnswerFeedback instead.
+	 * @param integer $answer_feedback If 1, answer specific feedback will be shown after answering a question
+	 * @access public
+	 * @see $answer_feedback
+	 */
+	function setAnswerFeedback($answer_feedback = 0)
 	{
-		case 1:
-			$this->answer_feedback = 1;
-			break;
-		default:
-			$this->answer_feedback = 0;
-			break;
+		switch ($answer_feedback)
+		{
+			case 1:
+				$this->answer_feedback = 1;
+				break;
+			default:
+				$this->answer_feedback = 0;
+				break;
+		}
 	}
-}	
-	
-/**
-* Sets the answer specific feedback of reached points for the test
-*
-* @param integer $answer_feedback_points If 1, answer specific feedback will show the reached points after answering a question
-* @access public
-* @see $answer_feedback_points
-*/
+
+	/**
+	 * Sets if the generic feedback is to be shown in the test.
+	 *
+	 * @param int $generic_answer_feedback
+	 */
+	function setGenericAnswerFeedback($generic_answer_feedback = 0)
+	{
+		switch ($generic_answer_feedback)
+		{
+			case 1:
+				$this->answer_feedback = 1;
+				break;
+			default:
+				$this->answer_feedback = 0;
+				break;
+		}
+	}
+
+	/**
+	 * Sets the answer specific feedback of reached points for the test
+	 *
+	 * @param integer $answer_feedback_points If 1, answer specific feedback will show the reached points after answering a question
+	 * @access public
+	 * @see $answer_feedback_points
+	 */
 	function setAnswerFeedbackPoints($answer_feedback_points = 0)
 	{
 		switch ($answer_feedback_points)
@@ -2517,18 +2517,18 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	const SCORE_REPORTING_DATE = 3;
 	const SCORE_REPORTING_AFTER_PASSED = 4;
 
-/**
-* Gets the score reporting of the ilObjTest object
-*
-* @return integer The score reporting of the test
-* @access public
-* @see $score_reporting
-*/
+	/**
+	 * Gets the score reporting of the ilObjTest object
+	 *
+	 * @return integer The score reporting of the test
+	 * @access public
+	 * @see $score_reporting
+	 */
 	function getScoreReporting()
 	{
 		return ($this->score_reporting) ? $this->score_reporting : 0;
 	}
-	
+
 	public function isScoreReportingEnabled()
 	{
 		switch( $this->getScoreReporting() )
@@ -2537,23 +2537,23 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 			case self::SCORE_REPORTING_IMMIDIATLY:
 			case self::SCORE_REPORTING_DATE:
 			case self::SCORE_REPORTING_AFTER_PASSED:
-				
+
 				return true;
-				
+
 			case self::SCORE_REPORTING_DISABLED:
 			default:
-				
+
 				return false;
 		}
 	}
 
-/**
-* Returns 1 if the correct solution will be shown after answering a question
-*
-* @return integer The status of the solution instant feedback
-* @access public
-* @see $instant_verification
-*/
+	/**
+	 * Returns 1 if the correct solution will be shown after answering a question
+	 *
+	 * @return integer The status of the solution instant feedback
+	 * @access public
+	 * @see $instant_verification
+	 */
 	function getInstantFeedbackSolution()
 	{
 		return ($this->instant_verification) ? $this->instant_verification : 0;
@@ -2582,38 +2582,38 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	{
 		return ($this->answer_feedback) ? $this->answer_feedback : 0;
 	}
-	
-/**
-* Returns 1 if answer specific feedback as reached points is activated
-*
-* @return integer The status of the answer specific feedback as reached points
-* @access public
-* @see $answer_feedback_points
-*/
-function getAnswerFeedbackPoints()
-{
-	return ($this->answer_feedback_points) ? $this->answer_feedback_points : 0;
-}
 
-/**
-* Gets the count system for the calculation of points
-*
-* @return integer The count system for the calculation of points
-* @access public
-* @see $count_system
-*/
+	/**
+	 * Returns 1 if answer specific feedback as reached points is activated
+	 *
+	 * @return integer The status of the answer specific feedback as reached points
+	 * @access public
+	 * @see $answer_feedback_points
+	 */
+	function getAnswerFeedbackPoints()
+	{
+		return ($this->answer_feedback_points) ? $this->answer_feedback_points : 0;
+	}
+
+	/**
+	 * Gets the count system for the calculation of points
+	 *
+	 * @return integer The count system for the calculation of points
+	 * @access public
+	 * @see $count_system
+	 */
 	function getCountSystem()
 	{
 		return ($this->count_system) ? $this->count_system : 0;
 	}
 
-/**
-* Gets the count system for the calculation of points
-*
-* @return integer The count system for the calculation of points
-* @access public
-* @see $count_system
-*/
+	/**
+	 * Gets the count system for the calculation of points
+	 *
+	 * @return integer The count system for the calculation of points
+	 * @access public
+	 * @see $count_system
+	 */
 	public static function _getCountSystem($active_id)
 	{
 		global $DIC;
@@ -2630,49 +2630,49 @@ function getAnswerFeedbackPoints()
 		return FALSE;
 	}
 
-/**
-* Gets the scoring type for multiple choice questions
-*
-* @return integer The scoring type for multiple choice questions
-* @access public
-* @see $mc_scoring
-*/
+	/**
+	 * Gets the scoring type for multiple choice questions
+	 *
+	 * @return integer The scoring type for multiple choice questions
+	 * @access public
+	 * @see $mc_scoring
+	 */
 	function getMCScoring()
 	{
 		return ($this->mc_scoring) ? $this->mc_scoring : 0;
 	}
 
-/**
-* Determines if the score of a question should be cut at 0 points or the score of the whole test
-*
-* @return integer The score cutting type. 0 for question cutting, 1 for test cutting
-* @access public
-* @see $score_cutting
-*/
+	/**
+	 * Determines if the score of a question should be cut at 0 points or the score of the whole test
+	 *
+	 * @return integer The score cutting type. 0 for question cutting, 1 for test cutting
+	 * @access public
+	 * @see $score_cutting
+	 */
 	function getScoreCutting()
 	{
 		return ($this->score_cutting) ? $this->score_cutting : 0;
 	}
 
-/**
-* Gets the pass scoring type
-*
-* @return integer The pass scoring type
-* @access public
-* @see $pass_scoring
-*/
+	/**
+	 * Gets the pass scoring type
+	 *
+	 * @return integer The pass scoring type
+	 * @access public
+	 * @see $pass_scoring
+	 */
 	function getPassScoring()
 	{
 		return ($this->pass_scoring) ? $this->pass_scoring : 0;
 	}
 
-/**
-* Gets the pass scoring type
-*
-* @return integer The pass scoring type
-* @access public
-* @see $pass_scoring
-*/
+	/**
+	 * Gets the pass scoring type
+	 *
+	 * @return integer The pass scoring type
+	 * @access public
+	 * @see $pass_scoring
+	 */
 	public static function _getPassScoring($active_id)
 	{
 		global $DIC;
@@ -2689,13 +2689,13 @@ function getAnswerFeedbackPoints()
 		return 0;
 	}
 
-/**
-* Gets the scoring type for multiple choice questions
-*
-* @return mixed The scoring type for multiple choice questions
-* @access public
-* @see $mc_scoring
-*/
+	/**
+	 * Gets the scoring type for multiple choice questions
+	 *
+	 * @return mixed The scoring type for multiple choice questions
+	 * @access public
+	 * @see $mc_scoring
+	 */
 	public static function _getMCScoring($active_id)
 	{
 		global $DIC;
@@ -2712,13 +2712,13 @@ function getAnswerFeedbackPoints()
 		return FALSE;
 	}
 
-/**
-* Determines if the score of a question should be cut at 0 points or the score of the whole test
-*
-* @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
-* @access public
-* @see $score_cutting
-*/
+	/**
+	 * Determines if the score of a question should be cut at 0 points or the score of the whole test
+	 *
+	 * @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
+	 * @access public
+	 * @see $score_cutting
+	 */
 	public static function _getScoreCutting($active_id)
 	{
 		global $DIC;
@@ -2735,37 +2735,37 @@ function getAnswerFeedbackPoints()
 		return FALSE;
 	}
 
-/**
-* Gets the reporting date of the ilObjTest object
-*
-* @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
-* @access public
-* @see $reporting_date
-*/
+	/**
+	 * Gets the reporting date of the ilObjTest object
+	 *
+	 * @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
+	 * @access public
+	 * @see $reporting_date
+	 */
 	function getReportingDate()
 	{
 		return (strlen($this->reporting_date)) ? $this->reporting_date : NULL;
 	}
 
-/**
-* Returns the nr of tries for the test
-*
-* @return integer The maximum number of tries
-* @access public
-* @see $nr_of_tries
-*/
+	/**
+	 * Returns the nr of tries for the test
+	 *
+	 * @return integer The maximum number of tries
+	 * @access public
+	 * @see $nr_of_tries
+	 */
 	function getNrOfTries()
 	{
 		return ($this->nr_of_tries) ? $this->nr_of_tries : 0;
 	}
 
 	/**
-	* Returns the kiosk mode
-	*
-	* @return integer Kiosk mode
-	* @access public
-	* @see $_kiosk
-	*/
+	 * Returns the kiosk mode
+	 *
+	 * @return integer Kiosk mode
+	 * @access public
+	 * @see $_kiosk
+	 */
 	function getKiosk()
 	{
 		return ($this->_kiosk) ? $this->_kiosk : 0;
@@ -2773,24 +2773,24 @@ function getAnswerFeedbackPoints()
 
 
 	/**
-	* Sets the kiosk mode for the test
-	*
-	* @param integer $kiosk The value for the kiosk mode.
-	* @access public
-	* @see $_kiosk
-	*/
+	 * Sets the kiosk mode for the test
+	 *
+	 * @param integer $kiosk The value for the kiosk mode.
+	 * @access public
+	 * @see $_kiosk
+	 */
 	function setKiosk($kiosk = 0)
 	{
 		$this->_kiosk = $kiosk;
 	}
 
 	/**
-	* Returns the kiosk mode
-	*
-	* @return boolean Kiosk mode
-	* @access public
-	* @see $_kiosk
-	*/
+	 * Returns the kiosk mode
+	 *
+	 * @return boolean Kiosk mode
+	 * @access public
+	 * @see $_kiosk
+	 */
 	function getKioskMode()
 	{
 		if (($this->_kiosk & 1) > 0)
@@ -2804,12 +2804,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Sets the kiosk mode for the test
-	*
-	* @param boolean $kiosk The value for the kiosk mode
-	* @access public
-	* @see $_kiosk
-	*/
+	 * Sets the kiosk mode for the test
+	 *
+	 * @param boolean $kiosk The value for the kiosk mode
+	 * @access public
+	 * @see $_kiosk
+	 */
 	public function setKioskMode($a_kiosk = FALSE)
 	{
 		if ($a_kiosk)
@@ -2826,12 +2826,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the status of the kiosk mode title
-	*
-	* @return boolean Kiosk mode title
-	* @access public
-	* @see $_kiosk
-	*/
+	 * Returns the status of the kiosk mode title
+	 *
+	 * @return boolean Kiosk mode title
+	 * @access public
+	 * @see $_kiosk
+	 */
 	public function getShowKioskModeTitle()
 	{
 		if (($this->_kiosk & 2) > 0)
@@ -2845,11 +2845,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Set to true, if the full test title should be shown in kiosk mode
-	*
-	* @param boolean $a_title TRUE if the test title should be shown in kiosk mode, FALSE otherwise
-	* @access public
-	*/
+	 * Set to true, if the full test title should be shown in kiosk mode
+	 *
+	 * @param boolean $a_title TRUE if the test title should be shown in kiosk mode, FALSE otherwise
+	 * @access public
+	 */
 	public function setShowKioskModeTitle($a_title = FALSE)
 	{
 		if ($a_title)
@@ -2866,12 +2866,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the status of the kiosk mode participant
-	*
-	* @return boolean Kiosk mode participant
-	* @access public
-	* @see $_kiosk
-	*/
+	 * Returns the status of the kiosk mode participant
+	 *
+	 * @return boolean Kiosk mode participant
+	 * @access public
+	 * @see $_kiosk
+	 */
 	public function getShowKioskModeParticipant()
 	{
 		if (($this->_kiosk & 4) > 0)
@@ -2885,11 +2885,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Set to true, if the participant's name should be shown in kiosk mode
-	*
-	* @param boolean $a_title TRUE if the participant's name should be shown in kiosk mode, FALSE otherwise
-	* @access public
-	*/
+	 * Set to true, if the participant's name should be shown in kiosk mode
+	 *
+	 * @param boolean $a_title TRUE if the participant's name should be shown in kiosk mode, FALSE otherwise
+	 * @access public
+	 */
 	public function setShowKioskModeParticipant($a_participant = FALSE)
 	{
 		if ($a_participant)
@@ -2905,38 +2905,38 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Returns if the previous answers should be shown for a learner
-*
-* @return integer 1 if the previous answers should be shown, 0 otherwise
-* @access public
-* @see $use_previous_answers
-*/
+	/**
+	 * Returns if the previous answers should be shown for a learner
+	 *
+	 * @return integer 1 if the previous answers should be shown, 0 otherwise
+	 * @access public
+	 * @see $use_previous_answers
+	 */
 	function getUsePreviousAnswers()
 	{
 		return ($this->use_previous_answers) ? $this->use_previous_answers : 0;
 	}
 
-/**
-* Returns the value of the title_output status
-*
-* @return integer 0 for full title, 1 for title without points, 2 for no title
-* @access public
-* @see $title_output
-*/
+	/**
+	 * Returns the value of the title_output status
+	 *
+	 * @return integer 0 for full title, 1 for title without points, 2 for no title
+	 * @access public
+	 * @see $title_output
+	 */
 	function getTitleOutput()
 	{
 		return ($this->title_output) ? $this->title_output : 0;
 	}
 
-/**
-* Returns the value of the title_output status
-*
-* @param integer $active_id The active id of a user
-* @return integer 0 for full title, 1 for title without points, 2 for no title
-* @access public
-* @see $title_output
-*/
+	/**
+	 * Returns the value of the title_output status
+	 *
+	 * @param integer $active_id The active id of a user
+	 * @return integer 0 for full title, 1 for title without points, 2 for no title
+	 * @access public
+	 * @see $title_output
+	 */
 	function _getTitleOutput($active_id)
 	{
 		global $DIC;
@@ -2953,7 +2953,7 @@ function getAnswerFeedbackPoints()
 		}
 		return 0;
 	}
-	
+
 	// hey: prevPassSolutions - serious (nonstatic) identifier, for use in high level controller gui
 	public function isPreviousSolutionReuseEnabled($activeId)
 	{
@@ -2962,15 +2962,15 @@ function getAnswerFeedbackPoints()
 	}
 	// hey.
 
-/**
-* Returns if the previous results should be hidden for a learner
-*
-* @param integer $test_id The test id
-* @param boolean $use_active_user_setting If true, the tst_use_previous_answers- of the active user should be used as well
-* @return integer 1 if the previous results should be hidden, 0 otherwise
-* @access public
-* @see $use_previous_answers
-*/
+	/**
+	 * Returns if the previous results should be hidden for a learner
+	 *
+	 * @param integer $test_id The test id
+	 * @param boolean $use_active_user_setting If true, the tst_use_previous_answers- of the active user should be used as well
+	 * @return integer 1 if the previous results should be hidden, 0 otherwise
+	 * @access public
+	 * @see $use_previous_answers
+	 */
 	public static function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
 	{
 		global $DIC;
@@ -3003,24 +3003,24 @@ function getAnswerFeedbackPoints()
 		return $use_previous_answers;
 	}
 
-/**
-* Returns the processing time for the test
-*
-* @return string The processing time for the test
-* @access public
-* @see $processing_time
-*/
+	/**
+	 * Returns the processing time for the test
+	 *
+	 * @return string The processing time for the test
+	 * @access public
+	 * @see $processing_time
+	 */
 	function getProcessingTime()
 	{
 		return (strlen($this->processing_time)) ? $this->processing_time : NULL;
 	}
 
 	/**
-	* Returns the processing time for the test
-	*
-	* @return string The processing time for the test
-	* @see $processing_time
-	*/
+	 * Returns the processing time for the test
+	 *
+	 * @return string The processing time for the test
+	 * @see $processing_time
+	 */
 	public function getProcessingTimeAsArray()
 	{
 		if (strlen($this->processing_time))
@@ -3057,13 +3057,13 @@ function getAnswerFeedbackPoints()
 		return self::DEFAULT_PROCESSING_TIME_MINUTES;
 	}
 
-/**
-* Returns the processing time for the test in seconds
-*
-* @return integer The processing time for the test in seconds
-* @access public
-* @see $processing_time
-*/
+	/**
+	 * Returns the processing time for the test in seconds
+	 *
+	 * @return integer The processing time for the test in seconds
+	 * @access public
+	 * @see $processing_time
+	 */
 	function getProcessingTimeInSeconds($active_id = "")
 	{
 		if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $this->getProcessingTime(), $matches))
@@ -3071,52 +3071,52 @@ function getAnswerFeedbackPoints()
 			$extratime = $this->getExtraTime($active_id) * 60;
 			return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3] + $extratime;
 		}
-			else
+		else
 		{
 			return 0;
 		}
 	}
 
 	/**
-	* Returns the seconds left from the actual time until the ending time
-	*
-	* @return integer The seconds left until the ending time is reached
-	* @access public
-	* @see $ending_time
-	*/
-		function getSecondsUntilEndingTime()
+	 * Returns the seconds left from the actual time until the ending time
+	 *
+	 * @return integer The seconds left until the ending time is reached
+	 * @access public
+	 * @see $ending_time
+	 */
+	function getSecondsUntilEndingTime()
+	{
+		if ($this->getEndingTime() != 0)
 		{
-			if ($this->getEndingTime() != 0)
-			{
-				$ending = $this->getEndingTime();
-				$now = time();
-				return $ending - $now;
-			}
-			else
-			{
-				return 0;
-			}
+			$ending = $this->getEndingTime();
+			$now = time();
+			return $ending - $now;
 		}
+		else
+		{
+			return 0;
+		}
+	}
 
 	/**
-	* Returns the state of the processing time (enabled/disabled)
-	*
-	* @return integer The processing time state (0 for disabled, 1 for enabled)
-	* @access public
-	* @see $processing_time
-	*/
+	 * Returns the state of the processing time (enabled/disabled)
+	 *
+	 * @return integer The processing time state (0 for disabled, 1 for enabled)
+	 * @access public
+	 * @see $processing_time
+	 */
 	function getEnableProcessingTime()
 	{
 		return ($this->enable_processing_time) ? $this->enable_processing_time : 0;
 	}
 
 	/**
-	* Returns wheather the processing time should be reset or not
-	*
-	* @return integer 0 for no reset, 1 for a reset
-	* @access public
-	* @see $reset_processing_time
-	*/
+	 * Returns wheather the processing time should be reset or not
+	 *
+	 * @return integer 0 for no reset, 1 for a reset
+	 * @access public
+	 * @see $reset_processing_time
+	 */
 	function getResetProcessingTime()
 	{
 		return ($this->reset_processing_time) ? $this->reset_processing_time : 0;
@@ -3202,25 +3202,25 @@ function getAnswerFeedbackPoints()
 		$this->ending_time = $ending_time;
 	}
 
-/**
-* Sets the nr of tries for the test
-*
-* @param integer $nr_of_tries The maximum number of tries for the test. 0 for infinite tries.
-* @access public
-* @see $nr_of_tries
-*/
+	/**
+	 * Sets the nr of tries for the test
+	 *
+	 * @param integer $nr_of_tries The maximum number of tries for the test. 0 for infinite tries.
+	 * @access public
+	 * @see $nr_of_tries
+	 */
 	function setNrOfTries($nr_of_tries = 0)
 	{
 		$this->nr_of_tries = $nr_of_tries;
 	}
 
-/**
-* Sets the status of the visibility of previous learner answers
-**
-* @param integer $use_previous_answers 1 if the previous answers should be shown
-* @access public
-* @see $use_previous_answers
-*/
+	/**
+	 * Sets the status of the visibility of previous learner answers
+	 **
+	 * @param integer $use_previous_answers 1 if the previous answers should be shown
+	 * @access public
+	 * @see $use_previous_answers
+	 */
 	function setUsePreviousAnswers($use_previous_answers = 1)
 	{
 		if ($use_previous_answers)
@@ -3240,7 +3240,7 @@ function getAnswerFeedbackPoints()
 	function getRedirectionMode()
 	{
 		return $this->redirection_mode;
-	}	
+	}
 	function setRedirectionUrl($redirection_url = NULL)
 	{
 		$this->redirection_url = $redirection_url;
@@ -3251,12 +3251,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-* Sets the status of the title output
-**
-* @param integer $title_output 0 for full title, 1 for title without points, 2 for no title
-* @access public
-* @see $title_output
-*/
+	 * Sets the status of the title output
+	 **
+	 * @param integer $title_output 0 for full title, 1 for title without points, 2 for no title
+	 * @access public
+	 * @see $title_output
+	 */
 	function setTitleOutput($title_output = 0)
 	{
 		switch ($title_output)
@@ -3273,13 +3273,13 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets the processing time for the test
-*
-* @param string $processing_time The maximum processing time for the test given in hh:mm:ss
-* @access public
-* @see $processing_time
-*/
+	/**
+	 * Sets the processing time for the test
+	 *
+	 * @param string $processing_time The maximum processing time for the test given in hh:mm:ss
+	 * @access public
+	 * @see $processing_time
+	 */
 	function setProcessingTime($processing_time = "00:00:00")
 	{
 		$this->processing_time = $processing_time;
@@ -3291,12 +3291,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-* Sets the processing time enabled or disabled
-*
-* @param integer $enable 0 to disable the processing time, 1 to enable the processing time
-* @access public
-* @see $processing_time
-*/
+	 * Sets the processing time enabled or disabled
+	 *
+	 * @param integer $enable 0 to disable the processing time, 1 to enable the processing time
+	 * @access public
+	 * @see $processing_time
+	 */
 	function setEnableProcessingTime($enable = 0)
 	{
 		if ($enable) {
@@ -3306,32 +3306,32 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets wheather the processing time should be reset or not
-*
-* @param integer $reset 1 to reset the processing time, 0 otherwise
-* @access public
-* @see $processing_time
-*/
+	/**
+	 * Sets wheather the processing time should be reset or not
+	 *
+	 * @param integer $reset 1 to reset the processing time, 0 otherwise
+	 * @access public
+	 * @see $processing_time
+	 */
 	function setResetProcessingTime($reset = 0)
 	{
-		if ($reset) 
+		if ($reset)
 		{
 			$this->reset_processing_time = 1;
-		} 
-		else 
+		}
+		else
 		{
 			$this->reset_processing_time = 0;
 		}
 	}
 
-/**
-* Sets the count system for the calculation of points
-*
-* @param integer $a_count_system The count system for the calculation of points.
-* @access public
-* @see $count_system
-*/
+	/**
+	 * Sets the count system for the calculation of points
+	 *
+	 * @param integer $a_count_system The count system for the calculation of points.
+	 * @access public
+	 * @see $count_system
+	 */
 	function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS)
 	{
 		$this->count_system = $a_count_system;
@@ -3377,37 +3377,37 @@ function getAnswerFeedbackPoints()
 		$this->password = $a_password;
 	}
 
-/**
-* Sets the type of score cutting
-*
-* @param integer $a_score_cutting The type of score cutting. 0 for cut questions, 1 for cut tests
-* @access public
-* @see $score_cutting
-*/
+	/**
+	 * Sets the type of score cutting
+	 *
+	 * @param integer $a_score_cutting The type of score cutting. 0 for cut questions, 1 for cut tests
+	 * @access public
+	 * @see $score_cutting
+	 */
 	function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION)
 	{
 		$this->score_cutting = $a_score_cutting;
 	}
 
-/**
-* Sets the multiple choice scoring
-*
-* @param integer $a_mc_scoring The scoring for multiple choice questions
-* @access public
-* @see $mc_scoring
-*/
+	/**
+	 * Sets the multiple choice scoring
+	 *
+	 * @param integer $a_mc_scoring The scoring for multiple choice questions
+	 * @access public
+	 * @see $mc_scoring
+	 */
 	function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED)
 	{
 		$this->mc_scoring = $a_mc_scoring;
 	}
 
-/**
-* Sets the pass scoring
-*
-* @param integer $a_pass_scoring The pass scoring type
-* @access public
-* @see $pass_scoring
-*/
+	/**
+	 * Sets the pass scoring
+	 *
+	 * @param integer $a_pass_scoring The pass scoring type
+	 * @access public
+	 * @see $pass_scoring
+	 */
 	function setPassScoring($a_pass_scoring = SCORE_LAST_PASS)
 	{
 		switch ($a_pass_scoring)
@@ -3420,7 +3420,7 @@ function getAnswerFeedbackPoints()
 				break;
 		}
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -3428,7 +3428,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->pass_waiting;
 	}
-	
+
 	/**
 	 * @param string $pass_waiting   mm:ddd:hh:ii:ss
 	 */
@@ -3451,27 +3451,27 @@ function getAnswerFeedbackPoints()
 	public function removeQuestionFromSequences($questionId, $activeIds)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
+
 		$testSequenceFactory = new ilTestSequenceFactory(
 			$DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this
 		);
-		
+
 		foreach($activeIds as $activeId)
 		{
 			$passSelector = new ilTestPassesSelector($DIC->database(), $this);
 			$passSelector->setActiveId($activeId);
-			
+
 			foreach($passSelector->getExistingPasses() as $pass)
 			{
 				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
 				$testSequence->loadFromDb();
-				
+
 				$testSequence->removeQuestion($questionId);
 				$testSequence->saveToDb();
 			}
 		}
 	}
-	
+
 	/**
 	 * @param array $removeQuestionIds
 	 */
@@ -3480,17 +3480,17 @@ function getAnswerFeedbackPoints()
 		foreach ($removeQuestionIds as $value) {
 			$this->removeQuestion($value);
 		}
-		
+
 		$this->reindexFixedQuestionOrdering();
 	}
-	
-/**
-* Removes a question from the test object
-*
-* @param integer $question_id The database id of the question to be removed
-* @access public
-* @see $test_id
-*/
+
+	/**
+	 * Removes a question from the test object
+	 *
+	 * @param integer $question_id The database id of the question to be removed
+	 * @access public
+	 * @see $test_id
+	 */
 	function removeQuestion($question_id)
 	{
 		$question =& ilObjTest::_instanciateQuestion($question_id);
@@ -3501,31 +3501,31 @@ function getAnswerFeedbackPoints()
 		}
 		$question->delete($question_id);
 	}
-	
+
 	/**
 	 * - at the time beeing ilObjTest::removeTestResults needs to call the LP service for deletion
 	 * - ilTestLP calls ilObjTest::removeTestResultsByUserIds
-	 * 
+	 *
 	 * this method should only be used from non refactored soap context i think
-	 * 
+	 *
 	 * @param $userIds
 	 */
 	public function removeTestResultsFromSoapLpAdministration($userIds)
 	{
 		$this->removeTestResultsByUserIds($userIds);
-		
+
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$lng = $DIC['lng'];
-		
+
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
 		$participantData->setUserIdsFilter($userIds);
 		$participantData->load($this->getTestId());
-		
+
 		$this->removeTestActives($participantData->getActiveIds());
 	}
-	
+
 	public function removeTestResults(ilTestParticipantData $participantData)
 	{
 		if( count($participantData->getAnonymousActiveIds()) )
@@ -3553,7 +3553,7 @@ function getAnswerFeedbackPoints()
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$lng = $DIC['lng'];
-		
+
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
 		$participantData->setUserIdsFilter($userIds);
@@ -3563,7 +3563,7 @@ function getAnswerFeedbackPoints()
 		$ilDB->manipulateF("DELETE FROM usr_pref WHERE $IN_userIds AND keyword = %s",
 			array('text'), array("tst_password_".$this->getTestId())
 		);
-		
+
 		if( count($participantData->getActiveIds()) )
 		{
 			$this->removeTestResultsByActiveIds($participantData->getActiveIds());
@@ -3584,7 +3584,7 @@ function getAnswerFeedbackPoints()
 		$ilDB->manipulate("DELETE FROM tst_result_cache WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_sequence WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_times WHERE $IN_activeIds");
-		
+
 		if( $this->isRandomTest() )
 		{
 			$ilDB->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");
@@ -3606,7 +3606,7 @@ function getAnswerFeedbackPoints()
 			{
 				ilUtil::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
 			}
-			
+
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
@@ -3626,13 +3626,13 @@ function getAnswerFeedbackPoints()
 		$ilDB->manipulate("DELETE FROM tst_active WHERE $IN_activeIds");
 	}
 
-/**
-* Moves a question up in order
-*
-* @param integer $question_id The database id of the question to be moved up
-* @access public
-* @see $test_id
-*/
+	/**
+	 * Moves a question up in order
+	 *
+	 * @param integer $question_id The database id of the question to be moved up
+	 * @access public
+	 * @see $test_id
+	 */
 	function questionMoveUp($question_id)
 	{
 		global $DIC;
@@ -3644,7 +3644,7 @@ function getAnswerFeedbackPoints()
 			array($this->getTestId(), $question_id)
 		);
 		$data = $ilDB->fetchObject($result);
-		if ($data->sequence > 1) 
+		if ($data->sequence > 1)
 		{
 			// OK, it's not the top question, so move it up
 			$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
@@ -3671,13 +3671,13 @@ function getAnswerFeedbackPoints()
 		$this->loadQuestions();
 	}
 
-/**
-* Moves a question down in order
-*
-* @param integer $question_id The database id of the question to be moved down
-* @access public
-* @see $test_id
-*/
+	/**
+	 * Moves a question down in order
+	 *
+	 * @param integer $question_id The database id of the question to be moved down
+	 * @access public
+	 * @see $test_id
+	 */
 	function questionMoveDown($question_id)
 	{
 		global $DIC;
@@ -3717,12 +3717,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Takes a question and creates a copy of the question for use in the test
-	*
-	* @param integer $question_id The database id of the question
-	* @result integer The database id of the copied question
-	* @access public
-	*/
+	 * Takes a question and creates a copy of the question for use in the test
+	 *
+	 * @param integer $question_id The database id of the question
+	 * @result integer The database id of the copied question
+	 * @access public
+	 */
 	function duplicateQuestionForTest($question_id)
 	{
 		global $DIC;
@@ -3773,7 +3773,7 @@ function getAnswerFeedbackPoints()
 			array('integer', 'integer','integer','integer','integer'),
 			array($next_id, $this->getTestId(), $duplicate_id, $sequence, time())
 		);
-		if ($affectedRows == 1) 
+		if ($affectedRows == 1)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -3791,13 +3791,13 @@ function getAnswerFeedbackPoints()
 		return $duplicate_id;
 	}
 
-/**
-* Returns the titles of the test questions in question sequence
-*
-* @return array The question titles
-* @access public
-* @see $questions
-*/
+	/**
+	 * Returns the titles of the test questions in question sequence
+	 *
+	 * @return array The question titles
+	 * @access public
+	 * @see $questions
+	 */
 	function &getQuestionTitles()
 	{
 		$titles = array();
@@ -3818,12 +3818,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the titles of the test questions in question sequence
-	*
-	* @return array The question titles
-	* @access public
-	* @see $questions
-	*/
+	 * Returns the titles of the test questions in question sequence
+	 *
+	 * @return array The question titles
+	 * @access public
+	 * @see $questions
+	 */
 	function &getQuestionTitlesAndIndexes()
 	{
 		$titles = array();
@@ -3874,14 +3874,14 @@ function getAnswerFeedbackPoints()
 	}
 // fau.
 
-/**
-* Returns the dataset for a given question id
-*
-* @param integer $question_id The database id of the question
-* @return object Question dataset
-* @access public
-* @see $questions
-*/
+	/**
+	 * Returns the dataset for a given question id
+	 *
+	 * @param integer $question_id The database id of the question
+	 * @return object Question dataset
+	 * @access public
+	 * @see $questions
+	 */
 	function getQuestionDataset($question_id)
 	{
 		global $DIC;
@@ -3895,12 +3895,12 @@ function getAnswerFeedbackPoints()
 		return $row;
 	}
 
-/**
-* Get the id's of the questions which are already part of the test
-*
-* @return array An array containing the already existing questions
-* @access	public
-*/
+	/**
+	 * Get the id's of the questions which are already part of the test
+	 *
+	 * @return array An array containing the already existing questions
+	 * @access	public
+	 */
 	function &getExistingQuestions($pass = NULL)
 	{
 		global $DIC;
@@ -3924,7 +3924,7 @@ function getAnswerFeedbackPoints()
 				array($this->getTestId())
 			);
 		}
-		while ($data = $ilDB->fetchObject($result)) 
+		while ($data = $ilDB->fetchObject($result))
 		{
 			if( $data->original_id === null )
 			{
@@ -3936,14 +3936,14 @@ function getAnswerFeedbackPoints()
 		return $existing_questions;
 	}
 
-/**
-* Returns the question type of a question with a given id
-*
-* @param integer $question_id The database id of the question
-* @result string The question type string
-* @access private
-*/
-  function getQuestionType($question_id)
+	/**
+	 * Returns the question type of a question with a given id
+	 *
+	 * @param integer $question_id The database id of the question
+	 * @result string The question type string
+	 * @access private
+	 */
+	function getQuestionType($question_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
@@ -3953,23 +3953,23 @@ function getAnswerFeedbackPoints()
 			array('integer'),
 			array($question_id)
 		);
-		if ($result->numRows() == 1) 
+		if ($result->numRows() == 1)
 		{
 			$data = $ilDB->fetchObject($result);
 			return $data->type_tag;
-		} 
-		else 
+		}
+		else
 		{
 			return "";
 		}
 	}
 
-/**
-* Write the initial entry for the tests working time to the database
-*
-* @param integer $user_id The database id of the user working with the test
-* @access	public
-*/
+	/**
+	 * Write the initial entry for the tests working time to the database
+	 *
+	 * @param integer $user_id The database id of the user working with the test
+	 * @access	public
+	 */
 	function startWorkingTime($active_id, $pass)
 	{
 		global $DIC;
@@ -3983,12 +3983,12 @@ function getAnswerFeedbackPoints()
 		return $next_id;
 	}
 
-/**
-* Update the working time of a test when a question is answered
-*
-* @param integer $times_id The database id of a working time entry
-* @access	public
-*/
+	/**
+	 * Update the working time of a test when a question is answered
+	 *
+	 * @param integer $times_id The database id of a working time entry
+	 * @access	public
+	 */
 	function updateWorkingTime($times_id)
 	{
 		global $DIC;
@@ -4000,12 +4000,12 @@ function getAnswerFeedbackPoints()
 		);
 	}
 
-/**
-* Gets the id's of all questions a user already worked through
-*
-* @return array The question id's of the questions already worked through
-* @access	public
-*/
+	/**
+	 * Gets the id's of all questions a user already worked through
+	 *
+	 * @return array The question id's of the questions already worked through
+	 * @access	public
+	 */
 	function &getWorkedQuestions($active_id, $pass = NULL)
 	{
 		global $DIC;
@@ -4035,25 +4035,25 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns true if an active user completed a test pass and did not start a new pass
-	*
-	* @param integer $active_id The active id of the user
-	* @param integer $currentpass The current test pass of the user
-	* @return boolean true if an active user completed a test pass and did not start a new pass, false otherwise
-	* @access public
-	*/
+	 * Returns true if an active user completed a test pass and did not start a new pass
+	 *
+	 * @param integer $active_id The active id of the user
+	 * @param integer $currentpass The current test pass of the user
+	 * @return boolean true if an active user completed a test pass and did not start a new pass, false otherwise
+	 * @access public
+	 */
 	function isTestFinishedToViewResults($active_id, $currentpass)
 	{
 		$num = $this->getPassFinishDate($active_id, $currentpass);
 		return ((($currentpass > 0) && ($num == 0)) || $this->isTestFinished($active_id)) ? true : false;
 	}
 
-/**
-* Returns all questions of a test in test order
-*
-* @return array An array containing the id's as keys and the database row objects as values
-* @access public
-*/
+	/**
+	 * Returns all questions of a test in test order
+	 *
+	 * @return array An array containing the id's as keys and the database row objects as values
+	 * @access public
+	 */
 	function &getAllQuestions($pass = NULL)
 	{
 		global $DIC;
@@ -4088,65 +4088,65 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Gets the active id of a given user
-	*
-	* @param integer $user_id The database id of the user
-	* @param string $anonymous_id The anonymous id if the test is an anonymized test
-	* @return integer The active ID
-	* @access	public
-	*/
-		function getActiveIdOfUser($user_id = "", $anonymous_id = "")
+	 * Gets the active id of a given user
+	 *
+	 * @param integer $user_id The database id of the user
+	 * @param string $anonymous_id The anonymous id if the test is an anonymized test
+	 * @return integer The active ID
+	 * @access	public
+	 */
+	function getActiveIdOfUser($user_id = "", $anonymous_id = "")
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$ilUser = $DIC['ilUser'];
+
+		if (!$user_id) $user_id = $ilUser->getId();
+		if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
 		{
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
-			$ilUser = $DIC['ilUser'];
-
-			if (!$user_id) $user_id = $ilUser->getId();
-			if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
-			{
-				$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-					array('integer','integer','text'),
-					array($user_id, $this->test_id, $_SESSION["tst_access_code"][$this->getTestId()])
-				);
-			}
-			else if (strlen($anonymous_id))
-			{
-				$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-					array('integer','integer','text'),
-					array($user_id, $this->test_id, $anonymous_id)
-				);
-			}
-			else
-			{
-				if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
-				{
-					return NULL;
-				}
-				$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-					array('integer','integer'),
-					array($user_id, $this->test_id)
-				);
-			}
-			if ($result->numRows())
-			{
-				$row = $ilDB->fetchAssoc($result);
-				return $row["active_id"];
-			}
-			else
-			{
-				return 0;
-			}
+			$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+				array('integer','integer','text'),
+				array($user_id, $this->test_id, $_SESSION["tst_access_code"][$this->getTestId()])
+			);
 		}
+		else if (strlen($anonymous_id))
+		{
+			$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+				array('integer','integer','text'),
+				array($user_id, $this->test_id, $anonymous_id)
+			);
+		}
+		else
+		{
+			if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
+			{
+				return NULL;
+			}
+			$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+				array('integer','integer'),
+				array($user_id, $this->test_id)
+			);
+		}
+		if ($result->numRows())
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row["active_id"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
 
-/**
-* Gets the active id of the tst_active table for the active user
-*
-* @param integer $user_id The database id of the user
-* @param integer $test_id The database id of the test
-* @return object The database row of the tst_active table
-* @access	public
-*/
-	public static function _getActiveIdOfUser($user_id = "", $test_id = "") 
+	/**
+	 * Gets the active id of the tst_active table for the active user
+	 *
+	 * @param integer $user_id The database id of the user
+	 * @param integer $test_id The database id of the test
+	 * @return object The database row of the tst_active table
+	 * @access	public
+	 */
+	public static function _getActiveIdOfUser($user_id = "", $test_id = "")
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
@@ -4163,23 +4163,23 @@ function getAnswerFeedbackPoints()
 			array('integer', 'integer'),
 			array($user_id, $test_id)
 		);
-		if ($result->numRows()) 
+		if ($result->numRows())
 		{
 			$row = $ilDB->fetchAssoc($result);
 			return $row["active_id"];
-		} 
-		else 
+		}
+		else
 		{
 			return "";
 		}
 	}
 
 	/**
-	* Shuffles the values of a given array
-	*
-	* @param array $array An array which should be shuffled
-	* @access public
-	*/
+	 * Shuffles the values of a given array
+	 *
+	 * @param array $array An array which should be shuffled
+	 * @access public
+	 */
 	function pcArrayShuffle($array)
 	{
 		$keys = array_keys($array);
@@ -4193,12 +4193,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Calculates the results of a test for a given user
-	* and returns an array with all test results
-	*
-	* @return array An array containing the test results for the given user
-	* @access public
-	*/
+	 * Calculates the results of a test for a given user
+	 * and returns an array with all test results
+	 *
+	 * @return array An array containing the test results for the given user
+	 * @access public
+	 */
 	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE, $considerHiddenQuestions = true, $considerOptionalQuestions = true)
 	{
 		global $DIC;
@@ -4208,7 +4208,7 @@ function getAnswerFeedbackPoints()
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$results = $this->getResultsForActiveId($active_id);
-		
+
 		if( is_null($pass) )
 		{
 			$pass = $results['pass'];
@@ -4217,20 +4217,20 @@ function getAnswerFeedbackPoints()
 		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 		$testSessionFactory = new ilTestSessionFactory($this);
 		$testSession = $testSessionFactory->getSession($active_id);
-		
+
 		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
 		$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
-		
+
 		if( $this->isDynamicTest() )
 		{
 			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this);
 			$dynamicQuestionSetConfig->loadFromDb();
-			
+
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
 			$testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
-			
+
 			$sequence = $testSequence->getUserSequenceQuestions();
 		}
 		else
@@ -4240,7 +4240,7 @@ function getAnswerFeedbackPoints()
 
 			$testSequence->loadFromDb();
 			$testSequence->loadQuestions();
-			
+
 			if( $ordered_sequence )
 			{
 				$sequence = $testSequence->getOrderedSequenceQuestions();
@@ -4250,9 +4250,9 @@ function getAnswerFeedbackPoints()
 				$sequence = $testSequence->getUserSequenceQuestions();
 			}
 		}
-		
+
 		$arrResults = array();
-		
+
 		$query = "
 			SELECT		tst_test_result.question_fi,
 						tst_test_result.points reached,
@@ -4269,11 +4269,11 @@ function getAnswerFeedbackPoints()
 			WHERE		tst_test_result.active_fi = %s
 			AND			tst_test_result.pass = %s
 		";
-		
+
 		$solutionresult = $ilDB->queryF(
 			$query, array('integer', 'integer'), array($active_id, $pass)
 		);
-		
+
 		while( $row = $ilDB->fetchAssoc($solutionresult) )
 		{
 			$arrResults[ $row['question_fi'] ] = $row;
@@ -4282,9 +4282,9 @@ function getAnswerFeedbackPoints()
 		$numWorkedThrough = count($arrResults);
 
 		require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		
+
 		$IN_question_ids = $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer');
-		
+
 		$query = "
 			SELECT		qpl_questions.*,
 						qpl_qst_type.type_tag,
@@ -4299,23 +4299,23 @@ function getAnswerFeedbackPoints()
 			WHERE		qpl_qst_type.question_type_id = qpl_questions.question_type_fi
 			AND			$IN_question_ids
 		";
-		
+
 		$result = $ilDB->query($query);
-		
+
 		$unordered = array();
-		
+
 		$key = 1;
-		
+
 		$obligationsAnswered = true;
-		
+
 		while( $row = $ilDB->fetchAssoc($result) )
 		{
 			$percentvalue = (
-				$row['points'] ? $arrResults[ $row['question_id'] ]['reached'] / $row['points'] : 0
+			$row['points'] ? $arrResults[ $row['question_id'] ]['reached'] / $row['points'] : 0
 			);
-			
+
 			if( $percentvalue < 0 ) $percentvalue = 0.0;
-			
+
 			$data = array(
 				"nr" => "$key",
 				"title" => ilUtil::prepareFormOutput($row['title']),
@@ -4331,27 +4331,27 @@ function getAnswerFeedbackPoints()
 				"workedthrough" => isset($arrResults[$row['question_id']]) ? 1 : 0,
 				'answered' => $arrResults[$row['question_id']]['answered']
 			);
-			
+
 			if( !$arrResults[ $row['question_id'] ]['answered'] )
 			{
 				$obligationsAnswered = false;
 			}
-			
+
 			$unordered[ $row['question_id'] ] = $data;
-			
+
 			$key++;
 		}
-		
+
 		$numQuestionsTotal = count($unordered);
-                
+
 		$pass_max = 0;
 		$pass_reached = 0;
 		$pass_requested_hints = 0;
 		$pass_hint_points = 0;
 		$key = 1;
-		
+
 		$found = array();
-		
+
 		foreach( $sequence as $qid )
 		{
 			// building pass point sums based on prepared data
@@ -4369,19 +4369,19 @@ function getAnswerFeedbackPoints()
 			// increment key counter
 			$key++;
 		}
-		
+
 		$unordered = null;
-		
+
 		if( $this->getScoreCutting() == 1 )
 		{
 			if( $results['reached_points'] < 0 )
 			{
 				$results['reached_points'] = 0;
 			}
-			
+
 			if( $pass_reached < 0 ) $pass_reached = 0;
 		}
-		
+
 		$found['pass']['total_max_points'] = $pass_max;
 		$found['pass']['total_reached_points'] = $pass_reached;
 		$found['pass']['total_requested_hints'] = $pass_requested_hints;
@@ -4390,14 +4390,14 @@ function getAnswerFeedbackPoints()
 		$found['pass']['obligationsAnswered'] = $obligationsAnswered;
 		$found['pass']['num_workedthrough'] = $numWorkedThrough;
 		$found['pass']['num_questions_total'] = $numQuestionsTotal;
-		
+
 		$found["test"]["total_max_points"] = $results['max_points'];
 		$found["test"]["total_reached_points"] = $results['reached_points'];
 		$found["test"]["total_requested_hints"] = $results['hint_count'];
 		$found["test"]["total_hint_points"] = $results['hint_points'];
 		$found["test"]["result_pass"] = $results['pass'];
 		$found['test']['obligations_answered'] = $results['obligations_answered'];
-		
+
 		if( (!$total_reached_points) or (!$total_max_points) )
 		{
 			$percentage = 0.0;
@@ -4405,21 +4405,21 @@ function getAnswerFeedbackPoints()
 		else
 		{
 			$percentage = ($total_reached_points / $total_max_points) * 100.0;
-			
+
 			if( $percentage < 0 ) $percentage = 0.0;
 		}
-		
+
 		$found["test"]["passed"] = $results['passed'];
 
 		return $found;
 	}
 
-/**
-* Returns the number of persons who started the test
-*
-* @return integer The number of persons who started the test
-* @access public
-*/
+	/**
+	 * Returns the number of persons who started the test
+	 *
+	 * @return integer The number of persons who started the test
+	 * @access public
+	 */
 	function evalTotalPersons()
 	{
 		global $DIC;
@@ -4433,12 +4433,12 @@ function getAnswerFeedbackPoints()
 		return $row["total"];
 	}
 
-/**
-* Returns the complete working time in seconds a user worked on the test
-*
-* @return integer The working time in seconds
-* @access public
-*/
+	/**
+	 * Returns the complete working time in seconds a user worked on the test
+	 *
+	 * @return integer The working time in seconds
+	 * @access public
+	 */
 	function getCompleteWorkingTime($user_id)
 	{
 		global $DIC;
@@ -4461,23 +4461,23 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the complete working time in seconds for all test participants
-	*
-	* @return array An array containing the working time in seconds for all test participants
-	* @access public
-	*/
+	 * Returns the complete working time in seconds for all test participants
+	 *
+	 * @return array An array containing the working time in seconds for all test participants
+	 * @access public
+	 */
 	function &getCompleteWorkingTimeOfParticipants()
 	{
 		return $this->_getCompleteWorkingTimeOfParticipants($this->getTestId());
 	}
 
 	/**
-	* Returns the complete working time in seconds for all test participants
-	*
-	* @param integer $test_id The database ID of the test
-	* @return array An array containing the working time in seconds for all test participants
-	* @access public
-	*/
+	 * Returns the complete working time in seconds for all test participants
+	 *
+	 * @param integer $test_id The database ID of the test
+	 * @return array An array containing the working time in seconds for all test participants
+	 * @access public
+	 */
 	function &_getCompleteWorkingTimeOfParticipants($test_id)
 	{
 		global $DIC;
@@ -4505,11 +4505,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the complete working time in seconds for a test participant
-	*
-	* @return integer The working time in seconds for the test participant
-	* @access public
-	*/
+	 * Returns the complete working time in seconds for a test participant
+	 *
+	 * @return integer The working time in seconds for the test participant
+	 * @access public
+	 */
 	function getCompleteWorkingTimeOfParticipant($active_id)
 	{
 		global $DIC;
@@ -4532,11 +4532,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the complete working time in seconds for a test participant
-	*
-	* @return integer The working time in seconds for the test participant
-	* @access public
-	*/
+	 * Returns the complete working time in seconds for a test participant
+	 *
+	 * @return integer The working time in seconds for the test participant
+	 * @access public
+	 */
 	public static function _getWorkingTimeOfParticipantForPass($active_id, $pass)
 	{
 		global $DIC;
@@ -4559,25 +4559,25 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the first and last visit of a participant
-	*
-	* @param integer $active_id The active ID of the participant
-	* @return array The first and last visit of a participant
-	* @access public
-	*/
+	 * Returns the first and last visit of a participant
+	 *
+	 * @param integer $active_id The active ID of the participant
+	 * @return array The first and last visit of a participant
+	 * @access public
+	 */
 	function getVisitTimeOfParticipant($active_id)
 	{
 		return ilObjTest::_getVisitTimeOfParticipant($this->getTestId(), $active_id);
 	}
 
 	/**
-	* Returns the first and last visit of a participant
-	*
-	* @param integer $test_id The database ID of the test
-	* @param integer $active_id The active ID of the participant
-	* @return array The first and last visit of a participant
-	* @access public
-	*/
+	 * Returns the first and last visit of a participant
+	 *
+	 * @param integer $test_id The database ID of the test
+	 * @param integer $active_id The active ID of the participant
+	 * @return array The first and last visit of a participant
+	 * @access public
+	 */
 	function _getVisitTimeOfParticipant($test_id, $active_id)
 	{
 		global $DIC;
@@ -4601,12 +4601,12 @@ function getAnswerFeedbackPoints()
 		return array("firstvisit" => $firstvisit, "lastvisit" => $lastvisit);
 	}
 
-/**
-* Returns the statistical evaluation of the test for a specified user
-*
-* @return arrary The statistical evaluation array of the test
-* @access public
-*/
+	/**
+	 * Returns the statistical evaluation of the test for a specified user
+	 *
+	 * @return arrary The statistical evaluation array of the test
+	 * @access public
+	 */
 	function &evalStatistical($active_id)
 	{
 		global $DIC;
@@ -4621,7 +4621,7 @@ function getAnswerFeedbackPoints()
 		$times = array();
 		$first_visit = 0;
 		$last_visit = 0;
-		while ($row = $ilDB->fetchObject($result)) 
+		while ($row = $ilDB->fetchObject($result))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -4673,16 +4673,16 @@ function getAnswerFeedbackPoints()
 		{
 			$atimeofwork = $max_time / $qworkedthrough;
 		}
-		
+
 		$obligationsAnswered = $test_result["test"]["obligations_answered"];
-		
+
 		$result_mark = "";
 		$passed = "";
-		
+
 		if ($mark_obj)
 		{
 			$result_mark = $mark_obj->getShortName();
-			
+
 			if( $mark_obj->getPassed() && $obligationsAnswered )
 			{
 				$passed = 1;
@@ -4721,13 +4721,13 @@ function getAnswerFeedbackPoints()
 		return $result_array;
 	}
 
-/**
-* Returns an array with the total points of all users who passed the test
-* This array could be used for statistics
-*
-* @return array The total point values
-* @access public
-*/
+	/**
+	 * Returns an array with the total points of all users who passed the test
+	 * This array could be used for statistics
+	 *
+	 * @return array The total point values
+	 * @access public
+	 */
 	function &getTotalPointsPassedArray()
 	{
 		$totalpoints_array = array();
@@ -4739,9 +4739,9 @@ function getAnswerFeedbackPoints()
 			$total = $test_result["test"]["total_max_points"];
 			$percentage = $total != 0 ? $reached/$total : 0;
 			$mark = $this->mark_schema->getMatchingMark($percentage*100.0);
-			
+
 			$obligationsAnswered = $test_result["test"]["obligations_answered"];
-			
+
 			if ($mark)
 			{
 				if( $mark->getPassed() && $obligationsAnswered )
@@ -4757,7 +4757,7 @@ function getAnswerFeedbackPoints()
 	 * Returns all persons who started the test
 	 *
 	 * @return array The active ids, names and logins of the persons who started the test
-	*/
+	 */
 	public function &getParticipants()
 	{
 		global $DIC;
@@ -4804,12 +4804,12 @@ function getAnswerFeedbackPoints()
 		return $persons_array;
 	}
 
-/**
-* Returns all persons who started the test
-*
-* @return arrary The user id's and names of the persons who started the test
-* @access public
-*/
+	/**
+	 * Returns all persons who started the test
+	 *
+	 * @return arrary The user id's and names of the persons who started the test
+	 * @access public
+	 */
 	function &evalTotalPersonsArray($name_sort_order = "asc")
 	{
 		global $DIC;
@@ -4825,7 +4825,7 @@ function getAnswerFeedbackPoints()
 			{
 				continue;
 			}
-			
+
 			if ($this->getAnonymity())
 			{
 				$persons_array[$row["active_id"]] = $this->lng->txt("anonymous");
@@ -4852,12 +4852,12 @@ function getAnswerFeedbackPoints()
 		return $persons_array;
 	}
 
-/**
-* Returns all participants who started the test
-*
-* @return arrary The active user id's and names of the persons who started the test
-* @access public
-*/
+	/**
+	 * Returns all participants who started the test
+	 *
+	 * @return arrary The active user id's and names of the persons who started the test
+	 * @access public
+	 */
 	function &evalTotalParticipantsArray($name_sort_order = "asc")
 	{
 		global $DIC;
@@ -4896,11 +4896,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Retrieves all the assigned questions for all test passes of a test participant
-	*
-	* @return array An associated array containing the questions
-	* @access public
-	*/
+	 * Retrieves all the assigned questions for all test passes of a test participant
+	 *
+	 * @return array An associated array containing the questions
+	 * @access public
+	 */
 	function &getQuestionsOfTest($active_id)
 	{
 		global $DIC;
@@ -4938,13 +4938,13 @@ function getAnswerFeedbackPoints()
 		}
 		return $qtest;
 	}
-	
+
 	/**
-	* Retrieves all the assigned questions for a test participant in a given test pass
-	*
-	* @return array An associated array containing the questions
-	* @access public
-	*/
+	 * Retrieves all the assigned questions for a test participant in a given test pass
+	 *
+	 * @return array An associated array containing the questions
+	 * @access public
+	 */
 	function &getQuestionsOfPass($active_id, $pass)
 	{
 		global $DIC;
@@ -4983,12 +4983,12 @@ function getAnswerFeedbackPoints()
 		}
 		return $qpass;
 	}
-	
+
 	/**
 	 * @var ilTestParticipantList
 	 */
 	protected $accessFilteredParticipantList;
-	
+
 	/**
 	 * @return ilTestParticipantList
 	 */
@@ -4996,7 +4996,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->accessFilteredParticipantList;
 	}
-	
+
 	/**
 	 * @param ilTestParticipantList $accessFilteredParticipantList
 	 */
@@ -5004,7 +5004,7 @@ function getAnswerFeedbackPoints()
 	{
 		$this->accessFilteredParticipantList = $accessFilteredParticipantList;
 	}
-	
+
 	/**
 	 * @return ilTestParticipantList
 	 */
@@ -5012,17 +5012,17 @@ function getAnswerFeedbackPoints()
 	{
 		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
 		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-		
+
 		$list = new ilTestParticipantList($this);
 		$list->initializeFromDbRows($this->getTestParticipants());
-		
+
 		$list = $list->getAccessFilteredList(
 			ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId())
 		);
-		
+
 		return $list;
 	}
-	
+
 	function getUnfilteredEvaluationData()
 	{
 		/** @var $DIC ILIAS\DI\Container */
@@ -5033,9 +5033,9 @@ function getAnswerFeedbackPoints()
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-		
+
 		$data = new ilTestEvaluationData($this);
-		
+
 		$query = "
 			SELECT		tst_test_result.*,
 						qpl_questions.original_id,
@@ -5050,11 +5050,11 @@ function getAnswerFeedbackPoints()
 			
 			ORDER BY	tst_active.active_id ASC, tst_test_result.pass ASC, tst_test_result.tstamp DESC
 		";
-		
+
 		$result = $ilDB->queryF(
 			$query, array('integer'), array($this->getTestId())
 		);
-		
+
 		$pass = NULL;
 		$checked = array();
 		$datasets = 0;
@@ -5089,7 +5089,7 @@ function getAnswerFeedbackPoints()
 				for( $testpass = 0; $testpass <= $data->getParticipant($active_id)->getLastPass(); $testpass++ )
 				{
 					$ilDB->setLimit($this->getQuestionCount(), 0);
-					
+
 					$query = "
 						SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, qpl_questions.original_id,
 						tst_test_rnd_qst.pass, qpl_questions.points, qpl_questions.title
@@ -5098,22 +5098,22 @@ function getAnswerFeedbackPoints()
 						AND tst_test_rnd_qst.pass = %s
 						AND tst_test_rnd_qst.active_fi = %s ORDER BY tst_test_rnd_qst.sequence
 					";
-					
+
 					$result = $ilDB->queryF(
 						$query, array('integer','integer'), array($testpass, $active_id)
 					);
-					
+
 					if ($result->numRows())
 					{
 						while ($row = $ilDB->fetchAssoc($result))
 						{
 							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-							
+
 							$data->getParticipant($active_id)->addQuestion(
 								$row["original_id"], $row["question_fi"], $row["points"],
 								$row["sequence"], $tpass
 							);
-							
+
 							$data->addQuestionTitle($row["question_fi"], $row["title"]);
 						}
 					}
@@ -5185,29 +5185,29 @@ function getAnswerFeedbackPoints()
 					AND tst_active.test_fi = tst_test_question.test_fi
 					ORDER BY tst_test_question.sequence
 				";
-				
+
 				$result = $ilDB->queryF(
 					$query, array('integer'), array($active_id)
 				);
-				
+
 				if ($result->numRows())
 				{
 					$questionsbysequence = array();
-					
+
 					while ($row = $ilDB->fetchAssoc($result))
 					{
 						$questionsbysequence[$row["sequence"]] = $row;
 					}
-					
+
 					$seqresult = $ilDB->queryF(
 						"SELECT * FROM tst_sequence WHERE active_fi = %s",
 						array('integer'), array($active_id)
 					);
-					
+
 					while ($seqrow = $ilDB->fetchAssoc($seqresult))
 					{
 						$questionsequence = unserialize($seqrow["sequence"]);
-						
+
 						foreach ($questionsequence as $sidx => $seq)
 						{
 							$data->getParticipant($active_id)->addQuestion(
@@ -5217,7 +5217,7 @@ function getAnswerFeedbackPoints()
 								$sidx + 1,
 								$seqrow["pass"]
 							);
-							
+
 							$data->addQuestionTitle(
 								$questionsbysequence[$seq]["question_fi"], $questionsbysequence[$seq]["title"]
 							);
@@ -5231,56 +5231,56 @@ function getAnswerFeedbackPoints()
 		{
 			$passed_array =& $this->getTotalPointsPassedArray();
 		}
-		
+
 		foreach( array_keys($data->getParticipants()) as $active_id )
 		{
 			$tstUserData = $data->getParticipant($active_id);
-			
+
 			$percentage = $tstUserData->getReachedPointsInPercent();
-			
+
 			$obligationsAnswered = $tstUserData->areObligationsAnswered();
-			
+
 			$mark = $this->mark_schema->getMatchingMark($percentage);
-			
+
 			if (is_object($mark))
 			{
 				$tstUserData->setMark($mark->getShortName());
 				$tstUserData->setMarkOfficial($mark->getOfficialName());
-				
+
 				$tstUserData->setPassed(
 					$mark->getPassed() && $tstUserData->areObligationsAnswered()
 				);
 			}
-			
+
 			if($this->getECTSOutput())
 			{
 				$ects_mark = $this->getECTSGrade(
-						$passed_array, $tstUserData->getReached(), $tstUserData->getMaxPoints()
+					$passed_array, $tstUserData->getReached(), $tstUserData->getMaxPoints()
 				);
-				
+
 				$tstUserData->setECTSMark($ects_mark);
 			}
-			
+
 			$visitingTime =& $this->getVisitTimeOfParticipant($active_id);
-			
+
 			$tstUserData->setFirstVisit($visitingTime["firstvisit"]);
 			$tstUserData->setLastVisit($visitingTime["lastvisit"]);
 		}
-		
+
 		return $data;
 	}
-	
+
 	public static function _getQuestionCountAndPointsForPassOfParticipant($active_id, $pass)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$questionSetType = ilObjTest::lookupQuestionSetTypeByActiveId($active_id);
 
 		switch( $questionSetType )
 		{
 			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-				
+
 				$res = $ilDB->queryF("
 						SELECT		COUNT(qpl_questions.question_id) qcount,
 									SUM(qpl_questions.points) qsum
@@ -5298,9 +5298,9 @@ function getAnswerFeedbackPoints()
 					array('integer', 'integer'),
 					array(1, $active_id)
 				);
-				
+
 				break;
-			
+
 			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 
 				$res = $ilDB->queryF("
@@ -5325,7 +5325,7 @@ function getAnswerFeedbackPoints()
 				break;
 
 			case ilObjTest::QUESTION_SET_TYPE_FIXED:
-				
+
 				$res = $ilDB->queryF("
 						SELECT		COUNT(tst_test_question.question_fi) qcount,
 									SUM(qpl_questions.points) qsum
@@ -5343,21 +5343,21 @@ function getAnswerFeedbackPoints()
 					array('integer'),
 					array($active_id)
 				);
-				
+
 				break;
 
 			default:
-				
+
 				throw new ilTestException("not supported question set type: $questionSetType");
 		}
-		
+
 		$row = $ilDB->fetchAssoc($res);
-		
+
 		if( is_array($row) )
 		{
 			return array("count" => $row["qcount"], "points" => $row["qsum"]);
 		}
-		
+
 		return array("count" => 0, "points" => 0);
 	}
 
@@ -5374,29 +5374,29 @@ function getAnswerFeedbackPoints()
 		$data->setFilter($filterby, $filtertext);
 		return $data;
 	}
-	
+
 	/**
-	* Creates an associated array with the results of all participants of a test
-	*
-	* @return array An associated array containing the results
-	* @access public
-	*/
+	 * Creates an associated array with the results of all participants of a test
+	 *
+	 * @return array An associated array containing the results
+	 * @access public
+	 */
 	function &evalResultsOverview()
 	{
 		return $this->_evalResultsOverview($this->getTestId());
 	}
 
 	/**
-	* Creates an associated array with the results of all participants of a test
-	*
-	* @return array An associated array containing the results
-	* @access public
-	*/
+	 * Creates an associated array with the results of all participants of a test
+	 *
+	 * @return array An associated array containing the results
+	 * @access public
+	 */
 	function &_evalResultsOverview($test_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
 			"qpl_questions.points maxpoints " .
@@ -5436,17 +5436,17 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Creates an associated array with the results for a given participant of a test
-	*
-	* @param integer $active_id The active id of the participant
-	* @return array An associated array containing the results
-	* @access public
-	*/
+	 * Creates an associated array with the results for a given participant of a test
+	 *
+	 * @param integer $active_id The active id of the participant
+	 * @return array An associated array containing the results
+	 * @access public
+	 */
 	function &evalResultsOverviewOfParticipant($active_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
 			"qpl_questions.points maxpoints " .
@@ -5486,16 +5486,16 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Builds a user name for the output depending on test type and existence of
-	* the user
-	*
-	* @param int $user_id The database ID of the user
-	* @param string $firstname The first name of the user
-	* @param string $lastname The last name of the user
-	* @param string $title The title of the user
-	* @return string The output name of the user
-	* @access public
-	*/
+	 * Builds a user name for the output depending on test type and existence of
+	 * the user
+	 *
+	 * @param int $user_id The database ID of the user
+	 * @param string $firstname The first name of the user
+	 * @param string $lastname The last name of the user
+	 * @param string $title The title of the user
+	 * @return string The output name of the user
+	 * @access public
+	 */
 	function buildName($user_id, $firstname, $lastname, $title)
 	{
 		$name = "";
@@ -5522,17 +5522,17 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Builds a user name for the output depending on test type and existence of
-	* the user
-	*
-	* @param boolean $is_anonymous Indicates if it is an anonymized test or not
-	* @param int $user_id The database ID of the user
-	* @param string $firstname The first name of the user
-	* @param string $lastname The last name of the user
-	* @param string $title The title of the user
-	* @return string The output name of the user
-	* @access public
-	*/
+	 * Builds a user name for the output depending on test type and existence of
+	 * the user
+	 *
+	 * @param boolean $is_anonymous Indicates if it is an anonymized test or not
+	 * @param int $user_id The database ID of the user
+	 * @param string $firstname The first name of the user
+	 * @param string $lastname The last name of the user
+	 * @param string $title The title of the user
+	 * @return string The output name of the user
+	 * @access public
+	 */
 	function _buildName($is_anonymous, $user_id, $firstname, $lastname, $title)
 	{
 		global $DIC;
@@ -5560,23 +5560,23 @@ function getAnswerFeedbackPoints()
 		return $name;
 	}
 
-/**
-* Returns the average processing time for all started tests
-*
-* @return integer The average processing time for all started tests
-* @access public
-*/
+	/**
+	 * Returns the average processing time for all started tests
+	 *
+	 * @return integer The average processing time for all started tests
+	 * @access public
+	 */
 	function evalTotalStartedAverageTime($activeIdsFilter = null)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
 		$query = "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi";
-		
+
 		if( is_array($activeIdsFilter) && count($activeIdsFilter) )
 		{
 			$query .= " AND ".$DIC->database()->in('active_id', $activeIdsFilter, false, 'integer');
 		}
-		
+
 		$result = $DIC->database()->queryF($query, array('integer'), array($this->getTestId()));
 		$times = array();
 		while ($row = $DIC->database()->fetchObject($result))
@@ -5598,31 +5598,31 @@ function getAnswerFeedbackPoints()
 		{
 			$average_time = round($max_time / $counter);
 		}
-			else
+		else
 		{
 			$average_time = 0;
 		}
 		return $average_time;
 	}
 
-/**
-* Returns the available question pools for the active user
-*
-* @return array The available question pools
-* @access public
-*/
+	/**
+	 * Returns the available question pools for the active user
+	 *
+	 * @return array The available question pools
+	 * @access public
+	 */
 	function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $show_path = FALSE, $with_questioncount = FALSE, $permission = "read")
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline, $show_path, $with_questioncount, $permission);
 	}
 
-/**
-* Returns the estimated working time for the test calculated from the working time of the contained questions
-*
-* @return array An associative array containing the working time. array["h"] = hours, array["m"] = minutes, array["s"] = seconds
-* @access public
-*/
+	/**
+	 * Returns the estimated working time for the test calculated from the working time of the contained questions
+	 *
+	 * @return array An associative array containing the working time. array["h"] = hours, array["m"] = minutes, array["s"] = seconds
+	 * @access public
+	 */
 	function getEstimatedWorkingTime()
 	{
 		$time_in_seconds = 0;
@@ -5640,23 +5640,23 @@ function getAnswerFeedbackPoints()
 		return $result;
 	}
 
-/**
-* Returns the image path for web accessable images of a test
-* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_TEST/images
-*
-* @access public
-*/
+	/**
+	 * Returns the image path for web accessable images of a test
+	 * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_TEST/images
+	 *
+	 * @access public
+	 */
 	function getImagePath()
 	{
 		return CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/images/";
 	}
 
-/**
-* Returns the web image path for web accessable images of a test
-* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_TEST/images
-*
-* @access public
-*/
+	/**
+	 * Returns the web image path for web accessable images of a test
+	 * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_TEST/images
+	 *
+	 * @access public
+	 */
 	function getImagePathWeb()
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -5664,39 +5664,39 @@ function getAnswerFeedbackPoints()
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
-/**
-* Creates a question GUI instance of a given question type
-*
-* @param integer $question_type The question type of the question
-* @param integer $question_id The question id of the question, if available
-* @return assQuestionGUI $questionGUI The question GUI instance
-* @access	public
-*/
-  function &createQuestionGUI($question_type, $question_id = -1)
+	/**
+	 * Creates a question GUI instance of a given question type
+	 *
+	 * @param integer $question_type The question type of the question
+	 * @param integer $question_id The question id of the question, if available
+	 * @return assQuestionGUI $questionGUI The question GUI instance
+	 * @access	public
+	 */
+	function &createQuestionGUI($question_type, $question_id = -1)
 	{
 		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = $this->getQuestionType($question_id);
 		}
-		
+
 		if (!strlen($question_type)) return null;
-		
+
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		assQuestion::_includeClass($question_type, 1);
-		
+
 		$question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
 		$question = new $question_type_gui();
-		
+
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
-			
+
 			global $DIC;
 			$ilCtrl = $DIC['ilCtrl'];
 			$ilDB = $DIC['ilDB'];
 			$ilUser = $DIC['ilUser'];
 			$lng = $DIC['lng'];
-			
+
 			$feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
 			$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
 
@@ -5709,19 +5709,19 @@ function getAnswerFeedbackPoints()
 			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$question->object->setProcessLocker($processLockerFactory->getLocker());
 		}
-		
-		return $question;
-  }
 
-/**
-* Creates an instance of a question with a given question id
-*
-* @param integer $question_id The question id
-* @return object The question instance
-* @access public
- * 
- * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
-*/
+		return $question;
+	}
+
+	/**
+	 * Creates an instance of a question with a given question id
+	 *
+	 * @param integer $question_id The question id
+	 * @return object The question instance
+	 * @access public
+	 *
+	 * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
+	 */
 	public static function _instanciateQuestion($question_id)
 	{
 		if (strcmp($question_id, "") != 0)
@@ -5729,16 +5729,16 @@ function getAnswerFeedbackPoints()
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			return assQuestion::_instanciateQuestion($question_id);
 		}
-  }
+	}
 
-/**
-* Move questions to another position
-*
-* @param array $move_questions An array with the question id's of the questions to move
-* @param integer $target_index The question id of the target position
-* @param integer $insert_mode 0, if insert before the target position, 1 if insert after the target position
-* @access public
-*/
+	/**
+	 * Move questions to another position
+	 *
+	 * @param array $move_questions An array with the question id's of the questions to move
+	 * @param integer $target_index The question id of the target position
+	 * @param integer $insert_mode 0, if insert before the target position, 1 if insert after the target position
+	 * @access public
+	 */
 	function moveQuestions($move_questions, $target_index, $insert_mode)
 	{
 		$this->questions = array_values($this->questions);
@@ -5778,56 +5778,56 @@ function getAnswerFeedbackPoints()
 	}
 
 
-/**
-* Returns true if the starting time of a test is reached
-* A starting time is not available for self assessment tests
-*
-* @return boolean true if the starting time is reached, otherwise false
-* @access public
-*/
+	/**
+	 * Returns true if the starting time of a test is reached
+	 * A starting time is not available for self assessment tests
+	 *
+	 * @return boolean true if the starting time is reached, otherwise false
+	 * @access public
+	 */
 	function startingTimeReached()
 	{
 		if( $this->isStartingTimeEnabled() && $this->getStartingTime() != 0 )
 		{
-				$now = time();
-				if ($now < $this->getStartingTime())
-				{
-					return false;
-				}
+			$now = time();
+			if ($now < $this->getStartingTime())
+			{
+				return false;
+			}
 		}
 		return true;
 	}
 
-/**
-* Returns true if the ending time of a test is reached
-* An ending time is not available for self assessment tests
-*
-* @return boolean true if the ending time is reached, otherwise false
-* @access public
-*/
+	/**
+	 * Returns true if the ending time of a test is reached
+	 * An ending time is not available for self assessment tests
+	 *
+	 * @return boolean true if the ending time is reached, otherwise false
+	 * @access public
+	 */
 	function endingTimeReached()
 	{
 		if( $this->isEndingTimeEnabled() && $this->getEndingTime() != 0 )
 		{
-				$now = time();
-				if ($now > $this->getEndingTime())
-				{
-					return true;
-				}
+			$now = time();
+			if ($now > $this->getEndingTime())
+			{
+				return true;
+			}
 		}
 		return false;
 	}
 
-/**
-* Calculates the available questions for a test
-*
-* @access public
-*/
+	/**
+	 * Calculates the available questions for a test
+	 *
+	 * @access public
+	 */
 	function getAvailableQuestions($arrFilter, $completeonly = 0)
 	{
 		global $DIC;
-		$pluginAdmin = $DIC['ilPluginAdmin']; 
-		$lng = $DIC['lng']; 
+		$pluginAdmin = $DIC['ilPluginAdmin'];
+		$lng = $DIC['lng'];
 		$ilUser = $DIC['ilUser'];
 		$ilDB = $DIC['ilDB'];
 
@@ -5897,23 +5897,23 @@ function getAnswerFeedbackPoints()
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				$row = ilAssQuestionType::completeMissingPluginName($row);
-				
+
 				if( !$row['plugin'] )
 				{
 					$row[ 'ttype' ] = $lng->txt($row[ "type_tag" ]);
-					
+
 					$rows[] = $row;
 					continue;
 				}
-				
+
 				if( !$pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $row['plugin_name']) )
 				{
 					continue;
 				}
-				
+
 				$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $row['plugin_name']);
 				$row[ 'ttype' ] = $pl->getQuestionTypeTranslation();
-				
+
 				$rows[] = $row;
 			}
 		}
@@ -6013,7 +6013,7 @@ function getAnswerFeedbackPoints()
 					break;
 				case "pass_waiting":
 					$this->setPassWaiting($metadata["entry"]);
-					break;				
+					break;
 				case "kiosk":
 					$this->setKiosk($metadata["entry"]);
 					break;
@@ -6045,7 +6045,7 @@ function getAnswerFeedbackPoints()
 				case "highscore_score":
 					$this->setHighscoreScore($metadata["entry"]);
 					break;
-				
+
 				case "highscore_percentage":
 					$this->setHighscorePercentage($metadata["entry"]);
 					break;
@@ -6069,7 +6069,7 @@ function getAnswerFeedbackPoints()
 				case "highscore_top_num":
 					$this->setHighscoreTopNum($metadata["entry"]);
 					break;
-				
+
 				case "hide_previous_results":
 					if ($metadata["entry"] == 0)
 					{
@@ -6191,11 +6191,11 @@ function getAnswerFeedbackPoints()
 					{
 						$this->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 					}
-					break; 
-				case 'enable_processing_time': 
-					$this->setEnableProcessingTime($metadata['entry']); 
 					break;
-				case "processing_time": 
+				case 'enable_processing_time':
+					$this->setEnableProcessingTime($metadata['entry']);
+					break;
+				case "processing_time":
 					$this->setProcessingTime($metadata['entry']);
 					break;
 				case "starting_time":
@@ -6250,7 +6250,7 @@ function getAnswerFeedbackPoints()
 					break;
 				case 'char_selector_definition':
 					$this->setCharSelectorDefinition($metadata['entry']);
-					break;	
+					break;
 				case 'skill_service':
 					$this->setSkillServiceEnabled((bool)$metadata['entry']);
 					break;
@@ -6263,31 +6263,31 @@ function getAnswerFeedbackPoints()
 				case 'show_grading_mark':
 					$this->setShowGradingMarkEnabled((bool)$metadata['entry']);
 					break;
-				case 'activation_limited': 
+				case 'activation_limited':
 					$this->setActivationLimited($metadata['entry']);
 					break;
 				case 'activation_start_time':
 					$this->setActivationStartingTime($metadata['entry']);
 					break;
-				case 'activation_end_time': 
+				case 'activation_end_time':
 					$this->setActivationEndingTime($metadata['entry']);
 					break;
-				case 'activation_visibility': 
+				case 'activation_visibility':
 					$this->setActivationVisibility($metadata['entry']);
 					break;
-				case 'autosave': 
+				case 'autosave':
 					$this->setAutosave($metadata['entry']);
 					break;
-				case 'autosave_ival': 
+				case 'autosave_ival':
 					$this->setAutosaveIval($metadata['entry']);
 					break;
-				case 'offer_question_hints': 
+				case 'offer_question_hints':
 					$this->setOfferingQuestionHintsEnabled($metadata['entry']);
 					break;
-				case 'instant_feedback_specific': 
+				case 'instant_feedback_specific':
 					$this->setSpecificAnswerFeedback($metadata['entry']);
 					break;
-				case 'obligations_enabled': 
+				case 'obligations_enabled':
 					$this->setObligationsEnabled($metadata['entry']);
 					break;
 			}
@@ -6464,20 +6464,20 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_of_tries");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		// pass_waiting
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_waiting");
 		$a_xml_writer->xmlElement("fieldentry", NULL,  $this->getPassWaiting());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		// kiosk
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "kiosk");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getKiosk()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
-		
+
 		//redirection_mode
 		$a_xml_writer->xmlStartTag('qtimetadatafield');
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "redirection_mode");
@@ -6489,7 +6489,7 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "redirection_url");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getRedirectionUrl());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		// use previous answers
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "use_previous_answers");
@@ -6519,7 +6519,7 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "examid_in_test_res");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->isShowExamIdInTestResultsEnabled()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		// solution details
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_summary");
@@ -6576,8 +6576,8 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "force_instant_feedback");
 		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isForceInstantFeedbackEnabled());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
-		
+
+
 		// highscore
 		$highscore_metadata = array(
 			'highscore_enabled'     => array('value' => $this->getHighscoreEnabled()),
@@ -6670,7 +6670,7 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "processing_time");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getProcessingTime());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		// enable_examview
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "enable_examview");
@@ -6700,7 +6700,7 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "sign_submission");
 		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getSignSubmission());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		// char_selector_availability
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "char_selector_availability");
@@ -6756,8 +6756,8 @@ function getAnswerFeedbackPoints()
 			$a_xml_writer->xmlElement("fieldentry", NULL, $backward_compatibility_format);
 			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
-		
-		
+
+
 		//activation_limited
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_limited");
@@ -6769,13 +6769,13 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_start_time");
 		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getActivationStartingTime());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		//activation_end_time
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_end_time");
 		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getActivationEndingTime());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		//activation_visibility
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_visibility");
@@ -6805,7 +6805,7 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_feedback_specific");
 		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getSpecificAnswerFeedback());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		//instant_feedback_answer_fixation
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_feedback_answer_fixation");
@@ -6817,7 +6817,7 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "obligations_enabled");
 		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->areObligationsEnabled());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		
+
 		//enable_processing_time
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "enable_processing_time");
@@ -6864,7 +6864,7 @@ function getAnswerFeedbackPoints()
 			$a_xml_writer->xmlEndTag("flow_mat");
 			$a_xml_writer->xmlEndTag("presentation_material");
 		}
-		
+
 		$attrs = array(
 			"ident" => "1"
 		);
@@ -6890,11 +6890,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* export pages of test to xml (see ilias_co.dtd)
-	*
-	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
-	*										xml data
-	*/
+	 * export pages of test to xml (see ilias_co.dtd)
+	 *
+	 * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	 *										xml data
+	 */
 	function exportPagesXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
 		global $DIC;
@@ -6929,11 +6929,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* export content objects meta data to xml (see ilias_co.dtd)
-	*
-	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
-	*										xml data
-	*/
+	 * export content objects meta data to xml (see ilias_co.dtd)
+	 *
+	 * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	 *										xml data
+	 */
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		include_once "./Services/MetaData/classes/class.ilMD2XML.php";
@@ -6943,11 +6943,11 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->appendXML($md2xml->getXML());
 	}
 
-/**
-* Returns the installation id for a given identifier
-*
-* @access	private
-*/
+	/**
+	 * Returns the installation id for a given identifier
+	 *
+	 * @access	private
+	 */
 	function modifyExportIdentifier($a_tag, $a_param, $a_value)
 	{
 		if ($a_tag == "Identifier" && $a_param == "Entry")
@@ -6961,11 +6961,11 @@ function getAnswerFeedbackPoints()
 
 
 	/**
-	* export page objects to xml (see ilias_co.dtd)
-	*
-	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
-	*										xml data
-	*/
+	 * export page objects to xml (see ilias_co.dtd)
+	 *
+	 * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	 *										xml data
+	 */
 	function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog)
 	{
 		global $DIC;
@@ -7027,11 +7027,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* export media objects to xml (see ilias_co.dtd)
-	*
-	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
-	*										xml data
-	*/
+	 * export media objects to xml (see ilias_co.dtd)
+	 *
+	 * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	 *										xml data
+	 */
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
 		include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -7050,9 +7050,9 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* export files of file itmes
-	*
-	*/
+	 * export files of file itmes
+	 *
+	 */
 	function exportFileItems($a_target_dir, &$expLog)
 	{
 		include_once "./Modules/File/classes/class.ilObjFile.php";
@@ -7067,9 +7067,9 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* get array of (two) new created questions for
-	* import id
-	*/
+	 * get array of (two) new created questions for
+	 * import id
+	 */
 	function getImportMapping()
 	{
 		if (!is_array($this->import_mapping))
@@ -7210,7 +7210,7 @@ function getAnswerFeedbackPoints()
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$this->saveCompleteStatus($testQuestionSetConfigFactory->getQuestionSetConfig());
-		
+
 		if( $this->participantDataExist() )
 		{
 			$this->recalculateScores(true);
@@ -7245,27 +7245,27 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets the authors name of the ilObjTest object
-*
-* @param string $author A string containing the name of the test author
-* @access public
-* @see $author
-*/
-  function setAuthor($author = "")
+	/**
+	 * Sets the authors name of the ilObjTest object
+	 *
+	 * @param string $author A string containing the name of the test author
+	 * @access public
+	 * @see $author
+	 */
+	function setAuthor($author = "")
 	{
-    $this->author = $author;
-  }
+		$this->author = $author;
+	}
 
-/**
-* Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
-* This will only be called for conversion of "old" tests where the author hasn't been
-* stored in the lifecycle metadata
-*
-* @param string $a_author A string containing the name of the test author
-* @access private
-* @see $author
-*/
+	/**
+	 * Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
+	 * This will only be called for conversion of "old" tests where the author hasn't been
+	 * stored in the lifecycle metadata
+	 *
+	 * @param string $a_author A string containing the name of the test author
+	 * @access private
+	 * @see $author
+	 */
 	function saveAuthorToMetadata($a_author = "")
 	{
 		$md = new ilMD($this->getId(), 0, $this->getType());
@@ -7290,25 +7290,25 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Create meta data entry
-*
-* @access public
-*/
+	/**
+	 * Create meta data entry
+	 *
+	 * @access public
+	 */
 	function createMetaData()
 	{
 		parent::createMetaData();
 		$this->saveAuthorToMetadata();
 	}
 
-/**
-* Gets the authors name of the ilObjTest object
-*
-* @return string The string containing the name of the test author
-* @access public
-* @see $author
-*/
-  function getAuthor()
+	/**
+	 * Gets the authors name of the ilObjTest object
+	 *
+	 * @return string The string containing the name of the test author
+	 * @access public
+	 * @see $author
+	 */
+	function getAuthor()
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
@@ -7332,15 +7332,15 @@ function getAnswerFeedbackPoints()
 			}
 		}
 		return join($author, ",");
-  }
+	}
 
-/**
-* Gets the authors name of the ilObjTest object
-*
-* @return string The string containing the name of the test author
-* @access public
-* @see $author
-*/
+	/**
+	 * Gets the authors name of the ilObjTest object
+	 *
+	 * @return string The string containing the name of the test author
+	 * @access public
+	 * @see $author
+	 */
 	public static function _lookupAuthor($obj_id)
 	{
 		$author = array();
@@ -7365,14 +7365,14 @@ function getAnswerFeedbackPoints()
 			}
 		}
 		return join($author, ",");
-  }
+	}
 
-/**
-* Returns the available tests for the active user
-*
-* @return array The available tests
-* @access public
-*/
+	/**
+	 * Returns the available tests for the active user
+	 *
+	 * @return array The available tests
+	 * @access public
+	 */
 	public static function _getAvailableTests($use_object_id = FALSE)
 	{
 		global $DIC;
@@ -7401,13 +7401,13 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Clone object
-	*
-	* @access public
-	* @param int ref id of parent container
-	* @param int copy id
-	* @return object new test object
-	*/
+	 * Clone object
+	 *
+	 * @access public
+	 * @param int ref id of parent container
+	 * @param int copy id
+	 * @return object new test object
+	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
 		global $DIC;
@@ -7508,7 +7508,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setSpecificAnswerFeedback($this->getSpecificAnswerFeedback());
 		$newObj->setObligationsEnabled($this->areObligationsEnabled());
 		$newObj->saveToDb();
-		
+
 		// clone certificate
 		$factory = new ilCertificateFactory();
 		$templateRepository = new ilCertificateTemplateRepository($ilDB);
@@ -7532,23 +7532,23 @@ function getAnswerFeedbackPoints()
 		$skillLevelThresholdList->setTestId($this->getTestId());
 		$skillLevelThresholdList->loadFromDb();
 		$skillLevelThresholdList->cloneListForTest($newObj->getTestId());
-		
+
 		$newObj->saveToDb();
 		$newObj->updateMetaData();// #14467
-		
+
 		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		$obj_settings = new ilLPObjSettings($this->getId());
 		$obj_settings->cloneSettings($newObj->getId());
-		
+
 		return $newObj;
 	}
 
 	/**
-	* Returns the number of questions in the test
-	*
-	* @return integer The number of questions
-	* @access	public
-	*/
+	 * Returns the number of questions in the test
+	 *
+	 * @return integer The number of questions
+	 * @access	public
+	 */
 	function getQuestionCount()
 	{
 		$num = 0;
@@ -7573,7 +7573,7 @@ function getAnswerFeedbackPoints()
 				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 
 				$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-						$ilDB, $this, new ilTestRandomQuestionSetSourcePoolDefinitionFactory($ilDB, $this)
+					$ilDB, $this, new ilTestRandomQuestionSetSourcePoolDefinitionFactory($ilDB, $this)
 				);
 
 				$sourcePoolDefinitionList->loadDefinitions();
@@ -7589,17 +7589,17 @@ function getAnswerFeedbackPoints()
 		{
 			$num = count($this->questions);
 		}
-		
+
 		return $num;
 	}
 
-/**
-* Logs an action into the Test&Assessment log
-*
-* @param string $logtext The log text
-* @param integer $question_id If given, saves the question id to the database
-* @access public
-*/
+	/**
+	 * Logs an action into the Test&Assessment log
+	 *
+	 * @param string $logtext The log text
+	 * @param integer $question_id If given, saves the question id to the database
+	 * @access public
+	 */
 	function logAction($logtext = "", $question_id = "")
 	{
 		global $DIC;
@@ -7615,13 +7615,13 @@ function getAnswerFeedbackPoints()
 		ilObjAssessmentFolder::_addLog($ilUser->getId(), $this->getId(), $logtext, $question_id, $original_id, TRUE, $this->getRefId());
 	}
 
-/**
-* Returns the ILIAS test object id for a given test id
-*
-* @param integer $test_id The test id
-* @return mixed The ILIAS test object id or FALSE if the query was not successful
-* @access public
-*/
+	/**
+	 * Returns the ILIAS test object id for a given test id
+	 *
+	 * @param integer $test_id The test id
+	 * @return mixed The ILIAS test object id or FALSE if the query was not successful
+	 * @access public
+	 */
 	public static function _getObjectIDFromTestID($test_id)
 	{
 		global $DIC;
@@ -7639,13 +7639,13 @@ function getAnswerFeedbackPoints()
 		return $object_id;
 	}
 
-/**
-* Returns the ILIAS test object id for a given active id
-*
-* @param integer $active_id The active id
-* @return mixed The ILIAS test object id or FALSE if the query was not successful
-* @access public
-*/
+	/**
+	 * Returns the ILIAS test object id for a given active id
+	 *
+	 * @param integer $active_id The active id
+	 * @return mixed The ILIAS test object id or FALSE if the query was not successful
+	 * @access public
+	 */
 	public static function _getObjectIDFromActiveID($active_id)
 	{
 		global $DIC;
@@ -7663,13 +7663,13 @@ function getAnswerFeedbackPoints()
 		return $object_id;
 	}
 
-/**
-* Returns the ILIAS test id for a given object id
-*
-* @param integer $object_id The object id
-* @return mixed The ILIAS test id or FALSE if the query was not successful
-* @access public
-*/
+	/**
+	 * Returns the ILIAS test id for a given object id
+	 *
+	 * @param integer $object_id The object id
+	 * @return mixed The ILIAS test id or FALSE if the query was not successful
+	 * @access public
+	 */
 	public static function _getTestIDFromObjectID($object_id)
 	{
 		global $DIC;
@@ -7687,14 +7687,14 @@ function getAnswerFeedbackPoints()
 		return $test_id;
 	}
 
-/**
-* Returns the text answer of a given user for a given question
-*
-* @param integer $user_id The user id
-* @param integer $question_id The question id
-* @return string The answer text
-* @access public
-*/
+	/**
+	 * Returns the text answer of a given user for a given question
+	 *
+	 * @param integer $user_id The user id
+	 * @param integer $question_id The question id
+	 * @return string The answer text
+	 * @access public
+	 */
 	function getTextAnswer($active_id, $question_id, $pass = NULL)
 	{
 		global $DIC;
@@ -7721,13 +7721,13 @@ function getAnswerFeedbackPoints()
 		return $res;
 	}
 
-/**
-* Returns the question text for a given question
-*
-* @param integer $question_id The question id
-* @return string The question text
-* @access public
-*/
+	/**
+	 * Returns the question text for a given question
+	 *
+	 * @param integer $question_id The question id
+	 * @return string The question text
+	 * @access public
+	 */
 	function getQuestiontext($question_id)
 	{
 		global $DIC;
@@ -7748,7 +7748,7 @@ function getAnswerFeedbackPoints()
 		}
 		return $res;
 	}
-	
+
 	/**
 	 * @return ilTestParticipantList
 	 */
@@ -7757,10 +7757,10 @@ function getAnswerFeedbackPoints()
 		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
 		$participantList = new ilTestParticipantList($this);
 		$participantList->initializeFromDbRows( $this->getInvitedUsers() );
-		
+
 		return $participantList;
 	}
-	
+
 	/**
 	 * @return ilTestParticipantList
 	 */
@@ -7769,16 +7769,16 @@ function getAnswerFeedbackPoints()
 		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
 		$participantList = new ilTestParticipantList($this);
 		$participantList->initializeFromDbRows( $this->getTestParticipants() );
-		
+
 		return $participantList;
 	}
 
-/**
-* Returns a list of all invited users in a test
-*
-* @return array array of invited users
-* @access public
-*/
+	/**
+	 * Returns a list of all invited users in a test
+	 *
+	 * @return array array of invited users
+	 * @access public
+	 */
 	function &getInvitedUsers($user_id="", $order="login, lastname, firstname")
 	{
 		global $DIC;
@@ -7844,12 +7844,12 @@ function getAnswerFeedbackPoints()
 		return $result_array;
 	}
 
-/**
-* Returns a list of all participants in a test
-*
-* @return array The user id's of the participants
-* @access public
-*/
+	/**
+	 * Returns a list of all participants in a test
+	 *
+	 * @return array The user id's of the participants
+	 * @access public
+	 */
 	function &getTestParticipants()
 	{
 		global $DIC;
@@ -7918,12 +7918,12 @@ function getAnswerFeedbackPoints()
 		}
 		return $data;
 	}
-	
+
 	public function getTestParticipantsForManualScoring($filter = NULL)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoring();
 		if (count($scoring) == 0) return array();
@@ -7933,7 +7933,7 @@ function getAnswerFeedbackPoints()
 		foreach ($participants as $active_id => $participant)
 		{
 			$qstType_IN_manScoreableQstTypes = $ilDB->in('qpl_questions.question_type_fi', $scoring, false, 'integer');
-			
+
 			$queryString = "
 				SELECT		tst_test_result.manual
 				
@@ -7945,13 +7945,13 @@ function getAnswerFeedbackPoints()
 				WHERE		tst_test_result.active_fi = %s
 				AND			$qstType_IN_manScoreableQstTypes
 			";
-			
+
 			$result = $ilDB->queryF(
-					$queryString, array("integer"), array($active_id)
+				$queryString, array("integer"), array($active_id)
 			);
-			
+
 			$count = $result->numRows();
-			
+
 			if ($count > 0)
 			{
 				switch ($filter)
@@ -7974,13 +7974,13 @@ function getAnswerFeedbackPoints()
 						//}
 						//if ($found == $count) 
 						//{
-							//$filtered_participants[$active_id] = $participant;
+						//$filtered_participants[$active_id] = $participant;
 						//}
 						//else
 						//{
-							$assessmentSetting = new ilSetting("assessment");
-							$manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-							if ($manscoring_done) $filtered_participants[$active_id] = $participant;
+						$assessmentSetting = new ilSetting("assessment");
+						$manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+						if ($manscoring_done) $filtered_participants[$active_id] = $participant;
 						//}
 						break;
 					case 5:
@@ -7992,9 +7992,9 @@ function getAnswerFeedbackPoints()
 						//}
 						//if ($found == 0) 
 						//{
-							$assessmentSetting = new ilSetting("assessment");
-							$manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-							if (!$manscoring_done) $filtered_participants[$active_id] = $participant;
+						$assessmentSetting = new ilSetting("assessment");
+						$manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+						if (!$manscoring_done) $filtered_participants[$active_id] = $participant;
 						//}
 						break;
 					case 6:
@@ -8015,18 +8015,18 @@ function getAnswerFeedbackPoints()
 		return $filtered_participants;
 	}
 
-/**
-* Returns a data of all users specified by id list
-*
-* @param $usr_ids kommaseparated list of ids
-* @return array The user data "usr_id, login, lastname, firstname, clientip" of the users with id as key
-* @access public
-*/
+	/**
+	 * Returns a data of all users specified by id list
+	 *
+	 * @param $usr_ids kommaseparated list of ids
+	 * @return array The user data "usr_id, login, lastname, firstname, clientip" of the users with id as key
+	 * @access public
+	 */
 	function &getUserData($ids)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		if (!is_array($ids) || count($ids) ==0) return array();
 
 		if ($this->getAnonymity())
@@ -8073,12 +8073,12 @@ function getAnswerFeedbackPoints()
 	}
 
 
-/**
-* Invites all users of a group to a test
-*
-* @param integer $group_id The database id of the invited group
-* @access public
-*/
+	/**
+	 * Invites all users of a group to a test
+	 *
+	 * @param integer $group_id The database id of the invited group
+	 * @access public
+	 */
 	function inviteGroup($group_id)
 	{
 		include_once "./Modules/Group/classes/class.ilObjGroup.php";
@@ -8091,12 +8091,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Invites all users of a role to a test
-*
-* @param integer $group_id The database id of the invited group
-* @access public
-*/
+	/**
+	 * Invites all users of a role to a test
+	 *
+	 * @param integer $group_id The database id of the invited group
+	 * @access public
+	 */
 	function inviteRole($role_id)
 	{
 		global $DIC;
@@ -8111,12 +8111,12 @@ function getAnswerFeedbackPoints()
 
 
 
-/**
-* Disinvites a user from a test
-*
-* @param integer $user_id The database id of the disinvited user
-* @access public
-*/
+	/**
+	 * Disinvites a user from a test
+	 *
+	 * @param integer $user_id The database id of the disinvited user
+	 * @access public
+	 */
 	function disinviteUser($user_id)
 	{
 		global $DIC;
@@ -8128,12 +8128,12 @@ function getAnswerFeedbackPoints()
 		);
 	}
 
-/**
-* Invites a user to a test
-*
-* @param integer $user_id The database id of the invited user
-* @access public
-*/
+	/**
+	 * Invites a user to a test
+	 *
+	 * @param integer $user_id The database id of the invited user
+	 * @access public
+	 */
 	function inviteUser($user_id, $client_ip="")
 	{
 		global $DIC;
@@ -8245,7 +8245,7 @@ function getAnswerFeedbackPoints()
 		);
 		return $result->numRows() == 1;
 	}
-	
+
 	/**
 	 * returns if the numbers of tries have to be checked
 	 */
@@ -8353,16 +8353,16 @@ function getAnswerFeedbackPoints()
 		return $results;
 	}
 
-/**
-* Processes an array as a CSV row and converts the array values to correct CSV
-* values. The "converted" array is returned
-*
-* @param array $row The array containing the values for a CSV row
-* @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
-* @param string $separator The value separator in the CSV row (used for quoting) (; = default)
-* @return array The converted array ready for CSV use
-* @access public
-*/
+	/**
+	 * Processes an array as a CSV row and converts the array values to correct CSV
+	 * values. The "converted" array is returned
+	 *
+	 * @param array $row The array containing the values for a CSV row
+	 * @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
+	 * @param string $separator The value separator in the CSV row (used for quoting) (; = default)
+	 * @return array The converted array ready for CSV use
+	 * @access public
+	 */
 	function &processCSVRow($row, $quoteAll = FALSE, $separator = ";")
 	{
 		$resultarray = array();
@@ -8387,7 +8387,7 @@ function getAnswerFeedbackPoints()
 
 			if ($surround)
 			{
-			    $entry = "\"" . $entry . "\"";
+				$entry = "\"" . $entry . "\"";
 			}
 
 			$resultarray[$rowindex] = $entry;
@@ -8395,14 +8395,14 @@ function getAnswerFeedbackPoints()
 		return $resultarray;
 	}
 
-/**
-* Retrieves the actual pass of a given user for a given test
-*
-* @param integer $user_id The user id
-* @param integer $test_id The test id
-* @return integer The pass of the user for the given test
-* @access public
-*/
+	/**
+	 * Retrieves the actual pass of a given user for a given test
+	 *
+	 * @param integer $user_id The user id
+	 * @param integer $test_id The test id
+	 * @return integer The pass of the user for the given test
+	 * @access public
+	 */
 	public static function _getPass($active_id)
 	{
 		global $DIC;
@@ -8423,33 +8423,33 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Retrieves the maximum pass of a given user for a given test
-	* in which the user answered at least one question
-	*
-	* @param integer $user_id The user id
-	* @param integer $test_id The test id
-	* @return integer The pass of the user for the given test
-	* @access public
-	*/
-		public static function _getMaxPass($active_id)
+	 * Retrieves the maximum pass of a given user for a given test
+	 * in which the user answered at least one question
+	 *
+	 * @param integer $user_id The user id
+	 * @param integer $test_id The test id
+	 * @return integer The pass of the user for the given test
+	 * @access public
+	 */
+	public static function _getMaxPass($active_id)
+	{
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
+		);
+		if ($result->numRows())
 		{
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
-			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
-				array('integer'),
-				array($active_id)
-			);
-			if ($result->numRows())
-			{
-				$row = $ilDB->fetchAssoc($result);
-				$max = $row["maxpass"];
-			}
-			else
-			{
-				$max = NULL;
-			}
-			return $max;
+			$row = $ilDB->fetchAssoc($result);
+			$max = $row["maxpass"];
 		}
+		else
+		{
+			$max = NULL;
+		}
+		return $max;
+	}
 
 	/**
 	 * Retrieves the best pass of a given user for a given test
@@ -8460,7 +8460,7 @@ function getAnswerFeedbackPoints()
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$result = $ilDB->queryF("SELECT * FROM tst_pass_result WHERE active_fi = %s",
 			array('integer'),
 			array($active_id)
@@ -8479,7 +8479,7 @@ function getAnswerFeedbackPoints()
 				{
 					$factor = 0;
 				}
-				
+
 				if($factor > $bestfactor)
 				{
 					$bestrow = $row;
@@ -8501,14 +8501,14 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Retrieves the pass number that should be counted for a given user
-*
-* @param integer $user_id The user id
-* @param integer $test_id The test id
-* @return integer The result pass of the user for the given test
-* @access public
-*/
+	/**
+	 * Retrieves the pass number that should be counted for a given user
+	 *
+	 * @param integer $user_id The user id
+	 * @param integer $test_id The test id
+	 * @return integer The result pass of the user for the given test
+	 * @access public
+	 */
 	public static function _getResultPass($active_id)
 	{
 		$counted_pass = NULL;
@@ -8523,15 +8523,15 @@ function getAnswerFeedbackPoints()
 		return $counted_pass;
 	}
 
-/**
-* Retrieves the number of answered questions for a given user in a given test
-*
-* @param integer $user_id The user id
-* @param integer $test_id The test id
-* @param integer $pass The pass of the test (optional)
-* @return integer The number of answered questions
-* @access public
-*/
+	/**
+	 * Retrieves the number of answered questions for a given user in a given test
+	 *
+	 * @param integer $user_id The user id
+	 * @param integer $test_id The test id
+	 * @param integer $pass The pass of the test (optional)
+	 * @return integer The number of answered questions
+	 * @access public
+	 */
 	function getAnsweredQuestionCount($active_id, $pass = NULL)
 	{
 		if( $this->isDynamicTest() )
@@ -8541,7 +8541,7 @@ function getAnswerFeedbackPoints()
 			$ilDB = $DIC['ilDB'];
 			$lng = $DIC['lng'];
 			$ilPluginAdmin = $DIC['ilPluginAdmin'];
-			
+
 			require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 			$testSessionFactory = new ilTestSessionFactory($this);
 			$testSession = $testSessionFactory->getSession($active_id);
@@ -8553,13 +8553,13 @@ function getAnswerFeedbackPoints()
 			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this);
 			$dynamicQuestionSetConfig->loadFromDb();
-			
+
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
 			$testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
-			
+
 			return $testSequence->getTrackedQuestionCount();
 		}
-		
+
 		if ($this->isRandomTest())
 		{
 			$this->loadQuestions($active_id, $pass);
@@ -8576,25 +8576,25 @@ function getAnswerFeedbackPoints()
 		return $workedthrough;
 	}
 
-/**
-* Retrieves the number of answered questions for a given user in a given test
-*
-* @param integer $user_id The user id
-* @param integer $test_id The test id
-* @param integer $pass The pass of the test
-* @return timestamp The SQL timestamp of the finished pass
-* @access public
-*/
+	/**
+	 * Retrieves the number of answered questions for a given user in a given test
+	 *
+	 * @param integer $user_id The user id
+	 * @param integer $test_id The test id
+	 * @param integer $pass The pass of the test
+	 * @return timestamp The SQL timestamp of the finished pass
+	 * @access public
+	 */
 	function getPassFinishDate($active_id, $pass)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		if (is_null($pass))
 		{
 			$pass = 0;
 		}
-		
+
 		$query = "
 			SELECT	tst_pass_result.tstamp pass_res_tstamp,
 					tst_test_result.tstamp quest_res_tstamp
@@ -8610,22 +8610,22 @@ function getAnswerFeedbackPoints()
 			
 			ORDER BY tst_test_result.tstamp DESC
 		";
-		
+
 		$result = $ilDB->queryF($query,
 			array('integer', 'integer'),
 			array($active_id, $pass)
 		);
-		
+
 		while( $row = $ilDB->fetchAssoc($result) )
 		{
 			if( $row['qres_tstamp'] )
 			{
 				return $row['quest_res_tstamp'];
 			}
-			
+
 			return $row['pass_res_tstamp'];
 		}
-		
+
 		return 0;
 	}
 
@@ -8693,7 +8693,7 @@ function getAnswerFeedbackPoints()
 		$testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this);
 		$testPassesSelector->setActiveId($active_id);
 		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-		
+
 		if ($this->hasNrOfTriesRestriction() && ($active_id > 0))
 		{
 			$closedPasses = $testPassesSelector->getClosedPasses();
@@ -8713,11 +8713,11 @@ function getAnswerFeedbackPoints()
 				$pass_waiting_string = $this->getPassWaiting();
 				$time_values         = explode(":", $pass_waiting_string);
 				$next_pass_allowed   = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $lastPass);
-				
+
 				if(time() < $next_pass_allowed)
 				{
 					$date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed, IL_CAL_UNIX));
-					
+
 					$result["executable"]   = false;
 					$result["errormessage"] = sprintf($this->lng->txt('wait_for_next_pass_hint_msg'), $date);
 					return $result;
@@ -8726,41 +8726,41 @@ function getAnswerFeedbackPoints()
 		}
 		return $result;
 	}
-	
-	
+
+
 	public function canShowTestResults(ilTestSession $testSession)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
+
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
 		$passSelector = new ilTestPassesSelector($DIC->database(), $this);
-		
+
 		$passSelector->setActiveId($testSession->getActiveId());
 		$passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-		
+
 		return $passSelector->hasReportablePasses();
 	}
-	
+
 	public function hasAnyTestResult(ilTestSession $testSession)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
+
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
 		$passSelector = new ilTestPassesSelector($DIC->database(), $this);
-		
+
 		$passSelector->setActiveId($testSession->getActiveId());
 		$passSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-		
+
 		return $passSelector->hasExistingPasses();
 	}
 
-/**
-* Returns the unix timestamp of the time a user started a test
-*
-* @param integer $active_id The active id of the user
-* @return mixed The unix timestamp if the user started the test, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns the unix timestamp of the time a user started a test
+	 *
+	 * @param integer $active_id The active id of the user
+	 * @return mixed The unix timestamp if the user started the test, FALSE otherwise
+	 * @access public
+	 */
 	function getStartingTimeOfUser($active_id, $pass = null)
 	{
 		global $DIC;
@@ -8769,7 +8769,7 @@ function getAnswerFeedbackPoints()
 		if ($active_id < 1) return FALSE;
 		if($pass === null)
 		{
-		$pass = ($this->getResetProcessingTime()) ? self::_getPass($active_id) : 0;
+			$pass = ($this->getResetProcessingTime()) ? self::_getPass($active_id) : 0;
 		}
 		$result = $ilDB->queryF("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s AND tst_times.pass = %s ORDER BY tst_times.started",
 			array('integer', 'integer'),
@@ -8793,14 +8793,14 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Returns whether the maximum processing time for a test is reached or not
-*
-* @param long $starting_time The unix timestamp of the starting time of the test
-* @return boolean TRUE if the maxium processing time is reached, FALSE if the
-*					maximum processing time is not reached or no maximum processing time is given
-* @access public
-*/
+	/**
+	 * Returns whether the maximum processing time for a test is reached or not
+	 *
+	 * @param long $starting_time The unix timestamp of the starting time of the test
+	 * @return boolean TRUE if the maxium processing time is reached, FALSE if the
+	 *					maximum processing time is not reached or no maximum processing time is given
+	 * @access public
+	 */
 	function isMaxProcessingTimeReached($starting_time, $active_id)
 	{
 		if ($this->getEnableProcessingTime())
@@ -8826,7 +8826,7 @@ function getAnswerFeedbackPoints()
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$query = "
 			SELECT		questions.*,
 						questtypes.type_tag,
@@ -8849,25 +8849,25 @@ function getAnswerFeedbackPoints()
 			
 			ORDER BY	tstquest.sequence
 		";
-		
+
 		$query_result = $ilDB->queryF(
 			$query, array('integer'), array($this->getTestId())
 		);
-		
+
 		$questions = array();
-		
+
 		while ($row = $ilDB->fetchAssoc($query_result))
 		{
 			$question = $row;
-			
+
 			$question['obligationPossible'] = self::isQuestionObligationPossible($row['question_id']);
-			
+
 			$questions[] = $question;
 		}
-		
+
 		return $questions;
 	}
-	
+
 	/**
 	 * @param int $questionId
 	 * @return bool
@@ -8880,35 +8880,35 @@ function getAnswerFeedbackPoints()
 			{
 				continue;
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * @return float
 	 */
 	public function getFixedQuestionSetTotalPoints()
 	{
 		$points = 0;
-		
+
 		foreach($this->getTestQuestions() as $questionData)
 		{
 			$points += $questionData['points'];
 		}
-		
+
 		return $points;
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public function getFixedQuestionSetTotalWorkingTime()
 	{
 		$totalWorkingTime = '00:00:00';
-		
+
 		foreach($this->getTestQuestions() as $questionData)
 		{
 			$totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended(
@@ -8967,68 +8967,68 @@ function getAnswerFeedbackPoints()
 		return $questions;
 	}
 
-/**
-* Returns the status of the shuffle_questions variable
-*
-* @return integer 0 if the test questions are not shuffled, 1 if the test questions are shuffled
-* @access public
-*/
+	/**
+	 * Returns the status of the shuffle_questions variable
+	 *
+	 * @return integer 0 if the test questions are not shuffled, 1 if the test questions are shuffled
+	 * @access public
+	 */
 	function getShuffleQuestions()
 	{
 		return ($this->shuffle_questions) ? 1 : 0;
 	}
 
-/**
-* Sets the status of the shuffle_questions variable
-*
-* @param boolean $a_shuffle 0 if the test questions are not shuffled, 1 if the test questions are shuffled
-* @access public
-*/
+	/**
+	 * Sets the status of the shuffle_questions variable
+	 *
+	 * @param boolean $a_shuffle 0 if the test questions are not shuffled, 1 if the test questions are shuffled
+	 * @access public
+	 */
 	function setShuffleQuestions($a_shuffle)
 	{
 		$this->shuffle_questions = ($a_shuffle) ? 1 : 0;
 	}
 
-/**
-* Returns the settings for the list of questions options in the test properties
-* This could contain one of the following values:
-*   0 = No list of questions offered
-*   1 = A list of questions is offered
-*   3 = A list of questions is offered and the list of questions is shown as first page of the test
-*   5 = A list of questions is offered and the list of questions is shown as last page of the test
-*   7 = A list of questions is offered and the list of questions is shown as first and last page of the test
-*
-* @return integer TRUE if the list of questions should be presented, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns the settings for the list of questions options in the test properties
+	 * This could contain one of the following values:
+	 *   0 = No list of questions offered
+	 *   1 = A list of questions is offered
+	 *   3 = A list of questions is offered and the list of questions is shown as first page of the test
+	 *   5 = A list of questions is offered and the list of questions is shown as last page of the test
+	 *   7 = A list of questions is offered and the list of questions is shown as first and last page of the test
+	 *
+	 * @return integer TRUE if the list of questions should be presented, FALSE otherwise
+	 * @access public
+	 */
 	function getListOfQuestionsSettings()
 	{
 		return ($this->show_summary) ? $this->show_summary : 0;
 	}
 
-/**
-* Sets the settings for the list of questions options in the test properties
-* This could contain one of the following values:
-*   0 = No list of questions offered
-*   1 = A list of questions is offered
-*   3 = A list of questions is offered and the list of questions is shown as first page of the test
-*   5 = A list of questions is offered and the list of questions is shown as last page of the test
-*   7 = A list of questions is offered and the list of questions is shown as first and last page of the test
-*
-* @param integer $a_value 0, 1, 3, 5 or 7
-* @access public
-*/
+	/**
+	 * Sets the settings for the list of questions options in the test properties
+	 * This could contain one of the following values:
+	 *   0 = No list of questions offered
+	 *   1 = A list of questions is offered
+	 *   3 = A list of questions is offered and the list of questions is shown as first page of the test
+	 *   5 = A list of questions is offered and the list of questions is shown as last page of the test
+	 *   7 = A list of questions is offered and the list of questions is shown as first and last page of the test
+	 *
+	 * @param integer $a_value 0, 1, 3, 5 or 7
+	 * @access public
+	 */
 	function setListOfQuestionsSettings($a_value = 0)
 	{
 		$this->show_summary = $a_value;
 	}
 
-/**
-* Returns if the list of questions should be presented to the user or not
-*
-* @return boolean TRUE if the list of questions should be presented, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns if the list of questions should be presented to the user or not
+	 *
+	 * @return boolean TRUE if the list of questions should be presented, FALSE otherwise
+	 * @access public
+	 */
 	function getListOfQuestions()
 	{
 		if (($this->show_summary & 1) > 0)
@@ -9041,12 +9041,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets if the the list of questions should be presented to the user or not
-*
-* @param boolean $a_value TRUE if the list of questions should be presented, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Sets if the the list of questions should be presented to the user or not
+	 *
+	 * @param boolean $a_value TRUE if the list of questions should be presented, FALSE otherwise
+	 * @access public
+	 */
 	function setListOfQuestions($a_value = TRUE)
 	{
 		if ($a_value)
@@ -9059,12 +9059,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Returns if the list of questions should be presented as the first page of the test
-*
-* @return boolean TRUE if the list of questions is shown as first page of the test, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns if the list of questions should be presented as the first page of the test
+	 *
+	 * @return boolean TRUE if the list of questions is shown as first page of the test, FALSE otherwise
+	 * @access public
+	 */
 	function getListOfQuestionsStart()
 	{
 		if (($this->show_summary & 2) > 0)
@@ -9077,12 +9077,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets if the the list of questions as the start page of the test
-*
-* @param boolean $a_value TRUE if the list of questions should be the start page, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Sets if the the list of questions as the start page of the test
+	 *
+	 * @param boolean $a_value TRUE if the list of questions should be the start page, FALSE otherwise
+	 * @access public
+	 */
 	function setListOfQuestionsStart($a_value = TRUE)
 	{
 		if ($a_value && $this->getListOfQuestions())
@@ -9098,12 +9098,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Returns if the list of questions should be presented as the last page of the test
-*
-* @return boolean TRUE if the list of questions is shown as last page of the test, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns if the list of questions should be presented as the last page of the test
+	 *
+	 * @return boolean TRUE if the list of questions is shown as last page of the test, FALSE otherwise
+	 * @access public
+	 */
 	function getListOfQuestionsEnd()
 	{
 		if (($this->show_summary & 4) > 0)
@@ -9116,12 +9116,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets if the the list of questions as the end page of the test
-*
-* @param boolean $a_value TRUE if the list of questions should be the end page, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Sets if the the list of questions as the end page of the test
+	 *
+	 * @param boolean $a_value TRUE if the list of questions should be the end page, FALSE otherwise
+	 * @access public
+	 */
 	function setListOfQuestionsEnd($a_value = TRUE)
 	{
 		if ($a_value && $this->getListOfQuestions())
@@ -9138,61 +9138,61 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns TRUE if the list of questions should be presented with the question descriptions
-	*
-	* @return boolean TRUE if the list of questions is shown with the question descriptions, FALSE otherwise
-	* @access public
-	*/
-		function getListOfQuestionsDescription()
+	 * Returns TRUE if the list of questions should be presented with the question descriptions
+	 *
+	 * @return boolean TRUE if the list of questions is shown with the question descriptions, FALSE otherwise
+	 * @access public
+	 */
+	function getListOfQuestionsDescription()
+	{
+		if (($this->show_summary & 8) > 0)
 		{
-			if (($this->show_summary & 8) > 0)
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
+			return TRUE;
 		}
+		else
+		{
+			return FALSE;
+		}
+	}
 
 	/**
-	* Sets the show_summary attribute to TRUE if the list of questions should be presented with the question descriptions
-	*
-	* @param boolean $a_value TRUE if the list of questions should be shown with question descriptions, FALSE otherwise
-	* @access public
-	*/
-		function setListOfQuestionsDescription($a_value = TRUE)
+	 * Sets the show_summary attribute to TRUE if the list of questions should be presented with the question descriptions
+	 *
+	 * @param boolean $a_value TRUE if the list of questions should be shown with question descriptions, FALSE otherwise
+	 * @access public
+	 */
+	function setListOfQuestionsDescription($a_value = TRUE)
+	{
+		if ($a_value && $this->getListOfQuestions())
 		{
-			if ($a_value && $this->getListOfQuestions())
+			$this->show_summary = $this->show_summary | 8;
+		}
+		if (!$a_value && $this->getListOfQuestions())
+		{
+			if ($this->getListOfQuestionsDescription())
 			{
-				$this->show_summary = $this->show_summary | 8;
-			}
-			if (!$a_value && $this->getListOfQuestions())
-			{
-				if ($this->getListOfQuestionsDescription())
-				{
-					$this->show_summary = $this->show_summary ^ 8;
-				}
+				$this->show_summary = $this->show_summary ^ 8;
 			}
 		}
+	}
 
-/**
-* Returns the combined results presentation value
-*
-* @return integer The combined results presentation value
-* @access public
-*/
+	/**
+	 * Returns the combined results presentation value
+	 *
+	 * @return integer The combined results presentation value
+	 * @access public
+	 */
 	function getResultsPresentation()
 	{
 		return ($this->results_presentation) ? $this->results_presentation : 0;
 	}
 
-/**
-* Returns if the pass details should be shown when a test is not finished
-*
-* @return boolean TRUE if the pass details should be shown, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns if the pass details should be shown when a test is not finished
+	 *
+	 * @return boolean TRUE if the pass details should be shown, FALSE otherwise
+	 * @access public
+	 */
 	function getShowPassDetails()
 	{
 		if (($this->results_presentation & 1) > 0)
@@ -9205,12 +9205,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Returns if the solution details should be presented to the user or not
-*
-* @return boolean TRUE if the solution details should be presented, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns if the solution details should be presented to the user or not
+	 *
+	 * @return boolean TRUE if the solution details should be presented, FALSE otherwise
+	 * @access public
+	 */
 	function getShowSolutionDetails()
 	{
 		if (($this->results_presentation & 2) > 0)
@@ -9223,12 +9223,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Returns if the solution printview should be presented to the user or not
-*
-* @return boolean TRUE if the solution printview should be presented, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns if the solution printview should be presented to the user or not
+	 *
+	 * @return boolean TRUE if the solution printview should be presented, FALSE otherwise
+	 * @access public
+	 */
 	function getShowSolutionPrintview()
 	{
 		if (($this->results_presentation & 4) > 0)
@@ -9241,12 +9241,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Returns if the feedback should be presented to the solution or not
-*
-* @return boolean TRUE if the feedback should be presented in the solution, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Returns if the feedback should be presented to the solution or not
+	 *
+	 * @return boolean TRUE if the feedback should be presented in the solution, FALSE otherwise
+	 * @access public
+	 */
 	function getShowSolutionFeedback()
 	{
 		if (($this->results_presentation & 8) > 0)
@@ -9260,45 +9260,45 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns if the full solution (including ILIAS content) should be presented to the solution or not
-	*
-	* @return boolean TRUE if the full solution should be presented in the solution output, FALSE otherwise
-	* @access public
-	*/
-		function getShowSolutionAnswersOnly()
+	 * Returns if the full solution (including ILIAS content) should be presented to the solution or not
+	 *
+	 * @return boolean TRUE if the full solution should be presented in the solution output, FALSE otherwise
+	 * @access public
+	 */
+	function getShowSolutionAnswersOnly()
+	{
+		if (($this->results_presentation & 16) > 0)
 		{
-			if (($this->results_presentation & 16) > 0)
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
+			return TRUE;
 		}
-
-		/**
-		* Returns if the signature field should be shown in the test results
-		*
-		* @return boolean TRUE if the signature field should be shown, FALSE otherwise
-		* @access public
-		*/
-		function getShowSolutionSignature()
+		else
 		{
-			if (($this->results_presentation & 32) > 0)
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
+	}
 
 	/**
-	* @return boolean TRUE if the suggested solutions should be shown, FALSE otherwise
-	* @access public
-	*/
+	 * Returns if the signature field should be shown in the test results
+	 *
+	 * @return boolean TRUE if the signature field should be shown, FALSE otherwise
+	 * @access public
+	 */
+	function getShowSolutionSignature()
+	{
+		if (($this->results_presentation & 32) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
+	 * @return boolean TRUE if the suggested solutions should be shown, FALSE otherwise
+	 * @access public
+	 */
 	function getShowSolutionSuggested()
 	{
 		if (($this->results_presentation & 64) > 0)
@@ -9327,25 +9327,25 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets the combined results presentation value
-*
-* @param integer $a_results_presentation The combined results presentation value
-* @access public
-*/
+	/**
+	 * Sets the combined results presentation value
+	 *
+	 * @param integer $a_results_presentation The combined results presentation value
+	 * @access public
+	 */
 	function setResultsPresentation($a_results_presentation = 3)
 	{
 		$this->results_presentation = $a_results_presentation;
 	}
 
-/**
-* Sets if the pass details should be shown when a test is not finished
-*
-* Sets if the pass details should be shown when a test is not finished
-*
-* @param boolean $a_details TRUE if the pass details should be shown, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Sets if the pass details should be shown when a test is not finished
+	 *
+	 * Sets if the pass details should be shown when a test is not finished
+	 *
+	 * @param boolean $a_details TRUE if the pass details should be shown, FALSE otherwise
+	 * @access public
+	 */
 	function setShowPassDetails($a_details = 1)
 	{
 		if ($a_details)
@@ -9361,14 +9361,14 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets if the the solution details should be presented to the user or not
-*
-* @param integer $a_details 1 if the solution details should be presented, 0 otherwise
-* @access public
-*/
+	/**
+	 * Sets if the the solution details should be presented to the user or not
+	 *
+	 * @param integer $a_details 1 if the solution details should be presented, 0 otherwise
+	 * @access public
+	 */
 	function setShowSolutionDetails($a_details = 1)
-	{ 
+	{
 		if ($a_details)
 		{
 			$this->results_presentation = $this->results_presentation | 2;
@@ -9382,23 +9382,23 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Calculates if a user may see the solution printview of his/her test results
-*
-* @return boolean TRUE if the user may see the printview, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Calculates if a user may see the solution printview of his/her test results
+	 *
+	 * @return boolean TRUE if the user may see the printview, FALSE otherwise
+	 * @access public
+	 */
 	function canShowSolutionPrintview($user_id = NULL)
 	{
 		return $this->getShowSolutionPrintview();
 	}
 
-/**
-* Sets if the the solution printview should be presented to the user or not
-*
-* @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Sets if the the solution printview should be presented to the user or not
+	 *
+	 * @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
+	 * @access public
+	 */
 	function setShowSolutionPrintview($a_printview = 1)
 	{
 		if ($a_printview)
@@ -9414,12 +9414,12 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-/**
-* Sets if the the feedback should be presented to the user in the solution or not
-*
-* @param boolean $a_feedback TRUE if the feedback should be presented in the solution, FALSE otherwise
-* @access public
-*/
+	/**
+	 * Sets if the the feedback should be presented to the user in the solution or not
+	 *
+	 * @param boolean $a_feedback TRUE if the feedback should be presented in the solution, FALSE otherwise
+	 * @access public
+	 */
 	function setShowSolutionFeedback($a_feedback = TRUE)
 	{
 		if ($a_feedback)
@@ -9436,53 +9436,53 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
-	*
-	* @param boolean $a_full TRUE if the full solution should be shown in the solution output, FALSE otherwise
-	* @access public
-	*/
-		function setShowSolutionAnswersOnly($a_full = TRUE)
+	 * Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
+	 *
+	 * @param boolean $a_full TRUE if the full solution should be shown in the solution output, FALSE otherwise
+	 * @access public
+	 */
+	function setShowSolutionAnswersOnly($a_full = TRUE)
+	{
+		if ($a_full)
 		{
-			if ($a_full)
+			$this->results_presentation = $this->results_presentation | 16;
+		}
+		else
+		{
+			if ($this->getShowSolutionAnswersOnly())
 			{
-				$this->results_presentation = $this->results_presentation | 16;
-			}
-			else
-			{
-				if ($this->getShowSolutionAnswersOnly())
-				{
-					$this->results_presentation = $this->results_presentation ^ 16;
-				}
+				$this->results_presentation = $this->results_presentation ^ 16;
 			}
 		}
-
-		/**
-		* Set to TRUE, if the signature field should be shown in the solution
-		*
-		* @param boolean $a_signature TRUE if the signature field should be shown, FALSE otherwise
-		* @access public
-		*/
-		function setShowSolutionSignature($a_signature = FALSE)
-		{
-			if ($a_signature)
-			{
-				$this->results_presentation = $this->results_presentation | 32;
-			}
-			else
-			{
-				if ($this->getShowSolutionSignature())
-				{
-					$this->results_presentation = $this->results_presentation ^ 32;
-				}
-			}
-		}
+	}
 
 	/**
-	* Set to TRUE, if the suggested solution should be shown in the solution
-	*
-	* @param boolean $a_solution TRUE if the suggested solution should be shown, FALSE otherwise
-	* @access public
-	*/
+	 * Set to TRUE, if the signature field should be shown in the solution
+	 *
+	 * @param boolean $a_signature TRUE if the signature field should be shown, FALSE otherwise
+	 * @access public
+	 */
+	function setShowSolutionSignature($a_signature = FALSE)
+	{
+		if ($a_signature)
+		{
+			$this->results_presentation = $this->results_presentation | 32;
+		}
+		else
+		{
+			if ($this->getShowSolutionSignature())
+			{
+				$this->results_presentation = $this->results_presentation ^ 32;
+			}
+		}
+	}
+
+	/**
+	 * Set to TRUE, if the suggested solution should be shown in the solution
+	 *
+	 * @param boolean $a_solution TRUE if the suggested solution should be shown, FALSE otherwise
+	 * @access public
+	 */
 	function setShowSolutionSuggested($a_solution = FALSE)
 	{
 		if ($a_solution)
@@ -9635,12 +9635,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Checks if a given string contains HTML or not
-	*
-	* @param string $a_text Text which should be checked
-	* @return boolean
-	* @access public
-	*/
+	 * Checks if a given string contains HTML or not
+	 *
+	 * @param string $a_text Text which should be checked
+	 * @return boolean
+	 * @access public
+	 */
 	function isHTML($a_text)
 	{
 		if (preg_match("/<[^>]*?>/", $a_text))
@@ -9654,12 +9654,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Reads an QTI material tag an creates a text string
-	*
-	* @param string $a_material QTI material tag
-	* @return string text or xhtml string
-	* @access public
-	*/
+	 * Reads an QTI material tag an creates a text string
+	 *
+	 * @param string $a_material QTI material tag
+	 * @return string text or xhtml string
+	 * @access public
+	 */
 	function QTIMaterialToString($a_material)
 	{
 		$result = "";
@@ -9688,13 +9688,13 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Creates a QTI material tag from a plain text or xhtml text
-	*
-	* @param object $a_xml_writer Reference to the ILIAS XML writer
-	* @param string $a_material plain text or html text containing the material
-	* @return string QTI material tag
-	* @access public
-	*/
+	 * Creates a QTI material tag from a plain text or xhtml text
+	 *
+	 * @param object $a_xml_writer Reference to the ILIAS XML writer
+	 * @param string $a_material plain text or html text containing the material
+	 * @return string QTI material tag
+	 * @access public
+	 */
 	function addQTIMaterial(&$a_xml_writer, $a_material)
 	{
 		include_once "./Services/RTE/classes/class.ilRTE.php";
@@ -9731,11 +9731,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Prepares a string for a text area output in tests
-	*
-	* @param string $txt_output String which should be prepared for output
-	* @access public
-	*/
+	 * Prepares a string for a text area output in tests
+	 *
+	 * @param string $txt_output String which should be prepared for output
+	 * @access public
+	 */
 	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE, $omitNl2BrWhenTextArea = false)
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -9743,11 +9743,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Saves the visibility settings of the certificate
-	*
-	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-	* @access private
-	*/
+	 * Saves the visibility settings of the certificate
+	 *
+	 * @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	 * @access private
+	 */
 	function saveCertificateVisibility($a_value)
 	{
 		global $DIC;
@@ -9760,44 +9760,44 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the visibility settings of the certificate
-	*
-	* @return integer The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-	* @access public
-	*/
+	 * Returns the visibility settings of the certificate
+	 *
+	 * @return integer The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	 * @access public
+	 */
 	function getCertificateVisibility()
 	{
 		return (strlen($this->certificate_visibility)) ? $this->certificate_visibility : 0;
 	}
 
 	/**
-	* Sets the visibility settings of the certificate
-	*
-	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-	* @access public
-	*/
+	 * Sets the visibility settings of the certificate
+	 *
+	 * @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	 * @access public
+	 */
 	function setCertificateVisibility($a_value)
 	{
 		$this->certificate_visibility = $a_value;
 	}
 
 	/**
-	* Returns the anonymity status of the test
-	*
-	* @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
-	* @access public
-	*/
+	 * Returns the anonymity status of the test
+	 *
+	 * @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
+	 * @access public
+	 */
 	function getAnonymity()
 	{
 		return ($this->anonymity) ? 1 : 0;
 	}
 
 	/**
-	* Sets the anonymity status of the test
-	*
-	* @param integer $a_value The value for the anonymity status (0 = personalized, 1 = anonymized)
-	* @access public
-	*/
+	 * Sets the anonymity status of the test
+	 *
+	 * @param integer $a_value The value for the anonymity status (0 = personalized, 1 = anonymized)
+	 * @access public
+	 */
 	function setAnonymity($a_value = 0)
 	{
 		switch ($a_value)
@@ -9812,22 +9812,22 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns wheather the cancel test button is shown or not
-	*
-	* @return integer The value for the show cancel status (0 = don't show, 1 = show)
-	* @access public
-	*/
+	 * Returns wheather the cancel test button is shown or not
+	 *
+	 * @return integer The value for the show cancel status (0 = don't show, 1 = show)
+	 * @access public
+	 */
 	function getShowCancel()
 	{
 		return ($this->show_cancel) ? 1 : 0;
 	}
 
 	/**
-	* Sets the cancel test button status
-	*
-	* @param integer $a_value The value for the cancel test status (0 = don't show, 1 = show)
-	* @access public
-	*/
+	 * Sets the cancel test button status
+	 *
+	 * @param integer $a_value The value for the cancel test status (0 = don't show, 1 = show)
+	 * @access public
+	 */
 	function setShowCancel($a_value = 1)
 	{
 		switch ($a_value)
@@ -9842,22 +9842,22 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns wheather the marker button is shown or not
-	*
-	* @return integer The value for the marker status (0 = don't show, 1 = show)
-	* @access public
-	*/
+	 * Returns wheather the marker button is shown or not
+	 *
+	 * @return integer The value for the marker status (0 = don't show, 1 = show)
+	 * @access public
+	 */
 	function getShowMarker()
 	{
 		return ($this->show_marker) ? 1 : 0;
 	}
 
 	/**
-	* Sets the marker button status
-	*
-	* @param integer $a_value The value for the marker status (0 = don't show, 1 = show)
-	* @access public
-	*/
+	 * Sets the marker button status
+	 *
+	 * @param integer $a_value The value for the marker status (0 = don't show, 1 = show)
+	 * @access public
+	 */
 	function setShowMarker($a_value = 1)
 	{
 		switch ($a_value)
@@ -9872,22 +9872,22 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the fixed participants status
-	*
-	* @return integer The value for the fixed participants status (0 = don't allow, 1 = allow)
-	* @access public
-	*/
+	 * Returns the fixed participants status
+	 *
+	 * @return integer The value for the fixed participants status (0 = don't allow, 1 = allow)
+	 * @access public
+	 */
 	function getFixedParticipants()
 	{
 		return ($this->fixed_participants) ? 1 : 0;
 	}
 
 	/**
-	* Sets the fixed participants status
-	*
-	* @param integer $a_value The value for the fixed participants status (0 = don't allow, 1 = allow)
-	* @access public
-	*/
+	 * Sets the fixed participants status
+	 *
+	 * @param integer $a_value The value for the fixed participants status (0 = don't allow, 1 = allow)
+	 * @access public
+	 */
 	function setFixedParticipants($a_value = 1)
 	{
 		switch ($a_value)
@@ -9902,12 +9902,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the anonymity status of a test with a given object id
-	*
-	* @param int $a_obj_id The object id of the test object
-	* @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
-	* @access public
-	*/
+	 * Returns the anonymity status of a test with a given object id
+	 *
+	 * @param int $a_obj_id The object id of the test object
+	 * @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
+	 * @access public
+	 */
 	public static function _lookupAnonymity($a_obj_id)
 	{
 		global $DIC;
@@ -9923,7 +9923,7 @@ function getAnswerFeedbackPoints()
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * returns the question set type of test relating to passed active id
 	 *
@@ -9942,29 +9942,29 @@ function getAnswerFeedbackPoints()
 			ON			tst_active.test_fi = tst_tests.test_id
 			WHERE		tst_active.active_id = %s
 		";
-		
+
 		$res = $ilDB->queryF( $query, array('integer'), array($active_id) );
-		
+
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			return $row['question_set_type'];
 		}
-		
+
 		return null;
 	}
 
 	/**
-	* Returns the random status of a test with a given object id
-	*
-	* @param int $a_obj_id The object id of the test object
-	* @return integer The value for the anonymity status (0 = no random, 1 = random)
-	* @access public
+	 * Returns the random status of a test with a given object id
+	 *
+	 * @param int $a_obj_id The object id of the test object
+	 * @return integer The value for the anonymity status (0 = no random, 1 = random)
+	 * @access public
 	 * @deprecated
-	*/
+	 */
 	function _lookupRandomTestFromActiveId($active_id)
 	{
 		throw new Exception(__METHOD__.' is deprecated ... use ilObjTest::lookupQuestionSetTypeByActiveId() instead!');
-		
+
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -9986,7 +9986,7 @@ function getAnswerFeedbackPoints()
 	 * @param boolean $overwrite_anonymity Indicates if the anonymity status should be ignored
 	 * @return string The full name of the user or UNKNOWN if the anonymity status is affected
 	 * @access public
-	 * 
+	 *
 	 * @deprecated: use ilTestParticipantData instead
 	 */
 	function userLookupFullName($user_id, $overwrite_anonymity = FALSE, $sorted_order = FALSE, $suffix = "")
@@ -10012,12 +10012,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the "Start the Test" label for the Info page
-	*
-	* @param int $active_id The active id of the current user
-	* @return string The "Start the Test" label
-	* @access public
-	*/
+	 * Returns the "Start the Test" label for the Info page
+	 *
+	 * @param int $active_id The active id of the current user
+	 * @return string The "Start the Test" label
+	 * @access public
+	 */
 	function getStartTestLabel($active_id)
 	{
 		if ($this->getNrOfTries() == 1)
@@ -10070,24 +10070,24 @@ function getAnswerFeedbackPoints()
 		}
 		return $defaults;
 	}
-	
+
 	/**
-	* Returns the test defaults for a given id
-	*
-	* @param integer $test_defaults_id The database id of a test defaults dataset
-	* @return array An array containing the test defaults
-	* @access public
-	*/
+	 * Returns the test defaults for a given id
+	 *
+	 * @param integer $test_defaults_id The database id of a test defaults dataset
+	 * @return array An array containing the test defaults
+	 * @access public
+	 */
 	function &getTestDefaults($test_defaults_id)
 	{
 		return self::_getTestDefaults($test_defaults_id);
 	}
-	
+
 	public static function _getTestDefaults($test_defaults_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$result = $ilDB->queryF("SELECT * FROM tst_test_defaults WHERE test_defaults_id = %s",
 			array('integer'),
 			array($test_defaults_id)
@@ -10102,13 +10102,13 @@ function getAnswerFeedbackPoints()
 			return NULL;
 		}
 	}
-	
+
 	/**
-	* Deletes the defaults for a test
-	*
-	* @param integer $test_default_id The database ID of the test defaults
-	* @access public
-	*/
+	 * Deletes the defaults for a test
+	 *
+	 * @param integer $test_default_id The database ID of the test defaults
+	 * @access public
+	 */
 	function deleteDefaults($test_default_id)
 	{
 		global $DIC;
@@ -10118,13 +10118,13 @@ function getAnswerFeedbackPoints()
 			array($test_default_id)
 		);
 	}
-	
+
 	/**
-	* Adds the defaults of this test to the test defaults
-	*
-	* @param string $a_name The name of the test defaults
-	* @access public
-	*/
+	 * Adds the defaults of this test to the test defaults
+	 *
+	 * @param string $a_name The name of the test defaults
+	 * @access public
+	 */
 	function addDefaults($a_name)
 	{
 		global $DIC;
@@ -10197,7 +10197,7 @@ function getAnswerFeedbackPoints()
 			'autosave_ival'           => (int)$this->getAutosaveIval(),
 			'examid_in_test_pass'     => (int)$this->isShowExamIdInTestPassEnabled(),
 			'examid_in_test_res'      => (int)$this->isShowExamIdInTestResultsEnabled(),
-			
+
 			'enable_archiving'        => (int)$this->getEnableArchiving(),
 			'password_enabled'        => (int)$this->isPasswordEnabled(),
 			'password'                => (string)$this->getPassword(),
@@ -10223,7 +10223,7 @@ function getAnswerFeedbackPoints()
 			'use_previous_answers' => (string)$this->getUsePreviousAnswers(),
 			'pass_waiting'          => $this->getPassWaiting()
 		);
-		
+
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$ilDB->insert(
 			'tst_test_defaults',
@@ -10373,19 +10373,19 @@ function getAnswerFeedbackPoints()
 		$this->setActivationEndingTime($testsettings['activation_end_time']);
 		$this->setActivationVisibility($testsettings['activation_visibility']);
 		$this->setPassWaiting($testsettings['pass_waiting']);
-		
+
 		$this->saveToDb();
 
 		return true;
 	}
 
 	/**
-	* Convert a print output to XSL-FO
-	*
-	* @param string $print_output The print output
-	* @return string XSL-FO code
-	* @access public
-	*/
+	 * Convert a print output to XSL-FO
+	 *
+	 * @param string $print_output The print output
+	 * @return string XSL-FO code
+	 * @access public
+	 */
 	function processPrintoutput2FO($print_output)
 	{
 		if (extension_loaded("tidy"))
@@ -10411,9 +10411,9 @@ function getAnswerFeedbackPoints()
 		// additional font support
 		global $DIC;
 		$xsl = str_replace(
-				'font-family="Helvetica, unifont"',
-				'font-family="'.$DIC['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
-				$xsl
+			'font-family="Helvetica, unifont"',
+			'font-family="'.$DIC['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
+			$xsl
 		);
 
 		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
@@ -10424,13 +10424,13 @@ function getAnswerFeedbackPoints()
 		xslt_free($xh);
 		return $output;
 	}
-	
+
 	/**
-	* Delivers a PDF file from XHTML
-	*
-	* @param string $html The XHTML string
-	* @access public
-	*/
+	 * Delivers a PDF file from XHTML
+	 *
+	 * @param string $html The XHTML string
+	 * @access public
+	 */
 	public function deliverPDFfromHTML($content, $title = NULL)
 	{
 		$content = preg_replace("/href=\".*?\"/", "", $content);
@@ -10467,13 +10467,13 @@ function getAnswerFeedbackPoints()
 		$html = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		$this->deliverPDFfromFO($this->processPrintoutput2FO($html), $title);
 	}
-	
+
 	/**
-	* Delivers a PDF file from a XSL-FO string
-	*
-	* @param string $fo The XSL-FO string
-	* @access public
-	*/
+	 * Delivers a PDF file from a XSL-FO string
+	 *
+	 * @param string $fo The XSL-FO string
+	 * @access public
+	 */
 	public function deliverPDFfromFO($fo, $title = null)
 	{
 		global $DIC;
@@ -10497,93 +10497,200 @@ function getAnswerFeedbackPoints()
 			return false;
 		}
 	}
-	
+
 	/**
-	* Retrieves the manual feedback for a question in a test
-	*
-	* @param integer $active_id Active ID of the user
-	* @param integer $question_id Question ID
-	* @param integer $pass Pass number
-	* @return string The feedback text
-	* @access public
-	*/
+	 * Retrieves the feedback comment for a question in a test if it is finalized
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @return string The feedback text
+	 * @access public
+	 */
 	static function getManualFeedback($active_id, $question_id, $pass)
 	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
 		$feedback = "";
-		$result = $ilDB->queryF("SELECT feedback FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer', 'integer', 'integer'),
-			array($active_id, $question_id, $pass)
-		);
-		if ($result->numRows())
-		{
-			$row = $ilDB->fetchAssoc($result);
-			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+		$row      = self::getSingleManualFeedback($active_id, $question_id, $pass);
+
+		if (count($row) > 0 && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id))) {
+			$feedback = $row['feedback'];
 		}
+
 		return $feedback;
 	}
-	
+
 	/**
-	* Saves the manual feedback for a question in a test
-	*
-	* @param integer $active_id Active ID of the user
-	* @param integer $question_id Question ID
-	* @param integer $pass Pass number
-	* @param string $feedback The feedback text
-	* @return boolean TRUE if the operation succeeds, FALSE otherwise
-	* @access public
-	*/
-	function saveManualFeedback($active_id, $question_id, $pass, $feedback)
+	 * Retrieves the manual feedback for a question in a test
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @return array The feedback text
+	 * @access public
+	 */
+	public static function getSingleManualFeedback($active_id, $question_id, $pass)
 	{
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$ilDB   = $DIC->database();
+		$row    = array();
+		$result = $ilDB->queryF(
+			"SELECT * FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer', 'integer', 'integer'),
 			array($active_id, $question_id, $pass)
 		);
 
-		if (strlen($feedback))
-		{
-			$next_id = $ilDB->nextId('tst_manual_fb');
-			/** @var ilDBInterface $ilDB */
-			$result = $ilDB->insert('tst_manual_fb', array(
-													   'manual_feedback_id'		=> array( 'integer', 	$next_id ),
-													   'active_fi'				=> array( 'integer', 	$active_id ),
-													   'question_fi'			=> array( 'integer', 	$question_id ),
-													   'pass'					=> array( 'integer',	$pass),
-													   'feedback'				=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc( $feedback, 0) ),
-													   'tstamp'					=> array( 'integer',	time() ),
-												   )
-			);
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-			{
-				global $DIC;
-				$lng = $DIC['lng'];
-				$ilUser = $DIC['ilUser'];
-				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				$username = ilObjTestAccess::_getParticipantData($active_id);
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				$this->logAction(sprintf($lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()), $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")", $username, assQuestion::_getQuestionTitle($question_id), $feedback));
-			}
+		if ($result->numRows() === 1){
+
+			$row             = $ilDB->fetchAssoc($result);
+			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+		}else{
+			$DIC->logger()->root()->warning("WARNING: Multiple feedback entries on tst_manual_fb for ".
+				"active_fi = $active_id , question_fi = $question_id and pass = $pass");
 		}
+
+		return $row;
+	}
+
+	/**
+	 * Retrieves the manual feedback for a question in a test
+	 *
+	 * @param integer $question_id Question ID
+	 * @return array The feedback text
+	 * @access public
+	 */
+	public static function getCompleteManualFeedback(int $question_id)
+	{
+		global $DIC;
+
+		$ilDB     = $DIC->database();
+		$feedback = array();
+		$result   = $ilDB->queryF(
+			"SELECT * FROM tst_manual_fb WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
+		);
+
+		while ($row = $ilDB->fetchAssoc($result)){
+			$active   = $row['active_fi'];
+			$pass     = $row['pass'];
+			$question = $row['question_fi'];
+
+			$row['feedback'] = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
+
+			$feedback[$active][$pass][$question] = $row;
+		}
+
+		return $feedback;
+	}
+
+	/**
+	 * Saves the manual feedback for a question in a test
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @param string $feedback The feedback text
+	 * @param boolean $finalized In Feedback is final
+	 * @return boolean TRUE if the operation succeeds, FALSE otherwise
+	 * @access public
+	 */
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
+	{
+		global $DIC;
+
+		$DIC->database()->manipulateF(
+			"DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer', 'integer', 'integer'),
+			array($active_id, $question_id, $pass)
+		);
+
+		$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
+
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+			$this->logManualFeedback($active_id, $question_id, $feedback);
+		}
+
 		return TRUE;
 	}
-	
+
 	/**
-	* Returns if Javascript should be chosen for drag & drop actions
-	* for the active user
-	*
-	* @return boolean TRUE if Javascript should be chosen, FALSE otherwise
-	* @access public
-	*/
+	 * Inserts a manual feedback into the DB
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Pass number
+	 * @param string  $feedback The feedback text
+	 * @param boolean $finalized In Feedback is final
+	 */
+	private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized){
+		global $DIC;
+
+		$ilDB           = $DIC->database();
+		$ilUser         = $DIC->user();
+		$next_id        = $ilDB->nextId('tst_manual_fb');
+		$user           = $ilUser->getId();
+		$finalized_time = time();
+		$feedback_old   = $this->getSingleManualFeedback($active_id, $question_id, $pass);
+		$update_default = [
+			'manual_feedback_id' => [ 'integer', $next_id],
+			'active_fi'	         => [ 'integer', $active_id],
+			'question_fi'        => [ 'integer', $question_id],
+			'pass'               => [ 'integer', $pass],
+			'feedback'           => [ 'clob', ilRTE::_replaceMediaObjectImageSrc( $feedback, 0)],
+			'tstamp'             => [ 'integer', time()]
+		];
+
+		if($feedback_old['finalized_evaluation'] == 1){
+			$user           = $feedback_old['finalized_by_usr_id'];
+			$finalized_time = $feedback_old['finalized_tstamp'];
+		}
+
+		if($finalized === true) {
+			$update_default['finalized_evaluation'] = ['integer', 1];
+			$update_default['finalized_by_usr_id']  = ['integer', $user];
+			$update_default['finalized_tstamp']     = ['integer', $finalized_time];
+		}
+
+		$ilDB->insert('tst_manual_fb', $update_default);
+	}
+
+	/**
+	 * Creates a log for the manual feedback
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $question_id Question ID
+	 * @param string  $feedback The feedback text
+	 */
+	private function logManualFeedback($active_id, $question_id, $feedback){
+		global $DIC;
+
+		$ilUser   = $DIC->user();
+		$lng      = $DIC->language();
+		$username = ilObjTestAccess::_getParticipantData($active_id);
+
+		$this->logAction(
+			sprintf(
+				$lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
+				$ilUser->getFullname() . ' (' . $ilUser->getLogin() . ')',
+				$username,
+				assQuestion::_getQuestionTitle($question_id),
+				$feedback
+			)
+		);
+	}
+
+	/**
+	 * Returns if Javascript should be chosen for drag & drop actions
+	 * for the active user
+	 *
+	 * @return boolean TRUE if Javascript should be chosen, FALSE otherwise
+	 * @access public
+	 */
 	function getJavaScriptOutput()
 	{
 		return TRUE;
-		
+
 //		global $DIC;
 //		$ilUser = $DIC['ilUser'];
 //		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
@@ -10591,23 +10698,23 @@ function getAnswerFeedbackPoints()
 //		$assessmentSetting = new ilSetting("assessment");
 //		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
 	}
-	
+
 	function &createTestSequence($active_id, $pass, $shuffle)
 	{
 		include_once "./Modules/Test/classes/class.ilTestSequence.php";
 		$this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
 	}
-	
+
 	/**
-	* Sets the test ID
-	*
-	* @param integer $a_id Test ID
-	*/
+	 * Sets the test ID
+	 *
+	 * @param integer $a_id Test ID
+	 */
 	public function setTestId($a_id)
 	{
 		$this->test_id = $a_id;
 	}
-	
+
 	/**
 	 * returns all test results for all participants
 	 *
@@ -10667,13 +10774,13 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Get test Object ID for question ID
-	*/
+	 * Get test Object ID for question ID
+	 */
 	public static function _lookupTestObjIdForQuestionId($a_q_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$result = $ilDB->queryF("SELECT t.obj_fi obj_id FROM tst_test_question q, tst_tests t WHERE q.test_fi = t.test_id AND q.question_fi = %s",
 			array('integer'),
 			array($a_q_id)
@@ -10683,11 +10790,11 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Checks wheather or not a question plugin with a given name is active
-	*
-	* @param string $a_pname The plugin name
-	* @access public
-	*/
+	 * Checks wheather or not a question plugin with a given name is active
+	 *
+	 * @param string $a_pname The plugin name
+	 * @access public
+	 */
 	function isPluginActive($a_pname)
 	{
 		global $DIC;
@@ -10701,12 +10808,12 @@ function getAnswerFeedbackPoints()
 			return FALSE;
 		}
 	}
-	
+
 	public function getPassed($active_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$result = $ilDB->queryF("SELECT passed FROM tst_result_cache WHERE active_fi = %s",
 			array('integer'),
 			array($active_id)
@@ -10719,16 +10826,16 @@ function getAnswerFeedbackPoints()
 		else
 		{
 			$counted_pass = ilObjTest::_getResultPass($active_id);
- 			$result_array =& $this->getTestResult($active_id, $counted_pass);
+			$result_array =& $this->getTestResult($active_id, $counted_pass);
 			return $result_array["test"]["passed"];
 		}
 	}
 
 	/**
-	* Checks whether the certificate button could be shown on the info page or not
-	*
-	* @access public
-	*/
+	 * Checks whether the certificate button could be shown on the info page or not
+	 *
+	 * @access public
+	 */
 	function canShowCertificate($testSession, $user_id, $active_id)
 	{
 		if ($this->canShowTestResults($testSession))
@@ -10784,7 +10891,7 @@ function getAnswerFeedbackPoints()
 		/** @var ilDBInterface $ilDB */
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$query = "
 			SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass 
 			FROM tst_test_result
@@ -10807,7 +10914,7 @@ function getAnswerFeedbackPoints()
 			{
 				continue;
 			}
-			
+
 			if (!array_key_exists($row["active_fi"], $foundusers))
 			{
 				$foundusers[$row["active_fi"]] = array();
@@ -10818,16 +10925,16 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the aggregated test results
-	*
-	* @access public
-	*/
+	 * Returns the aggregated test results
+	 *
+	 * @access public
+	 */
 	public function getAggregatedResultsData()
 	{
 		$data =& $this->getCompleteEvaluationData();
 		$foundParticipants =& $data->getParticipants();
 		$results = array("overview" => array(), "questions" => array());
-		if (count($foundParticipants)) 
+		if (count($foundParticipants))
 		{
 			$results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
 			$total_finished = $data->getTotalFinishedParticipants();
@@ -10845,7 +10952,7 @@ function getAnswerFeedbackPoints()
 			$total_passed_time = 0;
 			foreach ($foundParticipants as $userdata)
 			{
-				if ($userdata->getPassed()) 
+				if ($userdata->getPassed())
 				{
 					$total_passed++;
 					$total_passed_reached += $userdata->getReached();
@@ -10865,7 +10972,7 @@ function getAnswerFeedbackPoints()
 			$diff_minutes  = floor($diff_seconds/60);
 			$diff_seconds -= $diff_minutes * 60;
 			$results["overview"][$this->lng->txt("tst_eval_total_passed_average_time")] = sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds);
-		} 
+		}
 
 		foreach ($data->getQuestionTitles() as $question_id => $question_title)
 		{
@@ -10890,7 +10997,7 @@ function getAnswerFeedbackPoints()
 			}
 			$percent = $max ? $reached/$max * 100.0 : 0;
 			$results["questions"][$question_id] = array(
-				$question_title, 
+				$question_title,
 				sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
 				sprintf("%.2f", $percent) . "%",
 				$answered,
@@ -10901,10 +11008,10 @@ function getAnswerFeedbackPoints()
 		}
 		return $results;
 	}
-	
+
 	/**
-	* Get zipped xml file for test
-	*/
+	 * Get zipped xml file for test
+	 */
 	function getXMLZip()
 	{
 		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
@@ -10912,35 +11019,35 @@ function getAnswerFeedbackPoints()
 		$test_exp = $expFactory->getExporter('xml');
 		return $test_exp->buildExportFile();
 	}
-	
+
 	/**
-	* Get mail notification settings
-	*/
+	 * Get mail notification settings
+	 */
 	public function getMailNotification()
 	{
 		return $this->mailnotification;
 	}
-	
+
 	/**
-	* Set mail notification settings
-	*
-	* @param $a_notification Mail notification setting
-	*/
+	 * Set mail notification settings
+	 *
+	 * @param $a_notification Mail notification setting
+	 */
 	public function setMailNotification($a_notification)
 	{
 		$this->mailnotification = $a_notification;
 	}
-	
+
 	public function sendSimpleNotification($active_id)
 	{
 		include_once "./Modules/Test/classes/class.ilTestMailNotification.php";
-		
+
 		$mail = new ilTestMailNotification();
 		$owner_id = $this->getOwner();
 		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 		$mail->sendSimpleNotification($owner_id, $this->getTitle(), $usr_data);
 	}
-	
+
 	/**
 	 * Gets additional user fields that should be shown in the user evaluation
 	 *
@@ -10964,7 +11071,7 @@ function getAnswerFeedbackPoints()
 
 		$participantList = new ilTestParticipantList($this);
 		$participantList->initializeFromDbRows($this->getTestParticipants());
-		
+
 		require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
 		$expFactory = new ilTestExportFactory($this);
 		$exportObj = $expFactory->getExporter('results');
@@ -10976,7 +11083,7 @@ function getAnswerFeedbackPoints()
 		$file_names[] = "result_" . $active_id . ".xls";
 
 		$mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
-	
+
 		if(count($file_names))
 		{
 			$fd->unlinkFiles($file_names);
@@ -10989,7 +11096,7 @@ function getAnswerFeedbackPoints()
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		// 1. get a user
 		$query = "SELECT usr_id FROM usr_data";
 		$result = $ilDB->query($query);
@@ -11052,45 +11159,45 @@ function getAnswerFeedbackPoints()
 			}
 		}
 	}
-	
+
 	public function getResultsForActiveId($active_id)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$query = "
 			SELECT		*
 			FROM		tst_result_cache
 			WHERE		active_fi = %s
 		";
-		
+
 		$result = $ilDB->queryF(
 			$query, array('integer'), array($active_id)
 		);
-		
+
 		if( !$result->numRows() )
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			
+
 			assQuestion::_updateTestResultCache($active_id);
-			
+
 			$query = "
 				SELECT		*
 				FROM		tst_result_cache
 				WHERE		active_fi = %s
 			";
-			
+
 			$result = $ilDB->queryF(
 				$query, array('integer'), array($active_id)
 			);
 		}
-		
+
 		$row = $ilDB->fetchAssoc($result);
-		
+
 		return $row;
-		
+
 	}
-	
+
 	public function getMailNotificationType()
 	{
 		if ($this->mailnottype == 1)
@@ -11102,7 +11209,7 @@ function getAnswerFeedbackPoints()
 			return 0;
 		}
 	}
-	
+
 	public function setMailNotificationType($a_type)
 	{
 		if ($a_type == 1)
@@ -11114,7 +11221,7 @@ function getAnswerFeedbackPoints()
 			$this->mailnottype = 0;
 		}
 	}
-	
+
 	public function getExportSettings()
 	{
 		if ($this->exportsettings)
@@ -11126,7 +11233,7 @@ function getAnswerFeedbackPoints()
 			return 0;
 		}
 	}
-	
+
 	public function setExportSettings($a_settings)
 	{
 		if ($a_settings)
@@ -11138,7 +11245,7 @@ function getAnswerFeedbackPoints()
 			$this->exportsettings = 0;
 		}
 	}
-	
+
 	public function getExportSettingsSingleChoiceShort()
 	{
 		if (($this->exportsettings & 1) > 0)
@@ -11150,7 +11257,7 @@ function getAnswerFeedbackPoints()
 			return false;
 		}
 	}
-	
+
 	public function setExportSettingsSingleChoiceShort($a_settings)
 	{
 		if ($a_settings)
@@ -11167,12 +11274,12 @@ function getAnswerFeedbackPoints()
 	}
 
 	public function getEnabledViewMode()  {
-            return $this->enabled_view_mode;
-        }
+		return $this->enabled_view_mode;
+	}
 
-        public function setEnabledViewMode($mode) {
-            $this->enabled_view_mode = $mode;
-        }
+	public function setEnabledViewMode($mode) {
+		$this->enabled_view_mode = $mode;
+	}
 
 	function setTemplate($template_id) {
 		$this->template_id = (int)$template_id;
@@ -11183,150 +11290,150 @@ function getAnswerFeedbackPoints()
 	}
 
 	public function moveQuestionAfterOLD($previous_question_id, $new_question_id) {
-            $new_array = array();
-            $position = 1;
+		$new_array = array();
+		$position = 1;
 
-            $query = 'SELECT question_fi  FROM tst_test_question WHERE test_fi = %s';
-            $types = array('integer');
-            $values = array($this->getTestId());
+		$query = 'SELECT question_fi  FROM tst_test_question WHERE test_fi = %s';
+		$types = array('integer');
+		$values = array($this->getTestId());
 
-            $new_question_id += 1;
+		$new_question_id += 1;
 
-            global $DIC;
-            $ilDB = $DIC['ilDB'];
-            $inserted = false;
-            $res = $ilDB->queryF($query, $types, $values);
-            while($row = $ilDB->fetchAssoc($res)) {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$inserted = false;
+		$res = $ilDB->queryF($query, $types, $values);
+		while($row = $ilDB->fetchAssoc($res)) {
 
-                $qid = $row['question_fi'];
+			$qid = $row['question_fi'];
 
-                if ($qid == $new_question_id) {
-                    continue;
-                }
-                else if ($qid == $previous_question_id) {
-                    $new_array[$position++] = $qid;
-                    $new_array[$position++] =  $new_question_id;
-                    $inserted = true;
-                }
-                else {
-                    $new_array[$position++] = $qid;
-                }
-            }
-
-            $update_query = 'UPDATE tst_test_question SET sequence = %s WHERE test_fi = %s AND question_fi = %s';
-            $update_types = array('integer', 'integer', 'integer');
-
-            foreach($new_array as $position => $qid) {
-                $ilDB->manipulateF(
-                        $update_query,
-                        $update_types,
-                        $vals = array(
-                            $position,
-                            $this->getTestId(),
-                            $qid
-                        )
-                );
-            }
-        }
-        
-        public function isAnyInstantFeedbackOptionEnabled()
-		{
-			return (
-				$this->getSpecificAnswerFeedback() || $this->getGenericAnswerFeedback() ||
-				$this->getAnswerFeedbackPoints() || $this->getInstantFeedbackSolution()
-			);
-		}
-        
-        public function getInstantFeedbackOptionsAsArray()
-		{
-			$values = array();
-			
-			if( $this->getSpecificAnswerFeedback() ) $values[] = 'instant_feedback_specific';
-			if( $this->getGenericAnswerFeedback() ) $values[] = 'instant_feedback_generic';
-			if( $this->getAnswerFeedbackPoints() ) $values[] = 'instant_feedback_points';
-			if( $this->getInstantFeedbackSolution() ) $values[] = 'instant_feedback_solution';
-			
-			return $values;
-		}
-
-        public function setInstantFeedbackOptionsByArray($options)
-		{
-			if (is_array($options))
-			{
-				$this->setGenericAnswerFeedback(	in_array('instant_feedback_generic',  $options) ? 1 : 0);
-				$this->setSpecificAnswerFeedback(	in_array('instant_feedback_specific', $options) ? 1 : 0);
-				$this->setAnswerFeedbackPoints(		in_array('instant_feedback_points',   $options) ? 1 : 0);
-				$this->setInstantFeedbackSolution(	in_array('instant_feedback_solution', $options) ? 1 : 0);
-        	}
-			else
-			{
-				$this->setGenericAnswerFeedback(0);
-				$this->setSpecificAnswerFeedback(0);
-				$this->setAnswerFeedbackPoints(0);
-				$this->setInstantFeedbackSolution(0);
+			if ($qid == $new_question_id) {
+				continue;
+			}
+			else if ($qid == $previous_question_id) {
+				$new_array[$position++] = $qid;
+				$new_array[$position++] =  $new_question_id;
+				$inserted = true;
+			}
+			else {
+				$new_array[$position++] = $qid;
 			}
 		}
 
-        public function setResultsPresentationOptionsByArray($options) {
-            $setter = array(
-                'pass_details' => 'setShowPassDetails',
-                'solution_details' => 'setShowSolutionDetails',
-                'solution_printview' => 'setShowSolutionPrintview',
-                'solution_feedback' => 'setShowSolutionFeedback',
-                'solution_answers_only' => 'setShowSolutionAnswersOnly',
-                'solution_signature' => 'setShowSolutionSignature',
-                'solution_suggested' => 'setShowSolutionSuggested',
-                );
-            foreach($setter as $key => $setter) {
-                if (in_array($key, $options)) {
-                    $this->$setter(1);
-                }
-                else {
-                    $this->$setter(0);
-                }
-            }
-        }
+		$update_query = 'UPDATE tst_test_question SET sequence = %s WHERE test_fi = %s AND question_fi = %s';
+		$update_types = array('integer', 'integer', 'integer');
+
+		foreach($new_array as $position => $qid) {
+			$ilDB->manipulateF(
+				$update_query,
+				$update_types,
+				$vals = array(
+					$position,
+					$this->getTestId(),
+					$qid
+				)
+			);
+		}
+	}
+
+	public function isAnyInstantFeedbackOptionEnabled()
+	{
+		return (
+			$this->getSpecificAnswerFeedback() || $this->getGenericAnswerFeedback() ||
+			$this->getAnswerFeedbackPoints() || $this->getInstantFeedbackSolution()
+		);
+	}
+
+	public function getInstantFeedbackOptionsAsArray()
+	{
+		$values = array();
+
+		if( $this->getSpecificAnswerFeedback() ) $values[] = 'instant_feedback_specific';
+		if( $this->getGenericAnswerFeedback() ) $values[] = 'instant_feedback_generic';
+		if( $this->getAnswerFeedbackPoints() ) $values[] = 'instant_feedback_points';
+		if( $this->getInstantFeedbackSolution() ) $values[] = 'instant_feedback_solution';
+
+		return $values;
+	}
+
+	public function setInstantFeedbackOptionsByArray($options)
+	{
+		if (is_array($options))
+		{
+			$this->setGenericAnswerFeedback(	in_array('instant_feedback_generic',  $options) ? 1 : 0);
+			$this->setSpecificAnswerFeedback(	in_array('instant_feedback_specific', $options) ? 1 : 0);
+			$this->setAnswerFeedbackPoints(		in_array('instant_feedback_points',   $options) ? 1 : 0);
+			$this->setInstantFeedbackSolution(	in_array('instant_feedback_solution', $options) ? 1 : 0);
+		}
+		else
+		{
+			$this->setGenericAnswerFeedback(0);
+			$this->setSpecificAnswerFeedback(0);
+			$this->setAnswerFeedbackPoints(0);
+			$this->setInstantFeedbackSolution(0);
+		}
+	}
+
+	public function setResultsPresentationOptionsByArray($options) {
+		$setter = array(
+			'pass_details' => 'setShowPassDetails',
+			'solution_details' => 'setShowSolutionDetails',
+			'solution_printview' => 'setShowSolutionPrintview',
+			'solution_feedback' => 'setShowSolutionFeedback',
+			'solution_answers_only' => 'setShowSolutionAnswersOnly',
+			'solution_signature' => 'setShowSolutionSignature',
+			'solution_suggested' => 'setShowSolutionSuggested',
+		);
+		foreach($setter as $key => $setter) {
+			if (in_array($key, $options)) {
+				$this->$setter(1);
+			}
+			else {
+				$this->$setter(0);
+			}
+		}
+	}
 
 	public function getPoolUsage() {
-	    return (boolean) $this->poolUsage;
+		return (boolean) $this->poolUsage;
 	}
 
 	public function setPoolUsage($usage) {
-	    $this->poolUsage = (boolean)$usage;
+		$this->poolUsage = (boolean)$usage;
 	}
-	
+
 	public function reindexFixedQuestionOrdering()
 	{
 		global $DIC;
 		$tree = $DIC['tree'];
 		$db = $DIC['ilDB'];
 		$pluginAdmin = $DIC['ilPluginAdmin'];
-		
+
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$qscFactory = new ilTestQuestionSetConfigFactory($tree, $db, $pluginAdmin, $this);
 		$questionSetConfig = $qscFactory->getQuestionSetConfig();
-		
+
 		/* @var ilTestFixedQuestionSetConfig $questionSetConfig */
 		$questionSetConfig->reindexQuestionOrdering();
-		
+
 		$this->loadQuestions();
 	}
 
 	public function setQuestionOrderAndObligations($orders, $obligations)
 	{
-	    global $DIC;
-	    $ilDB = $DIC['ilDB'];
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-	    asort($orders);
+		asort($orders);
 
-	    $i = 0;
+		$i = 0;
 
-	    foreach($orders as $id => $position)
+		foreach($orders as $id => $position)
 		{
 			$i++;
-			
+
 			$obligatory = (
-				isset($obligations[$id]) && $obligations[$id] ? 1 : 0
+			isset($obligations[$id]) && $obligations[$id] ? 1 : 0
 			);
 
 			$query = "
@@ -11339,52 +11446,52 @@ function getAnswerFeedbackPoints()
 			$ilDB->manipulateF(
 				$query, array('integer', 'integer', 'integer'), array($i, $obligatory, $id)
 			);
-	    }
+		}
 
-	    $this->loadQuestions();
+		$this->loadQuestions();
 	}
 
 	public function moveQuestionAfter($question_to_move, $question_before) {
-	    global $DIC;
-	    $ilDB = $DIC['ilDB'];
-	    //var_dump(func_get_args());
-	    if ($question_before) {
-		$query = 'SELECT sequence, test_fi FROM tst_test_question WHERE question_fi = %s';
-		$types = array('integer');
-		$values = array($question_before);
-		$rset = $ilDB->queryF($query, $types, $values);
-	    }
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		//var_dump(func_get_args());
+		if ($question_before) {
+			$query = 'SELECT sequence, test_fi FROM tst_test_question WHERE question_fi = %s';
+			$types = array('integer');
+			$values = array($question_before);
+			$rset = $ilDB->queryF($query, $types, $values);
+		}
 
-	    if (!$question_before || ($rset && !($row = $ilDB->fetchAssoc($rset)))) {
-		$row = array(
-		    'sequence' => 0,
-		    'test_fi' => $this->getTestId(),
-		);
-	    }
-	    
-	    $update = 'UPDATE tst_test_question SET sequence = sequence + 1 WHERE sequence > %s AND test_fi = %s';
-	    $types = array('integer', 'integer');
-	    $values = array($row['sequence'], $row['test_fi']);
-	    $ilDB->manipulateF($update, $types, $values);
+		if (!$question_before || ($rset && !($row = $ilDB->fetchAssoc($rset)))) {
+			$row = array(
+				'sequence' => 0,
+				'test_fi' => $this->getTestId(),
+			);
+		}
 
-	    $update = 'UPDATE tst_test_question SET sequence = %s WHERE question_fi = %s';
-	    $types = array('integer', 'integer');
-	    $values = array($row['sequence'] + 1, $question_to_move);
-	    $ilDB->manipulateF($update, $types, $values);
+		$update = 'UPDATE tst_test_question SET sequence = sequence + 1 WHERE sequence > %s AND test_fi = %s';
+		$types = array('integer', 'integer');
+		$values = array($row['sequence'], $row['test_fi']);
+		$ilDB->manipulateF($update, $types, $values);
 
-	    $this->reindexFixedQuestionOrdering();
+		$update = 'UPDATE tst_test_question SET sequence = %s WHERE question_fi = %s';
+		$types = array('integer', 'integer');
+		$values = array($row['sequence'] + 1, $question_to_move);
+		$ilDB->manipulateF($update, $types, $values);
+
+		$this->reindexFixedQuestionOrdering();
 	}
 
 	public function hasQuestionsWithoutQuestionpool()
 	{
-	    global $DIC;
-	    $ilDB = $DIC['ilDB'];
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-	    $questions = $this->getQuestionTitlesAndIndexes();
-		
+		$questions = $this->getQuestionTitlesAndIndexes();
+
 		$IN_questions = $ilDB->in('q1.question_id', array_keys($questions), false, 'integer');
-		
-	    $query = "
+
+		$query = "
 			SELECT		count(q1.question_id) cnt
 			
 			FROM		qpl_questions q1
@@ -11396,16 +11503,16 @@ function getAnswerFeedbackPoints()
 			AND		 	q1.obj_fi = q2.obj_fi
 		";
 
-	    $rset = $ilDB->query($query);
-	    
-	    $row = $ilDB->fetchAssoc($rset);
+		$rset = $ilDB->query($query);
+
+		$row = $ilDB->fetchAssoc($rset);
 
 		return $row['cnt'] > 0;
 	}
 
 	/**
 	 * Gather all finished tests for user
-	 * 
+	 *
 	 * @param int $a_user_id
 	 * @return array(test id => passed)
 	 */
@@ -11443,7 +11550,7 @@ function getAnswerFeedbackPoints()
 	{
 		$this->online = (bool)$a_online;
 	}
-	
+
 	/**
 	 * @return null
 	 */
@@ -11451,7 +11558,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->oldOnlineStatus;
 	}
-	
+
 	/**
 	 * @param null $oldOnlineStatus
 	 */
@@ -11459,7 +11566,7 @@ function getAnswerFeedbackPoints()
 	{
 		$this->oldOnlineStatus = $oldOnlineStatus;
 	}
-	
+
 	public function setPrintBestSolutionWithResult($status)
 	{
 		$this->print_best_solution_with_result = (bool) $status;
@@ -11469,7 +11576,7 @@ function getAnswerFeedbackPoints()
 	{
 		return (bool) $this->print_best_solution_with_result;
 	}
-	
+
 	/**
 	 * returns the fact wether offering hints is enabled or not
 	 *
@@ -11489,43 +11596,43 @@ function getAnswerFeedbackPoints()
 	{
 		$this->offeringQuestionHintsEnabled = (bool)$offeringQuestionHintsEnabled;
 	}
-	
+
 	function setActivationVisibility($a_value)
 	{
 		$this->activation_visibility = (bool) $a_value;
 	}
-	
+
 	function getActivationVisibility()
 	{
 		return $this->activation_visibility;
 	}
-	
+
 	function isActivationLimited()
 	{
-	   return (bool)$this->activation_limited;
+		return (bool)$this->activation_limited;
 	}
-	
+
 	function setActivationLimited($a_value)
 	{
-	   $this->activation_limited = (bool)$a_value;
+		$this->activation_limited = (bool)$a_value;
 	}
-	
+
 	/* GET/SET for highscore feature */
-	
+
 	/**
 	 * Sets if the highscore feature should be enabled.
-	 * 
-	 * @param bool $a_enabled 
+	 *
+	 * @param bool $a_enabled
 	 */
 	public function setHighscoreEnabled($a_enabled)
 	{
 		$this->_highscore_enabled = (bool)$a_enabled;
 	}
-	
+
 	/**
 	 * Gets the setting which determines if the highscore feature is enabled.
-	 * 
-	 * @return bool True, if highscore is enabled. 
+	 *
+	 * @return bool True, if highscore is enabled.
 	 */
 	public function getHighscoreEnabled()
 	{
@@ -11534,37 +11641,37 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * Sets if the highscores should be anonymized.
-	 * 
+	 *
 	 * Note: This setting will be overriden, if the test is globally anonymized.
-	 * 
-	 * @param bool $a_anon 
+	 *
+	 * @param bool $a_anon
 	 */
 	public function setHighscoreAnon($a_anon)
 	{
 		$this->_highscore_anon = (bool)$a_anon;
 	}
-	
+
 	/**
 	 * Gets if the highscores should be anonymized per setting.
-	 * 
+	 *
 	 * Note: This method will retrieve the setting as set by the user. If you want
-	 * to figure out, if the highscore is to be shown anonymized or not, with 
+	 * to figure out, if the highscore is to be shown anonymized or not, with
 	 * consideration of the global anon switch you should @see isHighscoreAnon().
-	 * 
-	 * @return bool True, if setting is to anonymize highscores. 
+	 *
+	 * @return bool True, if setting is to anonymize highscores.
 	 */
 	public function getHighscoreAnon()
 	{
 		return (bool) $this->_highscore_anon;
 	}
-	
+
 	/**
 	 * Gets if the highscores should be displayed anonymized.
-	 * 
-	 * Note: This method considers the global anonymity switch. If you need 
+	 *
+	 * Note: This method considers the global anonymity switch. If you need
 	 * access to the users setting, @see getHighscoreAnon()
-	 * 
-	 * @return boolean True, if output is anonymized. 
+	 *
+	 * @return boolean True, if output is anonymized.
 	 */
 	public function isHighscoreAnon()
 	{
@@ -11577,21 +11684,21 @@ function getAnswerFeedbackPoints()
 			return (bool)$this->getHighscoreAnon();
 		}
 	}
-	
+
 	/**
 	 * Sets if the date and time of the scores achievement should be displayed.
-	 * 
-	 * @param bool $a_achieved_ts 
+	 *
+	 * @param bool $a_achieved_ts
 	 */
 	public function setHighscoreAchievedTS($a_achieved_ts)
 	{
 		$this->_highscore_achieved_ts = (bool)$a_achieved_ts;
 	}
-	
+
 	/**
 	 * Returns if date and time of the scores achievement should be displayed.
-	 * 
-	 * @return bool True, if column should be shown. 
+	 *
+	 * @return bool True, if column should be shown.
 	 */
 	public function getHighscoreAchievedTS()
 	{
@@ -11600,18 +11707,18 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * Sets if the actual score should be displayed.
-	 * 
-	 * @param bool $a_score 
+	 *
+	 * @param bool $a_score
 	 */
 	public function setHighscoreScore($a_score)
 	{
 		$this->_highscore_score = (bool)$a_score;
 	}
-	
+
 	/**
 	 * Gets if the score column should be shown.
-	 * 
-	 * @return bool True, if score column should be shown. 
+	 *
+	 * @return bool True, if score column should be shown.
 	 */
 	public function getHighscoreScore()
 	{
@@ -11620,18 +11727,18 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * Sets if the percentages of the scores pass should be shown.
-	 *  
-	 * @param bool $a_percentage 
+	 *
+	 * @param bool $a_percentage
 	 */
 	public function setHighscorePercentage($a_percentage)
 	{
 		$this->_highscore_percentage = (bool)$a_percentage;
 	}
-	
+
 	/**
 	 * Gets if the percentage column should be shown.
-	 * 
-	 * @return bool True, if percentage column should be shown. 
+	 *
+	 * @return bool True, if percentage column should be shown.
 	 */
 	public function getHighscorePercentage()
 	{
@@ -11640,78 +11747,78 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * Sets if the number of requested hints should be shown.
-	 * 
-	 * @param bool $a_hints 
+	 *
+	 * @param bool $a_hints
 	 */
 	public function setHighscoreHints($a_hints)
 	{
 		$this->_highscore_hints = (bool)$a_hints;
 	}
-	
+
 	/**
 	 * Gets, if the column with the number of requested hints should be shown.
-	 * 
-	 * @return bool True, if the hints-column should be shown. 
+	 *
+	 * @return bool True, if the hints-column should be shown.
 	 */
 	public function getHighscoreHints()
 	{
 		return (bool) $this->_highscore_hints;
 	}
-	
+
 	/**
 	 * Sets if the workingtime of the scores should be shown.
-	 * 
-	 * @param bool $a_wtime 
+	 *
+	 * @param bool $a_wtime
 	 */
 	public function setHighscoreWTime($a_wtime)
 	{
 		$this->_highscore_wtime = (bool)$a_wtime;
 	}
-	
+
 	/**
 	 * Gets if the column with the workingtime should be shown.
-	 * 
-	 * @return bool True, if the workingtime column should be shown. 
+	 *
+	 * @return bool True, if the workingtime column should be shown.
 	 */
 	public function getHighscoreWTime()
 	{
 		return (bool) $this->_highscore_wtime;
 	}
-	
+
 	/**
 	 * Sets if the table with the own ranking should be shown.
-	 * 
-	 * @param bool $a_own_table True, if table with own ranking should be shown. 
+	 *
+	 * @param bool $a_own_table True, if table with own ranking should be shown.
 	 */
 	public function setHighscoreOwnTable($a_own_table)
 	{
 		$this->_highscore_own_table = (bool)$a_own_table;
 	}
-	
+
 	/**
 	 * Gets if the own rankings table should be shown.
-	 * 
-	 * @return bool True, if the own rankings table should be shown. 
+	 *
+	 * @return bool True, if the own rankings table should be shown.
 	 */
 	public function getHighscoreOwnTable()
 	{
 		return (bool) $this->_highscore_own_table;
 	}
-	
+
 	/**
 	 * Sets if the top-rankings table should be shown.
-	 * 
-	 * @param bool $a_top_table 
+	 *
+	 * @param bool $a_top_table
 	 */
 	public function setHighscoreTopTable($a_top_table)
 	{
 		$this->_highscore_top_table = (bool)$a_top_table;
 	}
-	
+
 	/**
 	 * Gets, if the top-rankings table should be shown.
-	 * 
-	 * @return bool True, if top-rankings table should be shown. 
+	 *
+	 * @return bool True, if top-rankings table should be shown.
 	 */
 	public function getHighscoreTopTable()
 	{
@@ -11721,21 +11828,21 @@ function getAnswerFeedbackPoints()
 	/**
 	 * Sets the number of entries which are to be shown in the top-rankings
 	 * table.
-	 * 
-	 * @param integer $a_top_num Number of entries in the top-rankings table. 
+	 *
+	 * @param integer $a_top_num Number of entries in the top-rankings table.
 	 */
 	public function setHighscoreTopNum($a_top_num)
 	{
 		$this->_highscore_top_num = (int)$a_top_num;
 	}
-	
+
 	/**
 	 * Gets the number of entries which are to be shown in the top-rankings table.
 	 * Default: 10 entries
-	 * 
+	 *
 	 * @param integer $a_retval Optional return value if nothing is set, defaults to 10.
-	 * 
-	 * @return integer Number of entries to be shown in the top-rankings table. 
+	 *
+	 * @return integer Number of entries to be shown in the top-rankings table.
 	 */
 	public function getHighscoreTopNum($a_retval = 10)
 	{
@@ -11744,7 +11851,7 @@ function getAnswerFeedbackPoints()
 		{
 			$retval = $this->_highscore_top_num;
 		}
-		
+
 		return $retval;
 	}
 
@@ -11806,9 +11913,9 @@ function getAnswerFeedbackPoints()
 			default:
 				$this->specific_answer_feedback = 0;
 				break;
-		}		
+		}
 	}
-	
+
 	public function getSpecificAnswerFeedback()
 	{
 		switch ($this->specific_answer_feedback)
@@ -11819,7 +11926,7 @@ function getAnswerFeedbackPoints()
 				return 0;
 		}
 	}
-	
+
 	/**
 	 * sets obligations enabled/disabled
 	 *
@@ -11829,7 +11936,7 @@ function getAnswerFeedbackPoints()
 	{
 		$this->obligationsEnabled = (bool)$obligationsEnabled;
 	}
-	
+
 	/**
 	 * returns the fact wether obligations are enabled or not
 	 *
@@ -11839,10 +11946,10 @@ function getAnswerFeedbackPoints()
 	{
 		return (bool)$this->obligationsEnabled;
 	}
-	
+
 	/**
 	 * checks wether the obligation for question with given id is possible or not
-	 * 
+	 *
 	 * @param integer $questionId
 	 * @return boolean $obligationPossible
 	 */
@@ -11857,29 +11964,29 @@ function getAnswerFeedbackPoints()
 		// static binder is not at work yet (in PHP < 5.3)
 		//$obligationPossible = $classConcreteQuestion::isObligationPossible();
 		$obligationPossible = call_user_func(array($classConcreteQuestion, 'isObligationPossible'), $questionId);
-		
+
 		return $obligationPossible;
 	}
-	
+
 	/**
 	 * checks wether the question with given id is marked as obligatory or not
-	 * 
+	 *
 	 * @param integer $questionId
 	 * @return boolean $obligatory
 	 */
 	public static function isQuestionObligatory($question_id)
 	{
-	    global $DIC;
-	    $ilDB = $DIC['ilDB'];
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
-	    $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', array('integer'), array($question_id));
+		$rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', array('integer'), array($question_id));
 
 		if( $row = $ilDB->fetchAssoc($rset) )
 		{
 			return (bool) $row['obligatory'];
-	    }
+		}
 
-	    return false;
+		return false;
 	}
 
 	/**
@@ -11892,23 +11999,23 @@ function getAnswerFeedbackPoints()
 	 * @param integer $test_id
 	 * @param integer $active_id
 	 * @param integer $pass
-	 * @return boolean $allObligationsAnswered 
+	 * @return boolean $allObligationsAnswered
 	 */
 	public static function allObligationsAnswered($test_id, $active_id, $pass)
 	{
-	    global $DIC;
-	    $ilDB = $DIC['ilDB'];
-  
-	    $rset = $ilDB->queryF(
-		    'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
-		    array('integer', 'integer'),
-		    array($active_id, $pass)
-	    );
-   
-	    if( $row = $ilDB->fetchAssoc($rset) )
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+		$rset = $ilDB->queryF(
+			'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
+			array('integer', 'integer'),
+			array($active_id, $pass)
+		);
+
+		if( $row = $ilDB->fetchAssoc($rset) )
 		{
 			return (bool)$row['obligations_answered'];
-	    }
+		}
 
 		return !self::hasObligations($test_id);
 	}
@@ -11923,16 +12030,16 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function hasObligations($test_id)
 	{
-	    global $DIC;
-	    $ilDB = $DIC['ilDB'];
-	    
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
 		$rset = $ilDB->queryF(
 			'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
 			array('integer'), array($test_id)
 		);
 
 		$row = $ilDB->fetchAssoc($rset);
-		
+
 		return (bool)$row['cnt'] > 0;
 	}
 
@@ -11958,7 +12065,7 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * getter for the test setting passDeletionAllowed
-	 * 
+	 *
 	 * @return integer
 	 */
 	public function isPassDeletionAllowed()
@@ -11968,7 +12075,7 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * setter for the test setting passDeletionAllowed
-	 * 
+	 *
 	 * @return integer
 	 */
 	public function setPassDeletionAllowed($passDeletionAllowed)
@@ -12101,25 +12208,25 @@ function getAnswerFeedbackPoints()
 
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-		
+
 		$participantData->setParticipantAccessFilter(
 			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getRefId())
 		);
-		
+
 		if($active_id)
 		{
 			$participantData->setActiveIdsFilter( array($active_id) );
 		}
-		
+
 		$participantData->load($this->getTestId());
-		
+
 		foreach($participantData->getActiveIds() as $active_id)
 		{
 			$result = $DIC->database()->queryF(
 				"SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
 				array('integer'), array($active_id)
 			);
-			
+
 			if ($result->numRows() > 0)
 			{
 				$DIC->database()->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
@@ -12127,12 +12234,12 @@ function getAnswerFeedbackPoints()
 					array($active_id)
 				);
 			}
-			
+
 			$DIC->database()->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
 				array('integer','integer','timestamp','integer'),
 				array(0, 0, NULL, $active_id)
 			);
-			
+
 			$DIC->database()->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
 				array('integer','integer','integer'),
 				array($active_id, $minutes, time())
@@ -12148,7 +12255,7 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * @param boolean $enable_archiving
-	 * 
+	 *
 	 * @return $this
 	 */
 	public function setEnableArchiving($enable_archiving)
@@ -12172,7 +12279,7 @@ function getAnswerFeedbackPoints()
 		 */
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$query = '
 			SELECT MAX(tst_pass_result.pass) + 1 max_res
 			FROM tst_pass_result 
@@ -12205,7 +12312,7 @@ function getAnswerFeedbackPoints()
 				return $exam_id_row['exam_id'];
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -12277,7 +12384,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->sign_submission;
 	}
-	
+
 	/**
 	 * @param int availability of the special character selector
 	 */
@@ -12285,7 +12392,7 @@ function getAnswerFeedbackPoints()
 	{
 		$this->char_selector_availability = (int) $availability;
 	}
-	
+
 	/**
 	 * @return int	availability of the special character selector
 	 */
@@ -12293,7 +12400,7 @@ function getAnswerFeedbackPoints()
 	{
 		return (int) $this->char_selector_availability;
 	}
-	
+
 	/**
 	 * @param string	definition of the special character selector
 	 */
@@ -12310,30 +12417,30 @@ function getAnswerFeedbackPoints()
 		return $this->char_selector_definition;
 	}
 
-	
+
 	/**
 	 * setter for question set type
-	 * 
+	 *
 	 * @param string $questionSetType
 	 */
 	public function setQuestionSetType($questionSetType)
 	{
 		$this->questionSetType = $questionSetType;
 	}
-	
+
 	/**
 	 * getter for question set type
-	 * 
+	 *
 	 * @return string $questionSetType
 	 */
 	public function getQuestionSetType()
 	{
 		return $this->questionSetType;
 	}
-	
+
 	/**
 	 * lookup-er for question set type
-	 * 
+	 *
 	 * @global ilDBInterface $ilDB
 	 * @param integer $objId
 	 * @return string $questionSetType
@@ -12342,21 +12449,21 @@ function getAnswerFeedbackPoints()
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$query = "SELECT question_set_type FROM tst_tests WHERE obj_fi = %s";
-		
+
 		$res = $ilDB->queryF($query, array('integer'), array($objId));
-		
+
 		$questionSetType = null;
-		
+
 		while( $row = $ilDB->fetchAssoc($res) )
 		{
 			$questionSetType = $row['question_set_type'];
 		}
-		
+
 		return $questionSetType;
 	}
-	
+
 	/**
 	 * Returns the fact wether this test is a fixed question set test or not
 	 *
@@ -12386,10 +12493,10 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC;
 	}
-	
+
 	/**
 	 * Returns the fact wether the test with passed obj id is a random questions test or not
-	 * 
+	 *
 	 * @param integer $a_obj_id
 	 * @return boolean $isRandomTest
 	 * @deprecated
@@ -12415,17 +12522,17 @@ function getAnswerFeedbackPoints()
 
 		throw new ilTestException('invalid question set type value given: '.$questionSetType);
 	}
-	
+
 	public function participantDataExist()
 	{
 		if( $this->participantDataExist === null )
 		{
 			$this->participantDataExist = (bool)$this->evalTotalPersons();
 		}
-		
+
 		return $this->participantDataExist;
 	}
-	
+
 	public function recalculateScores($preserve_manscoring = false)
 	{
 		require_once 'class.ilTestScoring.php';
@@ -12433,23 +12540,23 @@ function getAnswerFeedbackPoints()
 		$scoring->setPreserveManualScores($preserve_manscoring);
 		$scoring->recalculateSolutions();
 	}
-	
+
 	public static function getPoolQuestionChangeListeners(ilDBInterface $db, $poolObjId)
 	{
 		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-		
+
 		$questionChangeListeners = array(
 			ilObjTestDynamicQuestionSetConfig::getPoolQuestionChangeListener($db, $poolObjId)
 		);
-		
+
 		return $questionChangeListeners;
 	}
-	
+
 	public static function getTestObjIdsWithActiveForUserId($userId)
 	{
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$query = "
 			SELECT obj_fi
 			FROM tst_active
@@ -12457,16 +12564,16 @@ function getAnswerFeedbackPoints()
 			ON test_id = test_fi
 			WHERE user_fi = %s
 		";
-		
+
 		$res = $ilDB->queryF($query, array('integer'), array($userId));
-		
+
 		$objIds = array();
-		
+
 		while( $row = $ilDB->fetchAssoc($res) )
 		{
 			$objIds[] = (int)$row['obj_fi'];
 		}
-		
+
 		return $objIds;
 	}
 
@@ -12540,12 +12647,12 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->showGradingMarkEnabled;
 	}
-	
+
 	public function setFollowupQuestionAnswerFixationEnabled($followupQuestionAnswerFixationEnabled)
 	{
 		$this->followupQuestionAnswerFixationEnabled = $followupQuestionAnswerFixationEnabled;
 	}
-	
+
 	public function isFollowupQuestionAnswerFixationEnabled()
 	{
 		return $this->followupQuestionAnswerFixationEnabled;
@@ -12612,7 +12719,7 @@ function getAnswerFeedbackPoints()
 		}
 		// end-patch lok
 	}
-	
+
 	public static function isParticipantsLastPassActive($testRefId, $userId)
 	{
 		global $DIC;
@@ -12623,10 +12730,10 @@ function getAnswerFeedbackPoints()
 		/* @var ilObjTest $testOBJ */
 
 		$testOBJ = ilObjectFactory::getInstanceByRefId($testRefId,false);
-		
-		
+
+
 		$activeId = $testOBJ->getActiveIdOfUser($userId);
-		
+
 		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 		$testSessionFactory = new ilTestSessionFactory($testOBJ);
 		// Added temporarily bugfix smeyer
@@ -12634,11 +12741,11 @@ function getAnswerFeedbackPoints()
 
 		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $testOBJ);
-		
+
 		$testSession = $testSessionFactory->getSession($activeId);
 		$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $testSession->getPass());
 		$testSequence->loadFromDb();
-		
+
 		return $testSequence->hasSequence();
 	}
 
@@ -12657,7 +12764,7 @@ function getAnswerFeedbackPoints()
 	{
 		$this->testFinalBroken = $testFinalBroken;
 	}
-	
+
 	public function adjustTestSequence()
 	{
 		/**
@@ -12665,19 +12772,19 @@ function getAnswerFeedbackPoints()
 		 */
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		
+
 		$query = "
 			SELECT COUNT(test_question_id) cnt
 			FROM tst_test_question
 			WHERE test_fi = %s
 			ORDER BY sequence
 		";
-		
+
 		$questRes = $ilDB->queryF($query, array('integer'), array($this->getTestId()));
-		
+
 		$row = $ilDB->fetchAssoc($questRes);
 		$questCount = $row['cnt'];
-		
+
 		if( $this->getShuffleQuestions() )
 		{
 			$query = "
@@ -12687,24 +12794,24 @@ function getAnswerFeedbackPoints()
 					ON tseq.active_fi = tac.active_id
 				WHERE tac.test_fi = %s
 			";
-			
+
 			$partRes = $ilDB->queryF(
 				$query, array('integer'), array($this->getTestId())
 			);
-			
+
 			while($row = $ilDB->fetchAssoc($partRes))
 			{
 				$sequence = @unserialize($row['sequence']);
-				
+
 				if(!$sequence)
 				{
 					$sequence = array();
 				}
-				
+
 				$sequence = array_filter($sequence, function($value) use ($questCount) {
 					return $value <= $questCount;
 				});
-				
+
 				$num_seq = count($sequence);
 				if($questCount > $num_seq)
 				{
@@ -12714,9 +12821,9 @@ function getAnswerFeedbackPoints()
 						$sequence[$num_seq + $i - 1] = $num_seq + $i;
 					}
 				}
-				
+
 				$new_sequence = serialize($sequence);
-				
+
 				$ilDB->update('tst_sequence', array(
 					'sequence' => array('clob', $new_sequence)
 				), array(
@@ -12728,19 +12835,19 @@ function getAnswerFeedbackPoints()
 		else
 		{
 			$new_sequence = serialize($questCount > 0 ? range(1, $questCount) : array());
-			
+
 			$query = "
 				SELECT tseq.*
 				FROM tst_active tac
 				INNER JOIN tst_sequence tseq
 					ON tseq.active_fi = tac.active_id
 				WHERE tac.test_fi = %s
-			";			
-			
+			";
+
 			$part_rest = $ilDB->queryF(
 				$query, array('integer'), array($this->getTestId())
 			);
-			
+
 			while($row = $ilDB->fetchAssoc($part_rest))
 			{
 				$ilDB->update('tst_sequence', array(
@@ -12752,5 +12859,5 @@ function getAnswerFeedbackPoints()
 			}
 		}
 	}
-	
+
 }

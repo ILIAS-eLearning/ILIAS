@@ -464,9 +464,10 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			
 				$area = new ilTextAreaInputGUI($lng->txt('set_manual_feedback'), "question__{$questionId}__feedback");
 				$area->setUseRTE(true);
-				if( $initValues ) $area->setValue( $this->object->getManualFeedback($activeId, $questionId, $pass) );
+			if( $initValues ){
+				$area->setValue( $this->object->getSingleManualFeedback($activeId, $questionId, $pass)['feedback'] );
+			}
 			$form->addItem($area);
-
 			if(strlen(trim($bestSolution)))
 			{
 				$cust = new ilCustomInputGUI($lng->txt('tst_show_solution_suggested'));
