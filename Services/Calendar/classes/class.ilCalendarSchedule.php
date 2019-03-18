@@ -232,9 +232,7 @@ class ilCalendarSchedule
 	 	}
 
 	 	//order non full day events by starting date;
-		usort($tmp_schedule,function($a, $b){
-			return $a['dstart'] <=> $b['dstart'];
-		});
+		array_multisort(array_column($tmp_schedule, 'dstart'),SORT_ASC, $tmp_schedule);
 
 		//merge both arrays keeping the full day events first and then rest ordered by starting date.
 	 	$schedules = array_merge($tmp_schedule_fullday,$tmp_schedule);
