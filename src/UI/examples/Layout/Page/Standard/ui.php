@@ -14,26 +14,18 @@ function ui()
 
 
 if ($_GET['new_ui'] == '1') {
+
 	_initIliasForPreview();
+
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$crumbs = array (
-		$f->link()->standard("entry1", '#'),
-		$f->link()->standard("entry2", '#'),
-		$f->link()->standard("entry3", '#'),
-		$f->link()->standard("entry4", '#')
-	);
-	$breadcrumbs = $f->breadcrumbs($crumbs);
-
-	$logo = $f->image()
-		->responsive("src/UI/examples/Image/HeaderIconLarge.svg", "ILIAS");
-
+	$logo = $f->image()->responsive("src/UI/examples/Image/HeaderIconLarge.svg", "ILIAS");
+	$breadcrumbs = pagedemoCrumbs($f);
 	$content = pagedemoContent($f);
-	$metabar = buildMetabar($f);
-	$mainbar = buildMainbar($f, $renderer)
-		->withActive("tool1");
-		//->withActive("example2");
+	$metabar = pagedemoMetabar($f);
+	$mainbar = pagedemoMainbar($f, $renderer)
+		->withActive("example2");
 
 	$page = $f->layout()->page()->standard(
 		$metabar,
