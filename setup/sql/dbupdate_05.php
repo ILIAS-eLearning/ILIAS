@@ -759,3 +759,28 @@ if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
 	$ilDB->dropTableColumn('post_conditions', 'condition_type');
 }
 ?>
+
+<#5484>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+	ilDBUpdateNewObjectType::deleteRBACOperation($lp_type_id, $ops_id);
+	$ilDB->manipulate("DELETE FROM rbac_operations WHERE ops_id = ".$ilDB->quote($ops_id, "integer"));
+}
+
+?>
+
+<#5485>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+	ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ops_id);
+}
+
+?>
