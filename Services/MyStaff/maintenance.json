@@ -1,14 +1,14 @@
 {
-    "maintenance_model": "Classic",
-    "first_maintainer": "mstuder(8473)",
-    "second_maintainer": "rklees(34047)",
-    "implicit_maintainers": [],
-    "coordinator": [
-        ""
-    ],
-    "tester": "",
-    "testcase_writer": "",
-    "path": "Services/MyStaff",
-    "belong_to_component": "Staff",
-    "used_in_components": []
+  "maintenance_model": "Classic",
+  "first_maintainer": "mstuder(8473)",
+  "second_maintainer": "rklees(34047)",
+  "implicit_maintainers": [],
+  "coordinator": [
+    ""
+  ],
+  "tester": "",
+  "testcase_writer": "",
+  "path": "Services/MyStaff",
+  "belong_to_component": "Staff",
+  "used_in_components": []
 }
