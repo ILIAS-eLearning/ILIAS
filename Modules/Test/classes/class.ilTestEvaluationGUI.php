@@ -1279,8 +1279,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$ilUser = $DIC['ilUser'];
 		$ilObjDataCache = $DIC['ilObjDataCache'];
 
-		$this->handleTabs('results_pass_oriented');
-		
 		$ilTabs->clearSubTabs();
 		$ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this));
 
@@ -1459,8 +1457,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 		$ilObjDataCache = $DIC['ilObjDataCache'];
-
-		$this->handleTabs('results_pass_oriented');
 
 		$testSession = $this->testSessionFactory->getSession();
 		$active_id = $testSession->getActiveId();

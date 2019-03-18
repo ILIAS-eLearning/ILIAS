@@ -1391,10 +1391,6 @@ class ilExAssignment
 	static function orderAssByDeadline($a_ex_id)
 	{
 		global $DIC;
-<<<<<<< HEAD
-=======
-
->>>>>>> 372cb62c87... fixed bug #24965: Exercise: A click on the Order by Deadline-Button produces an error
 		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT id FROM exc_assignment ".

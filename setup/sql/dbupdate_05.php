@@ -731,3 +731,31 @@ if($lp_type_id)
 	}
 }
 ?>
+<#5481>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5482>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5483>
+<?php
+if (!$ilDB->tableColumnExists("post_conditions", "condition_operator")) {
+	$ilDB->addTableColumn("post_conditions", "condition_operator", [
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 32,
+		 	"fixed" => false
+	]);
+}
+
+if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'always' WHERE condition_type = 0");
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'finished' WHERE condition_type = 1");
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'passed' WHERE condition_type = 2");
+	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'failed' WHERE condition_type = 3");
+
+	$ilDB->dropTableColumn('post_conditions', 'condition_type');
+}
+?>
