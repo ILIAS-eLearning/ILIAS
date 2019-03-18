@@ -117,16 +117,13 @@ class ilTestPDFGenerator
 
 	public static function preprocessHTML($html)
 	{
-		$pdf_css_path = self::getTemplatePath('test_pdf.css');
-		$html = self::makeHtmlDocument($html, '<style>'.file_get_contents($pdf_css_path).'</style>');
+		$html = self::makeHtmlDocument($html, '<style>'.self::getCssContent().'</style>');
 		
 		return $html;
 	}
 
-	protected static function getTemplatePath($a_filename)
+	protected static function getTemplatePath($a_filename, $module_path = 'Modules/Test/')
 	{
-			$module_path = "Modules/Test/";
-
 			// use ilStyleDefinition instead of account to get the current skin
 			include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
 			if (ilStyleDefinition::getCurrentSkin() != "default")
@@ -142,4 +139,11 @@ class ilTestPDFGenerator
 		return $fname;
 	}
 
+	protected static function getCssContent()
+	{
+		$cssContent = file_get_contents( self::getTemplatePath('delos.css', '') );
+		$cssContent .= file_get_contents( self::getTemplatePath('test_pdf.css') );
+		
+		return $cssContent;
+	}
 }

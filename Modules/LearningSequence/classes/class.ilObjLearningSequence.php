@@ -94,6 +94,7 @@ class ilObjLearningSequence extends ilContainer
 		$this->ilias = $DIC['ilias'];
 		$this->il_settings = $DIC['ilSetting'];
 		$this->il_news = $DIC->news();
+		$this->il_condition_handler = new ilConditionHandler();
 
 		$this->data_factory = new \ILIAS\Data\Factory();
 
@@ -382,9 +383,19 @@ class ilObjLearningSequence extends ilContainer
 	/**
 	 * @return array<"value" => "option_text">
 	 */
-	public function getPossiblePostConditions(): array
+	public function getPossiblePostConditionsForType(string $type): array
 	{
-		return LSPostConditionTypesDB::getAvailableTypes();
+		$condition_types = $this->il_condition_handler->getOperatorsByTriggerType($type);
+		$conditions = [
+			$this->conditions_db::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
+		];
+		foreach ($condition_types as $cond_type) {
+			if(! in_array($cond_type, $this->conditions_db::EXCLUDE_OPERATORS)) {
+				$conditions[$cond_type] = $this->lng->txt($cond_type);
+			}
+		}
+		return $conditions;
+
 	}
 
 	protected function getLearnerProgressDB(): ilLearnerProgressDB
