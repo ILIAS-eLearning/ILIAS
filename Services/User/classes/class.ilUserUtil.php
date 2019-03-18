@@ -447,7 +447,7 @@ class ilUserUtil
 					// self::START_PD_CONTACTS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts',
 					// self::START_PD_PROFILE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile',
 					// self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'
-					self::START_PD_MYSTAFF => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff'
+					self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . ilPersonalDesktopGUI::class . '&cmd=' . ilPersonalDesktopGUI::CMD_JUMP_TO_MY_STAFF
 				);				
 				return $map[$current];		
 		}		
