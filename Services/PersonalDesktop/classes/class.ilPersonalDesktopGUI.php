@@ -25,6 +25,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 */
 class ilPersonalDesktopGUI
 {
+	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
 	/**
 	 * @var ilCtrl
 	 */
@@ -288,9 +289,9 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($bgui);
 				$this->tpl->show();
 				break;
-			case 'ilmystaffgui':
+
+			case strtolower(ilMyStaffGUI::class):
 				$this->getStandardTemplates();
-				include_once './Services/MyStaff/classes/class.ilMyStaffGUI.php';
 				$mstgui = new ilMyStaffGUI();
 				$ret = $this->ctrl->forwardCommand($mstgui);
 				break;
@@ -781,10 +782,12 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 
-
+	/**
+	 *
+	 */
 	protected function jumpToMyStaff()
 	{
-		$this->ctrl->redirectByClass("ilmystaffgui");
+		$this->ctrl->redirectByClass(ilMyStaffGUI::class);
 	}
 	
 	/**
