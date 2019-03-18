@@ -49,7 +49,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @var array
 	 */
-	public $js_files_batch = [];
+	public $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);
 	//
 	// CONTENT
 	//
