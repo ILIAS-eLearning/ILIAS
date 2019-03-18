@@ -18,7 +18,7 @@ class ilTemplateWrapper implements Template {
 	 */
 	private $tpl;
 
-	final public function __construct(\ilGlobalTemplate $global_tpl, \ilTemplate $tpl) {
+	final public function __construct(\ilGlobalTemplateInterface $global_tpl, \ilTemplate $tpl) {
 		$this->global_tpl = $global_tpl;
 		$this->tpl = $tpl;
 	}

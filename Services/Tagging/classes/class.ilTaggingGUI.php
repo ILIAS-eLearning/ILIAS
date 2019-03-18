@@ -267,7 +267,7 @@ class ilTaggingGUI
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, ilGlobalTemplate $a_main_tpl = null)
+	static function initJavascript($a_ajax_url, ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 

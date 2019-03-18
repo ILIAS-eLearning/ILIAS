@@ -10,6 +10,8 @@ use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\MainMenu\isChild;
 use ILIAS\GlobalScreen\MainMenu\Item\Complex;
 use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
 
 /**
  * Class ilMMItemRepository
@@ -89,7 +91,7 @@ class ilMMItemRepository {
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem|\ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem
+	 * @return TopLinkItem[]|TopParentItem[]
 	 * @throws Throwable
 	 */
 	public function getStackedTopItemsForPresentation(): array {

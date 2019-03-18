@@ -22,7 +22,7 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 	 */
 	protected $code = array();
 
-	public function __construct(\ilGlobalTemplate $global_tpl) {
+	public function __construct(\ilGlobalTemplateInterface $global_tpl) {
 		$this->global_tpl = $global_tpl;
 	}
 

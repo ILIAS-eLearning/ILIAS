@@ -1448,7 +1448,7 @@ class ilInitialisation
 	/**
 	 * init the ILIAS UI framework.
 	 */
-	protected static function initUIFramework(\ILIAS\DI\Container $c) {
+	public static function initUIFramework(\ILIAS\DI\Container $c) {
 		$c["ui.factory"] = function ($c) {
 			return new ILIAS\UI\Implementation\Factory(
 				$c["ui.factory.counter"],
@@ -1682,7 +1682,7 @@ class ilInitialisation
 			} else {
 				// TODO FSX remove global
 				global $DIC;
-				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), "tpl.main.html", true, true);
+				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 			}
 		}
 		
