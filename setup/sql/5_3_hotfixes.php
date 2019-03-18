@@ -515,3 +515,7 @@ $ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
 <?php
 //$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
 ?>
+<#43>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
