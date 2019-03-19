@@ -1005,6 +1005,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		{
 			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
 		}
+
+		// assert that this is empty and does not contain old data
+		ilUtil::delDir($tst_dir, true);
+
 		return $tst_dir;
 	}
 
