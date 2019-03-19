@@ -45,8 +45,9 @@ class ilLSEventHandler
 	{
 		$obj_ref_id = (int)$parameter['ref_id'];
 		$old_parent_ref_id = (int)$parameter['old_parent_ref_id'];
+		$parent_lso = $this->getParentLSOInfo($obj_ref_id);
 
-		if (!$this->isExistingObject($obj_ref_id)) {
+		if (!$this->isExistingObject($obj_ref_id) || !$parent_lso) {
 			return;
 		}
 
