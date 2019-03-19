@@ -29,16 +29,33 @@ class Simple extends Node implements ISimple
 		$this->icon = $icon;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getLabel(): string
+	{
+		return $this->label;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getIcon()
 	{
 		return $this->icon;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getAsyncLoading(): bool
 	{
 		return $this->getAsyncURL() != '';
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function withAsyncURL(string $url): ISimple
 	{
 		$clone = clone $this;
@@ -46,6 +63,9 @@ class Simple extends Node implements ISimple
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getAsyncURL(): string
 	{
 		return $this->asynch_url;

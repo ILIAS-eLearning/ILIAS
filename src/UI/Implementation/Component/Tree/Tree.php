@@ -36,6 +36,9 @@ abstract class Tree implements ITree\Tree
 		$this->recursion = $recursion;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function withEnvironment($environment): ITree\Tree
 	{
 		$clone = clone $this;
@@ -43,6 +46,9 @@ abstract class Tree implements ITree\Tree
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function withData($data): ITree\Tree
 	{
 		$clone = clone $this;
@@ -50,16 +56,25 @@ abstract class Tree implements ITree\Tree
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getEnvironment()
 	{
 		return $this->environment;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getData()
 	{
 		return $this->data;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getRecursion(): ITree\TreeRecursion
 	{
 		return $this->recursion;
