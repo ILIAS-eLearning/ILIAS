@@ -1411,14 +1411,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	public function updateGroupType($a_group_type = GRP_TYPE_OPEN)
 	{
 		global $DIC;
-<<<<<<< HEAD
 
-		$tree = $DIC['tree'];
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
-=======
->>>>>>> 79da3b1eea... Fixed 0021289: Via SOAP angelegte "geschlossene Gruppen" sind nicht wirklich geschlossen
-		
 		$logger = $DIC->logger()->grp();
 		
 		if($a_group_type == GRP_TYPE_OPEN)
@@ -1441,104 +1434,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$logger->warning('No closed didactic template available.');
 	}
 
-	/**
-	* set group status
-	*
-	* Grants permissions on the group object for all parent roles.
-	* Each permission is granted by computing the intersection of the role
-	* template il_grp_status_open/_closed and the permission template of
-	* the parent role.
-	*
-	* Creates linked roles in the local role folder object for all
-	* parent roles and initializes their permission templates.
-	* Each permission template is initialized by computing the intersection
-	* of the role template il_grp_status_open/_closed and the permission
-	* template of the parent role.
-	*
-	* @access	public
-	* @param	integer group status GRP_TYPE_PUBLIC or GRP_TYPE_CLOSED
-	 *
-	 * @deprecated with 5.3 use ilObjGroup->updateGroupType
-	*/
-	function initGroupStatus($a_grpStatus = GRP_TYPE_PUBLIC)
-	{
-		global $DIC;
-
-		$rbacadmin = $DIC['rbacadmin'];
-		$rbacreview = $DIC['rbacreview'];
-		$rbacsystem = $DIC['rbacsystem'];
-
-		//define all relevant roles that rights are needed to be changed
-		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
-
-		$real_local_roles = $rbacreview->getRolesOfRoleFolder($this->getRefId(),false);
-		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$real_local_roles);
-
-		//group status open (aka public) or group status closed
-		if ($a_grpStatus == GRP_TYPE_PUBLIC || $a_grpStatus == GRP_TYPE_CLOSED)
-		{
-			if ($a_grpStatus == GRP_TYPE_PUBLIC)
-			{
-				$template_id = $this->getGrpStatusOpenTemplateId();
-			} 
-			else 
-			{
-				$template_id = $this->getGrpStatusClosedTemplateId();
-			}
-			//get defined operations from template
-			$template_ops = $rbacreview->getOperationsOfRole($template_id, 'grp', ROLE_FOLDER_ID);
-
-			foreach ($arr_relevantParentRoleIds as $parentRole)
-			{
-				if ($rbacreview->isProtected($arr_parentRoles[$parentRole]['parent'],$parentRole))
-				{
-					continue;
-				}
-
-				$granted_permissions = array();
-
-				// Delete the linked role for the parent role
-				// (just in case if it already exists).
-				
-				// Added additional check, since this operation is very dangerous.
-				// If there is no role folder ALL parent roles are deleted. 
-
-				// @todo refactor rolf
-				$rbacadmin->deleteLocalRole($parentRole,$this->getRefId());
-
-				// Grant permissions on the group object for
-				// the parent role. In the foreach loop we
-				// compute the intersection of the role
-				// template il_grp_status_open/_closed and the
-				// permission template of the parent role.
-				$current_ops = $rbacreview->getRoleOperationsOnObject($parentRole, $this->getRefId());
-				$rbacadmin->revokePermission($this->getRefId(), $parentRole);
-				foreach ($template_ops as $template_op)
-				{
-					if (in_array($template_op,$current_ops))
-					{
-						array_push($granted_permissions,$template_op);
-					}
-				}
-				if (!empty($granted_permissions))
-				{
-					$rbacadmin->grantPermission($parentRole, $granted_permissions, $this->getRefId());
-				}
-
-				// Create a linked role for the parent role and
-				// initialize it with the intersection of
-				// il_grp_status_open/_closed and the permission
-				// template of the parent role
-				
-				$rbacadmin->copyRolePermissionIntersection(
-					$template_id, ROLE_FOLDER_ID,
-					$parentRole, $arr_parentRoles[$parentRole]['parent'],
-					$this->getRefId(), $parentRole
-				);
-				$rbacadmin->assignRoleToFolder($parentRole,$this->getRefId(),"false");
-			}//END foreach
-		}
-	}
 
 	/**
 	 * Set group status
