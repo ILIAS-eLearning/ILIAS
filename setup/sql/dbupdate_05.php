@@ -759,3 +759,7 @@ if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
 	$ilDB->dropTableColumn('post_conditions', 'condition_type');
 }
 ?>
+<#5483>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
