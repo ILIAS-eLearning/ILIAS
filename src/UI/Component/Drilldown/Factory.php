@@ -16,7 +16,7 @@ interface Factory
 	 *   purpose: >
 	 *     A Drilldown Menu offers a partial view on a larger set of hierarchically
 	 *     structured navigation possibilities.
-	 *     While the entries of a Drilldown Menu are actually organised in a tree-structure,
+	 *     While the entries of a Drilldown Menu are actually organized in a tree-structure,
 	 *     there is only one level of branches visible at a time, so that space is
 	 *     saved and the users attention is not being obstrused by irrelevant options.
 	 *   composition: >

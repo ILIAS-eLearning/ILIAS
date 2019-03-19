@@ -193,7 +193,8 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.input"],
 		$c["ui.factory.table"],
 		$c["ui.factory.messagebox"],
-		$c["ui.factory.card"]
+		$c["ui.factory.card"],
+		$c["ui.factory.drilldown"]
 	);
 };
 $c["ui.signal_generator"] = function($c) {
@@ -262,6 +263,9 @@ $c["ui.factory.messagebox"] = function($c) {
 };
 $c["ui.factory.card"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Card\Factory();
+};
+$c["ui.factory.drilldown"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Drilldown\Factory();
 };
 $c["ui.factory.progressmeter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();

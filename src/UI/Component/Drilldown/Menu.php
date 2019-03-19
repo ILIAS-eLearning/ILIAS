@@ -24,6 +24,11 @@ interface Menu extends Component, JavaScriptBindable
 	public function getIconOrGlyph();
 
 	/**
+	 * Get the Entries of this drilldown.
+	 */
+	public function getEntries(): array;
+
+	/**
 	 * Set entries of this Menu.
 	 * @param array<Button|Submenu> 	$entries
 	 */
@@ -34,9 +39,4 @@ interface Menu extends Component, JavaScriptBindable
 	 * @param Button|Submenu 	$entry
 	 */
 	public function withAdditionalEntry($entry): Menu;
-
-	/**
-	 * Get the Entries of this drilldown.
-	 */
-	public function getEntries(): array;
 }

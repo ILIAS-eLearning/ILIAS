@@ -24,22 +24,21 @@ interface Submenu extends Component, JavaScriptBindable
 	public function getIconOrGlyph();
 
 	/**
+	 * Get the Entries of this level.
+	 */
+	public function getEntries(): array;
+
+	/**
 	 * Set entries of this Submenu.
 	 * @param array<Button|Submenu> 	$entries
 	 */
 	public function withEntries(array $entries): Submenu;
-
 
 	/**
 	 * Add an entry to the level.
 	 * @param Button|Submenu 	$entry
 	 */
 	public function withAdditionalEntry($entry): Submenu;
-
-	/**
-	 * Get the Entries of this level.
-	 */
-	public function getEntries(): array;
 
 	/**
 	 * Configure this Submenu to be active when the drilldown is loaded.
