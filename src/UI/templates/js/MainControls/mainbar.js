@@ -164,10 +164,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		var _setPageSlatesActive = function(active) {
 			var page_div = $('.' + _cls_page_div);
 			if(active) {
-				page_div.addClass('with-engaged-slates'); //TODO: remove
 				page_div.addClass(_cls_page_active_slates);
 			} else {
-				page_div.removeClass('with-engaged-slates'); //TODO: remove
 				page_div.removeClass(_cls_page_active_slates);
 			}
 		};
