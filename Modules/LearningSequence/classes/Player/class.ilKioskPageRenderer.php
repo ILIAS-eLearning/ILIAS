@@ -171,11 +171,10 @@ class ilKioskPageRenderer
 
 	protected function getCSSFiles()
 	{
-		$css_files = array();
 		foreach($this->il_tpl->css_files as $il_css_file) {
 			$css_files[] = $il_css_file['file'];
 		}
-		foreach($this->tpl->css_files as $il_css_file) {
+		foreach($this->il_tpl->css_files as $il_css_file) {
 			if(! in_array($il_css_file['file'], $css_files)) {
 				$css_files[] = $il_css_file['file'];
 			}
