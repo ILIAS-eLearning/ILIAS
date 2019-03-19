@@ -37,6 +37,11 @@ define('QP_COMBINATION_OR','or');
 
 class ilQueryParser
 {
+	/**
+	 * Minimum of characters required for search
+	 */
+	const MIN_WORD_LENGTH = 3;
+
 	var $lng = null;
 
 	var $min_word_length = 0;
@@ -57,7 +62,7 @@ class ilQueryParser
 	{
 		global $lng;
 
-		define(MIN_WORD_LENGTH,3);
+		define('MIN_WORD_LENGTH',self::MIN_WORD_LENGTH);
 
 		$this->lng = $lng;
 
