@@ -69,7 +69,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 	public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
 	{
 		$builder->start (
-			'start ' .$this->getTitleByType($this->getType()),
+			$this->lng->txt('lso_start_item').' '.$this->getTitleByType($this->getType()),
 			self::CMD_START_OBJECT,
 			0
 		);
