@@ -1,74 +1,11 @@
-// logo
-@logo-height: 45px;
-@logo-width: 45px;
-
-// header
-@height-header: 60px;
-@bg-header: #fff;
-
-// border light color
-@light-border: #ddd;
-
-// metabar
-@height-metabar-entry: 60px;
-@width-metabar-entry: 60px;
-
-// glyphicons metabar
-@glyph-size: 2.3rem;
-@glyph-color: #aaa;
-
-// breadcrumbs
-@height-breadcrumbs: 33px;
-@bg-breadcrumbs: #fff;
-@breadcrumb-divider-color: #bbb;
-
-// mainbar
-@mainbar-btn-height: 80px;
-@mainbar-btn-width: 80px;
-@bg-maincontrols: #fff;
-@bg-mainbar: #4a4a4a;
-@bg-mainbar-engaged: #fff;
-@mainbar-btn-border: 1px solid @light-border;
-@mainbar-btn-color: #fff;
-@mainbar-btn-color-engaged: #4a4a4a;
-@mainbar-label-size: .7rem;
-
-// slates
-@slate-width: 400px;
-@bg-metabar-slates: #fafafa;
-@slate-bg-bulky: #f2f2f2;
-@slate-bg-bulky-level-2: #e3e3e3;
-@slate-bg-bulky-engaged: #D1D8E3;
-@slate-content-spacing: 2px;
-@bg-slate-collapsed: #f2f2f2;
-@bg-slate-expanded: #ebe8c0;
-@menu-divider: 0px solid #eee;
-@close-slate-btn-height: 45px;
-
-// footer
-@height-footer: 75px;
-
-// shadows
-@shadow-color: #ccc;
-@inner-top-shadow: inset 0 5px 9px -5px @shadow-color;
-@shadow-right: 1px 3px 4px @shadow-color;
-@shadow-bottom: 0 1px 4px @shadow-color;
-
 // mixins
-.inner-top-shadow {
-	box-shadow: @inner-top-shadow;
-}
-
 .shadow-right {
-	box-shadow: @shadow-right;
+	box-shadow: @il-mainbar-shadow-right;
 }
 
 .shadow-bottom {
-	box-shadow: @shadow-bottom;
+	box-shadow: @il-standard-page-header-shadow-bottom;
 }
-
-// content padding
-@padding-content: 20px;
 
 
 * {
@@ -97,10 +34,10 @@ grid-based layout
 	display: -ms-grid;
 	display: grid;
 	grid-gap: 0px;
-	-ms-grid-columns: @mainbar-btn-width 1fr;
-    grid-template-columns: @mainbar-btn-width 1fr;
-	-ms-grid-rows: @height-header @height-breadcrumbs 1fr;
-    grid-template-rows: @height-header @height-breadcrumbs 1fr;
+	-ms-grid-columns: @il-mainbar-btn-width 1fr;
+    grid-template-columns: @il-mainbar-btn-width 1fr;
+	-ms-grid-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height 1fr;
+    grid-template-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height 1fr;
     /* // not supported in IE, use track-line instead
 	grid-template-areas:
     "header header"
@@ -117,10 +54,10 @@ grid-based layout
 		}
 	}
 	&.with-mainbar-slates-engaged {
-		-ms-grid-columns: @slate-width + @mainbar-btn-width 1fr;
-		grid-template-columns: @slate-width + @mainbar-btn-width 1fr;
+		-ms-grid-columns: @il-standard-page-slate-width + @il-mainbar-btn-width 1fr;
+		grid-template-columns: @il-standard-page-slate-width + @il-mainbar-btn-width 1fr;
 		.il-maincontrols-mainbar {
-			width: @slate-width + @mainbar-btn-width;
+			width: @il-standard-page-slate-width + @il-mainbar-btn-width;
 			/* transition: all .3s; */
 			// slate
 			.il-mainbar-slates {
@@ -157,34 +94,33 @@ header {
 .header-inner {
 	-ms-flex-align: center;
     align-items: center;
-    background: @bg-header; /* style move */
+    background: @il-standard-page-header-bg-color;
 	display: -ms-flexbox;
     display: flex;
 	-ms-flex-direction: row;
     flex-direction: row;
-    height: @height-header;
+    height: @il-standard-page-header-height;
     padding: 0 15px;
     position: fixed;
     width: 100%;
 	-ms-flex-pack: justify;
     justify-content: space-between;
-	// .shadow-bottom();
 }
 
 // logo-container
 
 .il-logo {
-	height: @logo-height;
+	width: @il-standard-page-logo-width;
+	height: @il-standard-page-logo-height;
 	justify-self: start;
-	width: @logo-width;
 }
 
 /* breadcrumbs */
 .breadcrumbs {
 	-ms-flex-align: center;
 	align-items: center;
-	background-color: @bg-breadcrumbs;
-	border-top: 1px solid @light-border;
+	background-color: @il-standard-page-breadcrumbs-bg-color;
+	border-top: 1px solid @il-standard-page-border-light-color;
 	display: -ms-flexbox;
 	display: flex;
 	-ms-flex-direction: row;
@@ -198,10 +134,10 @@ header {
 	z-index: 997;
 	.shadow-bottom();
 	ul.breadcrumb {
-		padding-left: @mainbar-btn-width + @padding-content;
+		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
 		&>li+li:before {
 			content: " \e606";
-			color: @breadcrumb-divider-color;
+			color: @il-standard-page-breadcrumbs-divider-color;
 			font-family: "il-icons";
 		}
 	}
@@ -218,15 +154,15 @@ nav.il-maincontrols {
 
 // Subgrid mainbar
 .il-maincontrols-mainbar {
-	background-color: @bg-maincontrols;
+	background-color: @il-maincontrols-mainbar-bg-color;
 	display: -ms-grid;
 	display: grid;
 	height: 100%;
-	-ms-grid-colums: @mainbar-btn-width @slate-width;
-	grid-template-columns: @mainbar-btn-width @slate-width;
+	-ms-grid-colums: @il-mainbar-btn-width @il-standard-page-slate-width;
+	grid-template-columns: @il-mainbar-btn-width @il-standard-page-slate-width;
 	-ms-grid-rows: 1fr;
 	grid-template-rows: 1fr;
-	width: @mainbar-btn-width;
+	width: @il-mainbar-btn-width;
 	&.engaged {
 
 	}
@@ -234,7 +170,7 @@ nav.il-maincontrols {
 
 // mainbar
 .il-mainbar {
-	background-color: @bg-mainbar;
+	background-color: @il-mainbar-btn-bg-color;
 	-ms-grid-column: 1;
 	-ms-grid-row: 1;
 	grid-column: 1;
@@ -252,14 +188,14 @@ nav.il-maincontrols {
 }
 
 .il-mainbar-tools-button button {
-	height:@mainbar-btn-height;
-	width: @mainbar-btn-width;
+	height:@il-mainbar-btn-height;
+	width: @il-mainbar-btn-width;
 }
 
 .il-mainbar-tools-entries {
 	button {
-		height:@mainbar-btn-height;
-		width: @mainbar-btn-width;
+		height:@il-mainbar-btn-height;
+		width: @il-mainbar-btn-width;
 	}
 	&.engaged {
 		display: -ms-flexbox;
@@ -304,7 +240,7 @@ main {
 	grid-column: 2;
 	grid-row: 3;
 	overflow: auto;
-	padding: @padding-content;
+	padding: @il-standard-page-content-padding;
 }
 
 /* Footer */
@@ -320,10 +256,7 @@ footer {
        mobile Layout
 **************************************************************
 */
-@height-header-sm: 45px;
-@height-mainbar-sm: 50px;
-@mainbar-btn-height-sm: @height-mainbar-sm;
-@mainbar-btn-width-sm: 75px;
+
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 	// main grid without slates
@@ -334,8 +267,8 @@ footer {
 		grid-gap: 0px;
 		-ms-grid-columns: 1fr;
 	    grid-template-columns: 1fr;
-		-ms-grid-rows: @height-header-sm @height-breadcrumbs 1fr @height-mainbar-sm;
-	    grid-template-rows: @height-header-sm @height-breadcrumbs 1fr @height-mainbar-sm;
+		-ms-grid-rows: @il-standard-page-small-header-height @il-standard-page-breadcrumbs-height 1fr @il-standard-page-small-mainbar-height;
+	    grid-template-rows: @il-standard-page-small-header-height @il-standard-page-breadcrumbs-height 1fr @il-standard-page-small-mainbar-height;
 	    height: 100%;
 		overflow: hidden;
 		width: 100%;
@@ -345,8 +278,8 @@ footer {
 				display: -ms-grid;
 				-ms-grid-columns: 1fr;
 				grid-template-columns: 1fr;
-				-ms-grid-rows: 0 @height-mainbar-sm;
-				grid-template-rows: 0 @height-mainbar-sm;
+				-ms-grid-rows: 0 @il-standard-page-small-mainbar-height;
+				grid-template-rows: 0 @il-standard-page-small-mainbar-height;
 				.il-mainbar-close-slates {
 					display: none;
 				}
@@ -374,12 +307,12 @@ footer {
 				grid-column: 1;
 				grid-row: 3;
 				grid-row-end: 4;
-				height: 100%; // calc(100% - (@height-header-sm + @height-breadcrumbs);
+				height: 100%; // calc(100% - (@il-standard-page-small-header-height + @il-standard-page-breadcrumbs-height);
 				.il-maincontrols-mainbar {
 					-ms-grid-columns: 1fr;
 				    grid-template-columns: 1fr;
-					-ms-grid-rows: 1fr @height-mainbar-sm;
-				    grid-template-rows: 1fr @height-mainbar-sm;
+					-ms-grid-rows: 1fr @il-standard-page-small-mainbar-height;
+				    grid-template-rows: 1fr @il-standard-page-small-mainbar-height;
 					width: 100%;
 					.il-mainbar {
 					}
@@ -420,7 +353,7 @@ footer {
 
 	// head-container with logo and metabar
 	.header-inner {
-	    height: @height-header-sm;
+	    height: @il-standard-page-small-header-height;
 	    padding: 0;
 	    width: 100%;
 	}
@@ -429,8 +362,8 @@ footer {
 	.breadcrumbs {
 		-ms-flex-align: center;
 		align-items: center;
-		background-color: @bg-breadcrumbs;
-		border-top: 1px solid @light-border;
+		background-color: @il-standard-page-breadcrumbs-bg-color;
+		border-top: 1px solid @il-standard-page-border-light-color;
 		display: -ms-flexbox;
 		display: flex;
 		-ms-flex-direction: row;
@@ -442,10 +375,10 @@ footer {
 		z-index: 997;
 		.shadow-bottom();
 		ul.breadcrumb {
-			padding-left: @padding-content;
+			padding-left: @il-standard-page-content-padding;
 			&>li+li:before {
 				content: " \e606";
-				color: @breadcrumb-divider-color;
+				color: @il-standard-page-breadcrumbs-divider-color;
 				font-family: "il-icons";
 			}
 		}
@@ -474,7 +407,7 @@ footer {
 
 	// mainbar
 	.il-mainbar {
-		background-color: @bg-mainbar;
+		background-color: @il-mainbar-btn-bg-color;
 		display: -ms-flexbox;
 		display: flex;
 		z-index: 995;
@@ -489,14 +422,14 @@ footer {
 	}
 
 	.il-mainbar-tools-button button {
-		height:@mainbar-btn-height-sm;
-		width: @mainbar-btn-width-sm;
+		height:@il-mainbar-small-btn-height;
+		width: @il-mainbar-small-btn-width;
 	}
 
 	.il-mainbar-tools-entries {
 		button {
-			height:@mainbar-btn-height-sm;
-			width: @mainbar-btn-width-sm;
+			height:@il-mainbar-small-btn-height;
+			width: @il-mainbar-small-btn-width;
 		}
 		&.engaged {
 			display: -ms-flexbox;
@@ -541,6 +474,6 @@ footer {
 		grid-column: 1;
 		grid-row: 3;
 		overflow: auto;
-		padding: @padding-content;
+		padding: @il-standard-page-content-padding;
 	}
 }

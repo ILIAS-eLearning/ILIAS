@@ -8996,9 +8996,6 @@ div.alert ul > li:before {
 .carousel.slide.text-only .carousel-control {
   background: none !important;
 }
-.inner-top-shadow {
-  box-shadow: inset 0 5px 9px -5px #cccccc;
-}
 .shadow-right {
   box-shadow: 1px 3px 4px #cccccc;
 }
@@ -9046,25 +9043,25 @@ grid-based layout
 .il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: none;
 }
-.il-layout-page.with-engaged-slates {
+.il-layout-page.with-mainbar-slates-engaged {
   -ms-grid-columns: 480px 1fr;
   grid-template-columns: 480px 1fr;
 }
-.il-layout-page.with-engaged-slates .il-maincontrols-mainbar {
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
   width: 480px;
   /* transition: all .3s; */
 }
-.il-layout-page.with-engaged-slates .il-maincontrols-mainbar .il-mainbar-slates {
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
   z-index: 994;
 }
-.il-layout-page.with-engaged-slates .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
   overflow-y: auto;
 }
-.il-layout-page.with-engaged-slates .il-maincontrols-mainbar .il-mainbar-close-slates {
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: -ms-flexbox;
   display: flex;
 }
@@ -9082,7 +9079,6 @@ header {
   -ms-flex-align: center;
   align-items: center;
   background: #ffffff;
-  /* style move */
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
@@ -9095,9 +9091,9 @@ header {
   justify-content: space-between;
 }
 .il-logo {
+  width: 45px;
   height: 45px;
   justify-self: start;
-  width: 45px;
 }
 /* breadcrumbs */
 .breadcrumbs {
@@ -9246,11 +9242,11 @@ footer {
     grid-column: 1;
     grid-row: 1;
   }
-  .il-layout-page.with-engaged-slates {
+  .il-layout-page.with-mainbar-slates-engaged {
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
   }
-  .il-layout-page.with-engaged-slates .nav.il-maincontrols {
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols {
     -ms-grid-column: 1;
     -ms-grid-row: 3;
     -ms-grid-row-span: 2;
@@ -9259,14 +9255,14 @@ footer {
     grid-row-end: 4;
     height: 100%;
   }
-  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar {
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
     -ms-grid-rows: 1fr 50px;
     grid-template-rows: 1fr 50px;
     width: 100%;
   }
-  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
     -ms-grid-column: 1;
     -ms-grid-row: 1;
     grid-column: 1;
@@ -9278,10 +9274,10 @@ footer {
     width: 100%;
     z-index: 994;
   }
-  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
     overflow-y: auto;
   }
-  .il-layout-page.with-engaged-slates .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
     display: -ms-flexbox;
     display: flex;
   }
@@ -9387,59 +9383,6 @@ footer {
     padding: 20px;
   }
 }
-/*
-glyphicon-cog<!-- END settings -->
-<!-- BEGIN collapse --> glyphicon-triangle-bottom<!-- END collapse -->
-<!-- BEGIN expand --> glyphicon-triangle-right<!-- END expand -->
-<!-- BEGIN add --> glyphicon-plus-sign<!-- END add -->
-<!-- BEGIN remove --> glyphicon-minus-sign<!-- END remove -->
-<!-- BEGIN up --> glyphicon-circle-arrow-up<!-- END up -->
-<!-- BEGIN down --> glyphicon-circle-arrow-down<!-- END down -->
-<!-- BEGIN back --> glyphicon-chevron-left<!-- END back -->
-<!-- BEGIN next --> glyphicon-chevron-right<!-- END next -->
-<!-- BEGIN sortAscending --> glyphicon-arrow-up<!-- END sortAscending -->
-<!-- BEGIN sortDescending --> glyphicon-arrow-down<!-- END sortDescending -->
-<!-- BEGIN user --> glyphicon-user<!-- END user -->
-<!-- BEGIN mail --> glyphicon-envelope<!-- END mail -->
-<!-- BEGIN notification --> glyphicon-bell<!-- END notification -->
-<!-- BEGIN tag --> glyphicon-tag<!-- END tag -->
-<!-- BEGIN note --> glyphicon-pushpin<!-- END note -->
-<!-- BEGIN comment --> glyphicon-comment<!-- END comment -->
-<!-- BEGIN briefcase --> glyphicon-briefcase<!-- END briefcase -->
-<!-- BEGIN like --> il-glyphicon-like<!-- END like -->
-<!-- BEGIN love --> il-glyphicon-love<!-- END love -->
-<!-- BEGIN dislike --> il-glyphicon-dislike<!-- END dislike -->
-<!-- BEGIN laugh --> il-glyphicon-laugh<!-- END laugh -->
-<!-- BEGIN astounded --> il-glyphicon-astounded<!-- END astounded -->
-<!-- BEGIN sad --> il-glyphicon-sad<!-- END sad -->
-<!-- BEGIN angry --> il-glyphicon-angry<!-- END angry -->
-<!-- BEGIN eyeopen --> glyphicon-eye-open<!-- END eyeopen -->
-<!-- BEGIN eyeclosed --> glyphicon-eye-close<!-- END eyeclosed -->
-<!-- BEGIN attachment --> glyphicon-paperclip<!-- END attachment -->
-<!-- BEGIN reset --> glyphicon-repeat<!-- END reset -->
-<!-- BEGIN apply --> glyphicon-ok<!-- END apply -->
-<!-- BEGIN logout --> glyphicon-log-out<!-- END logout -->
-<!-- BEGIN search --> glyphicon-search<!-- END search -->
-*/
-/* temporarily overrides only for metabar in metabar.less
-.glyphicon {
-    display: block;
-    font-family: 'il-icons';
-    width: @glyph-size;
-}
-.glyphicon-bell {
-    content: "\e858";
-}
-.glyphicon-question-sign {
-    content: "\e87d";
-}
-.glyphicon-search {
-    content: "\e86f";
-}
-.glyphicon-user {
-    content: "\e82a";
-}
-*/
 .il-maincontrols-slate.disengaged {
   display: none;
 }
@@ -9449,7 +9392,6 @@ glyphicon-cog<!-- END settings -->
   display: flex;
   margin-bottom: 2px;
   padding: 10px 20px;
-  /* !variable! */
 }
 .il-maincontrols-slate .btn-bulky.disengaged:before {
   content: " \e606";
@@ -9472,24 +9414,9 @@ glyphicon-cog<!-- END settings -->
 .il-maincontrols-slate .btn-bulky .icon {
   filter: invert(50%);
   margin-right: 10px;
-  /* !variable! */
 }
 .il-maincontrols-slate .btn-bulky .bulky-label {
   font-size: 1.5rem;
-}
-.il-maincontrols-slate .backlink .btn-bulky {
-  background-color: #fff;
-  /* !variable! */
-  height: 80px;
-}
-.il-maincontrols-slate .backlink .btn-bulky .bulky-label {
-  color: #4c6586;
-}
-.il-maincontrols-slate .backlink .btn-bulky .icon.small,
-.il-maincontrols-slate .backlink .btn-bulky .icon.small img {
-  height: 14px;
-  line-height: 14px;
-  width: 14px;
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
   background-color: #e3e3e3;
@@ -9503,7 +9430,6 @@ glyphicon-cog<!-- END settings -->
 .il-maincontrols-slate-content h3,
 .il-maincontrols-slate-content h4 {
   padding: 10px 20px;
-  /* !variable! */
 }
 .il-maincontrols-slate-close button,
 .il-maincontrols-slate-back button {
