@@ -1411,14 +1411,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	public function updateGroupType($a_group_type = GRP_TYPE_OPEN)
 	{
 		global $DIC;
-<<<<<<< HEAD
 
-		$tree = $DIC['tree'];
-		$rbacreview = $DIC['rbacreview'];
-		$rbacadmin = $DIC['rbacadmin'];
-=======
->>>>>>> 79da3b1eea... Fixed 0021289: Via SOAP angelegte "geschlossene Gruppen" sind nicht wirklich geschlossen
-		
 		$logger = $DIC->logger()->grp();
 		
 		if($a_group_type == GRP_TYPE_OPEN)
