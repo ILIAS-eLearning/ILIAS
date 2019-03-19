@@ -607,10 +607,19 @@ class ilCalendarSchedule
 
 					$start_day_of_week = (int)date('w', $start_unix_time);
 
-					$number_days_previous_month = $start_day_of_week;
+					$number_days_previous_month = 0;
 
-					if($this->weekstart === ilCalendarSettings::WEEK_START_MONDAY) {
-						$number_days_previous_month = $start_day_of_week - 1;
+					if($start_day_of_week === 0 && $this->weekstart === ilCalendarSettings::WEEK_START_MONDAY)
+					{
+						$number_days_previous_month = 6;
+					}
+					else if($start_day_of_week > 0)
+					{
+						$number_days_previous_month = $start_day_of_week;
+
+						if($this->weekstart === ilCalendarSettings::WEEK_START_MONDAY) {
+							$number_days_previous_month = $start_day_of_week - 1;
+						}
 					}
 
 					$this->start->increment(IL_CAL_DAY, -$number_days_previous_month);
