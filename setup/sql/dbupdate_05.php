@@ -768,7 +768,6 @@ $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
 if ($lp_type_id) {
 	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
 	ilDBUpdateNewObjectType::deleteRBACOperation($lp_type_id, $ops_id);
-	$ilDB->manipulate("DELETE FROM rbac_operations WHERE ops_id = ".$ilDB->quote($ops_id, "integer"));
 }
 
 ?>
