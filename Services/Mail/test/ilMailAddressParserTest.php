@@ -10,14 +10,6 @@ class ilMailAddressParserTest extends \ilMailBaseTest
 	const DEFAULT_HOST = 'ilias';
 
 	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
 	 * @return array
 	 */
 	public function emailAddressesProvider(): array
