@@ -902,8 +902,6 @@ assessment#:#positive_numbers_required#:#正数のみを入力してください
 assessment#:#postpone_question#:#問題を最後へ移動
 assessment#:#postponed#:#後回ししました
 assessment#:#precision#:#精度
-assessment#:#preserve_manscoring#:#手動採点を保存
-assessment#:#preserve_manscoring_info#:#問題採点の変更は手動採点を避けるために必要になることがあります。この選択肢はテストの全手動採点を避ける事ができるものの稀な場合にのみ使用すべきです。
 assessment#:#preview#:#プレビュー
 assessment#:#previous_question#:#前へ
 assessment#:#previous_question_rows#:#<< 問題%dの%d - %d
@@ -1059,7 +1057,6 @@ assessment#:#save_on_navigation#:#ナビゲーションを保存
 assessment#:#save_on_navigation_confirmation#:#変更した回答はナビゲートする時に自動的に保存されます。
 assessment#:#save_on_navigation_forced_feedback_hint#:#回答済みへフィードバックする前。
 assessment#:#save_on_navigation_locked_confirmation#:#変更した回答はナビゲート時にロックされて自動的に保存されます。
-assessment#:#save_on_navigation_prevent_confirmation#:#このメッセージを再表示しない。
 assessment#:#saved_adjustment#:#変更を保存しました。
 assessment#:#saveOrder#:#順番を保存
 assessment#:#saveOrderAndObligations#:#順番と必須を保存
@@ -1162,8 +1159,6 @@ assessment#:#toplist_col_percentage#:#パーセント
 assessment#:#toplist_col_rank#:#順位
 assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
-assessment#:#toplist_top_n_results#:#上位%sの結果
-assessment#:#toplist_your_result#:#順位
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
@@ -1224,9 +1219,6 @@ assessment#:#tst_comp_eval_mode#:#評価者
 assessment#:#tst_comp_points#:#能力ポイント
 assessment#:#tst_competence#:#能力
 assessment#:#tst_confirm_submit_answers#:#答案提出を確認してください。 提出ボタンを押すと解答に戻る事はできません。
-assessment#:#tst_conflict_fbh_oblig_quest#:#必須問題に使用される組合せと回答ロックは許可されません。
-assessment#:#tst_conflict_reset_fbh_force#:#回答をロック設定は"回答をロックしないがフィードバックを強制"へ変更されました。
-assessment#:#tst_conflict_reset_non_fbh#:#回答をロック設定は"回答をロックしない"へ変更されました。
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#tst_copy#:#テストをコピー
 assessment#:#tst_corr_add_as_answer_btn#:#Add as Correct Answer
@@ -1381,15 +1373,6 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#クリックボタン�
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
 assessment#:#tst_instant_feedback_forced#:#即時フィードバックを強制
-assessment#:#tst_instant_feedback_handling#:#回答をロック
-assessment#:#tst_instant_feedback_handling_force#:#回答をロックしないがフィードバックを強制
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#回答をロックしてフィードバックを強制
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#受験者は'回答'をクリックすると後でそれを変更することはできません。'インスタントフィードバック'オプションの構成に沿ってフィードバックありで受講者は自動的に表示されます。
-assessment#:#tst_instant_feedback_handling_force_desc#:#受験者は’回答’をクリックすると'インスタントフィードバック'オプションの構成に沿ってフィードバックありで自動的に表示されます。後で回答を変更することは可能です。
-assessment#:#tst_instant_feedback_handling_freeze#:#フィードバックリクエストにより回答をロック
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#受験者は'回答'をクリックすると後でそれを変更することはできません。'インスタントフィードバック'オプションの構成に沿ってフィードバックありで受講者は自動的に表示されます。受験者は'チェック'をクリックしてフィードバックを要求できます。'インスタントフィードバック'オプションのフィードバック動作設定を構成してください。
-assessment#:#tst_instant_feedback_handling_none#:#回答をロックしない
-assessment#:#tst_instant_feedback_handling_none_desc#:#受験者はすべての受験中のテスト回答を変更できます。
 assessment#:#tst_instant_feedback_results#:#達成点
 assessment#:#tst_instant_feedback_results_desc#:#クリックボタンをクリックするとILIASはこの問題解答で何点達成されたかを表示します。
 assessment#:#tst_instant_feedback_solution#:#最適な解答案を表示
@@ -1452,7 +1435,6 @@ assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#この�
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#ルール%は%s質問に必須で%s問が提供されます。
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#次の他のルール:%sとの共通点のために提供された質問の%sしか保証ありません。
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#現在の構成で受験者のランダムテスト作成ができます。<br />選択された問題集ソースの最終同期時間： <b>%s</b>
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#同期はテストのルールに合わせて全ての問題をコピーします。大きな問題集には数分かかる事があります。
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#問題のランダム設定用の構成は正しく修正されました。現在、新しいルールを追加できます。
 assessment#:#tst_msg_random_question_set_config_modified#:#ランダムテスト構成は正しく修正されました。
 assessment#:#tst_msg_random_question_set_synced#:#現在の構成用の問題は正しく同期されました。
@@ -2250,7 +2232,6 @@ blog#:#blog_import#:#ブログをインポート
 blog#:#blog_keyword#:#キーワード
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 blog#:#blog_keywords#:#キーワード
-blog#:#blog_keywords_info#:#キーワードを追加・削除するには+/-アイコンを使用します。
 blog#:#blog_keywords_other#:#他のキーワード
 blog#:#blog_keywords_other_info#:#これらのキーワードは他のブログ投稿用に設定されました。
 blog#:#blog_latest_posting#:#最終投稿
@@ -3963,13 +3944,9 @@ common#:#ldap_tls#:#LDAP TLSを使用
 common#:#ldap_version#:#LDAPプロトコルバージョン
 common#:#learning module#:#ラーニングモジュール
 common#:#learning_progress#:#学習進捗
-common#:#learning_resource#:#学習リソース
-common#:#learning_resources#:#学習リソース
 common#:#leave_waiting_list#:#待ちリストから退室
 common#:#legend#:#凡例
 common#:#level#:#レベル
-common#:#license#:#ライセンス
-common#:#licenses#:#ライセンス
 common#:#like#:#Like
 common#:#link#:#リンク
 common#:#link_all#:#全てをリンク
@@ -4258,7 +4235,6 @@ common#:#no_gallery_users_available#:#現在ギャラリー内にユーザはい
 common#:#no_global_role_left#:#どのユーザにも役割を一つ割当てる必要があります。
 common#:#no_import_file_found#:#インポートファイルが見つかりません
 common#:#no_items#:#該当なし
-common#:#no_license_available#:#ライセンスが利用できません!
 common#:#no_limit#:#制限なし
 common#:#no_mkisofs_configured#:#ISOエクスポートをするにはILIASセットアップのmkisofsユティリティーを構成する必要があります。
 common#:#no_owner#:#オーナーがいない
@@ -5741,7 +5717,6 @@ content#:#cont_glo_detach#:#用語集を切り離す
 content#:#cont_glo_properties#:#用語集のプロパティ
 content#:#cont_glossaries#:#用語集
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
-content#:#cont_got_lock_until#:#このページは編集用に%1までロックされました。全ての変更が完了したら%2をたたいてページをリリースして下さい。
 content#:#cont_grid_cell#:#列
 content#:#cont_grid_cell_confirm_deletion#:#列を本当に削除しますか?
 content#:#cont_grid_nr_cells#:#列の番号
@@ -8548,7 +8523,6 @@ file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
 file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
 file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
 file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
-file#:#file_upload_info_file_with_critical_unknown_extension_later_#:#アップロードされたファイルにはクリティカルまたは不明なファイルendingが含まれています。ファイルendingはダウンロードごとに.secへ変更されます。
 file#:#file_uploaded_by#:#アップロード者
 file#:#personal_workspace_disk_quota#:#パーソナルワークスペースのハードディスククォータ
 file#:#personal_workspace_quota_exceeded_warning#:#パーソナルワークスペースのディスククォータを越えています。
@@ -9318,22 +9292,6 @@ lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Show More
 lhist#:#lhist_type_of_achievement#:#Type of Achievement
-license#:#arbitrary#:#任意
-license#:#course_licenses_rare#:#警告：コースオジェクトで利用可能なライセンスは%sのみです。ライセンスを増やすには"ライセンス"タブを見てください。
-license#:#edit_license#:#ライセンスを編集
-license#:#existing_licenses#:#現在のライセンス
-license#:#license_counter#:#ライセンスカウンター
-license#:#license_counter_info#:#購入したSCORMとHTMLラーニングモジュールの使用ライセンスをカウントできます。
-license#:#license_updated#:#ライセンスカウンターは更新されました。
-license#:#license_warning#:#ライセンス警告
-license#:#license_warning_info#:#このコースオブジェクトのライセンス数に達するまでユーザがコースに入る度に警告が表示されます。
-license#:#potential_accesses#:#潜在アクセス
-license#:#potential_accesses_explanation#:#一度もアクセスした事のない読込みアクセス権を持つ全ユーザは、潜在アクセスとしてカウントされます。
-license#:#remaining_licenses#:#利用可能なライセンス
-license#:#remaining_licenses_explanation#:#利用可能なライセンスは、マイナス購入として計算されます。
-license#:#used_licenses#:#使用済ライセンス
-license#:#used_licenses_explanation#:#ユーザが初めてアクセスする度にライセンスが使用されます。
-license#:#zero_licenses_explanation#:#ライセンスを無効にするには0 を入力します。
 like#:#like#:#Like
 like#:#reaction#:#Reaction
 link#:#link_chapters#:#章
@@ -9384,8 +9342,6 @@ lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
-lso#:#condition_completed#:#Completed
-lso#:#condition_failed#:#Failed
 lso#:#curriculum#:#Curriculum
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfuly delete entries
@@ -11426,16 +11382,11 @@ pwassist#:#pwassist_disabled_no_access#:#パスワード支援が有効になっ
 pwassist#:#pwassist_enter_email#:#メールアドレスに入力してフォームを送信するとそのアドレスへメールを送ります。\nメールにはそのメールアドレスに登録されている全てのユーザ名が含まれます。\n適切なユーザ名を選択しパスワードサービスを利用して新しいパスワードを検索します。このサービスによる一切のメール検索をしないようにするにはコース管理者もしくは%1$sへ連絡してください。
 pwassist#:#pwassist_enter_username_and_email#:#以下の欄へユーザ名と関係するe-mailアドレスを入力します。\nILIASはそのe-mailアドレスへメッセージを送ります。メッセージにはユーザアカウント用の新しいパスワードを入力ができるwebページのアドレスが含まれています。\nlnこのフォームを使ってユーザアカウントのパスワード設定ができない場合はコース管理者へ連絡するかまたは%1$sへメール連絡してください。
 pwassist#:#pwassist_enter_username_and_new_password#:#以下の欄へユーザ名と新しいパスワードを入力します。
-pwassist#:#pwassist_invalid_auth_mode#:#ユーザはILIASで直接認証されません。パスワードを送ることは不可能です。
-pwassist#:#pwassist_invalid_email#:#メールアドレスを訂正してください。\n入力されたメールアドレスはデータベース中に存在しません。
-pwassist#:#pwassist_invalid_username_or_email#:#入力欄の内容を訂正してください。\n入力したユーザ名とメールアドレスはがデータベースのエントリーと一致しません。
 pwassist#:#pwassist_login_not_match#:#別のユーザ名を入力してください。\n入力されたユーザ名はパスワード支援用の質問の設定と一致しません。
 pwassist#:#pwassist_mail_body#:#ユーザアカウントの新しいパスワード登録を行います:\n\t%1$s\n\nこのメッセージはILIASサーバ\n\t%2$s\n\nが自動生成したものです。\nあなた(もしくは%3$sのだれか）がユーザアカウント"%4$s"用の新しいパスワードを要求しました。\n\n以下に示された条件を十分確認の上で順次進んでください:\n\n- 誤ってILIASサーバのパスワード支援フォームを送った場合:\nこのメールを破棄してください。\n\n- このILIASサーバのパスワード支援利用に心当たりがない場合:\n %5$s\n\nへ連絡してください。 \n-パスワード支援を要求した場合は次の手順で進みます:\n\n1. ブラウザを開きます。\n\n2. ブラウザに次のアドレスを入力します:\n\t%6$s\n\n重要: アドレスは1行です。アドレスが複数行に分割される場合はご利用のメーラが分割行を自動挿入しています。\n\n3. ブラウザに表示されるWebページにユーザアカウントの新しいパスワードを入力します。\n\nセキュリティ上の理由により、上記の3ステップを同時に制限時間内にまとめて実行する必要があります。\n一定時間を過ぎるとアドレスは無効となるので、再度ILIASサーバのパスワード支援のページを使用する必要があります。
 pwassist#:#pwassist_mail_sent#:#メッセージが %1$sへ送信されました。\nメールボックスをチェックしてください。
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS パスワード支援
-pwassist#:#pwassist_no_email_found#:#入力したユーザ アカウントのメールアドレスは存在しないのでパスワード支援を使用できません。
-pwassist#:#pwassist_not_permitted#:#別のユーザ名を入力してください。\nパスワード支援は入力したユーザ名ではアクセスできません。
 pwassist#:#pwassist_password_assigned#:#パスワードは、正しくユーザ "%1$s"へ割当てられました。
 pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください.\nパスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
 pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。:\n%s\n\nこのメッセージは自動的に次のILIAS作成したものです:\n\t%s\n\nあなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。\n\n次をチェックして候補として実行してください。::\n\n-ミスによりこのe-mailを要求しました。:\nこのe-mailを削除.\n\n-このe-mailを要求したことがないのは間違いありません:\n%sへ連絡してください。\n\n-このe-maiを要求するには、次のように進めてください。::\n\n1. インターネットブラウザを開始。\n\n2。次のURLを入力:\n\t%s\n\n重要: アドレスは1行です。コノアドレスが風数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。\n\n3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページを合わせて使用します。
@@ -14325,12 +14276,10 @@ tbl#:#tbl_template_created#:#現在の表示が保存されました。
 tbl#:#tbl_template_delete#:#保存した表示を削除します
 tbl#:#tbl_template_deleted#:#保全した表示を削除しました。
 tbl#:#tbl_templates#:#表示
-tos#:#tos_acceptance_datetime#:#日付
 tos#:#tos_acceptance_history#:#承諾履歴
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement#:#サービス使用許諾
-tos#:#tos_agreement_by_lng#:#サービス使用許諾
 tos#:#tos_agreement_document#:#ドキュメント
 tos#:#tos_agreement_document_missing#:#なし
 tos#:#tos_agreement_documents_tab_label#:#Terms of Service
@@ -14373,7 +14322,6 @@ tos#:#tos_period#:#期間
 tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#期限
 tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
-tos#:#tos_reset_successfull#:#サービス使用許諾は正しくリセットされました。
 tos#:#tos_reset_tos_for_all_users#:#サービス使用許諾のリセット
 tos#:#tos_saved_sorting#:#The sorting has been saved.
 tos#:#tos_status_desc#:#アクティブにするとユーザはILIASログイン前にサービス使用許諾への承諾を要求されます。
@@ -14506,8 +14454,6 @@ trac#:#trac_mode_content_visited#:#Visited
 trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.
 trac#:#trac_mode_deactivated#:#学習進捗を解除します
 trac#:#trac_mode_deactivated_info_new#:#学習進捗ステータスは表示されません。
-trac#:#trac_mode_downloaded#:#ダウンロードの実行
-trac#:#trac_mode_downloaded_info#:#学習進捗はファイルのダウンロード状況により決定されます。
 trac#:#trac_mode_event#:#指導教員モニタと受験者記録
 trac#:#trac_mode_event_info#:#セッションに参加いかんに関わらず指導教員はモニタします。指導教員は'受験者を編集'タブ内で手動で受講者を記録します。
 trac#:#trac_mode_exercise_returned#:#指導教員モニタとステータス設定
@@ -14677,7 +14623,6 @@ user#:#starting_point_settings#:#開始位置設定
 user#:#starting_points#:#開始位置
 user#:#tos_accepted_content#:#コンテンツを承諾しました
 user#:#tos_not_accepted_yet#:#未承諾です
-user#:#tos_show_signed_text#:#詳細を表示
 user#:#user_access_limited#:#制限あり
 user#:#user_access_unlimited#:#制限なし
 user#:#user_account_code#:#コード
@@ -15064,3 +15009,23 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###20 03 2019 new variable
+rbac#:#lso_read_learning_progress#:#User can view learning progress of other users###20 03 2019 new variable
+style#:#Style#:#Style###20 03 2019 new variable
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###20 03 2019 new variable
+rbac#:#lso_lp_other_users#:#User can view learning progress of other users###20 03 2019 new variable
+lso#:#lso_start_item#:#Start###20 03 2019 new variable
+lso#:#finished#:#Finished###20 03 2019 new variable
+lso#:#not_finished#:#Not Finished###20 03 2019 new variable
+lso#:#failed#:#Failed###20 03 2019 new variable
+common#:#certificate_selection#:#Origin of Certificates###20 03 2019 new variable
+common#:#certificate_persistent_option#:#Persistent Certificates###20 03 2019 new variable
+common#:#certificate_workspace_option#:#Workspace Certificates###20 03 2019 new variable
+common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###20 03 2019 new variable
+common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.###20 03 2019 new variable
+common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###20 03 2019 new variable
+certificate#:#persistent_certificate_mode#:#User Certificate Creation###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_cron#:#Cron Job###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_instant#:#Instant###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###20 03 2019 new variable

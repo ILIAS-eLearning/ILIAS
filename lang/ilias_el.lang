@@ -14821,8 +14821,6 @@ lso#:#lso_player_next#:#Next###10 11 2018 new variable
 lso#:#lso_read#:#User has read access to Learning Sequence###10 11 2018 new variable
 lso#:#lso_edit_permission#:#User can change permission settings###10 11 2018 new variable
 lso#:#condition_always#:#Always###10 11 2018 new variable
-lso#:#condition_completed#:#Completed###10 11 2018 new variable
-lso#:#condition_failed#:#Failed###10 11 2018 new variable
 rbac#:#rbac_create_lso#:#Create Learning Sequence###10 11 2018 new variable
 lso#:#lso_settings_intro#:#Intropage Settings###10 11 2018 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings###10 11 2018 new variable
@@ -15014,3 +15012,21 @@ content#:#cont_choose_file_source#:#Source###12 03 2019 new variable
 content#:#cont_choose_local#:#Local directory###12 03 2019 new variable
 content#:#cont_choose_upload_dir#:#Upload directory###12 03 2019 new variable
 sess#:#sess_assign#:#Assign###12 03 2019 new variable
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###20 03 2019 new variable
+rbac#:#lso_read_learning_progress#:#User can view learning progress of other users###20 03 2019 new variable
+rbac#:#lso_lp_other_users#:#User can view learning progress of other users###20 03 2019 new variable
+lso#:#lso_start_item#:#Start###20 03 2019 new variable
+lso#:#finished#:#Finished###20 03 2019 new variable
+lso#:#not_finished#:#Not Finished###20 03 2019 new variable
+lso#:#failed#:#Failed###20 03 2019 new variable
+common#:#certificate_selection#:#Origin of Certificates###20 03 2019 new variable
+common#:#certificate_persistent_option#:#Persistent Certificates###20 03 2019 new variable
+common#:#certificate_workspace_option#:#Workspace Certificates###20 03 2019 new variable
+common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###20 03 2019 new variable
+common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.###20 03 2019 new variable
+common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###20 03 2019 new variable
+certificate#:#persistent_certificate_mode#:#User Certificate Creation###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_cron#:#Cron Job###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_instant#:#Instant###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###20 03 2019 new variable

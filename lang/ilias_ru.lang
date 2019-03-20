@@ -902,8 +902,6 @@ assessment#:#positive_numbers_required#:#Please enter only positive numbers.
 assessment#:#postpone_question#:#Move Question to the End
 assessment#:#postponed#:#отложено
 assessment#:#precision#:#Точность
-assessment#:#preserve_manscoring#:#Preserve manual scorings
-assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.
 assessment#:#preview#:#Просмотр
 assessment#:#previous_question#:#Предыдущий
 assessment#:#previous_question_rows#:#<< Вопросов %d - %d из %d
@@ -1059,7 +1057,6 @@ assessment#:#save_on_navigation#:#Save on Navigation
 assessment#:#save_on_navigation_confirmation#:#Your changed answers will be automatically saved when you navigate.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Before you get feedback on your given answer.
 assessment#:#save_on_navigation_locked_confirmation#:#Your changed answers will be automatically saved and locked when you navigate.
-assessment#:#save_on_navigation_prevent_confirmation#:#Don't show this message again
 assessment#:#saved_adjustment#:#Изменения сохранены.
 assessment#:#saveOrder#:#Сохранить порядок
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
@@ -1162,8 +1159,6 @@ assessment#:#toplist_col_percentage#:#Проценты
 assessment#:#toplist_col_rank#:#Ранг
 assessment#:#toplist_col_score#:#Баллы
 assessment#:#toplist_col_wtime#:#Время работы
-assessment#:#toplist_top_n_results#:#Топ %s результатов
-assessment#:#toplist_your_result#:#Ваш ранг
 assessment#:#true#:#Верно
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_activate_skill_service#:#Включить сервис компетенций
@@ -1224,9 +1219,6 @@ assessment#:#tst_comp_eval_mode#:#Evaluation by
 assessment#:#tst_comp_points#:#Баллы компетенции
 assessment#:#tst_competence#:#Компетенция
 assessment#:#tst_confirm_submit_answers#:#Пожалуйст подтвердите отправку ваших ответов. Вы не сможете изменить ваши их после нажатия кнопки отправить.
-assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.
-assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".
-assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#tst_copy#:#Копировать тест
 assessment#:#tst_corr_add_as_answer_btn#:#Add as Correct Answer
@@ -1381,15 +1373,6 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#Если выбрано
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
 assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
-assessment#:#tst_instant_feedback_handling#:#Настройки feedback и заморозки ответов
-assessment#:#tst_instant_feedback_handling_force#:#Редактировать ответы и показывать feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Заморозить ответы и показать feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Участник может посмотреть feedback, но НЕ может редактировать свой ответ
-assessment#:#tst_instant_feedback_handling_force_desc#:#Участники могут посмотреть feedback, а затем изменить свой ответ
-assessment#:#tst_instant_feedback_handling_freeze#:#Заморозить ответы
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#После того, как участник подтвердит свой ответ, он больше не может быть изменен
-assessment#:#tst_instant_feedback_handling_none#:#Не показывать feedback
-assessment#:#tst_instant_feedback_handling_none_desc#:#Участники могут менять свои ответы в процессе прохождения теста
 assessment#:#tst_instant_feedback_results#:#Показать результаты (только баллы)
 assessment#:#tst_instant_feedback_results_desc#:#Если выбрано, на экране отображаются заработанные баллы.
 assessment#:#tst_instant_feedback_solution#:#Показать решения
@@ -1452,7 +1435,6 @@ assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Addition
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Rule %s requires %s questions and there are %s questions provided.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#But there are only %s of the provided questions guaranteed available, because of intersections with the following other rules: %s
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Тест со случайным выбором вопросов возможен в данной конфигурации.<br /> время последней синхронизации вопросов и выбранного пула: <b>%s</b>
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#The synchronization copies all questions matching the rules into the test. This may take several minutes for big pools.
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Конфигурация для случайного выбора вопросов успешно изменена. Теперь вы можете добавить еще одно правило для данного пула.
 assessment#:#tst_msg_random_question_set_config_modified#:#Конфигурация теста со случайным набором вопросов успешно изменена.
 assessment#:#tst_msg_random_question_set_synced#:#Вопросы для текущей конфигурации были успешно синхронизированы с пулом.
@@ -2250,7 +2232,6 @@ blog#:#blog_import#:#Импортировать блог
 blog#:#blog_keyword#:#Ключевое слово
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 blog#:#blog_keywords#:#Ключевые слова
-blog#:#blog_keywords_info#:#Нажимайте иконки +/- для добавления/удаления ключевых слов.
 blog#:#blog_keywords_other#:#Другие ключевые слова
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
 blog#:#blog_latest_posting#:#Latest Posting
@@ -3963,13 +3944,9 @@ common#:#ldap_tls#:#Использовать LDAP TLS
 common#:#ldap_version#:#Протокол версии LDAP
 common#:#learning module#:#Обучающий модуль
 common#:#learning_progress#:#Прогресс обучения
-common#:#learning_resource#:#Обучающие ресурсы
-common#:#learning_resources#:#Ресурсы обучения
 common#:#leave_waiting_list#:#Leave Waiting List
 common#:#legend#:#Легенда
 common#:#level#:#Уровень
-common#:#license#:#License
-common#:#licenses#:#Licenses
 common#:#like#:#Like
 common#:#link#:#Связь
 common#:#link_all#:#Связать всё
@@ -4258,7 +4235,6 @@ common#:#no_gallery_users_available#:#There are currently no users in the galler
 common#:#no_global_role_left#:#Каждому пользователю может быть назначена только одна роль.
 common#:#no_import_file_found#:#файл импорта не найден
 common#:#no_items#:#Элементы отсутствуют
-common#:#no_license_available#:#No license available!
 common#:#no_limit#:#Не ограничено
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 common#:#no_owner#:#No Owner
@@ -5741,7 +5717,6 @@ content#:#cont_glo_detach#:#Detach Glossary
 content#:#cont_glo_properties#:#Словарь свойств
 content#:#cont_glossaries#:#Глоссарии
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
-content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
 content#:#cont_grid_cell#:#Column
 content#:#cont_grid_cell_confirm_deletion#:#Do you really want to delete the column(s)?
 content#:#cont_grid_nr_cells#:#Number of Columns
@@ -8548,7 +8523,6 @@ file#:#file_suffix_default_white#:#Default Suffix Whitelist
 file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Uploaded by
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
 file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
@@ -9318,22 +9292,6 @@ lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Show More
 lhist#:#lhist_type_of_achievement#:#Type of Achievement
-license#:#arbitrary#:#arbitrary
-license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.
-license#:#edit_license#:#Edit license
-license#:#existing_licenses#:#Existng licenses
-license#:#license_counter#:#License counter
-license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules
-license#:#license_updated#:#The license data was updated.
-license#:#license_warning#:#License warning
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course.
-license#:#potential_accesses#:#Potential accesses
-license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.
-license#:#remaining_licenses#:#Available licenses
-license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.
-license#:#used_licenses#:#Consumed licenses
-license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
-license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 like#:#like#:#Like
 like#:#reaction#:#Reaction
 link#:#link_chapters#:#Chapters
@@ -9384,8 +9342,6 @@ lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
-lso#:#condition_completed#:#Completed
-lso#:#condition_failed#:#Failed
 lso#:#curriculum#:#Curriculum
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfuly delete entries
@@ -11426,16 +11382,11 @@ pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Ple
 pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Введите имя пользователя и связанный с ним email адрес в поля, представленные ниже.\nСистема Илиас отошлет сообщение по этому адресу. Сообщение будет содержать адрес веб-страницы, где вы сможете задать новой пароль для учетных записей пользователя.\nВ случае неудачи, свяжитесь с администратором курса или пошлите сообщение по адресу %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Задайте имя пользователя и новый пароль в поля ниже.
-pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.
-pwassist#:#pwassist_invalid_username_or_email#:#Пожалуйста, отредактируйте текст.\nВведенных имени пользователя и почтового адреса нет в базе данных.
 pwassist#:#pwassist_login_not_match#:#Пожалуйста, введите другое имя пользователя.\nВы задали имя пользователя, отличающееся от имени, заданного в ассистене паролей.
 pwassist#:#pwassist_mail_body#:#Зарегистрирован новый пароль для вашего учетные записи:\n\t%1$s\n\nЭто сообщение было создано автоматически на сервере Илиас \n\t%2$s\n\nВы (или кто-то с именем %3$s) использовали ассистент паролей для учетной записи "%4$s".\n\nПожалуйста, внимательно проверьте условия, приведенные ниже, и поступите соответственно:\n\n- Если вы пользовались ассистентом паролей Илиас-сервера:\nУдалите это письмо.\n\n- Если случилось так, что вы никогда не использовали ассистента паролей: Пожалуйста, свяжитесь с %5$s.\n\n- Если вы запрашивали ассистента паролей, пожалуйста, выполните следующее:\n\n1. Откройте ваш браузер.\n\n2. Введите следующий адрес:\n\t%1$s\n\nВажно: адрес должен быть в одну строку. Если он представлен в виде двух и более строк, ваша почтовая программа разделила его.\n\n3. На появившейся веб-странице задайте новый пароль.\n\nЗаметьте, что из соображений секретности, вы должны в точности выполнить три шага при лимитированном времени. Потом адрес будет недействителен, и, вы не сможете возпользоваться ассистентом паролей снова.
 pwassist#:#pwassist_mail_sent#:#Сообщение было отослано в %1$s.\nПожалуйста, проверьте ваш почтовый ящик.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#Ассистент паролей Илиас
-pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.
-pwassist#:#pwassist_not_permitted#:#Пожалуйста, задайте другое имя пользователя.\nАссистенту паролей требуется имя пользователя, которое вы ввели вначале.
 pwassist#:#pwassist_password_assigned#:#Для пользователя "%1$s" пароль был успешно изменен.
 pwassist#:#pwassist_session_expired#:#Пожалуйста, заполните форму снова.\nСессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма.
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
@@ -14325,12 +14276,10 @@ tbl#:#tbl_template_created#:#Текущее отображение было со
 tbl#:#tbl_template_delete#:#Удалить сохранённое отображение
 tbl#:#tbl_template_deleted#:#Сохранённое отображение было удалено.
 tbl#:#tbl_templates#:#Вид
-tos#:#tos_acceptance_datetime#:#Дата
 tos#:#tos_acceptance_history#:#История соглашения
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement#:#Наличие текста
-tos#:#tos_agreement_by_lng#:#Текс соглашения
 tos#:#tos_agreement_document#:#Документ
 tos#:#tos_agreement_document_missing#:#Отсутствует
 tos#:#tos_agreement_documents_tab_label#:#Terms of Service
@@ -14373,7 +14322,6 @@ tos#:#tos_period#:#Период
 tos#:#tos_period_from#:#С
 tos#:#tos_period_until#:#По
 tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
-tos#:#tos_reset_successfull#:#Соглашение успешно отменено.
 tos#:#tos_reset_tos_for_all_users#:#Отменить соглашение для всех пользователей
 tos#:#tos_saved_sorting#:#The sorting has been saved.
 tos#:#tos_status_desc#:#Пользователи обязаны согласиться с текстом соглашения до того, как смогут войти в ILIAS.
@@ -14506,8 +14454,6 @@ trac#:#trac_mode_content_visited#:#Visited
 trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.
 trac#:#trac_mode_deactivated#:#Неактивно
 trac#:#trac_mode_deactivated_info_new#:#Статус прогресса обучения не будет отображаться.
-trac#:#trac_mode_downloaded#:#Загружено
-trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the download status of the file.
 trac#:#trac_mode_event#:#Участие в сессиях (событиях)
 trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.
 trac#:#trac_mode_exercise_returned#:#Упражнение решено
@@ -14677,7 +14623,6 @@ user#:#starting_point_settings#:#Настройка Точек старта
 user#:#starting_points#:#Точки старта
 user#:#tos_accepted_content#:#Допустимый контент
 user#:#tos_not_accepted_yet#:#Недопустимо
-user#:#tos_show_signed_text#:#Показать детально
 user#:#user_access_limited#:#Ограничено
 user#:#user_access_unlimited#:#Неограничен
 user#:#user_account_code#:#Код
@@ -15064,3 +15009,23 @@ wsp#:#wsp_type_scov#:#Сертификат: SCORM
 wsp#:#wsp_type_tstv#:#Сертификат: Тест
 wsp#:#wsp_type_webr#:#Веб-ссылка
 wsp#:#wsp_type_wfld#:#Папка
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###20 03 2019 new variable
+rbac#:#lso_read_learning_progress#:#User can view learning progress of other users###20 03 2019 new variable
+style#:#style#:#Style###20 03 2019 new variable
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###20 03 2019 new variable
+rbac#:#lso_lp_other_users#:#User can view learning progress of other users###20 03 2019 new variable
+lso#:#lso_start_item#:#Start###20 03 2019 new variable
+lso#:#finished#:#Finished###20 03 2019 new variable
+lso#:#not_finished#:#Not Finished###20 03 2019 new variable
+lso#:#failed#:#Failed###20 03 2019 new variable
+common#:#certificate_selection#:#Origin of Certificates###20 03 2019 new variable
+common#:#certificate_persistent_option#:#Persistent Certificates###20 03 2019 new variable
+common#:#certificate_workspace_option#:#Workspace Certificates###20 03 2019 new variable
+common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.###20 03 2019 new variable
+common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.###20 03 2019 new variable
+common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.###20 03 2019 new variable
+certificate#:#persistent_certificate_mode#:#User Certificate Creation###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_cron#:#Cron Job###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_instant#:#Instant###20 03 2019 new variable
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.###20 03 2019 new variable

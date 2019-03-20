@@ -8535,7 +8535,6 @@ file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
 file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
 file#:#file_uploaded_by#:#Hochgeladen von
 file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
 file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Speicherplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um Platz für neue Dateien zu schaffen.
@@ -9022,7 +9021,6 @@ iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
 iass#:#iass_changed_by#:#Geändert nach Finalisierung
-iass#:#iass_changed_last_by#:#Prüfungsdaten zuletzt geändert durch
 iass#:#iass_consultation_hours#:#Sprechstunden
 iass#:#iass_contact#:#Name
 iass#:#iass_contact_info#:#Kontaktinformationen
@@ -15029,3 +15027,5 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+style#:#Style#:#Style###20 03 2019 new variable
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###20 03 2019 new variable
