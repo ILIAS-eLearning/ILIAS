@@ -75,6 +75,7 @@ class ilNotesGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($title)
 			        ->withAction($action)
 			        ->withParent($this->getTopItem())
+			        ->withPosition(11)
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {

@@ -756,6 +756,51 @@ if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
 	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'passed' WHERE condition_type = 2");
 	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'failed' WHERE condition_type = 3");
 
+	$ilDB->dropPrimaryKey('post_conditions');
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
 	$ilDB->dropTableColumn('post_conditions', 'condition_type');
 }
+?>
+
+<#5484>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+	ilDBUpdateNewObjectType::deleteRBACOperation($lp_type_id, $ops_id);
+}
+
+?>
+
+<#5485>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+	ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ops_id);
+}
+
+?>
+<#5486>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#5487>
+<?php
+	$ilDB->dropPrimaryKey('post_conditions');
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
+?>
+
+<#5488>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
+
 ?>

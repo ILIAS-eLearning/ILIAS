@@ -82,4 +82,14 @@ class Factory {
 	{
 		return new ClientId($clientId);
 	}
+
+
+	/**
+	 * @param int $ref_id
+	 *
+	 * @return ReferenceId
+	 */
+	public function refId(int $ref_id): ReferenceId {
+		return new ReferenceId($ref_id);
+	}
 }

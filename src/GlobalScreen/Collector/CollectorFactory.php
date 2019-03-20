@@ -10,7 +10,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
  */
 class CollectorFactory {
 
-	const SCOPE_MAINBAR = 'mainmenu';
+	const SCOPE_MAINBAR = 'mainbar';
 	/**
 	 * @var array
 	 */

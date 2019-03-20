@@ -1,21 +1,31 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
 
 use ILIAS\GlobalScreen\Provider\DynamicProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Tool\Tool;
+use ILIAS\NavigationContext\Provider\ContextAwareDynamicProvider;
+use ILIAS\NavigationContext\Stack\ContextCollection;
+use ILIAS\NavigationContext\Stack\ContextStack;
 
 /**
  * Interface DynamicMainMenuProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface DynamicMainMenuProvider extends DynamicProvider, MainMenuProviderInterface {
+interface DynamicMainMenuProvider extends ContextAwareDynamicProvider {
+
+	/**
+	 * @return ContextCollection
+	 */
+	public function isInterestedInContexts(): ContextCollection;
+
 
 	/**
 	 * @see DynamicProvider
 	 *
-	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem[] These Slates
-	 * can be passed to the MainMenu dynamicly for a specific location/context.
+	 * @param ContextStack $called_contexts
 	 *
-	 * This is currently not used for Core components but plugins may use it.
+	 * @return Tool[] These Slates
+	 * can be passed to the MainMenu dynamic for a specific location/context.
 	 */
-	public function getDynamicSlates(): array;
+	public function getToolsForContextStack(ContextStack $called_contexts): array;
 }
