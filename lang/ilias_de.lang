@@ -367,15 +367,15 @@ administration#:#output_options#:#Ausgabeoptionen
 administration#:#path_to_mkisofs#:#Mkisofs-Pfad
 administration#:#reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie wieder verwendet werden.
 administration#:#purge_age_limit#:#Begrenze Alter
-administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind, aus dem System entfernt.
+administration#:#purge_age_limit_desc#:#Nur Objekte, die vor mehr als der angegebenen Anzahl in Tagen in den Papierkorb gelegt wurden, werden endgültig gelöscht.
 administration#:#purge_count_limit#:#Begrenze Anzahl
-administration#:#purge_count_limit_desc#:#Wenn dieses Feld einen Wert enthält, wird höchstens die angegebene Anzahl Objekte aus dem System entfernt.
+administration#:#purge_count_limit_desc#:#Wenn dieses Feld einen Wert enthält, wird höchstens die angegebene Anzahl Objekte unwiderruflich aus dem System gelöscht.
 administration#:#purge_missing#:#Entferne fehlende Objekte
 administration#:#purge_missing_desc#:#Entferne alle fehlenden und nicht zugeordneten Objekte aus dem System
 administration#:#purge_trash#:#Eliminiere gelöschte Objekte
-administration#:#purge_trash_desc#:#Entferne alle Objekte im Papierkorb aus dem System
+administration#:#purge_trash_desc#:#Lösche alle Objekte im Papierkorb aus dem System
 administration#:#purge_type_limit#:#Begrenze Typ
-administration#:#purge_type_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte des angegebenen Typs aus dem System entfernt.
+administration#:#purge_type_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte des angegebenen Typs unwiderruflich aus dem System gelöscht.
 administration#:#purging#:#Eliminiert...
 administration#:#purging_missing_objs#:#Eliminiert fehlende Objekte...
 administration#:#purging_trash#:#Leert Papierkorb...
@@ -5297,7 +5297,7 @@ crs#:#crs_dates#:#Termine
 crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
 crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Tutor oder Administrator in den Kurs aufgenommen wurden.
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
-crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
+crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele gelöscht werden sollen?
 crs#:#crs_details#:#Kursdetails
 crs#:#crs_dismiss_member#:#Mitgliedschaft im Kurs "%s" beendet
 crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft im Kurs "%s" ist beendet worden.
@@ -5312,10 +5312,10 @@ crs#:#crs_file_size_info#:#Dateigröße
 crs#:#crs_from#:#Von:
 crs#:#crs_general_info#:#Allgemeine Informationen
 crs#:#crs_general_informations#:#Allgemeine Informationen
-grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung gelöscht werden soll ?
-crs#:#crs_grouping_deleted#:#Die Gruppierung wurde gelöscht.
+crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Mitgliedschaftsbeschränkungen löschen möchten?
+crs#:#crs_grouping_deleted#:#Die Mitgliedschaftsbeschränkung wurde gelöscht.
 crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Mitgliedschaftsbeschränkung aus.
-crs#:#crs_groupings#:#Kursgruppierungen
+crs#:#crs_groupings#:#Mitgliedschaftsbeschränkungen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
@@ -5324,7 +5324,7 @@ crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
 crs#:#crs_grp_info_reg#:#Die folgenden Kurse unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einem dieser Kurse beitreten:
-crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diese Kursgruppierung ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
+crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diesen Kurs ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
 crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
 crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
 crs#:#crs_header_archives#:#Kursarchive
@@ -5338,7 +5338,7 @@ crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Da
 crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren eingesehen werden:
 crs#:#crs_info_download#:#Dateien zum Herunterladen
 crs#:#crs_info_reg#:#Aufnahmeverfahren
-crs#:#crs_info_reg_confirmation#:#Sie müssen einen Aufnahmeantrag stellen, um in die Gruppe aufgenommen zu werden. Beschreiben Sie im Feld Nachricht, warum Sie beitreten möchten. Sobald Ihr Antrag angenommen oder abgelehnt wurde, erhalten Sie eine Benachrichtigung.
+crs#:#crs_info_reg_confirmation#:#Sie müssen einen Aufnahmeantrag stellen, um in den Kurs aufgenommen zu werden. Beschreiben Sie im Feld Nachricht, warum Sie beitreten möchten. Sobald Ihr Antrag angenommen oder abgelehnt wurde, erhalten Sie eine Benachrichtigung.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
 crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
 crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
@@ -5427,9 +5427,9 @@ crs#:#crs_objective_wiz_title#:#Lernziel beschreiben
 crs#:#crs_objective_wiz_title_info#:#Bitte geben Sie einen Titel und eine kurze Beschreibung des Lernziels ein.
 crs#:#crs_objectives#:#Lernziele
 crs#:#crs_objectives_assigned_lm#:#Die ausgewählten Materialien wurden zugeordnet.
-crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
+crs#:#crs_objectives_deleted#:#Die Lernziele wurden gelöscht.
 crs#:#crs_objectives_edit_question_assignments#:#Fragenzuordnung bearbeiten
-crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiderruflich gelöscht.
+crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dieses Kurses löschen möchten? <br />Alle Testergebnisse werden unwiderruflich gelöscht.
 crs#:#crs_objectives_reseted#:#Alle Ergebnisse wurden zurückgesetzt.
 crs#:#crs_other_resources#:#Weitere Kursmaterialien
 crs#:#crs_passed#:#Bestanden
@@ -5488,7 +5488,7 @@ crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihrem Antrag
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses "%s" gesetzt und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
-crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
+crs#:#crs_subscribers_deleted#:#Der Aufnahmeantrag wurde abgelehnt.
 crs#:#crs_subscription#:#Beitrittsverfahren
 crs#:#crs_subscription_max_members#:#Maximale Anzahl
 crs#:#crs_subscription_max_members_short#:#Begrenzte Mitgliederanzahl
@@ -10144,7 +10144,7 @@ blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
 blog#:#blog_edit_keywords#:#Schlagwörter bearbeiten
 blog#:#blog_keyword#:#Schlagwort
 administration#:#adm_adm_role_protect#:#Administratorrolle schützen
-administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen.
+administration#:#adm_adm_role_protect_info#:#Nur Administratoren können Benutzer die Rolle "Administrator" zuweisen oder sie wieder entziehen.
 fm#:#fm_settings_tab#:#Dateimanager
 fm#:#fm_settings_active#:#Dateimanager aktivieren
 fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Kurse, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
@@ -12261,7 +12261,7 @@ common#:#il_astpl_loc_initial#:#Einstiegstest
 common#:#il_astpl_loc_qualified#:#Qualifizierender Test
 common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests lernzielorientierter Kurse
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
-crs#:#crs_loc_confirm_delete_tst#:#Sind Sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
+crs#:#crs_loc_confirm_delete_tst#:#Sind Sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs entfernt werden soll?
 crs#:#crs_loc_tbl_tst_type#:#Auswahl der Testfragen
 crs#:#crs_loc_form_assign_it#:#Test auswählen
 crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
@@ -12276,7 +12276,7 @@ crs#:#crs_loc_rand_assign_qpl#:#Zuordnung aus Fragenpool
 crs#:#crs_loc_rand_qpl#:#Verfügbare Fragenpools
 crs#:#crs_loc_num_qst#:#Anzahl der Fragen
 crs#:#crs_loc_perc#:#Benötigte Prozentzahl der Punkte
-crs#:#crs_loc_delete_assignment#:#Zuordnung löschen
+crs#:#crs_loc_delete_assignment#:#Zuordnung entfernen
 crs#:#crs_loc_err_no_active_qst#:#Lernziele ohne Fragen vorhanden
 crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test "%1$s"
 crs#:#crs_loc_itst_for_objective#:#Einstiegstest "%1$s"
@@ -12488,7 +12488,7 @@ administration#:#language_scope_unchanged_info#:#Exportiert alle Datenbank-Eintr
 administration#:#language_scope_merged_info#:#Exportiert die Standard-Sprachdatei von ILIAS, in der alle lokalen Änderungen und Ergänzungen alphabetisch nach Modul und Sprachvariable eingemischt sind. Dies kann verwendet werden, um die Sprachdatei auf dem SVN-Server zu aktualisieren.
 administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
 administration#:#language_load_local_changes_info#:#Lädt die Datei Customizing/global/lang/ilias_%s.lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
-administration#:#language_clear_local_changes_info#:#Setzt die Einträge dieser Sprache in der Datenbank auf auf die Standard-Einträge in der Datei lang/ilias_%s.lang zurück. Alle lokalen Änderungen oder Ergänzungen werden entfernt.
+administration#:#language_clear_local_changes_info#:#Setzt die Einträge dieser Sprache in der Datenbank auf die Standard-Einträge in der Datei /lang/ilias_%s.lang zurück. Alle lokalen Änderungen oder Ergänzungen werden gelöscht.
 administration#:#language_delete_local_additions_info#:#Löscht alle Einträge in der Datenbank, die lokal hinzugefügt wurden.
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
@@ -12500,7 +12500,7 @@ crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests e
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regel für die Auswahl von Fragen
 rbac#:#bibs_copy#:#Literaturlisten kopieren
-crs#:#crs_loc_settings_reset_enable#:#Zurücksetzen der persönlichen Testergebnisse erlauben
+crs#:#crs_loc_settings_reset_enable#:#Löschen der persönlichen Testergebnisse erlauben
 prtf#:#prtf_page_element_my_courses_info#:#Dies ist eine Liste aller Kurse, in denen ich Mitglied bin und die aktuell online sind.
 prtf#:#prtf_allow_my_courses#:#Seitenelement "Meine Kurse"
 prtf#:#prtf_allow_my_courses_info#:#Ermöglicht eine Liste der aktuellen Kursmitgliedschaften in ein Portfolio aufzunehmen.
