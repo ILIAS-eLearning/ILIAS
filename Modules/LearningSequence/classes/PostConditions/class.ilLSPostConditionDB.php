@@ -11,7 +11,6 @@ class ilLSPostConditionDB
 {
 	const TABLE_NAME = 'post_conditions';
 	const STD_ALWAYS_OPERATOR = 'always';
-	const EXCLUDE_OPERATORS = ['learning_progress'];
 
 	/**
 	 * @var ilDBInterface
