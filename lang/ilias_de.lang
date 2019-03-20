@@ -13381,10 +13381,10 @@ style#:#sty_template_name#:#Name
 style#:#sty_templates#:#Templates
 style#:#sty_text#:#Text
 style#:#sty_text_align#:#Horizontale Ausrichtung
-style#:#sty_text_block_char#:#Text (Block)
+style#:#sty_text_block_char#:#Textparagraph
 style#:#sty_text_decoration#:#Textdekoration
 style#:#sty_text_indent#:#Texteinrückung
-style#:#sty_text_inline_char#:#Text (Zeichen)
+style#:#sty_text_inline_char#:#Zeichen (Text)
 style#:#sty_text_transform#:#Text-Transformation
 style#:#sty_to#:#Nach
 style#:#sty_top#:#Oben
