@@ -740,7 +740,7 @@ if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
 	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'failed' WHERE condition_type = 3");
 
 	$ilDB->dropPrimaryKey('post_conditions');
-	$ilDB->setPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
 	$ilDB->dropTableColumn('post_conditions', 'condition_type');
 }
 ?>
@@ -798,5 +798,5 @@ $ilCtrlStructureReader->getStructure();
 <#60>
 <?php
 	$ilDB->dropPrimaryKey('post_conditions');
-	$ilDB->setPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
 ?>
