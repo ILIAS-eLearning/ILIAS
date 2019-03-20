@@ -106,7 +106,9 @@ class ilPortfolioCertificateFileService
 	{
 		$dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
 
-		$this->filesystem->deleteDir($dirPath);
+		if (true === $this->filesystem->hasDir($dirPath)) {
+			$this->filesystem->deleteDir($dirPath);
+		}
 	}
 
 	/**
