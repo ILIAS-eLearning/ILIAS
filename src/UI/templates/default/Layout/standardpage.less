@@ -7,6 +7,12 @@
 	box-shadow: @il-standard-page-header-shadow-bottom;
 }
 
+@il-standard-page-zindex-base: @zindex-navbar;
+@il-standard-page-zindex-header: @il-standard-page-zindex-base - 1;
+@il-standard-page-zindex-breadcrumbs: @il-standard-page-zindex-header - 1;
+@il-standard-page-zindex-maincontrols: @il-standard-page-zindex-breadcrumbs - 1;
+@il-standard-page-zindex-mainbar: @il-standard-page-zindex-maincontrols - 1;
+@il-standard-page-zindex-mainbar-slates: @il-standard-page-zindex-mainbar - 1;
 
 * {
 	box-sizing: border-box;
@@ -58,14 +64,14 @@ grid-based layout
 		grid-template-columns: @il-standard-page-slate-width + @il-mainbar-btn-width 1fr;
 		.il-maincontrols-mainbar {
 			width: @il-standard-page-slate-width + @il-mainbar-btn-width;
-			/* transition: all .3s; */
+
 			// slate
 			.il-mainbar-slates {
 				display: -ms-flexbox;
 				display: flex;
 				-ms-flex-direction: column;
 				flex-direction: column;
-				z-index: 994;
+				z-index: @il-standard-page-zindex-mainbar-slates;
 				.il-maincontrols-slate {
 					overflow-y: auto;
 				}
@@ -87,7 +93,7 @@ header {
 	grid-column-start: 1;
 	grid-column-end: 3;
 	grid-row: 1;
-	z-index: 998;
+	z-index: @il-standard-page-zindex-header;
 }
 
 // head-container with logo and metabar
@@ -131,7 +137,7 @@ header {
 	grid-column-start: 1;
 	grid-column-end: 3;
 	grid-row: 2;
-	z-index: 997;
+	z-index: @il-standard-page-zindex-breadcrumbs;
 	.shadow-bottom();
 	ul.breadcrumb {
 		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
@@ -149,7 +155,7 @@ nav.il-maincontrols {
 	-ms-grid-row: 3;
 	grid-column: 1;
 	grid-row: 3;
-	z-index: 996;
+	z-index: @il-standard-page-zindex-maincontrols;
 }
 
 // Subgrid mainbar
@@ -176,7 +182,8 @@ nav.il-maincontrols {
 	grid-column: 1;
 	grid-row: 1;
 	.shadow-right();
-	z-index: 995;
+	z-index: @il-standard-page-zindex-mainbar;
+
 }
 
 // tools section
@@ -327,7 +334,7 @@ footer {
 						-ms-flex-direction: column;
 						flex-direction: column;
 						width: 100%;
-						z-index: 994;
+						z-index: @il-standard-page-zindex-mainbar-slates;
 						.il-maincontrols-slate {
 							overflow-y: auto;
 						}
@@ -348,7 +355,7 @@ footer {
 		-ms-grid-row: 1;
 		grid-column: 1;
 		grid-row: 1;
-		z-index: 998;
+		z-index: @il-standard-page-zindex-header;
 	}
 
 	// head-container with logo and metabar
@@ -372,7 +379,7 @@ footer {
 		-ms-grid-row: 2;
 		grid-column: 1;
 		grid-row: 2;
-		z-index: 997;
+		z-index: @il-standard-page-zindex-breadcrumbs;
 		.shadow-bottom();
 		ul.breadcrumb {
 			padding-left: @il-standard-page-content-padding;
@@ -390,19 +397,14 @@ footer {
 		-ms-grid-row: 4;
 		grid-column: 1;
 		grid-row: 4;
-		// bottom: 0;
-		// position: absolute;
 		width: 100%;
-		z-index: 996;
+		z-index: @il-standard-page-zindex-maincontrols;
 	}
 
 	// Subgrid mainbar
 	.il-maincontrols-mainbar {
 		display: block;
 		width: 100%;
-		&.engaged {
-
-		}
 	}
 
 	// mainbar
@@ -410,7 +412,7 @@ footer {
 		background-color: @il-mainbar-btn-bg-color;
 		display: -ms-flexbox;
 		display: flex;
-		z-index: 995;
+		z-index: @il-standard-page-zindex-mainbar;
 	}
 
 	// tools section
