@@ -130,8 +130,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 	 */
 	private function getInstanceWithConfiguredDataDirectory()
 	{
-		$this->skipIfvfsStreamNotSupported();
-
 		$encoder = new ilBcryptPasswordEncoder(array(
 			'data_directory' => $this->getTestDirectoryUrl()
 		));
@@ -198,6 +196,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 	}
 
 	/**
+	 * @doesNotPerformAssertions
 	 * @depends      testInstanceCanBeCreated
 	 * @dataProvider costsProvider
 	 */
@@ -381,7 +380,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 	}
 
 	/**
-	 *
+	 * @doesNotPerformAssertions
 	 */
 	public function testExceptionIsNotRaisedIfTheRawPasswordContainsA8BitCharacterAndBackwardCompatibilityIsEnabledWithIgnoredSecurityFlaw()
 	{
