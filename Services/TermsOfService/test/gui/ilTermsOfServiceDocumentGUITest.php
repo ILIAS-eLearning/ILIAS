@@ -67,7 +67,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -115,7 +115,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 	/**
 	 * @dataProvider commandProvider
-	 * @expectedException \ilException
 	 * @param string $command
 	 * @param bool[] $accessResults
 	 */
@@ -157,7 +156,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			$this->tableDataProviderFactory, $this->documentPurifier
 		);
 
-		$this->assertException(\ilException::class);
+		$this->expectException(\ilException::class);
 
 		$gui->executeCommand();
 	}

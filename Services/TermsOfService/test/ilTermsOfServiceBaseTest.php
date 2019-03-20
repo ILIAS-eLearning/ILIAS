@@ -2,12 +2,13 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilTermsOfServiceBaseTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilTermsOfServiceBaseTest extends \PHPUnit_Framework_TestCase
+abstract class ilTermsOfServiceBaseTest extends TestCase
 {
 	/**
 	 * @var Container
@@ -17,7 +18,7 @@ abstract class ilTermsOfServiceBaseTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @inheritdoc
 	 */
-	protected function setUp()
+	protected function setUp(): void 
 	{
 		$this->dic = new Container();
 		$GLOBALS['DIC'] = $this->dic;
@@ -61,16 +62,6 @@ abstract class ilTermsOfServiceBaseTest extends \PHPUnit_Framework_TestCase
 		$DIC[$name] = function ($c) use ($name) {
 			return $GLOBALS[$name];
 		};
-	}
-
-	/**
-	 * @param string $exceptionClass
-	 */
-	protected function assertException(string $exceptionClass)
-	{
-		if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
-			$this->setExpectedException($exceptionClass);
-		}
 	}
 
 	/**

@@ -18,11 +18,11 @@ class ilTermsOfServiceEntityFactoryTest extends \ilTermsOfServiceBaseTest
 	}
 
 	/**
-	 * @expectedException \InvalidArgumentException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenUnknownEntityIsRequested()
 	{
-		$this->assertException(\InvalidArgumentException::class);
+		$this->expectException(\InvalidArgumentException::class);
 
 		$factory = new \ilTermsOfServiceEntityFactory();
 		$factory->getByName('PHP Unit');

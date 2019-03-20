@@ -74,7 +74,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
 	}
 
 	/**
-	 * @expectedException \ilTermsOfServiceUnexpectedCriteriaBagContentException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenAtLeastOneNonCriterionIsPassedInArrayOnCreation()
 	{
@@ -92,7 +92,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
 			->method('getCriterionValue')
 			->willReturn($configCrit1);
 
-		$this->assertException(\ilTermsOfServiceUnexpectedCriteriaBagContentException::class);
+		$this->expectException(\ilTermsOfServiceUnexpectedCriteriaBagContentException::class);
 
 		new \ilTermsOfServiceAcceptanceHistoryCriteriaBag([
 			$criterion1, 5
@@ -100,7 +100,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
 	}
 
 	/**
-	 * @expectedException \ilTermsOfServiceUnexpectedCriteriaBagContentException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenInvalidJsonDataIsPassedOnImport()
 	{
@@ -118,14 +118,14 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
 			->method('getCriterionValue')
 			->willReturn($configCrit1);
 
-		$this->assertException(\ilTermsOfServiceUnexpectedCriteriaBagContentException::class);
+		$this->expectException(\ilTermsOfServiceUnexpectedCriteriaBagContentException::class);
 
 		$bag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag();
 		$bag->fromJson('5');
 	}
 
 	/**
-	 * @expectedException \ilTermsOfServiceUnexpectedCriteriaBagContentException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenAtLeastOneInvalidElementIsPassedOnJsonStringImport()
 	{
@@ -143,7 +143,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
 			->method('getCriterionValue')
 			->willReturn($configCrit1);
 
-		$this->assertException(\ilTermsOfServiceUnexpectedCriteriaBagContentException::class);
+		$this->expectException(\ilTermsOfServiceUnexpectedCriteriaBagContentException::class);
 
 		$bag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag();
 		$bag->fromJson('[{"invalid":"crit1","value":{"usr_language":"de"}},{"id":"crit2","value":{"usr_global_role":4}}]');

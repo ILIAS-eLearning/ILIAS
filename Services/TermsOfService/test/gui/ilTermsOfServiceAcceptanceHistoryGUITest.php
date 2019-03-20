@@ -47,7 +47,7 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends \ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -65,7 +65,7 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends \ilTermsOfServiceBaseTest
 	}
 
 	/**
-	 * @expectedException \ilException
+	 * 
 	 */
 	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing()
 	{
@@ -99,7 +99,7 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends \ilTermsOfServiceBaseTest
 			$this->uiRenderer, $this->tableDataProviderFactory
 		);
 
-		$this->assertException(\ilException::class);
+		$this->expectException(\ilException::class);
 
 		$gui->executeCommand();
 	}
