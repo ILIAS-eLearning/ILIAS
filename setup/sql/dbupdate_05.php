@@ -261,3 +261,28 @@ foreach($tpl_perms as $template=>$perms){
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5450>
+<?php
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_tstamp'))
+{
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_tstamp', array(
+		"type" => "integer",
+		"length" => 8,
+	));
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_evaluation'))
+{
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_evaluation', array(
+		"type" => "integer",
+		"length" => 1,
+	));
+	$ilDB->query('UPDATE tst_manual_fb SET finalized_evaluation = 1 WHERE feedback IS NOT NULL');
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id'))
+{
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_by_usr_id', array(
+		"type" => "integer",
+		"length" => 8,
+	));
+}
+?>
