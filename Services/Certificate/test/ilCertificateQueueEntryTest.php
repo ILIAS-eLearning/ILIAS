@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateQueueEntryTest extends \PHPUnit_Framework_TestCase
+class ilCertificateQueueEntryTest extends ilCertificateBaseTestCase
 {
 	public function testEntryCanBeInstantiated()
 	{

@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilFormFieldParserTest extends PHPUnit_Framework_TestCase
+class ilFormFieldParserTest extends ilCertificateBaseTestCase
 {
 	public function testA4()
 	{

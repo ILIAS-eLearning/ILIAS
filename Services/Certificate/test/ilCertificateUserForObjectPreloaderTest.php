@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateUserForObjectPreloaderTest extends PHPUnit_Framework_TestCase
+class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
 {
 	public function testUsersWithCertifcatesWillBePreoloaded()
 	{

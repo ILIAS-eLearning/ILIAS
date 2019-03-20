@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testSaveSettings()
 	{

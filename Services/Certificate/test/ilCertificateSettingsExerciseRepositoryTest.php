@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsExerciseRepositoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testCreate()
 	{
@@ -69,6 +69,9 @@ class ilCertificateSettingsExerciseRepositoryTest extends PHPUnit_Framework_Test
 		$this->assertEquals($formMock, $result);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testSave()
 	{
 		$object = $this->getMockBuilder('ilObject')

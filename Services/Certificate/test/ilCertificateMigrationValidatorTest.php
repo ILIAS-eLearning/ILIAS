@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateMigrationValidatorTest extends PHPUnit_Framework_TestCase
+class ilCertificateMigrationValidatorTest extends ilCertificateBaseTestCase
 {
 	public function testCertificatesAreNotGloballyAvailableWillResultInFalse()
 	{
