@@ -6,7 +6,7 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use \ILIAS\UI\Implementation\Component as I;
 use \ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy;
 use \ILIAS\UI\Component\Signal;
 
@@ -17,10 +17,10 @@ class MainBarTest extends ILIAS_UI_TestBase
 {
 	public function setUp()
 	{
-		$sig_gen = 	new I\Component\SignalGenerator();
-		$this->factory = new I\Component\MainControls\Factory($sig_gen);
-		$this->button_factory = new I\Component\Button\Factory($sig_gen);
-		$this->icon_factory = new I\Component\Icon\Factory();
+		$sig_gen = 	new I\SignalGenerator();
+		$this->factory = new I\MainControls\Factory($sig_gen);
+		$this->button_factory = new I\Button\Factory($sig_gen);
+		$this->icon_factory = new I\Icon\Factory();
 
 		$this->mainbar = $this->factory->mainBar();
 	}
@@ -120,4 +120,107 @@ class MainBarTest extends ILIAS_UI_TestBase
 		$this->assertInstanceOf(Signal::class, $this->mainbar->getDisengageAllSignal());
 	}
 
+	public function getUIFactory() {
+		$factory = new class extends NoUIFactory {
+			public function button() {
+				return $this->button_factory;
+			}
+			public function glyph() {
+				return new I\Glyph\Factory();
+			}
+			public function mainControls(): C\MainControls\Factory
+			{
+				$sig_gen = new I\SignalGenerator();
+				return new I\MainControls\Factory($sig_gen);
+			}
+			public function legacy($legacy)
+			{
+				return new I\Legacy\Legacy($legacy);
+			}
+
+		};
+		$factory->button_factory = $this->button_factory;
+		return $factory;
+	}
+
+	public function brutallyTrimHTML($html)
+	{
+		$html = str_replace(["\n", "\t"], "", $html);
+		$html = preg_replace('# {2,}#', " ", $html);
+		return trim($html);
+	}
+
+	public function testRendering()
+	{
+		$r = $this->getDefaultRenderer();
+		$icon = $this->icon_factory->custom('', '');
+		$mb = $this->factory->mainBar()
+			->withMoreButton(
+				$this->button_factory->bulky($icon, 'more', '')
+			)
+			->withAdditionalEntry('test1', $this->getButton())
+			->withAdditionalEntry('test2', $this->getButton());
+
+		$html = $r->render($mb);
+
+		$expected = <<<EOT
+		<div class="il-maincontrols-mainbar" id="id_6">
+			<div class="il-mainbar">
+				<div class="il-mainbar-triggers">
+					<div class="il-mainbar-entries">
+						<button class="btn btn-bulky" data-action="#" id="id_2" >
+							<div class="icon custom small" aria-label="">
+								<img src="" />
+							</div>
+							<div>
+								<span class="bulky-label">TestEntry</span>
+							</div>
+						</button>
+
+						<button class="btn btn-bulky" data-action="#" id="id_3" >
+							<div class="icon custom small" aria-label="">
+								<img src="" />
+							</div>
+							<div>
+								<span class="bulky-label">TestEntry</span>
+							</div>
+						</button>
+
+						<button class="btn btn-bulky" id="id_4" aria-pressed="false" >
+							<div class="icon custom small" aria-label="">
+								<img src="" />
+							</div>
+							<div>
+								<span class="bulky-label">more</span>
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="il-mainbar-slates">
+				<div class="il-mainbar-tools-entries"></div>
+				<div class="il-maincontrols-slate disengaged" id="id_5">
+					<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
+				</div>
+
+				<div class="il-mainbar-close-slates">
+					<button class="btn btn-bulky" id="id_1" >
+						<span class="glyph" href="#" aria-label="back">
+							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						</span>
+						<div>
+							<span class="bulky-label">close</span>
+						</div>
+					</button>
+				</div>
+			</div>
+		</div>
+EOT;
+
+		$this->assertEquals(
+			$this->brutallyTrimHTML($expected),
+			$this->brutallyTrimHTML($html)
+		);
+	}
 }
