@@ -3,11 +3,11 @@
 use ILIAS\NavigationContext\ContextInterface;
 
 /**
- * Class CalledContexts
+ * Class ContextStack
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class CalledContexts {
+class ContextStack {
 
 	/**
 	 * @var ContextInterface[]

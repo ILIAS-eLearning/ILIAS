@@ -1,7 +1,7 @@
 <?php namespace ILIAS\NavigationContext;
 
-use ILIAS\NavigationContext\Stack\CalledContexts;
 use ILIAS\NavigationContext\Stack\ContextCallService;
+use ILIAS\NavigationContext\Stack\ContextStack;
 
 /**
  * Class ContextServices
@@ -20,23 +20,26 @@ class ContextServices {
 	 * ContextServices constructor.
 	 */
 	public function __construct() {
-		$this->stack = new CalledContexts();
+		$this->stack = new ContextStack();
 	}
 
 
 	/**
-	 * @return CalledContexts
+	 * @return ContextStack
 	 */
-	public function stack(): CalledContexts {
+	public function stack(): ContextStack {
 		return $this->stack;
 	}
 
 
 	/**
-	 * @return ContextCallService
+	 * @param ContextInterface $context
 	 */
-	public function call(): ContextCallService {
-		return new ContextCallService($this->stack);
+	public function claim(ContextInterface $context) {
+		if (in_array($context, $this->stack->getStack())) {
+			throw new \LogicException("A context can only be claimed once");
+		}
+		$this->stack->push($context);
 	}
 
 

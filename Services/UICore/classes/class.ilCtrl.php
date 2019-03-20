@@ -135,7 +135,7 @@ class ilCtrl
 		$ilDB = $DIC->database();
 
 		$context = $DIC->navigationContext();
-		$context->call()->currentComponentClaimsContext($context->availableContexts()->main());
+		$context->claim($context->availableContexts()->main());
 		
 		$baseClass = strtolower($_GET["baseClass"]);
 
