@@ -800,3 +800,12 @@ $ilCtrlStructureReader->getStructure();
 	$ilDB->dropPrimaryKey('post_conditions');
 	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
 ?>
+
+<#61>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
+
+?>
