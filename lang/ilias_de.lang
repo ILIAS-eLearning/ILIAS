@@ -14391,8 +14391,8 @@ trac#:#trac_closed_idle_first#:#Leerlaufzeit (1. Anfrage)
 trac#:#trac_closed_login#:#Anonym zu Login
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
-trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen
-trac#:#trac_collection_deassign#:#Auswahl aufheben
+trac#:#trac_collection_assign#:#Für Bestimmung des Lernfortschritts verwenden
+trac#:#trac_collection_deassign#:#Nicht mehr für Bestimmung verwenden
 trac#:#trac_collection_manual_learner_changed_ts#:#Geändert am
 trac#:#trac_collection_manual_learner_info#:#Der Lernfortschritt für dieses Objekt wird manuell gesetzt.
 trac#:#trac_collection_manual_learner_lm_info#:#Aktivieren Sie alle Kapitel, die Sie abgeschlossen haben.
