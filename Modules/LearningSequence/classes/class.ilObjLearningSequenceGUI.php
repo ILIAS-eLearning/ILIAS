@@ -388,6 +388,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$ms_gui = new ilLearningSequenceMembershipGUI(
 			$this,
 			$this->getObject(),
+			$this->getTrackingObject(),
 			ilPrivacySettings::_getInstance(),
 			$this->lng,
 			$this->ctrl,
@@ -520,7 +521,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		if ( $this->checkAccess("read")) {
-			if ($this->checkAccess("edit_members")
+			if ($this->checkAccess("manage_members")
 				|| (
 					$this->getObject()->getLSSettings()->getMembersGallery()
 					&&
@@ -655,6 +656,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		return $this->object;
+	}
+
+	protected function getTrackingObject(): ilObjUserTracking
+	{
+		return new ilObjUserTracking();
 	}
 
 	/**
