@@ -157,8 +157,8 @@ forum#:#autosave_post_draft_info#:#<span class="asterisk">Dieser Beitrag wird al
 forum#:#edit_thread_draft#:#Themenentwurf bearbeiten
 common#:#pd_enable_pdfrmpostdraft#:#'Meine Beitragsentwürfe' aktivieren
 common#:#pd_enable_pdfrmpostdraft_info#:#Sofern aktiviert, wird auf dem Persönlichen Schreibtisch ein Block 'Meine Beitragsentwürfe' angezeigt, in welchem die Beitragsentwürfe des Benutzers in Foren aufgelistet werden.
-forum#:#forums_thread_drafts_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurde gelöscht.
-forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurden gelöscht.
+forum#:#forums_thread_drafts_deleted#:#Das ausgewählte Thema einschließlich aller dazugehörigen Beiträge und eventueller Beitragsentwürfe wurde gelöscht.
+forum#:#forums_threads_drafts_deleted#:#Die ausgewählten Themen einschließlich aller dazugehörigen Beiträge und eventueller Beitragsentwürfe wurden gelöscht.
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
@@ -2241,7 +2241,7 @@ common#:#assessment_log_question#:#Frage
 common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
-common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
+common#:#assf_allowed_questiontypes_desc#:#Alle aktivierten Fragetypen stehen auf der gesamten ILIAS-Installation zur Verfügung. Nicht gewünschte Fragetypen können Sie hier deaktivieren.
 rbac#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_questiontypes#:#Frageneinstellungen
 rbac#:#assf_read#:#Zugriff auf die Test und Assessment-Administration
@@ -2440,7 +2440,7 @@ common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externe Links überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf ungültige externe Links überprüft.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn eingeschaltet, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
+common#:#check_user_accounts_desc#:#Alle Benutzer, deren Zugang zeitlich begrenzt ist, werden zwei Wochen vor Ablauf darüber informiert. Benutzerkonten werden gelöscht, wenn diese nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert wurden.
 common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft und gegebenenfalls deaktiviert.
 common#:#checked#:#Ausgewählt
@@ -2459,7 +2459,7 @@ rbac#:#chtr_visible#:#Chatraum ist sichtbar
 rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren
 common#:#city#:#Ort
 common#:#cleaned_file#:#Datei wurde bereinigt.
-common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
+common#:#cleaning_failed#:#Die infizierte Datei konnte nicht bereinigt werden.
 common#:#clear#:#Abbrechen
 common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#client#:#Client
@@ -2481,7 +2481,7 @@ common#:#cond_ref_unique#:#Unterschiedliche Vorbedingungen für Verknüpfungen
 common#:#condition#:#Bedingung
 common#:#condition_already_assigned#:#Dieses Objekt wurde bereits zugeordnet.
 common#:#condition_circle_created#:#Diese Zuordnung ist nicht möglich, da die Objekte voneinander abhängen würden
-common#:#condition_deleted#:#Die Vorbedingung wurde gelöscht.
+common#:#condition_deleted#:#Die Vorbedingung wurde entfernt.
 common#:#condition_finished#:#Beendet
 common#:#condition_not_finished#:#Nicht beendet
 common#:#condition_passed#:#Bestanden
@@ -2614,19 +2614,19 @@ common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#delete_inactive_user_accounts#:#Benutzerzugänge nach Inaktivität löschen
-common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
+common#:#delete_inactive_user_accounts_desc#:#Benutzerkonten werden abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#Benutzerkonten werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts_desc#:#Benutzerkonten werden %s Tage nach der Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
+common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerkonten werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -2706,7 +2706,7 @@ common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
 common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM)
 common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben.<br />Bitte beachten Sie, dass für diese Einstellung das Apache-Modul "rewrite" benötigt wird, und dass .htaccess-Konfigurationen genutzt werden müssen.
 common#:#enable_trash#:#Papierkorb verwenden
-common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Papierkorb verschoben und können später wieder hergestellt werden. Ist der Papierkorb deaktiviert, werden gelöschte Objekte unwiderruflich aus dem System entfernt!
+common#:#enable_trash_info#:#Gelöschte Objekte werden in den Papierkorb verschoben und können später wiederhergestellt werden. Ist der Papierkorb deaktiviert, werden Objekte sofort unwiderruflich gelöscht!
 common#:#enable_webdav#:#WebDAV Zugriff aktivieren
 common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Eingeschaltet
@@ -2744,7 +2744,7 @@ common#:#exc_add#:#Übung anlegen
 common#:#exc_added#:#Eine neue Übung wurde angelegt
 rbac#:#exc_copy#:#Übung kopieren
 common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
-common#:#exc_deassign_members#:#Mitglied(er) löschen
+common#:#exc_deassign_members#:#Mitglied(er) entfernen
 rbac#:#exc_delete#:#Übung löschen oder verschieben
 common#:#exc_download_files#:#Download-Dateien
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
@@ -3089,7 +3089,7 @@ common#:#info_change_user_view#:#Rechte dieses Benutzers anzeigen
 common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer deaktivieren wollen?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_remove_sure#:#Sind Sie sicher, dass folgende Objekte entfernt werden sollen:
-common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
+common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System gelöscht und können nicht wiederhergestellt werden!)
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser Benutzer ID existiert nicht
 common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz
@@ -3139,7 +3139,7 @@ common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
 common#:#lang_refresh_confirm_info#:#ILIAS hat geänderte Sprachvariablen gefunden. Die Aktualisierung einer Sprache lädt alle Daten aus ihrer Standard-Sprachdatei und eventuell aus einer Custom-Sprachdatei in die Datenbank. Ihre Änderungen werden durch das Laden der Standard-Sprachdatei nicht überschrieben. Eine Custom-Sprachdatei überschreibt nur Änderungen, die älter sind als ihr eigenes Speicherdatum.
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
-common#:#lang_uninstall_changes#:#Lokale Änderungen entfernen
+common#:#lang_uninstall_changes#:#Lokale Änderungen löschen
 common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren?
 common#:#lang_uninstall_changes_confirm#:#Möchten Sie wirklich alle lokalen Änderungen an den ausgewählten Sprachen löschen und diese auf den Standard der aktuellen ILIAS-Version zurücksetzen?
 common#:#lang_sep_decimal#:#,
@@ -3418,18 +3418,18 @@ common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie 
 common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
 common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Benutzerzuweisung zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
-common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung um neue Rollenvorlagen anzulegen!
-common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
-common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:
-common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:
+common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen!
+common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte auszuschneiden:
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu löschen:
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung, eine Verknüpfung für die folgenden Objekte zu erstellen:
 common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung um Rollenvorlagen zu ändern!
-common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung um Benutzerdaten zu ändern!
+common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu ändern!
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_paste_object_in_folder#:#Sie besitzen keine ausreichende Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt '%s' zuzugreifen.
-common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
+common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung, um dieses Lernmodul anzuzeigen.
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
@@ -3446,7 +3446,7 @@ common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich, das Objekt "%s"
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
-common#:#msg_removed#:#Objekt(e) aus dem System entfernt
+common#:#msg_removed#:#Objekt(e) aus dem System gelöscht.
 common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
 common#:#msg_sysrole_not_deletable#:#Die Systemrolle kann nicht gelöscht werden
@@ -3686,7 +3686,7 @@ common#:#optional_filter_hint#:#Bitte aktivieren Sie einen der optionalen Filter
 common#:#optional_filters#:#Optionale Filter
 common#:#options#:#Einstellungen
 common#:#order_by#:#Sortieren nach
-common#:#order_by_date#:#Nach Datum sortieren
+common#:#order_by_date#:#Nach Beiträgen sortieren
 common#:#organization#:#Anbieter
 common#:#other#:#Andere
 common#:#overview#:#Übersicht
@@ -3853,7 +3853,7 @@ common#:#registered_users#:#registrierte Benutzer
 common#:#registration#:#Neues Benutzerkonto registrieren
 common#:#related_to#:#Bezieht sich auf
 common#:#remove#:#Entfernen
-common#:#remove_translation#:#Übersetzung entfernen
+common#:#remove_translation#:#Übersetzung löschen
 common#:#removed_from_desktop#:#Das Objekt wurde vom Schreibtisch genommen.
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
@@ -3865,7 +3865,7 @@ common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
 common#:#repository_admin#:#Magazin, Papierkorb und Rechte
-common#:#repository_admin_desc#:#Rechteeinstellungen für Magazinobjekte festlegen, Entfernen oder Wiederherstellen von Objekten im Papierkorb
+common#:#repository_admin_desc#:#Rechteeinstellungen für Magazinobjekte festlegen, Löschen oder Wiederherstellen von Objekten im Papierkorb
 common#:#require_email#:#Pflichteingabe E-Mail
 common#:#require_gender#:#Pflichteingabe Anrede
 common#:#require_hobby#:#Pflichteingabe Hobby
@@ -4010,10 +4010,10 @@ common#:#session_max_count#:#Maximale Anzahl aktiver Sessions
 common#:#session_max_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeitig existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
 common#:#session_max_idle#:#Maximale Leerlaufzeit einer Session (in Minuten)
 common#:#session_max_idle_after_first_request#:#Minimale Leerlaufzeit einer Session nach der ersten Anfrage (in Minuten)
-common#:#session_max_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
+common#:#session_max_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session beendet werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
 common#:#session_max_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv ist, ist seine Session ausgelaufen.
 common#:#session_min_idle#:#Minimale Leerlaufzeit einer Session (in Minuten)
-common#:#session_min_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
+common#:#session_min_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session beendet werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!\n\nKlicken Sie auf OK, um Ihre Sitzung zu verlängern!\nWollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.\n\nBetroffene Installation: %3$s.
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
@@ -4234,7 +4234,7 @@ common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr B
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
-common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
+common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie dieses Feld bzw. diese Felder und alle zugehörigen Benutzerdaten löschen möchten?
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
@@ -4387,7 +4387,7 @@ common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angel
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
-common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
+common#:#webfolder_instructions_info#:#Die Anleitung für Web-Ordner wird in Browsern angezeigt, die Web-Ordner nicht direkt öffnen können. Sie können HTML-Code und die folgenden Platzhalter verwenden.<br/>Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
 common#:#webfolder_instructions_text#:#[IF_WINDOWS]	<h3>Anleitung f&uuml;r Verbindung mit Windows</h3>	<ol>	<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>	<li>Dr&uuml;cken Sie die Alt-Taste. Das Men&uuml; wird eingeblendet.</li>	<li>W&auml;hlen Sie "Extras" - "Netzlaufwerk verbinden".</li>	<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Klicken Sie auf "Fertig stellen".</li>	<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>	<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen unter "Pers&ouml;nlicher Schreibtisch - Einstellungen" in ILIAS ge&auml;ndert werden.[/IF_WINDOWS]	[IF_MAC]	<h3>Anleitung f&uuml;r Mac OS X</h3>	<ol>	<li>Aktivieren Sie den Finder.</li>	<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>	<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>	<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen unter "Pers&ouml;nlicher Schreibtisch - Einstellungen" in ILIAS ge&auml;ndert werden.[/IF_MAC][IF_LINUX]		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>		<ol>		<li>Starten Sie den Konqueror Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>		<ol>		<li>Starten Sie den Nautilus Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<br />		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen unter "Pers&ouml;nlicher Schreibtisch - Einstellungen" in ILIAS ge&auml;ndert werden.[/IF_LINUX]				<h3>Tipps &amp; Support</h3>		<ul>		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>		</ul>		<ul>		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>		</ul>		<ul>		<li>Falls Ihr Computer den Webordner nicht öffnen kann, wenden Sie sich bitte an den ILIAS Support.</li>		</ul>
 common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
@@ -4580,7 +4580,7 @@ content#:#cont_default#:#Standard
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitionen
 content#:#cont_delete_selected#:#Löschen
-content#:#cont_delete_style#:#Style Löschen
+content#:#cont_delete_style#:#Style löschen
 content#:#cont_delete_track_data#:#Lösche Trackingdaten
 content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_dir_created#:#Verzeichnis wurde angelegt.
@@ -5312,7 +5312,7 @@ crs#:#crs_file_size_info#:#Dateigröße
 crs#:#crs_from#:#Von:
 crs#:#crs_general_info#:#Allgemeine Informationen
 crs#:#crs_general_informations#:#Allgemeine Informationen
-crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Mitgliedschaftsbeschränkungen entfernen möchten?
+grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung gelöscht werden soll ?
 crs#:#crs_grouping_deleted#:#Die Gruppierung wurde gelöscht.
 crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Mitgliedschaftsbeschränkung aus.
 crs#:#crs_groupings#:#Kursgruppierungen
@@ -6224,9 +6224,9 @@ forum#:#activate_new_posts#:#Neue Beiträge freischalten
 forum#:#activate_only_current#:#Beitrag freischalten
 forum#:#activate_post#:#Freischalten
 forum#:#activate_post_txt#:#Möchten Sie diesen Beitrag freischalten?
-forum#:#add_re_to_subject#:#Beim Antworten auf einen Beitrag wird der Titel des vorhergehenden Beitrags übernommen und durch ein vorangestelltes Re: ergänzt.
+forum#:#add_re_to_subject#:#„Re:” und Titel des Beitrags, auf den geantwortet wird
 forum#:#close_topics#:#Schließen
-forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile leer und muss vom Benutzer gefüllt werden.
+forum#:#empty_subject#:#Beim Antworten müssen Benutzer selbst einen Titel eingeben.
 forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
 forum#:#forum_add_quote#:#Zitieren
@@ -6268,8 +6268,8 @@ forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
-forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben. Sollte die Option "Moderatoren-Beiträge markieren" ebenfalls aktiviert sein, können Moderatoren kein Pseudonym verwenden.
-forum#:#frm_default_view#:#Standardansicht
+forum#:#frm_anonymous_posting_desc#:#Registrierte Benutzer können mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge schreiben. Ist die Option „Beiträge der Moderatoren hervorheben” aktiviert, werden Moderatoren mit Klarnamen angezeigt.
+forum#:#frm_default_view#:#Startansicht für Themen
 forum#:#frm_detach_moderator_role#:#Moderatorenrolle entziehen
 forum#:#frm_edit_title#:#Titel bearbeiten
 forum#:#frm_moderator_f#:#Moderatorin
@@ -6277,7 +6277,7 @@ forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#Der Benutzer wurde als Moderator hinzugefügt.
 forum#:#frm_moderators#:#Moderatoren
-forum#:#frm_moderators_detached_role_successfully#:#Für die ausgewählten Benutzer wurde die Moderatorenrolle erfolgreich entfernt.
+forum#:#frm_moderators_detached_role_successfully#:#Den ausgewählten Benutzern wurde die Moderatorenrolle entzogen.
 forum#:#frm_moderators_not_exist_yet#:#Bitte wählen Sie einen Moderator aus.
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens einen Moderator aus.
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie die Moderatorenrolle zuweisen möchten.
@@ -6286,8 +6286,8 @@ forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Es ist noch kein Reiniger für den Typ %s implementiert.
 forum#:#frm_statistics#:#Statistik
 forum#:#frm_statistics_disabled_for_participants#:#Die Statistik ist für normale Forennutzer nicht sichtbar.
-forum#:#frm_statistics_enabled#:#Statistik anzeigen
-forum#:#frm_statistics_enabled_desc#:#Statistik für alle Forenteilnehmer anzeigen
+forum#:#frm_statistics_enabled#:#Öffentliche Beitragsstatistik
+forum#:#frm_statistics_enabled_desc#:#Die Anzahl der Beiträge pro Benutzer wird öffentlich angezeigt.
 forum#:#frm_statistics_ranking#:#Anzahl der Beiträge
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
@@ -6295,15 +6295,15 @@ forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#Gelesen
 forum#:#make_topics_non_sticky#:#"Top-Thema"-Einstufung aufheben
 forum#:#make_topics_sticky#:#Thema zu "Top-Thema" machen
-forum#:#mark_moderator_posts#:#Moderatoren-Beiträge markieren
-forum#:#mark_moderator_posts_desc#:#Wenn aktiviert, werden Beiträge der Benutzer farblich hervorgehoben, die die Moderatorenrolle in diesem Forum inne haben.
+forum#:#mark_moderator_posts#:#Beiträge der Moderatoren hervorheben
+forum#:#mark_moderator_posts_desc#:#Beiträge der Benutzer mit Moderatorenrolle in diesem Forum werden farblich hervorgehoben.
 forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
 forum#:#new_post#:#Neuer Beitrag
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
-forum#:#post_activation_desc#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Moderator freigeschaltet werden.
+forum#:#post_activation_desc#:#Bevor ein Beitrag für andere Benutzer sichtbar wird, muss dieser durch einen Moderator freigegeben werden.
 forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert, Bemerkung des Moderators
 forum#:#post_reply#:#Re:
-forum#:#preset_subject#:#Beim Antworten auf einen Beitrag wird als Titel automatisch der Titel des vorhergehenden Beitrags übernommen.
+forum#:#preset_subject#:#Titel des Beitrags, auf den geantwortet wird
 forum#:#reopen_topics#:#Wiedereröffnen
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
 forum#:#sticky#:#'Top-Thema'
@@ -6875,9 +6875,9 @@ meta#:#md_copyright_preview#:#Copyright (Vorschau)
 meta#:#md_copyright_selection#:#Copyright-Vorgaben
 meta#:#md_copyright_settings#:#Copyright-Einstellungen
 meta#:#md_copyright_value#:#Copyright
-meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
+meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden gelöscht.
 meta#:#md_days#:#Tage:
-meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
+meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben löschen?
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um Angaben zu mehreren Schlagwörtern und Autoren zu trennen. Standardzeichen ist ','.
 meta#:#md_fields#:#Felder
@@ -7525,7 +7525,7 @@ notes#:#notes_deactivate_comments#:#Öffentliches Kommentieren ausschalten
 notes#:#notes_hide_comments#:#Kommentare ausblenden
 notes#:#notes_my_comments#:#Meine Kommentare
 notes#:#notes_no_comments#:#Bisher wurde noch kein Kommentar abgegeben.
-notes#:#notes_note_deleted#:#Die Notiz wurde gelöscht
+notes#:#notes_note_deleted#:#Die Notiz wurde gelöscht.
 notes#:#notes_notes_deleted#:#Die Notizen wurden gelöscht.
 notes#:#notes_public_comments#:#Öffentliche Kommentare
 notes#:#notes_show_comments#:#Kommentare anzeigen
@@ -7857,7 +7857,7 @@ rbac#:#rbac_precondition_target#:#Vorbedingung für Zugriff auf
 rbac#:#rbac_repository_permissions#:#Magazinrechte
 rbac#:#rbac_role_add_to_desktop#:#Zum Persönlichen Schreibtisch hinzufügen
 rbac#:#rbac_role_add_to_desktop_info#:#Fügt Objekt dem Persönlichen Schreibtisch aller Rollen-Mitglieder zu
-rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch die Rolle gewährt werden, sind dann unwiderruflich aufgehoben.
+rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten? Alle Rechte, die durch die Rolle gewährt werden, sind dann unwiderruflich aufgehoben.
 rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
 rbac#:#rbac_role_rights_copy#:#Rechte kopieren
@@ -7964,7 +7964,7 @@ registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeits
 registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
 registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr Benutzerkonto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr Benutzerkonto zu aktivieren. Danach können Sie sich in ILIAS einloggen.
 registration#:#reg_default#:#Standard
-registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
+registration#:#reg_deleted_assignment#:#Die Zuordnung(en) wurde(n) gelöscht.
 registration#:#reg_direct#:#Direkte Anmeldung
 registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet.
 registration#:#reg_disabled#:#Keine Registrierung möglich
@@ -8153,7 +8153,7 @@ scormdebug#:#debugwindow_comment_enter#:#Bitte geben Sie Ihren Kommentar ein
 scormdebug#:#debugwindow_console#:#Konsole
 scormdebug#:#debugwindow_date#:#Datum
 scormdebug#:#debugwindow_delete#:#L&ouml;schen
-scormdebug#:#debugwindow_delete_logfile#:#Logdatei entfernen
+scormdebug#:#debugwindow_delete_logfile#:#Logdatei löschen
 scormdebug#:#debugwindow_download#:#Herunterladen
 scormdebug#:#debugwindow_filename#:#Dateiname
 scormdebug#:#debugwindow_logs#:#Logdateien
@@ -9360,7 +9360,7 @@ trac#:#trac_status_changed#:#Letzte Statusänderung
 trac#:#trac_subitems#:#Unterobjekte zeigen
 trac#:#trac_sum#:#Summe
 trac#:#trac_summary#:#Zusammenfassung
-trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen? Dadurch werden folgende Statistiken für diesen Zeitraum entfernt: Nutzungsintensität, Tagesverlauf, Lernstandstatistik Kurs und Anzahl der Objekte.
+trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen? Das Löschen betrifft folgende Statistiken für diesen Zeitraum: Nutzungsintensität, Tagesverlauf, Lernstandstatistik im Kurs und Anzahl der Objekte.
 trac#:#trac_sync_obj_stats#:#Daten aktualisieren
 trac#:#trac_sync_obj_stats_success#:#Daten wurden aktualisiert.
 trac#:#trac_sync_session_stats#:#Daten aggregieren
@@ -9612,11 +9612,11 @@ rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen f
 rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:
 blog#:#blog_enable_rss#:#RSS aktivieren
 blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Benutzerrechten.
-user#:#user_allow_delete_own_account#:#Benutzer können eigenen Account löschen
+user#:#user_allow_delete_own_account#:#Benutzer können eigenes Benutzerkonto löschen.
 user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-E-Mail
-user#:#user_delete_own_account#:#Account löschen
-user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen Benutzer-Account löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
-user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzer-Account unwiderruflich aus dem System entfernt werden soll.
+user#:#user_delete_own_account#:#Benutzerkonto löschen
+user#:#user_delete_own_account_info#:#Hier können Sie Ihr aktuelles Benutzerkonto löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
+user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzerkonto unwiderruflich aus dem System gelöscht werden soll.
 user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
 user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde am %s gelöscht.
 mcst#:#mcst_ordering#:#Sortierung
@@ -9628,7 +9628,7 @@ user#:#user_store_last_visited#:#Zuletzt besucht
 user#:#user_lv_keep_entries#:#Einträge speichern
 user#:#user_lv_keep_only_for_session#:#Einträge nach Sitzung löschen
 user#:#user_lv_do_not_store#:#Keine Einträge speichern
-common#:#remove_entries#:#Einträge löschen
+common#:#remove_entries#:#Einträge entfernen
 mcst#:#mcst_save_order#:#Sortierung speichern
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
@@ -9850,12 +9850,13 @@ book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beam
 book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
-forum#:#sort_by_posts#:#Nach Beiträgen sortieren
+forum#:#sort_by_posts#:#Nach Beiträgen sortieren (mit Baumansicht)
+forum#:#sticky_threads_always_on_top#:#Unabhängig vom letzten Beitrag erscheinen „Top-Themen” ganz oben in der Liste der Themen. <br />Innerhalb der „Top-Themen” können Sie die Sortierung manuell anpassen.
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
 forum#:#frm_rating#:#Bewertung
 forum#:#enable_thread_ratings#:#Themen bewerten
-forum#:#enable_thread_ratings_info#:#Falls aktiviert, können Themen dieses Forums von Benutzern bewertet werden.
+forum#:#enable_thread_ratings_info#:#Themen können von Benutzern bewertet und nach Bewertung sortiert werden.
 common#:#obj_poll#:#Abstimmung
 common#:#objs_poll#:#Abstimmungen
 common#:#obj_poll_dupliate:#:#Abstimmung kopieren
@@ -9978,7 +9979,7 @@ administration#:#adm_user_starting_point_personal#:#Persönliche Einstellung
 administration#:#adm_user_starting_point_personal_info#:#Bei Aktivierung dürfen Benutzer ihre Startseite selbst wählen.
 rbac#:#internal_mail#:#Internes Mail-System
 rbac#:#mail_internal_mail#:#Benutzer dürfen das interne Mail-System nutzen (ILIAS)
-poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
+poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden, so lange Sie die Stimmen nicht löschen.
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
 content#:#cont_check_values#:#Vom SCO geschickte Werte prüfen
 ecs#:#ecs_crs_export#:#Kursfreigaben
@@ -10117,7 +10118,7 @@ dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht
 dcl#:#dcl_tables_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellen gelöscht werden sollen?
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zugriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
-dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
+dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden soll?
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_std_filter#:#Filtervorbelegung
@@ -10254,7 +10255,7 @@ dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht "Eintragen" besitzen.
-dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
+dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tabelle mit ihrem Inhalt und ihrer Struktur wirklich löschen?
 dcl#:#dcl_cant_delete_last_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die einzige Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
@@ -10287,7 +10288,7 @@ forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
 ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
-rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
+rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Magazin aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
@@ -10314,7 +10315,7 @@ rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren
 poll#:#poll_import#:#Abstimmung importieren
-user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
+user#:#user_account_deleted_confirmation#:#Ihr Benutzerkonto wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
 rating#:#rating_export_category#:#Kategorie
 rating#:#rating_export_date#:#Datum
 rating#:#rating_export_rating#:#Bewertung
@@ -10372,7 +10373,7 @@ trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eige
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
 search#:#search_option_online#:#Online
 search#:#search_option_offline#:#Offline
-forum#:#sort_by_date#:#Sortieren nach Datum
+forum#:#sort_by_date#:#Nach Datum sortieren (ohne Baumansicht)
 forum#:#error_reading_file#:#Beim Lesen der Datei ist ein Fehler aufgetreten
 content#:#cont_presentation#:#Darstellung
 content#:#cont_scorm_options#:#Aufzeichnung von Bearbeitungsdaten
@@ -10756,9 +10757,9 @@ common#:#upload_files#:#Dateien hochladen
 common#:#upload_files_title#:#Dateien hochladen
 common#:#upload_pending#:#Ausstehend
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
-common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die max. Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
-common#:#uploading#:#Hochladen...
-common#:#extracting#:#Entpacken...
+common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die maximale Uploadgröße überschritten oder die Datei inzwischen gelöscht oder umbenannt wurde.
+common#:#uploading#:#Hochladen …
+common#:#extracting#:#Entpacken …
 common#:#drop_files_on_repo_obj_info#:#Ziehen Sie die Dateien hier hin, um sie in dieses Objekt hochzuladen.
 common#:#error_extraction_failed#:#Das Entpacken des Archivs und dessen Ordnerstruktur ist fehlgeschlagen. Wahrscheinlich verfügen Sie nicht über die Rechte um Ordner oder Kategorien in diesem Objekt zu erstellen.
 common#:#upload_settings#:#Upload-Einstellungen
@@ -10932,8 +10933,8 @@ dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit "%s" findet in wenige
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
 dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
-dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen, werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option Terminbuchung(en) absagen auswählen.
-dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen, werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option Terminbuchung(en) löschen auswählen.
+dateplaner#:#cal_ch_delete_booking_info#:#Beim Löschen von Terminbuchungen werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option „Terminbuchung(en) absagen” auswählen.
+dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option „Terminbuchung(en) löschen” auswählen.
 dateplaner#:#cal_ch_delete_app_booking_info#:#Bei folgenden Terminen bestehen bereits Buchungen. Wenn Sie diese Termine löschen, werden die Teilnehmer nicht über die Löschung informiert.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#Die folgenden Benutzer konnten keinem Termin zugeordnet werden, da die maximale Anzahl an Buchungen überschritten wurde.
 dateplaner#:#cal_booking_failed_info#:#Die Buchung konnte nicht vorgenommen werden, da der Termin ausgebucht ist.
@@ -10947,7 +10948,7 @@ file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen 
 file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
 file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
-file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
+file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Speicherplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um Platz für neue Dateien zu schaffen.
 file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
@@ -11634,7 +11635,7 @@ common#:#offline_mode#:#Offline-Modus
 sop#:#sop_check_system_requirements#:#Systemvoraussetzungen werden überprüft
 sop#:#sop_system_check_error#:#Ihr Browser unterstützt die erforderlichen HTML5-Funktionen nicht.
 sop#:#sop_system_check_https#:#Sie müssen https anstelle von http für die erforderlichen HTML5-Funktionen verwenden.
-sop#:#sop_lm_not_exists#:#Das Lernmodul konnte nicht im Offline Speicher des Browsers gefunden werden.<br />Bitte benutzen Sie dasselbe Gerät und denselben Browser, den Sie beim Exportieren des Lernmoduls verwendet haben.<br /><br />Sollte dies der korrekte Browser sein, dann scheint das Lernmodul durch das Löschen des Browser Caches entfernt worden zu sein. Bitte kontaktieren Sie Ihren Administrator.
+sop#:#sop_lm_not_exists#:#Das Lernmodul konnte nicht im Offline-Speicher des Browsers gefunden werden.<br />Bitte benutzen Sie dasselbe Gerät und denselben Browser, den Sie beim Exportieren des Lernmoduls verwendet haben.<br /><br />Sollte dies der korrekte Browser sein, dann scheint das Lernmodul durch das Löschen des Browser-Caches entfernt worden zu sein. Bitte kontaktieren Sie Ihren Administrator.
 sop#:#sop_already_exported#:#Das Lernmodul befindet sich schon im Offline-Modus. Bitte rufen Sie diese Seite mit Ihrem Firefox-Browser auf, in dem das SCORM-Offline-Player-Addon installiert ist.
 sop#:#sop_reload_page#:#Seite aktualisieren
 sop#:#sop_text_export#:#SCORM-Lernmodul für die Offline-Bearbeitung exportieren
@@ -11786,7 +11787,7 @@ skmg#:#skmg_no_nodes_selectable#:#Zur Zeit sind keine Kompetenzen auswählbar.
 skmg#:#skmg_suggested_resources#:#Zugewiesene Magazinobjekte
 content#:#cont_languages#:#Sprachen
 content#:#cont_language#:#Sprache
-notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
+notes#:#note_content_removed#:#Der Inhalt wurde gelöscht.
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
 orgu#:#ou_external_id_exists#:#Eine Organisationseinheit mit der Externen ID existiert bereits auf ILIAS.
@@ -11950,17 +11951,17 @@ blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_presentation_frame#:#Darstellung
 blog#:#blog_presentation_overview#:#Präsentation der Beiträge
 blog#:#blog_nav_mode#:#Monatsweise Navigation
-blog#:#blog_nav_mode_month_list#:#Aktuelle Monate als Liste
+blog#:#blog_nav_mode_month_list#:#Inhalte des Seitenblocks bestimmen
 blog#:#blog_nav_mode_month_list_info#:#Der Seitenblock zeigt eine Liste der Monate. Die Anzahl angezeigter Monate und Beiträge kann festgelegt werden.
 blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge (nach absteigendem Datum sortiert)
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in der Monatsansicht gelistet.
 blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl angezeigter Monate
 blog#:#blog_nav_mode_month_list_num_month_info#:#Monate werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
-blog#:#blog_nav_mode_month_single#:#Alle Monate per Dropdown
+blog#:#blog_nav_mode_month_single#:#Seitenblock automatisch mit Monats-Dropdown
 blog#:#blog_nav_mode_month_single_info#:#Im Seitenblock bietet ein Dropdown alle Monate zur Auswahl an. Für den gewählten Monat werden alle Beiträge aufgelistet.
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
-blog#:#blog_enable_keywords#:#Schlagwörter
+blog#:#blog_enable_keywords#:#Schlagwörter vergeben
 blog#:#blog_enable_keywords_info#:#Autoren können Beiträge mit Schlagwörtern versehen. Vergebene Schlagwörter werden im Seitenblock zum Filtern der Beiträge angeboten.
 blog#:#blog_enable_nav_authors#:#Nach Autoren filtern
 blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit allen Autorennamen eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieses Autoren an.
@@ -12034,8 +12035,8 @@ wiki#:#wiki_stat_page_footnotes#:#Anzahl Fußnoten
 wiki#:#wiki_stat_page_ratings#:#Anzahl Bewertungen
 rbac#:#statistics_read#:#Statistiken einsehen
 rbac#:#wiki_statistics_read#:#Statistiken einsehen
-pd#:#pd_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
-pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
+pd#:#pd_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden.
+pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden.
 notes#:#notes_sort_asc#:#Aufsteigend sortieren
 notes#:#notes_sort_desc#:#Absteigend sortieren
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
@@ -12118,9 +12119,9 @@ user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
-user#:#send_mail_to_inactive_users_desc#:#Bevor Benutzeraccounts gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
+user#:#send_mail_to_inactive_users_desc#:#Bevor ein Benutzerkonto gelöscht werden, sendet ILIAS eine E-Mail an den Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
 user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
-user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
+user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
 user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß um den Versand einer E-Mail vor der Löschung des Accounts zu gewährleisten.
@@ -12587,7 +12588,7 @@ meta#:#udf_type_selectmulti#:#Auswahlliste (Mehrfachauswahl)
 wiki#:#wiki_no_page_found#:#Es wurden keine Seiten zum Suchbegriff '$1' gefunden.
 wiki#:#wiki_pages_found#:#Die folgenden Seiten wurden zum Suchbegriff '$1' gefunden.
 wiki#:#wiki_no_search_term#:#Es wurde kein Suchbegriff eingegeben. Nachfolgend werden alle Wikiseiten aufgelistet.
-tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte haben Sie keinen Zugriff mehr. Sollen der Tag zu diesen Objekten entfernt werden?
+tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte haben Sie keinen Zugriff mehr. Soll das Tag zu diesen Objekten entfernt werden?
 tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
 tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
@@ -12601,7 +12602,7 @@ search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen la
 crs#:#crs_loc_tst_assignment#:#Testzuordnung
 crs#:#crs_show_all_obj#:#Alle zeigen
 crs#:#crs_hide_all_obj#:#Alle verbergen
-notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
+notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht.
 notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
 orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
 orgu#:#ou_more_than_one_match_found#:#Mehr als ein Treffer wurde gefunden.
@@ -12712,8 +12713,8 @@ forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewäh
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
-forum#:#file_upload_allowed#:#Dateien anhängen
-forum#:#allow_file_upload_desc#:#Wenn aktiviert, können in diesem Forum Dateien an Forenbeiträge angehängt werden.
+forum#:#file_upload_allowed#:#Das Anhängen von Dateien erlauben
+forum#:#allow_file_upload_desc#:#In diesem Forum können Dateien an Forenbeiträge angehängt werden.
 sysc#:#sysc_overview#:#Übersicht
 sysc#:#sysc_groups#:#Systemcheck-Gruppen
 sysc#:#sysc_grp_tree#:#Magazinbaum
@@ -13268,12 +13269,12 @@ common#:#manage_members#:#Mitglieder verwalten
 maps#:#maps_tile_server#:#Server für Kacheln
 maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
 mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
-mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
+mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den nachfolgend genannten Postfächern. Beachten Sie, dass diese Mails in Kürze automatisch gelöscht werden.
 rbac#:#rbac_permissions#:#Rechte
 buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 common#:#obj_prgs#:#Studienprogramme
-forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
-forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
+forum#:#forums_thread_deleted#:#Das ausgewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
+forum#:#forums_threads_deleted#:#Die ausgewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht.
@@ -13552,8 +13553,8 @@ badge#:#badge_obi_salt#:#Salt
 badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr.
 badge#:#badge_types#:#Typen
 badge#:#badge_image_templates#:#Bildvorlagen
-badge#:#badge_activity_badges#:#Activity Badges
-badge#:#badge_crs_merit#:#Verdienst
+badge#:#badge_activity_badges#:#Activity-Badges
+badge#:#badge_crs_merit#:#Badge von Tutor vergeben
 badge#:#badge_manual#:#Manuelle Vergabe
 badge#:#badge_user_profile#:#Benutzerprofil
 badge#:#badge_badge#:#Badge
@@ -13594,7 +13595,7 @@ badge#:#badge_remove_from_profile#:#Aus Profil entfernen
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
 badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Es können keine neuen Badges erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
-badge#:#badge_course_lp#:#Course LP
+badge#:#badge_course_lp#:#Badge nach Bearbeitung des Objekts
 badge#:#badge_profile_more#:#Alle zeigen
 badge#:#badge_profile_less#:#Weniger zeigen
 badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
@@ -13701,8 +13702,8 @@ style#:#msg_sub_style_created#:#Der Sub-Style wurde erstellt.
 style#:#style#:#Style
 style#:#parent#:#Parent-Style
 style#:#sty_substyle_of#:#Sub-Style von
-style#:#assignment#:#Zuweisung
-style#:#remove_assignment#:#Zuweisung löschen
+style#:#assignment#:#Zuordnung
+style#:#remove_assignment#:#Zuordnung entfernen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#update_variables#:#Variablen aktualisieren
 style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
@@ -13769,7 +13770,7 @@ style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
 style#:#preview#:#Vorschau
 style#:#icons_gallery#:#Icon Galerie
 style#:#cant_delete_style_with_substyles#:#Styles mit Sub-Styles können nicht gelöscht werden.
-style#:#style_assignments_deleted#:#Style-Zuweisungen des folgenden Sub-Styles wurden gelöscht:
+style#:#style_assignments_deleted#:#Style-Zuordnungen des folgenden Sub-Styles wurden entfernt:
 style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
 style#:#usages#:#Verwendungen:
 exc#:#exc_individual_deadline#:#Individuelle Frist
@@ -13806,17 +13807,17 @@ mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
-didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
+didactic#:#didactic_template_update_import#:#Aktualisierung didaktischer Vorlagen
 didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
 grp#:#grp_show_members#:#Mitgliedergalerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
-didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eine der gewählten Didaktischen Vorlagen ist automatisch generiert und kann daher nicht gelöscht werden.
+didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten didaktischen Vorlagen ist nicht erlaubt.
+didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Mindestens eine der gewählten didaktischen Vorlagen ist automatisch generiert und kann daher nicht gelöscht werden.
 didactic#:#didactic_auto_generated#:#Automatisch generiert
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_local_didactic_template_info#:#Die Nutzung der didaktischen Vorlagen wird auf Teilbereiche des Magazins beschränkt.
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
-didactic#:#dtpl_obj_type_info#:#Gibt an, auf welchen Objekttyp diese Didaktische Vorlage angewandt werden kann.
+didactic#:#dtpl_obj_type_info#:#Gibt an, auf welchen Objekttyp diese didaktische Vorlage angewandt werden kann.
 cont#:#cont_news_timeline#:#Timeline
 cont#:#cont_news_timeline_info#:#Aktiviert den Reiter "Timeline" für Neuigkeiten
 cont#:#cont_news_timeline_auto_entries#:#Automatisch erstellte Neuigkeiten
@@ -13983,7 +13984,7 @@ chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert,
 chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
 chatroom#:#chat_deletion_interval#:#Intervall
-chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
+chatroom#:#chat_deletion_interval_info#:#Nachrichten im Magazin-Chat und im On-Screen-Chat werden gelöscht, sofern sie älter als der hier angegebene Schwellenwert sind.
 chatroom#:#chat_deletion_interval_unit#:#Einheit
 chatroom#:#chat_deletion_interval_value#:#Wert
 chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Einheit '%s' ist: %s
@@ -14954,12 +14955,12 @@ rep#:#rep_default#:#Standardwert
 rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
 rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
 obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
-obj#:#obj_show_header_actions#:#Aktionen anzeigen
+obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
 cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
 cont#:#cont_item_list#:#Liste
 cont#:#cont_tile_view#:#Kacheln
 obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
+obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container (Kategorie, Kurs, Gruppe, ...) die Kachelansicht ausgewählt wurde.
 fold#:#fold_presentation#:#Darstellung
 validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
 validation#:#not_a_string#:#Wert vom Typ '%s' ist kein String.
