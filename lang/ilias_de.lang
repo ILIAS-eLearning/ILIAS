@@ -11779,6 +11779,7 @@ rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
 rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
 rbac#:#lso_visible#:#Lernsequenz sichtbar
 rbac#:#lso_write#:#Lernsequenz bearbeiten
+rbac#:#lso_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#ltis_edit_permission#:#Rechteeinstellungen für LTI-Administration ändern
 rbac#:#ltis_read#:#Lesezugriff auf LTI-Administration
 rbac#:#ltis_release_objects#:#Benutzer kann Objekte für LTI Consumer freigeben

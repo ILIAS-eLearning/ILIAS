@@ -765,5 +765,26 @@ $ilDB->insert("il_mm_items", array('identification' => array('', 'ilRepositoryGl
 $ilDB->insert("il_mm_items", array('identification' => array('', 'ilRepositoryGlobalScreenProvider|rep_main_page'), 'active' => array('', '1'), 'position' => array('', '0'), 'parent_identification' => array('', 'ilRepositoryGlobalScreenProvider|rep')));
 $ilDB->insert("il_mm_items", array('identification' => array('', 'ilStaffGlobalScreenProvider|mm_pd_mst'), 'active' => array('', '1'), 'position' => array('', '12'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
 $ilDB->insert("il_mm_items", array('identification' => array('', 'ilWorkspaceGlobalScreenProvider|mm_pd_wsp'), 'active' => array('', '1'), 'position' => array('', '5'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+?>
+<#57>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+	ilDBUpdateNewObjectType::deleteRBACOperation($lp_type_id, $ops_id);
+}
+
+?>
+<#58>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+	ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ops_id);
+}
 
 ?>
