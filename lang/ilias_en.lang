@@ -8141,6 +8141,7 @@ administration#:#language_remove_local_file#:#Delete the custom language file
 rbac#:#export_member_data#:#Access User Data
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 forum#:#frm_edit_title#:#Edit Title
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionality.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
 administration#:#language_merged_global#:#The local changes were merged into the standard language file.

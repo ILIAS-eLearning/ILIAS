@@ -4242,6 +4242,7 @@ common#:#visits#:#Besuche
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
 common#:#edit_metadata#:#Metadaten bearbeiten
+common#:#webdav_additional_information#:#Um sicher zu gehen, dass der Windows Explorer erfolgreich eine Verbindung über WebDAV herstellen kan, lesen in der Installationsanleitung "<a href="%s" target="_blank">install.md</a>" das Kapitel: "WebDAV Configuration (OPTIONAL)"
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
