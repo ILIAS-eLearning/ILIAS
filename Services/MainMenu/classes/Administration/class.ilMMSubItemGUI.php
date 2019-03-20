@@ -35,16 +35,16 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI {
 				return $this->add($DIC);
 			case self::CMD_CREATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
-				$this->create($DIC);
-				break;
+
+				return $this->create($DIC);
 			case self::CMD_EDIT:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
 
 				return $this->edit($DIC);
 			case self::CMD_UPDATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
-				$this->update($DIC);
-				break;
+
+				return $this->update($DIC);
 			case self::CMD_APPLY_FILTER:
 				$this->applyFilter();
 				break;
@@ -129,13 +129,16 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI {
 	/**
 	 * @param $DIC
 	 *
+	 * @return string
 	 * @throws Throwable
 	 */
 	private function create($DIC) {
 		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
-		$f->save();
+		if ($f->save()) {
+			$this->cancel();
+		}
 
-		$this->cancel();
+		return $f->getHTML();
 	}
 
 
@@ -155,13 +158,16 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI {
 	/**
 	 * @param $DIC
 	 *
+	 * @return string
 	 * @throws Throwable
 	 */
 	private function update($DIC) {
 		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
-		$f->save();
+		if ($f->save()) {
+			$this->cancel();
+		}
 
-		$this->cancel();
+		return $f->getHTML();
 	}
 
 

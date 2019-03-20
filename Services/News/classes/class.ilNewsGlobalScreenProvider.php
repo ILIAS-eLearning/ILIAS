@@ -52,6 +52,7 @@ class ilNewsGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("news"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews")
 			        ->withParent($this->getTopItem())
+			        ->withPosition(10)
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {

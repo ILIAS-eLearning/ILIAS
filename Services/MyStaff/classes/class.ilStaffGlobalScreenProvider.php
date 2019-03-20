@@ -50,14 +50,22 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 * @inheritDoc
 	 */
 	public function getStaticSubItems(): array {
-		return [
-			$this->mainmenu->link($this->if->identifier('mm_pd_mst'))->withTitle($this->dic->language()->txt("my_staff"))
-				->withAction("ilias.php?baseClass=" . ilPersonalDesktopGUI::class . "&cmd=" . ilPersonalDesktopGUI::CMD_JUMP_TO_MY_STAFF)->withParent($this->getTopItem())
-				->withAvailableCallable(function (): bool {
-					return boolval($this->dic->settings()->get("enable_my_staff"));
-				})->withVisibilityCallable(function (): bool {
-					return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
-				})->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
-		];
+		$dic = $this->dic;
+
+		return [$this->mainmenu->link($this->if->identifier('mm_pd_mst'))
+			        ->withTitle($this->dic->language()->txt("my_staff"))
+			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff")
+			        ->withParent($this->getTopItem())
+			        ->withPosition(12)
+			        ->withAvailableCallable(
+				        function () use ($dic) {
+					        return (bool)($dic->settings()->get("enable_my_staff"));
+				        }
+			        )
+			        ->withVisibilityCallable(
+				        function () {
+					        return (bool)ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+				        }
+			        )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"))];
 	}
 }
