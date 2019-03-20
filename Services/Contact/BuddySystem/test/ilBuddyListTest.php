@@ -185,7 +185,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 	}
 
 	/**
-	 *
+	 * @doesNotPerformAssertions
 	 */
 	public function testRelationRequestCanBeApprovedByTheRelationTarget()
 	{
@@ -254,7 +254,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 	}
 
 	/**
-	 * 
+	 * @doesNotPerformAssertions
 	 */
 	public function testRelationRequestCanBeIgnoredByTheRelationTarget()
 	{

@@ -17,6 +17,10 @@ class ilBuddySystemBaseTest extends TestCase
 	{
 		global $DIC;
 
+		if (!$DIC) {
+			$DIC = new \ILIAS\DI\Container();
+		}
+
 		$GLOBALS[$name] = $value;
 
 		unset($DIC[$name]);
