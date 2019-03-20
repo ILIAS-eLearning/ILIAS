@@ -390,9 +390,7 @@ class ilObjLearningSequence extends ilContainer
 			$this->conditions_db::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
 		];
 		foreach ($condition_types as $cond_type) {
-			if(! in_array($cond_type, $this->conditions_db::EXCLUDE_OPERATORS)) {
-				$conditions[$cond_type] = $this->lng->txt($cond_type);
-			}
+			$conditions[$cond_type] = $this->lng->txt($cond_type);
 		}
 		return $conditions;
 
