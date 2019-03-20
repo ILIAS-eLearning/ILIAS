@@ -45,11 +45,7 @@ class ilMMEntryRendererGUI {
 			$components[] = $top_item->getTypeInformation()->getRenderer()->getComponentForItem($top_item);
 		}
 
-		$context_stack = "Contexts: ";
-
-		foreach ($DIC->globalScreen()->context()->stack()->getStack() as $context) {
-			$context_stack .= "{$context->getUniqueContextIdentifier()}, ";
-		}
+		$context_stack = "Contexts: " . implode(", ", $DIC->navigationContext()->stack()->getStackAsArray());
 
 		$tpl->setVariable("ENTRIES", $DIC->ui()->renderer()->render($components) . $context_stack);
 

@@ -5,7 +5,6 @@ use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
-use ILIAS\NavigationContext\ContextServices;
 
 /**
  * Class Services
@@ -40,14 +39,6 @@ class Services {
 	 */
 	public function mainmenu(): MainMenuItemFactory {
 		return $this->get(MainMenuItemFactory::class);
-	}
-
-
-	/**
-	 * @return ContextServices
-	 */
-	public function context(): ContextServices {
-		return $this->get(ContextServices::class);
 	}
 
 

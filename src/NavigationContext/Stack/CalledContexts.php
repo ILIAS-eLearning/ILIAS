@@ -29,4 +29,14 @@ class CalledContexts {
 	public function getStack(): array {
 		return $this->stack;
 	}
+
+
+	public function getStackAsArray(): array {
+		$return = [];
+		foreach ($this->stack as $item) {
+			$return[] = $item->getUniqueContextIdentifier();
+		}
+
+		return $return;
+	}
 }

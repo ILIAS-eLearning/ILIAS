@@ -7,11 +7,9 @@
  */
 class ContextRepository {
 
-	const C_ORGU_TREE = 'orgu_tree';
 	const C_MAIN = 'main';
 	const C_DESKTOP = 'desktop';
 	const C_REPO = 'repo';
-	const C_REPO_TREE = 'repo_tree';
 	const C_ADMINISTRATION = 'administration';
 	const C_MAIL = 'mail';
 
