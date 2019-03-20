@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Context\AdditionalData;
+<?php namespace ILIAS\NavigationContext\AdditionalData;
 
 use LogicException;
 
@@ -16,7 +16,7 @@ class Collection {
 
 
 	/**
-	 * @return KeyValue[]
+	 * @return array
 	 */
 	public function getData(): array {
 		return $this->values;

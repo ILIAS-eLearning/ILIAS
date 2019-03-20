@@ -237,9 +237,8 @@ class ilRepositoryGUI
 		$ilCtrl = $this->ctrl;
 		$ilHelp = $this->help;
 		$ilErr = $this->error;
-
-		$this->global_screen->context()->call()->currentComponentClaimsContext($this->global_screen->context()->repository()->main());
-		$this->global_screen->context()->call()->currentComponentClaimsContext($this->global_screen->context()->repository()->repository());
+		;
+		$this->global_screen->context()->call()->currentComponentClaimsContext($this->global_screen->context()->availableContexts()->repository());
 
 		// check creation mode
 		// determined by "new_type" parameter

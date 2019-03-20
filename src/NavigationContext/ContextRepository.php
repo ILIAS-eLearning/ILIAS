@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Context;
+<?php namespace ILIAS\NavigationContext;
 
 /**
  * Class ContextRepository
@@ -12,6 +12,8 @@ class ContextRepository {
 	const C_DESKTOP = 'desktop';
 	const C_REPO = 'repo';
 	const C_REPO_TREE = 'repo_tree';
+	const C_ADMINISTRATION = 'administration';
+	const C_MAIL = 'mail';
 
 
 	/**
@@ -41,15 +43,15 @@ class ContextRepository {
 	/**
 	 * @return ContextInterface
 	 */
-	public function repositoryTree(): ContextInterface {
-		return new BasicContext(self::C_REPO_TREE);
+	public function mail(): ContextInterface {
+		return new BasicContext(self::C_MAIL);
 	}
 
 
 	/**
 	 * @return ContextInterface
 	 */
-	public function organizationalUnitsTree(): ContextInterface {
-		return new BasicContext(self::C_ORGU_TREE);
+	public function administration(): ContextInterface {
+		return new BasicContext(self::C_ADMINISTRATION);
 	}
 }

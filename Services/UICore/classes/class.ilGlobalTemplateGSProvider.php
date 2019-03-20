@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\GlobalScreen\Scope\Context\ContextInterface;
+use ILIAS\NavigationContext\ContextInterface;
 
 /**
  * Class ilGlobalTemplateGSProvider

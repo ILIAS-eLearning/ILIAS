@@ -4,9 +4,8 @@ use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
-use ILIAS\GlobalScreen\Scope\Context\ContextServices;
-use ILIAS\GlobalScreen\Scope\Context\Stack\ContextCallService;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use ILIAS\NavigationContext\ContextServices;
 
 /**
  * Class Services
@@ -15,16 +14,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  */
 class Services {
 
-	const CONTEXT_SERVICES = 'context_services';
-	const MAINBAR_SERVICES = 'mainbar_services';
-	const COLLECTOR_SERVICES = 'collector_services';
-	const STORAGE_FACADE = 'storage_facade';
-	const IDENTIFICATION_SERVICES = 'identification_services';
 	private static $instance = null;
 	/**
 	 * @var array
 	 */
-	private static $instances = [];
+	private static $services = [];
 
 
 	/**
@@ -89,10 +83,10 @@ class Services {
 	 * @return mixed
 	 */
 	private function get(string $class_name) {
-		if (!isset(self::$instances[$class_name])) {
-			self::$instances[$class_name] = new $class_name();
+		if (!isset(self::$services[$class_name])) {
+			self::$services[$class_name] = new $class_name();
 		}
 
-		return self::$instances[$class_name];
+		return self::$services[$class_name];
 	}
 }

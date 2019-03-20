@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
-use ILIAS\GlobalScreen\Scope\Context\ContextInterface;
+use ILIAS\NavigationContext\ContextInterface;
 
 /**
  * Class DynamicContextProviderInterface
@@ -11,24 +11,15 @@ use ILIAS\GlobalScreen\Scope\Context\ContextInterface;
 abstract class AbstractDynamicContextProvider extends AbstractProvider implements DynamicContextProviderInterface {
 
 	/**
-	 * return an array of all the contexts you component will need.
-	 * new contexts MUST be accepted by the JF! because it could be other will
-	 * need you context as well an then it should be moved to a more global
-	 * context such as OnlineHelp or the PageEditor. UnitTests will enforce this.
-	 *
 	 * @inheritdoc
 	 */
-	abstract public function getGeneralContextsForComponent(): array;
+	public function getGeneralContextsForComponent(): array {
+		return [];
+	}
 
 
 	/**
-	 * this method will be called whenever you context seems to active in the
-	 * current situation. We will need to pass some specific data to the context
-	 * which you need while providing a specific global screen item.
-	 *
-	 * @param ContextInterface $context
-	 *
-	 * @return ContextInterface
+	 * @inheritdoc
 	 */
 	abstract public function enrichContextWithCurrentSituation(ContextInterface $context): ContextInterface;
 }

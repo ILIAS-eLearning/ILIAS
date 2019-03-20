@@ -1,6 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Context\Stack;
+<?php namespace ILIAS\NavigationContext\Stack;
 
-use ILIAS\GlobalScreen\Scope\Context\ContextInterface;
+use ILIAS\NavigationContext\ContextInterface;
 
 /**
  * Class ContextCallService
@@ -29,6 +29,9 @@ class ContextCallService {
 	 * @param ContextInterface $context
 	 */
 	public function currentComponentClaimsContext(ContextInterface $context) {
+		if (in_array($context, $this->stack->getStack())) {
+			throw new \LogicException("A context can only be claimed once");
+		}
 		$this->stack->push($context);
 	}
 }

@@ -131,8 +131,8 @@ class ilPersonalDesktopGUI
 		global $DIC;
 
 		$context = $DIC->globalScreen()->context();
-		$context->call()->currentComponentClaimsContext($context->repository()->main());
-		$context->call()->currentComponentClaimsContext($context->repository()->desktop());
+		$context->call()->currentComponentClaimsContext($context->availableContexts()->main());
+		$context->call()->currentComponentClaimsContext($context->availableContexts()->desktop());
 
 		$ilSetting = $this->settings;
 		$rbacsystem = $this->rbacsystem;

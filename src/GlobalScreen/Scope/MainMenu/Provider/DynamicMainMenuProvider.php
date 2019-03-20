@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
 
 use ILIAS\GlobalScreen\Provider\DynamicProvider;
+use ILIAS\NavigationContext\Stack\CalledContexts;
 
 /**
  * Interface DynamicMainMenuProvider
@@ -12,10 +13,12 @@ interface DynamicMainMenuProvider extends DynamicProvider, MainMenuProviderInter
 	/**
 	 * @see DynamicProvider
 	 *
+	 * @param CalledContexts $called_contexts
+	 *
 	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem[] These Slates
 	 * can be passed to the MainMenu dynamicly for a specific location/context.
 	 *
 	 * This is currently not used for Core components but plugins may use it.
 	 */
-	public function getDynamicSlates(): array;
+	public function getDynamicSlatesForContext(CalledContexts $called_contexts): array;
 }

@@ -1,7 +1,7 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Context;
+<?php namespace ILIAS\NavigationContext;
 
 use ILIAS\Data\ReferenceId;
-use ILIAS\GlobalScreen\Scope\Context\AdditionalData\Collection;
+use ILIAS\NavigationContext\AdditionalData\Collection;
 
 /**
  * Class BasicContext

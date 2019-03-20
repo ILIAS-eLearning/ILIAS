@@ -459,8 +459,6 @@ class ilObjLearningSequence extends ilContainer
 		return $ref_id;
 	}
 
-
-
 	/**
 	 * Get mail to members type
 	 * @return int

@@ -3515,7 +3515,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			if (!$exp->handleCommand())
 			{
-				$this->global_screen->context()->call()->currentComponentClaimsContext($this->global_screen->context()->repository()->repositoryTree());
 				$tpl->setLeftNavContent($exp->getHTML());
 			}
 		}

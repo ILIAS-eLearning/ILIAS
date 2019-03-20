@@ -1,7 +1,7 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Context;
+<?php namespace ILIAS\NavigationContext;
 
-use ILIAS\GlobalScreen\Scope\Context\Stack\CalledContexts;
-use ILIAS\GlobalScreen\Scope\Context\Stack\ContextCallService;
+use ILIAS\NavigationContext\Stack\CalledContexts;
+use ILIAS\NavigationContext\Stack\ContextCallService;
 
 /**
  * Class ContextServices
@@ -43,7 +43,7 @@ class ContextServices {
 	/**
 	 * @return ContextRepository
 	 */
-	public function repository(): ContextRepository {
+	public function availableContexts(): ContextRepository {
 		return new ContextRepository();
 	}
 }

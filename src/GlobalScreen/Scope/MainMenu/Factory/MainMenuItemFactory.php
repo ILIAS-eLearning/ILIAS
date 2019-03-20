@@ -7,7 +7,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\Tool;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 

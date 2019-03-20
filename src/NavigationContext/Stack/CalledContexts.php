@@ -1,6 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Context\Stack;
+<?php namespace ILIAS\NavigationContext\Stack;
 
-use ILIAS\GlobalScreen\Scope\Context\ContextInterface;
+use ILIAS\NavigationContext\ContextInterface;
 
 /**
  * Class CalledContexts
