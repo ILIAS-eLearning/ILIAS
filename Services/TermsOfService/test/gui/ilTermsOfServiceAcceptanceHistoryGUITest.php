@@ -69,11 +69,6 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends \ilTermsOfServiceBaseTest
 	 */
 	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing()
 	{
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
-
 		$this->ctrl
 			->expects($this->any())
 			->method('getCmd')

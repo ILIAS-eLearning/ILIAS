@@ -120,11 +120,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	 */
 	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults)
 	{
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
-
 		$this->ctrl
 			->expects($this->once())
 			->method('getCmd')
@@ -168,11 +163,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	{
 		$this->setGlobalVariable('lng', clone $this->lng);
 		$this->setGlobalVariable('ilUser', clone $this->user);
-
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
 
 		$lastResetDate = $this->getMockBuilder(\ilDate::class)
 			->disableOriginalConstructor()
@@ -294,11 +284,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	{
 		$this->setGlobalVariable('lng', clone $this->lng);
 		$this->setGlobalVariable('ilUser', clone $this->user);
-
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
 
 		$lastResetDate = $this->getMockBuilder(\ilDate::class)
 			->disableOriginalConstructor()
