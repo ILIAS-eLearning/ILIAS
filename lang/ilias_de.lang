@@ -10953,7 +10953,7 @@ pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gel�
 pd#:#pd_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
 pd#:#pd_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden.
 pd#:#pd_enable_learning_history#:#Lernverlauf
-pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
+pd#:#pd_enable_learning_history_info#:#Zeigt die Daten aller Lernerfolge eines Benutzers auf der Seite „Lernverlauf” als Zeitstrahl. Diese Übersicht beinhaltet bestandene Lernziele, Tests und Kurse ebenso wie erworbene Kompetenzen, Badges und Zertifikate (falls aktiviert).
 pd#:#pd_enable_my_memberships#:#'Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
