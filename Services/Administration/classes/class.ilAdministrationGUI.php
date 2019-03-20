@@ -105,7 +105,7 @@ class ilAdministrationGUI
 		$this->ctrl = $ilCtrl;
 
 		$context = $DIC->navigationContext();
-		$context->claim($context->availableContexts()->administration());
+		$context->claim()->administration();
 
 		$ilMainMenu->setActive("administration");
 		

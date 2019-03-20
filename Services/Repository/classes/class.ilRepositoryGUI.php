@@ -239,7 +239,7 @@ class ilRepositoryGUI
 		$ilHelp = $this->help;
 		$ilErr = $this->error;
 
-		$this->navigation_context->claim($this->navigation_context->availableContexts()->repository());
+		$this->navigation_context->claim()->repository();
 
 		// check creation mode
 		// determined by "new_type" parameter

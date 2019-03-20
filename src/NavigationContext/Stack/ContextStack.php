@@ -19,6 +19,9 @@ class ContextStack {
 	 * @param ContextInterface $context
 	 */
 	public function push(ContextInterface $context) {
+		if (in_array($context, $this->stack)) {
+			throw new \LogicException("A context can only be claimed once");
+		}
 		array_push($this->stack, $context);
 	}
 

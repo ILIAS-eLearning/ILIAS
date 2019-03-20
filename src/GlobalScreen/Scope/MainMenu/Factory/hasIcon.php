@@ -16,7 +16,7 @@ interface hasIcon {
 	 *
 	 * @return hasIcon
 	 */
-	public function withIconPath(Icon $icon): hasIcon;
+	public function withIcon(Icon $icon): hasIcon;
 
 
 	/**
