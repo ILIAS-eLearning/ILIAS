@@ -9560,7 +9560,7 @@ rbac#:#tst_tst_statistics#:#User has access to test statistics
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. You cannot edit the test questions until you remove these data sets.
-assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
+assessment#:#test_has_datasets_warning_page_view_link#:#Participant Results
 wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
 acc#:#acc_personal_desktop#:#Personal Desktop
@@ -14848,7 +14848,7 @@ rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
 rbac#:#lso_delete#:#User can delete Learning Sequence
-rbac#:#lso_lp_other_users#:#See learning progress overview of other users
+rbac#:#lso_lp_other_users#:#User can view learning progress of other users
 lso#:#learner_view#:#Overview
 lso#:#manage#:#Manage
 lso#:#manage_content_maintab#:#Content
@@ -14864,6 +14864,7 @@ lso#:#entries_deleted#:#Successfuly delete entries
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
+lso#:#lso_start_item#:#Start
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
@@ -14901,8 +14902,9 @@ common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#condition_always#:#Always
-lso#:#condition_completed#:#Completed
-lso#:#condition_failed#:#Failed
+lso#:#finished#:#Finished
+lso#:#not_finished#:#Not Finished
+lso#:#failed#:#Failed
 rbac#:#rbac_create_lso#:#Create Learning Sequence
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_extro#:#Exitpage Settings

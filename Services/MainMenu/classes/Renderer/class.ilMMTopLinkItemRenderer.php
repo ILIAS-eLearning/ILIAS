@@ -1,8 +1,8 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Renderer\BaseTypeRenderer;
-use ILIAS\GlobalScreen\MainMenu\isItem;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\UI\Component\Component;
 
 /**

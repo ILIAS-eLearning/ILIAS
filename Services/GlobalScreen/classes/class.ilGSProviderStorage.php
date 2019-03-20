@@ -1,10 +1,5 @@
 <?php
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\DynamicProvider;
-use ILIAS\GlobalScreen\Provider\Provider;
-use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
-
 /**
  * Class ilGSProviderStorage
  *
@@ -37,7 +32,7 @@ class ilGSProviderStorage extends CachedActiveRecord {
 			$gsp->setProviderClass($class_name);
 			$gsp->create();
 		}
-        $gsp->setProviderClass($class_name);
+		$gsp->setProviderClass($class_name);
 		$gsp->setPurpose($purpose);
 		$gsp->setDynamic(in_array(DynamicProvider::class, class_implements($class_name)));
 		$gsp->update();

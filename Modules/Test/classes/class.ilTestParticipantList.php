@@ -260,7 +260,7 @@ class ilTestParticipantList implements Iterator
 			'tres.active_fi', $this->getAllActiveIds(), false, 'integer'
 		);
 		
-		if( !$this->getTestObj()->isDynamicTest() )
+		if( false && !$this->getTestObj()->isDynamicTest() ) // BH: keep for the moment
 		{
 			$closedScoringsOnly = "
 				INNER JOIN tst_active tact

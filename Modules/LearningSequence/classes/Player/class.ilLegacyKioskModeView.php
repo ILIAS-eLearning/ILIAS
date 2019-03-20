@@ -28,17 +28,14 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		$this->access = $access;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getObjectClass(): string
-	{
-		return get_class($this->object);
-	}
-
 	protected function getObjectTitle(): string
 	{
 		return $this->object->getTitle();
+	}
+
+	protected function getType(): string
+	{
+		return $this->object->getType();
 	}
 
 	/**
@@ -72,7 +69,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 	public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
 	{
 		$builder->start (
-			'start ' .$this->getObjectClass(),
+			$this->lng->txt('lso_start_item').' '.$this->getTitleByType($this->getType()),
 			self::CMD_START_OBJECT,
 			0
 		);
@@ -225,6 +222,11 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		;
 
 		return $builder;
+	}
+
+	private function getTitleByType(string $type): string
+	{
+		return $this->lng->txt("obj_".$type);
 	}
 
 }
