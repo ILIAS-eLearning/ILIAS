@@ -113,6 +113,8 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
 
 		$errorHandler = $this->getMockBuilder('ilErrorHandling')
+			->disableOriginalConstructor()
+			->setMethods(['raiseError'])
 			->getMock();
 
 		$errorHandler
