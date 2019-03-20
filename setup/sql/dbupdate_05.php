@@ -276,7 +276,11 @@ if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_evaluation'))
 		"type" => "integer",
 		"length" => 1,
 	));
-	$ilDB->query('UPDATE tst_manual_fb SET finalized_evaluation = 1 WHERE feedback IS NOT NULL');
+	$ilDB->manipulateF(
+        'UPDATE tst_manual_fb SET finalized_evaluation = %s WHERE feedback IS NOT NULL',
+        ['integer'],
+        [1]
+    );
 }
 if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id'))
 {
