@@ -1,12 +1,15 @@
 parameters:
     ignoreErrors:
+        - /PHPDoc tag/
     excludes_analyse:
-        - 'libs/*'
-        - 'Customizing/*'
-        - '*/tests/*'
+        - '%currentWorkingDirectory%/libs/*'
+        - '%currentWorkingDirectory%/Customizing/*'
+        - '%currentWorkingDirectory%/src/UI/examples/*'
+        - '%currentWorkingDirectory%/tests/*'
         - '*/test/*'
+        - '*/_Examples/*'
     autoload_directories:
-        - libs/composer/vendor/autoload.php
+        - %currentWorkingDirectory%/libs/composer/vendor/autoload.php
     earlyTerminatingMethodCalls:
         ilCtrl:
           - redirect
