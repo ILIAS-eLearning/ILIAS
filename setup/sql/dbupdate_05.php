@@ -804,3 +804,15 @@ $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
 ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
 
 ?>
+<#5489>
+<?php
+if( !$ilDB->tableColumnExists('qpl_qst_essay', 'word_cnt_enabled') )
+{
+	$ilDB->addTableColumn('qpl_qst_essay', 'word_cnt_enabled', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
