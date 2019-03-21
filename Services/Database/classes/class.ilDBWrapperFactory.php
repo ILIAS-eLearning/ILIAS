@@ -24,7 +24,7 @@ class ilDBWrapperFactory {
 	static public function getWrapper($a_type) {
 		global $DIC;
 		$ilClientIniFile = null;
-		if ($DIC->offsetExists('ilClientIniFile')) {
+		if ($DIC != null && $DIC->offsetExists('ilClientIniFile')) {
 			/**
 			 * @var $ilClientIniFile ilIniFile
 			 */

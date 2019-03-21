@@ -2,8 +2,9 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
@@ -77,10 +78,10 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
 			$item = $item->withTitle($storage->getDefaultTitle());
 		}
-		if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction) {
+		if ($item instanceof hasAction) {
 			$item = $item->withAction("#");
 		}
-		if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+		if ($item instanceof isChild) {
 			$mm_item = ilMMItemStorage::find($identification->serialize());
 			$parent_identification = "";
 			if ($mm_item instanceof ilMMItemStorage) {

@@ -7115,10 +7115,10 @@ style#:#sty_template_layout#:#Template Layout
 style#:#sty_template_name#:#Name
 style#:#sty_templates#:#Templates
 style#:#sty_text_align#:#Text Alignment
-style#:#sty_text_block_char#:#Text (Block)
+style#:#sty_text_block_char#:#Paragraph (Text)
 style#:#sty_text_decoration#:#Text Decoration
 style#:#sty_text_indent#:#Text Indentation
-style#:#sty_text_inline_char#:#Text (Character)
+style#:#sty_text_inline_char#:#Characters (Text)
 style#:#sty_text_transform#:#Text Transform
 style#:#sty_text#:#Text
 style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom
@@ -12161,6 +12161,7 @@ rbac#:#exc_read_learning_progress#:#User can view learning progress of other use
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
+rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
 content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
 content#:#cont_self_assessment#:#Self Assessment

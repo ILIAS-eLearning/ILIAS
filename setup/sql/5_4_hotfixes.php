@@ -739,6 +739,73 @@ if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
 	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'passed' WHERE condition_type = 2");
 	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'failed' WHERE condition_type = 3");
 
+	$ilDB->dropPrimaryKey('post_conditions');
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
 	$ilDB->dropTableColumn('post_conditions', 'condition_type');
 }
+?>
+<#56>
+<?php
+
+$ilDB->manipulate("TRUNCATE TABLE il_mm_items");
+
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilAdmGlobalScreenProvider|adm'), 'active' => array('', '1'), 'position' => array('', '3'), 'parent_identification' => array('', '')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilAdmGlobalScreenProvider|adm_content'), 'active' => array('', '1'), 'position' => array('', '0'), 'parent_identification' => array('', 'ilAdmGlobalScreenProvider|adm')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilBookmarkGlobalScreenProvider|mm_pd_bookm'), 'active' => array('', '1'), 'position' => array('', '3'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilCalendarGlobalScreenProvider|mm_pd_cal'), 'active' => array('', '1'), 'position' => array('', '4'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilContactGlobalScreenProvider|mm_pd_contacts'), 'active' => array('', '1'), 'position' => array('', '9'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilMailGlobalScreenProvider|mm_pd_mail'), 'active' => array('', '1'), 'position' => array('', '8'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilNewsGlobalScreenProvider|mm_pd_news'), 'active' => array('', '1'), 'position' => array('', '10'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilNotesGlobalScreenProvider|mm_pd_notes'), 'active' => array('', '1'), 'position' => array('', '11'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilPDGlobalScreenProvider|desktop'), 'active' => array('', '1'), 'position' => array('', '1'), 'parent_identification' => array('', '')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilPDGlobalScreenProvider|mm_pd_achiev'), 'active' => array('', '1'), 'position' => array('', '7'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilPDGlobalScreenProvider|mm_pd_crs_grp'), 'active' => array('', '1'), 'position' => array('', '2'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilPDGlobalScreenProvider|mm_pd_sel_items'), 'active' => array('', '1'), 'position' => array('', '1'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilPrtfGlobalScreenProvider|mm_pd_port'), 'active' => array('', '1'), 'position' => array('', '6'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilRepositoryGlobalScreenProvider|last_visited'), 'active' => array('', '1'), 'position' => array('', '0'), 'parent_identification' => array('', 'ilRepositoryGlobalScreenProvider|rep')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilRepositoryGlobalScreenProvider|rep'), 'active' => array('', '1'), 'position' => array('', '2'), 'parent_identification' => array('', '')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilRepositoryGlobalScreenProvider|rep_main_page'), 'active' => array('', '1'), 'position' => array('', '0'), 'parent_identification' => array('', 'ilRepositoryGlobalScreenProvider|rep')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilStaffGlobalScreenProvider|mm_pd_mst'), 'active' => array('', '1'), 'position' => array('', '12'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+$ilDB->insert("il_mm_items", array('identification' => array('', 'ilWorkspaceGlobalScreenProvider|mm_pd_wsp'), 'active' => array('', '1'), 'position' => array('', '5'), 'parent_identification' => array('', 'ilPDGlobalScreenProvider|desktop')));
+?>
+<#57>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+	ilDBUpdateNewObjectType::deleteRBACOperation($lp_type_id, $ops_id);
+}
+
+?>
+<#58>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
+if ($lp_type_id) {
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+	ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ops_id);
+}
+
+?>
+<#59>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#60>
+<?php
+	$ilDB->dropPrimaryKey('post_conditions');
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
+?>
+
+<#61>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
+
 ?>
