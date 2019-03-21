@@ -1,11 +1,11 @@
 // mainbar
 .il-maincontrols-mainbar {
 	.btn-bulky {
-		font-size: @mainbar-label-size;
+		font-size: @il-mainbar-btn-label-size;
 	}
 	.bulky-label {
 		white-space: normal;
-	    margin-top: 5px;
+	    margin-top: @il-mainbar-bulky-label-margin-top;
 	    display: block;
 	}
 }
@@ -23,14 +23,14 @@
 
 // mainbar triggers
 .il-mainbar-triggers {
-	background: @bg-mainbar;
+	background: @il-mainbar-btn-bg-color;
 	display: flex;
 	position: relative;
-	width: @mainbar-btn-width;
+	width: @il-mainbar-btn-width;
 	z-index: 1;
 	.btn-bulky {
-		height: @mainbar-btn-height;
-		width: @mainbar-btn-height;
+		height: @il-mainbar-btn-height;
+		width: @il-mainbar-btn-height;
 		justify-content: center;
 		padding: 0;
 		display: inline-flex;
@@ -38,15 +38,15 @@
 		align-items: center;
 		width: 100%;
 		border: 0;
-		background: @bg-mainbar;
-		border-bottom: @mainbar-btn-border;
-		color: @bg-mainbar-engaged;
+		background: @il-mainbar-btn-bg-color;
+		border-bottom: @il-mainbar-btn-border;
+		color: @il-mainbar-btn-bg-color-engaged;
 		img {
 			filter: invert(100%);
 		}
 		&.engaged {
-			background-color: @bg-mainbar-engaged;
-			color: @bg-mainbar;
+			background-color: @il-mainbar-btn-bg-color-engaged;
+			color: @il-mainbar-btn-bg-color;
 			img {
 				filter: invert(50%);
 			}
@@ -56,19 +56,19 @@
 		}
 		.bulky-label {
 			white-space: normal;
-			margin-top: 5px;
+			margin-top: @il-mainbar-bulky-label-margin-top;
     		display: block;
 		}
 	}
 	&.engaged {
-		background: @bg-maincontrols;
+		background: @il-maincontrols-mainbar-bg-color;
 	}
 }
 
 // mainbar slates
 .il-mainbar-slates {
 	.shadow-right;
-	width: @slate-width;
+	width: @il-standard-page-slate-width;
 	display: none;
 }
 
@@ -77,7 +77,7 @@
 	.btn-bulky.engaged {
 		background-color: lighten(@brand-primary, 45%);
 		border: 0;
-		color: @mainbar-btn-color-engaged;
+		color: @il-mainbar-btn-color-engaged;
 		padding: 0;
 		img {
 			filter: invert(35%);
@@ -93,15 +93,15 @@
 	}
 	.btn-bulky {
 		background-color: lighten(@brand-primary, 25%);
-		color: @mainbar-btn-color;
+		color: @il-mainbar-btn-color;
 		padding: 0;
 		.icon {
 			filter: invert(100%);
 		}
 		&.engaged {
-			background-color: @bg-maincontrols;
+			background-color: @il-maincontrols-mainbar-bg-color;
 			border: 0;
-			color: @mainbar-btn-color-engaged;
+			color: @il-mainbar-btn-color-engaged;
 			.icon {
 				filter: invert(60%);
 			}
@@ -113,13 +113,13 @@
 	align-items: flex-end;
 	display: flex;
 	flex-shrink: 0;
-	height: @close-slate-btn-height;
+	height: @il-mainbar-close-slate-btn-height;
 	.btn-bulky {
 		background-color: transparent;
-		border-top: @mainbar-btn-border;
+		border-top: @il-mainbar-btn-border;
 		display: flex;
 		flex-direction: row;
-		height: @close-slate-btn-height;
+		height: @il-mainbar-close-slate-btn-height;
 		justify-content: flex-end;
 		align-items: center;
 		.bulky-label {
@@ -169,15 +169,15 @@
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 	.il-mainbar-triggers {
-	   background: @bg-mainbar;
+	   background: @il-mainbar-btn-bg-color;
 	   display: flex;
 	   position: relative;
 	   width: 100%;
 	   z-index: 1;
 	   .btn-bulky {
 		   border: 0;
-		   height: @mainbar-btn-height-sm;
-		   width: @mainbar-btn-width-sm;
+		   height: @il-mainbar-small-btn-height;
+		   width: @il-mainbar-small-btn-width;
 	   }
 	}
 }

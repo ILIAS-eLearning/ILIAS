@@ -5,7 +5,7 @@
 	.il-metabar-entries {
 		align-items: center;
 		display: flex;
-		height: @height-header;
+		height: @il-standard-page-header-height;
 		.il-metabar-entry,
 		.il-logout {
 			padding-left: 10px;
@@ -29,19 +29,19 @@
 	}
 	.btn-bulky {
 		background-color: transparent;
-		height: @height-metabar-entry;
-		min-width: @width-metabar-entry;
+		height: @il-metabar-entry-height;
+		min-width: @il-metabar-entry-width;
 		&.engaged,
 		&.engaged:focus {
 			.shadow-right;
-			background-color: @bg-metabar-slates;
+			background-color: @il-metabar-slates-bg-color;
 			border: none;
 			color: initial;
 			outline-color: transparent;
 		}
 		.glyphicon {
-			color: @glyph-color;
-			font-size: @glyph-size;
+			color: @il-metabar-glyph-color;
+			font-size: @il-metabar-glyph-size;
 		}
 	}
 	.glyphicon {
@@ -69,8 +69,7 @@
 
 .il-metabar-slates {
 	.shadow-right;
-    background-color: @bg-metabar-slates;
-	min-width: 250px;
+    background-color: @il-metabar-slates-bg-color;
 	position: absolute;
 	right: 0;
 }

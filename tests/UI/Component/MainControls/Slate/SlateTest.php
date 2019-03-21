@@ -8,6 +8,7 @@ require_once(__DIR__."/../../../Base.php");
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Component as I;
 use \ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
+use \ILIAS\UI\Implementation\Component\MainControls\Slate\Combined;
 use \ILIAS\UI\Component\Signal;
 
 /**
@@ -58,5 +59,4 @@ class SlateTest extends ILIAS_UI_TestBase
 		$slate = $slate->withEngaged(true);
 		$this->assertTrue($slate->getEngaged());
 	}
-
 }

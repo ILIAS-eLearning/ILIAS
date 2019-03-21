@@ -11,7 +11,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
-use ILIAS\UI\Implementation\Render\ilTemplateWrapper as UITemplateWrapper;
+use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
 
 class Renderer extends AbstractComponentRenderer {
 

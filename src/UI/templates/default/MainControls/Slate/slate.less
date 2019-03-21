@@ -7,10 +7,10 @@
 	}
 	.btn-bulky {
 		align-items: center;
-		background-color: @slate-bg-bulky;
+		background-color: @il-slate-bulky-bg-color;
 		display: flex;
-		margin-bottom: @slate-content-spacing;
-		padding: 10px 20px; /* !variable! */
+		margin-bottom: @il-slate-content-spacing;
+		padding: @il-slate-bulky-padding;
 		&.disengaged:before {
 				content: " \e606";
 				font-family: "il-icons";
@@ -25,36 +25,20 @@
 		}
 		&:hover,
 		&.engaged {
-			background-color: @slate-bg-bulky-engaged;
+			background-color: @il-slate-bulky-bg-color-engaged;
 		    border-color: #e0e0e0;
 		    color: inherit;
-		    // box-shadow: 4px 0px 5px -2px inset #ccc;
 		}
 		.icon {
 			filter: invert(50%);
-			margin-right: 10px; /* !variable! */
+			margin-right: @il-slate-bulky-icon-margin-right;
 		}
 		.bulky-label {
-			font-size: 1.5rem;
-		}
-	}
-	.backlink {
-		.btn-bulky {
-			background-color: #fff; /* !variable! */
-			height: @mainbar-btn-height;
-			.bulky-label {
-				color: @brand-primary;
-			}
-			.icon.small,
-			.icon.small img {
-				height: @icon-size-small - 6px;
-				line-height: @icon-size-small - 6px;
-				width: @icon-size-small - 6px;
-			}
+			font-size: @il-slate-bulky-label-size;
 		}
 	}
 	.il-maincontrols-slate .btn-bulky {
-		background-color: @slate-bg-bulky-level-2;
+		background-color: @il-slate-bulky-level2-bg-color;
 	}
 }
 
@@ -64,7 +48,7 @@
 
 .il-maincontrols-slate-content {
 	p, h1, h2, h3, h4 {
-		padding: 10px 20px; /* !variable! */
+		padding: @il-slate-content-padding;
 	}
 }
 
