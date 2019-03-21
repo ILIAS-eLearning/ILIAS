@@ -335,7 +335,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false) {
-		throw new NotImplementedException();
+//		throw new NotImplementedException();
 	}
 
 
@@ -418,7 +418,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setLeftNavContent($a_content) {
-		throw new NotImplementedException();
+		// throw new NotImplementedException();
 	}
 
 
