@@ -15,6 +15,11 @@ include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionI
 class assTextQuestionImport extends assQuestionImport
 {
 	/**
+	 * @var assTextQuestion
+	 */
+	public $object;
+	
+	/**
 	* Creates a question from a QTI file
 	*
 	* Receives parameters from a QTI parser and creates a valid ILIAS question object
@@ -138,6 +143,7 @@ class assTextQuestionImport extends assQuestionImport
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setPoints($maxpoints);
 		$this->object->setMaxNumOfChars($maxchars);
+		$this->object->setWordCounterEnabled((bool)$item->getMetadataEntry('wordcounter'));
 		$textrating = $item->getMetadataEntry("textrating");
 		if (strlen($textrating))
 		{
