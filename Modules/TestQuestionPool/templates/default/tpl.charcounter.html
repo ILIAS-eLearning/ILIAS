@@ -83,6 +83,7 @@ var charCounter = function(e) // default handler hard coded to tinymce config
     var countWords = function(s)
     {
         s = s.replace(/&nbsp;/g, ' '); // &nbsp; to white space
+        s = s.replace(/[.,:;!?\-_#'"+*\\/=()&%$§]/g, ''); // remove any sonderzeichen
         s = s.replace(/^\s*/, ''); // remove start white-space
         s = s.replace(/\s*$/, ''); // remove end white-space
         s = s.replace(/\s+/g, ' '); // 2 ore more white space to 1
