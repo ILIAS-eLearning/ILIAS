@@ -544,6 +544,8 @@ class ResourceLink
  */
     public function doOutcomesService($action, $ltiOutcome, $user)
     {
+    	global $DIC;
+    	$logger = $DIC->logger()->lti();
 
         $response = false;
         $this->extResponse = null;
@@ -583,6 +585,9 @@ class ResourceLink
                     break;
             }
         }
+
+        $logger->debug('Command is: ' . $do);
+
         if (isset($do)) {
             $value = $ltiOutcome->getValue();
             if (is_null($value)) {
@@ -609,6 +614,10 @@ EOF;
         </sourcedGUID>{$xml}
       </resultRecord>
 EOF;
+
+                $logger->debug($urlLTI11);
+                $logger->debug('xml for doLTI11Service: ' . $xml);
+
                 if ($this->doLTI11Service($do, $urlLTI11, $xml)) {
                     switch ($action) {
                         case self::EXT_READ:
@@ -624,7 +633,7 @@ EOF;
                     }
                 }
             } else {
-                $params = array();
+				$params = array();
                 $params['sourcedid'] = $sourcedId;
                 $params['result_resultscore_textstring'] = $value;
                 if (!empty($ltiOutcome->language)) {
@@ -642,7 +651,12 @@ EOF;
                 if (!empty($ltiOutcome->data_source)) {
                     $params['result_datasource'] = $ltiOutcome->data_source;
                 }
-                if ($this->doService($do, $urlExt, $params)) {
+
+                $logger->debug($urlExt);
+				$logger->dump($params);
+
+
+				if ($this->doService($do, $urlExt, $params)) {
                     switch ($action) {
                         case self::EXT_READ:
                             if (isset($this->extNodes['result']['resultscore']['textstring'])) {
