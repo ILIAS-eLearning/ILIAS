@@ -86,7 +86,7 @@ class ilCalendarSchedule
 	 	$ilUser = $DIC['ilUser'];
 	 	$ilDB = $DIC['ilDB'];
 
-	 	$this->logger = $DIC->logger()->calc();
+	 	$this->logger = $DIC->logger()->cal();
 	 	
 	 	$this->db = $ilDB;
 
