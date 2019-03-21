@@ -28,6 +28,11 @@ interface Factory
 	 *     2: >
 	 *       Nodes SHOULD NOT be constructed with subnodes. This is the job
 	 *       of the Tree's recursion-class.
+	 *   style
+	 *     1: >
+	 *       Nodes MUST restrict themselves to a minimal presentation, i.e.
+	 *       they MUST solely display information supportive and relevant for
+	 *       the intended task.
 	 *
 	 * ---
 	 * @return \ILIAS\UI\Component\Tree\Node\Factory
