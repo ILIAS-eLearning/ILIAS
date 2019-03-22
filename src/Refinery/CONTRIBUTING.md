@@ -23,11 +23,22 @@ must be added to the bug ticket.
 
 Bug fixes and improvements can always be entered via a Pull Request.
 
+A fix that redefines that behaviour of an implementation are considered
+as a [breaking change](#breaking-changes).
+
 ## Features
 
 Features and Breaking Changes must be discussed with the
 [coordinators](/src/Refinery/maintenance.json)
 of this component.
+
+Features that also changes the behaviour of existing implementations
+are considered as [breaking changes](#breaking-changes)
+
+## Breaking Changes
+
+A change that is not backwards compatible must be
+discussed with the [Jour Fixe](https://docu.ilias.de/goto_docu_wiki_wpage_391_1357.html).
 
 ## Pull Request Process
 
