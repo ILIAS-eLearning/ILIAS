@@ -2,8 +2,10 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
+
 use ILIAS\UI\Implementation\Crawler\Exception as CrawlerException;
 use ILIAS\UI\Implementation\Crawler as Crawler;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Defines tests every SHOULD pass UI-factory. Checks as much rules as possible from
@@ -14,7 +16,7 @@ use ILIAS\UI\Implementation\Crawler as Crawler;
  * the test express the dependencies explicitly by calling subsequent testing
  * methods. These leads to test methods being executed to often.
  */
-abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
+abstract class AbstractFactoryTest extends TestCase {
 
 	const COMPONENT = 1;
 	const FACTORY = 2;
@@ -78,7 +80,7 @@ abstract class AbstractFactoryTest extends PHPUnit_Framework_TestCase {
 
 	// Setup
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->yaml_parser = new Crawler\EntriesYamlParser();
 		$this->reflection = $this->buildFactoryReflection();
 	}

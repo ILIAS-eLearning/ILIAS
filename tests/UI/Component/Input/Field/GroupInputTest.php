@@ -16,7 +16,7 @@ interface Input1 extends InputInternal {};
 interface Input2 extends InputInternal {};
 
 class GroupInputTest extends ILIAS_UI_TestBase {
-	public function setUp() {
+	public function setUp(): void{
 		$this->child1 = $this->createMock(Input1::class);
 		$this->child2 = $this->createMock(Input2::class);
 		$this->data_factory = $this->createMock(Data\Factory::class);

@@ -1,11 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilServicesMathSuite extends PHPUnit_Framework_TestSuite
+class ilServicesMathSuite extends TestSuite
 {
 	/**
 	 * @return self

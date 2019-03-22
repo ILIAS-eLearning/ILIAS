@@ -1,10 +1,13 @@
 <?php
+
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Context Test-Suite
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilServicesContextSuite extends PHPUnit_Framework_TestSuite {
+class ilServicesContextSuite extends TestSuite {
     public static function suite()
     {
         $suite = new ilServicesContextSuite();

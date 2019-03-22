@@ -4,6 +4,8 @@
 require_once 'libs/composer/vendor/autoload.php';
 $GLOBALS["DIC"] = new \ILIAS\DI\Container();
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * ilServicesWorkflowEngineSuite is part of the petri net based workflow engine.
  *
@@ -15,7 +17,7 @@ $GLOBALS["DIC"] = new \ILIAS\DI\Container();
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
+class ilServicesWorkflowEngineSuite extends TestSuite
 {
 	public static function suite()
 	{

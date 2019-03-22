@@ -1,10 +1,12 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilMimeTypeTest
  */
-class ilMimeTypeTest extends \PHPUnit_Framework_TestCase
+class ilMimeTypeTest extends TestCase
 {
 	/**
 	 *

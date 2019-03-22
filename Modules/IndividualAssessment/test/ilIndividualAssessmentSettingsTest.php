@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php';
 require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettingsStorageDB.php';
 require_once 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php';
@@ -8,14 +10,14 @@ require_once 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessme
  * @backupGlobals disabled
  * @group needsInstalledILIAS
  */
-class ilIndividualAssessmentSettingsTest extends PHPUnit_Framework_TestCase {
+class ilIndividualAssessmentSettingsTest extends TestCase {
 	public static $iass;
 	public static $iass_id;
 	public static $storage;
 	public static $db;
 
-	public static function setUpBeforeClass() {
-		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+	public static function setUpBeforeClass(): void {
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		self::$iass = new ilObjIndividualAssessment;

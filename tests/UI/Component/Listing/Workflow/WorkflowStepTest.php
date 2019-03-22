@@ -13,7 +13,7 @@ class WorkflowStepTest extends ILIAS_UI_TestBase {
 	protected function buildFactory() {
 		return new ILIAS\UI\Implementation\Component\Listing\Workflow\Factory();
 	}
-	public function setUp() {
+	public function setUp(): void{
 		$this->f = $this->buildFactory();
 	}
 

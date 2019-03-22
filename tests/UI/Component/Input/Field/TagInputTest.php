@@ -24,7 +24,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 	private $name_source;
 
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->name_source = new DefNamesource();
 	}
 
@@ -39,7 +39,9 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_implements_factory_interface() {
 		$f = $this->buildFactory();
 
@@ -48,7 +50,9 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-
+	/**
+	 *
+	 */
 	public function test_render() {
 		$f = $this->buildFactory();
 		$label = "label";

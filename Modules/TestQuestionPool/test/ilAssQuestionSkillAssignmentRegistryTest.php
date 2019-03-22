@@ -6,7 +6,7 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkil
 /**
  * Class ilAssQuestionSkillAssignmentRegistryTest
  */
-class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCase 
+class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase 
 {
 	const TEST_KEY = 'phpunit_tst';
 
@@ -18,7 +18,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCas
 	/**
 	 *
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -70,7 +70,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * 
+	 * @doesNotPerformAssertions
 	 */
 	public function testInvalidChunkSizeWillRaiseException()
 	{

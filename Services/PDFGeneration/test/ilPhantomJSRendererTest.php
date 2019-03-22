@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ .'/../classes/renderer/phantomjs/class.ilPhantomJSRenderer.php';
+use PHPUnit\Framework\TestCase;
+
 define ("PATH_TO_PHANTOMJS",'');
+
 /**
  * Class ilPhantomJSRendererTest
  * @package ilPdfGenerator
  */
-class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
+class ilPhantomJSRendererTest  extends TestCase
 {
 
 	

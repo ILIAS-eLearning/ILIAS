@@ -14,8 +14,9 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\DI\Container;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
+use PHPUnit\Framework\TestCase;
 
-class BasicTaskFactoryTest extends \PHPUnit_Framework_TestCase {
+class BasicTaskFactoryTest extends TestCase {
 
 	public function testBasicFactory() {
 		$dic = new Container();

@@ -1,15 +1,17 @@
 <?php
+use PHPUnit\Framework\TestCase;
+
 /**
  * TestCase for the ilContext
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilContextTest extends PHPUnit_Framework_TestCase {
+class ilContextTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp() {
-		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+	protected function setUp(): void {
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 		require_once("Services/Context/test/class.ilContextExtended.php");
 	}
 	

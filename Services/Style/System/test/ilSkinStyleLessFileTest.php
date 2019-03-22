@@ -5,12 +5,14 @@ include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinCon
 include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessFile.php");
 include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleLessFileTest extends PHPUnit_Framework_TestCase {
+class ilSkinStyleLessFileTest extends TestSuite {
 
 
 	/**
@@ -28,7 +30,7 @@ class ilSkinStyleLessFileTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected $style;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		global $DIC;
 
@@ -43,7 +45,7 @@ class ilSkinStyleLessFileTest extends PHPUnit_Framework_TestCase {
 		$this->style = $this->container->getSkin()->getStyle("style1");
 	}
 
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
 	}

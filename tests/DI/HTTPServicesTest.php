@@ -51,7 +51,7 @@ class HTTPServicesTest extends MockeryTestCase {
 	private $httpState;
 
 
-	protected function setUp() {
+	protected function setUp(): void{
 		parent::setUp();
 		$this->mockRequestFactory = \Mockery::mock(RequestFactory::class);
 		$this->mockResponseFactory = \Mockery::mock(ResponseFactory::class);

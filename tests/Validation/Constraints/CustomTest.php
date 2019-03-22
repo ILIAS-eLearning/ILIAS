@@ -5,6 +5,7 @@ require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Validation;
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 class MyValidationConstraintsCustom extends Validation\Constraints\Custom {
 	public function _getLngClosure() {
@@ -25,13 +26,13 @@ class MyToStringClass {
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
+class ValidationConstraintsCustomTest extends TestCase {
 	/**
 	 * @var Validation\Factory
 	 */
 	protected $f = null;
 
-	public function setUp() {
+	public function setUp(): void{
 		$is_ok = function ($value) {
 			return false;
 		};

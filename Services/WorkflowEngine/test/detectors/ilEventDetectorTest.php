@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * ilEventDetectorTest is part of the petri net based workflow engine.
  *
@@ -12,9 +14,9 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilEventDetectorTest extends PHPUnit_Framework_TestCase
+class ilEventDetectorTest extends TestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
@@ -35,7 +37,7 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/detectors/class.ilEventDetector.php';
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
 		global $ilSetting;
 		if ($ilSetting !=  NULL)
@@ -146,10 +148,12 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowInvalidArgumentException
+	 * 
 	 */
 	public function testSetGetIllegalListeningTimeframe()
 	{
+		$this->expectException(ilWorkflowInvalidArgumentException::class);
+
 		// Arrange
 		$detector = new ilEventDetector($this->node);
 		$exp_start = 4712; # +5 Minutes from here.
@@ -178,10 +182,12 @@ class ilEventDetectorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowObjectStateException
+	 * 
 	 */
 	public function testGetNonExistingDbId()
 	{
+		$this->expectException(ilWorkflowObjectStateException::class);
+
 		// Arrange
 		$detector = new ilEventDetector($this->node);
 		$expected = '1234';

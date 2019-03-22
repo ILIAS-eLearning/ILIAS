@@ -21,13 +21,15 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Database Test-Suite
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabaseImplementationSuite extends PHPUnit_Framework_TestSuite {
+class ilDatabaseImplementationSuite extends TestSuite {
 
 	/**
 	 * @return \ilDatabaseImplementationSuite

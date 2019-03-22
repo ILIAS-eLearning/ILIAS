@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
 // require_once(__DIR__."/mocks.php");
 
 /**
@@ -31,7 +32,7 @@
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
+class ilDatabaseBaseTest extends TestCase {
 
 	/**
 	 * @var ilDBPdoMySQLInnoDB
@@ -50,11 +51,11 @@ class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
 	protected $error_reporting_backup;
 
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->error_reporting_backup = error_reporting();
 
-		PHPUnit_Framework_Error_Notice::$enabled = false;
-		PHPUnit_Framework_Error_Deprecated::$enabled = false;
+		PHPUnit\Framework\Error\Notice::$enabled = false;
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
 		require_once('./libs/composer/vendor/autoload.php');
 		if (!defined('DEVMODE')) {
@@ -100,7 +101,7 @@ class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		error_reporting($this->error_reporting_backup);
 	}
 

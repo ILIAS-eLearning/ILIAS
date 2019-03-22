@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * ilSimpleDetectorTest is part of the petri net based workflow engine.
  *
@@ -12,9 +14,9 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilSimpleDetectorTest extends PHPUnit_Framework_TestCase
+class ilSimpleDetectorTest extends TestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
@@ -33,7 +35,7 @@ class ilSimpleDetectorTest extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
 		global $ilSetting;
 		if ($ilSetting !=  NULL)

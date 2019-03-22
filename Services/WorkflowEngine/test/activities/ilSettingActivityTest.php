@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 
 /**
@@ -13,9 +15,9 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilSettingActivityTest extends ilWorkflowEngineBaseTest
+class ilSettingActivityTest extends TestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -36,7 +38,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 		require_once './Services/WorkflowEngine/classes/activities/class.ilSettingActivity.php';
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
 		global $ilSetting;
 		if($ilSetting != null)
@@ -120,13 +122,17 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 		$ilSetting_mock->expects($this->exactly(1))
 					   ->method('set')
 					   ->with($expected_name, $expected_val);
-		$stashed_real_object = @$GLOBALS['ilSetting'];
-		$GLOBALS['ilSetting'] = $ilSetting_mock;
+
+		$stashed_real_object = '';
+		if (isset($GLOBALS['DIC']['ilSetting'])) {
+			$stashed_real_object = $GLOBALS['DIC']['ilSetting'];
+		}
+		$GLOBALS['DIC']['ilSetting'] = $ilSetting_mock;
 
 		// Act
 		$activity->execute();
-		
-		$GLOBALS['ilSetting'] = $stashed_real_object;
+
+		$GLOBALS['DIC']['ilSetting'] = $stashed_real_object;
 		
 	}
 	

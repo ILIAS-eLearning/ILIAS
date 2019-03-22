@@ -14,7 +14,7 @@ use \ILIAS\UI\Implementation\Component\Signal;
  */
 class BulkyButtonTest extends ILIAS_UI_TestBase {
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->button_factory = new I\Component\Button\Factory();
 		$this->glyph = new I\Component\Glyph\Glyph("briefcase", "briefcase");
 		$this->icon = new I\Component\Icon\Standard("someExample","Example", "small", false);

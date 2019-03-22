@@ -1,13 +1,13 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ .'/../classes/class.ilPDFGenerationConstants.php';
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilPdfGeneratorConstantsTest
  * @package ilPdfGenerator
  */
-class ilPdfGeneratorConstantsTest  extends PHPUnit_Framework_TestCase
+class ilPdfGeneratorConstantsTest  extends TestCase
 {
 	public function testInstanceCanBeCreated()
 	{

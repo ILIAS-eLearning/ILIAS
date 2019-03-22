@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use org\bovigo\vfs;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ilLoggingActivityTest is part of the petri net based workflow engine.
@@ -13,12 +14,12 @@ use org\bovigo\vfs;
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
+class ilLoggingActivityTest extends TestCase
 {
 	/** vfsStream Test Directory, see setup. */
 	public $test_dir;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		chdir( dirname ( __FILE__ ) );
 		chdir('../../../../');
@@ -52,7 +53,7 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
 		$this->test_dir = vfs\vfsStream::setup('example');
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		global $ilSetting;
 		if ($ilSetting !=  NULL)
@@ -91,12 +92,14 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
 			'Valid log file was given, returned value differed.'
 		);		
 	}
-	
+
 	/**
-     * @expectedException ilWorkflowFilesystemException
-     */
+	 * 
+	 */
 	public function testSetGetNonWriteableLogFile()
 	{
+		$this->expectException(ilWorkflowFilesystemException::class);
+
 		// Arrange
 		$activity = new ilLoggingActivity($this->node);
 		$expected = '/dev/ilias_unit_test_log_file_can_be_deleted_safely.txt';
@@ -109,10 +112,12 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @expectedException ilWorkflowObjectStateException
-     */
+	 * 
+	 */
 	public function testSetGetIllegalExtensionLogFile()
 	{
+		$this->expectException(ilWorkflowObjectStateException::class);
+
 		// Arrange
 		$activity = new ilLoggingActivity($this->node);
 		$expected = './Services/WorkflowEngine/test/malicious.php';
@@ -144,10 +149,12 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowObjectStateException
+	 * 
 	 */
 	public function testSetGetNullLogMessage()
 	{
+		$this->expectException(ilWorkflowObjectStateException::class);
+
 		// Arrange
 		$activity = new ilLoggingActivity($this->node);
 
@@ -159,10 +166,12 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowObjectStateException
-	 */	
+	 *
+	 */
 	public function testSetGetEmptyLogMessage()
 	{
+		$this->expectException(ilWorkflowObjectStateException::class);
+
 		// Arrange
 		$activity = new ilLoggingActivity($this->node);
 
@@ -192,10 +201,12 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowObjectStateException
-	 */	
+	 * 
+	 */
 	public function testSetGetInvalidLogLevel()
 	{
+		$this->expectException(ilWorkflowObjectStateException::class);
+
 		// Arrange
 		$activity = new ilLoggingActivity($this->node);
 		$expected = "guenther";
@@ -230,10 +241,12 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowFilesystemException
+	 * 
 	 */
 	public function testPassInUnwriteablePath()
 	{
+		$this->expectException(ilWorkflowFilesystemException::class);
+
 		// Arrange
 		$activity = new ilLoggingActivity($this->node);
 		$activity->setLogFile(vfs\vfsStream::url('example.txt'));

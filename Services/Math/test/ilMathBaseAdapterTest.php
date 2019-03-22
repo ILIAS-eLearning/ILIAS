@@ -1,11 +1,13 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
+abstract class ilMathBaseAdapterTest extends TestCase
 {
 	const DEFAULT_SCALE = 50;
 
@@ -22,7 +24,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		require_once 'Services/Math/classes/class.ilMath.php';
 		require_once 'Services/Math/classes/class.EvalMath.php';
@@ -109,7 +111,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDivisionsByZero()
 	{
-		$this->setExpectedException(ilMathDivisionByZeroException::class);
+		$this->expectException(ilMathDivisionByZeroException::class);
 
 		$this->mathAdapter->div(1, 0);
 	}
@@ -119,7 +121,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testModuloByZero()
 	{
-		$this->setExpectedException(ilMathDivisionByZeroException::class);
+		$this->expectException(ilMathDivisionByZeroException::class);
 
 		$this->mathAdapter->mod(1, 0);
 	}

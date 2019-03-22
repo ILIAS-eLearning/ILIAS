@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * ilPluginNodeTest is part of the petri net based workflow engine.
  *
@@ -12,12 +14,12 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilPluginNodeTest extends PHPUnit_Framework_TestCase
+class ilPluginNodeTest extends TestCase
 {
 	/** @var ilBaseWorkflow $workflow */
 	public $workflow;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
@@ -27,7 +29,7 @@ class ilPluginNodeTest extends PHPUnit_Framework_TestCase
 		$this->workflow = new ilEmptyWorkflow();
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
 		global $ilSetting;
 		if ($ilSetting !=  NULL)

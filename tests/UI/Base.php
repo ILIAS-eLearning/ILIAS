@@ -18,6 +18,7 @@ use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Factory;
+use PHPUnit\Framework\TestCase;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
 	public function getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks) {
@@ -118,12 +119,12 @@ class DummyComponent implements IComponent {
 /**
  * Provides common functionality for UI tests.
  */
-abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
-	public function setUp() {
+abstract class ILIAS_UI_TestBase extends TestCase {
+	public function setUp(): void{
 		assert_options(ASSERT_WARNING, 0);
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		assert_options(ASSERT_WARNING, 1);
 	}
 

@@ -7,6 +7,8 @@
 
 namespace ILIAS\HTTP\Cookies;
 
+use PHPUnit\Framework\TestCase;
+
 require_once('./libs/composer/vendor/autoload.php');
 
 /**
@@ -19,7 +21,7 @@ require_once('./libs/composer/vendor/autoload.php');
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class CookieWrapperTest extends \PHPUnit_Framework_TestCase {
+class CookieWrapperTest extends TestCase {
 
 	/**
 	 * @var CookieWrapper $cookie
@@ -31,13 +33,13 @@ class CookieWrapperTest extends \PHPUnit_Framework_TestCase {
 	private static $cookieFactory;
 
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 		self::$cookieFactory = new CookieFactoryImpl();
 	}
 
 
-	protected function setUp() {
+	protected function setUp(): void{
 		parent::setUp();
 
 		//setup the cookie we want to use for our tests.

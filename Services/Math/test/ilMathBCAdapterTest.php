@@ -12,7 +12,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('bcmath'))
 		{

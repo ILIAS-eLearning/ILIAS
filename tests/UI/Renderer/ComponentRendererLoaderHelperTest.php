@@ -2,9 +2,11 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 require_once(__DIR__."/TestComponent.php");
 
-class ComponentRendererLoaderHelperTest extends PHPUnit_Framework_TestCase {
+class ComponentRendererLoaderHelperTest extends TestCase {
 	use \ILIAS\UI\Implementation\Render\LoaderHelper;
 
 	public function test_getContextNames() {

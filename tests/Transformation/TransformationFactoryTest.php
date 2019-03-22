@@ -3,18 +3,19 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Transformation;
+use PHPUnit\Framework\TestCase;
 
 /**
  * TestCase for the factory of transformations
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class TransformationFactoryTest extends PHPUnit_Framework_TestCase {
-	protected function setUp() {
+class TransformationFactoryTest extends TestCase {
+	protected function setUp(): void{
 		$this->f = new Transformation\Factory();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->f = null;
 	}
 
