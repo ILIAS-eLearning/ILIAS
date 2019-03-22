@@ -95,7 +95,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			return true;
 		}
 		
-		if(!isset($_POST['until_type']) or $_POST['until_type'] == REC_LIMITED)
+		if(!isset($_POST['until_type']) or $_POST['until_type'] == self::REC_LIMITED)
 		{
 			if($_POST['count'] <= 0 or $_POST['count'] >= 100)
 			{
