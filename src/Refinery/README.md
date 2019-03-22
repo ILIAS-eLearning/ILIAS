@@ -58,6 +58,8 @@ $data = new Alphanumeric($result);
 echo $data->getData();
 ```
 
+The output will be a `string` value: `'5'` 
+
 ## Usage
 
 ### Factory
