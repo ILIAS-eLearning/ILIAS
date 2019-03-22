@@ -384,7 +384,6 @@ class ilAuthUtils
 			AUTH_RADIUS,
 			AUTH_ECS,
 			AUTH_PROVIDER_LTI,
-			AUTH_OPENID,
 			AUTH_APACHE
 		);
 		$ret = array();
