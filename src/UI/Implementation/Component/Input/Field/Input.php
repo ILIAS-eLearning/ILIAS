@@ -375,11 +375,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @inheritdoc
 	 */
 	public function withInput(InputData $input) {
-		//TODO: What should happen if input has not name? Throw exception or return null?
-		/**
-		 * if ($this->getName() === null) {
-		 * throw new \LogicException("Can only collect if input has a name.");
-		 * }**/
+		if ($this->getName() === null) {
+			throw new \LogicException("Can only collect if input has a name.");
+		}
 
 		//TODO: Discuss, is this correct here. If there is no input contained in this post
 		//We assign null. Note that unset checkboxes are not contained in POST.
