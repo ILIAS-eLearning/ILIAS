@@ -165,7 +165,8 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		switch ($cat_info["type"])
 		{
 			case ilCalendarCategory::TYPE_USR:
-				if ($cat_info["obj_id"] == $this->user->getId())
+				$cats = ilCalendarCategories::_getInstance($this->user->getId());
+				if ($cat_info["obj_id"] == $this->user->getId() || $cats->isEditable($cat_id))
 				{
 					$cat_info["editable"] = true;
 				}
