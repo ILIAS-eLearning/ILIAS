@@ -103,6 +103,12 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 				$parts = explode("-", $slot);
 				$from = str_replace(":", "", $parts[0]);
 				$to = str_replace(":", "", $parts[1]);
+
+				#25130
+				if($from >= $to) {
+					$this->setAlert($lng->txt("msg_input_end_date_must_be_bigger"));
+					return false;
+				}
 				
 				foreach($data as $rslot => $rdays)
 				{
