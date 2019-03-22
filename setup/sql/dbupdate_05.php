@@ -756,6 +756,8 @@ if ($ilDB->tableColumnExists("post_conditions", "condition_type")) {
 	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'passed' WHERE condition_type = 2");
 	$ilDB->manipulate("UPDATE post_conditions SET condition_operator = 'failed' WHERE condition_type = 3");
 
+	$ilDB->dropPrimaryKey('post_conditions');
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
 	$ilDB->dropTableColumn('post_conditions', 'condition_type');
 }
 ?>
@@ -786,4 +788,31 @@ if ($lp_type_id) {
 <#5486>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+
+<#5487>
+<?php
+	$ilDB->dropPrimaryKey('post_conditions');
+	$ilDB->addPrimaryKey('post_conditions', ['ref_id', 'condition_operator', 'value']);
+?>
+
+<#5488>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
+ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
+
+?>
+<#5489>
+<?php
+if( !$ilDB->tableColumnExists('qpl_qst_essay', 'word_cnt_enabled') )
+{
+	$ilDB->addTableColumn('qpl_qst_essay', 'word_cnt_enabled', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
 ?>
