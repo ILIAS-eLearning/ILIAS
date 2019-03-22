@@ -28,14 +28,10 @@ of the planned features of this service.
 * User Interface with list of achieved certificates
 * Elimination of unused methods and code
 
-### v2.1.0
+### v2.1.0 (12-03-2019)
 
-* Planned for 2019 (?)
 * Alternative concept to queuing and process via
   cron job to avoid idle times
-* Show previous user certificates with filter options
-  in GUI
-* Reduce usage of old adapters to migration services
 
 ### v2.2.0
 
@@ -51,5 +47,3 @@ of the planned features of this service.
 ### v3.0.0
 
 * Planned for 2020 (?)
-* XML-API
-* Support for migration service ends with ILIAS 5.6
