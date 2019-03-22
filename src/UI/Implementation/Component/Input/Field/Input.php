@@ -394,11 +394,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			}
 		}
 		else {
-			$value = $this->getValue();
 			$clone = $this;
 		}
 
-		$clone->content = $this->applyOperationsTo($value);
+		$clone->content = $this->applyOperationsTo($clone->getValue());
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());
 		}
