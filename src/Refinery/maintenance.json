@@ -3,10 +3,10 @@
     "first_maintainer": "",
     "second_maintainer": "",
     "implicit_maintainers": [
-        "mjansen(8784)",
-        "ntheen(57294)"
     ],
     "coordinator": [
+        "mjansen(8784)",
+        "ntheen(57294)",
         "rklees(34047)"
     ],
     "tester": "",
