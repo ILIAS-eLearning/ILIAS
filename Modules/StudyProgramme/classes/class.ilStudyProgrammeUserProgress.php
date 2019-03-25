@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
+require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php");
 
 /**
  * Represents the progress of a user at one node of a study programme.
@@ -14,7 +14,7 @@ require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgr
  */
 class ilStudyProgrammeUserProgress {
 	protected $progress; // ilStudyProgrammeProgress
-
+	protected $progress_repository;
 	/**
 	 * Throws when id does not refer to a study programme progress.
 	 *
@@ -24,7 +24,10 @@ class ilStudyProgrammeUserProgress {
 	 * @throws ilException
 	 * @param int[] | ilStudyProgrammeAssignment $a_ids_or_model
 	 */
-	public function __construct($a_ids_or_model) {
+	public function __construct(
+		$a_ids_or_model,
+		ilStudyProgrammeProgressRepository $progress_repository
+	) {
 		if ($a_ids_or_model instanceof ilStudyProgrammeProgress) {
 			$this->progress = $a_ids_or_model;
 		}
@@ -47,6 +50,7 @@ class ilStudyProgrammeUserProgress {
 		if ($this->progress === null) {
 			throw new ilException("ilStudyProgrammeUserProgress::__construct: Could not find progress.");
 		}
+		$this->progress_repository = $progress_repository;
 	}
 
 	/**
@@ -188,7 +192,7 @@ class ilStudyProgrammeUserProgress {
 	 * Delete the assignment from database.
 	 */
 	public function delete() {
-		$this->progress->delete();
+		$this->progress_repository->delete($this->progress);
 	}
 
 
@@ -211,9 +215,11 @@ class ilStudyProgrammeUserProgress {
 			}
 		}
 
-		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
-					   ->setCompletionBy($a_user_id)
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
+				->setCompletionBy($a_user_id)
+		);
 
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 		ilStudyProgrammeEvents::userSuccessful($this);
@@ -234,10 +240,11 @@ class ilStudyProgrammeUserProgress {
 		if ($this->progress->getStatus() != ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			throw new ilException("Expected status ACCREDITED.");
 		}
-
-		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
-					   ->setCompletionBy(null)
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
+				->setCompletionBy(null)
+		);
 
 		$this->refreshLPStatus();
 
@@ -264,9 +271,11 @@ class ilStudyProgrammeUserProgress {
 			throw new ilException("Can't mark as failed since program is passed.");
 		}
 
-		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
-			->setLastChangeBy($a_user_id)
-			->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
+				->setLastChangeBy($a_user_id)
+		);
 
 		$this->refreshLPStatus();
 
@@ -286,10 +295,12 @@ class ilStudyProgrammeUserProgress {
 			throw new ilException("Expected status FAILED.");
 		}
 
-		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
-					   ->setCompletionBy(null)
-					   ->setLastChangeBy($a_user_id)
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
+				->setCompletionBy(null)
+				->setLastChangeBy($a_user_id)
+		);
 
 		$this->refreshLPStatus();
 
@@ -306,10 +317,12 @@ class ilStudyProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function markNotRelevant($a_user_id) {
-		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-					   ->setCompletionBy($a_user_id)
-					   ->setLastChangeBy($a_user_id)
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
+				->setCompletionBy($a_user_id)
+				->setLastChangeBy($a_user_id)
+		);
 
 		$this->updateStatus();
 		return $this;
@@ -328,11 +341,12 @@ class ilStudyProgrammeUserProgress {
 		if ($this->progress->getStatus() != ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			throw new ilException("Expected status IN_PROGRESS.");
 		}
-
-		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
-					   ->setCompletionBy($a_user_id)
-					   ->setLastChangeBy($a_user_id)
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
+				->setCompletionBy($a_user_id)
+				->setLastChangeBy($a_user_id)
+		);
 
 		$this->updateStatus();
 		return $this;
@@ -349,10 +363,12 @@ class ilStudyProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function setRequiredAmountOfPoints($a_points, $a_user_id) {
-		$this->progress->setAmountOfPoints($a_points)
-					   ->setLastChangeBy($a_user_id)
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setAmountOfPoints($a_points)
+				->setLastChangeBy($a_user_id)
 
+		);
 		$this->updateStatus();
 		return $this;
 	}
@@ -462,8 +478,10 @@ class ilStudyProgrammeUserProgress {
 		$today = date("Y-m-d");
 
 		if($deadline && $deadline->get(IL_CAL_DATE) < $today) {
-			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
-				->update();
+			$this->progress_repository->update(
+				$this->progress
+					->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
+			);
 		}
 	}
 
@@ -503,12 +521,14 @@ class ilStudyProgrammeUserProgress {
 		}
 
 		$prg = $this->getStudyProgramme();
-		$this->progress->setAmountOfPoints($prg->getPoints())
-					   ->setStatus($prg->getStatus() == ilStudyProgramme::STATUS_ACTIVE
-									? ilStudyProgrammeProgress::STATUS_IN_PROGRESS
-									: ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
-								   )
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setAmountOfPoints($prg->getPoints())
+				->setStatus($prg->getStatus() == ilStudyProgramme::STATUS_ACTIVE
+						? ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+						: ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+				)
+		);
 
 		$this->updateStatus();
 	}
@@ -550,8 +570,9 @@ class ilStudyProgrammeUserProgress {
 		} else {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
 		}
-
-		$this->progress->update();
+		$this->progress_repository->update(
+			$this->progress
+		);
 		$this->refreshLPStatus();
 		$this->updateParentStatus();
 	}
@@ -605,10 +626,11 @@ class ilStudyProgrammeUserProgress {
 			throw new ilException("ilStudyProgrammeUserProgress::setLPCompleted: "
 								 ."Object '$a_obj_id' is no child of node '".$prg->getId()."'.");
 		}
-
-		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED)
-					   ->setCompletionBy($a_obj_id)
-					   ->update();
+		$this->progress_repository->update(
+			$this->progress
+				->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED)
+				->setCompletionBy($a_obj_id)
+		);
 
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 		ilStudyProgrammeEvents::userSuccessful($this);
@@ -717,8 +739,9 @@ class ilStudyProgrammeUserProgress {
 	 * @return void
 	 */
 	public function updateProgress($user_id) {
-		$this->progress->setLastChangeBy($user_id)
-			->update();
+		$this->progress_repository->update(
+			$this->progress->setLastChangeBy($user_id)
+		);
 	}
 }
 

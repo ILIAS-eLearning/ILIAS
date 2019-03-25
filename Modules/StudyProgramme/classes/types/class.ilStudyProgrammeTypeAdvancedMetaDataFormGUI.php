@@ -11,9 +11,9 @@ require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
 class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
 
     /**
-     * @var ilStudyProgrammeType
+     * @var ilStudyProgrammeTypeRepository
      */
-    protected $type;
+    protected $type_repository;
 
     /**
      * @var ilTemplate
@@ -36,13 +36,13 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilStudyProgrammeType $type) {
+    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repository) {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $this->parent_gui = $parent_gui;
-        $this->type = $type;
+        $this->type_repository = $type_repository;
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
@@ -56,35 +56,47 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject() {
-        if (!$this->fillObject()) {
+    public function saveObject(ilStudyProgrammeType $type) {
+        $type = $this->fillObject($type);
+        if (!$type) {
             return false;
         }
+        $this->type_repository->updateType($type);
         return true;
     }
+
+
+    protected function initForm()
+    {
+        /** @var ilAdvancedMDRecord $record */
+        $records = $this->type_repository->readAllAMDRecords();
+        $options = array();
+        foreach ($records as $record) {
+            $options[$record->getRecordId()] = $record->getTitle();
+        }
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+        $this->setTitle($this->lng->txt('prg_type_assign_amd_sets'));
+
+        $item = new ilMultiSelectInputGUI($this->lng->txt('prg_type_available_amd_sets'), 'amd_records');
+        $item->setOptions($options);
+        $this->addItem($item);
+        $this->addCommandButton('updateAMD', $this->lng->txt('save'));
+    }
+
 
     /**
      * Add all fields to the form
      */
-    protected function initForm() {
-        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
-        $this->setTitle($this->lng->txt('prg_type_assign_amd_sets'));
-        $options = array();
-        $records = ilStudyProgrammeType::getAvailableAdvancedMDRecords();
-        /** @var ilAdvancedMDRecord $record */
-        foreach ($records as $record) {
-            $options[$record->getRecordId()] = $record->getTitle();
-        }
+    public function fillForm(ilStudyProgrammeType $type)
+    {
         $selected = array();
-        $records_selected = $this->type->getAssignedAdvancedMDRecordIds();
+        $records_selected = $this->type_repository->readAssignedAMDRecordsByType($type->getId());
         foreach ($records_selected as $record_id) {
             $selected[] = $record_id;
         }
-        $item = new ilMultiSelectInputGUI($this->lng->txt('prg_type_available_amd_sets'), 'amd_records');
-        $item->setOptions($options);
+        $item = $this->getItemByPostVar('amd_records');
         $item->setValue($selected);
-        $this->addItem($item);
-        $this->addCommandButton('updateAMD', $this->lng->txt('save'));
+
     }
 
     /**
@@ -92,28 +104,28 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    protected function fillObject() {
+    protected function fillObject(ilStudyProgrammeType $type) {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
-            return false;
+            return null;
         }
         try {
             // Assign and deassign amd records. A plugin could prevent those actions.
             $record_ids_selected = (array) $this->getInput('amd_records');
-            $record_ids = $this->type->getAssignedAdvancedMDRecordIds(true);
+            $record_ids = $this->type_repository->readAssignedAMDRecordIdsByType($type->getId(),true);
             $record_ids_removed = array_diff($record_ids, $record_ids_selected);
             $record_ids_added = array_diff($record_ids_selected, $record_ids);
             foreach ($record_ids_added as $record_id) {
-                $this->type->assignAdvancedMDRecord($record_id);
+                $type->assignAdvancedMDRecord($record_id);
             }
             foreach ($record_ids_removed as $record_id) {
-                $this->type->deassignAdvancedMdRecord($record_id);
+                $type->deassignAdvancedMdRecord($record_id);
             }
-            return true;
         } catch (ilException $e) {
             ilUtil::sendFailure($e->getMessage());
-            return false;
+            return null;
         }
+        return $type;
     }
 
 }

@@ -221,7 +221,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$ff = $this->input_factory->field();
 		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
-		$sp_types = ilStudyProgrammeType::getAllTypesArray();
+		$sp_types = $this->getObject()->getTypeRepository()->readAllTypesArray();
 		$status_options = self::getStatusOptions();
 		return $this->input_factory->container()->form()->standard(
 			$submit_action,
