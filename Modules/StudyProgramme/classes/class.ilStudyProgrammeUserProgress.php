@@ -209,7 +209,7 @@ class ilStudyProgrammeUserProgress {
 	public function markAccredited($a_user_id) {
 		if ($this->getStatus() == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			$prg = $this->getStudyProgramme();
-			if ($prg->getStatus() == ilStudyProgramme::STATUS_OUTDATED) {
+			if ($prg->getStatus() == ilStudyProgrammeSettings::STATUS_OUTDATED) {
 				throw new ilException("ilStudyProgrammeUserProgress::markAccredited: "
 									 ."Can't mark as accredited since program is outdated.");
 			}
@@ -387,7 +387,7 @@ class ilStudyProgrammeUserProgress {
 	 */
 	public function getMaximumPossibleAmountOfPoints($only_relevant = false) {
 		$prg = $this->getStudyProgramme();
-		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+		if ($prg->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			return $this->getAmountOfPoints();
 		}
 		$children = $prg->getChildren();
@@ -417,7 +417,7 @@ class ilStudyProgrammeUserProgress {
 	public function canBeCompleted() {
 		$prg = $this->getStudyProgramme();
 
-		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+		if ($prg->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			return true;
 		}
 
@@ -524,7 +524,7 @@ class ilStudyProgrammeUserProgress {
 		$this->progress_repository->update(
 			$this->progress
 				->setAmountOfPoints($prg->getPoints())
-				->setStatus($prg->getStatus() == ilStudyProgramme::STATUS_ACTIVE
+				->setStatus($prg->getStatus() == ilStudyProgrammeSettings::STATUS_ACTIVE
 						? ilStudyProgrammeProgress::STATUS_IN_PROGRESS
 						: ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
 				)
@@ -539,7 +539,7 @@ class ilStudyProgrammeUserProgress {
 	 */
 	protected function updateStatus() {
 		$prg = $this->getStudyProgramme();
-		if ((   $prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED
+		if ((   $prg->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED
 			&& $this->getStatus() != ilStudyProgrammeProgress::STATUS_ACCREDITED)
 			|| $this->getStatus() == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			// Nothing to do here, as the status will be set by LP.
@@ -613,7 +613,7 @@ class ilStudyProgrammeUserProgress {
 		}
 
 		$prg = $this->getStudyProgramme();
-		if ($prg->getLPMode() != ilStudyProgramme::MODE_LP_COMPLETED) {
+		if ($prg->getLPMode() != ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			throw new ilException("ilStudyProgrammeUserProgress::setLPCompleted: "
 								 ."The node '".$prg->getId()."' is not in LP_COMPLETED mode.");
 		}
@@ -665,7 +665,7 @@ class ilStudyProgrammeUserProgress {
 	 */
 	public function getChildrenProgress() {
 		$prg = $this->getStudyProgramme();
-		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+		if ($prg->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			throw new ilException("ilStudyProgrammeUserProgress::getChildrenProgress: "
 								 ."There is some problem in the implementation. This "
 								 ."method should only be callled for nodes in points "
