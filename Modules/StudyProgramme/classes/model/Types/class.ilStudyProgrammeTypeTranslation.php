@@ -1,12 +1,12 @@
-<?php
-require_once("./Services/ActiveRecord/class.ActiveRecord.php");
+<?php declare(strict_types = 1);
 /**
  * Class ilStudyProgrammeTypeTranslation
  * This class represents a translation for a given ilStudyProgrammeType object and language.
  *
  * @author: Michael Herren <mh@studer-raimann.ch>
  */
-class ilStudyProgrammeTypeTranslation extends ActiveRecord {
+class ilStudyProgrammeTypeTranslation
+{
 	/**
 	 *
 	 * @var int
@@ -65,39 +65,18 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
      */
     protected $log;
 
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 * @deprecated
-	 */
-	static function returnDbTableName() {
-		return "prg_translations";
-	}
 
-    public function __construct($primary_key=0, $a_lang_code='') {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $this->log = $ilLog;
 
-	    parent::__construct($primary_key);
+    public function __construct(int $id)
+    {
+	    $this->id = $id;
     }
-
-	/**
-	 * Removes all translations to a specific StudyProgramme-Type
-	 *
-	 * @param $type_id | Id of the studyProgrammeType
-	 */
-	public static function deleteAllTranslations($type_id) {
-		$translations = self::where(array('prg_type_id'=>$type_id))->get();
-		foreach($translations as $translation) {
-			$translation->delete();
-		}
-	}
 
 	/**
 	 * @return int
 	 */
-	public function getId() {
+	public function getId() : int
+	{
 		return $this->id;
 	}
 
@@ -105,7 +84,8 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @param int $id
 	 */
-	public function setId($id) {
+	public function setId(int $id)
+	{
 		$this->id = $id;
 	}
 
@@ -113,7 +93,8 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getPrgTypeId() {
+	public function getPrgTypeId() : int
+	{
 		return $this->prg_type_id;
 	}
 
@@ -121,7 +102,7 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @param int $prg_type_id
 	 */
-	public function setPrgTypeId($prg_type_id) {
+	public function setPrgTypeId(int $prg_type_id) {
 		$this->prg_type_id = $prg_type_id;
 	}
 
@@ -129,7 +110,8 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getLang() {
+	public function getLang() : string
+	{
 		return $this->lang;
 	}
 
@@ -137,7 +119,8 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @param string $lang
 	 */
-	public function setLang($lang) {
+	public function setLang(string $lang)
+	{
 		$this->lang = $lang;
 	}
 
@@ -145,7 +128,8 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getMember() {
+	public function getMember() : string
+	{
 		return $this->member;
 	}
 
@@ -153,7 +137,8 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @param string $member
 	 */
-	public function setMember($member) {
+	public function setMember(string $member)
+	{
 		$this->member = $member;
 	}
 
@@ -161,15 +146,15 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getValue() {
+	public function getValue() : string
+	{
 		return $this->value;
 	}
-
 
 	/**
 	 * @param string $value
 	 */
-	public function setValue($value) {
+	public function setValue(string $value) {
 		$this->value = $value;
 	}
 

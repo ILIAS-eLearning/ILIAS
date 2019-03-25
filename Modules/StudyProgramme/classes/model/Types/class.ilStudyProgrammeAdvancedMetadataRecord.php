@@ -1,5 +1,4 @@
-<?php
-require_once("./Services/ActiveRecord/class.ActiveRecord.php");
+<?php declare(strict_types = 1);
 
 /**
  * Class ilStudyProgrammeAdvancedMetadataRecord
@@ -7,8 +6,8 @@ require_once("./Services/ActiveRecord/class.ActiveRecord.php");
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
-	protected $connector_container_name = 'prg_type_adv_md_rec';
+class ilStudyProgrammeAdvancedMetadataRecord
+{
 
 	/**
 	 *
@@ -43,20 +42,17 @@ class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
 	 */
 	protected $rec_id;
 
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 * @deprecated
-	 */
-	static function returnDbTableName() {
-		return 'prg_type_adv_md_rec';
-	}
 
+	public function __construct(int $id)
+	{
+		$this->id = $id;
+	}
 
 	/**
 	 * @return int
 	 */
-	public function getId() {
+	public function getId() : int
+	{
 		return $this->id;
 	}
 
@@ -64,7 +60,8 @@ class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
 	/**
 	 * @param int $id
 	 */
-	public function setId($id) {
+	public function setId(int $id)
+	{
 		$this->id = $id;
 	}
 
@@ -72,7 +69,8 @@ class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getTypeId() {
+	public function getTypeId() : int
+	{
 		return $this->type_id;
 	}
 
@@ -80,7 +78,8 @@ class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
 	/**
 	 * @param int $type_id
 	 */
-	public function setTypeId($type_id) {
+	public function setTypeId(int $type_id = null)
+	{
 		$this->type_id = $type_id;
 	}
 
@@ -88,7 +87,8 @@ class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getRecId() {
+	public function getRecId() : int
+	{
 		return $this->rec_id;
 	}
 
@@ -96,7 +96,8 @@ class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
 	/**
 	 * @param int $rec_id
 	 */
-	public function setRecId($rec_id) {
+	public function setRecId(int $rec_id = null)
+	{
 		$this->rec_id = $rec_id;
 	}
 
