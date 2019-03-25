@@ -2,7 +2,8 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
+require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignment.php");
+require_once("./Modules/StudyProgramme/classes/interfaces/model/Assignments/interface.ilStudyProgrammeAssignmentRepository.php");
 
 /**
  * Represents one assignment of a user to a study programme.
@@ -18,25 +19,30 @@ class ilStudyProgrammeUserAssignment {
 	 * @var ilStudyProgrammeUserProgressDB
 	 */
 	private $sp_user_progress_db;
-
+	protected $assignment_repository;
 	/**
 	 * Throws when id does not refer to a study programme assignment.
 	 *
 	 * @throws ilException
 	 * @param int | ilStudyProgrammeAssignment $a_id_or_model
 	 */
-	public function __construct($a_id_or_model, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
+	public function __construct(
+		$a_id_or_model,
+		\ilStudyProgrammeUserProgressDB $sp_user_progress_db,
+		\ilStudyProgrammeAssignmentRepository $assignment_repository
+	) {
 		if ($a_id_or_model instanceof ilStudyProgrammeAssignment) {
 			$this->assignment = $a_id_or_model;
 		}
 		else {
-			$this->assignment = ilStudyProgrammeAssignment::find($a_id_or_model);
+			$this->assignment = $assignment_repository->read($a_id_or_model);
 		}
 		if ($this->assignment === null) {
 			throw new ilException("ilStudyProgrammeUserAssignment::__construct: "
 								 ."Unknown assignmemt id '$a_id_or_model'.");
 		}
 		$this->sp_user_progress_db = $sp_user_progress_db;
+		$this->assignment_repository = $assignment_repository;
 	}
 
 	/**
@@ -47,7 +53,7 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	static public function getInstance($a_id) {
-		return new ilStudyProgrammeUserAssignment($a_id, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
+		return new ilStudyProgrammeUserAssignment($a_id, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB(),ilObjStudyProgramme::_getAssignmentRepository());
 	}
 
 	/**
@@ -59,15 +65,14 @@ class ilStudyProgrammeUserAssignment {
 	static public function getInstancesOfUser($a_user_id) {
 		global $DIC;
 		$tree = $DIC['tree'];
-
-		$assignments = ilStudyProgrammeAssignment::where(array( "usr_id" => $a_user_id ))
-													->get();
+		$assignment_repository = ilObjStudyProgramme::_getAssignmentRepository();
+		$assignments = $assignment_repository->readByUsrId($a_user_id);
 
 		//if parent object is deleted or in trash
 		//the assignment for the user should not be returned
 		$ret = array();
 		foreach($assignments as $ass) {
-			$ass_obj = new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
+			$ass_obj = new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB(),$assignment_repository);
 			foreach (ilObject::_getAllReferences($ass_obj->assignment->getRootId()) as $value) {
 				if($tree->isInTree($value)) {
 					$ret[] = $ass_obj;
@@ -86,10 +91,10 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment[]
 	 */
 	static public function getInstancesForProgram($a_program_id) {
-		$assignments = ilStudyProgrammeAssignment::where(array( "root_prg_id" => $a_program_id ))
-													->get();
+		$assignment_repository = ilObjStudyProgramme::_getAssignmentRepository();
+		$assignments = $assignment_repository->readByPrgId($a_program_id);
 		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
+			return new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB(),$assignment_repository);
 
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
@@ -156,8 +161,9 @@ class ilStudyProgrammeUserAssignment {
 		foreach ($progresses as $progress) {
 			$progress->delete();
 		}
-
-		$this->assignment->delete();
+		$this->assignment_repository->delete(
+			$this->assignment
+		);
 	}
 
 	/**
@@ -194,6 +200,7 @@ class ilStudyProgrammeUserAssignment {
 
 		$prg = $this->getStudyProgramme();
 		$id = $this->getId();
+		$progress_repository = $prg->getProgressRepository();
 
 		// Make $this->assignment protected again afterwards.
 		$prg->applyToSubTreeNodes(function($node) use ($id) {
@@ -204,10 +211,10 @@ class ilStudyProgrammeUserAssignment {
 				global $DIC;
 				$ilLog = $DIC['ilLog'];
 				$ilLog->write("Adding progress for: ".$this->getId()." ".$node->getId());
-				require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
-				$progress = ilStudyProgrammeProgress::createFor($node->getRawSettings(), $this->assignment);
-				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-						 ->update();
+				$progress_repository->update(
+					$progress_repository->createFor($node->getRawSettings(), $this->assignment)
+						->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
+				);
 			}
 		});
 

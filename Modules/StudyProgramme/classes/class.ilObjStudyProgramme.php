@@ -4,7 +4,26 @@
 
 require_once("./Services/Container/classes/class.ilContainer.php");
 require_once('./Services/Container/classes/class.ilContainerSorting.php');
-require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgramme.php");
+
+require_once("./Modules/StudyProgramme/classes/model/Settings/class.ilStudyProgrammeSettings.php");
+require_once("./Modules/StudyProgramme/classes/interfaces/model/Settings/interface.ilStudyProgrammeSettingsRepository.php");
+require_once("./Modules/StudyProgramme/classes/model/Settings/class.ilStudyProgrammeSettingsDBRepository.php");
+
+require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php");
+require_once("./Modules/StudyProgramme/classes/interfaces/model/Progress/interface.ilStudyProgrammeProgressRepository.php");
+require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgressDBRepository.php");
+
+require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignment.php");
+require_once("./Modules/StudyProgramme/classes/interfaces/model/Assignments/interface.ilStudyProgrammeAssignmentRepository.php");
+require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignmentDBRepository.php");
+
+
+require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeType.php");
+require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeTypeTranslation.php");
+require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeAdvancedMetadataRecord.php");
+require_once("./Modules/StudyProgramme/classes/interfaces/model/Types/interface.ilStudyProgrammeTypeRepository.php");
+require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeTypeDBRepository.php");
+
 require_once("./Modules/StudyProgramme/classes/class.ilObjectFactoryWrapper.php");
 require_once("./Modules/StudyProgramme/classes/interfaces/interface.ilStudyProgrammeLeaf.php");
 require_once("./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTreeException.php");
@@ -25,6 +44,9 @@ class ilObjStudyProgramme extends ilContainer {
 	public $webdir;
 	public $tree;
 	public $ilUser;
+
+	protected $db;
+	protected $plugin_admin;
 
 	// Wrapped static ilObjectFactory of ILIAS.
 	public $object_factory;
@@ -58,6 +80,9 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->webdir = $DIC->filesystem()->web();
 		$this->tree = $tree;
 		$this->ilUser = $ilUser;
+		$this->db = $DIC['ilDB'];
+		$this->plugin_admin = $DIC['ilPluginAdmin'];
+		$this->lng = $DIC['lng'];
 
 		$this->object_factory = ilObjectFactoryWrapper::singleton();
 		self::initStudyProgrammeCache();
@@ -90,7 +115,10 @@ class ilObjStudyProgramme extends ilContainer {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgressDB.php");
 		static $sp_user_progress_db = null;
 		if ($sp_user_progress_db === null) {
-			$sp_user_progress_db = new ilStudyProgrammeUserProgressDB();
+			global $DIC;
+			$sp_user_progress_db = new ilStudyProgrammeUserProgressDB(
+				new ilStudyProgrammeProgressDBRepository($DIC['ilDB'])
+			);
 		}
 		return $sp_user_progress_db;
 	}
@@ -161,7 +189,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if (!$id) {
 			throw new ilException("ilObjStudyProgramme::loadSettings: no id.");
 		}
-		$this->settings = new ilStudyProgramme($this->getId());
+		$this->settings = $this->getSettingsRepository()->read($this->getId());
 	}
 
 	/**
@@ -177,7 +205,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if (!$id) {
 			throw new ilException("ilObjStudyProgramme::loadSettings: no id.");
 		}
-		$this->settings = ilStudyProgramme::createForObject($this);
+		$this->settings = $this->getSettingsRepository()->createFor($this->getId());
 	}
 
 	/**
@@ -188,7 +216,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if ($this->settings === null) {
 			throw new ilException("ilObjStudyProgramme::updateSettings: no settings loaded.");
 		}
-		$this->settings->update();
+		$this->getSettingsRepository()->update($this->settings);
 	}
 
 	/**
@@ -199,7 +227,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if ($this->settings === null) {
 			throw new Exception("ilObjStudyProgramme::deleteSettings: no settings loaded.");
 		}
-		$this->settings->delete();
+		$this->getSettingsRepository()->delete($this->settings);
 	}
 
 	/**
@@ -229,8 +257,8 @@ class ilObjStudyProgramme extends ilContainer {
 		parent::update();
 
 		// Update selection for advanced meta data of the type
-		if ($this->getSubType()) {
-			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', $this->getSubType()->getAssignedAdvancedMDRecordIds());
+		if ($this->getSubTypeId()) {
+			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', $this->getTypeRepository()->readAssignedAMDRecordsByType($this->getSubTypeId()));
 		} else {
 			// If no type is assigned, delete relations by passing an empty array
 			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', array());
@@ -314,17 +342,20 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function adjustLPMode() {
 		if ($this->getAmountOfLPChildren() > 0) {
-			$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED)
-						   ->update();
+			$this->getSettingsRepository()->update(
+				$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED)
+			);
 		}
 		else {
 			if ($this->getAmountOfChildren() > 0) {
-				$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
-							   ->update();
+				$this->getSettingsRepository()->update(
+					$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+				);
 			}
 			else {
-				$this->settings->setLPMode(ilStudyProgramme::MODE_UNDEFINED)
-							   ->update();
+				$this->getSettingsRepository(
+					$this->settings->setLPMode(ilStudyProgramme::MODE_UNDEFINED)
+				);
 			}
 		}
 	}
@@ -389,7 +420,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getSubType() {
 		if(!in_array($this->getSubtypeId(), array("-", "0"))) {
 			$subtype_id = $this->getSubtypeId();
-			return new ilStudyProgrammeType($subtype_id);
+			return $this->getTypeRepository()->readType($subtype_id);
 		}
 
 		return null;
@@ -711,8 +742,9 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		if ($this->settings->getLPMode() !== ilStudyProgramme::MODE_POINTS) {
-			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
-						   ->update();
+			$this->getSettingsRepository()->update(
+				$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+			);
 		}
 
 		$this->clearChildrenCache();
@@ -802,9 +834,9 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		$a_leaf->putInTree($this->getRefId());
 		$this->clearLPChildrenCache();
-
-		$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED);
-		$this->update();
+		$this->getSettingsRepository()->update(
+			$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED)
+		);
 
 		return $this;
 	}
@@ -887,8 +919,6 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
-		require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
-		require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 
 		if ($this->settings === null) {
@@ -904,14 +934,15 @@ class ilObjStudyProgramme extends ilContainer {
 			$a_assigning_usr_id = $this->ilUser->getId();
 		}
 
-		$ass_mod = ilStudyProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
-		$ass = new ilStudyProgrammeUserAssignment($ass_mod, $this->getStudyProgrammeUserProgressDB());
+		$ass_mod = $this->getAssignmentRepository()->createFor($this->settings->getObjId(), $a_usr_id, $a_assigning_usr_id);
+		$ass = new ilStudyProgrammeUserAssignment($ass_mod, $this->getStudyProgrammeUserProgressDB(), $this->getAssignmentRepository());
 
 		$this->applyToSubTreeNodes(function(ilObjStudyProgramme $node) use ($ass_mod, $a_assigning_usr_id) {
 			$progress = $node->createProgressForAssignment($ass_mod);
 			if ($node->getStatus() != ilStudyProgramme::STATUS_ACTIVE) {
-				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-						 ->update();
+				$this->getProgressRepository()->update(
+					$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
+				);
 			}
 		});
 
@@ -977,11 +1008,14 @@ class ilObjStudyProgramme extends ilContainer {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 
 		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
-		$assignments = ilStudyProgrammeAssignment::where(array( "usr_id" => $a_user_id
-														   		 , "root_prg_id" => $prg_ids
-														   ))
-													->orderBy("last_change", "DESC")
-													->get();
+		$assignments = [];
+		foreach($prg_ids as $prg_id) {
+			$assignments = array_merge($assignments,
+				$this->getAssignmentRepository()->readByUsrIdAndPrgId($a_user_id,$prg_id));
+		}
+		usort($assignments, function($a_one,$a_other) {
+			return strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
+		});
 		return array_map(function($ass) {
 			return new ilStudyProgrammeUserAssignment($ass, $this->getStudyProgrammeUserProgressDB());
 		}, array_values($assignments)); // use array values since we want keys 0...
@@ -994,7 +1028,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function getAssignments() {
 		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment($ass, $this->getStudyProgrammeUserProgressDB());
+			return new ilStudyProgrammeUserAssignment($ass, $this->getStudyProgrammeUserProgressDB(), $this->getAssignmentRepository());
 		}, array_values($this->getAssignmentsRaw())); // use array values since we want keys 0...
 	}
 
@@ -1031,7 +1065,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return	ilStudyProgrammeProgress
 	 */
 	public function createProgressForAssignment(ilStudyProgrammeAssignment $ass) {
-		return ilStudyProgrammeProgress::createFor($this->settings, $ass);
+		return $this->getProgressRepository()->createFor($this->settings, $ass);
 	}
 
 	/**
@@ -1196,10 +1230,14 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	protected function getAssignmentsRaw() {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
-		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
-		return ilStudyProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
-												->orderBy("last_change", "DESC")
-												->get();
+		$assignments = [];
+		foreach($this->getIdsFromNodesOnPathFromRootToHere() as $prg_id) {
+			$assignments = array_merge($this->getAssignmentRepository()->readByPrgId($prg_id),$assignments);
+		}
+		usort($assignments, function($a_one,$a_other) {
+			return -strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
+		});
+		return $assignments;
 	}
 
 	/**
@@ -1333,6 +1371,70 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		throw new ilException("Undefined mode for study programme: '$mode'");
+	}
+
+	protected $settings_repository;
+	protected $progress_repository;
+	protected $assignments_repository;
+	protected $types_repository;
+	public function getSettingsRepository() : ilStudyProgrammeSettingsRepository
+	{
+		if(!$this->settings_repository) {
+			$this->settings_repository = new ilStudyProgrammeSettingsDBRepository($this->db);
+		}
+		return $this->settings_repository;
+	}
+
+
+	public function getProgressRepository() : ilStudyProgrammeProgressRepository
+	{
+		if(!$this->progress_repository) {
+			$this->progress_repository = new ilStudyProgrammeProgressDBRepository($this->db);
+		}
+		return $this->progress_repository;
+	}
+
+	public function getAssignmentRepository() : ilStudyProgrammeAssignmentRepository
+	{
+		if(!$this->assignments_repository) {
+			$this->assignments_repository = new ilStudyProgrammeAssignmentDBRepository($this->db);
+		}
+		return $this->assignments_repository;
+	}
+
+	public static function _getAssignmentRepository()
+	{
+		global $DIC;
+		return new ilStudyProgrammeAssignmentDBRepository($DIC['ilDB']);
+	}
+
+	public function getTypeRepository() : ilStudyProgrammeTypeRepository
+	{
+		if(!$this->types_repository) {
+			$this->types_repository =
+				new ilStudyProgrammeTypeDBRepository(
+					$this->db,
+					$this->getSettingsRepository(),
+					$this->webdir,
+					$this->ilUser,
+					$this->plugin_admin,
+					$this->lng
+				);
+		}
+		return $this->types_repository;
+	}
+
+	public static function _getTypeRepository() : ilStudyProgrammeTypeRepository
+	{
+		global $DIC;
+		return new ilStudyProgrammeTypeDBRepository(
+					$DIC['ilDB'],
+					new ilStudyProgrammeSettingsDBRepository($DIC['ilDB']),
+					$DIC->filesystem()->web(),
+					$DIC['ilUser'],
+					$DIC['ilPluginAdmin'],
+					$DIC['lng']
+		);
 	}
 }
 

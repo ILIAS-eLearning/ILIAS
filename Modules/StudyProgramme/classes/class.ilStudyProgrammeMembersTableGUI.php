@@ -4,8 +4,8 @@
 
 require_once("Services/Table/classes/class.ilTable2GUI.php");
 require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
-require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
+require_once("Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php");
+require_once("Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignment.php");
 require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
@@ -277,9 +277,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	 * @return string
 	 */
 	protected function getFrom() {
-		return "  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
+		return "  FROM ".ilStudyProgrammeProgressDBRepository::TABLE." prgrs"
 				."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
-				."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
+				."  JOIN ".ilStudyProgrammeAssignmentDBRepository::TABLE." ass"
 						 ." ON ass.id = prgrs.assignment_id"
 				."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
 				."  LEFT JOIN usr_data ass_usr ON ass_usr.usr_id = ass.last_change_by"
