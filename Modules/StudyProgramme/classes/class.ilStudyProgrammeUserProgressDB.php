@@ -26,7 +26,8 @@ class ilStudyProgrammeUserProgressDB {
 	 * @return ilStudyProgrammeUserProgress
 	 */
 	public function getInstance($a_assignment_id, $a_program_id, $a_user_id) {
-		return $this->progress_repository->readByIds($a_program_id,$a_assignment_id,$a_user_id);
+		$prgrs = $this->progress_repository->readByIds($a_program_id,$a_assignment_id,$a_user_id);
+		return new ilStudyProgrammeUserProgress($prgrs,$this->progress_repository);
 	}
 
 	/**
