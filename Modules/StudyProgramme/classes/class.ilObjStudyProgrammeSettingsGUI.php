@@ -27,25 +27,10 @@ class ilObjStudyProgrammeSettingsGUI {
 	public $tpl;
 	
 	/**
-	 * @var ilAccessHandler
-	 */
-	protected $ilAccess;
-	
-	/**
 	 * @var ilObjStudyProgramme
 	 */
 	public $object;
 	
-	/**
-	 * @var ilLog
-	 */
-	protected $ilLog;
-	
-	/**
-	 * @var Ilias
-	 */
-	public $ilias;
-
 	/**
 	 * @var ilLng
 	 */
@@ -79,45 +64,49 @@ class ilObjStudyProgrammeSettingsGUI {
 	/**
 	 * @var \ILIAS\Refinery\Factory
 	 */
+	protected $trafo_factory;
 	private $refinery;
 
-	public function __construct($a_parent_gui, $a_ref_id) {
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilLanguage $lng,
+		\ILIAS\UI\Component\Input\Factory $input_factory,
+		\ILIAS\UI\Renderer $renderer,
+		\GuzzleHttp\Psr7\ServerRequest $request,
+		\ILIAS\Transformation\Factory $trafo_factory,
+		\ILIAS\Validation\Factory $validation,
+		ilStudyProgrammeTypeRepository $type_repository
+	) {
 		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$refinery = $DIC->refinery();
-
-		$this->parent_gui = $a_parent_gui;
-		$this->ref_id = $a_ref_id;
-		$this->parent_gui = $a_parent_gui;
-
+        $refinery = $DIC->refinery();
+        $this->refinery = $refinery;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->ilAccess = $ilAccess;
-		$this->ilLocator = $ilLocator;
-		$this->tree = $tree;
-		$this->toolbar = $ilToolbar;
-		$this->ilLog = $ilLog;
-		$this->ilias = $ilias;
 		$this->lng = $lng;
-		$this->input_factory = $DIC->ui()->factory()->input();
-		$this->renderer = $DIC->ui()->renderer();
-		$this->request = $DIC->http()->request();
-		$this->data = new \ILIAS\Data\Factory();
-		$this->refinery = $refinery;
-		
+		$this->input_factory = $input_factory;
+		$this->renderer = $renderer;
+		$this->request = $request;
+		$this->trafo_factory = $trafo_factory; // TODO: replace this with the version from the DIC once available
+		$this->validation = $validation;
+		$this->type_repository = $type_repository;
+
+
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
 	}
-	
+
+	public function setParentGUI($a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
+	}
+
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 
@@ -220,7 +209,7 @@ class ilObjStudyProgrammeSettingsGUI {
 	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
 		$ff = $this->input_factory->field();
 		$txt = function($id) { return $this->lng->txt($id); };
-		$sp_types = ilStudyProgrammeType::getAllTypesArray();
+		$sp_types = $this->type_repository->readAllTypesArray();
 		$status_options = self::getStatusOptions();
 		return $this->input_factory->container()->form()->standard(
 			$submit_action,
@@ -304,11 +293,11 @@ class ilObjStudyProgrammeSettingsGUI {
 		global $DIC;
 		$lng = $DIC['lng'];
 		
-		return array( ilStudyProgramme::STATUS_DRAFT 
+		return array( ilStudyProgrammeSettings::STATUS_DRAFT 
 						=> $lng->txt("prg_status_draft")
-					, ilStudyProgramme::STATUS_ACTIVE
+					, ilStudyProgrammeSettings::STATUS_ACTIVE
 						=> $lng->txt("prg_status_active")
-					, ilStudyProgramme::STATUS_OUTDATED
+					, ilStudyProgrammeSettings::STATUS_OUTDATED
 						=> $lng->txt("prg_status_outdated")
 					);
 	}

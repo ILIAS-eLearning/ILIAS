@@ -1,17 +1,16 @@
-<?php
+<?php declare(strict_types = 1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveRecord.php");
 
 /**
  * Class ilStudyProgramme
  * 
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
+ * @author: Denis Klöpfer <richard.klees@concepts-and-training.de>
  * @version: 0.1.0
  */
 
-class ilStudyProgramme extends ActiveRecord {
+class ilStudyProgrammeSettings{
 	
 	// There are two different modes the programs calculation of the learning
 	// progress can run in. It is also possible, that the mode is not defined
@@ -25,9 +24,9 @@ class ilStudyProgramme extends ActiveRecord {
 	// subobject.
 	const MODE_LP_COMPLETED = 2;
 
-	static $MODES = array( ilStudyProgramme::MODE_UNDEFINED
-						 , ilStudyProgramme::MODE_POINTS
-						 , ilStudyProgramme::MODE_LP_COMPLETED
+	static $MODES = array( self::MODE_UNDEFINED
+						 , self::MODE_POINTS
+						 , self::MODE_LP_COMPLETED
 						 );
 
 
@@ -42,9 +41,9 @@ class ilStudyProgramme extends ActiveRecord {
 	// still complete the program.
 	const STATUS_OUTDATED = 30;
 
-	static $STATUS = array( ilStudyProgramme::STATUS_DRAFT
-						  , ilStudyProgramme::STATUS_ACTIVE
-						  , ilStudyProgramme::STATUS_OUTDATED
+	static $STATUS = array( self::STATUS_DRAFT
+						  , self::STATUS_ACTIVE
+						  , self::STATUS_OUTDATED
 						  );
 
 	
@@ -52,12 +51,6 @@ class ilStudyProgramme extends ActiveRecord {
 	const DEFAULT_POINTS = 100;
 	const DEFAULT_SUBTYPE = 0; // TODO: What should that be?
 	
-	/**
-	 * @return string
-	 */
-	static function returnDbTableName() {
-		return "prg_settings";
-	}
 
 	/**
 	 * Id of this study program and the corresponding ILIAS-object as well.
@@ -137,46 +130,19 @@ class ilStudyProgramme extends ActiveRecord {
 	protected $status;
 	
 	
-	/**
-	 * Create new study program settings for an object.
-	 *
-	 * Throws when object is no program object.
-	 *
-	 * @throws ilException
-	 * @return ilStudyProgramme
-	 */
-	static public function createForObject(ilObject $a_object) {
-		if ($a_object->getType() != "prg") {
-			throw new ilException("ilStudyProgramme::createSettingsForObject: "
-								 ."Object is no prg object.");
-		}
-		if(!$a_object->getId()) {
-			throw new ilException("ilStudyProgramme::createSettingsForObject: "
-								 ."Object has no id."); 
-		}
 
-		$prg = new ilStudyProgramme();
-		$prg->subtype_id = self::DEFAULT_SUBTYPE;
-		$prg->setObjId($a_object->getId())
-			->setStatus(self::STATUS_DRAFT)
-			->setLPMode(self::MODE_UNDEFINED)
-			->setPoints(self::DEFAULT_POINTS)
-			->create();
-		return $prg;
-	} 
-
-	
-	protected function setObjId($a_id) {
+	public function __construct(int $a_id)
+	{
 		$this->obj_id = $a_id;
-		return $this;
 	}
-
+	
 	/**
 	 * Get the id of the study program.
 	 *
 	 * @return integer
 	 */
-	public function getObjId() {
+	public function getObjId() : int
+	{
 		return (int)$this->obj_id;
 	}
 
@@ -185,7 +151,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @return int
 	 */
-	public function getSubtypeId() {
+	public function getSubtypeId() : int
+	{
 		return $this->subtype_id;
 	}
 
@@ -195,8 +162,10 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @param int $subtype_id
 	 */
-	public function setSubtypeId($subtype_id) {
+	public function setSubtypeId(int $subtype_id)
+	{
 		$this->subtype_id = $subtype_id;
+		return $this;
 	}
 
 	/**
@@ -204,7 +173,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @return ilDateTime
 	 */
-	public function getLastChange() {
+	public function getLastChange() : ilDateTime
+	{
 		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
 	}
 
@@ -213,8 +183,9 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @return $this
 	 */
-	public function updateLastChange() {
-		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME));
+	public function updateLastChange() : ilStudyProgrammeSettings
+	{
+		$this->setLastChange(new ilDateTime((new DateTime())->format('Y-m-d H:i:s'), IL_CAL_DATETIME));
 		return $this;
 	} 
 
@@ -226,13 +197,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $a_timestamp) {
-		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
-			throw new ilException("ilStudyProgramme::setLastChange: Given "
-								 ."timestamp is before current timestamp. That "
-								 ."is logically impossible.");
-		}
-		
+	public function setLastChange(ilDateTime $a_timestamp) : ilStudyProgrammeSettings
+	{
 		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
 		return $this;
 	}
@@ -246,7 +212,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setPoints($a_points) {
+	public function setPoints(int $a_points) : ilStudyProgrammeSettings
+	{
 		$a_points = (int)$a_points;
 		if ($a_points < 0) {
 			throw new ilException("ilStudyProgramme::setPoints: Points cannot "
@@ -263,7 +230,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @return integer  - larger than zero
 	 */
-	public function getPoints() {
+	public function getPoints() : int
+	{
 		return (int)$this->points;
 	}
 
@@ -275,7 +243,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 * @param integer $a_mode       - one of self::$MODES
 	 * @return $this
 	 */
-	public function setLPMode($a_mode) {
+	public function setLPMode(int $a_mode) : ilStudyProgrammeSettings
+	{
 		$a_mode = (int)$a_mode;
 		if (!in_array($a_mode, self::$MODES)) {
 			throw new ilException("ilStudyProgramme::setLPMode: No lp mode: "
@@ -291,7 +260,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @return integer  - one of self::$MODES
 	 */
-	public function getLPMode() {
+	public function getLPMode() : int
+	{
 		return (int)$this->lp_mode;
 	}
 
@@ -304,7 +274,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 * @param integer $a_status     - one of self::$STATUS
 	 * @return $this
 	 */
-	public function setStatus($a_status) {
+	public function setStatus(int $a_status) : ilStudyProgrammeSettings
+	{
 		$a_status = (int)$a_status;
 		if (!in_array($a_status, self::$STATUS)) {
 			throw new ilException("ilStudyProgramme::setStatus: No lp mode: "
@@ -320,7 +291,8 @@ class ilStudyProgramme extends ActiveRecord {
 	 *
 	 * @return integer  - one of self::$STATUS
 	 */
-	public function getStatus() {
+	public function getStatus() : int
+	{
 		return (int)$this->status;
 	}
 }
