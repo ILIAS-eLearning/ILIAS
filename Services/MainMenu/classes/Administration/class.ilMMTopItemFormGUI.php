@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;

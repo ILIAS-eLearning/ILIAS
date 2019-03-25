@@ -20,11 +20,9 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
 
 	public function __construct(
 		LSUrlBuilder $url_builder,
-		ilTemplate $il_tpl,
 		ilCtrl $il_ctrl
 	) {
 		$this->url_builder = $url_builder;
-		$this->tpl = $il_tpl;
 		$this->ctrl = $il_ctrl; //ilExplorerBaseGUI needs ctrl...
 		$this->setSkipRootNode(false);
 		$this->setNodeOnclickEnabled(true);

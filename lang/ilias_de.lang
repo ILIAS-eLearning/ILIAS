@@ -916,6 +916,10 @@ assessment#:#matching_type#:#Untertyp der Zuordnungsfrage
 assessment#:#material#:#Material
 assessment#:#material_file#:#Materialdatei
 assessment#:#maxchars#:#Maximale Anzahl von Zeichen
+assessment#:#qst_essay_chars_remaining#:#Noch übrige Zeichen:
+assessment#:#qst_essay_allready_written_words#:#Bereits geschriebene Wörter:
+assessment#:#qst_essay_wordcounter_enabled#:#Wortzähler
+assessment#:#qst_essay_wordcounter_enabled_info#:#Teilnehmern wird ein Wortzähler gezeigt. Er bietet eine Orientierung darüber wie viel Text Teilnehmer bereits geschrieben haben.
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#maximum_points#:#Maximal erreichbare Punktezahl
 assessment#:#maxsize#:#Maximale Dateigröße
@@ -1179,7 +1183,7 @@ assessment#:#ass_create_question#:#Frage erstellen
 assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerergebnisse
 assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline.
 assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
@@ -12097,6 +12101,7 @@ rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutz
 rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#file_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#mcst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#lso_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 content#:#cont_progress_icons#:#Fortschritts-Icons
 content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 5.0 gespeichert.
 content#:#cont_self_assessment#:#Selbsttests
@@ -14847,6 +14852,7 @@ lso#:#abstract#:#Einleitung
 lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#extro#:#Abschlussseite
 lso#:#extro_img#:#Bild für die Abschlussseite
+lso#:#lso_start_item#:#Start
 lso#:#lso_player_start#:#Lernsequenz starten
 lso#:#lso_player_review#:#Lernsequenz überarbeiten
 lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
@@ -14860,8 +14866,9 @@ lso#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#condition_always#:#Immer
-lso#:#condition_completed#:#Abgeschlossen
-lso#:#condition_failed#:#Durchgefallen
+lso#:#finished#:#Abgeschlossen
+lso#:#failed#:#Durchgefallen
+lso#:#not_finished#:#Nicht Abgeschlossen
 rbac#:#rbac_create_lso#:#Lernsequenz erstellen
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten

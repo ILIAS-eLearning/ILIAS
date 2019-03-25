@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\GlobalScreen\MainMenu;
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\Serializer\CoreSerializer;

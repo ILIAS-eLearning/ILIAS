@@ -41,7 +41,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	
 
 	// Service methods
-	function addGroup($sid,$target_id,$grp_xml)
+	public function addGroup($sid,$target_id,$grp_xml)
 	{
 		$this->initAuth($sid);
 		$this->initIlias();

@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilPDGlobalScreenProvider
@@ -65,6 +65,7 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			->withTitle($this->dic->language()->txt("overview"))
 			->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems")
 			->withParent($this->getTopItem())
+			->withPosition(1)
 			->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			->withAvailableCallable(
 				function () use ($dic) {
@@ -84,6 +85,7 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			->withTitle($this->dic->language()->txt("my_courses_groups"))
 			->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
 			->withParent($this->getTopItem())
+			->withPosition(2)
 			->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			->withAvailableCallable(
 				function () use ($dic) {
@@ -103,6 +105,7 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			->withTitle($this->dic->language()->txt("pd_achievements"))
 			->withAction($dic->ctrl()->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI"], ""))
 			->withParent($this->getTopItem())
+			->withPosition(7)
 			->withAvailableCallable(
 				function () use ($dic) {
 					$achievements = new ilAchievements();

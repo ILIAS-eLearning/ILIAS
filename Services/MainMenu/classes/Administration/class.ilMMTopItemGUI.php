@@ -58,17 +58,16 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 				return $this->add($DIC);
 			case self::CMD_CREATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
-				$this->create($DIC);
-				break;
+
+				return $this->create($DIC);
 			case self::CMD_EDIT:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
 				return $this->edit($DIC);
-				break;
 			case self::CMD_UPDATE:
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
-				$this->update($DIC);
-				break;
+
+				return $this->update($DIC);
 			case self::CMD_SAVE_TABLE:
 				$this->saveTable();
 
@@ -149,6 +148,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 		// TABLE
 		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
 		$table->setShowRowsSelector(false);
+
 		return $table->getHTML();
 	}
 
@@ -172,15 +172,18 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 
 
 	/**
-	 * @param $DIC
+	 * @param \ILIAS\DI\Container $DIC
 	 *
+	 * @return string
 	 * @throws Throwable
 	 */
 	private function create(\ILIAS\DI\Container $DIC) {
 		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
-		$f->save();
+		if ($f->save()) {
+			$this->cancel();
+		}
 
-		$this->cancel();
+		return $f->getHTML();
 	}
 
 
@@ -198,15 +201,18 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 
 
 	/**
-	 * @param $DIC
+	 * @param \ILIAS\DI\Container $DIC
 	 *
+	 * @return string
 	 * @throws Throwable
 	 */
 	private function update(\ILIAS\DI\Container $DIC) {
 		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->getMMItemFromRequest(), $this->repository);
-		$f->save();
+		if ($f->save()) {
+			$this->cancel();
+		}
 
-		$this->cancel();
+		return $f->getHTML();
 	}
 
 

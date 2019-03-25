@@ -26,18 +26,51 @@ class ilLSEventHandler
 	public function handleObjectDeletion(array $parameter)
 	{
 		$obj_deleted = $parameter['object'];
-		$obj_ref_id = $obj_deleted->getRefId();
-		if(empty($obj_ref_id) || !$this->tree->isInTree($obj_ref_id)) {
+		$obj_ref_id = (int)$obj_deleted->getRefId();
+
+		if (!$this->isExistingObject($obj_ref_id)) {
 			return;
 		}
-		$parent_lso = $this->getParentLSOInfo((int)$obj_ref_id);
+
+		$parent_lso = $this->getParentLSOInfo($obj_ref_id);
 		if($parent_lso) {
-			$lso = $this->getInstanceByRefId((int)$parent_lso['ref_id']);
-			$lso->getStateDB()->deleteForItem(
-				(int)$parent_lso['ref_id'],
-				(int)$obj_ref_id
-			);
+			$this->deleteLSOItem($obj_ref_id, (int)$parent_lso['ref_id']);
 		}
+	}
+
+	/**
+	 * @param  array  $parameter [obj_id, ref_id, old_parent_ref_id]
+	 */
+	public function handleObjectToTrash(array $parameter)
+	{
+		$obj_ref_id = (int)$parameter['ref_id'];
+		$old_parent_ref_id = (int)$parameter['old_parent_ref_id'];
+		$parent_lso = $this->getParentLSOInfo($obj_ref_id);
+
+		if (!$this->isExistingObject($obj_ref_id) || !$parent_lso) {
+			return;
+		}
+
+		if ($old_parent_ref_id) {
+			$this->deleteLSOItem($obj_ref_id, $old_parent_ref_id);
+		}
+	}
+
+	protected function isExistingObject(int $ref_id): bool
+	{
+		if (empty($ref_id) || !$this->tree->isInTree($ref_id)) {
+			return false;
+		}
+		return true;
+	}
+
+	protected function deleteLSOItem(int $obj_ref_id, int $parent_lso_ref_id)
+	{
+		$lso = $this->getInstanceByRefId($parent_lso_ref_id);
+		$lso->getStateDB()->deleteForItem(
+			$parent_lso_ref_id,
+			$obj_ref_id
+		);
 	}
 
 	public function handleParticipantDeletion(int $obj_id, int $usr_id)
@@ -66,7 +99,7 @@ class ilLSEventHandler
 		return ilObject::_getAllReferences($triggerer_obj_id);
 	}
 
-	protected function getInstanceByRefId(int $ref_id): ilObjLearningSequence
+	protected function getInstanceByRefId(int $ref_id): ilObject
 	{
 		return ilObjectFactory::getInstanceByRefId($ref_id);
 	}

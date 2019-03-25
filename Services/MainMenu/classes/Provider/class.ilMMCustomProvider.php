@@ -1,18 +1,20 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation;
-use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\MainMenu\Item\Complex;
-use ILIAS\GlobalScreen\MainMenu\Item\Link;
-use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
-use ILIAS\GlobalScreen\MainMenu\Item\Lost;
-use ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink;
-use ILIAS\GlobalScreen\MainMenu\Item\Separator;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
-use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilMMCustomProvider
@@ -44,7 +46,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\MainMenu\isItem[]
+	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem[]
 	 */
 	public function getStaticSubItems(): array {
 		/**
@@ -63,9 +65,9 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 	 * @param ilMMCustomItemStorage $storage
 	 * @param bool                  $register
 	 *
-	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
+	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
 	 */
-	public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false): \ILIAS\GlobalScreen\MainMenu\isItem {
+	public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false): \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem {
 		$identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 		if ($register) {
 			ilGSIdentificationStorage::registerIdentification($identification, $this);
@@ -73,13 +75,13 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 
 		$item = $this->globalScreen()->mainmenu()->custom($storage->getType(), $identification);
 
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle && $storage->getDefaultTitle() !== '') {
+		if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
 			$item = $item->withTitle($storage->getDefaultTitle());
 		}
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\hasAction) {
+		if ($item instanceof hasAction) {
 			$item = $item->withAction("#");
 		}
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+		if ($item instanceof isChild) {
 			$mm_item = ilMMItemStorage::find($identification->serialize());
 			$parent_identification = "";
 			if ($mm_item instanceof ilMMItemStorage) {
