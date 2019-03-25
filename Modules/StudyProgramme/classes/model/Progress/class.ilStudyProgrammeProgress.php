@@ -2,7 +2,6 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveRecord.php");
 
 /**
  * Class ilStudyProgrammeProgress.
@@ -14,10 +13,12 @@ require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveR
  * assigned program.
  * 
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
+ * @author: Denis Klöpfer <richard.klees@concepts-and-training.de>
  * @version: 0.1.0
  */
 
-class ilStudyProgrammeProgress extends ActiveRecord {
+class ilStudyProgrammeProgress
+{
 	
 	// The progress of a user on a program node can have different status that 
 	// determine how the node is taken into account for calculation of the learning
@@ -36,19 +37,13 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	// The user does not need to be successful in this node.
 	const STATUS_FAILED = 5;
 
-	static $STATUS = array( ilStudyProgrammeProgress::STATUS_IN_PROGRESS
-						  , ilStudyProgrammeProgress::STATUS_COMPLETED
-						  , ilStudyProgrammeProgress::STATUS_ACCREDITED
-						  , ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
-						  , ilStudyProgrammeProgress::STATUS_FAILED
+	static $STATUS = array( self::STATUS_IN_PROGRESS
+						  , self::STATUS_COMPLETED
+						  , self::STATUS_ACCREDITED
+						  , self::STATUS_NOT_RELEVANT
+						  , self::STATUS_FAILED
 						  );  
 
-	/**
-	 * @return string
-	 */
-	static function returnDbTableName() {
-		return "prg_usr_progress";
-	}
 
 	/**
 	 * The id of this progress.
@@ -195,66 +190,54 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 */
 	protected $deadline;
 
-	/**
-	 * Create a new progress object for a given program node and assignment.
-	 *
-	 * @param $a_assigning_user int
-	 * @return ilStudyProgrammeProgress
-	 */
-	static public function createFor( ilStudyProgramme $a_prg
-								    , ilStudyProgrammeAssignment $a_ass) {
-		$prg = new ilStudyProgrammeProgress();
-		$prg->setAssignmentId($a_ass->getId())
-			->setNodeId($a_prg->getObjId())
-			->setUserId($a_ass->getUserId())
-			->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
-			->setAmountOfPoints($a_prg->getPoints())
-			->setCurrentAmountOfPoints(0)
-			->setCompletionBy(null)
-			->setLastChangeBy(null)
-			->updateLastChange()
-			->create();
-		return $prg;
+
+	public function __construct(int $id)
+	{
+		$this->id = $id;
 	}
-	
+
+	/**
+	 * Get the id of the progress.
+	 *
+	 * @return int
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
 	/**
 	 * Get the assignment, this progress belongs to.
-	 *
-	 * @return ilStudyProgrammeAssignment.
 	 */
-	public function getAssignmentId() {
+	public function getAssignmentId() : int
+	{
 		return $this->assignment_id;
 	}
-	
-	protected function setAssignmentId($a_id) {
+	public function setAssignmentId(int $a_id) : ilStudyProgrammeProgress
+	{
 		$this->assignment_id = $a_id;
 		return $this;
 	}
-	
 	/**
 	 * Get the id of the program node this progress belongs to.
-	 *
-	 * @return int
 	 */
-	public function getNodeId() {
+	public function getNodeId() : int
+	{
 		return $this->prg_id;
 	}
-	
-	protected function setNodeId($a_id) {
+	public function setNodeId(int $a_id) : ilStudyProgrammeProgress
+	{
 		$this->prg_id = $a_id;
 		return $this;
 	}
-	
 	/**
 	 * Get the id of the user this progress is for.
-	 *
-	 * @return int
 	 */
-	public function getUserId() {
+	public function getUserId() : int
+	{
 		return $this->usr_id;
 	}
-	
-	protected function setUserId($a_id) {
+	public function setUserId(int $a_id) : ilStudyProgrammeProgress
+	{
 		$this->usr_id = $a_id;
 		return $this;
 	}
@@ -263,10 +246,9 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * Get the amount of points the user needs to achieve on the subnodes of this
 	 * node. Also the amount of points, this node yields for the progress on the
 	 * nodes above.
-	 *
-	 * @return int
 	 */
-	public function getAmountOfPoints() {
+	public function getAmountOfPoints() : int
+	{
 		return $this->points;
 	}
 	
@@ -276,17 +258,15 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * nodes above.
 	 *
 	 * Throws when amount of points is smaller then zero.
-	 *
-	 * @throws ilException
-	 * @return $this
 	 */
-	public function setAmountOfPoints($a_points) {
-		if (!is_numeric($a_points) || $a_points < 0) {
+	public function setAmountOfPoints(int $a_points) : ilStudyProgrammeProgress
+	{
+		if ($a_points < 0) {
 			throw new ilException("ilStudyProgrammeProgress::setAmountOfPoints: "
 								 ."Expected a number >= 0 as argument, got '$a_points'");
 		}
 		
-		$this->points = (int)$a_points;
+		$this->points = $a_points;
 
 		$this->updateLastChange();
 		return $this;
@@ -294,10 +274,9 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	
 	/**
 	 * Get the amount of points the user currently has achieved on the node.
-	 *
-	 * @return int
 	 */
-	public function getCurrentAmountOfPoints() {
+	public function getCurrentAmountOfPoints() : int
+	{
 		return $this->points_cur;
 	}
 	
@@ -309,13 +288,14 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setCurrentAmountOfPoints($a_points) {
-		if (!is_numeric($a_points) || $a_points < 0) {
+	public function setCurrentAmountOfPoints(int $a_points) : ilStudyProgrammeProgress
+	{
+		if ($a_points < 0) {
 			throw new ilException("ilStudyProgrammeProgress::setCurrentAmountOfPoints: "
 								 ."Expected a number >= 0 as argument, got '$a_points'.");
 		}
 		
-		$this->points_cur = (int)$a_points;
+		$this->points_cur = $a_points;
 		$this->updateLastChange();
 		return $this;
 	}
@@ -323,24 +303,21 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	/**
 	 * Get the status the user has on this node.
 	 *
-	 * @return int - one of ilStudyProgramme::STATUS_*
+	 * @return int - one of ilStudyProgrammeProgress::STATUS_*
 	 */
-	public function getStatus() {
+	public function getStatus() : int
+	{
 		return $this->status;
 	}
 	
 	/**
 	 * Set the status of this node.
 	 *
-	 * Throws when status is none of ilStudyProgramme::STATUS_*. Throws when
+	 * Throws when status is none of ilStudyProgrammeProgress::STATUS_*. Throws when
 	 * current status is STATUS_COMPLETED.
-	 * 
-	 * @throws ilException
-	 * @param  $a_status int - one of ilStudyProgramme::STATUS_*
-	 * @return $this
 	 */
-	public function setStatus($a_status) {
-		$a_status = (int)$a_status;
+	public function setStatus(int $a_status) : ilStudyProgrammeProgress
+	{
 		if (!in_array($a_status, self::$STATUS)) {
 			throw new ilException("ilStudyProgrammeProgress::setStatus: No status: "
 								 ."'$a_status'");
@@ -357,10 +334,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * @param $a_id int | null
 	 * @return $this
 	 */
-	public function setCompletionBy($a_id) {
-		if ($a_id !== null) {
-			$a_id = (int)$a_id;
-		}
+	public function setCompletionBy(int $a_id = null) : ilStudyProgrammeProgress 
+	{
 		$this->completion_by = $a_id;
 		$this->updateLastChange();
 		return $this;
@@ -372,7 +347,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 *
 	 * @return int
 	 */
-	public function getCompletionBy() {
+	public function getCompletionBy()
+	{
 		return $this->completion_by;
 	}
 	/**
@@ -380,7 +356,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * 
 	 * @return int
 	 */	
-	public function getLastChangeBy() {
+	public function getLastChangeBy()
+	{
 		return $this->last_change_by;
 	}
 	
@@ -392,7 +369,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChangeBy($a_usr_id) {
+	public function setLastChangeBy(int $a_usr_id = null) : ilStudyProgrammeProgress
+	{
 		if ($a_usr_id !== null && ilObject::_lookupType($a_usr_id) != "usr") {
 			throw new ilException("ilStudyProgrammeProgress::setLastChangeBy: '$a_usr_id' "
 								 ."is no id of a user.");
@@ -406,7 +384,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 *
 	 * @return ilDateTime
 	 */
-	public function getLastChange() {
+	public function getLastChange() : ilDateTime
+	{
 		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
 	}
 
@@ -420,7 +399,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 *
 	 * @return $this
 	 */
-	public function updateLastChange() {
+	public function updateLastChange()
+	{
 		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
 		return $this;
 	}
@@ -434,7 +414,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $a_timestamp) {
+	public function setLastChange(ilDateTime $a_timestamp) : ilStudyProgrammeProgress
+	{
 		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
 			throw new ilException("ilStudyProgrammeProgress::setLastChange: Given "
 								 ."timestamp is before current timestamp. That "
@@ -448,9 +429,10 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	/**
 	 * Get the deadline of this progress.
 	 *
-	 * @return ilDateTime
+	 * @return ilDateTime | null
 	 */
-	public function getDeadline() {
+	public function getDeadline()
+	{
 		if($this->deadline !== null) {
 			return new ilDateTime($this->deadline, IL_CAL_DATE);
 		}
@@ -464,7 +446,8 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	 *
 	 * @return $this
 	 */
-	public function setDeadline(ilDateTime $deadline = null) {
+	public function setDeadline(ilDateTime $deadline = null) : ilStudyProgrammeProgress
+	{
 		if($deadline === null) {
 			$this->deadline = $deadline;
 		} else {

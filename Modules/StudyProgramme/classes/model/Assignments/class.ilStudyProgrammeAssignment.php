@@ -1,8 +1,7 @@
-<?php
+<?php declare(strict_types = 1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveRecord.php");
 
 /**
  * Class ilStudyProgrammeAssignment.
@@ -16,14 +15,8 @@ require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveR
  * @version: 0.1.0
  */
 
-class ilStudyProgrammeAssignment extends ActiveRecord {
-	/**
-	 * @return string
-	 */
-	static function returnDbTableName() {
-		return "prg_usr_assignments";
-	}
-
+class ilStudyProgrammeAssignment
+{
 	/**
 	 * Id of this assignment.
 	 *
@@ -87,38 +80,19 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 */
 	protected $last_change_by;
 	
-	
-	/**
-	 * Create new assignment object for study program and user.
-	 *
-	 * Throws when $a_usr_id does not point to a user.
-	 * 
-	 * @throws ilException
-	 * @param  int $a_usr_id
-	 * @param  int $a_assigning_usr_id
-	 * @return ilStudyProgrammeAssignment
-	 */
-	static public function createFor(ilStudyProgramme $a_prg, $a_usr_id, $a_assigning_usr_id) {
-		if (ilObject::_lookupType($a_usr_id) != "usr") {
-			throw new ilException("ilStudyProgrammeAssignment::createFor: '$a_usr_id' "
-								 ."is no id of a user.");
-		}
-		
-		$ass = new ilStudyProgrammeAssignment();
-		$ass->setRootId($a_prg->getObjId())
-			->setUserId($a_usr_id)
-			->setLastChangeBy($a_assigning_usr_id)
-			->updateLastChange()
-			->create();
-		return $ass;
+
+	public function __construct(int $id)
+	{
+		$this->id = $id;
 	}
-	
+
 	/**
 	 * Get the id of the assignment.
 	 *
 	 * @return int
 	 */
-	public function getId() {
+	public function getId() : int
+	{
 		return $this->id;
 	}
 	
@@ -127,12 +101,14 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 *
 	 * @return int
 	 */
-	public function getRootId() {
+	public function getRootId() : int
+	{
 		return $this->root_prg_id;
 	}
 	
-	protected function setRootId($a_id) {
-		$this->root_prg_id = $a_id;
+	public function setRootId(int $id) : ilStudyProgrammeAssignment
+	{
+		$this->root_prg_id = $id;
 		return $this;
 	}
 	
@@ -141,12 +117,14 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 * 
 	 * @return int
 	 */
-	public function getUserId() {
+	public function getUserId() : int
+	{
 		return $this->usr_id;
 	}
 	
-	protected function setUserId($a_usr_id) {
-		$this->usr_id = $a_usr_id;
+	public function setUserId(int $usr_id) : ilStudyProgrammeAssignment
+	{
+		$this->usr_id = $usr_id;
 		return $this;
 	}
 	
@@ -155,7 +133,8 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 * 
 	 * @return int
 	 */	
-	public function getLastChangeBy() {
+	public function getLastChangeBy() : int
+	{
 		return $this->last_change_by;
 	}
 	
@@ -167,12 +146,13 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChangeBy($a_usr_id) {
-		if (ilObject::_lookupType($a_usr_id) != "usr") {
+	public function setLastChangeBy(int $usr_id) : ilStudyProgrammeAssignment
+	{
+		if (ilObject::_lookupType($usr_id) != "usr") {
 			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$a_usr_id' "
 								 ."is no id of a user.");
 		}
-		$this->last_change_by = $a_usr_id;
+		$this->last_change_by = $usr_id;
 		return $this;
 	}
 	
@@ -181,7 +161,8 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 *
 	 * @return ilDateTime
 	 */
-	public function getLastChange() {
+	public function getLastChange() : ilDateTime
+	{
 		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
 	}
 
@@ -190,7 +171,8 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 *
 	 * @return $this
 	 */
-	public function updateLastChange() {
+	public function updateLastChange() : ilStudyProgrammeAssignment
+	{
 		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
 		return $this;
 	}
@@ -204,14 +186,15 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $a_timestamp) {
-		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
+	public function setLastChange(ilDateTime $timestamp) : ilStudyProgrammeAssignment
+	{
+		if (ilDateTime::_before($timestamp, $this->getLastChange())) {
 			throw new ilException("ilStudyProgrammeAssignment::setLastChange: Given "
 								 ."timestamp is before current timestamp. That "
 								 ."is logically impossible.");
 		}
 		
-		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		$this->last_change = $timestamp->get(IL_CAL_DATETIME);
 		return $this;
 	}
 }
