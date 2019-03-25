@@ -305,11 +305,11 @@ class ilObjStudyProgrammeSettingsGUI {
 		global $DIC;
 		$lng = $DIC['lng'];
 		
-		return array( ilStudyProgramme::STATUS_DRAFT 
+		return array( ilStudyProgrammeSettings::STATUS_DRAFT 
 						=> $lng->txt("prg_status_draft")
-					, ilStudyProgramme::STATUS_ACTIVE
+					, ilStudyProgrammeSettings::STATUS_ACTIVE
 						=> $lng->txt("prg_status_active")
-					, ilStudyProgramme::STATUS_OUTDATED
+					, ilStudyProgrammeSettings::STATUS_OUTDATED
 						=> $lng->txt("prg_status_outdated")
 					);
 	}

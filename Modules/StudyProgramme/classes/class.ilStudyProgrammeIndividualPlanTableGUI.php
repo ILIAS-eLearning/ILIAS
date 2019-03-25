@@ -86,9 +86,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("STATUS", $status);
 
 		$title = $a_set["title"];
-		if($a_set["program_status"] == ilStudyProgramme::STATUS_DRAFT) {
+		if($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
 			$title .= " (".$this->lng->txt("prg_status_draft").")";
-		} else if ($a_set["program_status"] == ilStudyProgramme::STATUS_OUTDATED) {
+		} else if ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_OUTDATED) {
 			$title .= " (".$this->lng->txt("prg_status_outdated").")";
 		}
 

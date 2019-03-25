@@ -269,8 +269,72 @@ implements ilStudyProgrammeTypeRepository
 	 */
 	public function deleteType(ilStudyProgrammeType $type)
 	{
+
+		$prgs = $this->readStudyProgrammeIdsByTypeId();
+
+		if (count($prgs)) {
+			$titles = array();
+			/** @var $prg ilStudyProgramme */
+			foreach ($prgs as $key=>$prg) {
+				$container = new ilObjStudyProgramme($prg->getObjId(), false);
+				$titles[] = $container->getTitle();
+			}
+
+			throw new ilStudyProgrammeTypeException(sprintf($this->lng->txt('prg_type_msg_unable_delete'), implode(', ', $titles)));
+		}
+
+		$disallowed = array();
+		$titles = array();
+
+		/** @var ilStudyProgrammeTypeHookPlugin $plugin */
+		foreach ($this->getActivePlugins() as $plugin) {
+			if (!$plugin->allowDelete($type->getId())) {
+				$disallowed[] = $plugin;
+				$titles[] = $plugin->getPluginName();
+			}
+		}
+		if (count($disallowed)) {
+			$msg = sprintf($this->lng->txt('prg_type_msg_deletion_prevented'), implode(', ', $titles));
+			throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
+		}
+
+		if ($this->webdir->has($type->getIconPath(true))) {
+			$this->webdir->delete($type->getIconPath(true));
+		}
+		if ($this->webdir->has($type->getIconPath())) {
+			$this->webdir->deleteDir($type->getIconPath());
+		}
+		$this->deleteAllTranslationsByTypeId($type->getId());
+		$this->deleteAMDRecordsByTypeId($type->getId());
 		$this->db->manipulate(
 			'DELETE FROM '.self::TYPE_TABLE.' WHERE '.self::FIELD_ID.' = '.$type->getId()
+		);
+	}
+
+	protected function getActivePlugins() {
+		if ($this->active_plugins === NULL) {
+			$active_plugins = $this->pluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk');
+			$this->active_plugins = array();
+			foreach ($active_plugins as $pl_name) {
+				/** @var ilStudyProgrammeTypeHookPlugin $plugin */
+				$plugin = $this->pluginAdmin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl_name);
+				$this->active_plugins[] = $plugin;
+			}
+		}
+
+		return $this->active_plugins;
+	}
+
+	protected function deleteAllTranslationsByTypeId(int $type_id)
+	{
+		$this->db->manipulate(
+			'DELETE FROM '.self::TYPE_TRANSLATION_TABLE.' WHERE '.self::FIELD_PRG_TYPE_ID.' = '.$type->getId()
+		);
+	}
+	protected function deleteAMDRecordsByTypeId(int $type_id)
+	{
+		$this->db->manipulate(
+			'DELETE FROM '.self::AMD_TABLE.' WHERE '.self::FIELD_TYPE_ID.' = '.$type->getId()
 		);
 	}
 
@@ -498,7 +562,7 @@ implements ilStudyProgrammeTypeRepository
 	{
 		return  array_map(
 			function($settings) {
-				return $settings->getId();
+				return $settings->getPrgId();
 			},
 			$this->settings_repo->loadByType($type_id)
 		);

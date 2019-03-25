@@ -326,7 +326,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Get the lp mode.
 	 *
-	 * @return integer  - one of ilStudyProgramme::$MODES
+	 * @return integer  - one of ilStudyProgrammeSettings::$MODES
 	 */
 	public function getLPMode() {
 		return $this->settings->getLPMode();
@@ -343,18 +343,18 @@ class ilObjStudyProgramme extends ilContainer {
 	public function adjustLPMode() {
 		if ($this->getAmountOfLPChildren() > 0) {
 			$this->getSettingsRepository()->update(
-				$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED)
+				$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_LP_COMPLETED)
 			);
 		}
 		else {
 			if ($this->getAmountOfChildren() > 0) {
 				$this->getSettingsRepository()->update(
-					$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+					$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
 				);
 			}
 			else {
 				$this->getSettingsRepository(
-					$this->settings->setLPMode(ilStudyProgramme::MODE_UNDEFINED)
+					$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
 				);
 			}
 		}
@@ -363,7 +363,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Get the status.
 	 *
-	 * @return integer  - one of ilStudyProgramme::$STATUS
+	 * @return integer  - one of ilStudyProgrammeSettings::$STATUS
 	 */
 	public function getStatus() {
 		return $this->settings->getStatus();
@@ -387,7 +387,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return bool
 	 */
 	public function isActive() {
-		return $this->getStatus() == ilStudyProgramme::STATUS_ACTIVE;
+		return $this->getStatus() == ilStudyProgrammeSettings::STATUS_ACTIVE;
 	}
 
 	/**
@@ -718,7 +718,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function addNode(ilObjStudyProgramme $a_prg) {
 		$this->throwIfNotInTree();
 
-		if ($this->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+		if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
 
@@ -737,13 +737,13 @@ class ilObjStudyProgramme extends ilContainer {
 	 * Clears child chache and adds progress for new node.
 	 */
 	protected function nodeInserted(ilObjStudyProgramme $a_prg) {
-		if ($this->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+		if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
 
-		if ($this->settings->getLPMode() !== ilStudyProgramme::MODE_POINTS) {
+		if ($this->settings->getLPMode() !== ilStudyProgrammeSettings::MODE_POINTS) {
 			$this->getSettingsRepository()->update(
-				$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+				$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
 			);
 		}
 
@@ -835,7 +835,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$a_leaf->putInTree($this->getRefId());
 		$this->clearLPChildrenCache();
 		$this->getSettingsRepository()->update(
-			$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED)
+			$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_LP_COMPLETED)
 		);
 
 		return $this;
@@ -925,7 +925,7 @@ class ilObjStudyProgramme extends ilContainer {
 			throw new ilException("ilObjStudyProgramme::assignUser: Program was not properly created.'");
 		}
 
-		if ($this->getStatus() != ilStudyProgramme::STATUS_ACTIVE) {
+		if ($this->getStatus() != ilStudyProgrammeSettings::STATUS_ACTIVE) {
 			throw new ilException("ilObjStudyProgramme::assignUser: Can't assign user to program '"
 								 .$this->getId()."', since it's not in active status.");
 		}
@@ -939,7 +939,7 @@ class ilObjStudyProgramme extends ilContainer {
 
 		$this->applyToSubTreeNodes(function(ilObjStudyProgramme $node) use ($ass_mod, $a_assigning_usr_id) {
 			$progress = $node->createProgressForAssignment($ass_mod);
-			if ($node->getStatus() != ilStudyProgramme::STATUS_ACTIVE) {
+			if ($node->getStatus() != ilStudyProgrammeSettings::STATUS_ACTIVE) {
 				$this->getProgressRepository()->update(
 					$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 				);
@@ -1272,7 +1272,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		self::initStudyProgrammeCache();
 		$prg = ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
-		if ($prg->getLPMode() != ilStudyProgramme::MODE_LP_COMPLETED) {
+		if ($prg->getLPMode() != ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			return;
 		}
 		foreach ($prg->getProgressesOf($a_user_id) as $progress) {
@@ -1361,11 +1361,11 @@ class ilObjStudyProgramme extends ilContainer {
 		$mode = $parent->getLPMode();
 
 		switch ($mode) {
-			case ilStudyProgramme::MODE_UNDEFINED:
+			case ilStudyProgrammeSettings::MODE_UNDEFINED:
 				return $a_subobjects;
-			case ilStudyProgramme::MODE_POINTS:
+			case ilStudyProgrammeSettings::MODE_POINTS:
 				return array("prg" => $a_subobjects["prg"]);
-			case ilStudyProgramme::MODE_LP_COMPLETED:
+			case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
 				unset($a_subobjects["prg"]);
 				return $a_subobjects;
 		}
