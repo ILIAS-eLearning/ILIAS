@@ -27,9 +27,9 @@ il.UI.filter = (function ($) {
 				cnt_hid++;
 			});
 
-			$(".il-filter-bar-opener").find(".glyph:first").hide();
-			$(".il-filter-bar-opener").click(function() {
-				$('.il-filter-bar-opener .glyph').toggle();
+			$(".il-filter-bar-opener").find("button:first").hide();
+			$(".il-filter-bar-opener button").click(function() {
+				$(".il-filter-bar-opener button").toggle();
 				if ($(this).attr("aria-expanded") == "false") {
 					$(this).attr("aria-expanded", "true");
 				} else {
@@ -247,36 +247,16 @@ il.UI.filter = (function ($) {
 	 * @param id
 	 * @param cmd
 	 */
-	var onAjax = function (event, id, cmd) {
-		///////////////////////////////////////////////////////
+	var onAjaxCmd = function (event, id, cmd) {
+		//Get the URL for GET-request
 		var $el = $("#" + id);
 		var action = $el.parents('form').attr("data-cmd-" + cmd);
-		var url = parse_url(action);
-		var url_params = url['query_params'];
-		createHiddenInputs($el, url_params);
-
+		//Add the inputs to the URL (for correct rendering within the session) and perform the request as an Ajax-request
 		var formData = $el.parents('form').serialize();
-		console.log(formData);
 		$.ajax({
 			type: 'GET',
-			url: "ilias.php?" + formData,
-			data: formData
+			url: action + "&" + formData,
 		})
-
-
-
-		/*$.ajax({
-			// The URL for the request
-			url: action
-		})
-
-			.done(function( xhr, status ) {
-				alert( "The request is complete!" );
-			})
-			// Code to run regardless of success or failure;
-			.fail(function( xhr, status ) {
-				alert( "The request is failed!" );
-			});*/
 	};
 
 	/**
@@ -335,7 +315,7 @@ il.UI.filter = (function ($) {
 		onRemoveClick: onRemoveClick,
 		onAddClick: onAddClick,
 		onCmd: onCmd,
-		onAjax: onAjax
+		onAjaxCmd: onAjaxCmd
 	};
 
 })($);

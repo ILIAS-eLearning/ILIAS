@@ -85,44 +85,28 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ACTION", $component->getExpandAction());
 		$tpl->parseCurrentBlock();
 
-		$opener_expand = $f->glyph()->expand("#")->withAdditionalOnLoadCode(function ($id) {
-			$code = "$('#$id').on('click', function(event) {
-					il.UI.filter.onAjax(event, '$id', 'expand');
-					event.preventDefault();
-			});";
-			return $code;
-		});
-
-		/*$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "#")
+		$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
 			->withAdditionalOnLoadCode(function ($id) {
 				$code = "$('#$id').on('click', function(event) {
-					il.UI.filter.onAjax(event, '$id', 'expand');
+					il.UI.filter.onAjaxCmd(event, '$id', 'expand');
 					event.preventDefault();
 			});";
 				return $code;
-			});*/
+			});
 
 		$tpl->setCurrentBlock("action");
 		$tpl->setVariable("ACTION_NAME", "collapse");
 		$tpl->setVariable("ACTION", $component->getCollapseAction());
 		$tpl->parseCurrentBlock();
 
-		$opener_collapse = $f->glyph()->collapse("#")->withAdditionalOnLoadCode(function ($id) {
-			$code = "$('#$id').on('click', function(event) {
-					il.UI.filter.onAjax(event, '$id', 'collapse');
-					event.preventDefault();
-			});";
-			return $code;
-		});
-
-		/*$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "#")
+		$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
 			->withAdditionalOnLoadCode(function ($id) {
 				$code = "$('#$id').on('click', function(event) {
-					il.UI.filter.onAjax(event, '$id', 'collapse');
+					il.UI.filter.onAjaxCmd(event, '$id', 'collapse');
 					event.preventDefault();
 			});";
 				return $code;
-			});*/
+			});
 
 		if ($component->isExpanded() == false) {
 			$opener = [$opener_collapse, $opener_expand];

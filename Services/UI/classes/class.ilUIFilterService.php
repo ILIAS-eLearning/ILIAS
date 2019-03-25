@@ -160,7 +160,7 @@ class ilUIFilterService
 		}
 
 		if ($this->request->getFilterCmd() == self::CMD_COLLAPSE) {
-			$this->handleRendering($filter_id, $inputs);               //das eventuell raus, prüfen
+			$this->handleRendering($filter_id, $inputs);
 			$this->session->writeExpanded($filter_id, false);
 		}
 
