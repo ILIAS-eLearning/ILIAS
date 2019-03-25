@@ -49,29 +49,16 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->disable('sort');
 		
-		$this->enable('select_all');
-		$this->setSelectAllCheckbox('derive_pool_ids[]');
-		
 		$this->setExternalSegmentation(true);
 		$this->setLimit(PHP_INT_MAX);
 		
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
 		
-		$this->addCommands();
 		$this->addColumns();
-	}
-	
-	protected function addCommands()
-	{
-		$this->addMultiCommand(
-			ilTestRandomQuestionSetConfigGUI::CMD_SELECT_DERIVATION_TARGET,
-			$this->lng->txt('tst_derive_new_pools')
-		);
 	}
 	
 	protected function addColumns()
 	{
-		$this->addColumn('', '', '');
 		$this->addColumn($this->lng->txt('title'), '', '30%');
 		$this->addColumn($this->lng->txt('path'), '', '30%');
 		$this->addColumn($this->lng->txt('status'), '', '40%');
@@ -116,12 +103,6 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 	{
 		if( $set['status'] == ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST )
 		{
-			require_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
-			require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-			$chb = new ilCheckboxInputGUI('', 'derive_pool_ids[]');
-			$chb->setValue($set['id']);
-			$this->tpl->setVariable('CHB', $chb->render());
-			
 			$link = $this->getDerivePoolLink($set['id']);
 			$this->tpl->setCurrentBlock('single_action');
 			$this->tpl->setVariable('ACTION_HREF', $link);

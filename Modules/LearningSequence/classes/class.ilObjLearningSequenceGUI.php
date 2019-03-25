@@ -280,6 +280,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		$this->tabs->setTabActive(self::TAB_INFO);
 		$this->ctrl->setCmdClass('ilinfoscreengui');
+		$this->ctrl->setCmd($cmd);
 		$info = new ilInfoScreenGUI($this);
 		$this->ctrl->forwardCommand($info);
 	}
@@ -388,6 +389,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$ms_gui = new ilLearningSequenceMembershipGUI(
 			$this,
 			$this->getObject(),
+			$this->getTrackingObject(),
 			ilPrivacySettings::_getInstance(),
 			$this->lng,
 			$this->ctrl,
@@ -495,7 +497,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 	public function getTabs()
 	{
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("read")) {
 			$this->tabs->addTab(
 				self::TAB_CONTENT_MAIN
 				, $this->lng->txt(self::TAB_CONTENT_MAIN)
@@ -503,7 +505,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			);
 		}
 
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("read") || $this->checkAccess("visible")) {
 			$this->tabs->addTab(
 				self::TAB_INFO
 				, $this->lng->txt(self::TAB_INFO)
@@ -520,7 +522,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		if ( $this->checkAccess("read")) {
-			if ($this->checkAccess("edit_members")
+			if ($this->checkAccess("manage_members")
 				|| (
 					$this->getObject()->getLSSettings()->getMembersGallery()
 					&&
@@ -655,6 +657,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		return $this->object;
+	}
+
+	protected function getTrackingObject(): ilObjUserTracking
+	{
+		return new ilObjUserTracking();
 	}
 
 	/**

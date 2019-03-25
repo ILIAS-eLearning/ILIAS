@@ -42,9 +42,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 A prerequisite for the chat server is Node.js. The chat server is tested with the following versions of Node.js:
 
-* 8.9.4 (LTS)
-* 9.7.1
-
+* 8.9.4 (LTS) - 10.15.3 (LTS)
 
 The latest version can be downloaded at the following URL: https://github.com/nodesource/distributions#debinstall
 

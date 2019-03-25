@@ -1,80 +1,103 @@
 <?php
 
 /**
- * GUI-Class Table ilMStShowUserGUI
+ * Class ilMStShowUserGUI
  *
  * @author            Martin Studer <ms@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy ilMStShowUserGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStShowUserGUI:ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls      ilMStShowUserGUI: ilFormPropertyDispatchGUI
  */
 class ilMStShowUserGUI {
 
-	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const CMD_INDEX = 'index';
 	const CMD_SHOWUSER = 'showUser';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_APPLY_FILTER = 'applyFilter';
+	const TAB_SHOW_COURSES = 'show_courses';
+	const TAB_SHOW_USER = 'show_user';
 	/**
 	 * @var int
 	 */
 	protected $usr_id;
 	/**
-	 * @var  ilTable2GUI
+	 * @var ilTable2GUI
 	 */
 	protected $table;
+	/**
+	 * @var ilMyStaffAccess
+	 */
+	protected $access;
 
 
+	/**
+	 *
+	 */
 	public function __construct() {
-		$this->usr_id = $this->dic()->http()->request()->getQueryParams()['usr_id'];
-		$this->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
+		global $DIC;
 
-		$this->tpl()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
-		$this->tpl()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
+		$this->access = ilMyStaffAccess::getInstance();
+
+		$this->usr_id = $DIC->http()->request()->getQueryParams()['usr_id'];
+		$DIC->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
+
+		$DIC->ui()->mainTemplate()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
+		$DIC->ui()->mainTemplate()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
 	}
 
 
+	/**
+	 *
+	 */
 	protected function checkAccessOrFail() {
+		global $DIC;
+
 		if (!$this->usr_id) {
-			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
-			$this->ctrl()->redirectByClass('ilPersonalDesktopGUI', "");
+			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
 		}
 
-		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
-			return true;
+		if ($this->access->hasCurrentUserAccessToMyStaff()
+			&& $this->access->hasCurrentUserAccessToUser($this->usr_id)) {
+			return;
 		} else {
-			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
-			$this->ctrl()->redirectByClass('ilPersonalDesktopGUI', "");
+			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
 		}
 	}
 
 
+	/**
+	 *
+	 */
 	public function executeCommand() {
+		global $DIC;
+
 		$this->checkAccessOrFail();
 
-		$cmd = $this->ctrl()->getCmd();
-		$next_class = $this->ctrl()->getNextClass();
+		$cmd = $DIC->ctrl()->getCmd();
+		$next_class = $DIC->ctrl()->getNextClass();
 
 		switch ($next_class) {
 			case strtolower(ilFormPropertyDispatchGUI::class):
-				$this->ctrl()->setReturn($this, self::CMD_INDEX);
-				$table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
-				$table->executeCommand();
+				$DIC->ctrl()->setReturn($this, self::CMD_INDEX);
+				$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
+				$this->table->executeCommand();
 				break;
 			default:
 				switch ($cmd) {
 					case self::CMD_RESET_FILTER:
 					case self::CMD_APPLY_FILTER:
 					case self::CMD_INDEX:
-						$this->addTabs('show_courses');
+						$this->addTabs(self::TAB_SHOW_COURSES);
 						$this->$cmd();
 						break;
 					case self::CMD_SHOWUSER:
-						$this->addTabs('show_user');
+						$this->addTabs(self::TAB_SHOW_USER);
 						$this->$cmd();
 						break;
 					default:
-						$this->addTabs('show_courses');
+						$this->addTabs(self::TAB_SHOW_COURSES);
 						$this->index();
 						break;
 				}
@@ -82,44 +105,47 @@ class ilMStShowUserGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	protected function index() {
 		$this->listUsers();
 	}
 
 
+	/**
+	 *
+	 */
 	protected function listUsers() {
+		global $DIC;
+
 		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
-		$this->table->setTitle(sprintf($this->lng()
-		                                    ->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
+		$this->table->setTitle(sprintf($DIC->language()->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
 
-		/*$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
-
-		$tpl = new ilTemplate('./Services/MyStaff/templates/default/tpl.show_user_container.html', true, true);
-
-		$tpl->setCurrentBlock('courses');
-		$tpl->setVariable('COURSES', $this->table->getHTML());
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock('profile');
-		$tpl->setVariable('PROFILE', $pub_profile->getEmbeddable());
-		$tpl->parseCurrentBlock();*/
-
-		$this->tpl()->setContent($this->table->getHTML());
+		$DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
 	}
 
 
+	/**
+	 *
+	 */
 	protected function showUser() {
+		global $DIC;
+
 		//Redirect if Profile is not public
 		$user = new ilObjUser($this->usr_id);
 		if (!$user->hasPublicProfile()) {
-			$this->ctrl()->redirectByClass('ilMStShowUserGUI', "index");
+			$DIC->ctrl()->redirectByClass(self::class, self::CMD_INDEX);
 		}
 
 		$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
-		$this->tpl()->setContent($pub_profile->getEmbeddable());
+		$DIC->ui()->mainTemplate()->setContent($pub_profile->getEmbeddable());
 	}
 
 
+	/**
+	 *
+	 */
 	protected function applyFilter() {
 		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_APPLY_FILTER);
 		$this->table->writeFilterToSession();
@@ -128,6 +154,9 @@ class ilMStShowUserGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	protected function resetFilter() {
 		$this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_RESET_FILTER);
 		$this->table->resetOffset();
@@ -146,8 +175,13 @@ class ilMStShowUserGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function cancel() {
-		$this->ctrl()->redirect($this);
+		global $DIC;
+
+		$DIC->ctrl()->redirect($this);
 	}
 
 
@@ -155,27 +189,26 @@ class ilMStShowUserGUI {
 	 * @param string $active_tab_id
 	 */
 	protected function addTabs($active_tab_id) {
-		$lng = $this->lng();
-		$tabs = $this->tabs();
-		$ctrl = $this->ctrl();
-		$tabs->setBackTarget($lng->txt('mst_list_users'), $ctrl->getLinkTargetByClass(array(
+		global $DIC;
+
+		$DIC->tabs()->setBackTarget($DIC->language()->txt('mst_list_users'), $DIC->ctrl()->getLinkTargetByClass(array(
 			ilMyStaffGUI::class,
 			ilMStListUsersGUI::class,
 		)));
-		$tabs->addTab('show_courses', $lng->txt('mst_show_courses'), $ctrl->getLinkTargetByClass(array(
+		$DIC->tabs()->addTab(self::TAB_SHOW_COURSES, $DIC->language()->txt('mst_show_courses'), $DIC->ctrl()->getLinkTargetByClass(array(
 			ilMyStaffGUI::class,
-			ilMStShowUserGUI::class,
+			self::class,
 		), self::CMD_INDEX));
 
 		$user = new ilObjUser($this->usr_id);
 		if ($user->hasPublicProfile()) {
-			$ctrl->setParameterByClass('ilmstshowusergui', 'usr_id', $this->usr_id);
-			$public_profile_url = $ctrl->getLinkTargetByClass('ilmstshowusergui', self::CMD_SHOWUSER);
-			$tabs->addTab('show_user', $lng->txt('public_profile'), $public_profile_url);
+			$DIC->ctrl()->setParameterByClass(self::class, 'usr_id', $this->usr_id);
+			$public_profile_url = $DIC->ctrl()->getLinkTargetByClass(self::class, self::CMD_SHOWUSER);
+			$DIC->tabs()->addTab(self::TAB_SHOW_USER, $DIC->language()->txt('public_profile'), $public_profile_url);
 		}
 
 		if ($active_tab_id) {
-			$tabs->activateTab($active_tab_id);
+			$DIC->tabs()->activateTab($active_tab_id);
 		}
 	}
 }

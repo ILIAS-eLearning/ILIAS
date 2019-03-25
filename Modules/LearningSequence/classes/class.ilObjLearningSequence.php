@@ -93,6 +93,9 @@ class ilObjLearningSequence extends ilContainer
 		$this->ilias = $DIC['ilias'];
 		$this->il_settings = $DIC['ilSetting'];
 		$this->il_news = $DIC->news();
+		$this->il_condition_handler = new ilConditionHandler();
+		$this->data_factory = new \ILIAS\Data\Factory();
+
 		parent::__construct($id, $call_by_reference);
 	}
 
@@ -114,7 +117,7 @@ class ilObjLearningSequence extends ilContainer
 	{
 		$id = parent::create();
 		if (!$id) {
-			return false;
+			return 0;
 		}
 		$this->raiseEvent(self::E_CREATE);
 
@@ -378,9 +381,17 @@ class ilObjLearningSequence extends ilContainer
 	/**
 	 * @return array<"value" => "option_text">
 	 */
-	public function getPossiblePostConditions(): array
+	public function getPossiblePostConditionsForType(string $type): array
 	{
-		return LSPostConditionTypesDB::getAvailableTypes();
+		$condition_types = $this->il_condition_handler->getOperatorsByTriggerType($type);
+		$conditions = [
+			$this->conditions_db::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
+		];
+		foreach ($condition_types as $cond_type) {
+			$conditions[$cond_type] = $this->lng->txt($cond_type);
+		}
+		return $conditions;
+
 	}
 
 	protected function getLearnerProgressDB(): ilLearnerProgressDB
@@ -445,8 +456,6 @@ class ilObjLearningSequence extends ilContainer
 
 		return $ref_id;
 	}
-
-
 
 	/**
 	 * Get mail to members type

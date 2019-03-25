@@ -2098,14 +2098,14 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		if(!$a_force_registration)
 		{
 			// offline
-			if(!ilObjCourseAccess::_isOnline($this->getId()))
+			if(ilObjCourseAccess::_isOffline($this->getId()))
 			{
 				throw new ilMembershipRegistrationException(
 					"Can't register to course, course is offline.",
 					ilMembershipRegistrationException::REGISTRATION_INVALID_OFFLINE
 				);
+
 			}
-			
 			// activation
 			if(!ilObjCourseAccess::_isActivated($this->getId()))
 			{
@@ -2365,9 +2365,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$tree = $GLOBALS['DIC']->repositoryTree();
 		
 		$res = array();
-		
-		$now = time();
-		
+
+		$before = new ilDateTime(time(),IL_CAL_UNIX);
+		$before->increment(IL_CAL_DAY, -1);
+		$now = $before->get(IL_CAL_UNIX);
+
 		include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 		
 		$set = $ilDB->query("SELECT obj_id, min_members".

@@ -2,9 +2,7 @@
     "maintenance_model": "Service",
     "first_maintainer": "",
     "second_maintainer": "",
-    "implicit_maintainers": [
-        "fschmid(21087)"
-    ],
+    "implicit_maintainers": [],
     "coordinator": [
         "amstutz(26468)",
         "rklees(34047)"
