@@ -11,7 +11,6 @@ require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
 require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php");
 require_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
-require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
 require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");
 require_once("./Services/Repository/classes/class.ilRepUtil.php");
@@ -577,10 +576,19 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case 'editAdvancedSettings':
 				$this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
 				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
-
-				$type = ilStudyProgrammeType::find($this->object->getSubtypeId());
-
-				if (!is_null($type) && count($type->getAssignedAdvancedMDRecords(true))) {
+				$sub_type_id = $this->object->getSubtypeId();
+				if($sub_type_id) {
+					$type = $this->object->getTypeRepository()->readType($sub_type_id);
+				}
+				if (
+					!is_null($type) &&
+					count(
+						$this->object->getTypeRepository()->readAssignedAMDRecordIdsByType(
+							$type->getId()
+							,true
+						)
+					) > 0
+				) {
 					$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('prg_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
 				}
 				break;
@@ -636,7 +644,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		require_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		require_once('./Services/ADT/classes/class.ilADTFactory.php');
 
-		$type = ilStudyProgrammeType::find($this->object->getSubtypeId());
+		$type = $this->object->getTypeRepository()->readType($this->object->getSubtypeId());
 		if (!$type) {
 			return;
 		}

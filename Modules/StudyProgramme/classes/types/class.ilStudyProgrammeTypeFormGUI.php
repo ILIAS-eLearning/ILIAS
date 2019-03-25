@@ -12,7 +12,7 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
     /**
      * @var ilStudyProgrammeType
      */
-    protected $type;
+    protected $type_repository;
 
     /**
      * @var ilTemplate
@@ -35,13 +35,13 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilStudyProgrammeType $type) {
+    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repository) {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $this->parent_gui = $parent_gui;
-        $this->type = $type;
+        $this->type_repository = $type_repository;
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
@@ -57,12 +57,12 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject() {
-        if (!$this->fillObject()) {
+    public function saveObject(ilStudyProgrammeType $type) {
+        if (!$this->fillObject($type)) {
             return false;
         }
         try {
-            $this->type->save();
+            $this->type_repository->updateType($type);
             return true;
         } catch (ilException $e) {
             ilUtil::sendFailure($e->getMessage());
@@ -70,13 +70,9 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         }
     }
 
-    /**
-     * Add all fields to the form
-     */
-    protected function initForm() {
+    protected function initForm()
+    {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
-        $title = $this->type->getId() ? $this->lng->txt('prg_type_edit') : $this->lng->txt('prg_type_add');
-        $this->setTitle($title);
         $item = new ilSelectInputGUI($this->lng->txt('default_language'), 'default_lang');
         $languages = $this->lng->getInstalledLanguages();
         $options = array();
@@ -84,25 +80,49 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
             $options[$lang_code] = $this->lng->txt("meta_l_{$lang_code}");
         }
         $item->setOptions($options);
-        $type_default = $this->type->getDefaultLang();
+        $item->setRequired(true);
+        $this->addItem($item);
+
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
+    }
+
+    /**
+     * Add all fields to the form
+     */
+    public function fillFormUpdate(ilStudyProgrammeType $type)
+    {
+        $title = $this->lng->txt('prg_type_edit');
+        $this->setTitle($title);
+        $languages = $this->lng->getInstalledLanguages();
+        $type_default = $type->getDefaultLang();
+        $item = $this->getItemByPostVar('default_lang');
         if(in_array($type_default, $languages)) {
             $item->setValue($type_default);
         } else {
             $item->setValue($this->lng->getDefaultLanguage());
         }
-        $item->setRequired(true);
-        $this->addItem($item);
+
+        foreach ($languages as $lang_code) {
+            $this->addTranslationInputs($lang_code, $type);
+        }
+
+        $this->addCommandButton('update', $this->lng->txt('save'));
+    }
+
+
+    public function fillFormCreate()
+    {
+        $title = $this->lng->txt('prg_type_add');
+        $this->setTitle($title);
+        $languages = $this->lng->getInstalledLanguages();
+        $item = $this->getItemByPostVar('default_lang');
+        $item->setValue($this->lng->getDefaultLanguage());
 
         foreach ($languages as $lang_code) {
             $this->addTranslationInputs($lang_code);
         }
 
-        if ($this->type->getId()) {
-            $this->addCommandButton('update', $this->lng->txt('save'));
-        } else {
-            $this->addCommandButton('create', $this->lng->txt('create'));
-        }
-        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
+        $this->addCommandButton('create', $this->lng->txt('save'));
     }
 
     /**
@@ -110,26 +130,25 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    protected function fillObject() {
+    public function fillObject(ilStudyProgrammeType $type) {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
-            return false;
+            return null;
         }
 
-        $success = true;
         try {
-            $this->type->setDefaultLang($this->getInput('default_lang'));
+            $type->setDefaultLang($this->getInput('default_lang'));
             foreach ($this->lng->getInstalledLanguages() as $lang_code) {
                 $title = $this->getInput("title_{$lang_code}");
                 $description = $this->getInput("description_{$lang_code}");
-                $this->type->setTitle($title, $lang_code);
-                $this->type->setDescription($description, $lang_code);
+                $type->setTitle($title, $lang_code);
+                $type->setDescription($description, $lang_code);
             }
         } catch (ilStudyProgrammeTypePluginException $e) {
             ilUtil::sendFailure($e->getMessage());
-            $success = false;
+            return null;
         }
-        return $success;
+        return $type;
     }
 
     /**
@@ -137,15 +156,15 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
      *
      * @param $a_lang_code
      */
-    protected function addTranslationInputs($a_lang_code) {
+    protected function addTranslationInputs($a_lang_code, ilStudyProgrammeType $type = null) {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt("meta_l_{$a_lang_code}"));
         $this->addItem($section);
         $item = new ilTextInputGUI($this->lng->txt('title'), "title_{$a_lang_code}");
-        $item->setValue($this->type->getTitle($a_lang_code));
+        $item->setValue($type ? $type->getTitle($a_lang_code) : '');
         $this->addItem($item);
         $item = new ilTextAreaInputGUI($this->lng->txt('description'), "description_{$a_lang_code}");
-        $item->setValue($this->type->getDescription($a_lang_code));
+        $item->setValue($type ? $type->getDescription($a_lang_code) : '');
         $this->addItem($item);
     }
 
