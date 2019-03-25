@@ -2,32 +2,6 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Container/classes/class.ilContainer.php");
-require_once('./Services/Container/classes/class.ilContainerSorting.php');
-
-require_once("./Modules/StudyProgramme/classes/model/Settings/class.ilStudyProgrammeSettings.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Settings/interface.ilStudyProgrammeSettingsRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Settings/class.ilStudyProgrammeSettingsDBRepository.php");
-
-require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Progress/interface.ilStudyProgrammeProgressRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgressDBRepository.php");
-
-require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignment.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Assignments/interface.ilStudyProgrammeAssignmentRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignmentDBRepository.php");
-
-
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeType.php");
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeTypeTranslation.php");
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeAdvancedMetadataRecord.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Types/interface.ilStudyProgrammeTypeRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeTypeDBRepository.php");
-
-require_once("./Modules/StudyProgramme/classes/class.ilObjectFactoryWrapper.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/interface.ilStudyProgrammeLeaf.php");
-require_once("./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTreeException.php");
-require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCache.php");
 
 /**
  * Class ilObjStudyProgramme
