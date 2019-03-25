@@ -10,12 +10,14 @@
 		<!-- END reached_points_alert -->
 	</td>
 	<td class="std">
-		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" href="#">{VAL_TXT_ANSWER}</a>
+		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" data-answer-title="{ANSWER_TITLE}" href="#">{VAL_TXT_ANSWER}</a>
 		<!-- BEGIN row_js -->
 		<script type="text/javascript">
 			(function($) {
 				$().ready(function() {
 					$(".iosAssAnswerModalTrigger").on("click", function(e) {
+
+
 						var $this = $(this),
 							modal = $this.data("modal");
 
@@ -29,7 +31,7 @@
 								success: function(data) {
 									modal = il.Modal.dialogue({
 										show:    false,
-										header:  il.Language.txt('answer'),
+										header:  $this.data("answer-title"),
 										body:    data,
 										buttons: {}
 									});

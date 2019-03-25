@@ -351,7 +351,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		{
 			$tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')' . $add_title);
 		}
+		$tmp_tpl->setVariable('TEXT_SOLUTION_OUTPUT', $this->lng->txt('question'));
 		$tmp_tpl->setVariable('SOLUTION_OUTPUT', $result_output);
+		$tmp_tpl->setVariable('TEXT_RECEIVED_POINTS', $this->lng->txt('scoring'));
 		$tmp_tpl->setVariable('RECEIVED_POINTS', sprintf($this->lng->txt('part_received_a_of_b_points'), $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));
 
 		echo $tmp_tpl->get();
