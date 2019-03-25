@@ -39,9 +39,18 @@ class ilObjStudyProgrammeTest extends TestCase {
 
 	protected function setUp(): void {
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		ilUnitUtil::performInitialisation();
+		global $DIC;
+		if(!$DIC) {
+			try {
+				include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+				ilUnitUtil::performInitialisation();
+			} catch(Exception $e) {
+
+			}
+		}
+
 		
 		$this->root_object = ilObjStudyProgramme::createInstance();
 		$this->root_object_obj_id = $this->root_object->getId();
@@ -54,7 +63,7 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$tree = $DIC['tree'];
 		$this->tree = $tree;
 		
-		global $DIC;
+
 		$objDefinition = $DIC['objDefinition'];
 		$this->obj_definition = $objDefinition;
 	}
@@ -79,7 +88,7 @@ class ilObjStudyProgrammeTest extends TestCase {
 	}
 	
 	public function testDefaults() {
-		$this->assertEquals($this->root_object->getStatus(), ilStudyProgramme::STATUS_DRAFT);
+		$this->assertEquals($this->root_object->getStatus(), ilStudyProgrammeSettings::STATUS_DRAFT);
 	}
 
 	/**
@@ -157,13 +166,13 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$obj->setPoints(10);
-		$obj->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$obj->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
 		$obj->update();
 		
 		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertEquals(10, $obj->getPoints());
-		$this->assertEquals(ilStudyProgramme::STATUS_ACTIVE, $obj->getStatus());
+		$this->assertEquals(ilStudyProgrammeSettings::STATUS_ACTIVE, $obj->getStatus());
 
 		$midnight = strtotime("today midnight");
 		$this->assertGreaterThan($midnight, $obj->getLastChange()->getUnixTime());
@@ -305,7 +314,7 @@ class ilObjStudyProgrammeTest extends TestCase {
 		});
 		
 		// We didn't make modification on the points of the nodes.
-		$this->assertEquals($val, 5 * ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertEquals($val, 5 * ilStudyProgrammeSettings::DEFAULT_POINTS);
 
 
 		$this->root_object->setPoints(1);
@@ -343,7 +352,7 @@ class ilObjStudyProgrammeTest extends TestCase {
 							"Root of grandchild is root of tree.");
 		$this->assertEquals(1, $child->getAmountOfChildren());
 		$this->assertEquals(2, $grandchild->getDepth());
-		$this->assertEquals($child->getLPMode(), ilStudyProgramme::MODE_POINTS);
+		$this->assertEquals($child->getLPMode(), ilStudyProgrammeSettings::MODE_POINTS);
 	}
 	
 	/**
@@ -406,7 +415,7 @@ class ilObjStudyProgrammeTest extends TestCase {
 
 		$this->assertEquals(1, $first_child->getAmountOfLPChildren(), "getAmountOfLPChildren() on first child");
 		$this->assertEquals(true, $first_child->hasLPChildren(), "hasLPChildren() on first child");
-		$this->assertEquals($first_child->getLPMode(), ilStudyProgramme::MODE_LP_COMPLETED);
+		$this->assertEquals($first_child->getLPMode(), ilStudyProgrammeSettings::MODE_LP_COMPLETED);
 		
 		$lp_children = $first_child->getLPChildren();
 		$this->assertEquals(1, count($lp_children));
@@ -512,14 +521,14 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
 		$child_r = $children[1];
-		$this->root_object->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$child_l->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$child_r->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->root_object->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$child_l->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$child_r->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
 		
 		$user = new ilObjUser();
 		$user->create();
 		
-		$child_l->assignUser($user->getId());
+		$child_l->assignUser($user->getId(),6);
 		$this->root_object->removeNode($child_l);
 	}
 	
@@ -528,14 +537,14 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
 		$child_r = $children[1];
-		$this->root_object->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$child_l->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$child_r->setStatus(ilStudyProgramme::STATUS_OUTDATED);
+		$this->root_object->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$child_l->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$child_r->setStatus(ilStudyProgrammeSettings::STATUS_OUTDATED);
 		
 		$user = new ilObjUser();
 		$user->create();
 		
-		$this->root_object->assignUser($user->getId());
+		$this->root_object->assignUser($user->getId(),6);
 		$this->root_object->removeNode($child_r);
 	}
 	
@@ -598,7 +607,7 @@ class ilObjStudyProgrammeTest extends TestCase {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$res = $ilDB->query( "SELECT COUNT(*) cnt "
-							." FROM ".ilStudyProgramme::returnDbTableName()
+							." FROM ".ilStudyProgrammeSettingsDBRepository::TABLE
 							." WHERE obj_id = ".$this->root_object_obj_id
 							);
 		$rec = $ilDB->fetchAssoc($res);

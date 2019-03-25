@@ -19,9 +19,13 @@ class ilStudyProgrammeLPTest extends TestCase {
 
 	protected function setUp(): void {
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		ilUnitUtil::performInitialisation();
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
 		
 		$this->root = ilObjStudyProgramme::createInstance();
 		$this->root->putInTree(ROOT_FOLDER_ID);
@@ -60,14 +64,14 @@ class ilStudyProgrammeLPTest extends TestCase {
 	}
 
 	protected function setAllNodesActive() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
 	}
 	
 	protected function assignNewUserToRoot() {
 		$user = $this->newUser();
-		return array($this->root->assignUser($user->getId()), $user);
+		return array($this->root->assignUser($user->getId(),6), $user);
 	}
 
 	public function testInitialLPActive() {
@@ -90,9 +94,9 @@ class ilStudyProgrammeLPTest extends TestCase {
 	}
 	
 	public function testInitialLPDraft() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_DRAFT)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)->update();
 		
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
@@ -112,9 +116,9 @@ class ilStudyProgrammeLPTest extends TestCase {
 	}
 	
 	public function testInitialProgressOutdated() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_OUTDATED)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_OUTDATED)->update();
 		
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
