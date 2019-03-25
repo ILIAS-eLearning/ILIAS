@@ -3,6 +3,7 @@
 namespace Filesystem\Provider\FlySystem;
 
 require_once('./libs/composer/vendor/autoload.php');
+\Hamcrest\Util::registerGlobalFunctions();
 
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -120,7 +121,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('writeStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andReturn(true);
 
 		$this->subject->writeStream($path, $stream);
@@ -155,7 +156,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('writeStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andThrow(FileExistsException::class);
 		
 		$this->expectException(FileAlreadyExistsException::class);
@@ -176,7 +177,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('writeStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andReturn(false);
 
 		$this->expectException(IOException::class);
@@ -197,7 +198,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('putStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andReturn(true);
 
 		$this->subject->putStream($path, $stream);
@@ -215,7 +216,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('putStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andReturn(false);
 
 		$this->expectException(IOException::class);
@@ -253,7 +254,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('updateStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andReturn(true);
 
 		$this->subject->updateStream($path, $stream);
@@ -288,7 +289,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('updateStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andReturn(false);
 		
 		$this->expectException(IOException::class);
@@ -309,7 +310,7 @@ class FlySystemFileStreamAccessTest extends TestCase {
 
 		$this->filesystemMock->shouldReceive('updateStream')
 			->once()
-			->withArgs([$path, resourceValue()])
+			->withArgs([$path, \resourceValue()])
 			->andThrow(FileNotFoundException::class);
 
 		$this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);

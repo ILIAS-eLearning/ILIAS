@@ -3,6 +3,7 @@
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
 require_once('./libs/composer/vendor/autoload.php');
+\Hamcrest\Util::registerGlobalFunctions();
 
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
@@ -164,7 +165,7 @@ class FlySystemDirectoryAccessTest extends TestCase {
 		$this->filesystemMock
 			->shouldReceive('listContents')
 			->once()
-			->withArgs([$path, boolValue()])
+			->withArgs([$path, \boolValue()])
 			->andReturn($contentList)
 			->getMock()
 			->shouldReceive('has')
