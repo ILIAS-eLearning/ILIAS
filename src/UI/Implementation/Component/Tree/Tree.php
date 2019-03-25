@@ -30,6 +30,11 @@ abstract class Tree implements ITree\Tree
 	 */
 	protected $recursion;
 
+	/**
+	 * @var bool
+	 */
+	protected $highlight_nodes_on_click = false;
+
 
 	public function __construct(ITree\TreeRecursion $recursion)
 	{
@@ -78,5 +83,24 @@ abstract class Tree implements ITree\Tree
 	public function getRecursion(): ITree\TreeRecursion
 	{
 		return $this->recursion;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withHighlightOnNodeClick(bool $highlight_nodes_on_click): ITree\Tree
+	{
+		$clone = clone $this;
+		$clone->highlight_nodes_on_click = $highlight_nodes_on_click;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getHighlightOnNodeClick(): bool
+	{
+		return $this->highlight_nodes_on_click;
 	}
 }

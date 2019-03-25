@@ -30,14 +30,16 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable("LABEL", $component->getLabel());
 
-$icon=$component->getIcon();
+		$icon = $component->getIcon();
+		if($icon){
+			$tpl->setVariable("ICON", $default_renderer->render($icon));
+		}
 
-if($icon){
-	$tpl->setVariable("ICON", $default_renderer->render($icon));
-}
+		if($component->isHighlighted()){
+			$tpl->touchBlock("highlighted");
+		}
 
 		$triggered_signals = $component->getTriggeredSignals();
-
 		if(count($triggered_signals) > 0) {
 			$component = $this->triggerFurtherSignals($component, $triggered_signals);
 		}

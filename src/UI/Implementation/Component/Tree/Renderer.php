@@ -36,10 +36,13 @@ class Renderer extends AbstractComponentRenderer {
 		$nodes_html = $default_renderer->render($nodes);
 		$tpl->setVariable('NODES', $nodes_html);
 
+		$highlight_node_on_click = $component->getHighlightOnNodeClick();
+		$component = $component->withAdditionalOnLoadCode(
+			function ($id) use ($highlight_node_on_click) {
+				return "il.UI.tree.init('$id', $highlight_node_on_click)";
+			}
+		);
 
-		$component = $component->withAdditionalOnLoadCode(function ($id) {
-			return "il.UI.tree.init('$id')";
-		});
 		$id = $this->bindJavaScript($component);
 		$tpl->setVariable("ID", $id);
 

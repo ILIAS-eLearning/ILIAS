@@ -32,6 +32,11 @@ abstract class Node implements INode
 	protected $expanded = false;
 
 	/**
+	 * @var bool
+	 */
+	protected $highlighted = false;
+
+	/**
 	 * @var Node[]
 	 */
 	protected $subnodes = [];
@@ -67,6 +72,24 @@ abstract class Node implements INode
 	public function isExpanded(): bool
 	{
 		return $this->expanded;
+	}
+
+	/**
+	 * @inhertidoc
+	 */
+	public function withHighlighted(bool $highlighted): INode
+	{
+		$clone = clone $this;
+		$clone->highlighted = $highlighted;
+		return $clone;
+	}
+
+	/**
+	 * @inhertidoc
+	 */
+	public function isHighlighted(): bool
+	{
+		return $this->highlighted;
 	}
 
 	/**

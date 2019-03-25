@@ -51,6 +51,9 @@ function expandable() {
 			if($label === "root" || $label === "2"){
 				$node = $node->withExpanded(true);
 			}
+			if($label === "2"){
+				$node = $node->withHighlighted(true);
+			}
 
 			return $node;
 		}
@@ -65,7 +68,8 @@ function expandable() {
 
 	$tree = $f->tree()->expandable($recursion)
 		->withEnvironment($environment)
-		->withData($data);
+		->withData($data)
+		->withHighlightOnNodeClick(true);
 
 	return $renderer->render([
 		$modal,

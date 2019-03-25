@@ -38,4 +38,15 @@ interface Node extends Component, Clickable
 	 * Should this Node be expanded on loading?
 	 */
 	public function isExpanded(): bool;
+
+	/**
+	 * Set $highlighted to true to have this node highlighted on loading.
+	 */
+	public function withHighlighted(bool $expanded): Node;
+
+	/**
+	 * Should this Node be highlighted on loading?
+	 */
+	public function isHighlighted(): bool;
+
 }

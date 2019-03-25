@@ -37,4 +37,15 @@ interface Tree extends Component
 	 * Get the mapping-class.
 	 */
 	public function getRecursion(): TreeRecursion;
+
+	/**
+	 * Should a clicked node be highlighted?
+	 */
+	public function withHighlightOnNodeClick(bool $highlight): Tree;
+
+	/**
+	 * Is the tree configured to highlight a clicked node?
+	 */
+	public function getHighlightOnNodeClick(): bool;
+
 }
