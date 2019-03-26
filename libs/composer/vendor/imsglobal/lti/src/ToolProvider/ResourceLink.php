@@ -1272,6 +1272,10 @@ EOD;
                 	\ilLoggerFactory::getLogger('lti')->warning('lti 1.1 outcome failed with message: ' . $e->getMessage());
                 }
             }
+            else {
+				\ilLoggerFactory::getLogger('lti')->debug('Got response: ' . $http->response);
+				\ilLoggerFactory::getLogger('lti')->debug('Got response: ' . $http->responseHeaders);
+			}
             $this->extRequest = $http->request;
             $this->extRequestHeaders = $http->requestHeaders;
         }
