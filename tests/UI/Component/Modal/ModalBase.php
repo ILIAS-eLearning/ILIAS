@@ -17,6 +17,9 @@ abstract class ModalBase extends ILIAS_UI_TestBase {
 			public function counter() {
 				return new I\Component\Counter\Factory();
 			}
+			public function legacy($content) {
+				return new I\Component\Legacy\Legacy($content);
+			}
 		};
 		return $factory;
 	}
