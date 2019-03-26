@@ -139,6 +139,7 @@ class HTTPMessage
             $chResp = curl_exec($ch);
 
             \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch));
+			\ilLoggerFactory::getLogger('lti')->dump(curl_error($ch));
 
             $this->ok = $chResp !== false;
             if ($this->ok) {
