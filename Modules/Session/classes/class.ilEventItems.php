@@ -130,6 +130,7 @@ class ilEventItems
 		global $ilDB,$tree;
 		
 		$session_nodes = $tree->getChildsByType($a_ref_id,'sess');
+		$session_ids = [];
 		foreach($session_nodes as $node)
 		{
 			$session_ids[] = $node['obj_id'];
