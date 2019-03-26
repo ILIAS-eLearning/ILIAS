@@ -12,7 +12,7 @@ class Factory implements IDrilldown\Factory
 	 */
 	public function menu(string $label, $icon_or_glyph = null): IDrilldown\Menu
 	{
-		return new Menu($label, $icon_or_glyph);
+		return new Menu($this, $label, $icon_or_glyph);
 	}
 
 	/**

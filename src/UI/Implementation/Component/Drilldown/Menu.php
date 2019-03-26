@@ -42,14 +42,11 @@ class Menu implements IDrilldown\Menu
 	 */
 	protected $entries = [];
 
-	public function __construct(string $label, $icon_or_glyph = null)
+	public function __construct(IDrilldown\Factory $drilldown_factory, string $label, $icon_or_glyph = null)
 	{
 		$this->label = $label;
 		$this->icon_or_glyph = $icon_or_glyph;
-
-		global $DIC;
-		$f = $DIC['ui.factory']->drilldown();
-		$this->self_entry = $f->submenu($label, $icon_or_glyph);
+		$this->self_entry = $drilldown_factory->submenu($label, $icon_or_glyph);
 	}
 
 	/**

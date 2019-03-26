@@ -49,6 +49,7 @@ class NoUIFactory implements Factory {
 	public function input() {}
 	public function table() {}
 	public function messageBox() {}
+	public function drilldown() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

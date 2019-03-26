@@ -6,6 +6,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Drilldown;
 
 use ILIAS\UI\Component\Drilldown as IDrilldown;
+use ILIAS\UI\Component\Icon\Icon;
+use ILIAS\UI\Component\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
@@ -39,6 +41,12 @@ class Submenu implements IDrilldown\Submenu
 
 	public function __construct(string $label, $icon_or_glyph = null)
 	{
+		if(! is_null($icon_or_glyph)) {
+			$classes = [Icon::class, Glyph::class];
+			$check = [$icon_or_glyph];
+			$this->checkArgListElements("icon_or_glyph", $check, $classes);
+		}
+
 		$this->label = $label;
 		$this->icon_or_glyph = $icon_or_glyph;
 	}
