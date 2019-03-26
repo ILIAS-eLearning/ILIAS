@@ -157,6 +157,7 @@ class ilEventItems
 		$tree = $DIC['tree'];
 		
 		$session_nodes = $tree->getChildsByType($a_ref_id,'sess');
+		$session_ids = [];
 		foreach($session_nodes as $node)
 		{
 			$session_ids[] = $node['obj_id'];
