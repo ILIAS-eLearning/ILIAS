@@ -1250,10 +1250,16 @@ EOD;
             $header .= "\nContent-Type: application/xml";
 // Connect to tool consumer
             $http = new HTTPMessage($url, 'POST', $xmlRequest, $header);
+
+			\ilLoggerFactory::getLogger('lti')->debug('Sending post: ' . $header);
+            \ilLoggerFactory::getLogger('lti')->debug('Sending post: ' . $xmlRequest);
+
 // Parse XML response
             if ($http->send()) {
                 $this->extResponse = $http->response;
                 $this->extResponseHeaders = $http->responseHeaders;
+				\ilLoggerFactory::getLogger('lti')->debug('Got response: ' . $http->response);
+				\ilLoggerFactory::getLogger('lti')->debug('Got response: ' . $http->responseHeaders);
                 try {
                     $this->extDoc = new DOMDocument();
                     $this->extDoc->loadXML($http->response);
@@ -1263,6 +1269,7 @@ EOD;
                         $ok = true;
                     }
                 } catch (\Exception $e) {
+                	\ilLoggerFactory::getLogger('lti')->warning('lti 1.1 outcome failed with message: ' . $e->getMessage());
                 }
             }
             $this->extRequest = $http->request;
