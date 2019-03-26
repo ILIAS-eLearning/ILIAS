@@ -1175,6 +1175,10 @@ EOF;
             if ($http->send()) {
                 $this->extResponse = $http->response;
                 $this->extResponseHeaders = $http->responseHeaders;
+
+                \ilLoggerFactory::getLogger('lti')->debug('Response: ' . $http->response);
+				\ilLoggerFactory::getLogger('lti')->debug('Response: ' . $http->responseHeaders);
+
                 try {
                     $this->extDoc = new DOMDocument();
                     $this->extDoc->loadXML($http->response);
@@ -1183,10 +1187,14 @@ EOF;
                         $ok = true;
                     }
                 } catch (\Exception $e) {
+                	\ilLoggerFactory::getLogger('lti')->warning('Outcome failed with message: ' . $e->getMessage());
                 }
             }
             $this->extRequest = $http->request;
             $this->extRequestHeaders = $http->requestHeaders;
+
+            \ilLoggerFactory::getLogger('lti')->debug('Request: ' . $http->request);
+			\ilLoggerFactory::getLogger('lti')->debug('RequestHeaders: ' . $http->requestHeaders);
         }
 
         return $ok;
