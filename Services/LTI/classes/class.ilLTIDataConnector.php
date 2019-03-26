@@ -317,7 +317,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($key);
         // $key256 = $this->getConsumerKey($key);
         if ($key === $key256) {
-            $key256 = null;
+            $key = null;
         }
         $protected = ($consumer->protected) ? 1 : 0;
         $enabled = ($consumer->enabled)? 1 : 0;
@@ -343,7 +343,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$id = $consumer->getRecordId();
 			$consumer->created = $time;
 			$consumer->updated = $time;
-			#if ($key256 == null) $key256 = $id.ToolProvider\DataConnector\DataConnector::getRandomString(10);
+			if ($key256 == null) $key256 = $id.ToolProvider\DataConnector\DataConnector::getRandomString(10);
 
 			// $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
 			$query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
@@ -444,7 +444,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($key);
         // $key256 = $this->getConsumerKey($key);
         if ($key === $key256) {
-            $key256 = null;
+            $key = null;
         }
         $protected = ($consumer->protected) ? 1 : 0;
         $enabled = ($consumer->enabled)? 1 : 0;
@@ -471,7 +471,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			$id = $consumer->getRecordId();
 			$consumer->created = $time;
 			$consumer->updated = $time;
-			#if ($key256 == null) $key256 = $id.ToolProvider\DataConnector\DataConnector::getRandomString(10);
+			if ($key256 == null) $key256 = $id.ToolProvider\DataConnector\DataConnector::getRandomString(10);
 
 			// $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
 			$query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
@@ -746,7 +746,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 				$consumer->setRole($row->role);
 				// local_role_always_member
 				// default_skin
-				$consumer->setKey($row->consumer_key);//ACHTUNG: hier müsste evtl. consumer_key sein : => Yep
+				$consumer->setKey($row->consumer_key256);//ACHTUNG: hier müsste evtl. consumer_key sein
 				$consumers[] = $consumer;
             }
             // mysql_free_result($rsConsumers);
