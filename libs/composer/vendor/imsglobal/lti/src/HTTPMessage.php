@@ -112,6 +112,9 @@ class HTTPMessage
         $this->ok = false;
 // Try using curl if available
         if (function_exists('curl_init')) {
+
+        	\ilLoggerFactory::getLogger('lti')->debug('Curl connection');
+
             $resp = '';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
@@ -134,6 +137,9 @@ class HTTPMessage
             curl_setopt($ch, CURLOPT_HEADER, true);
             curl_setopt($ch, CURLOPT_SSLVERSION,3);
             $chResp = curl_exec($ch);
+
+            \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch));
+
             $this->ok = $chResp !== false;
             if ($this->ok) {
                 $chResp = str_replace("\r\n", "\n", $chResp);
@@ -153,6 +159,9 @@ class HTTPMessage
             curl_close($ch);
             $this->response = $resp;
         } else {
+
+			\ilLoggerFactory::getLogger('lti')->debug('fopen connection');
+
 // Try using fopen if curl was not available
             $opts = array('method' => $this->method,
                           'content' => $this->request
