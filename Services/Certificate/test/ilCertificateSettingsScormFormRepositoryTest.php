@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsScormFormRepositoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testSave()
 	{

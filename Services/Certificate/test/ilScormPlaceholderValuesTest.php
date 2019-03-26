@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilScormPlaceholderValuesTest extends PHPUnit_Framework_TestCase
+class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
 	public function testGetPlaceholderValues()
 	{

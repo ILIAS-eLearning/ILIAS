@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
+class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testSaveOfUserCertificateToDatabase()
 	{
@@ -199,10 +199,12 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilException
+	 * 
 	 */
 	public function testFetchNoActiveCertificateLeadsToException()
 	{
+		$this->expectException(\ilException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->getMock();
 
@@ -334,10 +336,12 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilException
+	 * 
 	 */
 	public function testNoCertificateInFetchtCertificateLeadsToException()
 	{
+		$this->expectException(\ilException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->getMock();
 

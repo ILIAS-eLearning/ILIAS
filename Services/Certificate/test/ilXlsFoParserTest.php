@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
+class ilXlsFoParserTest extends ilCertificateBaseTestCase
 {
 	public function testParseWithNonCustomPageFormatting()
 	{
@@ -100,10 +100,12 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException  Exception
+	 * 
 	 */
 	public function testParseButXmlCheckerFindsAnError()
 	{
+		$this->expectException(\Exception::class);
+
 		$formData = array(
 			'certificate_text' => '<xml> Some Context </xml>',
 			'margin_body' => array(

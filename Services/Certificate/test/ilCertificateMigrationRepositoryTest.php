@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateMigrationRepositoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateMigrationRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testDeleteFromMigrationJob()
 	{

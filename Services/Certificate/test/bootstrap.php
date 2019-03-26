@@ -5,3 +5,4 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 require_once 'libs/composer/vendor/autoload.php';
+require_once 'ilCertificateBaseTestCase.php';

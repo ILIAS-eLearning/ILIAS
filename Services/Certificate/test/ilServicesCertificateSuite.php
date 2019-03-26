@@ -1,10 +1,14 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestCase;
+
 require_once __DIR__ . '/bootstrap.php';
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilServicesCertificateSuite extends PHPUnit_Framework_TestSuite
+class ilServicesCertificateSuite extends TestSuite
 {
 	/**
 	 * @return self
@@ -31,7 +35,7 @@ class ilServicesCertificateSuite extends PHPUnit_Framework_TestSuite
 				if (
 					!$reflection->isAbstract() &&
 					!$reflection->isInterface() &&
-					$reflection->isSubclassOf(\PHPUnit_Framework_TestCase::class)) {
+					$reflection->isSubclassOf(TestCase::class)) {
 					$suite->addTestSuite($className);
 				}
 			}

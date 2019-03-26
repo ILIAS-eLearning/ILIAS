@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCronTest extends PHPUnit_Framework_TestCase
+class ilCertificateCronTest extends ilCertificateBaseTestCase
 {
 	public function testGetTitle()
 	{
