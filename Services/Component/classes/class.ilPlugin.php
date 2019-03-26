@@ -397,7 +397,7 @@ abstract class ilPlugin
 	 * Update all or selected languages
 	 * @var array|null	$a_lang_keys	keys of languages to be updated (null for all)
 	 */
-	public function updateLanguages($a_lang_keys = null)
+	public function updateLanguages(array $a_lang_keys = null)
 	{
 		ilGlobalCache::flushAll();
 		include_once("./Services/Language/classes/class.ilObjLanguage.php");
