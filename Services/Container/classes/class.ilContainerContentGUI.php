@@ -779,19 +779,32 @@ abstract class ilContainerContentGUI
 		}
 		else
 		{
-			$path = ilUtil::getImagePath("empty.png");
+			$path = ilUtil::getImagePath("cont_tile/cont_tile_default_".$a_item_data['type'].".svg");
+			if (!is_file($path))
+			{
+				$path = ilUtil::getImagePath("cont_tile/cont_tile_default.svg");
+			}
 		}
 
+		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
 		{
-			$image = $f->image()->responsive($path, "")->withAction($def_command["link"]);
+			$image = $image->withAction($def_command["link"]);
 		}
 
 		// card
+		$title = $a_item_data["title"];
+
+		if ($a_item_data["type"] == "sess" && $a_item_data["title"] == "")
+		{
+			$app_info = ilSessionAppointment::_lookupAppointment($a_item_data['obj_id']);
+			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+		}
+
 		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
 			->withIsOutlined(true);
 		$card = $f->card()->repositoryObject(
-			$a_item_data["title"]."<span data-list-item-id='".$item_list_gui->getUniqueItemId(true)."'></span>",
+			$title."<span data-list-item-id='".$item_list_gui->getUniqueItemId(true)."'></span>",
 			$image
 		)->withObjectIcon(
 			$icon

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * GUI-Class Table ilMStListUsersGUI
+ * Class ilMStListUsersGUI
  *
  * @author            Martin Studer <ms@studer-raimann.ch>
  *
@@ -9,13 +9,13 @@
  */
 class ilMStListUsersGUI {
 
-	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_INDEX = 'index';
+	const CMD_GET_ACTIONS = "getActions";
 	const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
 	/**
-	 * @var  ilTable2GUI
+	 * @var ilTable2GUI
 	 */
 	protected $table;
 	/**
@@ -24,26 +24,45 @@ class ilMStListUsersGUI {
 	protected $access;
 
 
+	/**
+	 *
+	 */
+	public function __construct() {
+		$this->access = ilMyStaffAccess::getInstance();
+	}
+
+
+	/**
+	 *
+	 */
 	protected function checkAccessOrFail() {
-		if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
-			return true;
+		global $DIC;
+
+		if ($this->access->hasCurrentUserAccessToMyStaff()) {
+			return;
 		} else {
-			ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
-			$this->ctrl()->redirectByClass('ilPersonalDesktopGUI', "");
+			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
 		}
 	}
 
 
+	/**
+	 *
+	 */
 	public function executeCommand() {
+		global $DIC;
+
 		$this->checkAccessOrFail();
 
-		$cmd = $this->ctrl()->getCmd();
+		$cmd = $DIC->ctrl()->getCmd();
 
 		switch ($cmd) {
 			case self::CMD_RESET_FILTER:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_INDEX:
 			case self::CMD_ADD_USER_AUTO_COMPLETE:
+			case self::CMD_GET_ACTIONS:
 				$this->$cmd();
 				break;
 			default:
@@ -53,18 +72,29 @@ class ilMStListUsersGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function index() {
 		$this->listUsers();
 	}
 
 
+	/**
+	 *
+	 */
 	public function listUsers() {
+		global $DIC;
+
 		$this->table = new ilMStListUsersTableGUI($this, self::CMD_INDEX);
-		$this->table->setTitle($this->lng()->txt('mst_list_users'));
-		$this->tpl()->setContent($this->table->getHTML());
+		$this->table->setTitle($DIC->language()->txt('mst_list_users'));
+		$DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
 	}
 
 
+	/**
+	 *
+	 */
 	public function applyFilter() {
 		$this->table = new ilMStListUsersTableGUI($this, self::CMD_APPLY_FILTER);
 		$this->table->writeFilterToSession();
@@ -73,6 +103,9 @@ class ilMStListUsersGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function resetFilter() {
 		$this->table = new ilMStListUsersTableGUI($this, self::CMD_RESET_FILTER);
 		$this->table->resetOffset();
@@ -81,7 +114,38 @@ class ilMStListUsersGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function cancel() {
-		$this->ctrl()->redirect($this);
+		global $DIC;
+
+		$DIC->ctrl()->redirect($this);
+	}
+
+
+	/**
+	 *
+	 */
+	public function getActions() {
+		global $DIC;
+
+		$mst_lus_usr_id = $DIC->http()->request()->getQueryParams()['mst_lus_usr_id'];
+		if ($mst_lus_usr_id > 0) {
+			$selection = new ilAdvancedSelectionListGUI();
+
+			$DIC->ctrl()->setParameterByClass(ilMStShowUserGUI::class, 'usr_id', $mst_lus_usr_id);
+			$selection->addItem($DIC->language()->txt('mst_show_courses'), '', $DIC->ctrl()->getLinkTargetByClass(array(
+				ilPersonalDesktopGUI::class,
+				ilMyStaffGUI::class,
+				ilMStShowUserGUI::class,
+			)));
+
+			$selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_lus_usr_id, rawurlencode($DIC->ctrl()
+				->getLinkTarget($this, self::CMD_INDEX)));
+
+			echo $selection->getHTML(true);
+		}
+		exit;
 	}
 }

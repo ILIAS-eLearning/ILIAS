@@ -33,7 +33,7 @@ class ilIndividualAssessmentMember {
 		$this->lp_status = $data[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 		$this->notification_ts = $data[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS];
 		$this->place = $data[ilIndividualAssessmentMembers::FIELD_PLACE];
-		$this->event_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
+		$this->event_time = new ilDate($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
 		$this->changer_id = $data[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
 		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
 		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
@@ -206,12 +206,12 @@ class ilIndividualAssessmentMember {
 	/**
 	 * Clone this object and set an internal note
 	 *
-	 * @param	ilDateTime | null	$internal_note
+	 * @param	ilDate | null	$internal_note
 	 * @return	ilManualAssessmentMember
 	 */
 	public function withEventTime($event_time)
 	{
-		assert($event_time instanceof ilDateTime || is_null($event_time));
+		assert($event_time instanceof ilDate || is_null($event_time));
 		$clone = clone $this;
 		$clone->event_time = $event_time;
 		return $clone;

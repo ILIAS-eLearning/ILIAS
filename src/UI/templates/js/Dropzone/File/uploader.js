@@ -220,6 +220,9 @@ il.UI = il.UI || {};
                     sizeLimit: options.fileSizeLimit,
                     itemLimit: options.maxFiles
                 },
+                messages: {
+                    typeError: options.typeError
+                },
                 callbacks: {
                     onUpload: function (fileId, name) {
                         // Register additional name + description parameters for the upload request

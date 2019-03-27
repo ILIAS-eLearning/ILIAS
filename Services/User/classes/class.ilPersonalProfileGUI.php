@@ -18,11 +18,19 @@ class ilPersonalProfileGUI
 
 	var $user_defined_fields = null;
 
+	/** @var \ilTabsGUI */
+	protected $tabs;
+
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
 
 	/**
 	* constructor
+	 * @param \ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
 	*/
-	function __construct()
+    function __construct(
+		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null
+	)
 	{
 		global $DIC;
 
@@ -30,6 +38,12 @@ class ilPersonalProfileGUI
 		$tpl = $DIC['tpl'];
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
+        $this->tabs = $DIC->tabs();
+
+		if ($termsOfServiceEvaluation === null) {
+			$termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
+		}
+		$this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
@@ -534,6 +548,37 @@ class ilPersonalProfileGUI
 	function showProfile()
 	{
 		$this->showPersonalData();
+	}
+	
+	/**
+	 * 
+	 */
+	protected function showUserAgreement()
+	{
+		$this->tabs->clearTargets();
+		$this->tabs->clearSubTabs();
+
+		$tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
+
+		$this->tpl->setTitle($this->lng->txt('usr_agreement'));
+
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$document = $this->termsOfServiceEvaluation->document();
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+		} else {
+			$tpl->setVariable(
+				'TERMS_OF_SERVICE_CONTENT',
+				sprintf(
+					$this->lng->txt('no_agreement_description'),
+					'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+				)
+			);
+		}
+
+		$this->tpl->setContent($tpl->get());
+		$this->tpl->setPermanentLink('usr', null, 'agreement');
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -1389,9 +1434,8 @@ class ilPersonalProfileGUI
 			include_once "Services/Badge/classes/class.ilBadgeHandler.php";
 			$handler = ilBadgeHandler::getInstance();
 			if($handler->isActive())
-			{		
-				if(sizeof($_POST["bpos"]))
-				{
+			{
+				if(isset($_POST["bpos"]) && is_array($_POST["bpos"]) && sizeof($_POST["bpos"])) {
 					include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 					ilBadgeAssignment::updatePositions($ilUser->getId(), $_POST["bpos"]);
 				}				

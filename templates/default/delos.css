@@ -6874,9 +6874,13 @@ button.close {
   width: 100%;
   position: relative;
   background-color: white;
+  /* see bug #24947 */
 }
 .il-card img {
   width: 100%;
+}
+.il-card a {
+  overflow: hidden;
 }
 .il-card .thumbnail {
   margin-bottom: 0px;
@@ -6904,7 +6908,7 @@ button.close {
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -6921,6 +6925,14 @@ button.close {
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
   float: left;
+}
+.il-card .il-card-repository-head .il-chart-progressmeter-box {
+  width: 41px;
+  height: 38px;
+}
+.il-card .il-card-repository-head .il-chart-progressmeter-box > .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
+  max-width: 100%;
+  filter: brightness(1.2);
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown {
   float: right;
@@ -11736,10 +11748,16 @@ div.ilFrmPostHeader span.small {
 .ilFrmBottomToolbar {
   margin-top: 20px;
 }
+.ilForumTreeTitle {
+  display: inline-block;
+}
 .ilForumTreeTitleUnread {
   font-weight: bold;
 }
 .ilForumTreeUnlinkedContent {
+  display: block;
+  line-height: 0.9em;
+  margin-bottom: 10px;
   text-decoration: none;
   cursor: text;
   font-size: smaller;

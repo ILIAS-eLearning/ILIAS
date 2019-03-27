@@ -78,6 +78,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
 
                     $file_obj->createReference();
                     $file_obj->putInTree($this->obj->getRefId());
+                    $file_obj->setPermissions($this->ref_id);
                     $file_obj->update();
 
                     $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
@@ -192,7 +193,6 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function getChildren()
     {
-        
         $child_nodes = array();
         foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
         {

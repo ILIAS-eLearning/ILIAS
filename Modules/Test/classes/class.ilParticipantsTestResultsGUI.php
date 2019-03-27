@@ -254,7 +254,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-		$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		$participantData->load($this->getTestObj()->getTestId());
 		
@@ -290,7 +290,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-		$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		
 		$participantData->setActiveIdsFilter((array)$_POST["chbUser"]);
@@ -324,7 +324,7 @@ class ilParticipantsTestResultsGUI
 			
 			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 			$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-			$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
+			//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 			$participantData->setParticipantAccessFilter($accessFilter);
 			$participantData->setActiveIdsFilter($_POST["chbUser"]);
 			

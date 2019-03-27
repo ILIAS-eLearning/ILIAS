@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilWorkspaceGlobalScreenProvider
@@ -52,6 +52,7 @@ class ilWorkspaceGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("personal_workspace"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace")
 			        ->withParent($this->getTopItem())
+			        ->withPosition(5)
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {

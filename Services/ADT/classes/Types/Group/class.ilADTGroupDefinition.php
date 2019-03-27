@@ -2,7 +2,7 @@
 
 class ilADTGroupDefinition extends ilADTDefinition
 {	
-	protected $elements; // [array]
+	protected $elements = []; // [array]
 	
 	public function __clone()
 	{

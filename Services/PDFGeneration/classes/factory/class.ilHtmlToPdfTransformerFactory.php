@@ -41,6 +41,7 @@ class ilHtmlToPdfTransformerFactory
 			ilUtil::makeDirParents($dir);
 		}
 
+		$output = preg_replace('#[\\\\/:*?"<>|]#', '-', $output);
 		$output = $dir . '/' . $output;
 		return $output;
 	}
@@ -71,7 +72,7 @@ class ilHtmlToPdfTransformerFactory
 
 		/** @var ilPDFRenderer $renderer */
 		$renderer->generatePDF($service, $purpose, $config, $job);
-		$this->deliverPDF($output, $delivery_type);
+		return $this->deliverPDF($output, $delivery_type);
 	}
 
 

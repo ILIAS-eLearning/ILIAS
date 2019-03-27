@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
@@ -90,6 +91,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @var ilPluginAdmin
 	 */
 	protected $plugin_admin;
+	/**
+	 * @var Services
+	 */
+	protected $global_screen;
 
 	/**
 	 * @var ilAppEventHandler
@@ -131,6 +136,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
 		$this->ui = $DIC->ui();
+		$this->global_screen = $DIC->globalScreen();
 		$rbacsystem = $DIC->rbac()->system();
 		$lng = $DIC->language();
 
@@ -546,7 +552,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			// all items in one block
 			case ilContainer::VIEW_SESSIONS:
-			case IL_CRS_VIEW_TIMING:			// not nice this workaround
+			case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
 				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
@@ -3920,9 +3926,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			if ($allow_lso) {
-				$whiltelist = $exp->getTypeWhiteList();
+				$whitelist = $exp->getTypeWhiteList();
 				$whitelist[] = 'lso';
-				$exp->setTypeWhiteList($whiltelist);
+				$exp->setTypeWhiteList($whitelist);
 			}
 		}
 

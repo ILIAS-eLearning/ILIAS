@@ -845,3 +845,4 @@ if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id'))
 	));
 }
 ?>
+

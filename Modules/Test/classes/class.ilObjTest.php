@@ -196,6 +196,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	var $nr_of_tries;
 
+  	protected $blockPassesAfterPassedEnabled = false;
+  	
 	/**
 	 * Tells ILIAS to use the previous answers of a learner in a later test pass
 	 * The default is 1 which shows the previous answers in the next pass.
@@ -1282,6 +1284,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'show_marker'                => array('integer', $this->getShowMarker()),
 				'fixed_participants'         => array('text', $this->getFixedParticipants()),
 				'nr_of_tries'                => array('integer', $this->getNrOfTries()),
+				'block_after_passed'         => array('integer', (int)$this->isBlockPassesAfterPassedEnabled()),
 				'kiosk'                      => array('integer', $this->getKiosk()),
 				'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
 				'title_output'               => array('text', $this->getTitleOutput()),
@@ -1386,106 +1389,107 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			}
 
 			$ilDB->update('tst_tests',
-				array(
-					'author'                     => array('text', $this->getAuthor()),
-					'intro_enabled'              => array('integer', (int)$this->isIntroductionEnabled()),
-					'introduction'               => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
-					'finalstatement'             => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
-					'showinfo'                   => array('integer', $this->getShowInfo()),
-					'forcejs'                    => array('integer', $this->getForceJS()),
-					'customstyle'                => array('text', $this->getCustomStyle()),
-					'showfinalstatement'         => array('integer', $this->getShowFinalStatement()),
-					'sequence_settings'          => array('integer', $this->getSequenceSettings()),
-					'score_reporting'            => array('integer', $this->getScoreReporting()),
-					'instant_verification'       => array('text', $this->getInstantFeedbackSolution()),
-					'answer_feedback_points'     => array('text', $this->getAnswerFeedbackPoints()),
-					'answer_feedback'            => array('text', $this->getGenericAnswerFeedback()),
-					'anonymity'                  => array('text', $this->getAnonymity()),
-					'show_cancel'                => array('text', $this->getShowCancel()),
-					'show_marker'                => array('integer', $this->getShowMarker()),
-					'fixed_participants'         => array('text', $this->getFixedParticipants()),
-					'nr_of_tries'                => array('integer', $this->getNrOfTries()),
-					'kiosk'                      => array('integer', $this->getKiosk()),
-					'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
-					'title_output'               => array('text', $this->getTitleOutput()),
-					'processing_time'            => array('text', $this->getProcessingTime()),
-					'enable_processing_time'     => array('text', $this->getEnableProcessingTime()),
-					'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
-					'reporting_date'             => array('text', $this->getReportingDate()),
-					'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
-					'starting_time'              => array('integer', $this->getStartingTime()),
-					'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
-					'ending_time'                => array('integer', $this->getEndingTime()),
-					'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
-					'ects_output'                => array('text', $this->getECTSOutput()),
-					'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
-					'ects_b'                     => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL),
-					'ects_c'                     => array('float', strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL),
-					'ects_d'                     => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL),
-					'ects_e'                     => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL),
-					'ects_fx'                    => array('float', $this->getECTSFX()),
-					'count_system'               => array('text', $this->getCountSystem()),
-					'mc_scoring'                 => array('text', $this->getMCScoring()),
-					'score_cutting'              => array('text', $this->getScoreCutting()),
-					'pass_scoring'               => array('text', $this->getPassScoring()),
-					'shuffle_questions'          => array('text', $this->getShuffleQuestions()),
-					'results_presentation'       => array('integer', $this->getResultsPresentation()),
-					'show_summary'               => array('integer', $this->getListOfQuestionsSettings()),
-					'password_enabled'           => array('integer', (int)$this->isPasswordEnabled()),
-					'password'                   => array('text', $this->getPassword()),
-					'limit_users_enabled'        => array('integer', (int)$this->isLimitUsersEnabled()),
-					'allowedusers'               => array('integer', $this->getAllowedUsers()),
-					'alloweduserstimegap'        => array('integer', $this->getAllowedUsersTimeGap()),
-					'mailnottype'                => array('integer', $this->getMailNotificationType()),
-					'exportsettings'             => array('integer', $this->getExportSettings()),
-					'certificate_visibility'     => array('text', $this->getCertificateVisibility()),
-					'mailnotification'           => array('integer', $this->getMailNotification()),
-					'tstamp'                     => array('integer', time()),
-					'enabled_view_mode'          => array('text', $this->getEnabledViewMode()),
-					'template_id'                => array('integer', $this->getTemplate()),
-					'pool_usage'                 => array('integer', $this->getPoolUsage()),
-					'print_bs_with_res'          => array('integer', (int)$this->isBestSolutionPrintedWithResult()),
-					'obligations_enabled'        => array('integer', (int)$this->areObligationsEnabled()),
-					'offer_question_hints'       => array('integer', (int)$this->isOfferingQuestionHintsEnabled()),
-					'highscore_enabled'          => array('integer', (int)$this->getHighscoreEnabled()),
-					'highscore_anon'             => array('integer', (int)$this->getHighscoreAnon()),
-					'highscore_achieved_ts'      => array('integer', (int)$this->getHighscoreAchievedTS()),
-					'highscore_score'            => array('integer', (int)$this->getHighscoreScore()),
-					'highscore_percentage'       => array('integer', (int)$this->getHighscorePercentage()),
-					'highscore_hints'            => array('integer', (int)$this->getHighscoreHints()),
-					'highscore_wtime'            => array('integer', (int)$this->getHighscoreWTime()),
-					'highscore_own_table'        => array('integer', (int)$this->getHighscoreOwnTable()),
-					'highscore_top_table'        => array('integer', (int)$this->getHighscoreTopTable()),
-					'highscore_top_num'          => array('integer', (int)$this->getHighscoreTopNum()),
-					'specific_feedback'          => array('integer', (int)$this->getSpecificAnswerFeedback()),
-					'autosave'                   => array('integer', (int)$this->getAutosave()),
-					'autosave_ival'              => array('integer', (int)$this->getAutosaveIval()),
-					'pass_deletion_allowed'      => array('integer', (int)$this->isPassDeletionAllowed()),
-					'enable_examview'            => array('integer', (int)$this->getEnableExamview()),
-					'show_examview_html'         => array('integer', (int)$this->getShowExamviewHtml()),
-					'show_examview_pdf'          => array('integer', (int)$this->getShowExamviewPdf()),
-					'redirection_mode'           => array('integer', (int)$this->getRedirectionMode()),
-					'redirection_url'            => array('text', (string)$this->getRedirectionUrl()),
-					'enable_archiving'           => array('integer', (int)$this->getEnableArchiving()),
-					'examid_in_test_pass'        => array('integer', (int)$this->isShowExamIdInTestPassEnabled()),
-					'examid_in_test_res'         => array('integer', (int)$this->isShowExamIdInTestResultsEnabled()),
-					'sign_submission'            => array('integer', (int)$this->getSignSubmission()),
-					'question_set_type'          => array('text', $this->getQuestionSetType()),
-					'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
-					'char_selector_definition'   => array('text', (string)$this->getCharSelectorDefinition()),
-					'skill_service'              => array('integer', (int)$this->isSkillServiceEnabled()),
-					'result_tax_filters'         => array('text', serialize((array)$this->getResultFilterTaxIds())),
-					'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
-					'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
-					'follow_qst_answer_fixation' => array('integer', (int)$this->isFollowupQuestionAnswerFixationEnabled()),
-					'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
-					'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
-					'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
-					'pass_waiting'              => array('text', (string)$this->getPassWaiting())
-				),
-				array(
-					'test_id' => array('integer', (int)$this->getTestId())
-				)
+					array(
+						'author'                     => array('text', $this->getAuthor()),
+						'intro_enabled'              => array('integer', (int)$this->isIntroductionEnabled()),
+						'introduction'               => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
+						'finalstatement'             => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
+						'showinfo'                   => array('integer', $this->getShowInfo()),
+						'forcejs'                    => array('integer', $this->getForceJS()),
+						'customstyle'                => array('text', $this->getCustomStyle()),
+						'showfinalstatement'         => array('integer', $this->getShowFinalStatement()),
+						'sequence_settings'          => array('integer', $this->getSequenceSettings()),
+						'score_reporting'            => array('integer', $this->getScoreReporting()),
+						'instant_verification'       => array('text', $this->getInstantFeedbackSolution()),
+						'answer_feedback_points'     => array('text', $this->getAnswerFeedbackPoints()),
+						'answer_feedback'            => array('text', $this->getGenericAnswerFeedback()),
+						'anonymity'                  => array('text', $this->getAnonymity()),
+						'show_cancel'                => array('text', $this->getShowCancel()),
+						'show_marker'                => array('integer', $this->getShowMarker()),
+						'fixed_participants'         => array('text', $this->getFixedParticipants()),
+						'nr_of_tries'                => array('integer', $this->getNrOfTries()),
+						'block_after_passed'         => array('integer', (int)$this->isBlockPassesAfterPassedEnabled()),
+						'kiosk'                      => array('integer', $this->getKiosk()),
+						'use_previous_answers'       => array('text', $this->getUsePreviousAnswers()),
+						'title_output'               => array('text', $this->getTitleOutput()),
+						'processing_time'            => array('text', $this->getProcessingTime()),
+						'enable_processing_time'     => array('text', $this->getEnableProcessingTime()),
+						'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
+						'reporting_date'             => array('text', $this->getReportingDate()),
+						'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
+						'starting_time'              => array('integer', $this->getStartingTime()),
+						'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
+						'ending_time'                => array('integer', $this->getEndingTime()),
+						'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
+						'ects_output'                => array('text', $this->getECTSOutput()),
+						'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
+						'ects_b'                     => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL),
+						'ects_c'                     => array('float', strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL),
+						'ects_d'                     => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL),
+						'ects_e'                     => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL),
+						'ects_fx'                    => array('float', $this->getECTSFX()),
+						'count_system'               => array('text', $this->getCountSystem()),
+						'mc_scoring'                 => array('text', $this->getMCScoring()),
+						'score_cutting'              => array('text', $this->getScoreCutting()),
+						'pass_scoring'               => array('text', $this->getPassScoring()),
+						'shuffle_questions'          => array('text', $this->getShuffleQuestions()),
+						'results_presentation'       => array('integer', $this->getResultsPresentation()),
+						'show_summary'               => array('integer', $this->getListOfQuestionsSettings()),
+						'password_enabled'           => array('integer', (int)$this->isPasswordEnabled()),
+						'password'                   => array('text', $this->getPassword()),
+						'limit_users_enabled'        => array('integer', (int)$this->isLimitUsersEnabled()),
+						'allowedusers'               => array('integer', $this->getAllowedUsers()),
+						'alloweduserstimegap'        => array('integer', $this->getAllowedUsersTimeGap()),
+						'mailnottype'                => array('integer', $this->getMailNotificationType()),
+						'exportsettings'             => array('integer', $this->getExportSettings()),
+						'certificate_visibility'     => array('text', $this->getCertificateVisibility()),
+						'mailnotification'           => array('integer', $this->getMailNotification()),
+						'tstamp'                     => array('integer', time()),
+						'enabled_view_mode'          => array('text', $this->getEnabledViewMode()),
+						'template_id'                => array('integer', $this->getTemplate()),
+						'pool_usage'                 => array('integer', $this->getPoolUsage()),
+						'print_bs_with_res'          => array('integer', (int)$this->isBestSolutionPrintedWithResult()),
+						'obligations_enabled'        => array('integer', (int)$this->areObligationsEnabled()),
+						'offer_question_hints'       => array('integer', (int)$this->isOfferingQuestionHintsEnabled()),
+						'highscore_enabled'          => array('integer', (int)$this->getHighscoreEnabled()),
+						'highscore_anon'             => array('integer', (int)$this->getHighscoreAnon()),
+						'highscore_achieved_ts'      => array('integer', (int)$this->getHighscoreAchievedTS()),
+						'highscore_score'            => array('integer', (int)$this->getHighscoreScore()),
+						'highscore_percentage'       => array('integer', (int)$this->getHighscorePercentage()),
+						'highscore_hints'            => array('integer', (int)$this->getHighscoreHints()),
+						'highscore_wtime'            => array('integer', (int)$this->getHighscoreWTime()),
+						'highscore_own_table'        => array('integer', (int)$this->getHighscoreOwnTable()),
+						'highscore_top_table'        => array('integer', (int)$this->getHighscoreTopTable()),
+						'highscore_top_num'          => array('integer', (int)$this->getHighscoreTopNum()),
+						'specific_feedback'          => array('integer', (int)$this->getSpecificAnswerFeedback()),
+						'autosave'                   => array('integer', (int)$this->getAutosave()),
+						'autosave_ival'              => array('integer', (int)$this->getAutosaveIval()),
+						'pass_deletion_allowed'      => array('integer', (int)$this->isPassDeletionAllowed()),
+						'enable_examview'            => array('integer', (int)$this->getEnableExamview()),
+						'show_examview_html'         => array('integer', (int)$this->getShowExamviewHtml()),
+						'show_examview_pdf'          => array('integer', (int)$this->getShowExamviewPdf()),
+						'redirection_mode'           => array('integer', (int)$this->getRedirectionMode()),
+						'redirection_url'            => array('text', (string)$this->getRedirectionUrl()),
+						'enable_archiving'           => array('integer', (int)$this->getEnableArchiving()),
+						'examid_in_test_pass'        => array('integer', (int)$this->isShowExamIdInTestPassEnabled()),
+						'examid_in_test_res'         => array('integer', (int)$this->isShowExamIdInTestResultsEnabled()),
+						'sign_submission'            => array('integer', (int)$this->getSignSubmission()),
+						'question_set_type'          => array('text', $this->getQuestionSetType()),
+						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
+						'char_selector_definition'   => array('text', (string)$this->getCharSelectorDefinition()),
+						'skill_service'              => array('integer', (int)$this->isSkillServiceEnabled()),
+						'result_tax_filters'         => array('text', serialize((array)$this->getResultFilterTaxIds())),
+						'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
+						'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
+						'follow_qst_answer_fixation' => array('integer', (int)$this->isFollowupQuestionAnswerFixationEnabled()),
+						'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
+						'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
+						'broken'                     => array('integer', (int)$this->isTestFinalBroken()),
+						'pass_waiting'              => array('text', (string)$this->getPassWaiting())
+					),
+					array(
+						'test_id' => array('integer', (int)$this->getTestId())
+					)
 			);
 
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -1929,6 +1933,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setShowMarker($data->show_marker);
 			$this->setFixedParticipants($data->fixed_participants);
 			$this->setNrOfTries($data->nr_of_tries);
+			$this->setBlockPassesAfterPassedEnabled((bool)$data->block_after_passed);
 			$this->setKiosk($data->kiosk);
 			$this->setUsePreviousAnswers($data->use_previous_answers);
 			$this->setRedirectionMode($data->redirection_mode);
@@ -2758,6 +2763,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	{
 		return ($this->nr_of_tries) ? $this->nr_of_tries : 0;
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isBlockPassesAfterPassedEnabled()
+	{
+		return $this->blockPassesAfterPassedEnabled;
+	}
+	
+	/**
+	 * @param bool $blockPassesAfterPassedEnabled
+	 */
+	public function setBlockPassesAfterPassedEnabled($blockPassesAfterPassedEnabled)
+	{
+		$this->blockPassesAfterPassedEnabled = $blockPassesAfterPassedEnabled;
+	}
 
 	/**
 	 * Returns the kiosk mode
@@ -3447,8 +3468,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		}
 		return false;
 	}
-
-	public function removeQuestionFromSequences($questionId, $activeIds)
+	
+	/**
+	 * @param int $questionId
+	 * @param array $activeIds
+	 * @param ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
+	 */
+	public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -3465,8 +3491,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			{
 				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
 				$testSequence->loadFromDb();
-
-				$testSequence->removeQuestion($questionId);
+				$testSequence->removeQuestion($questionId, $reindexedSequencePositionMap);
 				$testSequence->saveToDb();
 			}
 		}
@@ -4396,6 +4421,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$found["test"]["total_requested_hints"] = $results['hint_count'];
 		$found["test"]["total_hint_points"] = $results['hint_points'];
 		$found["test"]["result_pass"] = $results['pass'];
+		$found['test']['result_tstamp'] = $results['tstamp'];
 		$found['test']['obligations_answered'] = $results['obligations_answered'];
 
 		if( (!$total_reached_points) or (!$total_max_points) )
@@ -6011,6 +6037,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				case "nr_of_tries":
 					$this->setNrOfTries($metadata["entry"]);
 					break;
+				case 'block_after_passed':
+					$this->setBlockPassesAfterPassedEnabled((bool)$metadata['entry']);
+					break;
 				case "pass_waiting":
 					$this->setPassWaiting($metadata["entry"]);
 					break;
@@ -6464,7 +6493,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_of_tries");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
+		
+		// number of tries
+		$a_xml_writer->xmlStartTag('qtimetadatafield');
+		$a_xml_writer->xmlElement('fieldlabel', NULL, 'block_after_passed');
+		$a_xml_writer->xmlElement('fieldentry', NULL, (int)$this->isBlockPassesAfterPassedEnabled());
+		$a_xml_writer->xmlEndTag('qtimetadatafield');
+		
 		// pass_waiting
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_waiting");
@@ -8704,6 +8739,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 				return $result;
 			}
+			
+			if( $this->isBlockPassesAfterPassedEnabled() && !$testPassesSelector->openPassExists() )
+			{
+				if( ilObjTestAccess::_isPassed($user_id, $this->getId()) )
+				{
+					$result['executable'] = false;
+					$result['errormessage'] = $this->lng->txt("tst_addit_passes_blocked_after_passed_msg");
+					return $result;
+				}
+			}
 		}
 		if($this->isPassWaitingEnabled() && $testPassesSelector->getLastFinishedPass() !== null)
 		{
@@ -10154,6 +10199,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			"ShowMarker"                 => $this->getShowMarker(),
 			"ReportingDate"              => $this->getReportingDate(),
 			"NrOfTries"                  => $this->getNrOfTries(),
+			'BlockAfterPassed'           => (int)$this->isBlockPassesAfterPassedEnabled(),
 			"Shuffle"                    => $this->getShuffleQuestions(),
 			"Kiosk"                      => $this->getKiosk(),
 			"UsePreviousAnswers"         => $this->getUsePreviousAnswers(),
@@ -10275,6 +10321,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->setShowMarker($testsettings["ShowMarker"]);
 		$this->setReportingDate($testsettings["ReportingDate"]);
 		$this->setNrOfTries($testsettings["NrOfTries"]);
+		$this->setBlockPassesAfterPassedEnabled((bool)$testsettings['BlockAfterPassed']);
 		$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
 		$this->setRedirectionMode($testsettings['redirection_mode']);
 		$this->setRedirectionUrl($testsettings['redirection_url']);
@@ -11401,7 +11448,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	public function setPoolUsage($usage) {
 		$this->poolUsage = (boolean)$usage;
 	}
-
+	
+	/**
+	 * @return ilTestReindexedSequencePositionMap
+	 */
 	public function reindexFixedQuestionOrdering()
 	{
 		global $DIC;
@@ -11414,9 +11464,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$questionSetConfig = $qscFactory->getQuestionSetConfig();
 
 		/* @var ilTestFixedQuestionSetConfig $questionSetConfig */
-		$questionSetConfig->reindexQuestionOrdering();
+		$reindexedSequencePositionMap = $questionSetConfig->reindexQuestionOrdering();
 
 		$this->loadQuestions();
+		
+		return $reindexedSequencePositionMap;
 	}
 
 	public function setQuestionOrderAndObligations($orders, $obligations)
