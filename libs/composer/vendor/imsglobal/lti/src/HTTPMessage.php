@@ -113,7 +113,7 @@ class HTTPMessage
 // Try using curl if available
         if (function_exists('curl_init')) {
 
-        	\ilLoggerFactory::getLogger('lti')->debug('Curl connection');
+        	\ilLoggerFactory::getLogger('lti')->debug('Using curl connection');
 
             $resp = '';
             $ch = curl_init();
@@ -135,11 +135,12 @@ class HTTPMessage
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             curl_setopt($ch, CURLOPT_HEADER, true);
-            curl_setopt($ch, CURLOPT_SSLVERSION,3);
+            // begin-patch ilias
+            #curl_setopt($ch, CURLOPT_SSLVERSION,3);
             $chResp = curl_exec($ch);
 
-            \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch));
-			\ilLoggerFactory::getLogger('lti')->dump(curl_error($ch));
+            \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch), \ilLogLevel::DEBUG);
+			\ilLoggerFactory::getLogger('lti')->dump(curl_error($ch), \ilLogLevel::DEBUG);
 
             $this->ok = $chResp !== false;
             if ($this->ok) {
@@ -160,9 +161,6 @@ class HTTPMessage
             curl_close($ch);
             $this->response = $resp;
         } else {
-
-			\ilLoggerFactory::getLogger('lti')->debug('fopen connection');
-
 // Try using fopen if curl was not available
             $opts = array('method' => $this->method,
                           'content' => $this->request
