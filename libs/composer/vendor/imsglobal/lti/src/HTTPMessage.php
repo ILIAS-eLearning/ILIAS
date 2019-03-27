@@ -112,6 +112,12 @@ class HTTPMessage
         $this->ok = false;
 // Try using curl if available
         if (function_exists('curl_init')) {
+<<<<<<< HEAD
+=======
+
+        	\ilLoggerFactory::getLogger('lti')->debug('Using curl connection');
+
+>>>>>>> 56c3a23cde... Fixed lti curl error handling; fixed restrictive SSL version; fixed context id handling
             $resp = '';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
@@ -132,8 +138,12 @@ class HTTPMessage
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             curl_setopt($ch, CURLOPT_HEADER, true);
-            curl_setopt($ch, CURLOPT_SSLVERSION,3);
+            // begin-patch ilias
+            #curl_setopt($ch, CURLOPT_SSLVERSION,3);
             $chResp = curl_exec($ch);
+            \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch), \ilLogLevel::DEBUG);
+            \ilLoggerFactory::getLogger('lti')->dump(curl_error($ch), \ilLogLevel::DEBUG);
+
             $this->ok = $chResp !== false;
             if ($this->ok) {
                 $chResp = str_replace("\r\n", "\n", $chResp);
