@@ -71,6 +71,7 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -346,6 +347,9 @@ adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
+assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
+assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
+assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#for#:#for
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
@@ -453,6 +457,7 @@ assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Quest
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
+assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#assClozeTest#:#Cloze Question
@@ -812,6 +817,10 @@ assessment#:#matching_type#:#Matching Question Subtype
 assessment#:#material_file#:#Material File
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Maximum Number of Characters
+assessment#:#qst_essay_chars_remaining#:#Remaining characters:
+assessment#:#qst_essay_allready_written_words#:#Already entered words:
+assessment#:#qst_essay_wordcounter_enabled#:#Word Counter
+assessment#:#qst_essay_wordcounter_enabled_info#:#A word counter is shown to participants. It provides an orientation of how much text participants allready have written.
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
@@ -850,8 +859,8 @@ assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a prev
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to work through this question, because otherwise your learning objective result will be degraded.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to already passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
-assessment#:#tst_tab_results_pass_oriented#:#Results by Attempts
-assessment#:#tst_tab_results_objective_oriented#:#Results by Learning Objectives
+assessment#:#tst_tab_results_pass_oriented#:#Test Results by Attempts
+assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objectives
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions
 assessment#:#tst_inp_source_pool_label#:#Question Pool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
@@ -1536,10 +1545,17 @@ assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#saved_adjustment#:#Changes saved.
+assessment#:#qst_lifecycle_filter_all#:#All Lifecycles
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Draft
+assessment#:#qst_lifecycle_review#:#To be Reviewed
+assessment#:#qst_lifecycle_rejected#:#Rejected
+assessment#:#qst_lifecycle_final#:#Final
+assessment#:#qst_lifecycle_sharable#:#Sharable
+assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#sign_submission#:#Digitally Sign Test Submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
-assessment#:#preserve_manscoring#:#Preserve manual scorings
-assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.
+assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
@@ -3684,7 +3700,7 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_results#:#Test Results
-rbac#:#tst_tst_results#:#User has access to test results
+rbac#:#tst_tst_results#:#User has access to test results of others
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
@@ -4564,7 +4580,8 @@ crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
 crs#:#crs_groupings#:#Course groupings
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
+crs#:#crs_grp_already_assigned#:#You are already member of this grouping of courses.
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
@@ -5294,7 +5311,7 @@ forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
 forum#:#forums_new_thread#:#New Thread
-forum#:#forums_no_posts_available#:#This thread has no posts yet or the moderator deactivated the first post.
+forum#:#forums_no_posts_available#:#This thread has no posts.
 forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
@@ -5745,7 +5762,7 @@ mail#:#mail_select_group#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
@@ -6673,6 +6690,10 @@ rbac#:#mds_read#:#User has read access to Metadata administration
 rbac#:#mds_visible#:#Metadata administration is visible
 rbac#:#mds_write#:#User can edit settings in Metadata administration
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
+rbac#:#mme_visible#:#Administration of Main Menu is visible
+rbac#:#mme_read#:#User has read access to administration of Main Menu
+rbac#:#mme_write#:#User can edit settings of Main Menu administration
+rbac#:#mme_edit_permission#:#User can change permission settings of Main Menu administration
 rbac#:#pdts_edit_permission#:#User can change permission settings of Personal Desktop administration
 rbac#:#pdts_read#:#User has read access to Personal Desktop administration
 rbac#:#pdts_visible#:#Personal Desktop administration is visible
@@ -6737,6 +6758,10 @@ rbac#:#svyf_edit_permission#:#User change permission settings in Survey administ
 rbac#:#svyf_read#:#User has read access to Survey administration
 rbac#:#svyf_visible#:#Survey administration is visible
 rbac#:#svyf_write#:#Edit settings in Survey administration
+rbac#:#wfe_visible#:#Administration of Workflow Engine is visible
+rbac#:#wfe_read#:#User has read access to administration of Workflow Engine
+rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration
+rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration
 rcrs#:#rcrs_call#:#Call ECS Course
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
 registration#:#auth_radius_name#:#Name of RADIUS Configuration
@@ -9539,7 +9564,7 @@ rbac#:#tst_tst_statistics#:#User has access to test statistics
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. You cannot edit the test questions until you remove these data sets.
-assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
+assessment#:#test_has_datasets_warning_page_view_link#:#Participant Results
 wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
 acc#:#acc_personal_desktop#:#Personal Desktop
@@ -10505,7 +10530,6 @@ tos#:#tos_form_attach_criterion_head#:#Attach Criterion
 tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
 tos#:#tos_form_criterion#:#Criterion
 tos#:#tos_document#:#Document
-tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
 tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
@@ -10540,6 +10564,10 @@ ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
+forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top
+forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.
+forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’
+forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. The ‘Sticky Threads’ can be sorted manually.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
@@ -12147,6 +12175,7 @@ rbac#:#exc_read_learning_progress#:#User can view learning progress of other use
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
+rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
 content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
 content#:#cont_self_assessment#:#Self Assessment
@@ -13252,6 +13281,11 @@ forum#:#forums_threads_deleted#:#The selected threads including all postings hav
 forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
 forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
 forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.
+forum#:#frm_settings_form_header#:#Forum Settings
+forum#:#frm_settings_presentation_header#:#Presentation
+forum#:#frm_settings_user_functions_header#:#User Functions
+forum#:#frm_settings_mod_functions_header#:#Moderator Functions
+forum#:#frm_settings_privacy_header#:#Privacy
 meta#:#meta_advmd_select_options#:#Entries
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 search#:#btn_search#:#Search
@@ -13355,6 +13389,8 @@ rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration
 rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#read_results#:#Survey Results
+rbac#:#svy_read_results#:#User has access to survey results of others
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings
 crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"
 crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"
@@ -14147,8 +14183,8 @@ book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Open Session
 dateplaner#:#cal_show_weeks#:#Show Weeks
-dateplaner#:#cal_def_show_weeks#:#Default Show Weeks
-dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
+dateplaner#:#cal_def_show_weeks#:#Show Weeks
+dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_repo_obj#:#Repository Objects
@@ -14817,6 +14853,7 @@ rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
 rbac#:#lso_delete#:#User can delete Learning Sequence
+rbac#:#lso_lp_other_users#:#User can view learning progress of other users
 lso#:#learner_view#:#Overview
 lso#:#manage#:#Manage
 lso#:#manage_content_maintab#:#Content
@@ -14832,6 +14869,7 @@ lso#:#entries_deleted#:#Successfuly delete entries
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
+lso#:#lso_start_item#:#Start
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
@@ -14869,8 +14907,9 @@ common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#condition_always#:#Always
-lso#:#condition_completed#:#Completed
-lso#:#condition_failed#:#Failed
+lso#:#finished#:#Finished
+lso#:#not_finished#:#Not Finished
+lso#:#failed#:#Failed
 rbac#:#rbac_create_lso#:#Create Learning Sequence
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_extro#:#Exitpage Settings
@@ -14948,7 +14987,7 @@ common#:#il_lso_member#:#Learning Sequence Member
 lso#:#entries_updated#:#Entries saved
 lso#:#curriculum#:#Curriculum
 lso#:#unparticipate#:#Unsubscribe
-lso#:#participate#:#Subsribe
+lso#:#participate#:#Subscribe
 lhist#:#lhist_show_more#:#Show More
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
 book#:#book_objects_available#:#Objects available %s
@@ -14998,3 +15037,22 @@ assessment#:#evaluated_users#:#Evaluated Users
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
 assessment#:#finalized_by#:#Completed by
 assessment#:#finalized_on#:#Completed at
+crs#:#crs_timings_edit_personal#:#Edit Personal Timings
+crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
+crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
+crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile Presentation" and "Session Limitation" at the same time.
+content#:#cont_choose_file_source#:#Source
+content#:#cont_choose_local#:#Local directory
+content#:#cont_choose_upload_dir#:#Upload directory
+sess#:#sess_assign#:#Assign
+common#:#certificate_selection#:#Origin of Certificates
+common#:#certificate_persistent_option#:#Persistent Certificates
+common#:#certificate_workspace_option#:#Workspace Certificates
+common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
+common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
+common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
+certificate#:#persistent_certificate_mode#:#User Certificate Creation
+certificate#:#persistent_certificate_mode_cron#:#Cron Job
+certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
+certificate#:#persistent_certificate_mode_instant#:#Instant
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
