@@ -112,12 +112,6 @@ class HTTPMessage
         $this->ok = false;
 // Try using curl if available
         if (function_exists('curl_init')) {
-<<<<<<< HEAD
-=======
-
-        	\ilLoggerFactory::getLogger('lti')->debug('Using curl connection');
-
->>>>>>> 56c3a23cde... Fixed lti curl error handling; fixed restrictive SSL version; fixed context id handling
             $resp = '';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->url);
