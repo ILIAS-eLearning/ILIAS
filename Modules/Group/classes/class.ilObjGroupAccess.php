@@ -49,11 +49,11 @@ class ilObjGroupAccess extends ilObjectAccess
 				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 				if(ilGroupParticipants::_isParticipant($a_ref_id,$a_user_id))
 				{
-					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
+					$ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO, $lng->txt("info_is_member"));
 				}
 				else
 				{
-					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_not_member"));
+					$ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO, $lng->txt("info_is_not_member"));
 				}						
 				break;
 				
@@ -86,7 +86,7 @@ class ilObjGroupAccess extends ilObjectAccess
 					$limit = null;
 					if(!ilObjGroup::mayLeave($a_obj_id, $a_user_id, $limit))
 					{						
-						$ilAccess->addInfoItem(IL_STATUS_MESSAGE, 
+						$ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO,
 							sprintf($lng->txt("grp_cancellation_end_rbac_info"), ilDatePresentation::formatDate($limit)));
 						return false;
 					}		

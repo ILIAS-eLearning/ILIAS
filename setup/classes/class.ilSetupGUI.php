@@ -4079,8 +4079,8 @@ class ilSetupGUI
 
 			if ($status["finish"]["status"])
 			{
-				$this->setup->ini->write();
 				$this->setup->ini->setVariable("clients","default",$client->getId());
+				$this->setup->ini->write();
 				$message = "default_client_changed";
 			}
 			else

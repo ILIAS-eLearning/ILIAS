@@ -110,7 +110,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 					$limit = null;
 					if(!ilObjCourse::mayLeave($a_obj_id, $a_user_id, $limit))
 					{						
-						$ilAccess->addInfoItem(IL_STATUS_MESSAGE, 
+						$ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO,
 							sprintf($lng->txt("crs_cancellation_end_rbac_info"), ilDatePresentation::formatDate($limit)));
 						return false;
 					}			

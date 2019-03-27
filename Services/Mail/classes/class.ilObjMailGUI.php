@@ -541,7 +541,7 @@ class ilObjMailGUI extends ilObjectGUI
 	{
 		$subjectPrefix = $this->settings->get('mail_subject_prefix');
 		if (false === $subjectPrefix) {
-			$subjectPrefix = ilMail::MAIL_SUBJECT_PREFIX;
+			$subjectPrefix = ilMimeMail::MAIL_SUBJECT_PREFIX;
 		}
 
 		$form->setValuesByArray(array(

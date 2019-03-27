@@ -2487,7 +2487,9 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$mmail = new ilMimeMail();
 		$mmail->From($senderFactory->system());
-		$mmail->To(ilMailOptions::getExternalEmailsByUser($this->object));
+
+		$mailOptions = new \ilMailOptions($this->object->getId());
+		$mmail->To($mailOptions->getExternalEmailAddresses());
 
 		// mail subject
 		$subject = $usr_lang->txt("profile_changed");

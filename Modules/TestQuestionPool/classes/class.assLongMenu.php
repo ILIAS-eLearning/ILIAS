@@ -410,6 +410,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				$this->setSpecificFeedbackSetting((int)$data['feedback_setting']);
 			}
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);

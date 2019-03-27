@@ -150,7 +150,7 @@ class ilSCTasks
 		
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			return new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC');
+			return new ilDateTime($row->last_update,IL_CAL_DATETIME,ilTimeZone::UTC);
 		}
 		return new ilDateTime(time(),IL_CAL_UNIX);
 	}

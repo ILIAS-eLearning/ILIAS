@@ -34,7 +34,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 
 		return $object;
@@ -52,7 +51,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 
 		$this->assertEquals($new_object->getObjId(), self::TO_OBJ_ID);
@@ -60,7 +58,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($new_object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($new_object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($new_object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($new_object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($new_object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 	}
 
@@ -76,7 +73,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 
 		$this->assertEquals($new_object->getObjId(), self::TO_OBJ_ID);
@@ -84,7 +80,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($new_object->getExtro(), "teststring");
 		$this->assertEquals($new_object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($new_object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($new_object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($new_object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 	}
 
@@ -100,7 +95,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 
 		$this->assertEquals($new_object->getObjId(), self::TO_OBJ_ID);
@@ -108,7 +102,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($new_object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($new_object->getAbstractImage(), "teststring");
 		$this->assertEquals($new_object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($new_object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($new_object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 	}
 
@@ -124,7 +117,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 
 		$this->assertEquals($new_object->getObjId(), self::TO_OBJ_ID);
@@ -132,31 +124,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($new_object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($new_object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($new_object->getExtroImage(), "teststring");
-		$this->assertEquals($new_object->getIsOnline(), self::TO_ONLINE);
-		$this->assertEquals($new_object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
-	}
-
-	/**
-	 * @depends testCreate
-	 */
-	public function testWithIsOnline(ilLearningSequenceSettings $object)
-	{
-		$new_object = $object->withIsOnline(false);
-
-		$this->assertEquals($object->getObjId(), self::TO_OBJ_ID);
-		$this->assertEquals($object->getAbstract(), self::TO_ABSTRACT);
-		$this->assertEquals($object->getExtro(), self::TO_EXTRO);
-		$this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
-		$this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($object->getIsOnline(), self::TO_ONLINE);
-		$this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
-
-		$this->assertEquals($new_object->getObjId(), self::TO_OBJ_ID);
-		$this->assertEquals($new_object->getAbstract(), self::TO_ABSTRACT);
-		$this->assertEquals($new_object->getExtro(), self::TO_EXTRO);
-		$this->assertEquals($new_object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
-		$this->assertEquals($new_object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($new_object->getIsOnline(), false);
 		$this->assertEquals($new_object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 	}
 
@@ -172,7 +139,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($object->getMembersGallery(), self::TO_MEMBERS_GALLERY);
 
 		$this->assertEquals($new_object->getObjId(), self::TO_OBJ_ID);
@@ -180,7 +146,6 @@ class LSSettingsTest extends TestCase
 		$this->assertEquals($new_object->getExtro(), self::TO_EXTRO);
 		$this->assertEquals($new_object->getAbstractImage(), self::TO_ABSTRACT_IMAGE);
 		$this->assertEquals($new_object->getExtroImage(), self::TO_EXTRO_IMAGE);
-		$this->assertEquals($new_object->getIsOnline(), self::TO_ONLINE);
 		$this->assertEquals($new_object->getMembersGallery(), false);
 	}
 }
