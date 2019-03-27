@@ -3491,7 +3491,7 @@ function getAnswerFeedbackPoints()
 			{
 				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
 				$testSequence->loadFromDb();
-
+				
 				$testSequence->removeQuestion($questionId, $reindexedSequencePositionMap);
 				$testSequence->saveToDb();
 			}
