@@ -197,7 +197,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
   	var $nr_of_tries;
 
   	protected $blockPassesAfterPassedEnabled = false;
-
+  	
 	/**
 * Tells ILIAS to use the previous answers of a learner in a later test pass
 * The default is 1 which shows the previous answers in the next pass.
@@ -2763,7 +2763,7 @@ function getAnswerFeedbackPoints()
 	{
 		return ($this->nr_of_tries) ? $this->nr_of_tries : 0;
 	}
-
+	
 	/**
 	 * @return bool
 	 */
@@ -2771,7 +2771,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->blockPassesAfterPassedEnabled;
 	}
-
+	
 	/**
 	 * @param bool $blockPassesAfterPassedEnabled
 	 */
@@ -3468,7 +3468,7 @@ function getAnswerFeedbackPoints()
 		}
 		return false;
 	}
-
+	
 	/**
 	 * @param int $questionId
 	 * @param array $activeIds
@@ -3491,6 +3491,7 @@ function getAnswerFeedbackPoints()
 			{
 				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
 				$testSequence->loadFromDb();
+
 				$testSequence->removeQuestion($questionId, $reindexedSequencePositionMap);
 				$testSequence->saveToDb();
 			}
@@ -6499,7 +6500,7 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement('fieldlabel', NULL, 'block_after_passed');
 		$a_xml_writer->xmlElement('fieldentry', NULL, (int)$this->isBlockPassesAfterPassedEnabled());
 		$a_xml_writer->xmlEndTag('qtimetadatafield');
-
+		
 		// pass_waiting
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "pass_waiting");
@@ -8739,7 +8740,7 @@ function getAnswerFeedbackPoints()
 				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 				return $result;
 			}
-
+			
 			if( $this->isBlockPassesAfterPassedEnabled() && !$testPassesSelector->openPassExists() )
 			{
 				if( ilObjTestAccess::_isPassed($user_id, $this->getId()) )
@@ -10546,7 +10547,7 @@ function getAnswerFeedbackPoints()
 	}
 	
 	/**
-	 * Retrieves the feedback comment for a question in a test if it is finalized
+	* Retrieves the feedback comment for a question in a test if it is finalized
 	*
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
@@ -10597,7 +10598,7 @@ function getAnswerFeedbackPoints()
 		}
 
 		return $row;
-		}
+	}
 
 	/**
 	 * Retrieves the manual feedback for a question in a test
@@ -11467,7 +11468,7 @@ function getAnswerFeedbackPoints()
 		$reindexedSequencePositionMap = $questionSetConfig->reindexQuestionOrdering();
 		
 		$this->loadQuestions();
-
+		
 		return $reindexedSequencePositionMap;
 	}
 
@@ -12913,4 +12914,3 @@ function getAnswerFeedbackPoints()
 	}
 	
 }
-
