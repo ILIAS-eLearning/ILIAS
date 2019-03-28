@@ -834,4 +834,58 @@ interface Factory {
 	 */
 	public function apply($action = null);
 
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Play Glyph is used to render inside a video frame as play button.
+     *   composition: >
+     *       The Play Glyph uses the glyphicon glyphicon-play. The Play Glyph should be replaced by Pause Glyph while the video is played.
+     *   effect: >
+     *      Clicking the Play Glyph starts the video presentation.
+     *   rivals:
+     *      Expand Glyph: The Expand Glyphs triggers the display of some Container Collection.
+     *
+     *
+     * rules:
+     *   usage:
+     *       1: >
+     *          The Play Glyph MUST indicate if the video Container Collection is playable.
+     *       2: >
+     *          The Play Glyph MUST NOT be shown when the video is already running.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be ‘Play Content'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Glyph\Glyph
+     */
+    public function play($action = null);
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Pause Glyph is used to render inside a running video frame as pause button.
+     *   composition: >
+     *       The Pause Glyph uses the glyphicon glyphicon-pause. The Pause Glyph should be replaced by Play Glyph while the video is paused.
+     *   effect: >
+     *      Clicking the Pause Glyph pauses the video presentation.
+     *
+     *
+     * rules:
+     *   usage:
+     *       1: >
+     *          The Pause Glyph MUST indicate if the video Container Collection is playing a video.
+     *       2: >
+     *          The Play Glyph MUST NOT be shown when the video is playable, but not already playing.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be ‘Pause Content'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Glyph\Glyph
+     */
+    public function pause($action = null);
+
 }

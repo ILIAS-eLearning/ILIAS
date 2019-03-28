@@ -224,4 +224,18 @@ class Factory implements G\Factory {
 	public function apply($action = null) {
 		return new Glyph(G\Glyph::APPLY, "apply", $action);
 	}
+
+    /**
+     * @inheritdoc
+     */
+    public function play($action = null) {
+        return new Glyph(G\Glyph::PLAY, "play", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function pause($action = null) {
+        return new Glyph(G\Glyph::PAUSE, "pause", $action);
+    }
 }

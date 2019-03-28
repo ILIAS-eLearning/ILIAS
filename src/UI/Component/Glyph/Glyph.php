@@ -43,7 +43,8 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	const ATTACHMENT = "attachment";
 	const RESET = "reset";
 	const APPLY = "apply";
-
+    const PLAY = "play";
+    const PAUSE = "pause";
 
 	/**
 	 * Get the type of the glyph.
