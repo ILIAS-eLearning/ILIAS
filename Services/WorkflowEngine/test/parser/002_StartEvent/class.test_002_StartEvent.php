@@ -18,6 +18,8 @@ class test_002_StartEvent extends ilWorkflowEngineBaseTest
 
 		parent::setUp();
 
+		date_default_timezone_set('UTC');
+
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
 
