@@ -10,7 +10,7 @@ include_once("./Services/Component/exceptions/class.ilPluginException.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- *ujh
+ *
  * @ingroup ServicesComponent
  */
 abstract class ilPlugin
