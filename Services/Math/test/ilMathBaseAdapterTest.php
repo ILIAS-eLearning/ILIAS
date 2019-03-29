@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -44,7 +46,9 @@ abstract class ilMathBaseAdapterTest extends TestCase
 	 */
 	private function assertEqualNumbers(string $actual, string $expected)
 	{
-		$this->assertTrue($actual == $expected);
+		$differ = new Differ(new UnifiedDiffOutputBuilder("\n--- Expected\n+++ Actual\n"));
+
+		$this->assertTrue($actual == $expected, $differ->diff($actual, $expected));
 	}
 
 	/**
