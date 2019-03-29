@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * ilCounterDetectorTest is part of the petri net based workflow engine.
  *
@@ -14,13 +12,12 @@ use PHPUnit\Framework\TestCase;
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilCounterDetectorTest extends TestCase
+class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
 {
 	public function setUp(): void
 	{
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		//ilUnitUtil::performInitialisation();
-		
+		parent::__construct();
+
 		// Empty workflow.
 		require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
 		$this->workflow = new ilEmptyWorkflow();
@@ -37,11 +34,11 @@ class ilCounterDetectorTest extends TestCase
 	
 	public function tearDown(): void
 	{
-		global $ilSetting;
-		if ($ilSetting !=  NULL)
-		{
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_TIME' );
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
+		global $DIC;
+
+		if (isset($DIC['ilSetting'])) {
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_TIME' );
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
 		}
 	}
 	

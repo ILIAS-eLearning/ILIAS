@@ -1,10 +1,10 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+
 require_once 'libs/composer/vendor/autoload.php';
 $GLOBALS["DIC"] = new \ILIAS\DI\Container();
-
-use PHPUnit\Framework\TestSuite;
 
 /**
  * ilServicesWorkflowEngineSuite is part of the petri net based workflow engine.
@@ -27,6 +27,8 @@ class ilServicesWorkflowEngineSuite extends TestSuite
 		chdir( '../../../' );
 
 		$suite = new ilServicesWorkflowEngineSuite();
+
+		require_once './Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 
 		//
 		// ---------------------------------------------------------------------

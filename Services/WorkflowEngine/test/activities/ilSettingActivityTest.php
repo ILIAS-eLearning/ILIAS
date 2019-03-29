@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\TestCase;
-
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 
 /**
@@ -15,7 +13,7 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilSettingActivityTest extends TestCase
+class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 {
 	public function setUp(): void
 	{
@@ -40,11 +38,11 @@ class ilSettingActivityTest extends TestCase
 	
 	public function tearDown(): void
 	{
-		global $ilSetting;
-		if($ilSetting != null)
-		{
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_TIME' );
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
+		global $DIC;
+
+		if (isset($DIC['ilSetting'])) {
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_TIME' );
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
 		}
 	}
 	
@@ -116,7 +114,6 @@ class ilSettingActivityTest extends TestCase
 		$expected_val  = 'OK';
 		$activity->setSetting($expected_name, $expected_val);
 
-		require_once './Services/Administration/classes/class.ilSetting.php';
 		$ilSetting_mock = $this->createMock('ilSetting',array('set'),array(),'', FALSE);
 
 		$ilSetting_mock->expects($this->exactly(1))
@@ -127,6 +124,8 @@ class ilSettingActivityTest extends TestCase
 		if (isset($GLOBALS['DIC']['ilSetting'])) {
 			$stashed_real_object = $GLOBALS['DIC']['ilSetting'];
 		}
+
+		unset($GLOBALS['DIC']['ilSetting']);
 		$GLOBALS['DIC']['ilSetting'] = $ilSetting_mock;
 
 		// Act
