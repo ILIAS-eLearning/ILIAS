@@ -15,6 +15,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 
 	public function setUp(): void{
 		$this->name_source = new DefNamesource();
+		$this->transformation_factory = new Transformation\Factory();
 	}
 
 
@@ -168,5 +169,25 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 
 		$this->assertInternalType("bool", $checkbox->getContent()->value());
 		$this->assertTrue($checkbox->getContent()->value());
+	}
+
+	public function testTransformation() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$called = false;
+		$new_value = "NEW_VALUE";
+		$checkbox = $f->checkbox($label)
+			->withNameFrom($this->name_source)
+			->withDisabled(true)
+			->withValue(true)
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use (&$called, $new_value) {
+				$called = $v;
+				return $new_value;
+			}))
+			->withInput(new DefPostData([]))
+			;
+
+		$this->assertInternalType("string", $checkbox->getContent()->value());
+		$this->assertEquals($new_value, $checkbox->getContent()->value());
 	}
 }
