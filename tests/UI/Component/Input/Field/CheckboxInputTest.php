@@ -133,4 +133,40 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 		$this->assertHTMLEquals($expected, $html);
 
 	}
+
+	public function testTrueContent() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
+
+		$checkbox_true = $checkbox->withInput(new DefPostData(["name_0" => "checked"]));
+
+		$this->assertInternalType("bool", $checkbox_true->getContent()->value());
+		$this->assertTrue($checkbox_true->getContent()->value());
+	}
+
+	public function testFalseContent() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
+
+		$checkbox_false = $checkbox->withInput(new DefPostData(["name_0" => ""]));
+
+		$this->assertInternalType("bool", $checkbox_false->getContent()->value());
+		$this->assertFalse($checkbox_false->getContent()->value());
+	}
+
+	public function testDisabledContent() {
+		$f = $this->buildFactory();
+		$label = "label";
+		$checkbox = $f->checkbox($label)
+			->withNameFrom($this->name_source)
+			->withDisabled(true)
+			->withValue(true)
+			->withInput(new DefPostData([]))
+			;
+
+		$this->assertInternalType("bool", $checkbox->getContent()->value());
+		$this->assertTrue($checkbox->getContent()->value());
+	}
 }
