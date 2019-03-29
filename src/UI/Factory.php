@@ -760,4 +760,31 @@ interface Factory {
 	 */
 	public function messageBox();
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Tooltips can be used ...
+	 *   composition: >
+	 *     Tooltips ...
+	 *   effect: >
+	 *     Tooltips are shown by hovering a Triggerer component such as a Button, a Link or Glyph.
+	 * rivals: >
+	 *   Popover: >
+	 *     Popovers ...
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *        Tooltips MUST NOT contain horizontal scrollbars.
+	 *     2: >
+	 *        Tooltips MUST NOT contain vertical scrollbars. The content component is responsible to
+	 *        define its own height and width.
+	 *   interaction:
+	 *     1: >
+	 *        A Tooltip MUST only be displayed if the Trigger component is hovered.
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Tooltip\Factory
+	 */
+	public function tooltip(): Component\Tooltip\Factory;
 }

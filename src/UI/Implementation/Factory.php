@@ -107,6 +107,11 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	protected $card_factory;
 
+	/**
+	 * @var C\Tooltip\Factory
+	 */
+	protected $tooltip_factory;
+
     /**
      * @var Component\MessageBox\Factory
      */
@@ -132,7 +137,8 @@ class Factory implements \ILIAS\UI\Factory
 		C\Input\Factory $input_factory,
 		C\Table\Factory $table_factory,
 		C\MessageBox\Factory $messagebox_factory,
-		C\Card\Factory $card_factory
+		C\Card\Factory $card_factory,
+		C\Tooltip\Factory $tooltip_factory
 	) {
 		$this->counter_factory = $counter_factory;
 		$this->glyph_factory = $glyph_factory;
@@ -154,6 +160,7 @@ class Factory implements \ILIAS\UI\Factory
 		$this->table_factory = $table_factory;
 		$this->messagebox_factory = $messagebox_factory;
 		$this->card_factory = $card_factory;
+		$this->tooltip_factory = $tooltip_factory;
 	}
 
 	/**
@@ -338,5 +345,10 @@ class Factory implements \ILIAS\UI\Factory
 	public function messageBox()
 	{
         return $this->messagebox_factory;
+	}
+
+	public function tooltip(): C\Tooltip\Factory
+	{
+		return $this->tooltip_factory;
 	}
 }

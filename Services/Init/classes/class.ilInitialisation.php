@@ -1470,7 +1470,8 @@ class ilInitialisation
 				$c["ui.factory.input"],
 				$c["ui.factory.table"],
 				$c["ui.factory.messagebox"],
-				$c["ui.factory.card"]
+				$c["ui.factory.card"],
+				$c["ui.factory.tooltip"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1607,6 +1608,9 @@ class ilInitialisation
 		};
 		$c["ui.javascript_binding"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
+		};
+		$c["ui.factory.tooltip"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Tooltip\Factory($c["ui.signal_generator"]);
 		};
 	}
 	
