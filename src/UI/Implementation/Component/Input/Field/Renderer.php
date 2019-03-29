@@ -290,14 +290,17 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("NAME", $input->getName());
 
 		switch (true) {
-			case ($input instanceof Text):
 			case ($input instanceof Checkbox):
+				if ($input->getValue()) {
+					$tpl->touchBlock("value");
+				}
+			case ($input instanceof Text):
 			case ($input instanceof Numeric):
 			case ($input instanceof Password):
 			case ($input instanceof Textarea):
 				$tpl->setVariable("NAME", $input->getName());
 
-				if ($input->getValue() !== null) {
+				if ($input->getValue() !== null && !($input instanceof Checkbox)) {
 					$tpl->setCurrentBlock("value");
 					$tpl->setVariable("VALUE", $input->getValue());
 					$tpl->parseCurrentBlock();
