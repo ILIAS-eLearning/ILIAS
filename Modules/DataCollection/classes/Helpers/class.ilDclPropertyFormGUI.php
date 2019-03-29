@@ -24,6 +24,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 		$this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
 	}
 
+
 	/**
 	 * return temp-filename
 	 *
@@ -37,7 +38,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * @return string
 	 */
 	public static function getTempFilename($a_hash, $a_field, $a_name, $a_type, $a_index = null, $a_sub_index = null) {
-        $a_name = ilUtil::getAsciiFileName($a_name);
+		$a_name = ilUtil::getAsciiFileName($a_name);
 
 		$tmp_file_name = implode(
 			"~~", array(session_id(),
@@ -56,21 +57,21 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	}
 
 
-    /**
-     * Return temp files
-     *
-     * @param $hash
-     *
-     * @return array
-     * @throws ilDclException
-     */
+	/**
+	 * Return temp files
+	 *
+	 * @param $hash
+	 *
+	 * @return array
+	 * @throws ilDclException
+	 */
 	public static function getTempFileByHash($hash) {
 		$temp_path = ilUtil::getDataDir() . "/temp";
 		if (is_dir($temp_path)) {
-            $reload = array();
+			$reload = array();
 
-            $temp_files = glob($temp_path . "/" . session_id() . "~~" . $hash . "~~*");
-            if (is_array($temp_files)) {
+			$temp_files = glob($temp_path . "/" . session_id() . "~~" . $hash . "~~*");
+			if (is_array($temp_files)) {
 				foreach ($temp_files as $full_file) {
 					$file = explode("~~", basename($full_file));
 					$field = $file[2];
@@ -109,11 +110,12 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 				}
 			}
 		} else {
-		    throw new ilDclException('temp dir path "' . $temp_path . '" is not a directory');
-        }
+			throw new ilDclException('temp dir path "' . $temp_path . '" is not a directory');
+		}
 
 		return $reload;
 	}
+
 
 	/**
 	 * Cleanup temp-files

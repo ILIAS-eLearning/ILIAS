@@ -469,7 +469,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function setValuesByPost()
 	{
-	    foreach($this->items as $item)
+		foreach ($this->items as $item)
 		{
 			$item->setValueByArray($_POST);
 		}
@@ -1047,11 +1047,11 @@ class ilPropertyFormGUI extends ilFormGUI
 			ilUtil::createDirectory($temp_path);
 		}
 
-		ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path."/".$tmp_file_name);
+		ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path . "/" . $tmp_file_name);
 
-        /** @var ilFileInputGUI $file_input */
-        $file_input = $this->getItemByPostVar($a_field);
-        $file_input->setPending($a_name);
+		/** @var ilFileInputGUI $file_input */
+		$file_input = $this->getItemByPostVar($a_field);
+		$file_input->setPending($a_name);
 	}
 	
 	/**
@@ -1199,7 +1199,7 @@ class ilPropertyFormGUI extends ilFormGUI
 						{
 							if(!$_FILES[$field]["tmp_name"][$idx][$idx2])
 							{
-                                $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
+								$_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
 								$_FILES[$field]["name"][$idx][$idx2] = $name;
 								$_FILES[$field]["type"][$idx][$idx2] = $type;
 								$_FILES[$field]["error"][$idx][$idx2] = 0;
@@ -1227,7 +1227,7 @@ class ilPropertyFormGUI extends ilFormGUI
 								$_FILES[$field]["error"] = 0;
 								$_FILES[$field]["size"] = filesize($full_file);
 							}
-						}						
+						}
 					}
 				}
 			}
