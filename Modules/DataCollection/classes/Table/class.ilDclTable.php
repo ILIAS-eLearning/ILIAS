@@ -816,21 +816,19 @@ class ilDclTable {
 	/**
 	 * @param int $ref_id
 	 * @param     $record ilDclBaseRecordModel
+	 * @param int $user_id
 	 *
 	 * @return bool
 	 */
-	public function hasPermissionToViewRecord($ref_id, $record) {
+	public function hasPermissionToViewRecord($ref_id, $record, $user_id = 0) {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		$rbacreview = $DIC['rbacreview'];
-		/** @var ilRbacReview $rbacreview */
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id, $user_id)) {
 			return true;
 		}
 		if (ilObjDataCollectionAccess::hasReadAccess($ref_id)) {
 			// Check for view only own entries setting
-
-			if ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $record->getOwner()) {
+			if ($this->getViewOwnRecordsPerm() && ($user_id ? $user_id : $ilUser->getId()) != $record->getOwner()) {
 				return false;
 			}
 
@@ -1554,7 +1552,7 @@ class ilDclTable {
 		// Save record-ids in session to enable prev/next links in detail view
 		$_SESSION['dcl_record_ids'] = array();
 		$_SESSION['dcl_table_id'] = $this->getId();
-		$ref = array_pop(ilObject::_getAllReferences($this->getObjId()));
+		$ref = filter_input(INPUT_GET, 'ref_id');
 		$is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref) || ilObjDataCollectionAccess::hasEditAccess($ref));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			// Quick check if the current user is allowed to view the record

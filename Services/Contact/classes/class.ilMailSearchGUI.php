@@ -214,15 +214,24 @@ class ilMailSearchGUI
 	{
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		include_once 'Services/Mail/classes/class.ilMailForm.php';
+		include_once 'Services/Utilities/classes/class.ilStr.php';
 
-		$search = $_REQUEST["term"];
+		$search = '';
+		if (isset($_GET["term"]) && is_string($_GET["term"])) {
+			$search = $_GET["term"];
+		}
+		if (isset($_POST["term"]) && is_string($_POST["term"])) {
+			$search = $_POST["term"];
+		}
+
+		$search = trim($search);
+
 		$result = array();
-		if (!$search)
-		{
-			echo ilJsonUtil::encode($result);
+		if (\ilStr::strLen($search) < 3) {
+			echo json_encode($result);
 			exit;
 		}
-		
+
 		// #14768
 		$quoted = ilUtil::stripSlashes($search);
 		$quoted = str_replace('%', '\%', $quoted);
@@ -233,7 +242,7 @@ class ilMailSearchGUI
 		$mailFormObj = new ilMailForm;
 		$result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search), $search_recipients);
 
-		echo ilJsonUtil::encode($result);
+		echo json_encode($result);
 		exit;
 	}
 
@@ -252,7 +261,7 @@ class ilMailSearchGUI
 		{
 			if($_GET["ref"] != "wsp")
 			{
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 			}
 			return;
 		}
@@ -591,7 +600,7 @@ class ilMailSearchGUI
 
 		if($_GET["ref"] != "wsp")
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	

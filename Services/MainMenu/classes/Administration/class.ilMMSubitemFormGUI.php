@@ -81,24 +81,33 @@ class ilMMSubitemFormGUI {
 
 		// TYPE
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('sub_type'), $this->lng->txt('sub_type_byline'))->withRequired(true);
-		foreach ($this->repository->getPossibleSubItemTypesForForm() as $class_name => $representation) {
-			$type = $type->withOption(
-				$this->hash($class_name), $representation, $this->repository->getTypeHandlerForType($class_name)
-				->getAdditionalFieldsForSubForm($this->item_facade->identification())
-			);
+		$type_informations = $this->repository->getPossibleSubItemTypesWithInformation();
+
+		foreach ($type_informations as $classname => $information) {
+			if ($this->item_facade->isEmpty()
+				|| (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
+			) { // https://mantis.ilias.de/view.php?id=24152
+				$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+				$type = $type->withOption($this->hash($classname), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $inputs);
+			}
 		}
-		$type = $type->withValue($this->hash(reset(array_keys($this->repository->getPossibleSubItemTypesForForm()))));
-		if (!$this->item_facade->isEmpty()) {
+
+		if (!$this->item_facade->isEmpty() && $this->item_facade->isCustom()) {
 			$type = $type->withValue($this->hash($this->item_facade->getType()));
+		} elseif ($this->item_facade->isCustom()) {
+			$type = $type->withValue($this->hash(reset(array_keys($type_informations))));
 		}
-		$items[self::F_TYPE] = $type;
+
+		if ($this->item_facade->isEmpty() || $this->item_facade->isCustom()) {
+			$items[self::F_TYPE] = $type;
+		}
 
 		// PARENT
 		$parent = $this->ui_fa->input()->field()->select($this->lng->txt('sub_parent'), $this->repository->getPossibleParentsForFormAndTable())
 			->withRequired(true);
-		if (!$this->item_facade->isEmpty()) {
+		if (!$this->item_facade->isEmpty() && !$this->item_facade->isInLostItem()) {
 			$parent = $parent->withValue($this->item_facade->getParentIdentificationString());
-		}else {
+		} else {
 			$parent = $parent->withValue(reset(array_keys($this->repository->getPossibleParentsForFormAndTable())));
 		}
 		$items[self::F_PARENT] = $parent;
@@ -112,39 +121,46 @@ class ilMMSubitemFormGUI {
 
 		// RETURN FORM
 		if ($this->item_facade->isEmpty()) {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_ADD));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_ADD), "");
 			$this->form = $this->ui_fa->input()->container()->form()
 				->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CREATE), [$section]);
 		} else {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_EDIT));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_EDIT), "");
 			$this->form = $this->ui_fa->input()->container()->form()
 				->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_UPDATE), [$section]);
 		}
 	}
 
 
-	public function save() {
+	public function save(): bool {
 		global $DIC;
 		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$form = $this->form->withRequest($DIC->http()->request());
 		$data = $form->getData();
 
-		$type = $this->unhash((string)($data[0][self::F_TYPE]['value']));
+		if (is_null($data)) {
+			return false;
+		}
+
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
-		$this->item_facade->setParent((string)$data[0][self::F_PARENT]);
+		if ((string)$data[0][self::F_PARENT]) {
+			$this->item_facade->setParent((string)$data[0][self::F_PARENT]);
+		}
 		$this->item_facade->setIsTopItm(false);
 
 		if ($this->item_facade->isEmpty()) {
+			$type = $this->unhash((string)($data[0][self::F_TYPE]['value']));
 			$this->item_facade->setType($type);
 			$r->createItem($this->item_facade);
 		}
-
-		$type_specific_data = (array)$data[0][self::F_TYPE]['group_values'];
-
-		$type_handler = $this->repository->getTypeHandlerForType($type);
-		$type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
+		if ($this->item_facade->isCustom()) {
+			$type = $this->item_facade->getType();
+			$type_specific_data = (array)$data[0][self::F_TYPE]['group_values'];
+			$type_handler = $this->repository->getTypeHandlerForType($type);
+			$type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
+		}
 
 		$r->updateItem($this->item_facade);
 

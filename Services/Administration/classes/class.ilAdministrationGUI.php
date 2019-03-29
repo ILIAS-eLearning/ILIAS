@@ -288,7 +288,7 @@ class ilAdministrationGUI
 					{
 						$this->tpl->setVariable("OBJECTS", $html);
 					}
-					$this->tpl->show();
+					$this->tpl->printToStdout();
 				}
 				else	// 
 				{
@@ -543,7 +543,6 @@ class ilAdministrationGUI
 		
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$gl = new ilGroupedListGUI();
-		$gl->setAsDropDown(true);
 		
 		for ($i = 1; $i <= 3; $i++)
 		{

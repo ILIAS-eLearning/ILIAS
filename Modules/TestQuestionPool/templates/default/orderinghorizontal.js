@@ -38,7 +38,7 @@ $.fn.ilHorizontalOrderingQuestion = function(method) {
 					opacity: 0.6,
 					revert: false,
 					cursor: "move",
-					axis: "x",
+					//axis: "x",
 					stop: function() {
 						internals.storeResult.call($this);
 					}

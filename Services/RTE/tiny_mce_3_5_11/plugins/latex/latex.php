@@ -18,7 +18,7 @@ global $DIC;
 $ilIliasIniFile = $DIC['ilIliasIniFile'];
 $ilUser = $DIC['ilUser'];
 
-$tpl = new ilTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
+$tpl = new ilRTEGlobalTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
 
 $tpl->resetJavascript();
 
@@ -55,4 +55,4 @@ else if(strlen($ilIliasIniFile->readVariable('tools', 'latex')))
 
 $tpl->addJavaScript(str_repeat('../', $steps) . $jquery_path, true, 1);
 $tpl->fillJavaScriptFiles(true);
-$tpl->show('DEFAULT', false, true);
+$tpl->printToStdout('DEFAULT', false, true);

@@ -741,6 +741,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
 			$this->setOwner($data["owner"]);
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
 
 			try
 			{
@@ -1498,14 +1504,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		{
 			if(preg_match("/^result_(\\\$r\\d+)$/", $k))
 			{
-				if( $this->isValidSolutionResultValue($v) )
-				{
-					$solutionSubmit[$k] = $v;
-				}
-				else
-				{
-					$solutionSubmit[$k] = '';
-				}
+				$solutionSubmit[$k] = $v;
 			}
 			elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
 			{
@@ -1513,6 +1512,27 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			}
 		}
 		return $solutionSubmit;
+	}
+	
+	public function validateSolutionSubmit()
+	{
+		foreach($this->getSolutionSubmit() as $key => $value)
+		{
+			if(preg_match("/^result_(\\\$r\\d+)$/", $key))
+			{
+				if( strlen($value) && !$this->isValidSolutionResultValue($value) )
+				{
+					ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+					return false;
+				}
+			}
+			elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $key))
+			{
+				continue;
+			}
+		}
+		
+		return true;
 	}
 
 	/**

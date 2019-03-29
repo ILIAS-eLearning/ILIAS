@@ -1,14 +1,14 @@
 <?php
 
-use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
-use ILIAS\GlobalScreen\MainMenu\isParent;
-use ILIAS\GlobalScreen\MainMenu\Item\Separator;
-use ILIAS\GlobalScreen\MainMenu\Item\Link;
-use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
-use ILIAS\GlobalScreen\MainMenu\hasAction;
-use ILIAS\GlobalScreen\MainMenu\hasTitle;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 
 /**
  * Class ilMMEntryRendererGUI
@@ -37,7 +37,7 @@ class ilMMEntryRendererGUI {
 		$top_items = (new ilMMItemRepository($storage))->getStackedTopItemsForPresentation();
 		$tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
 		/**
-		 * @var $top_item \ILIAS\GlobalScreen\MainMenu\isItem|\ILIAS\GlobalScreen\MainMenu\isTopItem
+		 * @var $top_item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem|\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem
 		 */
 		$components = [];
 

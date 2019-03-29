@@ -15,9 +15,10 @@ class ilADTActiveRecordByType
 	protected $properties; // [ilADTGroupDBBridge]
 	protected $element_column; // [string]
 	protected $element_column_type; // [string]
-	protected $tables_map; // [array]
-	protected $tables_map_type; // [array]
-	
+	protected $tables_map = []; // [array]
+	protected $tables_map_type = []; // [array]
+
+	/** @var array|null */
 	static protected $preloaded; // [array]
 	
 	const SINGLE_COLUMN_NAME = "value";

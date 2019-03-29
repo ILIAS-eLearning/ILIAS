@@ -245,7 +245,7 @@ class ilMailMemberSearchGUI
 		include_once './Services/Contact/classes/class.ilMailMemberSearchTableGUI.php';
 		include_once './Services/Contact/classes/class.ilMailMemberSearchDataProvider.php';
 		
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$tbl = new ilMailMemberSearchTableGUI($this, 'showSelectableUsers');
 		$provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(),$this->ref_id);
 		$tbl->setData($provider->getData());

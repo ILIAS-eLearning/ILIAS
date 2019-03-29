@@ -414,7 +414,7 @@ class ilTimingsCronReminder extends ilCronJob
 			$mail->setMakeClickable(false);
 			if($this->hasUserActivatedNotification($user_id))
 			{
-				$mail->sendMail($email, '', '', $this->user_lang->txt('timings_cron_reminder_exceeded_subject'), $mail_body, $mail_body, null, true);
+				$mail->validateAndEnqueue($email, '', '', $this->user_lang->txt('timings_cron_reminder_exceeded_subject'), $mail_body, $mail_body, null, true);
 				$this->log->debug('ilTimingsCronReminder->sendExceededMail: ...mail send for user '. $user_id .' to mail '. $email . ' has exceeded timings for ' . $mail_body);
 				$this->markExceededInDatabase($user_id, $ref_ids);
 			}
@@ -443,7 +443,7 @@ class ilTimingsCronReminder extends ilCronJob
 		{
 			$mail = new ilMail(ANONYMOUS_USER_ID);
 			$mail->setMakeClickable(false);
-			$mail->sendMail($email, '', '', $this->user_lang->txt('timings_cron_reminder_started_subject'), $mail_body, $mail_body, null, true);
+			$mail->validateAndEnqueue($email, '', '', $this->user_lang->txt('timings_cron_reminder_started_subject'), $mail_body, $mail_body, null, true);
 			$this->log->debug('ilTimingsCronReminder->sendFreshlyStartedMail: ...mail send for user '. $user_id .' to mail '. $email . ' has freshly started timings for ' . $mail_body);
 			$this->markFreshlyStartedInDatabase($user_id, $ref_ids);
 		}

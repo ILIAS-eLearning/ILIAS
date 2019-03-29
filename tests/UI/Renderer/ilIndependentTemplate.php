@@ -9,16 +9,26 @@ require_once("./Services/UICore/lib/html-it/IT.php");
 require_once("./Services/UICore/lib/html-it/ITX.php");
 require_once("./Services/UICore/classes/class.ilTemplate.php");
 
-class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementation\Render\Template {
+class ilIndependentGlobalTemplate extends ilGlobalTemplate implements \ILIAS\UI\Implementation\Render\Template {
 	// This makes PHP happy, baseclass needs that
 	protected $blockparents = null;
 
 	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = true)
 	{
-		parent::__construct($file, $flag1, $flag2, $in_module, $vars, $plugin, false);
+		$this->setBodyClass("std");
+		$this->template = new ilIndependantTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
 	}
 
+	// Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
+	public function get($part = null, $add_error_mess = false,
+			$handle_referer = false, $add_ilias_footer = false,
+			$add_standard_elements = false, $a_main_menu = true, $a_tabs = true) {
+		return $this->template->get($part);
+	}
+}
+
+class ilIndependantTemplate extends ilTemplate {
 	/**
 	 * Reads a file from disk and returns its content.
 	 *
@@ -87,9 +97,7 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
 	}
 
 	// Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
-	public function get($part = null, $add_error_mess = false,
-			$handle_referer = false, $add_ilias_footer = false,
-			$add_standard_elements = false, $a_main_menu = true, $a_tabs = true) {
+	public function get($part = null) {
 
 		if ($part === null) {
 			$part = "__global__";

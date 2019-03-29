@@ -1108,7 +1108,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			//$this->object->deliverPDFfromHTML($template->get());
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -1237,7 +1237,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 
 			$name = ilObjUser::_lookupName($user_id);
-			$filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__'. $this->object->getTitle();
+			$filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__'. $this->object->getTitleFilenameCompliant();
 			require_once 'class.ilTestPDFGenerator.php';
 			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
 			//ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
@@ -1279,8 +1279,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$ilUser = $DIC['ilUser'];
 		$ilObjDataCache = $DIC['ilObjDataCache'];
 
-		$this->handleTabs('results_pass_oriented');
-		
 		$ilTabs->clearSubTabs();
 		$ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this));
 
@@ -1441,7 +1439,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( $this->isPdfDeliveryRequest() )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
+			ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -1459,8 +1457,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 		$ilObjDataCache = $DIC['ilObjDataCache'];
-
-		$this->handleTabs('results_pass_oriented');
 
 		$testSession = $this->testSessionFactory->getSession();
 		$active_id = $testSession->getActiveId();
@@ -1585,7 +1581,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
 		}
 		else
 		{

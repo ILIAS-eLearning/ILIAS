@@ -15,7 +15,7 @@ class ilYuiUtil {
 	/**
 	 * Init YUI Connection module
 	 */
-	static function initConnection(ilTemplate $a_main_tpl = null) {
+	static function initConnection(ilGlobalTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl == null)
@@ -103,7 +103,7 @@ class ilYuiUtil {
 	 *
 	 * @return void
 	 */
-	static function initPanel($a_resize = false, ilTemplate $a_main_tpl = null) {
+	static function initPanel($a_resize = false, ilGlobalTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl != null)
@@ -160,7 +160,7 @@ class ilYuiUtil {
 	/**
 	 * Init YUI Overlay module
 	 */
-	static function initOverlay(ilTemplate $a_main_tpl = null) {
+	static function initOverlay(ilGlobalTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl == null)
@@ -508,7 +508,7 @@ class ilYuiUtil {
 	/**
 	 * Add container css
 	 */
-	protected static function addContainerCss(ilTemplate $a_main_tpl = null) {
+	protected static function addContainerCss(ilGlobalTemplate $a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl == null)

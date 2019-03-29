@@ -1447,7 +1447,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 
 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		$tpl->setBodyClass("ilPrtfPdfBody");
 
@@ -1598,13 +1598,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 		if(!$a_pdf_export)
 		{
-			$tpl->show(false);
+			$tpl->printToStdout(false);
 			exit;
 		}
 		else
 		{
 			$tpl->fillJavaScriptFiles();
-			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
+			$ret = $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
 			return $ret;
 		}
 	}

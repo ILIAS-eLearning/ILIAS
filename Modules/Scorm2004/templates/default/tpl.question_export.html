@@ -18,7 +18,11 @@
 		ilias.questions.shuffle(questions[{VAL_ID}]);
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		{HANDLE_IMAGES}
-	}
+
+        if (typeof MathJax != "undefined") {
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+        }
+    }
 	renderILQuestion{VAL_ID}();
 </script>
 <!-- END singlechoice -->
@@ -52,6 +56,10 @@
 				{HANDLE_IMAGES}
 
 				question.init();
+
+                if (typeof MathJax != "undefined") {
+                    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+                }
 			}
 
 	); }(jQuery));
@@ -103,6 +111,11 @@
 	});
 
 	{HANDLE_IMAGES}
+
+    if (typeof MathJax != "undefined") {
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+    }
+
 })(questions[{VAL_ID}]);
 </script>
 <!-- END kprimchoice -->
@@ -125,6 +138,10 @@
 	}
 	$(document).ready(function() {
 		renderILQuestion{VAL_ID}();
+
+        if (typeof MathJax != "undefined") {
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+        }
 	});
 </script>
 <!-- END orderingquestion -->
@@ -304,6 +321,10 @@
 			question.init();
 			
 			questionData.engineInstance = question;
+
+            if (typeof MathJax != "undefined") {
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+            }
 		}
 	);
 	
@@ -344,7 +365,7 @@
 	{		
 		ilias.questions.shuffle(questions[{VAL_ID}]);
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-		jQuery("#order{VAL_ID}").sortable({axis: 'x', containment: '#container{VAL_ID}'});
+		jQuery("#order{VAL_ID}").sortable({containment: '#container{VAL_ID}'});
 		jQuery("#order{VAL_ID}").css('font-size', questions[{VAL_ID}].textsize+'%');		
 	}
 	renderILQuestion{VAL_ID}();

@@ -126,9 +126,8 @@ class ilCalendarSchedule
 				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));		
 			}
 			
-			// exercise 
-			include_once './Services/Calendar/classes/class.ilCalendarScheduleFilterExercise.php';
 			$this->addFilter(new ilCalendarScheduleFilterExercise($this->user->getId()));
+			$this->addFilter(new ilCalendarScheduleFilterTimings($this->user->getId()));
 		}
 		
 	}
@@ -214,6 +213,7 @@ class ilCalendarSchedule
 		
 		$tmp_date = new ilDateTime($unix_start,IL_CAL_UNIX,$this->timezone);
 		$tmp_schedule = array();
+		$tmp_schedule_fullday = array();
 	 	foreach($this->schedule as $schedule)
 	 	{
 	 		if($schedule['fullday'])
@@ -222,7 +222,7 @@ class ilCalendarSchedule
 		 			$f_unix_start == $schedule['dend'] or
 		 			($f_unix_start > $schedule['dstart'] and $f_unix_end <= $schedule['dend']))
 	 			{
-		 			$tmp_schedule[] = $schedule;
+		 			$tmp_schedule_fullday[] = $schedule;
 	 			}
 	 		}
 	 		elseif(($schedule['dstart'] == $unix_start) or
@@ -232,7 +232,16 @@ class ilCalendarSchedule
 	 			$tmp_schedule[] = $schedule;
 	 		}
 	 	}
-	 	return $tmp_schedule;
+
+	 	//order non full day events by starting date;
+		usort($tmp_schedule,function($a, $b){
+			return $a['dstart'] <=> $b['dstart'];
+		});
+
+		//merge both arrays keeping the full day events first and then rest ordered by starting date.
+	 	$schedules = array_merge($tmp_schedule_fullday,$tmp_schedule);
+
+	 	return $schedules;
 	}
 
 	
@@ -368,7 +377,7 @@ class ilCalendarSchedule
 	{
 		if(!sizeof($a_cats))
 		{
-			return;
+			return $a_cats;
 		}
 		
 		foreach($this->filters as $filter)

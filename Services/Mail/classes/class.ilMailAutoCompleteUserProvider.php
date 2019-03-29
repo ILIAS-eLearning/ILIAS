@@ -81,9 +81,18 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	{
 		$fields = array(
 			'login',
-			'firstname',
-			'lastname',
-			'email'
+			sprintf(
+				"(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) THEN firstname ELSE '' END) firstname",
+				$this->db->quote('y', 'text'), $this->db->quote('g', 'text')
+			),
+			sprintf(
+				"(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) THEN lastname ELSE '' END) lastname",
+				$this->db->quote('y', 'text'), $this->db->quote('g', 'text')
+			),
+			sprintf(
+				"(CASE WHEN ((profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) AND pubemail.value = %s) THEN email ELSE '' END) email",
+				$this->db->quote('y', 'text'), $this->db->quote('g', 'text'), $this->db->quote('y', 'text')
+			),
 		);
 
 		$fields[] = 'profpref.value profile_value';

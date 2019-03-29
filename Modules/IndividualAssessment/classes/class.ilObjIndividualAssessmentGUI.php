@@ -44,7 +44,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 		$this->lng = $DIC['lng'];
 		$this->ilAccess = $DIC['ilAccess'];
 		$this->lng->loadLanguageModule('iass');
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->locator = $DIC['ilLocator'];
 
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);

@@ -458,7 +458,7 @@ class ilLMPresentationGUI
 			//$this->frames = array();
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
-			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
+			$this->tpl = new ilGlobalTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
 			$this->renderPageTitle();
 			$this->tpl->setVariable("FS_CONTENT", $content);
 			if (!$doshow)
@@ -515,7 +515,7 @@ class ilLMPresentationGUI
 				: false;
 			if ($in_module)
 			{
-				$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+				$this->tpl = new ilGlobalTemplate($attributes["template"], true, true, $in_module);
 				$this->tpl->setBodyClass("");
 			}
 			else
@@ -777,7 +777,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
+			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, true);
 			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
 
@@ -795,7 +795,7 @@ class ilLMPresentationGUI
 			$this->ilGlossary($child);
 			if (!$this->offlineMode())
 			{
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 			}
 			else
 			{
@@ -1388,7 +1388,7 @@ class ilLMPresentationGUI
 	function ilCitation()
 	{
 		$page_id = $this->getCurrentPageId();
-		$this->tpl = new ilTemplate("tpl.page.html",true,true,true);
+		$this->tpl = new ilGlobalTemplate("tpl.page.html",true,true,true);
 		$this->ilLocator();
 		$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
 
@@ -1397,7 +1397,7 @@ class ilLMPresentationGUI
 		$this->pg_obj = $this->getLMPage($page_id);
 		$xml = $this->pg_obj->getXMLContent();
 		$this->lm_gui->showCitation($xml);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
@@ -2809,8 +2809,9 @@ class ilLMPresentationGUI
 
 		if (is_array($attr))
 		{
-			while (list($k,$v) = each($attr))
-				$tag.= " ".$k."=\"$v\"";
+			foreach ($attr as $k => $v) {
+				$tag .= " " . $k . "=\"$v\"";
+			}
 		}
 
 		if ($type == "")
@@ -2863,7 +2864,7 @@ class ilLMPresentationGUI
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 		//var_dump($GLOBALS["tpl"]); echo "<br><br>";
 		//exit;
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->ilLocator(true);
 
 		$a_global_tabs = !$this->offlineMode();
@@ -2948,7 +2949,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	
@@ -2992,7 +2993,7 @@ class ilLMPresentationGUI
 			$this->tpl->setStyleSheetLocation("./".$style_name);
 		}
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitle($this->getLMPresentationTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
@@ -3073,7 +3074,7 @@ class ilLMPresentationGUI
 			// forward the command
 			$this->ctrl->forwardCommand($info);
 			//$this->tpl->setContent("aa");
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 
@@ -3108,7 +3109,7 @@ class ilLMPresentationGUI
 
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "print", true,false, 0,
@@ -3256,7 +3257,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TOOLBAR", $tb->getHTML());
 
 		$this->tpl->setVariable("ITEM_SELECTION", $f);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 
 	}
 
@@ -3889,7 +3890,7 @@ class ilLMPresentationGUI
 			}
 		}
 
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 	}
 
 	/**
@@ -3959,7 +3960,7 @@ class ilLMPresentationGUI
 
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "download", true,false, 0,
@@ -4003,7 +4004,7 @@ class ilLMPresentationGUI
 		include_once("./Modules/LearningModule/classes/class.ilLMDownloadTableGUI.php");
 		$download_table = new ilLMDownloadTableGUI($this, "showDownloadList", $this->lm);
 		$this->tpl->setVariable("DOWNLOAD_TABLE", $download_table->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	

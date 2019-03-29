@@ -275,19 +275,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$opt->setInfo($lng->txt("blog_nav_mode_month_list_info"));
 		$nav_mode->addOption($opt);
 		
+
+		$mon_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
+		$mon_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_info"));
+		$mon_num->setSize(3);
+		$mon_num->setMinValue(1);
+		$opt->addSubItem($mon_num);
+
 		$detail_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month_with_post"), "nav_list_mon_with_post");
 		$detail_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_with_post_info"));
 		//$detail_num->setRequired(true);
 		$detail_num->setSize(3);
 		//$detail_num->setMinValue(0);
 		$opt->addSubItem($detail_num);
-		
-		$mon_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
-		$mon_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_info"));
-		$mon_num->setSize(3);
-		$mon_num->setMinValue(1);
-		$opt->addSubItem($mon_num);
-		
+
 		$opt = new ilRadioOption($lng->txt("blog_nav_mode_month_single"), ilObjBlog::NAV_MODE_MONTH);
 		$opt->setInfo($lng->txt("blog_nav_mode_month_single_info"));
 		$nav_mode->addOption($opt);
@@ -620,7 +621,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			case 'ilblogpostinggui':
 				if (!$this->prtf_embed)
 				{
-					$tpl->getStandardTemplate();
+					$tpl->loadStandardTemplate();
 				}
 
 				// #9680
@@ -2798,7 +2799,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		$tpl = $this->co_page_html_export->getPreparedMainTemplate();
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 	
 		$ilTabs->clearTargets();
 		if($a_back_url)
@@ -2852,7 +2853,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			unset($a_right_content);
 		}			
 
-		$content = $a_tpl->get("DEFAULT", false, false, false,
+		$content = $a_tpl->getSpecial("DEFAULT", false, false, false,
 			true, true, true);		
 
 		// open file

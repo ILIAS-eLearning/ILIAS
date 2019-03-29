@@ -1,13 +1,14 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Renderer\BaseTypeRenderer;
-use ILIAS\GlobalScreen\MainMenu\hasAction;
-use ILIAS\GlobalScreen\MainMenu\hasAsyncContent;
-use ILIAS\GlobalScreen\MainMenu\hasTitle;
-use ILIAS\GlobalScreen\MainMenu\isItem;
-use ILIAS\GlobalScreen\MainMenu\Item\LinkList;
-use ILIAS\GlobalScreen\MainMenu\Item\Separator;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -33,6 +34,9 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 		foreach ($item->getChildren() as $child) {
 			$i = $child->getProviderIdentification()->getInternalIdentifier();
 			switch (true) {
+				case ($child instanceof hasContent && $child->getAsyncContentURL() === ''):
+					$this->handleContent($child, $gl);
+					break;
 				case ($child instanceof hasAsyncContent):
 					$this->handleAsyncContent($child, $gl);
 					break;
@@ -107,6 +111,21 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 		$atpl->setVariable("ASYNC_URL", $child->getAsyncContentURL());
 		$gl->addEntry(
 			$atpl->get(), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+		);
+	}
+
+
+	/**
+	 * @param $child
+	 * @param $gl
+	 *
+	 * @throws ilTemplateException
+	 */
+	private function handleContent(hasContent $child, $gl) {
+		global $DIC;
+		$identifier = $child->getProviderIdentification()->getInternalIdentifier();
+		$gl->addEntry(
+			$DIC->ui()->renderer()->render($child->getContent()), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
 		);
 	}
 

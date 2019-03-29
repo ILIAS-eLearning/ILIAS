@@ -13,7 +13,7 @@ abstract class ilADTDBBridge
 	protected $adt; // [ilADT]
 	protected $table; // [string]
 	protected $id; // [string]
-	protected $primary; // [array]
+	protected $primary = []; // [array]
 	
 	/**
 	 * Constructor

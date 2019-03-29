@@ -23,9 +23,9 @@ interface ilMMItemFacadeInterface {
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\MainMenu\isItem
+	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
 	 */
-	public function item(): \ILIAS\GlobalScreen\MainMenu\isItem;
+	public function item(): \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 
 	/**
@@ -114,6 +114,12 @@ interface ilMMItemFacadeInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isCustomType(): bool;
+
+
+	/**
 	 * @return string
 	 */
 	public function getParentIdentificationString(): string;
@@ -129,6 +135,12 @@ interface ilMMItemFacadeInterface {
 	 * @return bool
 	 */
 	public function isTopItem(): bool;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isInLostItem(): bool;
 
 
 	//

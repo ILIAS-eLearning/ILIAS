@@ -274,6 +274,9 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('settings');
 				include_once("./Services/Container/classes/class.ilContainerNewsSettingsGUI.php");
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
+				$news_set_gui->setTimeline(true);
+				$news_set_gui->setCronNotifications(true);
+				$news_set_gui->setHideByDate(true);
 				$this->ctrl->forwardCommand($news_set_gui);
 				break;
 

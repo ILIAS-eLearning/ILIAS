@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilContactGlobalScreenProvider
@@ -50,6 +50,7 @@ class ilContactGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("mail_addressbook"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts")
 			        ->withParent($this->getTopItem())
+			        ->withPosition(9)
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () {

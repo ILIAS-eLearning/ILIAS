@@ -1730,7 +1730,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$this->prepareHTMLExporter($a_target_dir);
 			
 			// put header into file
-			$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
+			$sco_tpl = new ilGlobalTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 			include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 			$page_html_export = new ilCOPageHTMLExport($a_target_dir);
 			$sco_tpl = $page_html_export->getPreparedMainTemplate($sco_tpl);

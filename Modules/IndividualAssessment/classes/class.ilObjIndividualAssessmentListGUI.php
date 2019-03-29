@@ -16,7 +16,10 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI {
 		$this->info_screen_enabled = true;
 		$this->type = "iass";
 		$this->gui_class_name = "ilobjIndividualassessmentgui";
-		
+
+		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+		$this->enableSubstitutions($this->substitutions->isActive());
+
 		// general commands array
 		include_once('./Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentAccess.php');
 		$this->commands = ilObjIndividualAssessmentAccess::_getCommands();

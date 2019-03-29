@@ -349,7 +349,7 @@ class ilTemplate extends HTML_Template_ITX
 	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
 	* and ilUtil::sendFailure()
 	*/
-	function setMessage($a_type, $a_txt, $a_keep = false)
+	function setOnScreenMessage($a_type, $a_txt, $a_keep = false)
 	{
 		if (!in_array($a_type, array("info", "success", "failure", "question")) || $a_txt == "")
 		{

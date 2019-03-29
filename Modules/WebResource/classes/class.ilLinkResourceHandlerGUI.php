@@ -84,7 +84,7 @@ class ilLinkResourceHandlerGUI
 				break;
 		}
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 }

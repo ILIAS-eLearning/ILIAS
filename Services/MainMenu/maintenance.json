@@ -1,10 +1,9 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "fschmid(21087)",
     "second_maintainer": "",
     "implicit_maintainers": [
-        "akill(149)",
-        "fschmid(21087)"
+        "akill(149)"
     ],
     "coordinator": [
         ""
@@ -12,6 +11,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/MainMenu",
-    "belong_to_component": "None",
+    "belong_to_component": "MainMenu",
     "used_in_components": []
 }

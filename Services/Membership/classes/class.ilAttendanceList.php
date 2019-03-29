@@ -571,7 +571,7 @@ class ilAttendanceList
 	 */
 	public function getFullscreenHTML()
 	{		
-		$tpl = new ilTemplate('tpl.main.html',true,true);
+		$tpl = new ilGlobalTemplate('tpl.main.html',true,true);
 		$tpl->setBodyClass("ilBodyPrint");
 		
 		// load style sheet depending on user's settings
@@ -581,7 +581,7 @@ class ilAttendanceList
 		$tpl->setVariable("BODY_ATTRIBUTES",'onload="window.print()"');
 	    $tpl->setVariable("CONTENT", $this->getHTML());
 		
-		return $tpl->show();
+		return $tpl->printToStdout();
 	}
 	
 	/**
@@ -700,10 +700,6 @@ class ilAttendanceList
 		}
 
 		$valid_user_ids = ilUtil::_sortIds(array_unique($valid_user_ids),'usr_data','lastname','usr_id');						
-		
-		
-		// rows 
-		
 		foreach($valid_user_ids as $user_id)
 		{
 			if($this->callback)

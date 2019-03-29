@@ -90,7 +90,7 @@ class ilExerciseHandlerGUI
 				break;
 		}
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 }

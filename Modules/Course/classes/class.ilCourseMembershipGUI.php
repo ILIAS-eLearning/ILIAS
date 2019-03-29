@@ -449,10 +449,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	
 	/**
 	 * Callback from attendance list
+	 * @param int $a_user_id
 	 */
 	public function getAttendanceListUserData($a_user_id)
 	{
-		if($this->filterUserIdsByRbacOrPositionOfCurrentUser([$a_user_id]))
+		if(is_array($this->member_data) && array_key_exists($a_user_id,$this->member_data))
 		{
 			return $this->member_data[$a_user_id];
 		}

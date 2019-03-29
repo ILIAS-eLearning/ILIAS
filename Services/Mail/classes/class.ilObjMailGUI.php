@@ -388,7 +388,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$mail->setSaveInSentbox(false);
 		$mail->appendInstallationSignature(true);
-		$mail->sendMail($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array(), $type);
+		$mail->validateAndEnqueue($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array(), $type);
 
 		ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));
 		$this->showExternalSettingsFormObject();
@@ -539,6 +539,11 @@ class ilObjMailGUI extends ilObjectGUI
 	 */
 	protected function populateExternalSettingsForm(ilPropertyFormGUI $form)
 	{
+		$subjectPrefix = $this->settings->get('mail_subject_prefix');
+		if (false === $subjectPrefix) {
+			$subjectPrefix = ilMimeMail::MAIL_SUBJECT_PREFIX;
+		}
+
 		$form->setValuesByArray(array(
 			'mail_smtp_status'              => (bool)$this->settings->get('mail_smtp_status'),
 			'mail_smtp_host'                => $this->settings->get('mail_smtp_host'),
@@ -546,7 +551,7 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_smtp_user'                => $this->settings->get('mail_smtp_user'),
 			'mail_smtp_password'            => strlen($this->settings->get('mail_smtp_password')) > 0 ? self::PASSWORD_PLACE_HOLDER : '',
 			'mail_smtp_encryption'          => $this->settings->get('mail_smtp_encryption'),
-			'mail_subject_prefix'           => $this->settings->get('mail_subject_prefix') ? $this->settings->get('mail_subject_prefix') : '[ILIAS]',
+			'mail_subject_prefix'           => $subjectPrefix,
 			'mail_send_html'                => (int)$this->settings->get('mail_send_html'),
 			'mail_system_usr_from_addr'     => $this->settings->get('mail_system_usr_from_addr'),
 			'mail_system_usr_from_name'     => $this->settings->get('mail_system_usr_from_name'),

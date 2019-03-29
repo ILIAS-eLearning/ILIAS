@@ -278,7 +278,8 @@ class ilSearchResultPresentation
 					"description"	=> $this->lookupDescription($obj_id,0),
 					"type"			=> $obj_type,
 					"relevance"		=> $this->getRelevance($obj_id),
-					"s_relevance"	=> sprintf("%03d",$this->getRelevance($obj_id))
+					"s_relevance"	=> sprintf("%03d",$this->getRelevance($obj_id)),
+					'create_date' => ilObject::_lookupCreationDate($obj_id)
 				);
 								
 				$preloader->addItem($obj_id, $obj_type, $ref_id);					

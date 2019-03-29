@@ -694,6 +694,9 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			ilUtil::sendFailure($e->getMessage, true);
 		}
 
+		ilGlobalCache::flushAll();
+		$ilPluginsOverviewTableGUI = new ilPluginsOverviewTableGUI($this);
+
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
 		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);

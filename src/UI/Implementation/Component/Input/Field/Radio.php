@@ -24,6 +24,11 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	protected $options = [];
 
 	/**
+	 * @var array <string,array> {$option_value => $bylines}
+	 */
+	protected $bylines = [];
+
+	/**
 	 * @var array <string,array> {$option_value => $fields}
 	 */
 	protected $dependant_fields = [];
@@ -61,9 +66,12 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	/**
 	 * @inheritdoc
 	 */
-	public function withOption(string $value, string $label, $dependant_fields=null) : C\Input\Field\Radio{
+	public function withOption(string $value, string $label, string $byline=null, $dependant_fields=null) : C\Input\Field\Radio{
 		$clone = clone $this;
 		$clone->options[$value] = $label;
+		if(! is_null($byline)) {
+			$clone->bylines[$value] = $byline;
+		}
 		if(! is_null($dependant_fields)) {
 			$clone->dependant_fields[$value] = $dependant_fields;
 		}
@@ -76,6 +84,15 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	public function getOptions() : array {
 		return $this->options;
 	}
+
+
+	public function getBylineFor(string $value) {
+		if(!array_key_exists($value, $this->bylines)) {
+			return null;
+		}
+		return $this->bylines[$value];
+	}
+
 
 	/**
 	 * @inheritdoc
@@ -125,17 +142,21 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 
 			foreach ($dep_fields as $name => $field) {
 				$filled = $field->withInput($post_input);
-
 				$content = $filled->getContent();
+
 				if ($content->isOk()) {
 					$values['group_values'][$name] = $content->value();
 				} else {
-					$error = true;
+					$clone = $clone->withError($name .' - '. $content->error());
 				}
 
 				$clone->dependant_fields[$value][$name] = $filled;
 			}
 			$clone->content = $clone->applyOperationsTo($values);
+		}
+
+		if($clone->getError()) {
+			$clone->content = $clone->data_factory->error($clone->getError());
 		}
 
 		return $clone;

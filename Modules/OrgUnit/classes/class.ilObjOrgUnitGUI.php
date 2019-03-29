@@ -261,14 +261,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						$this->view();
 						break;
 					case 'performPaste':
-						$this->performPaste();
-						break;
 					case 'paste':
 						$this->performPaste();
 						break;
 					case 'performPasteIntoMultipleObjects':
 						$this->performPasteIntoMultipleObjectsObject();
 						break;
+                    case 'keepObjectsInClipboard':
+                        $this->keepObjectsInClipboardObject();
+                        break;
 					case 'create':
 						parent::createObject();
 						break;
@@ -692,8 +693,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 		if ($_SESSION['clipboard']['cmd'] == 'cut') {
 			if (isset($_GET['ref_id']) && (int)$_GET['ref_id']) {
-				$_POST['nodes'] = array( $_GET['ref_id'] );
-				$this->performPasteIntoMultipleObjectsObject();
+				$this->pasteObject();
 			}
 		}
 		$this->ctrl->returnToParent($this);

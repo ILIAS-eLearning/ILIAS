@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
@@ -90,6 +91,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @var ilPluginAdmin
 	 */
 	protected $plugin_admin;
+	/**
+	 * @var Services
+	 */
+	protected $global_screen;
 
 	/**
 	 * @var ilAppEventHandler
@@ -131,6 +136,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
 		$this->ui = $DIC->ui();
+		$this->global_screen = $DIC->globalScreen();
 		$rbacsystem = $DIC->rbac()->system();
 		$lng = $DIC->language();
 
@@ -546,7 +552,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			// all items in one block
 			case ilContainer::VIEW_SESSIONS:
-			case IL_CRS_VIEW_TIMING:			// not nice this workaround
+			case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
 				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
@@ -795,6 +801,41 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
+			// bugfix mantis 24559
+			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+			// as they don't have the possibility to use the multi-download-capability of the manage-tab
+			else if ($this->isMultiDownloadEnabled())
+			{
+				// bugfix mantis 0021272
+				$ref_id = $_GET['ref_id'];
+				$num_files = $this->tree->getChildsByType($ref_id, "file");
+				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
+				if(count($num_files) > 0 OR count($num_folders) > 0)
+				{
+					// #11843
+					$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+
+					include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+					$toolbar = new ilToolbarGUI();
+					$this->ctrl->setParameter($this, "type", "");
+					$this->ctrl->setParameter($this, "item_ref_id", "");
+
+					$toolbar->addFormButton(
+						$this->lng->txt('download_selected_items'),
+						'download'
+					);
+
+					$GLOBALS['tpl']->addAdminPanelToolbar(
+						$toolbar,
+						$this->object->gotItems() ? true : false,
+						$this->object->gotItems() ? true : false
+					);
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
+				}
+			}
 		}
 	}
 
@@ -1011,7 +1052,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$tree = $this->tree;
 		
-		$tpl = new ilTemplate("tpl.container_link_help.html", true, true,
+		$tpl = new ilGlobalTemplate("tpl.container_link_help.html", true, true,
 			"Services/Container");
 		
 		$type_ordering = array(
@@ -1051,7 +1092,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 		exit;
 
 	}
@@ -1450,7 +1491,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
+
+	// bugfix mantis 24559
+	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+	// as they don't have the possibility to use the multi-download-capability of the manage-tab
+	function enableMultiDownloadObject()
+	{
+		$this->multi_download_enabled = true;
+		$this->renderObject();
+	}
+
 	function isMultiDownloadEnabled()
 	{
 		return $this->multi_download_enabled;
@@ -3876,9 +3926,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			if ($allow_lso) {
-				$whiltelist = $exp->getTypeWhiteList();
+				$whitelist = $exp->getTypeWhiteList();
 				$whitelist[] = 'lso';
-				$exp->setTypeWhiteList($whiltelist);
+				$exp->setTypeWhiteList($whitelist);
 			}
 		}
 
