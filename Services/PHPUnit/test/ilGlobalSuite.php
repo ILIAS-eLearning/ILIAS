@@ -4,7 +4,7 @@
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\Filter\Factory as FilterFactory;
-use PHPUnit\Runner\Filter\GroupExclude as GroupExcludeFilter;
+use PHPUnit\Runner\Filter\ExcludeGroupFilterIterator as GroupExcludeFilter;
 
 
 /**
