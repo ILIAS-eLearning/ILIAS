@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 require_once 'libs/composer/vendor/autoload.php';
 
@@ -189,14 +188,16 @@ class FinderTest extends TestCase
 
 	/**
 	 * @throws ReflectionException
+	 * @return Filesystem\Filesystem
 	 */
-	public function testFinderWillFilterFilesAndFoldersByCreationTimestamp()
+	public function testFinderWillFilterFilesAndFoldersByCreationTimestamp(): Filesystem\Filesystem
 	{
 		// 30.03.2019 13:00:00 Europe/Berlin
 		$now = 1553947200;
 
 		$fs = $this->getNestedFileSystemStructure();
-		$fs->expects($this->any())->method('has')->willReturn(true);
+		$fs
+			->expects($this->any())->method('has')->willReturn(true);
 
 		$fs
 			->expects($this->atLeast(1))
@@ -240,6 +241,8 @@ class FinderTest extends TestCase
 		$this->assertCount(2, $finder->date('< 2019-03-30 15:00')->files());
 		$this->assertCount(3, $finder->date('<= 2019-03-30 15:00')->files());
 		$this->assertCount(2, $finder->date('<= 2019-03-30 15:00 - 1minute')->files());
+
+		return $fs;
 	}
 
 	/**
@@ -290,5 +293,24 @@ class FinderTest extends TestCase
 
 		$this->assertCount(3, $finder->size('> 1Mi')->files());
 		$this->assertCount(2, $finder->size('>= 1Gi')->files());
+	}
+
+	/**
+	 * @param Filesystem\Filesystem $fs
+	 * @depends testFinderWillFilterFilesAndFoldersByCreationTimestamp
+	 */
+	public function testSortingWorksAsExpected(Filesystem\Filesystem $fs)
+	{
+		$finder = (new Finder($fs))->in(['/']);
+
+		$this->assertEquals('file_1.txt', current($finder->sortByTime()->getIterator())->getPath());
+		$this->assertEquals(
+			'dir_1/dir_1_2/file_7.cpp',
+			current($finder->sortByTime()->reverseSorting()->getIterator())->getPath()
+		);
+		$this->assertEquals('dir_1', current($finder->sortByName()->getIterator())->getPath());
+		$this->assertEquals('file_2.mp3', current($finder->sortByName()->reverseSorting()->getIterator())->getPath());
+		$this->assertEquals('dir_1', current($finder->sortByType()->getIterator())->getPath());
+		$this->assertEquals('file_2.mp3', current($finder->sortByType()->reverseSorting()->getIterator())->getPath());
 	}
 }
