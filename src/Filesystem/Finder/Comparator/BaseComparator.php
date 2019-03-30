@@ -65,12 +65,16 @@ abstract class BaseComparator
 		switch ($this->operator) {
 			case '>':
 				return $test > $this->target;
+
 			case '>=':
 				return $test >= $this->target;
+
 			case '<':
 				return $test < $this->target;
+
 			case '<=':
 				return $test <= $this->target;
+
 			case '!=':
 				return $test != $this->target;
 		}
