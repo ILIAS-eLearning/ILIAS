@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopLinkItem;
-use ILIAS\GlobalScreen\MainMenu\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -114,10 +114,10 @@ class ilMMTopItemFormGUI {
 
 		// RETURN FORM
 		if ($this->item_facade->isEmpty()) {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_ADD));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_ADD), "");
 			$this->form = $this->ui_fa->input()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_CREATE), [$section]);
 		} else {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_EDIT));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_EDIT), "");
 			$this->form = $this->ui_fa->input()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_UPDATE), [$section]);
 		}
 	}

@@ -623,7 +623,6 @@ class ilSetupGUI
 		}
 
 		$this->tpl->setVariable("VAL_CMD", htmlspecialchars($_GET["cmd"]));
-		$this->tpl->setVariable("TXT_OK",$this->lng->txt("change"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");
 		//$this->tpl->setVariable("LOCATION_STYLESHEET","./templates/blueshadow.css");
@@ -4080,8 +4079,8 @@ class ilSetupGUI
 
 			if ($status["finish"]["status"])
 			{
-				$this->setup->ini->write();
 				$this->setup->ini->setVariable("clients","default",$client->getId());
+				$this->setup->ini->write();
 				$message = "default_client_changed";
 			}
 			else

@@ -83,24 +83,22 @@ class ilMMSubitemFormGUI {
 		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('sub_type'), $this->lng->txt('sub_type_byline'))->withRequired(true);
 		$type_informations = $this->repository->getPossibleSubItemTypesWithInformation();
 
-		foreach ($type_informations as $class_name => $information) {
+		foreach ($type_informations as $classname => $information) {
 			if ($this->item_facade->isEmpty()
-				|| (!$this->item_facade->isEmpty() && $this->item_facade->getType() === $class_name && ($this->item_facade->isCustom() || $this->item_facade->isCustomType()))
-			) {
-				$type = $type->withOption(
-					$this->hash($class_name), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $this->repository->getTypeHandlerForType($class_name)
-					->getAdditionalFieldsForSubForm($this->item_facade->identification())
-				);
+				|| (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
+			) { // https://mantis.ilias.de/view.php?id=24152
+				$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+				$type = $type->withOption($this->hash($classname), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $inputs);
 			}
 		}
 
-		if (!$this->item_facade->isEmpty() && ($this->item_facade->isCustom()||$this->item_facade->isCustomType())) {
+		if (!$this->item_facade->isEmpty() && $this->item_facade->isCustom()) {
 			$type = $type->withValue($this->hash($this->item_facade->getType()));
 		} elseif ($this->item_facade->isCustom()) {
 			$type = $type->withValue($this->hash(reset(array_keys($type_informations))));
 		}
 
-		if ($this->item_facade->isEmpty() || $this->item_facade->isCustom() || $this->item_facade->isCustomType()) {
+		if ($this->item_facade->isEmpty() || $this->item_facade->isCustom()) {
 			$items[self::F_TYPE] = $type;
 		}
 
@@ -123,27 +121,33 @@ class ilMMSubitemFormGUI {
 
 		// RETURN FORM
 		if ($this->item_facade->isEmpty()) {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_ADD));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_ADD), "");
 			$this->form = $this->ui_fa->input()->container()->form()
 				->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CREATE), [$section]);
 		} else {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_EDIT));
+			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMSubItemGUI::CMD_EDIT), "");
 			$this->form = $this->ui_fa->input()->container()->form()
 				->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_UPDATE), [$section]);
 		}
 	}
 
 
-	public function save() {
+	public function save(): bool {
 		global $DIC;
 		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
 		$form = $this->form->withRequest($DIC->http()->request());
 		$data = $form->getData();
 
+		if (is_null($data)) {
+			return false;
+		}
+
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);
 		$this->item_facade->setActiveStatus((bool)$data[0][self::F_ACTIVE]);
-		$this->item_facade->setParent((string)$data[0][self::F_PARENT]);
+		if ((string)$data[0][self::F_PARENT]) {
+			$this->item_facade->setParent((string)$data[0][self::F_PARENT]);
+		}
 		$this->item_facade->setIsTopItm(false);
 
 		if ($this->item_facade->isEmpty()) {

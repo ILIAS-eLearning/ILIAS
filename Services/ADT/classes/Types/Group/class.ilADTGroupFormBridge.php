@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 
 class ilADTGroupFormBridge extends ilADTFormBridge
 {
-	protected $elements; // [array]
+	protected $elements = []; // [array]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{

@@ -2,7 +2,6 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
-use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
@@ -19,9 +18,7 @@ class PluginSerializer implements SerializerInterface {
 
 
 	/**
-	 * @param IdentificationInterface $identification
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function serialize(IdentificationInterface $identification): string {
 		/**
@@ -29,7 +26,13 @@ class PluginSerializer implements SerializerInterface {
 		 */
 		$divider = self::DIVIDER;
 
-		return "{$identification->getPluginId()}{$divider}{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
+		$str = "{$identification->getPluginId()}{$divider}{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
+
+		if (strlen($str) > SerializerInterface::MAX_LENGTH) {
+			throw new \LogicException("Serialized Identifications MUST be shorter than " . SerializerInterface::MAX_LENGTH . " characters");
+		}
+
+		return $str;
 	}
 
 

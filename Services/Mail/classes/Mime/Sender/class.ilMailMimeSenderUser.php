@@ -1,26 +1,16 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Mime/Sender/interface.ilMailMimeSender.php';
-
 /**
  * Class ilMailMimeSenderSystem
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailMimeSenderUser implements ilMailMimeSender
+abstract class ilMailMimeSenderUser implements \ilMailMimeSender
 {
-	/**
-	 * @var \ilObjUser[]
-	 */
-	protected static $userInstances = array();
-
-	/**
-	 * @var \ilSetting
-	 */
+	/** @var \ilSetting */
 	protected $settings;
 
-	/**
-	 * @var \ilObjUser
-	 */
+	/** @var \ilObjUser */
 	protected $user;
 
 	/**
@@ -35,46 +25,9 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	}
 
 	/**
-	 * @param \ilSetting $settings
-	 * @param int $usrId
-	 * @return self
-	 */
-	public static function byUsrId(\ilSetting $settings, $usrId)
-	{
-		if(!array_key_exists($usrId, self::$userInstances))
-		{
-			self::$userInstances[$usrId] = new \ilObjUser($usrId);
-		}
-
-		return new self($settings, self::$userInstances[$usrId]);
-	}
-
-	/**
-	 * @param int $usrId
-	 * @param \ilObjUser $user
-	 */
-	public static function addUserToCache($usrId, \ilObjUser $user)
-	{
-		self::$userInstances[$usrId] = $user;
-	}
-
-	/**
-	 * @param \ilSetting $settings
-	 * @param string $emailAddress
-	 * @return self
-	 */
-	public static function byEmailAddress(\ilSetting $settings, $emailAddress)
-	{
-		$user = new \ilObjUser();
-		$user->setEmail($emailAddress);
-
-		return new self($settings, $user);
-	}
-
-	/**
 	 * @inheritdoc
 	 */
-	public function hasReplyToAddress()
+	public function hasReplyToAddress(): bool
 	{
 		return true;
 	}
@@ -82,23 +35,23 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	/**
 	 * @inheritdoc
 	 */
-	public function getReplyToAddress()
+	public function getReplyToAddress(): string
 	{
-		return $this->user->getEmail();
+		return (string)$this->user->getEmail();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getReplyToName()
+	public function getReplyToName(): string
 	{
-		return $this->user->getFullname();
+		return (string)$this->user->getFullname();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function hasEnvelopFromAddress()
+	public function hasEnvelopFromAddress(): bool
 	{
 		return strlen($this->settings->get('mail_system_usr_env_from_addr')) > 0;
 	}
@@ -106,35 +59,33 @@ class ilMailMimeSenderUser implements ilMailMimeSender
 	/**
 	 * @inheritdoc
 	 */
-	public function getEnvelopFromAddress()
+	public function getEnvelopFromAddress(): string
 	{
-		return $this->settings->get('mail_system_usr_env_from_addr');
+		return $this->settings->get('mail_system_usr_env_from_addr', '');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getFromAddress()
+	public function getFromAddress(): string
 	{
-		return $this->settings->get('mail_system_usr_from_addr');
+		return $this->settings->get('mail_system_usr_from_addr', '');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getFromName()
+	public function getFromName(): string
 	{
-		$from = $this->settings->get('mail_system_usr_from_name');
-		if(0 == strlen($from))
-		{
-			return $this->user->getFullname();
+		$from = $this->settings->get('mail_system_usr_from_name', '');
+		if (0 == strlen($from)) {
+			return (string)$this->user->getFullname();
 		}
 
-		$name = str_ireplace('[FULLNAME]', $this->user->getFullname(), $from);
-		$name = str_ireplace('[FIRSTNAME]', $this->user->getFirstname(), $name);
-		$name = str_ireplace('[LASTNAME]', $this->user->getLastname(), $name);
-		if($name != $from)
-		{
+		$name = str_ireplace('[FULLNAME]', (string)$this->user->getFullname(), $from);
+		$name = str_ireplace('[FIRSTNAME]', (string)$this->user->getFirstname(), $name);
+		$name = str_ireplace('[LASTNAME]', (string)$this->user->getLastname(), $name);
+		if ($name !== $from) {
 			return $name;
 		}
 

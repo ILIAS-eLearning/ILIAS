@@ -123,7 +123,7 @@ final class FilesystemFacade implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function getTimestamp(string $path): \DateTime {
+	public function getTimestamp(string $path): \DateTimeImmutable {
 		return $this->fileAccess->getTimestamp($path);
 	}
 

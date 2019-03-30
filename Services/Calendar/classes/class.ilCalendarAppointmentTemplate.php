@@ -40,6 +40,7 @@ include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 class ilCalendarAppointmentTemplate
 {
 	protected $context_id;
+	protected $context_info;
 	protected $title;
 	protected $subtitle;
 	protected $description;
@@ -62,6 +63,24 @@ class ilCalendarAppointmentTemplate
 	{
 		$this->context_id = $a_id;
 	}
+
+    /**
+     * Set context info
+     * @param string
+     */
+	public function setContextInfo($a_info)
+    {
+        $this->context_info = $a_info;
+    }
+
+    /**
+     * Get context info
+     * @return string
+     */
+    public function getContextInfo()
+    {
+        return $this->context_info;
+    }
 	
 	/**
 	 * set title

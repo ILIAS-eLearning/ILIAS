@@ -71,6 +71,7 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
@@ -431,6 +432,9 @@ adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
 assessment#:#autosave_ival#:#Speicherintervall
+assessment#:#tst_block_passes_after_passed#:#Weitere Testdurchläufe nach dem Bestehen des Tests verhindern
+assessment#:#tst_block_passes_after_passed_info#:#Nachdem ein Teilnehmer den Test bestanden hat werden dem Teilnehmer mit dieser Option keine weiteren Testdurchläufe erlaubt.
+assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#for#:#für
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s
@@ -456,7 +460,7 @@ assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Die Punkte werden au
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung bei Nennung eines Begriffs
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#Die Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird.
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
-assessment#:#assessment_scoring_adjust#:#Aktiviere Nachkorrekturmodus
+assessment#:#assessment_scoring_adjust#:#Nachkorrekturmodus aktivieren
 assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, um nachträglich die Bewertung von Fragen in Tests anzupassen.
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
@@ -542,6 +546,7 @@ assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
+assessment#:#tst_filter_lifecycle_enabled#:#Lifecycle Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#assClozeTest#:#Lückentextfrage
@@ -911,6 +916,10 @@ assessment#:#matching_type#:#Untertyp der Zuordnungsfrage
 assessment#:#material#:#Material
 assessment#:#material_file#:#Materialdatei
 assessment#:#maxchars#:#Maximale Anzahl von Zeichen
+assessment#:#qst_essay_chars_remaining#:#Noch übrige Zeichen:
+assessment#:#qst_essay_allready_written_words#:#Bereits geschriebene Wörter:
+assessment#:#qst_essay_wordcounter_enabled#:#Wortzähler
+assessment#:#qst_essay_wordcounter_enabled_info#:#Teilnehmern wird ein Wortzähler gezeigt. Er bietet eine Orientierung darüber wie viel Text Teilnehmer bereits geschrieben haben.
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#maximum_points#:#Maximal erreichbare Punktezahl
 assessment#:#maxsize#:#Maximale Dateigröße
@@ -953,8 +962,8 @@ assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem 
 assessment#:#tst_wf_info_answer_not_adopted#:#Es wurde aus früheren Versuchen keine Antwort übernommen. Daher müssen Sie diese Frage bearbeiten, andernfalls wird sich Ihr Lernzielergebnis verschlechtern.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind in vorherigen Versuchen erfolgreich beantwortet worden.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen erneut bearbeiten oder nur einsehen. Wenn Sie die aus früheren Versuchen übernommenen Antworten nicht verändern, können Sie Ihr Lernzielergebnis auch nicht verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten oder einsehen möchten, können Sie zurück gehen. Die Fragen werden in jedem Fall in der Auswertung berücksichtigt.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
-assessment#:#tst_tab_results_pass_oriented#:#Ergebnisse nach Versuchen
-assessment#:#tst_tab_results_objective_oriented#:#Ergebnisse nach Lernzielen
+assessment#:#tst_tab_results_pass_oriented#:#Testergebnisse nach Versuchen
+assessment#:#tst_tab_results_objective_oriented#:#Testergebnisse nach Lernzielen
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter
@@ -1174,7 +1183,7 @@ assessment#:#ass_create_question#:#Frage erstellen
 assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerergebnisse
 assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline.
 assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
@@ -1693,10 +1702,17 @@ assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
+assessment#:#qst_lifecycle_filter_all#:#Alle Lifecycle
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Entwurf
+assessment#:#qst_lifecycle_review#:#Überarbeitung notwendig
+assessment#:#qst_lifecycle_rejected#:#Abgelehnt
+assessment#:#qst_lifecycle_final#:#Endgültig
+assessment#:#qst_lifecycle_sharable#:#Verteilbar
+assessment#:#qst_lifecycle_outdated#:#Veraltet
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
-assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
-assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden.
+assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 auth#:#auth_account_code#:#Code
@@ -1914,7 +1930,7 @@ certificate#:#cert_form_sec_availability#:#Verfügbarkeit
 certificate#:#cert_form_sec_layout#:#Layout und Text
 certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
 common#:#chat_chatviewer#:#Chatviewer
-chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
+chatroom#:#chat_enable_autoscroll#:#Automatisches Scrollen aktivieren
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
@@ -1924,8 +1940,8 @@ chatroom#:#autogen_usernames#:#Automatisch generierte Benutzernamen
 chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzernamen bei anonymen Benutzern. '#' wird automatisch durch eine Zahl ersetzt
 chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
 chatroom#:#ban_table_title#:#Gesperrte Benutzer
-chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt
-chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen
+chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
+chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen.
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_ban#:#Sperren
@@ -2180,7 +2196,7 @@ rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
 common#:#advanced_editing_frm_post_settings#:#Einstellungen Forenbeiträge
-common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
+common#:#advanced_editing_rep_page_editing#:#Seitenbearbeitung im Magazin aktivieren
 common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
@@ -2641,7 +2657,7 @@ common#:#desktop_items#:#Ausgewählte Angebote
 common#:#details#:#Details
 common#:#disable#:#ausschalten
 common#:#disable_check#:#Nicht überprüfen
-common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
+common#:#disable_ext_lang_maint#:#Eweiterte Sprachenverwaltung deaktivieren
 common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
 common#:#disabled#:#Ausgeschaltet
 common#:#disk_quota#:#Disk-Quota
@@ -3916,7 +3932,7 @@ common#:#rolt#:#Rollenvorlage
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
-rbac#:#rbac_create_cat#:#Benutzer kann Kategorien anlegen
+rbac#:#rbac_create_cat#:#Kategorien anlegen
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS-System
 rbac#:#root_visible#:#ILIAS-System ist sichtbar
@@ -3948,11 +3964,11 @@ common#:#save_settings#:#Einstellungen speichern
 common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#saving#:#Sichert...
-common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
-common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
-common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
-common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
-common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
+common#:#scorm_create_export_file_html#:#HTML-Exportdatei erzeugen
+common#:#scorm_create_export_file_pdf#:#PDF-Exportdatei erzeugen
+common#:#scorm_create_export_file_scrom12#:#SCORM 1.2-Exportdatei erzeugen
+common#:#scorm_create_export_file_scrom2004#:#SCORM 2004-Exportdatei erzeugen
+common#:#scorm_create_export_file_scrom2004_4th#:#SCORM 2004-4th_edition-Exportdatei erstellen
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
@@ -4446,10 +4462,10 @@ content#:#cont_act_number#:#Kapitelnummerierung
 content#:#cont_activate_html#:#HTML-Rendering aktivieren
 content#:#cont_activate_js#:#Javascript-Modus aktivieren
 content#:#cont_activate_media#:#Medien aktivieren
-content#:#cont_activate_page#:#Aktiviere Seite
+content#:#cont_activate_page#:#Seite aktivieren
 content#:#cont_activated#:#Aktiviert
 content#:#cont_activation#:#Aktivierung
-content#:#cont_active#:#Aktiviere Menü
+content#:#cont_active#:#Menü aktivieren
 content#:#cont_active_areas#:#Auslöser
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
@@ -5317,6 +5333,7 @@ crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
+crs#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
@@ -5677,7 +5694,7 @@ dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer
 dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
 dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor der Sprechstunde eine Anmeldung ermöglicht werden soll.
 dateplaner#:#cal_ch_duration#:#Dauer eines Termins
-dateplaner#:#cal_ch_form#:#Aktiviere Sprechstundenverwaltung
+dateplaner#:#cal_ch_form#:#Sprechstundenverwaltung aktivieren
 dateplaner#:#cal_ch_form_header#:#Sprechstundenverwaltung
 dateplaner#:#cal_ch_form_info#:#Diese Option aktiviert die Sprechstundenverwaltung im Kalender
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
@@ -6243,7 +6260,7 @@ forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen 
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
 forum#:#forums_new_thread#:#Neues Thema
-forum#:#forums_no_posts_available#:#Dieses Thema hat noch keine Beiträge oder der Startbeitrag wurde vom Moderator deaktiviert.
+forum#:#forums_no_posts_available#:#Dieses Thema hat noch keine Beiträge.
 forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
@@ -6332,7 +6349,7 @@ didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_edit_members#:#Teilnehmerverwaltung
-grp#:#grp_enable_map#:#Aktiviere Gruppenkarte
+grp#:#grp_enable_map#:#Gruppenkarte aktivieren
 grp#:#grp_export_members#:#Teilnehmerexport
 grp#:#grp_general_informations#:#Allgemeine Informationen
 grp#:#grp_grp_info_reg#:#Die folgenden Gruppen unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einer dieser Gruppen beitreten:
@@ -6743,7 +6760,7 @@ mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href="%s">hier</a>.
 mail#:#mail_subject_prefix#:#Mail-Betreff
-mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird.
+mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. Es wird empfohlen einen Präfix anzugeben, um Nutzern das Filtern der Nachrichten zu vereinfachen.
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Mails gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die ausgewählten Dateien gelöscht werden sollen?
@@ -7449,7 +7466,7 @@ news#:#news_default_visibility#:#Voreinstellung Zugriff
 news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Neuigkeiten aktivieren
 news#:#news_enable_internal_news_info#:#Aktiviert Blöcke "Neuigkeiten" für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Neuigkeiten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
-news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Neuigkeiten
+news#:#news_enable_internal_rss#:#RSS für interne Neuigkeiten aktivieren
 news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Neuigkeiten über RSS. Auf diese Beiträge kann von außen ohne Authentifizierung zugegriffen werden.
 news#:#news_enable_private_feed#:#Privaten RSS-Feed aktivieren
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
@@ -7632,8 +7649,8 @@ ps#:#ps_error_message_password_min1_because_chars#:#Minimale Passwortlänge darf
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
 ps#:#ps_export_admin#:#Administratoren
-ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
-ps#:#ps_export_confirm_group#:#Aktiviere Nutzungsvereinbarung für Gruppenmitglieder
+ps#:#ps_export_confirm#:#Nutzungsvereinbarung für Kursmitglieder aktivieren
+ps#:#ps_export_confirm_group#:#Nutzungsvereinbarung für Gruppenmitglieder aktivieren
 ps#:#ps_export_course#:#Persönliche Daten in Kursen anzeigen und exportieren
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
@@ -7763,6 +7780,10 @@ rbac#:#mds_visible#:# Metadaten-Administration ist sichtbar
 rbac#:#mds_write#:#Einstellungen in Metadaten-Administration bearbeiten
 rbac#:#moderate#:#Moderieren
 rbac#:#moderate_frm#:#Moderieren
+rbac#:#mme_visible#:#Administration des Hauptmenüs ist sichtbar
+rbac#:#mme_read#:#Lesezugriff auf Administration des Hauptmenüs
+rbac#:#mme_write#:#Einstellungen der Administration des Hauptmenüs bearbeiten
+rbac#:#mme_edit_permission#:#Rechteeinstellung der Administration des Hauptmenüs ändern
 rbac#:#msg_no_roles_of_type#:#Keine Rollen vorhanden mit der gewählten Filtereinstellung
 rbac#:#otpl_edit_permission#:#Rechteeinstellungen in Administration der Didaktischen Vorlagen ändern
 rbac#:#otpl_read#:#Lesezugriff auf Administration der Didaktischen Vorlagen
@@ -7923,6 +7944,10 @@ rbac#:#svyf_read#:#Lesezugriff auf Umfrage-Administration
 rbac#:#svyf_visible#:#Umfrage-Administration ist sichtbar
 rbac#:#svyf_write#:#Einstellungen in Umfrage-Administration bearbeiten
 rbac#:#rbac_create_usr#:#Benutzer anlegen können
+rbac#:#wfe_visible#:#Administration der Workflow Engine ist sichtbar
+rbac#:#wfe_read#:#Lesezugriff auf Administration der Workflow Engine
+rbac#:#wfe_write#:#Einstellungen der Administration der Workflow Engine bearbeiten
+rbac#:#wfe_edit_permission#:#Rechteeinstellung der Administration der Workflow Engine ändern
 rbac#:#write#:#Einstellungen bearbeiten
 rcrs#:#rcrs_call#:#ECS-Kurs aufrufen
 registration#:#auth_radius_name#:#Name der RADIUS Konfiguration
@@ -8470,11 +8495,11 @@ style#:#sty_colors#:#Farben
 style#:#sty_commands#:#Aktionen
 style#:#sty_confirm_char_deletion#:#Sind Sie sicher, dass Sie die folgende Styleklassen löschen möchten?
 style#:#sty_confirm_color_deletion#:#Löschen der Farbe bestätigen
-style#:#sty_confirm_del_ind_styles#:#Bestätige Löschen der individuellen Lernmodul-Stylesheets
+style#:#sty_confirm_del_ind_styles#:#Löschen der individuellen Lernmodul-Stylesheets bestätigen
 style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit individuellen Stylesheets werden dem Stil '%s' zugeordnet. Die individuellen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
 style#:#sty_confirm_template_deletion#:#Löschen des Templates bestätigen
 style#:#sty_copied_please_select_target#:#Die Styleklassen wurden kopiert. Bitte wechseln Sie zum gewünschten Zielstyle und wählen "Styleklassen einfügen".
-style#:#sty_copy_other_stylesheet#:#Kopiere Stylesheet aus lokaler Quelle
+style#:#sty_copy_other_stylesheet#:#Stylesheet aus lokaler Quelle kopieren
 style#:#sty_create_ind_style#:#Individuelles Stylesheet anlegen
 style#:#sty_create_new_stylesheet#:#Neues Stylesheet anlegen
 style#:#sty_create_pgl#:#Seitenlayout erstellen
@@ -8513,7 +8538,7 @@ style#:#sty_images#:#Bilder
 style#:#sty_import_page_layout#:#Seitenlayout importieren
 style#:#sty_import_stylesheet#:#Stylesheet importieren
 style#:#sty_individual_styles#:#Individuelle Stylesheets
-style#:#sty_keep_existing#:#Bestehnde Klasse erhalten
+style#:#sty_keep_existing#:#Bestehende Klasse erhalten
 style#:#sty_left#:#Links
 style#:#sty_left_right_padding#:#Innenabstand Links/Rechts
 style#:#sty_letter_spacing#:#Zeichenabstand
@@ -10253,7 +10278,7 @@ survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Beiträge von
 blog#:#blog_enable_approval#:#Neue Beiträge freischalten
-blog#:#blog_enable_approval_info#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden.
+blog#:#blog_enable_approval_info#:#Alle Beiträge müssen durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden, bevor sie für andere Benutzer sichtbar werden.
 blog#:#blog_approve#:#Beitrag freischalten
 blog#:#blog_needs_approval#:#Beitrag ist noch nicht freigeschaltet
 sess#:#sess_copy#:#Sitzung kopieren
@@ -10481,8 +10506,8 @@ content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgef
 common#:#edited_on#:#Bearbeitet am
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_tos#:#Nutzungsvereinbarungen
-tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt.
-tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt.
+tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
+tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
 tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
@@ -10491,8 +10516,8 @@ tos#:#tos_agreement_missing#:#Nicht vorhanden
 tos#:#tos_agreement_document#:#Dokument
 tos#:#tos_agreement_document_missing#:#Nicht vorhanden
 tos#:#tos_tos_settings#:#Einstellungen
-tos#:#tos_status_enable#:#Aktivieren
-tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
+tos#:#tos_status_enable#:#Nutzungsvereinbarungen aktivieren
+tos#:#tos_status_desc#:#Benutzer werden zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
 tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die z.B. für die SOAP Web-Services genutzt werden.
 tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
@@ -10518,20 +10543,19 @@ tos#:#tos_tbl_docs_head_sorting#:#Sortierung
 tos#:#tos_tbl_docs_head_title#:#Titel
 tos#:#tos_tbl_docs_head_created#:#Erstellungsdatum
 tos#:#tos_tbl_docs_head_last_change#:#Letzte Änderung
-tos#:#tos_tbl_docs_head_criteria#:#Kriterien
-tos#:#tos_tbl_docs_action_add_criterion#:#Kriterium hinzufügen
-tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Kriterium zugewiesen
-tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Kriterium zugewiesen
-tos#:#tos_doc_detach_crit_confirm_title#:#Kriterium entfernen
+tos#:#tos_tbl_docs_head_criteria#:#Vorlagekriterien
+tos#:#tos_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
+tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+tos#:#tos_tbl_hist_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+tos#:#tos_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
 tos#:#tos_doc_delete#:#Dokument löschen
-tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Kriterium entfernt werden soll?
-tos#:#tos_doc_crit_detached#:#Das Kriterium wurde entfernt.
-tos#:#tos_doc_crit_attached#:#Das Kriterium wurde zugewiesen.
-tos#:#tos_doc_crit_changed#:#Das Kriterium wurde aktualisiert.
-tos#:#tos_form_attach_criterion_head#:#Kriterium hinzufügen
-tos#:#tos_form_edit_criterion_head#:#Kriteriumzuweisung bearbeiten
-tos#:#tos_form_criterion#:#Kriterium
-tos#:#tos_form_criterion_info#:#Bitte wählen Sie ein entsprechendes Kriterium für das Dokument.
+tos#:#tos_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
+tos#:#tos_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
+tos#:#tos_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
+tos#:#tos_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
+tos#:#tos_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
+tos#:#tos_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
+tos#:#tos_form_criterion#:#Vorlagekriterium
 tos#:#tos_document#:#Dokument
 tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
 tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
@@ -10545,13 +10569,13 @@ tos#:#tos_tbl_hist_head_login#:#Benutzername
 tos#:#tos_tbl_hist_head_firstname#:#Vorname
 tos#:#tos_tbl_hist_head_lastname#:#Nachname
 tos#:#tos_tbl_hist_head_document#:#Dokument
-tos#:#tos_tbl_hist_head_criteria#:#Kriterien
-tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Kriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
-tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Kriteriums nicht wie gewünscht ändern.  Es existiert bereits eine identische Zuweisung.
-tos#:#tos_crit_type_usr_global_role#:#Benutzer hat Globale Rolle
-tos#:#tos_crit_type_usr_global_role_info#:#Das Kriterium gilt als erfüllt, wenn ein Benutzer der hier gewählten Rolle zugewiesen ist.
-tos#:#tos_crit_type_usr_language#:#Profilesprache
-tos#:#tos_crit_type_usr_language_info#:#Das Kriterium gilt als erfüllt, wenn die hier gewählte Sprache im Benutzerprofil eingestellt ist. Bitte beachten Sie, dass Sie nur ein Kriterium dieses Typs hinzufügen können.
+tos#:#tos_tbl_hist_head_criteria#:#Vorlagekriterien
+tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
+tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
+tos#:#tos_crit_type_usr_global_role#:#Globale Rolle
+tos#:#tos_crit_type_usr_global_role_info#:#Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments.
+tos#:#tos_crit_type_usr_language#:#Bbenutzersprache
+tos#:#tos_crit_type_usr_language_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#Auf den Persönlichen Schreibtisch legen
@@ -10559,7 +10583,10 @@ rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
-forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
+forum#:#frm_sticky_threads_latest_at_top#:#Top-Themen mit neuestem Beitrag oben
+forum#:#frm_sticky_threads_latest_at_top_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Innerhalb der Top-Themen wird automatisch dasjenige mit dem neuesten Beitrag nach oben sortiert.
+forum#:#frm_sticky_threads_manual_sorting#:#Top-Themen manuell sortieren
+forum#:#frm_sticky_threads_manual_sorting_info#:#Top-Themen erscheinen immer ganz oben in der Liste der Themen. Die Top-Themen können händisch in eine sinnvolle Reihenfolge gebracht werden.
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 forum#:#merge#:#Zusammenführen
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
@@ -10930,7 +10957,7 @@ crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
 pd#:#pd_info_delete_sure_remove#:#Wollen Sie die folgenden Objekte aus der Liste "Ausgewählte Angebote" auf Ihrem Persönlichen Schreibtisch entfernen?
 pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgenden Objekten abmelden?
-file#:#enable_personal_workspace_disk_quota#:#Aktiviere Disk-Quota für den Persönlichen Arbeitsraum
+file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen Arbeitsraum aktivieren
 file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
 file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
@@ -11804,10 +11831,10 @@ obj#:#obj_multilinguality#:#Mehrsprachigkeit
 obj#:#obj_deactivate_content_transl_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte im Seiteneditor wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
 obj#:#obj_cont_transl_deactivated#:#Die Unterstützung für mehrsprachige Inhalte im Seiteneditor wurde deaktiviert.
 obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite gestalten") kann separat aktiviert werden.
-obj#:#obj_activate_content_lang#:#Aktiviere Mehrsprachigkeit für Seiteneditor
+obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren
 obj#:#obj_add_languages#:#Sprachen hinzufügen
-obj#:#obj_activate_multilang#:#Aktiviere Mehrsprachigkeit
-obj#:#obj_deactivate_multilang#:#Deaktiviere Mehrsprachigkeit
+obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
+obj#:#obj_deactivate_multilang#:#Mehrsprachigkeit deaktivieren
 obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen, Ordner und Studienprogramme können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
@@ -11853,11 +11880,11 @@ rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
 rbac#:#orgu_copy#:#Organisationseinheit kopieren
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Buchungsobjekt ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
-blog#:#blog_abstract_shorten#:#Auszug kürzen
+blog#:#blog_abstract_shorten#:#Nur Anfang des Beitrags zeigen
 blog#:#blog_abstract_shorten_length#:#Maximale Länge
 blog#:#blog_abstract_shorten_characters#:#Zeichen
-blog#:#blog_abstract_image#:#Bild zum Auszug hinzufügen
-blog#:#blog_abstract_image_info#:#Bilder, die kleiner sind, werden nicht benutzt.
+blog#:#blog_abstract_image#:#Erstes Bild anzeigen
+blog#:#blog_abstract_image_info#:#Das erste Bild des Beitrags wird auf die hier festgelegte Größe verkleinert. Bilder, die kleiner sind als die festgelegte Größe, werden nicht angezeigt.
 blog#:#blog_abstract_image_width#:#Breite
 blog#:#blog_abstract_image_height#:#Höhe
 blog#:#blog_abstract_image_pixels#:#Px
@@ -11934,24 +11961,24 @@ meta#:#md_adv_text_multi#:#Mehrzeilig
 meta#:#md_adv_number_suffix#:#Suffix
 survey#:#survey_results_finished#:#Umfrage beendet
 blog#:#blog_settings_navigation#:#Navigation
-blog#:#blog_presentation_frame#:#Präsentation
-blog#:#blog_presentation_overview#:#Übersicht
-blog#:#blog_nav_mode#:#Modus
-blog#:#blog_nav_mode_month_list#:#Monatsliste
-blog#:#blog_nav_mode_month_list_info#:#Liste aller Monate, optional mit Einträgen
+blog#:#blog_presentation_frame#:#Darstellung
+blog#:#blog_presentation_overview#:#Präsentation der Beiträge
+blog#:#blog_nav_mode#:#Monatsweise Navigation
+blog#:#blog_nav_mode_month_list#:#Aktuelle Monate als Liste
+blog#:#blog_nav_mode_month_list_info#:#Der Seitenblock zeigt eine Liste der Monate. Die Anzahl angezeigter Monate und Beiträge kann festgelegt werden.
 blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge (nach absteigendem Datum sortiert)
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in der Monatsansicht gelistet.
-blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl der Monate
-blog#:#blog_nav_mode_month_list_num_month_info#:#Zusätzliche Monate werden nur mit der Anzahl der Beiträge angezeigt.
-blog#:#blog_nav_mode_month_single#:#Kompletter Monat
-blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats. Der gewünschte Monat kann mit einem Dropdown gewählt werden.
+blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl angezeigter Monate
+blog#:#blog_nav_mode_month_list_num_month_info#:#Monate werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
+blog#:#blog_nav_mode_month_single#:#Alle Monate per Dropdown
+blog#:#blog_nav_mode_month_single_info#:#Im Seitenblock bietet ein Dropdown alle Monate zur Auswahl an. Für den gewählten Monat werden alle Beiträge aufgelistet.
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
 blog#:#blog_enable_keywords#:#Schlagwörter
-blog#:#blog_enable_keywords_info#:#Einträge können mit Schlagwörtern versehen werden, die zum Navigieren benutzt werden können.
-blog#:#blog_enable_nav_authors#:#Autoren
-blog#:#blog_enable_nav_authors_info#:#Autorennamen können zum Navigieren verwendet werden.
-blog#:#blog_nav_sortorder#:#Sortierung
+blog#:#blog_enable_keywords_info#:#Autoren können Beiträge mit Schlagwörtern versehen. Vergebene Schlagwörter werden im Seitenblock zum Filtern der Beiträge angeboten.
+blog#:#blog_enable_nav_authors#:#Nach Autoren filtern
+blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit allen Autorennamen eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieses Autoren an.
+blog#:#blog_nav_sortorder#:#Reihenfolge der Seitenblöcke
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
@@ -12074,6 +12101,7 @@ rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutz
 rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#file_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#mcst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#lso_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 content#:#cont_progress_icons#:#Fortschritts-Icons
 content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 5.0 gespeichert.
 content#:#cont_self_assessment#:#Selbsttests
@@ -12290,7 +12318,7 @@ content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer 
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
 maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
-maps#:#maps_enable_maps#:#Aktiviere Karten
+maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_extt_maps#:#Karten
 maps#:#maps_latitude#:#Breitengrad
 maps#:#maps_longitude#:#Längengrad
@@ -12578,7 +12606,7 @@ tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte 
 tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
 tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
-cntr#:#cont_custom_icon#:#Custom Icon
+cntr#:#cont_custom_icon#:#Angepasstes Icon
 rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich.
 content#:#cont_license#:#Lizenz
 content#:#cont_license_info#:#Reiter und Funktion "Lizenz" werden angezeigt.
@@ -12889,8 +12917,8 @@ note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_comment_notification_link#:#Link
-lng#:#lng_enable_language_detection#:#Aktiviere automatische Spracherkennung
-lng#:#lng_disable_language_detection#:#Deaktiviere automatische Spracherkennung
+lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
+lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
 trac#:#trac_mode_content_visited#:#Besuch
 trac#:#trac_mode_content_visited_info#:#Der Lernstand wird über das Ausliefern des Inhalts bestimmt.
 trac#:#trac_mode_collection_mobs#:#Auswahl an Medien-Objekten
@@ -13082,7 +13110,7 @@ awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
 common#:#obj_awra#:#„Wer ist online?“-Anzeige
 awrn#:#awareness_settings#:#Einstellungen
-awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
+awrn#:#awrn_enable#:#„Wer ist online?“-Anzeige aktivieren
 crs#:#crs_mem_contacts#:#Tutorielle Betreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet. Achtung: Wird die Option "Online und offline" gewählt, ist bei hoher Benutzerzahl mit erheblichen Performanzeinbußen zu rechnen.
@@ -13264,6 +13292,11 @@ forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller daz
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht.
+forum#:#frm_settings_form_header#:#Einstellungen des Forums
+forum#:#frm_settings_presentation_header#:#Darstellung
+forum#:#frm_settings_user_functions_header#:#Funktionen für Teilnehmer
+forum#:#frm_settings_mod_functions_header#:#Funktionen für Moderatoren
+forum#:#frm_settings_privacy_header#:#Datenschutz
 meta#:#meta_advmd_select_options#:#Einträge
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
 search#:#btn_search#:#Suchen
@@ -13370,6 +13403,8 @@ rbac#:#awra_edit_permission#:#Rechteeinstellungen für die Verwaltung der „Wer
 rbac#:#svy_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#svy_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
+rbac#:#read_results#:#Umfrageergebnisse
+rbac#:#svy_read_results#:#Benutzer hat Zugriff auf alle Umfrageergebnisse
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
@@ -13889,6 +13924,7 @@ iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
+iass#:#iass_user_removed#:#Der Teilnehmer wurde erfolgreich entfernt.
 iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
@@ -13929,7 +13965,7 @@ chatroom#:#chat_osc_send#:#Senden
 chatroom#:#chat_osc_invite_to_conversation#:#Zu Konversation hinzufügen
 chatroom#:#chat_osc_add_user#:#Weitere Benutzer zum Chat hinzufügen
 chatroom#:#chat_osc_user#:#Benutzer
-chatroom#:#chat_osc_write_a_msg#:#Verfasse eine Nachricht ...
+chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
 chatroom#:#chat_osc_section_head_other_rooms#:#Öffentlicher Chatraum
@@ -14126,8 +14162,8 @@ book#:#book_open#:#Buchungspool öffnen
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Sitzung öffnen
 dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
-dateplaner#:#cal_def_show_weeks#:#Default-Anzeige Wochenspalte
-dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
+dateplaner#:#cal_def_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
 dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
 dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
 dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
@@ -14327,8 +14363,8 @@ lti#:#lti_session#:#LTI Sitzung
 lti#:#lti_exit#:#LTI Sitzung beenden
 lti#:#lti_exited#:#LTI Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
-blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeigten Beiträgen
-blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.
+blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit Links zu allen Beiträgen
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktuellster Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
 orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
 orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
@@ -14535,7 +14571,7 @@ mme#:#topitem_type_parent#:#Haupteintrag
 mme#:#topitem_type_link#:#Link
 mme#:#topitem_title_default#:#Titel (Standard-Sprache)
 mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
-mme#:#topitem_active_byline#:#Aktiviere diesen Haupteintrag.
+mme#:#topitem_active_byline#:#Diesen Haupteintrag aktivieren
 mme#:#topitem_type#:#Typ
 mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
 mme#:#subitem_add#:#Eintrag hinzufügen
@@ -14555,7 +14591,7 @@ mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
 mme#:#sub_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#sub_type_byline#:#Typ für den Eintrag auswählen. Je nach Typ sind zusätzliche Angaben nötig.
-mme#:#sub_active_byline#:#Aktiviere diesen Eintrag.
+mme#:#sub_active_byline#:#Diesen Eintrag aktivieren
 mme#:#add_languages#:#Sprache hinzufügen
 mme#:#mm_translation_lang#:#Sprache
 mme#:#mm_translation_trans#:#Übersetzung
@@ -14670,7 +14706,7 @@ user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotex
 lhist#:#lhist_first_login#:#First Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
-content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
+content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
 content#:#cont_ed_insert_learning_history#:#Lernverlauf
 lhist#:#lhist_all#:#All
@@ -14781,6 +14817,7 @@ rbac#:#lso_visible#:#Lernsequenz sichtbar
 rbac#:#lso_copy#:#Lernsequenz kopieren
 rbac#:#lso_write#:#Lernsequenz bearbeiten
 rbac#:#lso_delete#:#Lernsequenz löschen
+rbac#:#lso_lp_other_users#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 lso#:#learner_view#:#Übersicht
 lso#:#manage#:#Verwalten
 lso#:#manage_content_maintab#:#Inhalt
@@ -14815,6 +14852,7 @@ lso#:#abstract#:#Einleitung
 lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#extro#:#Abschlussseite
 lso#:#extro_img#:#Bild für die Abschlussseite
+lso#:#lso_start_item#:#Start
 lso#:#lso_player_start#:#Lernsequenz starten
 lso#:#lso_player_review#:#Lernsequenz überarbeiten
 lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
@@ -14828,8 +14866,9 @@ lso#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#condition_always#:#Immer
-lso#:#condition_completed#:#Abgeschlossen
-lso#:#condition_failed#:#Durchgefallen
+lso#:#finished#:#Abgeschlossen
+lso#:#failed#:#Durchgefallen
+lso#:#not_finished#:#Nicht Abgeschlossen
 rbac#:#rbac_create_lso#:#Lernsequenz erstellen
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
@@ -14891,7 +14930,7 @@ common#:#il_lso_admin#:#Lernsequenzadministrator
 common#:#il_lso_member#:#Lernsequenzmitglied
 lso#:#entries_updated#:#Einträge gespeichert
 lso#:#curriculum#:#Curriculum
-lso#:#unparticipate#:#Abmelden
+lso#:#unparticipate#:#Lernsequenz verlassen
 lso#:#participate#:#Anmelden
 lhist#:#lhist_show_more#:#Mehr anzeigen
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
@@ -14989,6 +15028,27 @@ exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überp
 lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
 lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 lti#:#lti_cron_title#:#LTI Outcome Service
-lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
+lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
+dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
+dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende
+crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
+crs#:#crs_timings_short_start_end_rel#:#Empfohlener Start (Tage nach Kursbeitritt)
+crs#:#crs_tile_and_objective_view_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Lernziel-orientierter Ansicht wird nicht unterstützt.
+crs#:#crs_tile_and_session_limit_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Begrenzung der angezeigten Sitzungen wird nicht unterstützt.
+content#:#cont_choose_file_source#:#Quelle
+content#:#cont_choose_local#:#Lokales Verzeichnis
+content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
+sess#:#sess_assign#:#Zuordnen
+common#:#certificate_selection#:#Ursprung der Zertifikate
+common#:#certificate_persistent_option#:#Persistente Zertifikate
+common#:#certificate_workspace_option#:#Arbeitsraum Zertifikate
+common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
+common#:#certificate_file_not_found_error#:#Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
+common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
+certificate#:#persistent_certificate_mode#:#Benutzer Zertifikatserstellung
+certificate#:#persistent_certificate_mode_cron#:#Cron-Job
+certificate#:#persistent_certificate_mode_cron_info#:#Diese Option wird für Systeme mit hohen Benutzerinteraktion empfohlen
+certificate#:#persistent_certificate_mode_instant#:#Direkt
+certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteratkion empfohlen. Für System die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.

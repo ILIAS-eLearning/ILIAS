@@ -11,7 +11,7 @@
 abstract class ilADT
 {
 	protected $definition; // [ilADTDefinition]
-	protected $validation_errors; // [array]
+	protected $validation_errors = []; // [array]
 	
 	
 	// :TODO: error codes for ALL types - see self::translateErrorMessage()

@@ -243,7 +243,7 @@ class ilForumAuthorInformation
 				$this->getAuthor()->setGender('');
 				$this->author_short_name = $this->author_name = $this->getAuthor()->getLogin();
 				$this->buildAuthorProfileLink(false);
-				$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
+				$this->profilePicture = $this->getAvatarImageSource($this->author_short_name, $this->getAuthor()->getId());
 			}
 		}
 		else if($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias))

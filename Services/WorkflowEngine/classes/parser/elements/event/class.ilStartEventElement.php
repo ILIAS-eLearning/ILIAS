@@ -27,7 +27,9 @@ class ilStartEventElement extends ilBaseElement
 		$this->element_varname = '$_v_'.$element_id; // TODO: xsd:ID allows hyphens and periods. Deal with it!
 
 		$event_definition = null;
-		if(count(@$element['children']))
+
+		$hasChildren = (isset($element['children']) && is_array($element['children']) && count($element['children']) > 0);
+		if($hasChildren)
 		{
 			foreach ($element['children'] as $child)
 			{

@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
-use ILIAS\GlobalScreen\Identification\CoreIdentification;
 use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
@@ -23,7 +22,13 @@ class CoreSerializer implements SerializerInterface {
 	public function serialize(IdentificationInterface $identification): string {
 		$divider = self::DIVIDER;
 
-		return "{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
+		$str = "{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
+
+		if (strlen($str) > SerializerInterface::MAX_LENGTH) {
+			throw new \LogicException("Serialized Identifications MUST be shorter than " . SerializerInterface::MAX_LENGTH . " characters");
+		}
+
+		return $str;
 	}
 
 

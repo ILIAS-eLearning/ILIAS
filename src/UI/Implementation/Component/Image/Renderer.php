@@ -34,6 +34,9 @@ class Renderer extends AbstractComponentRenderer {
 			}
 
 			if (is_array($component->getAction())) {
+				$tpl->setCurrentBlock("with_href");
+				$tpl->setVariable("HREF", "#");
+				$tpl->parseCurrentBlock();
 				$tpl->setCurrentBlock("with_id");
 				$tpl->setVariable("ID", $id);
 				$tpl->parseCurrentBlock();

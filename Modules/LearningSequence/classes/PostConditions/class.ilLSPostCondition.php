@@ -19,9 +19,9 @@ class ilLSPostCondition
 	protected $ref_id;
 
 	/**
-	 * @var int
+	 * @var string
 	 */
-	protected $type;
+	protected $operator;
 
 	/**
 	 * @var mixed
@@ -30,11 +30,11 @@ class ilLSPostCondition
 
 	public function __construct(
 		int $ref_id,
-		int $type,
+		string $operator,
 		$value = null
 	){
 		$this->ref_id = $ref_id;
-		$this->type = $type;
+		$this->operator = $operator;
 		$this->value = $value;
 	}
 
@@ -43,15 +43,16 @@ class ilLSPostCondition
 		return $this->ref_id;
 	}
 
-	public function getConditionType(): int
+
+	public function getConditionOperator(): string
 	{
-		return $this->type;
+		return $this->operator;
 	}
 
-	public function withConditionType(int $type): ilLSPostCondition
+	public function withConditionOperator(string $operator): ilLSPostCondition
 	{
 		$clone = clone $this;
-		$clone->type = $type;
+		$clone->operator = $operator;
 		return $clone;
 	}
 

@@ -540,11 +540,10 @@ class ilInitialisation
 	 */
 	public static function setSessionHandler()
 	{
-		if(ini_get('session.save_handler') != 'user')
-		{
+		if (ini_get('session.save_handler') != 'user' && version_compare(PHP_VERSION, '7.2.0', '<')) {
 			ini_set("session.save_handler", "user");
 		}
-		
+
 		require_once "Services/Authentication/classes/class.ilSessionDBHandler.php";
 		$db_session_handler = new ilSessionDBHandler();
 		if (!$db_session_handler->setSaveHandler())
@@ -2052,7 +2051,7 @@ class ilInitialisation
 
 		$c["bt.task_manager"] = function ($c) use ($sync) {
 			if ($sync == 'sync') {
-				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager($c["bt.persistence"]);
 			} elseif ($sync == 'async') {
 				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
 			} else {

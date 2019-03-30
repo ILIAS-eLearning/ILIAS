@@ -111,7 +111,7 @@ final class ReadOnlyDecorator implements Filesystem {
 	/**
 	 * @inheritDoc
 	 */
-	public function getTimestamp(string $path): DateTime {
+	public function getTimestamp(string $path): \DateTimeImmutable {
 		return $this->filesystem->getTimestamp($path);
 	}
 
