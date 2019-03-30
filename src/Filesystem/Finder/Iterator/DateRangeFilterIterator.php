@@ -10,7 +10,7 @@ use ILIAS\Filesystem\DTO\Metadata;
 /**
  * Class DateRangeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class DateRangeFilterIterator extends \FilterIterator
 {
@@ -21,16 +21,17 @@ class DateRangeFilterIterator extends \FilterIterator
 	private $comparators = [];
 
 	/**
-	 * @param Filesystem $filesystem
-	 * @param \Iterator $iterator The Iterator to filter
+	 * @param Filesystem       $filesystem
+	 * @param \Iterator        $iterator    The Iterator to filter
 	 * @param DateComparator[] $comparators An array of DateComparator instances
 	 */
 	public function __construct(FileSystem $filesystem, \Iterator $iterator, array $comparators)
 	{
-		array_walk($comparators, function($comparator) {
+		array_walk($comparators, function ($comparator) {
 			if (!($comparator instanceof DateComparator)) {
 				if (is_object($comparator)) {
-					throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', get_class($comparator)));
+					throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s',
+						get_class($comparator)));
 				}
 
 				throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
@@ -44,7 +45,7 @@ class DateRangeFilterIterator extends \FilterIterator
 	}
 
 	/**
-	 * @inheritdoc 
+	 * @inheritdoc
 	 */
 	public function accept()
 	{

@@ -9,7 +9,7 @@ use ILIAS\Filesystem\Filesystem;
 /**
  * Class SortableIterator
  * @package ILIAS\Filesystem\Finder\Iterator
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class SortableIterator implements \IteratorAggregate
 {
@@ -30,10 +30,10 @@ class SortableIterator implements \IteratorAggregate
 
 	/**
 	 * Sortable constructor.
-	 * @param Filesystem $filesystem
-	 * @param \Traversable $iterator
+	 * @param Filesystem            $filesystem
+	 * @param \Traversable          $iterator
 	 * @param int|callable|\Closure $sort
-	 * @param bool $reverseOrder
+	 * @param bool                  $reverseOrder
 	 */
 	public function __construct(Filesystem $filesystem, \Traversable $iterator, $sort, $reverseOrder = false)
 	{

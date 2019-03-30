@@ -6,7 +6,7 @@ namespace ILIAS\Filesystem\Finder\Comparator;
 /**
  * Class NumberComparator
  * @package ILIAS\Filesystem\Finder\Comparator
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class NumberComparator extends BaseComparator
 {

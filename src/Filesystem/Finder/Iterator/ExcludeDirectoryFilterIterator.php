@@ -8,16 +8,16 @@ use ILIAS\Filesystem\DTO\Metadata;
 /**
  * Class ExcludeDirectoryFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class ExcludeDirectoryFilterIterator extends \FilterIterator implements \RecursiveIterator
 {
 	/** @var \Iterator|\RecursiveIterator */
 	private $iterator;
-	
+
 	/** @var bool */
 	private $isRecursive = false;
-	
+
 	/** @var string[] */
 	private $excludedDirs = [];
 
@@ -25,12 +25,12 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
 	private $excludedPattern = '';
 
 	/**
-	 * @param \Iterator $iterator The Iterator to filter
-	 * @param string[] $directories An array of directories to exclude
+	 * @param \Iterator $iterator    The Iterator to filter
+	 * @param string[]  $directories An array of directories to exclude
 	 */
 	public function __construct(\Iterator $iterator, array $directories)
 	{
-		array_walk($directories, function($directory) {
+		array_walk($directories, function ($directory) {
 			if (!is_string($directory)) {
 				if (is_object($directory)) {
 					throw new \InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -54,7 +54,7 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
 		}
 
 		if ($patterns) {
-			$this->excludedPattern = '#(?:^|/)(?:'.implode('|', $patterns).')(?:/|$)#';
+			$this->excludedPattern = '#(?:^|/)(?:' . implode('|', $patterns) . ')(?:/|$)#';
 		}
 
 		parent::__construct($iterator);

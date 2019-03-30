@@ -8,7 +8,7 @@ use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
 /**
  * Class DepthRangeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class DepthRangeFilterIterator extends \FilterIterator
 {
@@ -18,14 +18,15 @@ class DepthRangeFilterIterator extends \FilterIterator
 	/**
 	 * DepthRangeFilterIterator constructor.
 	 * @param \RecursiveIteratorIterator $iterator
-	 * @param NumberComparator[] $comparators
+	 * @param NumberComparator[]         $comparators
 	 */
 	public function __construct(\RecursiveIteratorIterator $iterator, array $comparators)
 	{
-		array_walk($comparators, function($comparator) {
+		array_walk($comparators, function ($comparator) {
 			if (!($comparator instanceof NumberComparator)) {
 				if (is_object($comparator)) {
-					throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', get_class($comparator)));
+					throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s',
+						get_class($comparator)));
 				}
 
 				throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
