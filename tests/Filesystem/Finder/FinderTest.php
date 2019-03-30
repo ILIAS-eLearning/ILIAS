@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-require_once 'libs/composer/vendor/autoload.php';
-
 use ILIAS\Data\DataSize;
 use ILIAS\Filesystem;
 use ILIAS\Filesystem\Finder\Finder;
@@ -308,9 +306,24 @@ class FinderTest extends TestCase
 			'dir_1/dir_1_2/file_7.cpp',
 			current($finder->sortByTime()->reverseSorting()->getIterator())->getPath()
 		);
+
 		$this->assertEquals('dir_1', current($finder->sortByName()->getIterator())->getPath());
 		$this->assertEquals('file_2.mp3', current($finder->sortByName()->reverseSorting()->getIterator())->getPath());
+
 		$this->assertEquals('dir_1', current($finder->sortByType()->getIterator())->getPath());
 		$this->assertEquals('file_2.mp3', current($finder->sortByType()->reverseSorting()->getIterator())->getPath());
+
+
+		$customSortFinder = $finder->sort(function(Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) {
+			if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
+				return -1;
+			}
+
+			return 1;
+		});
+		$this->assertEquals('dir_1/dir_1_1/file_5.cpp', current($customSortFinder->getIterator())->getPath());
+		$all = array_values(iterator_to_array($customSortFinder->reverseSorting()->getIterator()));
+		$last = $all[iterator_count($customSortFinder) - 1];
+		$this->assertEquals('dir_1/dir_1_1/file_5.cpp', $last->getPath());
 	}
 }
