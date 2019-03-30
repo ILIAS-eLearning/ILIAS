@@ -416,6 +416,24 @@ $stream = Streams::ofPsr7Stream($stream->getBody());
 //write stream to file ...
 ```
 
+## Finder
+
+For an easy access to files and directories a `Finder` is provided for each `Filesystem` given
+in the `$DIC`.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+```
+
+The finder offers multiple methods to list files and directories recursively, using a bunch of optional
+filters and options for the sorting of the determined `Metadata` collection. The finder is completely
+immutable and provides a fluent interface.
+
+Please have a look at the [tests](/tests/Filesystem/Finder/FinderTest.php) to see how it works.
+
 ## Authors
 
 * **Nicolas Schaefli** - *interface definition* - [d3r1w](https://github.com/d3r1w)
