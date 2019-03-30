@@ -206,7 +206,7 @@ final class Finder implements \IteratorAggregate, \Countable
 			$sizes = [$sizes];
 		}
 
-		$clone = $this;
+		$clone = clone $this;
 
 		foreach ($sizes as $size) {
 			$clone->sizes[] = new Comparator\NumberComparator((string)$size);

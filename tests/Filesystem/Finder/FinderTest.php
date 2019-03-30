@@ -1,6 +1,9 @@
 <?php
 declare(strict_types=1);
 
+require_once 'libs/composer/vendor/autoload.php';
+
+use ILIAS\Data\DataSize;
 use ILIAS\Filesystem;
 use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\MetadataType;
@@ -202,35 +205,27 @@ class FinderTest extends TestCase
 				switch ($path) {
 					case'file_1.txt':
 						return new \DateTimeImmutable('@' . $now);
-						break;
 
 					case 'file_2.mp3':
 						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 1));
-						break;
 
 					case 'dir_1/file_3.log':
 						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 2));
-						break;
 
 					case 'dir_1/file_4.php':
 						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 3));
-						break;
 
 					case 'dir_1/dir_1_1/file_5.cpp':
 						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 4));
-						break;
 
 					case 'dir_1/dir_1_2/file_6.py':
 						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 5));
-						break;
 
 					case 'dir_1/dir_1_2/file_7.cpp':
 						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 6));
-						break;
 
 					default:
 						return new \DateTimeImmutable('now');
-						break;
 				}
 			}));
 
@@ -245,5 +240,55 @@ class FinderTest extends TestCase
 		$this->assertCount(2, $finder->date('< 2019-03-30 15:00')->files());
 		$this->assertCount(3, $finder->date('<= 2019-03-30 15:00')->files());
 		$this->assertCount(2, $finder->date('<= 2019-03-30 15:00 - 1minute')->files());
+	}
+
+	/**
+	 * @throws ReflectionException
+	 */
+	public function testFinderWillFilterFilesBySize()
+	{
+		$fs = $this->getNestedFileSystemStructure();
+		$fs->expects($this->any())->method('has')->willReturn(true);
+
+		$fs->expects($this->atLeast(1))
+			->method('getSize')
+			->will($this->returnCallback(function ($path) {
+				switch ($path) {
+					case'file_1.txt':
+						return new DataSize(PHP_INT_MAX, DataSize::Byte);
+
+					case 'file_2.mp3':
+						return new DataSize(1024, DataSize::Byte);
+
+					case 'dir_1/file_3.log':
+						return new DataSize(1024 * 1024 * 1024, DataSize::Byte);
+
+					case 'dir_1/file_4.php':
+						return new DataSize(1024 * 1024 * 127, DataSize::Byte);
+
+					case 'dir_1/dir_1_1/file_5.cpp':
+						return new DataSize(1024 * 7, DataSize::Byte);
+
+					case 'dir_1/dir_1_2/file_6.py':
+						return new DataSize(1024 * 100, DataSize::Byte);
+
+					case 'dir_1/dir_1_2/file_7.cpp':
+						return new DataSize(1, DataSize::Byte);
+
+					default:
+						return new DataSize(0, DataSize::Byte);
+				}
+			}));
+
+		$finder = (new Finder($fs))->in(['/']);
+
+		$this->assertCount(1, $finder->size('< 1Ki')->files());
+		$this->assertCount(2, $finder->size('<= 1Ki')->files());
+		$this->assertCount(6, $finder->size('>= 1Ki')->files());
+		$this->assertCount(5, $finder->size('> 1Ki')->files());
+		$this->assertCount(1, $finder->size('1Ki')->files());
+
+		$this->assertCount(3, $finder->size('> 1Mi')->files());
+		$this->assertCount(2, $finder->size('>= 1Gi')->files());
 	}
 }
