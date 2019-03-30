@@ -11,8 +11,8 @@ use ILIAS\Filesystem\MetadataType;
  * Class Finder
  * Port of the Symfony2 bundle to work with the ILIAS FileSystem abstraction
  * @package ILIAS\Filesystem\Finder
- * @see: https://github.com/symfony/finder
- * @author Michael Jansen <mjansen@databay.de>
+ * @see     : https://github.com/symfony/finder
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 final class Finder implements \IteratorAggregate, \Countable
 {
@@ -42,7 +42,7 @@ final class Finder implements \IteratorAggregate, \Countable
 
 	/** @var bool */
 	private $reverseSorting = false;
-	
+
 	/** @var Comparator\DateComparator[] */
 	private $dates = [];
 
@@ -104,7 +104,7 @@ final class Finder implements \IteratorAggregate, \Countable
 	 */
 	public function exclude(array $directories): self
 	{
-		array_walk($directories, function($directory) {
+		array_walk($directories, function ($directory) {
 			if (!is_string($directory)) {
 				if (is_object($directory)) {
 					throw new \InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -126,7 +126,7 @@ final class Finder implements \IteratorAggregate, \Countable
 	 */
 	public function in(array $directories): self
 	{
-		array_walk($directories, function($directory) {
+		array_walk($directories, function ($directory) {
 			if (!is_string($directory)) {
 				if (is_object($directory)) {
 					throw new \InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -248,7 +248,7 @@ final class Finder implements \IteratorAggregate, \Countable
 	 */
 	public function addVCSPattern(array $pattern): self
 	{
-		array_walk($pattern, function($p) {
+		array_walk($pattern, function ($p) {
 			if (!is_string($p)) {
 				if (is_object($p)) {
 					throw new \InvalidArgumentException(sprintf('Invalid pattern given: %s', get_class($p)));

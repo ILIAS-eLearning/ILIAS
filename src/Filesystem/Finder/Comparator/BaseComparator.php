@@ -6,7 +6,7 @@ namespace ILIAS\Filesystem\Finder\Comparator;
 /**
  * Class Base
  * @package ILIAS\Filesystem\Finder\Comparator
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 abstract class BaseComparator
 {

@@ -9,23 +9,23 @@ use ILIAS\Filesystem\Filesystem;
 /**
  * Class RecursiveDirectoryIterator
  * @package ILIAS\Filesystem\Finder\Iterator
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class RecursiveDirectoryIterator implements \RecursiveIterator
 {
 	/** @var Filesystem */
 	private $filesystem;
-	
+
 	/** @var string */
 	protected $dir;
-	
+
 	/** @var Metadata[] */
 	protected $files = [];
 
 	/**
 	 * RecursiveDirectoryIterator constructor.
 	 * @param Filesystem $filesystem
-	 * @param string $dir
+	 * @param string     $dir
 	 */
 	public function __construct(Filesystem $filesystem, string $dir)
 	{
