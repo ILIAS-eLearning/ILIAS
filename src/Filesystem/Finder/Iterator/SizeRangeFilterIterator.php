@@ -52,6 +52,11 @@ class SizeRangeFilterIterator extends \FilterIterator
 	{
 		/** @var Metadata $metadata */
 		$metadata = $this->current();
+
+		if (!$metadata->isFile()) {
+			return true;
+		}
+
 		if (!$this->filesystem->has($metadata->getPath())) {
 			return false;
 		}

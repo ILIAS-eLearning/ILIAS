@@ -9,6 +9,85 @@ use PHPUnit\Framework\TestCase;
 class FinderTest extends TestCase
 {
 	/**
+	 * @return Filesystem\Filesystem
+	 * @throws ReflectionException
+	 */
+	private function getFlatFileSystemStructure(): Filesystem\Filesystem
+	{
+		$fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+
+		$metadata = [
+			new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
+		];
+
+		$fileSystem
+			->expects($this->atLeast(1))
+			->method('listContents')
+			->will($this->returnCallback(function ($path) use ($metadata) {
+				if ('/' === $path) {
+					return $metadata;
+				}
+
+				return [];
+			}));
+
+		return $fileSystem;
+	}
+
+	/**
+	 * @return Filesystem\Filesystem
+	 * @throws ReflectionException
+	 */
+	private function getNestedFileSystemStructure(): Filesystem\Filesystem
+	{
+		$fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+
+		$rootMetadata = [
+			new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
+		];
+
+		$level1Metadata = [
+			new Filesystem\DTO\Metadata('dir_1/file_3.log', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('dir_1/file_4.php', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
+			new Filesystem\DTO\Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
+		];
+
+		$level11Metadata = [
+			new Filesystem\DTO\Metadata('dir_1/dir_1_1/file_5.cpp', MetadataType::FILE),
+		];
+
+		$level12Metadata = [
+			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_6.py', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_7.cpp', MetadataType::FILE),
+			new Filesystem\DTO\Metadata('dir_1/dir_1_2/dir_1_2_1', MetadataType::DIRECTORY),
+		];
+
+		$fileSystem
+			->expects($this->atLeast(1))
+			->method('listContents')
+			->will($this->returnCallback(function ($path) use ($rootMetadata, $level1Metadata, $level11Metadata, $level12Metadata) {
+				if ('/' === $path) {
+					return $rootMetadata;
+				} elseif ('dir_1' === $path) {
+					return $level1Metadata;
+				} elseif ('dir_1/dir_1_1' === $path) {
+					return $level11Metadata;
+				} elseif ('dir_1/dir_1_2' === $path) {
+					return $level12Metadata;
+				}
+
+				return [];
+			}));
+
+		return $fileSystem;
+	}
+
+	/**
 	 * @throws ReflectionException
 	 */
 	public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory()
@@ -30,28 +109,9 @@ class FinderTest extends TestCase
 	 */
 	public function testFinderWillFindFilesAndFoldersInFlatStructure()
 	{
-		$fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+		$finder = (new Finder($this->getFlatFileSystemStructure()))->in(['/']);
 
-		$metadata = [
-			new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
-		];
-
-		$fileSystem
-			->expects($this->atLeast(1))
-			->method('listContents')
-			->will($this->returnCallback(function ($path) use ($metadata) {
-				if ('/' === $path) {
-					return $metadata;
-				}
-
-				return [];
-			}));
-
-		$finder = (new Finder($fileSystem))->in(['/']);
-
-		$this->assertCount(count($metadata), $finder);
+		$this->assertCount(3, $finder);
 		$this->assertCount(1, $finder->directories());
 		$this->assertCount(2, $finder->files());
 	}
@@ -61,51 +121,9 @@ class FinderTest extends TestCase
 	 */
 	public function testFinderWillFindFilesAndFoldersInNestedStructure()
 	{
-		$fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
+		$finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
-		$rootMetadata = [
-			new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
-		];
-
-		$level1Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/file_3.log', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/file_4.php', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
-		];
-
-		$level11Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/dir_1_1/file_5.cpp', MetadataType::FILE),
-		];
-
-		$level12Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_6.py', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_7.cpp', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/dir_1_2_1', MetadataType::DIRECTORY),
-		];
-
-		$fileSystem
-			->expects($this->atLeast(1))
-			->method('listContents')
-			->will($this->returnCallback(function ($path) use ($rootMetadata, $level1Metadata, $level11Metadata, $level12Metadata) {
-				if ('/' === $path) {
-					return $rootMetadata;
-				} elseif ('dir_1' === $path) {
-					return $level1Metadata;
-				} elseif ('dir_1/dir_1_1' === $path) {
-					return $level11Metadata;
-				} elseif ('dir_1/dir_1_2' === $path) {
-					return $level12Metadata;
-				}
-
-				return [];
-			}));
-
-		$finder = (new Finder($fileSystem))->in(['/']);
-
-		$this->assertCount(count($rootMetadata) + count($level1Metadata) + count($level11Metadata) + count($level12Metadata), $finder);
+		$this->assertCount(11, $finder);
 		$this->assertCount(4, $finder->directories());
 		$this->assertCount(7, $finder->files());
 	}
@@ -115,49 +133,7 @@ class FinderTest extends TestCase
 	 */
 	public function testFinderWillFindFilesAndFoldersForACertainDirectoryDepth()
 	{
-		$fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
-
-		$rootMetadata = [
-			new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
-		];
-
-		$level1Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/file_3.log', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/file_4.php', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
-		];
-
-		$level11Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/dir_1_1/file_5.cpp', MetadataType::FILE),
-		];
-
-		$level12Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_6.py', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_7.cpp', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/dir_1_2_1', MetadataType::DIRECTORY),
-		];
-
-		$fileSystem
-			->expects($this->atLeast(1))
-			->method('listContents')
-			->will($this->returnCallback(function ($path) use ($rootMetadata, $level1Metadata, $level11Metadata, $level12Metadata) {
-				if ('/' === $path) {
-					return $rootMetadata;
-				} elseif ('dir_1' === $path) {
-					return $level1Metadata;
-				} elseif ('dir_1/dir_1_1' === $path) {
-					return $level11Metadata;
-				} elseif ('dir_1/dir_1_2' === $path) {
-					return $level12Metadata;
-				}
-
-				return [];
-			}));
-
-		$finder = (new Finder($fileSystem))->in(['/']);
+		$finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
 		$level0Finder = $finder->depth(0);
 		$this->assertCount(3, $level0Finder);
@@ -193,51 +169,9 @@ class FinderTest extends TestCase
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testFinderWillFindFilesAndFoldersExceptExcluded()
+	public function testFinderWillNotSearchInExcludedFolders()
 	{
-		$fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
-
-		$rootMetadata = [
-			new Filesystem\DTO\Metadata('file_1.txt', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('file_2.mp3', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1', MetadataType::DIRECTORY),
-		];
-
-		$level1Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/file_3.log', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/file_4.php', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_1', MetadataType::DIRECTORY),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2', MetadataType::DIRECTORY),
-		];
-
-		$level11Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/dir_1_1/file_5.cpp', MetadataType::FILE),
-		];
-
-		$level12Metadata = [
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_6.py', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/file_7.cpp', MetadataType::FILE),
-			new Filesystem\DTO\Metadata('dir_1/dir_1_2/dir_1_2_1', MetadataType::DIRECTORY),
-		];
-
-		$fileSystem
-			->expects($this->atLeast(1))
-			->method('listContents')
-			->will($this->returnCallback(function ($path) use ($rootMetadata, $level1Metadata, $level11Metadata, $level12Metadata) {
-				if ('/' === $path) {
-					return $rootMetadata;
-				} elseif ('dir_1' === $path) {
-					return $level1Metadata;
-				} elseif ('dir_1/dir_1_1' === $path) {
-					return $level11Metadata;
-				} elseif ('dir_1/dir_1_2' === $path) {
-					return $level12Metadata;
-				}
-
-				return [];
-			}));
-
-		$finder = (new Finder($fileSystem))->in(['/']);
+		$finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
 		$finderWithExcludedDir = $finder->exclude(['dir_1/dir_1_1']);
 		$this->assertCount(9, $finderWithExcludedDir);
@@ -248,5 +182,68 @@ class FinderTest extends TestCase
 		$this->assertCount(8, $finderWithMultipleExcludedDirs);
 		$this->assertCount(2, $finderWithMultipleExcludedDirs->directories());
 		$this->assertCount(6, $finderWithMultipleExcludedDirs->files());
+	}
+
+	/**
+	 * @throws ReflectionException
+	 */
+	public function testFinderWillFilterFilesAndFoldersByCreationTimestamp()
+	{
+		// 30.03.2019 13:00:00 Europe/Berlin
+		$now = 1553947200;
+
+		$fs = $this->getNestedFileSystemStructure();
+		$fs->expects($this->any())->method('has')->willReturn(true);
+
+		$fs
+			->expects($this->atLeast(1))
+			->method('getTimestamp')
+			->will($this->returnCallback(function ($path) use ($now) {
+				switch ($path) {
+					case'file_1.txt':
+						return new \DateTimeImmutable('@' . $now);
+						break;
+
+					case 'file_2.mp3':
+						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 1));
+						break;
+
+					case 'dir_1/file_3.log':
+						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 2));
+						break;
+
+					case 'dir_1/file_4.php':
+						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 3));
+						break;
+
+					case 'dir_1/dir_1_1/file_5.cpp':
+						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 4));
+						break;
+
+					case 'dir_1/dir_1_2/file_6.py':
+						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 5));
+						break;
+
+					case 'dir_1/dir_1_2/file_7.cpp':
+						return new \DateTimeImmutable('@' . ($now + 60 * 60 * 6));
+						break;
+
+					default:
+						return new \DateTimeImmutable('now');
+						break;
+				}
+			}));
+
+		$finder = (new Finder($fs))->in(['/']);
+
+		for ($i = 1; $i <= 7; $i++) {
+			$this->assertCount(8 - $i, $finder->date('>= 2019-03-30 1' . (string) (2 + $i) . ':00')->files());
+		}
+		$this->assertCount(3, $finder->date('>= 2019-03-30 15:00 + 2hours')->files());
+		$this->assertCount(2, $finder->date('> 2019-03-30 15:00 + 2hours')->files());
+		$this->assertCount(1, $finder->date('2019-03-30 15:00 + 2hours')->files());
+		$this->assertCount(2, $finder->date('< 2019-03-30 15:00')->files());
+		$this->assertCount(3, $finder->date('<= 2019-03-30 15:00')->files());
+		$this->assertCount(2, $finder->date('<= 2019-03-30 15:00 - 1minute')->files());
 	}
 }
