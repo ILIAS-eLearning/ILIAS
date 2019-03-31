@@ -301,10 +301,10 @@ class FinderTest extends TestCase
 	{
 		$finder = (new Finder($fs))->in(['/']);
 
-		$this->assertEquals('file_1.txt', current($finder->sortByTime()->getIterator())->getPath());
+		$this->assertEquals('file_1.txt', current($finder->files()->sortByTime()->getIterator())->getPath());
 		$this->assertEquals(
 			'dir_1/dir_1_2/file_7.cpp',
-			current($finder->sortByTime()->reverseSorting()->getIterator())->getPath()
+			current($finder->files()->sortByTime()->reverseSorting()->getIterator())->getPath()
 		);
 
 		$this->assertEquals('dir_1', current($finder->sortByName()->getIterator())->getPath());
@@ -312,7 +312,6 @@ class FinderTest extends TestCase
 
 		$this->assertEquals('dir_1', current($finder->sortByType()->getIterator())->getPath());
 		$this->assertEquals('file_2.mp3', current($finder->sortByType()->reverseSorting()->getIterator())->getPath());
-
 
 		$customSortFinder = $finder->sort(function(Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) {
 			if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
