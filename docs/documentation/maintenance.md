@@ -5,7 +5,7 @@ The development of the ILIAS source code is coordinated and maintained by a coor
 # Coordination Team
 
 * **Product Management**: [Matthias Kunkel]
-* **Technical Board**: [Alexander Killing], [Michael Jansen], [Fabian Schmid], [Timon Amstutz], [Richard Klees]
+* **Technical Board**: [Alexander Killing], [Michael Jansen], [Timon Amstutz], [Richard Klees], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
 * **Documentation**: [Florian Suittenpointner]
 * **Online Help**: [Alexandra Tödt]
