@@ -63,7 +63,6 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
 	static function _getInProgress($a_obj_id)
 	{		
-		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilExerciseMembers::_getReturned($a_obj_id);
 		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
@@ -83,14 +82,12 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
 	static function _getCompleted($a_obj_id)
 	{		
-		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$ret = ilExerciseMembers::_getPassedUsers($a_obj_id);
 		return $ret ? $ret : array();
 	}
 
 	static function _getFailed($a_obj_id)
 	{
-		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$failed = ilExerciseMembers::_getFailedUsers($a_obj_id);
 		return $failed ? $failed : array();
 	}
@@ -114,7 +111,6 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		{
 			case 'exc':
 				include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-				include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id) ||
 					ilExerciseMembers::_hasReturned($a_obj_id, $a_user_id))
 				{
@@ -141,7 +137,6 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 	 */
 	protected static function getMembers($a_obj_id)
 	{		
-		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		return ilExerciseMembers::_getMembers($a_obj_id);
 	}
 
