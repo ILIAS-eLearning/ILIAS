@@ -82,4 +82,12 @@ class ilContextSaml implements ilContextTemplate
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public static function isSessionMainContext()
+	{
+		return false;
+	}
+
 }

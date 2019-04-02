@@ -200,6 +200,16 @@ class ilContext
 	{
 		return (bool) self::callContext('supportsPersistentSessions');
 	}
+
+	/**
+	 * Context that are not only temporary in a session (e.g. WAC is, Cron is not)
+	 *
+	 * @return bool
+	 */
+	public static function isSessionMainContext()
+	{
+		return (bool) self::callContext('isSessionMainContext');
+	}
 }
 
 ?>
