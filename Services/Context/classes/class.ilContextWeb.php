@@ -103,6 +103,14 @@ class ilContextWeb implements ilContextTemplate
 		return true;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public static function isSessionMainContext()
+	{
+		return true;
+	}
+
 }
 
 ?>
