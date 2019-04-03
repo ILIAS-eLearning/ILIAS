@@ -2,7 +2,7 @@
 
 When contributing to this service,
 please first discuss the change you wish to make via
-issue, email, or any other method with the owners of
+issue, email, or any other method with the coordinators of
 this service before making a change.
 
 Please note we have a code of conduct,
