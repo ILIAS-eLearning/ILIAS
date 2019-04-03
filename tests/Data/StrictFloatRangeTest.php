@@ -7,6 +7,8 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\Data\Range\StrictFloatRange;
+
 require_once 'libs/composer/vendor/autoload.php';
 
 class StrictFloatRangeTest extends \PHPUnit_Framework_TestCase
@@ -18,8 +20,43 @@ class StrictFloatRangeTest extends \PHPUnit_Framework_TestCase
 	{
 		$floatRange = new StrictFloatRange(3.0 , 100.4);
 
-		$this->assertSame($floatRange->minimumAsFloat(), 3.0);
-		$this->assertSame($floatRange->maximumAsFloat(), 100.4);
+		$this->assertSame($floatRange->minimum(), 3.0);
+		$this->assertSame($floatRange->maximum(), 100.4);
+	}
+
+	public function testValueIsInRange()
+	{
+		$range = new StrictFloatRange(3.0 , 100.4);
+
+		$this->assertTrue($range->spans(50));
+	}
+
+	public function testMinimumValueIsNotInRange()
+	{
+		$range = new StrictFloatRange(3.0 , 100.4);
+
+		$this->assertFalse($range->spans(3));
+	}
+
+	public function testMaximumValueIsNotInRange()
+	{
+		$range = new StrictFloatRange(3.0 , 100.4);
+
+		$this->assertFalse($range->spans(3));
+	}
+
+	public function testValueIsNotInRangeBecauseTheValueIsToLow()
+	{
+		$range = new StrictFloatRange(3.0 , 100.4);
+
+		$this->assertFalse($range->spans(1));
+	}
+
+	public function testValueIsNotInRangeBecauseTheValueIsToHigh()
+	{
+		$range = new StrictFloatRange(3.0 , 100.4);
+
+		$this->assertFalse($range->spans(101));
 	}
 
 	/**
@@ -29,8 +66,8 @@ class StrictFloatRangeTest extends \PHPUnit_Framework_TestCase
 	{
 		$floatRange = new StrictFloatRange(0x3 , 0xA);
 
-		$this->assertSame($floatRange->minimumAsFloat(), 3.0);
-		$this->assertSame($floatRange->maximumAsFloat(), 10.0);
+		$this->assertSame($floatRange->minimum(), 3.0);
+		$this->assertSame($floatRange->maximum(), 10.0);
 	}
 
 	/**
@@ -40,8 +77,8 @@ class StrictFloatRangeTest extends \PHPUnit_Framework_TestCase
 	{
 		$floatRange = new StrictFloatRange(0b11 , 0b1010);
 
-		$this->assertSame($floatRange->minimumAsFloat(), 3.0);
-		$this->assertSame($floatRange->maximumAsFloat(), 10.0);
+		$this->assertSame($floatRange->minimum(), 3.0);
+		$this->assertSame($floatRange->maximum(), 10.0);
 	}
 
 	/**

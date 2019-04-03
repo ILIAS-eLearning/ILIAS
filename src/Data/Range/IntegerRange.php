@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data;
+namespace ILIAS\Data\Range;
 
 
 class IntegerRange
@@ -37,9 +37,24 @@ class IntegerRange
 	}
 
 	/**
+	 * @param int $numberToCheck
+	 * @return bool
+	 */
+	public function spans(int $numberToCheck) : bool
+	{
+		if ($numberToCheck < $this->minimum) {
+			return false;
+		} elseif ($numberToCheck > $this->maximum) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * @return int
 	 */
-	public function minimumAsInteger() : int
+	public function minimum() : int
 	{
 		return $this->minimum;
 	}
@@ -47,7 +62,7 @@ class IntegerRange
 	/**
 	 * @return int
 	 */
-	public function maximumAsInteger() : int
+	public function maximum() : int
 	{
 		return $this->maximum;
 	}

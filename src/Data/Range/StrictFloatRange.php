@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data;
+namespace ILIAS\Data\Range;
 
 
 class StrictFloatRange
@@ -14,7 +14,7 @@ class StrictFloatRange
 	/**
 	 * @var FloatRange
 	 */
-	private $floatRange;
+	private $range;
 
 	/**
 	 * @param $minimum
@@ -27,22 +27,37 @@ class StrictFloatRange
 			throw new \InvalidArgumentException(sprintf('The maximum("%s") can NOT be same than the minimum("%s")', $maximum, $minimum));
 		}
 
-		$this->floatRange = new FloatRange($minimum, $maximum);
+		$this->range = new FloatRange($minimum, $maximum);
+	}
+
+	/**
+	 * @param float $numberToCheck
+	 * @return bool
+	 */
+	public function spans(float $numberToCheck) : bool
+	{
+		if ($numberToCheck <= $this->range->minimum()) {
+			return false;
+		} elseif ($numberToCheck >= $this->range->maximum()) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * @return float
 	 */
-	public function minimumAsFloat() : float
+	public function minimum() : float
 	{
-		return $this->floatRange->minimumAsFloat();
+		return $this->range->minimum();
 	}
 
 	/**
 	 * @return float
 	 */
-	public function maximumAsFloat() : float
+	public function maximum() : float
 	{
-		return $this->floatRange->maximumAsFloat();
+		return $this->range->maximum();
 	}
 }

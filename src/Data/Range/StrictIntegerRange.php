@@ -5,16 +5,15 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data;
-
+namespace ILIAS\Data\Range;
 
 
 class StrictIntegerRange
 {
 	/**
-	 * @var Integer
+	 * @var IntegerRange
 	 */
-	private $integerRange;
+	private $range;
 
 	/**
 	 * @param int $minimum
@@ -27,22 +26,37 @@ class StrictIntegerRange
 			throw new \InvalidArgumentException(sprintf('The maximum("%s") can NOT be same than the minimum("%s")', $maximum, $minimum));
 		}
 
-		$this->integerRange = new IntegerRange($minimum, $maximum);
+		$this->range = new IntegerRange($minimum, $maximum);
+	}
+
+	/**
+	 * @param int $numberToCheck
+	 * @return bool
+	 */
+	public function spans(int $numberToCheck) : bool
+	{
+		if ($numberToCheck <= $this->range->minimum()) {
+			return false;
+		} elseif ($numberToCheck >= $this->range->maximum()) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function minimumAsInteger() : int
+	public function minimum() : int
 	{
-		return $this->integerRange->minimumAsInteger();
+		return $this->range->minimum();
 	}
 
 	/**
 	 * @return int
 	 */
-	public function maximumAsInteger() : int
+	public function maximum() : int
 	{
-		return $this->integerRange->maximumAsInteger();
+		return $this->range->maximum();
 	}
 }

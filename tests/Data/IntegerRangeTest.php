@@ -4,6 +4,8 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\Data\Range\IntegerRange;
+
 require_once("./libs/composer/vendor/autoload.php");
 
 /**
@@ -18,8 +20,43 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 	{
 		$range = new IntegerRange(3, 100);
 
-		$this->assertEquals(3, $range->minimumAsInteger());
-		$this->assertEquals(100, $range->maximumAsInteger());
+		$this->assertEquals(3, $range->minimum());
+		$this->assertEquals(100, $range->maximum());
+	}
+
+	public function testValueIsInRange()
+	{
+		$range = new IntegerRange(3, 100);
+
+		$this->assertTrue($range->spans(50));
+	}
+
+	public function testMinimumValueIsInRange()
+	{
+		$range = new IntegerRange(3, 100);
+
+		$this->assertTrue($range->spans(3));
+	}
+
+	public function testMaximumValueIsInRange()
+	{
+		$range = new IntegerRange(3, 100);
+
+		$this->assertTrue($range->spans(3));
+	}
+
+	public function testValueIsNotInRangeBecauseTheValueIsToLow()
+	{
+		$range = new IntegerRange(3, 100);
+
+		$this->assertFalse($range->spans(1));
+	}
+
+	public function testValueIsNotInRangeBecauseTheValueIsToHigh()
+	{
+		$range = new IntegerRange(3, 100);
+
+		$this->assertFalse($range->spans(101));
 	}
 
 	/**
@@ -38,8 +75,8 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 	{
 		$range = new IntegerRange(0x3 , 0xA);
 
-		$this->assertSame($range->minimumAsInteger(), 3);
-		$this->assertSame($range->maximumAsInteger(), 10);
+		$this->assertSame($range->minimum(), 3);
+		$this->assertSame($range->maximum(), 10);
 	}
 
 	/**
@@ -49,8 +86,8 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 	{
 		$range = new IntegerRange(0b11 , 0b1010);
 
-		$this->assertSame($range->minimumAsInteger(), 3);
-		$this->assertSame($range->maximumAsInteger(), 10);
+		$this->assertSame($range->minimum(), 3);
+		$this->assertSame($range->maximum(), 10);
 
 	}
 }

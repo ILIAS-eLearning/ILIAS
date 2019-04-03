@@ -4,6 +4,8 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\Data\Range\StrictIntegerRange;
+
 require_once("./libs/composer/vendor/autoload.php");
 
 /**
@@ -16,10 +18,45 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testRangeIsAccepted()
 	{
-		$range = new IntegerRange(3, 100);
+		$range = new StrictIntegerRange(3, 100);
 
-		$this->assertEquals(3, $range->minimumAsInteger());
-		$this->assertEquals(100, $range->maximumAsInteger());
+		$this->assertEquals(3, $range->minimum());
+		$this->assertEquals(100, $range->maximum());
+	}
+
+	public function testValueIsInRange()
+	{
+		$range = new StrictIntegerRange(3, 100);
+
+		$this->assertTrue($range->spans(50));
+	}
+
+	public function testMinimumValueIsNotInRange()
+	{
+		$range = new StrictIntegerRange(3, 100);
+
+		$this->assertFalse($range->spans(3));
+	}
+
+	public function testMaximumValueIsNotInRange()
+	{
+		$range = new StrictIntegerRange(3, 100);
+
+		$this->assertFalse($range->spans(3));
+	}
+
+	public function testValueIsNotInRangeBecauseTheValueIsToLow()
+	{
+		$range = new StrictIntegerRange(3, 100);
+
+		$this->assertFalse($range->spans(1));
+	}
+
+	public function testValueIsNotInRangeBecauseTheValueIsToHigh()
+	{
+		$range = new StrictIntegerRange(3, 100);
+
+		$this->assertFalse($range->spans(101));
 	}
 
 	/**
@@ -27,7 +64,7 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testMaximumCanNotBeLowerThanMinimum()
 	{
-		$range = new IntegerRange(3, 1);
+		$range = new StrictIntegerRange(3, 1);
 		$this->fail();
 	}
 
@@ -36,7 +73,7 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testMaximumCanNotBeEqualMinimum()
 	{
-		$range = new IntegerRange(3, 1);
+		$range = new StrictIntegerRange(3, 1);
 		$this->fail();
 	}
 
@@ -45,10 +82,10 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testHexIsAllowForRanges()
 	{
-		$range = new IntegerRange(0x3 , 0xA);
+		$range = new StrictIntegerRange(0x3 , 0xA);
 
-		$this->assertSame($range->minimumAsInteger(), 3);
-		$this->assertSame($range->maximumAsInteger(), 10);
+		$this->assertSame($range->minimum(), 3);
+		$this->assertSame($range->maximum(), 10);
 	}
 
 	/**
@@ -56,10 +93,10 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
-		$range = new IntegerRange(0b11 , 0b1010);
+		$range = new StrictIntegerRange(0b11 , 0b1010);
 
-		$this->assertSame($range->minimumAsInteger(), 3);
-		$this->assertSame($range->maximumAsInteger(), 10);
+		$this->assertSame($range->minimum(), 3);
+		$this->assertSame($range->maximum(), 10);
 
 	}
 }

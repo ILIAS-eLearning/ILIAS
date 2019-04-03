@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data;
+namespace ILIAS\Data\Range;
 
 
 class FloatRange
@@ -37,9 +37,25 @@ class FloatRange
 	}
 
 	/**
+	 * @param float $numberToCheck
+	 * @return bool
+	 */
+	public function spans(float $numberToCheck) : bool
+	{
+		if ($numberToCheck < $this->minimum) {
+			return false;
+		} elseif ($numberToCheck > $this->maximum) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
 	 * @return float
 	 */
-	public function minimumAsFloat() : float
+	public function minimum() : float
 	{
 		return $this->minimum;
 	}
@@ -47,7 +63,7 @@ class FloatRange
 	/**
 	 * @return float
 	 */
-	public function maximumAsFloat() : float
+	public function maximum() : float
 	{
 		return $this->maximum;
 	}
