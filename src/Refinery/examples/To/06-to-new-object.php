@@ -39,5 +39,5 @@ function toNewObject() {
 
 	$result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));
 
-	return assert('firstParameter' === $result);
+	return assert('firstParameter' === $result->say());
 }
