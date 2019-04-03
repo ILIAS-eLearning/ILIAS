@@ -17,10 +17,20 @@ class ilDummyDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 	/**
 	 * Constructor
 	 */
-	public function __construct(ilTaskService $task_service)
+	public function __construct()
+	{
+	}
+
+	/**
+	 * Set task service
+	 *
+	 * @param ilTaskService $task_service
+	 */
+	public function setTaskService(ilTaskService $task_service)
 	{
 		$this->task_service = $task_service;
 	}
+
 
 	/**
 	 * @inheritdoc

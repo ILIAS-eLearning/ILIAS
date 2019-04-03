@@ -10,16 +10,18 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
 {
 	public function testConstructor()
 	{
+		/** @var ilTaskService $service */
 		$service = $this->getTaskServiceMock();
-		$factory = new ilDerivedTaskFactory($service);
+		$factory = $service->derived()->factory();
 
 		$this->assertTrue($factory instanceof ilDerivedTaskFactory);
 	}
 
 	public function testTask()
 	{
+		/** @var ilTaskService $service */
 		$service = $this->getTaskServiceMock();
-		$factory = new ilDerivedTaskFactory($service);
+		$factory = $service->derived()->factory();
 
 		$task = $factory->task("title", 123, 1234, 1000);
 
@@ -32,8 +34,9 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
 
 	public function testCollector()
 	{
+		/** @var ilTaskService $service */
 		$service = $this->getTaskServiceMock();
-		$factory = new ilDerivedTaskFactory($service);
+		$factory = $service->derived()->factory();
 
 		$task = $factory->collector();
 
@@ -42,8 +45,9 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
 
 	public function testAllProviders()
 	{
+		/** @var ilTaskService $service */
 		$service = $this->getTaskServiceMock();
-		$factory = new ilDerivedTaskFactory($service);
+		$factory = $service->derived()->factory();
 
 		$providers = $factory->getAllProviders(false, null);
 		$this->assertTrue($providers[0] instanceof ilDerivedTaskProvider);

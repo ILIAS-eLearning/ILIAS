@@ -17,22 +17,19 @@ class ilTaskService
 
 	/**
 	 * This constructor contains all evil dependencies, that should e.g. be replaced for testing.
-	 * ilDerivedTaskProviderMasterFactory is such a dependency, because it collects all "consumers" of the
+	 * ilDerivedTaskProviderFactory[] is such a dependency, because it collects all "consumers" of the
 	 * derived task service.
 	 *
 	 * @param ilObjUser $user
 	 * @param ilLanguage $lng
 	 * @param \ILIAS\DI\UIServices $ui
 	 * @param ilAccessHandler $access
-	 * @param ilDerivedTaskProviderMasterFactory $derived_task_provider_master_factory
+	 * @param ilDerivedTaskProviderFactory[] $derived_task_provider_factories
 	 */
 	public function __construct(ilObjUser $user, ilLanguage $lng, \ILIAS\DI\UIServices $ui,
-								\ilAccessHandler $access, ilDerivedTaskProviderMasterFactory $derived_task_provider_master_factory = null)
+								\ilAccessHandler $access, array $derived_task_provider_factories = null)
 	{
-		if (is_null($derived_task_provider_master_factory))
-		{
-			$derived_task_provider_master_factory = new ilDerivedTaskProviderMasterFactory($this);
-		}
+		$derived_task_provider_master_factory = new ilDerivedTaskProviderMasterFactory($this, $derived_task_provider_factories);
 		$this->_deps = new ilTaskServiceDependencies($user, $lng, $ui, $access, $derived_task_provider_master_factory);
 	}
 

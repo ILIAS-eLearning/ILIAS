@@ -16,17 +16,32 @@ class ilDerivedTaskProviderMasterFactory
 	protected $service;
 
 	/**
-	 * @var array
+	 * @var ilDerivedTaskProviderFactory[]
 	 */
-	protected static $provider_factories = array(
+	protected $default_provider_factories = array(
 		ilExerciseDerivedTaskProviderFactory::class
 	);
 
 	/**
+	 * @var ilDerivedTaskProviderFactory[]
+	 */
+	protected $provider_factories;
+
+	/**
 	 * Constructor
 	 */
-	public function __construct(ilTaskService $service)
+	public function __construct(ilTaskService $service, $provider_factories = null)
 	{
+		if (is_null($provider_factories))
+		{
+			$this->provider_factories = array_map(function ($class) use ($service){
+				return new $class($service);
+			}, $this->default_provider_factories);
+		}
+		else
+		{
+			$this->provider_factories = $provider_factories;
+		}
 		$this->service = $service;
 	}
 
@@ -45,8 +60,7 @@ class ilDerivedTaskProviderMasterFactory
 			$user_id = $this->service->getDependencies()->user()->getId();
 		}
 
-		foreach (self::$provider_factories as $provider_factory_class) {
-			$provider_factory = new $provider_factory_class($this->service);
+		foreach ($this->provider_factories as $provider_factory) {
 			foreach ($provider_factory->getProviders() as $provider)
 			{
 				if (!$active_only || $provider->isActive())
