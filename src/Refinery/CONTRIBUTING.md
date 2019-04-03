@@ -38,7 +38,7 @@ are considered as [breaking changes](#breaking-changes)
 ## Breaking Changes
 
 A change that is not backwards compatible must be
-discussed with the [Jour Fixe](https://docu.ilias.de/goto_docu_wiki_wpage_391_1357.html).
+announced one month in advance on the [Jour Fixe](https://docu.ilias.de/goto_docu_wiki_wpage_391_1357.html).
 
 ## Pull Request Process
 
