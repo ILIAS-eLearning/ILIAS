@@ -56,6 +56,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 		$mb = $this->mainbar->withAdditionalEntry('test', $btn);
 		$entries = $mb->getEntries();
 		$this->assertEquals($btn, $entries['test']);
+		return $mb;
 	}
 
 	public function testDisallowedEntry()
@@ -105,11 +106,20 @@ class MainBarTest extends ILIAS_UI_TestBase
 			->withAdditionalToolEntry('test', $slate);
 	}
 
-	public function testActive()
+	/**
+	 * @depends testAddEntry
+	 */
+	public function testActive($mb)
 	{
+		$mb = $mb->withActive('test');
+		$this->assertEquals('test', $mb->getActive());
+	}
+
+	public function testWithInvalidActive()
+	{
+		$this->expectException(\InvalidArgumentException::class);
 		$mb = $this->mainbar
-			->withActive('test');
-		$this->assertEquals($mb->getActive(), 'test');
+			->withActive('this-is-not-a-valid-entry');
 	}
 
 	public function testSignalsPresent()
