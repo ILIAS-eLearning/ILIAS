@@ -16,7 +16,7 @@ multiple substyles which may be active for different branches of the repository.
 ### Tools
 
 To generate a customized System Style, first install the necessary tools to your
-server . These tools include nodejs and the mode packet manager. After that you
+server. These tools include nodejs and the node packet manager. After that you
 can install the less compiler using:
 
 ```
@@ -47,7 +47,7 @@ frontend
 frontend
 5. Optional: Change the Icon colors of the new System Style through the frontend
 6. Optional: Manually add template files for the new System Style (see "Change
-Layout" bellow)
+Layout" below)
 
 ### How-To 2 (Manually)
 
@@ -99,9 +99,9 @@ Take care: the main CSS-File must reflect the id in its name (see above).
 
 #### Step 3: Less (Optional)
 
-Note: It is usually a good idea to use less an less variables to create Custom
-Styles. A good default is given, by generating a first style through the
-frontend and then add the changes manually.
+Note: It is usually a good idea to use less and less variables to create Custom
+Styles. A good default is given by generating a first style through the frontend
+and then add the changes manually.
 
 If you copied delos.less compiling the standard delos.less file would fail due
 to path problems. In the file delos.less at about line 20 the base for some
@@ -170,7 +170,7 @@ skins.
 #### Step 6: Change the ILIAS Icon
 
 The main ILIAS icon is stored in the images Directory as `HeaderIcon.svg`. You
-con replace this easyly by your own Icon in svg format. As long as your Icon is
+can replace this easyly by your own Icon in svg format. As long as your Icon is
 close to a square, this may be all that is needed. Probably you want to change
 the file favicon `.ico` in ILIAS' root directory too. For non-square Icons you
 may refer to:
@@ -269,10 +269,10 @@ code needed to generate such classes in less.
 
 #### Customize
 
-* Note that custom variables in a custom variables.less file have the be
-included after the `delos.less` file.
+* Note that custom variables in a custom variables.less file have to be included
+after the `delos.less` file.
 * Also note that in delos, the ilias custom variables are included after all the
-bootstrap includes. This as to do with the way less assignes values from
+bootstrap includes. This has to do with the way less assigns values from
 variables to less content by compiling the less to CSS. See
 [lessc](http://lesscss.org/features/#import-options/).
 
@@ -289,9 +289,9 @@ pattern: `il-component-descriptive-name`. Example: `il-modal-title` Note the
 
 * You SHOULD aim to write as little less as possible. Use existing bootstrap
 logic if possible.
-* If you need to add custom styling, you SHOULD the following ordering for your
-attributes (see [Concentric
-CSS](http://http://rhodesmill.org/brandon/2011/concentric-css/)): Concentric
+* If you need to add custom styling, you SHOULD usethe following ordering for
+your attributes (see [Concentric
+CSS](https://rhodesmill.org/brandon/2011/concentric-css/)): Concentric
 CSS/Less Overview.
 
 ```
@@ -323,7 +323,7 @@ CSS/Less Overview.
 
 ### Structure
 
-* The less variables file is place in `templates/default/less/variables.less`
+* The less variables file is placed in `templates/default/less/variables.less`
 * Less files for centralized UI-Components MUST be placed in
 `src/UI/templates/ComponentName/ComponentName.less`
 * Less files for existing UI for Modules or Services are stored in
@@ -331,8 +331,8 @@ CSS/Less Overview.
 
 ### Media
 
-* Media queries SHOULD directly added into the less structure. `Delos_sm` files
-are deprecated and MUST NOT be created anymore.
+* Media queries SHOULD directly be added into the less structure. `Delos_sm`
+files are deprecated and MUST NOT be created anymore.
 * We currently follow a desktop first approach on the less level. This means,
 that we handle all mobile cases as special cases and the desktop as the default.
 * You should use: `max-width: @grid-float-breakpoint-max` instead of `min-width:
