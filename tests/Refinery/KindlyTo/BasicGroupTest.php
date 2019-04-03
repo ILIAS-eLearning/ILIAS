@@ -114,7 +114,7 @@ class BasicGroupTest extends TestCase
 	 */
 	public function testNewMethodTransformation()
 	{
-		$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod'));
+		$transformation = $this->basicGroup->toNew(array(MyClass::class, 'myMethod'));
 
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 	}

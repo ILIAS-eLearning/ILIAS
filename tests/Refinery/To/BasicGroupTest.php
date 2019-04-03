@@ -116,7 +116,7 @@ class BasicGroupTest extends TestCase
 	 */
 	public function testNewMethodTransformation()
 	{
-		$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod'));
+		$transformation = $this->basicGroup->toNew(array(MyClass::class, 'myMethod'));
 
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 	}
@@ -127,7 +127,7 @@ class BasicGroupTest extends TestCase
 	 */
 	public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven()
 	{
-		$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod', 'hello'));
+		$transformation = $this->basicGroup->toNew(array(MyClass::class, 'myMethod', 'hello'));
 
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 	}
@@ -138,7 +138,7 @@ class BasicGroupTest extends TestCase
 	 */
 	public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven()
 	{
-		$transformation = $this->basicGroup->toNew(array(new MyClass()));
+		$transformation = $this->basicGroup->toNew(array(MyClass::class));
 
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 	}

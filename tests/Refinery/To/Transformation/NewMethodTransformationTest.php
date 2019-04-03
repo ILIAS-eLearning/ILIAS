@@ -28,7 +28,7 @@ class NewMethodTransformationTest extends TestCase
 	 */
 	public function testNewObjectTransformation()
 	{
-		$transformation = new NewMethodTransformation($this->instance, 'myMethod');
+		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myMethod');
 
 		$result = $transformation->transform(array('hello', 42));
 
@@ -40,7 +40,7 @@ class NewMethodTransformationTest extends TestCase
 	 */
 	public function testNewMethodTransformationThrowsTypeErrorOnInvalidConstructorArguments()
 	{
-		$transformation = new NewMethodTransformation($this->instance, 'myMethod');
+		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myMethod');
 
 		$object = $transformation->transform(array('hello', 'world'));
 
@@ -62,17 +62,17 @@ class NewMethodTransformationTest extends TestCase
 	 */
 	public function testMethodDoesNotExistOnClassWillThrowException()
 	{
-		$transformation = new NewMethodTransformation($this->instance, 'someMethod');
+		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'someMethod');
 
 		$this->fail();
 	}
 
 	/**
-	 * @expectedException \ReflectionException
+	 * @expectedException \TypeError
 	 */
 	public function testPrivateMethodCanNotBeCalledInTransform()
 	{
-		$transformation = new NewMethodTransformation($this->instance, 'myPrivateMethod');
+		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myPrivateMethod');
 
 		$object = $transformation->transform(array('hello', 10));
 
@@ -81,7 +81,7 @@ class NewMethodTransformationTest extends TestCase
 
 	public function testPrivateMethodCanNotBeCalledInApplyto()
 	{
-		$transformation = new NewMethodTransformation($this->instance, 'myPrivateMethod');
+		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myPrivateMethod');
 
 		$object = $transformation->applyTo(new Ok(array('hello', 10)));
 
@@ -93,7 +93,7 @@ class NewMethodTransformationTest extends TestCase
 	 */
 	public function testMethodThrowsExceptionInTransform()
 	{
-		$transformation = new NewMethodTransformation($this->instance, 'methodThrowsException');
+		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'methodThrowsException');
 
 		$object = $transformation->transform(array('hello', 10));
 
@@ -102,7 +102,7 @@ class NewMethodTransformationTest extends TestCase
 
 	public function testMethodThrowsExceptionInApplyTo()
 	{
-		$transformation = new NewMethodTransformation($this->instance, 'methodThrowsException');
+		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'methodThrowsException');
 
 		$object = $transformation->applyTo(new Ok(array('hello', 10)));
 

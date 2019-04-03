@@ -19,7 +19,7 @@ class NewMethodTransformation implements Transformation
 	/**
 	 * @var
 	 */
-	private $instance;
+	private $className;
 
 	/**
 	 * @var
@@ -27,33 +27,32 @@ class NewMethodTransformation implements Transformation
 	private $method;
 
 	/**
-	 * @param $instance
-	 * @param $methodToCall
+	 * @param string $className
+	 * @param string $methodToCall
 	 * @throws \ilException
 	 */
-	public function __construct($instance, $methodToCall)
+	public function __construct(string $className, string $methodToCall)
 	{
-		if (false === is_object($instance)) {
+		if (false === class_exists($className)) {
 			throw new \ilException('The first parameter MUST be an object');
 		}
 
 
-		if (false === method_exists($instance, $methodToCall)) {
+		if (false === method_exists($className, $methodToCall)) {
 			throw new \ilException('The second parameter MUST be an method of the object');
 		}
 
-		$this->instance  = $instance;
+		$this->className = $className;
 		$this->method    = $methodToCall;
 	}
 
 	/**
 	 * @inheritdoc
-	 * @throws \ReflectionException
+	 * @return mixed
 	 */
 	public function transform($from)
 	{
-		$reflectionMethod = new \ReflectionMethod($this->instance, $this->method);
-		return $reflectionMethod->invokeArgs($this->instance, $from);
+		return call_user_func_array(array($this->className, $this->method), $from);
 	}
 
 	/**
@@ -64,9 +63,7 @@ class NewMethodTransformation implements Transformation
 		$value = $data->value();
 
 		try {
-			$reflectionMethod = new \ReflectionMethod($this->instance, $this->method);
-
-			$value = $reflectionMethod->invokeArgs($this->instance, $value);
+			$value = call_user_func_array(array($this->className, $this->method), $value);
 		} catch (\Exception $exception) {
 			return new Result\Error($exception);
 		} catch (\Error $error) {
@@ -78,7 +75,6 @@ class NewMethodTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ReflectionException
 	 */
 	public function __invoke($from)
 	{
