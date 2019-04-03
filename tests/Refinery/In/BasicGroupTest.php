@@ -9,7 +9,7 @@ namespace ILIAS\Tests\Refinery\In;
 
 use ILIAS\In\Transformation\Parallel;
 use ILIAS\In\Transformation\Series;
-use ILIAS\Refinery\In\BasicGroup;
+use ILIAS\Refinery\In\Group;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Tests\Refinery\TestCase;
@@ -19,13 +19,13 @@ require_once('./libs/composer/vendor/autoload.php');
 class BasicGroupTest extends TestCase
 {
 	/**
-	 * @var BasicGroup
+	 * @var Group
 	 */
 	private $group;
 
 	public function setUp()
 	{
-		$this->group = new BasicGroup();
+		$this->group = new Group();
 	}
 
 	public function testParallelInstanceCreated()

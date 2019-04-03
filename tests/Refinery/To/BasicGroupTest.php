@@ -7,7 +7,7 @@
 
 namespace ILIAS\Tests\Refinery\To;
 
-use ILIAS\Refinery\To\BasicGroup;
+use ILIAS\Refinery\To\Group;
 use ILIAS\Refinery\To\Transformation\BooleanTransformation;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
@@ -26,7 +26,7 @@ require_once('./libs/composer/vendor/autoload.php');
 class BasicGroupTest extends TestCase
 {
 	/**
-	 * @var BasicGroup
+	 * @var Group
 	 */
 	private $basicGroup;
 
@@ -39,7 +39,7 @@ class BasicGroupTest extends TestCase
 		$dataFactory = new \ILIAS\Data\Factory();
 
 		$validationFactory = new Factory($dataFactory, $language);
-		$this->basicGroup = new BasicGroup($validationFactory->isArrayOfSameType());
+		$this->basicGroup = new Group($validationFactory->isArrayOfSameType());
 	}
 
 	public function testIsIntegerTransformationInstance()

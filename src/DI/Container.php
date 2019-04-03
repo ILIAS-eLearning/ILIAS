@@ -6,7 +6,7 @@ namespace ILIAS\DI;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
-use ILIAS\Refinery\BasicFactory;
+use ILIAS\Refinery\Factory;
 use ILIAS\NavigationContext\ContextServices;
 
 /**
@@ -271,7 +271,7 @@ class Container extends \Pimple\Container {
 
 
 	/**
-	 * @return BasicFactory
+	 * @return Factory
 	 */
 	public function refinery() {
 		return $this['refinery'];

@@ -1655,7 +1655,7 @@ class ilInitialisation
 		$container['refinery'] = function ($container) {
 			$dataFactory = new \ILIAS\Data\Factory();
 			$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $container->language());
-			return new \ILIAS\Refinery\BasicFactory($validationFactory);
+			return new \ILIAS\Refinery\Factory($validationFactory);
 		};
 	}
 

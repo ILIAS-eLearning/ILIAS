@@ -7,7 +7,7 @@
 
 namespace ILIAS\Tests\Refinery;
 
-use ILIAS\Refinery\BasicFactory;
+use ILIAS\Refinery\Factory;
 
 require_once('./libs/composer/vendor/autoload.php');
 require_once('./tests/Refinery/TestCase.php');
@@ -15,7 +15,7 @@ require_once('./tests/Refinery/TestCase.php');
 class BasicFactoryTest extends TestCase
 {
 	/**
-	 * @var BasicFactory
+	 * @var Factory
 	 */
 	private $basicFactory;
 
@@ -28,7 +28,7 @@ class BasicFactoryTest extends TestCase
 		$dataFactory = new \ILIAS\Data\Factory();
 
 		$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
-		$this->basicFactory = new BasicFactory($validationFactory);
+		$this->basicFactory = new Factory($validationFactory);
 	}
 
 	public function testCreateToGroup()

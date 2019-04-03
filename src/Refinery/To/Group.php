@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,41 +9,71 @@
 
 namespace ILIAS\Refinery\To;
 
+
 use ILIAS\Refinery\To\Transformation\BooleanTransformation;
+use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
+use ILIAS\Refinery\To\Transformation\ListTransformation;
+use ILIAS\Refinery\To\Transformation\NewMethodTransformation;
+use ILIAS\Refinery\To\Transformation\NewObjectTransformation;
+use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 
-interface Group
+class Group
 {
+	/**
+	 * @var IsArrayOfSameType
+	 */
+	private $arrayOfSameTypeValidation;
+
+	public function __construct(IsArrayOfSameType $arrayOfSameTypeValidation)
+	{
+		$this->arrayOfSameTypeValidation = $arrayOfSameTypeValidation;
+	}
+
 	/**
 	 * Returns an object that allows to transform a value
 	 * to a string value
-	 * @return Transformation
+	 * @return StringTransformation
 	 */
-	public function string() : StringTransformation;
+	public function string(): StringTransformation
+	{
+		return new StringTransformation();
+	}
 
 	/**
 	 * Returns an object that allows to transform a value
 	 * to an integer value
-	 * @return Transformation
+	 * @return IntegerTransformation
 	 */
-	public function int() : IntegerTransformation;
+	public function int(): IntegerTransformation
+	{
+		return new IntegerTransformation();
+	}
 
 	/**
 	 * Returns an object that allows to transform a value
 	 * to a float value
-	 * @return Transformation
+	 * @return FloatTransformation
 	 */
-	public function float() : FloatTransformation;
+	public function float(): FloatTransformation
+	{
+		return new FloatTransformation();
+	}
 
 	/**
 	 * Returns an object that allows to transform a value
 	 * to a boolean value
-	 * @return Transformation
+	 * @return BooleanTransformation
 	 */
-	public function bool() : BooleanTransformation;
+	public function bool(): BooleanTransformation
+	{
+		return new BooleanTransformation();
+	}
 
 	/**
 	 * Returns an object that allows to transform an value in a given array
@@ -54,7 +86,10 @@ interface Group
 	 * @param Transformation $transformation
 	 * @return Transformation
 	 */
-	public function listOf(Transformation $transformation) : Transformation;
+	public function listOf(Transformation $transformation): Transformation
+	{
+		return new ListTransformation($transformation, $this->arrayOfSameTypeValidation);
+	}
 
 	/**
 	 * Returns an object that allows to transform the values of an associative array
@@ -67,7 +102,10 @@ interface Group
 	 * @param Transformation $transformation
 	 * @return Transformation
 	 */
-	public function dictOf(Transformation $transformation) : Transformation;
+	public function dictOf(Transformation $transformation): Transformation
+	{
+		return new DictionaryTransformation($transformation, $this->arrayOfSameTypeValidation);
+	}
 
 	/**
 	 * Returns an object that allows to transform the values of an array
@@ -84,7 +122,10 @@ interface Group
 	 * @param array $transformation
 	 * @return Transformation
 	 */
-	public function tupleOf(array $transformation)  : Transformation;
+	public function tupleOf(array $transformation): Transformation
+	{
+		return new TupleTransformation($transformation, $this->arrayOfSameTypeValidation);
+	}
 
 	/**
 	 *
@@ -102,8 +143,12 @@ interface Group
 	 *
 	 * @param array $transformations
 	 * @return Transformation
+	 * @throws \ilException
 	 */
-	public function recordOf(array $transformations) : Transformation;
+	public function recordOf(array $transformations): Transformation
+	{
+		return new RecordTransformation($transformations);
+	}
 
 	/**
 	 * Returns either an transformation object to create objects of an
@@ -111,14 +156,27 @@ interface Group
 	 * an transformation object to execute a certain method with variation of
 	 * parameters on the objects.
 	 *
-	 * @param string|array $className
+	 * @param $classNameOrArray
 	 * @return Transformation
+	 * @throws \ilException
 	 */
-	public function toNew($classNameOrArray)  : Transformation;
+	public function toNew($classNameOrArray): Transformation
+	{
+		if (is_array($classNameOrArray)) {
+			if (2 !== count($classNameOrArray)) {
+				throw new \InvalidArgumentException('The array MUST contain exactly two elements');
+			}
+			return new NewMethodTransformation($classNameOrArray[0], $classNameOrArray[1]);
+		}
+		return new NewObjectTransformation($classNameOrArray);
+	}
 
 	/**
 	 * Returns a data factory to create a certain data type
 	 * @return \ILIAS\Data\Factory
 	 */
-	public function data() : \ILIAS\Data\Factory;
+	public function data(): \ILIAS\Data\Factory
+	{
+		return new \ILIAS\Data\Factory();
+	}
 }

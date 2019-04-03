@@ -7,7 +7,7 @@
 
 namespace ILIAS\Tests\Refinery\KindlyTo;
 
-use ILIAS\Refinery\KindlyTo\BasicGroup;
+use ILIAS\Refinery\KindlyTo\Group;
 use ILIAS\Refinery\KindlyTo\Transformation\BooleanTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\FloatTransformation;
@@ -24,7 +24,7 @@ use ILIAS\Tests\Refinery\TestCase;
 class BasicGroupTest extends TestCase
 {
 	/**
-	 * @var BasicGroup
+	 * @var Group
 	 */
 	private $basicGroup;
 
@@ -37,7 +37,7 @@ class BasicGroupTest extends TestCase
 		$dataFactory = new \ILIAS\Data\Factory();
 
 		$validationFactory = new Factory($dataFactory, $language);
-		$this->basicGroup = new BasicGroup($validationFactory->isArrayOfSameType());
+		$this->basicGroup = new Group($validationFactory->isArrayOfSameType());
 	}
 
 	public function testIsIntegerTransformationInstance()
