@@ -12,6 +12,12 @@ use PHPUnit\Framework\TestCase;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class DataFactoryTest extends TestCase {
+
+	/**
+	 * @var Data\Factory
+	 */
+	private $f;
+
 	protected function setUp(): void {
 		$this->f = new Data\Factory();
 	}
@@ -39,4 +45,33 @@ class DataFactoryTest extends TestCase {
 		$this->assertInstanceOf(Data\Password::class, $pwd);
 	}
 
+	public function testAlphanumeric() {
+		$dataType = $this->f->alphanumeric('someValue');
+		$this->assertInstanceOf(Data\Alphanumeric::class, $dataType);
+	}
+
+	public function testPositiveInteger() {
+		$dataType = $this->f->positiveInteger(100);
+		$this->assertInstanceOf(Data\PositiveInteger::class, $dataType);
+	}
+
+	public function testIntegerRange() {
+		$dataType = $this->f->integerRange(1, 100);
+		$this->assertInstanceOf(Data\Range\IntegerRange::class, $dataType);
+	}
+
+	public function testStrictIntegerRange() {
+		$dataType = $this->f->strictIntegerRange(1, 100);
+		$this->assertInstanceOf(Data\Range\StrictIntegerRange::class, $dataType);
+	}
+
+	public function testFloatRange() {
+		$dataType = $this->f->floatRange(1.4, 100.2);
+		$this->assertInstanceOf(Data\Range\FloatRange::class, $dataType);
+	}
+
+	public function testStrictFloatRange() {
+		$dataType = $this->f->strictFloatRange(1.4, 100.2);
+		$this->assertInstanceOf(Data\Range\StrictFloatRange::class, $dataType);
+	}
 }
