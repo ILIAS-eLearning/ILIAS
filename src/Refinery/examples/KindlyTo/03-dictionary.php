@@ -7,13 +7,9 @@
 function toDictionary() {
 	global $DIC;
 
-	$language = $DIC->language();
-	$dataFactory = new ILIAS\Data\Factory();
-	$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+	$refinery = $DIC->refinery();
 
-	$factory = new ILIAS\Refinery\BasicFactory($validationFactory);
-
-	$transformation = $factory->kindlyTo()->dictOf(new \ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation());
+	$transformation = $refinery->kindlyTo()->dictOf(new \ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation());
 
 	$result = $transformation->transform(array('sum' => '5', 'user_id' => 1, 'size' => 4.3));
 

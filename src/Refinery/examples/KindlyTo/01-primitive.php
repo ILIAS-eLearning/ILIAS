@@ -7,13 +7,9 @@
 function primitive() {
 	global $DIC;
 
-	$language = $DIC->language();
-	$dataFactory = new ILIAS\Data\Factory();
-	$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+	$refinery = $DIC->refinery();
 
-	$factory = new ILIAS\Refinery\BasicFactory($validationFactory);
-
-	$transformation = $factory->kindlyTo()->int();
+	$transformation = $refinery->kindlyTo()->int();
 
 	$result = $transformation->transform('5');
 

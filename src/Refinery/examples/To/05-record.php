@@ -7,13 +7,9 @@
 function toRecord() {
 	global $DIC;
 
-	$language = $DIC->language();
-	$dataFactory = new ILIAS\Data\Factory();
-	$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+	$refinery = $DIC->refinery();
 
-	$factory = new ILIAS\Refinery\BasicFactory($validationFactory);
-
-	$transformation = $factory->to()->recordOf(
+	$transformation = $refinery->to()->recordOf(
 		array(
 			'user_id' => new \ILIAS\Refinery\To\Transformation\IntegerTransformation(),
 			'points'  => new \ILIAS\Refinery\To\Transformation\IntegerTransformation()

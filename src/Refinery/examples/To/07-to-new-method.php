@@ -15,13 +15,9 @@ function toList() {
 
 	$instance = new SomeClass();
 
-	$language = $DIC->language();
-	$dataFactory = new ILIAS\Data\Factory();
-	$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+	$refinery = $DIC->refinery();
 
-	$factory = new ILIAS\Refinery\BasicFactory($validationFactory);
-
-	$transformation = $factory->to()->toNew(
+	$transformation = $refinery->to()->toNew(
 		array($instance, 'say')
 	);
 

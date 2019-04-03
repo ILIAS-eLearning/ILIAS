@@ -7,13 +7,9 @@
 function toTuple() {
 	global $DIC;
 
-	$language = $DIC->language();
-	$dataFactory = new ILIAS\Data\Factory();
-	$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+	$refinery = $DIC->refinery();
 
-	$factory = new ILIAS\Refinery\BasicFactory($validationFactory);
-
-	$transformation = $factory->to()->tupleOf(
+	$transformation = $refinery->to()->tupleOf(
 		array(
 			new \ILIAS\Refinery\To\Transformation\IntegerTransformation(),
 			new \ILIAS\Refinery\To\Transformation\IntegerTransformation()

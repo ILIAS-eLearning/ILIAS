@@ -7,13 +7,9 @@
 function series() {
 	global $DIC;
 
-	$language = $DIC->language();
-	$dataFactory = new ILIAS\Data\Factory();
-	$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+	$refinery = $DIC->refinery();
 
-	$factory = new ILIAS\Refinery\BasicFactory($validationFactory);
-
-	$transformation = $factory->in()->series(
+	$transformation = $refinery->in()->series(
 		array(
 			new ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation(),
 			new ILIAS\Refinery\KindlyTo\Transformation\StringTransformation(),

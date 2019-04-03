@@ -44,7 +44,11 @@ This is an example to transform a float value to a string value and
 will create a data type from the result of this transformation:
 
 ```php
-$transformation = $factory->in()->series(
+global $DIC;
+
+$refinery = $DIC->refinery();
+
+$transformation = $refinery->in()->series(
     array(
         new Refinery\KindlyTo\IntegerTransformation(),
         new Refinery\KindlyTo\StringTransformation()
@@ -79,8 +83,8 @@ via the `ILIAS Dependency Injection Container(DIC)`.
 ```php
 global $DIC;
 
-$factory = $DIC['refinery'];
-$transformation = $factory->kindlyTo()->string();
+$refinery = $DIC->refinery();
+$transformation = $refinery->kindlyTo()->string();
 // ...
 ```
 
@@ -119,7 +123,7 @@ that there are several type checks before the transformation is
 executed.
 
 ```php
-$transformation = $factory->to()->int();
+$transformation = $refinery->to()->int();
 
 $result = $transformation->transform(3.5); // Will throw exception because, values is not an integer value
 $result = $transformation->transform('hello'); // Will throw exception because, values is not an integer value
@@ -197,7 +201,7 @@ an `KindlyTo\Transformation\IntegerTransformation` will always try to transform
 the input.
 
 ```php
-$transformation = $factory->kindlyTo()->int()
+$transformation = $refinery->kindlyTo()->int()
 
 $result = $transformation->transform(3.5); // $result => 3;
 $result = $transformation->transform('hello'); // $result => 0;
@@ -280,7 +284,7 @@ The transformation `series` takes an array of transformations and
 performs them one after another on the result of the previous transformation.
 
 ```php
-$transformation = $factory->in()->series(
+$transformation = $refinery->in()->series(
     array(
         new Refinery\KindlyTo\IntegerTransformation(),
         new Refinery\KindlyTo\StringTransformation()
@@ -302,7 +306,7 @@ The transformation `parallel` takes an array of transformations and
 performs each on the input value to form a tuple of the results.
 
 ```php
-$transformation = $factory->in()->parallel(
+$transformation = $refinery->in()->parallel(
     array(
         new Refinery\KindlyTo\IntegerTransformation(),
         new Refinery\KindlyTo\StringTransformation()

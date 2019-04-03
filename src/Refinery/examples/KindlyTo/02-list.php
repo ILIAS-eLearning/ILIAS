@@ -7,13 +7,9 @@
 function toList() {
 	global $DIC;
 
-	$language = $DIC->language();
-	$dataFactory = new ILIAS\Data\Factory();
-	$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
+	$refinery = $DIC->refinery();
 
-	$factory = new ILIAS\Refinery\BasicFactory($validationFactory);
-
-	$transformation = $factory->kindlyTo()->listOf(new \ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation());
+	$transformation = $refinery->kindlyTo()->listOf(new \ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation());
 
 	$result = $transformation->transform(array(5, '1', 4.3));
 
