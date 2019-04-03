@@ -25,7 +25,7 @@ if ($_GET['new_ui'] == '1') {
 	$content = pagedemoContent($f);
 	$metabar = pagedemoMetabar($f);
 	$mainbar = pagedemoMainbar($f, $renderer)
-		->withActive("example2");
+		->withActive("pws");
 
 	$page = $f->layout()->page()->standard(
 		$metabar,

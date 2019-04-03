@@ -99,10 +99,7 @@ class Renderer extends AbstractComponentRenderer
 	protected function getComponentInterfaceName() {
 		return array(
 			ISlate\Legacy::class,
-			ISlate\Combined::class,
-			ISlate\Search::class,
-			ISlate\Awareness::class,
-			ISlate\Notification::class
+			ISlate\Combined::class
 		);
 	}
 
