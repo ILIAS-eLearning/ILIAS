@@ -24,8 +24,7 @@ class Alphanumeric
 	public function __construct($value)
 	{
 		$matches = null;
-		preg_match('/^[a-zA-Z0-9]+$/', (string) $value, $matches);
-		if (null === $matches || array() === $matches) {
+		if (!preg_match('/^[a-zA-Z0-9]+$/', (string) $value, $matches)) {
 			throw new \InvalidArgumentException(sprintf('The value "%s" is not an alphanumeric value.', $value));
 		}
 

@@ -7,6 +7,8 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
+
 require_once 'libs/composer/vendor/autoload.php';
 
 class AlphanumericTest extends \PHPUnit_Framework_TestCase
@@ -46,6 +48,9 @@ class AlphanumericTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame(6.0, $value->getValue());
 	}
 
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
 	public function testTextIsNotAlphanumericAndWillThrowException()
 	{
 		$value = new Alphanumeric('hello world');
