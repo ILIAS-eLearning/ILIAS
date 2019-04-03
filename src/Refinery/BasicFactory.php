@@ -22,7 +22,6 @@ class BasicFactory implements Factory
 	private $validationFacory;
 
 	/**
-	 * @param \ilLanguage|null $language
 	 */
 	public function __construct(\ILIAS\Refinery\Validation\Factory $validationFactory)
 	{
