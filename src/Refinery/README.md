@@ -123,7 +123,7 @@ $transformation = $factory->to()->int();
 
 $result = $transformation->transform(3.5); // Will throw exception because, values is not an integer value
 $result = $transformation->transform('hello'); // Will throw exception because, values is not an integer value
-$result = $transformation->transform(3); // $result = 10
+$result = $transformation->transform(3); // $result = 3
 ```
 
 In this example the `Refinery\To\IntegerTransformation` of the `to` group is
