@@ -34,17 +34,19 @@ class DropdownTest extends ILIAS_UI_TestBase {
 
 	public function test_with_items() {
 		$f = $this->getFactory();
+		$link = new I\Component\Link\Standard("Link to Github", "http://www.github.com");
 		$c = $f->standard(array(
 			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
 			new I\Component\Button\Shy("GitHub", "https://www.github.com"),
-			new I\Component\Divider\Horizontal(),	
-			new I\Component\Button\Shy("GitHub", "https://www.github.com")
+			new I\Component\Divider\Horizontal(),
+			$link->withOpenInNewViewport(true)
 		));
 		$items = $c->getItems();
 
 		$this->assertTrue(is_array($items));
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Shy", $items[0]);
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Divider\\Horizontal", $items[2]);
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Link\\Standard", $items[3]);
 	}
 
 	public function test_render_empty() {
@@ -105,6 +107,29 @@ EOT;
 					<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 					<li><hr  /></li>
 					<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+				</ul>
+			</div>
+EOT;
+
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+	public function test_render_with_link_new_viewport() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+
+		$link = new I\Component\Link\Standard("Link to ILIAS", "http://www.ilias.de");
+
+		$c = $f->standard(array(
+			$link->withOpenInNewViewport(true)
+		));
+
+		$html = $r->render($c);
+
+		$expected = <<<EOT
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li><a href="http://www.ilias.de" target="_blank" rel="noopener">Link to ILIAS</a></li>
 				</ul>
 			</div>
 EOT;
