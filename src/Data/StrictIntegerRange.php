@@ -24,7 +24,7 @@ class StrictIntegerRange
 	public function __construct(int $minimum, int $maximum)
 	{
 		if ($minimum === $maximum) {
-			throw new \InvalidArgumentException(sprintf('The minimum value("%s") is not a integer', $minimum));
+			throw new \InvalidArgumentException(sprintf('The maximum("%s") can NOT be same than the minimum("%s")', $maximum, $minimum));
 		}
 
 		$this->integerRange = new IntegerRange($minimum, $maximum);
