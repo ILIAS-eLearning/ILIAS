@@ -8,7 +8,6 @@
 namespace ILIAS\Data;
 
 
-use phpDocumentor\Reflection\Types\Integer;
 
 class StrictIntegerRange
 {
