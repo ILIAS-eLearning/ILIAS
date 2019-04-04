@@ -1335,6 +1335,8 @@ class ilSurveyPageGUI
 		
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
+		$pages_drop = [];
+
 		if(!$this->has_datasets)
 		{			
 			$button = ilLinkButton::getInstance();
