@@ -61,10 +61,6 @@ class Parallel implements Transformation
 			$results[] = $resultObject->value();
 		}
 
-		if (array() === $results) {
-			$results[] = $data;
-		}
-
 		return new Result\Ok($results);
 	}
 
