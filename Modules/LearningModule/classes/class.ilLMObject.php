@@ -1161,69 +1161,70 @@ class ilLMObject
 			
 			if ($copied_type == "pg")
 			{
-				//
-				// 1. Outgoing links from the copied page.
-				//
-				//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
-				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-				$tpg = new ilLMPage($copied_id);
-				$tpg->buildDom();
-				$il = $tpg->getInternalLinks();
-				$targets = array();
-				foreach($il as $l)
+				foreach (ilPageObject::lookupTranslations($a_parent_type, $copied_id) as $l)
 				{
-					$targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
-						"id" => (int) ilInternalLink::_extractObjIdOfTarget($l["Target"]),
-						"inst" => (int) ilInternalLink::_extractInstOfTarget($l["Target"]));
-				}
-				$fix = array();
-				foreach($targets as $target)
-				{
-					if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
-						($target["type"] == "pg" || $target["type"] == "st"))
+					//
+					// 1. Outgoing links from the copied page.
+					//
+					//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
+					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+					$tpg = new ilLMPage($copied_id, 0, $l);
+					$tpg->buildDom();
+					$il = $tpg->getInternalLinks();
+					$targets = array();
+					foreach ($il as $l)
 					{
-						// first check, whether target is also within the copied set
-						if ($a_copied_nodes[$target["id"]] > 0)
+						$targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
+							"id" => (int)ilInternalLink::_extractObjIdOfTarget($l["Target"]),
+							"inst" => (int)ilInternalLink::_extractInstOfTarget($l["Target"]));
+					}
+					$fix = array();
+					foreach ($targets as $target)
+					{
+						if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
+							($target["type"] == "pg" || $target["type"] == "st"))
 						{
-							$fix[$target["id"]] = $a_copied_nodes[$target["id"]];
-						}
-						else
-						{
-							// now check, if a copy if the target is already in the same lm
-							
-							// only if target is not already in the same lm!
-							$trg_lm = ilLMObject::_lookupContObjID($target["id"]);
-							if ($trg_lm != $copy_lm)
+							// first check, whether target is also within the copied set
+							if ($a_copied_nodes[$target["id"]] > 0)
 							{
-								$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$target["type"]."_".$target["id"]);
-								$found = false;
-	
-								foreach($lm_data as $item)
+								$fix[$target["id"]] = $a_copied_nodes[$target["id"]];
+							} else
+							{
+								// now check, if a copy if the target is already in the same lm
+
+								// only if target is not already in the same lm!
+								$trg_lm = ilLMObject::_lookupContObjID($target["id"]);
+								if ($trg_lm != $copy_lm)
 								{
-									if (!$found && ($item["lm_id"] == $copy_lm))
+									$lm_data = ilLMObject::_getAllObjectsForImportId("il__" . $target["type"] . "_" . $target["id"]);
+									$found = false;
+
+									foreach ($lm_data as $item)
 									{
-										$fix[$target["id"]] = $item["obj_id"];
-										$found = true;
+										if (!$found && ($item["lm_id"] == $copy_lm))
+										{
+											$fix[$target["id"]] = $item["obj_id"];
+											$found = true;
+										}
 									}
 								}
 							}
 						}
 					}
-				}
-				
-				// outgoing links to be fixed
-				if (count($fix) > 0)
-				{
-//echo "<br>--".$copied_id;
-//var_dump($fix);
-					$t = ilObject::_lookupType($copy_lm);
-					if (is_array($all_fixes[$t.":".$copied_id]))
+
+					// outgoing links to be fixed
+					if (count($fix) > 0)
 					{
-						$all_fixes[$t.":".$copied_id] += $fix;
-					}
-					else
-					{
-						$all_fixes[$t.":".$copied_id] = $fix;
+						//echo "<br>--".$copied_id;
+						//var_dump($fix);
+						$t = ilObject::_lookupType($copy_lm);
+						if (is_array($all_fixes[$t . ":" . $copied_id]))
+						{
+							$all_fixes[$t . ":" . $copied_id] += $fix;
+						} else
+						{
+							$all_fixes[$t . ":" . $copied_id] = $fix;
+						}
 					}
 				}
 			}
@@ -1330,10 +1331,13 @@ class ilLMObject
 		{
 			$pg = explode(":", $pg);
 			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-			$page = ilPageObjectFactory::getInstance($pg[0], $pg[1]);
-			if ($page->moveIntLinks($fixes))
+			foreach (ilPageObject::lookupTranslations($pg[0], $pg[1]) as $l)
 			{
-				$page->update(true, true);
+				$page = ilPageObjectFactory::getInstance($pg[0], $pg[1], 0, $l);
+				if ($page->moveIntLinks($fixes))
+				{
+					$page->update(true, true);
+				}
 			}
 		}
 	}
