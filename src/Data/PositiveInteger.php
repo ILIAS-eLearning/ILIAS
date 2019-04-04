@@ -34,7 +34,7 @@ class PositiveInteger
 	/**
 	 * @return int
 	 */
-	public function asInteger() : int
+	public function getValue() : int
 	{
 		return (int) $this->value;
 	}

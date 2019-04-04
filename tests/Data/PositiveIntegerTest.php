@@ -17,7 +17,7 @@ class PositiveIntegerTest extends \PHPUnit_Framework_TestCase
 	public function testCreatePositiveInteger()
 	{
 		$integer = new PositiveInteger(6);
-		$this->assertSame(6, $integer->asInteger());
+		$this->assertSame(6, $integer->getValue());
 	}
 
 	/**
@@ -35,6 +35,6 @@ class PositiveIntegerTest extends \PHPUnit_Framework_TestCase
 	public function testMaximumIntegerIsAccepted()
 	{
 		$integer = new PositiveInteger(PHP_INT_MAX);
-		$this->assertSame(PHP_INT_MAX, $integer->asInteger());
+		$this->assertSame(PHP_INT_MAX, $integer->getValue());
 	}
 }
