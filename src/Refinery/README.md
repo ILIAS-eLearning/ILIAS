@@ -57,7 +57,8 @@ $transformation = $refinery->in()->series(
 
 $result = $transformation->transform(5.5);
 
-$data = new Alphanumeric($result);
+$dataFactory = new \ILIAS\Data\Factory();
+$data = $dataFactory->alphanumeric($result);
 
 echo $data->getData();
 ```
