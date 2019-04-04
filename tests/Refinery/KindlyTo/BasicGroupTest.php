@@ -7,6 +7,7 @@
 
 namespace ILIAS\Tests\Refinery\KindlyTo;
 
+use ILIAS\Data\Alphanumeric;
 use ILIAS\Refinery\KindlyTo\Group;
 use ILIAS\Refinery\KindlyTo\Transformation\BooleanTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
@@ -139,6 +140,20 @@ class BasicGroupTest extends TestCase
 		$transformation = $this->basicGroup->toNew(array(new MyClass()));
 
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+	}
+
+	/**
+	 * @throws \ilException
+	 */
+	public function testCreateDataTransformation()
+	{
+		$transformation = $this->basicGroup->data('alphanumeric');
+
+		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+
+		$result = $transformation->transform(array('hello'));
+
+		$this->assertInstanceOf(Alphanumeric::class, $result);
 	}
 }
 

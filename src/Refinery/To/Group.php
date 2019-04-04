@@ -172,11 +172,13 @@ class Group
 	}
 
 	/**
-	 * Returns a data factory to create a certain data type
-	 * @return \ILIAS\Data\Factory
+	 * @param string $dataType - Name of the data type, this value MUST much
+	 *                           with the methods provided by the `\ILIAS\Data\Factory`
+	 * @return Transformation
+	 * @throws \ilException
 	 */
-	public function data(): \ILIAS\Data\Factory
+	public function data(string $dataType): Transformation
 	{
-		return new \ILIAS\Data\Factory();
+		return $this->toNew(array('\ILIAS\Data\Factory', $dataType));
 	}
 }
