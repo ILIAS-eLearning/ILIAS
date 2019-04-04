@@ -11,7 +11,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes a Drilldown Menu Control
  */
-interface Drilldown extends Component, JavaScriptBindable
+interface Drilldown extends Menu, JavaScriptBindable
 {
 	/**
 	 * Get the label for the root-level of Drilldown.
@@ -22,11 +22,6 @@ interface Drilldown extends Component, JavaScriptBindable
 	 * @return Icon|Glyph|null
 	 */
 	public function getIconOrGlyph();
-
-	/**
-	 * Get the Entries of this drilldown.
-	 */
-	public function getEntries(): array;
 
 	/**
 	 * Set entries of this Menu.

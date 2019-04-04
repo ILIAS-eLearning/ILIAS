@@ -14,7 +14,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 /**
  * Level of Drilldown Control
  */
-class Sub implements IMenu\Sub
+class Sub extends Menu implements IMenu\Sub
 {
 	use ComponentHelper;
 	use JavaScriptBindable;

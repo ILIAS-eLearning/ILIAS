@@ -11,7 +11,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes a Level of Drilldowns
  */
-interface Sub extends Component, JavaScriptBindable
+interface Sub extends Menu, JavaScriptBindable
 {
 	/**
 	 * Get the label for this level.
