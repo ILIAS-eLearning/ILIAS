@@ -9,7 +9,7 @@ use \ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
- * This describes a Level of Drilldowns
+ * This describes a Submenu, i.e. an item for a menu providing further items.
  */
 interface Sub extends Menu, JavaScriptBindable
 {

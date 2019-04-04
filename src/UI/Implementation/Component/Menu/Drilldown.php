@@ -12,7 +12,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 /**
  * Drilldown Menu Control
  */
-class Drilldown extends Menu implements IMenu\Drilldown
+class Drilldown extends LabeledMenu implements IMenu\Drilldown
 {
 	use ComponentHelper;
 	use JavaScriptBindable;
