@@ -12,7 +12,7 @@ use ILIAS\Refinery\Factory;
 require_once('./libs/composer/vendor/autoload.php');
 require_once('./tests/Refinery/TestCase.php');
 
-class BasicFactoryTest extends TestCase
+class FactoryTest extends TestCase
 {
 	/**
 	 * @var Factory

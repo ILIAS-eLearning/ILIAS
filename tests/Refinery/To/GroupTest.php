@@ -24,7 +24,7 @@ use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class BasicGroupTest extends TestCase
+class GroupTest extends TestCase
 {
 	/**
 	 * @var Group

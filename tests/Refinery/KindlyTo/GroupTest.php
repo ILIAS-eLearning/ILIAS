@@ -22,7 +22,7 @@ use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Refinery\Validation\Factory;
 use ILIAS\Tests\Refinery\TestCase;
 
-class BasicGroupTest extends TestCase
+class GroupTest extends TestCase
 {
 	/**
 	 * @var Group
