@@ -932,7 +932,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		if ($this->ass)
 		{
-			include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 			$state = ilExcAssMemberState::getInstanceByIds($this->ass->getId(), $ilUser->getId());
 			if (!$state->getCommonDeadline() && $state->getRelativeDeadline())
 			{
