@@ -13712,7 +13712,7 @@ skmg#:#skmg_usage_type_info_gen#:#Allgemeiner Gebrauch in Magazinobjekten
 skmg#:#skmg_usage_type_info_mat#:#Benutzer haben Material zugeordnet
 skmg#:#skmg_usage_type_info_user#:#Zuordnung zu Benutzern
 skmg#:#skmg_usage_type_info_pers#:#Von Benutzern als persönliche Kompetenz ausgewählt
-skmg#:#skmg_usage_type_info_seval#:#Selbsteinschätzungen###deprecated
+skmg#:#skmg_usage_type_info_seval#:#Selbsteinschätzungen
 skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
 skmg#:#skmg_usage_obj_objects#:#Objekt(e)
