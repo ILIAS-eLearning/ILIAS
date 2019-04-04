@@ -805,4 +805,13 @@ interface Factory {
 	 */
 	public function mainControls(): C\MainControls\Factory;
 
+	 * description:
+	 *   purpose: >
+	 *     Menus let the user chose from several (navigational) options.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Menu\Factory
+	 */
+	public function menu(): Component\Menu\Factory;
 }
+
