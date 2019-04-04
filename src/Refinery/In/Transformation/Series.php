@@ -52,15 +52,16 @@ class Series implements Transformation
 	 */
 	public function applyTo(Result $data): Result
 	{
-		$result = $data;
 		foreach ($this->transformationStrategies as $strategy) {
 			$resultObject = $strategy->applyTo($data);
 			if ($resultObject->isError()) {
 				return $resultObject;
 			}
+
+			$data = $resultObject;
 		}
 
-		return new Result\Ok($result);
+		return new Result\Ok($data->value());
 	}
 
 	/**
