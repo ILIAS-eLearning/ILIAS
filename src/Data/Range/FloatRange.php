@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Data\Range;
 
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class FloatRange
 {
@@ -24,12 +25,16 @@ class FloatRange
 	/**
 	 * @param float $minimum
 	 * @param float $maximum
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function __construct(float $minimum, float $maximum)
 	{
 		if ($maximum < $minimum) {
-			throw new \InvalidArgumentException(sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum));
+			throw new ConstraintViolationException(
+				sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum),
+				'exception_maximum_minimum_mismatch',
+				array($maximum, $minimum)
+			);
 		}
 
 		$this->minimum = $minimum;

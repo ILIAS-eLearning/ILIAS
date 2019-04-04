@@ -7,12 +7,14 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+
 require_once("libs/composer/vendor/autoload.php");
 
 class PositiveIntegerTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @throws \ilException
+	 * @throws ConstraintViolationException
 	 */
 	public function testCreatePositiveInteger()
 	{
@@ -20,17 +22,18 @@ class PositiveIntegerTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame(6, $integer->getValue());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testNegativeIntegerThrowsException()
 	{
-		$integer = new PositiveInteger(-6);
+		try {
+			$integer = new PositiveInteger(-6);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 		$this->fail();
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testMaximumIntegerIsAccepted()
 	{

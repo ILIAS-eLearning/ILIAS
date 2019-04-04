@@ -7,6 +7,7 @@
 
 namespace ILIAS\Data\Range;
 
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class StrictIntegerRange
 {
@@ -18,12 +19,16 @@ class StrictIntegerRange
 	/**
 	 * @param int $minimum
 	 * @param int $maximum
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function __construct(int $minimum, int $maximum)
 	{
 		if ($minimum === $maximum) {
-			throw new \InvalidArgumentException(sprintf('The maximum("%s") can NOT be same than the minimum("%s")', $maximum, $minimum));
+			throw new ConstraintViolationException(
+				sprintf('The maximum("%s") and minimum("%s") can NOT be the same', $maximum, $minimum),
+				'exception_maximum_minimum_same',
+				array($maximum, $minimum)
+			);
 		}
 
 		$this->range = new IntegerRange($minimum, $maximum);

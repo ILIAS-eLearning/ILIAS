@@ -5,6 +5,7 @@
 namespace ILIAS\Data;
 
 use ILIAS\Data\Range\IntegerRange;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 require_once("./libs/composer/vendor/autoload.php");
 
@@ -59,17 +60,18 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 		$this->assertFalse($range->spans(101));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testMaximumCanNotBeLowerThanMinimum()
 	{
-		$range = new IntegerRange(3, 1);
+		try {
+			$range = new IntegerRange(3, 1);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 		$this->fail();
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testHexIsAllowForRanges()
 	{
@@ -80,7 +82,7 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testBinaryIsAllowForRanges()
 	{

@@ -7,9 +7,11 @@
 
 namespace ILIAS\Data;
 
-use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
+use ILIAS\Refinery\In\Group;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\Validation\Constraints\GreaterThan;
 
-require_once 'libs/composer/vendor/autoload.php';
+require_once('./libs/composer/vendor/autoload.php');
 
 class AlphanumericTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,12 +50,13 @@ class AlphanumericTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame(6.0, $value->getValue());
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function testTextIsNotAlphanumericAndWillThrowException()
 	{
-		$value = new Alphanumeric('hello world');
+		try {
+			$value = new Alphanumeric('hello world');
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 		$this->fail();
 	}
 }

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Data;
 
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class PositiveInteger
 {
@@ -18,14 +19,18 @@ class PositiveInteger
 
 	/**
 	 * @param int $value
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function __construct(int $value)
 	{
 		$matches = null;
 
 		if ($value < 0) {
-			throw new \InvalidArgumentException(sprintf('The value "%s" is not a positive integer', $value));
+			throw new ConstraintViolationException(
+				sprintf('The value "%s" is not a positive integer', $value),
+				'exception_not_positive_integer',
+				array($value)
+			);
 		}
 
 		$this->value = $value;

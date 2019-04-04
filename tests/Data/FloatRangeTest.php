@@ -8,13 +8,14 @@
 namespace ILIAS\Data;
 
 use ILIAS\Data\Range\FloatRange;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 require_once 'libs/composer/vendor/autoload.php';
 
 class FloatRangeTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testValidFloatRanges()
 	{
@@ -60,7 +61,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testHexIsAllowForRanges()
 	{
@@ -71,7 +72,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
@@ -82,7 +83,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testRangeCanBeSame()
 	{
@@ -92,11 +93,13 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame($floatRange->maximum(), 3.0);
 	}
 
-	/**
-	 * @expectedException  \InvalidArgumentException
-	 */
 	public function testMaximumsIsLowerThanMinimumThrowsException()
 	{
-		$floatRange = new FloatRange(3.0, 1.0);
+		try {
+			$floatRange = new FloatRange(3.0, 1.0);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
+		$this->fail();
 	}
 }

@@ -5,6 +5,7 @@
 namespace ILIAS\Data;
 
 use ILIAS\Data\Range\StrictIntegerRange;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 require_once("./libs/composer/vendor/autoload.php");
 
@@ -59,26 +60,28 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 		$this->assertFalse($range->spans(101));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testMaximumCanNotBeLowerThanMinimum()
 	{
-		$range = new StrictIntegerRange(3, 1);
+		try {
+			$range = new StrictIntegerRange(3, 1);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testMaximumCanNotBeEqualMinimum()
 	{
-		$range = new StrictIntegerRange(3, 1);
+		try {
+			$range = new StrictIntegerRange(3, 1);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 		$this->fail();
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testHexIsAllowForRanges()
 	{
@@ -89,7 +92,7 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws ConstraintViolationException
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
