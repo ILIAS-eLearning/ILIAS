@@ -746,7 +746,6 @@ assessment#:#tst_hide_side_list#:#Ocultar lista de preguntas
 assessment#:#tst_highscore_achieved_ts_description#:#Controla si debe mostrarse una columna con la fecha del test.
 assessment#:#tst_highscore_achieved_ts#:#Mostrar fecha del test
 assessment#:#tst_highscore_anon#:#Anonimato de las entradas.
-assessment#:#Participantes anónimos#:#Controla si la clasificación aparece sin los nombres de los participantes. Esto será lo que ocurra de todos modos si el test se configuró como anónimo
 assessment#:#tst_highscore_description#:#Al activarse, la pestaña "Info" muestra a los participantes un botón "Mostrar puntuaciones más altas". Al hacer clic en él, los participantes acceden a una tabla de clasificación de los mejores resultados obtenidos en el test. 'Acceso a los resultados del test' debe estar activo para que funcione.
 assessment#:#tst_highscore_enabled#:#Ver clasificación (puntuaciones más altas)
 assessment#:#tst_highscore_hints_description#:#Controla si debe mostrarse una columna con las sugerencias solicitadas para el test.
@@ -898,7 +897,6 @@ assessment#:#tst_results_aggregated#:#Resultados globales
 assessment#:#tst_results_back_introduction#:#Volver a la introducción
 assessment#:#tst_results_back_overview#:#Volver al resumen de resultados
 assessment#:#tst_results_overview#:#Resumen de resultados de la ejecución del test
-assessment#:#Como complemento de la tabla de resultados detallados del test, asociado a cada pregunta se incluye un enlace a una página. Esta página contiene la pregunta, la respuesta proporcionada por el participante, información sobre si fue la respuesta correcta y los puntos obtenidos.#:#Adicionalmente, para cada pregunta se mostrará la mejor solución posible.
 assessment#:#tst_results_print_best_solution#:#Mejor solución
 assessment#:#tst_results#:#Resultados del Test
 assessment#:#tst_result_user_name_pass#:#Resultados repetición %s de %s
@@ -11429,8 +11427,6 @@ assessment#:#tst_you_have_to_answer_this_question#:#Debes contestar esta pregunt
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!
 assessment#:#tst_show_pass_details_desc#:#Si se selecciona esta opción los títulos de las preguntas y los resultados alcanzados en cada pregunta en la ejecución del test estarán disponibles aunque el test no haya finalizado
 assessment#:#tst_show_solution_details_desc#:#Si se marca muestra al participante la solución detallada de cada pregunta en los resultados del test (para cada opción de respuesta si la hubiera). Si no está activa, sólo se muestra un resumen con el título y la puntuación total alcanzada en cada pregunta. Esta lista se mostrará en la pestaña "Info" y al finalizar la ejecución de un test, antes del envío final.
-assessment#:#Mostrar lista de respuestas' para imprimir#:#Si se marca aparece un botón 'Mostrar lista de respuestas' en la pestaña Info del test que lleva a una tabla con las ejecuciones del test, si se selecciona 'Mostrar detalles' en una determinada ejecución aparece un listado de todas las preguntas junto con las respuestas dadas del participante, se pueden imprimir en PDF usando el botón 'Imprimir'.
-assessment#:#Mostrar explicaciones específicas por respuesta#:#Si se marca, muestra junto a cada pregunta la aclaración a cada respuesta que haya dado el tutor/profesor. Para ello es necesario haber activado 'Mostrar detalles de cada pregunta' y la pregunta debe haber sido editada con comentarios del tutor a las respuestas.
 assessment#:#tst_show_solution_answers_only_desc#:#Si se marca no se muestra el contenido ILIAS que se puede crear con la pestaña "Editar Página" antes y después de la pregunta cuando se edita. Permite ahorrar papel.
 assessment#:#tst_show_solution_signature_desc#:#Si se marca muestra un apartado específico en el informe de resultados para la firma del participante.
 assessment#:#tst_show_solution_suggested_desc#:#Si al editar las preguntas se completó la pestaña 'Solución recomendada', este contenido se mostrará en la tabla de resultados detallados del test. Los participantes tienen la oportunidad de aprender para una futura recuperación. Para que esta opción sea efectiva, además debe estar activar la opción ‘Mostrar tabla de resultados detallados del test para cada ejecución del test en el momento indicado anteriormente’ en ‘Acceso a los resultados del test’.
@@ -11549,7 +11545,6 @@ assessment#:#tst_results_grading_opt_show_mark_desc#:#En el resumen del resultad
 assessment#:#tst_score_cut_question_desc#:#Los participantes podrían tener un resultado negativo por pregunta dado que las opciones de las preguntas pueden puntuar de forma negativa. Esta configuración redondea a 0 si se obtiene un valor negativo por pregunta.
 assessment#:#tst_score_cut_test_desc#:#Los participantes podrían tener un resultado negativo por test dado que las preguntas pueden puntuar de forma negativa. Esta configuración redondea a 0 puntos si al sumar la puntación de las preguntas se obtiene un valor negativo
 assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Aunque no se seleccione ninguna casilla en las preguntas de opción múltiple, cada casilla será puntuada en función de los puntos predefinidos para la misma. Esta configuración sólo es apropiada en algunos casos.
-assessment#:#Este test sólo será accesible por usuarios predefinidos (usuarios añadidos manualmente en la pestaña "Participantes")#:#Las preguntas de opción múltiple en las que no se selecciona ninguna casilla se puntúan con 0 puntos. Esta configuración es normal para la mayoría de los tests.
 assessment#:#examid_in_test_pass#:#Mostrar ID de test
 assessment#:#examid_in_test_pass_desc#:#Si se activa se muestra el código de identificación del Test cuando un usuario está ejecutándolo
 assessment#:#examid_in_test_res#:#Mostrar id del test en resultados
@@ -14240,3 +14235,12 @@ user#:#obj_ref_id_not_exist#:#El identificador de referencia introducido no exis
 user#:#msg_spoint_not_modified#:#Punto de inicio no modificado
 lti#:#lti_cron_title#:#Servicio de producción LTI
 lti#:#lti_cron_title_desc#:#Sincroniza el progreso de aprendizaje de usuarios LTI con el consumidor LTI, si este soporta el servicio de producción. Esta tarea cron solo es necesaria para transferir actualizaciones de estado después de actualizar la configuración del progreso de aprendizaje.
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
+assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the ‘Info’-tab.###04 04 2019 new variable
+assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.###04 04 2019 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Answers without any checked option are not saved. Participants get 0 points on these questions.###fau: testNav
+assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.###04 04 2019 new variable
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
+assessment#:#tst_results_print_best_solution_info#:#Additionally for each question the best possible solution will be displayed.###04 04 2019 new variable
+skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable

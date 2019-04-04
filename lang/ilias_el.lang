@@ -14239,3 +14239,7 @@ user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###14 02 20
 user#:#msg_spoint_not_modified#:#Starting point not modified###14 02 2019 new variable
 lti#:#lti_cron_title#:#LTI Outcome Service###14 02 2019 new variable
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###14 02 2019 new variable
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
+skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable
