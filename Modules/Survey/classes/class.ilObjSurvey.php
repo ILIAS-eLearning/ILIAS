@@ -258,6 +258,8 @@ class ilObjSurvey extends ilObject
 		{
 			$this->createMetaData();
 		}
+		$this->setOfflineStatus(true);
+		$this->update();
 	}
 
 /**
