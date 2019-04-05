@@ -28,7 +28,7 @@ class ConstraintViolationException extends \UnexpectedValueException
 	 *
 	 * @param string $message - developer-readable message in english.
 	 * @param string $languageId - id of a human-readable string in the "violation" lng-module
-	 * @param array $languageValues - values to be substituted in the lng-variable
+	 * @param mixed ...$languageValues - values to be substituted in the lng-variable
 	 */
 	public function __construct(
 		string $message,
