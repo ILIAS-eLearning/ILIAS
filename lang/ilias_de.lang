@@ -15030,3 +15030,11 @@ wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
 style#:#Style#:#Style###20 03 2019 new variable
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###20 03 2019 new variable
+content#:#cont_Attention#:#Achtung
+content#:#cont_Confirmation#:#Bestätigung
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literatur
+content#:#cont_Separator#:#Begrenzer
+content#:#cont_StandardCenter#:#Standard Zentriert
+content#:#cont_Interaction#:#Interaktion

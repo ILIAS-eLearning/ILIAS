@@ -15030,3 +15030,11 @@ certificate#:#persistent_certificate_mode_cron#:#Cron Job
 certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
 certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+content#:#cont_Attention#:#Attention
+content#:#cont_Confirmation#:#Confirmation
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literature
+content#:#cont_Separator#:#Separator
+content#:#cont_StandardCenter#:#Standard Center
+content#:#cont_Interaction#:#Interaction
