@@ -157,7 +157,10 @@ class ilIndividualAssessmentMembersGUI
 
 		$filter = $this->getFilterValue($get);
 		$sort = $this->getSortValue($get);
-		$entries = $this->object->loadMembersAsSingleObjects($filter, $sort);
+		$entries = $this->filterViewableOrGradeableEntries(
+			$this->object->loadMembersAsSingleObjects($filter, $sort)
+		);
+
 		$table->setData($entries);
 		$view_constrols = $this->getViewControls($get);
 
@@ -167,6 +170,16 @@ class ilIndividualAssessmentMembersGUI
 			$output .= $this->txt("iass_no_entries");
 		}
 		$this->tpl->setContent($output);
+	}
+
+	protected function filterViewableOrGradeableEntries(array $entries) : array
+	{
+		$user_ids = array_map(function($e) { return $e->id(); }, $entries);
+		$viewable_or_gradeable_entries = $this->iass_access->filterViewableOrGradeableUsers($user_ids);
+
+		return array_filter($entries, function($e) use ($viewable_or_gradeable_entries) {
+			return in_array($e->id(), $viewable_or_gradeable_entries);
+		});
 	}
 
 	/**
