@@ -7481,6 +7481,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setMailNotification($this->getMailNotification());
 		$newObj->setMailNotificationType($this->getMailNotificationType());
 		$newObj->setNrOfTries($this->getNrOfTries());
+		$newObj->setBlockPassesAfterPassedEnabled($this->isBlockPassesAfterPassedEnabled());
 		$newObj->setPassScoring($this->getPassScoring());
 		$newObj->setPasswordEnabled($this->isPasswordEnabled());
 		$newObj->setPassword($this->getPassword());
