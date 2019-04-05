@@ -188,7 +188,6 @@ class ilExPeerReview
 	{
 		if($this->hasPeerReviewGroups())
 		{			
-			include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 			$all_exc = ilExerciseMembers::_getMembers($this->assignment->getExerciseId());
 			$all_valid = $this->getValidPeerReviewUsers(); // only returned
 			
@@ -437,10 +436,18 @@ class ilExPeerReview
 	{
 		$ilDB = $this->db;
 		$ilUser = $this->user;
-		
+
+		$data = [
+			"pcomment" => serialize($a_values),
+			"peer_id" => $a_peer_id,
+			"giver_id" => $ilUser->getId()
+		];
+		$valid = $this->validatePeerReview($data);
+
 		$sql = "UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
 			",pcomment  = ".$ilDB->quote(serialize($a_values), "text").
+			",is_valid = ".$ilDB->quote((int) $valid, "integer").
 			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
 			" AND ass_id = ".$ilDB->quote($this->assignment_id, "integer");

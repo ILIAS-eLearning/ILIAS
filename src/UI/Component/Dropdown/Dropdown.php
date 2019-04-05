@@ -17,7 +17,7 @@ interface Dropdown extends Component, JavaScriptBindable, Clickable, Hoverable {
 	/**
 	 * Get the items of the Dropdown.
 	 *
-	 * @return	array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal>
+	 * @return	array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard>
 	 */
 	public function getItems();
 

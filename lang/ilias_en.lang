@@ -15051,3 +15051,15 @@ certificate#:#persistent_certificate_mode_cron#:#Cron Job
 certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
 certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+task#:#task_derived_tasks#:#Tasks
+task#:#task_tasks_with_deadline#:#With Deadline
+task#:#task_tasks_without_deadline#:#Without Deadline
+task#:#task_deadline#:#End
+task#:#task_no_tasks#:#You do not have any open tasks.
+task#:#task_start#:#Start
+task#:#task_task#:#Task
+task#:#task_details#:#Details
+pd#:#block_show_pdtasks#:#Show Tasks
+exc#:#exc_task_submission#:#Submission of Assignment "%1"
+exc#:#exc_task_grading#:#Grading of Assignment "%1"
+exc#:#exc_task_peer_feedback#:#Give Peer Feedback in Assignment "%1"

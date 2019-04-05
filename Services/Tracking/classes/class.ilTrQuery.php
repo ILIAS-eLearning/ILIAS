@@ -968,7 +968,6 @@ class ilTrQuery
 				break;
 
 			case "exc":
-				include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 				include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
 				$exc = new ilObjExercise($obj_id, false);
 				$members = new ilExerciseMembers($exc);
