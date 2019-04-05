@@ -52,6 +52,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 			"Special" => $lng->txt("cont_Special"),
 
 			"Attention" => $lng->txt("cont_Attention"),
+			"Background" => $lng->txt("cont_Background"),
 			"Confirmation" => $lng->txt("cont_Confirmation"),
 			"Information" => $lng->txt("cont_Information"),
 			"Interaction" => $lng->txt("cont_Interaction"),
