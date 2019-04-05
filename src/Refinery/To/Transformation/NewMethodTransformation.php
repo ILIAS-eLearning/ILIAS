@@ -13,6 +13,7 @@ namespace ILIAS\Refinery\To\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class NewMethodTransformation implements Transformation
 {
@@ -34,12 +35,18 @@ class NewMethodTransformation implements Transformation
 	public function __construct(string $className, string $methodToCall)
 	{
 		if (false === class_exists($className)) {
-			throw new \ilException('The first parameter MUST be an object');
+			throw new ConstraintViolationException(
+				'The first parameter MUST be an object',
+				'first_parameter_must_be_an_object'
+			);
 		}
 
 
 		if (false === method_exists($className, $methodToCall)) {
-			throw new \ilException('The second parameter MUST be an method of the object');
+			throw new ConstraintViolationException(
+				'The second parameter MUST be an method of the object',
+				'second_parameter_must_be_an_method'
+			);
 		}
 
 		$this->className = $className;

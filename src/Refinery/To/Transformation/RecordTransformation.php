@@ -11,6 +11,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class RecordTransformation implements Transformation
 {
@@ -21,17 +22,25 @@ class RecordTransformation implements Transformation
 
 	/**
 	 * @param Transformation[] $transformations
-	 * @throws \ilException
 	 */
 	public function __construct(array $transformations)
 	{
 		foreach ($transformations as $key => $transformation) {
 			if (!$transformation instanceof Transformation) {
-				throw new \ilException(sprintf('The array element MUST be of type transformation "%s', Transformation::class));
+				$transformationClassName = Transformation::class;
+
+				throw new ConstraintViolationException(
+					sprintf('The array MUST contain only "%s" instances', $transformationClassName),
+					'not_a_transformation',
+					$transformationClassName
+				);
 			}
 
 			if (false === is_string($key)) {
-				throw new \ilException('The array key MUST be a string');
+				throw new ConstraintViolationException(
+					'The array key MUST be a string',
+					'key_is_not_a_string'
+				);
 			}
 		}
 
@@ -40,7 +49,6 @@ class RecordTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function transform($from)
 	{
@@ -50,20 +58,17 @@ class RecordTransformation implements Transformation
 
 		foreach ($from as $key => $value) {
 			if (false === is_string($key)) {
-				throw new \ilException(
-					sprintf(
-						'The key "%s" is NOT a string',
-						$key
-					)
+				throw new ConstraintViolationException(
+					'The array key MUST be a string',
+					'key_is_not_a_string'
 				);
 			}
 
 			if (false === isset($this->transformations[$key])) {
-				throw new \ilException(
-					sprintf(
-						'The key "%s" is NOT a key for a transformation',
-						$key
-					)
+				throw new ConstraintViolationException(
+					sprintf('Could not find transformation for array key "%s"', $key),
+					'array_key_does_not_exist',
+					$key
 				);
 			}
 
@@ -71,13 +76,11 @@ class RecordTransformation implements Transformation
 			$transformedValue = $transformation->transform($value);
 
 			if ($transformedValue !== $value) {
-				throw new \ilException(
-					sprintf(
-						'The transformed value "%s" does not match with the original value "%s". Used Transformation "%s"',
-						$transformedValue,
-						$value,
-						get_class($transformation)
-					)
+				throw new ConstraintViolationException(
+					'The transformed value "%s" does not match with the original value "%s"',
+					'values_do_not_match',
+					$transformedValue,
+					$value
 				);
 			}
 
@@ -89,7 +92,6 @@ class RecordTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function applyTo(Result $data): Result
 	{
@@ -97,7 +99,7 @@ class RecordTransformation implements Transformation
 
 		try {
 			$this->validateValueLength($from);
-		} catch (\ilException $exception) {
+		} catch (ConstraintViolationException $exception) {
 			return new Result\Error($exception);
 		}
 
@@ -129,13 +131,14 @@ class RecordTransformation implements Transformation
 			$transformedValue = $resultObject->value();
 
 			if ($transformedValue !== $value) {
-				return new Result\Error(new \ilException(
-					sprintf(
+				return new Result\Error(
+					new ConstraintViolationException(
 						'The transformed value "%s" does not match with the original value "%s"',
+						'values_do_not_match',
 						$transformedValue,
 						$value
 					)
-				));
+				);
 			}
 			$result[$key] = $value;
 		}
@@ -145,7 +148,6 @@ class RecordTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function __invoke($from)
 	{
@@ -154,7 +156,7 @@ class RecordTransformation implements Transformation
 
 	/**
 	 * @param $values
-	 * @throws \ilException
+	 * @throws ConstraintViolationException
 	 */
 	private function validateValueLength($values)
 	{
@@ -162,12 +164,15 @@ class RecordTransformation implements Transformation
 		$countOfTransformations = count($this->transformations);
 
 		if ($countOfValues !== $countOfTransformations) {
-			throw new \ilException(
+			throw new ConstraintViolationException(
 				sprintf(
 					'The given values(count: "%s") does not match with the given transformations("%s")',
 					$countOfValues,
 					$countOfTransformations
-				)
+				),
+				'length_does_not_match',
+				$countOfValues,
+				$countOfTransformations
 			);
 		}
 	}

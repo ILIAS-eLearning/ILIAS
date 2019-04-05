@@ -11,6 +11,7 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -33,24 +34,21 @@ class RecordTransformationTest extends TestCase
 		$this->assertEquals(array('stringTrafo' => 'hello', 'integerTrafo' => 1), $result);
 	}
 
-
-	/**
-	 * @expectedException \ilException
-	 */
 	public function testInvalidTransformationArray()
 	{
-		$recordTransformation = new RecordTransformation(
-			array(
-				new StringTransformation(),
-				new IntegerTransformation())
-		);
+		try {
+			$recordTransformation = new RecordTransformation(
+				array(
+					new StringTransformation(),
+					new IntegerTransformation())
+			);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \ilException
-	 */
 	public function testTransformationIsInvalidBecauseValueDoesNotMatchWithTransformation()
 	{
 		$recordTransformation = new RecordTransformation(
@@ -59,14 +57,15 @@ class RecordTransformationTest extends TestCase
 				'anotherIntTrafo' => new IntegerTransformation())
 		);
 
-		$result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'anotherIntTrafo' => 1));
+		try {
+			$result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'anotherIntTrafo' => 1));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \ilException
-	 */
 	public function testInvalidValueKey()
 	{
 		$recordTransformation = new RecordTransformation(
@@ -75,14 +74,15 @@ class RecordTransformationTest extends TestCase
 				'integerTrafo' => new IntegerTransformation())
 		);
 
-		$result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'floatTrafo' => 1));
+		try {
+			$result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'floatTrafo' => 1));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \ilException
-	 */
 	public function testInvalidToManyValues()
 	{
 		$recordTransformation = new RecordTransformation(
@@ -91,20 +91,22 @@ class RecordTransformationTest extends TestCase
 				'integerTrafo' => new IntegerTransformation())
 		);
 
-		$result = $recordTransformation->transform(
-			array(
-				'stringTrafo' => 'hello',
-				'integerTrafo' => 1,
-				'floatTrafo' => 1
-			)
-		);
+
+		try {
+			$result = $recordTransformation->transform(
+				array(
+					'stringTrafo' => 'hello',
+					'integerTrafo' => 1,
+					'floatTrafo' => 1
+				)
+			);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \ilException
-	 */
 	public function testTransformationThrowsExceptionBecauseKeyIsNotAString()
 	{
 		$recordTransformation = new RecordTransformation(
@@ -113,7 +115,11 @@ class RecordTransformationTest extends TestCase
 				'integerTrafo' => new IntegerTransformation())
 		);
 
-		$result = $recordTransformation->transform(array('someKey' => 'hello', 1));
+		try {
+			$result = $recordTransformation->transform(array('someKey' => 'hello', 1));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

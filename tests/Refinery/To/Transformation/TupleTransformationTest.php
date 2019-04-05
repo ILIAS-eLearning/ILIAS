@@ -11,6 +11,7 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 use ILIAS\Refinery\Validation\Factory;
 use ILIAS\Tests\Refinery\TestCase;
@@ -50,9 +51,6 @@ class TupleTransformationTest extends TestCase
 		$this->assertEquals(array(1, 2), $result);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testTupleIsIncorrectAndWillThrowException()
 	{
 		$transformation = new TupleTransformation(
@@ -60,7 +58,11 @@ class TupleTransformationTest extends TestCase
 			$this->isArrayOfSameType
 		);
 
-		$result = $transformation->transform(array(1, 2));
+		try {
+			$result = $transformation->transform(array(1, 2));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
@@ -116,15 +118,17 @@ class TupleTransformationTest extends TestCase
 		$this->assertTrue($result->isError());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidTransformationWillThrowException()
 	{
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), 'hello'),
-			$this->isArrayOfSameType
-		);
+		try {
+			$transformation = new TupleTransformation(
+				array(new IntegerTransformation(), 'hello'),
+				$this->isArrayOfSameType
+			);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
+
 
 		$this->fail();
 	}

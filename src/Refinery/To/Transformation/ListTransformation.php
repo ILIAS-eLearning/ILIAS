@@ -12,6 +12,7 @@ namespace ILIAS\Refinery\To\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 
 class ListTransformation implements Transformation
@@ -38,7 +39,6 @@ class ListTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function transform($from)
 	{
@@ -46,12 +46,11 @@ class ListTransformation implements Transformation
 		foreach ($from as $value) {
 			$transformedValue = $this->transformation->transform($value);
 			if ($transformedValue !== $value) {
- 				throw new \ilException(
-					sprintf(
-						'The transformed value "%s" does not match with the original value "%s"',
-						$transformedValue,
-						$value
-					)
+				throw new ConstraintViolationException(
+					'The transformed value "%s" does not match with the original value "%s"',
+					'values_do_not_match',
+					$transformedValue,
+					$value
 				);
 			}
 			$result[] = $value;
@@ -59,7 +58,10 @@ class ListTransformation implements Transformation
 
 		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
 		if (true === $isOk) {
-			throw new \ilException('The values of the result MUST all be of the same type');
+			throw new ConstraintViolationException(
+				'The values of the result MUST all be of the same type',
+				'values_must_be_same_type'
+			);
 		}
 
 		return $result;
@@ -83,12 +85,11 @@ class ListTransformation implements Transformation
 
 			if ($transformedValue !== $value) {
 				return new Result\Error(
-					new \ilException(
-						sprintf(
-							'The transformed value "%s" does not match with the original value "%s"',
-							$transformedValue,
-							$value
-						)
+					new ConstraintViolationException(
+						'The transformed value "%s" does not match with the original value "%s"',
+						'values_do_not_match',
+						$transformedValue,
+						$value
 					)
 				);
 			}
@@ -97,7 +98,12 @@ class ListTransformation implements Transformation
 
 		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
 		if (true === $isOk) {
-			return new Result\Error(new \ilException('The values of the result MUST all be of the same type'));
+			return new Result\Error(
+				new ConstraintViolationException(
+					'The values of the result MUST all be of the same type',
+					'values_must_be_same_type'
+				)
+			);
 		}
 
 		return new Result\Ok($result);

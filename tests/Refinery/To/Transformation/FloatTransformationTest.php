@@ -11,6 +11,7 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 class FloatTransformationTest extends TestCase
@@ -25,22 +26,24 @@ class FloatTransformationTest extends TestCase
 		$this->transformation = new FloatTransformation();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testIntegerToFloatTransformation()
 	{
-		$transformedValue = $this->transformation->transform(200);
+		try {
+			$transformedValue = $this->transformation->transform(200);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testStringToFloatTransformation()
 	{
-		$transformedValue = $this->transformation->transform('hello');
+		try {
+			$transformedValue = $this->transformation->transform('hello');
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
@@ -52,22 +55,24 @@ class FloatTransformationTest extends TestCase
 		$this->assertEquals(10.5, $transformedValue);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testNegativeIntegerToFloatTransformation()
 	{
-		$transformedValue = $this->transformation->transform(-200);
+		try {
+			$transformedValue = $this->transformation->transform(-200);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testZeroIntegerToFloatTransformation()
 	{
-		$transformedValue = $this->transformation->transform(0);
+		try {
+			$transformedValue = $this->transformation->transform(0);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

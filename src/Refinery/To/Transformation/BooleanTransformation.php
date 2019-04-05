@@ -11,6 +11,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class BooleanTransformation implements Transformation
 {
@@ -20,7 +21,10 @@ class BooleanTransformation implements Transformation
 	public function transform($from)
 	{
 		if (false === is_bool($from)) {
-			throw new \InvalidArgumentException('The value MUST be of type boolean');
+			throw new ConstraintViolationException(
+				'The value MUST be of type boolean',
+				'not_boolean'
+			);
 		}
 		return (bool) $from;
 	}

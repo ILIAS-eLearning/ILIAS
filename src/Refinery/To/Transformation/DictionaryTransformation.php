@@ -11,6 +11,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 
 class DictionaryTransformation implements Transformation
@@ -42,28 +43,28 @@ class DictionaryTransformation implements Transformation
 	public function transform($from)
 	{
 		if (false === is_array($from)) {
-			throw new \InvalidArgumentException('The value MUST be an array');
+			throw new ConstraintViolationException(
+				'The value MUST be an array',
+				'not_array'
+			);
 		}
 
 		$result = array();
 		foreach ($from as $key => $value) {
 			if (false === is_string($key)) {
-				throw new \InvalidArgumentException(
-					sprintf(
-						'The key "%s" is NOT a string',
-						$key
-					)
+				throw new ConstraintViolationException(
+					'The key "%s" is NOT a string',
+					'key_is_not_a_string'
 				);
 			}
 
 			$transformedValue = $this->transformation->transform($value);
 			if ($transformedValue !== $value) {
-				throw new \ilException(
-					sprintf(
-						'The transformed value "%s" does not match with the original value "%s"',
-						$transformedValue,
-						$value
-					)
+				throw new ConstraintViolationException(
+					'The transformed value "%s" does not match with the original value "%s"',
+					'values_do_not_match',
+					$transformedValue,
+					$value
 				);
 			}
 

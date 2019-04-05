@@ -11,6 +11,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class StringTransformation implements Transformation
 {
@@ -20,7 +21,10 @@ class StringTransformation implements Transformation
 	public function transform($from)
 	{
 		if (false === is_string($from)) {
-			throw new \InvalidArgumentException('The value MUST be of type string');
+			throw new ConstraintViolationException(
+				'The value MUST be of type string',
+				'not_string'
+			);
 		}
 		return (string) $from;
 	}

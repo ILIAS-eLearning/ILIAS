@@ -13,6 +13,7 @@ use ILIAS\In\Transformation\Parallel;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -49,14 +50,15 @@ class ParallelTest extends TestCase
 		$this->assertEquals(array('hello', 'hello'), $result->value());
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function testParallelTransformationFailsBecauseOfInvalidType()
 	{
 		$parallel = new Parallel(array(new StringTransformation()));
 
-		$result = $parallel->transform(42.0);
+		try {
+			$result = $parallel->transform(42.0);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
@@ -75,16 +77,17 @@ class ParallelTest extends TestCase
 		$this->assertTrue($result->isError());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidTransformationThrowsException()
 	{
-		$parallel = new Parallel(array(
-				new StringTransformation(),
-				'this is invalid'
-			)
-		);
+		try {
+			$parallel = new Parallel(array(
+					new StringTransformation(),
+					'this is invalid'
+				)
+			);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

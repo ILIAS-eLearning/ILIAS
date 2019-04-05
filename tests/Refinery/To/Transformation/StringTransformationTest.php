@@ -11,6 +11,7 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 class StringTransformationTest extends TestCase
@@ -32,62 +33,68 @@ class StringTransformationTest extends TestCase
 		$this->assertEquals('hello', $transformedValue);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testIntegerToStringTransformation()
 	{
-		$transformedValue = $this->transformation->transform(200);
+		try {
+			$transformedValue = $this->transformation->transform(200);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testNegativeIntegerToIntegerTransformation()
 	{
-		$transformedValue = $this->transformation->transform(-200);
+		try {
+			$transformedValue = $this->transformation->transform(-200);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->assertEquals('-200', $transformedValue);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testZeroIntegerToIntegerTransformation()
 	{
-		$transformedValue = $this->transformation->transform(0);
+		try {
+			$transformedValue = $this->transformation->transform(0);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testFloatToStringTransformation()
 	{
-		$transformedValue = $this->transformation->transform(10.5);
+		try {
+			$transformedValue = $this->transformation->transform(10.5);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testPositiveBooleanToStringTransformation()
 	{
-		$transformedValue = $this->transformation->transform(true);
+		try {
+			$transformedValue = $this->transformation->transform(true);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testNegativeBooleanToStringTransformation()
 	{
-		$transformedValue = $this->transformation->transform(false);
+		try {
+			$transformedValue = $this->transformation->transform(false);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

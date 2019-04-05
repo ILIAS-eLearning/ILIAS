@@ -10,6 +10,7 @@ namespace ILIAS\Tests\Refinery\To\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Refinery\Validation\Factory;
 use ILIAS\Tests\Refinery\TestCase;
 
@@ -43,14 +44,15 @@ class ListTransformationTest extends TestCase
 		$this->assertEquals(array('hello', 'world'), $result);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testListTransformationIsInvalid()
 	{
 		$listTransformation = new ListTransformation(new StringTransformation(), $this->isArrayOfSameType);
 
-		$result = $listTransformation->transform(array('hello', 2));
+		try {
+			$result = $listTransformation->transform(array('hello', 2));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

@@ -9,6 +9,7 @@ namespace ILIAS\Tests\Refinery\To\Transformation;
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\NewMethodTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -47,22 +48,24 @@ class NewMethodTransformationTest extends TestCase
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \ilException
-	 */
 	public function testClassDoesNotExistWillThrowException()
 	{
-		$transformation = new NewMethodTransformation('BreakdanceMcFunkyPants', 'myMethod');
+		try {
+			$transformation = new NewMethodTransformation('BreakdanceMcFunkyPants', 'myMethod');
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \ilException
-	 */
 	public function testMethodDoesNotExistOnClassWillThrowException()
 	{
-		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'someMethod');
+		try {
+			$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'someMethod');
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

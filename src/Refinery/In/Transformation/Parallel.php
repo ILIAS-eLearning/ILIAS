@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace ILIAS\In\Transformation;
 
-
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class Parallel implements Transformation
 {
@@ -27,7 +27,13 @@ class Parallel implements Transformation
 	{
 		foreach ($transformations as $transformation) {
 			if (!$transformation instanceof Transformation) {
-				throw new \InvalidArgumentException(sprintf('The array MUST contain only "%s" instances', Transformation::class));
+				$transformationClassName = Transformation::class;
+
+				throw new ConstraintViolationException(
+					sprintf('The array MUST contain only "%s" instances', $transformationClassName),
+					'not_a_transformation',
+					$transformationClassName
+				);
 			}
 		}
 		$this->transformationStrategies = $transformations;

@@ -10,6 +10,7 @@ namespace ILIAS\Tests\Refinery\To\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Refinery\Validation\Factory;
 use ILIAS\Tests\Refinery\TestCase;
 
@@ -46,38 +47,41 @@ class DictionaryTransformationTest extends TestCase
 		$this->assertEquals(array('hello' => 'world'), $result);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
 	{
 		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
-		$result = $transformation->transform(array('world'));
+		try {
+			$result = $transformation->transform(array('world'));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testDictionaryTransformationInvalidBecauseValueIsNotAString()
 	{
 		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
-		$result = $transformation->transform(array('hello' => 1));
+		try {
+			$result = $transformation->transform(array('hello' => 1));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException()
 	{
 		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
 
-		$result = $transformation->transform(1);
+		try {
+			$result = $transformation->transform(1);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

@@ -11,6 +11,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class FloatTransformation implements Transformation
 {
@@ -20,8 +21,10 @@ class FloatTransformation implements Transformation
 	public function transform($from)
 	{
 		if (false === is_float($from)) {
-			throw new \InvalidArgumentException('The value MUST be of type float');
-		}
+			throw new ConstraintViolationException(
+				'The value MUST be of type float',
+				'not_float'
+			);		}
 		return (float) $from;
 	}
 

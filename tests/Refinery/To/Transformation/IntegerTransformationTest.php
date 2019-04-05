@@ -11,6 +11,7 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 class IntegerTransformationTest extends TestCase
@@ -46,42 +47,46 @@ class IntegerTransformationTest extends TestCase
 		$this->assertEquals(0, $transformedValue);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testStringToIntegerTransformation()
 	{
-		$transformedValue = $this->transformation->transform('hello');
+		try {
+			$transformedValue = $this->transformation->transform('hello');
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testFloatToIntegerTransformation()
 	{
-		$transformedValue = $this->transformation->transform(10.5);
+		try {
+			$transformedValue = $this->transformation->transform(10.5);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testPositiveBooleanToIntegerTransformation()
 	{
-		$transformedValue = $this->transformation->transform(true);
+		try {
+			$transformedValue = $this->transformation->transform(true);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testNegativeBooleanToIntegerTransformation()
 	{
-		$transformedValue = $this->transformation->transform(false);
+		try {
+			$transformedValue = $this->transformation->transform(false);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

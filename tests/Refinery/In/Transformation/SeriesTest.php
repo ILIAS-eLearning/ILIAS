@@ -11,6 +11,7 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\In\Transformation\Series;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -38,9 +39,6 @@ class SeriesTest extends TestCase
 		$this->assertEquals('hello', $result->value());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testSeriesTransformationFails()
 	{
 		$series = new Series(array(
@@ -48,9 +46,13 @@ class SeriesTest extends TestCase
 			new StringTransformation()
 		));
 
-		$result = $series->transform(42.0);
+		try {
+			$result = $series->transform(42.0);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
-		$this->assertEquals('42', $result);
+		$this->fail();
 	}
 
 
@@ -69,16 +71,17 @@ class SeriesTest extends TestCase
 		$this->assertTrue($result->isError());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidTransformationThrowsException()
 	{
-		$parallel = new Series(array(
-				new StringTransformation(),
-				'this is invalid'
-			)
-		);
+		try {
+			$parallel = new Series(array(
+					new StringTransformation(),
+					'this is invalid'
+				)
+			);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

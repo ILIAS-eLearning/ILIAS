@@ -11,7 +11,9 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
+use JaimePerez\TwigConfigurableI18n\Twig\Extensions\Node\Trans;
 
 class TupleTransformation implements Transformation
 {
@@ -33,7 +35,13 @@ class TupleTransformation implements Transformation
 	{
 		foreach ($transformations as $transformation) {
 			if (!$transformation instanceof Transformation) {
-				throw new \InvalidArgumentException(sprintf('The array element MUST be of type transformation "%s', Transformation::class));
+				$transformationClassName = Transformation::class;
+
+				throw new ConstraintViolationException(
+					sprintf('The array MUST contain only "%s" instances', $transformationClassName),
+					'not_a_transformation',
+					$transformationClassName
+				);
 			}
 		}
 
@@ -55,12 +63,11 @@ class TupleTransformation implements Transformation
 			$transformedValue = $this->transformations[$key]->transform($transformedValue);
 
 			if ($value !== $transformedValue) {
-				throw new \ilException(
-					sprintf(
-						'The origin value "%s" and transformed value "%s" are not strictly equal',
-						$value,
-						$transformedValue
-					)
+				throw new ConstraintViolationException(
+					'The transformed value "%s" does not match with the original value "%s"',
+					'values_do_not_match',
+					$transformedValue,
+					$value
 				);
 			}
 
@@ -69,7 +76,10 @@ class TupleTransformation implements Transformation
 
 		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
 		if (false === $isOk) {
-			throw new \ilException('The values of the result MUST all be of the same type');
+			throw new ConstraintViolationException(
+				'The values of the result MUST all be of the same type',
+				'values_must_be_same_type'
+			);
 		}
 
 		return $result;
@@ -92,11 +102,13 @@ class TupleTransformation implements Transformation
 		foreach ($dataValue as $key => $value) {
 			if (false === array_key_exists($key, $this->transformations)) {
 				return new Result\Error(
-					new \ilException(
+					new ConstraintViolationException(
 						sprintf(
 							'There is no entry "%s" defined in the transformation array',
 							$key
-						)
+						),
+						'values_do_not_match',
+						$key
 					)
 				);
 			}
@@ -111,12 +123,11 @@ class TupleTransformation implements Transformation
 
 			if ($value !== $transformedValue) {
 				return new Result\Error(
-					new \ilException(
-						sprintf(
-							'The origin value "%s" and transformed value "%s" are not strictly equal',
-							$value,
-							$transformedValue
-						)
+					new ConstraintViolationException(
+						'The transformed value "%s" does not match with the original value "%s"',
+						'values_do_not_match',
+						$transformedValue,
+						$value
 					)
 				);
 			}
@@ -127,7 +138,12 @@ class TupleTransformation implements Transformation
 
 		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
 		if (false === $isOk) {
-			return new Result\Error(new \ilException('The values of the result MUST all be of the same type'));
+			return new Result\Error(
+				new ConstraintViolationException(
+					'The values of the result MUST all be of the same type',
+					'values_must_be_same_type'
+				)
+			);
 		}
 
 		return new Result\Ok($result);
