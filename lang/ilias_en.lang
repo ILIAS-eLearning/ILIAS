@@ -15063,3 +15063,11 @@ pd#:#block_show_pdtasks#:#Show Tasks
 exc#:#exc_task_submission#:#Submission of Assignment "%1"
 exc#:#exc_task_grading#:#Grading of Assignment "%1"
 exc#:#exc_task_peer_feedback#:#Give Peer Feedback in Assignment "%1"
+content#:#cont_Attention#:#Attention
+content#:#cont_Confirmation#:#Confirmation
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literature
+content#:#cont_Separator#:#Separator
+content#:#cont_StandardCenter#:#Standard Center
+content#:#cont_Interaction#:#Interaction

@@ -15064,3 +15064,11 @@ pd#:#block_show_pdtasks#:#To-Do anzeigen
 exc#:#exc_task_submission#:#Abgabe zur Übungseinheit "%1"
 exc#:#exc_task_grading#:#Bewertung der Übungseinheit "%1"
 exc#:#exc_task_peer_feedback#:#Peer-Feedback geben in Übungseinheit "%1"
+content#:#cont_Attention#:#Achtung
+content#:#cont_Confirmation#:#Bestätigung
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literatur
+content#:#cont_Separator#:#Begrenzer
+content#:#cont_StandardCenter#:#Standard Zentriert
+content#:#cont_Interaction#:#Interaktion
