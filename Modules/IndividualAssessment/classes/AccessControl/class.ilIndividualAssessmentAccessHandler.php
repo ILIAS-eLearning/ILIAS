@@ -205,6 +205,36 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	}
 
 	/**
+	 * Filter out users that may be graded or viewed.
+	 *
+	 * @param	int[] $a_user_ids
+	 * @return	int[] $a_user_ids
+	 */
+	public function filterViewableOrGradeableUsers(array $a_user_ids) : array
+	{
+		$usr_id = $this->usr->getId();
+		$obj_id = $this->iass->getId();
+		$ref_id = $this->iass->getRefId();
+		if (
+			$this->handler->checkAccessOfUser($usr_id, "edit_members", '', $ref_id, 'iass')
+			|| $this->handler->checkAccessOfUser($usr_id, "read_learning_progress", '', $ref_id, 'iass')
+			|| $this->handler->checkAccessOfUser($usr_id, "write_learning_progress", '', $ref_id, 'iass')
+		) {
+			return $a_user_ids;
+		}
+
+		$orgu_settings = ilOrgUnitGlobalSettings::getInstance();
+		if (!$orgu_settings->isPositionAccessActiveForObject($obj_id)) {
+			return [];
+		}
+
+		$viewable_users = $this->handler->filterUserIdsByPositionOfCurrentUser("read_learning_progress", $ref_id, $a_user_ids);
+		$gradeable_users = $this->handler->filterUserIdsByPositionOfCurrentUser("write_learning_progress", $ref_id, $a_user_ids);
+
+		return array_unique(array_merge($viewable_users, $gradeable_users));
+	}
+
+	/**
 	 * User may Amend grading
 	 *
 	 * @param bool	$use_cache
