@@ -26,21 +26,6 @@ class SeriesTest extends TestCase
 		$this->assertEquals('hello', $result);
 	}
 
-	public function testSeriesTransformationWithKindlyToTransformations()
-	{
-		$series = new Series(
-			array(
-				new \ILIAS\Refinery\KindlyTo\Transformation\FloatTransformation(),
-				new \ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation(),
-				new \ILIAS\Refinery\KindlyTo\Transformation\StringTransformation()
-			)
-		);
-
-		$result = $series->transform(42.3);
-
-		$this->assertEquals('42', $result);
-	}
-
 	public function testSeriesApplyTo()
 	{
 		$series = new Series(array(
@@ -52,22 +37,6 @@ class SeriesTest extends TestCase
 
 		$this->assertEquals('hello', $result->value());
 	}
-
-	public function testSeriesApplyToWithKindlyToTransformations()
-	{
-		$series = new Series(
-			array(
-				new \ILIAS\Refinery\KindlyTo\Transformation\FloatTransformation(),
-				new \ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation(),
-				new \ILIAS\Refinery\KindlyTo\Transformation\StringTransformation()
-			)
-		);
-
-		$result = $series->applyTo(new Ok(42.3));
-
-		$this->assertEquals('42', $result->value());
-	}
-
 
 	/**
 	 * @expectedException \InvalidArgumentException

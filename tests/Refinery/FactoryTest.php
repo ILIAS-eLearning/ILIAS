@@ -44,11 +44,4 @@ class FactoryTest extends TestCase
 
 		$this->assertInstanceOf(\ILIAS\Refinery\In\Group::class, $group);
 	}
-
-	public function testCreateKindlyToGroup()
-	{
-		$group = $this->basicFactory->kindlyTo();
-
-		$this->assertInstanceOf(\ILIAS\Refinery\KindlyTo\Group::class, $group);
-	}
 }

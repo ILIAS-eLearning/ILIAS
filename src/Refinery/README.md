@@ -13,9 +13,6 @@ processed by the ILIAS project.
         * [to](#to)
           + [Natives](#natives)
           + [Structures](#structures)
-        * [kindlyTo](#kindlyto)
-          + [Natives](#natives-1)
-          + [Structures](#structures-1)
         * [in](#in)
           + [series](#series)
           + [parallel](#parallel)
@@ -50,19 +47,19 @@ $refinery = $DIC->refinery();
 
 $transformation = $refinery->in()->series(
     array(
-        new Refinery\KindlyTo\IntegerTransformation(),
-        new Refinery\KindlyTo\StringTransformation()
+        new Refinery\To\IntegerTransformation(),
+        new Refinery\To\IntegerTransformation()
     )
 );
 
-$result = $transformation->transform(5.5);
+$result = $transformation->transform(5);
 
 $data = $refinery->data('alphanumeric')->transform(array($result));
 
 echo $data->getData();
 ```
 
-The output will be a `string` value: `'5'` 
+The output will be a `integer` value: `5` 
 
 ## Usage
 
@@ -84,7 +81,7 @@ via the `ILIAS Dependency Injection Container(DIC)`.
 global $DIC;
 
 $refinery = $DIC->refinery();
-$transformation = $refinery->kindlyTo()->string();
+$transformation = $refinery->to()->string();
 // ...
 ```
 
@@ -186,84 +183,6 @@ transformation to create structures like `list`, `dictonary`,
                  parameters on the objects.
 * `data()`     - Returns a data factory to create a certain data type
 
-##### kindlyTo
-
-The `kindlyTo` group consists of combined validations and transformations
-for native data types that establish a baseline for further constraints
-and more complex transformations.
-
-A concrete implementation for the `Refinery\KindlyTo\Group` interface
-is the `Refinery\KindlyTo\BasicGroup`.
-
-The `kindlyTo` is more tolerant version of the [to group](#to).
-Transformations from the `kindlyTo` group will try to convert these e.g.
-an `KindlyTo\Transformation\IntegerTransformation` will always try to transform
-the input.
-
-```php
-$transformation = $refinery->kindlyTo()->int()
-
-$result = $transformation->transform(3.5); // $result => 3;
-$result = $transformation->transform('hello'); // $result => 0;
-$result = $transformation->transform(10); // $result => 10
-```
-
-The above example will always try to convert the given values
-with the `KindlyTo\Transformation\IntegerTransformation` into an integer.
-The casting of native values into another is based on the
-[PHP default behavior for type casting](http://php.net/manual/de/language.types.type-juggling.php)
-In comparision with the `to` group equivalent this method tries to convert
-all kinds of values.
-
-To avoid exception handling the `applyTo` method can be used instead.
-Find out more about the `applyTo` method of instances of the `Transformation`
-interface in the
-[README about Transformations](/src/Refinery/Transformation/README.md).
-
-###### Natives
-
-As seen in the example of the [previous chapter](#to)
-there are transformations which cover the native data
-types of PHP (`int`, `string`, `float` and `boolean`).
-
-* `string()`   - Returns an object that allows to transform a value to a string value.
-* `int()`      - Returns an object that allows to transform a value to a integer value.
-* `float()`    - Returns an object that allows to transform a value to a float value.
-* `bool()`     - Returns an object that allows to transform a value to a boolean value.
-
-###### Structures
-
-Beside the [native transformations](#natives) there also
-transformation to create structures like `list`, `dictonary`,
-`record` and `tuple`.
-
-* `listOf()`   - Returns an object that allows to transform an value in a given array
-                 with the given transformation object.
-                 The transformation will be executed on every element of the array.
-* `dictOf()`   - Returns an object that allows to transform an value in a given array
-                 with the given transformation object.
-                 The transformation will be executed on every element of the array.
-* `tupleOf()`  - Returns an object that allows to transform the values of an array
-                 with the given array of transformations objects.
-                 The length of the array of transformations MUST be identical to the
-                 array of values to transform.
-                 The keys of the transformation array will be the same as the key
-                 from the value array e.g. Transformation on position 2 will transform
-                 value on position 2 of the value array.
-* `recordOf()` - Returns an object that allows to transform the values of an
-                 associative array with the given associative array of
-                 transformations objects.
-                 The length of the array of transformations MUST be identical to the
-                 array of values to transform.
-                 The keys of the transformation array will be the same as the key
-                 from the value array e.g. Transformation with the key "hello" will transform
-                 value with the key "hello" of the value array.
-* `toNew()`    - Returns either an transformation object to create objects of an
-                 existing class, with variations of constructor parameters OR returns
-                 an transformation object to execute a certain method with variation of
-                 parameters on the objects.
-* `data()`     - Returns a data factory to create a certain data type
-
 ##### in
 
 The `in` group is a group with a dict of `Transformations`
@@ -286,8 +205,8 @@ performs them one after another on the result of the previous transformation.
 ```php
 $transformation = $refinery->in()->series(
     array(
-        new Refinery\KindlyTo\IntegerTransformation(),
-        new Refinery\KindlyTo\StringTransformation()
+        new Refinery\To\IntegerTransformation(),
+        new Refinery\To\StringTransformation()
     )
 );
 
@@ -308,13 +227,13 @@ performs each on the input value to form a tuple of the results.
 ```php
 $transformation = $refinery->in()->parallel(
     array(
-        new Refinery\KindlyTo\IntegerTransformation(),
-        new Refinery\KindlyTo\StringTransformation()
+        new Refinery\To\IntegerTransformation(),
+        new Refinery\To\IntegerTransformation()
     )
 );
 
-$result = $transformation->transform(5.5);
-// $result => array(5, '5.5')
+$result = $transformation->transform(5);
+// $result => array(5, 5)
 ```
 
 The result will be an array of results of each transformation.

@@ -50,18 +50,4 @@ class Factory
 	{
 		return new In\Group();
 	}
-
-	/**
-	 * Combined validations and transformations for primitive data types that
-	 * establish a baseline for further constraints and more complex transformations
-	 *
-	 * Offers the same transformations like **to** but will be more
-	 * forgiving regarding the input
-	 *
-	 * @return KindlyTo\Group
-	 */
-	public function kindlyTo(): KindlyTo\Group
-	{
-		return new KindlyTo\Group();
-	}
 }
