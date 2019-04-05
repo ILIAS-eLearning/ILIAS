@@ -1988,4 +1988,19 @@ class ilGlobalTemplate
 	{
 		return $this->template->blockExists($a_blockname);
 	}
+
+	public function getJSFiles(): array
+	{
+		return $this->js_files_batch;
+	}
+
+	public function getCSSFiles(): array
+	{
+		return $this->css_files;
+	}
+
+	public function getInlineCSS(): array
+	{
+		return $this->inline_css;
+	}
 }

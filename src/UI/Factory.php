@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI;
 
+use \ILIAS\UI\Component as C;
+
 /**
  * This is how the factory for UI elements looks. This should provide access
  * to all UI elements at some point.
@@ -759,5 +761,48 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\MessageBox\Factory
 	 */
 	public function messageBox();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Layout components are compontents used for the overall construction of
+	 *       the user interface. They assign places to certain components and thus
+	 *       provide a learnable structure where similar things are found in similar
+	 *       locations throughout the system. In ultimo, the page itself is included here.
+	 *
+	 *       Since Layout components carry - due to their nature - certain structural
+	 *       decisions, they are also about the "where" of elements as opposed to
+	 *       the exclusive "what" in many other components.
+	 *
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Layout\Factory
+	 */
+	public function layout(): C\Layout\Factory;
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Main Controls are components that are always usable, depending only
+	 *       on overall configuration or roles of the user, not depending on the
+	 *       current content. Main Controls provide global navigation in the app
+	 *       and information about the app.
+	 *
+	 *   rivals:
+	 *     View Controls: >
+	 *       View Controls are used to change the visualisation of some set of
+	 *       data within a component.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Main Controls MUST NOT change the state of entities in the system.
+	 *
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\MainControls\Factory
+	 */
+	public function mainControls(): C\MainControls\Factory;
 
 }

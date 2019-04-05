@@ -13,28 +13,15 @@ use \ILIAS\UI\Implementation as I;
 abstract class ModalBase extends ILIAS_UI_TestBase {
 
 	public function getUIFactory() {
-		return new \ILIAS\UI\Implementation\Factory(
-			new I\Component\Counter\Factory(),
-			$this->createMock(C\Glyph\Factory::class),
-			$this->createMock(C\Button\Factory::class),
-			$this->createMock(C\Listing\Factory::class),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			$this->createMock(C\Dropdown\Factory::class),
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
-		);
+		$factory = new class extends NoUIFactory {
+			public function counter() {
+				return new I\Component\Counter\Factory();
+			}
+			public function legacy($content) {
+				return new I\Component\Legacy\Legacy($content);
+			}
+		};
+		return $factory;
 	}
 
 	protected function getModalFactory() {

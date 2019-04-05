@@ -112,6 +112,17 @@ class Factory implements \ILIAS\UI\Factory
      */
     protected $messagebox_factory;
 
+    /**
+     * @var Component\Layout\Factory
+     */
+    protected $layout_factory;
+
+    /**
+     * @var Component\MainControls\Factory
+     */
+    protected $maincontrols_factory;
+
+
 	public function __construct(
 		C\Counter\Factory $counter_factory,
 		C\Glyph\Factory $glyph_factory,
@@ -132,7 +143,9 @@ class Factory implements \ILIAS\UI\Factory
 		C\Input\Factory $input_factory,
 		C\Table\Factory $table_factory,
 		C\MessageBox\Factory $messagebox_factory,
-		C\Card\Factory $card_factory
+		C\Card\Factory $card_factory,
+		C\Layout\Factory $layout_factory,
+		C\MainControls\Factory $maincontrols_factory
 	) {
 		$this->counter_factory = $counter_factory;
 		$this->glyph_factory = $glyph_factory;
@@ -154,6 +167,8 @@ class Factory implements \ILIAS\UI\Factory
 		$this->table_factory = $table_factory;
 		$this->messagebox_factory = $messagebox_factory;
 		$this->card_factory = $card_factory;
+		$this->layout_factory = $layout_factory;
+		$this->maincontrols_factory = $maincontrols_factory;
 	}
 
 	/**
@@ -338,5 +353,21 @@ class Factory implements \ILIAS\UI\Factory
 	public function messageBox()
 	{
         return $this->messagebox_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function layout(): C\Layout\Factory
+	{
+		return $this->layout_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function mainControls(): C\MainControls\Factory
+	{
+		return $this->maincontrols_factory;
 	}
 }
