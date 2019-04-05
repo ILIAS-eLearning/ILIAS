@@ -10,17 +10,17 @@ class Factory implements IMenu\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function drilldown(string $label, $icon_or_glyph = null): IMenu\Drilldown
+	public function drilldown($label, array $items): IMenu\Drilldown
 	{
-		return new Drilldown($this, $label, $icon_or_glyph);
+		return new Drilldown($label, $items);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function sub(string $label, $icon_or_glyph = null): IMenu\Sub
+	public function sub($label, array $items): IMenu\Sub
 	{
-		return new Sub($label, $icon_or_glyph);
+		return new Sub($label, $items);
 	}
 
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Menu;
 
+use ILIAS\UI\Component;
 use ILIAS\UI\Component\Menu as IMenu;
 
 /**
@@ -23,5 +24,19 @@ abstract class Menu implements IMenu\Menu
 	public function getItems(): array
 	{
 		return $this->items;
+	}
+
+
+	/**
+	 * @param array	$items
+	 */
+	protected function checkItemParameter(array $items)
+	{
+		$classes = [
+			Sub::class,
+			Component\Clickable::class,
+			Component\Divider\Horizontal::class
+		];
+		$this->checkArgListElements("items", $items, $classes);
 	}
 }

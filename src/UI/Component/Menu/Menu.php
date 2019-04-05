@@ -16,4 +16,5 @@ interface Menu extends Component
 	 * @return Component[]
 	 */
 	public function getItems(): array;
+
 }

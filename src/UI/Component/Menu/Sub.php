@@ -11,37 +11,11 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes a Submenu, i.e. an item for a menu providing further items.
  */
-interface Sub extends Menu, JavaScriptBindable
+interface Sub extends LabeledMenu, JavaScriptBindable
 {
-	/**
-	 * Get the label for this level.
-	 */
-	public function getLabel(): string;
 
 	/**
-	 * @return Icon|Glyph|null
-	 */
-	public function getIconOrGlyph();
-
-	/**
-	 * Get the Entries of this level.
-	 */
-	public function getEntries(): array;
-
-	/**
-	 * Set entries of this Submenu.
-	 * @param array<Button|Submenu> 	$entries
-	 */
-	public function withEntries(array $entries): Sub;
-
-	/**
-	 * Add an entry to the level.
-	 * @param Button|Submenu 	$entry
-	 */
-	public function withAdditionalEntry($entry): Sub;
-
-	/**
-	 * Configure this Submenu to be active when the drilldown is loaded.
+	 * Configure this Submenu to be active when the menu is loaded.
 	 */
 	public function withInitiallyActive(): Sub;
 

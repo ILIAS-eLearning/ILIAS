@@ -13,25 +13,5 @@ use ILIAS\UI\Component\JavaScriptBindable;
  */
 interface Drilldown extends Menu, JavaScriptBindable
 {
-	/**
-	 * Get the label for the root-level of Drilldown.
-	 */
-	public function getLabel(): string;
 
-	/**
-	 * @return Icon|Glyph|null
-	 */
-	public function getIconOrGlyph();
-
-	/**
-	 * Set entries of this Menu.
-	 * @param array<Button|Submenu> 	$entries
-	 */
-	public function withEntries(array $entries): Drilldown;
-
-	/**
-	 * Add an entry to the Drilldown.
-	 * @param Button|Submenu 	$entry
-	 */
-	public function withAdditionalEntry($entry): Drilldown;
 }

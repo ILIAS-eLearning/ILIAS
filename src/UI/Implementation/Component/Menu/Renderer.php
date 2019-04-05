@@ -17,65 +17,82 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
+		$html = $this->renderMenu($component, $default_renderer);
+
 		if ($component instanceof Menu\Drilldown) {
 			$tpl_name = "tpl.drilldown.html";
 			$tpl = $this->getTemplate($tpl_name, true, true);
+			$tpl->setVariable('DRILLDOWN', $html);
 
 			$component = $component->withAdditionalOnLoadCode(function ($id) {
 				return "il.UI.menu.drilldown.init('$id');";
 			});
+			$id = $this->bindJavaScript($component);
+			$tpl->setVariable("ID", $id);
 
-			$tpl->setVariable('ENTRIES', $default_renderer->render($component->getEntries()));
-
-		} else if ($component instanceof Menu\Sub) {
-			$tpl_name = "tpl.drilldown_entry.html";
-			$tpl = $this->getTemplate($tpl_name, true, true);
-
-			if($component->isInitiallyActive()) {
-				$component = $component->withAdditionalOnLoadCode(function ($id) {
-					return "$(document).ready(function(){ il.UI.menu.drilldown.setActiveById('{$id}');});";
-				});
-
-			} else {
-				$component = $component->withAdditionalOnLoadCode(function ($id) {
-					return '';
-				});
-			}
-
-			$icon = $component->getIconOrGlyph();
-			$label = $component->getLabel();
-			$button_factory = $this->getUIFactory()->button();
-			if(is_null($icon)) {
-				$entry_button = $button_factory->shy($label, '');
-			} else {
-				$entry_button = $button_factory->bulky($icon, $label, '');
-			}
-
-			$tpl->setVariable('ENTRY', $default_renderer->render($entry_button));
-
-			$entries = $component->getEntries();
-			if(count($entries) > 0) {
-				foreach ($entries as $entry) {
-					if($entry instanceof Drilldown\Level) {
-						$entry_html = $default_renderer->render($entry);
-					} else {
-						$temp_tpl = $this->getTemplate('tpl.drilldown_entry_wrapper.html', true, true);
-						$temp_tpl->setVariable('ENTRY', $default_renderer->render($entry));
-						$entry_html = $temp_tpl->get();
-					}
-
-					$tpl->setCurrentBlock('subentry');
-					$tpl->setVariable('SUBENTRY', $entry_html);
-					$tpl->parseCurrentBlock();
-				}
-			}
+			return $tpl->get();
 		}
 
+		return $html;
+	}
+
+	protected function renderMenu(
+		Menu\Menu $component,
+		RendererInterface $default_renderer
+	): string {
+		$tpl_name = "tpl.menuitem.html";
+		$tpl = $this->getTemplate($tpl_name, true, true);
+
+		$label = $this->maybeConvertLabelToShy($component->getLabel());
+		$tpl->setVariable('LABEL', $default_renderer->render($label));
+
+		/*if($component->isInitiallyActive()) {
+			$component = $component->withAdditionalOnLoadCode(function ($id) {
+				return "$(document).ready(function(){ il.UI.drilldown.setActiveById('{$id}');});";
+			});
+
+		} else {
+		}
+		*/
+		$component = $component->withAdditionalOnLoadCode(function ($id) {return '';});
 		$id = $this->bindJavaScript($component);
 		$tpl->setVariable("ID", $id);
 
+		foreach($component->getItems() as $subitem) {
+			if($subitem instanceof Menu\Menu) {
+				$html = $default_renderer->render($subitem);
+			} else {
+				$html = $this->wrapMenuEntry($subitem, $default_renderer);
+			}
+			$tpl->setCurrentBlock('subitems');
+			$tpl->setVariable('SUBITEMS', $html);
+			$tpl->parseCurrentBlock();
+		}
+
 		return $tpl->get();
 	}
+
+	protected function wrapMenuEntry(
+		Component\Component $component,
+		RendererInterface $default_renderer
+	): string {
+		$tpl_name = "tpl.menuitem.html";
+		$tpl = $this->getTemplate($tpl_name, true, true);
+
+		$label = $default_renderer->render($component);
+		$tpl->setVariable('LABEL', $label);
+		return $tpl->get();
+	}
+
+
+	protected function maybeConvertLabelToShy($label): Component\Clickable
+	{
+		if(is_string($label)) {
+			$label = $this->getUIFactory()->button()->shy($label, '');
+		}
+		return $label;
+	}
+
 
 	/**
 	 * @inheritdoc
@@ -89,8 +106,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			Menu\Drilldown::class,
-			Menu\Sub::class
+			Menu\Menu::class
 		);
 	}
 }

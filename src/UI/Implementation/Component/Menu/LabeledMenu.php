@@ -10,10 +10,12 @@ use ILIAS\UI\Component\Menu as IMenu;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
- * Basic Menu Control with a Label
+ * Basic Menu Control with a label
  */
 abstract class LabeledMenu extends Menu implements IMenu\LabeledMenu
 {
+	use ComponentHelper;
+
 	/**
 	 * @var Component | string
 	 */
@@ -32,12 +34,19 @@ abstract class LabeledMenu extends Menu implements IMenu\LabeledMenu
 	 */
 	public function withLabel($label): IMenu\LabeledMenu
 	{
-		$classes = [Component\Clickable::class, \string::class];
-		$check = [$label];
-		$this->checkArgListElements("label", $check, $classes);
-
+		$this->checkLabelParameter($label);
 		$clone = clone $this;
 		$clone->label = $label;
 		return $clone;
+	}
+
+	/**
+	 * @param Component\Clickable | string 	$label
+	 */
+	protected function checkLabelParameter($label)
+	{
+		$classes = [Component\Clickable::class, \string::class];
+		$check = [$label];
+		$this->checkArgListElements("label", $check, $classes);
 	}
 }

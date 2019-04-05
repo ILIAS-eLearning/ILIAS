@@ -45,7 +45,7 @@ interface Factory
 	 * @param 	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
 	 * @return 	\ILIAS\UI\Component\Menu\Drilldown
 	 */
-	public function drilldown(string $label, $icon_or_glyph = null): Drilldown;
+	public function drilldown($label, array $items): Drilldown;
 
 
 	/**
@@ -82,6 +82,6 @@ interface Factory
 	 * @param 	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
 	 * @return 	\ILIAS\UI\Component\Menu\Sub
 	 */
-	public function sub(string $label, $icon_or_glyph = null): Sub;
+	public function sub($label, array $items): Sub;
 
 }
