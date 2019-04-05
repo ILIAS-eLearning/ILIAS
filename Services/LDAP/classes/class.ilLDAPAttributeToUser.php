@@ -391,12 +391,12 @@ class ilLDAPAttributeToUser
 						// Handle user defined fields
 						if(substr($field,0,4) != 'udf_')
 						{
-							continue;
+							continue 2;
 						}
 						$id_data = explode('_',$field);
 						if(!isset($id_data[1]))
 						{
-							continue;
+							continue 2;
 						}
 						$this->initUserDefinedFields();
 						$definition = $this->udf->getDefinition($id_data[1]);
