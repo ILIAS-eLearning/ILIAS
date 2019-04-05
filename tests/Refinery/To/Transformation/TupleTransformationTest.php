@@ -21,29 +21,12 @@ require_once('./libs/composer/vendor/autoload.php');
 class TupleTransformationTest extends TestCase
 {
 	/**
-	 * @var IsArrayOfSameType
-	 */
-	private $isArrayOfSameType;
-
-	public function setUp()
-	{
-		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dataFactory = new \ILIAS\Data\Factory();
-
-		$validationFactory = new Factory($dataFactory, $language);
-		$this->isArrayOfSameType = $validationFactory->isArrayOfSameType();
-	}
-	/**
 	 * @throws \ilException
 	 */
 	public function testTupleTransformationsAreCorrect()
 	{
 		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new IntegerTransformation()),
-			$this->isArrayOfSameType
+			array(new IntegerTransformation(), new IntegerTransformation())
 		);
 
 		$result = $transformation->transform(array(1, 2));
@@ -54,8 +37,7 @@ class TupleTransformationTest extends TestCase
 	public function testTupleIsIncorrectAndWillThrowException()
 	{
 		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new StringTransformation()),
-			$this->isArrayOfSameType
+			array(new IntegerTransformation(), new StringTransformation())
 		);
 
 		try {
@@ -73,8 +55,7 @@ class TupleTransformationTest extends TestCase
 	public function testToManyValuesForTransformation()
 	{
 		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new IntegerTransformation()),
-			$this->isArrayOfSameType
+			array(new IntegerTransformation(), new IntegerTransformation())
 		);
 
 		$result = $transformation->transform(array(1, 2, 3));
@@ -85,8 +66,7 @@ class TupleTransformationTest extends TestCase
 	public function testTupleAppliesAreCorrect()
 	{
 		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new IntegerTransformation()),
-			$this->isArrayOfSameType
+			array(new IntegerTransformation(), new IntegerTransformation())
 		);
 
 		$result = $transformation->applyTo(new Result\Ok(array(1, 2)));
@@ -97,8 +77,7 @@ class TupleTransformationTest extends TestCase
 	public function testTupleAppliesAreIncorrectAndWillReturnErrorResult()
 	{
 		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new StringTransformation()),
-			$this->isArrayOfSameType
+			array(new IntegerTransformation(), new StringTransformation())
 		);
 
 		$result = $transformation->applyTo(new Result\Ok(array(1, 2)));
@@ -109,8 +88,7 @@ class TupleTransformationTest extends TestCase
 	public function testToManyValuesForApply()
 	{
 		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new StringTransformation()),
-			$this->isArrayOfSameType
+			array(new IntegerTransformation(), new StringTransformation())
 		);
 
 		$result = $transformation->applyTo(new Result\Ok(array(1, 2, 3)));
@@ -122,8 +100,7 @@ class TupleTransformationTest extends TestCase
 	{
 		try {
 			$transformation = new TupleTransformation(
-				array(new IntegerTransformation(), 'hello'),
-				$this->isArrayOfSameType
+				array(new IntegerTransformation(), 'hello')
 			);
 		} catch (ConstraintViolationException $exception) {
 			return;

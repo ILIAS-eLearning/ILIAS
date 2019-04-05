@@ -21,14 +21,7 @@ class FactoryTest extends TestCase
 
 	public function setUp()
 	{
-		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dataFactory = new \ILIAS\Data\Factory();
-
-		$validationFactory = new \ILIAS\Refinery\Validation\Factory($dataFactory, $language);
-		$this->basicFactory = new Factory($validationFactory);
+		$this->basicFactory = new Factory();
 	}
 
 	public function testCreateToGroup()

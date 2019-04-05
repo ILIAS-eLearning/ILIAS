@@ -22,23 +22,15 @@ class DictionaryTransformation implements Transformation
 	private $transformation;
 
 	/**
-	 * @var IsArrayOfSameType
-	 */
-	private $validation;
-
-	/**
 	 * @param Transformation $transformation
-	 * @param IsArrayOfSameType $arraySameTypeValidation
 	 */
-	public function __construct(Transformation $transformation, IsArrayOfSameType $arraySameTypeValidation)
+	public function __construct(Transformation $transformation)
 	{
 		$this->transformation = $transformation;
-		$this->validation = $arraySameTypeValidation;
 	}
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function transform($from)
 	{
@@ -59,21 +51,7 @@ class DictionaryTransformation implements Transformation
 			}
 
 			$transformedValue = $this->transformation->transform($value);
-			if ($transformedValue !== $value) {
-				throw new ConstraintViolationException(
-					'The transformed value "%s" does not match with the original value "%s"',
-					'values_do_not_match',
-					$transformedValue,
-					$value
-				);
-			}
-
-			$result[$key] = $value;
-		}
-
-		$isOk = $this->validation->applyTo(new Result\Ok($result));
-		if (false === $isOk) {
-			throw new \ilException('The values of the result MUST all be of the same type');
+			$result[$key] = $transformedValue;
 		}
 
 		return $result;
@@ -107,23 +85,9 @@ class DictionaryTransformation implements Transformation
 			}
 
 			$transformedValue = $resultObject->value();
-
-			if ($transformedValue !== $value) {
-				return new Result\Error(new \ilException(
-					sprintf(
-						'The transformed value "%s" does not match with the original value "%s"',
-						$transformedValue,
-						$value
-					)
-				));
-			}
-			$result[$key] = $value;
+			$result[$key] = $transformedValue;
 		}
 
-		$isOk = $this->validation->applyTo(new Result\Ok($result));
-		if (false === $isOk) {
-			return new Result\Error((sprintf('The values of in the result are not of the same type')));
-		}
 
 		return new Result\Ok($result);
 	}

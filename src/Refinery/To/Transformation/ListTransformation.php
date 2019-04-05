@@ -23,18 +23,11 @@ class ListTransformation implements Transformation
 	private $transformation;
 
 	/**
-	 * @var IsArrayOfSameType
-	 */
-	private $arrayOfSameType;
-
-	/**
 	 * @param Transformation $transformation
-	 * @param IsArrayOfSameType $arrayOfSameType
 	 */
-	public function __construct(Transformation $transformation, IsArrayOfSameType $arrayOfSameType)
+	public function __construct(Transformation $transformation)
 	{
 		$this->transformation = $transformation;
-		$this->arrayOfSameType = $arrayOfSameType;
 	}
 
 	/**
@@ -45,23 +38,7 @@ class ListTransformation implements Transformation
 		$result = array();
 		foreach ($from as $value) {
 			$transformedValue = $this->transformation->transform($value);
-			if ($transformedValue !== $value) {
-				throw new ConstraintViolationException(
-					'The transformed value "%s" does not match with the original value "%s"',
-					'values_do_not_match',
-					$transformedValue,
-					$value
-				);
-			}
-			$result[] = $value;
-		}
-
-		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
-		if (true === $isOk) {
-			throw new ConstraintViolationException(
-				'The values of the result MUST all be of the same type',
-				'values_must_be_same_type'
-			);
+			$result[] = $transformedValue;
 		}
 
 		return $result;
@@ -82,28 +59,7 @@ class ListTransformation implements Transformation
 			}
 
 			$transformedValue = $resultObject->value();
-
-			if ($transformedValue !== $value) {
-				return new Result\Error(
-					new ConstraintViolationException(
-						'The transformed value "%s" does not match with the original value "%s"',
-						'values_do_not_match',
-						$transformedValue,
-						$value
-					)
-				);
-			}
-			$result[] = $value;
-		}
-
-		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
-		if (true === $isOk) {
-			return new Result\Error(
-				new ConstraintViolationException(
-					'The values of the result MUST all be of the same type',
-					'values_must_be_same_type'
-				)
-			);
+			$result[] = $transformedValue;
 		}
 
 		return new Result\Ok($result);
@@ -111,7 +67,6 @@ class ListTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function __invoke($from)
 	{

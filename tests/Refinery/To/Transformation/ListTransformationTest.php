@@ -18,26 +18,12 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class ListTransformationTest extends TestCase
 {
-	private $isArrayOfSameType;
-
-	public function setUp()
-	{
-		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dataFactory = new \ILIAS\Data\Factory();
-
-		$validationFactory = new Factory($dataFactory, $language);
-		$this->isArrayOfSameType = $validationFactory->isArrayOfSameType();
-	}
-
 	/**
 	 * @throws \ilException
 	 */
 	public function testListTransformationIsValid()
 	{
-		$listTransformation = new ListTransformation(new StringTransformation(), $this->isArrayOfSameType);
+		$listTransformation = new ListTransformation(new StringTransformation());
 
 		$result = $listTransformation->transform(array('hello', 'world'));
 
@@ -46,7 +32,7 @@ class ListTransformationTest extends TestCase
 
 	public function testListTransformationIsInvalid()
 	{
-		$listTransformation = new ListTransformation(new StringTransformation(), $this->isArrayOfSameType);
+		$listTransformation = new ListTransformation(new StringTransformation());
 
 		try {
 			$result = $listTransformation->transform(array('hello', 2));
@@ -59,7 +45,7 @@ class ListTransformationTest extends TestCase
 
 	public function testListApplyIsValid()
 	{
-		$listTransformation = new ListTransformation(new StringTransformation(), $this->isArrayOfSameType);
+		$listTransformation = new ListTransformation(new StringTransformation());
 
 		$result = $listTransformation->applyTo(new Ok(array('hello', 'world')));
 
@@ -69,7 +55,7 @@ class ListTransformationTest extends TestCase
 
 	public function testListApplyIsInvalid()
 	{
-		$listTransformation = new ListTransformation(new StringTransformation(), $this->isArrayOfSameType);
+		$listTransformation = new ListTransformation(new StringTransformation());
 
 		$result = $listTransformation->applyTo(new Ok(array('hello', 2)));
 

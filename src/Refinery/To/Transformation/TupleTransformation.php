@@ -23,15 +23,9 @@ class TupleTransformation implements Transformation
 	private $transformations;
 
 	/**
-	 * @var IsArrayOfSameType
-	 */
-	private $arrayOfSameType;
-
-	/**
 	 * @param array $transformations
-	 * @param IsArrayOfSameType $arrayOfSameType
 	 */
-	public function __construct(array $transformations, IsArrayOfSameType $arrayOfSameType)
+	public function __construct(array $transformations)
 	{
 		foreach ($transformations as $transformation) {
 			if (!$transformation instanceof Transformation) {
@@ -46,7 +40,6 @@ class TupleTransformation implements Transformation
 		}
 
 		$this->transformations = $transformations;
-		$this->arrayOfSameType = $arrayOfSameType;
 	}
 
 	/**
@@ -59,27 +52,9 @@ class TupleTransformation implements Transformation
 
 		$result = array();
 		foreach ($from as $key => $value) {
-			$transformedValue = $value;
-			$transformedValue = $this->transformations[$key]->transform($transformedValue);
-
-			if ($value !== $transformedValue) {
-				throw new ConstraintViolationException(
-					'The transformed value "%s" does not match with the original value "%s"',
-					'values_do_not_match',
-					$transformedValue,
-					$value
-				);
-			}
+			$transformedValue = $this->transformations[$key]->transform($value);
 
 			$result[] = $transformedValue;
-		}
-
-		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
-		if (false === $isOk) {
-			throw new ConstraintViolationException(
-				'The values of the result MUST all be of the same type',
-				'values_must_be_same_type'
-			);
 		}
 
 		return $result;
@@ -121,29 +96,7 @@ class TupleTransformation implements Transformation
 
 			$transformedValue = $resultObject->value();
 
-			if ($value !== $transformedValue) {
-				return new Result\Error(
-					new ConstraintViolationException(
-						'The transformed value "%s" does not match with the original value "%s"',
-						'values_do_not_match',
-						$transformedValue,
-						$value
-					)
-				);
-			}
-
-			$transformedValue = $resultObject->value();
 			$result[] = $transformedValue;
-		}
-
-		$isOk = $this->arrayOfSameType->applyTo(new Result\Ok($result));
-		if (false === $isOk) {
-			return new Result\Error(
-				new ConstraintViolationException(
-					'The values of the result MUST all be of the same type',
-					'values_must_be_same_type'
-				)
-			);
 		}
 
 		return new Result\Ok($result);

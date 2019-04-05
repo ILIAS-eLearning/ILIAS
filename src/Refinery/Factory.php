@@ -16,19 +16,6 @@ use ILIAS\Refinery\To;
 class Factory
 {
 	/**
-	 * @var Validation\Factory
-	 */
-	private $validationFactory;
-
-	/**
-	 * @param Validation\Factory $validationFactory
-	 */
-	public function __construct(\ILIAS\Refinery\Validation\Factory $validationFactory)
-	{
-		$this->validationFactory = $validationFactory;
-	}
-
-	/**
 	 * Combined validations and transformations for primitive data types that
 	 * establish a baseline for further constraints and more complex transformations
 	 *
@@ -36,7 +23,7 @@ class Factory
 	 */
 	public function to(): To\Group
 	{
-		return new To\Group($this->validationFactory->isArrayOfSameType());
+		return new To\Group();
 	}
 
 	/**

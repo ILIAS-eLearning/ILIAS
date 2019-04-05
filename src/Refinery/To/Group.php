@@ -26,16 +26,6 @@ use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 class Group
 {
 	/**
-	 * @var IsArrayOfSameType
-	 */
-	private $arrayOfSameTypeValidation;
-
-	public function __construct(IsArrayOfSameType $arrayOfSameTypeValidation)
-	{
-		$this->arrayOfSameTypeValidation = $arrayOfSameTypeValidation;
-	}
-
-	/**
 	 * Returns an object that allows to transform a value
 	 * to a string value
 	 * @return StringTransformation
@@ -88,7 +78,7 @@ class Group
 	 */
 	public function listOf(Transformation $transformation): Transformation
 	{
-		return new ListTransformation($transformation, $this->arrayOfSameTypeValidation);
+		return new ListTransformation($transformation);
 	}
 
 	/**
@@ -104,7 +94,7 @@ class Group
 	 */
 	public function dictOf(Transformation $transformation): Transformation
 	{
-		return new DictionaryTransformation($transformation, $this->arrayOfSameTypeValidation);
+		return new DictionaryTransformation($transformation);
 	}
 
 	/**
@@ -124,7 +114,7 @@ class Group
 	 */
 	public function tupleOf(array $transformation): Transformation
 	{
-		return new TupleTransformation($transformation, $this->arrayOfSameTypeValidation);
+		return new TupleTransformation($transformation);
 	}
 
 	/**

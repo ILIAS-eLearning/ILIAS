@@ -33,14 +33,7 @@ class GroupTest extends TestCase
 
 	public function setUp()
 	{
-		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dataFactory = new \ILIAS\Data\Factory();
-
-		$validationFactory = new Factory($dataFactory, $language);
-		$this->basicGroup = new Group($validationFactory->isArrayOfSameType());
+		$this->basicGroup = new Group();
 	}
 
 	public function testIsIntegerTransformationInstance()

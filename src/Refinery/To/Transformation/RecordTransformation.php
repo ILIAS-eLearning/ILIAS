@@ -75,16 +75,7 @@ class RecordTransformation implements Transformation
 			$transformation = $this->transformations[$key];
 			$transformedValue = $transformation->transform($value);
 
-			if ($transformedValue !== $value) {
-				throw new ConstraintViolationException(
-					'The transformed value "%s" does not match with the original value "%s"',
-					'values_do_not_match',
-					$transformedValue,
-					$value
-				);
-			}
-
-			$result[$key] = $value;
+			$result[$key] = $transformedValue;
 		}
 
 		return $result;
@@ -130,17 +121,7 @@ class RecordTransformation implements Transformation
 
 			$transformedValue = $resultObject->value();
 
-			if ($transformedValue !== $value) {
-				return new Result\Error(
-					new ConstraintViolationException(
-						'The transformed value "%s" does not match with the original value "%s"',
-						'values_do_not_match',
-						$transformedValue,
-						$value
-					)
-				);
-			}
-			$result[$key] = $value;
+			$result[$key] = $transformedValue;
 		}
 
 		return new Result\Ok($result);

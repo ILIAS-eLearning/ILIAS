@@ -196,13 +196,4 @@ class Factory {
 	public function password() {
 		return new Constraints\Password\Factory($this->data_factory, $this->lng);
 	}
-
-	/**
-	 * Checks if all values in an array are of the same type
-	 * 
-	 * @return Constraints\IsArrayOfSameType
-	 */
-	public function isArrayOfSameType() : Constraints\IsArrayOfSameType {
-		return new Constraints\IsArrayOfSameType($this->data_factory, $this->lng);
-	}
 }

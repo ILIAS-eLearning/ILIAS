@@ -19,28 +19,11 @@ require_once('./libs/composer/vendor/autoload.php');
 class DictionaryTransformationTest extends TestCase
 {
 	/**
-	 * @var \ILIAS\Refinery\Validation\Factory
-	 */
-	private $validation;
-
-	public function setUp()
-	{
-		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$dataFactory = new \ILIAS\Data\Factory();
-
-		$validationFactory = new Factory($dataFactory, $language);
-		$this->validation = $validationFactory->isArrayOfSameType();
-	}
-
-	/**
 	 * @throws \ilException
 	 */
 	public function testDictionaryTransformationValid()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		$result = $transformation->transform(array('hello' => 'world'));
 
@@ -49,7 +32,7 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		try {
 			$result = $transformation->transform(array('world'));
@@ -62,7 +45,7 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryTransformationInvalidBecauseValueIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		try {
 			$result = $transformation->transform(array('hello' => 1));
@@ -75,7 +58,7 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		try {
 			$result = $transformation->transform(1);
@@ -88,7 +71,7 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryApplyValid()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		$result = $transformation->applyTo(new Ok(array('hello' => 'world')));
 
@@ -97,7 +80,7 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryApplyInvalidBecauseKeyIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		$result = $transformation->applyTo(new Ok(array('world')));
 
@@ -106,7 +89,7 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryApplyInvalidBecauseValueIsNotAString()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		$result = $transformation->applyTo(new Ok(array('hello' => 1)));
 
@@ -115,7 +98,7 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictonaryNonArrayToTransformThrowsException()
 	{
-		$transformation = new DictionaryTransformation(new StringTransformation(), $this->validation);
+		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		$result = $transformation->applyTo(new Ok(1));
 
