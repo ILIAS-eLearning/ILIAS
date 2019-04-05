@@ -268,8 +268,17 @@ $c["ui.factory.card"] = function($c) {
 $c["ui.factory.layout"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Layout\Factory();
 };
+$c["ui.factory.maincontrols.slate"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MainControls\Slate\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.counter']
+	);
+};
 $c["ui.factory.maincontrols"] = function($c) {
-	return new ILIAS\UI\Implementation\Component\MainControls\Factory($c['ui.signal_generator']);
+	return new ILIAS\UI\Implementation\Component\MainControls\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.maincontrols.slate']
+	);
 };
 $c["ui.factory.progressmeter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
