@@ -18,7 +18,7 @@ use \ILIAS\UI\Implementation\Component\Legacy\Legacy;
  */
 class StandardPageTest extends ILIAS_UI_TestBase
 {
-	public function setUp() {
+	public function setUp(): void {
 
 
 		$this->metabar = $this->createMock(MetaBar::class);
