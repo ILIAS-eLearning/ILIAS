@@ -515,6 +515,11 @@ class ilBlogPosting extends ilPageObject
 		
 		// see ilWikiPage::updateNews()
 
+		if (!$this->getActive())
+		{
+			return;
+		}
+
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_item = null;
 		

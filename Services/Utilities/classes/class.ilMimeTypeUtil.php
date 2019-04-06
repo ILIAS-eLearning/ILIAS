@@ -385,6 +385,7 @@ class ilMimeTypeUtil {
 	const TEXT__VND_RN_REALTEXT = 'text/vnd.rn-realtext';
 	const TEXT__VND_WAP_WML = 'text/vnd.wap.wml';
 	const TEXT__VND_WAP_WMLSCRIPT = 'text/vnd.wap.wmlscript';
+	const TEXT__VTT = 'text/vtt';
 	const TEXT__WEBVIEWHTML = 'text/webviewhtml';
 	const TEXT__XML = 'text/xml';
 	const TEXT__X_ASM = 'text/x-asm';
@@ -1312,6 +1313,7 @@ class ilMimeTypeUtil {
 		'vsd' => self::APPLICATION__X_VISIO,
 		'vst' => self::APPLICATION__X_VISIO,
 		'vsw' => self::APPLICATION__X_VISIO,
+		'vtt' => self::TEXT__VTT,
 		'w60' => self::APPLICATION__WORDPERFECT6_0,
 		'w61' => self::APPLICATION__WORDPERFECT6_1,
 		'w6w' => self::APPLICATION__MSWORD,

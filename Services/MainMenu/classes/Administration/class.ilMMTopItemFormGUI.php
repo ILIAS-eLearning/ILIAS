@@ -1,8 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -75,23 +74,30 @@ class ilMMTopItemFormGUI {
 
 
 	private function initForm() {
+		$txt = function ($key) { return $this->lng->txt($key); };
+		$f = function (): InputFactory { return $this->ui_fa->input(); };
+
 		// TITLE
-		$title = $this->ui_fa->input()->field()->text($this->lng->txt('topitem_title_default'), $this->lng->txt('topitem_title_default_byline'))->withRequired(true);
+		$title = $f()->field()->text($txt('topitem_title_default'), $txt('topitem_title_default_byline'))
+			->withRequired(true);
 		if (!$this->item_facade->isEmpty()) {
 			$title = $title->withValue($this->item_facade->getDefaultTitle());
 		}
+
 		$items[self::F_TITLE] = $title;
 
 		// TYPE
-		$type = $this->ui_fa->input()->field()->radio($this->lng->txt('topitem_type'), $this->lng->txt('topitem_type_byline'))->withRequired(true);
+		$type = $f()->field()->radio($txt('topitem_type'), $txt('topitem_type_byline'))->withRequired(true);
 		$type_informations = $this->repository->getPossibleTopItemTypesWithInformation();
 
+		$type_i = 0;
 		foreach ($type_informations as $classname => $information) {
 			if ($this->item_facade->isEmpty()
 				|| (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
 			) { // https://mantis.ilias.de/view.php?id=24152
 				$inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
 				$type = $type->withOption($this->hash($classname), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $inputs);
+				$type_i++;
 			}
 		}
 
@@ -101,12 +107,12 @@ class ilMMTopItemFormGUI {
 			$type = $type->withValue($this->hash(reset(array_keys($type_informations))));
 		}
 
-		if ($this->item_facade->isEmpty() || $this->item_facade->isCustom()) {
+		if (($this->item_facade->isEmpty() || $this->item_facade->isCustom()) && $type_i > 0) {
 			$items[self::F_TYPE] = $type;
 		}
 
 		// ACTIVE
-		$active = $this->ui_fa->input()->field()->checkbox($this->lng->txt('topitem_active'), $this->lng->txt('topitem_active_byline'));
+		$active = $f()->field()->checkbox($txt('topitem_active'), $txt('topitem_active_byline'));
 		if (!$this->item_facade->isEmpty()) {
 			$active = $active->withValue($this->item_facade->isAvailable());
 		}
@@ -114,18 +120,21 @@ class ilMMTopItemFormGUI {
 
 		// RETURN FORM
 		if ($this->item_facade->isEmpty()) {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_ADD), "");
-			$this->form = $this->ui_fa->input()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_CREATE), [$section]);
+			$section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
+			$this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_CREATE), [$section]);
 		} else {
-			$section = $this->ui_fa->input()->field()->section($items, $this->lng->txt(ilMMTopItemGUI::CMD_EDIT), "");
-			$this->form = $this->ui_fa->input()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_UPDATE), [$section]);
+			$section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
+			$this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_UPDATE), [$section]);
 		}
 	}
 
 
 	public function save() {
-		$form = $this->form->withRequest($this->http->request());
-		$data = $form->getData();
+		$this->form = $this->form->withRequest($this->http->request());
+		$data = $this->form->getData();
+		if (is_null($data)) {
+			return false;
+		}
 
 		$this->item_facade->setAction((string)$data[0]['action']);
 		$this->item_facade->setDefaultTitle((string)$data[0][self::F_TITLE]);

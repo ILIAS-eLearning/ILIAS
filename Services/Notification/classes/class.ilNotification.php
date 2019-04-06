@@ -320,6 +320,37 @@ class ilNotification
 		$ilDB->query("DELETE FROM notification".
 				" WHERE user_id = ".$ilDB->quote($user_id, "integer"));
 	}
+
+	/**
+	 * Get activated notifications of give type for user
+	 *
+	 * @param int $type
+	 * @param int $user_id
+	 * @return int[]
+	 */
+	public static function getActivatedNotifications(int $type, int $user_id): array
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->queryF("SELECT id FROM notification ".
+			" WHERE type = %s ".
+			" AND user_id = %s ".
+			" AND activated = %s ",
+			array("integer", "integer", "integer"),
+			array($type, $user_id, 1)
+			);
+		$ids = [];
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$ids[] = $rec["id"];
+		}
+
+		return $ids;
+	}
+
+
 }
 
 ?>

@@ -14,6 +14,7 @@ class MainFactoryTest extends AbstractFactoryTest {
 		, "viewControl"		=> array("rules" => false)
 		, "input"		    => array("rules" => false)
         , "table"		    => array("rules" => false)
+        , "layout"		    => array("rules" => false)
 
     );
 

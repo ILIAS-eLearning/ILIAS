@@ -21,6 +21,15 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 
 	protected $teams = array();
 
+	function __construct($a_parent_obj, $a_parent_cmd, ilObjExercise $a_exc, $a_item_id)
+	{
+		/** @var ilCtrl $ilCtrl */
+		global $ilCtrl;
+		//var_dump($ilCtrl->getCmd()); exit;
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_item_id);
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "saveStatusAll"));
+	}
+
 	protected function initMode($a_item_id)
 	{		
 		$lng = $this->lng;
