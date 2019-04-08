@@ -5208,6 +5208,7 @@ crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten M
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
 crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
+grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
 crs#:#crs_link_hide_next_sessions#:#Zukünftige Sitzungen ausblenden
 crs#:#crs_link_hide_prev_sessions#:#Vergangene Sitzungen ausblenden
 crs#:#crs_link_show_all_next_sessions#:#Alle zukünftigen Sitzungen anzeigen

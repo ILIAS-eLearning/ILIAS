@@ -4452,6 +4452,7 @@ crs#:#crs_info_start#:#Please work through all of the course items stated below.
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
 crs#:#crs_join_request#:#Send
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
 crs#:#crs_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the course:
 crs#:#crs_map_location#:#Course Map Location
 crs#:#crs_map_settings#:#Map

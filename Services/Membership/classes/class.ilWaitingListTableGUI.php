@@ -142,8 +142,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			$this->wait_user_ids[] = $usr_id;
 			$this->wait[$usr_id] = $this->getWaitingList()->getUser($usr_id);
 		}
-		ilLoggerFactory::getLogger('mem')->dump($this->wait);
-		ilLoggerFactory::getLogger('mem')->dump($this->wait_user_ids);
 	}
 	
 	/**
