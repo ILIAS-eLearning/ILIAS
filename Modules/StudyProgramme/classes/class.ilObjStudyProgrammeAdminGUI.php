@@ -53,7 +53,8 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 				break;
 			case 'ilstudyprogrammetypegui':
 				$this->tabs_gui->setTabActive('prg_subtypes');
-				$type_gui = new ilStudyProgrammeTypeGUI($this);
+				$type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
+				$type_gui->setParentGUI($this);
 				$this->ctrl->forwardCommand($type_gui);
 				break;
 			default:

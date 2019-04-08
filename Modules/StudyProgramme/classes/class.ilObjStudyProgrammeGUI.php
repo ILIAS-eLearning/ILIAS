@@ -166,8 +166,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				$this->tabs_gui->setSubTabActive('settings');
 
-				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
-				$gui = new ilObjStudyProgrammeSettingsGUI($this, $this->ref_id);
+				$gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeSettingsGUI'];
+				$gui->setParentGUI($this);
+				$gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			/*case 'iltranslationgui':
@@ -183,8 +184,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case "ilobjstudyprogrammemembersgui":
 				$this->denyAccessIfNot("manage_members");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
-				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
+				$gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
+				$gui->setParentGUI($this);
+				$gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case "ilobjstudyprogrammetreegui":
@@ -198,14 +200,15 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				// disable admin panel
 				$_SESSION["il_cont_admin_panel"] = false;
 
-				$gui = new ilObjStudyProgrammeTreeGUI($this->id);
+				$gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeTreeGUI'];
+				$gui->setRefId($this->id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case 'ilstudyprogrammetypegui':
 				$this->tabs_gui->setTabActive('subtypes');
-
-				$types_gui = new ilStudyProgrammeTypeGUI($this);
-				$this->ctrl->forwardCommand($types_gui);
+				$gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
+				$gui->setParentGUI($this);
+				$this->ctrl->forwardCommand($gui);
 				break;
 			case 'ilobjectcopygui':
 				$gui = new ilobjectcopygui($this);
@@ -578,12 +581,12 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 				$sub_type_id = $this->object->getSubtypeId();
 				if($sub_type_id) {
-					$type = $this->object->getTypeRepository()->readType($sub_type_id);
+					$type = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']->readType($sub_type_id);
 				}
 				if (
 					!is_null($type) &&
 					count(
-						$this->object->getTypeRepository()->readAssignedAMDRecordIdsByType(
+						ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']->readAssignedAMDRecordIdsByType(
 							$type->getId()
 							,true
 						)
@@ -644,7 +647,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		require_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		require_once('./Services/ADT/classes/class.ilADTFactory.php');
 
-		$type = $this->object->getTypeRepository()->readType($this->object->getSubtypeId());
+		$type = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']->readType($this->object->getSubtypeId());
 		if (!$type) {
 			return;
 		}
@@ -660,9 +663,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->getSubTabs('settings');
 		$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 		$this->tabs_gui->setSubTabActive('settings');
-
-		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
-		$gui = new ilObjStudyProgrammeSettingsGUI($this, $this->ref_id);
+		$gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeSettingsGUI'];
+		$gui->setParentGUI($this);
+		$gui->setRefId($this->ref_id);
 		$this->ctrl->setCmd("view");
 		$this->ctrl->forwardCommand($gui);
 	}
