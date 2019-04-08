@@ -26,7 +26,8 @@ class FloatTransformation implements Transformation
 			throw new ConstraintViolationException(
 				'The value MUST be of type float',
 				'not_float'
-			);		}
+			);
+		}
 		return (float) $from;
 	}
 
