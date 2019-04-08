@@ -1,15 +1,18 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 /**
  * TestCase for the ilContext
  * @group needsInstalledILIAS
  *        
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilInitialisationTest extends PHPUnit_Framework_TestCase {
+class ilInitialisationTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp() {
-		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+	protected function setUp(): void {
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();

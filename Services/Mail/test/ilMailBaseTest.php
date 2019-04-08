@@ -1,16 +1,18 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilMailBaseTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilMailBaseTest extends \PHPUnit_Framework_TestCase
+abstract class ilMailBaseTest extends TestCase
 {
 	/**
 	 * @inheritdoc
 	 */
-	protected function setUp()
+	protected function setUp(): void 
 	{
 		$GLOBALS['DIC'] = new \ILIAS\DI\Container();
 
@@ -31,16 +33,5 @@ abstract class ilMailBaseTest extends \PHPUnit_Framework_TestCase
 		$DIC[$name] = function ($c) use ($name) {
 			return $GLOBALS[$name];
 		};
-	}
-
-	/**
-	 * @param string $exception_class
-	 */
-	protected function assertException($exception_class)
-	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
-		}
 	}
 }

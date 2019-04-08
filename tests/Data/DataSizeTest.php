@@ -4,13 +4,14 @@
 require_once("./libs/composer/vendor/autoload.php");
 
 use ILIAS\Data\DataSize;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testing the DataSize object
  *
  * @author Daniel Weise <daniel.weise@concepts-and-training.de>
  */
-class DataSizeTest extends PHPUnit_Framework_TestCase {
+class DataSizeTest extends TestCase {
 	/**
 	 * @dataProvider tDataProvider
 	 */

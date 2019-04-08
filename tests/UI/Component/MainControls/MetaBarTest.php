@@ -15,7 +15,7 @@ use \ILIAS\UI\Component\Signal;
  */
 class MetaBarTest extends ILIAS_UI_TestBase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$sig_gen = 	new I\Component\SignalGenerator();
 		$this->button_factory = new I\Component\Button\Factory($sig_gen);

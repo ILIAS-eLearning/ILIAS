@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Class ilParserTestSuite
  * 
@@ -9,7 +11,7 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilParserTestSuite  extends PHPUnit_Framework_TestSuite
+class ilParserTestSuite  extends TestSuite
 {
 	public static function suite()
 	{

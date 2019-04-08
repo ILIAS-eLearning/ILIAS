@@ -2,6 +2,8 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 require_once(__DIR__."/mocks.php");
 
 /**
@@ -12,11 +14,11 @@ require_once(__DIR__."/mocks.php");
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
+class ilStudyProgrammeUserProgressTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp() {
-		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+	protected function setUp(): void {
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
@@ -47,7 +49,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->user = $ilUser;
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->root) {
 			$this->root->delete();
 		}

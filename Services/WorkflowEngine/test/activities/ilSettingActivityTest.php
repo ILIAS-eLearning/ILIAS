@@ -15,7 +15,7 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -36,13 +36,13 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 		require_once './Services/WorkflowEngine/classes/activities/class.ilSettingActivity.php';
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
-		global $ilSetting;
-		if($ilSetting != null)
-		{
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_TIME' );
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
+		global $DIC;
+
+		if (isset($DIC['ilSetting'])) {
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_TIME' );
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
 		}
 	}
 	
@@ -114,19 +114,24 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 		$expected_val  = 'OK';
 		$activity->setSetting($expected_name, $expected_val);
 
-		require_once './Services/Administration/classes/class.ilSetting.php';
 		$ilSetting_mock = $this->createMock('ilSetting',array('set'),array(),'', FALSE);
 
 		$ilSetting_mock->expects($this->exactly(1))
 					   ->method('set')
 					   ->with($expected_name, $expected_val);
-		$stashed_real_object = @$GLOBALS['ilSetting'];
-		$GLOBALS['ilSetting'] = $ilSetting_mock;
+
+		$stashed_real_object = '';
+		if (isset($GLOBALS['DIC']['ilSetting'])) {
+			$stashed_real_object = $GLOBALS['DIC']['ilSetting'];
+		}
+
+		unset($GLOBALS['DIC']['ilSetting']);
+		$GLOBALS['DIC']['ilSetting'] = $ilSetting_mock;
 
 		// Act
 		$activity->execute();
-		
-		$GLOBALS['ilSetting'] = $stashed_real_object;
+
+		$GLOBALS['DIC']['ilSetting'] = $stashed_real_object;
 		
 	}
 	

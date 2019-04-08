@@ -1,7 +1,8 @@
 <?php
 
+use PHPUnit\Framework\TestSuite;
 
-class ilModulesIndividualAssessmentSuite extends PHPUnit_Framework_TestSuite {
+class ilModulesIndividualAssessmentSuite extends TestSuite {
 	public static function suite() {
 		$suite = new ilModulesIndividualAssessmentSuite();
 		require_once("./Modules/IndividualAssessment/test/ilIndividualAssessmentSettingsTest.php");

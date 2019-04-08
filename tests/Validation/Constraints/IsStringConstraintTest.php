@@ -5,9 +5,10 @@ require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Validation;
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
-class IsStringConstraintTest extends PHPUnit_Framework_TestCase {
-	public function setUp() {
+class IsStringConstraintTest extends TestCase {
+	public function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->f = new Validation\Factory($this->df, $this->lng);

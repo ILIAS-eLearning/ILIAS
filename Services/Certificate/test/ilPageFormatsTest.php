@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilPageFormatsTest extends \PHPUnit_Framework_TestCase
+class ilPageFormatsTest extends ilCertificateBaseTestCase
 {
 	public function testFetchFormats()
 	{

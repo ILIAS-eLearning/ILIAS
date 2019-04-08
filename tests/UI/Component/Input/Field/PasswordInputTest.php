@@ -26,7 +26,7 @@ class _PWDPostData implements PostData {
 
 class PasswordInputTest extends ILIAS_UI_TestBase {
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->name_source = new DefNamesource();
 	}
 

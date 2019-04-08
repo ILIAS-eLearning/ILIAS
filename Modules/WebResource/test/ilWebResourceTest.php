@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /** 
 * Unit tests for tree table
 * @group needsInstalledILIAS
@@ -31,11 +33,11 @@
 *
 * @ingroup ServicesTree
 */
-class ilwebresourceTest extends PHPUnit_Framework_TestCase
+class ilwebresourceTest extends TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();

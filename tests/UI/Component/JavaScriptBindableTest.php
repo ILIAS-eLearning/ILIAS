@@ -2,6 +2,8 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 require_once("libs/composer/vendor/autoload.php");
 
 class JSComponentMock {
@@ -11,8 +13,8 @@ class JSComponentMock {
 /**
  * @author  Richard Klees <richard.klees@concepts-and-training.de>
  */
-class JavaScriptBindableTest extends PHPUnit_Framework_TestCase {
-	public function setUp() {
+class JavaScriptBindableTest extends TestCase {
+	public function setUp(): void{
 		$this->mock = new JSComponentMock();
 	}
 

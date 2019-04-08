@@ -6,14 +6,14 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTypeClassMapTest extends \PHPUnit_Framework_TestCase
+class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 {
 	/**
 	 * @var
 	 */
 	private $classMap;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->classMap = new ilCertificateTypeClassMap();
 	}
@@ -47,10 +47,12 @@ class ilCertificateTypeClassMapTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilException
+	 * 
 	 */
 	public function testFetchUnknownClassWillResultInException()
 	{
+		$this->expectException(\ilException::class);
+
 		$class = $this->classMap->getPlaceHolderClassNameByType('something');
 
 		$this->fail('Should never happen. No Exception thrown?');

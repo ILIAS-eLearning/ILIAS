@@ -15,7 +15,7 @@ use \ILIAS\UI\Component\Signal;
  */
 class MainBarTest extends ILIAS_UI_TestBase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$sig_gen = 	new I\SignalGenerator();
 		$this->button_factory = new I\Button\Factory($sig_gen);

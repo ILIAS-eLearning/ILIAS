@@ -4,10 +4,12 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * @author  <killing@leifos.de>
  */
-class ilServicesTasksSuite extends PHPUnit_Framework_TestSuite
+class ilServicesTasksSuite extends TestSuite
 {
 	public static function suite()
 	{

@@ -32,7 +32,7 @@ class test_005_ExclusiveGateway extends ilWorkflowEngineBaseTest
 		return $this->base_path . $this->suite_path  . $test_name . '_goldsample.php';
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../../../' );

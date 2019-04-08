@@ -4,18 +4,19 @@
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testing the faytory of result objects
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class DataFactoryTest extends PHPUnit_Framework_TestCase {
-	protected function setUp() {
+class DataFactoryTest extends TestCase {
+	protected function setUp(): void {
 		$this->f = new Data\Factory();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->f = null;
 	}
 

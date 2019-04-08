@@ -37,7 +37,7 @@ class LegacyPathHelperTest extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp() {
+	protected function setUp(): void{
 		parent::setUp();
 
 		$iliasAbsolutePath = '/dummy/var/www/html/ilias';

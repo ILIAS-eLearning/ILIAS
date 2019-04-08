@@ -11,12 +11,14 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class test_002_StartEvent extends ilWorkflowEngineBaseTest
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../../../' );
 
 		parent::setUp();
+
+		date_default_timezone_set('Europe/Berlin');
 
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}

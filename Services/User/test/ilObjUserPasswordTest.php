@@ -74,7 +74,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	/**
 	 * Setup
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		vfs\vfsStream::setup();
 		$this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));
@@ -84,7 +84,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutEncoderInformation()
 	{
@@ -93,7 +93,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 *
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutFactory()
 	{
@@ -107,11 +107,11 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	}
 
 	/**
-	 * @expectedException PHPUnit_Framework_Error
+	 *
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory()
 	{
-		$this->assertException(PHPUnit_Framework_Error::class);
+		$this->assertException(PHPUnit\Framework\Error\Error::class);
 		try
 		{
 			new ilUserPasswordManager(
@@ -124,7 +124,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 		}
 		catch(TypeError $e)
 		{
-			throw new PHPUnit_Framework_Error($e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
+			throw new PHPUnit\Framework\Error\Error($e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
 		}
 	}
 
@@ -380,7 +380,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderWasInjected()
 	{
@@ -392,7 +392,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfAnUnsupportedEncoderIsRequestedFromFactory()
 	{
@@ -405,7 +405,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndNoDefaultEncoderWasSpecifiedInFallbackMode()
 	{
@@ -417,7 +417,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 	}
 
 	/**
-	 * @expectedException ilUserException
+	 * 
 	 */
 	public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndTheDefaultEncoderDoesNotMatchOneOfTheSupportedEncodersInFallbackMode()
 	{

@@ -4,12 +4,14 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Base test class for tasks tests
  *
  * @author killing@leifos.de
  */
-class ilTasksTestBase extends \PHPUnit_Framework_TestCase
+class ilTasksTestBase extends TestCase
 {
 	/**
 	 * @var bool
@@ -26,7 +28,7 @@ class ilTasksTestBase extends \PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 
 		$this->_mock_user = $this->getMockBuilder('ilObjUser')

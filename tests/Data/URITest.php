@@ -2,8 +2,9 @@
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
-class URITest extends PHPUnit_Framework_TestCase {
+class URITest extends TestCase {
 
 	const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
@@ -50,6 +51,9 @@ class URITest extends PHPUnit_Framework_TestCase {
 	const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
 
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_init()
 	{
 		return new ILIAS\Data\URI(self::URI_COMPLETE);
@@ -271,109 +275,109 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_init
-	 * @expectedException \TypeError
 	 */
 	public function test_no_schema()
 	{
+		$this->expectException(\TypeError::class);
 		new ILIAS\Data\URI(self::URI_NO_SCHEMA);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \TypeError
 	 */
 	public function test_no_authority()
 	{
+		$this->expectException(\TypeError::class);
 		new ILIAS\Data\URI(self::URI_NO_AUTHORITY);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \TypeError
 	 */
 	public function test_wrong_char_in_schema()
 	{
+		$this->expectException(\TypeError::class);
 		new ILIAS\Data\URI(self::URI_WRONG_SCHEMA);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_wrong_authority_in_schema_1()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_1);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_wrong_authority_in_schema_2()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_2);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_uri_invalid()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_INVALID);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_fakepcenc()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_FAKEPCENC);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_1);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_2()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_2);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_3()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_3);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_4()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_4);
 	}
 
 	/**
 	 * @depends test_init
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_alphadigit_start_host_5()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_5);
 	}
 
@@ -401,20 +405,20 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_schema
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_schema_invalid_1()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withSchema('');
 	}
 
 	/**
 	 * @depends test_with_schema
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_schema_invalid_2()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withSchema('1aa');
 	}
@@ -452,20 +456,20 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_port
-	 * @expectedException \TypeError
 	 */
 	public function test_with_port_invalid_1()
 	{
+		$this->expectException(\TypeError::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withPort('a111');
 	}
 
 	/**
 	 * @depends test_with_port
-	 * @expectedException \TypeError
 	 */
 	public function test_with_port_invalid_2()
 	{
+		$this->expectException(\TypeError::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withPort('foo');
 	}
@@ -495,30 +499,30 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_host
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_host_invalid_1()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withHost('-foo-.de');
 	}
 
 	/**
 	 * @depends test_with_host
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_host_invalid_3()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withHost('');
 	}
 
 	/**
 	 * @depends test_with_host
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_host_invalid_4()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withHost('ilias.de"><script');
 	}
@@ -603,20 +607,20 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_1()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withAuthority('-foo-.de');
 	}
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_2()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withAuthority('-bar-.de:6060');
 	}
@@ -624,40 +628,40 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_3()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withHost('ilias.de:');
 	}
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_4()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withHost('ilias.de: ');
 	}
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_5()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withHost('ilias.de:aaa');
 	}
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_6()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withAuthority('foo.de&<script>');
 	}
@@ -665,10 +669,10 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_7()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withAuthority('foo.de"><script>alert');
 	}
@@ -676,10 +680,10 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_authority
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_authority_invalid_8()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withAuthority('   :80');
 	}
@@ -716,30 +720,30 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_path
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_path_invalid_1()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withPath('/<script>/a');
 	}
 
 	/**
 	 * @depends test_with_path
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_path_invalid_2()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withPath('//a/b');
 	}
 
 	/**
 	 * @depends test_with_path
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_path_invalid_3()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withPath(':a/b');
 	}
@@ -776,20 +780,20 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_query
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_query_invalid_1()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withQuery('<script>a');
 	}
 
 	/**
 	 * @depends test_with_query
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_query_invalid_2()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withQuery('aa[]');
 	}
@@ -826,20 +830,20 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends test_with_fragment
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_fragment_invalid_1()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withFragment('aaa[]');
 	}
 
 	/**
 	 * @depends test_with_fragment
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_with_fragment_invalid_2()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$uri = new ILIAS\Data\URI(self::URI_COMPLETE);
 		$uri->withFragment('script>');
 	}

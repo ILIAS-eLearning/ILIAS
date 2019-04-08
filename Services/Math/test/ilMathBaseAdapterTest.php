@@ -1,11 +1,15 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
+abstract class ilMathBaseAdapterTest extends TestCase
 {
 	const DEFAULT_SCALE = 50;
 
@@ -22,7 +26,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		require_once 'Services/Math/classes/class.ilMath.php';
 		require_once 'Services/Math/classes/class.EvalMath.php';
@@ -33,11 +37,26 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * This method is used as a 'Comparator' for two numeric strings and is equal to the ScalarComparator behaviour of PHPUnit 5.x
+	 * In PHPUnit 8 the ScalarComparators uses a strict string comparison, so numbers with a different amount of trailing
+	 * 0 decimals are not equal anymore
+	 * @see \SebastianBergmann\Comparator\ScalarComparator
+	 * @param string $actual
+	 * @param string $expected
+	 */
+	private function assertEqualNumbers(string $actual, string $expected)
+	{
+		$differ = new Differ(new UnifiedDiffOutputBuilder("\n--- Expected\n+++ Actual\n"));
+
+		$this->assertTrue($actual == $expected, $differ->diff($actual, $expected));
+	}
+
+	/**
 	 * @dataProvider addData
 	 */
 	public function testAdd($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->mathAdapter->add($a, $b, $scale));
+		$this->assertEqualNumbers($result, $this->mathAdapter->add($a, $b, $scale));
 	}
 
 	/**
@@ -45,7 +64,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSub($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->mathAdapter->sub($a, $b, $scale));
+		$this->assertEqualNumbers($result, $this->mathAdapter->sub($a, $b, $scale));
 	}
 
 	/**
@@ -53,7 +72,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMul($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->mathAdapter->mul($a, $b, $scale));
+		$this->assertEqualNumbers($result, $this->mathAdapter->mul($a, $b, $scale));
 	}
 
 	/**
@@ -61,7 +80,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDiv($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->mathAdapter->div($a, $b, $scale));
+		$this->assertEqualNumbers($result, $this->mathAdapter->div($a, $b, $scale));
 	}
 
 	/**
@@ -69,7 +88,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSqrt($a, $result, $scale)
 	{
-		$this->assertEquals($result, $this->mathAdapter->sqrt($a, $scale));
+		$this->assertEqualNumbers($result, $this->mathAdapter->sqrt($a, $scale));
 	}
 
 	/**
@@ -77,7 +96,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPow($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->mathAdapter->pow($a, $b, $scale));
+		$this->assertEqualNumbers($result, $this->mathAdapter->pow($a, $b, $scale));
 	}
 
 	/**
@@ -85,7 +104,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMod($a, $b, $result)
 	{
-		$this->assertEquals($result, $this->mathAdapter->mod($a, $b));
+		$this->assertEqualNumbers($result, $this->mathAdapter->mod($a, $b));
 	}
 
 	/**
@@ -93,7 +112,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEquals($a, $b, $result, $scale)
 	{
-		$this->assertEquals($result, $this->mathAdapter->equals($a, $b, $scale));
+		$this->assertEqualNumbers($result, $this->mathAdapter->equals($a, $b, $scale));
 	}
 
 	/**
@@ -101,7 +120,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCalculation($formula, $result, $scale)
 	{
-		$this->assertEquals($result, ilMath::_applyScale($this->evalMath->evaluate($formula), $scale));
+		$this->assertEqualNumbers($result, ilMath::_applyScale($this->evalMath->evaluate($formula), $scale));
 	}
 
 	/**
@@ -109,7 +128,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDivisionsByZero()
 	{
-		$this->setExpectedException(ilMathDivisionByZeroException::class);
+		$this->expectException(ilMathDivisionByZeroException::class);
 
 		$this->mathAdapter->div(1, 0);
 	}
@@ -119,7 +138,7 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testModuloByZero()
 	{
-		$this->setExpectedException(ilMathDivisionByZeroException::class);
+		$this->expectException(ilMathDivisionByZeroException::class);
 
 		$this->mathAdapter->mod(1, 0);
 	}

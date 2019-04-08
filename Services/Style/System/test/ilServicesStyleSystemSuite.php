@@ -2,7 +2,7 @@
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 
-
+use PHPUnit\Framework\TestSuite;
 
 /**
  *
@@ -10,7 +10,7 @@
  * @version           $Id$*
  */
 
-class ilServicesStyleSystemSuite extends PHPUnit_Framework_TestSuite
+class ilServicesStyleSystemSuite extends TestSuite
 {
 	public static function suite()
 	{

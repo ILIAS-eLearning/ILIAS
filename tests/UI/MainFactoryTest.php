@@ -20,10 +20,16 @@ class MainFactoryTest extends AbstractFactoryTest {
 
 	public $factory_title = 'ILIAS\\UI\\Factory';
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_proper_namespace() {
 		// Nothing to test here.
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_proper_name() {
 		// Nothing to test here.
 	}

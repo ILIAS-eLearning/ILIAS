@@ -5,24 +5,25 @@ require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Validation;
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 /**
  * TestCase for the factory of constraints
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
+class ValidationFactoryTest extends TestCase {
 	/**
 	 * @var Validation\Factory
 	 */
 	protected $f = null;
 
-	protected function setUp() {
+	protected function setUp(): void{
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->f = new Validation\Factory(new Data\Factory(), $this->lng);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->f = null;
 	}
 

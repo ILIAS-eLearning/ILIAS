@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Unit tests for template class
  *
@@ -10,12 +12,12 @@
  * @group needsInstalledILIAS
  * @ingroup ServicesUICore
  */
-class ilTemplateTest extends PHPUnit_Framework_TestCase
+class ilTemplateTest extends TestCase
 {
 	/**
 	 * Setup
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{

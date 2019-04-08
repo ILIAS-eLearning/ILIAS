@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserCertificateTest extends \PHPUnit_Framework_TestCase
+class ilUserCertificateTest extends ilCertificateBaseTestCase
 {
 	public function testCreateUserCertificate()
 	{

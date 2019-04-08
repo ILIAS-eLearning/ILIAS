@@ -4,8 +4,11 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilPdfGeneratorTest extends PHPUnit_Framework_TestCase
+class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 {
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testGenerateSpecificCertificate()
 	{
 		$certificate = new ilUserCertificate(
@@ -56,6 +59,9 @@ class ilPdfGeneratorTest extends PHPUnit_Framework_TestCase
 		$pdfGenerator->generate(100);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testGenerateCurrentActiveCertificate()
 	{
 		$certificate = new ilUserCertificate(

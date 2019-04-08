@@ -16,7 +16,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -121,7 +121,7 @@ class ilTermsOfServiceNullCriterionTest extends \ilTermsOfServiceCriterionBaseTe
 
 		$actual = $gui->getIdentPresentation();
 
-		$this->assertInternalType('string', $actual);
+		$this->assertIsString($actual);
 		$this->assertNotEmpty($actual);
 	}
 

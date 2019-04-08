@@ -1,7 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-class ilServicesUserSuite extends PHPUnit_Framework_TestSuite
+use PHPUnit\Framework\TestSuite;
+
+class ilServicesUserSuite extends TestSuite
 {
     public static function suite()
     {

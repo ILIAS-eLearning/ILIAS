@@ -83,7 +83,7 @@ class DefPostData implements PostData {
  */
 class InputTest extends ILIAS_UI_TestBase {
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->data_factory = new DataFactory();
 		$this->transformation_factory = new TransformationFactory();
 		$this->validation_factory = new ValidationFactory($this->data_factory, $this->createMock(\ilLanguage::class));

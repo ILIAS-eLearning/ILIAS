@@ -67,7 +67,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -115,17 +115,11 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 	/**
 	 * @dataProvider commandProvider
-	 * @expectedException \ilException
 	 * @param string $command
 	 * @param bool[] $accessResults
 	 */
 	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults)
 	{
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
-
 		$this->ctrl
 			->expects($this->once())
 			->method('getCmd')
@@ -157,7 +151,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			$this->tableDataProviderFactory, $this->documentPurifier
 		);
 
-		$this->assertException(\ilException::class);
+		$this->expectException(\ilException::class);
 
 		$gui->executeCommand();
 	}
@@ -169,11 +163,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	{
 		$this->setGlobalVariable('lng', clone $this->lng);
 		$this->setGlobalVariable('ilUser', clone $this->user);
-
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
 
 		$lastResetDate = $this->getMockBuilder(\ilDate::class)
 			->disableOriginalConstructor()
@@ -295,11 +284,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	{
 		$this->setGlobalVariable('lng', clone $this->lng);
 		$this->setGlobalVariable('ilUser', clone $this->user);
-
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
 
 		$lastResetDate = $this->getMockBuilder(\ilDate::class)
 			->disableOriginalConstructor()

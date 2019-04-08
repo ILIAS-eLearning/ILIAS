@@ -1,6 +1,12 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\Filter\Factory as FilterFactory;
+use PHPUnit\Runner\Filter\ExcludeGroupFilterIterator as GroupExcludeFilter;
+
+
 /**
 * This is the global ILIAS test suite. It searches automatically for
 * components test suites by scanning all Modules/.../test and
@@ -11,14 +17,14 @@
 *
 * @author	<alex.killing@gmx.de>
 */
-class ilGlobalSuite extends PHPUnit_Framework_TestSuite
+class ilGlobalSuite extends TestSuite
 {
 	/**
 	 * @var	string
 	 */
 	const PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS = "needsInstalledILIAS";
 	const REGEX_TEST_FILENAME = "#[a-zA-Z]+Test\.php#";
-	const PHP_UNIT_PARENT_CLASS = "PHPUnit_Framework_TestCase";
+	const PHP_UNIT_PARENT_CLASS = TestCase::class;
 
 	/**
 	 * Check if there is an installed ILIAS to run tests on.
@@ -100,9 +106,9 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
 
 		if (!$suite->hasInstalledILIAS()) {
 			echo "Removing tests requiring an installed ILIAS.\n";
-			$ff = new PHPUnit_Runner_Filter_Factory();
+			$ff = new FilterFactory();
 			$ff->addFilter
-				( new ReflectionClass("PHPUnit_Runner_Filter_Group_Exclude")
+				( new ReflectionClass(GroupExcludeFilter::class)
 				, array(self::PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS)
 				);
 			$suite->injectFilter($ff);
