@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 
-use ILIAS\Data\Result;
+use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class RecordTransformation implements Transformation
 {
+	use DeriveApplyToFromTransform;
+
 	/**
 	 * @var Transformation[]
 	 */
@@ -79,52 +81,6 @@ class RecordTransformation implements Transformation
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$from = $data->value();
-
-		try {
-			$this->validateValueLength($from);
-		} catch (ConstraintViolationException $exception) {
-			return new Result\Error($exception);
-		}
-
-		$result = array();
-
-		foreach ($from as $key => $value) {
-			if (false === is_string($key)) {
-				return new Result\Error(
-					sprintf(
-						'The key "%s" is NOT a string',
-						$key
-					)
-				);
-			}
-
-			if (false === isset($this->transformations[$key])) {
-				return new Result\Error(
-					sprintf(
-						'The key "%s" is NOT a key for a transformation',
-						$key
-					)
-				);
-			}
-
-
-			$transformation = $this->transformations[$key];
-			$resultObject = $transformation->applyTo(new Result\Ok($value));
-
-			$transformedValue = $resultObject->value();
-
-			$result[$key] = $transformedValue;
-		}
-
-		return new Result\Ok($result);
 	}
 
 	/**

@@ -49,17 +49,33 @@ class TupleTransformationTest extends TestCase
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \ilException
-	 */
+	public function testTupleIsIncorrectAndWillThrowException2()
+	{
+		$transformation = new TupleTransformation(
+			array(new IntegerTransformation(), 'hello' => new IntegerTransformation())
+		);
+
+		try {
+			$result = $transformation->transform(array(1, 2));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
+
+		$this->fail();
+	}
+
+
 	public function testToManyValuesForTransformation()
 	{
 		$transformation = new TupleTransformation(
 			array(new IntegerTransformation(), new IntegerTransformation())
 		);
 
-		$result = $transformation->transform(array(1, 2, 3));
-
+		try {
+			$result = $transformation->transform(array(1, 2, 3));
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
 		$this->fail();
 	}
 

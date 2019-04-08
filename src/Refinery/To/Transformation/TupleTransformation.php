@@ -10,6 +10,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 
 use ILIAS\Data\Result;
+use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
@@ -17,6 +18,8 @@ use JaimePerez\TwigConfigurableI18n\Twig\Extensions\Node\Trans;
 
 class TupleTransformation implements Transformation
 {
+	use DeriveApplyToFromTransform;
+
 	/**
 	 * @var Transformation[]
 	 */
@@ -44,7 +47,6 @@ class TupleTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function transform($from)
 	{
@@ -52,54 +54,22 @@ class TupleTransformation implements Transformation
 
 		$result = array();
 		foreach ($from as $key => $value) {
+			if (false === array_key_exists($key, $this->transformations)) {
+				throw new ConstraintViolationException(
+					sprintf(
+						'There is no entry "%s" defined in the transformation array',
+						$key
+					),
+					'values_do_not_match',
+					$key
+				);
+			}
 			$transformedValue = $this->transformations[$key]->transform($value);
 
 			$result[] = $transformedValue;
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$dataValue = $data->value();
-
-		try {
-			$this->validateValueLength($dataValue);
-		} catch (\ilException $exception) {
-			return new Result\Error($exception);
-		}
-
-		$result = array();
-		foreach ($dataValue as $key => $value) {
-			if (false === array_key_exists($key, $this->transformations)) {
-				return new Result\Error(
-					new ConstraintViolationException(
-						sprintf(
-							'There is no entry "%s" defined in the transformation array',
-							$key
-						),
-						'values_do_not_match',
-						$key
-					)
-				);
-			}
-
-			$resultObject = $this->transformations[$key]->applyTo(new Result\Ok($value));
-
-			if ($resultObject->isError()) {
-				return $resultObject;
-			}
-
-			$transformedValue = $resultObject->value();
-
-			$result[] = $transformedValue;
-		}
-
-		return new Result\Ok($result);
 	}
 
 	/**
@@ -113,7 +83,6 @@ class TupleTransformation implements Transformation
 
 	/**
 	 * @param $values
-	 * @throws \ilException
 	 */
 	private function validateValueLength($values)
 	{
@@ -121,12 +90,15 @@ class TupleTransformation implements Transformation
 		$countOfTransformations = count($this->transformations);
 
 		if ($countOfValues !== $countOfTransformations) {
-			throw new \ilException(
+			throw new ConstraintViolationException(
 				sprintf(
 					'The given values(count: "%s") does not match with the given transformations("%s")',
 					$countOfValues,
 					$countOfTransformations
-				)
+				),
+				'given_values_',
+				$countOfValues,
+				$countOfTransformations
 			);
 		}
 	}

@@ -8,12 +8,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-
-use ILIAS\Data\Result;
+use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
 
 class NewObjectTransformation implements Transformation
 {
+	use DeriveApplyToFromTransform;
+
 	private $className;
 
 	/**
@@ -34,25 +35,6 @@ class NewObjectTransformation implements Transformation
 		$instance = $class->newInstanceArgs($from);
 
 		return $instance;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$value = $data->value();
-
-		try {
-			$class = new \ReflectionClass($this->className);
-			$instance = $class->newInstanceArgs($value);
-		} catch (\Exception $e) {
-			return new Result\Error($e);
-		} catch (\Error $error) {
-			return new Result\Error($error->getMessage());
-		}
-
-		return new Result\Ok($instance);
 	}
 
 	/**

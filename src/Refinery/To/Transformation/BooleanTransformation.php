@@ -10,11 +10,14 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
+use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class BooleanTransformation implements Transformation
 {
+	use DeriveApplyToFromTransform;
+
 	/**
 	 * @inheritdoc
 	 */
@@ -27,22 +30,6 @@ class BooleanTransformation implements Transformation
 			);
 		}
 		return (bool) $from;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$value = $data->value();
-
-		try {
-			$resultValue = $this->transform($value);
-		} catch (\Exception $exception) {
-			return new Result\Error($exception);
-		}
-
-		return new Result\Ok($resultValue);
 	}
 
 	/**

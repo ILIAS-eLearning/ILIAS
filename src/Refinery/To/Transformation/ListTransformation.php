@@ -9,14 +9,12 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 
-use ILIAS\Data\Result;
-use ILIAS\DI\Exceptions\Exception;
+use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
-use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 
 class ListTransformation implements Transformation
 {
+	use DeriveApplyToFromTransform;
 	/**
 	 * @var Transformation
 	 */
@@ -42,27 +40,6 @@ class ListTransformation implements Transformation
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$from = $data->value();
-
-		$result = array();
-		foreach ($from as $value) {
-			$resultObject = $this->transformation->applyTo(new Result\Ok($value));
-			if (true === $resultObject->isError()) {
-				return $resultObject;
-			}
-
-			$transformedValue = $resultObject->value();
-			$result[] = $transformedValue;
-		}
-
-		return new Result\Ok($result);
 	}
 
 	/**

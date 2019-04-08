@@ -10,13 +10,13 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 
-use ILIAS\Data\Result;
-use ILIAS\DI\Exceptions\Exception;
+use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class NewMethodTransformation implements Transformation
 {
+	use DeriveApplyToFromTransform;
 	/**
 	 * @var
 	 */
@@ -60,24 +60,6 @@ class NewMethodTransformation implements Transformation
 	public function transform($from)
 	{
 		return call_user_func_array(array($this->className, $this->method), $from);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$value = $data->value();
-
-		try {
-			$value = call_user_func_array(array($this->className, $this->method), $value);
-		} catch (\Exception $exception) {
-			return new Result\Error($exception);
-		} catch (\Error $error) {
-			return new Result\Error($error->getMessage());
-		}
-
-		return new Result\Ok($value);
 	}
 
 	/**

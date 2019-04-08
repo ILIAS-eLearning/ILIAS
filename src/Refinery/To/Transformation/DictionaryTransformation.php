@@ -9,13 +9,14 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 
-use ILIAS\Data\Result;
+use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
-use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 
 class DictionaryTransformation implements Transformation
 {
+	use DeriveApplyToFromTransform;
+
 	/**
 	 * @var Transformation
 	 */
@@ -55,41 +56,6 @@ class DictionaryTransformation implements Transformation
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$from = $data->value();
-
-		if (false === is_array($from)) {
-			return new Result\Error(new \InvalidArgumentException('The value MUST be an array'));
-		}
-
-		$result = array();
-		foreach ($from as $key => $value) {
-			if (false === is_string($key)) {
-				return new Result\Error(new \InvalidArgumentException(
-					sprintf(
-						'The key "%s" is NOT a string',
-						$key
-					)
-				));
-			}
-
-			$resultObject = $this->transformation->applyTo(new Result\Ok($value));
-			if (true === $resultObject->isError()) {
-				return $resultObject;
-			}
-
-			$transformedValue = $resultObject->value();
-			$result[$key] = $transformedValue;
-		}
-
-
-		return new Result\Ok($result);
 	}
 
 	/**
