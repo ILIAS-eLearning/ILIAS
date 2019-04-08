@@ -76,11 +76,6 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	protected $field_factory;
 
 	/**
-	 * @var C\Input\Container\Factory
-	 */
-	protected $container_factory;
-
-	/**
 	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
