@@ -1,9 +1,7 @@
 <?php
-
+require_once 'Modules/StudyProgramme/classes/class.ilStudyProgrammeDIC.php';
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignment.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Assignments/interface.ilStudyProgrammeAssignmentRepository.php");
 
 /**
  * Represents one assignment of a user to a study programme.
@@ -53,7 +51,11 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	static public function getInstance($a_id) {
-		return new ilStudyProgrammeUserAssignment($a_id, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB(),ilObjStudyProgramme::_getAssignmentRepository());
+		return new ilStudyProgrammeUserAssignment(
+			$a_id,
+			ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
+			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']
+		);
 	}
 
 	/**
@@ -65,14 +67,18 @@ class ilStudyProgrammeUserAssignment {
 	static public function getInstancesOfUser($a_user_id) {
 		global $DIC;
 		$tree = $DIC['tree'];
-		$assignment_repository = ilObjStudyProgramme::_getAssignmentRepository();
+		$assignment_repository = ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
 		$assignments = $assignment_repository->readByUsrId($a_user_id);
 
 		//if parent object is deleted or in trash
 		//the assignment for the user should not be returned
 		$ret = array();
 		foreach($assignments as $ass) {
-			$ass_obj = new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB(),$assignment_repository);
+			$ass_obj = new ilStudyProgrammeUserAssignment(
+				$ass,
+				ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
+				$assignment_repository
+			);
 			foreach (ilObject::_getAllReferences($ass_obj->assignment->getRootId()) as $value) {
 				if($tree->isInTree($value)) {
 					$ret[] = $ass_obj;
@@ -91,10 +97,14 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment[]
 	 */
 	static public function getInstancesForProgram($a_program_id) {
-		$assignment_repository = ilObjStudyProgramme::_getAssignmentRepository();
+		$assignment_repository = ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
 		$assignments = $assignment_repository->readByPrgId($a_program_id);
 		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB(),$assignment_repository);
+			return new ilStudyProgrammeUserAssignment(
+				$ass,
+				ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
+				$assignment_repository
+			);
 
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
@@ -117,7 +127,6 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilObjStudyProgramme
 	 */
 	public function getStudyProgramme() {
-		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		$refs = ilObject::_getAllReferences($this->assignment->getRootId());
 		if (!count($refs)) {
 			throw new ilException("ilStudyProgrammeUserAssignment::getStudyProgramme: "
@@ -196,14 +205,12 @@ class ilStudyProgrammeUserAssignment {
 	 * @return $this
 	 */
 	public function addMissingProgresses() {
-		require_once("Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeNoProgressForAssignmentException.php");
-
 		$prg = $this->getStudyProgramme();
 		$id = $this->getId();
-		$progress_repository = $prg->getProgressRepository();
+		$progress_repository = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
 
 		// Make $this->assignment protected again afterwards.
-		$prg->applyToSubTreeNodes(function($node) use ($id) {
+		$prg->applyToSubTreeNodes(function($node) use ($id, $progress_repository) {
 			try {
 				$node->getProgressForAssignment($id);
 			}

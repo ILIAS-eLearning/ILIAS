@@ -15,6 +15,7 @@ require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgr
 class ilStudyProgrammeUserProgress {
 	protected $progress; // ilStudyProgrammeProgress
 	protected $progress_repository;
+	protected $events;
 	/**
 	 * Throws when id does not refer to a study programme progress.
 	 *
@@ -26,7 +27,8 @@ class ilStudyProgrammeUserProgress {
 	 */
 	public function __construct(
 		$a_ids_or_model,
-		ilStudyProgrammeProgressRepository $progress_repository
+		ilStudyProgrammeProgressRepository $progress_repository,
+		ilStudyProgrammeEvents $events
 	) {
 		if ($a_ids_or_model instanceof ilStudyProgrammeProgress) {
 			$this->progress = $a_ids_or_model;
@@ -51,6 +53,7 @@ class ilStudyProgrammeUserProgress {
 			throw new ilException("ilStudyProgrammeUserProgress::__construct: Could not find progress.");
 		}
 		$this->progress_repository = $progress_repository;
+		$this->events = $events;
 	}
 
 	/**
@@ -221,8 +224,7 @@ class ilStudyProgrammeUserProgress {
 				->setCompletionBy($a_user_id)
 		);
 
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
-		ilStudyProgrammeEvents::userSuccessful($this);
+		$this->events->userSuccessful($this);
 
 		$this->updateParentStatus();
 		return $this;
@@ -565,8 +567,7 @@ class ilStudyProgrammeUserProgress {
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
 		if ($successful) {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
-			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
-			ilStudyProgrammeEvents::userSuccessful($this);
+			$this->events->userSuccessful($this);
 		} else {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
 		}
@@ -632,8 +633,7 @@ class ilStudyProgrammeUserProgress {
 				->setCompletionBy($a_obj_id)
 		);
 
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
-		ilStudyProgrammeEvents::userSuccessful($this);
+		$this->events->userSuccessful($this);
 
 		$this->refreshLPStatus();
 		$this->updateParentStatus();

@@ -37,10 +37,6 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @var ilObjStudyProgramme
 	 */
 	public $object;
-	/**
-	 * @var ilLocatorGUI
-	 */
-	protected $locator;
 
 	/**
 	 * @var ilLog
@@ -84,38 +80,38 @@ class ilObjStudyProgrammeTreeGUI {
 	 */
 	public $toolbar;
 
-	public function __construct($a_ref_id) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilSetting = $DIC['ilSetting'];
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilAccess $ilAccess,
+		\ilToolbarGUI $ilToolbar,
+		\ilLanguage $lng,
+		\ilComponentLogger $ilLog,
+		\ILIAS $ilias,
+		\ilSetting $ilSetting
+	) {
 
-		$this->ref_id = $a_ref_id;
+
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->access = $ilAccess;
-		$this->locator = $ilLocator;
-		$this->tree = $tree;
 		$this->toolbar = $ilToolbar;
 		$this->log = $ilLog;
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->ilSetting = $ilSetting;
+
 		$this->modal_id = "tree_modal";
 		$this->async_output_handler = new ilAsyncOutputHandler();
-
-		$this->initTree();
 
 		$lng->loadLanguageModule("prg");
 	}
 
+
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
 
 	/**
 	 * Initialize Tree
@@ -138,6 +134,7 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	public function executeCommand() {
+		$this->initTree();
 		$cmd = $this->ctrl->getCmd();
 
 		$this->getToolbar();
@@ -398,9 +395,6 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function delete() {
-		global $DIC;
-		$ilSetting = $DIC['ilSetting'];
-
 		$this->checkAccessOrFail("delete");
 
 		if(!isset($_GET['ref_id'], $_GET['item_ref_id'])) {
@@ -413,7 +407,7 @@ class ilObjStudyProgrammeTreeGUI {
 
 		$msg = $this->lng->txt("info_delete_sure");
 
-		if (!$ilSetting->get('enable_trash'))
+		if (!$this->ilSetting->get('enable_trash'))
 		{
 			$msg .= "<br/>".$this->lng->txt("info_delete_warning_no_trash");
 		}
