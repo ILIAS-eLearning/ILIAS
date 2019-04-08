@@ -62,7 +62,7 @@ implements ilStudyProgrammeAssignmentRepository
 	{
 		$return = [];
 		foreach($this->loadByFilterDB([self::FIELD_USR_ID => $usr_id]) as $row) {
-			$this->assignmentByRow($row);
+			$return[] = $this->assignmentByRow($row);
 		}
 		return $return;
 	}
@@ -74,7 +74,7 @@ implements ilStudyProgrammeAssignmentRepository
 	{
 		$return = [];
 		foreach($this->loadByFilterDB([self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
-			$this->assignmentByRow($row);
+			$return[] = $this->assignmentByRow($row);
 		}
 		return $return;
 	}
@@ -85,7 +85,7 @@ implements ilStudyProgrammeAssignmentRepository
 		foreach($this->loadByFilterDB(
 			[self::FIELD_USR_ID => $usr_id
 			,self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
-			$this->assignmentByRow($row);
+			$return[] = $this->assignmentByRow($row);
 		}
 		return $return;
 	}
