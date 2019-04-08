@@ -90,7 +90,6 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 		
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 		$mark = ilLPMarks::_lookupMark($user_id, $this->object->getId());
-		include_once 'Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$status = ilExerciseMembers::_lookupStatus($this->object->getId(), $user_id);
 		
 		$user_data = ilObjUser::_lookupFields($user_id);							

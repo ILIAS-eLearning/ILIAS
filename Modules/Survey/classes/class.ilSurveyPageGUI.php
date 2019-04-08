@@ -1429,7 +1429,7 @@ class ilSurveyPageGUI
 		}
 
 		// jump to page
-		if(sizeof($pages_drop) > 1)
+		if(is_array($pages_drop) && count($pages_drop) > 1)
 		{
 			//$ilToolbar->addSeparator();
 

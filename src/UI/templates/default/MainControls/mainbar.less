@@ -1,0 +1,183 @@
+// mainbar
+.il-maincontrols-mainbar {
+	.btn-bulky {
+		font-size: @il-mainbar-btn-label-size;
+	}
+	.bulky-label {
+		white-space: normal;
+	    margin-top: @il-mainbar-bulky-label-margin-top;
+	    display: block;
+	}
+}
+
+.il-maincontrols-mainbar,
+.il-maincontrols-metabar {
+	.btn {
+	  &:focus,
+	  &:active {
+		  border: 0;
+		  outline: 0;
+	  }
+	}
+}
+
+// mainbar triggers
+.il-mainbar-triggers {
+	background: @il-mainbar-btn-bg-color;
+	display: flex;
+	position: relative;
+	width: @il-mainbar-btn-width;
+	z-index: 1;
+	.btn-bulky {
+		height: @il-mainbar-btn-height;
+		width: @il-mainbar-btn-height;
+		justify-content: center;
+		padding: 0;
+		display: inline-flex;
+		flex-flow: column wrap;
+		align-items: center;
+		width: 100%;
+		border: 0;
+		background: @il-mainbar-btn-bg-color;
+		border-bottom: @il-mainbar-btn-border;
+		color: @il-mainbar-btn-bg-color-engaged;
+		img {
+			filter: invert(100%);
+		}
+		&.engaged {
+			background-color: @il-mainbar-btn-bg-color-engaged;
+			color: @il-mainbar-btn-bg-color;
+			img {
+				filter: invert(50%);
+			}
+		}
+		&:focus {
+			outline: none;
+		}
+		.bulky-label {
+			white-space: normal;
+			margin-top: @il-mainbar-bulky-label-margin-top;
+    		display: block;
+		}
+	}
+	&.engaged {
+		background: @il-maincontrols-mainbar-bg-color;
+	}
+}
+
+// mainbar slates
+.il-mainbar-slates {
+	.shadow-right;
+	width: @il-standard-page-slate-width;
+	display: none;
+}
+
+.il-mainbar-tools-button {
+	.btn-bulky,
+	.btn-bulky.engaged {
+		background-color: lighten(@brand-primary, 45%);
+		border: 0;
+		color: @il-mainbar-btn-color-engaged;
+		padding: 0;
+		img {
+			filter: invert(35%);
+		}
+	}
+}
+
+.il-mainbar-tools-entries {
+	display:none;
+	&.engaged {
+		display: block;
+		flex-shrink: 0;
+	}
+	.btn-bulky {
+		background-color: lighten(@brand-primary, 25%);
+		color: @il-mainbar-btn-color;
+		padding: 0;
+		.icon {
+			filter: invert(100%);
+		}
+		&.engaged {
+			background-color: @il-maincontrols-mainbar-bg-color;
+			border: 0;
+			color: @il-mainbar-btn-color-engaged;
+			.icon {
+				filter: invert(60%);
+			}
+		}
+	}
+}
+
+.il-mainbar-close-slates {
+	align-items: flex-end;
+	display: flex;
+	flex-shrink: 0;
+	height: @il-mainbar-close-slate-btn-height;
+	.btn-bulky {
+		background-color: transparent;
+		border-top: @il-mainbar-btn-border;
+		display: flex;
+		flex-direction: row;
+		height: @il-mainbar-close-slate-btn-height;
+		justify-content: flex-end;
+		align-items: center;
+		.bulky-label {
+			display: none;
+		}
+		.glyph {
+			&:before {
+				content:" \e605";
+				display: block;
+				font-family: "il-icons"; // should be defined more general at .glyphicon
+				font-size: 2.1rem;
+			}
+			.glyphicon {
+				display: none;
+			}
+		}
+	}
+}
+
+.il-mainbar-remove-tool {
+	.close {
+		color: @brand-primary;
+	    font-size: 4.5rem;
+	    font-weight: 300;
+		height: auto;
+		padding: 0 30px;
+		width: auto;
+	}
+}
+
+.il-mainbar-slates > .il-maincontrols-slate.engaged {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	position: relative;
+ }
+ .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
+	height: 0px; // forcing scrollbars in slate content
+}
+
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+
+
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+	.il-mainbar-triggers {
+	   background: @il-mainbar-btn-bg-color;
+	   display: flex;
+	   position: relative;
+	   width: 100%;
+	   z-index: 1;
+	   .btn-bulky {
+		   border: 0;
+		   height: @il-mainbar-small-btn-height;
+		   width: @il-mainbar-small-btn-width;
+	   }
+	}
+}

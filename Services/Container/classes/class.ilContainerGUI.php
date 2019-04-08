@@ -1639,7 +1639,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
-		if (count($no_copy))
+		if (is_array($no_copy) && count($no_copy))
 		{
 			$titles = array();
 			foreach((array) $no_copy as $copy_id)

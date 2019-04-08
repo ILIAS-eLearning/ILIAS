@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
+
 /* Copyright (c) 2015, 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Component\Glyph;
+
 /**
  * This is how a factory for glyphs looks like.
  */
@@ -30,7 +34,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function settings($action = null);
+	public function settings(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -58,7 +62,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function collapse($action = null);
+	public function collapse(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -86,7 +90,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function expand($action = null);
+	public function expand(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -124,7 +128,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function add($action = null);
+	public function add(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -161,7 +165,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function remove($action = null);
+	public function remove(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -198,7 +202,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function up($action = null);
+	public function up(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -235,7 +239,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function down($action = null);
+	public function down(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -266,7 +270,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function back($action = null);
+	public function back(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -295,7 +299,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function next($action = null);
+	public function next(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -316,7 +320,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function sortAscending($action = null);
+	public function sortAscending(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -337,7 +341,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function sortDescending($action = null);
+	public function sortDescending(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -357,7 +361,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function briefcase($action = null);
+	public function briefcase(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -379,7 +383,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function user($action = null);
+	public function user(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -401,7 +405,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function mail($action = null);
+	public function mail(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -432,7 +436,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function notification($action = null);
+	public function notification(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -455,7 +459,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function tag($action = null);
+	public function tag(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -478,7 +482,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function note($action = null);
+	public function note(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -501,7 +505,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function comment($action = null);
+	public function comment(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -527,7 +531,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function like($action = null);
+	public function like(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -553,7 +557,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function love($action = null);
+	public function love(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -579,7 +583,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function dislike($action = null);
+	public function dislike(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -605,7 +609,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function laugh($action = null);
+	public function laugh(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -631,7 +635,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function astounded($action = null);
+	public function astounded(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -657,7 +661,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function sad($action = null);
+	public function sad(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -683,7 +687,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function angry($action = null);
+	public function angry(string $action = null): Glyph;
 
 
 	/**
@@ -711,7 +715,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function eyeclosed($action = null);
+	public function eyeclosed(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -738,7 +742,7 @@ interface Factory {
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function eyeopen($action = null);
+	public function eyeopen(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -764,7 +768,7 @@ interface Factory {
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function attachment($action = null);
+	public function attachment(string $action = null): Glyph;
 
 	/**
 	 * ---
@@ -798,13 +802,13 @@ interface Factory {
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function reset($action = null);
-  
+	public function reset(string $action = null): Glyph;
+
 	/**
 	 * ---
 	 * description:
-	 *   purpose: >  
-     *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
+	 *   purpose: >
+	 *      The Apply Glyph is used to indicate the possibilty of applying changes which the user has made
 	 *      within a control, i.e. a filter.
 	 *   composition: >
 	 *      The Apply Glyph uses the glyphicon-ok.
@@ -832,6 +836,57 @@ interface Factory {
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function apply($action = null);
+	public function apply(string $action = null): Glyph;
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Search Glyph is used to trigger a search-dialog.
+	 *   composition: >
+	 *       The Search Glyph uses the glyphicon-search.
+	 *   effect: >
+	 *       Clicking this glyph will open a search dialog.
+	 *       Since the context for the Search Glyph primarily is the Metabar,
+	 *       the according search dialog will be opened as Tool in the Mainbar.
+	 *
+	 * context:
+	 *    - The Search Glyph appears in the Metabar.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Search'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function search(string $action = null): Glyph;
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Help Glyph is used to open a context-sensitive help screen.
+	 *   composition: >
+	 *       The Help Glyph uses the glyphicon-question-sign.
+	 *   effect: >
+	 *       When clicked, the user is provided with explanations or
+	 *       instructions for the usage of the current context.
+	 *       When used in the Metabar, the help is displayed as tool in the
+	 *       Sidebar.
+	 *
+	 * context:
+	 *    - The Search Glyph appears in the Metabar.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Help'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function help(string $action = null): Glyph;
 
 }
