@@ -33,7 +33,8 @@ class FloatRange
 			throw new ConstraintViolationException(
 				sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum),
 				'exception_maximum_minimum_mismatch',
-				array($maximum, $minimum)
+				$maximum,
+				$minimum
 			);
 		}
 

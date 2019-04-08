@@ -28,7 +28,8 @@ class StrictFloatRange
 			throw new ConstraintViolationException(
 				sprintf('The maximum("%s") and minimum("%s") can NOT be the same', $maximum, $minimum),
 				'exception_maximum_minimum_same',
-				array($maximum, $minimum)
+				$maximum,
+				$minimum
 			);
 		}
 
