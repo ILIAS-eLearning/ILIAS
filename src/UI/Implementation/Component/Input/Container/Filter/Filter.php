@@ -101,7 +101,6 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	/**
 	 * @param SignalGeneratorInterface $signal_generator
 	 * @param C\Input\Field\Factory $field_factory
-	 * @param C\Input\Container\Factory $container_factory
 	 * @param string|Signal $toggle_action_on
 	 * @param string|Signal $toggle_action_off
 	 * @param string|Signal $expand_action
@@ -113,11 +112,10 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 	 * @param bool $is_activated
 	 * @param bool $is_expanded
 	 */
-	public function __construct($signal_generator, $field_factory, $container_factory, $toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action,
+	public function __construct(SignalGeneratorInterface $signal_generator, CI\Input\Field\Factory $field_factory, $toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action,
 								array $inputs, array $is_input_rendered, $is_activated, $is_expanded) {
 		$this->signal_generator = $signal_generator;
 		$this->field_factory = $field_factory;
-		$this->container_factory = $container_factory;
 		$this->toggle_action_on = $toggle_action_on;
 		$this->toggle_action_off = $toggle_action_off;
 		$this->expand_action = $expand_action;
@@ -132,10 +130,8 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
 		$classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
 		$this->checkArgListElements("input", $inputs, $classes);
 
-		$input_factory = new CI\Input\Factory($this->signal_generator, $this->field_factory, $this->container_factory);
-
 		$this->initSignals();
-		$this->input_group = $input_factory->field()->group($inputs)->withNameFrom($this);
+		$this->input_group = $field_factory->group($inputs)->withNameFrom($this);
 
 		foreach ($is_input_rendered as $r) {
 			$this->checkBoolArg("is_input_rendered", $r);
