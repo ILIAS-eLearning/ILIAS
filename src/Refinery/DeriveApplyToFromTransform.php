@@ -21,8 +21,6 @@ trait DeriveApplyToFromTransform
 			$value = $this->transform($result->value());
 		} catch (\Exception $exception) {
 			return new Result\Error($exception);
-		} catch (\Error $error) {
-			return new Result\Error($error->getMessage());
 		}
 
 		return new Result\Ok($value);

@@ -70,14 +70,15 @@ class NewMethodTransformationTest extends TestCase
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \TypeError
-	 */
 	public function testPrivateMethodCanNotBeCalledInTransform()
 	{
 		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myPrivateMethod');
 
-		$object = $transformation->transform(array('hello', 10));
+		try {
+			$object = $transformation->transform(array('hello', 10));
+		} catch  (\Error $error) {
+			return;
+		}
 
 		$this->fail();
 	}
@@ -85,10 +86,13 @@ class NewMethodTransformationTest extends TestCase
 	public function testPrivateMethodCanNotBeCalledInApplyto()
 	{
 		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myPrivateMethod');
+		try {
+			$object = $transformation->applyTo(new Ok(array('hello', 10)));
+		} catch  (\Error $error) {
+			return;
+		}
 
-		$object = $transformation->applyTo(new Ok(array('hello', 10)));
-
-		$this->assertTrue($object->isError());
+		$this->fail();
 	}
 
 	/**

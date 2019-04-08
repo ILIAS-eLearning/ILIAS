@@ -61,9 +61,13 @@ class NewObjectTransformationTest extends TestCase
 	{
 		$transformation = new NewObjectTransformation(MyClass::class);
 
-		$resultObject = $transformation->applyTo(new Ok(array('hello', 'world')));
+		try {
+			$resultObject = $transformation->applyTo(new Ok(array('hello', 'world')));
+		} catch (\Error $error) {
+			return;
+		}
 
-		$this->assertTrue($resultObject->isError());
+		$this->fail();
 	}
 
 	public function testExceptionInConstructorWillResultInErrorObject()
