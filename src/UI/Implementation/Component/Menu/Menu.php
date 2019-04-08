@@ -26,7 +26,6 @@ abstract class Menu implements IMenu\Menu
 		return $this->items;
 	}
 
-
 	/**
 	 * @param array	$items
 	 */

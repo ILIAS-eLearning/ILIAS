@@ -46,14 +46,12 @@ class Renderer extends AbstractComponentRenderer {
 		$label = $this->maybeConvertLabelToShy($component->getLabel());
 		$tpl->setVariable('LABEL', $default_renderer->render($label));
 
-		/*if($component->isInitiallyActive()) {
-			$component = $component->withAdditionalOnLoadCode(function ($id) {
-				return "$(document).ready(function(){ il.UI.drilldown.setActiveById('{$id}');});";
-			});
-
-		} else {
+		if ($component instanceof Menu\Sub)
+		{
+			if($component->isInitiallyActive()) {
+				$tpl->touchBlock('active');
+			}
 		}
-		*/
 		$component = $component->withAdditionalOnLoadCode(function ($id) {return '';});
 		$id = $this->bindJavaScript($component);
 		$tpl->setVariable("ID", $id);

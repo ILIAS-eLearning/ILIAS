@@ -19,6 +19,7 @@ il.UI.menu = il.UI.menu || {};
 				firstlevel.children('.il-menu-item').clone()
 			);
 			initEntries(dd);
+			initInitiallyActive(dd);
 		};
 
 		var initEntries= function (drilldown) {
@@ -30,7 +31,6 @@ il.UI.menu = il.UI.menu || {};
 			entries.children('.il-menu-item-label').click(
 				function() {
 					var entry = $(this).parent('.il-menu-item');
-					console.log(entry);
 					setActive(entry);
 				}
 			);
@@ -61,13 +61,14 @@ il.UI.menu = il.UI.menu || {};
 
 			initEntries(dd);
 		};
-		var setActiveById = function(id) {
-			var entry = $('#' + id);
-			setActive(entry);
+
+		var initInitiallyActive = function(dd) {
+			var node = dd.find(".il-menu-item[data-active='true']").first();
+			setActive(node);
 		}
+
 		return {
-			init: init,
-			setActiveById: setActiveById
+			init: init
 		}
 
 	})($);

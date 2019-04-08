@@ -807,7 +807,7 @@ interface Factory {
 
 	 * description:
 	 *   purpose: >
-	 *     Menus let the user chose from several (navigational) options.
+	 *     Menus let the user choose from several (navigational) options.
 	 *
 	 * ---
 	 * @return \ILIAS\UI\Component\Menu\Factory

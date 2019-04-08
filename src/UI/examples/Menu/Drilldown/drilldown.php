@@ -17,7 +17,11 @@ function drilldown() {
 
 	$items = [
 		$f->menu()->sub(toBulky('1'), [
-			$f->menu()->sub(toBulky('1.1'), [$button, $button]),
+			$f->menu()->sub(
+					toBulky('1.1'),
+					[$button, $button]
+				)
+				->withInitiallyActive(),
 			$f->menu()->sub(toBulky('1.2'), [
 				$f->menu()->sub('1.2.1', [$button]),
 				$f->menu()->sub('1.2.2', [$button])
@@ -28,9 +32,9 @@ function drilldown() {
 		$f->menu()->sub(toBulky('2'), [
 			$f->menu()->sub('2.1', [$button]),
 			$f->menu()->sub('2.2', [$button]),
+			$f->divider()->horizontal(),
 			$f->menu()->sub('2.3', [$button])
 		])
-		->withInitiallyActive()
 	];
 
 	$dd = $f->menu()->drilldown($label, $items);

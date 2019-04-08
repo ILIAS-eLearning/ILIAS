@@ -23,6 +23,7 @@ interface Factory
 	 *     entries, the following area again holds exactly one button to outline
 	 *     the current position within the tree-structure and finally the main area
 	 *     consisting of an unlimited number of buttons.
+	 *     Also, Dividers may be used so separate entries from each other.
 	 *   effect: >
 	 *     Buttons within the Drilldown Menu will either affect the Menu itself or
 	 *     trigger other navigational events.
@@ -41,8 +42,8 @@ interface Factory
 	 *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
      *
 	 * ---
- 	 * @param 	string $label
-	 * @param 	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
+ 	 * @param 	\ILIAS\UI\Component\Clickable | string		$label
+	 * @param 	array<\ILIAS\UI\Component\Menu\Sub | \ILIAS\UI\Component\Clickable | \ILIAS\UI\Component\Divider> $items
 	 * @return 	\ILIAS\UI\Component\Menu\Drilldown
 	 */
 	public function drilldown($label, array $items): Drilldown;
@@ -52,21 +53,21 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     TODO:  A Drilldown Menu offers navigational options to the user by
-	 *     organizing them in a hierarchical structure. The Submenu is an
-	 *     entry for the Drilldown Menu demarking a further level within the
-	 *     hierarchy.
+	 *     Menus offer navigational options to the user. Sometimes, those options
+	 *     are organized in a hierarchical structure. The Submenu is an entry for
+	 *     Menus demarking a further level within this hierarchy.
 	 *   composition: >
-	 *     A Submenu will be rendered as a Button within a Drilldown Menu.
+	 *     A Submenu is a derivate of Menu and will be rendered alike.
 	 *     It holds further Submenus and/or Buttons.
+	 *     Also, Dividers may be used so separate entries from each other.
 	 *   effect: >
-	 *     Clicking the Button will show the flat list of Entries of this Submenu.
+	 *     Clicking the Label of the Submenu will show the list of Entries of this Submenu.
 	 *
 	 * rules:
 	 *   usage:
 	 *      1: >
 	 *          A Submenu MUST be used to generate a new level in the structure of
-	 *          a Drilldown Menu.
+	 *          a Menu.
 	 *      2: >
 	 *          Submenus MUST contain further Submenus or Buttons.
 	 *      3: >
@@ -78,8 +79,8 @@ interface Factory
 	 *          or purpose of contained entries.
 	 *
 	 * ---
-	 * @param 	string $label
-	 * @param 	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
+	 * @param 	\ILIAS\UI\Component\Clickable | string		$label
+	 * @param 	array<\ILIAS\UI\Component\Menu\Sub | \ILIAS\UI\Component\Clickable | \ILIAS\UI\Component\Divider> $items
 	 * @return 	\ILIAS\UI\Component\Menu\Sub
 	 */
 	public function sub($label, array $items): Sub;

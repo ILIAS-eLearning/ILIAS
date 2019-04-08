@@ -13,7 +13,6 @@ use ILIAS\UI\Component\JavaScriptBindable;
  */
 interface Sub extends LabeledMenu, JavaScriptBindable
 {
-
 	/**
 	 * Configure this Submenu to be active when the menu is loaded.
 	 */
