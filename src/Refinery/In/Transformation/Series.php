@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace ILIAS\In\Transformation;
 
-use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class Series implements Transformation
 {
+	use DeriveApplyToFromTransform;
 	/**
 	 * @var Transformation[]
 	 */
@@ -50,23 +50,6 @@ class Series implements Transformation
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		foreach ($this->transformationStrategies as $strategy) {
-			$resultObject = $strategy->applyTo($data);
-			if ($resultObject->isError()) {
-				return $resultObject;
-			}
-
-			$data = $resultObject;
-		}
-
-		return new Result\Ok($data->value());
 	}
 
 	/**

@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace ILIAS\In\Transformation;
 
-use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 class Parallel implements Transformation
 {
+	use DeriveApplyToFromTransform;
 	/**
 	 * @var Transformation[]
 	 */
@@ -50,24 +50,6 @@ class Parallel implements Transformation
 		}
 
 		return $results;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$results = array();
-		foreach ($this->transformationStrategies as $strategy) {
-			$resultObject = $strategy->applyTo($data);
-
-			if (true === $resultObject->isError()) {
-				return $resultObject;
-			}
-			$results[] = $resultObject->value();
-		}
-
-		return new Result\Ok($results);
 	}
 
 	/**
