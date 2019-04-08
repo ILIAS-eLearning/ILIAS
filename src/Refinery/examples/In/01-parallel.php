@@ -11,12 +11,12 @@ function parallel() {
 
 	$transformation = $refinery->in()->parallel(
 		array(
-			new ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation(),
-			new ILIAS\Refinery\KindlyTo\Transformation\StringTransformation(),
+			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
 		)
 	);
 
-	$result = $transformation->transform(5.3);
+	$result = $transformation->transform(5);
 
-	return assert(array(5, '5.3'), $result);
+	return assert(array(5, 5), $result);
 }

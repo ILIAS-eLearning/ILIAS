@@ -23,7 +23,6 @@ class Group
 	 *
 	 * @param array $inTransformations
 	 * @return Transformation
-	 * @throws \ilException
 	 */
 	public function series(array $inTransformations): Transformation
 	{

@@ -11,12 +11,12 @@ function series() {
 
 	$transformation = $refinery->in()->series(
 		array(
-			new ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation(),
-			new ILIAS\Refinery\KindlyTo\Transformation\StringTransformation(),
+			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
 		)
 	);
 
-	$result = $transformation->transform(5.3);
+	$result = $transformation->transform(5);
 
-	return assert('5' === $result);
+	return assert(5 === $result);
 }
