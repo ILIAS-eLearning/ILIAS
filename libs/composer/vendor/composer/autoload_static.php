@@ -6974,6 +6974,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilStudyProgrammeAssignment' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php',
         'ilStudyProgrammeContainerObjectMock' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeContainerObjectMock.php',
         'ilStudyProgrammeCourseListGUI' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php',
+        'ilStudyProgrammeDIC' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeDIC.php',
         'ilStudyProgrammeEvents' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php',
         'ilStudyProgrammeExpandableProgressListGUI' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php',
         'ilStudyProgrammeIndividualPlanProgressListGUI' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php',
