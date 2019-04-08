@@ -15,6 +15,15 @@ use ILIAS\UI;
  */
 interface Goal {
 	/**
+	 * An identifier for the type of goal.
+	 *
+	 * Types are used to group goals that share a configuration. For many goals
+	 * return the class name will be fine.
+	 */
+	public function getType() : string;
+
+
+	/**
 	 * Get a label that describes this goal.
 	 */
 	public function getLabel() : string;
@@ -50,7 +59,7 @@ interface Goal {
 	 * some preset configuration.
 	 *
 	 * @throw InvalidArgumentException if Config does not match the Goal
-	 * @return UI\Component\Input\Field\Input
+	 * @return UI\Component\Input\Field\Input|null
 	 */
 	public function getConfigurationInput(Config $config = null);
 
