@@ -21,7 +21,6 @@ use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
 
 class Group
 {

@@ -8,13 +8,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-
-use ILIAS\Data\Result;
 use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
-use ILIAS\Refinery\Validation\Constraints\IsArrayOfSameType;
-use JaimePerez\TwigConfigurableI18n\Twig\Extensions\Node\Trans;
 
 class TupleTransformation implements Transformation
 {
