@@ -11,7 +11,10 @@ use \ILIAS\UI\Implementation\Component\Signal;
 /**
  * Test on button implementation.
  */
-class ButtonTest extends ILIAS_UI_TestBase {
+class ButtonTest extends ILIAS_UI_TestBase
+{
+	const NOT_APPLICABLE = true;
+
 	public function getButtonFactory() {
 		return new \ILIAS\UI\Implementation\Component\Button\Factory();
 	}
@@ -343,6 +346,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			$this->assertEquals(false, $b->isEngageable());
 			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(false);
 			$this->assertEquals(true,$b2->isEngageable());
+		} else {
+			$this->assertTrue(self::NOT_APPLICABLE);
 		}
 	}
 
@@ -357,6 +362,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			$this->assertEquals(false, $b->isEngaged());
 			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(true);
 			$this->assertEquals(true,$b2->isEngaged());
+		} else {
+			$this->assertTrue(self::NOT_APPLICABLE);
 		}
 	}
 
@@ -380,6 +387,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 				"label".
 				"</button>";
 			$this->assertHTMLEquals($expected, $html);
+		} else {
+			$this->assertTrue(self::NOT_APPLICABLE);
 		}
 	}
 
@@ -403,6 +412,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 				"label".
 				"</button>";
 			$this->assertHTMLEquals($expected, $html);
+		} else {
+			$this->assertTrue(self::NOT_APPLICABLE);
 		}
 	}
 
