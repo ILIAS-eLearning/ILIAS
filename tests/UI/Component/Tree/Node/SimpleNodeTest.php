@@ -13,7 +13,7 @@ use \ILIAS\UI\Implementation\Component as I;
  */
 class SimpleNodeTest extends ILIAS_UI_TestBase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->node_factory = new I\Tree\Node\Factory();
 		$icon_factory = new I\Icon\Factory();

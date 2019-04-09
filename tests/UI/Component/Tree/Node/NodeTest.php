@@ -22,7 +22,7 @@ class NodeTest extends ILIAS_UI_TestBase
 {
 	public function testConstruction()
 	{
-		$node = new TestingNode();
+		$node = new TestingNode("");
 		$this->assertInstanceOf(
 			"ILIAS\\UI\\Component\\Tree\\Node\\Node",
 			$node

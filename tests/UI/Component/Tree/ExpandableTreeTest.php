@@ -57,7 +57,7 @@ class ExpandableTreeTest extends ILIAS_UI_TestBase
 		return $factory;
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$n11 = new DataNode('1.1');
 		$n12 = new DataNode('1.2', array(new DataNode('1.2.1')));
