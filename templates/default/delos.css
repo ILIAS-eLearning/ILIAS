@@ -9121,10 +9121,10 @@ div.alert ul > li:before {
   background: none !important;
 }
 .shadow-right {
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px #cccccc;
 }
 .shadow-bottom {
-  box-shadow: 0 1px 4px #ccc;
+  box-shadow: 0 1px 4px #cccccc;
 }
 * {
   box-sizing: border-box;
@@ -9201,7 +9201,7 @@ header {
 .header-inner {
   -ms-flex-align: center;
   align-items: center;
-  background: #fff;
+  background: #ffffff;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
@@ -9222,8 +9222,8 @@ header {
 .breadcrumbs {
   -ms-flex-align: center;
   align-items: center;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
+  background-color: #ffffff;
+  border-top: 1px solid #dddddd;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
@@ -9235,14 +9235,14 @@ header {
   grid-column-end: 3;
   grid-row: 2;
   z-index: 998;
-  box-shadow: 0 1px 4px #ccc;
+  box-shadow: 0 1px 4px #cccccc;
 }
 .breadcrumbs ul.breadcrumb {
   padding-left: 100px;
 }
 .breadcrumbs ul.breadcrumb > li + li:before {
   content: " \e606";
-  color: #bbb;
+  color: #bbbbbb;
   font-family: "il-icons";
 }
 /* mainbar */
@@ -9254,7 +9254,7 @@ nav.il-maincontrols {
   z-index: 997;
 }
 .il-maincontrols-mainbar {
-  background-color: #fff;
+  background-color: #ffffff;
   display: -ms-grid;
   display: grid;
   height: 100%;
@@ -9270,7 +9270,7 @@ nav.il-maincontrols {
   -ms-grid-row: 1;
   grid-column: 1;
   grid-row: 1;
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px #cccccc;
   z-index: 996;
 }
 .il-mainbar-tools-button {
@@ -9421,8 +9421,8 @@ footer {
   .breadcrumbs {
     -ms-flex-align: center;
     align-items: center;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
+    background-color: #ffffff;
+    border-top: 1px solid #dddddd;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: row;
@@ -9432,14 +9432,14 @@ footer {
     grid-column: 1;
     grid-row: 2;
     z-index: 998;
-    box-shadow: 0 1px 4px #ccc;
+    box-shadow: 0 1px 4px #cccccc;
   }
   .breadcrumbs ul.breadcrumb {
     padding-left: 20px;
   }
   .breadcrumbs ul.breadcrumb > li + li:before {
     content: " \e606";
-    color: #bbb;
+    color: #bbbbbb;
     font-family: "il-icons";
   }
   /* mainbar */
@@ -9633,14 +9633,14 @@ footer {
 }
 .il-metabar-entry .btn-bulky.engaged,
 .il-metabar-entry .btn-bulky.engaged:focus {
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px #cccccc;
   background-color: #fafafa;
   border: none;
   color: initial;
   outline-color: transparent;
 }
 .il-metabar-entry .btn-bulky .glyphicon {
-  color: #aaa;
+  color: #aaaaaa;
   font-size: 2.3rem;
 }
 .il-metabar-entry .glyphicon {
@@ -9665,7 +9665,7 @@ footer {
   content: "\e005";
 }
 .il-metabar-slates {
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px #cccccc;
   background-color: #fafafa;
   position: absolute;
   right: 0;
@@ -9703,14 +9703,14 @@ footer {
   width: 100%;
   border: 0;
   background: #4a4a4a;
-  border-bottom: 1px solid #ddd;
-  color: #fff;
+  border-bottom: 1px solid #dddddd;
+  color: #ffffff;
 }
 .il-mainbar-triggers .btn-bulky img {
   filter: invert(100%);
 }
 .il-mainbar-triggers .btn-bulky.engaged {
-  background-color: #fff;
+  background-color: #ffffff;
   color: #4a4a4a;
 }
 .il-mainbar-triggers .btn-bulky.engaged img {
@@ -9725,10 +9725,10 @@ footer {
   display: block;
 }
 .il-mainbar-triggers.engaged {
-  background: #fff;
+  background: #ffffff;
 }
 .il-mainbar-slates {
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px #cccccc;
   width: 400px;
   display: none;
 }
@@ -9752,14 +9752,14 @@ footer {
 }
 .il-mainbar-tools-entries .btn-bulky {
   background-color: #91a5c1;
-  color: #fff;
+  color: #ffffff;
   padding: 0;
 }
 .il-mainbar-tools-entries .btn-bulky .icon {
   filter: invert(100%);
 }
 .il-mainbar-tools-entries .btn-bulky.engaged {
-  background-color: #fff;
+  background-color: #ffffff;
   border: 0;
   color: #4a4a4a;
 }
@@ -9774,7 +9774,7 @@ footer {
 }
 .il-mainbar-close-slates .btn-bulky {
   background-color: transparent;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   display: flex;
   flex-direction: row;
   height: 45px;
