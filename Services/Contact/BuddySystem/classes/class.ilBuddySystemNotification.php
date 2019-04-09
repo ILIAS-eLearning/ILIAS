@@ -98,7 +98,7 @@ class ilBuddySystemNotification
 	protected function hasPublicProfile($recipientUsrId)
 	{
 		$portfolioId = \ilObjPortfolio::getDefaultPortfolio($this->sender->getId());
-		if ($this->settings->get('user_portfolios') && is_numeric($portfolioId) && $portfolioId > 0) {
+		if (is_numeric($portfolioId) && $portfolioId > 0) {
 			$accessHandler = new \ilPortfolioAccessHandler();
 			return $accessHandler->checkAccessOfUser($recipientUsrId, 'read', '', $portfolioId);
 		}
