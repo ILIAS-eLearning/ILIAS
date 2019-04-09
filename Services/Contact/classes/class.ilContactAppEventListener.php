@@ -25,10 +25,8 @@ class ilContactAppEventListener implements ilAppEventListener
 			ilMailingList::removeAssignmentsByUserId($a_parameter['usr_id']);
 		}
 
-		if('Services/Contact' == $a_component && 'contactRequested' == $a_event)
-		{
-			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemNotification.php';
-			$notification = new ilBuddySystemNotification($DIC->user());
+		if('Services/Contact' == $a_component && 'contactRequested' == $a_event) {
+			$notification = new ilBuddySystemNotification($DIC->user(), $DIC->settings());
 			$notification->setRecipientIds(array($a_parameter['usr_id']));
 			$notification->send();
 		}
