@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class IlCertificateActiveActionTest extends \PHPUnit_Framework_TestCase
+class IlCertificateActiveActionTest extends ilCertificateBaseTestCase
 {
 	public function testCertificateIsActive()
 	{

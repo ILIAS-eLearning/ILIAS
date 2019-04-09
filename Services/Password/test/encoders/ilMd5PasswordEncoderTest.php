@@ -55,11 +55,10 @@ class ilMd5PasswordEncoderTest  extends ilPasswordBaseTest
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilMd5PasswordEncoder $encoder)
 	{
-		$this->assertException(ilPasswordException::class);
+		$this->expectException(ilPasswordException::class);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}
 

@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /** 
 * Unit tests for data cache
 * 
@@ -30,11 +32,11 @@
 * @group needsInstalledILIAS
 * @ingroup ServicesTree
 */
-class ilCacheTest extends PHPUnit_Framework_TestCase
+class ilCacheTest extends TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();

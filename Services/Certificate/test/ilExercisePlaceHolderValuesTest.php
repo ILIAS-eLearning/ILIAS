@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceHolderValuesTest extends PHPUnit_Framework_TestCase
+class ilExercisePlaceHolderValuesTest extends ilCertificateBaseTestCase
 {
 	public function testGetPlaceholderValues()
 	{

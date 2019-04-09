@@ -4,13 +4,15 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateFactoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateFactoryTest extends ilCertificateBaseTestCase
 {
 	/**
-	 * @expectedException  ilException
+	 * 
 	 */
 	public function testTypeIsNotSupportedAndWillThrowAnException()
 	{
+		$this->expectException(\ilException::class);
+
 		$object = $this->getMockBuilder('ilObject')
 			->disableOriginalConstructor()
 			->getMock();

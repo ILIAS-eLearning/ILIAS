@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
 
-class ilServicesStyleSuite extends PHPUnit_Framework_TestSuite
+class ilServicesStyleSuite extends TestSuite
 {
 	public static function suite()
 	{

@@ -4,14 +4,15 @@
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests working with color data object
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class PasswordTest extends PHPUnit_Framework_TestCase {
-	protected function setUp() {
+class PasswordTest extends TestCase {
+	protected function setUp(): void {
 		$this->f = new Data\Factory();
 	}
 

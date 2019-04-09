@@ -1,13 +1,16 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestCase;
+
 require_once __DIR__ . '/bootstrap.php';
 
 /**
  * Class ilServicesMailSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesMailSuite extends PHPUnit_Framework_TestSuite
+class ilServicesMailSuite extends TestSuite
 {
 	/**
 	 * @return self
@@ -40,7 +43,7 @@ class ilServicesMailSuite extends PHPUnit_Framework_TestSuite
 				if (
 					!$reflection->isAbstract() &&
 					!$reflection->isInterface() &&
-					$reflection->isSubclassOf(\PHPUnit_Framework_TestCase::class)) {
+					$reflection->isSubclassOf(TestCase::class)) {
 					$suite->addTestSuite($className);
 				}
 			}

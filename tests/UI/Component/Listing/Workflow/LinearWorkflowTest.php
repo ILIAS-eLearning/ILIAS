@@ -14,7 +14,7 @@ class LinearWorkflowTest extends ILIAS_UI_TestBase {
 		return new ILIAS\UI\Implementation\Component\Listing\Workflow\Factory();
 	}
 
-	public function setUp() {
+	public function setUp(): void{
 		$f = $this->buildFactory();
 		$this->title = 'title';
 		$this->steps = [

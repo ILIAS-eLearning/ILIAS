@@ -6,13 +6,14 @@ require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Validation;
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test standard-constraints of a password.
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class PasswordContraintsTest extends PHPUnit_Framework_TestCase {
+class PasswordContraintsTest extends TestCase {
 
 	/**
 	 * Test a set of values

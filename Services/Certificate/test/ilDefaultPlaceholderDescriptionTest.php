@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilDefaultPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
+class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
 	public function testCreateHtmlDescription()
 	{

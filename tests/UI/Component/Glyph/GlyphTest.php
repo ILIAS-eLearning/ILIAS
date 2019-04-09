@@ -247,11 +247,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_known_glyphs_only() {
-		try {
-			new \ILIAS\UI\Implementation\Component\Glyph\Glyph("FOO", "http://www.ilias.de");
-			$this->assertFalse("We should not get here");
-		}
-		catch (\InvalidArgumentException $e) {}
+		$this->expectException(\InvalidArgumentException::class);
+		new \ILIAS\UI\Implementation\Component\Glyph\Glyph("FOO", "http://www.ilias.de");
 	}
 
 	public function glyph_type_provider() {
@@ -372,14 +369,11 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_dont_render_counter() {
+		$this->expectException(\LogicException::class);
 		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage(), $this->getJavaScriptBinding());
 		$f = $this->getCounterFactory();
 
-		try {
-			$r->render($f->status(0), $this->getDefaultRenderer());
-			$this->assertFalse("This should not happen!");
-		}
-		catch (\LogicException $e) {}
+		$r->render($f->status(0), $this->getDefaultRenderer());
 	}
 
 	/**

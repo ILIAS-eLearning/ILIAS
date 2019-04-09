@@ -7,10 +7,11 @@ require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 use \ILIAS\UI\Implementation\Component\Input\Container\Form\PostDataFromServerRequest;
 
 use Psr\Http\Message\ServerRequestInterface;
+use PHPUnit\Framework\TestCase;
 
-class PostDataFromServerRequestTest extends PHPUnit_Framework_TestCase {
+class PostDataFromServerRequestTest extends TestCase {
 
-	public function setUp() {
+	public function setUp(): void{
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$request->shouldReceive("getParsedBody")->andReturn(["foo" => "bar"]);
 		$this->post_data = new PostDataFromServerRequest($request);

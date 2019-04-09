@@ -27,13 +27,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 	const WRONG_PASSWORD = 'wrong_password';
 
 	/**
-	 * Setup
-	 */
-	protected function setUp()
-	{
-	}
-
-	/**
 	 *
 	 */
 	private function skipIfPhpVersionIsNotSupported()
@@ -86,27 +79,26 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetAboveRange(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->assertException(ilPasswordException::class);
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(32);
 	}
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testCostsCannotBeSetBelowRange(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->assertException(ilPasswordException::class);
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(3);
 	}
 
 	/**
 	 * @depends      testInstanceCanBeCreated
 	 * @dataProvider costsProvider
+	 * @@doesNotPerformAssertions
 	 */
 	public function testCostsCanBeSetInRange($costs, ilBcryptPhpPasswordEncoder $encoder)
 	{
@@ -127,11 +119,10 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
 	/**
 	 * @depends testInstanceCanBeCreated
-	 * @expectedException ilPasswordException
 	 */
 	public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(ilBcryptPhpPasswordEncoder $encoder)
 	{
-		$this->assertException(ilPasswordException::class);
+		$this->expectException(ilPasswordException::class);
 		$encoder->setCosts(self::VALID_COSTS);
 		$encoder->encodePassword(str_repeat('a', 5000), '');
 	}
@@ -163,8 +154,8 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
 		$this->assertTrue($costs_default > 4 && $costs_default < 32);
 		$this->assertTrue($costs_target > 4 && $costs_target < 32);
-		$this->assertInternalType('int', $costs_default);
-		$this->assertInternalType('int', $costs_target);
+		$this->assertIsInt($costs_default);
+		$this->assertIsInt($costs_target);
 		$this->assertNotEquals($costs_default, $costs_target);
 	}
 

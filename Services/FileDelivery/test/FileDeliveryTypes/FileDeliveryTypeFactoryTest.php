@@ -37,7 +37,7 @@ class FileDeliveryTypeFactoryTest extends TestCase {
 	 */
 	private $subject;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->http = Mockery::mock(GlobalHttpState::class);
@@ -89,7 +89,8 @@ class FileDeliveryTypeFactoryTest extends TestCase {
 
 		//get instance should throw an exception if the file delivery type is not known.
 		$type = 'unknown file delivery type';
-		$this->setExpectedException(ilException::class, "Unknown file delivery type \"$type\"");
+		$this->expectException(ilException::class);
+		$this->expectExceptionMessage("Unknown file delivery type \"$type\"");
 
 		$this->subject->getInstance('unknown file delivery type');
 	}

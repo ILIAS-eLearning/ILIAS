@@ -3,16 +3,17 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Transformation;
+use PHPUnit\Framework\TestCase;
 
 /**
  * TestCase for Custom transformations
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class TransformationsCustomTest extends PHPUnit_Framework_TestCase {
+class TransformationsCustomTest extends TestCase {
 	const TEST_STRING = "Test";
 
-	protected function setUp() {
+	protected function setUp(): void{
 		$this->f = new Transformation\Factory();
 		$this->custom = $this->f->custom(function($value) {
 			if(!is_string($value)) {
@@ -22,7 +23,7 @@ class TransformationsCustomTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->f = null;
 		$this->custom = null;
 	}

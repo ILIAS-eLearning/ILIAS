@@ -11,7 +11,7 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class test_001_EmptyWorkflow extends ilWorkflowEngineBaseTest
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../../../' );

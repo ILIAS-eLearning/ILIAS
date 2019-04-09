@@ -1,4 +1,7 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 include_once("./Services/Exceptions/classes/class.ilException.php");
 
 /**
@@ -7,7 +10,7 @@ include_once("./Services/Exceptions/classes/class.ilException.php");
  *        
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilObjDataCollectionTest extends PHPUnit_Framework_TestCase
+class ilObjDataCollectionTest extends TestCase
 {
     /**
      * @var ilObjDataCollection
@@ -16,9 +19,9 @@ class ilObjDataCollectionTest extends PHPUnit_Framework_TestCase
 
     protected $backupGlobals = FALSE;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+        PHPUnit\Framework\Error\Deprecated::$enabled = false;
 //        PHPUnit_Framework_Error_Warning::$enabled = FALSE;
 //        PHPUnit_Framework_Error_Notice::$enabled = FALSE;
         parent::setUp();
@@ -48,7 +51,7 @@ class ilObjDataCollectionTest extends PHPUnit_Framework_TestCase
 
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         if ($this->root_object) {
             $this->root_object->delete();
         }

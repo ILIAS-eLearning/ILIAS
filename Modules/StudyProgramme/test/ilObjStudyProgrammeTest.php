@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 require_once(__DIR__."/mocks.php");
 
 /**
@@ -32,11 +34,11 @@ require_once(__DIR__."/mocks.php");
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
+class ilObjStudyProgrammeTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp() {
-		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+	protected function setUp(): void {
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
@@ -59,7 +61,7 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->obj_definition = $objDefinition;
 	}
 	
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->root_object) {
 			$this->root_object->delete();
 		}

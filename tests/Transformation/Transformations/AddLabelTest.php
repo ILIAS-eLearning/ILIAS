@@ -3,23 +3,24 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Transformation;
+use PHPUnit\Framework\TestCase;
 
 /**
  * TestCase for AddLabel transformations
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class AddLabelTest extends PHPUnit_Framework_TestCase {
+class AddLabelTest extends TestCase {
 	protected static $labels = array("A", "B", "C");
 	protected static $test_array = array(1, 2, 3);
 	protected static $result_array = array("A"=>1, "B"=>2, "C"=>3);
 
-	protected function setUp() {
+	protected function setUp(): void{
 		$this->f = new Transformation\Factory();
 		$this->add_label = $this->f->addLabels(self::$labels);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->f = null;
 		$this->add_label = null;
 	}

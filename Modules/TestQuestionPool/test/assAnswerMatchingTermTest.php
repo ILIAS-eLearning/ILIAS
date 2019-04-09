@@ -8,11 +8,11 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assAnswerMatchingTermTest extends PHPUnit_Framework_TestCase
+class assAnswerMatchingTermTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{

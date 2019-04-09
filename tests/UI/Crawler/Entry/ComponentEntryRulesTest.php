@@ -6,9 +6,10 @@ include_once("tests/UI/Crawler/Fixture/Fixture.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
+use PHPUnit\Framework\TestCase;
 
 
-class ComponentEntryRulesTest extends PHPUnit_Framework_TestCase {
+class ComponentEntryRulesTest extends TestCase {
 
 	protected $empty_rules_array = array(
 		"usage"=>array(),
@@ -71,8 +72,7 @@ class ComponentEntryRulesTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected $proper_entry;
 
-	protected function setUp()
-	{
+	protected function setUp(): void	{
 		$this->parser = new Crawler\EntriesYamlParser();
 		$this->proper_entry = new ProperEntryFixture();
 	}

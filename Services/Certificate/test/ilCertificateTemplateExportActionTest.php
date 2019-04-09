@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTemplateExportActionTest extends PHPUnit_Framework_TestCase
+class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
 {
 	public function testExport()
 	{

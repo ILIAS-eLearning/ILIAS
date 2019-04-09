@@ -82,12 +82,10 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$section = $view_control_f->section($back,$button,$next);
 
 		$html = $r->render($section);
-		$this->assertContains("glyphicon-chevron-left", $html);
-		$this->assertContains("glyphicon-chevron-right", $html);
-		$this->assertContains("il-viewcontrol-section", $html);
-		//$this->assertContains('back', $html);
-		//$this->assertContains('next', $html);
-		$this->assertContains("btn",$html);
+		$this->assertStringContainsString("glyphicon-chevron-left", $html);
+		$this->assertStringContainsString("glyphicon-chevron-right", $html);
+		$this->assertStringContainsString("il-viewcontrol-section", $html);
+		$this->assertStringContainsString("btn",$html);
 
 		$expected = $this->getSectionExpectedHTML();
 		$this->assertHTMLEquals($expected,$html);
@@ -109,7 +107,7 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$f = $this->getViewControlFactory();
 		$r = $this->getDefaultRenderer();
 
-		$this->assertInternalType("array",$f->mode($this->actions, $this->aria_label)->getLabelledActions());
+		$this->assertIsArray($f->mode($this->actions, $this->aria_label)->getLabelledActions());
 	}
 
 	public function test_render_viewcontrol_mode()
@@ -144,30 +142,16 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$this->assertHTMLEquals($expected, $html);
 	}
 
-	public function getUIFactory()
-	{
-		return new \ILIAS\UI\Implementation\Factory(
-			new I\Component\Counter\Factory(),
-			$this->createMock(C\Glyph\Factory::class),
-			new I\Component\Button\Factory,
-			$this->createMock(C\Listing\Factory::class),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			$this->createMock(C\Dropdown\Factory::class),
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
-		);
+	public function getUIFactory() {
+		$factory = new class extends NoUIFactory {
+			public function counter() {
+				return new I\Component\Counter\Factory();
+			}
+			public function button() {
+				return new I\Component\Button\Factory();
+			}
+		};
+		return $factory;
 	}
 
 	protected function getSectionExpectedHTML()

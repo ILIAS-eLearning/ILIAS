@@ -21,13 +21,15 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * ilServicesWebAccessCheckerSuite
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilServicesWebAccessCheckerSuite extends PHPUnit_Framework_TestSuite {
+class ilServicesWebAccessCheckerSuite extends TestSuite {
 
 	/**
 	 * @return \ilServicesWebAccessCheckerSuite

@@ -4,6 +4,7 @@ namespace ILIAS\FileUpload\Collection;
 
 use ILIAS\FileUpload\Collection\Exception\ElementAlreadyExistsException;
 use ILIAS\FileUpload\Collection\Exception\NoSuchElementException;
+use PHPUnit\Framework\TestCase;
 
 require_once './libs/composer/vendor/autoload.php';
 
@@ -17,7 +18,7 @@ require_once './libs/composer/vendor/autoload.php';
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class EntryLockingStringMapTest extends \PHPUnit_Framework_TestCase {
+class EntryLockingStringMapTest extends TestCase {
 
 	/**
 	 * @var EntryLockingStringMap
@@ -27,7 +28,7 @@ class EntryLockingStringMapTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @setup
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->subject = new EntryLockingStringMap();
 	}
 
@@ -53,7 +54,8 @@ class EntryLockingStringMapTest extends \PHPUnit_Framework_TestCase {
 
 		$this->subject->put($key, $value);
 
-		$this->setExpectedException(ElementAlreadyExistsException::class, "Element $key can not be overwritten.");
+		$this->expectException(ElementAlreadyExistsException::class);
+		$this->expectExceptionMessage("Element $key can not be overwritten.");
 
 		$this->subject->put($key, $value);
 	}
@@ -77,7 +79,8 @@ class EntryLockingStringMapTest extends \PHPUnit_Framework_TestCase {
 	public function testGetWithoutPutTheValueWhichShouldFail() {
 		$key = "hello";
 
-		$this->setExpectedException(NoSuchElementException::class, "No meta data associated with key \"$key\".");
+		$this->expectException(NoSuchElementException::class);
+		$this->expectExceptionMessage("No meta data associated with key \"$key\".");
 		$this->subject->get($key);
 	}
 }

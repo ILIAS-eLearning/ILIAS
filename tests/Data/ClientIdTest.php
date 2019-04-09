@@ -4,11 +4,12 @@
 require_once 'libs/composer/vendor/autoload.php';
 
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ClientIdTest extends PHPUnit_Framework_TestCase
+class ClientIdTest extends TestCase
 {
 	/** @var Data\Factory */
 	private $f;
@@ -16,7 +17,7 @@ class ClientIdTest extends PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->f = new Data\Factory();
 	}

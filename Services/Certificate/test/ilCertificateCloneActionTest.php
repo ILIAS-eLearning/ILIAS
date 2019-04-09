@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
+class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 {
 	public function testCloneCertificate()
 	{
