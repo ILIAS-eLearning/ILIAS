@@ -805,6 +805,8 @@ interface Factory {
 	 */
 	public function mainControls(): C\MainControls\Factory;
 
+	/**
+	 * ---
 	 * description:
 	 *   purpose: >
 	 *     Menus let the user choose from several (navigational) options.

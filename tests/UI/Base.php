@@ -53,6 +53,7 @@ class NoUIFactory implements Factory {
 	public function messageBox() {}
 	public function layout(): C\Layout\Factory {}
 	public function mainControls(): C\MainControls\Factory {}
+	public function menu(): C\Menu\Factory {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
