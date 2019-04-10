@@ -492,7 +492,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	function addCommonSection($a_app, $a_obj_id = 0, $cat_info = null, $a_container_info = false)
 	{
 		// event title
-		$this->addInfoSection($a_app["event"]->getPresentationTitle());
+		$this->addInfoSection($a_app["event"]->getPresentationTitle(false));
 
 		// event description
 		$this->addEventDescription($a_app);
