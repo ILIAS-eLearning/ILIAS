@@ -14,7 +14,14 @@ class ilResourceRegistry implements ResourceRegistry {
 	 */
 	protected $il_template;
 
-	public function __construct(\ilGlobalTemplate $il_template) {
+	/**
+	 * ilResourceRegistry constructor.
+ 	 * ilGlobalTemplate type hint is removed here, since currently (Apr 2019)
+	 * other global templates (e.g. ilPortfolioGlobalTemplate) are being passed
+	 * (see ilInitialisation initHTML()).
+	 * @param $il_template
+	 */
+	public function __construct($il_template) {
 		$this->il_template = $il_template;
 	}
 

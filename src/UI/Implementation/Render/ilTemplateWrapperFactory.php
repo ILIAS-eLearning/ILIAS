@@ -13,7 +13,14 @@ class ilTemplateWrapperFactory implements TemplateFactory {
 	 */
 	protected $global_tpl;
 
-	public function __construct(\ilGlobalTemplate $global_tpl) {
+	/**
+	 * ilTemplateWrapperFactory constructor.
+	 * ilGlobalTemplate type hint is removed here, since currently (Apr 2019)
+	 * other global templates (e.g. ilPortfolioGlobalTemplate) are being passed
+	 * (see ilInitialisation initHTML()).
+	 * @param $il_template
+	 */
+	public function __construct($global_tpl) {
 		$this->global_tpl = $global_tpl;
 	}
 

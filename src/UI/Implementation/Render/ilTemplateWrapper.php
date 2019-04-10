@@ -18,7 +18,14 @@ class ilTemplateWrapper implements Template {
 	 */
 	private $tpl;
 
-	final public function __construct(\ilGlobalTemplate $global_tpl, \ilTemplate $tpl) {
+	/**
+	 * ilTemplateWrapper constructor.
+	 * ilGlobalTemplate type hint is removed here, since currently (Apr 2019)
+	 * other global templates (e.g. ilPortfolioGlobalTemplate) are being passed
+	 * (see ilInitialisation initHTML()).
+	 * @param $il_template
+	 */
+	final public function __construct($global_tpl, \ilTemplate $tpl) {
 		$this->global_tpl = $global_tpl;
 		$this->tpl = $tpl;
 	}

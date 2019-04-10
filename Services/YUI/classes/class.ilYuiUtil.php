@@ -14,8 +14,11 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI Connection module
+	 * ilGlobalTemplate type hint is removed here, since currently (Apr 2019)
+	 * other global templates (e.g. ilPortfolioGlobalTemplate) are being passed
+	 * (see ilInitialisation initHTML()).
 	 */
-	static function initConnection(ilGlobalTemplate $a_main_tpl = null) {
+	static function initConnection($a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl == null)
@@ -159,8 +162,12 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI Overlay module
+	 *
+	 * ilGlobalTemplate type hint is removed here, since currently (Apr 2019)
+	 * other global templates (e.g. ilPortfolioGlobalTemplate) are being passed
+	 * (see ilInitialisation initHTML()).
 	 */
-	static function initOverlay(ilGlobalTemplate $a_main_tpl = null) {
+	static function initOverlay($a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl == null)
@@ -507,8 +514,11 @@ class ilYuiUtil {
 
 	/**
 	 * Add container css
+	 * ilGlobalTemplate type hint is removed here, since currently (Apr 2019)
+	 * other global templates (e.g. ilPortfolioGlobalTemplate) are being passed
+	 * (see ilInitialisation initHTML()).
 	 */
-	protected static function addContainerCss(ilGlobalTemplate $a_main_tpl = null) {
+	protected static function addContainerCss($a_main_tpl = null) {
 		global $DIC;
 
 		if ($a_main_tpl == null)
