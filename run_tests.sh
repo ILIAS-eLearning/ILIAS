@@ -12,7 +12,7 @@ PHPUNIT_PATH="/tmp/phpunit_latest.csv"
 PHPUNIT_PATH_TMP="/tmp/phpunit_changed.csv"
 PHPUNIT_RESULTS_PATH="/tmp/phpunit_results"
 DICTO_PATH="/tmp/dicto_latest.csv"
-TRAVIS_RESULTS_DIRECTORY="/tmp/vollnixx.github.io/Dashboard Travis CI/"
+TRAVIS_RESULTS_DIRECTORY="/tmp/ILIAS-eLearning/CI-Results/"
 DATE=`date '+%Y-%m-%d-%H:%M:%S'`
 
 libs/composer/vendor/phpunit/phpunit/phpunit --bootstrap ./libs/composer/vendor/autoload.php --configuration ./Services/PHPUnit/config/PhpUnitConfig.xml --exclude-group needsInstalledILIAS --verbose $@ | tee "$PHPUNIT_RESULTS_PATH"
@@ -59,7 +59,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 			rm -rf "$TRAVIS_RESULTS_DIRECTORY"
 		fi
 
-		cd /tmp && git clone https://github.com/vollnixx/vollnixx.github.io
+		cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
 		cp "$TRAVIS_RESULTS_DIRECTORY/data/phpunit_latest.csv" "$PHPUNIT_PATH"
 
 		printLn "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"
@@ -77,9 +77,9 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 				rm "$PHPUNIT_RESULTS_PATH"
 		fi
 
-		#printLn "Switching directory and run results handling."
-		#cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
-		#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
+		printLn "Switching directory and run results handling."
+		cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
+		cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 else
 	printLn "No result file found, stopping!"
 	exit 99
