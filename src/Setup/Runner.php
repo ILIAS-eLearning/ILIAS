@@ -38,4 +38,38 @@ class Runner {
 		$preconditions = $this->goal->getPreconditions();
 		$goal->achieve($this->environment);
 	}
+
+	/**
+	 * @return \Traversable<Goal>
+	 */
+	public function allGoals() : \Traversable {
+		$stack = [$this->goal];
+
+		while(count($stack) > 0) {
+			$cur = $this->initGoal(
+				array_pop($stack)
+			);
+
+			$preconditions = $cur->getPreconditions();
+
+			if (count($preconditions) === 0) {
+				yield $cur;
+			}
+			else {
+				array_push(
+					$stack,
+					$cur,
+					...array_reverse($preconditions)
+				);
+			}
+		}
+	}
+
+	protected function initGoal(Goal $goal) : Goal {
+		$type = $this->goal->getType();
+		$config = $this->configuration_loader->loadConfigurationFor($type);
+		return $goal
+			->withConfiguration($config)
+			->withResourcesFrom($this->environment);
+	}
 }
