@@ -77,9 +77,9 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 				rm "$PHPUNIT_RESULTS_PATH"
 		fi
 
-		printLn "Switching directory and run results handling."
-		cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
-		cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
+		#printLn "Switching directory and run results handling."
+		#cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
+		#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 else
 	printLn "No result file found, stopping!"
 	exit 99
