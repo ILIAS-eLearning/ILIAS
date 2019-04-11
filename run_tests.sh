@@ -35,6 +35,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 		JOB_URL=`echo $TRAVIS_JOB_WEB_URL`
 		FAILURE=false
 		declare -A RESULTS=([Tests]=0 [Assertions]=0 [Errors]=0 [Warnings]=0 [Skipped]=0 [Incomplete]=0 [Risky]=0);
+
 		for TYPE in "${!RESULTS[@]}"; 
 			do 
 				for PHP_UNIT_RESULT in "${!SPLIT_RESULT[@]}"; 
@@ -47,7 +48,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 					done 
 			done
 
-		if [ ${RESULTS[Errors]} > 0 ]
+		if [ ${RESULTS[Errors]} -gt 0 ]
 			then
 				FAILURE=true
 		fi
