@@ -1,10 +1,19 @@
-language: php 
-php:
-    - 7.2
-    - 7.3
-install: cd ./libs/composer && composer install && cd ../..
-script: ./run_tests.sh
+language: php
+
+matrix:
+  include:
+    - php: 7.2
+    - php: 7.3
+
+script:
+  - ./run_tests.sh;
+  - if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then ./run_dicto.sh; fi
 addons:
     apt:
         packages:
             - unzip
+install:
+  - cd ./libs/composer && composer install && cd ../..
+env:
+  global:
+  - secure: OFGfehS+MnXXTAlrId80su4FuL4lF6tEvPii6RVCbgg33roqO6fUV+bN+ZRXqp3cLLbHL55ztAQgEf/I8IG5bvHgbrdWqyAgDPB+o54lO+ZKR7iAtsfrWIzBIJQc49puC1VbbUVFfaKl/PU5X1u8wdDGaYRtBkHd9u3Hjq0uaNeuSMG073MtStKOK2eCahNbgqtflmilhq3vfGBJBgEU/O1LV9sE54LNGb6qhO/acYAOpkSPdc793JBYWg6ShEmruTtWb8pFCdXQvMvgVMlbjgL4NbCIa5NHiMAtgzhYe3/YYSIovvF/hzj6pwIpU0Y/WpB/BG6KRamXTjYeFRGRBlA89GzgSsuz0Bc91Eh3stKxsizUqM89Byj9cyaO8CZfWCOydZ09yqRcyx7oPRZz9ANwohzX3qsgzPSQHBcoISqq2W01bG+gHHivpqQLj2cAlnTVfApjpqg1i4H5ZhbWwEk+z2BrNwM6nmgv2Ok+xmh9gjuWljbtdIldee64dOBCcNHcSytJ6pN7U9Y/DKILlU0MSkiJfzGgvJLbwGiXu2ZIwpqMWlAFskzeM5ZB3HkKxMcjwk5GWvJf7linU4/FL6jLLnKVzrsTF5eGnlKjm1ZTJsJVb5/Zr4xkLC3jO4U9dlkcduKXnLn7dw9ILok4mlanDLcjqBgAaFwQuDtMoeg=
