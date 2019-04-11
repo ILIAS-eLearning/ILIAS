@@ -1,19 +1,17 @@
 language: php
-
 matrix:
   include:
-    - php: 7.2
-    - php: 7.3
-
+  - php: 7.2
+  - php: 7.3
 script:
-  - ./run_tests.sh;
-  - if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then ./run_dicto.sh; fi
+- "./run_tests.sh;"
+- if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then ./run_dicto.sh; fi
 addons:
-    apt:
-        packages:
-            - unzip
+  apt:
+    packages:
+    - unzip
 install:
-  - cd ./libs/composer && composer install && cd ../..
+- cd ./libs/composer && composer install && cd ../..
 env:
   global:
-  - secure: r1xVIF8TlYZJQ9EJSNaNQOfn6/mVek3o2YkGBlAy94FeTMo1X+jCgrPrD7akI1ZIOzhQup/hbl6dvIsX6w4TmTHJb+d7RVQ/mmhHalTXcraHnhUQytEIex9ptsTA5hNYaalZ1FYDWpYJ3FZi4tUsGRQsgvfMSgUEuVlDacbN1TwGLSDYvMPAidAEPwBhtbvtjDVxwieRhtgsE5V6JtULeCQeBQ6H64QYoVrf7hIWiOXs7ZX/cAXbqMg+HmlzqcHuZT8fJRtBw2N2tLaOt8685gcznA5xDEl4qrZVXoLIXmwG9p130aPGRzTB33O9xD3ZXb0Bstt7aROexvJUQ6YDtcp7GBFiikn8jcR9t2gK4YOVFqh90kLVkBXRPC0tSV3hJvFJhc8frh/igN1sGrPpqCgc+RxcdNZ12fconmEM5jRPlxrRicottABAM5h/nJ5UgkZbNSYCQv9Qbcq3jgLQS/orqiUHneii/dNTFCeNBpZUa+2X9mkBuGlq2dJsGG6LuiWJqg1JslXbTaKMQgS3Z2gZPojsotibxZ7T2Jc0QVkQev8RTdcd73q1LAqC9ptXpEnKA7i4AKi5UrwaOWG4Mue53uksx7YFKZP2409tip3u8pbvnBdWILRO/ORoAzaBQtgyPNsM+G5CYazlLpIwc8dqx/wgTMVZKUicqz91cTU=
+   - secure: QPx4Z5rZrlwda2f5buAG8KKumPAoL8Pn7fGVLAkKMtDhOw7K3bp2icq06JzoCxjm8gwLRZUT1nFAPtL1ka7IZL8l+8TSXYW3Fp0Q6ktUqBxDPldIrE80T37t6rNK74wsUIhTCa+FzPbrK7b2IVhoJcoDLx0+3jfQ4wRB+rzgChG73mgtoll0PIKbgTNmO7kMl1Eu7GiecYwhdz3uzb6IThF1aQCz4+QHRp4A4Hk+IiCZ6sJirzwVJvsCNz2ipj4HDVBQ5VhH58e7kqbM3No005BXuo17lxbn15z0sH5ebRtLL/xtpvgjnUis7OXC9m5zqKplUsv2J+Q1XVTGDd3VusC0lQyAuo4NH0JQYV+hZE0thbUSBq7HfNTVVeHM69FG/taTs+wpijVyF0od/+FQoew5RWcSP55hGYwUNGQTg99oWnlBM3gffw1h3VCJTedftDQntuVIK0oQRUTU1eotwQIU8iCMzswMdyDLPc1BIGYU7vy9GIl9zU5VjqBn2hDsgLbXmAZVtXArVfML1RX7opSmNeQh/bNXrgvlWJylSk3LghloLLi1AM8MbkKZch0q58ufeTyWETjBHHdBdma2AQa+vHLYwiUYWJC/XnupFVICIgnCFnXos/NQJjGMFglmvigGTUNmQl+y3M7FkcIH4GUhQBBmzG9/3W2txL0KshA=
