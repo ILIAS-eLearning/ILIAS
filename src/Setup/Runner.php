@@ -44,6 +44,7 @@ class Runner {
 	 */
 	public function allGoals() : \Traversable {
 		$stack = [$this->goal];
+		$returned = [];
 
 		while(count($stack) > 0) {
 			$cur = $this->initGoal(
@@ -53,7 +54,11 @@ class Runner {
 			$preconditions = $cur->getPreconditions();
 
 			if (count($preconditions) === 0) {
-				yield $cur;
+				$hash = $cur->getHash();
+				if (!isset($returned[$hash])) {
+					yield $cur;
+					$returned[$hash] = true;
+				}
 			}
 			else {
 				array_push(
