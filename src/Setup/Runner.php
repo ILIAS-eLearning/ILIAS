@@ -69,7 +69,7 @@ class Runner {
 						}
 						if (in_array($cur, $reverse_deps[$next])) {
 							throw new UnachievableException(
-								"The goals contain a dependency cycle and won't be reachable."
+								"The goals contain a dependency cycle and won't all be achievable."
 							);
 						}
 						foreach ($reverse_deps[$next] as $d) {
