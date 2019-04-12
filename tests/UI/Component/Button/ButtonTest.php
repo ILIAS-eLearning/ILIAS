@@ -58,24 +58,18 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	 * @dataProvider button_type_provider
 	 */
 	public function test_button_label_or_glyph_only($factory_method) {
+		$this->expectException(\InvalidArgumentException::class);
 		$f = $this->getButtonFactory();
-		try {
-			$f->$factory_method($this, "http://www.ilias.de");
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {}
+		$f->$factory_method($this, "http://www.ilias.de");
 	}
 
 	/**
 	 * @dataProvider button_type_provider
 	 */
 	public function test_button_string_action_only($factory_method) {
+		$this->expectException(\InvalidArgumentException::class);
 		$f = $this->getButtonFactory();
-		try {
-			$f->$factory_method("label", $this);
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {}
+		$f->$factory_method("label", $this);
 	}
 
 	/**

@@ -113,7 +113,7 @@ class ilSCTask
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setGroupId($row->grp_id);
-			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC'));
+			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,ilTimeZone::UTC));
 			$this->setStatus($row->status);
 			$this->setIdentifier($row->identifier);
 		}

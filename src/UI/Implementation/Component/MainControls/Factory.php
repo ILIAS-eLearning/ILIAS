@@ -15,11 +15,19 @@ class Factory implements IMainControls\Factory
 	protected $signal_generator;
 
 	/**
+	 * @var Slate\Factory
+	 */
+	protected $slate_factory;
+
+	/**
 	 * @param SignalGeneratorInterface $signal_generator
 	 */
-	public function __construct(SignalGeneratorInterface $signal_generator)
-	{
+	public function __construct(
+		SignalGeneratorInterface $signal_generator,
+		Slate\Factory $slate_factory
+	) {
 		$this->signal_generator = $signal_generator;
+		$this->slate_factory = $slate_factory;
 	}
 
 	/**
@@ -43,7 +51,7 @@ class Factory implements IMainControls\Factory
 	 */
 	public function slate(): IMainControls\Slate\Factory
 	{
-		return new Slate\Factory($this->signal_generator);
+		return $this->slate_factory;
 	}
 
 }

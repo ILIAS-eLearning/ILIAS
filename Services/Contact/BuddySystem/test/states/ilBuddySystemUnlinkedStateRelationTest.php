@@ -50,20 +50,20 @@ class ilBuddySystemUnlinkedStateRelationTest extends ilBuddySystemBaseStateTest
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testCanBeUnlinked()
 	{
-		$this->assertException(ilBuddySystemRelationStateException::class);
+		$this->expectException(ilBuddySystemRelationStateException::class);
 		$this->relation->unlink();
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testCanBeLinked()
 	{
-		$this->assertException(ilBuddySystemRelationStateException::class);
+		$this->expectException(ilBuddySystemRelationStateException::class);
 		$this->relation->link();
 	}
 
@@ -78,11 +78,11 @@ class ilBuddySystemUnlinkedStateRelationTest extends ilBuddySystemBaseStateTest
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testCanBeIgnored()
 	{
-		$this->assertException(ilBuddySystemRelationStateException::class);
+		$this->expectException(ilBuddySystemRelationStateException::class);
 		$this->relation->ignore();
 	}
 }

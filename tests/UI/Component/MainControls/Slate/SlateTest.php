@@ -27,7 +27,7 @@ class TestGenericSlate extends Slate implements C\MainControls\Slate\Slate
  */
 class SlateTest extends ILIAS_UI_TestBase
 {
-	public function setUp() {
+	public function setUp(): void  {
 		$this->sig_gen = new I\SignalGenerator();
 		$this->button_factory = new I\Button\Factory($this->sig_gen);
 		$this->icon_factory = new I\Icon\Factory();

@@ -1593,7 +1593,6 @@ class ilExAssignment
 
 		$ilDB = $DIC->database();
 		
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($a_exc);
 		$mems = $exmem->getMembers();
 
@@ -1650,7 +1649,6 @@ class ilExAssignment
 		ilUtil::makeDir($mfdir);
 		
 		// create subfolders <lastname>_<firstname>_<id> for each participant
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($exc);
 		$mems = $exmem->getMembers();
 		
@@ -1738,7 +1736,6 @@ class ilExAssignment
 		
 		// get members
 		$exc = new ilObjExercise($this->getExerciseId(), false);
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($exc);
 		$mems = $exmem->getMembers();
 
@@ -2018,7 +2015,6 @@ class ilExAssignment
 		
 		if(!$a_user_id)
 		{
-			include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 			$ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
 						
 			$ilDB->manipulate("UPDATE exc_assignment".

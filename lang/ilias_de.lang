@@ -5361,6 +5361,7 @@ crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten M
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
 crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
+grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
 crs#:#crs_link_hide_next_sessions#:#Zukünftige Sitzungen ausblenden
 crs#:#crs_link_hide_prev_sessions#:#Vergangene Sitzungen ausblenden
 crs#:#crs_link_show_all_next_sessions#:#Alle zukünftigen Sitzungen anzeigen
@@ -13089,7 +13090,8 @@ buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen:
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
 buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage ignorieren:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage ignorieren
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR]Link zum Persönlichen Profil: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
@@ -15052,3 +15054,24 @@ certificate#:#persistent_certificate_mode_cron#:#Cron-Job
 certificate#:#persistent_certificate_mode_cron_info#:#Diese Option wird für Systeme mit hohen Benutzerinteraktion empfohlen
 certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteratkion empfohlen. Für System die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
+task#:#task_derived_tasks#:#To-Do
+task#:#task_tasks_with_deadline#:#Mit Endtermin
+task#:#task_tasks_without_deadline#:#Ohne Endtermin
+task#:#task_deadline#:#Ende
+task#:#task_no_tasks#:#Sie haben derzeit keine offenen To-Do.
+task#:#task_start#:#Beginn
+task#:#task_task#:#Aufgabe
+task#:#task_details#:#Details
+pd#:#block_show_pdtasks#:#To-Do anzeigen
+exc#:#exc_task_submission#:#Abgabe zur Übungseinheit "%1"
+exc#:#exc_task_grading#:#Bewertung der Übungseinheit "%1"
+exc#:#exc_task_peer_feedback#:#Peer-Feedback geben in Übungseinheit "%1"
+content#:#cont_Attention#:#Achtung
+content#:#cont_Confirmation#:#Bestätigung
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literatur
+content#:#cont_Separator#:#Begrenzer
+content#:#cont_StandardCenter#:#Standard Zentriert
+content#:#cont_Interaction#:#Interaktion
+content#:#cont_Background#:#Hintergrund

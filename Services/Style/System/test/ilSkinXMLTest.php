@@ -6,12 +6,14 @@ include_once("./Services/Style/System/classes/Utilities/class.ilSkinXML.php");
 include_once("./Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinXMLTest extends PHPUnit_Framework_TestCase {
+class ilSkinXMLTest extends TestCase {
 
 
 	/**
@@ -34,7 +36,7 @@ class ilSkinXMLTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected $system_style_config;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		$this->skin = new ilSkinXML("skin1", "skin 1");
 
 		$this->style1 = new ilSkinStyleXML("style1", "Style 1");
@@ -55,7 +57,7 @@ class ilSkinXMLTest extends PHPUnit_Framework_TestCase {
 		ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path,$this->system_style_config->test_skin_temp_path);
 	}
 
-	protected function tearDown(){
+	protected function tearDown(): void {
 		ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
 	}
 

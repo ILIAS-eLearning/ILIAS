@@ -147,9 +147,9 @@ final class LegacyPathHelper {
 				return true;
 			case $real_possible_path === $absolute_path:
 				return true;
-			case strpos($absolute_path, $possible_path) === 0:
+			case is_string($possible_path) && strpos($absolute_path, $possible_path) === 0:
 				return true;
-			case strpos($absolute_path, $real_possible_path) === 0:
+			case is_string($real_possible_path) && strpos($absolute_path, $real_possible_path) === 0:
 				return true;
 			default:
 				return false;

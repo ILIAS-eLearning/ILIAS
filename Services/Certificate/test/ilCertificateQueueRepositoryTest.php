@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
+class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testEntryCanBeAddedToQueue()
 	{

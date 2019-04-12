@@ -5,6 +5,7 @@
 require_once(__DIR__."/TestComponent.php");
 
 use \ILIAS\UI\Implementation as I;
+use PHPUnit\Framework\TestCase;
 
 class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\Render\FSLoader {
 	public function _instantiateRendererFor($class) {
@@ -12,7 +13,7 @@ class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\Render\FS
 	}
 }
 
-class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
+class ComponentRendererFSLoaderTest extends TestCase {
 	protected function getComponentRendererFSLoader() {
 		$ui_factory = $this->getMockBuilder(ILIAS\UI\Factory::class)->getMock();
 		$tpl_factory = $this->getMockBuilder(I\Render\TemplateFactory::class)->getMock();

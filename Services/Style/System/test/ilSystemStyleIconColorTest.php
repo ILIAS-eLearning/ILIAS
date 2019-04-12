@@ -3,13 +3,14 @@
 include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconColor.php");
 include_once("Services/Style/System/classes/Exceptions/class.ilSystemStyleColorException.php");
 
+use PHPUnit\Framework\TestCase;
 
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSystemStyleIconColorTest extends PHPUnit_Framework_TestCase {
+class ilSystemStyleIconColorTest extends TestCase {
 
 	public function testConstruct() {
 		$color = new ilSystemStyleIconColor("id","name","FF0000","description");

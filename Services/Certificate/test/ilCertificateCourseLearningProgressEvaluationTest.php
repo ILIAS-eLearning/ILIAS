@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCourseLearningProgressEvaluationTest extends PHPUnit_Framework_TestCase
+class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBaseTestCase
 {
 	public function testOnlyOneCourseIsCompletedOnLPChange()
 	{

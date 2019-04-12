@@ -1100,8 +1100,14 @@ abstract class ilPageObject
 	 * This function copies items, that must be copied, if page
 	 * content is duplicated.
 	 *
-	 * @param
-	 * @return
+	 * Currently called by
+	 * - copyXmlContent
+	 * - called by pasteContents
+	 * - called by ilPageEditorGUI->paste -> pasteContents
+	 *
+	 * @param $a_dom
+	 * @param bool $a_self_ass
+	 * @param bool $a_clone_mobs
 	 */
 	function handleCopiedContent($a_dom, $a_self_ass = true, $a_clone_mobs = false)
 	{

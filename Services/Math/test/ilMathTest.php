@@ -1,11 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilMathTest extends PHPUnit_Framework_TestCase
+class ilMathTest extends TestCase
 {
 	/**
 	 * @var EvalMath
@@ -15,7 +17,7 @@ class ilMathTest extends PHPUnit_Framework_TestCase
 	/**
 	 * 
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		require_once 'Services/Math/classes/class.ilMath.php';
 		require_once 'Services/Math/classes/class.EvalMath.php';

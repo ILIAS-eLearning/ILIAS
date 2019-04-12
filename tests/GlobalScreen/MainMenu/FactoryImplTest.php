@@ -47,7 +47,7 @@ class FactoryImplTest extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp() {
+	protected function setUp(): void{
 		parent::setUp();
 
 		$this->identification = new IdentificationFactory();

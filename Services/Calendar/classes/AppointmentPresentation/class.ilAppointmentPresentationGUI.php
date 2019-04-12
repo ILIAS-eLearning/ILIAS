@@ -152,51 +152,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	public function getCatInfo()
 	{
 		$cat_id = $this->getCatId($this->appointment['event']->getEntryId());
-		//$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-
-		$cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);
-		$cat_info = array();
-		$cat_info["type"] = $cat->getType();
-		$cat_info["obj_id"] = $cat->getObjId();
-		$cat_info["title"] = $cat->getTitle();
-		$cat_info["cat_id"] = $cat_id;
-		$cat_info["editable"] = false;
-
-		switch ($cat_info["type"])
-		{
-			case ilCalendarCategory::TYPE_USR:
-				if ($cat_info["obj_id"] == $this->user->getId())
-				{
-					$cat_info["editable"] = true;
-				}
-				break;
-
-			case ilCalendarCategory::TYPE_OBJ:
-				$obj_type = ilObject::_lookupType($cat_info["obj_id"]);
-				if ($obj_type == 'crs' or $obj_type == 'grp')
-				{
-					if (ilCalendarSettings::_getInstance()->lookupCalendarActivated($cat_info["obj_id"]))
-					{
-						foreach (ilObject::_getAllReferences($cat_info["obj_id"]) as $ref_id)
-						{
-							if ($this->access->checkAccess('edit_event', '', $ref_id))
-							{
-								$cat_info["editable"] = true;
-							}
-						}
-					}
-				}
-				break;
-
-			case ilCalendarCategory::TYPE_GLOBAL:
-				if ($this->rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId()))
-				{
-					$cat_info["editable"] = true;
-				}
-				break;
-		}
-
-		return $cat_info;
+		return ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 	}
 
 	function executeCommand()
@@ -536,7 +492,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	function addCommonSection($a_app, $a_obj_id = 0, $cat_info = null, $a_container_info = false)
 	{
 		// event title
-		$this->addInfoSection($a_app["event"]->getPresentationTitle());
+		$this->addInfoSection($a_app["event"]->getPresentationTitle(false));
 
 		// event description
 		$this->addEventDescription($a_app);

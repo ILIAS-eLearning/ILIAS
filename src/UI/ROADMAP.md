@@ -83,6 +83,14 @@ The contexts should e.g. be "html", "html-attribute", "js-string". Depending on
 feedback from other devs, we could either default to a very strict context that
 escapes a lot, or to a context that does not escape and a dicto-rule.
 
+### Add mutators to Counter (beginner, ~1h)
+
+Currently, counters (for Glyphs, e.g.) are constructed with a numeric value;
+there is a getter for this number, but in order to increase the value, one has
+to construct a new Counter.
+It would be handy to have a "withNumber"-mutator, or something like
+"withIncrease/withDecrease"
+
 
 ## Long Term
 

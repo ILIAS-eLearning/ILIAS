@@ -57,7 +57,7 @@ class IdentificationFactoryTest extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp() {
+	protected function setUp(): void{
 		parent::setUp();
 
 		$this->plugin_mock = Mockery::mock(ilPlugin::class);

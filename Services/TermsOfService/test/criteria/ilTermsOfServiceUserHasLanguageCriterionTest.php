@@ -27,7 +27,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -151,7 +151,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends \ilTermsOfServiceCrit
 
 		$actual = $gui->getIdentPresentation();
 
-		$this->assertInternalType('string', $actual);
+		$this->assertIsString($actual);
 		$this->assertNotEmpty($actual);
 	}
 

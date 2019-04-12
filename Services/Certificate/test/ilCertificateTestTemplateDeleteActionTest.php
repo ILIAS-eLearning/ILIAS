@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTestTemplateDeleteActionTest extends PHPUnit_Framework_TestCase
+class ilCertificateTestTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
 	public function testDelete()
 	{

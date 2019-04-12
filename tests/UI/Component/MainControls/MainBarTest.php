@@ -15,12 +15,14 @@ use \ILIAS\UI\Component\Signal;
  */
 class MainBarTest extends ILIAS_UI_TestBase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$sig_gen = 	new I\SignalGenerator();
-		$this->factory = new I\MainControls\Factory($sig_gen);
 		$this->button_factory = new I\Button\Factory($sig_gen);
 		$this->icon_factory = new I\Icon\Factory();
+		$counter_factory = new I\Counter\Factory();
+		$slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory);
+		$this->factory = new I\MainControls\Factory($sig_gen, $slate_factory);
 
 		$this->mainbar = $this->factory->mainBar();
 	}
@@ -56,6 +58,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 		$mb = $this->mainbar->withAdditionalEntry('test', $btn);
 		$entries = $mb->getEntries();
 		$this->assertEquals($btn, $entries['test']);
+		return $mb;
 	}
 
 	public function testDisallowedEntry()
@@ -105,11 +108,20 @@ class MainBarTest extends ILIAS_UI_TestBase
 			->withAdditionalToolEntry('test', $slate);
 	}
 
-	public function testActive()
+	/**
+	 * @depends testAddEntry
+	 */
+	public function testActive($mb)
 	{
+		$mb = $mb->withActive('test');
+		$this->assertEquals('test', $mb->getActive());
+	}
+
+	public function testWithInvalidActive()
+	{
+		$this->expectException(\InvalidArgumentException::class);
 		$mb = $this->mainbar
-			->withActive('test');
-		$this->assertEquals($mb->getActive(), 'test');
+			->withActive('this-is-not-a-valid-entry');
 	}
 
 	public function testSignalsPresent()
@@ -131,7 +143,9 @@ class MainBarTest extends ILIAS_UI_TestBase
 			public function mainControls(): C\MainControls\Factory
 			{
 				$sig_gen = new I\SignalGenerator();
-				return new I\MainControls\Factory($sig_gen);
+				$counter_factory = new I\Counter\Factory();
+				$slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory);
+				return new I\MainControls\Factory($sig_gen, $slate_factory);
 			}
 			public function legacy($legacy)
 			{

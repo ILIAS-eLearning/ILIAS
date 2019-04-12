@@ -20,7 +20,7 @@ interface Factory {
 	 *          Standard Dropdown MUST be used if there is no good reason using
 	 *          another instance.
 	 * ---
-	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal> array of action items
+	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard> array of action items
 	 * @return \ILIAS\UI\Component\Dropdown\Standard
 	 */
 	public function standard($items);

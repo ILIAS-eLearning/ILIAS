@@ -82,12 +82,10 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$section = $view_control_f->section($back,$button,$next);
 
 		$html = $r->render($section);
-		$this->assertContains("glyphicon-chevron-left", $html);
-		$this->assertContains("glyphicon-chevron-right", $html);
-		$this->assertContains("il-viewcontrol-section", $html);
-		//$this->assertContains('back', $html);
-		//$this->assertContains('next', $html);
-		$this->assertContains("btn",$html);
+		$this->assertStringContainsString("glyphicon-chevron-left", $html);
+		$this->assertStringContainsString("glyphicon-chevron-right", $html);
+		$this->assertStringContainsString("il-viewcontrol-section", $html);
+		$this->assertStringContainsString("btn",$html);
 
 		$expected = $this->getSectionExpectedHTML();
 		$this->assertHTMLEquals($expected,$html);
@@ -109,7 +107,7 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 		$f = $this->getViewControlFactory();
 		$r = $this->getDefaultRenderer();
 
-		$this->assertInternalType("array",$f->mode($this->actions, $this->aria_label)->getLabelledActions());
+		$this->assertIsArray($f->mode($this->actions, $this->aria_label)->getLabelledActions());
 	}
 
 	public function test_render_viewcontrol_mode()

@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
+class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 {
 	public function testFetchingDataSetForTableWithoutParamtersAndWithoutFilters()
 	{
@@ -264,10 +264,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testFetchingDataWithInvalidOrderFieldWillResultInException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -334,10 +336,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testFetchingDataWithEmptyOrderFieldWillResultInException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -404,10 +408,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testFetchingDataWithWrongOrderDirectionWillResultInException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -482,10 +488,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testFetchingDataWithInvalidLimitParameterWillResultInException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -560,10 +568,12 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testFetchingDataWithInvalidOffsetParameterWillResultInException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->disableOriginalConstructor()
 			->getMock();

@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceHolderValuesTest extends PHPUnit_Framework_TestCase
+class ilTestPlaceHolderValuesTest extends ilCertificateBaseTestCase
 {
 	public function testA()
 	{

@@ -1,8 +1,9 @@
 <?php
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 
 /**
  * Class ilMMTypeHandlerRepositoryLink
@@ -11,8 +12,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
  */
 class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
 
+	/**
+	 * @inheritdoc
+	 */
 	public function matchesForType(): string {
-		return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink::class;
+		return RepositoryLink::class;
 	}
 
 
@@ -20,8 +24,23 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
 	 * @inheritdoc
 	 */
 	public function enrichItem(isItem $item): isItem {
-		if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
-			$item = $item->withRefId((int)$this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION]);
+		global $DIC;
+		if ($item instanceof RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
+			$ref_id = (int)$this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
+			$item = $item->withRefId($ref_id)
+				->withVisibilityCallable(
+					function () use ($DIC, $ref_id) {
+						return (bool)$DIC->access()->checkAccess('visible', '', $ref_id);
+					}
+				);
+			// ->withAvailableCallable(
+			// 	function () use ($ref_id) {
+			// 		$b = (bool)(ilObject2::_exists($ref_id, true) && !ilObject2::_isInTrash($ref_id));
+			//
+			// 		return $b;
+			// 	}
+			// )->withNonAvailableReason($DIC->ui()->factory()->legacy($DIC->language()->txt('deleted')))
+
 		}
 
 		return $item;
@@ -31,7 +50,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
 	/**
 	 * @inheritdoc
 	 */
-	public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): array {
+	public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array {
 		global $DIC;
 		$url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation());
 		if (isset($this->links[$identification->serialize()][self::F_ACTION]) && is_numeric($this->links[$identification->serialize()][self::F_ACTION])) {

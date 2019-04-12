@@ -229,6 +229,14 @@ class MainBar implements MainControls\MainBar
 	 */
 	public function withActive(string $active): MainControls\MainBar
 	{
+		$valid_entries = array_merge(
+			array_keys($this->entries),
+			array_keys($this->tool_entries)
+		);
+		if(!in_array($active, $valid_entries)) {
+			throw new \InvalidArgumentException("Invalid entry to activate: $active" , 1);
+		}
+
 		$clone = clone $this;
 		$clone->active = $active;
 		return $clone;

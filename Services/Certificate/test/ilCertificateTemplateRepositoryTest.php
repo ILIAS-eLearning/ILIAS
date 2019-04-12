@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
+class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testCertificateWillBeSavedToTheDatabase()
 	{
@@ -234,6 +234,9 @@ class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(30, $template->getId());
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testDeleteTemplateFromDatabase()
 	{
 		$database = $this->getMockBuilder('ilDBInterface')
@@ -386,10 +389,12 @@ WHERE id = 30')
 	}
 
 	/**
-	 * @expectedException ilException
+	 * 
 	 */
 	public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved()
 	{
+		$this->expectException(\ilException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->disableOriginalConstructor()
 			->getMock();

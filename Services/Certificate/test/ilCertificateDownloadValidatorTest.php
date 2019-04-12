@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
+class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 {
 	public function testValidationSucceedsAndReturnsTrue()
 	{
