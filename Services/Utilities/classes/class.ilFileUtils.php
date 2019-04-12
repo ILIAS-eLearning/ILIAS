@@ -398,11 +398,12 @@ class ilFileUtils
 
 
 	/**
-	*	decodes base encoded file row by row to prevent memory exhaust
-	* @param string $filename	name of file to read
-	* @param string $fileout name where to put decoded file
-	*/
-	function fastBase64Decode ($filein, $fileout)
+	 *    decodes base encoded file row by row to prevent memory exhaust
+	 * @param string $filename name of file to read
+	 * @param string $fileout name where to put decoded file
+	 * @return bool
+	 */
+	public static function fastBase64Decode ($filein, $fileout)
 	{
 		$fh = fopen($filein, 'rb');
 		$fh2= fopen($fileout, 'wb');

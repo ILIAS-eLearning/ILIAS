@@ -286,7 +286,26 @@ class ilSystemStyleLessGUI
 	public function update()
 	{
 		$form = $this->initSystemStyleLessForm();
-		if ($form->checkInput())
+		if(!$form->checkInput()){
+		    $empty_fields = [];
+            foreach($this->getLessFile()->getCategories() as $category){
+                foreach($this->getLessFile()->getVariablesPerCategory($category->getName()) as $variable){
+                    if($form->getInput($variable->getName()) == ""){
+                        $empty_fields[$variable->getName()] = $this->getLessFile()->getVariableByName($variable->getName())->getValue();
+                        $item = $form->getItemByPostVar($variable->getName());
+                        $item->setAlert($this->lng->txt("less_variable_empty"));
+                    }
+                }
+            }
+            if(!empty($empty_fields)){
+                $form->setValuesByPost();
+                $form->setValuesByArray($empty_fields,true);
+                ilUtil::sendFailure($this->lng->txt("less_variables_empty_might_have_changed"),true);
+                $this->tpl->setContent($form->getHTML());
+                return;
+            }
+        }
+		else
 		{
 			foreach($this->getLessFile()->getCategories() as $category){
 				foreach($this->getLessFile()->getVariablesPerCategory($category->getName()) as $variable){

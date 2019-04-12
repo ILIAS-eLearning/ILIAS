@@ -1254,9 +1254,11 @@ class ilExAssignment
 	/**
 	 * Order assignments by deadline date
 	 */
-	function orderAssByDeadline($a_ex_id)
+	static function orderAssByDeadline($a_ex_id)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT id FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_ex_id, "integer").

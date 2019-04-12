@@ -1735,6 +1735,7 @@ return;
 						 'img_row' => $row_path,
 						 'img_cell' => $cell_path,
 						 'img_item' => $item_path,
+			             'compare_mode' => $this->getCompareMode() ? "y" : "n",
 						 'enable_split_new' => $enable_split_new,
 						 'enable_split_next' => $enable_split_next,
 						 'link_params' => $this->link_params,
@@ -1809,31 +1810,19 @@ return;
 			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 
 			$this->log->debug("Calling XSLT, content: ".substr($content, 0, 100));
-			//echo $content; exit;
-
-
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
-			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-			//		echo "mode:".$this->getOutputMode().":<br>";
-//			var_dump($args); exit;
 			$output = xslt_process($xh, "arg:/_xml","arg:/_xsl", NULL, $args, $params);
 			
 			if (($this->getOutputMode() == "presentation" || $this->getOutputMode() == "preview")
 				&& !$this->getAbstractOnly()
 				&& $this->obj->old_nr == 0)
 			{
-//echo "writerenderedcontent";
 				$this->obj->writeRenderedContent($output, $md5);
 			}
-			//echo xslt_error($xh);
 			xslt_free($xh);
 		}
 
-//$b = microtime();
-//echo "$a - $b";
-//echo "<pre>".htmlentities($output)."</pre>";
-		
 		// unmask user html
 		if (($this->getOutputMode() != "edit" ||
 				$this->user->getPref("ilPageEditor_HTMLMode") != "disable")
@@ -1858,7 +1847,7 @@ return;
 		{
 			$output = $this->insertPageToc($output);
 		}
-		
+
 		// insert advanced output trigger
 		$output = $this->insertAdvTrigger($output);
 

@@ -11,4 +11,5 @@ require_once 'Modules/Test/classes/class.ilTestProcessLocker.php';
  */
 class ilTestProcessLockerNone extends ilTestProcessLocker
 {
+	
 } 

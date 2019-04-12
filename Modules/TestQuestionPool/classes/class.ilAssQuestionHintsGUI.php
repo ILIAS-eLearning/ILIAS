@@ -25,6 +25,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 * command constants
 	 */
 	const CMD_SHOW_LIST								= 'showList';
+	const CMD_SHOW_HINT								= 'showHint';
 	const CMD_CONFIRM_DELETE						= 'confirmDelete';
 	const CMD_PERFORM_DELETE						= 'performDelete';
 	const CMD_SAVE_LIST_ORDER						= 'saveListOrder';
@@ -43,6 +44,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	private $hintOrderingClipboard = null;
 	
 	/**
+	 * @var bool
+	 */
+	protected $editingEnabled = false;
+	
+	/**
 	 * Constructor
 	 * 
 	 * @access	public
@@ -54,6 +60,22 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		
 		$this->hintOrderingClipboard = new ilAssQuestionHintsOrderingClipboard($questionGUI->object);
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isEditingEnabled()
+	{
+		return $this->editingEnabled;
+	}
+	
+	/**
+	 * @param bool $editingEnabled
+	 */
+	public function setEditingEnabled(bool $editingEnabled)
+	{
+		$this->editingEnabled = $editingEnabled;
+	}
 
 	/**
 	 * Execute Command
@@ -64,7 +86,12 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $ilCtrl, $ilTabs, $lng, $tpl;
+
+		require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+		$tpl->parseCurrentBlock();
 		
 		$cmd = $ilCtrl->getCmd(self::CMD_SHOW_LIST);
 		$nextClass = $ilCtrl->getNextClass($this);
@@ -72,6 +99,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		switch($nextClass)
 		{
 			case 'ilassquestionhintgui':
+
+				if( !$this->isEditingEnabled() )
+				{
+					return;
+				}
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
 				$gui = new ilAssQuestionHintGUI($this->questionGUI);
@@ -80,9 +112,18 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 				
 			case 'ilasshintpagegui':
 				
+				if( $this->isEditingEnabled() )
+				{
+					$presentationMode = ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_AUTHOR;
+				}
+				else
+				{
+					$presentationMode = ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_PREVIEW;
+				}
+				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
 				$forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
-				$forwarder->setPresentationMode(ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_AUTHOR);
+				$forwarder->setPresentationMode($presentationMode);
 				$forwarder->forward();
 				break;
 
@@ -113,26 +154,35 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
 		$questionHintList = ilAssQuestionHintList::getListByQuestionId( $this->questionOBJ->getId() );
 
-		if( $this->hintOrderingClipboard->hasStored() )
+		if( $this->isEditingEnabled() )
 		{
-			$questionHintList = $this->getQuestionHintListWithoutHintStoredInOrderingClipboard($questionHintList);
-
-			$toolbar->addButton(
-				$lng->txt('tst_questions_hints_toolbar_cmd_reset_ordering_clipboard'),
-				$ilCtrl->getLinkTarget($this, self::CMD_RESET_ORDERING_CLIPBOARD)
-			);
+			if( $this->hintOrderingClipboard->hasStored() )
+			{
+				$questionHintList = $this->getQuestionHintListWithoutHintStoredInOrderingClipboard($questionHintList);
+				
+				$toolbar->addButton(
+					$lng->txt('tst_questions_hints_toolbar_cmd_reset_ordering_clipboard'),
+					$ilCtrl->getLinkTarget($this, self::CMD_RESET_ORDERING_CLIPBOARD)
+				);
+			}
+			else
+			{
+				$toolbar->addButton(
+					$lng->txt('tst_questions_hints_toolbar_cmd_add_hint'),
+					$ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM)
+				);
+			}
+			
+			$tableMode = ilAssQuestionHintsTableGUI::TBL_MODE_ADMINISTRATION;
 		}
 		else
 		{
-			$toolbar->addButton(
-				$lng->txt('tst_questions_hints_toolbar_cmd_add_hint'),
-				$ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM)
-			);
+			$tableMode = ilAssQuestionHintsTableGUI::TBL_MODE_TESTOUTPUT;
 		}
 		
 		$table = new ilAssQuestionHintsTableGUI(
 				$this->questionOBJ, $questionHintList, $this, self::CMD_SHOW_LIST,
-				ilAssQuestionHintsTableGUI::TBL_MODE_ADMINISTRATION, $this->hintOrderingClipboard
+				$tableMode, $this->hintOrderingClipboard
 		);
 
 		$tpl->setContent( $ilCtrl->getHtml($toolbar) . $ilCtrl->getHtml($table) );
@@ -192,6 +242,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function performDeleteCmd()
 	{
+		if( !$this->isEditingEnabled() )
+		{
+			return;
+		}
+		
 		global $ilCtrl, $tpl, $lng;
 		
 		$hintIds = self::fetchHintIdsParameter();
@@ -245,6 +300,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function saveListOrderCmd()
 	{
+		if( !$this->isEditingEnabled() )
+		{
+			return;
+		}
+		
 		global $ilCtrl, $lng;
 		
 		$hintIndexes = self::orderHintIndexes(
@@ -297,6 +357,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function cutToOrderingClipboardCmd()
 	{
+		if( !$this->isEditingEnabled() )
+		{
+			return;
+		}
+		
 		global $ilCtrl;
 		
 		$moveHintIds = self::fetchHintIdsParameter();
@@ -320,6 +385,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function pasteFromOrderingClipboardBeforeCmd()
 	{
+		if( !$this->isEditingEnabled() )
+		{
+			return;
+		}
+		
 		global $ilCtrl, $lng;
 
 		$targetHintIds = self::fetchHintIdsParameter();
@@ -376,6 +446,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function pasteFromOrderingClipboardAfterCmd()
 	{
+		if( !$this->isEditingEnabled() )
+		{
+			return;
+		}
+		
 		global $ilCtrl, $lng;
 
 		$targetHintIds = self::fetchHintIdsParameter();
@@ -598,5 +673,89 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	public function confirmSyncCmd()
 	{
 		$this->questionGUI->originalSyncForm('showHints');
+	}
+	
+	/**
+	 * returns the link target for hint request presentation
+	 *
+	 * @param integer $hintId
+	 * @param boolean $xmlStyle
+	 * @return string $linkTarget
+	 */
+	public function getHintPresentationLinkTarget($hintId, $xmlStyle = true)
+	{
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		
+		if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
+		{
+			$ilCtrl->setParameterByClass('ilasshintpagegui', 'hint_id', $hintId);
+			$linkTarget = $ilCtrl->getLinkTargetByClass('ilAssHintPageGUI', '', '', false, $xmlStyle);
+		}
+		else
+		{
+			$ilCtrl->setParameter($this, 'hintId', $hintId);
+			$linkTarget = $ilCtrl->getLinkTarget($this, self::CMD_SHOW_HINT, '', false, $xmlStyle);
+		}
+		
+		return $linkTarget;
+	}
+	
+	/**
+	 * shows an allready requested hint
+	 *
+	 * @access	private
+	 * @global	ilCtrl $ilCtrl
+	 * @global	ilTemplate $tpl
+	 * @global	ilLanguage $lng
+	 */
+	private function showHintCmd()
+	{
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$tpl = $DIC['tpl'];
+		$lng = $DIC['lng'];
+		
+		if( !isset($_GET['hintId']) || !(int)$_GET['hintId'] )
+		{
+			throw new ilTestException('no hint id given');
+		}
+		
+		$DIC->tabs()->clearTargets();
+		$DIC->tabs()->clearSubTabs();
+		
+		$DIC->tabs()->setBackTarget(
+			$DIC->language()->txt('tst_question_hints_back_to_hint_list'), $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_LIST)
+		);
+		
+		$questionHint = ilAssQuestionHint::getInstanceById((int)$_GET['hintId']);
+		
+		// build form
+		
+		$form = new ilPropertyFormGUI();
+		
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		$form->setTableWidth('100%');
+		
+		$form->setTitle(sprintf(
+			$lng->txt('tst_question_hints_form_header_edit'),
+			$questionHint->getIndex(),
+			$this->questionOBJ->getTitle()
+		));
+
+		// form input: hint text
+		
+		$nonEditableHintText = new ilNonEditableValueGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text', true);
+		$nonEditableHintText->setValue(	ilUtil::prepareTextareaOutput($questionHint->getText(), true) );
+		$form->addItem($nonEditableHintText);
+		
+		// form input: hint points
+		
+		$nonEditableHintPoints = new ilNonEditableValueGUI($lng->txt('tst_question_hints_form_label_hint_points'), 'hint_points');
+		$nonEditableHintPoints->setValue($questionHint->getPoints());
+		$form->addItem($nonEditableHintPoints);
+		
+		$tpl->setContent( $form->getHTML() );
 	}
 }

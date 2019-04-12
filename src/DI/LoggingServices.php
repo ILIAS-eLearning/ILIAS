@@ -31,7 +31,7 @@ class LoggingServices {
 	 * @return	\ilLogger
 	 */
 	public function __call($method_name, $args) {
-		assert('count($args) === 0');
+		assert(count($args) === 0);
 		return $this->container["ilLoggerFactory"]->getLogger($method_name);
 	}
 }

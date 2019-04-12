@@ -549,7 +549,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 						$testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
 						$testPassesSelector->setLastFinishedPass($this->getTestSession()->getLastFinishedPass());
 
-						$closedPasses = $testPassesSelector->getReportablePasses();
+						$closedPasses = $testPassesSelector->getClosedPasses();
 						$existingPasses = $testPassesSelector->getExistingPasses();
 
 						if ($existingPasses > $closedPasses)
@@ -690,7 +690,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				}
 				
 				$button = ilLinkButton::getInstance();
-				$button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
+				$button->setUrl($this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'removeImportFails'));
 				$button->setCaption('ass_skl_import_fails_remove_btn');
 				$importFailsMsg[] = $button->render();
 				

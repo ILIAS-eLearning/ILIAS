@@ -226,6 +226,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 		$typeCheckbox = new ilCheckboxInputGUI($this->lng->txt('tst_filter_question_type_enabled'),'filter_type_enabled');
 		$typeCheckbox->setChecked(!empty($filterIds));
 		$typeFilter = new ilSelectInputGUI($this->lng->txt('tst_filter_question_type'), 'filter_type');
+		$typeFilter->setRequired(true);
 		$typeFilter->setMulti(true);
 		$typeFilter->setOptions($typeFilterOptions);
 		$typeFilter->setValue($filterIds);

@@ -75,6 +75,8 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 		}
 		$ilCtrl->clearParametersByClass("ilDclDetailedViewGUI");
 		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $ref_record->getId());
+		$ilDCLTableView = ilDCLTableView::createOrGetStandardView($ref_record->getTableId());
+		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $ilDCLTableView->getId());
 		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "back_tableview_id", $_GET['tableview_id']);
 		$html = "<a href='" . $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 

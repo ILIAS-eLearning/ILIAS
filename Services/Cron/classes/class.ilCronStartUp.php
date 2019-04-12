@@ -94,6 +94,8 @@ class ilCronStartUp
 	public function logout()
 	{
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-		$GLOBALS['DIC']['ilAuthSession']->logout();
+		if (isset($GLOBALS['DIC']['ilAuthSession'])) {
+			$GLOBALS['DIC']['ilAuthSession']->logout();
+		}
 	}
 }

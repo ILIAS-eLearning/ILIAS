@@ -45,7 +45,6 @@ class ilSystemStyleHTMLExport
 	function createDirectories()
 	{
 		ilUtil::makeDir($this->style_dir);
-		ilUtil::makeDir($this->style_img_dir);
 		ilUtil::makeDir($this->img_dir);
 		ilUtil::makeDir($this->img_browser_dir);
 	}
@@ -70,24 +69,21 @@ class ilSystemStyleHTMLExport
 		global $ilUser;
 		
 		$this->createDirectories();
-		
+
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
-		$style_name = $ilUser->prefs["style"].".css";
-		copy($location_stylesheet, $this->style_dir."/".$style_name);
-		$fh = fopen($location_stylesheet, "r");
-		$css = fread($fh, filesize($location_stylesheet));
-		preg_match_all("/url\(([^\)]*)\)/",$css,$files);
-		foreach (array_unique($files[1]) as $fileref)
-		{
-			$fileref = dirname($location_stylesheet)."/".$fileref;
-			if (is_file($fileref))
-			{
-				copy($fileref, $this->style_img_dir."/".basename($fileref));
+		foreach (
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator(dirname($location_stylesheet), \RecursiveDirectoryIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::SELF_FIRST) as $item
+		) {
+			if ($item->isDir()) {
+				mkdir($this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+			} else {
+				copy($item, $this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
 			}
 		}
-		fclose($fh);
-		
+
 		// export (icon) images
 		foreach ($this->images as $im)
 		{

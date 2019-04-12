@@ -372,6 +372,11 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 		switch (strtolower($rule->getAttribute())) {
 			case 'gender':
 				switch (strtolower($value)) {
+					case 'n':
+					case 'neutral':
+						$xml_writer->xmlElement('Gender', array(), 'n');
+						break;
+
 					case 'm':
 					case 'male':
 						$xml_writer->xmlElement('Gender', array(), 'm');

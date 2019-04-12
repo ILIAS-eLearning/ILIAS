@@ -110,15 +110,37 @@ class assQuestionImport
 	}
 	
 	/**
-	 * @param ilQTIItem $item
+	 * @param $feedbackIdent
+	 * @param string $prefix
+	 * @return int
 	 */
-	protected function getFeedbackAnswerSpecific(ilQTIItem $item)
+	protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_')
+	{
+		return (int)str_replace($prefix, '', $feedbackIdent);
+	}
+	
+	/**
+	 * @param ilQTIItem $item
+	 * @param string $prefix
+	 * @return array
+	 */
+	protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_')
 	{
 		$feedbacks = array();
 		
 		foreach ($item->itemfeedback as $ifb)
 		{
-			if( substr($ifb->getIdent(), 0, strlen('response_')) != 'response_' )
+			if( $ifb->getIdent() == 'response_allcorrect' || $ifb->getIdent() == 'response_onenotcorrect' )
+			{
+				continue;
+			}
+			
+			if( $ifb->getIdent() == $prefix.'allcorrect' || $ifb->getIdent() == $prefix.'onenotcorrect' )
+			{
+				continue;
+			}
+			
+			if( substr($ifb->getIdent(), 0, strlen($prefix)) != $prefix )
 			{
 				continue;
 			}

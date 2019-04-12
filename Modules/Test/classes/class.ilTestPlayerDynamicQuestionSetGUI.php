@@ -423,6 +423,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
+		else
+		{
+			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+		}
 
 // fau: testNav - remember to prevent the navigation confirmation
 		$this->saveNavigationPreventConfirmation();
@@ -624,6 +628,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 					$questionGui, true
 				);
 // fau.
+				$this->testSession->getQuestionSetFilterSelection()->setForcedQuestionIds(array());
 			}
 
 // fau: testNav - add feedback modal
@@ -662,20 +667,16 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-// fau: testNav - handle answer fixation and intermediate submit
-			// always save the question when feedback is requested
-			// if( $this->object->isInstantFeedbackAnswerFixationEnabled() )
-			if (true)
+			if( $this->saveQuestionSolution(true) )
 			{
-				$this->saveQuestionSolution(true);
 				$this->removeIntermediateSolution();
+				$this->persistQuestionAnswerStatus();
 				$this->setAnswerChangedParameter(false);
 			}
 			else
 			{
-				$this->handleIntermediateSubmit();
+				$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 			}
-// fau.
 			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);
 			$this->testSequence->saveToDb();

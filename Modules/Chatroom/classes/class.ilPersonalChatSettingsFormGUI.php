@@ -199,7 +199,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		$this->user->writePrefs();
 
 		$this->event->raise(
-			'Services/User',
+			'Modules/Chatroom',
 			'chatSettingsChanged',
 			[
 				'user' => $this->user

@@ -1649,7 +1649,7 @@ class ilNewsItem
 		
 		if ($a_context_obj_id == 0 || $a_context_obj_type == "")
 		{
-			return;
+			return [];
 		}
 
 		if ($a_context_sub_obj_id > 0)

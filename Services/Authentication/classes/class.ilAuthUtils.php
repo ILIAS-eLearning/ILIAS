@@ -384,7 +384,6 @@ class ilAuthUtils
 			AUTH_RADIUS,
 			AUTH_ECS,
 			AUTH_PROVIDER_LTI,
-			AUTH_OPENID,
 			AUTH_APACHE
 		);
 		$ret = array();
@@ -690,8 +689,50 @@ class ilAuthUtils
 	}
 	
 	/**
+	 * Check if local password validation is enabled for a specific auth_mode
+	 * @param int $a_authmode
+	 * @return bool
+	 */
+	public static function isLocalPasswordEnabledForAuthMode($a_authmode)
+	{
+		global $ilSetting;
+
+		switch((int) $a_authmode)
+		{
+			// always enabled
+			case AUTH_LOCAL:
+			case AUTH_APACHE:
+				return true;
+
+			// No local passwords for these auth modes
+			case AUTH_LDAP:
+			case AUTH_RADIUS:
+			case AUTH_ECS:
+			case AUTH_SCRIPT:
+			case AUTH_PROVIDER_LTI:
+				return false;
+
+			case AUTH_SAML:
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
+				return $idp->isActive() && $idp->allowLocalAuthentication();
+
+			case AUTH_SHIBBOLETH:
+				return $ilSetting->get("shib_auth_allow_local");
+			case AUTH_SOAP:
+				return $ilSetting->get("soap_auth_allow_local");
+			case AUTH_CAS:
+				return $ilSetting->get("cas_allow_local");
+
+		}
+		return false;
+	}
+
+
+
+	/**
 	 * Check if password modification is enabled
-	 * @param object $a_authmode
+	 * @param int $a_authmode
 	 * @return bool
 	 */
 	public static function isPasswordModificationEnabled($a_authmode)

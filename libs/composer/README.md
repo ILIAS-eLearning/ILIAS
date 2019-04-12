@@ -15,7 +15,10 @@ These are libraries and tools dedicated to aid the development process. For exam
 PHPUnit to run and create unit tests.
 
 ### Dependencies for production
-- Add a new library using composer, e.g. "composer require filp/whoops"
+- Add a new library using composer, e.g. 
+```bash
+composer require filp/whoops --no-update
+```
 - Document the usage and your wrapper class in composer.json, e.g.:
 ```json
 "filp/whoops" : {
@@ -30,7 +33,10 @@ PHPUnit to run and create unit tests.
 },
 ```
 
-- Run "composer install --no-dev"
+- Run 
+```bash
+composer update filp/whoops --no-dev
+```
 - Add all files to ILIAS git-repository and commit
 
 ### Dependencies for development

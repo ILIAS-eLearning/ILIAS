@@ -1196,6 +1196,9 @@ div.ilPermanentLinkWrapper {
 				width: 24px;
 			}
 		}
+		> input, .btn-group {
+			z-index: 0;		/* see bug #24567 */
+		}
 		.input-group-btn {
 			width: 28px;
 		}
@@ -1273,6 +1276,10 @@ footer.ilFooter {
     border: 1px dashed grey;
     padding: 10px;
     margin-top: 25px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		//#23684
+		position: absolute;
+	}
     table {
         @media only screen and (max-width: @grid-float-breakpoint-max) {
             table-layout: fixed;

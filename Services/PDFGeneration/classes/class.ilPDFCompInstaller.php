@@ -170,7 +170,7 @@ class ilPDFCompInstaller
 		$query = 'SELECT service, purpose FROM ' . self::PURPOSE_PURPOSES_TABLE . ' GROUP BY service, purpose having count(*) > 1';
 		$result = $ilDB->query($query);
 		$row = $ilDB->fetchAssoc($result);
-		if(count($row) > 0)
+		if(is_array($row) && count($row) > 0)
 		{
 			return true;
 		}

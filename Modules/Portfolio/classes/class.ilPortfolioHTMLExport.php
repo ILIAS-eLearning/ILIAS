@@ -90,6 +90,8 @@ class ilPortfolioHTMLExport
 		
 		// add js/images/file to zip
 		$images = $files = $js_files = array();
+		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+		$js_files = ilUIFramework::getJSFiles();
 		foreach($this->export_material as $items)
 		{
 			$images = array_merge($images, $items["images"]);
@@ -295,8 +297,11 @@ class ilPortfolioHTMLExport
 		
 		$material = $pgui->getExportMaterial();
 		$this->export_material[] = $material;
-		
-		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content, $pgui->getJsOnloadCode(), $material["js"]);
+
+		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+		$js_files = array_merge(ilUIFramework::getJSFiles(), $material["js"]);
+
+		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content, $pgui->getJsOnloadCode(), $js_files);
 	}
 }
 

@@ -401,19 +401,20 @@ class ilForumPostDraft
 	/**
 	 * @param $user_id
 	 * @param $thread_id
-	 * @return mixed
+	 * @return \ilForumPostDraft[]
 	 */
-	public static function getInstancesByUserIdAndThreadId($user_id, $thread_id)
+	public static function getInstancesByUserIdAndThreadId($user_id, $thread_id) 
 	{
 		if(!self::$instances[$user_id])
 		{
 			self::readDrafts($user_id);
 		}
 
-		if(self::$instances[$user_id][$thread_id])
-		{
+		if (isset(self::$instances[$user_id][$thread_id])) {
 			return self::$instances[$user_id][$thread_id]; 
 		}
+
+		return [];
 	}
 
 	/**

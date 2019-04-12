@@ -405,8 +405,9 @@ class ilUserImportParser extends ilSaxParser
 
 		if (is_array($attr))
 		{
-			while (list($k,$v) = each($attr))
-				$tag.= " ".$k."=\"$v\"";
+			foreach ($attr as $k => $v) {
+				$tag .= " " . $k . "=\"$v\"";
+			}
 		}
 
 		$tag.= ">";
@@ -1889,9 +1890,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "Gender":
-				if ($this->cdata != "m"
-				&& $this->cdata != "f")
-				{
+				if (!in_array(strtolower($this->cdata), ['n', 'm', 'f'])) {
 					$this->logFailure(
 						$this->userObj->getLogin(), 
 						sprintf($lng->txt("usrimport_xml_element_content_illegal"),"Gender",$this->cdata)

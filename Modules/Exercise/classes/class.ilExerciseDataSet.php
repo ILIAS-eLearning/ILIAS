@@ -255,6 +255,7 @@ class ilExerciseDataSet extends ilDataSet
 						,"Pos" => "integer"
 						,"Required" => "integer"
 						,"Def" => "text"
+						,"DefJson" => "text"
 					);					
 			}
 		}
@@ -385,6 +386,14 @@ class ilExerciseDataSet extends ilDataSet
 						", descr, pos, required, def".
 						" FROM exc_crit".
 						" WHERE ".$ilDB->in("parent", $a_ids, false, "integer"));
+					foreach ($this->data as $k => $v)
+					{
+						$this->data[$k]["DefJson"] = "";
+						if ($v["Def"] != "")
+						{
+							$this->data[$k]["DefJson"] = json_encode(unserialize($v["Def"]));
+						}
+					}
 					break;	
 			}
 		}
@@ -675,7 +684,7 @@ class ilExerciseDataSet extends ilDataSet
 					$crit->setDescription($a_rec["Descr"]);
 					$crit->setPosition($a_rec["Pos"]);
 					$crit->setRequired($a_rec["Required"]);
-					$crit->importDefinition($a_rec["Def"]);
+					$crit->importDefinition($a_rec["Def"], $a_rec["DefJson"]);
 					$crit->save();
 				}				
 				break;

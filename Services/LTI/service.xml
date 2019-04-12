@@ -8,7 +8,12 @@
             <parent id="adm" max="1">adm</parent>
         </object>
     </objects>
-    <crons>		
+    <events>
+		<event type="listen" id="Services/Tracking" />
+		<event type="listen" id="Services/User" />
+
+    </events>
+    <crons>
         <cron id="lti_outcome" class="ilLTICronOutcomeService" />
     </crons>
     <logging />

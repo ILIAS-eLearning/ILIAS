@@ -8,6 +8,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
 {
     public static $files = array (
         '6175f5662c2e26de0149cb048cda7209' => __DIR__ . '/..' . '/simplesamlphp/saml2/src/_autoload.php',
+        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -32,6 +33,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'S' => 
         array (
             'Symfony\\Component\\Yaml\\' => 23,
+            'Slim\\' => 5,
             'SimpleSAML\\' => 11,
         ),
         'R' => 
@@ -42,6 +44,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
         ),
         'M' => 
         array (
@@ -57,6 +60,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         ),
         'I' => 
         array (
+            'Interop\\Container\\' => 18,
             'IMSGlobal\\LTI\\' => 14,
             'ILIAS\\' => 6,
         ),
@@ -65,6 +69,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
             'GuzzleHttp\\Psr7\\' => 16,
             'Gettext\\Languages\\' => 18,
             'Gettext\\' => 8,
+        ),
+        'F' => 
+        array (
+            'FastRoute\\' => 10,
         ),
         'D' => 
         array (
@@ -97,6 +105,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
+        'Slim\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/slim/slim/Slim',
+        ),
         'SimpleSAML\\' => 
         array (
             0 => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML',
@@ -113,6 +125,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -124,6 +140,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'JaimePerez\\TwigConfigurableI18n\\' => 
         array (
             0 => __DIR__ . '/..' . '/jaimeperez/twig-configurable-i18n/src',
+        ),
+        'Interop\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
         ),
         'IMSGlobal\\LTI\\' => 
         array (
@@ -144,6 +164,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Gettext\\' => 
         array (
             0 => __DIR__ . '/..' . '/gettext/gettext/src',
+        ),
+        'FastRoute\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
         'Dflydev\\FigCookies\\' => 
         array (
@@ -231,6 +255,23 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'EvalMath' => __DIR__ . '/../..' . '/../../Services/Math/classes/class.EvalMath.php',
         'EvalMathStack' => __DIR__ . '/../..' . '/../../Services/Math/classes/class.EvalMath.php',
+        'FastRoute\\BadRouteException' => __DIR__ . '/..' . '/nikic/fast-route/src/BadRouteException.php',
+        'FastRoute\\DataGenerator' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator.php',
+        'FastRoute\\DataGenerator\\CharCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/CharCountBased.php',
+        'FastRoute\\DataGenerator\\GroupCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/GroupCountBased.php',
+        'FastRoute\\DataGenerator\\GroupPosBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/GroupPosBased.php',
+        'FastRoute\\DataGenerator\\MarkBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/MarkBased.php',
+        'FastRoute\\DataGenerator\\RegexBasedAbstract' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/RegexBasedAbstract.php',
+        'FastRoute\\Dispatcher' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher.php',
+        'FastRoute\\Dispatcher\\CharCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/CharCountBased.php',
+        'FastRoute\\Dispatcher\\GroupCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/GroupCountBased.php',
+        'FastRoute\\Dispatcher\\GroupPosBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/GroupPosBased.php',
+        'FastRoute\\Dispatcher\\MarkBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/MarkBased.php',
+        'FastRoute\\Dispatcher\\RegexBasedAbstract' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/RegexBasedAbstract.php',
+        'FastRoute\\Route' => __DIR__ . '/..' . '/nikic/fast-route/src/Route.php',
+        'FastRoute\\RouteCollector' => __DIR__ . '/..' . '/nikic/fast-route/src/RouteCollector.php',
+        'FastRoute\\RouteParser' => __DIR__ . '/..' . '/nikic/fast-route/src/RouteParser.php',
+        'FastRoute\\RouteParser\\Std' => __DIR__ . '/..' . '/nikic/fast-route/src/RouteParser/Std.php',
         'FileOpenFailedJSMinException' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/JSMin_lib.php',
         'FormMailCodesGUI' => __DIR__ . '/../..' . '/../../Modules/Survey/classes/forms/FormMailCodesGUI.php',
         'GeSHi' => __DIR__ . '/..' . '/geshi/geshi/src/geshi.php',
@@ -870,6 +911,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\DI\\LoggingServices' => __DIR__ . '/../..' . '/../../src/DI/LoggingServices.php',
         'ILIAS\\DI\\RBACServices' => __DIR__ . '/../..' . '/../../src/DI/RBACServices.php',
         'ILIAS\\DI\\UIServices' => __DIR__ . '/../..' . '/../../src/DI/UIServices.php',
+        'ILIAS\\Data\\ClientId' => __DIR__ . '/../..' . '/../../src/Data/ClientId.php',
         'ILIAS\\Data\\Color' => __DIR__ . '/../..' . '/../../src/Data/Color.php',
         'ILIAS\\Data\\Color\\Factory' => __DIR__ . '/../..' . '/../../src/Data/Color/Factory.php',
         'ILIAS\\Data\\DataSize' => __DIR__ . '/../..' . '/../../src/Data/DataSize.php',
@@ -1252,6 +1294,9 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Image_XMP' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/module.tag.xmp.php',
         'IndividualAssessmentAccessHandler' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/interfaces/AccessControl/interface.IndividualAssessmentAccessHandler.php',
         'IndividualAssessmentFileStorage' => __DIR__ . '/../..' . '/../../Modules/IndividualAssessment/interfaces/FileStorage/interface.IndividualAssessmentFileStorage.php',
+        'Interop\\Container\\ContainerInterface' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/ContainerInterface.php',
+        'Interop\\Container\\Exception\\ContainerException' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/Exception/ContainerException.php',
+        'Interop\\Container\\Exception\\NotFoundException' => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container/Exception/NotFoundException.php',
         'JSMin' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/JSMin_lib.php',
         'JSMinException' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/JSMin_lib.php',
         'JaimePerez\\TwigConfigurableI18n\\Twig\\Environment' => __DIR__ . '/..' . '/jaimeperez/twig-configurable-i18n/src/Twig/Environment.php',
@@ -1617,6 +1662,9 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Pimple\\Tests\\Fixtures\\Service' => __DIR__ . '/..' . '/pimple/pimple/src/Pimple/Tests/Fixtures/Service.php',
         'Pimple\\Tests\\PimpleServiceProviderInterfaceTest' => __DIR__ . '/..' . '/pimple/pimple/src/Pimple/Tests/PimpleServiceProviderInterfaceTest.php',
         'Pimple\\Tests\\PimpleTest' => __DIR__ . '/..' . '/pimple/pimple/src/Pimple/Tests/PimpleTest.php',
+        'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
+        'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
+        'Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
         'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
         'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
         'Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
@@ -1858,23 +1906,53 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'SimpleSAML\\XML\\Shib13\\AuthnResponse' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML/XML/Shib13/AuthnResponse.php',
         'SimpleSAML\\XML\\Signer' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML/XML/Signer.php',
         'SimpleSAML\\XML\\Validator' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML/XML/Validator.php',
-        'Slim' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Slim.php',
-        'Slim_Exception_Pass' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Exception/Pass.php',
-        'Slim_Exception_RequestSlash' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Exception/RequestSlash.php',
-        'Slim_Exception_Stop' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Exception/Stop.php',
-        'Slim_Http_Cookie' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Cookie.php',
-        'Slim_Http_CookieJar' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/CookieJar.php',
-        'Slim_Http_Request' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Request.php',
-        'Slim_Http_Response' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Response.php',
-        'Slim_Http_Uri' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Http/Uri.php',
-        'Slim_Log' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Log.php',
-        'Slim_Logger' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Logger.php',
-        'Slim_Route' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Route.php',
-        'Slim_Router' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Router.php',
-        'Slim_Session_Flash' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Session/Flash.php',
-        'Slim_Session_Handler' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Session/Handler.php',
-        'Slim_Session_Handler_Cookies' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/Session/Handler/Cookies.php',
-        'Slim_View' => __DIR__ . '/../..' . '/../../Services/WebServices/Rest/lib/Slim/View.php',
+        'Slim\\App' => __DIR__ . '/..' . '/slim/slim/Slim/App.php',
+        'Slim\\CallableResolver' => __DIR__ . '/..' . '/slim/slim/Slim/CallableResolver.php',
+        'Slim\\CallableResolverAwareTrait' => __DIR__ . '/..' . '/slim/slim/Slim/CallableResolverAwareTrait.php',
+        'Slim\\Collection' => __DIR__ . '/..' . '/slim/slim/Slim/Collection.php',
+        'Slim\\Container' => __DIR__ . '/..' . '/slim/slim/Slim/Container.php',
+        'Slim\\DefaultServicesProvider' => __DIR__ . '/..' . '/slim/slim/Slim/DefaultServicesProvider.php',
+        'Slim\\DeferredCallable' => __DIR__ . '/..' . '/slim/slim/Slim/DeferredCallable.php',
+        'Slim\\Exception\\ContainerException' => __DIR__ . '/..' . '/slim/slim/Slim/Exception/ContainerException.php',
+        'Slim\\Exception\\ContainerValueNotFoundException' => __DIR__ . '/..' . '/slim/slim/Slim/Exception/ContainerValueNotFoundException.php',
+        'Slim\\Exception\\InvalidMethodException' => __DIR__ . '/..' . '/slim/slim/Slim/Exception/InvalidMethodException.php',
+        'Slim\\Exception\\MethodNotAllowedException' => __DIR__ . '/..' . '/slim/slim/Slim/Exception/MethodNotAllowedException.php',
+        'Slim\\Exception\\NotFoundException' => __DIR__ . '/..' . '/slim/slim/Slim/Exception/NotFoundException.php',
+        'Slim\\Exception\\SlimException' => __DIR__ . '/..' . '/slim/slim/Slim/Exception/SlimException.php',
+        'Slim\\Handlers\\AbstractError' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/AbstractError.php',
+        'Slim\\Handlers\\AbstractHandler' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/AbstractHandler.php',
+        'Slim\\Handlers\\Error' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/Error.php',
+        'Slim\\Handlers\\NotAllowed' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/NotAllowed.php',
+        'Slim\\Handlers\\NotFound' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/NotFound.php',
+        'Slim\\Handlers\\PhpError' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/PhpError.php',
+        'Slim\\Handlers\\Strategies\\RequestResponse' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/Strategies/RequestResponse.php',
+        'Slim\\Handlers\\Strategies\\RequestResponseArgs' => __DIR__ . '/..' . '/slim/slim/Slim/Handlers/Strategies/RequestResponseArgs.php',
+        'Slim\\Http\\Body' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Body.php',
+        'Slim\\Http\\Cookies' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Cookies.php',
+        'Slim\\Http\\Environment' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Environment.php',
+        'Slim\\Http\\Headers' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Headers.php',
+        'Slim\\Http\\Message' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Message.php',
+        'Slim\\Http\\Request' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Request.php',
+        'Slim\\Http\\RequestBody' => __DIR__ . '/..' . '/slim/slim/Slim/Http/RequestBody.php',
+        'Slim\\Http\\Response' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Response.php',
+        'Slim\\Http\\StatusCode' => __DIR__ . '/..' . '/slim/slim/Slim/Http/StatusCode.php',
+        'Slim\\Http\\Stream' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Stream.php',
+        'Slim\\Http\\UploadedFile' => __DIR__ . '/..' . '/slim/slim/Slim/Http/UploadedFile.php',
+        'Slim\\Http\\Uri' => __DIR__ . '/..' . '/slim/slim/Slim/Http/Uri.php',
+        'Slim\\Interfaces\\CallableResolverInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/CallableResolverInterface.php',
+        'Slim\\Interfaces\\CollectionInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/CollectionInterface.php',
+        'Slim\\Interfaces\\Http\\CookiesInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/Http/CookiesInterface.php',
+        'Slim\\Interfaces\\Http\\EnvironmentInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/Http/EnvironmentInterface.php',
+        'Slim\\Interfaces\\Http\\HeadersInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/Http/HeadersInterface.php',
+        'Slim\\Interfaces\\InvocationStrategyInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/InvocationStrategyInterface.php',
+        'Slim\\Interfaces\\RouteGroupInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/RouteGroupInterface.php',
+        'Slim\\Interfaces\\RouteInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/RouteInterface.php',
+        'Slim\\Interfaces\\RouterInterface' => __DIR__ . '/..' . '/slim/slim/Slim/Interfaces/RouterInterface.php',
+        'Slim\\MiddlewareAwareTrait' => __DIR__ . '/..' . '/slim/slim/Slim/MiddlewareAwareTrait.php',
+        'Slim\\Routable' => __DIR__ . '/..' . '/slim/slim/Slim/Routable.php',
+        'Slim\\Route' => __DIR__ . '/..' . '/slim/slim/Slim/Route.php',
+        'Slim\\RouteGroup' => __DIR__ . '/..' . '/slim/slim/Slim/RouteGroup.php',
+        'Slim\\Router' => __DIR__ . '/..' . '/slim/slim/Slim/Router.php',
         'Snoopy' => __DIR__ . '/../..' . '/../../Services/Feeds/magpierss/extlib/Snoopy.class.inc',
         'StripState' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/Parser.php',
         'SurveyCategories' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyCategories.php',
@@ -2719,6 +2797,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilAccountCodesTableGUI' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilAccountCodesTableGUI.php',
         'ilAccountMail' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilAccountMail.php',
         'ilAccountRegistrationGUI' => __DIR__ . '/../..' . '/../../Services/Registration/classes/class.ilAccountRegistrationGUI.php',
+        'ilAccountRegistrationMail' => __DIR__ . '/../..' . '/../../Services/Registration/classes/class.ilAccountRegistrationMail.php',
         'ilActivationEmitter' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php',
         'ilActivity' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/interfaces/ilActivity.php',
         'ilAdminSubItemsTableGUI' => __DIR__ . '/../..' . '/../../Services/Repository/classes/class.ilAdminSubItemsTableGUI.php',
@@ -4403,6 +4482,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilLPStatusWrapper' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPStatusWrapper.php',
         'ilLPTableBaseGUI' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPTableBaseGUI.php',
         'ilLPXmlWriter' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPXmlWriter.php',
+        'ilLTIAppEventListener' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIAppEventListener.php',
         'ilLTICronOutcomeService' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTICronOutcomeService.php',
         'ilLTIDataConnector' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
         'ilLTIProviderObjectSetting' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSetting.php',
@@ -4583,6 +4663,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMailAutoCompleteSearch' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailAutoCompleteSearch.php',
         'ilMailAutoCompleteSentMailsRecipientsProvider' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailAutoCompleteSentMailsRecipientsProvider.php',
         'ilMailAutoCompleteUserProvider' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailAutoCompleteUserProvider.php',
+        'ilMailBody' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Message/class.ilMailBody.php',
+        'ilMailBodyPurifier' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Message/class.ilMailBodyPurifier.php',
         'ilMailBoxQuery' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailBoxQuery.php',
         'ilMailCronNotification' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronNotification.php',
         'ilMailCronOrphanedMails' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailCronOrphanedMails.php',
@@ -5615,12 +5697,14 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilPollUserTableGUI' => __DIR__ . '/../..' . '/../../Modules/Poll/classes/class.ilPollUserTableGUI.php',
         'ilPoolSelectorGUI' => __DIR__ . '/../..' . '/../../Services/COPage/classes/class.ilPoolSelectorGUI.php',
         'ilPortfolioAccessHandler' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php',
+        'ilPortfolioAppEventListener' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioAppEventListener.php',
         'ilPortfolioDataSet' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioDataSet.php',
         'ilPortfolioExerciseGUI' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php',
         'ilPortfolioExporter' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioExporter.php',
         'ilPortfolioHTMLExport' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php',
         'ilPortfolioImporter' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioImporter.php',
         'ilPortfolioPage' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioPage.php',
+        'ilPortfolioPageAction' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioPageAction.php',
         'ilPortfolioPageConfig' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioPageConfig.php',
         'ilPortfolioPageGUI' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioPageGUI.php',
         'ilPortfolioPageTableGUI' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php',
@@ -6017,6 +6101,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSkillLevelTableGUI' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillLevelTableGUI.php',
         'ilSkillManagementSettings' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillManagementSettings.php',
         'ilSkillNotifications' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillNotifications.php',
+        'ilSkillObjDeletionHandler' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillObjDeletionHandler.php',
         'ilSkillProfile' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillProfile.php',
         'ilSkillProfileGUI' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillProfileGUI.php',
         'ilSkillProfileLevelsTableGUI' => __DIR__ . '/../..' . '/../../Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php',

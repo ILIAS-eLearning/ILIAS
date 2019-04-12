@@ -26,6 +26,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.p
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
 	/**
+	 * @var ilTestProcessLockerFactory
+	 */
+	protected $processLockerFactory;
+	
+	/**
 	 * ilTestEvaluationGUI constructor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the 
@@ -36,6 +41,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function __construct(ilObjTest $a_object)
 	{
 		parent::__construct($a_object);
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
+		$this->processLockerFactory = new ilTestProcessLockerFactory(
+			new ilSetting('assessment'), $DIC->database()
+		);
 	}
 
 	/**
@@ -1004,7 +1016,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			//$this->object->deliverPDFfromHTML($template->get());
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -1133,7 +1145,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 
 			$name = ilObjUser::_lookupName($user_id);
-			$filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__'. $this->object->getTitle();
+			$filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__'. $this->object->getTitleFilenameCompliant();
 			require_once 'class.ilTestPDFGenerator.php';
 			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
 			//ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
@@ -1342,7 +1354,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( $this->isPdfDeliveryRequest() )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
+			ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -1490,7 +1502,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -2190,10 +2202,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	protected function finishTestPass($active_id, $obj_id)
 	{
+		$this->processLockerFactory->setActiveId($active_id);
+		$processLocker = $this->processLockerFactory->getLocker();
+		
 		$test_pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
-		$test_pass_finisher->performFinishTasksBeforeArchiving();
-		//Todo Archiving?
-		$test_pass_finisher->performFinishTasksAfterArchiving();
+		$test_pass_finisher->performFinishTasks($processLocker);
 	}
 	
 	protected function redirectBackToParticipantsScreen()

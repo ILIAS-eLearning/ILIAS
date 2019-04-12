@@ -102,7 +102,7 @@ class ilUserProfile
 						"group" => "personal_data"),
 		"gender" => array(
 						"input" => "radio",
-						"values" => array("f" => "gender_f", "m" => "gender_m"),
+						"values" => array("n" => "salutation_n", "f" => "salutation_f", "m" => "salutation_m"),
 						"method" => "getGender",
 						"group" => "personal_data"),
 		"upload" => array(
@@ -758,8 +758,10 @@ class ilUserProfile
 					{
 						if(!$registration_settings->passwordGenerationEnabled())
 						{
-							$ta = new ilPasswordInputGUI($lng->txt($lv), "usr_".$f);							
+							$ta = new ilPasswordInputGUI($lng->txt($lv), "usr_".$f);
+							$ta->setUseStripSlashes(false);
 							$ta->setRequired(true);
+							$ta->setInfo(ilUtil::getPasswordRequirementsInfo());
 							// $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
 						else

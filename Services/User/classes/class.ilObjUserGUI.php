@@ -62,8 +62,9 @@ class ilObjUserGUI extends ilObjectGUI
 		// for gender selection. don't change this
 		// maybe deprecated
 		$this->gender = array(
+							  'n'    => "salutation_n",
 							  'm'    => "salutation_m",
-							  'f'    => "salutation_f"
+							  'f'    => "salutation_f",
 							  );
 	}
 
@@ -1171,6 +1172,7 @@ class ilObjUserGUI extends ilObjectGUI
 // allows password setting
 		{
 			$pw = new ilPasswordInputGUI($lng->txt("passwd"), "passwd");
+			$pw->setUseStripSlashes(false);
 			$pw->setSize(32);
 			$pw->setMaxLength(80); // #17221
 			$pw->setValidateAuthPost("auth_mode");
@@ -1417,11 +1419,13 @@ class ilObjUserGUI extends ilObjectGUI
 		// gender
 		if($this->isSettingChangeable('gender'))
 		{
-			$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
+			$gndr = new ilRadioGroupInputGUI($lng->txt("salutation"), "gender");
 			$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
-			$female = new ilRadioOption($lng->txt("gender_f"), "f");
+			$neutral = new ilRadioOption($lng->txt("salutation_n"), "n");
+			$gndr->addOption($neutral);
+			$female = new ilRadioOption($lng->txt("salutation_f"), "f");
 			$gndr->addOption($female);
-			$male = new ilRadioOption($lng->txt("gender_m"), "m");
+			$male = new ilRadioOption($lng->txt("salutation_m"), "m");
 			$gndr->addOption($male);
 			$this->form_gui->addItem($gndr);
 		}

@@ -668,7 +668,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
-		
+
 		$title = $this->isMyCoursesActive()
 			? "my_courses"
 			: "my_courses_inactive";
@@ -752,9 +752,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				);
 				$tpl->setVariable("SORT_SELECT", ilUtil::formSelect($sorting, "srt", $options, false, true, 0, "",
 					array("onchange" => "form.submit()")));
-				$tpl->setVariable("SORT_FORM", $ilCtrl->getFormActionByClass("ilobjportfoliogui", "preview"));
+				$tpl->setVariable("SORT_FORM", $this->getCourseSortAction($ilCtrl));
 			}
-			
+
 			$old_path = null;
 	
 			foreach($data as $course)
@@ -911,7 +911,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			
 			return $tpl->get();					
 		}					
-	}	
+	}
+
+	/**
+	 * Get course sort action
+	 *
+	 * @param ilCtrl $ctrl
+	 * @return string
+	 */
+	protected function getCourseSortAction($ctrl)
+	{
+		return $ctrl->getFormActionByClass("ilobjportfoliogui", "preview");
+	}
+
 	
 	protected function getCoursesOfUser($a_user_id, $a_add_path = false)
 	{		

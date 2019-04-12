@@ -666,3 +666,7 @@ div.ilc_Page.readonly textarea[disabled]
 	background-color: rgb(235, 235, 228);
 	min-height: 200px;
 }
+
+.ilSpecificAnswerFeedback td:first-child {
+	padding-right: 30px;
+}

@@ -35,6 +35,7 @@ document are to be interpreted as described in [RFC
       1. [MySQL Strict Mode \(5.6+\)](#mysql-strict-mode-56)
       1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
    1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
+   1. [WebDAV Configuration \(OPTIONAL\)](#webdav-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
    1. [Installation Wizard](#installation-wizard)
    1. [Configure ILIAS Java RPC server \(OPTIONAL\)](#configure-ilias-java-rpc-server-optional)
@@ -425,6 +426,18 @@ hostname=yourserver.example.com
 # YES - Allow the user to specify their own From: address
 # NO - Use the system generated From: address
 FromLineOverride=YES
+```
+
+<a name="webdav-configuration-optional"></a>
+## WebDAV Configuration (OPTIONAL)
+
+Because of a special behaviour in the Windows Explorer, it sometimes fails to add a WebDAV connection with the error code "0x80070043 The Network Name Cannot Be Found".
+
+To prevent this behaviour, add the following rewrite rules to a .htaccess file in your webroot or to the corresponding section of the configuration of your webserver:
+```
+RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
+RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
+RewriteRule .* "-" [R=401,L]
 ```
 
 <a name="install-other-depedencies"></a>

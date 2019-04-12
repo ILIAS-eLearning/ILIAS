@@ -1,11 +1,12 @@
 var C = ''.split(':');
 var ScormApi = null;
 
-var iyes   = new Image (); iyes.src="./images/n_yes.gif";
-var ino    = new Image (); ino.src="./images/n_no.gif";
-var iyesno = new Image (); iyesno.src="./images/yesno.png";
-var ilike  = new Image (); ilike.src="./images/n_selected.png";
-var pixel  = new Image (); pixel.src="./images/pixel.png";
+// this should be unused images, see #23083
+//var iyes   = new Image (); iyes.src="./images/n_yes.gif";
+//var ino    = new Image (); ino.src="./images/n_no.gif";
+//var iyesno = new Image (); iyesno.src="./images/yesno.png";
+//var ilike  = new Image (); ilike.src="./images/n_selected.png";
+//var pixel  = new Image (); pixel.src="./images/pixel.png";
 
 var R = new Array(); // right
 var S = new Array(); // studentmyd
@@ -454,30 +455,30 @@ function dynProc (f, ret) {
                                 S[f-1][0]=0;
                                 return 'initial';
                         }
-                        document.images["fbi_"+f+"_"+S[f-1][0]].src = ilike.src;
+//                        document.images["fbi_"+f+"_"+S[f-1][0]].src = ilike.src;
                         dynDone = f;
                         dynFree(f);
                         return 'fin';
                 }
 
                 if (R[f-1].toString().length == 1) { // radio
-                        fbi.src = pixel.src;
+//                        fbi.src = pixel.src;
                         if (i != S[f-1][0]/1) continue;
                         if (i == R[f-1][0]/1) {
                                 S[f-1][0]=i;
-                                fbi.src = iyes.src;
+//                                fbi.src = iyes.src;
                         } else {
-                                fbi.src = ino.src;
+//                                fbi.src = ino.src;
                         }
                         continue;
                 }
 
                 // matching or checkbox
                 if (s == e ) {
-                        fbi.src = pixel.src;
+//                        fbi.src = pixel.src;
                         if (!T[f-1]) T[f-1] = new Date();
                 } else {
-                        fbi.src = (s == r) ? iyes.src : ino.src;
+//                        fbi.src = (s == r) ? iyes.src : ino.src;
                 }
         }
 

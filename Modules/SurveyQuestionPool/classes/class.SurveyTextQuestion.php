@@ -334,6 +334,13 @@ class SurveyTextQuestion extends SurveyQuestion
 		
 		if (strlen($entered_value) == 0) return $this->lng->txt("text_question_not_filled_out");
 
+		// see bug #22648
+		include_once("./Services/Utilities/classes/class.ilStr.php");
+		if ($this->getMaxChars() > 0 && ilStr::strLen($entered_value) > $this->getMaxChars())
+		{
+			return str_replace("%s", ilStr::strLen($entered_value), $this->lng->txt("svy_answer_too_long"));
+		}
+
 		return "";
 	}
 	
@@ -341,11 +348,13 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		$ilDB = $this->db;
 
-		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
+		$entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();
+
+		include_once("./Services/Utilities/classes/class.ilStr.php");
 		if ($maxchars > 0)
 		{
-			$entered_value = substr($entered_value, 0, $maxchars);
+			$entered_value = ilStr::subStr($entered_value, 0, $maxchars);
 		}
 		
 		if($a_return)

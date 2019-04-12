@@ -61,7 +61,7 @@ class ilTestArchiveService
 		$content = $this->renderOverviewContent($activeId, $pass);
 		$filename = $this->buildOverviewFilename($activeId, $pass);
 		
-		ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
+		ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
 
 		$archiver = new ilTestArchiver($this->testOBJ->getId());
 		$archiver->setParticipantData($this->getParticipantData());

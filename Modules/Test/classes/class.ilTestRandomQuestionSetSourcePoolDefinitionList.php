@@ -135,6 +135,21 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		return null;
 	}
 	
+	public function getDefinitionBySourcePoolId($sourcePoolId)
+	{
+		foreach($this as $definition)
+		{
+			if($definition->getPoolId() != $sourcePoolId)
+			{
+				continue;
+			}
+			
+			return $definition;
+		}
+		
+		throw new InvalidArgumentException('invalid source pool id given');
+	}
+	
 	public function getDefinitionIds()
 	{
 		return array_keys($this->sourcePoolDefinitions);
@@ -411,17 +426,5 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	{
 		//echo get_class($this->getTrashedPools()[0]);
 		return array_merge($this->getTrashedPools(), $this->getLostPools());
-	}
-	
-	public function updateSourceQuestionPoolId($oldPoolId, $newPoolId)
-	{
-		foreach($this as $definition)
-		{
-			if($definition->getPoolId() == $oldPoolId)
-			{
-				$definition->setPoolId($newPoolId);
-				$definition->saveToDb();
-			}
-		}
 	}
 }

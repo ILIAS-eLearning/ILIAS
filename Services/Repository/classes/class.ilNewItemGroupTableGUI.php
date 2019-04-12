@@ -79,7 +79,10 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 		
 		if($subitems[0])
 		{
-			ilUtil::sendInfo(sprintf($lng->txt("rep_new_item_group_unassigned_subitems"), sizeof($subitems[0])));
+			ilUtil::sendInfo(sprintf(
+				$lng->txt("rep_new_item_group_unassigned_subitems"),
+				is_array($subitems[0]) ? sizeof($subitems[0]) : 0
+			));
 			unset($subitems[0]);
 		}
 		
@@ -90,7 +93,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 				"pos" => $item["pos"],
 				"title" => $item["title"],
 				"type" => $item["type"],
-				"subitems" => sizeof($subitems[$item["id"]])
+				"subitems" => is_array($subitems[$item["id"]]) ? sizeof($subitems[$item["id"]]) : 0
 			);
 		}
 		

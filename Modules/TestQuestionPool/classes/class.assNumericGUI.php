@@ -106,6 +106,19 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+			
+			$lower = $form->getItemByPostVar('lowerlimit');
+			$upper = $form->getItemByPostVar('upperlimit');
+			
+			if( !$this->checkRange($lower->getValue(), $upper->getValue()) )
+			{
+				global $DIC;
+				$lower->setAlert($DIC->language()->txt('qpl_numeric_lower_needs_valid_lower_alert'));
+				$upper->setAlert($DIC->language()->txt('qpl_numeric_upper_needs_valid_upper_alert'));
+				ilUtil::sendFailure($DIC->language()->txt("form_input_not_valid"));
+				$errors = true;
+			}
+			
 			if ($errors) $checkonly = false;
 		}
 
@@ -120,14 +133,14 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	*
 	* @return boolean 
 	*/
-	public function checkRange()
+	public function checkRange($lower, $upper)
 	{
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
-		if (($eval->e($_POST["rang_lower_limit"]) !== FALSE) AND ($eval->e($_POST ["range_upper_limit"]) !== FALSE))
+		if (($eval->e($lower) !== FALSE) AND ($eval->e($upper) !== FALSE))
 		{
-			if ($eval->e($_POST["rang_lower_limit"]) < $eval->e($_POST["range_upper_limit"]))
+			if ($eval->e($lower) <= $eval->e($upper))
 			{
 				return TRUE;
 			}
@@ -291,7 +304,13 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	{
 		$solutions = NULL;
 		// get the solution of the user for the active pass or from the last pass if allowed
-		if ($active_id)
+		if($use_post_solutions !== false)
+		{
+			$solutions = array(
+				array('value1' => $use_post_solutions['numeric_result'])
+			);
+		}
+		elseif ($active_id)
 		{
 			
 			// hey: prevPassSolutions - obsolete due to central check

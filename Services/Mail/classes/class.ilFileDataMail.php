@@ -107,7 +107,15 @@ class ilFileDataMail extends ilFileData
 	{
 		return $this->mail_path;
 	}
-	
+
+	/**
+	 * @return string
+	 */
+	public function getAbsoluteAttachmentPoolPathPrefix()
+	{
+		return $this->mail_path . '/' . $this->user_id . '_';
+	}
+
 	/**
 	* get the path of a specific attachment
 	* @param string md5 encrypted filename
@@ -390,9 +398,9 @@ class ilFileDataMail extends ilFileData
 	* @access	public
 	* @return string absolute path
 	*/
-	function getAbsolutePath($a_path)
+	function getAbsolutePath($fileName)
 	{
-		return $this->mail_path.'/'.$this->user_id.'_'.$a_path;
+		return $this->getAbsoluteAttachmentPoolPathPrefix() . $fileName;
 	}
 
 	/**

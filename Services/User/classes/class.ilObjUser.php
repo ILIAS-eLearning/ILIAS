@@ -187,6 +187,7 @@ class ilObjUser extends ilObject
 
 		// for gender selection. don't change this
 		/*$this->gender = array(
+							  'n'    => "salutation_n",
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
 							  );*/
@@ -3271,8 +3272,15 @@ class ilObjUser extends ilObject
 						//}
 						//else
 						//{
-							$node = $tree->getNodeData($parent_ref);						
-							$all_parent_path[$parent_ref] = $node["title"];
+							if ($parent_ref > 0)	// workaround for #0023176
+							{
+								$node = $tree->getNodeData($parent_ref);
+								$all_parent_path[$parent_ref] = $node["title"];
+							}
+							else
+							{
+								$all_parent_path[$parent_ref] = "";
+							}
 						//}
 					}
 					
@@ -4236,12 +4244,9 @@ class ilObjUser extends ilObject
 		{
 			$body .= ($language->txt("title").": ".$this->getUTitle()."\n");
 		}
-		if(strlen($this->getGender()))
+		if(1 === strlen($this->getGender()))
 		{
-			$gender = ($this->getGender() == 'm') ?
-				$language->txt('gender_m') :
-				$language->txt('gender_f');
-			$body .= ($language->txt("gender").": ".$gender."\n");
+			$body .= ($language->txt("gender").": ". $language->txt('gender_' . strtolower($this->getGender())) ."\n");
 		}
 		if(strlen($this->getFirstname()))
 		{

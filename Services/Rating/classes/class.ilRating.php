@@ -265,7 +265,7 @@ class ilRating
 		
 		$set = $ilDB->query("SELECT file_id, rating".
 			" FROM file_data".
-			" WHERE ".$ilDB->in("file_id", $a_obj_ids, "", integer));
+			" WHERE ".$ilDB->in("file_id", $a_obj_ids, "", 'integer'));
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$id = "file/".$row["file_id"];
@@ -281,7 +281,7 @@ class ilRating
 		
 		$set = $ilDB->query("SELECT id, rating_overall".
 			" FROM il_wiki_data".
-			" WHERE ".$ilDB->in("id", $a_obj_ids, "", integer));
+			" WHERE ".$ilDB->in("id", $a_obj_ids, "", 'integer'));
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$id = "wiki/".$row["id"];
@@ -297,7 +297,7 @@ class ilRating
 		
 		$set = $ilDB->query("SELECT id, rating".
 			" FROM content_object".
-			" WHERE ".$ilDB->in("id", $a_obj_ids, "", integer));
+			" WHERE ".$ilDB->in("id", $a_obj_ids, "", 'integer'));
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$id = "lm/".$row["id"];

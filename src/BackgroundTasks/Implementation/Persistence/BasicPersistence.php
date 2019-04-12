@@ -388,8 +388,10 @@ class BasicPersistence implements Persistence {
 		/** @var Task $task */
 		$task = $factory->createTask($taskContainer->getClassName());
 
+		// Bugfix 0023775
+		// Added additional orderBy for the id to ensure that the items are returned in the right order.
 		/** @var ValueToTaskContainer $valueToTask */
-		$valueToTasks = ValueToTaskContainer::where([ 'task_id' => $taskContainerId ])->orderBy('task_id')->get();
+		$valueToTasks = ValueToTaskContainer::where([ 'task_id' => $taskContainerId ])->orderBy('task_id')->orderBy('id')->get();
 		$inputs = [];
 		foreach ($valueToTasks as $valueToTask) {
 			$inputs[] = $this->loadValue($valueToTask->getValueId(), $bucket, $bucketContainer);

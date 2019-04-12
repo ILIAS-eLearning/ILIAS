@@ -16,8 +16,8 @@ class ilAssLongMenuFeedback  extends ilAssMultiOptionQuestionFeedback
 	{
 		return self::SPECIFIC_QUESTION_TABLE_NAME;
 	}
-
-	protected function getAnswerOptionsByAnswerIndex()
+	
+	public function getAnswerOptionsByAnswerIndex()
 	{
 		return $this->questionOBJ->getAnswers();
 	}

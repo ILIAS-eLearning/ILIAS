@@ -123,9 +123,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		// Direct-Link Resource, redirect to viewgui
 		if ($_GET[self::GET_DCL_GTR]) {
-			$DIC->ctrl()->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $_GET[self::GET_VIEW_ID]);
-			$DIC->ctrl()->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $_GET[self::GET_DCL_GTR]);
-			$DIC->ctrl()->redirectByClass('ilDclDetailedViewGUI', 'renderRecord');
+			$DIC->ctrl()->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $_GET[self::GET_VIEW_ID]);
+			$DIC->ctrl()->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $_GET[self::GET_DCL_GTR]);
+			$DIC->ctrl()->redirectByClass(ilDclDetailedViewGUI::class, 'renderRecord');
 		}
 
 
@@ -176,7 +176,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$this->addHeaderAction(false);
 				$this->prepareOutput();
 				$DIC->tabs()->activateTab("id_records");
-				$this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $_REQUEST['tableview_id']);
+				$this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $_REQUEST['tableview_id']);
 								$recordlist_gui = new ilDclRecordListGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($recordlist_gui);
 				break;
@@ -207,7 +207,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 								$recordview_gui = new ilDclDetailedViewGUI($this);
 				$this->ctrl->forwardCommand($recordview_gui);
 				$DIC->tabs()->clearTargets();
-				$DIC->tabs()->setBackTarget($this->lng->txt("back"), $DIC->ctrl()->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
+				$DIC->tabs()->setBackTarget($this->lng->txt("back"), $DIC->ctrl()->getLinkTargetByClass(ilDclRecordListGUI::class, ilDclRecordListGUI::CMD_LIST_RECORDS));
 				break;
 
 			case 'ilnotegui':
@@ -215,7 +215,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 								$recordviewGui = new ilDclDetailedViewGUI($this);
 				$this->ctrl->forwardCommand($recordviewGui);
 				$DIC->tabs()->clearTargets();
-				$DIC->tabs()->setBackTarget($this->lng->txt("back"), $DIC->ctrl()->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
+				$DIC->tabs()->setBackTarget($this->lng->txt("back"), $DIC->ctrl()->getLinkTarget($this, ""));
 				break;
 			case "ildclexportgui":
 				$this->prepareOutput();
@@ -306,9 +306,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$id = explode("_", $a_target);
 
 		$_GET["baseClass"] = "ilRepositoryGUI";
-		$_GET[self::GET_REF_ID] = $id[0];
-		$_GET[self::GET_VIEW_ID] = $id[1];
-		$_GET[self::GET_DCL_GTR] = $id[2]; //recordID
+		$_GET[self::GET_REF_ID] = $id[0];  // ref_id
+        $_GET[self::GET_VIEW_ID] = $id[1]; // view_id
+        $_GET[self::GET_DCL_GTR] = $id[2]; // record_id
 		$_GET["cmd"] = "listRecords";
 		require_once('./ilias.php');
 		exit;

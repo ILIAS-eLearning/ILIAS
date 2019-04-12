@@ -884,7 +884,7 @@ class HTTP_WebDAV_Server
                                     exit;
                                 }
 
-                                if (isset($range['end'])) {
+                                if (isset($range['end']) && $range['end'] != '') {
                                     $size = $range['end']-$range['start']+1;
                                     $this->http_status("206 partial");
                                     header("Content-length: $size");

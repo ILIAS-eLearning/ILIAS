@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 
 class ilADTMultiEnumFormBridge extends ilADTFormBridge
 {
-	protected $option_infos; // [array]
+	protected $option_infos = []; // [array]
 	protected $auto_sort = true; // [bool]
 	
 	protected function isValidADT(ilADT $a_adt) 
@@ -24,7 +24,9 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
 	
 	public function addToForm()
 	{		
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC['lng'];
 				
 		$def = $this->getADT()->getCopyOfDefinition();
 		

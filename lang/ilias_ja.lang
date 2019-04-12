@@ -1155,9 +1155,11 @@ assessment#:#tst_allowed_users_time_gap#:#アクティブユーザのアイド�
 assessment#:#tst_allowed_users_time_gap_desc#:#表示された時間のテスト中にクリックしない受験者は'非アクティブ'としてカテゴリー化されてテストから削除されます。
 assessment#:#tst_already_submitted#:#テストはすでに終了して提出済です。
 assessment#:#tst_analysis#:#分析
-assessment#:#tst_anonymity#:#匿名
-assessment#:#tst_anonymity_anonymous_test#:#匿名のテスト
-assessment#:#tst_anonymity_no_anonymization#:#非匿名化
+assessment#:#tst_anonymity#:#プライバシー
+assessment#:#tst_anonymity_anonymous_test#:#無記名結果/匿名テスト
+assessment#:#tst_anonymity_no_anonymization#:#記名結果
+assessment#:#tst_answer_aggr_answer_header#:#回答
+assessment#:#tst_answer_aggr_frequency_header#:#頻度
 assessment#:#tst_answer_details#:#解答詳細
 assessment#:#tst_answer_status_answered#:#回答済み
 assessment#:#tst_answer_status_editing#:# (編集中 ... )
@@ -1411,6 +1413,7 @@ assessment#:#tst_no_question_selected_for_removal#:#削除するには最低で�
 assessment#:#tst_no_scorable_qst_available#:#採点可能な問題なし
 assessment#:#tst_no_tries#:#該当者なし
 assessment#:#tst_non_avail_pool_msg_status_lost#:#この問題集はもう利用できません。この問題集から問題の同期はもうできません。このテスト内の問題コンテナから新しい問題集を得ることができます。
+assessment#:#tst_non_avail_pool_msg_status_trashed#:#システムから完全に削除される時にこの問題集は破棄されてテストは問題と同期することが不可能になります。
 assessment#:#tst_non_avail_pools_table#:#利用可能な問題集がありません
 assessment#:#tst_non_available_pool_newly_derived#:#新規問題集は正しくできました。
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>構成中の問題を含む現在のテストモードはどの問題集にも割り当てられません。テストモードを変更すると問題は完全に消去されます。</b>
@@ -2391,7 +2394,7 @@ chatroom#:#banned#:#このチャットから禁止されています
 chatroom#:#bans#:#禁止
 chatroom#:#chat_address#:#アドレス
 chatroom#:#chat_anonymous_not_allowed#:#チャットを使いログインしてください。
-chatroom#:#chat_auth_token_info#:#チャットサーバへリクエストを送信する際に認証目的用でiliasが使用するユニークなストリングを定義してください。対応するボタンんをクリックすると自動的にこれらのストリングを生成することができます。各クライアントIDが <b>unique</b>であってもチャットサーバは複数のiliasクライアントと通信が可能であることに注意願います。
+chatroom#:#chat_auth_token_info#:#チャットサーバへリクエストを送信する際に認証目的用でiliasが使用するユニークなストリングを定義してください。対応するボタンをクリックすると自動的にこれらのストリングを生成することができます。各クライアントIDが <b>unique</b>であってもチャットサーバは複数のiliasクライアントと通信が可能であることに注意願います。
 chatroom#:#chat_ban#:#禁止する
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b>は チャットルームを退室 ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> はチャットルームへ参加 +++
@@ -2437,6 +2440,7 @@ chatroom#:#chat_osc_no_conv#:#会話がありません
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
 chatroom#:#chat_osc_no_sub_directory_info#:#チャットサーバは"http(s)://[IP/Domain]/[PATH]"のようなURL付きのサブディレクトリ経由でしかつながらない場合、このチャットサーバには[PATH]の挿入が必要です。
 chatroom#:#chat_osc_no_usr_found#:#検索に合致するユーザを見つけることができませんでした。
+chatroom#:#chat_osc_search_modal_info#:#会話を追加したいユーザを検索できます。検索ダイアログがグループチャット内に開いていると新しいユーザはこのチャットへ追加されます。1:1チャットで検索を開始していると、新しいグループチャットウィンドウが開きます。
 chatroom#:#chat_osc_section_head_other_rooms#:#パブリックチャットルーム
 chatroom#:#chat_osc_self_rej_msgs#:#設定で受信メッセージを抑制しているのでこの会話の部分を現在受け取りできません。
 chatroom#:#chat_osc_send#:#Send
@@ -2457,6 +2461,8 @@ chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_btn_txt#:#Keyを生成
 chatroom#:#chatroom_auth_key#:#Authentication-Key
 chatroom#:#chatroom_auth_secret#:#Authentication-Secret
+chatroom#:#chatroom_client_name#:#氏名
+chatroom#:#chatroom_client_name_info#:#ILIASクライアントの氏名を入力してください。入力のストリングはグローバルでユニークである必要があります。当初この値はILIASクライアントのクライアントIDに設定されます。変更するとチャットサーバは再起動しなければなりません。
 chatroom#:#chatroom_enable_osc#:#オンスクリーンチャットを有効にする
 chatroom#:#chatroom_enable_osc_info#:#有効にするとオンスクリーンチャットは各ユーザが利用可能になります。しかしながら、全てのユーザは他のユーザとの連絡をしたいかどうかを決めることができます。会話は'オンラインはだれ?ツール'内に表示開始されます。
 chatroom#:#chatroom_smiley_keyword#:#キーワード
@@ -2703,7 +2709,7 @@ cntr#:#cntr_old_editor_warning#:#このエディターのメンテナンスは�
 cntr#:#cntr_ordering#:#並び替え
 cntr#:#cntr_saved_sorting#:#並び替えを保存
 cntr#:#cntr_switch_to_new_editor_cmd#:#新しいコンテンツのページに切り替える。古いコンテンツを削除。
-cntr#:#cntr_switch_to_new_editor_message#:#サポートされている標準的なエディターです。古いエディターからコンテンツは引き継がれません。以下の新しいページコンテンツへ追加を開始してください。次のリンクをクリックると新しいコンテンツが使用されます。
+cntr#:#cntr_switch_to_new_editor_message#:#サポートされている標準的なエディターです。古いエディターからコンテンツは引き継がれません。以下の新しいページコンテンツへ追加を開始してください。次のリンクをクリックすると新しいコンテンツが使用されます。
 cntr#:#cntr_switched_editor#:#新しいコンテンツへ切り替えられました。
 cntr#:#cntr_tax_list_info#:#以下はこのオブジェスト用として定義されている分類です。
 cntr#:#cntr_tax_none_available#:#分類は利用できません。
@@ -2721,6 +2727,7 @@ cntr#:#cont_custom_icon#:#カスタムアイコン
 cntr#:#container_import_zip_file_invalid#:#アップロードされたファイルはILIASの有効なエクスポートファイルではありません。ディレクトリ構造をアップロードするにはファイルオブジェクトを使用してください。
 cntr#:#edit_questions#:#問題を編集
 cntr#:#exc_next_deadline_single#:#締切り
+cntr#:#msg_no_downloadable_objects#:#ダウンロード可能なオブジェクトが見つかりませんでした。
 cntr#:#objects_duplicated#:#オブジェクトをコピーしました。
 cntr#:#prtf_create_portfolio_from_template#:#テンプレートからポートフォリオを作成
 cntr#:#sorting_new_items_at_bottom#:#Bottom
@@ -3115,6 +3122,7 @@ common#:#crs_archives#:#アーカイブ
 common#:#crs_cancel_waiting_list#:#本当にコース "%s"の待ちリストからあなたを削除しますか?
 common#:#crs_copy_threads_info#:#どのコース教材をコピー、リンクあるいは省略するか決定してください。
 common#:#crs_edit#:#コースを編集
+common#:#crs_list_reg#:#登録
 common#:#crs_list_reg_end#:#登録終了日時
 common#:#crs_list_reg_limit_full#:#空席なし
 common#:#crs_list_reg_limit_places#:#空席あり
@@ -3410,7 +3418,7 @@ common#:#filename_special_characters#:#文字のせいです/ このオブジェ
 common#:#filename_special_filename#:#名前付きオブジェクト. や.. はWebフォルダ内では見せません
 common#:#filename_visibility#:#表示する・しない
 common#:#filename_windows_empty_extension#:#名前の終わりにピリオド"."が使用されているためこのオブジェクトはWindows Webフォルダ内では表示されません。
-common#:#filename_windows_special_characters#:# \ /： * ? " < > | のような文字が使用されているためWindows webフォルダ内では表示されません
+common#:#filename_windows_special_characters#:# \ /： * ? " < > | のような文字が使用されているためWindows webフォルダ内には表示されません
 common#:#filename_windows_webdav_issue#:#文字# が使用されているためのオブジェクトはWindows　Webフォルダ内では表示されません
 common#:#files#:#ファイル
 common#:#filesize#:#ファイルサイズ
@@ -3435,7 +3443,7 @@ common#:#fold_new#:#新規フォルダ
 common#:#fold_wizard_page#:#フォルダをコピー(Step 2/2)
 common#:#folder#:#フォルダ
 common#:#folders#:#フォルダ
-common#:#follow_link_to_read_mails#:#メールを読むには次のリンクをクリックします
+common#:#follow_link_to_read_mails#:#メールを読むには次のリンクをクリック:
 common#:#force_accept_usr_agreement#:#利用条件を承諾する必要があります!
 common#:#forgot_password#:#パスワードを忘れた場合は?
 common#:#forgot_username#:#ユーザIDを忘れた場合は?
@@ -3524,6 +3532,7 @@ common#:#grp_dismiss_myself#:#本当にグループから削除しますか?
 common#:#grp_edit#:#グループを編集
 common#:#grp_err_administrator_required#:#メンバーは削除できません。グループに対して管理者が一人は必要です!
 common#:#grp_header_edit_members#:#メンバーを編集
+common#:#grp_list_reg#:#登録
 common#:#grp_list_reg_end#:#登録終了日時
 common#:#grp_list_reg_limit_full#:#空席なし
 common#:#grp_list_reg_limit_places#:#空席あり
@@ -4794,7 +4803,7 @@ common#:#stat_selected#:#選択した
 common#:#statistic#:#統計値
 common#:#statistics#:#統計値
 common#:#status#:#状況
-common#:#status_no_permission#:#付与されたアクセス権限なし
+common#:#status_no_permission#:#付与許可なし
 common#:#step#:#ステップ
 common#:#street#:#町名・番地
 common#:#structure#:#建物
@@ -5840,6 +5849,7 @@ content#:#cont_reset_nr_of_tries#:#試行回数をリセット
 content#:#cont_resize_img#:#イメージファイルをサイズ変更
 content#:#cont_resource#:#リソース
 content#:#cont_resource_size#:#オリジナルのリソースサイズ
+content#:#cont_resource_size_info#:#サイズ宣言がない場合コンテンツスタイルでサイズはコントロールできます。サイズ宣言もサイスを確定するルールを含むコンテンツスタイルも存在しないようなサイズの場合、イメージのみ初期サイズで表示されます。
 content#:#cont_resource_type#:#タイプ
 content#:#cont_resources#:#リソース
 content#:#cont_resources_of_type#:#タイプのリソース
@@ -6209,6 +6219,7 @@ cptch#:#cptch_freetype_support_needed#:#この機能を使用するにはPHPの�
 cptch#:#cptch_wrong_input#:#入力間違い
 cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#クラッシュの可能性
 cron#:#cro_job_rc_job_manual_reset#:#手動でリセット
+cron#:#cro_job_rc_job_no_result#:#Cron jobは正しい結果を返しませんでした。
 cron#:#cron_action_activate#:#アクティブにする
 cron#:#cron_action_activate_success#:#クローンジョブはアクティブ化されました。
 cron#:#cron_action_activate_sure#:#本当にクローンジョブ"%s"をアクティブにしますか?
@@ -6496,7 +6507,7 @@ crs#:#crs_mail_context_member_info#:#コースのinfo画面上のコンタクト
 crs#:#crs_mail_context_member_title#:#コースページInfo
 crs#:#crs_mail_context_tutor_info#:#メンバーとコースの学習進捗画面の参加者email用
 crs#:#crs_mail_context_tutor_title#:#コースメンバーへメール
-crs#:#crs_mail_permanent_link#:#リンクをクリックするとコースに関する必要な情報が得られます。
+crs#:#crs_mail_permanent_link#:#コースに関する必要な全ての情報を得るには次のリンクをクリック:
 crs#:#crs_mail_tutors_only#:#指導教員と管理者専用
 crs#:#crs_mail_tutors_only_info#:#管理者と指導教員のみが"メンバ"タブ内の"メンバへメール"機能を使用できます。
 crs#:#crs_mail_type#:#メンバーへメール
@@ -7233,22 +7244,23 @@ dcl#:#dcl_asc#:#昇順 (ASC)
 dcl#:#dcl_boolean#:#ブール代数
 dcl#:#dcl_boolean_desc#:# "True"または"False"用のチェックボックス
 dcl#:#dcl_cant_delete_last_table#:#このデータ収集のテーブルだけのためにこのテーブルを完全に削除することはできません。そのコンテンツと構造が代わりに削除されます。
+dcl#:#dcl_change_notification_dcl_delete_record#:#次のデータ記録は削除されました。
 dcl#:#dcl_change_notification_dcl_new_record#:#次のレコードが作成されました
 dcl#:#dcl_change_notification_dcl_update_record#:#次のレコードが更新されました
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#データ収集"%s"は変更されました
 dcl#:#dcl_change_why_you_receive_this_email#:#このデータ収集通知を有効にしているのでメッセージを受領します。
-dcl#:#dcl_changed_by#:#変更者
+dcl#:#dcl_changed_by#:#更新者
 dcl#:#dcl_checked#:#チェック済
 dcl#:#dcl_comments#:#コメント
 dcl#:#dcl_comments_desc#:#エントリーのコメント数を表示します。
+dcl#:#dcl_confirm_delete_detailed_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
+dcl#:#dcl_confirm_delete_detailed_view_title#:#このビューを本当に削除しますか?
 dcl#:#dcl_confirm_delete_field#:#本当にこのフィールドを削除しますか?
 dcl#:#dcl_confirm_delete_fields#:#本当にこのフィールドを削除しますか?
 dcl#:#dcl_confirm_delete_record#:#このレコードを削除しますか?
 dcl#:#dcl_confirm_delete_records#:#このレコードを本当に削除しますか?
 dcl#:#dcl_confirm_delete_table#:#内容や階層の含まれるこのテーブルを本当に削除しますか?
-dcl#:#dcl_confirm_delete_detailed_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
-dcl#:#dcl_confirm_delete_detailed_view_title#:#このビューを本当に削除しますか?
 dcl#:#dcl_confirm_storing_records#:#有効にして入力を確認して下さい。
 dcl#:#dcl_confirm_storing_records_no_permission#:#以降は記録を変更する権利がありません。
 dcl#:#dcl_copy#:#データ収集を作成
@@ -7321,8 +7333,8 @@ dcl#:#dcl_import_records .xls#:#Excelインポート
 dcl#:#dcl_import_terminated#:#インポートが完了しました。エントリが追加されました。
 dcl#:#dcl_in_export#:#エクスポートする
 dcl#:#dcl_invalid_regex_config#:#このフィールド用に構成される通常表現は有効です。障害を解決するには設定を確認してください。
-dcl#:#dcl_last_edit_by#:#最終変更者
-dcl#:#dcl_last_edited_by#:#最終編集者
+dcl#:#dcl_last_edit_by#:#最終更新者
+dcl#:#dcl_last_edited_by#:#最終更新者
 dcl#:#dcl_last_edited_by_description#:#このエントリを最後に編集したユーザ
 dcl#:#dcl_last_update#:#最終編集
 dcl#:#dcl_last_update_description#:#エントリの日付が最終編集です
@@ -7464,6 +7476,7 @@ dcl#:#dcl_text_email_title#:#タイトル
 dcl#:#dcl_text_email_title_info#:#上記のURLまたはE-Mailアドレス用のタイトル。(オプション)
 dcl#:#dcl_text_selection#:#テキスト選択
 dcl#:#dcl_text_selection_desc#:#テキストオプションを提示
+dcl#:#dcl_title_standardview#:#Standard View
 dcl#:#dcl_unique#:#ユニーク
 dcl#:#dcl_unique_desc#:#このフィールドの値は全てのエントリー内でユニークにする必要があります。
 dcl#:#dcl_unique_exception#:#入力した値はすでに別のレコードで使用されています。
@@ -7473,7 +7486,7 @@ dcl#:#dcl_update_record#:#レコードを更新
 dcl#:#dcl_url#:#URL
 dcl#:#dcl_view_own_records_perm#:#自己エントリーのみ表示
 dcl#:#dcl_view_viewdefinition#:#ビュー定義
-dcl#:#dcl_visible#:#全ユーザを表示
+dcl#:#dcl_visible#:#全ユーザへ表示
 dcl#:#dcl_visible_desc#:#ユーザはこの表へアクセスできます。
 dcl#:#dcl_width#:#幅
 dcl#:#dcl_wrong_input_type#:#入力したテキストはこのフィールドの定義(タイプ間違い)と一致しません。
@@ -8143,6 +8156,7 @@ file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
 file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
 file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
 file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#アップロードされたファイルにはクリティカルまたは不明なファイルendingが含まれています。ファイルendingはダウンロードごとに.secへ変更されます。
 file#:#file_uploaded_by#:#アップロード者
 file#:#personal_workspace_disk_quota#:#パーソナルワークスペースのハードディスククォータ
 file#:#personal_workspace_quota_exceeded_warning#:#パーソナルワークスペースのディスククォータを越えています。
@@ -8480,7 +8494,7 @@ grp#:#grp_mail_notification_reg_sub#:#グループ "%s"へユーザが登録さ�
 grp#:#grp_mail_notification_unsub_bod#:#%sはグループ "%s"用にそのメンバーシップをキャンセルしました。
 grp#:#grp_mail_notification_unsub_bod2#:#グループの待ちリスト上に他のメンバーがいる可能性があります。\nすぐに待ちリストをチェックする必要があります。\nグループのメンバーシップを見るには次をクリック
 grp#:#grp_mail_notification_unsub_sub#:#ユーザはグループ "%s"から外れました。
-grp#:#grp_mail_permanent_link#:#リンクをクリックするとグループに関する必要なすべての情報が得られます。
+grp#:#grp_mail_permanent_link#:#グループに関する必要なすべての情報を得るには以下のリンクをクリック:
 grp#:#grp_mail_status_bod#:#グループ "%s"のステータスは更新されました。
 grp#:#grp_mail_status_sub#:#グループ"%s"のステータスを更新
 grp#:#grp_mail_sub_acc_bod#:#グループ "%s"への登録が確認されました.
@@ -9131,12 +9145,14 @@ mail#:#mail_sure_delete_folder#:#フォルダとそのコンテンツは完全�
 mail#:#mail_system_sys_env_from_addr#:#テクニカル送信者
 mail#:#mail_system_sys_env_from_addr_info#:#このフィールドを空にしておくとSMTP転送が有効の場合に送信者のemailアドレスが使用されます。そうでなければ、管理者責任でこの値を構成することです。
 mail#:#mail_system_sys_from_addr#:#送信者email(From)
+mail#:#mail_system_sys_from_addr_info#:#‘ＦＲＯＭ’ヘッダーへ使用するe-mailアドレスを入力してください。 'FROM' ヘッダーは受信e-mailクライアントの送信者表示に使用されます。.<br /><br />例: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#送信者フルネーム(From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_signature#:#シグネチャー
 mail#:#mail_system_usr_env_from_addr#:#テクニカル送信者
 mail#:#mail_system_usr_env_from_addr_info#:#このフィールドを空にしておくとSMTP転送が有効の場合に送信者のemailアドレスが使用されます。そうでなければ、管理者責任でこの値を構成することです。
 mail#:#mail_system_usr_from_addr#:#送信者email(From)
+mail#:#mail_system_usr_from_addr_info#:#‘ＦＲＯＭ’ヘッダーへ使用するe-mailアドレスを入力してください。 'FROM' ヘッダーは受信e-mailクライアントの送信者表示に使用されます。ILIAS経由で送信されるユーザのe-mailアドレスは自動的に'Reply-To'ヘッダーへ使用されます。<br /><br />例: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#送信者フルネーム(From)
 mail#:#mail_system_usr_from_name_info#:#プレースフォルダー [FULLNAME], [FIRSTNAME] , [LASTNAME]を使用することができます。それらはemailイニシエータのそれぞれの日付で置き換えられます。
 mail#:#mail_template_client#:#Textテンプレート
@@ -9165,7 +9181,7 @@ mail#:#send_mail_admins#:#全ての管理者
 mail#:#send_mail_members#:#全てのメンバー
 mail#:#send_mail_to#:#Mail to
 mail#:#send_mail_tutors#:#全ての指導教員
-mail#:#system_notification_installation_changed_by#:#変更者
+mail#:#system_notification_installation_changed_by#:#更新者
 maps#:#configure_geolocation#:#アドレス検索を有効にするための管理メニュー"サードパーティーソフトウェア"の測位構成を完了してください。
 maps#:#maps_custom_geolocation_server_info#:#Nominatimを使用して測位データを提供するサーバのURL。エントリーには要求の情報に位置を定義するためのプレースフォルダ[QUERY]を含めなければなりません。例: nominatim.example.com/search/[QUERY]?format=json.
 maps#:#maps_custom_tile_server_info#:#タイルデータを提供するためのサーバURL。複数の入力はスペースで区切る必要があります。既定は"%s"です。
@@ -9982,6 +9998,7 @@ mob#:#mob_file_could_not_be_uploaded#:#ファイルをアップロードでき�
 mob#:#mob_general#:#全般
 mob#:#mob_language#:#言語
 mob#:#mob_multi_srt_files#:#SRTファイル
+mob#:#mob_no_fixed_size_map_editing#:#マップエリアを使用する前にイメージの固定サイズを決めてください。コンテンツスタイルあるいは他のCSSルールでイメージを固定サイズにする場合は、マップイメージエリアは以降合わなくなります。
 mob#:#mob_object#:#オブジェクト
 mob#:#mob_really_delete_srt#:#本当に次のsrtファイルを削除しますか？
 mob#:#mob_srt_files_deleted#:#字幕ファイルが削除されました。
@@ -10001,7 +10018,7 @@ mst#:#mst_opt_all#:#全て
 mst#:#mst_please_select_course#:#コースを選択してください。
 mst#:#mst_select_course#:#コースを選択
 mst#:#mst_show_courses#:#登録
-news#:#new_test_online#:#現在オフラインです。
+news#:#new_test_online#:#オンラインに設定されました。
 news#:#news_1_file_created#:#ファイルが1個追加されました。
 news#:#news_1_file_updated#:#ファイルが1個更新されました。
 news#:#news_1_postings#:#投稿が1個追加されました。
@@ -10456,7 +10473,7 @@ prg#:#prg_async_settings#:#設定
 prg#:#prg_belongs_to#:#所有者
 prg#:#prg_can_not_manage_in_repo#:#ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。
 prg#:#prg_cancel_tree_order#:#ツリー順を解除
-prg#:#prg_changed_by#:#変更者
+prg#:#prg_changed_by#:#更新者
 prg#:#prg_completion_by#:#完了者
 prg#:#prg_create_new_leaf#:#新しいリーフを作成
 prg#:#prg_create_new_node#:#新しいノードを作成
@@ -11300,9 +11317,11 @@ rbac#:#rbac_log_edit_permissions#:#権利を編集
 rbac#:#rbac_log_edit_template#:#役割テンプレートを編集
 rbac#:#rbac_log_edit_template_existing#:#現在のオブジェクト用の役割テンプレートを使用
 rbac#:#rbac_log_inheritance_add#:#%sの継承を停止しました
+rbac#:#rbac_log_inheritance_rmv#:#"%s"の継承を許可しました
 rbac#:#rbac_log_link_object#:#オブジェクトをリンク
 rbac#:#rbac_log_move_object#:#オブジェクトを移動
 rbac#:#rbac_log_operation_add#:#%sの操作時間を追加しました
+rbac#:#rbac_log_operation_rmv#:#"%s"の操作を削除しました
 rbac#:#rbac_log_source_object#:#ソースオブジェクト
 rbac#:#rbac_msg_user_already_assigned#:#選択したユーザは既にこの役割に割当済みです。
 rbac#:#rbac_not_change_existing_objects#:#現在のオブジェクトを変更しない
@@ -12114,10 +12133,10 @@ sess#:#objs_grp_role#:#グループ役割
 sess#:#sess_accept_request#:#受講者を承認
 sess#:#sess_copy#:#セッションをコピー
 sess#:#sess_import#:#インポートセッション
-sess#:#sess_list_reg_limit_places#:#フリー空間
+sess#:#sess_list_reg_limit_places#:#フリーな場所
 sess#:#sess_lp_preset#:#学習進捗を有効化
 sess#:#sess_lp_preset_info#:#全てのセッションイベント用の学習進捗を解除する
-sess#:#sess_mail_permanent_link#:#セッションに必要なすべての情報見つけるには次のリンクをクリックします:
+sess#:#sess_mail_permanent_link#:#セッションに関する必要なすべての情報見つけるには次のリンクをクリック:
 sess#:#sess_mail_sub_acc_bod#:#セッション "%s"に登録済みです
 sess#:#sess_mail_sub_acc_sub#:#セッション"%s"の登録
 sess#:#sess_mail_sub_dec_bod#:#申し訳ありませんがセッション"%s"への登録が拒否されました。
@@ -13294,7 +13313,7 @@ survey#:#survey_reminder_subject#:#サーベイ"%s"は終了していません�
 survey#:#survey_remove_competence#:#能力を削除
 survey#:#survey_results_anonymization#:#プライバシー
 survey#:#survey_results_anonymized#:#無記名
-survey#:#survey_results_anonymized_info#:#結果タブの受験者名はコードで置き換えられます。このタブへアクセスするユーザは(例)"iTXaF"ユーザのみではなく名前あり受験者へ帰属する回答はできません。
+survey#:#survey_results_anonymized_info#:#結果タブの受験者名はコードで置き換えられます。このタブへアクセスするユーザは、属性回答を‘iTXaF’(例)を除き受講者名へできません。
 survey#:#survey_results_finished#:#終了のサーベイ
 survey#:#survey_results_not_started#:#サーベイは開始していません
 survey#:#survey_results_personalized#:#名前あり
@@ -13967,12 +13986,13 @@ wiki#:#wiki_add_template#:#テンプレートステータスを設定
 wiki#:#wiki_advmd_block_title#:#ページの詳細メタデータ
 wiki#:#wiki_all_pages#:#全ページ
 wiki#:#wiki_block_page#:#読み込み権のみに設定
+wiki#:#wiki_change_notification_body_new#:#次のwikiページが作成されました。
 wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_change_notification_page_body_update#:#次のwikiページがアップロードされました
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#こんにちは%sさん
 wiki#:#wiki_change_notification_subject#:#Wiki "%s"が更新されました。
-wiki#:#wiki_changed_by#:#変更者
+wiki#:#wiki_changed_by#:#更新者
 wiki#:#wiki_contributor#:#寄稿者
 wiki#:#wiki_contributors#:#寄稿者
 wiki#:#wiki_copy#:#Wikiをコピー
@@ -13993,8 +14013,8 @@ wiki#:#wiki_import#:#Wikiをインポート
 wiki#:#wiki_indentation#:#字下げ
 wiki#:#wiki_introduction#:#Introduction
 wiki#:#wiki_last_changed#:#最終変更
-wiki#:#wiki_last_changed_by#:#最終変更者
-wiki#:#wiki_last_edited#:#最終編集
+wiki#:#wiki_last_changed_by#:#最終更新者
+wiki#:#wiki_last_edited#:#最終更新
 wiki#:#wiki_last_visited_page#:#前回訪問ページ
 wiki#:#wiki_link_md_values#:#自動リンク
 wiki#:#wiki_link_md_values_info#:#同一名のwikiページのサイドブロックに表示されるプロパティーへ自動的にリンクします。
@@ -14147,7 +14167,7 @@ wsp#:#wsp_permissions#:#共有
 wsp#:#wsp_personal_workspace#:#マイワークスペース
 wsp#:#wsp_personal_workspace_description#:#プライベートファイル、ブログやアイテムを管理できます。
 wsp#:#wsp_set_permission_all#:#World Wide Web
-wsp#:#wsp_set_permission_all_password#:#World Wide Web（パスワードあり
+wsp#:#wsp_set_permission_all_password#:#パスワードありWorld Wide Web
 wsp#:#wsp_set_permission_course#:#コース
 wsp#:#wsp_set_permission_group#:#グループ
 wsp#:#wsp_set_permission_registered#:#全ての登録済みユーザ
@@ -14181,23 +14201,44 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###25 07 2018 new variable
-rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###25 07 2018 new variable
-rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"###25 07 2018 new variable
-common#:#crs_list_reg#:#Registration###25 07 2018 new variable
-common#:#grp_list_reg#:#Registration###25 07 2018 new variable
-dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted###25 07 2018 new variable
-chatroom#:#chatroom_client_name#:#Name###25 07 2018 new variable
-chatroom#:#chatroom_client_name_info#:#Please enter a name for this ILIAS client. The entered string must be globally unique. Initially this value is set to the client id of the ILIAS client. If changed, the chat server must be restarted.###25 07 2018 new variable
-wiki#:#wiki_change_notification_body_new#:#the following wiki page was created###25 07 2018 new variable
-assessment#:#tst_answer_aggr_answer_header#:#Answer###29 08 2018 new variable
-assessment#:#tst_answer_aggr_frequency_header#:#Frequency###29 08 2018 new variable
-content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.###29 08 2018 new variable
-mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###29 08 2018 new variable
-mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###29 08 2018 new variable
-cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result###29 08 2018 new variable
-dcl#:#dcl_title_standardview#:#Standard View###29 08 2018 new variable
-chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. ###29 08 2018 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.###29 08 2018 new variable
-cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###29 09 2018 new variable
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###29 09 2018 new variable
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.###14 02 2019 new variable
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.###14 02 2019 new variable
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.###14 02 2019 new variable
+common#:#salutation_n#:#Not Applicable###14 02 2019 new variable
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###14 02 2019 new variable
+forum#:#frm_moderator_n#:#Moderation###14 02 2019 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page###14 02 2019 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###14 02 2019 new variable
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###14 02 2019 new variable
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###14 02 2019 new variable
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.###14 02 2019 new variable
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.###14 02 2019 new variable
+forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.###14 02 2019 new variable
+forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.###14 02 2019 new variable
+forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.###14 02 2019 new variable
+style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.###14 02 2019 new variable
+style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.###14 02 2019 new variable
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Users###14 02 2019 new variable
+content#:#cont_added_cell#:#Column added###14 02 2019 new variable
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.###14 02 2019 new variable
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###14 02 2019 new variable
+sess#:#sess_material_assigned#:#Assigned###14 02 2019 new variable
+sess#:#sess_material_not_assigned#:#Not Assigned###14 02 2019 new variable
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment###14 02 2019 new variable
+rbac#:#lso_read#:#Users can access the Learning Sequence###14 02 2019 new variable
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence###14 02 2019 new variable
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence###14 02 2019 new variable
+common#:#unparticipate#:#Unsubscribe###14 02 2019 new variable
+common#:#participate#:#Subscribe###14 02 2019 new variable
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence###14 02 2019 new variable
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence###14 02 2019 new variable
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###14 02 2019 new variable
+user#:#msg_spoint_not_modified#:#Starting point not modified###14 02 2019 new variable
+lti#:#lti_cron_title#:#LTI Outcome Service###14 02 2019 new variable
+lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###14 02 2019 new variable
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
+skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable

@@ -484,7 +484,7 @@ class ilGlossaryTerm
 		}
 
 		// add advanced metadata
-		if ($a_add_amet_fields || is_array($a_amet_filter) && !is_array($a_glo_ref_id))
+		if (($a_add_amet_fields || is_array($a_amet_filter)) && !is_array($a_glo_ref_id))
 		{
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
 			$terms = ilAdvancedMDValues::queryForRecords($a_glo_ref_id, "glo", "term", $glo_ids, "term", $terms, "glo_id", "id", $a_amet_filter);

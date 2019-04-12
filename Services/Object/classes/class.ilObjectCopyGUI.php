@@ -192,7 +192,7 @@ class ilObjectCopyGUI
 		if($_REQUEST['source_id'])
 		{
 			$this->setSource(array((int) $_REQUEST['source_id']));
-			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
+			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSources()));
 			ilLoggerFactory::getLogger('obj')->debug('source_id is set: '. implode('_',$this->getSources()));
 		}
 		if($this->getFirstSource())
@@ -328,7 +328,7 @@ class ilObjectCopyGUI
 
 		// open current position
 		
-		foreach($this->getSource() as $source_id)
+		foreach($this->getSources() as $source_id)
 		{
 			if($source_id)
 			{
@@ -499,7 +499,7 @@ class ilObjectCopyGUI
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showSourceSelectionTree'));
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('source');
-		$exp->setCheckedItems($this->getSource());
+		$exp->setCheckedItems($this->getSources());
 		
 		// Filter to container
 		foreach(array('cat','root','fold') as $container)
@@ -591,7 +591,7 @@ class ilObjectCopyGUI
 			}
 		}
 		
-		if(count($this->getSource() == 1) && $objDefinition->isContainer($this->getType()))
+		if((count($this->getSources()) == 1) && $objDefinition->isContainer($this->getType()))
 		{
 			// check, if object should be copied into itself
 			// begin-patch mc
@@ -619,13 +619,13 @@ class ilObjectCopyGUI
 		}
 		else
 		{
-			if(count($this->getSource()) == 1)
+			if(count($this->getSources()) == 1)
 			{
 				$this->copySingleObject();
 			}
 			else
 			{
-				$this->copyMultipleNonContainer($this->getSource());
+				$this->copyMultipleNonContainer($this->getSources());
 			}
 		}
 	}
@@ -791,7 +791,7 @@ class ilObjectCopyGUI
 		ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
 		$ilCtrl = $this->ctrl;
 		$_SESSION['clipboard']['cmd'] = "copy";
-		$_SESSION['clipboard']['ref_ids'] = $this->getSource();
+		$_SESSION['clipboard']['ref_ids'] = $this->getSources();
 		$ilCtrl->returnToParent($this);
 	}
 
@@ -968,7 +968,7 @@ class ilObjectCopyGUI
 	{
 		$tpl = $this->tpl;
 		
-		if(!count($this->getSource()))
+		if(!count($this->getSources()))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->searchSource();
@@ -1022,13 +1022,13 @@ class ilObjectCopyGUI
 		$rbacreview = $this->rbacreview;
 
 		// Source defined
-		if(!count($this->getSource()))
+		if(!count($this->getSources()))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$ilCtrl->returnToParent($this);
 		}
 
-		$this->copyMultipleNonContainer($this->getSource());
+		$this->copyMultipleNonContainer($this->getSources());
 		return;
 	}
 	

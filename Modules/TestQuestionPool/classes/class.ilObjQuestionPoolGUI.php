@@ -254,6 +254,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				// forward to ilAssQuestionHintsGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
+				
+				global $DIC; /* @var ILIAS\DI\Container $DIC */
+				
+				$gui->setEditingEnabled(
+					$DIC->access()->checkAccess('write', '', $this->object->getRefId())
+				);
+				
 				$ilCtrl->forwardCommand($gui);
 				
 				break;
@@ -1725,10 +1732,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		if( $this->object->isNavTaxonomyActive() && (int)$_GET['tax_node'] )
 		{
-			$questionList->addTaxonomyFilter(
-				$this->object->getNavTaxonomyId(), array((int)$_GET['tax_node']),
-				$this->object->getId(), $this->object->getType()
-			);
+			require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
+			$taxTree = new ilTaxonomyTree($this->object->getNavTaxonomyId());
+			$rootNodeId = $taxTree->readRootId();
+			
+			if( (int)$_GET['tax_node'] != $rootNodeId )
+			{
+				$questionList->addTaxonomyFilter(
+					$this->object->getNavTaxonomyId(), array((int)$_GET['tax_node']),
+					$this->object->getId(), $this->object->getType()
+				);
+			}
 		}
 
 		$questionList->load();

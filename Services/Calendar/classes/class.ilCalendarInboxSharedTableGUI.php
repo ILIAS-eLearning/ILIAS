@@ -66,6 +66,7 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this->getParentObject())));
 		$this->setTitle($this->lng->txt('cal_shared_calendars'));
+		$this->parse();
 		
 	}
 	

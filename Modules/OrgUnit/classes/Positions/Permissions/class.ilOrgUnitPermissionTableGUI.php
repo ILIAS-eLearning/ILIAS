@@ -26,6 +26,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->lng->loadLanguageModule('rbac');
+		$this->lng->loadLanguageModule("orgu");
 
 		$this->ref_id = $a_ref_id;
 

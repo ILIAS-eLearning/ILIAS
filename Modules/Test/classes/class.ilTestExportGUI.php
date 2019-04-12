@@ -137,7 +137,7 @@ class ilTestExportGUI extends ilExportGUI
 
 			require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
 			$generator = new ilTestPDFGenerator();
-			$generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name);
+			$generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name, PDF_USER_RESULT);
 			$archive_exp->handInTestBestSolution($best_solution, $file_name);
 			ilUtil::delDir($directory_name);
 			

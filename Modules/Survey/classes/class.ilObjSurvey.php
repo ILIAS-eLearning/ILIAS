@@ -4080,6 +4080,10 @@ class ilObjSurvey extends ilObject
 		$newObj->setTutorNotificationRecipients($this->getTutorNotificationRecipients());
 		$newObj->setTutorNotificationTarget($this->getTutorNotificationTarget());
 
+		$newObj->setMailNotification($this->getMailNotification());
+		$newObj->setMailAddresses($this->getMailAddresses());
+		$newObj->setMailParticipantData($this->getMailParticipantData());
+
 		$question_pointer = array();
 		// clone the questions
 		$mapping = array();
@@ -4736,13 +4740,31 @@ class ilObjSurvey extends ilObject
 			$externaldata['sent'] = $row['sent'];
 			
 			if($a_check_finished)
-			{				
-				$externaldata['finished'] =  $this->isSurveyCodeUsed($row['code']);
+			{
+				#23294
+				//$externaldata['finished'] =  $this->isSurveyCodeUsed($row['code']);
+				$externaldata['finished'] = $this->isSurveyFinishedByCode($row['code']);
 			}
 			
 			array_push($res, $externaldata);
 		}
 		return $res;
+	}
+
+	/**
+	 * Get if survey is finished for an specific anonymous user code.
+	 * @param $a_code anonymous user code
+	 * @return bool
+	 */
+	function isSurveyFinishedByCode($a_code)
+	{
+		$result = $this->db->queryF("SELECT state FROM svy_finished WHERE survey_fi = %s AND anonymous_id = %s",
+			array('integer','text'),
+			array($this->getSurveyId(), $a_code));
+
+		$row = $this->db->fetchAssoc($result);
+
+		return $row['state'];
 	}
 	
 	/**

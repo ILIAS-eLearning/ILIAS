@@ -465,5 +465,22 @@ class ilForumNotification
 		}
 		return false;
 	}
-	
-} // END class.ilForumNotification
+
+	/**
+	 * @param int $sourceRefId
+	 */
+	public function cloneFromSource($sourceRefId)
+	{
+		$sourceNotificationSettings = new self($sourceRefId);
+		$records = $sourceNotificationSettings->read();
+
+		foreach ($records as $usrId => $row) {
+			$this->setUserId($usrId);
+			$this->setAdminForce($row['admin_force_noti']);
+			$this->setUserToggle($row['user_toggle_noti']);
+			$this->setUserIdNoti($row['user_id_noti']);
+
+			$this->insertAdminForce();
+		}
+	}
+}

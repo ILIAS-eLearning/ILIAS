@@ -14200,3 +14200,44 @@ chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would 
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.###29 08 2018 new variable
 cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###29 09 2018 new variable
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###29 09 2018 new variable
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.###14 02 2019 new variable
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.###14 02 2019 new variable
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.###14 02 2019 new variable
+common#:#salutation_n#:#Not Applicable###14 02 2019 new variable
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###14 02 2019 new variable
+forum#:#frm_moderator_n#:#Moderation###14 02 2019 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page###14 02 2019 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###14 02 2019 new variable
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###14 02 2019 new variable
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###14 02 2019 new variable
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.###14 02 2019 new variable
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.###14 02 2019 new variable
+forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.###14 02 2019 new variable
+forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.###14 02 2019 new variable
+forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.###14 02 2019 new variable
+style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.###14 02 2019 new variable
+style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.###14 02 2019 new variable
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Users###14 02 2019 new variable
+content#:#cont_added_cell#:#Column added###14 02 2019 new variable
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.###14 02 2019 new variable
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###14 02 2019 new variable
+sess#:#sess_material_assigned#:#Assigned###14 02 2019 new variable
+sess#:#sess_material_not_assigned#:#Not Assigned###14 02 2019 new variable
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment###14 02 2019 new variable
+rbac#:#lso_read#:#Users can access the Learning Sequence###14 02 2019 new variable
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence###14 02 2019 new variable
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence###14 02 2019 new variable
+common#:#unparticipate#:#Unsubscribe###14 02 2019 new variable
+common#:#participate#:#Subscribe###14 02 2019 new variable
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence###14 02 2019 new variable
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence###14 02 2019 new variable
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###14 02 2019 new variable
+user#:#msg_spoint_not_modified#:#Starting point not modified###14 02 2019 new variable
+lti#:#lti_cron_title#:#LTI Outcome Service###14 02 2019 new variable
+lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###14 02 2019 new variable
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
+skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable

@@ -245,6 +245,10 @@ class ilBlogPosting extends ilPageObject
 	{
 		$ilDB = $this->db;
 
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		ilNewsItem::deleteNewsOfContext($this->getBlogId(),
+			"blog", $this->getId(), $this->getParentType());
+
 		$query = "DELETE FROM il_blog_posting".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
@@ -253,6 +257,21 @@ class ilBlogPosting extends ilPageObject
 
 		return true;
 	}
+
+	/**
+	 * Unpublish
+	 */
+	public function unpublish()
+	{
+		$this->setApproved(false);
+		$this->setActive(false);
+		$this->update(true, false, false);
+
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		ilNewsItem::deleteNewsOfContext($this->getBlogId(),
+			"blog", $this->getId(), $this->getParentType());
+	}
+
 
 	/**
 	 * Delete all postings for blog
@@ -495,6 +514,11 @@ class ilBlogPosting extends ilPageObject
 		$ilUser = $this->user;
 		
 		// see ilWikiPage::updateNews()
+
+		if (!$this->getActive())
+		{
+			return;
+		}
 
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_item = null;

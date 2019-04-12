@@ -396,7 +396,7 @@ class ilTestArchiver
 
 		require_once 'class.ilTestPDFGenerator.php';
 		$filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_pass_overview.pdf';
-		ilTestPDFGenerator::generatePDF($output_template->get(), ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
+		ilTestPDFGenerator::generatePDF($output_template->get(), ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
 		
 		return;
 	}

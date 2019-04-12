@@ -66,10 +66,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$this->setShowTemplates(true);
 				
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));	
-		$this->setRowTemplate("tpl.exc_members_row.html", "Modules/Exercise");		
-		
-		$this->setDefaultOrderField("name");
-		$this->setDefaultOrderDirection("asc");		
+		$this->setRowTemplate("tpl.exc_members_row.html", "Modules/Exercise");
+
+		#25100
+		if($this->mode == self::MODE_BY_ASSIGNMENT) {
+			$this->setDefaultOrderField("name");
+			$this->setDefaultOrderDirection("asc");
+		}
 		
 		
 		// columns

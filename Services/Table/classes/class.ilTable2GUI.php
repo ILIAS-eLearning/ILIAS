@@ -48,7 +48,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $ext_seg = false;
 	protected $context = "";
 
-	protected $mi_sel_buttons = null;
+	protected $mi_sel_buttons = [];
 	protected $disable_filter_hiding = false;
 	protected $selected_filter = false;
 	protected $top_commands = true;
@@ -65,7 +65,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $open_form_tag = true;
 	protected $close_form_tag = true;
 
-	protected $export_formats;
+	protected $export_formats = [];
 	protected $export_mode;
 	protected $print_mode;
 
@@ -88,7 +88,7 @@ class ilTable2GUI extends ilTableGUI
 	 * @var string
 	 */
 	protected $row_selector_label;
-
+	protected $sel_buttons = [];
 	const FILTER_TEXT = 1;
 	const FILTER_SELECT = 2;
 	const FILTER_DATE = 3;
@@ -589,7 +589,7 @@ class ilTable2GUI extends ilTableGUI
 	final public function setData($a_data)
 	{
 		// check column names against given data (to ensure proper sorting)
-		if(DEVMODE &&
+		if(defined('DEVMODE') && DEVMODE &&
 			$this->enabled["header"] && $this->enabled["sort"] &&
 			$this->columns_determined && is_array($this->column) &&
 			is_array($a_data) && sizeof($a_data) && !$this->getExternalSorting())
@@ -616,6 +616,9 @@ class ilTable2GUI extends ilTableGUI
 		}
 
 		$this->row_data = $a_data;
+		if (!is_array($this->row_data)) {
+			$this->row_data = [];
+		}
 	}
 
 	final public function getData()

@@ -15,6 +15,14 @@ class ilDclRecordListGUI {
 
 	const MODE_VIEW = 1;
 	const MODE_MANAGE = 2;
+
+	const CMD_LIST_RECORDS = 'listRecords';
+	const CMD_SHOW = 'show';
+	const CMD_CONFIRM_DELETE_RECORDS = 'confirmDeleteRecords';
+	const CMD_CANCEL_DELETE = 'cancelDelete';
+	const CMD_DELETE_RECORDS = 'deleteRecords';
+	const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
+
 	/**
 	 * Stores current mode active
 	 *
@@ -96,30 +104,30 @@ class ilDclRecordListGUI {
 		}
 
 		$this->ctrl->saveParameter($this, 'mode');
-		$cmd = $this->ctrl->getCmd('show');
+		$cmd = $this->ctrl->getCmd(self::CMD_SHOW);
 
 		// 'show' fills all filters with the predefined values from the tableview,
 		// whereas 'listRecords' handels the filters "normally", filling them from the POST-variable
 		switch ($cmd) {
-			case 'show':
+			case self::CMD_SHOW:
 				$this->setSubTabs();
 				$this->listRecords(true);
 				break;
-			case 'listRecords':
+			case self::CMD_LIST_RECORDS:
 				$this->setSubTabs();
 				$this->listRecords();
 				break;
-			case 'confirmDeleteRecords':
+			case self::CMD_CONFIRM_DELETE_RECORDS:
 				$this->confirmDeleteRecords();
 				break;
-			case 'cancelDelete':
+			case self::CMD_CANCEL_DELETE:
 				$this->setSubTabs();
 				$this->listRecords();
 				break;
-			case 'deleteRecords':
+			case self::CMD_DELETE_RECORDS:
 				$this->deleteRecords();
 				break;
-			case 'showImportExcel':
+			case self::CMD_SHOW_IMPORT_EXCEL:
 				$ilTabs->setBack2Target($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
 				$this->$cmd();
 				break;
@@ -160,12 +168,9 @@ class ilDclRecordListGUI {
 
 			$import = ilLinkButton::getInstance();
 			$import->setCaption("dcl_import_records .xls");
-			$import->setUrl($this->ctrl->getFormActionByClass("ildclrecordlistgui", "showImportExcel"));
+			$import->setUrl($this->ctrl->getFormActionByClass("ildclrecordlistgui", self::CMD_SHOW_IMPORT_EXCEL));
 			$ilToolbar->addButtonInstance($import);
 		}
-
-		// requested not to implement this way...
-		//$tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
 
 		if (count($this->table_obj->getRecordFields()) == 0) {
 			ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
@@ -176,12 +181,11 @@ class ilDclRecordListGUI {
 
 		if ($desc = $this->table_obj->getDescription()) {
 			$ilSetting = new ilSetting('advanced_editing');
-			if($ilSetting->get('advanced_editing_javascript_editor') === "1") {
-				$desc = "<div class='ilDclTableDescription'>".$desc."</div>";
+			if ((bool)$ilSetting->get('advanced_editing_javascript_editor')) {
+				$desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
 			} else {
-				$desc = "<div class='ilDclTableDescription'>".nl2br(ilUtil::stripSlashes($desc))."</div>";
+				$desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
 			}
-
 		}
 		$tpl->setContent($desc . $list->getHTML());
 	}
@@ -289,7 +293,7 @@ class ilDclRecordListGUI {
 	public function doTableSwitch() {
 		$this->ctrl->clearParameters($this);
 		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
-		$this->ctrl->redirect($this, "show");
+		$this->ctrl->redirect($this, self::CMD_SHOW);
 	}
 
 	/**
@@ -297,7 +301,7 @@ class ilDclRecordListGUI {
 	 */
 	public function doTableViewSwitch() {
 		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $_POST['tableview_id']);
-		$this->ctrl->redirect($this, "show");
+		$this->ctrl->redirect($this, self::CMD_SHOW);
 	}
 
 	/**
@@ -316,10 +320,9 @@ class ilDclRecordListGUI {
 	 */
 	protected function resetFilter() {
 		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
-		$table->initFilter();
 		$table->resetOffset();
 		$table->resetFilter();
-		$this->ctrl->redirect($this, 'listRecords');
+		$this->listRecords(true);
 	}
 
 
@@ -391,8 +394,8 @@ class ilDclRecordListGUI {
 			}
 		}
 		$conf->addHiddenItem('table_id', $this->table_id);
-		$conf->setConfirm($this->lng->txt('dcl_delete_records'), 'deleteRecords');
-		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
+		$conf->setConfirm($this->lng->txt('dcl_delete_records'), self::CMD_DELETE_RECORDS);
+		$conf->setCancel($this->lng->txt('cancel'), self::CMD_CANCEL_DELETE);
 		$tpl->setContent($conf->getHTML());
 	}
 

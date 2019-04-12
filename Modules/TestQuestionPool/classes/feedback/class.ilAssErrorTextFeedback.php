@@ -19,7 +19,7 @@ class ilAssErrorTextFeedback extends ilAssMultiOptionQuestionFeedback
 	 * 
 	 * @return array $answerOptionsByAnswerIndex
 	 */
-	protected function getAnswerOptionsByAnswerIndex()
+	public function getAnswerOptionsByAnswerIndex()
 	{
 		return $this->questionOBJ->getErrorData();
 	}

@@ -25,6 +25,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 */
 class ilPersonalDesktopGUI
 {
+	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
 	/**
 	 * @var ilCtrl
 	 */
@@ -288,9 +289,9 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($bgui);
 				$this->tpl->show();
 				break;
-			case 'ilmystaffgui':
+
+			case strtolower(ilMyStaffGUI::class):
 				$this->getStandardTemplates();
-				include_once './Services/MyStaff/classes/class.ilMyStaffGUI.php';
 				$mstgui = new ilMyStaffGUI();
 				$ret = $this->ctrl->forwardCommand($mstgui);
 				break;
@@ -316,25 +317,7 @@ class ilPersonalDesktopGUI
 		$ret = null;
 		return $ret;
 	}
-	
-	/**
-	 * directly redirects a call
-	 */
-	public function redirect()
-	{
-		if(is_array($_GET))
-		{
-			foreach($_GET as $key => $val)
-			{				
-				if(substr($key, 0, strlen('param_')) == 'param_')
-				{
-					$this->ctrl->setParameterByClass($_GET['redirectClass'], substr($key, strlen('param_')), $val);
-				}
-			}
-		}
-		ilUtil::redirect($this->ctrl->getLinkTargetByClass($_GET['redirectClass'], $_GET['redirectCmd'], '', true));
-	}	
-	
+
 	/**
 	* get standard templates
 	*/
@@ -799,10 +782,12 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 
-
+	/**
+	 *
+	 */
 	protected function jumpToMyStaff()
 	{
-		$this->ctrl->redirectByClass("ilmystaffgui");
+		$this->ctrl->redirectByClass(ilMyStaffGUI::class);
 	}
 	
 	/**

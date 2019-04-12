@@ -15,7 +15,7 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
 	{
 		switch($a_component)
 		{
-			case 'Services/User':
+			case 'Modules/Chatroom':
 				switch($a_event)
 				{
 					case 'chatSettingsChanged':

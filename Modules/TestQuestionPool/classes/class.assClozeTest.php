@@ -1299,7 +1299,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				continue;
 			}
 			
-			if( !$this->isValidNumericSubmitValue($value) )
+			if( strlen($value) && !$this->isValidNumericSubmitValue($value) )
 			{
 				ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
 				return false;
@@ -1309,11 +1309,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		return true;
 	}
 	
-	public function getSolutionSubmit()
+	public function fetchSolutionSubmit($submit)
 	{
 		$solutionSubmit = array();
 		
-		foreach ($_POST as $key => $value)
+		foreach ($submit as $key => $value)
 		{
 			if (preg_match("/^gap_(\d+)/", $key, $matches))
 			{
@@ -1337,6 +1337,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		
 		return $solutionSubmit;
+		
+	}
+	
+	public function getSolutionSubmit()
+	{
+		return $this->fetchSolutionSubmit($_POST);
 	}
 	
 	/**
@@ -2020,6 +2026,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$userSolution[] = array('gap_id' => $key, 'value' => $val);
 		}
 		
-		return $this->calculateReachedPointsForSolution($userSolution);
+		$reachedPoints = $this->calculateReachedPointsForSolution($userSolution);
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 }

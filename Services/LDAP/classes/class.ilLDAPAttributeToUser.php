@@ -239,7 +239,7 @@ class ilLDAPAttributeToUser
 				$this->writer->xmlStartTag('User',array('Id' => $usr_id,'Action' => 'Update'));
 				$this->writer->xmlElement('Login',array(),$user['ilInternalAccount']);
 				$this->writer->xmlElement('ExternalAccount',array(),$external_account);
-				$this->writer->xmlElement('AuthMode',array(type => $this->getNewUserAuthMode()),null);
+				$this->writer->xmlElement('AuthMode',array('type' => $this->getNewUserAuthMode()),null);
 
 				if($this->isModeActive(self::MODE_INITIALIZE_ROLES))
 				{
@@ -291,15 +291,20 @@ class ilLDAPAttributeToUser
 					case 'gender':
 						switch(strtolower($value))
 						{
+							case 'n':
+							case 'neutral':
+								$this->writer->xmlElement('Gender', array(), 'n');
+								break;
+
 							case 'm':
 							case 'male':
-								$this->writer->xmlElement('Gender',array(),'m');
+								$this->writer->xmlElement('Gender', array(), 'm');
 								break;
-							
+
 							case 'f':
 							case 'female':
 							default:
-								$this->writer->xmlElement('Gender',array(),'f');
+								$this->writer->xmlElement('Gender', array(), 'f');
 								break;
 								
 						}

@@ -237,6 +237,8 @@ class ilParameterAppender
 	{
 		global $ilDB;
 
+		$params = [];
+
 		$res = $ilDB->query("SELECT * FROM webr_params WHERE link_id = ".
 			$ilDB->quote((int) $a_link_id ,'integer'));
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -245,7 +247,7 @@ class ilParameterAppender
 			$params[$row->param_id]['value'] = $row->value;
 		}
 
-		return count($params) ? $params : array();
+		return $params;
 	}
 	
 	/**

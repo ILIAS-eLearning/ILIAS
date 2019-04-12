@@ -203,7 +203,7 @@ class ilExplorer
 		// autofilter object types in devmode
 		$devtypes = $objDefinition->getDevModeAll();
 
-		if (count($devtypes > 0))
+		if (count($devtypes) > 0)
 		{
 			// activate filter if objects found in devmode
 			$this->setFiltered(true);

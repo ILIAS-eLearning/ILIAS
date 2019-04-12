@@ -512,7 +512,7 @@ class ilSurveyParticipantsGUI
 	{
 		$this->handleWriteAccess();
 		
-		if (count($_POST["chbUser"]) == 0)
+		if (!is_array($_POST["chbUser"]) || count($_POST["chbUser"]) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
 			$this->ctrl->redirect($this, "maintenance");
@@ -1529,16 +1529,22 @@ class ilSurveyParticipantsGUI
 		{			
 			// #13319
 			foreach(array_unique($a_user_ids) as $user_id)
-			{							
+			{
 				if($ilAccess->checkAccess("write", "", $this->ref_id) ||
 					$this->object->get360SelfEvaluation() ||
 					$user_id != $ilUser->getId())
-				{					
-					$this->object->addRater($appr_id, $user_id);									
+				{
+					if ($appr_id != $user_id)
+					{
+						$this->object->addRater($appr_id, $user_id);
+						ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+					}
+					else
+					{
+						ilUtil::sendFailure($this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+					}
 				}
 			}
-			
-			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);

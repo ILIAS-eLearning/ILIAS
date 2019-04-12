@@ -37,6 +37,8 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("crs_materials"), "object", "90%" );
 		$this->addColumn($lng->txt("status"), "active", 5);
 		$this->setSelectAllCheckbox('items');
+
+		$this->lng->loadLanguageModule('sess');
 	}
 
 	/**
@@ -98,7 +100,13 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($a_set['ref_id'],$this->getMaterialItems()) ?
 			ilUtil::getImagePath('icon_ok.svg') :
 			ilUtil::getImagePath('icon_not_ok.svg'));
-		$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
+
+		$this->tpl->setVariable(
+			'ASSIGNED_STATUS',
+			in_array($a_set['ref_id'], $this->getMaterialItems()) ?
+				$this->lng->txt('sess_material_assigned') :
+				$this->lng->txt('sess_material_not_assigned')
+		);
 
 		include_once('./Services/Tree/classes/class.ilPathGUI.php');
 		$path = new ilPathGUI();

@@ -31,10 +31,12 @@ class ilPluginAdmin
 
 
 	/**
-	* Constructor
-	*/
-	function __construct()
-	{
+	 *
+	 */
+	public function __construct() {
+		global $lng;
+		$this->lng = $lng;
+		$this->lng->loadLanguageModule("cmps");
 	}
 
 	/**

@@ -2530,18 +2530,18 @@ class ilUtil
 		{
 			if(is_dir($a_dir."/".$file) and ($file != "." and $file!=".."))
 			{
-				ilUtil::delDir(${a_dir}."/".${file});
+				ilUtil::delDir($a_dir."/".$file);
 			}
 			elseif ($file != "." and $file != "..")
 			{
-				unlink(${a_dir}."/".${file});
+				unlink($a_dir."/".$file);
 			}
 		}
 
 		closedir($current_dir);
 		if (!$a_clean_only)
 		{
-			@rmdir(${a_dir});
+			@rmdir($a_dir);
 		}
 	}
 
@@ -2613,6 +2613,17 @@ class ilUtil
 		}
 
 		return $a_arr;
+	}
+
+	/**
+	 * @param string $clientId
+	 * @return \ILIAS\Data\ClientId
+	 */
+	public static function getClientIdByString($clientId)
+	{
+		$df = new \ILIAS\Data\Factory;
+
+		return $df->clientId($clientId);
 	}
 	
 	/**
@@ -5358,12 +5369,12 @@ class ilUtil
 	
 	public static function MB2Bytes($a_value)
 	{
-		return  $a_value * pow(self::_getSizeMagnitude(), 2);
+		return  ((int) $a_value) * pow(self::_getSizeMagnitude(), 2);
 	}
 	
 	public static function Bytes2MB($a_value)
 	{
-		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
+		return  ((int) $a_value) / (pow(self::_getSizeMagnitude(), 2));
 	}
 
 	/**

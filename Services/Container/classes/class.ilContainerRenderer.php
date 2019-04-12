@@ -387,7 +387,7 @@ class ilContainerRenderer
 	protected function processBlockPositions()
 	{
 		// manual order
-		if(sizeof($this->block_custom_pos))
+		if(is_array($this->block_custom_pos) && sizeof($this->block_custom_pos))
 		{
 			$tmp = $this->block_pos;
 			$this->block_pos = array();		

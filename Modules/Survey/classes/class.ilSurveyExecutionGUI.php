@@ -417,7 +417,7 @@ class ilSurveyExecutionGUI
 		$constraint_true = 0;
 		
 		// check for constraints
-		if (count($page[0]["constraints"]))
+		if (is_array($page[0]["constraints"]) && count($page[0]["constraints"]))
 		{
 			$this->log->debug("Page constraints= ", $page[0]["constraints"]);
 

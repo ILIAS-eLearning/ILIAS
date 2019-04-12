@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTActiveRecordBridge.php";
 
 class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 {
-	protected $elements; // [array]
+	protected $elements = []; // [array]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{

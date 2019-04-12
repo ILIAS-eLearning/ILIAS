@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
 
 class ilADTGroupPresentationBridge extends ilADTPresentationBridge
 {
-	protected $elements; // [array]
+	protected $elements = []; // [array]
 	
 	protected function isValidADT(ilADT $a_adt)
 	{

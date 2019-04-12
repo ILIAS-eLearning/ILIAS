@@ -54,9 +54,9 @@ trait ComponentHelper {
 	 * @return	null
 	 */
 	protected function checkArg($which, $check, $message) {
-		assert('is_string($which)');
-		assert('is_bool($check)');
-		assert('is_string($message)');
+		assert(is_string($which));
+		assert(is_bool($check));
+		assert(is_string($message));
 		if (!$check) {
 			throw new \InvalidArgumentException("Argument '$which': $message");
 		}

@@ -334,6 +334,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getDefaultLessonMode()
 	{
+		global $ilUser;
+		if ($ilUser->getId() == 13) return "browse";
 		return $this->lesson_mode;
 	}
 	/**
@@ -1469,6 +1471,10 @@ class ilObjSAHSLearningModule extends ilObject
 
 					case 'm':
 						$studentName = $lng->txt('salutation_m');
+						break;
+
+					case 'n':
+						$studentName = $lng->txt('salutation_n');
 						break;
 
 					default:

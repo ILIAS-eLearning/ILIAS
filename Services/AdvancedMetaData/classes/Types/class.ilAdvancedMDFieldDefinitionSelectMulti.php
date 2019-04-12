@@ -110,8 +110,8 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 	//
 	
 	public function update()
-	{		
-		if(sizeof($this->confirmed_objects))
+	{
+		if(is_array($this->confirmed_objects) && count($this->confirmed_objects) > 0)
 		{
 			// we need the "old" options for the search
 			$def = $this->getADTDefinition();

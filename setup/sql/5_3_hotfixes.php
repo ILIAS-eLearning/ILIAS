@@ -294,3 +294,228 @@ if (!$ilrqtix) {
 	$setting->set('iloscmsgidx3', 1);
 }
 ?>
+<#23>
+<?php
+$setting = new ilSetting();
+$media_cont_mig = $setting->get('sty_media_cont_mig', 0);
+if ($media_cont_mig == 0)
+{
+	echo "<pre>
+	
+	DEAR ADMINISTRATOR !!
+	
+	Please read the following instructions CAREFULLY!
+	
+	-> If you are using content styles (e.g. for learning modules) style settings related
+	to media container have been lost when migrating from ILIAS 5.0/5.1 to ILIAS 5.2/5.3.
+	
+	-> The following dbupdate step will fix this issue and set the media container properties to values
+	   before the upgrade to ILIAS 5.2/5.3.
+	
+	-> If this issue has already been fixed manually in your content styles you may want to skip
+	   this step. If you are running ILIAS 5.2/5.3 for a longer time period you may also not want to
+	   restore old values anymore and skip this step.
+	   If you would like to skip this step you need to modify the file setup/sql/5_3_hotfixes.php
+	   Search for 'RUN_CONTENT_STYLE_MIGRATION' (around line 333) and follow the instructions.
+	
+	=> To proceed the update process you now need to refresh the page (F5)
+	
+	Mantis Bug Report: https://ilias.de/mantis/view.php?id=23299
+		
+	</pre>";
+
+	$setting->set('sty_media_cont_mig', 1);
+	exit;
+}
+if ($media_cont_mig == 1)
+{
+	//
+	// RUN_CONTENT_STYLE_MIGRATION
+	//
+	// If you want to skip the migration of former style properties for the media container style classes
+	// set the following value of $run_migration from 'true' to 'false'.
+	//
+
+	$run_migration = true;
+
+	if ($run_migration)
+	{
+		$set = $ilDB->queryF("SELECT * FROM style_parameter " .
+			" WHERE type = %s AND tag = %s ",
+			array("text", "text"),
+			array("media_cont", "table")
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$set2 = $ilDB->queryF("SELECT * FROM style_parameter " .
+				" WHERE style_id = %s " .
+				" AND tag = %s " .
+				" AND class = %s " .
+				" AND parameter = %s " .
+				" AND type = %s " .
+				" AND mq_id = %s "
+				,
+				array("integer", "text", "text", "text", "text", "integer"),
+				array($rec["style_id"], "figure", $rec["class"], $rec["parameter"], "media_cont", $rec["mq_id"])
+			);
+			if (!($rec2 = $ilDB->fetchAssoc($set2)))
+			{
+				$id = $ilDB->nextId("style_parameter");
+				$ilDB->insert("style_parameter", array(
+					"id" => array("integer", $id),
+					"style_id" => array("integer", $rec["style_id"]),
+					"tag" => array("text", "figure"),
+					"class" => array("text", $rec["class"]),
+					"parameter" => array("text", $rec["parameter"]),
+					"value" => array("text", $rec["value"]),
+					"type" => array("text", $rec["type"]),
+					"mq_id" => array("integer", $rec["mq_id"]),
+					"custom" => array("integer", $rec["custom"]),
+				));
+			}
+
+		}
+	}
+	$setting->set('sty_media_cont_mig', 2);
+}
+?>
+<#24>
+<?php
+	$ilDB->update("style_data", array(
+			"uptodate" => array("integer", 0)
+		), array(
+			"1" => array("integer", 1)
+		));
+?>
+<#25>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#26>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::applyInitialPermissionGuideline('iass', true, false);
+?>
+<#27>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#28>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_personal_skill s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_personal_skill WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#29>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_assigned_material s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_assigned_material WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#30>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_profile_user s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_profile_user WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#31>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_skill_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#32>
+<?php
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_has_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
+	" WHERE u.usr_id IS NULL ", [], []);
+$user_ids = [];
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$user_ids[] = $rec["user_id"];
+}
+if (count($user_ids) > 0)
+{
+	$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+		.$ilDB->in("user_id", $user_ids, false, "integer"));
+}
+?>
+<#33>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('context_id'), 'co');
+?>
+<#34>
+<?php
+$ilDB->addIndex('il_orgu_permissions', array('position_id'), 'po');
+?>
+<#35>
+<?php
+$ilDB->modifyTableColumn('il_orgu_permissions', 'operations', array("length" => 256));
+?>
+<#36>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id'), 'pi');
+?>
+<#37>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('user_id'), 'ui');
+?>
+<#38>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('orgu_id'), 'oi');
+?>
+<#39>
+<?php
+//$ilDB->addIndex('il_orgu_permissions', array('operations'), 'oi');
+?>
+<#40>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','orgu_id'), 'po');
+?>
+<#41>
+<?php
+$ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
+?>
+<#42>
+<?php
+//$ilDB->addIndex('il_orgu_permissions', array('operations','parent_id'), 'op');
+?>
+<#43>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

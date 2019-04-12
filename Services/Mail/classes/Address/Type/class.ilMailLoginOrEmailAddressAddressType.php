@@ -33,11 +33,28 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if($usr_id && !$this->rbacsystem->checkAccessOfUser($usr_id, 'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
-			$this->errors[] = array('user_cant_receive_mail', $this->address->getMailbox());
-			return false;
+			if ($this->receivesInternalMailsOnly($usr_id)) {
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					"Address '%s' not valid. Found id %s, but user can't use mail system.",
+					$this->address->getMailbox(), $usr_id
+				));
+				$this->errors[] = array('user_cant_receive_mail', $this->address->getMailbox());
+				return false;
+			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param integer $usrId
+	 * @return bool
+	 */
+	private function receivesInternalMailsOnly($usrId)
+	{
+		$options = new \ilMailOptions($usrId);
+
+		return (int)$options->getIncomingType() === (int)\ilMailOptions::INCOMING_LOCAL;
 	}
 
 	/**

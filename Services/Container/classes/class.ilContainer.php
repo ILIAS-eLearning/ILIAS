@@ -620,13 +620,19 @@ class ilContainer extends ilObject
 		// #20614 - copy style
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
-		if ($style_id > 0 &&
-			!ilObjStyleSheet::_lookupStandard($style_id))
+		if ($style_id > 0)
 		{
-			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-			$new_id = $style_obj->ilClone();
-			$new_obj->setStyleSheetId($new_id);
-			$new_obj->update();
+			if (!!ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+				$new_id = $style_obj->ilClone();
+				$new_obj->setStyleSheetId($new_id);
+				$new_obj->update();
+			}
+			else
+			{
+				$new_obj->setStyleSheetId($this->getStyleSheetId());
+			}
 		}
 
 		// #10271 - copy start objects page
@@ -1162,6 +1168,9 @@ class ilContainer extends ilObject
 			$pg->update(true, true);
 			foreach ($mapping as $old_ref_id => $new_ref_id)
 			{
+                if (!is_int($old_ref_id) || !is_int($new_ref_id)) {
+                    continue;
+                }
 				$type = ilObject::_lookupType($new_ref_id, true);
 				$class = "il".$obj_definition->getClassName($type)."PageCollector";
 				$loc = $obj_definition->getLocation($type);

@@ -248,6 +248,10 @@ class ilTestRandomQuestionSetPoolDeriver
 		}
 	}
 	
+	/**
+	 * @param ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool
+	 * @return ilObjQuestionPool
+	 */
 	public function derive(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool)
 	{
 		$pool = $this->createNewPool($nonAvailablePool);
@@ -261,6 +265,6 @@ class ilTestRandomQuestionSetPoolDeriver
 		
 		$this->updateRelatedSourcePoolDefinitions($duplicatedTaxKeysMap, $pool->getId(), $nonAvailablePool->getId());
 		
-		return $pool->getId();
+		return $pool;
 	}
 }

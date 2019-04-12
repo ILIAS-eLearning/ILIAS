@@ -547,6 +547,22 @@ class ilObjForum extends ilObject
 			$old_forum_files->ilClone($new_obj->getId(), $newPostId);
 		}
 
+		$sourceRefId = $this->getRefId();
+		$targetRefId = $new_obj->getRefId();
+
+		if (
+			$sourceRefId > 0 && $targetRefId > 0 &&
+			$this->tree->getParentId($sourceRefId) === $this->tree->getParentId($targetRefId)
+		) {
+			$grpRefId = $this->tree->checkForParentType($targetRefId, 'grp');
+			$crsRefId = $this->tree->checkForParentType($targetRefId, 'crs');
+
+			if ($grpRefId > 0 || $crsRefId > 0) {
+				$notifications = new \ilForumNotification($targetRefId);
+				$notifications->cloneFromSource((int)$sourceRefId);
+			}
+		}
+
 		return $new_obj;
 	}
 

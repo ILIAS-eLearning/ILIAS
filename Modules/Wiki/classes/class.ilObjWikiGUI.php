@@ -293,16 +293,18 @@ class ilObjWikiGUI extends ilObjectGUI
 					$cmd = "infoScreen";
 				}
 				$cmd .= "Object";
-				if ($cmd != "infoScreenObject")
+				if ($cmd != "cancelObject")
 				{
-					if (!in_array($cmd, array("createObject", "saveObject", "importFileObject")))
+					if ($cmd != "infoScreenObject")
 					{
-						$this->checkPermission("read");
+						if (!in_array($cmd, array("createObject", "saveObject", "importFileObject")))
+						{
+							$this->checkPermission("read");
+						}
+					} else
+					{
+						$this->checkPermission("visible");
 					}
-				}
-				else
-				{
-					$this->checkPermission("visible");
 				}
 				$this->$cmd();				
 				break;
@@ -1171,12 +1173,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 		else if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
-			ilObjectGUI::_gotoRepositoryNode($tarr[0], "infoScreen");
+			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
-				ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[0]))), true);
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 

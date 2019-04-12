@@ -20,6 +20,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 	
 	private $inMetaDataTag;
 	private $inMdGeneralTag;
+	private $descriptionProcessed = false;
 
 	/**
 	 * @param ilObjQuestionPool $poolOBJ
@@ -96,9 +97,10 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 				break;
 
 			case 'Description':
-				if($this->inMetaDataTag && $this->inMdGeneralTag)
+				if($this->inMetaDataTag && $this->inMdGeneralTag && !$this->descriptionProcessed)
 				{
 					$this->poolOBJ->setDescription($this->cdata);
+					$this->descriptionProcessed = true;
 					$this->cdata = '';
 				}
 				break;

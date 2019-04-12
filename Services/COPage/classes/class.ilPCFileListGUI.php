@@ -731,7 +731,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 		}
 
 		$form = $this->initEditForm();
-		$form->checkInput();
+		// see #22541
+//		$form->checkInput();
 
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();

@@ -321,7 +321,7 @@ class ilDBGenerator {
 				// auto increment sequence
 				$this->buildCreateSequenceStatement($table, $file);
 
-				if (in_array($table, array('usr_session_stats', 'usr_session_raw'))) {
+				if (in_array($table, array('usr_session_stats', 'usr_session_raw', 'il_plugin'))) {
 					continue;
 				}
 

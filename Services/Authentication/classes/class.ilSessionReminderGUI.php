@@ -50,6 +50,7 @@ class ilSessionReminderGUI
 			$reminder_tpl->setVariable('SESSION_NAME', session_name());
 			$reminder_tpl->setVariable('FREQUENCY', 60);
 			$reminder_tpl->setVariable('SESSION_ID', session_id());
+			$reminder_tpl->setVariable('SESSION_ID_HASH', md5(session_id()));
 			$reminder_tpl->setVariable(
 				'URL',
 				'./sessioncheck.php?client_id=' . CLIENT_ID . 

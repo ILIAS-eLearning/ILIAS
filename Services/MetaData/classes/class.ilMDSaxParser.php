@@ -689,8 +689,8 @@ class ilMDSaxParser extends ilSaxParser
 	function &__popParent()
 	{
 		$class = array_pop($this->md_parent);
+		$this->meta_log->debug(is_object($class) ? get_class($class) : 'null');
 		unset($class);
-		#echo '<br />DELETE '.get_class($class);
 	}
 	function &__getParent()
 	{

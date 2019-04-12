@@ -148,7 +148,7 @@ class ilPCResources extends ilPageContent
 	 * Modify ref ids by mapping
 	 *
 	 * @param
-	 * @return
+	 * @return bool
 	 */
 	static function modifyItemGroupRefIdsByMapping($a_page, $mappings)
 	{
@@ -161,16 +161,18 @@ class ilPCResources extends ilPageContent
  
 		$xpath_temp = new DOMXPath($dom);
 		$igs = $xpath_temp->query("//Resources/ItemGroup");
-		
+
+		$updated = false;
 		foreach ($igs as $ig_node) 
 		{
 			$ref_id = $ig_node->getAttribute("RefId");
 			if ($mappings[$ref_id] > 0)
 			{
 				$ig_node->setAttribute("RefId", $mappings[$ref_id]);
+				$updated = true;
 			}
 		}
-
+		return $updated;
 	}
 	
 	/**
@@ -189,7 +191,7 @@ class ilPCResources extends ilPageContent
 	 */
 	static public function resolveResources(ilPageObject $page, $ref_mappings)
 	{
-		self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
+		return self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
 	}
 
 }

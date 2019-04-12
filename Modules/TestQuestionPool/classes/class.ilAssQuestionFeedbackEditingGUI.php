@@ -145,6 +145,11 @@ class ilAssQuestionFeedbackEditingGUI
 	 */
 	private function showFeedbackFormCmd()
 	{
+		require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
+		
 		$form = $this->buildForm();
 
 		$this->feedbackOBJ->initGenericFormProperties($form);

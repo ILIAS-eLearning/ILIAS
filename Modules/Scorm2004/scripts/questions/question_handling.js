@@ -587,6 +587,7 @@ ilias.questions.assClozeTest = function(a_id) {
 			else if (type==2) {				
 				for(var j=0;j<questions[a_id].gaps[i].item.length;j++)
 				{
+					a_node.value = a_node.value.replace(',', '.');
 					var lb = parseFloat(questions[a_id].gaps[i].item[j].lowerbound),
 						ub = parseFloat(questions[a_id].gaps[i].item[j].upperbound),
 						val = parseFloat(a_node.value);

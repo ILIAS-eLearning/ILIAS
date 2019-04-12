@@ -174,7 +174,7 @@ $webDataRoot = $DIC->filesystem()->web();
 $mimeType = $webDataRoot->getMimeType('relative/path/to/file');
 ```
 #### Timestamp
-Get the timestamp of the file.
+Get the timestamp (mtime) of the file.
 ```php
 <?php
 /**

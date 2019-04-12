@@ -534,7 +534,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			if(!$this->getCreationMode() &&
 				$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 			{
-				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset");				
+				// see #22067
+				$link = $ilCtrl->getLinkTargetByClass(["ilrepositorygui", "ilObjBlogGUI"], "preview");
 				$ilNavigationHistory->addItem($this->node_id, $link, "blog");
 			}
 		}
@@ -789,7 +790,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			default:							
+			default:
 				if($cmd != "gethtml")
 				{
 					// desktop item handling, must be toggled before header action
@@ -1680,7 +1681,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$wtpl->setVariable("URL_TITLE", $preview);
 			$wtpl->setVariable("TITLE", $item["title"]);
 			$wtpl->setVariable("DATETIME", $author.
-				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));		
+				ilDatePresentation::formatDate($item["created"]));
 
 			// content			
 			$wtpl->setVariable("CONTENT", $snippet);			

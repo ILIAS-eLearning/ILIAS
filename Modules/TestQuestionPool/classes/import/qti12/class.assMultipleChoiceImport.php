@@ -256,7 +256,7 @@ class assMultipleChoiceImport extends assQuestionImport
 
 		foreach ($answers as $answer)
 		{
-			if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0))
+			if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0))
 			{
 				$this->object->isSingleline = true;
 			}

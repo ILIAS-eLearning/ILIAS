@@ -40,6 +40,8 @@ class AsyncTaskManager extends BasicTaskManager {
 			$session_id . '::' . $ilClientId,
 		));
 		$DIC->logger()->root()->info(var_export($call, true));
+
+		$this->runAsync(); // FIX https://mantis.ilias.de/view.php?id=24151
 	}
 
 

@@ -196,9 +196,9 @@ class ilRbacLog
 	{
 		global $ilDB, $rbacreview;
 
+		$where = [];
 		if($a_filter)
 		{
-			$where = NULL;
 			if($a_filter["action"])
 			{
 				$where[] = "action = ".$ilDB->quote($a_filter["action"], "integer");
@@ -215,18 +215,18 @@ class ilRbacLog
 				$to = strtotime("23:59:59", $to);
 				$where[] = "created <= ".$ilDB->quote($to, "integer");
 			}
-			if(sizeof($where))
-			{
-				$where = " AND ".implode(" AND ", $where);
+
+			if (count($where) > 0) {
+				$where = array_merge([' AND '], [implode(' AND ', $where)]);
 			}
 		}
 
-		$set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer").$where);
+		$set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer") . implode('', $where));
 		$count = array_pop($ilDB->fetchAssoc($set));
 
 		$ilDB->setLimit($a_limit, $a_offset);
 		$set = $ilDB->query("SELECT * FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer").
-			$where." ORDER BY created DESC");
+			implode('', $where) ." ORDER BY created DESC");
 	    $result = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{

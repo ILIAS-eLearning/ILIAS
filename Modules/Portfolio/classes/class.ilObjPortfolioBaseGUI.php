@@ -313,11 +313,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$ilToolbar->addStickyItem($button);
 		}
 
-		$ilToolbar->addSeparator();
-		
+
 		// #16571
 		if($this->getType() == "prtf")
 		{
+			$ilToolbar->addSeparator();
+
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("export_html");
 			$button->setUrl($this->ctrl->getLinkTarget($this, "export"));
@@ -510,7 +511,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			ilPortfolioPage::fixOrdering($this->object->getId());
 		}
 
-		ilPortfolioPage::fixLinksOnTitleChange($this->object->getId(), $title_changes);
+		$this->object->fixLinksOnTitleChange($title_changes);
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "view");

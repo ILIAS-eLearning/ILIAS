@@ -40,7 +40,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 	protected $tree;
 	
 	/**
-	 * @var int
+	 * @var bool
 	 */
 	protected $editable = false;
 
@@ -48,10 +48,12 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id,
+		$editable = false)
 	{
 		global $DIC;
 
+		$this->editable = $editable;
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->access = $DIC->access();
@@ -133,17 +135,8 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	 * Set editable (write permission)
-	 * @param int $a_status
-	 */
-	public function setEditable($a_status)
-	{
-		$this->editable = $a_status;
-	}
-	
-	/**
 	 * Check if table is editable (write permission granted)
-	 * @return type
+	 * @return bool
 	 */
 	public function isEditable()
 	{

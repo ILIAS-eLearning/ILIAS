@@ -50,7 +50,8 @@ $auth = $factory->auth();
 // The source code below is copied from the SimpleSAMLphp library and modified regarding the HTTP path
 // ilias-patch: end
 if (!array_key_exists('PATH_INFO', $_SERVER)) {
-	throw new SimpleSAML_Error_BadRequest('Missing authentication source id in metadata URL');
+	global $DIC;
+	$DIC->logger()->root()->warning('Missing "PATH_INFO" variable. This could be a false positive log entry, but you have to ensure a valid "PATH_INFO" setting for your HTTP server.');
 }
 
 $config = SimpleSAML_Configuration::getInstance();

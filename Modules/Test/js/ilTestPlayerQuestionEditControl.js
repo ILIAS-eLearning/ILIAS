@@ -29,7 +29,7 @@ il.TestPlayerQuestionEditControl = new function() {
      *                                  should be long enough for question initialisation
      *                                  should be shorter than a possible manual interaction
      */
-    var START_TIMERS_DELAY = 10;
+    var START_TIMERS_DELAY = 100;
 
     /**
      * @var object config               initial configuration
@@ -186,6 +186,12 @@ il.TestPlayerQuestionEditControl = new function() {
      * This gives question scripts some time for their initialisation
      */
     function startTimers() {
+
+        // restore tinyMCE reformated content to its textarea
+        // before remembering origina formdata
+        if (typeof tinyMCE != 'undefined') {
+            tinyMCE.triggerSave();
+        }
 
         // save the initial form status
         origData = $(FORM_SELECTOR).serialize();

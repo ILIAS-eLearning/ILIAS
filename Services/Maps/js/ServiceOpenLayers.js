@@ -352,7 +352,8 @@ var ServiceOpenLayers = {
 	 * @param 	{string} 	address
 	 * @return 	{void}
 	 */
-	updateInputFields: function(id, pos, address = "undefined") {
+	updateInputFields: function(id, pos, address) {
+		address = address || "undefined";
 		var human_pos = this.posToHuman(pos);
 		$("#" + id + "_addr").val(address);
 		$("#" + id + "_lng").val(human_pos[0]);

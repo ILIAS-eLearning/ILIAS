@@ -162,8 +162,8 @@ class ilMailFolderGUI
 				if ($ret != "")
 				{
 					$this->tpl->setContent($ret);
-					$this->tpl->show();
 				}
+				$this->tpl->show();
 				break;
 
 			default:
@@ -749,7 +749,10 @@ class ilMailFolderGUI
 		if($sender && $sender->getId() && $sender->getId() != ANONYMOUS_USER_ID)
 		{
 			$linked_fullname    = $sender->getPublicName();
-			$picture            = ilUtil::img($sender->getPersonalPicturePath('xsmall'), $sender->getPublicName());
+			$picture            = ilUtil::img(
+				$sender->getPersonalPicturePath('xsmall'), $sender->getPublicName(),
+				'', '', 0, '', 'ilMailAvatar'
+			);
 			$add_to_addb_button = '';
 
 			if(in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), array('y', 'g')))
@@ -769,11 +772,12 @@ class ilMailFolderGUI
 			$from = new ilCustomInputGUI($this->lng->txt('from'));
 			$from->setHtml($mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 			$form->addItem($from);
-		}
-		else
-		{
-			$from = new ilCustomInputGUI($this->lng->txt('from'));
-			$from->setHtml(ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName()) . '<br />' . ilMail::_getIliasMailerName());
+		} else {
+			$from = new ilCustomInputGUI($this->lng->txt('from') . ':');
+			$from->setHtml(
+				ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName(), '', '', 0, '', 'ilMailAvatar') .
+				'<br />' . ilMail::_getIliasMailerName()
+			);
 			$form->addItem($from);
 		}
 

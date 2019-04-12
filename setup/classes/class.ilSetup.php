@@ -2111,7 +2111,7 @@ class ilSetup
 				$row = array();
 				while($row = $db->fetchAssoc($res)) break;
 
-				if( count($row) > 0 )
+				if( is_array($row) && count($row) > 0 )
 				{
 					$db->update(
 						'settings',

@@ -38,7 +38,7 @@ class ilDclTableHelper {
 	 * @param ilObjUser     $user
 	 * @param ilDBInterface $database
 	 */
-	public function __construct(int $obj_id, int $ref_id, ilRbacReview $rbac_review, ilObjUser $user, ilDBInterface $database) {
+	public function __construct($obj_id, $ref_id, ilRbacReview $rbac_review, ilObjUser $user, ilDBInterface $database) {
 		$this->obj_id = $obj_id;
 		$this->ref_id = $ref_id;
 		$this->rbac_review = $rbac_review;
@@ -50,18 +50,7 @@ class ilDclTableHelper {
 	/**
 	 * @return array
 	 */
-	public function getRBACRoleTitlesWithoutReadRightOnAnyStandardView() {
-		//		$dcl = new ilObjDataCollection($this->ref_id);
-		//
-		//		$all_role_ids_from_std_views = [];
-		//		foreach ($dcl->getTables() as $table) {
-		//			foreach ($table->getTableViews() as $view) {
-		//				$all_role_ids_from_std_views = array_merge((array)$view->getRoles(),$all_role_ids_from_std_views);
-		//			}
-		//		}
-		//
-		//		return $all_role_ids_from_std_views;
-
+	public function getRoleTitlesWithoutReadRightOnAnyStandardView() {
 		$visible_tables_for_data_collection = $this->getAllVisibleTablesForDataColleciton();
 		$standard_views_for_data_collection = $this->getStandardViewsByVisibleTables($visible_tables_for_data_collection);
 
@@ -133,12 +122,11 @@ class ilDclTableHelper {
 	 */
 	protected function getStandardViewsByVisibleTables($visible_tables_for_data_collection) {
 		$standard_views_for_data_collection = [];
-		foreach ($visible_tables_for_data_collection as $visible_table_for_data_collection) {
+		foreach ($visible_tables_for_data_collection as $visible_table) {
 			$standard_views_for_data_collection[] = ilDclTableView::where(
-				array(
-					'table_id' => $visible_table_for_data_collection['id'],
-					'title'    => 'Standardview',
-				)
+				[
+					'table_id' => $visible_table['id']
+				]
 			)->get();
 		}
 
@@ -151,10 +139,10 @@ class ilDclTableHelper {
 	 */
 	protected function getAllVisibleTablesForDataColleciton() {
 		$visible_tables_for_data_collection = [];
-		$table_for_data_collection_query = $this->database->queryF(
+		$res = $this->database->queryF(
 			"SELECT * FROM il_dcl_table WHERE obj_id = %s AND is_visible = 1", array('integer'), array($this->obj_id)
 		);
-		while ($rec = $this->database->fetchAssoc($table_for_data_collection_query)) {
+		while ($rec = $this->database->fetchAssoc($res)) {
 			$visible_tables_for_data_collection[] = $rec;
 		}
 

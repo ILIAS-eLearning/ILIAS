@@ -17,11 +17,11 @@ class ilBookmarkMoveExplorerGUI extends ilBookmarkExplorerGUI
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = 0)
 	{
 		global $DIC;
 
-		parent::__construct();
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_user_id);
 		$this->ctrl = $DIC->ctrl();
 	}
 

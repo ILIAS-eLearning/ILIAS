@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.3.x 2018-07-28
+* @version	5.3.x 2018-10-23
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -97,8 +97,8 @@ forum#:#frm_posting_draft#:#Piszkozat
 forum#:#frm_posting_drafts#:#Piszkozatok
 forum#:#enable_send_attachments#:#Csatolmányok küldése fórumértesítésekkel
 forum#:#enable_send_attachments_desc#:#Megjegyzés: ez nagy tárhelyhasználatot okozhat a szerveren, mert minden csatolt fájlt minden értesítendő felhasználóhoz külön-külön mentünk.
-forum#:#adm_save_drafts#:#Piszkozatok mentése   
-forum#:#adm_save_drafts_desc#:#Ha be van kapcsolva, a regisztrált felhasználók piszkozatként menthetik fórumhozzászólásaikat.    
+forum#:#adm_save_drafts#:#Piszkozatok mentése
+forum#:#adm_save_drafts_desc#:#Ha be van kapcsolva, a regisztrált felhasználók piszkozatként menthetik fórumhozzászólásaikat.
 forum#:#adm_autosave_drafts#:#Piszkozatok automatikus mentése
 forum#:#adm_autosave_ival#:#Időköz
 forum#:#adm_autosave_drafts_desc#:#Ha be van kapcsolva, a szerkesztés alatt lévő piszkozatokat automatikusan mentjük.
@@ -313,6 +313,8 @@ assessment#:#add_imagemap#:#Képtérkép importálása
 assessment#:#add_poly#:#Sokszög alakú terület hozzáadása
 assessment#:#add_rect#:#Téglalap alakú terület hozzáadása
 assessment#:#addSuggestedSolution#:#Ismétlő összefoglaláshoz tartalom hozzáadása
+assessment#:#tst_answer_aggr_answer_header#:#Válasz
+assessment#:#tst_answer_aggr_frequency_header#:#Gyakoriság
 assessment#:#all_available_question_pools#:#Összes elérhető kérdésgyűjtemény
 assessment#:#allow_images#:#Képsegítség válaszokhoz
 assessment#:#allowedextensions_info#:#Sorolja fel veszővel tagolva az engedélyezett fájlkiterjesztéseket, amennyiben korlátozni szeretné a feltölthető fájltípusokat (például: doc, xls, odt).
@@ -1353,7 +1355,7 @@ assessment#:#tst_max_comp_points#:#Max. kompetencia-pontszámok
 assessment#:#tst_level#:#Kompetenciaszint
 assessment#:#tst_threshold#:#Küszöbértékek (itt: %)
 assessment#:#tst_save_thresholds#:#Küszöbértékek mentése
-assessment#:#tst_show_comp_results#:#Kompetencia eredmények megjelenítése
+assessment#:#tst_show_comp_results#:#Kompetenciaeredmények megjelenítése
 assessment#:#tst_analysis#:#Analízis
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)
@@ -3833,7 +3835,7 @@ content#:#cont_credits#:#Kreditek
 content#:#cont_current_chapter#:#Jelenlegi fejezet
 content#:#cont_current_page#:#Jelenlegi lap
 content#:#cont_current_style#:#Jelenlegi stílus
-content#:#cont_current_version#:#Jelenlegi verzió
+content#:#cont_current_version#:#Rögzített méret
 content#:#cont_custom_size#:#Egyéni méret
 content#:#cont_custom#:#Testre szabott
 content#:#cont_data_from_lms#:#adlcp:datafromlms
@@ -4167,7 +4169,8 @@ content#:#cont_replace_mob_feature_info#:#Ez az opció lehetővé teszi médiaob
 content#:#cont_replace_mob_feature#:#Médiaobjektum cseréje a tartalomban
 content#:#cont_repository_item#:#Taneszköztárolóban levő elem
 content#:#cont_resize_img#:#Képfájl átméretezése
-content#:#cont_resource_size#:#Eredeti forrás mérete
+content#:#cont_resource_size#:#Eredeti forrás mérete / Nincs méretmeghatározás
+content#:#cont_resource_size_info#:#A méret megadása nélkül a tartalomstílus határozhatja meg a méretet. Ha nem adja meg a méretet és a tartalomstílus sem tartalmaz szabályt a méret meghatározására, akkor a képet eredeti méretében jelenítjük meg.
 content#:#cont_resource_type#:#Típus
 content#:#cont_resource#:#Forrás
 content#:#cont_resources#:#Források
@@ -4299,7 +4302,7 @@ content#:#cont_users_have_mob_in_clip2#:#felhasználó(k).
 content#:#cont_validate_file#:#Fájl érvényesítése
 content#:#cont_version#:#változat
 content#:#cont_versions#:#Verziók
-content#:#cont_width#:#Szélesség pixelben
+content#:#cont_width#:#Szélesség
 content#:#cont_wiki_page_link#:#Wikilap link
 content#:#cont_xml_base#:#xml:base
 content#:#cont_zip_file_invalid#:#A fájl nem érvényes importfájl.<br/>Nem tartalmaz fájlt '%s'.
@@ -4678,8 +4681,8 @@ crs#:#sess_gen_attendance_list#:#Névsor létrehozása
 crs#:#sess_join_info#:#Kattintson a 'Feljelentkezés' gombra, ha részt szeretne venni ezen az eseményen.
 crs#:#sess_limit_info#:#A résztvevők nem jelennek meg az összes, csak a korlátozott számú események felsorolásakor 
 crs#:#sess_limit#:#A megjelenítendő események számának korlátozása
-crs#:#sess_num_next#:#Jövőbeli események száma
-crs#:#sess_num_prev#:#Elmúlt események száma
+crs#:#sess_num_next#:#Jövőbeli események száma (holnapig)
+crs#:#sess_num_prev#:#Elmúlt események száma (tegnapig)
 crs#:#sess_print_attendance_list#:#Névsor nyomtatása
 crs#:#sess_signature#:#Aláírás
 crs#:#subscription_times_not_valid#:#A regisztrációs időszak nem érvényes.
@@ -7541,7 +7544,7 @@ wiki#:#wiki_created_by#:#Létrehozta
 wiki#:#wiki_failed#:#Sikertelen
 wiki#:#wiki_feedback_from_tutor#:#Visszajelzés a tutortól
 wiki#:#wiki_general_settings#:#Általános beállítások
-wiki#:#wiki_grading#:#Osztályozás
+wiki#:#wiki_grading#:#Értékelés
 wiki#:#wiki_introduction#:#Bevezetés
 wiki#:#wiki_last_changed_by#:#Utoljára módosította
 wiki#:#wiki_last_changed#:#Utolsó módosítás
@@ -7651,12 +7654,14 @@ mail#:#mail_smtp_user#:#Felhasználó
 mail#:#mail_smtp_password#:#Jelszó
 mail#:#mail_smtp_password_req#:#Ha hitelesítés céljából megad egy felhasználót, jelszót is meg kell adnia hozzá.
 mail#:#mail_system_usr_from_addr#:#Küldő e-mail címe(feladó)
+mail#:#mail_system_usr_from_addr_info#:#Adja meg a 'Feladó' részbe szánt e-mail címet. A 'Feladó' rész a küldőt jeleníti meg a címzett e-mail kliensénél. Az ILIAS-on keresztül e-mailt küldő felhasználó e-mail címét automatikusan betesszük a 'Válasz' részbe.<br /><br />Példa: <span style="font-style: italic">info@intezmeny.hu</span> vagy <span style="font-style: italic">no-reply@intezmeny.hu/span>
 mail#:#mail_system_usr_from_name#:#Küldő teljes neve (feladó)
 mail#:#mail_system_usr_from_name_info#:#A [FULLNAME], [FIRSTNAME] és [LASTNAME] helyőrzőket használhatja, melyeket személy megfelelő adatára cseréljünk.
 mail#:#mail_system_usr_env_from_addr#:#Technikai feladó
 mail#:#mail_system_usr_env_from_addr_info#:#Üres mező esetén a feladó e-mail címét használjuk, ha az SMTP be van kapcsolva. Különben a szerver rendszergazdájának a feladta beállítani ezt az értéket.
 mail#:#mail_system_sys_env_from_addr_info#:#Üres mező esetén a feladó e-mail címét használjuk, ha az SMTP be van kapcsolva. Különben a szerver rendszergazdájának a feladta beállítani ezt az értéket.
 mail#:#mail_system_sys_from_addr#:#Küldő e-mail címe (feladó)
+mail#:#mail_system_sys_from_addr_info#:#Adja meg a 'Feladó' részbe szánt e-mail címet. A 'Feladó' rész a küldőt jeleníti meg a címzett e-mail kliensénél.<br /><br />Példa: <span style="font-style: italic">info@intezmeny.hu</span> vagy <span style="font-style: italic">no-reply@intezmeny.hu/span>
 mail#:#mail_system_sys_from_name#:#Küldő teljes neve (feladó)
 mail#:#mail_system_sys_reply_to_addr#:#Válasz cím
 mail#:#mail_system_sys_env_from_addr#:#Technikai feladó
@@ -10160,14 +10165,14 @@ rbac#:#blog_contribute#:#A felhasználó blogbejegyzést írhat és tehet közz�
 blog#:#blog_contribute_other_roles#:#A 'Blogszerzők' szerepkör mellett a következő szerepek tagjai is hozhatnak létre új bejegyzéseket: %s.
 dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
 dcl#:#dcl_visible#:#Az összes felhasználó láthatja 
-dcl#:#dcl_empty_detailed_view#:#Ezen nézet törlése
+dcl#:#dcl_empty_detailed_view#:#Ezen részletes nézet törlése
 dcl#:#dcl_activate_view#:#Nézet bekapcsolása
 dcl#:#dcl_deactivate_view#:#Nézet kikapcsolása
 dcl#:#dcl_confirm_delete_field#:#Biztos, hogy törli ezt a mezőt?
 dcl#:#dcl_table_info_title#:#Információ
-dcl#:#dcl_confirm_delete_detailed_view_title#:#Biztos, hogy törli ezt a nézetet?
-dcl#:#dcl_confirm_delete_detailed_view_text#:#A tábla bejegyzéseinek nézetsablonját véglegesen eltávolítja, de a tábla rekordjai és a mezői nem módosulnak.
-dcl#:#dcl_empty_detailed_view_success#:#A nézetsablont sikeresen törölte.
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Biztos, hogy törli ezt a részletes nézetet?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#A tábla bejegyzéseinek részletes részletesnézet-sablonját véglegesen eltávolítja, de a tábla rekordjai és a mezői nem módosulnak.
+dcl#:#dcl_empty_detailed_view_success#:#A részletesnézet-sablont sikeresen törölte.
 dcl#:#dcl_permissions_form#:#Felhasználói műveletek
 rating#:#rating_number_votes#:#%s értékelés
 administration#:#system_check_no_owner#:#Tulajdonos nélküli objektumok
@@ -10382,6 +10387,9 @@ cron#:#cron_result_status_no_action#:#Ok, semmi nem kerül feldolgozásra
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_crashed#:#Összeomlott
 cron#:#cron_result_status_reset#:#Reset
+cron#:#cro_job_rc_job_manual_reset#:#Az üzemeltető újraaktiválta az ütemezetett feladatot.
+cron#:#cro_job_rc_job_no_result#:#Az ütemezett feladat nem megfelelő eredményt adott vissza
+cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Az ütemezett feladatot deaktiváltuk, mert több, mint 3 órája inaktív
 cron#:#cron_action_activate#:#Bekapcsolás
 cron#:#cron_action_deactivate#:#Kikapcsolás
 cron#:#cron_action_reset#:#Resetelés
@@ -10412,8 +10420,6 @@ cron#:#cron_action_deactivate_success#:#Ütemezett feladatot sikeresen kikapcsol
 cron#:#cron_action_reset_success#:#Az ütemezett feladatot sikeresen resetelte.
 cron#:#cron_action_edit_success#:#Az ütemezést sikeresen frissítette.
 cron#:#cron_no_executable_job_selected#:#Legalább egy ütemezett feladatok jelöljön ki!
-cron#:#cro_job_rc_job_manual_reset#:#MANUÁLIS RESETELÉS
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#TALÁN ÖSSZEOMLOTT
 dcl#:#dcl_no_warnings#:#Az import figyelmeztetés nélkül véget ért.
 dcl#:#dcl_not_supported_in_import#:#Ez a mezőtípus nem támogatott az importban.
 dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
@@ -11636,7 +11642,8 @@ obj#:#obj_deactivate_multilang#:#Többnyelvűség kikapcsolása
 obj#:#obj_deactivate_multilang_conf#:#Biztos, hogy kikapcsolja a többnyelvűséget? Csak a fő nyelv tartalma marad meg.
 obj#:#obj_multilang_deactivated#:#Többnyelvűség kikapcsolva.
 cntr#:#cntr_container_only_on_their_own#:#Egyszerű objektumokként csak kategóriák, kurzusok, csoportok vagy könyvtárak másolhatóak. Csak egy elemet válasszon.
-cntr#:#objects_duplicated#:#Objektumok átmásolva 
+cntr#:#objects_duplicated#:#Objektumok átmásolva
+cntr#:#msg_no_downloadable_objects#:#Egy letölthető objektumot sem találtunk.
 poll#:#poll_max_number_of_answers#:#Részvevőnkénti válaszok maximális száma
 poll#:#poll_vote_error_single#:#Egyet válassz.
 poll#:#poll_vote_error_multi#:#Ne válasszon többet, mint %s.
@@ -12415,6 +12422,7 @@ dcl#:#dcl_selection_type#:#Típus
 dcl#:#dcl_selection_type_single#:#Egyszeres kiválasztás
 dcl#:#dcl_selection_type_multi#:#Többszörös kiválasztás
 dcl#:#dcl_selection_type_combobox#:#Legördülő választék (combobox)
+dcl#:#dcl_title_standardview#:#Standard nézetek
 adve#:#adve_auto_url_linking#:#URL Auto-linkelés
 adve#:#adve_auto_url_linking_info#:#Megpróbáljuk megtalálni a szövegben lévő az URL-eket ('http://..') és automatikusa linkké alakítjuk.
 content#:#cont_auto_time#:#Automatikus animáció várakozási ideje
@@ -13010,6 +13018,9 @@ common#:#obj_prgs_desc#:#Tanulmányi program kezelése
 trac#:#trac_mode_study_programme#:#Tanulmányi program teljesítve
 forum#:#forums_thread_deleted#:#A kiválasztott témát annak összes hozzászólásával sikeren törölte.
 forum#:#forums_threads_deleted#:#A kiválasztott témákat azok összes hozzászólásával sikeren törölte.
+forum#:#frm_action_not_possible_thr_deleted#:#Ez a művelet nem hajtható végre, mert a témát törölték.
+forum#:#frm_action_not_possible_thr_closed#:#Ez a művelet nem hajtható végre, mert a témát zárolták.
+forum#:#frm_action_not_possible_parent_deleted#:#Ez a művelet nem hajtható végre, mert a szülőhozzászólását törölték.
 meta#:#meta_advmd_select_options#:#Bejegyzések
 trac#:#trac_lp_settings_info_parent_legend#:#Tanulási haladási állapotát befolyásolja '%s'.
 search#:#btn_search#:#Keresés
@@ -13496,10 +13507,12 @@ style#:#system_style_activation_description#:#Aktív rendszerstílust rendelhet 
 style#:#system_style_default_description#:#Stílus beállítása alapértelmezett rendszerstílusnak. Az alapértelmezett rendszerstílust rendeljük azon felhasználókhoz, akikhez nem volt stílus rendelve vagy a felhasználó nincs bejelentkezve.
 style#:#system_style_personal_description#:#Stílus beállítása személyes rendszerstílusnak. Ez a jelenlegi módosítások megtekintését könnyítheti.
 style#:#less_compile_failed#:#A less fájl fordításakor hiba lépett fel. Kérjük, ellenőrizze, hogy a lessc telepítve van-e és az útvonala az ILIAS setup-ban helyesen került-e megadásra. Eredeti hiba:
+style#:#less_variables_empty_might_have_changed#:#Üres változók vannak az űrlapján. Elképzelhető, hogy módosította a variables.less fájl az űrlap betöltése óta. A variables.less fájlban lévő alapértelmezett értékeket állítottuk be az üres mezőkhöz. Kérem, ellenőrizze ezeket a megjelölt üres mezőket, mielőtt lefordítja és elmenti az értékeket a saját variables.less fájljába.
+style#:#less_variable_empty#:#Ez a változó üres. Az alapértelmezett érték a variables.less fájlból került meghatározásra. A fordítás előtt ellenőrizze, hogy ez megfelelő-e.
 style#:#zip_export_failed#:#ZIP exportálás sikertelen a következő hiba miatt:
 style#:#no_style_selected#:#Egy alstílust sem jelölt ki.
 style#:#adapt_less#:#Less átalakítása
-style#:#adapt_less_description#:#Ez a kiválasztott skin-ben használt variables.less fájlban lévő összes less változó egy közvetlen reprezentációja. A változók nevét és leírását közvetlenül ebből a fájlból hívjuk le és ezért csak eredeti nyelvükön érhetőek el. A kiválasztott stílust a változók értékeinek frissítésekor/alapértelmezettre állításakor teljesen újrafordítjuk. A változók értékeinek alapértelmezettre állításakor az alapértelmezett delos stílus egy másolata jön létre.      
+style#:#adapt_less_description#:#Ez a kiválasztott skin-ben használt variables.less fájlban lévő összes less változó egy közvetlen reprezentációja. A változók nevét és leírását közvetlenül ebből a fájlból hívjuk le és ezért csak eredeti nyelvükön érhetőek el. A kiválasztott stílust a változók értékének frissítésekor/alapértelmezettre állításakor teljesen újrafordítjuk. A változók értékeinek alapértelmezettre állításakor az alapértelmezett delos stílus egy másolata jön létre.
 style#:#adapt_icons_description#:#A skin-ek képek mappájában lévő összes svg ikont felsoroljuk itt. Ha egy színt módosít, az az összes, azt a színt tartalmazó ikonban is módosul.
 style#:#adapt_icons#:#Ikonszínek átalakítása
 style#:#invalid_less_path#:#A megadott lessc útvonal nem valid vagy a webszervernek nincs jogosultsága futtatni a lessc-t. A webszerver számára olvasási és futtatási jogosultság szükséges a lessc-hez (vagy a lessc útvonalára linkelő fájlhoz).
@@ -13527,14 +13540,14 @@ style#:#usages#:#Használat:
 exc#:#exc_individual_deadline#:#Egyéni határidő
 exc#:#exc_individual_deadline_action#:#Egyéni határidő beállításai
 exc#:#exc_individual_deadline_before_global#:#Ennek az időpontnak a legutolsó határidőnél későbbre kell esnie: %s.
-exc#:#exc_tbl_submission_date#:#Beküldve ekkor:
-exc#:#exc_tbl_status#:#Értékelve
-exc#:#exc_tbl_status_time#:#Értékelve ekkor:
-exc#:#exc_tbl_mark#:#Osztályozás
+exc#:#exc_tbl_submission_date#:#Beküldés időpontja
+exc#:#exc_tbl_status#:#Értékelés
+exc#:#exc_tbl_status_time#:#Értékelés időpontja
+exc#:#exc_tbl_mark#:#Érdemjegy
 exc#:#exc_tbl_comment#:#Szöveges értékelés
 exc#:#exc_tbl_notice#:#Megjegyzés a tutoroknak
-exc#:#exc_tbl_feedback_time#:#Értékelve ekkor:
-exc#:#exc_tbl_sent_time#:#Értékelés elküldve ekkor:
+exc#:#exc_tbl_feedback_time#:#Szöveges értékelés időpontja
+exc#:#exc_tbl_sent_time#:#Hozzárendelés elküldésének időpontja
 exc#:#exc_tbl_team#:#Csapat
 exc#:#exc_tbl_individual_deadline#:#Egyéni határidő
 exc#:#exc_tbl_action_download_files#:#Beadottak letöltése
@@ -13542,16 +13555,16 @@ exc#:#exc_tbl_action_download_all_files#:#Összes beadott letöltése
 exc#:#exc_tbl_action_download_new_files#:#Új beadottak letöltése
 exc#:#exc_tbl_action_text_assignment_show#:#Beadott megjelenítése
 exc#:#exc_tbl_action_feedback_text#:#Szöveges értékelés írása
-exc#:#exc_tbl_action_feedback_mail#:#Értékelés küldése levélként
-exc#:#exc_tbl_action_feedback_file#:#Értékelés küldése fájlként
+exc#:#exc_tbl_action_feedback_mail#:#Értékelés küldése levélben
+exc#:#exc_tbl_action_feedback_file#:#Értékelés küldése fájlban
 exc#:#exc_tbl_action_team_log#:#Csapatnaplók megjelenítése
 exc#:#exc_tbl_action_peer_review_given#:#Küldött visszajelzés megjelenítése
 exc#:#exc_tbl_action_peer_review_received#:#Kapott visszajelzés megjelenítése
-exc#:#exc_feedback#:#Értékelés
-exc#:#exc_settings_feedback#:#Tutori értékelés
-exc#:#exc_settings_feedback_text#:#Szövegbemenet
-exc#:#exc_settings_feedback_mail#:#Levélként
-exc#:#exc_settings_feedback_file#:#Fájlként
+exc#:#exc_feedback#:#Tutori értékelés
+exc#:#exc_settings_feedback#:#Értékelés
+exc#:#exc_settings_feedback_text#:#Szövegdobozban
+exc#:#exc_settings_feedback_mail#:#Levélben
+exc#:#exc_settings_feedback_file#:#Fájlban
 mem#:#mem_print_view_form#:#Nyomtatási nézet alapértelmezett beállításai
 mem#:#mem_settings_tab_print_view#:#Nyomtatási nézet beállításai
 mem#:#mem_settings_tab_settings#:#Általános beállítások
@@ -13723,6 +13736,7 @@ chatroom#:#chtr_activation_limited_visibility_info#:#Ha be van kapcsolva, a csev
 chatroom#:#chat_osc_subs_rej_msgs#:#Ez a beszélgetés jelenleg nem folytatható. Chat-partnere chat beállításaiban engedélyezni kell a chateket.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Beszélgetésnek alábbi chat-partnerei nem kívánnak több üzenetet kapni: %s
 chatroom#:#chat_osc_self_rej_msgs#:#Jelenleg nem vehet részt ebben a beszélgetésben, mert beállításaiban kikapcsolta, hogy üzeneteket küldhessenek Önnek.
+chatroom#:#chat_osc_search_modal_info#:#Itt keresheti meg a beszélgetéshez hozzáadni kívánt felhasználókat. Ha a keresési ablakot egy csoportos csevegésből nyitották meg, az új felhasználót ahhoz a csoportos csevegéshez adjuk hozzá. Ha keresést egy 1:1 csevegésből indította, egy új csevegőcsoport-ablakot fogunk nyítni. 
 chatroom#:#chtr_server_status#:#Szerverállapot
 chatroom#:#chtr_ban_actor_tbl_head#:#Résztvevő
 chatroom#:#chtr_ban_ts_tbl_head#:#Időbélyeg
@@ -13796,7 +13810,7 @@ pdfgen#:#selected_renderer#:#Kiválasztott renderelő
 pdfgen#:#configure#:#Renderelő beállításai
 pdfgen#:#config_saved#:#Sikeres mentés
 pdfgen#:#config_not_saved#:#Sikertelen mentés
-pdfgen#:#javascript_delay_info#:#PDF fájl tartalmának megjelenítéséhez adjon késletetést, amennyiben az oldal tartalmát JavaScript állítja elő. Általában 200ms elegendő kell, hogy legyen.
+pdfgen#:#javascript_delay_info#:#PDF fájl tartalmának megjelenítéséhez adjon késleltetést, amennyiben az oldal tartalmát JavaScript állítja elő. Általában 200ms elegendő kell, hogy legyen.
 prtf#:#pdf_export#:#PDF export
 pdfgen#:#print_media_type#:#Nyomtató használata képernyő helyett
 pdfgen#:#javascript_delay#:#JavaScript várakozás
@@ -13942,6 +13956,7 @@ content#:#cont_grid_width_l_info#:#Például asztali monitor
 content#:#cont_grid_width_xl#:#Extra nagy
 content#:#cont_grid_width_xl_info#:#Például széles asztali monitor
 content#:#cont_add_cell#:#Oszlop hozzáadása
+content#:#cont_added_cell#:#Az oszlopot sikeresen hozzáadta.
 content#:#cont_ed_delete_cell#:#Oszlop törlése
 content#:#cont_ed_cell_left#:#Balra mozgatás
 content#:#cont_ed_cell_right#:#Jobbra mozgatás
@@ -13969,7 +13984,7 @@ user#:#back_to_starting_points_list#:#Vissza a kiindulási pontokhoz
 exc#:#exc_work_instructions#:#Utasítások a feladat elvégzéséhez
 exc#:#exc_after_submission#:#Beküldés után
 exc#:#exc_schedule#:#Ütemezés
-exc#:#exc_submit_convenience_no_deadline#:#Adja be kénye-kedve szerint. Nincs határidő megadva.
+exc#:#exc_submit_convenience_no_deadline#:#Bármikor beadhatja, nincs határidőhöz kötve.
 exc#:#exc_select_portfolio_unlink#:#Portfólió eltávolítása
 exc#:#exc_sure_unlink_portfolio#:#Biztos, hogy eltávolítja ezt a portfóliót a hozzárendelésből?
 exc#:#exc_portfolio_unlinked_from_assignment#:#A portfóliót sikeresen eltávolította a hozzárendelésből
@@ -14164,7 +14179,7 @@ content#:#cont_sc_name_setting_fullname#:#Titulus, keresztnév és családnév
 content#:#cont_sc_name_setting_salutation_lastname#:#Megszólítás és keresztnév
 content#:#cont_sc_name_setting_first_name#:#Családnév
 content#:#cont_sc_name_setting_no_name#:#nincs név
-dateplaner#:#cal_download_files_started#:#A naptárfájlok letöltése elkezdődött.
+dateplaner#:#cal_download_files_started#:#Az összes elérhető fájlból egy ZIP-fájl készítünk. A bal felül lévő táskaikonra kattintva tudja letülteni.
 poll#:#poll_voting_period_full_info#:#Szavazási időköz: %s → %s
 common#:#usr_name_undisclosed#:#Nem publikus
 common#:#obj_exc_duplicate#:#Feladat másolása
@@ -14189,15 +14204,41 @@ file#:#file_suffix_custom_white#:#Egyénileg engedélyezett kiterjesztések
 file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az engedélyezettekhez.
 file#:#file_suffix_overall_white#:#Engedélyezett kiterjesztések összesítő listája
 file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#A feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük '.sec'-re.
 wiki#:#wiki_change_notification_body_new#:#az alábbi wikioldal jött létre
-assessment#:#tst_answer_aggr_answer_header#:#Answer###29 08 2018 new variable
-assessment#:#tst_answer_aggr_frequency_header#:#Frequency###29 08 2018 new variable
-content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.###29 08 2018 new variable
-mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###29 08 2018 new variable
-mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###29 08 2018 new variable
-cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result###29 08 2018 new variable
-dcl#:#dcl_title_standardview#:#Standard View###29 08 2018 new variable
-chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened. ###29 08 2018 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.###29 08 2018 new variable
-cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.###29 09 2018 new variable
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###29 09 2018 new variable
+mob#:#mob_no_fixed_size_map_editing#:#Térképterület használata előtt adja meg képének méretét. Ha a képét tartalomstílus vagy egyéb CSS szabály átméretezi, a térképterület nem fog illeszkedni.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.###14 02 2019 new variable
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.###14 02 2019 new variable
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.###14 02 2019 new variable
+common#:#salutation_n#:#Not Applicable###14 02 2019 new variable
+form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###14 02 2019 new variable
+forum#:#frm_moderator_n#:#Moderation###14 02 2019 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page###14 02 2019 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###14 02 2019 new variable
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###14 02 2019 new variable
+pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###14 02 2019 new variable
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.###14 02 2019 new variable
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.###14 02 2019 new variable
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Users###14 02 2019 new variable
+survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.###14 02 2019 new variable
+survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###14 02 2019 new variable
+sess#:#sess_material_assigned#:#Assigned###14 02 2019 new variable
+sess#:#sess_material_not_assigned#:#Not Assigned###14 02 2019 new variable
+rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment###14 02 2019 new variable
+rbac#:#lso_read#:#Users can access the Learning Sequence###14 02 2019 new variable
+rbac#:#lso_manage_members#:#Manage members of Learning Sequence###14 02 2019 new variable
+rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence###14 02 2019 new variable
+common#:#unparticipate#:#Unsubscribe###14 02 2019 new variable
+common#:#participate#:#Subscribe###14 02 2019 new variable
+rbac#:#lso_participate#:#User can subscribe to a Learning Sequence###14 02 2019 new variable
+rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence###14 02 2019 new variable
+rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
+rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
+user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###14 02 2019 new variable
+user#:#msg_spoint_not_modified#:#Starting point not modified###14 02 2019 new variable
+lti#:#lti_cron_title#:#LTI Outcome Service###14 02 2019 new variable
+lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###14 02 2019 new variable
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
+common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
+skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable

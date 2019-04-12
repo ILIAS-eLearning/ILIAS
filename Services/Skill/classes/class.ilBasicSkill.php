@@ -685,6 +685,25 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 		return $changed;
 	}
 
+	/**
+	 * Remove all data of a user
+	 *
+	 * @param int $a_user_id
+	 */
+	static function removeAllUserData($a_user_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$db->manipulate("DELETE FROM skl_user_skill_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+		);
+		$db->manipulate("DELETE FROM skl_user_has_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+		);
+	}
+
 
 	/**
 	 * Get max levels per type
@@ -833,6 +852,46 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 		}
 		return $max_level;
 	}
+
+	/**
+	 * Get max levels per object
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMaxLevel($a_tref_id, $a_user_id = 0, $a_self_eval = 0)
+	{
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
+			" WHERE skill_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
+		);
+
+		$has_level = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$has_level[$rec["level_id"]] = true;
+		}
+		$max_level = 0;
+		foreach ($this->getLevelData() as $l)
+		{
+			if (isset($has_level[$l["id"]]))
+			{
+				$max_level = $l["id"];
+			}
+		}
+		return $max_level;
+	}
+
 
 	/**
 	 * Has use self evaluated a skill?

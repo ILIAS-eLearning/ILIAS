@@ -394,7 +394,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 	 * 
 	 * @return array $answerOptionsByAnswerIndex
 	 */
-	protected function getAnswerOptionsByAnswerIndex()
+	public function getAnswerOptionsByAnswerIndex()
 	{
 		return $this->questionOBJ->getAnswers();
 	}

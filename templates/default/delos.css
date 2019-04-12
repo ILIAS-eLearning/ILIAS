@@ -7846,7 +7846,9 @@ hr.il-divider-with-label {
   background-image: url("images/icon_iass.svg");
 }
 .il-viewcontrol-mode .ilSubmitInactive,
-.il-viewcontrol-mode .ilSubmitInactive:hover {
+.il-viewcontrol-section .ilSubmitInactive,
+.il-viewcontrol-mode .ilSubmitInactive:hover,
+.il-viewcontrol-section .ilSubmitInactive:hover {
   background-color: #557196;
   color: white;
   border-color: transparent;
@@ -9413,6 +9415,11 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
     width: 24px;
   }
 }
+div.ilPermanentLinkWrapper .ilPermalinkContainer > input,
+div.ilPermanentLinkWrapper .ilPermalinkContainer .btn-group {
+  z-index: 0;
+  /* see bug #24567 */
+}
 div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
   width: 28px;
 }
@@ -9488,6 +9495,11 @@ footer.ilFooter .ilPermalinkContainer > label {
   border: 1px dashed grey;
   padding: 10px;
   margin-top: 25px;
+}
+@media only screen and (max-width: 767px) {
+  #devmodeBlock {
+    position: absolute;
+  }
 }
 @media only screen and (max-width: 767px) {
   #devmodeBlock table {
@@ -10656,6 +10668,11 @@ a.mailunread:visited {
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;
 }
+.ilMailAvatar {
+  min-width: 45px !important;
+  max-width: 45px !important;
+  height: auto;
+}
 /* --- Services/COPage ---*/
 a.ilEditSubmit {
   background: url("images/ButtonsBack.png") repeat-x bottom white;
@@ -11617,7 +11634,7 @@ li.ilWikiBlockItem {
     margin: 0 10px 0 0;
     padding: 5px 10px 6px;
     border-top: 0;
-    color: #5d5d5d;
+    color: #808080;
   }
 }
 #ilTopNav .navbar-nav > li > a:hover,
@@ -12253,12 +12270,6 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
-@media (max-width: 767px) {
-  .table-responsive .dropdown-menu,
-  .table-responsive .dropdown-toggle {
-    position: static !important;
-  }
-}
 @media (min-width: 768px) {
   .table-responsive {
     overflow: visible;
@@ -12847,6 +12858,12 @@ div.ilProfile {
   background-color: #f6f6f6;
   border: 1px solid #d0d5ea;
   padding: 15px;
+}
+div.ilProfile + div.ilPermalinkContainer {
+  margin-top: 20px;
+}
+div.ilProfile + div.ilPermalinkContainer .input-group-btn {
+  vertical-align: bottom;
 }
 h3.ilProfileName {
   margin: 0 0 10px;
@@ -14486,6 +14503,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 [data-onscreenchat-inact-userid] {
   opacity: .3 !important;
 }
+.ilOnScreenChatWindowHeaderTooltip ul {
+  text-align: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 #onscreenchat-container {
   position: fixed;
   bottom: 0;
@@ -14789,6 +14812,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   overflow-x: hidden;
   color: #606060;
 }
+.ilOnScreenChatMenuItem .media-body p.lastMessage img {
+  max-width: 15px;
+  max-height: 15px;
+}
 .ilOnScreenChatMenuItem .media-body p a {
   color: #557196 !important;
 }
@@ -14824,6 +14851,11 @@ div.ilBadgeBackpackPanelContent img {
 span.ilProfileBadge {
   display: inline-block;
   padding: 5px;
+}
+span.ilProfileBadge a {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
 }
 /*!
  * Datetimepicker for Bootstrap 3

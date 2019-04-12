@@ -191,11 +191,24 @@ abstract class ilExcCriteria
 		return $this->def;
 	}
 	
-	public function importDefinition($a_def)
+	public function importDefinition($a_def, $a_def_json)
 	{
-		if($a_def)
+		// see #23711
+		// use json, if given
+		if ($a_def_json != "")
 		{
-			$a_def = @unserialize($a_def);
+			$def = json_decode($a_def_json, true);
+			if (is_array($def))
+			{
+				$this->setDefinition($def);
+			}
+			return;
+		}
+
+		// use unserialize only if php > 7
+		if ($a_def != "" && version_compare(PHP_VERSION, '7.0.0') >= 0)
+		{
+			$a_def = @unserialize($a_def, false);
 			if(is_array($a_def))
 			{
 				$this->setDefinition($a_def);

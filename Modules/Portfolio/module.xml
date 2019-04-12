@@ -37,4 +37,7 @@
 	<pdfpurposes>
 		<pdfpurpose name="ContentExport" preferred="PhantomJS" />
 	</pdfpurposes>
+	<events>
+		<event type="listen" id="Services/Object" />
+	</events>
 </module>

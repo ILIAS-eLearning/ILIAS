@@ -84,7 +84,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 			$position = $point['position'];
 			$sp_text = $valid_points[$starting_point];
 
-			if($starting_point == ilUserUtil::START_REPOSITORY_OBJ)
+			if($starting_point == ilUserUtil::START_REPOSITORY_OBJ && $point['starting_object'])
 			{
 				$object_id = ilObject::_lookupObjId($point['starting_object']);
 				$type = $dc->lookupType($object_id);

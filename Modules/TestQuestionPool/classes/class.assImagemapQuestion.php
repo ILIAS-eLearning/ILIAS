@@ -692,7 +692,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
 		$solutionData = $previewSession->getParticipantsSolution();
-		return $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
+
+		$reachedPoints = $this->calculateReachedPointsForSolution(is_array($solutionData) ? array_values($solutionData) : array());
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 
 	public function isAutosaveable()
@@ -902,14 +906,19 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$worksheet->setCell($startrow + $i, 0, $answer->getArea() . ": " . $answer->getCoords());
 			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-			if ($id == $solution[0]["value1"])
+			
+			$cellValue = 0;
+			foreach($solution as $solIndex => $sol)
 			{
-				$worksheet->setCell($startrow + $i, 1, 1);
+				if( $sol['value1'] == $id )
+				{
+					$cellValue = 1;
+					break;
+				}
 			}
-			else
-			{
-				$worksheet->setCell($startrow + $i, 1, 0);
-			}
+			
+			$worksheet->setCell($startrow + $i, 1, $cellValue);
+
 			$i++;
 		}
 

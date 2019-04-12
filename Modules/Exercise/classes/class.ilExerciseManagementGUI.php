@@ -404,6 +404,7 @@ class ilExerciseManagementGUI
 	
 	function membersApplyObject()
 	{
+		$this->saveStatusAllObject(null, false);
 		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
 		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());		
 		$exc_tab->resetOffset();
@@ -1008,7 +1009,8 @@ class ilExerciseManagementGUI
 		$this->saveStatus($data);
 	}
 	
-	function saveStatusAllObject(array $a_selected = null)
+
+	function saveStatusAllObject(array $a_selected = null, $a_redirect = true)
 	{
 		$user_ids = (array) array_keys((array) $_POST['id']);
 		$filtered_user_ids = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -1021,26 +1023,26 @@ class ilExerciseManagementGUI
 		$data = array();
 		foreach($filtered_user_ids as $user_id)
 		{
-			if(is_array($a_selected) &&
+			if (is_array($a_selected) &&
 				!in_array($user_id, $a_selected))
 			{
 				continue;
-			}	
-			
+			}
+
 			$data[-1][$user_id] = array(
-				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])						
+				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])
 			);
-			
-			if(array_key_exists("mark", $_POST))
+
+			if (array_key_exists("mark", $_POST))
 			{
 				$data[-1][$user_id]["mark"] = ilUtil::stripSlashes($_POST["mark"][$user_id]);
-			}			
-			if(array_key_exists("notice", $_POST))
+			}
+			if (array_key_exists("notice", $_POST))
 			{
 				$data[-1][$user_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$user_id]);
 			}
 		}
-		$this->saveStatus($data);
+		$this->saveStatus($data, $a_redirect);
 	}
 	
 	function saveStatusSelectedObject()
@@ -1060,7 +1062,7 @@ class ilExerciseManagementGUI
 	/**
 	 * Save status of selecte members 
 	 */
-	protected function saveStatus(array $a_data)
+	protected function saveStatus(array $a_data, $a_redirect = true)
 	{
 		$ilCtrl = $this->ctrl;
 				
@@ -1107,9 +1109,12 @@ class ilExerciseManagementGUI
 		{
 			$save_for_str = "(".implode($saved_for, " - ").")";
 		}
-		
-		ilUtil::sendSuccess($this->lng->txt("exc_status_saved")." ".$save_for_str, true);		
-		$ilCtrl->redirect($this, $this->getViewBack());	
+
+		if ($a_redirect)
+		{
+			ilUtil::sendSuccess($this->lng->txt("exc_status_saved") . " " . $save_for_str, true);
+			$ilCtrl->redirect($this, $this->getViewBack());
+		}
 	}
 
 	/**

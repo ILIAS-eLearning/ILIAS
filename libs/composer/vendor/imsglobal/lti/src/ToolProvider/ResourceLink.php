@@ -282,7 +282,9 @@ class ResourceLink
     {
 
         if (is_null($this->consumer)) {
-            if (!is_null($this->context) || !is_null($this->contextId)) {
+        	// begin-patch ilias
+            #if (!is_null($this->context) || !is_null($this->contextId)) {
+			if($this->context || $this->contextId) {
                 $this->consumer = $this->getContext()->getConsumer();
             } else {
                 $this->consumer = ToolConsumer::fromRecordId($this->consumerId, $this->getDataConnector());
@@ -1026,7 +1028,6 @@ EOF;
  */
     public static function fromRecordId($id, $dataConnector)
     {
-
         $resourceLink = new ResourceLink();
         $resourceLink->dataConnector = $dataConnector;
         $resourceLink->load($id);

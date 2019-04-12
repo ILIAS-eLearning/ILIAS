@@ -320,7 +320,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	protected function isInWorkspace()
 	{
-		return stristr(get_class($this->access_handler), "workspace");
+		$class = '';
+		if (is_object($this->access_handler)) {
+			$class = get_class($this->access_handler);
+		}
+
+		return stristr($class, "workspace");
 	}
 
 	/**
@@ -608,9 +613,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function deactivatePage($a_to_list = false)
 	{
-		$this->getBlogPosting()->setApproved(false);
-		$this->getBlogPosting()->setActive(false);
-		$this->getBlogPosting()->update(true, false, false);
+		$this->getBlogPosting()->unpublish();
+
 		if(!$a_to_list)
 		{
 			$this->ctrl->redirect($this, "edit");

@@ -2868,7 +2868,21 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->getContainerObject(), "type", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "active_node", "");
-			$cmd = $_GET["cmd"] == "enableMultiDownload" ? "render" : "enableMultiDownload";
+			// bugfix mantis 24559
+			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+			// as they don't have the possibility to use the multi-download-capability of the manage-tab
+			$user_id = $this->user->getId();
+			$hasAdminAccess = $this->access->checkAccessOfUser($user_id, "crs_admin", $this->ctrl->getCmd(), $_GET['ref_id']);
+			// to still prevent duplicate download functions for admins the following if-else statement keeps the redirection for admins
+			// while letting other course members access the original multi-download functionality
+			if($hasAdminAccess)
+			{
+				$cmd = $_GET["cmd"] == "enableAdministrationPanel" ? "render" : "enableAdministrationPanel";
+			}
+			else
+			{
+				$cmd = $_GET["cmd"] == "enableMultiDownload" ? "render" : "enableMultiDownload";
+			}
 			$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), $cmd);
 			$this->insertCommand($cmd_link, $this->lng->txt("download_multiple_objects"));
 			return true;

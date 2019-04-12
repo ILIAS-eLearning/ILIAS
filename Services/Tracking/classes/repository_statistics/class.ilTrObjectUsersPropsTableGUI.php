@@ -275,7 +275,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 				case "gender":
 					$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
-					$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
+					$item->setOptions(array(
+						"" => $lng->txt("trac_all"),
+						"n" => $lng->txt("gender_n"),
+						"m" => $lng->txt("gender_m"),
+						"f" => $lng->txt("gender_f"),
+					));
 					$this->filter["gender"] = $item->getValue();
 					break;
 

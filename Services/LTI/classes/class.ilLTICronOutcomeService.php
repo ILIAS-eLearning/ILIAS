@@ -15,36 +15,84 @@ class ilLTICronOutcomeService extends ilCronJob
 	 */
 	public function getDefaultScheduleType()
 	{
-		return self::SCHEDULE_TYPE_IN_MINUTES;
+		return self::SCHEDULE_TYPE_DAILY;
 	}
 
 	/**
-	 * return int
+	 * @inheritdoc
 	 */
 	public function getDefaultScheduleValue()
 	{
-		return 5;
+		return 1;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getId()
 	{
 		return 'lti_outcome';
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function hasAutoActivation()
 	{
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function hasFlexibleSchedule()
 	{
 		return true;
 	}
 
-	public function run()
+	/**
+	 * @return string
+	 */
+	public function getTitle()
 	{
-		
+		global $DIC;
+		$DIC->language()->loadLanguageModule('lti');
+		return $DIC->language()->txt('lti_cron_title');
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		global $DIC;
+		$DIC->language()->loadLanguageModule('lti');
+		return $DIC->language()->txt('lti_cron_title_desc');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function run()
+	{
+		global $DIC;
+
+		$status = \ilCronJobResult::STATUS_NO_ACTION;
+
+		$info = ilCronManager::getCronJobData($this->getId());
+		$last_ts = $info['job_status_ts'];
+		if(!$last_ts)
+		{
+			$last_ts = time() - 24 * 7 * 3600;
+		}
+		$since = new ilDateTime($last_ts,IL_CAL_UNIX);
+
+
+		$result = new \ilCronJobResult();
+		$result->setStatus($status);
+		ilLTIAppEventListener::handleCronUpdate($since);
+		$result->setStatus(ilCronJobResult::STATUS_OK);
+
+		return $result;
+	}
 }
-?>

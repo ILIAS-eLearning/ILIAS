@@ -525,6 +525,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function getContentGUI()
 	{
+		$courseTimingView = -1;
+		if (defined('IL_CRS_VIEW_TIMING')) {
+			$courseTimingView = IL_CRS_VIEW_TIMING;
+		}
+
 		switch ($this->object->getViewMode())
 		{
 			// all items in one block
@@ -540,7 +545,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			// all items in one block
 			case ilContainer::VIEW_SESSIONS:
-			case IL_CRS_VIEW_TIMING:			// not nice this workaround
+			case $courseTimingView: // not nice this workaround
 				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
@@ -787,13 +792,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
+			// bugfix mantis 24559
+			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+			// as they don't have the possibility to use the multi-download-capability of the manage-tab
 			else if ($this->isMultiDownloadEnabled())
 			{
 				// bugfix mantis 0021272
-				$children_of_type_file = $this->getAllNestedFiles($_GET['ref_id']);
-				// Check if there are any files and therefore downloadable objects.
-				// In case that there are no downloadable objects the download button mustn't be displayed (see mantis 0021272)
-				if(count($children_of_type_file) != 0)
+				$ref_id = $_GET['ref_id'];
+				$num_files = $this->tree->getChildsByType($ref_id, "file");
+				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
+				if(count($num_files) > 0 OR count($num_folders) > 0)
 				{
 					// #11843
 					$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
@@ -818,69 +826,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
 				}
-			}		
-		}
-	}
-
-	/**
-	 * Get all files that are nested in the category whose ref_id is passed to this function or are nested in its subcategories
-	 * Required for fixing mantis bug 0021272
-	 * @param   int     $ref_id
-	 * @return  array
-	 */
-	private function getAllNestedFiles($ref_id) {
-		$files = array();
-		// get sibling files
-		$sibling_files = $this->tree->getChildsByType($ref_id, "file");
-		// add sibling files to file array
-		foreach ($sibling_files as $sibling_course)
-		{
-			array_push($files, $sibling_course);
-		}
-		// get child files (nested inside directories)
-		$categories = $this->getAllNestedCategories($ref_id);
-		foreach ($categories as $category)
-		{
-			$category_ref_id = $category["ref_id"];
-			$nested_files = $this->tree->getChildsByType($category_ref_id, "file");
-			// add nested files to file array
-			foreach ($nested_files as $nested_course)
-			{
-				array_push($files, $nested_course);
 			}
 		}
-		return $files;
-	}
-
-	/*
-	 * Get all categories that are nested in the category whose ref_id is passed to this function or are nested in its subcategories
-	 * Required for fixing mantis bug 0021272
-	 * @param   int     $ref_id
-	 * @return  array
-	 */
-	function getAllNestedCategories($ref_id)
-	{
-		$categories = $this->tree->getChildsByType($ref_id, "cat");
-		// outsourcing to a variable to enable increasing the value when elements are added during iteration
-		$num_categories = count($categories);
-		// using a for loop instead of a foreach loop to enable adding elements during iteration by increasing the comparison value (num_categories)
-		for ($i = 0; $i < $num_categories; $i ++)
-		{
-			$category_ref_id = $categories[$i]["ref_id"];
-			// determining if there are categories directly nested within the current category
-			$new_categories = $this->tree->getChildsByType($category_ref_id, "cat");
-			if ($new_categories != NULL)
-			{
-				foreach ($new_categories as $new_category)
-				{
-					// adding the newly found categories to the end of the array so that they may be searched for directly nested categories too
-					array_push($categories, $new_category);
-					// recounting the amount of elements in the category array so that the iteration can continue despite elements being added
-					$num_categories = count($categories);
-				}
-			}
-		}
-		return $categories;
 	}
 
 	function __showTimingsButton(&$tpl)
@@ -1531,13 +1478,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
+
+	// bugfix mantis 24559
+	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+	// as they don't have the possibility to use the multi-download-capability of the manage-tab
 	function enableMultiDownloadObject()
 	{
 		$this->multi_download_enabled = true;
 		$this->renderObject();
 	}
-	
+
 	function isMultiDownloadEnabled()
 	{
 		return $this->multi_download_enabled;
@@ -1715,7 +1665,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
-		if (count($no_copy))
+		if (is_array($no_copy) && count($no_copy))
 		{
 			$titles = array();
 			foreach((array) $no_copy as $copy_id)

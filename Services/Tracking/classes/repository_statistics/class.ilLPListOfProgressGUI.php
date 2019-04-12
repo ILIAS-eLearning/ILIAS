@@ -119,9 +119,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($this->details_obj_id);	
 		$collection = $olp->getCollectionInstance();
+		$obj_ids = array();
 		if($collection)
-		{			
-			$obj_ids = array();
+		{
 			foreach($collection->getItems() as $item_id)
 			{
 				if($collection instanceof ilLPCollectionOfRepositoryObjects)
@@ -139,7 +139,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		}
 		
 		// #15247
-		if(sizeof($obj_ids))
+		if(count($obj_ids) > 0)
 		{
 			// seems obsolete
 			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';

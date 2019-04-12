@@ -1833,6 +1833,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $DIC;
 
+		$objDefinition = $DIC['objDefinition'];
+
 		$tree = $DIC->repositoryTree();
 		$ctrl = $DIC->ctrl();
 
@@ -1840,9 +1842,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		// #11650
 		$parent_type = ilObject::_lookupType($parent_id, true);
-		$parent_class = ($parent_type == "grp")
-			? "ilObjGroupGUI"
-			: "ilObjCourseGUI";
+
+		$parent_class = $objDefinition->getClassName($parent_type);
+		$parent_class = 'ilObj'.$parent_class.'GUI';
 
 		$ctrl->setParameterByClass($parent_class, "ref_id", $parent_id);
 		$ctrl->redirectByClass($parent_class, "view");

@@ -45,8 +45,10 @@ class ilSoapUtils extends ilSoapAdministration
 		$this->soap_check = false;		
 	}
 	
-	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
+	function sendMail($sid,$to,$cc,$bcc,$senderId,$subject,$message,$attach)
 	{
+		global $DIC;
+
 		$this->initAuth($sid);
 		$this->initIlias();
 
@@ -58,16 +60,12 @@ class ilSoapUtils extends ilSoapAdministration
 		/** @var ilMailMimeSenderFactory $senderFactory */
 		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
-		if(is_numeric($sender))
-		{
-			$sender = $senderFactory->getSenderByUsrId($sender);
-		}
-		else
-		{
-			$sender = $senderFactory->userByEmailAddress($sender);
+		if (is_numeric($senderId)) {
+			$sender = $senderFactory->getSenderByUsrId($senderId);
+		} else {
+			$sender = $senderFactory->userByEmailAddress($senderId);
 		}
 
-		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
 		$mmail->From($sender);
 		$mmail->To(explode(',',$to));
@@ -83,31 +81,53 @@ class ilSoapUtils extends ilSoapAdministration
 		{
 			$mmail->Bcc(explode(',',$bcc));
 		}
-		if($attach)
-		{
+
+		if ($attach) {
+			$authUserFileData = new \ilFileDataMail($DIC->user()->getId());
+			$anonymousFileData = new \ilFileDataMail(ANONYMOUS_USER_ID);
+
 			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
 			// for backward compatibility we have to check if the substring "#:#" exists as leading separator
 			// otherwise we should use ";" 
-			if(strpos($attach, '#:#') === 0)
-			{
-				$attach = substr($attach, strlen('#:#'));
-				$attachments = explode('#:#', $attach);	
-			}
-			else
-			{
+			if (strpos($attach, '#:#') === 0) {
+				$attach      = substr($attach, strlen('#:#'));
+				$attachments = explode('#:#', $attach);
+			} else {
 				$attachments = explode(',', $attach);
 			}
 
-			foreach($attachments as $attachment)
-			{
+			foreach ($attachments as $attachment) {
 				$final_filename = null;
 				$filename       = basename($attachment);
-				if(strlen($filename) > 0)
-				{
+				if (strlen($filename) > 0) {
 					// #17740
 					$final_filename = preg_replace('/^(\d+?_)(.*)/', '$2', $filename);
 				}
-				$mmail->Attach($attachment, '', 'inline', $final_filename);
+
+				$allowedPathPrefixes = [
+					$authUserFileData->getAbsoluteAttachmentPoolPathPrefix()
+				];
+
+				if (is_numeric($senderId) && $senderId == ANONYMOUS_USER_ID) {
+					$allowedPathPrefixes[] = $anonymousFileData->getAbsoluteAttachmentPoolPathPrefix();
+				}
+
+				$absoluteAttachmentPath = realpath($attachment);
+
+				$matchedPathPrefixes = array_filter($allowedPathPrefixes, function($path) use ($absoluteAttachmentPath) {
+					return strpos($absoluteAttachmentPath, $path) === 0;
+				});
+
+				if (count($matchedPathPrefixes) > 0) {
+					$mmail->Attach($attachment, '', 'inline', $final_filename);
+					$DIC->logger()->mail()->debug(sprintf("Accepted attachment: %s", $attachment));
+				} else {
+					$DIC->logger()->mail()->warning(sprintf(
+						"Ignored attachment when sending message via SOAP: Given path '%s' is not in allowed prefix list: %s",
+						$absoluteAttachmentPath,
+						implode(', ', $allowedPathPrefixes)
+					));
+				}
 			}
 		}
 
