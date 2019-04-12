@@ -667,7 +667,7 @@ class ilTemplate extends HTML_Template_ITX
 	 		}
 	 		else if(is_object($lng))
 	 		{
-		 		$contentLanguage = $lng->getDefaultLanguage();
+		 		$contentLanguage = $lng->getLangKey();
 	 		}
 	 	}
  		$this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
