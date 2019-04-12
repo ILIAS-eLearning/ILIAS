@@ -15,13 +15,21 @@ use ILIAS\UI;
  */
 interface Goal {
 	/**
+	 * Get a hash for this goal.
+	 *
+	 * The hash of two goals must be the same, if they are the same goal, with
+	 * the same config on the same environment, i.e. if the one is achieved the
+	 * other is achieved as well because they are the same.
+	 */
+	public function getHash() : string;
+
+	/**
 	 * An identifier for the type of goal.
 	 *
 	 * Types are used to group goals that share a configuration. For many goals
 	 * return the class name will be fine.
 	 */
 	public function getType() : string;
-
 
 	/**
 	 * Get a label that describes this goal.

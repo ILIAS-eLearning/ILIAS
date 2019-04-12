@@ -10,11 +10,17 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 	protected function newGoal() {
 		static $no = 0;
 
-		return $this
+		$goal = $this
 			->getMockBuilder(Setup\Goal::class)
-			->setMethods(["getType", "getLabel", "isNotable", "withConfiguration", "getDefaultConfiguration", "withResourcesFrom", "getConfigurationInput", "getPreconditions", "achieve"])
+			->setMethods(["getHash", "getType", "getLabel", "isNotable", "withConfiguration", "getDefaultConfiguration", "withResourcesFrom", "getConfigurationInput", "getPreconditions", "achieve"])
 			->setMockClassName("Mock_GoalNo".($no++))
 			->getMock();
+
+		$goal
+			->method("getHash")
+			->willReturn("".$no);
+
+		return $goal;
 	}
 
 	public function testBasicAlgorithm() {
@@ -96,7 +102,6 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$type = "TYPE";
 
-
 		$configuration_loader
 			->method("loadConfigurationFor")
 			->with($type)
@@ -120,8 +125,59 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$runner = new Setup\Runner($environment, $configuration_loader, $goal1);
 
-		$expected = array_map("spl_object_hash", [$goal11, $goal121, $goal12, $goal1]);
-		$result = array_map("spl_object_hash", iterator_to_array($runner->allGoals()));
+		$f = function($g) { return $g->getHash(); };
+		$expected = array_map($f, [$goal11, $goal121, $goal12, $goal1]);
+		$result = array_map($f, iterator_to_array($runner->allGoals()));
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testAllGoalsOnlyReturnsGoalOnce() {
+		$goal1 = $this->newGoal();
+		$goal11 = $this->newGoal();
+
+		$goal1
+			->method("getPreconditions")
+			->will(
+				$this->onConsecutiveCalls([$goal11, $goal11], [])
+			);
+
+		$goal11
+			->method("getPreconditions")
+			->willReturn([]);
+
+		$config = $this->createMock(Setup\Config::class);
+		$configuration_loader = $this->createMock(Setup\ConfigurationLoader::class);
+		$environment = $this->createMock(Setup\Environment::class);
+
+		$type = "TYPE";
+
+		$configuration_loader
+			->method("loadConfigurationFor")
+			->with($type)
+			->willReturn($config);
+
+		foreach([$goal1, $goal11] as $goal) {
+			$goal
+				->method("getType")
+				->willReturn($type);
+			$goal
+				->expects($this->atLeastOnce())
+				->method("withResourcesFrom")
+				->with($environment)
+				->willReturn($goal);
+			$goal
+				->expects($this->atLeastOnce())
+				->method("withConfiguration")
+				->with($config)
+				->willReturn($goal);
+		}
+
+		$runner = new Setup\Runner($environment, $configuration_loader, $goal1);
+
+		$f = function($g) { return $g->getHash(); };
+		$expected = array_map($f, [$goal11, $goal1]);
+		$result = array_map($f, iterator_to_array($runner->allGoals()));
 
 		$this->assertEquals($expected, $result);
 	}
