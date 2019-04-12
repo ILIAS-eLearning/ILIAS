@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateBackgroundImageUploadTest extends PHPUnit_Framework_TestCase
+class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
 {
 	public function testFileCanBeUploaded()
 	{

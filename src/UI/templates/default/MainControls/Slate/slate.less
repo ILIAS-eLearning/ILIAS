@@ -1,0 +1,106 @@
+// slates
+.il-maincontrols-slate {
+	&.engaged {
+	}
+	&.disengaged {
+		display:none;
+	}
+	.btn-bulky {
+		align-items: center;
+		background-color: @il-slate-bulky-bg-color;
+		display: flex;
+		margin-bottom: @il-slate-content-spacing;
+		padding: @il-slate-bulky-padding;
+		&.disengaged:before {
+				content: " \e606";
+				font-family: "il-icons";
+				font-size: 2.1rem;
+				margin-right: 10px;
+		}
+		&.engaged:before {
+				content: " \e604";
+				font-family: "il-icons";
+				font-size: 2.1rem;
+				margin-right: 10px;
+		}
+		&:hover,
+		&.engaged {
+			background-color: @il-slate-bulky-bg-color-engaged;
+		    border-color: #e0e0e0;
+		    color: inherit;
+		}
+		.icon {
+			filter: invert(50%);
+			margin-right: @il-slate-bulky-icon-margin-right;
+		}
+		.bulky-label {
+			font-size: @il-slate-bulky-label-size;
+		}
+	}
+	.il-maincontrols-slate .btn-bulky {
+		background-color: @il-slate-bulky-level2-bg-color;
+	}
+}
+
+.il-maincontrols-slate-overflow {
+	min-height: 0;
+}
+
+.il-maincontrols-slate-content {
+	p, h1, h2, h3, h4 {
+		padding: @il-slate-content-padding;
+	}
+}
+
+.il-maincontrols-slate-close,
+.il-maincontrols-slate-back {
+	button {
+		background-color: transparent;
+	}
+}
+
+.il-maincontrols-slate-back {
+	display: none;
+	&.active {
+		display: block;
+	}
+	button {
+		width: 100%;
+		text-align: left;
+		padding: 30px 0 10px 20px;
+	}
+}
+
+// close slate
+.il-maincontrols-slate-close {
+	width: 100%;
+	border-bottom: 1px solid #eee;
+	border-top: 1px solid #eee;
+	height: 50px;
+	margin-top: auto;
+	bottom: 0;
+	position: sticky;
+	.bulky-label {
+		display: none;
+	}
+	.btn-bulky {
+		background-color: #fff;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		text-align: right;
+		.glyph {
+			padding-right: 20px;
+		}
+		&.engaged {
+			background-color: #fff;
+			border: 0;
+		}
+		&:active,
+		&:focus,
+		 {
+			outline: none;
+		}
+	}
+}

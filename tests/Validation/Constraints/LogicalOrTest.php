@@ -6,12 +6,13 @@ require_once 'libs/composer/vendor/autoload.php';
 use ILIAS\Data;
 use ILIAS\Validation;
 use ILIAS\Validation\Constraints\LogicalOr;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class LogicalOrTest
  * @author  Michael Jansen <mjansen@databay.de>
  */
-class LogicalOrTest extends \PHPUnit_Framework_TestCase
+class LogicalOrTest extends TestCase
 {
 	/**
 	 * @dataProvider constraintsProvider
@@ -62,7 +63,7 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
 	public function testProblemWith(LogicalOr $constraint, $okValue, $errorValue)
 	{
 		$this->assertNull($constraint->problemWith($okValue));
-		$this->assertInternalType('string', $constraint->problemWith($errorValue));
+		$this->assertIsString($constraint->problemWith($errorValue));
 	}
 
 	/**

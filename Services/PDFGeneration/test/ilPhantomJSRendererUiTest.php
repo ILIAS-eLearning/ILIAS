@@ -1,28 +1,29 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ .'/../classes/renderer/phantomjs/class.ilPhantomJSRenderer.php';
-require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-require_once 'Services/Form/classes/class.ilFormSectionHeaderGUI.php';
-require_once 'Services/Language/classes/class.ilLanguage.php';
-require_once 'libs/composer/vendor/pimple/pimple/src/Pimple/Container.php';
-require_once 'src/DI/Container.php';
-$GLOBALS["DIC"] = new \ILIAS\DI\Container();
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilPhantomJSRendererUiTest
  * @package ilPdfGenerator
  */
-class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
+class ilPhantomJSRendererUiTest  extends TestCase
 {
 
 	protected $lng;
 
 	protected $form;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
+		$GLOBALS["DIC"] = new \ILIAS\DI\Container();
+
+		$this->lng = $this->getMockBuilder('ilLanguage')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->lng->method('txt')
+			->will($this->returnArgument(0));
+
 		$this->form = new ilPhantomJSRenderer(true);
 		$this->callMethod($this->form, 'setLanguage', array($this->lng));
 		$this->setGlobalVariable('lng', $this->lng);
@@ -42,17 +43,6 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 		$DIC[$name] = function ($c) use ($name) {
 			return $GLOBALS[$name];
 		};
-	}
-	/**
-	 * ilPhantomJSRenderer constructor.
-	 */
-	public function __construct()
-	{
-		$this->lng = $this->getMockBuilder('ilLanguage')
-						  ->disableOriginalConstructor()
-						  ->getMock();
-		$this->lng->method('txt')
-				  ->will($this->returnArgument(0));
 	}
 
 	protected static function getMethod($name) {

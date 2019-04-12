@@ -15,6 +15,10 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	const F_TABLE_ONLY_ACTIVE_VALUE = 2;
 	const F_TABLE_ONLY_INACTIVE_VALUE = 3;
 	/**
+	 * @var ilObjMainMenuAccess
+	 */
+	private $access;
+	/**
 	 * @var array
 	 */
 	private $filter;
@@ -30,7 +34,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 	 * @param ilMMSubItemGUI     $a_parent_obj
 	 * @param ilMMItemRepository $item_repository
 	 */
-	public function __construct(ilMMSubItemGUI $a_parent_obj, ilMMItemRepository $item_repository) {
+	public function __construct(ilMMSubItemGUI $a_parent_obj, ilMMItemRepository $item_repository, ilObjMainMenuAccess $access) {
+		$this->access = $access;
 		$this->setId(self::class);
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
@@ -40,7 +45,9 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->addFilterItems();
 		$this->setData($this->resolveData());
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
-		$this->addCommandButton(ilMMSubItemGUI::CMD_SAVE_TABLE, $this->lng->txt('button_save'));
+		if ($this->access->hasUserPermissionTo('write')) {
+			$this->addCommandButton(ilMMSubItemGUI::CMD_SAVE_TABLE, $this->lng->txt('button_save'));
+		}
 		$this->initColumns();
 		$this->setRowTemplate('tpl.sub_items.html', 'Services/MainMenu');
 	}
@@ -125,23 +132,25 @@ class ilMMSubItemTableGUI extends ilTable2GUI {
 		$this->ctrl->setParameterByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::IDENTIFIER, $this->hash($a_set['identification']));
 		$this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $this->hash($a_set['identification']));
 
-		$items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT));
-		$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
+		if ($this->access->hasUserPermissionTo('write')) {
+			$items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT));
+			$items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
 
-		$rendered_modal = "";
-		if ($item_facade->isCustom()) {
-			$ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
-			$action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
-			$m = $factory->modal()
-				->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
-				->withAffectedItems([$ditem]);
+			$rendered_modal = "";
+			if ($item_facade->isCustom()) {
+				$ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+				$action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
+				$m = $factory->modal()
+					->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
+					->withAffectedItems([$ditem]);
 
-			$items[] = $shy = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), "")->withOnClick($m->getShowSignal());
-			// $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CONFIRM_DELETE));
-			$rendered_modal = $renderer->render([$m]);
+				$items[] = $shy = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), "")->withOnClick($m->getShowSignal());
+				// $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CONFIRM_DELETE));
+				$rendered_modal = $renderer->render([$m]);
+			}
+
+			$this->tpl->setVariable('ACTIONS', $rendered_modal . $renderer->render([$factory->dropdown()->standard($items)->withLabel($this->lng->txt('sub_actions'))]));
 		}
-
-		$this->tpl->setVariable('ACTIONS', $rendered_modal . $renderer->render([$factory->dropdown()->standard($items)->withLabel($this->lng->txt('sub_actions'))]));
 	}
 
 

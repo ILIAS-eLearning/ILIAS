@@ -7,6 +7,7 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/Renderer/ilIndependentTemplate.php");
 require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -18,6 +19,7 @@ use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Factory;
+use PHPUnit\Framework\TestCase;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
 	public function getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks) {
@@ -49,6 +51,8 @@ class NoUIFactory implements Factory {
 	public function input() {}
 	public function table() {}
 	public function messageBox() {}
+	public function layout(): C\Layout\Factory {}
+	public function mainControls(): C\MainControls\Factory {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
@@ -118,12 +122,12 @@ class DummyComponent implements IComponent {
 /**
  * Provides common functionality for UI tests.
  */
-abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
-	public function setUp() {
+abstract class ILIAS_UI_TestBase extends TestCase {
+	public function setUp(): void{
 		assert_options(ASSERT_WARNING, 0);
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		assert_options(ASSERT_WARNING, 1);
 	}
 

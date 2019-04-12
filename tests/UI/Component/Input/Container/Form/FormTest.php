@@ -105,7 +105,7 @@ class FormTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function tearDown() {
+	public function tearDown(): void {
 		\Mockery::close();
 	}
 
@@ -127,7 +127,7 @@ class FormTest extends ILIAS_UI_TestBase {
 			$name_source->name = $name;
 
 			// name is a string
-			$this->assertInternalType("string", $name);
+			$this->assertIsString($name);
 
 			// only name is attached
 			$input = array_shift($inputs);

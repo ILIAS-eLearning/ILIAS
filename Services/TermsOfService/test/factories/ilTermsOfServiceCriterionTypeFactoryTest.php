@@ -70,12 +70,11 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends \ilTermsOfServiceBaseTest
 	/**
 	 * @depends testInstanceCanBeCreated
 	 * @param \ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-	 * @expectedException \ilTermsOfServiceCriterionTypeNotFoundException
 	 */
 	public function testExceptionIsRaisedIfUnsupportedCriterionIsRequested(
 		\ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
 	) {
-		$this->assertException(\ilTermsOfServiceCriterionTypeNotFoundException::class);
+		$this->expectException(\ilTermsOfServiceCriterionTypeNotFoundException::class);
 
 		$criterionTypeFactory->findByTypeIdent('phpunit');
 	}

@@ -3,7 +3,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
+class ilTestPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
 	public function testPlaceholderGetHtmlDescription()
 	{

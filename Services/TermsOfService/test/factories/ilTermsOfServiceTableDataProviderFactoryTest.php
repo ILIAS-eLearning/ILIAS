@@ -23,13 +23,12 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends \ilTermsOfServiceBase
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException \InvalidArgumentException
 	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
 	public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(
 		\ilTermsOfServiceTableDataProviderFactory $factory
 	) {
-		$this->assertException(\InvalidArgumentException::class);
+		$this->expectException(\InvalidArgumentException::class);
 
 		$factory->getByContext('PHP unit');
 	}
@@ -50,12 +49,11 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends \ilTermsOfServiceBase
 	/**
 	 * @depends           testInstanceCanBeCreated
 	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
-	 * @expectedException \ilTermsOfServiceMissingDatabaseAdapterException
 	 */
 	public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(
 		\ilTermsOfServiceTableDataProviderFactory $factory
 	) {
-		$this->assertException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
+		$this->expectException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
 
 		$factory->setDatabaseAdapter(null);
 		$factory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);

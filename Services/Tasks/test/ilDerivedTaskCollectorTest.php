@@ -10,8 +10,9 @@ class ilDerivedTaskCollectorTest extends \ilTasksTestBase
 {
 	public function testGetEntries()
 	{
+		/** @var ilTaskService $service */
 		$service = $this->getTaskServiceMock();
-		$factory = new ilDerivedTaskFactory($service);
+		$factory = $service->derived()->factory();
 
 		$collector = $factory->collector();
 

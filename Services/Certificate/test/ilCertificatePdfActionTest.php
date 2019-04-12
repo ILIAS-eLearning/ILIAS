@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
+class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 {
 	public function testCreatePdfWillCreatedAndIsDownloadable()
 	{
@@ -113,6 +113,8 @@ class ilCertificatePdfActionTest extends \PHPUnit_Framework_TestCase
 
 
 		$errorHandler = $this->getMockBuilder('ilErrorHandling')
+			->disableOriginalConstructor()
+			->setMethods(['raiseError'])
 			->getMock();
 
 		$errorHandler

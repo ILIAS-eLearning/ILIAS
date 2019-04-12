@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTemplateImportActionTest extends PHPUnit_Framework_TestCase
+class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 {
 	public function testCertificateCanBeImportedWithBackgroundImage()
 	{

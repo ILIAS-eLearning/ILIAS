@@ -21,7 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-class ilModulesWebResourceSuite extends PHPUnit_Framework_TestSuite
+use PHPUnit\Framework\TestSuite;
+
+class ilModulesWebResourceSuite extends TestSuite
 {
     public static function suite()
     {

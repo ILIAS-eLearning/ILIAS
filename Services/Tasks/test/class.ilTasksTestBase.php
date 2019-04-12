@@ -4,12 +4,14 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Base test class for tasks tests
  *
  * @author killing@leifos.de
  */
-class ilTasksTestBase extends \PHPUnit_Framework_TestCase
+class ilTasksTestBase extends TestCase
 {
 	/**
 	 * @var bool
@@ -26,8 +28,9 @@ class ilTasksTestBase extends \PHPUnit_Framework_TestCase
 	/**
 	 *
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+
 		$this->_mock_user = $this->getMockBuilder('ilObjUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -47,17 +50,11 @@ class ilTasksTestBase extends \PHPUnit_Framework_TestCase
 		require_once __DIR__ . '/class.ilDummyDerivedTaskProvider.php';
 		require_once __DIR__ . '/class.ilDummyDerivedTaskProviderFactory.php';
 
-		$master_factory_mock = $this->getMockBuilder('ilDerivedTaskProviderMasterFactory')
-			->disableOriginalConstructor()
-			->setMethods(['getAllProviders'])
-			->getMock();
-
+		$dummy_task_provider_factory = new ilDummyDerivedTaskProviderFactory();
 		$this->_mock_task_service = new ilTaskService($this->_mock_user, $this->_mock_lng, $this->_mock_ui, $this->_mock_access,
-			$master_factory_mock);
+			[$dummy_task_provider_factory]);
+		$dummy_task_provider_factory->setTaskService($this->_mock_task_service);
 
-		$master_factory_mock->expects($this->any())
-			->method('getAllProviders')
-			->willReturn([new ilDummyDerivedTaskProvider($this->_mock_task_service)]);
 	}
 
 	function getTaskServiceMock()

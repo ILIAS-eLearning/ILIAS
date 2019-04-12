@@ -90,7 +90,7 @@ namespace {
 	}
 
 	class AbstractRendererTest extends ILIAS_UI_TestBase {
-		public function setUp() {
+		public function setUp(): void{
 			parent::setUp();
 			$this->tpl_factory = new TemplateFactoryMock();
 			$this->ui_factory = new NoUIFactory();

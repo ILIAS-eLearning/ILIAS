@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTemplateDeleteActionTest extends \PHPUnit_Framework_TestCase
+class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
 	public function testDeleteTemplateAndUseOldThumbnail()
 	{

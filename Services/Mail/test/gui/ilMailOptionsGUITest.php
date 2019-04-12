@@ -37,7 +37,7 @@ class ilMailOptionsGUITest extends \ilMailBaseTest
 	}
 
 	/**
-	 *
+	 * @doesNotPerformAssertions
 	 */
 	public function testMailOptionsAreAccessibleIfGlobalAccessIsNotDenied()
 	{

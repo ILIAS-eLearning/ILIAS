@@ -2,12 +2,14 @@
 
 include_once("./Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSystemStyleXMLTest extends PHPUnit_Framework_TestCase {
+class ilSystemStyleXMLTest extends TestCase {
 
 	/**
 	 * @var ilSkinStyleXML

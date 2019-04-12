@@ -69,6 +69,8 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		$this->setAjax(false);
 		$this->setPreloadChilds(true);
 
+		$this->setPathOpen($tree->readRootId());
+
 		if ((int) $_GET["obj_id"] > 0)
 		{
 			$this->setPathOpen((int) $_GET["obj_id"]);

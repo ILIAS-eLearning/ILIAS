@@ -12,7 +12,7 @@ class ilMathPhpAdapterTest extends ilMathBaseAdapterTest
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		require_once 'Services/Math/classes/class.ilMathPhpAdapter.php';
 		$this->mathAdapter = new ilMathPhpAdapter();

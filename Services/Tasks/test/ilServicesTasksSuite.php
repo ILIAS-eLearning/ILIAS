@@ -4,10 +4,12 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * @author  <killing@leifos.de>
  */
-class ilServicesTasksSuite extends PHPUnit_Framework_TestSuite
+class ilServicesTasksSuite extends TestSuite
 {
 	public static function suite()
 	{
@@ -16,13 +18,13 @@ class ilServicesTasksSuite extends PHPUnit_Framework_TestSuite
 
 		$suite = new self();
 
-		include_once("./Services/Task/test/ilDerivedTaskTest.php");
+		include_once("./Services/Tasks/test/ilDerivedTaskTest.php");
 		$suite->addTestSuite("ilDerivedTaskTest");
 
-		include_once("./Services/Task/test/ilDerivedTaskFactoryTest.php");
+		include_once("./Services/Tasks/test/ilDerivedTaskFactoryTest.php");
 		$suite->addTestSuite("ilDerivedTaskFactoryTest");
 
-		include_once("./Services/Task/test/ilDerivedTaskCollectorTest.php");
+		include_once("./Services/Tasks/test/ilDerivedTaskCollectorTest.php");
 		$suite->addTestSuite("ilDerivedTaskCollectorTest");
 
 		return $suite;

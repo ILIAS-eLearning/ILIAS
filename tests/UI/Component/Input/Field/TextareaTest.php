@@ -19,7 +19,7 @@ class TextareaTest extends ILIAS_UI_TestBase {
 	 */
 	private $name_source;
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->name_source = new DefNamesource();
 	}
 

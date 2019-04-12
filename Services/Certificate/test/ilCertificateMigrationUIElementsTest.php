@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateMigrationUIElementsTest extends PHPUnit_Framework_TestCase
+class ilCertificateMigrationUIElementsTest extends ilCertificateBaseTestCase
 {
 	public function testTaskFailedWillDisplayedFailureMessageBox()
 	{

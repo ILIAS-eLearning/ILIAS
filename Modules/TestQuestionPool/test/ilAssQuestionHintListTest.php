@@ -8,11 +8,11 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class ilAssQuestionHintListTest extends PHPUnit_Framework_TestCase
+class ilAssQuestionHintListTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{
