@@ -61,7 +61,7 @@ implements ilStudyProgrammeProgressRepository
 		foreach ($this->loadByFilter([self::FIELD_ID => $id]) as $row) {
 			return $this->buildByRow($row);
 		}
-		throw new \InvalidArgumentExeption('invalid id '.$id);
+		throw new \ilException('invalid id '.$id);
 	}
 
 
