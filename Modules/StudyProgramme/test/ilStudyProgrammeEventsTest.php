@@ -37,16 +37,17 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
-
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		ilUnitUtil::performInitialisation();
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
 		
 		$this->root = ilObjStudyProgramme::createInstance();
 		$this->root_obj_id = $this->root->getId();
 		$this->root_ref_id = $this->root->getRefId();
 		$this->root->putInTree(ROOT_FOLDER_ID);
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
 		$this->root->object_factory = new ilObjectFactoryWrapperMock();
 		
 		$this->node = ilObjStudyProgramme::createInstance();
@@ -55,13 +56,13 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		
 		$this->leaf = new ilStudyProgrammeLeafMock();
 		$this->node->addLeaf($this->leaf);
-		$this->node->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->node->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
 		
 		$this->users = array();
 		
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 		$this->event_handler_mock = new ilAppEventHandlerMock();
-		ilStudyProgrammeEvents::$app_event_handler = $this->event_handler_mock;
+		ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents']->app_event_handler = $this->event_handler_mock;
 	}
 	
 	protected function newUser() {
@@ -82,7 +83,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 	
 	public function testAssignUser() {
 		$user = $this->newUser();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		
 		$this->assertCount(1, $this->event_handler_mock->events);
 		$event = array_pop($this->event_handler_mock->events);
@@ -96,7 +97,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 	
 	public function testDeassignUser() {
 		$user = $this->newUser();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$this->event_handler_mock->events = array();
 		
 		$ass->deassign();
@@ -113,7 +114,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 	
 	public function testUserSuccessfulByCompletion() {
 		$user = $this->newUser();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$this->event_handler_mock->events = array();
 	
 		$this->leaf->markCompletedFor($user->getId());
@@ -139,7 +140,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 	
 	public function testUserSuccessfulByAccredited() {
 		$user = $this->newUser();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$this->event_handler_mock->events = array();
 	
 		$progress = $this->node->getProgressForAssignment($ass->getId());
