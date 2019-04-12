@@ -6661,6 +6661,7 @@ return array(
     'ilStudyProgrammeTypeTableGUI' => $baseDir . '/../../Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeTableGUI.php',
     'ilStudyProgrammeTypeTranslation' => $baseDir . '/../../Modules/StudyProgramme/classes/model/class.ilStudyProgrammeTypeTranslation.php',
     'ilStudyProgrammeUserAssignment' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php',
+    'ilStudyProgrammeUserAssignmentDB' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignmentDB.php',
     'ilStudyProgrammeUserProgress' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php',
     'ilStudyProgrammeUserProgressDB' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgressDB.php',
     'ilStyleColorTableGUI' => $baseDir . '/../../Services/Style/Content/classes/class.ilStyleColorTableGUI.php',

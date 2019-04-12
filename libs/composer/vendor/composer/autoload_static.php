@@ -6998,6 +6998,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilStudyProgrammeTypeTableGUI' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeTableGUI.php',
         'ilStudyProgrammeTypeTranslation' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/model/class.ilStudyProgrammeTypeTranslation.php',
         'ilStudyProgrammeUserAssignment' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php',
+        'ilStudyProgrammeUserAssignmentDB' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignmentDB.php',
         'ilStudyProgrammeUserProgress' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php',
         'ilStudyProgrammeUserProgressDB' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgressDB.php',
         'ilStyleColorTableGUI' => __DIR__ . '/../..' . '/../../Services/Style/Content/classes/class.ilStyleColorTableGUI.php',
