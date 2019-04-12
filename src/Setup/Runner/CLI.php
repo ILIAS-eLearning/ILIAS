@@ -2,12 +2,17 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Runner;
+
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Goal;
+use ILIAS\Setup\ConfigurationLoader;
+use ILIAS\Setup\UnachievableException;
 
 /**
  * Tries to achieve a goal. 
  */
-class Runner {
+class CLI {
 	/**
 	 * @var	Environment
 	 */
