@@ -330,6 +330,7 @@ class ilExerciseManagementGUI
 	
 	function membersApplyObject()
 	{
+		$this->saveStatusAllObject(null, false);
 		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
 		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());		
 		$exc_tab->resetOffset();
@@ -907,31 +908,34 @@ class ilExerciseManagementGUI
 		$this->saveStatus($data);
 	}
 	
-	function saveStatusAllObject(array $a_selected = null)
+	function saveStatusAllObject(array $a_selected = null, $a_redirect = true)
 	{		
 		$data = array();
-		foreach(array_keys($_POST["id"]) as $user_id)
+		if (is_array($_POST["id"]))
 		{
-			if(is_array($a_selected) &&
-				!in_array($user_id, $a_selected))
+			foreach (array_keys($_POST["id"]) as $user_id)
 			{
-				continue;
-			}	
-			
-			$data[-1][$user_id] = array(
-				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])						
-			);
-			
-			if(array_key_exists("mark", $_POST))
-			{
-				$data[-1][$user_id]["mark"] = ilUtil::stripSlashes($_POST["mark"][$user_id]);
-			}			
-			if(array_key_exists("notice", $_POST))
-			{
-				$data[-1][$user_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$user_id]);
+				if (is_array($a_selected) &&
+					!in_array($user_id, $a_selected))
+				{
+					continue;
+				}
+
+				$data[-1][$user_id] = array(
+					"status" => ilUtil::stripSlashes($_POST["status"][$user_id])
+				);
+
+				if (array_key_exists("mark", $_POST))
+				{
+					$data[-1][$user_id]["mark"] = ilUtil::stripSlashes($_POST["mark"][$user_id]);
+				}
+				if (array_key_exists("notice", $_POST))
+				{
+					$data[-1][$user_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$user_id]);
+				}
 			}
 		}
-		$this->saveStatus($data);
+		$this->saveStatus($data, $a_redirect);
 	}
 	
 	function saveStatusSelectedObject()
@@ -951,7 +955,7 @@ class ilExerciseManagementGUI
 	/**
 	 * Save status of selecte members 
 	 */
-	protected function saveStatus(array $a_data)
+	protected function saveStatus(array $a_data, $a_redirect = true)
 	{
 		global $ilCtrl;
 				
@@ -998,9 +1002,12 @@ class ilExerciseManagementGUI
 		{
 			$save_for_str = "(".implode($saved_for, " - ").")";
 		}
-		
-		ilUtil::sendSuccess($this->lng->txt("exc_status_saved")." ".$save_for_str, true);		
-		$ilCtrl->redirect($this, $this->getViewBack());	
+
+		if ($a_redirect)
+		{
+			ilUtil::sendSuccess($this->lng->txt("exc_status_saved") . " " . $save_for_str, true);
+			$ilCtrl->redirect($this, $this->getViewBack());
+		}
 	}
 
 	/**

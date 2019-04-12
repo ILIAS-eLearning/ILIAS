@@ -151,7 +151,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 			$ti = new ilTextInputGUI($lng->txt("cont_name"), "area_name");
 			$ti->setMaxLength(200);
 			$ti->setSize(20);
-			$ti->setRequired(true);
+			//$ti->setRequired(true);
 			$form->addItem($ti);
 		}
 		
