@@ -188,25 +188,48 @@ class ilBPMN2ParserUtils
 					{
 						if($event_child['name'] == 'timerEventDefinition')
 						{
-							$content = $event_child['children'][0]['content'];
+							if($event_child['children'][0]['name'] == 'timeDate')
+							{
+								$content = $event_child['children'][0]['content'];
+								$start = date('U',strtotime($content));
+								$end = 0;
+
+								return array(
+									'type' 				=> 'time_passed',
+									'content'			=> 'time_passed',
+									'subject_type'		=> 'none',
+									'subject_id'		=> 0,
+									'context_type'		=> 'none',
+									'context_id'		=> 0,
+									'listening_start'	=> $start,
+									'listening_end'		=> $end
+								);
+							}
+
+							if($event_child['children'][0]['name'] == 'timeDuration')
+							{
+								$content = $event_child['children'][0]['content'];
+								$interval = new \DateInterval(strtotime($content));
+								$duration = ($interval->d * 24 * 60 * 60) + ($interval->h * 60 * 60) +
+											($interval->i * 60) + $interval->s;
+
+								return array(
+									'type' 				=> 'time_passed',
+									'content'			=> 'time_passed',
+									'subject_type'		=> 'none',
+									'subject_id'		=> 0,
+									'context_type'		=> 'none',
+									'context_id'		=> 0,
+									'listening_relative'=> 1,
+									'listening_interval'=> $duration
+								);
+							}
 						}
 					}
 				}
 			}
 		}
-		$start = date('U',strtotime($content));
-		$end = 0;
 
-		return array(
-			'type' 				=> 'time_passed',
-			'content'			=> 'time_passed',
-			'subject_type'		=> 'none',
-			'subject_id'		=> 0,
-			'context_type'		=> 'none',
-			'context_id'		=> 0,
-			'listening_start'	=> $start,
-			'listening_end'		=> $end
-		);
 	}
 
 	/**
