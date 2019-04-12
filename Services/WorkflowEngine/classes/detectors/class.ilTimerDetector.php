@@ -44,19 +44,22 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
 	/** @var string $event_context_identifier SIC! */
 	private $event_context_identifier	= '0';
 
+	/** @var bool $relative_timer */
+	private $timer_relative;
+
 	/**
 	 * Timestamp of the start of the timer.
 	 * 
 	 * @var integer  Unix timestamp
 	 */
-	private $timer_start;
+	private $timer_start = 0;
 
 	/**
 	 * Limit of the timer to run.
 	 * 
 	 * @var integer Seconds to determine the timers runtime. 
 	 */
-	private $timer_limit;
+	private $timer_limit = 0;
 
 	/**
 	 * This holds the start of the listening period.
@@ -206,6 +209,25 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
 	 */
 	public function onActivate()
 	{
+		if($this->timer_relative)
+		{
+			if($this->timer_start == 0)
+			{
+				$this->listening_start = time();
+			}
+			else
+			{
+				$this->listening_start = $this->timer_start;
+			}
+			if($this->timer_limit != 0)
+			{
+				$this->listening_end = $this->listening_start + $this->timer_limit;
+			}
+			else
+			{
+				$this->listening_end = 0;
+			}
+		}
 		$this->setDetectorState(false);
 		$this->writeDetectorToDb();
 	}
@@ -318,5 +340,21 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
 	public function getListeningTimeframe()
 	{
 		return array ('listening_start' => $this->listening_start, 'listening_end' => $this->listening_end);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isTimerRelative()
+	{
+		return $this->timer_relative;
+	}
+
+	/**
+	 * @param bool $timer_relative
+	 */
+	public function setTimerRelative($timer_relative)
+	{
+		$this->timer_relative = $timer_relative;
 	}
 }
