@@ -38,6 +38,8 @@ class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeProgressCalculationTest.php");
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeUserAssignmentTest.php");
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeUserProgressTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Settings/ilStudyProgrammeSettingsTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Settings/ilStudyProgrammeSettingsRepositoryTest.php");
 
         $suite->addTestSuite("ilObjStudyProgrammeTest");
         $suite->addTestSuite("ilStudyProgrammeEventsTest");
@@ -45,7 +47,8 @@ class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
         $suite->addTestSuite("ilStudyProgrammeProgressCalculationTest");
         $suite->addTestSuite("ilStudyProgrammeUserAssignmentTest");
         $suite->addTestSuite("ilStudyProgrammeUserProgressTest");
-
+  		$suite->addTestSuite("ilStudyProgrammeSettingsTest");
+  		$suite->addTestSuite("ilStudyProgrammeSettingsRepositoryTest");
         return $suite;
     }
 }
