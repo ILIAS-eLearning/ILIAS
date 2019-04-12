@@ -29,7 +29,7 @@ interface Factory
 	 *          Standard Tooltips MUST have an array of \ILIAS\UI\Component\Component
 	 * ---
 	 *
-	 * @param Component[] $contents An array components that will be displayed in the tooltip.
+	 * @param Component[] $contents An array of components that will be displayed in the tooltip.
 	 * @return \ILIAS\UI\Component\Tooltip\Standard
 	 */
 	public function standard(array $contents): \ILIAS\UI\Component\Tooltip\Standard;
