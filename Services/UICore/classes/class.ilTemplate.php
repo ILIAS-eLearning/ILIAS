@@ -659,7 +659,7 @@ class ilTemplate extends HTML_Template_ITX
 		/* rtl-review: add "de" for testing with ltr lang shown in rtl
 		 * and set unicode-bidi to bidi-override for mirror effect */
 		$textdir = 'ltr';
-	 	if(is_object($ilUser))
+	 	if(is_object($ilUser) && !$ilUser->isAnonymous())
 	 	{
 	 		if($ilUser->getLanguage())
 	 		{
