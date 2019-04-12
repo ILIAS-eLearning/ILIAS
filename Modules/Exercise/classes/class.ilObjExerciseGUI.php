@@ -710,7 +710,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$info->enableNewsEditing();
 			$info->setBlockProperty("news", "settings", true);
 		}
-		
+
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'exc',$this->object->getId());
+		$record_gui->setInfoObject($info);
+		$record_gui->parse();
+
 		// standard meta data
 		//$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 
