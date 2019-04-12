@@ -221,6 +221,12 @@ class ilClient
 			return false;
 		}
 		$GLOBALS["ilDB"] = $this->db;
+
+		if ($GLOBALS["DIC"]->offsetExists("ilDB"))
+		{
+			$GLOBALS["DIC"]->offsetUnset("ilDB");
+		}
+
 		$GLOBALS["DIC"]["ilDB"] = function($c) {
 			return $GLOBALS["ilDB"];
 		};
