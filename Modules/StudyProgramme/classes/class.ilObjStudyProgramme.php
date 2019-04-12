@@ -42,6 +42,19 @@ class ilObjStudyProgramme extends ilContainer {
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		$this->type = "prg";
 		$this->settings = null;
+		$this->settings_repository =
+			ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository'];
+		$this->type_repository =
+			ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository'];
+		$this->assignment_repository =
+			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
+		$this->progress_repository =
+			ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
+
+		$this->progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
+		$this->assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+		$this->events = ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents'];
+
 		parent::__construct($a_id, $a_call_by_reference);
 
 		$this->clearParentCache();
@@ -59,6 +72,8 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->lng = $DIC['lng'];
 
 		$this->object_factory = ilObjectFactoryWrapper::singleton();
+
+
 
 		self::initStudyProgrammeCache();
 	}
@@ -134,7 +149,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if (!$id) {
 			throw new ilException("ilObjStudyProgramme::loadSettings: no id.");
 		}
-		$this->settings = ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->read($this->getId());
+		$this->settings = $this->settings_repository->read($this->getId());
 	}
 
 	/**
@@ -150,7 +165,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if (!$id) {
 			throw new ilException("ilObjStudyProgramme::loadSettings: no id.");
 		}
-		$this->settings = ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->createFor($this->getId());
+		$this->settings = $this->settings_repository->createFor($this->getId());
 	}
 
 	/**
@@ -161,7 +176,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if ($this->settings === null) {
 			throw new ilException("ilObjStudyProgramme::updateSettings: no settings loaded.");
 		}
-		ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->update($this->settings);
+		$this->settings_repository->update($this->settings);
 	}
 
 	/**
@@ -172,7 +187,7 @@ class ilObjStudyProgramme extends ilContainer {
 		if ($this->settings === null) {
 			throw new Exception("ilObjStudyProgramme::deleteSettings: no settings loaded.");
 		}
-		ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->delete($this->settings);
+		$this->settings_repository->delete($this->settings);
 	}
 
 	/**
@@ -206,7 +221,7 @@ class ilObjStudyProgramme extends ilContainer {
 			ilAdvancedMDRecord::saveObjRecSelection(
 				$this->getId(),
 				'prg_type',
-				ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']->readAssignedAMDRecordsByType($this->getSubTypeId())
+				$this->type_repository->readAssignedAMDRecordsByType($this->getSubTypeId())
 			);
 		} else {
 			// If no type is assigned, delete relations by passing an empty array
@@ -291,18 +306,18 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function adjustLPMode() {
 		if ($this->getAmountOfLPChildren() > 0) {
-			ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->update(
+			$this->settings_repository->update(
 				$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_LP_COMPLETED)
 			);
 		}
 		else {
 			if ($this->getAmountOfChildren() > 0) {
-				ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->update(
+				$this->settings_repository->update(
 					$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
 				);
 			}
 			else {
-				ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->update(
+				$this->settings_repository->update(
 					$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
 				);
 			}
@@ -369,7 +384,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getSubType() {
 		if(!in_array($this->getSubtypeId(), array("-", "0"))) {
 			$subtype_id = $this->getSubtypeId();
-			return ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']->readType($subtype_id);
+			return$this->type_repository->readType($subtype_id);
 		}
 
 		return null;
@@ -691,7 +706,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		if ($this->settings->getLPMode() !== ilStudyProgrammeSettings::MODE_POINTS) {
-			ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->update(
+			$this->settings_repository->update(
 				$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
 			);
 		}
@@ -783,7 +798,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		$a_leaf->putInTree($this->getRefId());
 		$this->clearLPChildrenCache();
-		ilStudyProgrammeDIC::dic()['model.Settings.ilStudyProgrammeSettingsRepository']->update(
+		$this->settings_repository->update(
 			$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_LP_COMPLETED)
 		);
 
@@ -867,7 +882,6 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
-		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 
 		if ($this->settings === null) {
 			throw new ilException("ilObjStudyProgramme::assignUser: Program was not properly created.'");
@@ -881,24 +895,18 @@ class ilObjStudyProgramme extends ilContainer {
 		if ($a_assigning_usr_id === null) {
 			$a_assigning_usr_id = $this->ilUser->getId();
 		}
-
-		$ass_mod = ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']->createFor($this->settings->getObjId(), $a_usr_id, $a_assigning_usr_id);
-		$ass = new ilStudyProgrammeUserAssignment(
-			$ass_mod,
-			ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
-			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']
-		);
-
+		$ass_mod = $this->assignment_repository->createFor($this->settings->getObjId(), $a_usr_id, $a_assigning_usr_id);
+		$ass = $this->assignment_db->getInstanceByModel($ass_mod);
 		$this->applyToSubTreeNodes(function(ilObjStudyProgramme $node) use ($ass_mod, $a_assigning_usr_id) {
 			$progress = $node->createProgressForAssignment($ass_mod);
 			if ($node->getStatus() != ilStudyProgrammeSettings::STATUS_ACTIVE) {
-				ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository']->update(
+				$this->progress_repository->update(
 					$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 				);
 			}
 		});
 
-		ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents']->userAssigned($ass);
+		$this->events->userAssigned($ass);
 
 		return $ass;
 	}
@@ -919,7 +927,7 @@ class ilObjStudyProgramme extends ilContainer {
 								 ."program '".$this->getId()."'.");
 		}
 
-		ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents']->userDeassigned($a_assignment);
+		$this->events->userDeassigned($a_assignment);
 
 		$a_assignment->delete();
 
@@ -956,23 +964,18 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return [ilStudyProgrammeUserAssignment]
 	 */
 	public function getAssignmentsOf($a_user_id) {
-		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
-
 		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
 		$assignments = [];
 		foreach($prg_ids as $prg_id) {
 			$assignments = array_merge($assignments,
-				ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']->readByUsrIdAndPrgId($a_user_id,$prg_id));
+				$this->assignment_repository->readByUsrIdAndPrgId($a_user_id,$prg_id));
 		}
 		usort($assignments, function($a_one,$a_other) {
 			return strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
 		});
-		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment(
-				$ass,
-				ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
-				ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']
-			);
+		$assignment_db = $this->assignment_db;
+		return array_map(function($ass) use ($assignment_db){
+			return $assignment_db->getInstanceByModel($ass);
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
 
@@ -982,11 +985,9 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return [ilStudyProgrammeUserAssignment]
 	 */
 	public function getAssignments() {
-		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment($ass, 
-				ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
-				ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']
-			);
+		$assignment_db = $this->assignment_db;
+		return array_map(function($ass) use ($assignment_db){
+			return $assignment_db->getInstanceByModel($ass);
 		}, array_values($this->getAssignmentsRaw())); // use array values since we want keys 0...
 	}
 
@@ -1005,7 +1006,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function updateAllAssignments() {
-		$assignments = ilStudyProgrammeUserAssignment::getInstancesForProgram($this->getId());
+		$assignments = $this->assignment_db->getInstancesForProgram((int)$this->getId());
 		foreach ($assignments as $ass) {
 			$ass->updateFromProgram();
 		}
@@ -1023,7 +1024,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return	ilStudyProgrammeProgress
 	 */
 	public function createProgressForAssignment(ilStudyProgrammeAssignment $ass) {
-		return ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository']->createFor($this->settings, $ass);
+		return $this->progress_repository->createFor($this->settings, $ass);
 	}
 
 	/**
@@ -1033,7 +1034,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return ilStudyProgrammUserProgress[]
 	 */
 	public function getProgressesOf($a_user_id) {
-		return ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB']->getInstancesForUser($this->getId(), $a_user_id);
+		return $this->progress_db->getInstancesForUser($this->getId(), $a_user_id);
 	}
 
 	/**
@@ -1046,7 +1047,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return ilStudyProgrammUserProgress
 	 */
 	public function getProgressForAssignment($a_assignment_id) {
-		return ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB']->getInstanceForAssignment($this->getId(), $a_assignment_id);
+		return $this->progress_db->getInstanceForAssignment($this->getId(), $a_assignment_id);
 	}
 
 	/**
@@ -1068,7 +1069,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return ilStudyProgrammeUserProgress[]
 	 */
 	public function getProgresses() {
-		return ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB']->getInstancesForProgram($this->getId());
+		return $this->progress_db->getInstancesForProgram($this->getId());
 	}
 
 	/**
@@ -1187,10 +1188,9 @@ class ilObjStudyProgramme extends ilContainer {
 	 * Get model objects for the assignments on this programm.
 	 */
 	protected function getAssignmentsRaw() {
-		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		$assignments = [];
 		foreach($this->getIdsFromNodesOnPathFromRootToHere() as $prg_id) {
-			$assignments = array_merge(ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']->readByPrgId($prg_id),$assignments);
+			$assignments = array_merge($this->assignment_repository->readByPrgId($prg_id),$assignments);
 		}
 		usort($assignments, function($a_one,$a_other) {
 			return -strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
