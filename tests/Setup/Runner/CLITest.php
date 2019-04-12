@@ -2,11 +2,11 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup;
+namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
 
-class RunnerTest extends \PHPUnit\Framework\TestCase {
+class CLITest extends \PHPUnit\Framework\TestCase {
 	protected function newGoal() {
 		static $no = 0;
 
@@ -31,7 +31,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$type = "TYPE";
 
-		$runner = new Setup\Runner($environment, $configuration_loader, $goal);
+		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal);
 
 		$configuration_loader
 			->expects($this->once())
@@ -123,7 +123,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner($environment, $configuration_loader, $goal1);
+		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
 		$expected = array_map($f, [$goal11, $goal121, $goal12, $goal1]);
@@ -173,7 +173,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner($environment, $configuration_loader, $goal1);
+		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
 		$expected = array_map($f, [$goal11, $goal1]);
@@ -221,7 +221,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner($environment, $configuration_loader, $goal1);
+		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal1);
 
 		$this->expectException(Setup\UnachievableException::class);		
 		iterator_to_array($runner->allGoals());
