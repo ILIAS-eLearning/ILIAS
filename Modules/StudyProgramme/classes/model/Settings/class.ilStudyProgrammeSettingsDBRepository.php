@@ -206,4 +206,9 @@ implements ilStudyProgrammeSettingsRepository
 		}
 		return false;
 	}
+
+	public static function clearCache()
+	{
+		self::$cache = [];
+	}
 }

@@ -149,7 +149,7 @@ class ilStudyProgrammeAssignment
 	public function setLastChangeBy(int $usr_id) : ilStudyProgrammeAssignment
 	{
 		if (ilObject::_lookupType($usr_id) != "usr") {
-			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$a_usr_id' "
+			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$usr_id' "
 								 ."is no id of a user.");
 		}
 		$this->last_change_by = $usr_id;
