@@ -43,8 +43,10 @@ class Runner {
 	 * @return \Traversable<Goal>
 	 */
 	public function allGoals() : \Traversable {
+		// TODO: Factor this out in a single class.
 		$stack = [$this->goal];
 		$returned = [];
+		$reverse_deps = [];
 
 		while(count($stack) > 0) {
 			$cur = $this->initGoal(
@@ -53,19 +55,41 @@ class Runner {
 
 			$preconditions = $cur->getPreconditions();
 
+			$hash = $cur->getHash();
 			if (count($preconditions) === 0) {
-				$hash = $cur->getHash();
 				if (!isset($returned[$hash])) {
 					yield $cur;
 					$returned[$hash] = true;
 				}
 			}
 			else {
-				array_push(
-					$stack,
-					$cur,
-					...array_reverse($preconditions)
-				);
+				$stack[] = $cur;
+
+				if (isset($reverse_deps[$hash])) {
+					$f = null;
+					$f = function($cur, $next) use (&$f, $reverse_deps) {
+						if (!isset ($reverse_deps[$next])) {
+							return;
+						}
+						if (in_array($cur, $reverse_deps[$next])) {
+							throw new UnachievableException(
+								"The goals contain a dependency cycle and won't be reachable."
+							);
+						}
+						foreach ($reverse_deps[$next] as $d) {
+							$f($cur, $d);
+						}
+					};
+					$f($hash, $hash);
+				}
+
+				foreach (array_reverse($preconditions) as $p) {
+					$stack[] = $p;
+					if (!isset($reverse_deps[$p->getHash()])) {
+						$reverse_deps[$p->getHash()] = [];
+					}
+					$reverse_deps[$p->getHash()][] = $hash;
+				}
 			}
 		}
 	}
