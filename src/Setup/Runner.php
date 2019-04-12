@@ -30,13 +30,9 @@ class Runner {
 	}
 
 	public function run() {
-		$type = $this->goal->getType();
-		$config = $this->configuration_loader->loadConfigurationFor($type);
-		$goal = $this->goal
-			->withResourcesFrom($this->environment)
-			->withConfiguration($config);
-		$preconditions = $this->goal->getPreconditions();
-		$goal->achieve($this->environment);
+		foreach ($this->allGoals() as $goal) {
+			$goal->achieve($this->environment);
+		}
 	}
 
 	/**
