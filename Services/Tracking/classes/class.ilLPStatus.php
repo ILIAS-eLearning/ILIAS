@@ -921,15 +921,6 @@ class ilLPStatus
 	
 	public static function getListGUIStatus($a_obj_id)
 	{
-		if ($a_image_only) {
-			$image = '';
-			if (isset(self::$list_gui_cache[$a_obj_id]["image"])) {
-				$image = self::$list_gui_cache[$a_obj_id]["image"];
-			}
-
-			return $image;
-		}
-
 		return self::$list_gui_cache[$a_obj_id];
 	}
 }	
