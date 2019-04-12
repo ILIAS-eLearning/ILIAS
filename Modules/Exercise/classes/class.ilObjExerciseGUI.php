@@ -239,11 +239,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ilCtrl->forwardCommand($gui);
 				break;
 
-            case "ilexcrandomassignmentgui":
-                $gui = $this->exercise_ui->getRandomAssignmentGUI();
-                $this->ctrl->forwardCommand($gui);
-                break;
+			case "ilexcrandomassignmentgui":
+				$gui = $this->exercise_ui->getRandomAssignmentGUI();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
+			case 'ilobjectmetadatagui';
+				$this->checkPermissionBool("write",'','',$this->object->getRefId());
+				$this->tabs_gui->setTabActive('meta_data');
+				$md_gui = new ilObjectMetaDataGUI($this->object);
+				$this->ctrl->forwardCommand($md_gui);
+				break;
 				
 			default:						
 				if(!$cmd)
