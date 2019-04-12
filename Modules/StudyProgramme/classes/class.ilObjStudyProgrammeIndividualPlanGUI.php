@@ -48,7 +48,8 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		\ilCtrl $ilCtrl,
 		\ilLanguage $lng,
 		\ilObjUser $ilUser,
-		ilStudyProgrammeUserProgressDB $sp_user_progress_db
+		ilStudyProgrammeUserProgressDB $sp_user_progress_db,
+		ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
 	) {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -58,6 +59,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$this->assignment_object = null;
 
 		$this->sp_user_progress_db = $sp_user_progress_db;
+		$this->sp_user_assignment_db = $sp_user_assignment_db;
 
 		$this->object = null;
 
@@ -99,7 +101,6 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	}
 
 	protected function getAssignmentId() {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		if (!is_numeric($_GET["ass_id"])) {
 			throw new ilException("Expected integer 'ass_id'");
 		}
@@ -109,7 +110,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	protected function getAssignmentObject() {
 		if ($this->assignment_object === null) {
 			$id = $this->getAssignmentId();
-			$this->assignment_object = ilStudyProgrammeUserAssignment::getInstance($id);
+			$this->assignment_object = $this->sp_user_assignment_db->getInstanceById((int)$id);
 		}
 		return $this->assignment_object;
 	}

@@ -18,6 +18,8 @@ class ilStudyProgrammeUserAssignment {
 	 */
 	private $sp_user_progress_db;
 	protected $assignment_repository;
+	protected $progress_repository;
+	protected $log;
 	/**
 	 * Throws when id does not refer to a study programme assignment.
 	 *
@@ -25,89 +27,19 @@ class ilStudyProgrammeUserAssignment {
 	 * @param int | ilStudyProgrammeAssignment $a_id_or_model
 	 */
 	public function __construct(
-		$a_id_or_model,
+		ilStudyProgrammeAssignment $assignment,
 		\ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-		\ilStudyProgrammeAssignmentRepository $assignment_repository
+		\ilStudyProgrammeAssignmentRepository $assignment_repository,
+		\ilStudyProgrammeProgressRepository $progress_repository,
+		\ilLogger $log
 	) {
-		if ($a_id_or_model instanceof ilStudyProgrammeAssignment) {
-			$this->assignment = $a_id_or_model;
-		}
-		else {
-			$this->assignment = $assignment_repository->read($a_id_or_model);
-		}
-		if ($this->assignment === null) {
-			throw new ilException("ilStudyProgrammeUserAssignment::__construct: "
-								 ."Unknown assignmemt id '$a_id_or_model'.");
-		}
+		$this->assignment = $assignment;
 		$this->sp_user_progress_db = $sp_user_progress_db;
 		$this->assignment_repository = $assignment_repository;
+		$this->progress_repository = $progress_repository;
+		$this->log = $log;
 	}
 
-	/**
-	 * Get an instance. Just wraps constructor.
-	 *
-	 * @throws ilException
-	 * @param  int $a_id
-	 * @return ilStudyProgrammeUserAssignment
-	 */
-	static public function getInstance($a_id) {
-		return new ilStudyProgrammeUserAssignment(
-			$a_id,
-			ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
-			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository']
-		);
-	}
-
-	/**
-	 * Get all instances for a given user.
-	 *
-	 * @param int $a_user_id
-	 * @return ilStudyProgrammeUserAssignment[]
-	 */
-	static public function getInstancesOfUser($a_user_id) {
-		global $DIC;
-		$tree = $DIC['tree'];
-		$assignment_repository = ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
-		$assignments = $assignment_repository->readByUsrId($a_user_id);
-
-		//if parent object is deleted or in trash
-		//the assignment for the user should not be returned
-		$ret = array();
-		foreach($assignments as $ass) {
-			$ass_obj = new ilStudyProgrammeUserAssignment(
-				$ass,
-				ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
-				$assignment_repository
-			);
-			foreach (ilObject::_getAllReferences($ass_obj->assignment->getRootId()) as $value) {
-				if($tree->isInTree($value)) {
-					$ret[] = $ass_obj;
-					break;
-				}
-			}
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * Get all assignments that were made to the given program.
-	 *
-	 * @param int $a_program_id
-	 * @return ilStudyProgrammeUserAssignment[]
-	 */
-	static public function getInstancesForProgram($a_program_id) {
-		$assignment_repository = ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
-		$assignments = $assignment_repository->readByPrgId($a_program_id);
-		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment(
-				$ass,
-				ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'],
-				$assignment_repository
-			);
-
-		}, array_values($assignments)); // use array values since we want keys 0...
-	}
 
 	/**
 	 * Get the id of the assignment.
@@ -207,23 +139,28 @@ class ilStudyProgrammeUserAssignment {
 	public function addMissingProgresses() {
 		$prg = $this->getStudyProgramme();
 		$id = $this->getId();
-		$progress_repository = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
-
+		$log = $this->log;
+		$progress_repository = $this->progress_repository;
+		$assignment = $this->assignment;
 		// Make $this->assignment protected again afterwards.
-		$prg->applyToSubTreeNodes(function($node) use ($id, $progress_repository) {
-			try {
-				$node->getProgressForAssignment($id);
-			}
-			catch(ilStudyProgrammeNoProgressForAssignmentException $e) {
-				global $DIC;
-				$ilLog = $DIC['ilLog'];
-				$ilLog->write("Adding progress for: ".$this->getId()." ".$node->getId());
-				$progress_repository->update(
-					$progress_repository->createFor($node->getRawSettings(), $this->assignment)
-						->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-				);
-			}
-		});
+		$prg->applyToSubTreeNodes(
+				function($node) use ($id,$log,$progress_repository,$assignment) {
+					try {
+						$node->getProgressForAssignment($id);
+					}
+					catch(ilStudyProgrammeNoProgressForAssignmentException $e) {
+						$log->write("Adding progress for: ".$id." ".$node->getId());
+						$progress_repository->update(
+							$progress_repository->createFor(
+								$node->getRawSettings(),
+								$assignment
+							)->setStatus(
+								ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+							)
+						);
+					}
+				}
+		);
 
 		return $this;
 	}

@@ -13,11 +13,13 @@ class ilStudyProgrammeUserProgressDB {
 
 	public function __construct(
 		ilStudyProgrammeProgressRepository $progress_repository,
+		ilStudyProgrammeAssignmentRepository $assignment_repository,
 		ilLanguage $lng,
 		ilStudyProgrammeEvents $events
 	)
 	{
 		$this->progress_repository = $progress_repository;
+		$this->assignment_repository = $assignment_repository;
 		$this->lng = $lng;
 		$this->events = $events;
 	}
@@ -33,7 +35,12 @@ class ilStudyProgrammeUserProgressDB {
 	 */
 	public function getInstance($a_assignment_id, $a_program_id, $a_user_id) {
 		$prgrs = $this->progress_repository->readByIds($a_program_id,$a_assignment_id,$a_user_id);
-		return new ilStudyProgrammeUserProgress($prgrs,$this->progress_repository,$this->events);
+		return new ilStudyProgrammeUserProgress(
+			$prgrs,
+			$this->progress_repository,
+			$this->assignment_repository,
+			$this->events
+		);
 	}
 
 	/**
@@ -47,7 +54,12 @@ class ilStudyProgrammeUserProgressDB {
 		if ($prgrs === null) {
 			throw new ilException("Unknown progress id $a_prgrs_id.");
 		}
-		return new ilStudyProgrammeUserProgress($prgrs,$this->progress_repository,$this->events);
+		return new ilStudyProgrammeUserProgress(
+			$prgrs,
+			$this->progress_repository,
+			$this->assignment_repository,
+			$this->events
+		);
 	}
 
 	/**
@@ -60,7 +72,12 @@ class ilStudyProgrammeUserProgressDB {
 	public function getInstancesForUser($a_program_id, $a_user_id) {
 		$progresses = $this->progress_repository->readByPrgIdAndUserId($a_program_id,$a_user_id);
 		return array_values(array_map(function($dat) {
-			return new ilStudyProgrammeUserProgress($dat,$this->progress_repository,$this->events);
+			return new ilStudyProgrammeUserProgress(
+				$dat,
+				$this->progress_repository,
+				$this->assignment_repository,
+				$this->events
+			);
 		}, $progresses));
 	}
 
@@ -83,7 +100,12 @@ class ilStudyProgrammeUserProgressDB {
 								."Assignment '$a_assignment_id' does not belong to program "
 								."'$a_program_id'");
 		}
-		return new ilStudyProgrammeUserProgress($progress,$this->progress_repository,$this->events);
+		return new ilStudyProgrammeUserProgress(
+			$progress,
+			$this->progress_repository,
+			$this->assignment_repository,
+			$this->events
+		);
 	}
 
 	/**
@@ -105,7 +127,12 @@ class ilStudyProgrammeUserProgressDB {
 								."Can't find progresses for assignment '$a_assignment_id'.");
 		}
 		return array_map(function($dat) {
-			return new ilStudyProgrammeUserProgress($dat,$this->progress_repository,$this->events);
+			return new ilStudyProgrammeUserProgress(
+				$dat,
+				$this->progress_repository,
+				$this->assignment_repository,
+				$this->events
+			);
 		}, $progresses);
 	}
 
@@ -118,7 +145,12 @@ class ilStudyProgrammeUserProgressDB {
 	public function getInstancesForProgram($a_program_id) {
 		$progresses = $this->progress_repository->readByPrgId($a_program_id);
 		return array_values(array_map(function($dat) {
-			return new ilStudyProgrammeUserProgress($dat,$this->progress_repository,$this->events);
+			return new ilStudyProgrammeUserProgress(
+				$dat,
+				$this->progress_repository,
+				$this->assignment_repository,
+				$this->events
+			);
 		}, $progresses));
 	}
 
