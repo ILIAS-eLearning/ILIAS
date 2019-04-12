@@ -921,6 +921,17 @@ class ilLPStatus
 	
 	public static function getListGUIStatus($a_obj_id)
 	{
+<<<<<<< HEAD
+=======
+		if ($a_image_only) {
+			$image = '';
+			if (isset(self::$list_gui_cache[$a_obj_id]["image"])) {
+				$image = self::$list_gui_cache[$a_obj_id]["image"];
+			}
+
+			return $image;
+		}
+>>>>>>> 062e84df5b... Tracking: Fixed PHP warning in ilLPStatus when accessing illegal string offset 'image'
 		return self::$list_gui_cache[$a_obj_id];
 	}
 }	
