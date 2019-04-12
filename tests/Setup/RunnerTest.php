@@ -181,4 +181,50 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals($expected, $result);
 	}
+
+	public function testAllGoalsDetectsCycle() {
+		$goal1 = $this->newGoal();
+		$goal2 = $this->newGoal();
+
+		$goal1
+			->method("getPreconditions")
+			->willReturn([$goal2]);
+
+		$goal2
+			->method("getPreconditions")
+			->willReturn([$goal1]);
+
+		$config = $this->createMock(Setup\Config::class);
+		$configuration_loader = $this->createMock(Setup\ConfigurationLoader::class);
+		$environment = $this->createMock(Setup\Environment::class);
+
+		$type = "TYPE";
+
+		$configuration_loader
+			->method("loadConfigurationFor")
+			->with($type)
+			->willReturn($config);
+
+		foreach([$goal1, $goal2] as $goal) {
+			$goal
+				->method("getType")
+				->willReturn($type);
+			$goal
+				->expects($this->atLeastOnce())
+				->method("withResourcesFrom")
+				->with($environment)
+				->willReturn($goal);
+			$goal
+				->expects($this->atLeastOnce())
+				->method("withConfiguration")
+				->with($config)
+				->willReturn($goal);
+		}
+
+		$runner = new Setup\Runner($environment, $configuration_loader, $goal1);
+
+		$this->expectException(Setup\UnachievableException::class);		
+		iterator_to_array($runner->allGoals());
+	}
+
 }
