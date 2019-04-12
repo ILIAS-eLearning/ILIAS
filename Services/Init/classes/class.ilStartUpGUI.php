@@ -1737,25 +1737,27 @@ class ilStartUpGUI
 		foreach ($list as $key => $client)
 		{
 			$client->setDSN();
-						
-			if ($client->checkDatabaseExists(true) and $client->ini->readVariable("client","access") and $client->getSetting("setup_ok"))
+			if ($client->checkDatabaseExists(true))
 			{
-				$this->ctrl->setParameter($this, "client_id", $key);
-				$tmp = array();
-				$tmp[] = $client->getName();
-				$tmp[] = "<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">".$lng->txt("clientlist_login_page")."</a>";
-
-				if($client->getSetting('pub_section'))
+				$client->connect();
+				if ($client->ini->readVariable("client", "access") and $client->getSetting("setup_ok"))
 				{
-					$hasPublicSection = true;
-					$tmp[] = "<a href=\"" . "ilias.php?baseClass=ilRepositoryGUI&client_id=" . urlencode($key) . "\">".$lng->txt("clientlist_start_page")."</a>";
-				}
-				else
-				{
-					$tmp[] = '';
-				}
+					$this->ctrl->setParameter($this, "client_id", $key);
+					$tmp = array();
+					$tmp[] = $client->getName();
+					$tmp[] = "<a href=\"" . "login.php?cmd=force_login&client_id=" . urlencode($key) . "\">" . $lng->txt("clientlist_login_page") . "</a>";
 
-				$data[] = $tmp;
+					if ($client->getSetting('pub_section'))
+					{
+						$hasPublicSection = true;
+						$tmp[] = "<a href=\"" . "ilias.php?baseClass=ilRepositoryGUI&client_id=" . urlencode($key) . "\">" . $lng->txt("clientlist_start_page") . "</a>";
+					} else
+					{
+						$tmp[] = '';
+					}
+
+					$data[] = $tmp;
+				}
 			}
 		}
 

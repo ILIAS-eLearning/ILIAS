@@ -76,6 +76,11 @@ class ilStartEventElement extends ilBaseElement
 				$code .= $this->element_varname . '_detector->setListeningTimeframe(' .(int) $event_definition['listening_start'] . 
 					', ' . (int) $event_definition['listening_end'] . ');';
 			}
+			else if(isset($event_definition['listening_relative']) && isset($event_definition['listening_interval']))
+			{
+				$code .= $this->element_varname . '_detector->setTimerRelative(true);';
+				$code .= $this->element_varname . '_detector->setTimerLimit(' .(int) $event_definition['listening_interval'] . ');';
+			}
 		}
 		else
 		{
