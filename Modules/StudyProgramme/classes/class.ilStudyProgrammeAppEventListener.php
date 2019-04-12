@@ -56,8 +56,7 @@ class ilStudyProgrammeAppEventListener {
 	}
 
 	private static function onServiceUserDeleteUser($a_parameter) {
-		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
-		$assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($a_parameter["usr_id"]);
+		$assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']->getInstancesOfUser((int)$a_parameter["usr_id"]);
 		foreach ($assignments as $ass) {
 			$ass->deassign();
 		}

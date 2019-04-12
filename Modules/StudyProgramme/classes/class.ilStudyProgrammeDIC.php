@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-use Pimple;
+use Pimple\Container;
 
 class ilStudyProgrammeDIC
 {
 	public static $dic;
-	public static function dic() : Pimple\Container
+	public static function dic() : Container
 	{
 		if(!self::$dic) {
 			self::$dic = self::buildDIC();
@@ -13,14 +13,17 @@ class ilStudyProgrammeDIC
 		return self::$dic;
 	}
 
-	protected static function buildDIC() : Pimple\Container
+	protected static function buildDIC() : Container
 	{
 		global $DIC;
 
-		$dic = new Pimple\Container();
+		$dic = new Container();
 
 		$dic['ilStudyProgrammeEvents'] = function($dic) use ($DIC) {
-			return new ilStudyProgrammeEvents($DIC['ilAppEventHandler']);
+			return new ilStudyProgrammeEvents(
+				$DIC['ilAppEventHandler'],
+				$dic['model.Assignment.ilStudyProgrammeAssignmentRepository']
+			);
 		};
 		$dic['model.Settings.ilStudyProgrammeSettingsRepository'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeSettingsDBRepository($DIC['ilDB']);
@@ -62,6 +65,7 @@ class ilStudyProgrammeDIC
 				$DIC['lng'],
 				$DIC['ilUser'],
 				$dic['ilStudyProgrammeUserProgressDB'],
+				$dic['ilStudyProgrammeUserAssignmentDB'],
 				$dic['ilStudyProgrammeRepositorySearchGUI'],
 				$dic['ilObjStudyProgrammeIndividualPlanGUI']
 			);
@@ -99,7 +103,8 @@ class ilStudyProgrammeDIC
 				$DIC['ilCtrl'],
 				$DIC['lng'],
 				$DIC['ilUser'],
-				$dic['ilStudyProgrammeUserProgressDB']
+				$dic['ilStudyProgrammeUserProgressDB'],
+				$dic['ilStudyProgrammeUserAssignmentDB']
 			);
 		};
 		$dic['TransformationFactory'] = function($dic) use ($DIC) {
@@ -114,8 +119,18 @@ class ilStudyProgrammeDIC
 		$dic['ilStudyProgrammeUserProgressDB'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeUserProgressDB(
 				$dic['model.Progress.ilStudyProgrammeProgressRepository'],
+				$dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
 				$DIC['lng'],
 				$dic['ilStudyProgrammeEvents']
+			);
+		};
+		$dic['ilStudyProgrammeUserAssignmentDB'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeUserAssignmentDB(
+				$dic['ilStudyProgrammeUserProgressDB'],
+				$dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
+				$dic['model.Progress.ilStudyProgrammeProgressRepository'],
+				$DIC['tree'],
+				$DIC['ilLog']
 			);
 		};
 		return $dic;

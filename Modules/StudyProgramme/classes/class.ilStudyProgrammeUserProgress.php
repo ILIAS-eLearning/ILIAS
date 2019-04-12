@@ -26,33 +26,14 @@ class ilStudyProgrammeUserProgress {
 	 * @param int[] | ilStudyProgrammeAssignment $a_ids_or_model
 	 */
 	public function __construct(
-		$a_ids_or_model,
+		ilStudyProgrammeProgress $progress,
 		ilStudyProgrammeProgressRepository $progress_repository,
+		ilStudyProgrammeAssignmentRepository $assignment_repository,
 		ilStudyProgrammeEvents $events
 	) {
-		if ($a_ids_or_model instanceof ilStudyProgrammeProgress) {
-			$this->progress = $a_ids_or_model;
-		}
-		else {
-			if (count($a_ids_or_model) != 3) {
-				throw new ilException("ilStudyProgrammeUserProgress::__construct: "
-									 ."expected array with 3 items.");
-			}
-
-			// TODO: ActiveRecord won't be caching the model objects, since
-			// we are not using find. Maybe we should do this ourselves??
-			// Or should we instead cache in getInstance?
-			$this->progress = array_shift(
-				ilStudyProgrammeProgress::where(array
-							( "assignment_id" => $a_ids_or_model[0]
-							, "prg_id" => $a_ids_or_model[1]
-							, "usr_id" => $a_ids_or_model[2]
-							))->get());
-		}
-		if ($this->progress === null) {
-			throw new ilException("ilStudyProgrammeUserProgress::__construct: Could not find progress.");
-		}
+		$this->progress = $progress;
 		$this->progress_repository = $progress_repository;
+		$this->assignment_repository = $assignment_repository;
 		$this->events = $events;
 	}
 
@@ -67,7 +48,6 @@ class ilStudyProgrammeUserProgress {
 	 * @return ilObjStudyProgramme
 	 */
 	public function getStudyProgramme() {
-		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		$refs = ilObject::_getAllReferences($this->progress->getNodeId());
 		if (!count($refs)) {
 			throw new ilException("ilStudyProgrammeUserAssignment::getStudyProgramme: "
@@ -80,11 +60,10 @@ class ilStudyProgrammeUserProgress {
 	/**
 	 * Get the assignment this progress belongs to.
 	 *
-	 * @return ilStudyProgrammeUserAssignment
+	 * @return int
 	 */
-	public function getAssignment() {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
-		return ilStudyProgrammeUserAssignment::getInstance($this->progress->getAssignmentId());
+	public function getAssignmentId() {
+		return $this->progress->getAssignmentId();
 	}
 
 	/**
@@ -217,13 +196,11 @@ class ilStudyProgrammeUserProgress {
 									 ."Can't mark as accredited since program is outdated.");
 			}
 		}
-
 		$this->progress_repository->update(
 			$this->progress
 				->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
 				->setCompletionBy($a_user_id)
 		);
-
 		$this->events->userSuccessful($this);
 
 		$this->updateParentStatus();
@@ -369,7 +346,6 @@ class ilStudyProgrammeUserProgress {
 			$this->progress
 				->setAmountOfPoints($a_points)
 				->setLastChangeBy($a_user_id)
-
 		);
 		$this->updateStatus();
 		return $this;
@@ -556,7 +532,6 @@ class ilStudyProgrammeUserProgress {
 			}
 			return $child->getAmountOfPoints();
 		};
-
 		$achieved_points = array_reduce(array_map($get_points, $this->getChildrenProgress()), $add);
 		if (!$achieved_points) {
 			$achieved_points = 0;
@@ -650,7 +625,7 @@ class ilStudyProgrammeUserProgress {
 			return null;
 		}
 
-		if($this->getStudyProgramme()->getId() == $this->getAssignment()->getStudyProgramme()->getId()) {
+		if($this->getStudyProgramme()->getId() == $this->assignment_repository->read($this->getAssignmentId())->getRootId()) {
 			return null;
 		}
 

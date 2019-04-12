@@ -63,6 +63,7 @@ class ilObjStudyProgrammeMembersGUI {
 		\ilLanguage $lng,
 		\ilObjUser $user,
 		ilStudyProgrammeUserProgressDB $sp_user_progress_db,
+		ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
 		ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
 		ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui
 	) {
@@ -431,7 +432,7 @@ class ilObjStudyProgrammeMembersGUI {
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
-			$ass = $prgrs->getAssignment();
+			$ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
 			$prg = $ass->getStudyProgramme();
 			if ($prg->getRefId() != $this->ref_id) {
 				$not_updated[] = $prgrs_id;
@@ -501,7 +502,7 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function remove($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
-		$ass = $prgrs->getAssignment();
+		$ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
 		$prg = $ass->getStudyProgramme();
 		if ($prg->getRefId() != $this->ref_id) {
 			throw new ilException("Can only remove users from the node they where assigned to.");
