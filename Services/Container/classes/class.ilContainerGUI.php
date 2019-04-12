@@ -1549,7 +1549,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$_POST["id"] = array($_GET["item_ref_id"]);
 		}
 
-		//$ilErr->raiseError("move operation does not work at the moment and is disabled", $ilErr->MESSAGE);
+		$no_cut = [];
 
 		if (!isset($_POST["id"]))
 		{
@@ -1615,6 +1615,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		$objDefinition = $this->obj_definition;
 		$ilErr = $this->error;
+
+		$no_copy = [];
 
 		if ($_GET["item_ref_id"] != "")
 		{
@@ -1702,7 +1704,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
-		
+
+		$no_download = [];
+		$no_perm = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1866,6 +1871,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		$ilErr = $this->error;
 
+		$no_cut = [];
+		$no_link = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1959,6 +1967,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilObjDataCache = $this->obj_data_cache;
 		$ilUser = $this->user;
 		$ilErr = $this->error;
+
+		$exists = [];
+		$is_child = [];
+		$not_allowed_subobject = [];
+		$no_paste = [];
 
 		$command = $_SESSION['clipboard']['cmd'];
 		if(!in_array($command, array('cut', 'link', 'copy')))
