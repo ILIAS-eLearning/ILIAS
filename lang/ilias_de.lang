@@ -5436,7 +5436,7 @@ content#:#cont_Block#:#Block
 content#:#cont_blocked_users#:#Gesperrte Benutzer
 content#:#cont_blocked_users_mail_link#:#Klicken Sie auf den folgenden Link, um das Lernmodul zu öffnen.
 content#:#cont_bottom#:#Unten
-content#:#cont_bullet_list#:#Unnummerierte Liste
+content#:#cont_bullet_list#:#Aufzählungsliste
 content#:#cont_cach_mode#:#Modus
 content#:#cont_cach_mode_automatic#:#Automatisch
 content#:#cont_cach_mode_automatic_info#:#Es werden alle Ihre Sprechstundentermine veröffentlicht.
@@ -12426,7 +12426,7 @@ sahs#:#sahs_insert_sco_from_clip_inside_chap#:#SCOs aus Zwischenablage einfügen
 sahs#:#sahs_insert_sco_inside_chap#:#SCO einfügen (innerhalb eines Kapitels)
 sahs#:#sahs_insert_special_page#:#Spezialseite einfügen
 sahs#:#sahs_learning_objectives#:#Lernziele
-sahs#:#sahs_list_info#:#Verwenden Sie ein vorangestelltes * für unnummerierte oder ein # für nummerierte Listen
+sahs#:#sahs_list_info#:#Verwenden Sie ein vorangestelltes * für Aufzählungslisten oder ein # für Nummerierte Listen
 sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-E-Mails auf den Lernfortschrittsansichten eines SCORM-Moduls
 sahs#:#sahs_new_asset#:#Neues Asset
@@ -13760,7 +13760,7 @@ survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
 survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
-survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
+survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein numerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
 survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temparatur der Celsius-Skala.
 survey#:#metric_subtype_description_ratioabsolute#:#Ein quantitatives Merkmal heißt absolutskaliert, wenn nur eine einzige sinnvolle Skala zu dessen Messung verwendet werden kann. Dies ist gleichbedeutend mit der Tatsache, dass nur eine sinnvolle Einheit für das Merkmal in Frage kommt, wie z.B. die Anzahl der Kinder einer Familie. Auch Merkmale, deren Ausprägungen in Prozent gemessen werden, sind absolutskaliert (z.B. Wahrscheinlichkeiten).
@@ -14739,7 +14739,7 @@ validation#:#not_greater_than#:#'%s' ist nicht größer als '%s'.
 validation#:#not_less_than#:#'%s' ist nicht kleiner als '%s'.
 validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als '%s'.
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
-validation#:#not_numeric#:#'%s' ist nicht nummerisch.
+validation#:#not_numeric#:#'%s' ist nicht numerisch.
 webr#:#invalid_links_tbl#:#Ungültige Links
 webr#:#webr_active#:#Aktiv
 webr#:#webr_container_info#:#Da diese Weblink-Sammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
