@@ -3690,10 +3690,12 @@ class ilObjectListGUI
 		$this->tpl->setVariable("DIV_CLASS",'ilContainerListItemOuter');
 		$this->tpl->setVariable("DIV_ID", 'data-list-item-id="'.$this->getUniqueItemId(true).'" id = "'.$this->getUniqueItemId(true).'"');
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
-		
-		// #11554 - make sure that internal ids are reset
-		$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
-		
+
+		if (is_object($this->getContainerObject())) {
+			// #11554 - make sure that internal ids are reset
+			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
+		}
+
 		return $this->tpl->get();
 	}
 	
