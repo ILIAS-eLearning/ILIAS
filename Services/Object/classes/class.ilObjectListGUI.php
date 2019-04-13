@@ -1824,6 +1824,7 @@ class ilObjectListGUI
 		$redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
 
 		// add common properties (comments, notes, tags)
+		require_once 'Services/Notes/classes/class.ilNote.php';
 		if ((self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0 ||
 				self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0 ||
 				self::$cnt_tags[$note_obj_id] > 0 ||
