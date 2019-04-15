@@ -30,7 +30,6 @@ class NewMethodTransformation implements Transformation
 	/**
 	 * @param string $className
 	 * @param string $methodToCall
-	 * @throws \ilException
 	 */
 	public function __construct(string $className, string $methodToCall)
 	{

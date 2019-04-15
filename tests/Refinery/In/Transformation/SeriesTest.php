@@ -41,6 +41,8 @@ class SeriesTest extends TestCase
 
 	public function testSeriesTransformationFails()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$series = new Series(array(
 			new IntegerTransformation(),
 			new StringTransformation()
@@ -73,6 +75,8 @@ class SeriesTest extends TestCase
 
 	public function testInvalidTransformationThrowsException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$parallel = new Series(array(
 					new StringTransformation(),

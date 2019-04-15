@@ -32,6 +32,8 @@ class ListTransformationTest extends TestCase
 
 	public function testListTransformationIsInvalid()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$listTransformation = new ListTransformation(new StringTransformation());
 
 		try {

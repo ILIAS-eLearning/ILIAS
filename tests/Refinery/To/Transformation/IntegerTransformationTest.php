@@ -21,7 +21,7 @@ class IntegerTransformationTest extends TestCase
 	 */
 	private $transformation;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->transformation = new IntegerTransformation();
 	}
@@ -49,6 +49,8 @@ class IntegerTransformationTest extends TestCase
 
 	public function testStringToIntegerTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform('hello');
 		} catch (ConstraintViolationException $exception) {
@@ -60,6 +62,8 @@ class IntegerTransformationTest extends TestCase
 
 	public function testFloatToIntegerTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(10.5);
 		} catch (ConstraintViolationException $exception) {
@@ -71,6 +75,8 @@ class IntegerTransformationTest extends TestCase
 
 	public function testPositiveBooleanToIntegerTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(true);
 		} catch (ConstraintViolationException $exception) {
@@ -82,6 +88,8 @@ class IntegerTransformationTest extends TestCase
 
 	public function testNegativeBooleanToIntegerTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(false);
 		} catch (ConstraintViolationException $exception) {

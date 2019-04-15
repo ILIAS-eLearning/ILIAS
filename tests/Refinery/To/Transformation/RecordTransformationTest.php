@@ -36,6 +36,8 @@ class RecordTransformationTest extends TestCase
 
 	public function testInvalidTransformationArray()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$recordTransformation = new RecordTransformation(
 				array(
@@ -51,6 +53,8 @@ class RecordTransformationTest extends TestCase
 
 	public function testTransformationIsInvalidBecauseValueDoesNotMatchWithTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$recordTransformation = new RecordTransformation(
 			array(
 				'integerTrafo' => new IntegerTransformation(),
@@ -68,6 +72,8 @@ class RecordTransformationTest extends TestCase
 
 	public function testInvalidValueKey()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$recordTransformation = new RecordTransformation(
 			array(
 				'stringTrafo' => new StringTransformation(),
@@ -85,6 +91,8 @@ class RecordTransformationTest extends TestCase
 
 	public function testInvalidToManyValues()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$recordTransformation = new RecordTransformation(
 			array(
 				'stringTrafo' => new StringTransformation(),
@@ -109,6 +117,8 @@ class RecordTransformationTest extends TestCase
 
 	public function testTransformationThrowsExceptionBecauseKeyIsNotAString()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$recordTransformation = new RecordTransformation(
 			array(
 				'stringTrafo' => new StringTransformation(),

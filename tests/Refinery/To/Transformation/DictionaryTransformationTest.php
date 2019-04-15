@@ -32,6 +32,8 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		try {
@@ -45,6 +47,8 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryTransformationInvalidBecauseValueIsNotAString()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		try {
@@ -58,6 +62,8 @@ class DictionaryTransformationTest extends TestCase
 
 	public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new DictionaryTransformation(new StringTransformation());
 
 		try {

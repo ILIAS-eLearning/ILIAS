@@ -29,14 +29,17 @@ class NewObjectTransformationTest extends TestCase
 		$this->assertEquals(array('hello', 42), $result);
 	}
 
-	/**
-	 * @expectedException \TypeError
-	 */
 	public function testNewObjectTransformationThrowsTypeErrorOnInvalidConstructorArguments()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new NewObjectTransformation(MyClass::class);
 
-		$object = $transformation->transform(array('hello', 'world'));
+		try {
+			$object = $transformation->transform(array('hello', 'world'));
+		} catch (\TypeError $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
@@ -59,6 +62,8 @@ class NewObjectTransformationTest extends TestCase
 
 	public function testNewObjectApplyResultsErrorObjectOnInvalidConstructorArguments()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new NewObjectTransformation(MyClass::class);
 
 		try {
@@ -79,14 +84,17 @@ class NewObjectTransformationTest extends TestCase
 		$this->assertTrue($resultObject->isError());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
 	public function testExceptionInConstructorWillThrowException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new NewObjectTransformation(MyClassThrowsException::class);
 
-		$resultObject = $transformation->transform(array('hello', 100));
+		try {
+			$resultObject = $transformation->transform(array('hello', 100));
+		} catch (\Exception $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

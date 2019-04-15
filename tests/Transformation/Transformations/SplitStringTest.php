@@ -19,7 +19,7 @@ class SplitStringTest extends TestCase {
 	 */
 	private $split_string;
 
-	protected function setUp() {
+	protected function setUp() : void{
 		$this->f = new Transformation\Factory();
 		$this->split_string = $this->f->splitString("#");
 	}

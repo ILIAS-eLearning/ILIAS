@@ -21,7 +21,7 @@ class StringTransformationTest extends TestCase
 	 */
 	private $transformation;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->transformation = new StringTransformation();
 	}
@@ -35,6 +35,8 @@ class StringTransformationTest extends TestCase
 
 	public function testIntegerToStringTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(200);
 		} catch (ConstraintViolationException $exception) {
@@ -46,6 +48,8 @@ class StringTransformationTest extends TestCase
 
 	public function testNegativeIntegerToIntegerTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(-200);
 		} catch (ConstraintViolationException $exception) {
@@ -57,6 +61,8 @@ class StringTransformationTest extends TestCase
 
 	public function testZeroIntegerToIntegerTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(0);
 		} catch (ConstraintViolationException $exception) {
@@ -68,6 +74,10 @@ class StringTransformationTest extends TestCase
 
 	public function testFloatToStringTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(10.5);
 		} catch (ConstraintViolationException $exception) {
@@ -79,6 +89,8 @@ class StringTransformationTest extends TestCase
 
 	public function testPositiveBooleanToStringTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(true);
 		} catch (ConstraintViolationException $exception) {
@@ -90,6 +102,8 @@ class StringTransformationTest extends TestCase
 
 	public function testNegativeBooleanToStringTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(false);
 		} catch (ConstraintViolationException $exception) {

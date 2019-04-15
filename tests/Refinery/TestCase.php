@@ -7,9 +7,11 @@
 
 namespace ILIAS\Tests\Refinery;
 
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+
 require_once('./libs/composer/vendor/autoload.php');
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends PHPUnitTestCase
 {
 
 }

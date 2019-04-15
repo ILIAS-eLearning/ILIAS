@@ -21,13 +21,15 @@ class BooleanTransformationTest extends TestCase
 	 */
 	private $transformation;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->transformation = new BooleanTransformation();
 	}
 
 	public function testIntegerToBooleanTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(200);
 		} catch (ConstraintViolationException $exception) {
@@ -38,6 +40,8 @@ class BooleanTransformationTest extends TestCase
 
 	public function testNegativeIntegerToBooleanTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(-200);
 		} catch (ConstraintViolationException $exception) {
@@ -48,6 +52,8 @@ class BooleanTransformationTest extends TestCase
 
 	public function testZeroIntegerToBooleanTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(0);
 		} catch (ConstraintViolationException $exception) {
@@ -58,6 +64,8 @@ class BooleanTransformationTest extends TestCase
 
 	public function testStringToBooleanTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform('hello');
 		} catch (ConstraintViolationException $exception) {
@@ -68,6 +76,8 @@ class BooleanTransformationTest extends TestCase
 
 	public function testFloatToBooleanTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(10.5);
 		} catch (ConstraintViolationException $exception) {
@@ -78,6 +88,8 @@ class BooleanTransformationTest extends TestCase
 
 	public function testNegativeFloatToBooleanTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(-10.5);
 		} catch (ConstraintViolationException $exception) {
@@ -88,6 +100,8 @@ class BooleanTransformationTest extends TestCase
 
 	public function testZeroFloatToBooleanTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformedValue = $this->transformation->transform(0.0);
 		} catch (ConstraintViolationException $exception) {

@@ -31,7 +31,7 @@ class GroupTest extends TestCase
 	 */
 	private $basicGroup;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->basicGroup = new Group();
 	}
@@ -115,26 +115,30 @@ class GroupTest extends TestCase
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 * @throws \ilException
-	 */
 	public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven()
 	{
-		$transformation = $this->basicGroup->toNew(array(MyClass::class, 'myMethod', 'hello'));
+		$this->expectNotToPerformAssertions();
 
-		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+		try {
+			$transformation = $this->basicGroup->toNew(array(MyClass::class, 'myMethod', 'hello'));
+		} catch (\InvalidArgumentException $exception) {
+			return;
+		}
+
+		$this->fail();
 	}
 
-	/**
-	 * @expectedException  \InvalidArgumentException
-	 * @throws \ilException
-	 */
 	public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven()
 	{
-		$transformation = $this->basicGroup->toNew(array(MyClass::class));
+		$this->expectNotToPerformAssertions();
 
-		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+		try {
+			$transformation = $this->basicGroup->toNew(array(MyClass::class));
+		} catch (\InvalidArgumentException $exception) {
+			return;
+		}
+
+		$this->fail();
 	}
 
 	/**

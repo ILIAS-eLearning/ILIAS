@@ -52,6 +52,7 @@ class ParallelTest extends TestCase
 
 	public function testParallelTransformationFailsBecauseOfInvalidType()
 	{
+		$this->expectNotToPerformAssertions();
 		$parallel = new Parallel(array(new StringTransformation()));
 
 		try {
@@ -79,6 +80,8 @@ class ParallelTest extends TestCase
 
 	public function testInvalidTransformationThrowsException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$parallel = new Parallel(array(
 					new StringTransformation(),

@@ -8,6 +8,7 @@
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
 use ILIAS\Data\Result\Ok;
+use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Refinery\To\Transformation\NewMethodTransformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
@@ -18,7 +19,7 @@ class NewMethodTransformationTest extends TestCase
 {
 	private $instance;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->instance = new NewMethodTransformationTestClass();
 	}
@@ -36,20 +37,25 @@ class NewMethodTransformationTest extends TestCase
 		$this->assertEquals(array('hello', 42), $result);
 	}
 
-	/**
-	 * @expectedException \TypeError
-	 */
 	public function testNewMethodTransformationThrowsTypeErrorOnInvalidConstructorArguments()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myMethod');
 
-		$object = $transformation->transform(array('hello', 'world'));
+		try {
+			$object = $transformation->transform(array('hello', 'world'));
+		} catch (\TypeError $exception) {
+			return;
+		}
 
 		$this->fail();
 	}
 
 	public function testClassDoesNotExistWillThrowException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformation = new NewMethodTransformation('BreakdanceMcFunkyPants', 'myMethod');
 		} catch (ConstraintViolationException $exception) {
@@ -61,6 +67,8 @@ class NewMethodTransformationTest extends TestCase
 
 	public function testMethodDoesNotExistOnClassWillThrowException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'someMethod');
 		} catch (ConstraintViolationException $exception) {
@@ -72,6 +80,8 @@ class NewMethodTransformationTest extends TestCase
 
 	public function testPrivateMethodCanNotBeCalledInTransform()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myPrivateMethod');
 
 		try {
@@ -85,6 +95,8 @@ class NewMethodTransformationTest extends TestCase
 
 	public function testPrivateMethodCanNotBeCalledInApplyto()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'myPrivateMethod');
 		try {
 			$object = $transformation->applyTo(new Ok(array('hello', 10)));
@@ -95,14 +107,17 @@ class NewMethodTransformationTest extends TestCase
 		$this->fail();
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
 	public function testMethodThrowsExceptionInTransform()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new NewMethodTransformation(NewMethodTransformationTestClass::class, 'methodThrowsException');
 
-		$object = $transformation->transform(array('hello', 10));
+		try {
+			$object = $transformation->transform(array('hello', 10));
+		} catch (\Exception $exception) {
+			return;
+		}
 
 		$this->fail();
 	}

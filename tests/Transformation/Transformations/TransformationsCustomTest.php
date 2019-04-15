@@ -18,7 +18,7 @@ class TransformationsCustomTest extends TestCase {
 	 */
 	private $custom;
 
-	protected function setUp() {
+	protected function setUp() : void {
 		$this->f = new Transformation\Factory();
 		$this->custom = $this->f->custom(function($value) {
 			if(!is_string($value)) {

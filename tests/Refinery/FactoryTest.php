@@ -19,7 +19,7 @@ class FactoryTest extends TestCase
 	 */
 	private $basicFactory;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->basicFactory = new Factory();
 	}

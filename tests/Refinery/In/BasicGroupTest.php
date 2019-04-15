@@ -23,7 +23,7 @@ class BasicGroupTest extends TestCase
 	 */
 	private $group;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->group = new Group();
 	}

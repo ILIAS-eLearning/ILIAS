@@ -36,6 +36,8 @@ class TupleTransformationTest extends TestCase
 
 	public function testTupleIsIncorrectAndWillThrowException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new TupleTransformation(
 			array(new IntegerTransformation(), new StringTransformation())
 		);
@@ -51,6 +53,8 @@ class TupleTransformationTest extends TestCase
 
 	public function testTupleIsIncorrectAndWillThrowException2()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new TupleTransformation(
 			array(new IntegerTransformation(), 'hello' => new IntegerTransformation())
 		);
@@ -67,6 +71,8 @@ class TupleTransformationTest extends TestCase
 
 	public function testToManyValuesForTransformation()
 	{
+		$this->expectNotToPerformAssertions();
+
 		$transformation = new TupleTransformation(
 			array(new IntegerTransformation(), new IntegerTransformation())
 		);
@@ -114,6 +120,8 @@ class TupleTransformationTest extends TestCase
 
 	public function testInvalidTransformationWillThrowException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$transformation = new TupleTransformation(
 				array(new IntegerTransformation(), 'hello')
