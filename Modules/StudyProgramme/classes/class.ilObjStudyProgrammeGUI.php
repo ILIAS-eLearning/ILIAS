@@ -28,6 +28,7 @@ require_once("./Services/Repository/classes/class.ilRepUtil.php");
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -242,6 +243,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case 'ilobjectcopygui':
 				$gui = new ilobjectcopygui($this);
 				$this->ctrl->forwardCommand($gui);
+				break;
+			case 'ilobjecttranslationgui':
+				$this->denyAccessIfNot("write");
+				$this->getSubTabs('settings');
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->setSubTabActive('settings_trans');
+				$transgui = new ilObjectTranslationGUI($this);
+				$this->ctrl->forwardCommand($transgui);
 				break;
 			case false:
 				$this->getSubTabs($cmd);
@@ -607,6 +616,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case 'settings':
 			case 'editAdvancedSettings':
 				$this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
+				$this->tabs_gui->addSubTab("settings_trans",$this->lng->txt("obj_multilinguality"),$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 				$sub_type_id = $this->object->getSubtypeId();
 				if($sub_type_id) {
