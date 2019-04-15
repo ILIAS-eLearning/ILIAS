@@ -1814,7 +1814,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setPhone(ilUtil::stripSlashes($_POST['tutor_phone']));
 		$this->object->setEmail(ilUtil::stripSlashes($_POST['tutor_email']));
 		$this->object->setDetails(ilUtil::stripSlashes($_POST['details']));
-		
+
+		$this->object->setRegistrationNotificationEnabled(ilUtil::stripSlashes($_POST['registration_notification']));
+		$this->object->setRegistrationNotificationOption(ilUtil::stripSlashes($_POST['notification_option']));
+
 		$this->object->setRegistrationType((int) $_POST['registration_type']);
 		// $this->object->setRegistrationMinUsers((int) $_POST['registration_min_members']);
 		$this->object->setRegistrationMaxUsers((int) $_POST['registration_max_members']);

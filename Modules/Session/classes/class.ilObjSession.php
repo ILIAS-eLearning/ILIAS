@@ -61,9 +61,11 @@ class ilObjSession extends ilObject
 	 * @var \ilSessionParticipants
 	 */
 	protected $members_obj;
-	
 
-	
+
+	private $registrationNotificationEnabled;
+	private $notificationOption;
+
 	/**
 	* Constructor
 	* @access	public
@@ -167,7 +169,7 @@ class ilObjSession extends ilObject
 			$this->getFirstAppointment()->getEnd()
 		) . $title;
 	}
-	
+
 	/**
 	 * Create local session participant role
 	 */
@@ -401,7 +403,29 @@ class ilObjSession extends ilObject
 	{
 		return (bool) $this->show_members;
 	}
-	
+
+	// thkoeln-patch: begin
+	public function isRegistrationNotificationEnabled()
+	{
+		return (bool) $this->registrationNotificationEnabled;
+	}
+
+	public function setRegistrationNotificationEnabled($value)
+	{
+		return $this->registrationNotificationEnabled = $value;
+	}
+
+	public function getRegistrationNotificationOption()
+	{
+		return $this->notificationOption;
+	}
+
+	public function setRegistrationNotificationOption($value)
+	{
+		$this->notificationOption = $value;
+	}
+	// thkoeln-patch: end
+
 	/**
 	 * is registration enabled
 	 *
@@ -490,7 +514,7 @@ class ilObjSession extends ilObject
 		return $this->mail_members;
 	}
 
-	
+
 	/**
 	 * validate
 	 *
@@ -596,7 +620,10 @@ class ilObjSession extends ilObject
 		$new_obj->setRegistrationMaxUsers($this->getRegistrationMaxUsers());
 		$new_obj->setShowMembers($this->getShowMembers());
 		$new_obj->setMailToMembersType($this->getMailToMembersType());
-		
+
+		$new_obj->setRegistrationNotificationEnabled($this->isRegistrationNotificationEnabled());
+		$new_obj->setRegistrationNotificationOption($this->getRegistrationNotificationOption());
+
 		$new_obj->update(true);
 		
 		return true;
@@ -651,8 +678,9 @@ class ilObjSession extends ilObject
 
 		$next_id = $ilDB->nextId('event');
 		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration, ".
-			'reg_type, reg_limit_users, reg_limited, reg_waiting_list, reg_min_users, reg_auto_wait,show_members,mail_members) '.
-			"VALUES( ".
+			'reg_type, reg_limit_users, reg_limited, reg_waiting_list, reg_min_users, reg_auto_wait,show_members,mail_members,
+			reg_notification, notification_opt) '.
+            "VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getId() ,'integer').", ".
 			$this->db->quote($this->getLocation() ,'text').",".
@@ -668,7 +696,9 @@ class ilObjSession extends ilObject
 			$this->db->quote($this->getRegistrationMinUsers(),'integer').', '.
 			$this->db->quote($this->hasWaitingListAutoFill(),'integer').', '.
 			$this->db->quote($this->getShowMembers(),'integer').', '.
-			$this->db->quote($this->getMailToMembersType(),'integer').' '.
+			$this->db->quote($this->getMailToMembersType(),'integer').','.
+			$this->db->quote($this->isRegistrationNotificationEnabled(),'integer') . ', ' .
+			$this->db->quote($this->getRegistrationNotificationOption(),'text') .
 			")";
 		$res = $ilDB->manipulate($query);
 		$this->event_id = $next_id;
@@ -721,7 +751,10 @@ class ilObjSession extends ilObject
 			"reg_waiting_list = ".$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer').", ".
 			"reg_auto_wait = ".$this->db->quote($this->hasWaitingListAutoFill(),'integer').", ".
 			'show_members = ' . $this->db->quote($this->getShowMembers(),'integer').', '.
-			'mail_members = ' . $this->db->quote($this->getMailToMembersType(),'integer').' '.
+			'mail_members = ' . $this->db->quote($this->getMailToMembersType(),'integer').', '.
+			"reg_auto_wait = ".$this->db->quote($this->hasWaitingListAutoFill(),'integer').", ".
+			"reg_notification = ".$this->db->quote($this->isRegistrationNotificationEnabled(),'integer').", ".
+			"notification_opt = ".$this->db->quote($this->getRegistrationNotificationOption(),'text')." ".
 			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -814,6 +847,8 @@ class ilObjSession extends ilObject
 			$this->setRegistrationMinUsers($row->reg_min_users);
 			$this->setShowMembers((bool) $row->show_members);
 			$this->setMailToMembersType((int) $row->mail_members);
+			$this->setRegistrationNotificationEnabled($row->reg_notification);
+			$this->setRegistrationNotificationOption($row->notification_opt);
 			$this->event_id = $row->event_id;
 		}
 

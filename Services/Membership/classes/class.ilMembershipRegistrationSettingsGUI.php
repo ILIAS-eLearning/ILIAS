@@ -154,7 +154,25 @@ abstract class ilMembershipRegistrationSettingsGUI
 						
 			$form->addItem($lim);
 		}
-		
+
+		// thkoeln-patch: begin
+		$notificationCheckbox = new ilCheckboxInputGUI($this->txt('registration_notification'), 'registration_notification');
+		$notificationCheckbox->setInfo($this->txt('registration_notification_info'));
+
+		$notificationOption = new ilRadioGroupInputGUI($this->txt('notification_option'), 'notification_option');
+
+		$inheritOption = new ilRadioOption($this->txt('notification_option_inherit'), 'notification_option_inherit');
+		$inheritOption->setInfo($this->txt('notification_option_inherit_info'));
+		$notificationOption->addOption($inheritOption);
+
+		$manualOption = new ilRadioOption($this->txt('notification_option_manual'), 'notification_option_manual');
+		$manualOption->setInfo($this->txt('notification_option_manual_info'));
+		$notificationOption->addOption($manualOption);
+
+		$notificationCheckbox->addSubItem($notificationOption);
+		$form->addItem($notificationCheckbox);
+		// thkoeln-patch: end
+
 		$this->setFormValues($form);
 	}
 	
