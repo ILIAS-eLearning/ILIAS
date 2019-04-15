@@ -106,7 +106,15 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsync
 	/**
 	 * @inheritDoc
 	 */
-	public function getIconPath(): Icon {
+	public function getIcon(): Icon {
 		return $this->icon;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasIcon(): bool {
+		return ($this->icon instanceof Icon);
 	}
 }

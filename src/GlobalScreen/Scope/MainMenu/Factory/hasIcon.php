@@ -20,7 +20,13 @@ interface hasIcon {
 
 
 	/**
-	 * @return string
+	 * @return Icon
 	 */
-	public function getIconPath(): Icon;
+	public function getIcon(): Icon;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasIcon(): bool;
 }

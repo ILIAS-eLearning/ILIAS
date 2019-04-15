@@ -1691,6 +1691,9 @@ class ilInitialisation
 				// TODO FSX remove global
 				global $DIC;
 				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+				if (isset($DIC->http()->request()->getQueryParams()['old'])) { // TODO remove
+					$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+				}
 			}
 		}
 		

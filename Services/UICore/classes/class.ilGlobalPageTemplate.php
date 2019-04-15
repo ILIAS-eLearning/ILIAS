@@ -2,7 +2,9 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
+use ILIAS\GlobalScreen\Scope\View\StandardView;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\UI\Component\Layout\Page\Standard;
 use ILIAS\UI\NotImplementedException;
 
 /**
@@ -75,6 +77,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 		$this->ui = $ui;
 		$this->gs = $gs;
 		$this->http = $http;
+
+		$this->view = new StandardView($this->ui->factory()->layout()->page());
 	}
 
 
@@ -101,7 +105,13 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 
 		$metabar = $this->initMetaBar();
 		$mainbar = $this->initMainBar();
-		$page = $this->ui->factory()->layout()->page()->standard($metabar, $mainbar, [$this->ui->factory()->legacy($this->center_content_html)]);
+		$this->view->addContent($this->ui->factory()->legacy($this->center_content_html));
+		/**
+		 * @var $page  Standard
+		 */
+		$page = $this->view->getPageForViewWithContent();
+		$page = $page->withMainbar($mainbar)->withMetabar($metabar);
+
 
 		foreach ($this->js_files as $js_file) {
 			// $page =
@@ -144,9 +154,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 
 		$ilMMItemRepository = new ilMMItemRepository($this->gs->storage());
 		foreach ($ilMMItemRepository->getStackedTopItemsForPresentation() as $item) {
-			$icon = $f->icon()->standard('65', '65');
-			$content = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
-			$slate = $f->mainControls()->slate()->legacy($item->getTitle(), $icon, $content);
+			$slate = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
 			$identifier = $item->getProviderIdentification()->getInternalIdentifier();
 			$main_bar = $main_bar->withAdditionalEntry($identifier, $slate);
 		}

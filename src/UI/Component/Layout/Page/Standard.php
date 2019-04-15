@@ -3,7 +3,6 @@
 
 namespace ILIAS\UI\Component\Layout\Page;
 
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\MainControls\Metabar;
 use ILIAS\UI\Component\MainControls\Mainbar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -12,21 +11,59 @@ use ILIAS\UI\Component\Image\Image;
 /**
  * This describes the Page.
  */
-interface Standard extends Component
-{
-	/**
-	 * @return Component[]
-	 */
-	public function getContent();
+interface Standard extends Page {
 
+	/**
+	 * @param Metabar $meta_bar
+	 *
+	 * @return Standard
+	 */
+	public function withMetabar(Metabar $meta_bar): Standard;
+
+
+	/**
+	 * @param Mainbar $main_bar
+	 *
+	 * @return Standard
+	 */
+	public function withMainbar(MainBar $main_bar): Standard;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasMetabar(): bool;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasMainbar(): bool;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasLogo(): bool;
+
+
+	/**
+	 * @return Metabar
+	 */
 	public function getMetabar(): Metabar;
 
+
+	/**
+	 * @return Mainbar
+	 */
 	public function getMainbar(): Mainbar;
+
 
 	/**
 	 * @return Breadcrumbs|null
 	 */
 	public function getBreadcrumbs();
+
 
 	/**
 	 * @return Image|null

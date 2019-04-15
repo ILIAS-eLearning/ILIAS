@@ -26,24 +26,30 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandardPage(Component\Layout\Page\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
-		$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
-		$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
-
-		$breadcrumbs = $component->getBreadcrumbs();
-		if($breadcrumbs) {
-			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+		if ($component->hasMetabar()) {
+			$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
+		}
+		if ($component->hasMainbar()) {
+			$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
 		}
 
-		$logo = $component->getLogo();
-		if($logo) {
-			$tpl->setVariable("LOGO", $default_renderer->render($logo));
+		$breadcrumbs = $component->getBreadcrumbs();
+		if ($breadcrumbs) {
+			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+		}
+		if ($component->hasLogo()) {
+			$logo = $component->getLogo();
+			if ($logo) {
+				$tpl->setVariable("LOGO", $default_renderer->render($logo));
+			}
 		}
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
-		if($component->getWithHeaders()) {
+		if ($component->getWithHeaders()) {
 			$tpl = $this->setHeaderVars($tpl);
 		}
+
 		return $tpl->get();
 	}
 
