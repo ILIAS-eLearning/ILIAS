@@ -13,6 +13,9 @@ require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.ph
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
+
+protected $type_gui;
+
 class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 	/**
 	 * @param      $a_data
@@ -31,6 +34,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		$this->type = 'prgs';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('prg');
+		$this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
 	}
 
 
@@ -53,9 +57,8 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 				break;
 			case 'ilstudyprogrammetypegui':
 				$this->tabs_gui->setTabActive('prg_subtypes');
-				$type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
-				$type_gui->setParentGUI($this);
-				$this->ctrl->forwardCommand($type_gui);
+				$this->type_gui->setParentGUI($this);
+				$this->ctrl->forwardCommand($this->type_gui);
 				break;
 			default:
 				if(!$cmd || $cmd == "view")
