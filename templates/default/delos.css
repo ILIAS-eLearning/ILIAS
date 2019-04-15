@@ -10979,6 +10979,9 @@ img.ilSmallIcon {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+span.ilIcalIcon {
+  text-align: initial;
+}
 /* Component Imports */
 /* Services/Accordion */
 .il_VAccordionHead,
