@@ -66,6 +66,8 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		$this->il_setting = $ilSetting;
 		$this->il_logger = ilLoggerFactory::getLogger('prg');
 
+		$this->sp_user_assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+
 		// No need to load data, as we won't display this. 
 		if (!$this->shouldShowThisList()) {
 			return;
@@ -202,12 +204,10 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 	
 	protected function readUsersAssignments() {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
-		$this->users_assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($this->il_user->getId());
+		$this->users_assignments = $this->sp_user_assignment_db->getInstancesOfUser($this->il_user->getId());
 	}
 	
 	protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment) {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php");
 		$progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
 		$progress_gui = new ilStudyProgrammeProgressListGUI($progress);
 		$progress_gui->setOnlyRelevant(true);

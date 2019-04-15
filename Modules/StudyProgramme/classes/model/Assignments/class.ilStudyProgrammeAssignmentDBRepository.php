@@ -27,12 +27,12 @@ implements ilStudyProgrammeAssignmentRepository
 	public function createFor(int $root_prg_id, int $usr_id, int $assigning_usr_id) : ilStudyProgrammeAssignment
 	{
 		if (ilObject::_lookupType($usr_id) != "usr") {
-			throw new ilException("ilStudyProgrammeAssignment::createFor: '$a_usr_id' "
+			throw new ilException("ilStudyProgrammeAssignment::createFor: '$usr_id' "
 								 ."is no id of a user.");
 		}
 		if (ilObject::_lookupType($root_prg_id) != "prg") {
-			throw new ilException("ilStudyProgrammeAssignment::createFor: '$a_usr_id' "
-								 ."is no id of a user.");
+			throw new ilException("ilStudyProgrammeAssignment::createFor: '$root_prg_id' "
+								 ."is no id of a prg.");
 		}
 		$row = [
 			self::FIELD_ID => $this->nextId(),
@@ -62,7 +62,7 @@ implements ilStudyProgrammeAssignmentRepository
 	{
 		$return = [];
 		foreach($this->loadByFilterDB([self::FIELD_USR_ID => $usr_id]) as $row) {
-			$this->assignmentByRow($row);
+			$return[] = $this->assignmentByRow($row);
 		}
 		return $return;
 	}
@@ -74,7 +74,7 @@ implements ilStudyProgrammeAssignmentRepository
 	{
 		$return = [];
 		foreach($this->loadByFilterDB([self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
-			$this->assignmentByRow($row);
+			$return[] = $this->assignmentByRow($row);
 		}
 		return $return;
 	}
@@ -85,7 +85,7 @@ implements ilStudyProgrammeAssignmentRepository
 		foreach($this->loadByFilterDB(
 			[self::FIELD_USR_ID => $usr_id
 			,self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
-			$this->assignmentByRow($row);
+			$return[] = $this->assignmentByRow($row);
 		}
 		return $return;
 	}

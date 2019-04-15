@@ -37,7 +37,7 @@ interface ilStudyProgrammeProgressRepository
 	public function readByPrgIdAndAssignmentId(
 		int $prg_id,
 		int $assignment_id
-	) : ilStudyProgrammeProgress;
+	);
 
 	/**
 	 * Load progress objects belonging to a prg id and a user id.

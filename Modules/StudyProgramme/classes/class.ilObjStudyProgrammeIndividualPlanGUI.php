@@ -21,34 +21,15 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	public $tpl;
 
 	/**
-	 * @var ilAccessHandler
-	 */
-	protected $ilAccess;
-
-	/**
 	 * @var ilObjStudyProgramme
 	 */
 	public $object;
-
-	/**
-	 * @var ilLog
-	 */
-	protected $ilLog;
-
-	/**
-	 * @var Ilias
-	 */
-	public $ilias;
 
 	/**
 	 * @var ilLng
 	 */
 	public $lng;
 
-	/**
-	 * @var ilToolbarGUI
-	 */
-	public $toolbar;
 
 	/**
 	 * @var ilObjUser
@@ -62,39 +43,39 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 */
 	protected $sp_user_progress_db;
 
-	public function __construct($a_parent_gui, $a_ref_id, ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
-
-		$this->ref_id = $a_ref_id;
-		$this->parent_gui = $a_parent_gui;
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilLanguage $lng,
+		\ilObjUser $ilUser,
+		ilStudyProgrammeUserProgressDB $sp_user_progress_db,
+		ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
+	) {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->ilAccess = $ilAccess;
-		$this->ilLocator = $ilLocator;
-		$this->tree = $tree;
-		$this->toolbar = $ilToolbar;
-		$this->ilLog = $ilLog;
-		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->user = $ilUser;
+
 		$this->assignment_object = null;
+
 		$this->sp_user_progress_db = $sp_user_progress_db;
+		$this->sp_user_assignment_db = $sp_user_assignment_db;
 
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
 
 		$this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
+	}
+
+	public function setParentGUI($a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
+	}
+
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
 	}
 
 	public function executeCommand() {
@@ -120,7 +101,6 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	}
 
 	protected function getAssignmentId() {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		if (!is_numeric($_GET["ass_id"])) {
 			throw new ilException("Expected integer 'ass_id'");
 		}
@@ -130,7 +110,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	protected function getAssignmentObject() {
 		if ($this->assignment_object === null) {
 			$id = $this->getAssignmentId();
-			$this->assignment_object = ilStudyProgrammeUserAssignment::getInstance($id);
+			$this->assignment_object = $this->sp_user_assignment_db->getInstanceById((int)$id);
 		}
 		return $this->assignment_object;
 	}
@@ -383,11 +363,11 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		return self::MANUAL_STATUS_ACCREDITED;
 	}
 
-	static public function getLinkTargetView($ctrl, $a_ass_id) {
+	public function getLinkTargetView($a_ass_id) {
 		$cl = "ilObjStudyProgrammeIndividualPlanGUI";
-		$ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
-		$link = $ctrl->getLinkTargetByClass($cl, "view");
-		$ctrl->setParameterByClass($cl, "ass_id", null);
+		$this->ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
+		$link = $this->ctrl->getLinkTargetByClass($cl, "view");
+		$this->ctrl->setParameterByClass($cl, "ass_id", null);
 		return $link;
 	}
 }

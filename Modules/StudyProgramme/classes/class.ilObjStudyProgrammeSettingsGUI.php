@@ -27,25 +27,10 @@ class ilObjStudyProgrammeSettingsGUI {
 	public $tpl;
 	
 	/**
-	 * @var ilAccessHandler
-	 */
-	protected $ilAccess;
-	
-	/**
 	 * @var ilObjStudyProgramme
 	 */
 	public $object;
 	
-	/**
-	 * @var ilLog
-	 */
-	protected $ilLog;
-	
-	/**
-	 * @var Ilias
-	 */
-	public $ilias;
-
 	/**
 	 * @var ilLng
 	 */
@@ -81,43 +66,44 @@ class ilObjStudyProgrammeSettingsGUI {
 	 */
 	protected $trafo_factory;
 
-	public function __construct($a_parent_gui, $a_ref_id) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-
-		$this->parent_gui = $a_parent_gui;
-		$this->ref_id = $a_ref_id;
-		$this->parent_gui = $a_parent_gui;
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilLanguage $lng,
+		\ILIAS\UI\Component\Input\Factory $input_factory,
+		\ILIAS\UI\Renderer $renderer,
+		\GuzzleHttp\Psr7\ServerRequest $request,
+		\ILIAS\Transformation\Factory $trafo_factory,
+		\ILIAS\Validation\Factory $validation,
+		ilStudyProgrammeTypeRepository $type_repository
+	) {
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->ilAccess = $ilAccess;
-		$this->ilLocator = $ilLocator;
-		$this->tree = $tree;
-		$this->toolbar = $ilToolbar;
-		$this->ilLog = $ilLog;
-		$this->ilias = $ilias;
 		$this->lng = $lng;
-		$this->input_factory = $DIC->ui()->factory()->input();
-		$this->renderer = $DIC->ui()->renderer();
-		$this->request = $DIC->http()->request();
-		$this->trafo_factory = new \ILIAS\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
-		$this->data = new \ILIAS\Data\Factory();
-		$this->validation = new \ILIAS\Validation\Factory($this->data, $this->lng);
-		
+		$this->input_factory = $input_factory;
+		$this->renderer = $renderer;
+		$this->request = $request;
+		$this->trafo_factory = $trafo_factory; // TODO: replace this with the version from the DIC once available
+		$this->validation = $validation;
+		$this->type_repository = $type_repository;
+
+
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
 	}
-	
+
+	public function setParentGUI($a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
+	}
+
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 
@@ -221,7 +207,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$ff = $this->input_factory->field();
 		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
-		$sp_types = $this->getObject()->getTypeRepository()->readAllTypesArray();
+		$sp_types = $this->type_repository->readAllTypesArray();
 		$status_options = self::getStatusOptions();
 		return $this->input_factory->container()->form()->standard(
 			$submit_action,

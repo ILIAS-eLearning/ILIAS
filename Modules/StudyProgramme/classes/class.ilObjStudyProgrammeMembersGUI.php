@@ -25,24 +25,9 @@ class ilObjStudyProgrammeMembersGUI {
 	public $tpl;
 
 	/**
-	 * @var ilAccessHandler
-	 */
-	protected $ilAccess;
-
-	/**
 	 * @var ilObjStudyProgramme
 	 */
 	public $object;
-
-	/**
-	 * @var ilLog
-	 */
-	protected $ilLog;
-
-	/**
-	 * @var Ilias
-	 */
-	public $ilias;
 
 	/**
 	 * @var ilLng
@@ -71,37 +56,41 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	protected $progress_objects;
 
-	public function __construct($a_parent_gui, $a_ref_id, ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
-
-		$this->ref_id = $a_ref_id;
-		$this->parent_gui = $a_parent_gui;
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilToolbarGUI $ilToolbar,
+		\ilLanguage $lng,
+		\ilObjUser $user,
+		ilStudyProgrammeUserProgressDB $sp_user_progress_db,
+		ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
+		ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
+		ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui
+	) {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->ilAccess = $ilAccess;
-		$this->ilLocator = $ilLocator;
-		$this->tree = $tree;
 		$this->toolbar = $ilToolbar;
-		$this->ilLog = $ilLog;
-		$this->ilias = $ilias;
 		$this->lng = $lng;
-		$this->user = $ilUser;
+		$this->user = $user;
 		$this->sp_user_progress_db = $sp_user_progress_db;
+
+		$this->repository_search_gui = $repository_search_gui;
+		$this->individual_plan_gui = $individual_plan_gui;
+
 		$this->progress_objects = array();
 
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
+	}
+
+	public function setParentGUI($a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
+	}
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
 	}
 
 	public function executeCommand() {
@@ -116,17 +105,14 @@ class ilObjStudyProgrammeMembersGUI {
 
 		switch ($next_class) {
 			case "ilstudyprogrammerepositorysearchgui":
-				require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php");
-				$rep_search = new ilStudyProgrammeRepositorySearchGUI();
-				$rep_search->setCallback($this, "addUsers");
-
+				$this->repository_search_gui->setCallback($this, "addUsers");
 				$this->ctrl->setReturn($this, "view");
-				$this->ctrl->forwardCommand($rep_search);
+				$this->ctrl->forwardCommand($this->repository_search_gui);
 				return;
 			case "ilobjstudyprogrammeindividualplangui":
-				require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
-				$individual_plan_gui = new ilObjStudyProgrammeIndividualPlanGUI($this, $this->ref_id, $this->sp_user_progress_db);
-				$this->ctrl->forwardCommand($individual_plan_gui);
+				$this->individual_plan_gui->setParentGUI($this);
+				$this->individual_plan_gui->setRefId($this->ref_id);
+				$this->ctrl->forwardCommand($this->individual_plan_gui);
 				return;
 			case false:
 				switch ($cmd) {
@@ -214,7 +200,6 @@ class ilObjStudyProgrammeMembersGUI {
 	 * @return null
 	 */
 	public function viewCompletedCourses($a_completed_courses, $a_users) {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI.php");
 
 		$tpl = new ilTemplate("tpl.acknowledge_completed_courses.html", true, true, "Modules/StudyProgramme");
 		$tpl->setVariable("TITLE", $this->lng->txt("prg_acknowledge_completed_courses"));
@@ -316,7 +301,6 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function markAccredited()
 	{
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs_id = $this->getPrgrsId();
 		$this->markAccreditedById($prgrs_id);
 		$this->showSuccessMessage("mark_accredited_success");
@@ -358,7 +342,6 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function unmarkAccredited()
 	{
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs_id = $this->getPrgrsId();
 		$this->unmarkAccreditedByProgressId($prgrs_id);
 		$this->showSuccessMessage("unmark_accredited_success");
@@ -449,7 +432,7 @@ class ilObjStudyProgrammeMembersGUI {
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
-			$ass = $prgrs->getAssignment();
+			$ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
 			$prg = $ass->getStudyProgramme();
 			if ($prg->getRefId() != $this->ref_id) {
 				$not_updated[] = $prgrs_id;
@@ -477,7 +460,6 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function removeUser()
 	{
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs_id = $this->getPrgrsId();
 		$this->remove($prgrs_id);
 		$this->showSuccessMessage("remove_user_success");
@@ -520,7 +502,7 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function remove($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
-		$ass = $prgrs->getAssignment();
+		$ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
 		$prg = $ass->getStudyProgramme();
 		if ($prg->getRefId() != $this->ref_id) {
 			throw new ilException("Can only remove users from the node they where assigned to.");
@@ -539,7 +521,6 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		assert(is_int($prgrs_id));
 		if (!array_key_exists($prgrs_id, $this->progress_objects)) {
-			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 			$this->progress_objects[$prgrs_id] = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 		}
 		return $this->progress_objects[$prgrs_id];
@@ -566,7 +547,6 @@ class ilObjStudyProgrammeMembersGUI {
 	 * @return null
 	 */
 	protected function showSuccessMessage($a_lng_var) {
-		require_once("Services/Utilities/classes/class.ilUtil.php");
 		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
 	}
 
@@ -576,12 +556,10 @@ class ilObjStudyProgrammeMembersGUI {
 	 * @return null
 	 */
 	protected function showInfoMessage($a_lng_var) {
-		require_once("Services/Utilities/classes/class.ilUtil.php");
 		ilUtil::sendInfo($this->lng->txt("prg_$a_lng_var"), true);
 	}
 
 	protected function initSearchGUI() {
-		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php");
 		ilStudyProgrammeRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
 			$this->toolbar,
@@ -603,7 +581,6 @@ class ilObjStudyProgrammeMembersGUI {
 		if ($a_ref_id === null) {
 			$a_ref_id = $this->ref_id;
 		}
-		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		return ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 	}
 
@@ -624,8 +601,7 @@ class ilObjStudyProgrammeMembersGUI {
 				$target_name = "unmarkAccredited";
 				break;
 			case ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
-				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
-				return ilObjStudyProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_ass_id);
+				return $this->individual_plan_gui->getLinkTargetView($a_ass_id);
 			case ilStudyProgrammeUserProgress::ACTION_REMOVE_USER:
 				$target_name = "removeUser";
 				break;

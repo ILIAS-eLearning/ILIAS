@@ -39,10 +39,6 @@ class ilStudyProgrammeTypeGUI {
 	 */
 	protected $locator;
 	/**
-	 * @var ilLog
-	 */
-	protected $log;
-	/**
 	 * @var ILIAS
 	 */
 	protected $ilias;
@@ -59,33 +55,34 @@ class ilStudyProgrammeTypeGUI {
 	/**
 	 * @param ilObjStudyProgrammeGUI $parent_gui
 	 */
-	public function __construct($parent_gui) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilTabs = $DIC['ilTabs'];
-
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilAccess $ilAccess,
+		\ilToolbarGUI $ilToolbar,
+		\ilLanguage $lng,
+		\ILIAS $ilias,
+		\ilTabsGUI $ilTabs,
+		ilStudyProgrammeTypeRepository $type_repository
+	)
+	{
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->access = $ilAccess;
-		$this->locator = $ilLocator;
 		$this->toolbar = $ilToolbar;
 		$this->tabs = $ilTabs;
-		$this->log = $ilLog;
 		$this->lng = $lng;
 		$this->ilias = $ilias;
-		$this->parent_gui = $parent_gui;
 		$this->lng->loadLanguageModule('prg');
 		$this->ctrl->saveParameter($this, 'type_id');
 		$this->lng->loadLanguageModule('meta');
-		$this->type_repository = ilObjStudyProgramme::_getTypeRepository();
+		$this->type_repository = $type_repository;
+	}
+
+
+	public function setParentGUI($a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
 	}
 
 

@@ -61,7 +61,7 @@ implements ilStudyProgrammeProgressRepository
 		foreach ($this->loadByFilter([self::FIELD_ID => $id]) as $row) {
 			return $this->buildByRow($row);
 		}
-		throw new \InvalidArgumentExeption('invalid id '.$id);
+		throw new \ilException('invalid id '.$id);
 	}
 
 
@@ -83,12 +83,12 @@ implements ilStudyProgrammeProgressRepository
 	public function readByPrgIdAndAssignmentId(
 		int $prg_id,
 		int $assignment_id
-	) : ilStudyProgrammeProgress
+	)
 	{
 		foreach ($this->loadByFilter([self::FIELD_PRG_ID => $prg_id,self::FIELD_ASSIGNMENT_ID => $assignment_id]) as $row) {
 			return $this->buildByRow($row);
 		}
-		throw new \InvalidArgumentException('invalid ids. prg_id: '.$prg_id.' assignment_id: '.$assignment_id);
+
 	}
 
 	/**
@@ -119,8 +119,6 @@ implements ilStudyProgrammeProgressRepository
 	{
 		$return = [];
 		foreach ($this->loadByFilter([self::FIELD_PRG_ID => $prg_id]) as $row) {
-			var_dump($row);
-			die();
 			return $this->buildByRow($row);
 		}
 	}
