@@ -102,6 +102,16 @@ cont#:#cont_filter_record#:#Datensatz
 cont#:#cont_filter_field#:#Feld
 cont#:#cont_filter_fields#:#Filterfelder
 cont#:#cont_show_more#:#Mehr anzeigen
+cont#:#cont_block_limit#:#Einträge per Block begrenzen
+cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
+sess#:#sess_registration_notification#:#Benachrichtigung
+sess#:#sess_registration_notification_info#:#Benutzer werden über neue Ereignise benachrichtigt.
+sess#:#sess_notification_option_inherit#:#Von übergeordneten Objekt erben
+sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
+sess#:#sess_notification_option_manual#:#Manuell setzen
+sess#:#sess_notification_option_manual_info#:#Benachrichtigung müssen manuell gesetzt werden.
+news#:#news_show_more#:#Zeige mehr
+news#:#news_show_less#:#Zeige weniger
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.

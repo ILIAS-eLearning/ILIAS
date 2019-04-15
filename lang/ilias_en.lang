@@ -101,6 +101,14 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Record
 cont#:#cont_filter_field#:#Field
 cont#:#cont_filter_fields#:#Filter Fields
+sess#:#sess_registration_notification#:#Notification
+sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants
+sess#:#sess_notification_option_inherit#:#Inherit from Parent
+sess#:#sess_notification_option_inherit_info#:#Use the parent notification settings (e.g. notification settings from course or group) for members of this session
+sess#:#sess_notification_option_manual#:#Set manually
+sess#:#sess_notification_option_manual_info#:#Notification setting for users has to be set manually
+news#:#news_show_more#:#Show more
+news#:#news_show_less#:#Show less
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
