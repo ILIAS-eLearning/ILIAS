@@ -106,6 +106,7 @@ cont#:#cont_block_limit#:#Einträge per Block begrenzen
 cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 sess#:#sess_registration_notification#:#Benachrichtigung
 sess#:#sess_registration_notification_info#:#Benutzer werden über neue Ereignise benachrichtigt.
+sess#:#sess_notification_option#:#Option
 sess#:#sess_notification_option_inherit#:#Von übergeordneten Objekt erben
 sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
 sess#:#sess_notification_option_manual#:#Manuell setzen
