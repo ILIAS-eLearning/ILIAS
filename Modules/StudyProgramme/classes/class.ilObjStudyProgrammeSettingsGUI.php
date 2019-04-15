@@ -203,12 +203,15 @@ class ilObjStudyProgrammeSettingsGUI {
 	const PROP_POINTS = "points";
 	const PROP_STATUS = "status";
 
+
 	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
+		$trans = $prg->getObjectTranslation();
 		$ff = $this->input_factory->field();
 		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
 		$sp_types = $this->type_repository->readAllTypesArray();
 		$status_options = self::getStatusOptions();
+		$languages = ilMDLanguageItem::_getLanguages();
 		return $this->input_factory->container()->form()->standard(
 			$submit_action,
 			[
@@ -216,14 +219,16 @@ class ilObjStudyProgrammeSettingsGUI {
 					[
 						self::PROP_TITLE =>
 							$ff->text($txt("title"))
-								->withValue($prg->getTitle())
+								->withValue($trans->getDefaultTitle())
 								->withRequired(true),
 						self::PROP_DESC =>
 							$ff->textarea($txt("description"))
-								->withValue($prg->getDescription())
+								->withValue($trans->getDefaultDescription())
 					],
 					$txt("prg_edit"),
-					""
+					$this->lng->txt("language").": ".$languages[$trans->getDefaultLanguage()].
+						' <a href="'.$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "").
+						'">&raquo; '.$this->lng->txt("obj_more_translations").'</a>'
 				),
 				$ff->section(
 					[
