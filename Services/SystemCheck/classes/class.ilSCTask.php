@@ -146,7 +146,7 @@ class ilSCTask
 		global $ilDB;
 		
 		$query = 'UPDATE sysc_tasks SET '.
-				'last_update = '.$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'',UTC),'timestamp').', '.
+				'last_update = '.$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'',ilTimeZone::UTC),'timestamp').', '.
 				'status = '.$ilDB->quote($this->getStatus(),'integer').', '.
 				'identifier = '.$ilDB->quote($this->getIdentifier(),'text').' '.
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
