@@ -15,11 +15,16 @@ class Factory implements C\Panel\Secondary\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function listing(string $title, array $items) {
+	public function listing(string $title, array $items): C\Panel\Secondary\Listing {
 		return new Listing($title, $items);
 	}
 
-	public function legacy(string $title, C\Legacy\Legacy $legacy) {
+	/**
+	 * @param string $title
+	 * @param C\Legacy\Legacy $legacy
+	 * @return C\Panel\Secondary\Legacy
+	 */
+	public function legacy(string $title, C\Legacy\Legacy $legacy): C\Panel\Secondary\Legacy{
 		return new Legacy($title, $legacy);
 	}
 }

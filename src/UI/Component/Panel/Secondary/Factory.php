@@ -27,7 +27,7 @@ interface Factory {
 	 * @param \ILIAS\UI\Component\Item\Group[] $item_groups Item groups
 	 * @return C\Panel\Secondary\Listing
 	 */
-	public function listing(string $title, array $item_groups);
+	public function listing(string $title, array $item_groups): C\Panel\Secondary\Listing;
 
 	/**
 	 * ---
@@ -42,6 +42,6 @@ interface Factory {
 	 * @param \ILIAS\UI\Component\Legacy\Legacy $legacy
 	 * @return C\Panel\Secondary\Legacy
 	 */
-	public function legacy(string $title, C\Legacy\Legacy $legacy);
+	public function legacy(string $title, C\Legacy\Legacy $legacy): C\Panel\Secondary\Legacy;
 
 }

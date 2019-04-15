@@ -15,5 +15,5 @@ interface Listing extends Secondary {
 	 *
 	 * @return \ILIAS\UI\Component\Item\Group[]
 	 */
-	public function getItemGroups();
+	public function getItemGroups(): array;
 }

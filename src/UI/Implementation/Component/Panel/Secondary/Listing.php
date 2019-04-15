@@ -33,7 +33,7 @@ class Listing extends Secondary implements C\Panel\Secondary\Listing {
 	/**
 	 * @inheritdoc
 	 */
-	public function getItemGroups() {
+	public function getItemGroups(): array {
 		return $this->item_groups;
 	}
 }

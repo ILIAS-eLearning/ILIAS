@@ -15,5 +15,5 @@ interface Legacy extends Secondary {
 	 *
 	 * @return \ILIAS\UI\Component\Legacy\Legacy
 	 */
-	public function getLegacyComponent();
+	public function getLegacyComponent(): \ILIAS\UI\Component\Legacy\Legacy;
 }
