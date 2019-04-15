@@ -4,6 +4,11 @@ use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Scope\View\StandardView;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\Services\UICore\Page\Media\Css;
+use ILIAS\Services\UICore\Page\Media\InlineCss;
+use ILIAS\Services\UICore\Page\Media\Js;
+use ILIAS\Services\UICore\Page\Media\OnLoadCode;
+use ILIAS\Services\UICore\Page\PageInfo;
 use ILIAS\UI\Component\Layout\Page\Standard;
 use ILIAS\UI\NotImplementedException;
 
@@ -17,6 +22,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	//
 	// SERVICES
 	//
+
 	/**
 	 * @var HTTPServices
 	 */
@@ -51,7 +57,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @var array
 	 */
-	public $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);
+	public $js_files_batch = [];
 	//
 	// CONTENT
 	//
@@ -67,18 +73,29 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @var string
 	 */
 	private $right_content_html = "";
+	//
+	// NEW
+	//
+	/**
+	 * @var StandardView
+	 */
+	private $view;
+	/**
+	 * @var PageInfo
+	 */
+	private $page_info;
 
 
 	/**
 	 * @inheritDoc
 	 */
 	public function __construct(Services $gs, UIServices $ui, HTTPServices $http) {
-		parent::__construct("tpl.main.html", true, true);
 		$this->ui = $ui;
 		$this->gs = $gs;
 		$this->http = $http;
-
-		$this->view = new StandardView($this->ui->factory()->layout()->page());
+		$this->view = new StandardView($ui->factory()->layout()->page());
+		$this->page_info = new PageInfo();
+		parent::__construct("tpl.main.html", true, true); // TODO remove
 	}
 
 
@@ -90,9 +107,26 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 
 
 	private function prepareBasicJS() {
-		ilYuiUtil::initDom();
 		\iljQueryUtil::initjQuery($this);
+		ilYuiUtil::initDom();
+		$this->page_info->addJs(new Js("./Services/JavaScript/js/Basic.js", true, 1));
 		\ilUIFramework::init($this);
+
+	}
+
+
+	private function prepareBasicCSS() {
+		$this->page_info->addCss(new Css(\ilUtil::getStyleSheetLocation("filesystem", "delos.css")));
+		$this->page_info->addCss(new Css(\ilUtil::getNewContentStyleSheetLocation()));
+	}
+
+
+	/**
+	 * @return PageInfo
+	 * @deprecated
+	 */
+	public function getPageInfo(): PageInfo {
+		return $this->page_info;
 	}
 
 
@@ -102,6 +136,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false) {
 		$this->prepareOutputHeaders();
 		$this->prepareBasicJS();
+		$this->prepareBasicCSS();
 
 		$metabar = $this->initMetaBar();
 		$mainbar = $this->initMainBar();
@@ -111,11 +146,6 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 		 */
 		$page = $this->view->getPageForViewWithContent();
 		$page = $page->withMainbar($mainbar)->withMetabar($metabar);
-
-
-		foreach ($this->js_files as $js_file) {
-			// $page =
-		}
 
 		print $this->ui->renderer()->render([$page]);
 	}
@@ -134,23 +164,11 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 
 	/**
 	 * @return \ILIAS\UI\Component\MainControls\MainBar
+	 * @throws Throwable
 	 */
 	private function initMainBar(): \ILIAS\UI\Component\MainControls\MainBar {
 		$f = $this->ui->factory();
 		$main_bar = $f->mainControls()->mainBar();
-
-		// Collect all general slates
-		// $providers = [];
-		// // Core
-		// foreach (ilGSProviderStorage::get() as $provider_storage) {
-		// 	/**
-		// 	 * @var $provider_storage ilGSProviderStorage
-		// 	 */
-		// 	$providers[] = $provider_storage->getInstance();
-		// }
-		// foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
-		// 	$providers[] = $provider;
-		// }
 
 		$ilMMItemRepository = new ilMMItemRepository($this->gs->storage());
 		foreach ($ilMMItemRepository->getStackedTopItemsForPresentation() as $item) {
@@ -183,7 +201,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setContent($a_html) {
+	public function setContent($a_html) { // //
+		$this->page_info->setCenterContent($this->ui->factory()->legacy($a_html));
 		$this->center_content_html = $a_html;
 	}
 
@@ -191,7 +210,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setLeftContent($a_html) {
+	public function setLeftContent($a_html) { // //
+		$this->page_info->setLeftContent($this->ui->factory()->legacy($a_html));
 		$this->left_content_html = $a_html;
 	}
 
@@ -199,7 +219,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setRightContent($a_html) {
+	public function setRightContent($a_html) { // //
+		$this->page_info->setRightContent($this->ui->factory()->legacy($a_html));
 		$this->right_content_html = $a_html;
 	}
 
@@ -232,29 +253,29 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritDocphpphp
 	 */
-	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2) {
+	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2) { // //
+		$this->page_info->addJs(new Js($a_js_file, $a_add_version_parameter, $a_batch));
 		parent::addJavaScript($a_js_file, $a_add_version_parameter, $a_batch);
-		// $this->js_files[] = $a_js_file;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function addCss($a_css_file, $media = "screen") {
+	public function addCss($a_css_file, $media = "screen") { // //
+		$this->page_info->addCss(new Css($a_css_file, $media));
 		parent::addCss($a_css_file, $media);
-		// $this->css_files[] = [$a_css_file => $media];
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function addOnLoadCode($a_code, $a_batch = 2) {
+	public function addOnLoadCode($a_code, $a_batch = 2) { // //
+		$this->page_info->addOnloadCode(new OnLoadCode($a_code, $a_batch));
 		parent::addOnLoadCode($a_code, $a_batch);
-		// $this->on_load_code[] = $a_code;
 	}
 
 
@@ -273,24 +294,24 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setTitle($a_title) {
-		// throw new NotImplementedException();
+	public function setTitle($a_title) { // //
+		$this->page_info->setTitle($a_title);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function setDescription($a_descr) {
-		// throw new NotImplementedException();
+	public function setDescription($a_descr) { // //
+		$this->page_info->setDescription($a_descr);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function setTitleIcon($a_icon_path, $a_icon_desc = "") {
-		// throw new NotImplementedException();
+	public function setTitleIcon($a_icon_path, $a_icon_desc = "") { // //
+		$this->page_info->setTitleIcon($this->ui->factory()->icon()->custom($a_icon_path, $a_icon_desc));
 	}
 
 
@@ -307,7 +328,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 
 	// NEEDS ADJUSTMENT
 
-	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "") {
+	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "") { //
 		// throw new NotImplementedException();
 	}
 
@@ -315,8 +336,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function enableDragDropFileUpload($a_ref_id) {
-		// throw new NotImplementedException();
+	public function enableDragDropFileUpload($a_ref_id) { // //
+		$this->page_info->enableFileDragAndDrop(); // TODO: is ref_id needed?
 	}
 
 
@@ -343,7 +364,6 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false) {
-//		throw new NotImplementedException();
 	}
 
 
@@ -363,7 +383,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	}
 
 
-	public function fillJavaScriptFiles($a_force = false) {
+	public function fillJavaScriptFiles($a_force = false) { //internal
 		throw new NotImplementedException();
 	}
 
@@ -371,14 +391,14 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function addInlineCss($a_css, $media = "screen") {
-		throw new NotImplementedException();
+	public function addInlineCss($a_css, $media = "screen") { // //
+		$this->page_info->addInlineCss(new InlineCss($a_css, $media));
 	}
 
 
-	public function setBodyClass($a_class = "") {
+	public function setBodyClass($a_class = "") { // //
+		$this->page_info->setBodyClass($a_class);
 		parent::setBodyClass($a_class);
-		// throw new NotImplementedException();
 	}
 
 
@@ -393,8 +413,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setHeaderActionMenu($a_header) {
-		throw new NotImplementedException();
+	public function setHeaderActionMenu($a_header) { // //
+		$this->page_info->setHeaderActionMenu($this->ui->factory()->legacy($a_header));
 	}
 
 
@@ -409,7 +429,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setTabs($a_tabs_html) {
+	public function setTabs($a_tabs_html) { // //
+		$this->page_info->setTabs($this->ui->factory()->legacy($a_tabs_html));
 		throw new NotImplementedException();
 	}
 
@@ -417,7 +438,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setSubTabs($a_tabs_html) {
+	public function setSubTabs($a_tabs_html) { //
 		throw new NotImplementedException();
 	}
 
@@ -430,7 +451,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	}
 
 
-	public function setPageFormAction($a_action) {
+	public function setPageFormAction($a_action) { //
 		throw new NotImplementedException();
 	}
 
@@ -446,7 +467,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true) {
+	public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true) { //
 		throw new NotImplementedException();
 	}
 
@@ -454,7 +475,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function addLightbox($a_html, $a_id) {
+	public function addLightbox($a_html, $a_id) { //
 		throw new NotImplementedException();
 	}
 
@@ -462,7 +483,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false) {
+	public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false) { //
 		throw new NotImplementedException();
 	}
 
