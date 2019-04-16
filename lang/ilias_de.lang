@@ -15044,8 +15044,8 @@ content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
 sess#:#sess_assign#:#Zuordnen
 common#:#certificate_selection#:#Ursprung der Zertifikate
-common#:#certificate_persistent_option#:#Persistente Zertifikate
-common#:#certificate_workspace_option#:#Arbeitsraum Zertifikate
+common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
+common#:#certificate_workspace_option#:#Zertifikate aus dem Arbeitsraum
 common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
 common#:#certificate_file_not_found_error#:#Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
