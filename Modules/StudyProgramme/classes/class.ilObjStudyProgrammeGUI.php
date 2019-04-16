@@ -29,6 +29,7 @@ require_once("./Services/Repository/classes/class.ilRepUtil.php");
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -125,6 +126,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$ilLog = $DIC['ilLog'];
 		$ilias = $DIC['ilias'];
 		$ilHelp = $DIC['ilHelp'];
+		$ilUser = $DIC['ilUser'];
 
 		parent::__construct(array(), (int) $_GET['ref_id'], true, false);
 
@@ -138,6 +140,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->ilias = $ilias;
 		$this->type = "prg";
 		$this->help = $ilHelp;
+		$this->user = $ilUser;
 
 		$lng->loadLanguageModule("prg");
 
@@ -164,7 +167,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		// show repository tree
 		$this->showRepTree();
-
+		$this->addHeaderAction();
 		switch ($next_class) {
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive(self::TAB_INFO);
@@ -252,6 +255,15 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$transgui = new ilObjectTranslationGUI($this);
 				$this->ctrl->forwardCommand($transgui);
 				break;
+			case "ilcertificategui":
+				$this->getSubTabs('settings');
+				$this->denyAccessIfNot("write");
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->setSubTabActive('certificate');
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
+				$this->ctrl->forwardCommand($output_gui);
+				break;
 			case false:
 				$this->getSubTabs($cmd);
 				switch ($cmd) {
@@ -294,6 +306,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case 'undelete':
 					case 'confirmRemoveFromSystem':
 					case 'removeFromSystem':
+					case 'deliverCertificate':
 						$cmd .= "Object";
 						$this->$cmd();
 						break;
@@ -362,6 +375,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						throw new ilException("ilObjStudyProgrammeGUI: Command not supported: $cmd");
 				}
 				break;
+
 			default:
 				throw new ilException("ilObjStudyProgrammeGUI: Can't forward to next class $next_class");
 		}
@@ -633,6 +647,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				) {
 					$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('prg_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
 				}
+				if(ilCertificate::isActive())
+				{
+					$this->tabs_gui->addSubTabTarget(
+						"certificate",
+						$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
+						"", "ilcertificategui");
+				}
 				break;
 		}
 
@@ -739,6 +760,49 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			$ilNavigationHistory->addItem($_GET['ref_id'],
 				$link, 'prg');
 		}
+	}
+
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+	{
+
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+		$validator = new ilCertificateDownloadValidator();
+		if (true === $validator->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
+			$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
+			$this->lng->loadLanguageModule("certificate");
+			$lg->addCustomCommand($cert_url, "download_certificate");
+			$lg->addHeaderIcon("cert_icon",
+				ilUtil::getImagePath("icon_cert.svg"),
+				$this->lng->txt("download_certificate"),
+				null,
+				null,
+				$cert_url);
+		}
+		return $lg;
+	}
+
+
+	protected function deliverCertificateObject()
+	{
+		global $DIC;
+
+		$user_id = (int)$this->user->getId();
+		$obj_id = (int)$this->object->getId();
+
+		$validator = new ilCertificateDownloadValidator();
+		if (false === $validator->isCertificateDownloadable($user_id, $obj_id)) {
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this);
+		}
+		$repository = new ilUserCertificateRepository();
+		$cert_logger = $DIC->logger()->cert();
+		$pdf_action = new ilCertificatePdfAction(
+			$cert_logger,
+			new ilPdfGenerator($repository, $cert_logger),
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
+		$pdf_action->downloadPdf($user_id, $obj_id);
 	}
 }
 
