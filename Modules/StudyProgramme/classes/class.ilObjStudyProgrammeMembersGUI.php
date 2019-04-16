@@ -72,6 +72,7 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->toolbar = $ilToolbar;
 		$this->lng = $lng;
 		$this->user = $user;
+		$this->sp_user_assignment_db = $sp_user_assignment_db;
 		$this->sp_user_progress_db = $sp_user_progress_db;
 
 		$this->repository_search_gui = $repository_search_gui;
