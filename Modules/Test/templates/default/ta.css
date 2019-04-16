@@ -671,7 +671,3 @@ div.ilc_Page.readonly textarea[disabled]
 .ilSpecificAnswerFeedback td:first-child {
 	padding-right: 30px;
 }
-
-.modal .ilc_Page img{
-	max-width:100%;
-}
