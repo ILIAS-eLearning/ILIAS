@@ -164,6 +164,11 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
 		$this->addColumn($this->lng->txt('sess_contact'),'contact');
 	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
+		if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
+			$this->addColumn($this->lng->txt('notification'),'notification');
+		}
+
+		$this->addColumn($this->lng->txt('trac_mark'),'mark');
 	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
 		
 		
@@ -277,7 +282,19 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated($participant['usr_id']);
 			$tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered($participant['usr_id']);
 			$tmp_data['contact'] = $this->getParticipants()->isContact($participant['usr_id']);
-			
+
+			$notificationShown = false;
+			if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
+				$notificationShown = true;
+
+				$notificationEnabled = false;
+				if (ilSessionConstants::NOTIFICATION_MANUAL_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
+					$notificationEnabled = true;
+				}
+				$tmp_data['notification_enabled'] = $notificationEnabled;
+			}
+			$tmp_data['show_notification'] = $notificationShown;
+
 			$roles = array();
 			$local_roles = $this->getParentLocalRoles();
 			foreach($local_roles as $role_id => $role_name)
@@ -396,6 +413,14 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('COMMENT',$a_set['comment']);
 		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
+
+		if (true === $a_set['show_notification']) {
+			$this->tpl->setCurrentBlock('notification_column');
+			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
+			$this->tpl->setVariable('NOTIFICATION_ENABLED',$a_set['notification_enabled'] ? '' : 'disabled');
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 	
 	/**

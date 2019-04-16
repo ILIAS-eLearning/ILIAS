@@ -27,6 +27,12 @@
 		<input type="checkbox" name="contact[{VAL_ID}]" value="1" {CONTACT_CHECKED} />
 	</td>
 	<td class="std">
+	<!-- BEGIN notification_column -->
+	<td class="std">
+		<input type="checkbox" name="notification[{VAL_ID}]" value="1" {NOTIFICATION_CHECKED} {NOTIFICATION_ENABLED}/>
+	</td>
+	<!-- END notification_column -->
+	<td class="std">
 		<div style="text-align:left">
 			<input type="text" size="16" maxlength="70" name="mark[{VAL_ID}]" value="{MARK}" />
 		</div>

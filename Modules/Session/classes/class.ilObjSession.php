@@ -62,10 +62,8 @@ class ilObjSession extends ilObject
 	 */
 	protected $members_obj;
 
-
-	private $registrationNotificationEnabled;
+    private $registrationNotificationEnabled = false;
 	private $notificationOption = ilSessionConstants::NOTIFICATION_INHERIT_OPTION;
-	// thkoeln-patch: end
 
 	/**
 	* Constructor
@@ -737,7 +735,7 @@ class ilObjSession extends ilObject
 		{
 			$this->updateMetaData();
 		}
-		
+
 		$query = "UPDATE event SET ".
 			"location = ".$this->db->quote($this->getLocation() ,'text').",".
 			"tutor_name = ".$this->db->quote($this->getName() ,'text').", ".
