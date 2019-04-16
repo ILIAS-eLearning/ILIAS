@@ -8,6 +8,7 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\Services\UICore\Page\Media\Css;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -1683,7 +1684,10 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilStartUpGUI" ||
 			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
+			// TODO FSX remove global
+			global $DIC;
 			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		} else {
 			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
 				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
@@ -1691,7 +1695,8 @@ class ilInitialisation
 				// TODO FSX remove global
 				global $DIC;
 				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-				if (isset($DIC->http()->request()->getQueryParams()['old'])) { // TODO remove
+				if (isset($DIC->http()->request()->getQueryParams()['old']) || (int)$_SESSION['old'] === 1) { // TODO remove
+					$_SESSION['old'] = $DIC->http()->request()->getQueryParams()['old'];
 					$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 				}
 			}
@@ -1708,7 +1713,7 @@ class ilInitialisation
 
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);				
+		$tpl->addCss($location_stylesheet);
 		
 		require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";				
 				

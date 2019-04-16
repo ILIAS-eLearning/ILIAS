@@ -45,7 +45,7 @@ class ilMMLinkListItemRenderer extends BaseTypeRenderer {
 		if ($item instanceof hasIcon && $item->hasIcon()) {
 			$symbol = $item->getIcon();
 		} else {
-			$symbol = $this->ui_factory->glyph()->expand();
+			$symbol = $this->getStandardIcon();
 		}
 
 		return $symbol;

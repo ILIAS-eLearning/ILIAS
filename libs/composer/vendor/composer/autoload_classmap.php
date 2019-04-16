@@ -638,6 +638,7 @@ return array(
     'ILIAS\\Services\\UICore\\Page\\Media\\Js' => $baseDir . '/../../Services/UICore/classes/Page/Media/Js.php',
     'ILIAS\\Services\\UICore\\Page\\Media\\JsCollection' => $baseDir . '/../../Services/UICore/classes/Page/Media/JsCollection.php',
     'ILIAS\\Services\\UICore\\Page\\Media\\OnLoadCode' => $baseDir . '/../../Services/UICore/classes/Page/Media/OnLoadCode.php',
+    'ILIAS\\Services\\UICore\\Page\\PageContentGUI' => $baseDir . '/../../Services/UICore/classes/Page/PageContentGUI.php',
     'ILIAS\\Services\\UICore\\Page\\PageInfo' => $baseDir . '/../../Services/UICore/classes/Page/PageInfo.php',
     'ILIAS\\Transformation\\Factory' => $baseDir . '/../../src/Transformation/Factory.php',
     'ILIAS\\Transformation\\Transformation' => $baseDir . '/../../src/Transformation/Transformation.php',

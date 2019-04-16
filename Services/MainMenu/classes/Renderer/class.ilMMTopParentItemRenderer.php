@@ -30,9 +30,9 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 		$f = $this->ui_factory;
 
 		if ($item instanceof hasIcon) {
-			$symbol = $f->icon()->custom($item->getIcon(), '-');
+			$symbol = $item->getIcon();
 		} else {
-			$symbol = $f->glyph()->expand();
+			$symbol = $this->getStandardIcon();
 		}
 
 		$combined_slate = $f->mainControls()->slate()->combined($item->getTitle(), $symbol);

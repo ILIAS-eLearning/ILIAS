@@ -22,9 +22,12 @@ class ilMMLinkItemRenderer extends BaseTypeRenderer {
 		if ($item instanceof hasIcon && $item->hasIcon()) {
 			$symbol = $item->getIcon();
 		} else {
-			$symbol = $this->ui_factory->glyph()->expand();
+			$symbol = $this->getStandardIcon();
 		}
 
 		return $this->ui_factory->button()->bulky($symbol, $item->getTitle(), $item->getAction());
 	}
+
+
+
 }

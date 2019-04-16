@@ -32,4 +32,13 @@ class BaseTypeRenderer implements TypeRenderer {
 	public function getComponentForItem(isItem $item): Component {
 		return $this->ui_factory->legacy("");
 	}
+
+
+	/**
+	 * @return \ILIAS\UI\Component\Icon\Standard
+	 */
+	protected function getStandardIcon(): \ILIAS\UI\Component\Icon\Icon {
+		return $this->ui_factory->icon()->standard('ILIAS', 'ILIAS');
+		// return $this->ui_factory->icon()->custom('./templates/default/images/icon_transparent.svg', '');
+	}
 }

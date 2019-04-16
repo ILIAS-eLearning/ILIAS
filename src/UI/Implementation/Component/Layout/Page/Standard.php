@@ -72,7 +72,7 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritDoc
 	 */
-	public function withMetabar(Metabar $meta_bar): \ILIAS\UI\Component\Layout\Page\Standard {
+	public function withMetabar(Metabar $meta_bar): Page\Standard {
 		$clone = clone $this;
 		$clone->metabar = $meta_bar;
 
@@ -83,9 +83,20 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritDoc
 	 */
-	public function withMainbar(Mainbar $main_bar): \ILIAS\UI\Component\Layout\Page\Standard {
+	public function withMainbar(Mainbar $main_bar): Page\Standard {
 		$clone = clone $this;
 		$clone->mainbar = $main_bar;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withLogo(Image $logo): Page\Standard {
+		$clone = clone $this;
+		$clone->logo = $logo;
 
 		return $clone;
 	}

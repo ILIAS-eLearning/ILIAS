@@ -975,6 +975,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\Services\\UICore\\Page\\Media\\Js' => __DIR__ . '/../..' . '/../../Services/UICore/classes/Page/Media/Js.php',
         'ILIAS\\Services\\UICore\\Page\\Media\\JsCollection' => __DIR__ . '/../..' . '/../../Services/UICore/classes/Page/Media/JsCollection.php',
         'ILIAS\\Services\\UICore\\Page\\Media\\OnLoadCode' => __DIR__ . '/../..' . '/../../Services/UICore/classes/Page/Media/OnLoadCode.php',
+        'ILIAS\\Services\\UICore\\Page\\PageContentGUI' => __DIR__ . '/../..' . '/../../Services/UICore/classes/Page/PageContentGUI.php',
         'ILIAS\\Services\\UICore\\Page\\PageInfo' => __DIR__ . '/../..' . '/../../Services/UICore/classes/Page/PageInfo.php',
         'ILIAS\\Transformation\\Factory' => __DIR__ . '/../..' . '/../../src/Transformation/Factory.php',
         'ILIAS\\Transformation\\Transformation' => __DIR__ . '/../..' . '/../../src/Transformation/Transformation.php',

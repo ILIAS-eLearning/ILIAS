@@ -8,6 +8,7 @@ use ILIAS\Services\UICore\Page\Media\Css;
 use ILIAS\Services\UICore\Page\Media\InlineCss;
 use ILIAS\Services\UICore\Page\Media\Js;
 use ILIAS\Services\UICore\Page\Media\OnLoadCode;
+use ILIAS\Services\UICore\Page\PageContentGUI;
 use ILIAS\Services\UICore\Page\PageInfo;
 use ILIAS\UI\Component\Layout\Page\Standard;
 use ILIAS\UI\NotImplementedException;
@@ -17,12 +18,11 @@ use ILIAS\UI\NotImplementedException;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateInterface {
+class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 
 	//
 	// SERVICES
 	//
-
 	/**
 	 * @var HTTPServices
 	 */
@@ -35,47 +35,6 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @var UIServices
 	 */
 	private $ui;
-	//
-	// JS&CSS
-	//
-	/**
-	 * @var array
-	 */
-	public $js_files = [];
-	/**
-	 * @var array
-	 */
-	public $css_files = [];
-	/**
-	 * @var array
-	 */
-	public $inline_css = [];
-	/**
-	 * @var array
-	 */
-	public $on_load_code = [];
-	/**
-	 * @var array
-	 */
-	public $js_files_batch = [];
-	//
-	// CONTENT
-	//
-	/**
-	 * @var string
-	 */
-	private $center_content_html = "";
-	/**
-	 * @var string
-	 */
-	private $left_content_html = "";
-	/**
-	 * @var string
-	 */
-	private $right_content_html = "";
-	//
-	// NEW
-	//
 	/**
 	 * @var StandardView
 	 */
@@ -84,18 +43,28 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @var PageInfo
 	 */
 	private $page_info;
+	/**
+	 * @var ilTemplate
+	 */
+	private $legacy_content_template;
+	/**
+	 * @var ilLanguage
+	 */
+	private $lng;
 
 
 	/**
 	 * @inheritDoc
 	 */
 	public function __construct(Services $gs, UIServices $ui, HTTPServices $http) {
+		global $DIC;
+		$this->lng = $DIC->language();
 		$this->ui = $ui;
 		$this->gs = $gs;
 		$this->http = $http;
 		$this->view = new StandardView($ui->factory()->layout()->page());
 		$this->page_info = new PageInfo();
-		parent::__construct("tpl.main.html", true, true); // TODO remove
+		$this->legacy_content_template = new PageContentGUI($this->page_info, "tpl.page_content.html", true, true);
 	}
 
 
@@ -111,7 +80,6 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 		ilYuiUtil::initDom();
 		$this->page_info->addJs(new Js("./Services/JavaScript/js/Basic.js", true, 1));
 		\ilUIFramework::init($this);
-
 	}
 
 
@@ -140,12 +108,16 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 
 		$metabar = $this->initMetaBar();
 		$mainbar = $this->initMainBar();
-		$this->view->addContent($this->ui->factory()->legacy($this->center_content_html));
+
+		$content = $this->legacy_content_template->renderPage($part, $a_fill_tabs, $a_skip_main_menu);
+
+		$this->view->addContent($this->ui->factory()->legacy($content));
 		/**
 		 * @var $page  Standard
 		 */
 		$page = $this->view->getPageForViewWithContent();
 		$page = $page->withMainbar($mainbar)->withMetabar($metabar);
+		$page = $page->withLogo($this->ui->factory()->image()->standard(ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS"));
 
 		print $this->ui->renderer()->render([$page]);
 	}
@@ -203,7 +175,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function setContent($a_html) { // //
 		$this->page_info->setCenterContent($this->ui->factory()->legacy($a_html));
-		$this->center_content_html = $a_html;
+		// $this->legacy_content_template->setContent($a_html);
 	}
 
 
@@ -212,7 +184,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function setLeftContent($a_html) { // //
 		$this->page_info->setLeftContent($this->ui->factory()->legacy($a_html));
-		$this->left_content_html = $a_html;
+		// $this->legacy_content_template->setLeftContent($a_html);
 	}
 
 
@@ -221,12 +193,12 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function setRightContent($a_html) { // //
 		$this->page_info->setRightContent($this->ui->factory()->legacy($a_html));
-		$this->right_content_html = $a_html;
+		// $this->legacy_content_template->setRightContent($a_html);
 	}
 
 
 	public function setVariable($variable, $value = '') {
-		// throw new NotImplementedException();
+		$this->legacy_content_template->setVariable($variable, $value);
 	}
 
 
@@ -234,18 +206,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function loadStandardTemplate() {
-		parent::loadStandardTemplate();
-		// always load jQuery
-		iljQueryUtil::initjQuery();
-		iljQueryUtil::initjQueryUI();
-
-		// always load ui framework
-		ilUIFramework::init();
-		// throw new NotImplementedException();
-
-		// Hier müssten die beiden Blockfiles eingefügt werden
-		// $this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		// $this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		// $this->legacy_content_template->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		// $this->legacy_content_template->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 
 
@@ -257,7 +219,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2) { // //
 		$this->page_info->addJs(new Js($a_js_file, $a_add_version_parameter, $a_batch));
-		parent::addJavaScript($a_js_file, $a_add_version_parameter, $a_batch);
+		//$this->legacy_content_template->addJavaScript($a_js_file, $a_add_version_parameter, $a_batch);
 	}
 
 
@@ -266,7 +228,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function addCss($a_css_file, $media = "screen") { // //
 		$this->page_info->addCss(new Css($a_css_file, $media));
-		parent::addCss($a_css_file, $media);
+		//$this->legacy_content_template->addCss($a_css_file, $media);
 	}
 
 
@@ -275,7 +237,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function addOnLoadCode($a_code, $a_batch = 2) { // //
 		$this->page_info->addOnloadCode(new OnLoadCode($a_code, $a_batch));
-		parent::addOnLoadCode($a_code, $a_batch);
+		//$this->legacy_content_template->addOnLoadCode($a_code, $a_batch);
 	}
 
 
@@ -283,8 +245,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setLocator() {
-		// throw new NotImplementedException();
-		parent::setLocator();
+		//$this->legacy_content_template->setLocator();
 	}
 
 
@@ -296,6 +257,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function setTitle($a_title) { // //
 		$this->page_info->setTitle($a_title);
+		// $this->legacy_content_template->setVariable("HEADER", $a_title);
 	}
 
 
@@ -304,6 +266,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function setDescription($a_descr) { // //
 		$this->page_info->setDescription($a_descr);
+		// $this->legacy_content_template->setVariable("H_DESCRIPTION", $a_descr);
 	}
 
 
@@ -312,6 +275,19 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function setTitleIcon($a_icon_path, $a_icon_desc = "") { // //
 		$this->page_info->setTitleIcon($this->ui->factory()->icon()->custom($a_icon_path, $a_icon_desc));
+		// $this->legacy_content_template->setTitleIcon($a_icon_path, $a_icon_desc);
+		//
+		//
+		// $this->legacy_content_template->setCurrentBlock("header_image");
+		// if ($this->icon_desc != "")
+		// {
+		// 	$this->legacy_content_template->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
+		// 	$this->legacy_content_template->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
+		// }
+		//
+		// $this->legacy_content_template->setVariable("IMG_HEADER", $this->icon_path);
+		// $this->legacy_content_template->parseCurrentBlock();
+
 	}
 
 
@@ -321,15 +297,16 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	/**
 	 * @inheritDoc
 	 */
-	public function setAlertProperties(array $a_props) {
-		// throw new NotImplementedException();
+	public function setAlertProperties(array $a_props) { // //
+		$this->page_info->setAlertProperties($a_props);
+		// $this->legacy_content_template->setAlertProperties($a_props);
 	}
 
 
 	// NEEDS ADJUSTMENT
 
-	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "") { //
-		// throw new NotImplementedException();
+	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "") {
+		// $this->legacy_content_template->setPermanentLink($a_type, $a_id, $a_append, $a_target, $a_title);
 	}
 
 
@@ -337,7 +314,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function enableDragDropFileUpload($a_ref_id) { // //
-		$this->page_info->enableFileDragAndDrop(); // TODO: is ref_id needed?
+		$this->page_info->enableFileDragAndDrop((int)$a_ref_id); // TODO: is ref_id needed?
+		// $this->legacy_content_template->enableDragDropFileUpload($a_ref_id);
 	}
 
 
@@ -345,7 +323,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setTreeFlatIcon($a_link, $a_mode) {
-		// throw new NotImplementedException();
+		// $this->legacy_content_template->setTreeFlatIcon($a_link, $a_mode);
 	}
 
 
@@ -356,7 +334,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function hideFooter() {
-		throw new NotImplementedException();
+		// $this->legacy_content_template->hideFooter();
 	}
 
 
@@ -364,6 +342,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false) {
+		$this->legacy_content_template->setOnScreenMessage($a_type, $a_txt, $a_keep);
 	}
 
 
@@ -371,7 +350,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function getOnLoadCodeForAsynch() {
-		throw new NotImplementedException();
+		// return $this->legacy_content_template->getOnLoadCodeForAsynch();
 	}
 
 
@@ -379,12 +358,15 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function resetJavascript() {
-		throw new NotImplementedException();
+		$this->page_info->getJs()->clear();
 	}
 
 
+	/**
+	 * @param bool $a_force
+	 */
 	public function fillJavaScriptFiles($a_force = false) { //internal
-		throw new NotImplementedException();
+		// $this->legacy_content_template->fillJavaScriptFiles($a_force);
 	}
 
 
@@ -393,12 +375,13 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function addInlineCss($a_css, $media = "screen") { // //
 		$this->page_info->addInlineCss(new InlineCss($a_css, $media));
+		// $this->legacy_content_template->addInlineCss($a_css, $media);
 	}
 
 
 	public function setBodyClass($a_class = "") { // //
 		$this->page_info->setBodyClass($a_class);
-		parent::setBodyClass($a_class);
+		// $this->legacy_content_template->setBodyClass($a_class);
 	}
 
 
@@ -406,7 +389,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function clearHeader() {
-		throw new NotImplementedException();
+		// $this->legacy_content_template->clearHeader();
 	}
 
 
@@ -414,7 +397,8 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setHeaderActionMenu($a_header) { // //
-		$this->page_info->setHeaderActionMenu($this->ui->factory()->legacy($a_header));
+		$this->page_info->setHeaderActionMenu($a_header);
+		// $this->legacy_content_template->setHeaderActionMenu($a_header);
 	}
 
 
@@ -422,7 +406,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setHeaderPageTitle($a_title) {
-		throw new NotImplementedException();
+		// $this->page_info->setHeaderPageTitle($a_title);
 	}
 
 
@@ -431,15 +415,16 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 */
 	public function setTabs($a_tabs_html) { // //
 		$this->page_info->setTabs($this->ui->factory()->legacy($a_tabs_html));
-		throw new NotImplementedException();
+		// $this->legacy_content_template->setTabs($a_tabs_html);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function setSubTabs($a_tabs_html) { //
-		throw new NotImplementedException();
+	public function setSubTabs($a_tabs_html) { // //
+		$this->page_info->setSubTabs($this->ui->factory()->legacy($a_tabs_html));
+		// $this->legacy_content_template->setSubTabs($a_tabs_html);
 	}
 
 
@@ -447,12 +432,16 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setLeftNavContent($a_content) {
-		// throw new NotImplementedException();
+		// $this->legacy_content_template->setLeftContent($a_content);
 	}
 
 
-	public function setPageFormAction($a_action) { //
-		throw new NotImplementedException();
+	/**
+	 * @param $a_action
+	 */
+	public function setPageFormAction($a_action) { // //
+		$this->page_info->setPageFormAction($a_action);
+		// $this->legacy_content_template->setPageFormAction($a_action);
 	}
 
 
@@ -460,7 +449,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setLoginTargetPar($a_val) {
-		throw new NotImplementedException();
+		// $this->legacy_content_template->setLoginTargetPar($a_val);
 	}
 
 
@@ -468,6 +457,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true) { //
+		// return $this->legacy_content_template->getSpecial($part, $add_error_mess, $handle_referer, $add_ilias_footer, $add_standard_elements, $a_main_menu, $a_tabs);
 		throw new NotImplementedException();
 	}
 
@@ -476,15 +466,18 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function addLightbox($a_html, $a_id) { //
-		throw new NotImplementedException();
+		$this->page_info->addLightbox($a_id, $this->ui->factory()->legacy($a_html));
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false) { //
-		throw new NotImplementedException();
+	public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false) { // //
+		$this->page_info->setAdministrationToolbarArrow($a_arrow);
+		$this->page_info->setAdministrationToolbar($toolb);
+		$this->page_info->setAdministrationToolbarBottom($a_bottom_panel);
+		// $this->legacy_content_template->addAdminPanelToolbar($toolb, $a_bottom_panel, $a_arrow);
 	}
 
 
@@ -492,7 +485,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function resetHeaderBlock($a_reset_header_action = true) {
-		throw new NotImplementedException();
+		// $this->legacy_content_template->resetHeaderBlock($a_reset_header_action);
 	}
 
 
@@ -500,7 +493,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function get($part = "DEFAULT") {
-		throw new NotImplementedException();
+		return $this->legacy_content_template->get($part);
 	}
 
 
@@ -508,7 +501,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function setCurrentBlock($part = "DEFAULT") {
-		throw new NotImplementedException();
+		$this->legacy_content_template->setCurrentBlock($part);
 	}
 
 
@@ -516,7 +509,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function touchBlock($block) {
-		throw new NotImplementedException();
+		$this->legacy_content_template->touchBlock($block);
 	}
 
 
@@ -524,7 +517,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function parseCurrentBlock($part = "DEFAULT") {
-		throw new NotImplementedException();
+		return $this->legacy_content_template->parseCurrentBlock($part);
 	}
 
 
@@ -532,8 +525,7 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function addBlockFile($var, $block, $tplname, $in_module = false) {
-		parent::addBlockFile($var, $block, $tplname, $in_module);
-		// throw new NotImplementedException();
+		return $this->legacy_content_template->addBlockFile($var, $block, $tplname, $in_module);
 	}
 
 
@@ -541,6 +533,6 @@ class ilGlobalPageTemplate extends ilGlobalTemplate implements ilGlobalTemplateI
 	 * @inheritDoc
 	 */
 	public function blockExists($a_blockname) {
-		throw new NotImplementedException();
+		return $this->legacy_content_template->blockExists($a_blockname);
 	}
 }

@@ -694,6 +694,120 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		}
 	}
 
+
+	/**
+	 * @param                     $part
+	 * @param                     $a_fill_tabs
+	 * @param                     $a_skip_main_menu
+	 * @param \ILIAS\DI\Container $DIC
+	 *
+	 * @return string
+	 */
+	public function renderPage($part, $a_fill_tabs, $a_skip_main_menu, \ILIAS\DI\Container $DIC): string {
+		$this->fillMessage();
+
+		// display ILIAS footer
+		if ($part !== false) {
+			$this->fillFooter();
+		}
+
+		// set standard parts (tabs and title icon)
+		$this->fillBodyClass();
+
+		// see #22992
+		$this->fillContentLanguage();
+
+		if ($a_fill_tabs) {
+			if ($this->blockExists("content")) {
+				// determine default screen id
+				$this->getTabsHTML();
+			}
+
+			// to get also the js files for the main menu
+			if (!$a_skip_main_menu) {
+				$this->getMainMenu();
+				$this->initHelp();
+			}
+
+			if ($this->blockExists("content") && $this->variableExists('MAINMENU')) {
+				$tpl = $DIC["tpl"];
+
+				include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
+				$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
+				$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
+			}
+
+			// these fill blocks in tpl.main.html
+			$this->fillCssFiles();
+			$this->fillInlineCss();
+			//$this->fillJavaScriptFiles();
+
+			// these fill just plain placeholder variables in tpl.main.html
+			$this->setCurrentBlock("DEFAULT");
+			$this->fillNewContentStyle();
+			$this->fillWindowTitle();
+
+			// these fill blocks in tpl.adm_content.html
+			$this->fillHeader();
+			$this->fillSideIcons();
+			$this->fillScreenReaderFocus();
+			$this->fillLeftContent();
+			$this->fillLeftNav();
+			$this->fillRightContent();
+			$this->fillAdminPanel();
+			$this->fillToolbar();
+			$this->fillPermanentLink();
+
+			$this->setCenterColumnClass();
+
+			// late loading of javascipr files, since operations above may add files
+			$this->fillJavaScriptFiles();
+			$this->fillOnLoadCode();
+
+			// these fill just plain placeholder variables in tpl.adm_content.html
+			if ($this->blockExists("content")) {
+				$this->setCurrentBlock("content");
+				$this->fillTabs();
+				$this->fillMainContent();
+				$this->fillMainMenu();
+				$this->fillLightbox();
+				$this->parseCurrentBlock();
+			}
+		}
+
+		if ($part == "DEFAULT" or is_bool($part)) {
+			$html = $this->template->getUnmodified();
+		} else {
+			$html = $this->template->getUnmodified($part);
+		}
+
+		// Modification of html is done inline here and can't be done
+		// by ilTemplate, because the "phase" is template_show in this
+		// case here.
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl) {
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+
+			$resp = $gui_class->getHTML(
+				"", "template_show",
+				array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
+			);
+
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
+				$html = $gui_class->modifyHTML($html, $resp);
+			}
+		}
+
+		// fix #9992: save language usages as late as possible
+		if ($this->translation_linked) {
+			ilObjLanguageAccess::_saveUsages();
+		}
+
+		return $html;
+	}
+
 	/**
 	 * Reset css files
 	 */
@@ -1472,117 +1586,9 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 				header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
 				header("Content-type: text/html; charset=UTF-8");
 
-				$this->fillMessage();
-
-				// display ILIAS footer
-				if ($part !== false)
-				{
-					$this->fillFooter();
-				}
-
-				// set standard parts (tabs and title icon)
-				$this->fillBodyClass();
-
-				// see #22992
-				$this->fillContentLanguage();
-
-				if ($a_fill_tabs)
-				{
-					if ($this->blockExists("content"))
-					{
-						// determine default screen id
-						$this->getTabsHTML();
-					}
-
-					// to get also the js files for the main menu
-					if (!$a_skip_main_menu)
-					{
-						$this->getMainMenu();
-						$this->initHelp();
-					}
-
-					if($this->blockExists("content") && $this->variableExists('MAINMENU'))
-					{
-						$tpl = $DIC["tpl"];
-
-						include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
-						$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
-						$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
-					}
-
-					// these fill blocks in tpl.main.html
-					$this->fillCssFiles();
-					$this->fillInlineCss();
-					//$this->fillJavaScriptFiles();
-
-					// these fill just plain placeholder variables in tpl.main.html
-					$this->setCurrentBlock("DEFAULT");
-					$this->fillNewContentStyle();
-					$this->fillWindowTitle();
-
-					// these fill blocks in tpl.adm_content.html
-					$this->fillHeader();
-					$this->fillSideIcons();
-					$this->fillScreenReaderFocus();
-					$this->fillLeftContent();
-					$this->fillLeftNav();
-					$this->fillRightContent();
-					$this->fillAdminPanel();
-					$this->fillToolbar();
-					$this->fillPermanentLink();
-
-					$this->setCenterColumnClass();
-
-					// late loading of javascipr files, since operations above may add files
-					$this->fillJavaScriptFiles();
-					$this->fillOnLoadCode();
-					
-					// these fill just plain placeholder variables in tpl.adm_content.html
-					if ($this->blockExists("content"))
-					{
-						$this->setCurrentBlock("content");
-						$this->fillTabs();
-						$this->fillMainContent();
-						$this->fillMainMenu();
-						$this->fillLightbox();
-						$this->parseCurrentBlock();
-					}
-				}
-
-				if ($part == "DEFAULT" or is_bool($part))
-				{
-					$html = $this->template->getUnmodified();
-				}
-				else
-				{
-					$html = $this->template->getUnmodified($part);
-				}
-
-				// Modification of html is done inline here and can't be done
-				// by ilTemplate, because the "phase" is template_show in this
-				// case here.
-				$ilPluginAdmin = $DIC["ilPluginAdmin"];
-				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-				foreach ($pl_names as $pl)
-				{
-					$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-					$gui_class = $ui_plugin->getUIClassInstance();
-
-					$resp = $gui_class->getHTML("", "template_show",
-						array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
-
-					if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-					{
-						$html = $gui_class->modifyHTML($html, $resp);
-					}
-				}
-
-				// fix #9992: save language usages as late as possible
-				if ($this->translation_linked)
-				{
-					ilObjLanguageAccess::_saveUsages();
-				}
-
+				$html = $this->renderPage($part, $a_fill_tabs, $a_skip_main_menu, $DIC);
+				// echo '<pre>' . print_r(array_keys(get_object_vars($this)), 1) . '</pre>';
+				// exit;
 				print $html;
 
 				$this->handleReferer();

@@ -77,18 +77,17 @@ class Renderer extends AbstractComponentRenderer {
 		$css_inline = [];
 
 		if ($il_tpl instanceof \ilGlobalPageTemplate) {
-
-			foreach ($il_tpl->getPageInfo()->getJs()->getItemsInOrderOfDelivery() as $js) {
+			$page_info = $il_tpl->getPageInfo();
+			foreach ($page_info->getJs()->getItemsInOrderOfDelivery() as $js) {
 				$js_files[] = $js->getContent();
 			}
-
-			foreach ($il_tpl->getPageInfo()->getCss()->getItemsInOrderOfDelivery() as $css) {
+			foreach ($page_info->getCss()->getItemsInOrderOfDelivery() as $css) {
 				$css_files[] = $css->getContent();
 			}
-			foreach ($il_tpl->getPageInfo()->getInlineCss() as $inline_css) {
+			foreach ($page_info->getInlineCss() as $inline_css) {
 				$css_inline[] = $inline_css->getContent();
 			}
-			foreach ($il_tpl->getPageInfo()->getOnloadCode() as $on_load_code) {
+			foreach ($page_info->getOnloadCode() as $on_load_code) {
 				$js_inline[] = $on_load_code->getContent();
 			}
 		}

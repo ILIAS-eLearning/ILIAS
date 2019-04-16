@@ -31,6 +31,7 @@ class JsCollection extends AbstractCollection {
 		foreach ($this->getItems() as $js) {
 			$ordered[$js->getBatch()][] = $js;
 		}
+		sort($ordered);
 		$ordered_all = [];
 		foreach ($ordered as $item) {
 			foreach ($item as $js) {

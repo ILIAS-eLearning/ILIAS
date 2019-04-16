@@ -30,6 +30,14 @@ interface Standard extends Page {
 
 
 	/**
+	 * @param Image $logo
+	 *
+	 * @return Standard
+	 */
+	public function withLogo(Image $logo): Standard;
+
+
+	/**
 	 * @return bool
 	 */
 	public function hasMetabar(): bool;
