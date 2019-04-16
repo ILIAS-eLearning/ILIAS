@@ -371,31 +371,24 @@ class ButtonTest extends ILIAS_UI_TestBase
 	 * @dataProvider button_type_provider
 	 */
 	public function test_render_button_with_aria_label($factory_method) {
-		//only standard buttons have aria labels in the template. Should the others accept aria stuff?
-		//if yes, remove this conditional
-		if($factory_method == "standard")
-		{
-			$ln = "http://www.ilias.de";
-			$f = $this->getButtonFactory();
-			$r = $this->getDefaultRenderer();
-			$b = $f->$factory_method("label", $ln)->withAriaLabel("aria label text");
-			$aria_label = $b->getAriaLabel();
+		$ln = "http://www.ilias.de";
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$b = $f->$factory_method("label", $ln)->withAriaLabel("aria label text");
+		$aria_label = $b->getAriaLabel();
 
-			$html = $this->normalizeHTML($r->render($b));
-			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<button class=\"$css_classes\" aria-label=\"$aria_label\" data-action=\"$ln\" id=\"id_1\">".
-				"label".
-				"</button>";
-			$this->assertHTMLEquals($expected, $html);
-		} else {
-			$this->assertTrue(self::NOT_APPLICABLE);
-		}
+		$html = $this->normalizeHTML($r->render($b));
+		$css_classes = self::$canonical_css_classes[$factory_method];
+		$expected = "<button class=\"$css_classes\" aria-label=\"$aria_label\" data-action=\"$ln\" id=\"id_1\">".
+			"label".
+			"</button>";
+		$this->assertHTMLEquals($expected, $html);
 	}
 
 	/**
 	 * @dataProvider button_type_provider
 	 */
-	public function test_render_button_with_aria_checked($factory_method) {
+	public function test_render_button_with_aria_pressed($factory_method) {
 		//only standard buttons have aria labels in the template. Should the others accept aria stuff?
 		//if yes, remove this conditional
 		if($factory_method == "standard")
