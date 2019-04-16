@@ -1,11 +1,13 @@
 <div class="panel panel-secondary">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader">{TITLE}</h3>
+		<h3 class="ilHeader panel-secondary-title">{TITLE}</h3>
 		{ACTIONS}
-		{SORTATION}
+		<!-- BEGIN view_controls -->
+			{VIEW_CONTROL}
+		<!-- END view_controls -->
 	</div>
+
 	<div class="panel-body">
-		{PAGINATION}{SECTION}
 		<!-- BEGIN group -->
 		{ITEM_GROUP}
 		<!-- END group -->

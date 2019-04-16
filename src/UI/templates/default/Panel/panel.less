@@ -69,9 +69,12 @@
 }
 
 /* this is currently experimental, could be removed */
-.panel-secondary .panel-primary .panel-heading{
-	background-color:transparent;
+.panel-secondary .panel-heading {
+	display:flex;
+	flex-flow: row wrap;
 }
-.panel-secondary .il-viewcontrol-pagination, .panel-secondary .il-viewcontrol-section {
-	text-align:center;
-}
+
+.panel-secondary .panel-secondary-title { flex:99 0; order: 1;}
+.panel-secondary .il-viewcontrol-sortation { flex: 1 0; order: 2;}
+.panel-secondary .panel-heading .dropdown { flex: 1 0; order: 3;}
+.panel-secondary .il-viewcontrol-pagination { flex: 1 100%; order: 4; background-color:#f9f9f9; text-align:center;}

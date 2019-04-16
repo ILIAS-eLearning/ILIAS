@@ -39,19 +39,14 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
 		}
 
-		$sortation = $component->getSortation();
-		if($sortation) {
-			$tpl->setVariable("SORTATION", $default_renderer->render($sortation));
-		}
+		$view_controls = $component->getViewControls();
 
-		$pagination = $component->getPagination();
-		if($pagination) {
-			$tpl->setVariable("PAGINATION", $default_renderer->render($pagination));
-		}
-
-		$section = $component->getSection();
-		if($section) {
-			$tpl->setVariable("SECTION", $default_renderer->render($section));
+		if($view_controls) {
+			foreach ($view_controls as $view_control) {
+				$tpl->setCurrentBlock("view_controls");
+				$tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		foreach ($component->getItemGroups() as $group)
@@ -78,19 +73,14 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
 		}
 
-		$sortation = $component->getSortation();
-		if($sortation) {
-			$tpl->setVariable("SORTATION", $default_renderer->render($sortation));
-		}
+		$view_controls = $component->getViewControls();
 
-		$pagination = $component->getPagination();
-		if($pagination) {
-			$tpl->setVariable("PAGINATION", $default_renderer->render($pagination));
-		}
-
-		$section = $component->getSection();
-		if($section) {
-			$tpl->setVariable("SECTION", $default_renderer->render($section));
+		if($view_controls) {
+			foreach ($view_controls as $view_control) {
+				$tpl->setCurrentBlock("view_controls");
+				$tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		$tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
