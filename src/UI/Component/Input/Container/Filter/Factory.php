@@ -6,7 +6,6 @@ namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Input\Field\Input;
-use ILIAS\UI\Component\Input\Container\Filter;
 
 /**
  * This is how a factory for filters looks like.
@@ -37,7 +36,7 @@ interface Factory {
 	 * @param    bool    $is_activated
 	 * @param    bool    $is_expanded
 	 *
-	 * @return    Filter\Standard
+	 * @return    \ILIAS\UI\Component\Input\Container\Filter\Standard
 	 */
 	public function standard($toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action, array $inputs, array $is_input_rendered, $is_activated = false, $is_expanded = false);
 }

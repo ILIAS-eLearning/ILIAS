@@ -7,6 +7,9 @@ require_once(__DIR__ . "/../../../../Base.php");
 require_once(__DIR__ . "/FilterTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 class WithNoUIFactories extends NoUIFactory {
 
@@ -58,11 +61,19 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 {
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+			new SignalGenerator(),
+			$this->buildInputFactory());
 	}
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 	protected function buildButtonFactory() {
@@ -104,45 +115,42 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 		$html = $r->render($filter);
 
 		$expected = <<<EOT
-<div class="il-filter  enabled  collapsed" id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-apply="#" data-cmd-toggleOn="#">
+<div class="il-filter enabled" id="id_1">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
-            <span class="il-filter-bar-opener"  aria-expanded="false">
-            	<button class="btn btn-bulky" data-action="" id="id_2"   aria-pressed="undefined" >
-            		<span class="glyph" aria-label="expand_content">
-						<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-					</span>
-					<div><span class="bulky-label">filter</span></div>
-				</button>
- 			</span>
-            <span class="il-filter-bar-opener-disabled"> filter </span>
-            <span class="il-filter-bar-controls">
-            	<button class="btn btn-bulky" data-action="" id="id_3"   aria-pressed="undefined" >
-            		<span class="glyph" aria-label="apply">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</span>
-					<div><span class="bulky-label">apply</span></div>
-				</button>
- 				<button class="btn btn-bulky" data-action="#" id="id_4"   aria-pressed="undefined" >
- 					<span class="glyph" aria-label="reset">
-						<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-					</span>
-					<div><span class="bulky-label">reset</span></div>
-				</button>
-				<button class="il-toggle-button on" id="id_5" aria-pressed="false">
-    				<div class="il-toggle-switch"></div>
-				</button>
- 			</span>
+		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
+			<button class="btn btn-bulky" data-action="" id="id_2" aria-pressed="undefined">
+				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+			<button class="btn btn-bulky" data-action="" id="id_3" aria-pressed="undefined">
+				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+		</span>
+		<span class="il-filter-bar-controls">
+			<button class="btn btn-bulky" data-action="" id="id_4" aria-pressed="undefined">
+				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">apply</span></div>
+			</button>
+			<button class="btn btn-bulky" data-action="#" id="id_5" aria-pressed="undefined">
+				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">reset</span></div>
+			</button>
+			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
+				<div class="il-toggle-switch"></div>
+			</button>
+		</span>
         </div>
-        <div class="il-filter-inputs-active clearfix"> <span id="1"> </span>  <span id="2"> </span> </div>
-        <div id="inputs" class="il-filter-input-section form-group row">
+        <div class="il-filter-inputs-active clearfix collapse in"> <span id="1"> </span>  <span id="2"> </span> </div>
+        <div class="il-filter-input-section form-group row collapse ">
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
 					<span class="input-group-addon leftaddon">Title</span>
-					<span role="button" tabindex="0" class="form-control il-filter-field" id="id_8" data-placement="bottom"></span>
-					<div class="il-standard-popover-content" style="display:none;" id="id_7"></div>
+					<span role="button" tabindex="0" class="form-control il-filter-field" id="id_9" data-placement="bottom"></span>
+					<div class="il-standard-popover-content" style="display:none;" id="id_8"></div>
 					<span class="input-group-addon rightaddon">
-						<a class="glyph" aria-label="remove" id="id_9">
+						<a class="glyph" href="" aria-label="remove" id="id_10">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
 						</a>
 					</span>
@@ -151,10 +159,10 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
 					<span class="input-group-addon leftaddon">Selection</span>
-					<span role="button" tabindex="0" class="form-control il-filter-field" id="id_12" data-placement="bottom"></span>
-					<div class="il-standard-popover-content" style="display:none;" id="id_11"></div>
+					<span role="button" tabindex="0" class="form-control il-filter-field" id="id_13" data-placement="bottom"></span>
+					<div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
 					<span class="input-group-addon rightaddon">
-						<a class="glyph" aria-label="remove" id="id_13">
+						<a class="glyph" href="" aria-label="remove" id="id_14">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
 						</a>
 					</span>
@@ -162,7 +170,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</div>
 			<div class="col-md-4 il-popover-container">
     			<div class="input-group">
-        			<button class="btn btn-bulky" id="id_17"   aria-pressed="false" >
+        			<button class="btn btn-bulky" id="id_18"   aria-pressed="false" >
         				<span class="glyph" aria-label="add">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
@@ -171,7 +179,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 						</div>
 					</button>    
     			</div>
-    			<div class="il-standard-popover-content" style="display:none;" id="id_16"></div>
+    			<div class="il-standard-popover-content" style="display:none;" id="id_17"></div>
 			</div>
  		</div>
         <input class="il-filter-field-status" type="hidden" name="__filter_status_0" value="1" />
@@ -197,42 +205,40 @@ EOT;
 		$html = $r->render($filter);
 
 		$expected = <<<EOT
-<div class="il-filter disabled   collapsed" id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-apply="#" data-cmd-toggleOn="#">
+<div class="il-filter disabled" id="id_1">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
-            <span class="il-filter-bar-opener"  aria-expanded="false">
-                <button class="btn btn-bulky" data-action="#" id="id_2"   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="expand_content">
-                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">filter</span></div>
-                </button>
-            </span>
-            <span class="il-filter-bar-opener-disabled"> filter </span>
-            <span class="il-filter-bar-controls">
-                <button class="btn btn-bulky ilSubmitInactive disabled" data-action=""   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="apply">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">apply</span></div>
-                </button>
-                <button class="btn btn-bulky ilSubmitInactive disabled" data-action=""   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="reset">
-                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">reset</span></div>
-                </button>
-                <button class="il-toggle-button" id="id_3" aria-pressed="false">
-                    <div class="il-toggle-switch"></div>
-                </button>
-            </span>
+		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
+			<button class="btn btn-bulky" data-action="" id="id_2" aria-pressed="undefined">
+				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+			<button class="btn btn-bulky" data-action="" id="id_3" aria-pressed="undefined">
+				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+		</span>
+		<span class="il-filter-bar-controls">
+			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="" aria-pressed="undefined">
+				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">apply</span></div>
+			</button>
+			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="" aria-pressed="undefined">
+				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">reset</span></div>
+			</button>
+			<button class="il-toggle-button" id="id_4" aria-pressed="false">
+				<div class="il-toggle-switch"></div>
+			</button>
+		</span>
         </div>
-        <div id="inputs" class="il-filter-input-section form-group row">
+        <div class="il-filter-inputs-active clearfix collapse in"></div>
+        <div class="il-filter-input-section form-group row collapse ">
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Title</span>
                     <span role="button" class="form-control il-filter-field" data-placement="bottom"></span>
-                    <div class="il-standard-popover-content" style="display:none;" id="id_5"></div>
+                    <div class="il-standard-popover-content" style="display:none;" id="id_6"></div>
                     <span class="input-group-addon rightaddon">
                     <a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -244,7 +250,7 @@ EOT;
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Selection</span>
                     <span role="button" class="form-control il-filter-field" data-placement="bottom"></span>
-                    <div class="il-standard-popover-content" style="display:none;" id="id_7"></div>
+                    <div class="il-standard-popover-content" style="display:none;" id="id_8"></div>
                     <span class="input-group-addon rightaddon">
                     <a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -276,45 +282,42 @@ EOT;
 		$html = $r->render($filter);
 
 		$expected = <<<EOT
-<div class="il-filter  enabled expanded " id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
+<div class="il-filter enabled" id="id_1">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
-            <span class="il-filter-bar-opener"  aria-expanded="false">
-                <button class="btn btn-bulky" data-action="" id="id_2"   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="collapse_content">
-                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">filter</span></div>
-                </button>
-            </span>
-            <span class="il-filter-bar-opener-disabled"> filter </span>
-            <span class="il-filter-bar-controls">
-                <button class="btn btn-bulky" data-action="" id="id_3"   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="apply">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">apply</span></div>
-                </button>
-                <button class="btn btn-bulky" data-action="#" id="id_4"   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="reset">
-                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">reset</span></div>
-                </button>
-                <button class="il-toggle-button on" id="id_5" aria-pressed="false">
-                    <div class="il-toggle-switch"></div>
-                </button>
-            </span>
+		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
+			<button class="btn btn-bulky" data-action="" id="id_2" aria-pressed="undefined">
+				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+			<button class="btn btn-bulky" data-action="" id="id_3" aria-pressed="undefined">
+				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+		</span>
+		<span class="il-filter-bar-controls">
+			<button class="btn btn-bulky" data-action="" id="id_4" aria-pressed="undefined">
+				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">apply</span></div>
+			</button>
+			<button class="btn btn-bulky" data-action="#" id="id_5" aria-pressed="undefined">
+				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">reset</span></div>
+			</button>
+			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
+				<div class="il-toggle-switch"></div>
+			</button>
+		</span>
         </div>
-        <div class="il-filter-inputs-active clearfix"> <span id="1"> </span>  <span id="2"> </span> </div>
-        <div id="inputs" class="il-filter-input-section form-group row">
+        <div class="il-filter-inputs-active clearfix collapse "> <span id="1"> </span>  <span id="2"> </span> </div>
+        <div class="il-filter-input-section form-group row collapse in">
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Title</span>
-                    <span role="button" tabindex="0" class="form-control il-filter-field" id="id_8" data-placement="bottom"></span>
-                    <div class="il-standard-popover-content" style="display:none;" id="id_7"></div>
+                    <span role="button" tabindex="0" class="form-control il-filter-field" id="id_9" data-placement="bottom"></span>
+                    <div class="il-standard-popover-content" style="display:none;" id="id_8"></div>
                     <span class="input-group-addon rightaddon">
-                    <a class="glyph" aria-label="remove" id="id_9">
+                    <a class="glyph" href="" aria-label="remove" id="id_10">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                     </a>
                     </span>
@@ -323,9 +326,9 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Selection</span>
-                    <span role="button" tabindex="0" class="form-control il-filter-field" id="id_12" data-placement="bottom"></span> 
-                    <div class="il-standard-popover-content" style="display:none;" id="id_11"></div>
-                    <span class="input-group-addon rightaddon"><a class="glyph" aria-label="remove" id="id_13">
+                    <span role="button" tabindex="0" class="form-control il-filter-field" id="id_13" data-placement="bottom"></span> 
+                    <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
+                    <span class="input-group-addon rightaddon"><a class="glyph" href="" aria-label="remove" id="id_14">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                     </a>
                     </span>
@@ -333,14 +336,14 @@ EOT;
             </div>
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
-                    <button class="btn btn-bulky" id="id_17"   aria-pressed="false" >
+                    <button class="btn btn-bulky" id="id_18"   aria-pressed="false" >
                         <span class="glyph" aria-label="add">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                         </span>
                         <div><span class="bulky-label"></span></div>
                     </button>
                 </div>
-                <div class="il-standard-popover-content" style="display:none;" id="id_16"></div>
+                <div class="il-standard-popover-content" style="display:none;" id="id_17"></div>
             </div>
         </div>
         <input class="il-filter-field-status" type="hidden" name="__filter_status_0" value="1" />
@@ -366,42 +369,39 @@ EOT;
 		$html = $r->render($filter);
 
 		$expected = <<<EOT
-<div class="il-filter disabled  expanded " id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" action="" method="get" novalidate="novalidate" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
+<div class="il-filter disabled" id="id_1">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#">
         <div class="il-filter-bar">
-            <span class="il-filter-bar-opener"  aria-expanded="false">
-                <button class="btn btn-bulky" data-action="#" id="id_2"   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="collapse_content">
-                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">filter</span></div>
-                </button>
-            </span>
-            <span class="il-filter-bar-opener-disabled"> filter </span>
-            <span class="il-filter-bar-controls">
-                <button class="btn btn-bulky ilSubmitInactive disabled" data-action=""   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="apply">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">apply</span></div>
-                </button>
-                <button class="btn btn-bulky ilSubmitInactive disabled" data-action=""   aria-pressed="undefined" >
-                    <span class="glyph" aria-label="reset">
-                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                    </span>
-                    <div><span class="bulky-label">reset</span></div>
-                </button>
-                <button class="il-toggle-button" id="id_3" aria-pressed="false">
-                    <div class="il-toggle-switch"></div>
-                </button>
-            </span>
+		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
+			<button class="btn btn-bulky" data-action="" id="id_2" aria-pressed="undefined">
+				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+			<button class="btn btn-bulky" data-action="" id="id_3" aria-pressed="undefined">
+				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">filter</span></div>
+			</button>
+		</span>
+		<span class="il-filter-bar-controls">
+			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="" aria-pressed="undefined">
+				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">apply</span></div>
+			</button>
+			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="" aria-pressed="undefined">
+				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
+				<div><span class="bulky-label">reset</span></div>
+			</button>
+			<button class="il-toggle-button" id="id_4" aria-pressed="false">
+				<div class="il-toggle-switch"></div>
+			</button>
+		</span>
         </div>
-        <div id="inputs" class="il-filter-input-section form-group row">
+        <div class="il-filter-input-section form-group row collapse in">
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Title</span>
                     <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span> 
-                    <div class="il-standard-popover-content" style="display:none;" id="id_5"></div>
+                    <div class="il-standard-popover-content" style="display:none;" id="id_6"></div>
                     <span class="input-group-addon rightaddon"><a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                     </a>
@@ -412,7 +412,7 @@ EOT;
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Selection</span>
                     <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span> 
-                    <div class="il-standard-popover-content" style="display:none;" id="id_7"></div>
+                    <div class="il-standard-popover-content" style="display:none;" id="id_8"></div>
                     <span class="input-group-addon rightaddon"><a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                     </a>

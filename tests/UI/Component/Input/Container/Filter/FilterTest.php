@@ -11,6 +11,9 @@ use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\UI\Implementation\Component\Input\Container\Filter\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\Data;
+use \ILIAS\Validation;
+use \ILIAS\Transformation;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -28,37 +31,37 @@ class FixedNameSourceFilter implements NameSource {
 
 class ConcreteFilter extends Filter {
 
-	public $post_data = null;
+	public $input_data = null;
 
-
-	public function _extractPostData(ServerRequestInterface $request) {
-		return $this->extractPostData($request);
+	public function __construct(SignalGenerator $signal_generator, Input\Field\Factory $field_factory, $toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action, array $inputs, array $is_input_rendered, $is_activated, $is_expanded)
+	{
+		$this->input_factory = $field_factory;
+		parent::__construct($signal_generator, $field_factory, $toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action, $inputs, $is_input_rendered, $is_activated, $is_expanded);
 	}
 
 
-	public function extractPostData(ServerRequestInterface $request) {
-		if ($this->post_data !== null) {
-			return $this->post_data;
+	public function _extractParamData(ServerRequestInterface $request) {
+		return $this->extractParamData($request);
+	}
+
+
+	public function extractParamData(ServerRequestInterface $request) {
+		if ($this->input_data !== null) {
+			return $this->input_data;
 		}
 
-		return parent::extractPostData($request);
+		return parent::extractParamData($request);
 	}
 
 
 	public function setInputs(array $inputs) {
-		$signal_generator = new SignalGenerator();
-		$input_factory = new Input\Factory(
-			$signal_generator,
-			new Input\Field\Factory($signal_generator),
-			new Input\Container\Factory()
-		);
-		$this->input_group = $input_factory->field()->group($inputs);
+		$this->input_group = $this->input_factory->group($inputs);
 		$this->inputs = $inputs;
 	}
 
 
-	public function _getPostInput(ServerRequestInterface $request) {
-		return $this->getPostInput($request);
+	public function _getInput(ServerRequestInterface $request) {
+		return $this->getInput($request);
 	}
 }
 
@@ -70,11 +73,19 @@ class FilterTest extends ILIAS_UI_TestBase
 {
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+			new SignalGenerator(),
+			$this->buildInputFactory());
 	}
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
+		$df = new Data\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+			new SignalGenerator(),
+			$df,
+			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			new Transformation\Factory()
+		);
 	}
 
 	protected function buildButtonFactory() {
@@ -106,7 +117,7 @@ class FilterTest extends ILIAS_UI_TestBase
 		return new \ILIAS\Data\Factory;
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		\Mockery::close();
 	}
 
@@ -129,7 +140,7 @@ class FilterTest extends ILIAS_UI_TestBase
 			$name_source->name = $name;
 
 			// name is a string
-			$this->assertInternalType("string", $name);
+			$this->assertIsString($name);
 
 			// only name is attached
 			$input = array_shift($inputs);
@@ -141,37 +152,38 @@ class FilterTest extends ILIAS_UI_TestBase
 		}
 	}
 
-	public function test_extractPostData() {
-		$filter = new ConcreteFilter("#", "#", "#", "#",
+	public function test_extractParamData() {
+		$filter = new ConcreteFilter(new SignalGenerator(), $this->buildInputFactory(),
+			"#", "#", "#", "#",
 			"#", "#", [], [], false, false);
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
-		$post_data = $filter->_extractPostData($request);
-		$this->assertInstanceOf(InputData::class, $post_data);
+		$request->shouldReceive("getQueryParams")->once()->andReturn([]);
+		$input_data = $filter->_extractParamData($request);
+		$this->assertInstanceOf(InputData::class, $input_data);
 	}
 
 	public function test_withRequest() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(InputData::class);
-		$post_data->shouldReceive("getOr")->once()->andReturn("");
+		$input_data = \Mockery::Mock(InputData::class);
+		$input_data->shouldReceive("getOr")->once()->andReturn("");
 
 		$df = $this->buildDataFactory();
 
 		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1->shouldReceive("withInput")->once()->with($post_data)->andReturn($input_1);
+		$input_1->shouldReceive("withInput")->once()->with($input_data)->andReturn($input_1);
 
 		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(0));
 
 		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2->shouldReceive("withInput")->once()->with($post_data)->andReturn($input_2);
+		$input_2->shouldReceive("withInput")->once()->with($input_data)->andReturn($input_2);
 
 		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(0));
 
-		$filter = new ConcreteFilter("#", "#", "#", "#",
+		$filter = new ConcreteFilter(new SignalGenerator(), $this->buildInputFactory(),
+			"#", "#", "#", "#",
 			"#", "#", [], [], false, false);
-		$request = \Mockery::mock(ServerRequestInterface::class);
 		$filter->setInputs([$input_1, $input_2]);
-		$filter->post_data = $post_data;
+		$filter->input_data = $input_data;
 
 		$filter2 = $filter->withRequest($request);
 
@@ -183,7 +195,7 @@ class FilterTest extends ILIAS_UI_TestBase
 	public function test_getData() {
 		$df = $this->buildDataFactory();
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
+		$request->shouldReceive("getQueryParams")->once()->andReturn([]);
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(1));
@@ -195,7 +207,8 @@ class FilterTest extends ILIAS_UI_TestBase
 
 		$input_2->shouldReceive("withInput")->once()->andReturn($input_2);
 
-		$filter = new ConcreteFilter("#", "#", "#", "#",
+		$filter = new ConcreteFilter(new SignalGenerator(), $this->buildInputFactory(),
+			"#", "#", "#", "#",
 			"#", "#", [], [], false, false);
 		$filter->setInputs([$input_1, $input_2]);
 		$filter = $filter->withRequest($request);
