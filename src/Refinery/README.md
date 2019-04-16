@@ -4,21 +4,25 @@ The `Refinery` library is used to unify the way input is
 processed by the ILIAS project.
 
 **Table of Contents**
-- [Refinery](#refinery)
-  * [General](#general)
-  * [Quickstart example](#quickstart-example)
-  * [Usage](#usage)
-    + [Factory](#factory)
-      - [Groups](#groups)
-        * [to](#to)
-          + [Natives](#natives)
-          + [Structures](#structures)
-        * [in](#in)
-          + [series](#series)
-          + [parallel](#parallel)
-  * [Libraries](#libraries)
-    + [Transformation](#transformation)
-    + [Validation](#validation)
+- [General](#general)
+- [Quickstart example](#quickstart-example)
+- [Usage](#usage)
+  * [Factory](#factory)
+    + [Groups](#groups)
+      - [to](#to)
+        * [Natives](#natives)
+        * [Structures](#structures)
+      - [in](#in)
+        * [series](#series)
+        * [parallel](#parallel)
+  * [Custom Transformation](#custom-transformation)
+    + [DeriveApplyToFromTransform](#deriveapplytofromtransform)
+      - [Error Handling](#error-handling)
+    + [DeriveTransformFromApplyTo](#derivetransformfromapplyto)
+      - [Error Handling](#error-handling-1)
+- [Libraries](#libraries)
+  * [Transformation](#transformation)
+  * [Validation](#validation)
 
 ## General
 
@@ -240,6 +244,92 @@ The result will be an array of results of each transformation.
 
 In this case this is an array with an `integer` and a `string`
 value.
+
+### Custom Transformation
+
+Sometimes the default transformations of this library are not enough, so a
+custom transformation is needed.
+
+As every other transformation it must implement the
+`ILIAS\Refinery\To\Transformation` interface.
+
+By default these transformation need an implementation for the 
+methods `transformation` and `applyTo`.
+Because these methods are always containing the same basic process
+(with different results types and exception handling),
+this library contains traits to ease the creation of new transformation.
+
+The traits that can be used are:
+ * [DeriveApplyToFromTransform](#deriveapplytofromtransform)
+ * [DeriveTransformFromApplyTo](#derivetransformfromapplyto)
+
+An example shows how one of the traits can be used.
+
+```php
+class BooleanTransformation implements Transformation
+{
+	use DeriveApplyToFromTransform;
+
+	/**
+	 * @inheritdoc
+	 */
+	public function transform($from)
+	{
+		if (false === is_bool($from)) {
+			throw new ConstraintViolationException(
+				'The value MUST be of type boolean',
+				'not_boolean'
+			);
+		}
+		return (bool) $from;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function __invoke($from)
+	{
+		return $this->transform($from);
+	}
+}
+```
+
+In the above example we use the trait `DeriveApplyToFromTransform`
+and only define the `transform` method.
+
+Please be aware that the error handling can vary
+by using these traits.
+Checkout the  following chapters for more information.
+
+#### DeriveApplyToFromTransform
+
+This trait is used define `applyTo` on its own.
+Just the `transform` method needs to be created in the new transformation class.
+
+##### Error Handling
+
+Exceptions thrown inside the `transformation` method will be
+catched and added to new
+[error result object (`Result\Error`)](/src/Data/README.md#result).
+
+The origin exception can be accessed through this error object.
+
+#### DeriveTransformFromApplyTo
+
+This trait is used define `transform` on its own.
+Just the `applyTo` method needs to be created in the new transformation class.
+
+##### Error Handling
+
+Exceptions thrown inside the `applyTo` method will be
+**not be** catched.
+On return of an [error result object (`Result\Error`)](/src/Data/README.md#result)
+the `transform` method will throw an exception.
+
+* If the content of the error object is an exception the exception will be
+  thrown.
+* If the content of the error object is an string this string will be added
+  to a an `Exception` which will be thrown.
 
 ## Libraries
 
