@@ -6,28 +6,28 @@ declare(strict_types=1);
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data\Range;
+namespace ILIAS\Data\Interval;
 
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
-class FloatRange
+class OpenedIntegerInterval
 {
 	/**
-	 * @var float
+	 * @var int
 	 */
 	private $minimum;
 
 	/**
-	 * @var float
+	 * @var int
 	 */
 	private $maximum;
 
 	/**
-	 * @param float $minimum
-	 * @param float $maximum
+	 * @param int $minimum
+	 * @param int $maximum
 	 * @throws ConstraintViolationException
 	 */
-	public function __construct(float $minimum, float $maximum)
+	public function __construct(int $minimum, int $maximum)
 	{
 		if ($maximum < $minimum) {
 			throw new ConstraintViolationException(
@@ -43,10 +43,10 @@ class FloatRange
 	}
 
 	/**
-	 * @param float $numberToCheck
+	 * @param int $numberToCheck
 	 * @return bool
 	 */
-	public function spans(float $numberToCheck) : bool
+	public function spans(int $numberToCheck) : bool
 	{
 		if ($numberToCheck < $this->minimum) {
 			return false;
@@ -57,19 +57,18 @@ class FloatRange
 		return true;
 	}
 
-
 	/**
-	 * @return float
+	 * @return int
 	 */
-	public function minimum() : float
+	public function minimum() : int
 	{
 		return $this->minimum;
 	}
 
 	/**
-	 * @return float
+	 * @return int
 	 */
-	public function maximum() : float
+	public function maximum() : int
 	{
 		return $this->maximum;
 	}

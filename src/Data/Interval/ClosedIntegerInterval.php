@@ -1,26 +1,20 @@
 <?php
-declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data\Range;
+namespace ILIAS\Data\Interval;
 
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
-class IntegerRange
+class ClosedIntegerInterval
 {
 	/**
-	 * @var int
+	 * @var OpenedIntegerInterval
 	 */
-	private $minimum;
-
-	/**
-	 * @var int
-	 */
-	private $maximum;
+	private $range;
 
 	/**
 	 * @param int $minimum
@@ -29,17 +23,16 @@ class IntegerRange
 	 */
 	public function __construct(int $minimum, int $maximum)
 	{
-		if ($maximum < $minimum) {
+		if ($minimum === $maximum) {
 			throw new ConstraintViolationException(
-				sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum),
-				'exception_maximum_minimum_mismatch',
+				sprintf('The maximum("%s") and minimum("%s") can NOT be the same', $maximum, $minimum),
+				'exception_maximum_minimum_same',
 				$maximum,
 				$minimum
 			);
 		}
 
-		$this->minimum = $minimum;
-		$this->maximum = $maximum;
+		$this->range = new OpenedIntegerInterval($minimum, $maximum);
 	}
 
 	/**
@@ -48,9 +41,9 @@ class IntegerRange
 	 */
 	public function spans(int $numberToCheck) : bool
 	{
-		if ($numberToCheck < $this->minimum) {
+		if ($numberToCheck <= $this->range->minimum()) {
 			return false;
-		} elseif ($numberToCheck > $this->maximum) {
+		} elseif ($numberToCheck >= $this->range->maximum()) {
 			return false;
 		}
 
@@ -62,7 +55,7 @@ class IntegerRange
 	 */
 	public function minimum() : int
 	{
-		return $this->minimum;
+		return $this->range->minimum();
 	}
 
 	/**
@@ -70,6 +63,6 @@ class IntegerRange
 	 */
 	public function maximum() : int
 	{
-		return $this->maximum;
+		return $this->range->maximum();
 	}
 }

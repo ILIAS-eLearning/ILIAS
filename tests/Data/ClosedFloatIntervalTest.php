@@ -7,19 +7,20 @@
 
 namespace ILIAS\Data;
 
-use ILIAS\Data\Range\FloatRange;
+use ILIAS\Data\Interval\ClosedFloatInterval;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use PHPUnit\Framework\TestCase;
 
 require_once 'libs/composer/vendor/autoload.php';
 
-class FloatRangeTest extends \PHPUnit_Framework_TestCase
+class ClosedFloatIntervalTest extends TestCase
 {
 	/**
-	 * @throws ConstraintViolationException
+	 * @throws \InvalidArgumentException
 	 */
 	public function testValidFloatRanges()
 	{
-		$floatRange = new FloatRange(3.0 , 100.4);
+		$floatRange = new ClosedFloatInterval(3.0 , 100.4);
 
 		$this->assertSame($floatRange->minimum(), 3.0);
 		$this->assertSame($floatRange->maximum(), 100.4);
@@ -27,35 +28,35 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 
 	public function testValueIsInRange()
 	{
-		$range = new FloatRange(3.0 , 100.4);
+		$range = new ClosedFloatInterval(3.0 , 100.4);
 
 		$this->assertTrue($range->spans(50));
 	}
 
-	public function testMinimumValueIsInRange()
+	public function testMinimumValueIsNotInRange()
 	{
-		$range = new FloatRange(3.0 , 100.4);
+		$range = new ClosedFloatInterval(3.0 , 100.4);
 
-		$this->assertTrue($range->spans(3));
+		$this->assertFalse($range->spans(3));
 	}
 
-	public function testMaximumValueIsInRange()
+	public function testMaximumValueIsNotInRange()
 	{
-		$range = new FloatRange(3.0 , 100.4);
+		$range = new ClosedFloatInterval(3.0 , 100.4);
 
-		$this->assertTrue($range->spans(3));
+		$this->assertFalse($range->spans(3));
 	}
 
 	public function testValueIsNotInRangeBecauseTheValueIsToLow()
 	{
-		$range = new FloatRange(3.0 , 100.4);
+		$range = new ClosedFloatInterval(3.0 , 100.4);
 
 		$this->assertFalse($range->spans(1));
 	}
 
 	public function testValueIsNotInRangeBecauseTheValueIsToHigh()
 	{
-		$range = new FloatRange(3.0 , 100.4);
+		$range = new ClosedFloatInterval(3.0 , 100.4);
 
 		$this->assertFalse($range->spans(101));
 	}
@@ -65,7 +66,7 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testHexIsAllowForRanges()
 	{
-		$floatRange = new FloatRange(0x3 , 0xA);
+		$floatRange = new ClosedFloatInterval(0x3 , 0xA);
 
 		$this->assertSame($floatRange->minimum(), 3.0);
 		$this->assertSame($floatRange->maximum(), 10.0);
@@ -76,27 +77,30 @@ class FloatRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
-		$floatRange = new FloatRange(0b11 , 0b1010);
+		$floatRange = new ClosedFloatInterval(0b11 , 0b1010);
 
 		$this->assertSame($floatRange->minimum(), 3.0);
 		$this->assertSame($floatRange->maximum(), 10.0);
 	}
 
-	/**
-	 * @throws ConstraintViolationException
-	 */
-	public function testRangeCanBeSame()
+	public function testRangeIsSameThrowsException()
 	{
-		$floatRange = new FloatRange(3.0, 3.0);
+		$this->expectNotToPerformAssertions();
 
-		$this->assertSame($floatRange->minimum(), 3.0);
-		$this->assertSame($floatRange->maximum(), 3.0);
+		try {
+			$floatRange = new ClosedFloatInterval(3.0, 3.0);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
+		$this->fail();
 	}
 
 	public function testMaximumsIsLowerThanMinimumThrowsException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
-			$floatRange = new FloatRange(3.0, 1.0);
+			$floatRange = new ClosedFloatInterval(3.0, 1.0);
 		} catch (ConstraintViolationException $exception) {
 			return;
 		}

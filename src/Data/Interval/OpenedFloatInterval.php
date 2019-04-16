@@ -6,34 +6,40 @@ declare(strict_types=1);
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data\Range;
+namespace ILIAS\Data\Interval;
 
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
-class StrictFloatRange
+class OpenedFloatInterval
 {
 	/**
-	 * @var FloatRange
+	 * @var OpenedFloatInterval
 	 */
-	private $range;
+	private $minimum;
 
 	/**
-	 * @param $minimum
-	 * @param $maximum
+	 * @var OpenedFloatInterval
+	 */
+	private $maximum;
+
+	/**
+	 * @param float $minimum
+	 * @param float $maximum
 	 * @throws ConstraintViolationException
 	 */
-	public function __construct($minimum, $maximum)
+	public function __construct(float $minimum, float $maximum)
 	{
-		if ($maximum === $minimum) {
+		if ($maximum < $minimum) {
 			throw new ConstraintViolationException(
-				sprintf('The maximum("%s") and minimum("%s") can NOT be the same', $maximum, $minimum),
-				'exception_maximum_minimum_same',
+				sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum),
+				'exception_maximum_minimum_mismatch',
 				$maximum,
 				$minimum
 			);
 		}
 
-		$this->range = new FloatRange($minimum, $maximum);
+		$this->minimum = $minimum;
+		$this->maximum = $maximum;
 	}
 
 	/**
@@ -42,21 +48,22 @@ class StrictFloatRange
 	 */
 	public function spans(float $numberToCheck) : bool
 	{
-		if ($numberToCheck <= $this->range->minimum()) {
+		if ($numberToCheck < $this->minimum) {
 			return false;
-		} elseif ($numberToCheck >= $this->range->maximum()) {
+		} elseif ($numberToCheck > $this->maximum) {
 			return false;
 		}
 
 		return true;
 	}
 
+
 	/**
 	 * @return float
 	 */
 	public function minimum() : float
 	{
-		return $this->range->minimum();
+		return $this->minimum;
 	}
 
 	/**
@@ -64,6 +71,6 @@ class StrictFloatRange
 	 */
 	public function maximum() : float
 	{
-		return $this->range->maximum();
+		return $this->maximum;
 	}
 }

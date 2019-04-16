@@ -56,22 +56,22 @@ class DataFactoryTest extends TestCase {
 	}
 
 	public function testIntegerRange() {
-		$dataType = $this->f->integerRange(1, 100);
-		$this->assertInstanceOf(Data\Range\IntegerRange::class, $dataType);
+		$dataType = $this->f->openedIntegerInterval(1, 100);
+		$this->assertInstanceOf(Data\Interval\OpenedIntegerInterval::class, $dataType);
 	}
 
 	public function testStrictIntegerRange() {
-		$dataType = $this->f->strictIntegerRange(1, 100);
-		$this->assertInstanceOf(Data\Range\StrictIntegerRange::class, $dataType);
+		$dataType = $this->f->closedIntegerInterval(1, 100);
+		$this->assertInstanceOf(Data\Interval\ClosedIntegerInterval::class, $dataType);
 	}
 
 	public function testFloatRange() {
-		$dataType = $this->f->floatRange(1.4, 100.2);
-		$this->assertInstanceOf(Data\Range\FloatRange::class, $dataType);
+		$dataType = $this->f->openedFloatInterval(1.4, 100.2);
+		$this->assertInstanceOf(Data\Interval\OpenedFloatInterval::class, $dataType);
 	}
 
 	public function testStrictFloatRange() {
-		$dataType = $this->f->strictFloatRange(1.4, 100.2);
-		$this->assertInstanceOf(Data\Range\StrictFloatRange::class, $dataType);
+		$dataType = $this->f->closedFloatInterval(1.4, 100.2);
+		$this->assertInstanceOf(Data\Interval\ClosedFloatInterval::class, $dataType);
 	}
 }

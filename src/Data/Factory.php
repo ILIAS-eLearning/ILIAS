@@ -2,10 +2,10 @@
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data;
-use ILIAS\Data\Range\FloatRange;
-use ILIAS\Data\Range\IntegerRange;
-use ILIAS\Data\Range\StrictFloatRange;
-use ILIAS\Data\Range\StrictIntegerRange;
+use ILIAS\Data\Interval\OpenedFloatInterval;
+use ILIAS\Data\Interval\OpenedIntegerInterval;
+use ILIAS\Data\Interval\ClosedFloatInterval;
+use ILIAS\Data\Interval\ClosedIntegerInterval;
 
 /**
  * Builds data types.
@@ -118,40 +118,40 @@ class Factory {
 	/**
 	 * @param int $minimum
 	 * @param int $maximum
-	 * @return IntegerRange
+	 * @return OpenedIntegerInterval
 	 */
-	public function integerRange(int $minimum, int $maximum): IntegerRange
+	public function openedIntegerInterval(int $minimum, int $maximum): OpenedIntegerInterval
 	{
-		return new IntegerRange($minimum, $maximum);
+		return new OpenedIntegerInterval($minimum, $maximum);
 	}
 
 	/**
 	 * @param int $minimum
 	 * @param int $maximum
-	 * @return StrictIntegerRange
+	 * @return ClosedIntegerInterval
 	 */
-	public function strictIntegerRange(int $minimum, int $maximum): StrictIntegerRange
+	public function closedIntegerInterval(int $minimum, int $maximum): ClosedIntegerInterval
 	{
-		return new StrictIntegerRange($minimum, $maximum);
+		return new ClosedIntegerInterval($minimum, $maximum);
 	}
 
 	/**
 	 * @param float $minimum
 	 * @param float $maximum
-	 * @return FloatRange
+	 * @return Float
 	 */
-	public function floatRange(float $minimum, float $maximum): FloatRange
+	public function openedFloatInterval(float $minimum, float $maximum): OpenedFloatInterval
 	{
-		return new FloatRange($minimum, $maximum);
+		return new OpenedFloatInterval($minimum, $maximum);
 	}
 
 	/**
 	 * @param float $minimum
 	 * @param float $maximum
-	 * @return StrictFloatRange
+	 * @return ClosedFloatInterval
 	 */
-	public function strictFloatRange(float $minimum, float $maximum): StrictFloatRange
+	public function closedFloatInterval(float $minimum, float $maximum): ClosedFloatInterval
 	{
-		return new StrictFloatRange($minimum, $maximum);
+		return new ClosedFloatInterval($minimum, $maximum);
 	}
 }

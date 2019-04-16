@@ -4,22 +4,23 @@
 
 namespace ILIAS\Data;
 
-use ILIAS\Data\Range\IntegerRange;
+use ILIAS\Data\Interval\ClosedIntegerInterval;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use PHPUnit\Framework\TestCase;
 
 require_once("./libs/composer/vendor/autoload.php");
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class IntegerRangeTest extends \PHPUnit_Framework_TestCase
+class ClosedIntegerIntervalTest extends TestCase
 {
 	/**
 	 * @throws \InvalidArgumentException
 	 */
 	public function testRangeIsAccepted()
 	{
-		$range = new IntegerRange(3, 100);
+		$range = new ClosedIntegerInterval(3, 100);
 
 		$this->assertEquals(3, $range->minimum());
 		$this->assertEquals(100, $range->maximum());
@@ -27,43 +28,57 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 
 	public function testValueIsInRange()
 	{
-		$range = new IntegerRange(3, 100);
+		$range = new ClosedIntegerInterval(3, 100);
 
 		$this->assertTrue($range->spans(50));
 	}
 
-	public function testMinimumValueIsInRange()
+	public function testMinimumValueIsNotInRange()
 	{
-		$range = new IntegerRange(3, 100);
+		$range = new ClosedIntegerInterval(3, 100);
 
-		$this->assertTrue($range->spans(3));
+		$this->assertFalse($range->spans(3));
 	}
 
-	public function testMaximumValueIsInRange()
+	public function testMaximumValueIsNotInRange()
 	{
-		$range = new IntegerRange(3, 100);
+		$range = new ClosedIntegerInterval(3, 100);
 
-		$this->assertTrue($range->spans(3));
+		$this->assertFalse($range->spans(3));
 	}
 
 	public function testValueIsNotInRangeBecauseTheValueIsToLow()
 	{
-		$range = new IntegerRange(3, 100);
+		$range = new ClosedIntegerInterval(3, 100);
 
 		$this->assertFalse($range->spans(1));
 	}
 
 	public function testValueIsNotInRangeBecauseTheValueIsToHigh()
 	{
-		$range = new IntegerRange(3, 100);
+		$range = new ClosedIntegerInterval(3, 100);
 
 		$this->assertFalse($range->spans(101));
 	}
 
 	public function testMaximumCanNotBeLowerThanMinimum()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
-			$range = new IntegerRange(3, 1);
+			$range = new ClosedIntegerInterval(3, 1);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
+		$this->fail();
+	}
+
+	public function testMaximumCanNotBeEqualMinimum()
+	{
+		$this->expectNotToPerformAssertions();
+
+		try {
+			$range = new ClosedIntegerInterval(3, 1);
 		} catch (ConstraintViolationException $exception) {
 			return;
 		}
@@ -75,7 +90,7 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testHexIsAllowForRanges()
 	{
-		$range = new IntegerRange(0x3 , 0xA);
+		$range = new ClosedIntegerInterval(0x3 , 0xA);
 
 		$this->assertSame($range->minimum(), 3);
 		$this->assertSame($range->maximum(), 10);
@@ -86,7 +101,7 @@ class IntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
-		$range = new IntegerRange(0b11 , 0b1010);
+		$range = new ClosedIntegerInterval(0b11 , 0b1010);
 
 		$this->assertSame($range->minimum(), 3);
 		$this->assertSame($range->maximum(), 10);

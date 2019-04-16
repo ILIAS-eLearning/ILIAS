@@ -1,29 +1,30 @@
 <?php
+declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Data\Range;
+namespace ILIAS\Data\Interval;
 
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
-class StrictIntegerRange
+class ClosedFloatInterval
 {
 	/**
-	 * @var IntegerRange
+	 * @var float
 	 */
 	private $range;
 
 	/**
-	 * @param int $minimum
-	 * @param int $maximum
+	 * @param $minimum
+	 * @param $maximum
 	 * @throws ConstraintViolationException
 	 */
-	public function __construct(int $minimum, int $maximum)
+	public function __construct($minimum, $maximum)
 	{
-		if ($minimum === $maximum) {
+		if ($maximum === $minimum) {
 			throw new ConstraintViolationException(
 				sprintf('The maximum("%s") and minimum("%s") can NOT be the same', $maximum, $minimum),
 				'exception_maximum_minimum_same',
@@ -32,14 +33,14 @@ class StrictIntegerRange
 			);
 		}
 
-		$this->range = new IntegerRange($minimum, $maximum);
+		$this->range = new OpenedFloatInterval($minimum, $maximum);
 	}
 
 	/**
-	 * @param int $numberToCheck
+	 * @param float $numberToCheck
 	 * @return bool
 	 */
-	public function spans(int $numberToCheck) : bool
+	public function spans(float $numberToCheck) : bool
 	{
 		if ($numberToCheck <= $this->range->minimum()) {
 			return false;
@@ -51,17 +52,17 @@ class StrictIntegerRange
 	}
 
 	/**
-	 * @return int
+	 * @return float
 	 */
-	public function minimum() : int
+	public function minimum() : float
 	{
 		return $this->range->minimum();
 	}
 
 	/**
-	 * @return int
+	 * @return float
 	 */
-	public function maximum() : int
+	public function maximum() : float
 	{
 		return $this->range->maximum();
 	}

@@ -4,22 +4,24 @@
 
 namespace ILIAS\Data;
 
-use ILIAS\Data\Range\StrictIntegerRange;
+use ILIAS\Data\Interval\OpenedIntegerInterval;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use PHPUnit\Framework\TestCase;
+
 
 require_once("./libs/composer/vendor/autoload.php");
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
+class OpenedIntegerIntervalTest extends TestCase
 {
 	/**
 	 * @throws \InvalidArgumentException
 	 */
 	public function testRangeIsAccepted()
 	{
-		$range = new StrictIntegerRange(3, 100);
+		$range = new OpenedIntegerInterval(3, 100);
 
 		$this->assertEquals(3, $range->minimum());
 		$this->assertEquals(100, $range->maximum());
@@ -27,53 +29,45 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 
 	public function testValueIsInRange()
 	{
-		$range = new StrictIntegerRange(3, 100);
+		$range = new OpenedIntegerInterval(3, 100);
 
 		$this->assertTrue($range->spans(50));
 	}
 
-	public function testMinimumValueIsNotInRange()
+	public function testMinimumValueIsInRange()
 	{
-		$range = new StrictIntegerRange(3, 100);
+		$range = new OpenedIntegerInterval(3, 100);
 
-		$this->assertFalse($range->spans(3));
+		$this->assertTrue($range->spans(3));
 	}
 
-	public function testMaximumValueIsNotInRange()
+	public function testMaximumValueIsInRange()
 	{
-		$range = new StrictIntegerRange(3, 100);
+		$range = new OpenedIntegerInterval(3, 100);
 
-		$this->assertFalse($range->spans(3));
+		$this->assertTrue($range->spans(3));
 	}
 
 	public function testValueIsNotInRangeBecauseTheValueIsToLow()
 	{
-		$range = new StrictIntegerRange(3, 100);
+		$range = new OpenedIntegerInterval(3, 100);
 
 		$this->assertFalse($range->spans(1));
 	}
 
 	public function testValueIsNotInRangeBecauseTheValueIsToHigh()
 	{
-		$range = new StrictIntegerRange(3, 100);
+		$range = new OpenedIntegerInterval(3, 100);
 
 		$this->assertFalse($range->spans(101));
 	}
 
 	public function testMaximumCanNotBeLowerThanMinimum()
 	{
-		try {
-			$range = new StrictIntegerRange(3, 1);
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
-		$this->fail();
-	}
+		$this->expectNotToPerformAssertions();
 
-	public function testMaximumCanNotBeEqualMinimum()
-	{
 		try {
-			$range = new StrictIntegerRange(3, 1);
+			$range = new OpenedIntegerInterval(3, 1);
 		} catch (ConstraintViolationException $exception) {
 			return;
 		}
@@ -85,7 +79,7 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testHexIsAllowForRanges()
 	{
-		$range = new StrictIntegerRange(0x3 , 0xA);
+		$range = new OpenedIntegerInterval(0x3 , 0xA);
 
 		$this->assertSame($range->minimum(), 3);
 		$this->assertSame($range->maximum(), 10);
@@ -96,7 +90,7 @@ class StrictIntegerRangeTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testBinaryIsAllowForRanges()
 	{
-		$range = new StrictIntegerRange(0b11 , 0b1010);
+		$range = new OpenedIntegerInterval(0b11 , 0b1010);
 
 		$this->assertSame($range->minimum(), 3);
 		$this->assertSame($range->maximum(), 10);
