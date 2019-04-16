@@ -389,14 +389,12 @@ class ButtonTest extends ILIAS_UI_TestBase
 	 * @dataProvider button_type_provider
 	 */
 	public function test_render_button_with_aria_pressed($factory_method) {
-		//only standard buttons have aria labels in the template. Should the others accept aria stuff?
-		//if yes, remove this conditional
-		if($factory_method == "standard")
-		{
-			$ln = "http://www.ilias.de";
-			$f = $this->getButtonFactory();
-			$r = $this->getDefaultRenderer();
-			$b = $f->$factory_method("label", $ln)->withEngagedState(true);
+		$ln = "http://www.ilias.de";
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$b = $f->$factory_method("label", $ln);
+		if ($b instanceof C\Button\Engageable) {
+			$b = $b->withEngagedState(true);
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
