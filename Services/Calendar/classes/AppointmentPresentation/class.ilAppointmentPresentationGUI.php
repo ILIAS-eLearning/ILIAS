@@ -86,6 +86,11 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	protected $has_files = false;
 
 	/**
+	 * @var int
+	 */
+	protected $obj_id = 0;
+
+	/**
 	 * 
 	 *
 	 * @param
@@ -105,6 +110,26 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		$this->access = $DIC->access();
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->user = $DIC->user();
+
+		$this->readObjIdForAppointment();
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getObjIdForAppointment()
+	{
+		return $this->obj_id;
+	}
+
+	/**
+	 * read obj_id for appointment
+	 */
+	protected function readObjIdForAppointment()
+	{
+		$cat_id = $this->getCatId($this->appointment['event']->getEntryId());
+		$category = ilCalendarCategory::getInstanceByCategoryId($cat_id);
+		$this->obj_id = $category->getObjId();
 	}
 	
 	
@@ -149,6 +174,9 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		return ilCalendarCategoryAssignments::_lookupCategory($a_entry_id);
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getCatInfo()
 	{
 		$cat_id = $this->getCatId($this->appointment['event']->getEntryId());
