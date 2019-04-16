@@ -53,7 +53,7 @@ if ($ilDB->tableExists('event'))
 		'event',
 		'reg_notification', array(
 			'type'    => 'integer',
-			'notnull' => false,
+			'notnull' => true,
 			'default' => 0
 		)
 	);
@@ -65,7 +65,7 @@ if ($ilDB->tableExists('event'))
 			'type'    => 'text',
 			'length'  => '255',
 			'notnull' => false,
-			'default' => ''
+			'default' => null
 		)
 	);
 }
