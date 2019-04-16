@@ -15022,8 +15022,8 @@ content#:#cont_choose_local#:#Local directory
 content#:#cont_choose_upload_dir#:#Upload directory
 sess#:#sess_assign#:#Assign
 common#:#certificate_selection#:#Origin of Certificates
-common#:#certificate_persistent_option#:#Persistent Certificates
-common#:#certificate_workspace_option#:#Workspace Certificates
+common#:#certificate_persistent_option#:#Certificates of Achievements
+common#:#certificate_workspace_option#:#Certificates of Workspace
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
