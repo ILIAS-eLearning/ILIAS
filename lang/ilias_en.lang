@@ -14244,3 +14244,4 @@ user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#msg_spoint_not_modified#:#Starting point not modified
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
+dateplaner#:#cal_usr_info#:#Appointment Information
