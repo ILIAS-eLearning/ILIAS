@@ -6,9 +6,6 @@ namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\ViewControl\Pagination as Pagination;
-use ILIAS\UI\Component\ViewControl\Section as Section;
-use ILIAS\UI\Component\ViewControl\Sortation as Sortation;
 
 /**
  * Class Secondary
@@ -29,19 +26,9 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 	protected $actions = null;
 
 	/**
-	 * @var Sortation|null
+	 * @var ILIAS\UI\Component\ViewControl[]
 	 */
-	protected $sortation = null;
-
-	/**
-	 * @var Pagination|null
-	 */
-	protected $pagination = null;
-
-	/**
-	 * @var Section|null
-	 */
-	protected $section = null;
+	protected $view_controls;
 
 	/**
 	 * Gets the secondary panel title
@@ -75,60 +62,22 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 	}
 
 	/**
-	 * @param Sortation $sortation
+	 * @param array $view_controls
 	 * @return C\Panel\Secondary\Secondary
 	 */
-	public function withSortation(Sortation $sortation) : C\Panel\Secondary\Secondary
+	public function withViewControls(array $view_controls) : C\Panel\Secondary\Secondary
 	{
 		$clone = clone $this;
-		$clone->sortation = $sortation;
+		$clone->view_controls = $view_controls;
 		return $clone;
 	}
 
 	/**
-	 * @return Sortation|null
+	 * @return array|null
 	 */
-	public function getSortation() : ?Sortation
+	public function getViewControls(): ?array
 	{
-		return $this->sortation;
-	}
-
-	/**
-	 * @param Pagination $pagination
-	 * @return C\Panel\Secondary\Secondary
-	 */
-	public function withPagination(Pagination $pagination) : C\Panel\Secondary\Secondary
-	{
-		$clone = clone $this;
-		$clone->pagination = $pagination;
-		return $clone;
-	}
-
-	/**
-	 * @return Pagination|null
-	 */
-	public function getPagination() : ?Pagination
-	{
-		return $this->pagination;
-	}
-
-	/**
-	 * @param Section $section
-	 * @return C\Panel\Secondary|Secondary
-	 */
-	public function withSection(Section $section) : C\Panel\Secondary\Secondary
-	{
-		$clone = clone $this;
-		$clone->section = $section;
-		return $clone;
-	}
-
-	/**
-	 * @return Section|null
-	 */
-	public function getSection() : ?Section
-	{
-		return $this->section;
+		return $this->view_controls;
 	}
 }
 ?>
