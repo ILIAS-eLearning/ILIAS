@@ -60,7 +60,6 @@ class DictionaryTransformation implements Transformation
 
 	/**
 	 * @inheritdoc
-	 * @throws \ilException
 	 */
 	public function __invoke($from)
 	{

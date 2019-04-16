@@ -9,7 +9,6 @@ namespace ILIAS\Refinery;
 
 
 use ILIAS\Data\Result;
-use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 
 trait DeriveTransformFromApplyTo
@@ -26,7 +25,7 @@ trait DeriveTransformFromApplyTo
 			$error = $result->error();
 
 			$message = $error;
-			if ($error instanceof Exception) {
+			if ($error instanceof \Exception) {
 				$message = $error->getMessage();
 			}
 

@@ -132,7 +132,6 @@ class Group
 	 *
 	 * @param array $transformations
 	 * @return Transformation
-	 * @throws \ilException
 	 */
 	public function recordOf(array $transformations): Transformation
 	{
@@ -147,7 +146,6 @@ class Group
 	 *
 	 * @param $classNameOrArray
 	 * @return Transformation
-	 * @throws \ilException
 	 */
 	public function toNew($classNameOrArray): Transformation
 	{
@@ -164,7 +162,6 @@ class Group
 	 * @param string $dataType - Name of the data type, this value MUST much
 	 *                           with the methods provided by the `\ILIAS\Data\Factory`
 	 * @return Transformation
-	 * @throws \ilException
 	 */
 	public function data(string $dataType): Transformation
 	{
