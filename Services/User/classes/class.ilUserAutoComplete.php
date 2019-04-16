@@ -274,6 +274,8 @@ class ilUserAutoComplete
 		
 		$parsed_query = $this->parseQueryString($a_str);
 
+
+		include_once './Services/Search/classes/class.ilQueryParser.php';
 		if(ilStr::strLen($parsed_query['query']) < ilQueryParser::MIN_WORD_LENGTH)
 		{
 			$result_json['items'] = [];
