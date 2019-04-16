@@ -1,9 +1,5 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Modules/StudyProgramme/classes/class.ilStudyProgrammeCertificateAdapter.php';
-require_once 'Services/Certificate/classes/Placeholder/Description/class.ilStudyProgrammePlaceholderDescription.php';
-require_once 'Services/Certificate/classes/Placeholder/Values/class.ilStudyProgrammePlaceholderValues.php';
-require_once 'Services/Certificate/classes/Form/Repository/class.ilCertificateSettingsStudyProgrammeFormRepository.php';
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
