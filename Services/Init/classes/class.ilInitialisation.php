@@ -1633,7 +1633,7 @@ class ilInitialisation
 	 */
 	protected static function initHTML()
 	{
-		global $ilUser;
+		global $ilUser, $DIC;
 		require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 		$lti = new ilLTIViewGUI($ilUser);
 		$GLOBALS["DIC"]["lti"] = $lti;
@@ -1660,12 +1660,16 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilLMEditorGUI"
 		) {
 			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
-			$_GET["cmdClass"] == "ilobjbloggui"
+			$_GET["cmdClass"] == "ilobjbloggui"		||
+			$_REQUEST["cmdClass"] == "ilblogpostinggui" ||
+			$_GET["cmdClass"] == "ilblogpostinggui"
 		) {
 			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
@@ -1684,21 +1688,13 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilStartUpGUI" ||
 			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
-			// TODO FSX remove global
-			global $DIC;
 			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
 			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		} else {
 			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
 				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
 			} else {
-				// TODO FSX remove global
-				global $DIC;
 				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-				if (isset($DIC->http()->request()->getQueryParams()['old']) || (int)$_SESSION['old'] === 1) { // TODO remove
-					$_SESSION['old'] = $DIC->http()->request()->getQueryParams()['old'];
-					$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-				}
 			}
 		}
 		

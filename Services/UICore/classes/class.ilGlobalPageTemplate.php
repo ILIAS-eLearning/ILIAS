@@ -77,8 +77,10 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 
 	private function prepareBasicJS() {
 		\iljQueryUtil::initjQuery($this);
-		ilYuiUtil::initDom();
+		\iljQueryUtil::initjQueryUI($this);
 		$this->page_info->addJs(new Js("./Services/JavaScript/js/Basic.js", true, 1));
+		// $this->page_info->addJs(new Js("./Services/Form/js/Form.js", true, 1));
+		// ilYuiUtil::initDom($this);
 		\ilUIFramework::init($this);
 	}
 
@@ -501,7 +503,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function setCurrentBlock($part = "DEFAULT") {
-		$this->legacy_content_template->setCurrentBlock($part);
+		if ($this->blockExists($part)) {
+			$this->legacy_content_template->setCurrentBlock($part);
+		}
 	}
 
 

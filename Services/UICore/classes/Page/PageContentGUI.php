@@ -99,7 +99,9 @@ class PageContentGUI extends ilTemplate {
 		};
 
 		$this->page_form_action = $this->page_info->getPageFormAction();
-		$this->main_content = $r($this->page_info->getCenterContent());
+		if ($this->page_info->hasCenterContent()) {
+			$this->main_content = $r($this->page_info->getCenterContent());
+		}
 
 		foreach ($this->page_info->getLightboxes() as $id => $lightbox) {
 			$this->lightbox[$id] = $r($lightbox);
@@ -151,6 +153,8 @@ class PageContentGUI extends ilTemplate {
 
 		// see #22992
 		// $this->fillContentLanguage();
+
+		$this->fillPageFormAction();
 
 		if ($a_fill_tabs) {
 			if ($this->blockExists("content")) {

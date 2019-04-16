@@ -565,7 +565,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * Fill add on load code
 	 */
-	private function fillOnLoadCode()
+	public function fillOnLoadCode()
 	{
 		for ($i = 1; $i <= 3; $i++)
 		{
@@ -649,7 +649,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	 *
 	 * @param boolean $a_force
 	 */
-	private function fillCssFiles($a_force = false)
+	public function fillCssFiles($a_force = false)
 	{
 		if (!$this->blockExists("css_file"))
 		{
@@ -684,7 +684,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		$this->body_class = $a_class;
 	}
 
-	private function fillBodyClass()
+	public function fillBodyClass()
 	{
 		if ($this->body_class != "" && $this->blockExists("body_class"))
 		{
@@ -1159,7 +1159,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		$this->setVariable("SUB_TABS", $a_tabs_html);
 	}
 
-	private function fillTabs()
+	public function fillTabs()
 	{
 		if ($this->blockExists("tabs_outer_start"))
 		{
@@ -1336,7 +1336,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * Add current user language to meta tags
 	 */
-	private function fillContentLanguage()
+	public function fillContentLanguage()
 	{
 		global $DIC;
 
@@ -1367,7 +1367,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		return true;	 	
 	}
 
-	private function fillWindowTitle()
+	public function fillWindowTitle()
 	{
 		global $DIC;
 
@@ -1679,7 +1679,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	/**
 	* Accessibility focus for screen readers
 	*/
-	private function fillScreenReaderFocus()
+	public function fillScreenReaderFocus()
 	{
 		global $DIC;
 

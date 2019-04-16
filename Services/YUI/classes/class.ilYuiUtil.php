@@ -14,16 +14,15 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI Connection module
+	 *
+	 * @param ilGlobalTemplateInterface|null $a_main_tpl
 	 */
 	static function initConnection(ilGlobalTemplateInterface $a_main_tpl = null) {
 		global $DIC;
 
-		if ($a_main_tpl == null)
-		{
+		if ($a_main_tpl == null) {
 			$tpl = $DIC["tpl"];
-		}
-		else
-		{
+		} else {
 			$tpl = $a_main_tpl;
 		}
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
@@ -33,11 +32,17 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI Event
+	 *
+	 * @param ilGlobalTemplateInterface|null $a_main_tpl
 	 */
-	static function initEvent() {
+	static function initEvent(ilGlobalTemplateInterface $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null) {
+			$tpl = $DIC["tpl"];
+		} else {
+			$tpl = $a_main_tpl;
+		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
@@ -45,11 +50,17 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI Dom
+	 *
+	 * @param ilGlobalTemplateInterface|null $a_main_tpl
 	 */
-	static function initDom() {
+	static function initDom(ilGlobalTemplateInterface $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null) {
+			$tpl = $DIC["tpl"];
+		} else {
+			$tpl = $a_main_tpl;
+		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
@@ -57,11 +68,17 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI Animation
+	 *
+	 * @param ilGlobalTemplateInterface|null $a_main_tpl
 	 */
-	static function initAnimation() {
+	static function initAnimation(ilGlobalTemplateInterface $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null) {
+			$tpl = $DIC["tpl"];
+		} else {
+			$tpl = $a_main_tpl;
+		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
@@ -70,11 +87,17 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI Drag and Drop
+	 *
+	 * @param ilGlobalTemplateInterface|null $a_main_tpl
 	 */
-	static function initDragDrop() {
+	static function initDragDrop(ilGlobalTemplateInterface $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null) {
+			$tpl = $DIC["tpl"];
+		} else {
+			$tpl = $a_main_tpl;
+		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
@@ -84,11 +107,17 @@ class ilYuiUtil {
 
 	/**
 	 * Init YUI DomEvent
+	 *
+	 * @param ilGlobalTemplateInterface|null $a_main_tpl
 	 */
-	static function initDomEvent() {
+	static function initDomEvent(ilGlobalTemplateInterface $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null) {
+			$tpl = $DIC["tpl"];
+		} else {
+			$tpl = $a_main_tpl;
+		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
@@ -99,20 +128,18 @@ class ilYuiUtil {
 	 *
 	 * @access public
 	 *
-	 * @param void
+	 * @param bool                           $a_resize
+	 * @param ilGlobalTemplateInterface|null $a_main_tpl
 	 *
 	 * @return void
 	 */
 	static function initPanel($a_resize = false, ilGlobalTemplateInterface $a_main_tpl = null) {
 		global $DIC;
 
-		if ($a_main_tpl != null)
-		{
-			$tpl = $a_main_tpl;
-		}
-		else
-		{
+		if ($a_main_tpl == null) {
 			$tpl = $DIC["tpl"];
+		} else {
+			$tpl = $a_main_tpl;
 		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
