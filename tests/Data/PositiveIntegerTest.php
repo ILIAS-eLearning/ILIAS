@@ -8,10 +8,11 @@
 namespace ILIAS\Data;
 
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use PHPUnit\Framework\TestCase;
 
 require_once("libs/composer/vendor/autoload.php");
 
-class PositiveIntegerTest extends \PHPUnit_Framework_TestCase
+class PositiveIntegerTest extends TestCase
 {
 	/**
 	 * @throws ConstraintViolationException
@@ -24,6 +25,8 @@ class PositiveIntegerTest extends \PHPUnit_Framework_TestCase
 
 	public function testNegativeIntegerThrowsException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$integer = new PositiveInteger(-6);
 		} catch (ConstraintViolationException $exception) {

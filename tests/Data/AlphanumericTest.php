@@ -7,13 +7,12 @@
 
 namespace ILIAS\Data;
 
-use ILIAS\Refinery\In\Group;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
-use ILIAS\Refinery\Validation\Constraints\GreaterThan;
+use PHPUnit\Framework\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class AlphanumericTest extends \PHPUnit_Framework_TestCase
+class AlphanumericTest extends TestCase
 {
 	public function testSimpleStringIsCorrectAlphanumericValueAndCanBeConvertedToString()
 	{
@@ -52,6 +51,8 @@ class AlphanumericTest extends \PHPUnit_Framework_TestCase
 
 	public function testTextIsNotAlphanumericAndWillThrowException()
 	{
+		$this->expectNotToPerformAssertions();
+
 		try {
 			$value = new Alphanumeric('hello world');
 		} catch (ConstraintViolationException $exception) {
