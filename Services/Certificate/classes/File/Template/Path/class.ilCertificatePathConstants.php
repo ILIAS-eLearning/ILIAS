@@ -14,4 +14,5 @@ class ilCertificatePathConstants
     const SCORM_PATH     = '/scorm/certificates/';
     const LTICON_PATH     = '/lticon/certificates/';
     const CMIX_PATH     = '/cmix/certificates/';
+    const STUDY_PROGRAMME_PATH = '/prg/certificates/';
 }
