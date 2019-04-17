@@ -52,6 +52,10 @@ abstract class AbstractBaseView implements View {
 	 * @inheritDoc
 	 */
 	public function __construct(Factory $page_factory) {
+		static $initialised;
+		if ($initialised !== null) {
+			throw new \LogicException("only one instance of a view can exist");
+		}
 		global $DIC;
 		$this->ui = $DIC->ui();
 		$this->gs = $DIC->globalScreen();

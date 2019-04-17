@@ -1634,6 +1634,7 @@ class ilInitialisation
 	protected static function initHTML()
 	{
 		global $ilUser, $DIC;
+
 		require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 		$lti = new ilLTIViewGUI($ilUser);
 		$GLOBALS["DIC"]["lti"] = $lti;
@@ -1646,6 +1647,8 @@ class ilInitialisation
 		}
 
 		self::initUIFramework($GLOBALS["DIC"]);
+
+		$DIC->navigationContext()->claim()->main();
 
 		// LTI
 		if ($lti->isActive()) 

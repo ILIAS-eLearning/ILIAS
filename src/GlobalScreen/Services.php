@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use ILIAS\GlobalScreen\Scope\View\ViewFactory;
 
 /**
  * Class Services
@@ -39,6 +40,19 @@ class Services {
 	 */
 	public function mainmenu(): MainMenuItemFactory {
 		return $this->get(MainMenuItemFactory::class);
+	}
+
+
+	/**
+	 * @return ViewFactory
+	 */
+	public function view(): ViewFactory {
+		global $DIC;
+		if (!isset(self::$services[ViewFactory::class])) {
+			self::$services[ViewFactory::class] = new ViewFactory($DIC->ui()->factory()->layout()->page());
+		}
+
+		return self::$services[ViewFactory::class];
 	}
 
 

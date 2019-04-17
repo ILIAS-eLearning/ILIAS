@@ -24,10 +24,6 @@ class PageContentGUI extends ilTemplate {
 			self::MESSAGE_TYPE_SUCCESS,
 			self::MESSAGE_TYPE_QUESTION,
 		);
-	/**
-	 * @var PageInfo
-	 */
-	private $page_info;
 	private $tree_flat_link;
 	private $page_form_action;
 	private $permanent_link;
@@ -62,35 +58,173 @@ class PageContentGUI extends ilTemplate {
 	private $icon_desc;
 	private $enable_fileupload;
 	private $tree_flat_mode;
+	//
+	// BEGIN needed Setters
+	//
+
+	/**
+	 * @param mixed $page_form_action
+	 */
+	public function setPageFormAction($page_form_action) {
+		$this->page_form_action = $page_form_action;
+	}
 
 
 	/**
-	 * PageContentGUI constructor.
-	 *
-	 * @param PageInfo $page_info
-	 * @param string   $file
-	 * @param bool     $flag1
-	 * @param bool     $flag2
-	 * @param bool     $in_module
-	 * @param string   $vars
-	 * @param bool     $plugin
-	 * @param bool     $a_use_cache
+	 * @param mixed $permanent_link
 	 */
-	public function __construct(
-		PageInfo $page_info,
-		string $file,
-		bool $flag1,
-		bool $flag2,
-		bool $in_module = false,
-		$vars = "DEFAULT",
-		bool $plugin = false,
-		bool $a_use_cache = true
-	) {
-		parent::__construct($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
-		$this->page_info = $page_info;
-		// $this->mapMembers();
+	public function setPermanentLink($permanent_link) {
+		$this->permanent_link = $permanent_link;
 	}
 
+
+	/**
+	 * @param mixed $main_content
+	 */
+	public function setMainContent($main_content) {
+		$this->main_content = $main_content;
+	}
+
+
+	/**
+	 * @param $a_html
+	 * @param $a_id
+	 */
+	public function addLightbox($a_html, $a_id) {
+		$this->lightbox[$a_id] = $a_html;
+	}
+
+
+	/**
+	 * @param mixed $header_page_title
+	 */
+	public function setHeaderPageTitle($header_page_title) {
+		$this->header_page_title = $header_page_title;
+	}
+
+
+	/**
+	 * @param mixed $title
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+	}
+
+
+	/**
+	 * @param mixed $title_desc
+	 */
+	public function setTitleDesc($title_desc) {
+		$this->title_desc = $title_desc;
+	}
+
+
+	/**
+	 * @param mixed $title_alerts
+	 */
+	public function setTitleAlerts($title_alerts) {
+		$this->title_alerts = $title_alerts;
+	}
+
+
+	/**
+	 * @param mixed $header_action
+	 */
+	public function setHeaderAction($header_action) {
+		$this->header_action = $header_action;
+	}
+
+
+	/**
+	 * @param mixed $admin_panel_commands_toolbar
+	 */
+	public function setAdminPanelCommandsToolbar($admin_panel_commands_toolbar) {
+		$this->admin_panel_commands_toolbar = $admin_panel_commands_toolbar;
+	}
+
+
+	/**
+	 * @param mixed $admin_panel_arrow
+	 */
+	public function setAdminPanelArrow($admin_panel_arrow) {
+		$this->admin_panel_arrow = $admin_panel_arrow;
+	}
+
+
+	/**
+	 * @param mixed $admin_panel_bottom
+	 */
+	public function setAdminPanelBottom($admin_panel_bottom) {
+		$this->admin_panel_bottom = $admin_panel_bottom;
+	}
+
+
+	/**
+	 * @param $a_html
+	 */
+	public function setRightContent($a_html) {
+		$this->right_content = $a_html;
+	}
+
+
+	/**
+	 * @param mixed $left_content
+	 */
+	public function setLeftContent($left_content) {
+		$this->left_content = $left_content;
+	}
+
+
+	/**
+	 * @param mixed $icon_path
+	 */
+	public function setIconPath($icon_path) {
+		$this->icon_path = $icon_path;
+	}
+
+
+	/**
+	 * @param mixed $icon_desc
+	 */
+	public function setIconDesc($icon_desc) {
+		$this->icon_desc = $icon_desc;
+	}
+
+
+	/**
+	 * @param mixed $enable_fileupload
+	 */
+	public function setEnableFileupload($enable_fileupload) {
+		$this->enable_fileupload = $enable_fileupload;
+	}
+
+
+	/**
+	 * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
+	 * ilUtil::sendSuccess() and ilUtil::sendFailure()
+	 *
+	 * @param  string  $a_type \ilTemplate::MESSAGE_TYPE_SUCCESS,
+	 *                         \ilTemplate::MESSAGE_TYPE_FAILURE,,
+	 *                         \ilTemplate::MESSAGE_TYPE_QUESTION,
+	 *                         \ilTemplate::MESSAGE_TYPE_INFO
+	 * @param   string $a_txt  The message to be sent
+	 * @param bool     $a_keep Keep this message over one redirect
+	 */
+	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false) {
+		if (!in_array($a_type, self::$message_types) || $a_txt == "") {
+			return;
+		}
+		if (!$a_keep) {
+			$this->message[$a_type] = $a_txt;
+		} else {
+			$_SESSION[$a_type] = $a_txt;
+		}
+	}
+
+
+	//
+	// END needed Setters
+	//
 
 	private function mapMembers() {
 		global $DIC;
@@ -98,40 +232,40 @@ class PageContentGUI extends ilTemplate {
 			return $DIC->ui()->renderer()->render($c);
 		};
 
-		$this->page_form_action = $this->page_info->getPageFormAction();
-		if ($this->page_info->hasCenterContent()) {
-			$this->main_content = $r($this->page_info->getCenterContent());
-		}
-
-		foreach ($this->page_info->getLightboxes() as $id => $lightbox) {
-			$this->lightbox[$id] = $r($lightbox);
-		}
-
-		$this->title = $this->page_info->getTitle();
-		$this->title_desc = $this->page_info->getDescription();
-		$this->title_alerts = $this->page_info->getAlertProperties();
-		if ($this->page_info->hasHeaderActionMenu()) {
-			$this->header_action = $this->page_info->getHeaderActionMenu();
-		}
+		// $this->page_form_action = $this->page_info->getPageFormAction();
+		// if ($this->page_info->hasCenterContent()) {
+		// 	$this->main_content = $r($this->page_info->getCenterContent());
+		// }
+		//
+		// foreach ($this->page_info->getLightboxes() as $id => $lightbox) {
+		// 	$this->lightbox[$id] = $r($lightbox);
+		// }
+		//
+		// $this->title = $this->page_info->getTitle();
+		// $this->title_desc = $this->page_info->getDescription();
+		// $this->title_alerts = $this->page_info->getAlertProperties();
+		// if ($this->page_info->hasHeaderActionMenu()) {
+		// 	$this->header_action = $this->page_info->getHeaderActionMenu();
+		// }
 		// $this->tabs_html = $r($this->page_info->getTabs());
 		// $this->sub_tabs_html = $r($this->page_info->getSubTabs());
-		if ($this->page_info->hasAdministrationToolbar()) {
-			$this->admin_panel_commands_toolbar = $this->page_info->getAdministrationToolbar();
-			$this->admin_panel_arrow = $this->page_info->hasAdministrationToolbarArrow();
-			$this->admin_panel_bottom = $this->page_info->hasAdministrationToolbarBottom();
-		}
+		// if ($this->page_info->hasAdministrationToolbar()) {
+		// 	$this->admin_panel_commands_toolbar = $this->page_info->getAdministrationToolbar();
+		// 	$this->admin_panel_arrow = $this->page_info->hasAdministrationToolbarArrow();
+		// 	$this->admin_panel_bottom = $this->page_info->hasAdministrationToolbarBottom();
+		// }
 
-		$this->body_class = $this->page_info->getBodyClass();
-		if ($this->page_info->hasRightContent()) {
-			$this->right_content = $r($this->page_info->getRightContent());
-		}
-		if ($this->page_info->hasLeftContent()) {
-			$this->left_content = $r($this->page_info->getLeftContent());
-		}
-		if ($this->page_info->hasTitleIcon()) {
-			$this->icon_path = $this->page_info->getTitleIcon()->getIconPath();
-			$this->icon_desc = $this->page_info->getTitleIcon()->getName();
-		}
+		// $this->body_class = $this->page_info->getBodyClass();
+		// if ($this->page_info->hasRightContent()) {
+		// 	$this->right_content = $r($this->page_info->getRightContent());
+		// }
+		// if ($this->page_info->hasLeftContent()) {
+		// 	$this->left_content = $r($this->page_info->getLeftContent());
+		// }
+		// if ($this->page_info->hasTitleIcon()) {
+		// 	$this->icon_path = $this->page_info->getTitleIcon()->getIconPath();
+		// 	$this->icon_desc = $this->page_info->getTitleIcon()->getName();
+		// }
 	}
 
 
@@ -250,29 +384,6 @@ class PageContentGUI extends ilTemplate {
 		}
 
 		return $html;
-	}
-
-
-	/**
-	 * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
-	 * ilUtil::sendSuccess() and ilUtil::sendFailure()
-	 *
-	 * @param  string  $a_type \ilTemplate::MESSAGE_TYPE_SUCCESS,
-	 *                         \ilTemplate::MESSAGE_TYPE_FAILURE,,
-	 *                         \ilTemplate::MESSAGE_TYPE_QUESTION,
-	 *                         \ilTemplate::MESSAGE_TYPE_INFO
-	 * @param   string $a_txt  The message to be sent
-	 * @param bool     $a_keep Keep this message over one redirect
-	 */
-	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false) {
-		if (!in_array($a_type, self::$message_types) || $a_txt == "") {
-			return;
-		}
-		if (!$a_keep) {
-			$this->message[$a_type] = $a_txt;
-		} else {
-			$_SESSION[$a_type] = $a_txt;
-		}
 	}
 
 
@@ -411,11 +522,6 @@ class PageContentGUI extends ilTemplate {
 			$this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
 			$this->parseCurrentBlock();
 		}
-	}
-
-
-	public function setRightContent($a_html) {
-		$this->right_content = $a_html;
 	}
 
 

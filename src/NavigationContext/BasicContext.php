@@ -1,6 +1,7 @@
 <?php namespace ILIAS\NavigationContext;
 
 use ILIAS\Data\ReferenceId;
+use ILIAS\GlobalScreen\Scope\View\View;
 use ILIAS\NavigationContext\AdditionalData\Collection;
 
 /**
@@ -10,6 +11,10 @@ use ILIAS\NavigationContext\AdditionalData\Collection;
  */
 class BasicContext implements ContextInterface {
 
+	/**
+	 * @var
+	 */
+	protected $view;
 	/**
 	 * @var ReferenceId
 	 */
@@ -28,11 +33,17 @@ class BasicContext implements ContextInterface {
 	 * BasicContext constructor.
 	 *
 	 * @param string $context_identifier
+	 * @param View   $view
 	 */
-	public function __construct(string $context_identifier) {
+	public function __construct(string $context_identifier, View $view) {
+		static $initialised;
+		if ($initialised !== null) {
+			throw new \LogicException("only one instance of a view can exist");
+		}
 		$this->context_identifier = $context_identifier;
 		$this->additional_data = new Collection();
 		$this->reference_id = new ReferenceId(0);
+		$this->view = $view;
 	}
 
 
@@ -87,5 +98,21 @@ class BasicContext implements ContextInterface {
 	 */
 	public function getUniqueContextIdentifier(): string {
 		return $this->context_identifier;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getView(): View {
+		return $this->view;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function replaceView(View $view) {
+		$this->view = $view;
 	}
 }

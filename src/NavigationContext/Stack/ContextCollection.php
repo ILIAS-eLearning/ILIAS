@@ -29,9 +29,9 @@ class ContextCollection {
 	/**
 	 * ContextCollection constructor.
 	 */
-	public function __construct() {
+	public function __construct(ContextRepository $context_repository) {
 		$this->stack = new ContextStack();
-		$this->repo = new ContextRepository();
+		$this->repo = $context_repository;
 	}
 
 
@@ -39,7 +39,8 @@ class ContextCollection {
 	 * @return ContextCollection
 	 */
 	public function main(): ContextCollection {
-		$this->stack->push(new BasicContext(self::C_MAIN));
+		$context = $this->repo->main();
+		$this->stack->push($context);
 
 		return $this;
 	}
@@ -49,7 +50,7 @@ class ContextCollection {
 	 * @return ContextCollection
 	 */
 	public function desktop(): ContextCollection {
-		$this->stack->push(new BasicContext(self::C_DESKTOP));
+		$this->stack->push($this->repo->desktop());
 
 		return $this;
 	}
@@ -59,17 +60,7 @@ class ContextCollection {
 	 * @return ContextCollection
 	 */
 	public function repository(): ContextCollection {
-		$this->stack->push(new BasicContext(self::C_REPO));
-
-		return $this;
-	}
-
-
-	/**
-	 * @return ContextCollection
-	 */
-	public function mail(): ContextCollection {
-		$this->stack->push(new BasicContext(self::C_MAIL));
+		$this->stack->push($this->repo->repository());
 
 		return $this;
 	}
@@ -79,7 +70,7 @@ class ContextCollection {
 	 * @return ContextCollection
 	 */
 	public function administration(): ContextCollection {
-		$this->stack->push(new BasicContext(self::C_ADMINISTRATION));
+		$this->stack->push($this->repo->administration());
 
 		return $this;
 	}

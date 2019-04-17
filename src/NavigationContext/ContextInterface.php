@@ -1,6 +1,7 @@
 <?php namespace ILIAS\NavigationContext;
 
 use ILIAS\Data\ReferenceId;
+use ILIAS\GlobalScreen\Scope\View\View;
 use ILIAS\NavigationContext\AdditionalData\Collection;
 
 /**
@@ -48,4 +49,18 @@ interface ContextInterface {
 	 * @return Collection
 	 */
 	public function getAdditionalData(): Collection;
+
+
+	/**
+	 * @return View
+	 */
+	public function getView(): View;
+
+
+	/**
+	 * @param View $view
+	 *
+	 * @return mixed
+	 */
+	public function replaceView(View $view);
 }

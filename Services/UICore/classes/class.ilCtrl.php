@@ -133,9 +133,6 @@ class ilCtrl
 		global $DIC;
 
 		$ilDB = $DIC->database();
-
-		$context = $DIC->navigationContext();
-		$context->claim()->main();
 		
 		$baseClass = strtolower($_GET["baseClass"]);
 

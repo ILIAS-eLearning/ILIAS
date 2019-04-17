@@ -22,7 +22,18 @@ class ContextStack {
 		if (in_array($context, $this->stack)) {
 			throw new \LogicException("A context can only be claimed once");
 		}
+		if (end($this->stack) instanceof ContextInterface) {
+			$context->replaceView($this->getLast()->getView());
+		}
 		array_push($this->stack, $context);
+	}
+
+
+	/**
+	 * @return ContextInterface
+	 */
+	public function getLast(): ContextInterface {
+		return end($this->stack);
 	}
 
 
