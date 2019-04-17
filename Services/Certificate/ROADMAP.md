@@ -36,6 +36,7 @@ of the planned features of this service.
 ### v2.2.0
 
 * Planned for 2019 (?)
+* Abandon certificate migration according to https://docu.ilias.de/goto.php?target=wiki_1357_Persisting_Certificates
 * Replace Object ID with a generic placeholder for
   external Services.
 
