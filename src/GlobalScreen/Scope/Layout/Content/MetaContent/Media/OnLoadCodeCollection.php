@@ -1,22 +1,22 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media;
 
 /**
- * Class CssCollection
+ * Class OnLoadCodeCollection
  *
  * @package ILIAS\Services\UICore\Page\Media
  */
-class CssCollection extends AbstractCollection {
+class OnLoadCodeCollection extends AbstractCollection {
 
 	/**
-	 * @param Css $item
+	 * @param OnLoadCode $item
 	 */
-	public function addItem(Css $item) {
+	public function addItem(OnLoadCode $item) {
 		$this->items[] = $item;
 	}
 
 
 	/**
-	 * @return Css[]
+	 * @return OnLoadCode[]
 	 */
 	public function getItems(): array {
 		return parent::getItems();
@@ -24,7 +24,7 @@ class CssCollection extends AbstractCollection {
 
 
 	/**
-	 * @return Css[]
+	 * @return OnLoadCode[]
 	 */
 	public function getItemsInOrderOfDelivery(): array {
 		return parent::getItemsInOrderOfDelivery();

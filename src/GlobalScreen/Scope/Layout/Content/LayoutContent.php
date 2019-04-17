@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Content;
 
 use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\MetaContent;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
 use ILIAS\Tools\Maintainers\Component;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Layout\Page\Page;

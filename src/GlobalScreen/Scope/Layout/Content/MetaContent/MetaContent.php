@@ -1,13 +1,13 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent;
 
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\Css;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\CssCollection;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\InlineCss;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\InlineCssCollection;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\Js;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\JsCollection;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\OnLoadCode;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\OnLoadCodeCollection;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\Css;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\CssCollection;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\InlineCss;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\InlineCssCollection;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\Js;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\JsCollection;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\OnLoadCode;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\OnLoadCodeCollection;
 
 /**
  * Class MetaContent

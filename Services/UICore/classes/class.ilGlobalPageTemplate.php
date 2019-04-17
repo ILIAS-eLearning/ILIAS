@@ -2,7 +2,7 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\InlineCss;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\InlineCss;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\StandardLayoutDefinition;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\GlobalScreen\Services;
