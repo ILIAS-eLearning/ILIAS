@@ -2,12 +2,11 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
-use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\InlineCss;
-use ILIAS\GlobalScreen\Scope\View\StandardView;
-use ILIAS\GlobalScreen\Scope\View\View;
+use ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media\InlineCss;
+use ILIAS\GlobalScreen\Scope\Layout\Definition\StandardLayoutDefinition;
+use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
-use ILIAS\Services\UICore\MetaTemplate\PageInfo;
 use ILIAS\UI\NotImplementedException;
 
 /**
@@ -33,9 +32,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 */
 	private $ui;
 	/**
-	 * @var StandardView
+	 * @var StandardLayoutDefinition
 	 */
-	private $view;
+	private $layout_content;
 	/**
 	 * @var ilTemplate
 	 */
@@ -55,7 +54,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 		$this->ui = $ui;
 		$this->gs = $gs;
 		$this->http = $http;
-		$this->view = $DIC->navigationContext()->stack()->getLast()->getView();
+		$this->layout_content = $DIC->globalScreen()->layout()->content();
 		$this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
 	}
 
@@ -70,38 +69,31 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	private function prepareBasicJS() {
 		\iljQueryUtil::initjQuery($this);
 		\iljQueryUtil::initjQueryUI($this);
-		$this->view->metaContent()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
+		$this->layout_content->metaContent()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
 		\ilUIFramework::init($this);
 	}
 
 
 	private function prepareBasicCSS() {
-		$this->view->metaContent()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
-		$this->view->metaContent()->addCss(\ilUtil::getNewContentStyleSheetLocation());
+		$this->layout_content->metaContent()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
+		$this->layout_content->metaContent()->addCss(\ilUtil::getNewContentStyleSheetLocation());
 	}
 
-
-	/**
-	 * @return View
-	 * @deprecated
-	 */
-	public function getView(): View {
-		return $this->view;
-	}
 
 
 	/**
 	 * @inheritDoc
 	 */
 	public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false) {
+		global $DIC;
 		$this->prepareOutputHeaders();
 		$this->prepareBasicJS();
 		$this->prepareBasicCSS();
 
 		$content = $this->legacy_content_template->renderPage($part, $a_fill_tabs, $a_skip_main_menu);
-		$this->view->setContent($this->ui->factory()->legacy($content));
+		$this->layout_content->setContent($this->ui->factory()->legacy($content));
 
-		print $this->ui->renderer()->render([$this->view->getPageForViewWithContent()]);
+		print $this->ui->renderer()->render([$this->layout_content->getPageForLayoutDefinition($DIC->navigationContext()->stack()->getLast()->getLayoutDefinition())]);
 	}
 
 
@@ -162,7 +154,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2) { // //
-		$this->view->metaContent()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
+		$this->layout_content->metaContent()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
 	}
 
 
@@ -170,7 +162,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function addCss($a_css_file, $media = "screen") { // //
-		$this->view->metaContent()->addCss($a_css_file, $media);
+		$this->layout_content->metaContent()->addCss($a_css_file, $media);
 	}
 
 
@@ -178,7 +170,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function addOnLoadCode($a_code, $a_batch = 2) { // //
-		$this->view->metaContent()->addOnloadCode($a_code, $a_batch);
+		$this->layout_content->metaContent()->addOnloadCode($a_code, $a_batch);
 	}
 
 
@@ -283,7 +275,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function resetJavascript() {
-		$this->view->metaContent()->getJs()->clear();
+		$this->layout_content->metaContent()->getJs()->clear();
 	}
 
 
@@ -299,7 +291,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function addInlineCss($a_css, $media = "screen") { // //
-		$this->view->metaContent()->addInlineCss(new InlineCss($a_css, $media));
+		$this->layout_content->metaContent()->addInlineCss(new InlineCss($a_css, $media));
 		// $this->legacy_content_template->addInlineCss($a_css, $media);
 	}
 

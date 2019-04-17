@@ -1,7 +1,7 @@
 <?php namespace ILIAS\NavigationContext;
 
-use ILIAS\GlobalScreen\Scope\View\View;
-use ILIAS\GlobalScreen\Scope\View\ViewFactory;
+use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
+use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
 
 /**
  * Class ContextRepository
@@ -19,7 +19,7 @@ class ContextRepository {
 	const C_REPO = 'repo';
 	const C_ADMINISTRATION = 'administration';
 	/**
-	 * @var ViewFactory
+	 * @var LayoutDefinitionFactory
 	 */
 	private $view_factory;
 
@@ -27,9 +27,9 @@ class ContextRepository {
 	/**
 	 * ContextRepository constructor.
 	 *
-	 * @param ViewFactory $view_factory
+	 * @param LayoutDefinitionFactory $view_factory
 	 */
-	public function __construct(ViewFactory $view_factory) {
+	public function __construct(LayoutDefinitionFactory $view_factory) {
 		$this->view_factory = $view_factory;
 	}
 
@@ -72,7 +72,7 @@ class ContextRepository {
 	 *
 	 * @return ContextInterface
 	 */
-	private function get(string $class_name, string $identifier, View $view) {
+	private function get(string $class_name, string $identifier, LayoutDefinition $view) {
 		if (!isset(self::$contexts[$identifier])) {
 			self::$contexts[$identifier] = new $class_name($identifier, $view);
 		}

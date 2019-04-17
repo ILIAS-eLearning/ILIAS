@@ -1,11 +1,11 @@
-<?php namespace ILIAS\GlobalScreen\Scope\View\MetaContent\Media;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Definition\MetaContent\Media;
 
 /**
- * Class Css
+ * Class InlineCss
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Css extends AbstractMedia {
+class InlineCss extends AbstractMedia {
 
 	const MEDIA_SCREEN = "screen";
 	/**
@@ -15,7 +15,7 @@ class Css extends AbstractMedia {
 
 
 	/**
-	 * Css constructor.
+	 * InlineCss constructor.
 	 *
 	 * @param string $content
 	 * @param string $media

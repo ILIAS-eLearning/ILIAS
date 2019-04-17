@@ -23,7 +23,7 @@ class ContextStack {
 			throw new \LogicException("A context can only be claimed once");
 		}
 		if (end($this->stack) instanceof ContextInterface) {
-			$context->replaceView($this->getLast()->getView());
+			$context->replaceLayoutDefinition($this->getLast()->getLayoutDefinition());
 		}
 		array_push($this->stack, $context);
 	}

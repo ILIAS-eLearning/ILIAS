@@ -77,7 +77,7 @@ class Renderer extends AbstractComponentRenderer {
 		$css_inline = [];
 
 		if ($il_tpl instanceof \ilGlobalPageTemplate) {
-			$view = $il_tpl->getView();
+			$view = $DIC->globalScreen()->layout()->content();
 			foreach ($view->metaContent()->getJs()->getItemsInOrderOfDelivery() as $js) {
 				$js_files[] = $js->getContent();
 			}

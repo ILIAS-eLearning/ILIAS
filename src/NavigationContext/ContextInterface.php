@@ -1,7 +1,7 @@
 <?php namespace ILIAS\NavigationContext;
 
 use ILIAS\Data\ReferenceId;
-use ILIAS\GlobalScreen\Scope\View\View;
+use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\NavigationContext\AdditionalData\Collection;
 
 /**
@@ -52,15 +52,15 @@ interface ContextInterface {
 
 
 	/**
-	 * @return View
+	 * @return LayoutDefinition
 	 */
-	public function getView(): View;
+	public function getLayoutDefinition(): LayoutDefinition;
 
 
 	/**
-	 * @param View $view
+	 * @param LayoutDefinition $view
 	 *
 	 * @return mixed
 	 */
-	public function replaceView(View $view);
+	public function replaceLayoutDefinition(LayoutDefinition $view);
 }
