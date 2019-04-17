@@ -255,7 +255,6 @@ abstract class ilDidacticTemplateFilterPattern
 			$this->setPatternSubType($row->pattern_sub_type);
 			$this->setPattern($row->pattern);
 		}
-		return void;
 	}
 }
 ?>
