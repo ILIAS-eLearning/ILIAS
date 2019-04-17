@@ -292,6 +292,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 					$notificationEnabled = true;
 				}
 				$tmp_data['notification_enabled'] = $notificationEnabled;
+				$tmp_data['notification_checked'] = false;
 			}
 			$tmp_data['show_notification'] = $notificationShown;
 
@@ -417,7 +418,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 
 		if (true === $a_set['show_notification']) {
 			$this->tpl->setCurrentBlock('notification_column');
-			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
+			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['notification_checked'] ? 'checked="checked"' : '');
 			$this->tpl->setVariable('NOTIFICATION_ENABLED',$a_set['notification_enabled'] ? '' : 'disabled');
 			$this->tpl->parseCurrentBlock();
 		}
