@@ -200,9 +200,10 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 			$props[] = array("alert" => false, "property" => $lng->txt("type"),
 				"value" => $lng->txt("sahs"));
 		}
-		
-		// check for certificates
-		if (ilObjSAHSLearningModuleAccess::_lookupUserCertificate($this->obj_id))
+
+		$certValidator = new ilCertificateDownloadValidator();
+		$allowed = $certValidator->isCertificateDownloadable($this->user->getId(), $this->obj_id);
+		if ($allowed)
 		{
 			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 			$type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
