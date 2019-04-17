@@ -205,57 +205,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         
     }
 
-	/**
-		* Checks whether a certificate exists for the active user or not
-		* @param int obj_id Object ID of the SCORM Learning Module
-		* @param int usr_id Object ID of the user. If not given, the active user will be taken
-		* @return true/false
-		*/
-	public static function _lookupUserCertificate($obj_id, $usr_id = 0)
-	{
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		$uid = ($usr_id) ? $usr_id : $ilUser->getId();
-		
-		$completed = false;
-		// check for certificates
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
-		if (ilCertificate::isActive() && ilCertificate::isObjectActive($obj_id))
-		{
-			$lpdata = false;
-			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-			$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-			if (ilObjUserTracking::_enabledLearningProgress())
-			{
-				include_once "./Services/Tracking/classes/class.ilLPStatus.php";
-				$completed = ilLPStatus::_hasUserCompleted($obj_id, $uid);
-				$lpdata = true;
-			}
-			switch ($type)
-			{
-				case "scorm":
-					if (!$lpdata)
-					{
-						include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-						$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser($obj_id, $uid);
-					}
-					break;
-				case "scorm2004":
-					if (!$lpdata)
-					{
-						include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-						$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser($obj_id, $uid);
-					}
-					break;
-				default:
-					break;
-			}
-		}
-		return $completed;
-	}
 
-	
 	/**
 		* Checks offlineMode and returns false if 
 		*/
