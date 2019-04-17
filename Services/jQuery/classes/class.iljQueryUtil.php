@@ -30,8 +30,8 @@ class iljQueryUtil {
 			$a_tpl = $DIC["tpl"];
 		}
 
-		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
-		$a_tpl->addJavaScript('./libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js', true, 1);
+		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 0);
+		$a_tpl->addJavaScript('./libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js', true, 0);
 	}
 
 

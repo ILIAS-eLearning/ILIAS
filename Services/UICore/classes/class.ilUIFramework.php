@@ -50,7 +50,7 @@ class ilUIFramework
 		}
 
 		foreach (ilUIFramework::getJSFiles() as $f) {
-			$a_tpl->addJavaScript($f, true, 1);
+			$a_tpl->addJavaScript($f, true, 0);
 		}
 		foreach (ilUIFramework::getCssFiles() as $f) {
 			$a_tpl->addCss($f);

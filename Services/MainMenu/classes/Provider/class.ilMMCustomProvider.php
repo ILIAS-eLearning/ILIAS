@@ -181,9 +181,17 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		$item[] = $this->globalScreen()
 			->metaBar()
 			->baseItem($this->if->identifier('notifications'))
-			->withGlyph($this->dic->ui()->factory()->glyph()->search()->withCounter($this->dic->ui()->factory()->counter()->novelty(3)))
+			->withGlyph($this->dic->ui()->factory()->glyph()->notification()->withCounter($this->dic->ui()->factory()->counter()->novelty(3)))
 			->withTitle("Notifications")
-			->withPosition(1)
+			->withPosition(3)
+			->withContent($this->dic->ui()->factory()->legacy("NOT PROVIDED"));
+
+		$item[] = $this->globalScreen()
+			->metaBar()
+			->baseItem($this->if->identifier('user'))
+			->withGlyph($this->dic->ui()->factory()->glyph()->user())
+			->withTitle("User")
+			->withPosition(4)
 			->withContent($this->dic->ui()->factory()->legacy("NOT PROVIDED"));
 
 

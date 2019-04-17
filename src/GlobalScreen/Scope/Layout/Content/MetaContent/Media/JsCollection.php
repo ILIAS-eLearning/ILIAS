@@ -18,19 +18,18 @@ class JsCollection extends AbstractCollection {
 	 */
 	public function addItem(Js $item) {
 		if (isset($this->path_storage[$item->getContent()])) {
-			if ($this->path_storage[$item->getContent()] < $item->getBatch()) {
+			if ((int)$this->path_storage[$item->getContent()] > $item->getBatch()) {
+				// unset($this->path_storage[$item->getContent()]);
 				$this->storeItem($item);
-			} else {
-				return;
 			}
+		} else {
+			$this->storeItem($item);
 		}
-
-		$this->storeItem($item);
 	}
 
 
 	private function storeItem(js $item) {
-		$this->items[] = $item;
+		$this->items[$item->getContent()] = $item;
 		$this->path_storage[$item->getContent()] = $item->getBatch();
 	}
 
@@ -49,7 +48,7 @@ class JsCollection extends AbstractCollection {
 	public function getItemsInOrderOfDelivery(): array {
 		$ordered = [];
 		foreach ($this->getItems() as $js) {
-			$ordered[$js->getBatch()][] = $js;
+			$ordered['pos_' . (string)$js->getBatch()][] = $js;
 		}
 		ksort($ordered);
 		$ordered_all = [];
