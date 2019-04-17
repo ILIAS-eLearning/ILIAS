@@ -16,6 +16,10 @@ use ILIAS\UI\NotImplementedException;
  */
 class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 
+	/**
+	 * @var array
+	 */
+	private static $ignored_blocks = ['ContentStyle', "DEFAULT", "SyntaxStyle", ""];
 	//
 	// SERVICES
 	//
@@ -418,11 +422,15 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function setCurrentBlock($part = "DEFAULT") {
-		if ($this->blockExists($part)) {
-			$this->legacy_content_template->setCurrentBlock($part);
+	public function setCurrentBlock($blockname = "DEFAULT") {
+		if (in_array($blockname, self::$ignored_blocks)) {
+			return; // TODO why is this needed?
+		}
+
+		if ($this->blockExists($blockname)) {
+			$this->legacy_content_template->setCurrentBlock($blockname);
 		} else {
-			throw new ilTemplateException("block $block not found");
+			throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
 		}
 	}
 
@@ -430,11 +438,14 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function touchBlock($block) {
-		if ($this->blockExists($block)) {
-			$this->legacy_content_template->touchBlock($block);
+	public function touchBlock($blockname) {
+		if (in_array($blockname, self::$ignored_blocks)) {
+			return; // TODO why is this needed?
+		}
+		if ($this->blockExists($blockname)) {
+			$this->legacy_content_template->touchBlock($blockname);
 		} else {
-			throw new ilTemplateException("block $block not found");
+			throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
 		}
 	}
 
@@ -442,11 +453,14 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function parseCurrentBlock($part = "DEFAULT") {
-		if ($this->blockExists($part)) {
-			return $this->legacy_content_template->parseCurrentBlock($part);
+	public function parseCurrentBlock($blockname = "DEFAULT") {
+		if (in_array($blockname, self::$ignored_blocks)) {
+			return; // TODO why is this needed?
+		}
+		if ($this->blockExists($blockname)) {
+			return $this->legacy_content_template->parseCurrentBlock($blockname);
 		} else {
-			throw new ilTemplateException("block $part not found");
+			throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
 		}
 	}
 
@@ -462,7 +476,11 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function blockExists($a_blockname) {
-		return $this->legacy_content_template->blockExists($a_blockname);
+	public function blockExists($blockname) {
+		if (in_array($blockname, self::$ignored_blocks)) {
+			return false; // TODO why is this needed?
+		}
+
+		return $this->legacy_content_template->blockExists($blockname);
 	}
 }
