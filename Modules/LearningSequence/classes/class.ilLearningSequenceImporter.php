@@ -130,7 +130,9 @@ class ilLearningSequenceImporter extends ilXmlImporter
 			return $mapping->getMapping("Services/Container", "refs", $old_ref_id);
 		}, $lp_settings["lp_item_ref_ids"]);
 
-		$collection->activateEntries($new_ref_ids);
+		if (!is_null($collection)) {
+			$collection->activateEntries($new_ref_ids);
+		}
 
 		$settings = new ilLPObjSettings($this->obj->getId());
 		$settings->setMode((int)$lp_settings["lp_mode"]);
