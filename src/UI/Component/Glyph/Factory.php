@@ -910,7 +910,7 @@ interface Factory {
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function calendar($action = null);
+	public function calendar($action = null): Glyph;
 
 	/**
 	 * ---
@@ -933,5 +933,5 @@ interface Factory {
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function time($action = null);
+	public function time($action = null): Glyph;
 }

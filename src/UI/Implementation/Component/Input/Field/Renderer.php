@@ -575,31 +575,34 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderDateTimeInput(Template $tpl, DateTime $input) :string {
 		global $DIC;
 		$f = $this->getUIFactory();
-		//render glyph in button-context (w/o a-tag)
 		$renderer = $DIC->ui()->renderer()->withAdditionalContext($input);
-		if($input->getTimeGlyph() === true) {
+		if($input->getTimeOnly() === true) {
 			$cal_glyph = $f->glyph()->time("#");
+			$format = $input::TIME_FORMAT;
 		} else {
 			$cal_glyph = $f->glyph()->calendar("#");
+			$format = $input->getTransformedFormat();
+			if($input->getUseTime() === true) {
+				$format .= ' ' .$input::TIME_FORMAT;
+			}
 		}
 
 		$tpl->setVariable("CALENDAR_GLYPH", $renderer->render($cal_glyph));
 
-		//see http://eonasdan.github.io/bootstrap-datetimepicker
 		$config = [
 			'showClear' => true,
 			'sideBySide' => true,
-			'format' => $input->getFormat(),
+			'format' => $format,
 		];
 		$config = array_merge($config, $input->getAdditionalPickerConfig());
 
 		$min_date = $input->getMinValue();
 		if(! is_null($min_date)) {
-			$config['minDate'] = date_format($min_date, $format);
+			$config['minDate'] = date_format($min_date, $input->getFormat()->toString());
 		}
 		$max_date = $input->getMaxValue();
 		if(! is_null($max_date)) {
-			$config['maxDate'] = date_format($max_date, $format);
+			$config['maxDate'] = date_format($max_date, $input->getFormat()->toString());
 		}
 
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
@@ -611,7 +614,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ID", $id);
 
 		$tpl->setVariable("NAME", $input->getName());
-		$tpl->setVariable("PLACEHOLDER", $input->getFormat());
+		$tpl->setVariable("PLACEHOLDER", $format);
 
 		if ($input->getValue() !== null) {
 			$tpl->setCurrentBlock("value");
@@ -634,7 +637,6 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$tpl->setVariable("LABEL", $input->getLabel());
-
 
 		if ($input->getByline() !== null) {
 			$tpl->setCurrentBlock("byline");

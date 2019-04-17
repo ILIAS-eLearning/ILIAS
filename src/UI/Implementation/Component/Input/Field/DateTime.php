@@ -1,11 +1,12 @@
 <?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\DateFormat as DateFormat;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
@@ -21,10 +22,26 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	use ComponentHelper;
 	use JavaScriptBindable;
 
+	const TIME_FORMAT = 'HH:mm';
+
+	const FORMAT_MAPPING = [
+		'd' => 'DD',
+		'jS' => 'Do',
+		'l' => 'dddd',
+		'D' => 'dd',
+		'S' => 'o',
+		'W' => '',
+		'm' => 'MM',
+		'F' => 'MMMM',
+		'M' => 'MMM',
+		'Y' => 'YYYY',
+		'y' => 'YY'
+	];
+
 	/**
-	 * @var string
+	 * @var DateFormat
 	 */
-	protected $format = "MM/DD/YYYY";
+	protected $format;
 
 	/**
 	 * @var \DateTime
@@ -39,7 +56,12 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	/**
 	 * @var bool
 	 */
-	protected $use_time_glyph = false;
+	protected $with_time = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $with_time_only = false;
 
 	/**
 	 * @var array<string,mixed>
@@ -58,13 +80,14 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 
 		$trafo = $transformation_factory->toDate();
 		$this->setAdditionalTransformation($trafo);
+		$this->format = $data_factory->dateFormat()->standard();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withFormat(string $format) : C\Input\Field\DateTime {
-		$this->checkStringArg('format', $format);
+	public function withFormat(DateFormat\DateFormat $format): C\Input\Field\DateTime
+	{
 		$clone = clone $this;
 		$clone->format = $format;
 		return $clone;
@@ -73,14 +96,33 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function getFormat() : string {
+	public function getFormat(): DateFormat\DateFormat
+	{
 		return $this->format;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withMinValue(\DateTime $date) : C\Input\Field\DateTime {
+	public function getTransformedFormat(): string
+	{
+		$mapping = static::FORMAT_MAPPING;
+		$ret = '';
+		foreach ($this->format->toArray() as $element) {
+			if(array_key_exists($element, $mapping)) {
+				$ret .= $mapping[$element];
+			} else {
+				$ret .= $element;
+			}
+		}
+		return $ret;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withMinValue(\DateTime $date) : C\Input\Field\DateTime
+	{
 		$clone = clone $this;
 		$clone->min_date = $date;
 		return $clone;
@@ -89,14 +131,16 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMinValue() {
+	public function getMinValue()
+	{
 		return $this->min_date;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxValue(\DateTime $date) : C\Input\Field\DateTime {
+	public function withMaxValue(\DateTime $date) : C\Input\Field\DateTime
+	{
 		$clone = clone $this;
 		$clone->max_date = $date;
 		return $clone;
@@ -105,38 +149,60 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMaxValue() {
+	public function getMaxValue()
+	{
 		return $this->max_date;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withTimeGlyph(bool $use_time_glyph) : C\Input\Field\DateTime {
+	public function withTime(bool $with_time): C\Input\Field\DateTime
+	{
 		$clone = clone $this;
-		$clone->use_time_glyph = $use_time_glyph;
+		$clone->with_time = $with_time;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getTimeGlyph() : bool {
-		return $this->use_time_glyph;
+	public function getUseTime(): bool
+	{
+		return $this->with_time;
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function isClientSideValueOk($value) {
+	public function withTimeOnly(bool $with_time_only): C\Input\Field\DateTime
+	{
+		$clone = clone $this;
+		$clone->with_time_only = $with_time_only;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTimeOnly(): bool
+	{
+		return $this->with_time_only;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function isClientSideValueOk($value)
+	{
 		return is_string($value);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	protected function getConstraintForRequirement() {
+	protected function getConstraintForRequirement()
+	{
 		return $this->validation_factory->hasMinLength(1);
 	}
 

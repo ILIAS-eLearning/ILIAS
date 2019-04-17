@@ -8,16 +8,18 @@ function base() {
 	global $DIC;
 
 	$ui = $DIC->ui()->factory();
+	$data= new ILIAS\Data\Factory();
 	$renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
 	$ctrl = $DIC->ctrl();
 
-
 	//Step 1: define the inputs
+
 	$date = $ui->input()->field()->dateTime("Pick a date/time", "This is the byline text");
-	$time = $date->withFormat('HH:mm')->withTimeGlyph(true);
-	$both = $date->withFormat('DD.MM.YYYY HH:mm');
-	$weird = $date->withFormat('dddd, DD. MMM YYYY HH:mm');
+	$formatted = $date->withFormat($data->dateFormat()->germanShort());
+	$time = $date->withTimeOnly(true);
+	$both = $date->withTime(true)
+		->withMinValue(new DateTime());
 
 
 	//Step 2: define form and form actions
@@ -29,9 +31,9 @@ function base() {
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
 	$form = $ui->input()->container()->form()->standard($form_action, [
 		'date'=>$date,
+		'formatted'=>$formatted,
 		'time'=>$time,
-		'both'=>$both,
-		'weird'=>$weird
+		'both'=>$both
 	]);
 
 	//Step 3: implement some form data processing.

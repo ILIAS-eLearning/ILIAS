@@ -15,23 +15,28 @@ use \ILIAS\Transformation;
 
 class DateTimeInputTest extends ILIAS_UI_TestBase {
 
-	public function setUp() {
+	public function setUp(): void
+	{
 		$this->name_source = new DefNamesource();
+		$this->data_factory = new Data\Factory();
 		$this->factory = $this->buildFactory();
 	}
 
 	protected function buildFactory() {
-		$df = new Data\Factory();
+
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
-			$df,
-			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+			$this->data_factory,
+			new Validation\Factory(
+				$this->data_factory,
+				$this->createMock(\ilLanguage::class)
+			),
 			new Transformation\Factory()
 		);
 	}
 
 	public function test_withFormat() {
-		$format = 'DD.MM.YYYY HH:mm';
+		$format = $this->data_factory->date_format()->germanShort();
 		$datetime = $this->factory->datetime('label', 'byline')
 			->withFormat($format);
 
@@ -62,10 +67,17 @@ class DateTimeInputTest extends ILIAS_UI_TestBase {
 			$datetime->getMaxValue()
 		);
 	}
-	public function test_withTimeGlyph() {
+
+	public function test_withTime() {
 		$datetime = $this->factory->datetime('label', 'byline');
-		$this->assertFalse($datetime->getTimeGlyph());
-		$this->assertTrue($datetime->withTimeGlyph(true)->getTimeGlyph());
+		$this->assertFalse($datetime->getUseTime());
+		$this->assertTrue($datetime->withTime(true)->getUseTime());
+	}
+
+	public function test_withTimeOnly() {
+		$datetime = $this->factory->datetime('label', 'byline');
+		$this->assertFalse($datetime->getTimeOnly());
+		$this->assertTrue($datetime->withTimeOnly(true)->getTimeOnly());
 	}
 
 

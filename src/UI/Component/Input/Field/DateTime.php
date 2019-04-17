@@ -1,8 +1,10 @@
 <?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Input\Field;
+
+use ILIAS\Data\DateFormat\DateFormat;
 
 /**
  * This describes the datetime-field.
@@ -11,19 +13,22 @@ interface DateTime extends Input
 {
 	/**
 	 * Get an input like this using the given format.
-	 * Format is a string for moment.js's Format, see links below.
-	 * example:
-	 *'DD.MM.YYYY HH:mm' will display something like "22.08.2018 15:23"
+	 */
+	public function withFormat(DateFormat $format) : DateTime;
+
+	/**
+	 * Get the date-format of this input.
+	 */
+	public function getFormat(): DateFormat;
+
+	/**
+	 * Return the datetime format in a form fit for the JS-component of this input.
+	 * Currently, this means transforming the elements of DateFormat to momentjs.
 	 *
 	 * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
 	 * http://momentjs.com/docs/#/displaying/format/
 	 */
-	public function withFormat(string $format) : DateTime;
-
-	/**
-	 * Return the input's datetime format.
-	 */
-	public function getFormat() : string;
+	public function getTransformedFormat(): string;
 
 	/**
 	 * Limit accepted values to datetime past (and including) the given $datetime.
@@ -48,16 +53,28 @@ interface DateTime extends Input
 	public function getMaxValue();
 
 	/**
-	 * Render input with time-glyph (calendar-glyph otherwise).
+	 * Input both date and time.
 	 * @return  DateTime
 	 */
-	public function withTimeGlyph(bool $use_time_glyph) : DateTime;
+	public function withTime(bool $with_time) : DateTime;
 
 	/**
-	 * Should the Input be rendered with the Time Glyph?
-	 * @return  bool
+	 * Should the input be used to get both date and time?
+	 * @return  DateTime
 	 */
-	public function getTimeGlyph() : bool;
+	public function getUseTime(): bool;
+
+	/**
+	 * Use this Input for a time-value rather than a date.
+	 * @return  DateTime
+	 */
+	public function withTimeOnly(bool $time_only): DateTime;
+
+	/**
+	 * Should the input be used to get a time only?
+	 * @return  DateTime
+	 */
+	public function getTimeOnly(): bool;
 
 
 }
