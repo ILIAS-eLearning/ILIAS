@@ -24,22 +24,27 @@ class PageContentGUI extends ilTemplate {
 			self::MESSAGE_TYPE_SUCCESS,
 			self::MESSAGE_TYPE_QUESTION,
 		);
+	// Not used (derived from old ilGlobalTemplate)
 	private $tree_flat_link;
-	private $page_form_action;
-	private $permanent_link;
-	private $main_content;
-	private $lightbox;
 	private $standard_template_loaded;
-	private $translation_linked;
 	private $show_footer;
 	private $main_menu;
 	private $main_menu_spacer;
-	private $message;
 	private $js_files;
 	private $js_files_vp;
 	private $js_files_batch;
 	private $css_files;
 	private $inline_css;
+	private $tree_flat_mode;
+	private $body_class;
+	private $on_load_code;
+	// needed for content-area
+	private $page_form_action;
+	private $permanent_link;
+	private $main_content;
+	private $lightbox;
+	private $translation_linked;
+	private $message;
 	private $header_page_title;
 	private $title;
 	private $title_desc;
@@ -50,14 +55,11 @@ class PageContentGUI extends ilTemplate {
 	private $admin_panel_commands_toolbar;
 	private $admin_panel_arrow;
 	private $admin_panel_bottom;
-	private $body_class;
-	private $on_load_code;
 	private $right_content;
 	private $left_content;
 	private $icon_path;
 	private $icon_desc;
 	private $enable_fileupload;
-	private $tree_flat_mode;
 	//
 	// BEGIN needed Setters
 	//
@@ -226,52 +228,7 @@ class PageContentGUI extends ilTemplate {
 	// END needed Setters
 	//
 
-	private function mapMembers() {
-		global $DIC;
-		$r = function (Component $c) use ($DIC) {
-			return $DIC->ui()->renderer()->render($c);
-		};
-
-		// $this->page_form_action = $this->page_info->getPageFormAction();
-		// if ($this->page_info->hasCenterContent()) {
-		// 	$this->main_content = $r($this->page_info->getCenterContent());
-		// }
-		//
-		// foreach ($this->page_info->getLightboxes() as $id => $lightbox) {
-		// 	$this->lightbox[$id] = $r($lightbox);
-		// }
-		//
-		// $this->title = $this->page_info->getTitle();
-		// $this->title_desc = $this->page_info->getDescription();
-		// $this->title_alerts = $this->page_info->getAlertProperties();
-		// if ($this->page_info->hasHeaderActionMenu()) {
-		// 	$this->header_action = $this->page_info->getHeaderActionMenu();
-		// }
-		// $this->tabs_html = $r($this->page_info->getTabs());
-		// $this->sub_tabs_html = $r($this->page_info->getSubTabs());
-		// if ($this->page_info->hasAdministrationToolbar()) {
-		// 	$this->admin_panel_commands_toolbar = $this->page_info->getAdministrationToolbar();
-		// 	$this->admin_panel_arrow = $this->page_info->hasAdministrationToolbarArrow();
-		// 	$this->admin_panel_bottom = $this->page_info->hasAdministrationToolbarBottom();
-		// }
-
-		// $this->body_class = $this->page_info->getBodyClass();
-		// if ($this->page_info->hasRightContent()) {
-		// 	$this->right_content = $r($this->page_info->getRightContent());
-		// }
-		// if ($this->page_info->hasLeftContent()) {
-		// 	$this->left_content = $r($this->page_info->getLeftContent());
-		// }
-		// if ($this->page_info->hasTitleIcon()) {
-		// 	$this->icon_path = $this->page_info->getTitleIcon()->getIconPath();
-		// 	$this->icon_desc = $this->page_info->getTitleIcon()->getName();
-		// }
-	}
-
-
 	public function renderPage($part, $a_fill_tabs, $a_skip_main_menu): string {
-		$this->mapMembers();
-
 		//
 		// Copied from old ilGlobalTemplate and modified
 		//
