@@ -6,11 +6,13 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\DateFormat as DateFormat;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Input\Field\DateTime as DTField;
 
 /**
  * This implements the duration input group.
@@ -21,9 +23,9 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	use JavaScriptBindable;
 
 	/**
-	 * @var string
+	 * @var DateFormat
 	 */
-	protected $format = "MM/DD/YYYY";
+	protected $format;
 
 	/**
 	 * @var \DateTime
@@ -38,7 +40,12 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @var bool
 	 */
-	protected $use_time_glyph = false;
+	protected $with_time = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $with_time_only = false;
 
 
 	public function __construct(
@@ -62,7 +69,8 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	}
 
 
-	protected function addTransformation(TransformationFactory $transformation_factory) {
+	protected function addTransformation(TransformationFactory $transformation_factory)
+	{
 		$duration = $transformation_factory->custom(function($v) {
 			list($from, $until) = $v;
 			if($from && $until) {
@@ -73,7 +81,8 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		$this->setAdditionalTransformation($duration);
 	}
 
-	protected function addValidation(ValidationFactory $validation_factory) {
+	protected function addValidation(ValidationFactory $validation_factory)
+	{
 		$txt_id = 'duration_end_must_not_be_earlier_than_start';
 		$error = function (callable $txt, $value) use ($txt_id) {
 			return $txt($txt_id, $value);
@@ -92,8 +101,8 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withFormat(string $format) : C\Input\Field\Duration {
-		$this->checkStringArg('format', $format); //2do: check on date-format
+	public function withFormat(DateFormat\DateFormat $format): C\Input\Field\Duration
+	{
 		$clone = clone $this;
 		$clone->format = $format;
 		$clone->applyFormat();
@@ -103,8 +112,26 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function getFormat() : string {
+	public function getFormat() : DateFormat\DateFormat
+	{
 		return $this->format;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTransformedFormat(): string
+	{
+		$mapping = DTField::FORMAT_MAPPING;
+		$ret = '';
+		foreach ($this->format->toArray() as $element) {
+			if(array_key_exists($element, $mapping)) {
+				$ret .= $mapping[$element];
+			} else {
+				$ret .= $element;
+			}
+		}
+		return $ret;
 	}
 
 	/**
@@ -122,7 +149,8 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMinValue(\DateTime $date) : C\Input\Field\Duration {
+	public function withMinValue(\DateTime $date) : C\Input\Field\Duration
+	{
 		$clone = clone $this;
 		$clone->min_date = $date;
 		$clone->applyMinValue();
@@ -132,7 +160,8 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * apply format to inputs
 	 */
-	protected function applyMinValue() {
+	protected function applyMinValue()
+	{
 		$this->inputs = array_map(
 			function($inpt) {
 				return $inpt->withMinValue($this->getMinValue());
@@ -144,14 +173,16 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMinValue() {
+	public function getMinValue()
+	{
 		return $this->min_date;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxValue(\DateTime $date) : C\Input\Field\Duration {
+	public function withMaxValue(\DateTime $date) : C\Input\Field\Duration
+	{
 		$clone = clone $this;
 		$clone->max_date = $date;
 		$clone->applyMaxValue();
@@ -161,7 +192,8 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * apply format to inputs
 	 */
-	protected function applyMaxValue() {
+	protected function applyMaxValue()
+	{
 		$this->inputs = array_map(
 			function($inpt) {
 				return $inpt->withMaxValue($this->getMaxValue());
@@ -173,27 +205,30 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMaxValue() {
+	public function getMaxValue()
+	{
 		return $this->max_date;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withTimeGlyph(bool $use_time_glyph) : C\Input\Field\Duration {
+	public function withTimeOnly(bool $with_time_only): C\Input\Field\Duration
+	{
 		$clone = clone $this;
-		$clone->use_time_glyph = $use_time_glyph;
-		$clone->applyTimeGlyph();
+		$clone->with_time_only = $with_time_only;
+		$clone->applyWithTimeOnly();
 		return $clone;
 	}
 
 	/**
 	 * apply format to inputs
 	 */
-	protected function applyTimeGlyph() {
+	protected function applyWithTimeOnly()
+	{
 		$this->inputs = array_map(
 			function($inpt) {
-				return $inpt->withTimeGlyph($this->getTimeGlyph());
+				return $inpt->withTimeOnly($this->getTimeOnly());
 			},
 			$this->inputs
 		);
@@ -202,8 +237,40 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function getTimeGlyph() : bool {
-		return $this->use_time_glyph;
+	public function getTimeOnly(): bool
+	{
+		return $this->with_time_only;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withTime(bool $with_time): C\Input\Field\Duration
+	{
+		$clone = clone $this;
+		$clone->with_time = $with_time;
+		$clone->applyWithTime();
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUseTime(): bool
+	{
+		return $this->with_time;
+	}
+
+	/**
+	 * apply format to inputs
+	 */
+	protected function applyWithTime() {
+		$this->inputs = array_map(
+			function($inpt) {
+				return $inpt->withTime($this->getUseTime());
+			},
+			$this->inputs
+		);
 	}
 
 	/**
@@ -219,5 +286,4 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	protected function getConstraintForRequirement() {
 		return null;
 	}
-
 }

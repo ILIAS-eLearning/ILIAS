@@ -14,8 +14,8 @@ function base() {
 
 
 	//Step 1: define the input
-	$duration = $ui->input()->field()->duration("Pick a time-span", "This is the byline text")
-		->withFormat('DD.MM.YYYY HH:mm');
+	$duration = $ui->input()->field()->duration("Pick a time-span", "This is the byline text");
+	//TODO: $time = $duration->withTimeOnly(true);
 
 	//Step 2: define form and form actions, attach the input
 	$ctrl->setParameterByClass(
@@ -24,13 +24,18 @@ function base() {
 		'duration'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-	$form = $ui->input()->container()->form()->standard($form_action, ['duration'=>$duration]);
+	$form = $ui->input()->container()->form()->standard(
+		$form_action,
+		[
+			'duration'=>$duration
+		]
+	);
 
 	//Step 3: implement some form data processing.
 	if ($request->getMethod() == "POST"
 		&& $request->getQueryParams()['example_name'] == "duration") {
 		$form = $form->withRequest($request);
-		 $group = $form->getInputs()["duration"];
+		$group = $form->getInputs()["duration"];
         if($group->getError()){
             $result = $group->getError();
         }else{

@@ -8,7 +8,7 @@ function base() {
 	global $DIC;
 
 	$ui = $DIC->ui()->factory();
-	$data= new ILIAS\Data\Factory();
+	$data = new ILIAS\Data\Factory();
 	$renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
 	$ctrl = $DIC->ctrl();

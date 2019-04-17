@@ -36,7 +36,7 @@ class DurationInputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withFormat() {
-		$format = $this->data_factory->date_format()->germanShort();
+		$format = $this->data_factory->dateFormat()->germanShort();
 		$duration = $this->factory->duration('label', 'byline')
 			->withFormat($format);
 

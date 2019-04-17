@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\Data\DateFormat\DateFormat;
+
 /**
  * This describes the duration input.
  */
@@ -11,46 +13,67 @@ interface Duration extends Group
 {
 	/**
 	 * Get an input like this using the given format.
-	 * Format is a string for moment.js's Format, see links below.
-	 * example:
-	 *'DD.MM.YYYY HH:mm' will display something like "22.08.2018 15:23"
+	 */
+	public function withFormat(DateFormat $format) : Duration;
+
+	/**
+	 * Get the date-format of this input.
+	 */
+	public function getFormat(): DateFormat;
+
+	/**
+	 * Return the Duration format in a form fit for the JS-component of this input.
+	 * Currently, this means transforming the elements of DateFormat to momentjs.
 	 *
-	 * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
+	 * http://eonasdan.github.io/bootstrap-Durationpicker/Options/#format
 	 * http://momentjs.com/docs/#/displaying/format/
 	 */
-	public function withFormat(string $format) : Duration;
+	public function getTransformedFormat(): string;
 
 	/**
-	 * Return the input's date-format
+	 * Limit accepted values to Duration past (and including) the given $Duration.
 	 */
-	public function getFormat() : string;
-
-	/**
-	 * Limit accepted values to datetime past (and including) the given $datetime.
-	 */
-	public function withMinValue(\DateTime $datetime) : Duration;
+	public function withMinValue(\DateTime $date) : Duration;
 
 	/**
 	 * Return the lowest value the input accepts.
-	 * @return  \DateTime | null
+	 * @return  \Duration | null
 	 */
 	public function getMinValue();
 
 	/**
-	 * Limit accepted values to datetime before (and including) the given value.
+	 * Limit accepted values to Duration before (and including) the given value.
 	 */
-	public function withMaxValue(\DateTime $datetime) : Duration;
+	public function withMaxValue(\DateTime $date) : Duration;
 
 	/**
 	 * Return the maximum date the input accepts.
-	 * @return  \DateTime | null
+	 * @return  \Duration | null
 	 */
 	public function getMaxValue();
 
 	/**
-	 * Render input with time-glyph (calendar-glyph otherwise).
-	 * @return  DateTime
+	 * Input both date and time.
+	 * @return  Duration
 	 */
-	public function withTimeGlyph(bool $use_time_glyph) : Duration;
+	public function withTime(bool $with_time) : Duration;
+
+	/**
+	 * Should the input be used to get both date and time?
+	 * @return  Duration
+	 */
+	public function getUseTime(): bool;
+
+	/**
+	 * Use this Input for a time-value rather than a date.
+	 * @return  Duration
+	 */
+	public function withTimeOnly(bool $time_only): Duration;
+
+	/**
+	 * Should the input be used to get a time only?
+	 * @return  Duration
+	 */
+	public function getTimeOnly(): bool;
 
 }
