@@ -145,9 +145,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 			return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
 		}
 
-		$result = false;
-		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
-		$result = ilObjSAHSLearningModuleAccess::_lookupUserCertificate($obj_id, $usr_id);
+		$certValidator = new ilCertificateUserCertificateAccessValidator();
+		$result = $certValidator->validate($usr_id, $obj_id);
 
 		return $result;
 	}
