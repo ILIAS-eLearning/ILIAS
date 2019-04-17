@@ -865,33 +865,11 @@ class ilSCORMPresentationGUI
 		$tree = $DIC['tree'];
 		$ilCtrl = $DIC->ctrl();
 
-		$allowed = false;
-		$last_access = 0;
 		$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
-		if (ilObjSAHSLearningModuleAccess::_lookupUserCertificate($obj_id))
-		{
-			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-			$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-			switch ($type)
-			{
-				case "scorm":
-					include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-					$allowed = true;
-					$last_access = ilObjSCORMLearningModule::_lookupLastAccess($obj_id, $ilUser->getId());
-					break;
-				case "scorm2004":
-					include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-					$allowed = true;
-					$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($obj_id, $ilUser->getId());
-					break;
-				default:
-					break;
-			}
-		}
-		
-		if ($allowed)
-		{
+
+		$certValidator = new ilCertificateDownloadValidator();
+		$allowed = $certValidator->isCertificateDownloadable($ilUser->getId(), $obj_id);
+		if ($allowed) {
 			$certificateLogger = $DIC->logger()->cert();
 
 			$ilUserCertificateRepository = new ilUserCertificateRepository();
