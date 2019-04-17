@@ -80,7 +80,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	}
 
 
-
 	/**
 	 * @inheritDoc
 	 */
@@ -135,6 +134,11 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @param string $value
 	 */
 	public function setVariable($variable, $value = '') {
+		if ($variable === "LOCATION_CONTENT_STYLESHEET" || $variable === "LOCATION_SYNTAX_STYLESHEET") {
+			$this->addCss($value);
+
+			return;
+		}
 		$this->legacy_content_template->setVariable($variable, $value);
 	}
 
