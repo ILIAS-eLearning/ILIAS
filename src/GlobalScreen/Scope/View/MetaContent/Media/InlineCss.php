@@ -1,4 +1,4 @@
-<?php namespace ILIAS\Services\UICore\Page\Media;
+<?php namespace ILIAS\GlobalScreen\Scope\View\MetaContent\Media;
 
 /**
  * Class InlineCss

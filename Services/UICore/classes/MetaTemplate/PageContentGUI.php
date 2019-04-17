@@ -1,4 +1,4 @@
-<?php namespace ILIAS\Services\UICore\Page;
+<?php namespace ILIAS\Services\UICore\MetaTemplate;
 
 use ILIAS\UI\Component\Component;
 use ilTemplate;

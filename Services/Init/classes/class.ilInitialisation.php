@@ -8,7 +8,7 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
-use ILIAS\Services\UICore\Page\Media\Css;
+use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\Css;
 
 require_once("libs/composer/vendor/autoload.php");
 

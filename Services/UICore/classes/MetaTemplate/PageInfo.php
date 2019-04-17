@@ -1,11 +1,11 @@
-<?php namespace ILIAS\Services\UICore\Page;
+<?php namespace ILIAS\Services\UICore\MetaTemplate;
 
-use ILIAS\Services\UICore\Page\Media\Css;
-use ILIAS\Services\UICore\Page\Media\CssCollection;
-use ILIAS\Services\UICore\Page\Media\InlineCss;
-use ILIAS\Services\UICore\Page\Media\Js;
-use ILIAS\Services\UICore\Page\Media\JsCollection;
-use ILIAS\Services\UICore\Page\Media\OnLoadCode;
+use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\Css;
+use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\CssCollection;
+use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\InlineCss;
+use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\Js;
+use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\JsCollection;
+use ILIAS\GlobalScreen\Scope\View\MetaContent\Media\OnLoadCode;
 use ILIAS\UI\Component\Icon\Icon;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ilToolbarGUI;
@@ -56,25 +56,6 @@ class PageInfo {
 	 */
 	private $lightboxes = [];
 	//
-	// Media
-	//
-	/**
-	 * @var JsCollection
-	 */
-	private $js = null;
-	/**
-	 * @var InlineCss[]
-	 */
-	private $inline_css = [];
-	/**
-	 * @var CssCollection
-	 */
-	private $css = null;
-	/**
-	 * @var OnLoadCode[]
-	 */
-	private $on_load_code = [];
-	//
 	// Parts of the Page
 	//
 	/**
@@ -120,15 +101,6 @@ class PageInfo {
 	 * @var Legacy
 	 */
 	private $right_content = null;
-
-
-	/**
-	 * PageInfo constructor.
-	 */
-	public function __construct() {
-		$this->js = new JsCollection();
-		$this->css = new CssCollection();
-	}
 
 
 	/**
@@ -265,70 +237,6 @@ class PageInfo {
 	 */
 	public function addLightbox(string $id, Legacy $lightboxes) {
 		$this->lightboxes[$id] = $lightboxes;
-	}
-
-
-	/**
-	 * @return JsCollection
-	 */
-	public function getJs(): JsCollection {
-		return $this->js;
-	}
-
-
-	/**
-	 * @param Js $js
-	 */
-	public function addJs(Js $js) {
-		$this->js->addItem($js);
-	}
-
-
-	/**
-	 * @return InlineCss[]
-	 */
-	public function getInlineCss(): array {
-		return $this->inline_css;
-	}
-
-
-	/**
-	 * @param InlineCss $inline_css
-	 */
-	public function addInlineCss(InlineCss $inline_css) {
-		$this->inline_css[] = $inline_css;
-	}
-
-
-	/**
-	 * @return CssCollection
-	 */
-	public function getCss(): CssCollection {
-		return $this->css;
-	}
-
-
-	/**
-	 * @param Css $css
-	 */
-	public function addCss(Css $css) {
-		$this->css->addItem($css);
-	}
-
-
-	/**
-	 * @return OnLoadCode[]
-	 */
-	public function getOnloadCode(): array {
-		return $this->on_load_code;
-	}
-
-
-	/**
-	 * @param OnLoadCode $onload
-	 */
-	public function addOnloadCode(OnLoadCode $onload) {
-		$this->on_load_code[] = $onload;
 	}
 
 
