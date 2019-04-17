@@ -4030,6 +4030,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCertificateTestObjectHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateTestObjectHelper.php',
         'ilCertificateTestTemplateDeleteAction' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateTestTemplateDeleteAction.php',
         'ilCertificateTypeClassMap' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Cron/class.ilCertificateTypeClassMap.php',
+        'ilCertificateUserCertificateAccessValidator' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/User/Validator/class.ilCertificateUserCertificateAccessValidator.php',
         'ilCertificateUserDefinedFieldsHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateUserDefinedFieldsHelper.php',
         'ilCertificateUserForObjectPreloader' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Preload/class.ilCertificateUserForObjectPreloader.php',
         'ilCertificateUserObjectHelper' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Helper/ilCertificateUserObjectHelper.php',

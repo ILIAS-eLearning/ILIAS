@@ -39,8 +39,8 @@ class ilLuceneSearchResult implements Iterator
 	private $limit = 0;
 	private $total_hits = 0;
 	private $max_score = 0;
-	
-	private $objects;
+
+	private $objects = [];
 	private $relevance;
 	
 
@@ -134,7 +134,7 @@ class ilLuceneSearchResult implements Iterator
 	 */
 	public function getCandidates()
 	{
-		return $this->objects ? $this->objects : array();
+		return $this->objects;
 	}
 	
 	/**

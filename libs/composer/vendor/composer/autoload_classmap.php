@@ -3693,6 +3693,7 @@ return array(
     'ilCertificateTestObjectHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateTestObjectHelper.php',
     'ilCertificateTestTemplateDeleteAction' => $baseDir . '/../../Services/Certificate/classes/Template/Action/Delete/class.ilCertificateTestTemplateDeleteAction.php',
     'ilCertificateTypeClassMap' => $baseDir . '/../../Services/Certificate/classes/Cron/class.ilCertificateTypeClassMap.php',
+    'ilCertificateUserCertificateAccessValidator' => $baseDir . '/../../Services/Certificate/classes/User/Validator/class.ilCertificateUserCertificateAccessValidator.php',
     'ilCertificateUserDefinedFieldsHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateUserDefinedFieldsHelper.php',
     'ilCertificateUserForObjectPreloader' => $baseDir . '/../../Services/Certificate/classes/Preload/class.ilCertificateUserForObjectPreloader.php',
     'ilCertificateUserObjectHelper' => $baseDir . '/../../Services/Certificate/classes/Helper/ilCertificateUserObjectHelper.php',
