@@ -15,13 +15,15 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 
 /**
  * Class ilMMCustomProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider {
+class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider, StaticMetaBarProvider {
 
 	/**
 	 * @var \ILIAS\DI\Container
@@ -161,5 +163,30 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		$last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
 
 		return $this->dic->language()->txt("type_" . strtolower($last_part) . "_info");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMetaBarItems(): array {
+		$item[] = $this->globalScreen()
+			->metaBar()
+			->baseItem($this->if->identifier('help'))
+			->withGlyph($this->dic->ui()->factory()->glyph()->help())
+			->withTitle("Help")
+			->withPosition(2)
+			->withContent($this->dic->ui()->factory()->legacy("NOT PROVIDED"));
+
+		$item[] = $this->globalScreen()
+			->metaBar()
+			->baseItem($this->if->identifier('notifications'))
+			->withGlyph($this->dic->ui()->factory()->glyph()->search()->withCounter($this->dic->ui()->factory()->counter()->novelty(3)))
+			->withTitle("Notifications")
+			->withPosition(1)
+			->withContent($this->dic->ui()->factory()->legacy("NOT PROVIDED"));
+
+
+		return $item;
 	}
 }

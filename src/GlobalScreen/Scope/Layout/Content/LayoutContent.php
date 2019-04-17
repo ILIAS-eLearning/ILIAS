@@ -80,17 +80,18 @@ class LayoutContent {
 	 */
 	protected function getMetaBar(): MetaBar {
 		$f = $this->ui->factory();
-		$symbol = $f->icon()->standard('65', '65');
-		$content = $f->legacy("CONTENT");
-		$slate = $f->mainControls()
-			->slate()
-			->legacy('lorem', $symbol, $content);
+		$meta_bar = $f->mainControls()->metaBar();
 
-		$metabar = $f->mainControls()
-			->metaBar()
-			->withAdditionalEntry('anid', $slate);
 
-		return $metabar;
+		foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
+			$slate = $f->mainControls()
+				->slate()
+				->legacy($item->getTitle(), $item->getGlyph(), $item->getContent());
+
+			$meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $slate);
+		}
+
+		return $meta_bar;
 	}
 
 

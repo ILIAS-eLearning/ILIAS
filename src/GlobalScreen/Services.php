@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
 
 /**
  * Class Services
@@ -41,6 +42,14 @@ class Services {
 	 */
 	public function mainmenu(): MainMenuItemFactory {
 		return $this->get(MainMenuItemFactory::class);
+	}
+
+
+	/**
+	 * @return MetaBarItemFactory
+	 */
+	public function metaBar(): MetaBarItemFactory {
+		return $this->get(MetaBarItemFactory::class);
 	}
 
 

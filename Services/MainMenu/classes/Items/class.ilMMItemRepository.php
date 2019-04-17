@@ -9,6 +9,7 @@ use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilMMItemRepository
@@ -119,7 +120,7 @@ class ilMMItemRepository {
 	private function initProviders(): array {
 		$providers = [];
 		// Core
-		foreach (ilGSProviderStorage::get() as $provider_storage) {
+		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE])->get() as $provider_storage) {
 			/**
 			 * @var $provider_storage ilGSProviderStorage
 			 */
