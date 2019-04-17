@@ -19,7 +19,6 @@ class JsCollection extends AbstractCollection {
 	public function addItem(Js $item) {
 		if (isset($this->path_storage[$item->getContent()])) {
 			if ((int)$this->path_storage[$item->getContent()] > $item->getBatch()) {
-				// unset($this->path_storage[$item->getContent()]);
 				$this->storeItem($item);
 			}
 		} else {
