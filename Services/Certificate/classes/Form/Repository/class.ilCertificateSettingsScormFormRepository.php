@@ -44,8 +44,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 		ilLanguage $language,
 		ilTemplate $template,
 		ilCtrl $controller,
-		ilAccess $access,
-		ilToolbarGUI $toolbar,
+		ilAccessHandler $accessHandler,
+		ilToolbarGUI $toolbarGUI,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
 		ilCertificateSettingsFormRepository $settingsFormRepository = null,
 		ilSetting $setting = null
@@ -59,10 +59,9 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 				$object->getId(),
 				$certificatePath,
 				$language,
-				$template,
 				$controller,
-				$access,
-				$toolbar,
+				$accessHandler,
+				$toolbarGUI,
 				$placeholderDescriptionObject
 			);
 		}
