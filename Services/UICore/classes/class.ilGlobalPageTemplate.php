@@ -225,18 +225,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 */
 	public function setTitleIcon($a_icon_path, $a_icon_desc = "") { // //
 		$this->page_info->setTitleIcon($this->ui->factory()->icon()->custom($a_icon_path, $a_icon_desc));
-		// $this->legacy_content_template->setTitleIcon($a_icon_path, $a_icon_desc);
-		//
-		//
-		// $this->legacy_content_template->setCurrentBlock("header_image");
-		// if ($this->icon_desc != "")
-		// {
-		// 	$this->legacy_content_template->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
-		// 	$this->legacy_content_template->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
-		// }
-		//
-		// $this->legacy_content_template->setVariable("IMG_HEADER", $this->icon_path);
-		// $this->legacy_content_template->parseCurrentBlock();
 
 	}
 
@@ -249,7 +237,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 */
 	public function setAlertProperties(array $a_props) { // //
 		$this->page_info->setAlertProperties($a_props);
-		// $this->legacy_content_template->setAlertProperties($a_props);
 	}
 
 

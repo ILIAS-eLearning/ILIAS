@@ -171,13 +171,15 @@ abstract class AbstractBaseView implements View {
 	 * @inheritDoc
 	 */
 	public function getBreadCrumbs(): Breadcrumbs {
+		// TODO this currently gets the items from ilLocatorGUI, should that serve be removed with
+		// something like GlobalScreen\Scope\Locator\Item
+		global $DIC;
+
 		$f = $this->ui->factory();
-		$crumbs = array(
-			$f->link()->standard("entry1", '#'),
-			$f->link()->standard("entry2", '#'),
-			$f->link()->standard("entry3", '#'),
-			$f->link()->standard("entry4", '#'),
-		);
+		$crumbs = [];
+		foreach ($DIC['ilLocator']->getItems() as $item) {
+			$crumbs[] = $f->link()->standard($item['title'], $item["link"]);
+		}
 
 		return $this->ui->factory()->breadcrumbs($crumbs);
 	}
