@@ -69,12 +69,11 @@ class ilLearningSequenceImporter extends ilXmlImporter
 		$ls_items = array();
 		foreach ($ls_data as $data) {
 			$old_ref_id = $data["id"];
-			$type = $data["ls_item_type"];
 			$new_ref_id = $mapping->getMapping("Services/Container", "refs", $old_ref_id);
 
 			$post_condition = new ilLSPostCondition(
 				(int)$new_ref_id,
-				(int)$data["ls_item_pc_condition_type"],
+				$data["ls_item_pc_condition_type"],
 				$data["ls_item_pc_value"]
 			);
 
