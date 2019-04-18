@@ -387,7 +387,7 @@ If you would like to implement a new component to the framework you should perfo
     ``` less
     @import "@{uibase}Demo/demo.less";
     ```
-16. Formulate at least one test-case for your knew component on testrail.ilias.de](https://testrail.ilias.de).
+16. Formulate at least one test-case for your new component on testrail.ilias.de](https://testrail.ilias.de).
     Best, try to formulate a testcase for each relevant client-side interaction. E.g. if 
     your component contains a button, that triggers a modal on-click, write a test-case for this
     interaction. Post the the link to this test-case in a comment/the description of your PR.
