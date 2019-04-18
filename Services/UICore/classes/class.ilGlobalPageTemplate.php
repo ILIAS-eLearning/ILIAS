@@ -40,7 +40,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 */
 	private $layout_content;
 	/**
-	 * @var ilTemplate
+	 * @var PageContentGUI
 	 */
 	private $legacy_content_template;
 	/**

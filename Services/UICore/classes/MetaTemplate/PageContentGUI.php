@@ -7,7 +7,21 @@ use ilTemplate;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class PageContentGUI extends ilTemplate {
+class PageContentGUI {
+
+	/**
+	 * @var ilTemplate
+	 */
+	private $template_file;
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function __construct(string $file, bool $flag1, bool $flag2, bool $in_module = false, $vars = "DEFAULT", bool $plugin = false, bool $a_use_cache = true) {
+		$this->template_file = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
+	}
+
 
 	const MESSAGE_TYPE_FAILURE = 'failure';
 	const MESSAGE_TYPE_INFO = "info";
@@ -59,6 +73,50 @@ class PageContentGUI extends ilTemplate {
 	private $icon_path;
 	private $icon_desc;
 	private $enable_fileupload;
+	//
+	// Needed Methods for communication from the outside
+	//
+
+	/**
+	 * @param      $var
+	 * @param      $block
+	 * @param      $tplname
+	 * @param bool $in_module
+	 *
+	 * @return bool
+	 */
+	public function addBlockFile($var, $block, $tplname, $in_module = false) {
+		return $this->template_file->addBlockFile($var, $block, $tplname, $in_module);
+	}
+
+
+	/**
+	 * @param $blockname
+	 *
+	 * @return bool
+	 */
+	public function blockExists($blockname) {
+		return $this->template_file->blockExists($blockname);
+	}
+
+
+	/**
+	 * @param $block
+	 */
+	public function removeBlockData($block) {
+		$this->template_file->removeBlockData($block);
+	}
+
+
+	/**
+	 * @param        $variable
+	 * @param string $value
+	 */
+	public function setVariable($variable, $value = '') {
+		$this->template_file->setVariable($variable, $value);
+	}
+
+
 	//
 	// BEGIN needed Setters
 	//
@@ -247,7 +305,7 @@ class PageContentGUI extends ilTemplate {
 		$this->fillPageFormAction();
 
 		if ($a_fill_tabs) {
-			if ($this->blockExists("content")) {
+			if ($this->template_file->blockExists("content")) {
 				// determine default screen id
 				$this->getTabsHTML();
 			}
@@ -297,20 +355,20 @@ class PageContentGUI extends ilTemplate {
 			// $this->fillOnLoadCode();
 
 			// these fill just plain placeholder variables in tpl.adm_content.html
-			if ($this->blockExists("content")) {
-				$this->setCurrentBlock("content");
+			if ($this->template_file->blockExists("content")) {
+				$this->template_file->setCurrentBlock("content");
 				$this->fillTabs();
 				$this->fillMainContent();
 				// $this->fillMainMenu();
 				// $this->fillLightbox(); // TODO
-				$this->parseCurrentBlock();
+				$this->template_file->parseCurrentBlock();
 			}
 		}
 
 		if ($part == "DEFAULT" or is_bool($part)) {
-			$html = $this->getUnmodified();
+			$html = $this->template_file->getUnmodified();
 		} else {
-			$html = $this->getUnmodified($part);
+			$html = $this->template_file->getUnmodified($part);
 		}
 
 		global $DIC;
@@ -363,7 +421,7 @@ class PageContentGUI extends ilTemplate {
 		}
 
 		if ($out != "") {
-			$this->setVariable("MESSAGE", $out);
+			$this->template_file->setVariable("MESSAGE", $out);
 		}
 	}
 
@@ -392,7 +450,7 @@ class PageContentGUI extends ilTemplate {
 
 		$ilTabs = $DIC["ilTabs"];
 
-		if ($this->blockExists("tabs_outer_start")) {
+		if ($this->template_file->blockExists("tabs_outer_start")) {
 			$this->sub_tabs_html = $ilTabs->getSubTabHTML();
 			$this->tabs_html = $ilTabs->getHTML(true);
 		}
@@ -416,51 +474,51 @@ class PageContentGUI extends ilTemplate {
 		$icon = false;
 		if ($this->icon_path != "") {
 			$icon = true;
-			$this->setCurrentBlock("header_image");
+			$this->template_file->setCurrentBlock("header_image");
 			if ($this->icon_desc != "") {
-				$this->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
-				$this->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
+				$this->template_file->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
+				$this->template_file->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
 			}
 
-			$this->setVariable("IMG_HEADER", $this->icon_path);
-			$this->parseCurrentBlock();
+			$this->template_file->setVariable("IMG_HEADER", $this->icon_path);
+			$this->template_file->parseCurrentBlock();
 			$header = true;
 		}
 
 		if ($this->title != "") {
 			$title = \ilUtil::stripScriptHTML($this->title);
-			$this->setVariable("HEADER", $title);
+			$this->template_file->setVariable("HEADER", $title);
 
 			$header = true;
 		}
 
 		if ($header) {
-			$this->setCurrentBlock("header_image");
-			$this->parseCurrentBlock();
+			$this->template_file->setCurrentBlock("header_image");
+			$this->template_file->parseCurrentBlock();
 		}
 
 		if ($this->title_desc != "") {
-			$this->setCurrentBlock("header_desc");
-			$this->setVariable("H_DESCRIPTION", $this->title_desc);
-			$this->parseCurrentBlock();
+			$this->template_file->setCurrentBlock("header_desc");
+			$this->template_file->setVariable("H_DESCRIPTION", $this->title_desc);
+			$this->template_file->parseCurrentBlock();
 		}
 
 		$header = $this->header_action;
 		if ($header) {
-			$this->setCurrentBlock("head_action_inner");
-			$this->setVariable("HEAD_ACTION", $header);
-			$this->parseCurrentBlock();
-			$this->touchBlock("head_action");
+			$this->template_file->setCurrentBlock("head_action_inner");
+			$this->template_file->setVariable("HEAD_ACTION", $header);
+			$this->template_file->parseCurrentBlock();
+			$this->template_file->touchBlock("head_action");
 		}
 
 		if (count((array)$this->title_alerts)) {
 			foreach ($this->title_alerts as $alert) {
-				$this->setCurrentBlock('header_alert');
+				$this->template_file->setCurrentBlock('header_alert');
 				if (!($alert['propertyNameVisible'] === false)) {
-					$this->setVariable('H_PROP', $alert['property'] . ':');
+					$this->template_file->setVariable('H_PROP', $alert['property'] . ':');
 				}
-				$this->setVariable('H_VALUE', $alert['value']);
-				$this->parseCurrentBlock();
+				$this->template_file->setVariable('H_VALUE', $alert['value']);
+				$this->template_file->parseCurrentBlock();
 			}
 		}
 
@@ -472,17 +530,17 @@ class PageContentGUI extends ilTemplate {
 			include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
 			$upload = new \ilFileUploadGUI($upload_id, $ref_id, true);
 
-			$this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
+			$this->template_file->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
 
-			$this->setCurrentBlock("header_fileupload");
-			$this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
-			$this->parseCurrentBlock();
+			$this->template_file->setCurrentBlock("header_fileupload");
+			$this->template_file->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
+			$this->template_file->parseCurrentBlock();
 		}
 	}
 
 
 	private function setCenterColumnClass() {
-		if (!$this->blockExists("center_col_width")) {
+		if (!$this->template_file->blockExists("center_col_width")) {
 			return;
 		}
 		$center_column_class = "";
@@ -509,37 +567,37 @@ class PageContentGUI extends ilTemplate {
 			$center_column_class .= " col-sm-push-3";
 		}
 
-		$this->setCurrentBlock("center_col_width");
-		$this->setVariable("CENTER_COL", $center_column_class);
-		$this->parseCurrentBlock();
+		$this->template_file->setCurrentBlock("center_col_width");
+		$this->template_file->setVariable("CENTER_COL", $center_column_class);
+		$this->template_file->parseCurrentBlock();
 	}
 
 
 	private function fillMainContent() {
 		if (trim($this->main_content) != "") {
-			$this->setVariable("ADM_CONTENT", $this->main_content);
+			$this->template_file->setVariable("ADM_CONTENT", $this->main_content);
 		}
 	}
 
 
 	private function fillLeftContent() {
 		if (trim($this->left_content) != "") {
-			$this->setCurrentBlock("left_column");
-			$this->setVariable("LEFT_CONTENT", $this->left_content);
+			$this->template_file->setCurrentBlock("left_column");
+			$this->template_file->setVariable("LEFT_CONTENT", $this->left_content);
 			$left_col_class = (trim($this->right_content) == "")
 				? "col-sm-3 col-sm-pull-9"
 				: "col-sm-3 col-sm-pull-6";
-			$this->setVariable("LEFT_COL_CLASS", $left_col_class);
-			$this->parseCurrentBlock();
+			$this->template_file->setVariable("LEFT_COL_CLASS", $left_col_class);
+			$this->template_file->parseCurrentBlock();
 		}
 	}
 
 
 	private function fillRightContent() {
 		if (trim($this->right_content) != "") {
-			$this->setCurrentBlock("right_column");
-			$this->setVariable("RIGHT_CONTENT", $this->right_content);
-			$this->parseCurrentBlock();
+			$this->template_file->setCurrentBlock("right_column");
+			$this->template_file->setVariable("RIGHT_CONTENT", $this->right_content);
+			$this->template_file->parseCurrentBlock();
 		}
 	}
 
@@ -563,31 +621,31 @@ class PageContentGUI extends ilTemplate {
 		$this->fillPageFormAction();
 
 		// Add top admin bar.
-		$this->setCurrentBlock("adm_view_components");
-		$this->setVariable("ADM_PANEL1", $toolb->getHTML());
-		$this->parseCurrentBlock();
+		$this->template_file->setCurrentBlock("adm_view_components");
+		$this->template_file->setVariable("ADM_PANEL1", $toolb->getHTML());
+		$this->template_file->parseCurrentBlock();
 
 		// Add bottom admin bar if user wants one.
 		if ($this->admin_panel_bottom) {
-			$this->setCurrentBlock("adm_view_components2");
+			$this->template_file->setCurrentBlock("adm_view_components2");
 
 			// Replace previously set arrow image.
 			if ($this->admin_panel_arrow) {
 				$toolb->setLeadingImage(\ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
 			}
 
-			$this->setVariable("ADM_PANEL2", $toolb->getHTML());
-			$this->parseCurrentBlock();
+			$this->template_file->setVariable("ADM_PANEL2", $toolb->getHTML());
+			$this->template_file->parseCurrentBlock();
 		}
 	}
 
 
 	private function fillPageFormAction() {
 		if ($this->page_form_action != "") {
-			$this->setCurrentBlock("page_form_start");
-			$this->setVariable("PAGE_FORM_ACTION", $this->page_form_action);
-			$this->parseCurrentBlock();
-			$this->touchBlock("page_form_end");
+			$this->template_file->setCurrentBlock("page_form_start");
+			$this->template_file->setVariable("PAGE_FORM_ACTION", $this->page_form_action);
+			$this->template_file->parseCurrentBlock();
+			$this->template_file->touchBlock("page_form_end");
 		}
 	}
 
@@ -599,24 +657,24 @@ class PageContentGUI extends ilTemplate {
 
 		$thtml = $ilToolbar->getHTML();
 		if ($thtml != "") {
-			$this->setCurrentBlock("toolbar_buttons");
-			$this->setVariable("BUTTONS", $thtml);
-			$this->parseCurrentBlock();
+			$this->template_file->setCurrentBlock("toolbar_buttons");
+			$this->template_file->setVariable("BUTTONS", $thtml);
+			$this->template_file->parseCurrentBlock();
 		}
 	}
 
 
 	private function fillTabs() {
-		if ($this->blockExists("tabs_outer_start")) {
-			$this->touchBlock("tabs_outer_start");
-			$this->touchBlock("tabs_outer_end");
-			$this->touchBlock("tabs_inner_start");
-			$this->touchBlock("tabs_inner_end");
+		if ($this->template_file->blockExists("tabs_outer_start")) {
+			$this->template_file->touchBlock("tabs_outer_start");
+			$this->template_file->touchBlock("tabs_outer_end");
+			$this->template_file->touchBlock("tabs_inner_start");
+			$this->template_file->touchBlock("tabs_inner_end");
 
 			if ($this->tabs_html != "") {
-				$this->setVariable("TABS", $this->tabs_html);
+				$this->template_file->setVariable("TABS", $this->tabs_html);
 			}
-			$this->setVariable("SUB_TABS", $this->sub_tabs_html);
+			$this->template_file->setVariable("SUB_TABS", $this->sub_tabs_html);
 		}
 	}
 
@@ -627,6 +685,6 @@ class PageContentGUI extends ilTemplate {
 		foreach ($this->lightbox as $lb) {
 			$html .= $lb;
 		}
-		$this->setVariable("LIGHTBOX", $html);
+		$this->template_file->setVariable("LIGHTBOX", $html);
 	}
 }
