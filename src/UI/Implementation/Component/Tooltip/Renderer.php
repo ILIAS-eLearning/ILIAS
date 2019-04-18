@@ -10,6 +10,9 @@ use ILIAS\UI\Component;
 /**
  * Class Renderer
  * @package ILIAS\UI\Implementation\Component\Tooltip
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Coling Kiegel <kiegel@qualitus.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class Renderer extends AbstractComponentRenderer
 {

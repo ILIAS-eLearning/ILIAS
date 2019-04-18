@@ -1,4 +1,10 @@
 <?php
+/**
+ * @return string
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Coling Kiegel <kiegel@qualitus.de>
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 function show_tooltip_for_button() {
 	global $DIC;
 

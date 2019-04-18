@@ -7,6 +7,9 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 /**
  * Class Factory
  * @package ILIAS\UI\Implementation\Component\Tooltip
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Coling Kiegel <kiegel@qualitus.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class Factory implements \ILIAS\UI\Component\Tooltip\Factory
 {

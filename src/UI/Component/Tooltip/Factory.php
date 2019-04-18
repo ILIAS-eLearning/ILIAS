@@ -7,6 +7,9 @@ use ILIAS\UI\Component\Component;
 /**
  * Interface Factory
  * @package ILIAS\UI\Component\Tooltip
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Coling Kiegel <kiegel@qualitus.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 interface Factory
 {

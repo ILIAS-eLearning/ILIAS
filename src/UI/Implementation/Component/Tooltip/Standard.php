@@ -8,6 +8,9 @@ use ILIAS\UI\Component;
 /**
  * Class Standard
  * @package ILIAS\UI\Implementation\Component\Tooltip
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Coling Kiegel <kiegel@qualitus.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class Standard extends Tooltip implements Component\Tooltip\Standard
 {
