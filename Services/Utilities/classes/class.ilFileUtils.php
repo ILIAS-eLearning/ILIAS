@@ -706,6 +706,7 @@ class ilFileUtils
 			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
+			'obj',					// Wavefront .obj file
 			'obm',						// SPSS script
 			'odt',   // Open document text,
 			'ods',   // Open document spreadsheet,
