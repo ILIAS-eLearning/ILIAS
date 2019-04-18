@@ -52,11 +52,8 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
-<<<<<<< 2d88157fb1ea20737024f01ef84e5a46fa8dc86e
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
-=======
 		$registry->register('./src/UI/templates/js/Input/Field/duration.js');
->>>>>>> rename Date to DateTime
 	}
 
 
@@ -656,7 +653,9 @@ class Renderer extends AbstractComponentRenderer {
 
 		$input = $input->withAdditionalOnLoadCode(
 			function($id) {
-				return "il.UI.Input.duration.init('$id')";
+				return "$(document).ready(function() {
+					il.UI.Input.duration.init('$id');
+				});";
 			}
 		);
 		$id = $this->bindJavaScript($input);

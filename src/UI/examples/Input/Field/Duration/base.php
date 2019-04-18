@@ -15,7 +15,7 @@ function base() {
 
 	//Step 1: define the input
 	$duration = $ui->input()->field()->duration("Pick a time-span", "This is the byline text");
-	//TODO: $time = $duration->withTimeOnly(true);
+	$time = $duration->withTimeOnly(true);
 
 	//Step 2: define form and form actions, attach the input
 	$ctrl->setParameterByClass(
@@ -27,7 +27,8 @@ function base() {
 	$form = $ui->input()->container()->form()->standard(
 		$form_action,
 		[
-			'duration'=>$duration
+			'duration'=>$duration,
+			'time'=>$time
 		]
 	);
 
@@ -35,13 +36,16 @@ function base() {
 	if ($request->getMethod() == "POST"
 		&& $request->getQueryParams()['example_name'] == "duration") {
 		$form = $form->withRequest($request);
-		$group = $form->getInputs()["duration"];
-        if($group->getError()){
-            $result = $group->getError();
-        }else{
-            //The result is sumarized through the transformation
-            $result = $form->getData();
-        }
+		$groups = $form->getInputs(); //["duration"]
+		foreach ($groups as $group) {
+
+			if($group->getError()){
+				$result = $group->getError();
+			}else{
+				//The result is sumarized through the transformation
+				$result = $form->getData();
+			}
+		};
 	}
 	else {
 		$result = "No result yet.";

@@ -492,12 +492,11 @@ interface Factory {
 	 *     indicating the specified format.
 	 *     Next to the text field, a Calendar Glyph will trigger a popover containing
 	 *     a graphical selector/date-picker.
-	 *     Depending on the given format, next to the date-picker a time-picker will be shown.
-	 *     If desired, the DateTime Input can be rendered with the Time Glyph instead of the Calendar Glyph.
+	 *     Depending on configuration (withTimeOnly), next to the date-picker a
+	 *     time-picker will be shown.
 	 *   effect: >
 	 *     When clicking the glyph, a popover is shown with the days of the month.
 	 *     Within the popover, the user may navigate to prior and following months.
-	 *     When format contains time-values, the picker is rendered with a time-selection.
 	 *   rivals:
 	 *     Text field: Text Felds MUST NOT be used to input date-strings.
 	 *
@@ -525,7 +524,7 @@ interface Factory {
 	 *   composition: >
 	 *     A Duration Input is composed as a group of two DateTime Inputs.
 	 *   effect: >
-	 *     Dependant on the format, the inputs will accept dates, times or datetimes.
+	 *     According to configuration, the inputs will accept dates, times or datetimes.
 	 *     The start point must take place before the endpoint.
 	 *     Invalid input will be corrected automatically.
 	 *
@@ -534,7 +533,7 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: When used as with time-only inputs, the glyph MUST be Time Glyph.
+	 *     1: When used with time-only inputs, the glyph MUST be Time Glyph.
 	 *
 	 * ---
 	 * @param string 	$label   defines the label.
