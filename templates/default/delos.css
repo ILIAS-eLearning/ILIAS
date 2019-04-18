@@ -8685,6 +8685,130 @@ ul.breadcrumb li:hover {
 .il-standard-form textarea {
   height: 76px;
 }
+.il-filter .col-md-4 {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.il-filter .glyphicon-ok {
+  font-size: unset;
+  text-align: unset;
+}
+.il-filter input {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.il-filter .input-group {
+  width: 100%;
+  height: 25px;
+  table-layout: fixed;
+}
+.il-filter .leftaddon {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 30%;
+}
+.il-filter .rightaddon {
+  overflow: visible;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 10%;
+}
+.il-filter-bar {
+  padding: 3px 12px;
+}
+.il-filter-bar .il-toggle-button {
+  height: 13px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.il-filter-bar .il-toggle-button .il-toggle-switch {
+  width: 19px;
+  height: 19px;
+}
+.il-filter-bar .btn-bulky {
+  display: inline-flex;
+  width: auto;
+  background-color: initial;
+  font-size: 14px;
+  border-width: 0;
+}
+.il-filter-bar .btn-bulky.disabled .bulky-label {
+  color: #b0b0b0;
+}
+.il-filter-bar .glyph {
+  padding-right: 0.3em;
+}
+.il-filter-bar-controls {
+  float: right;
+}
+.il-filter-inputs-active {
+  background-color: #f9f9f9;
+  padding: 3px 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.il-filter-inputs-active span {
+  display: inline-block;
+  margin: 3px 8px 3px 0;
+  padding: 0 8px;
+  float: left;
+  background-color: #ffffff;
+  font-size: 0.8em;
+}
+.il-filter-input-section {
+  border-top: 1px solid #dddddd;
+}
+.il-filter-field {
+  cursor: text;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@media (max-width: 768px) {
+  .il-filter-bar-controls .bulky-label {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .il-filter .webui-popover {
+    position: static;
+    max-width: none;
+  }
+  .il-filter .webui-popover.bottom > .webui-arrow,
+  .il-filter .webui-popover.bottom-right > .webui-arrow,
+  .il-filter .webui-popover.bottom-left > .webui-arrow {
+    display: none;
+  }
+  .il-filter .webui-popover.bottom,
+  .il-filter .webui-popover.bottom-left,
+  .il-filter .webui-popover.bottom-right {
+    padding: 4px;
+    margin-top: 0;
+    border: 0;
+    box-shadow: none;
+    background-color: #f9f9f9;
+  }
+}
+.il-filter.disabled .input-group-addon {
+  background-color: #ffffff;
+  color: #b0b0b0;
+}
+.il-filter.disabled .input-group span.form-control {
+  color: #b0b0b0;
+}
+.il-filter-add-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.il-filter-add-list ul li > button {
+  padding: 6px 12px;
+  display: block;
+  width: 100%;
+}
 .il-table-presentation-viewcontrols {
   display: flex;
   flex-wrap: wrap;

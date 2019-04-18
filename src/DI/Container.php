@@ -255,6 +255,14 @@ class Container extends \Pimple\Container {
 
 
 	/**
+	 * @return \ilUIService
+	 */
+	public function uiService() {
+		return new \ilUIService($this->http()->request(), $this->ui());
+	}
+
+
+	/**
 	 * Note: Only use isDependencyAvailable if strictly required. The need for this,
 	 * mostly points to some underlying problem needing to be solved instead of using this.
 	 * This was introduced as temporary workaround. See: https://github.com/ILIAS-eLearning/ILIAS/pull/1064

@@ -43,4 +43,38 @@ class Text extends Input implements C\Input\Field\Text {
 	protected function getConstraintForRequirement() {
 		return $this->validation_factory->hasMinLength(1);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+			return $code;
+		};
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->withTriggeredSignal($signal, 'update');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->appendTriggeredSignal($signal, 'update');
+	}
 }
