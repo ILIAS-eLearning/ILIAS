@@ -18,7 +18,7 @@ class ilEventParticipants
 	var $lng;
 
 	protected $contact = 0;
-	
+
 	protected $registered = array();
 	protected $participated = array();
 
@@ -28,7 +28,12 @@ class ilEventParticipants
 	protected $contacts = [];
 
 	var $event_id = null;
-	
+
+	/**
+	 * @var boolean
+	 */
+	private $notificationEnabled;
+
 	/**
 	 * Constructor
 	 * @param int $a_event_id
@@ -107,6 +112,21 @@ class ilEventParticipants
 		return $this->contact;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	public function isNotificationEnabled()
+	{
+		return (bool) $this->notificationEnabled;
+	}
+
+	/**
+	 * @param boolean $value
+	 */
+	public function setNotificationEnabled($value)
+	{
+		$this->notificationEnabled = (bool) $value;
+	}
 
 	function updateUser()
 	{
@@ -119,13 +139,15 @@ class ilEventParticipants
 			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,contact ".
+		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,contact,notification_enabled".
 			") VALUES( ".
 			$ilDB->quote($this->getEventId() ,'integer').", ".
 			$ilDB->quote($this->getUserId() ,'integer').", ".
 			$ilDB->quote($this->getRegistered() ,'integer').", ".
 			$ilDB->quote($this->getParticipated() ,'integer'). ', '.
-			$ilDB->quote($this->getContact(),'integer').' '.
+			$ilDB->quote($this->getContact(),'integer').', '.
+			$ilDB->quote($this->getParticipated() ,'integer'). ", ".
+			$ilDB->quote($this->isNotificationEnabled() ,'integer') .
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -445,7 +467,9 @@ class ilEventParticipants
 			$lp_mark = new ilLPMarks($this->getEventId(), $row->usr_id);
 			$this->participants[$row->usr_id]['mark'] = $lp_mark->getMark();
 			$this->participants[$row->usr_id]['comment'] = $lp_mark->getComment();
-			
+
+			$this->participants[$row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
+
 			
 			if($row->registered)
 			{

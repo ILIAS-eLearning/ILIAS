@@ -70,3 +70,18 @@ if ($ilDB->tableExists('event'))
 	);
 }
 ?>
+<#7>
+<?php
+if ($ilDB->tableExists('event_participants'))
+{
+	$ilDB->addTableColumn(
+		'event_participants',
+		'notification_enabled', array(
+			'type'    => 'integer',
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+?>
+

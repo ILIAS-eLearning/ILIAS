@@ -170,8 +170,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 
 		$this->addColumn($this->lng->txt('trac_mark'),'mark');
 	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
-		
-		
+
+
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
 		$this->lng->loadLanguageModule('user');
 		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
@@ -291,8 +291,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 				if (ilSessionConstants::NOTIFICATION_MANUAL_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
 					$notificationEnabled = true;
 				}
-				$tmp_data['notification_enabled'] = $notificationEnabled;
-				$tmp_data['notification_checked'] = false;
+				$tmp_data['notification_globally_enabled'] = $notificationEnabled;
+				$tmp_data['notification_checked'] = $usr_data['notification_enabled'];
 			}
 			$tmp_data['show_notification'] = $notificationShown;
 
@@ -406,6 +406,15 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		
 			}
 		}
+
+		if (true === $a_set['show_notification']) {
+			$this->tpl->setCurrentBlock('notification_column');
+			$this->tpl->setVariable('VAL_ID', $a_set['id']);
+			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['notification_checked'] ? 'checked="checked"' : '');
+			$this->tpl->setVariable('NOTIFICATION_ENABLED',$a_set['notification_globally_enabled'] ? '' : 'disabled');
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('LASTNAME',$a_set['lastname']);
 		$this->tpl->setVariable('FIRSTNAME',$a_set['firstname']);
