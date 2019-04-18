@@ -1,9 +1,0 @@
-.DS_Store
-.cache
-coverage
-.devserver
-node_modules
-/index.css
-umd
-esm
-themes

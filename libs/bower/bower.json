@@ -40,8 +40,7 @@
     "typeahead.js": "^0.11.1",
     "pouchdb": "^6.3.4",
     "openlayers": "^4.6.4",
-    "owl.carousel": "^2.3.3",
-    "tippyjs": "^4.2"
+    "owl.carousel": "^2.3.3"
   },
   "extra": {
     "pouchdb": {
@@ -225,14 +224,6 @@
       "developer": "akill",
       "purpose": "Accordion Service",
       "last-update-for-ilias": "5.3.4"
-    },
-    "tippyjs": {
-      "introduction-date": "2019-03-28",
-      "approved-by": "Jour Fixe",
-      "developer": "mjansen",
-      "purpose": "UI Service Tooltip",
-      "last-update-for-ilias": "6.0.0",
-      "note": ""
     }
   }
 }

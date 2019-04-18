@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "tippy.js": "^4.2.1"
+  },
+  "exta": {
+    "tippyjs": {
+      "introduction-date": "2019-03-28",
+      "approved-by": "Jour Fixe",
+      "developer": "mjansen",
+      "purpose": "UI Service Tooltip",
+      "last-update-for-ilias": "6.0.0",
+      "note": ""
+    }
+  }
+}
