@@ -56,7 +56,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 		$dic = $this->dic;
 		$entries = [];
 		$this->dic->language()->loadLanguageModule('administration');
-
+		
 		list($groups, $titems) = $this->getGroups();
 
 		foreach ($groups as $group => $group_items) {

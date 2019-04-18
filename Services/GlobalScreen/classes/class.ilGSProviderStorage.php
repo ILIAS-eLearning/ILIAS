@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Provider\Provider;
+
 /**
  * Class ilGSProviderStorage
  *
