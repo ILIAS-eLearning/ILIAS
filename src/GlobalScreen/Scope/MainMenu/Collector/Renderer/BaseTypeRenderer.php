@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
@@ -37,8 +38,11 @@ class BaseTypeRenderer implements TypeRenderer {
 	/**
 	 * @return \ILIAS\UI\Component\Icon\Standard
 	 */
-	protected function getStandardIcon(): \ILIAS\UI\Component\Icon\Icon {
-		return $this->ui_factory->icon()->standard('ILIAS', 'ILIAS');
-		// return $this->ui_factory->icon()->custom('./templates/default/images/icon_transparent.svg', '');
+	protected function getStandardIcon(isItem $item): \ILIAS\UI\Component\Icon\Icon {
+		if ($item instanceof hasIcon && $item->hasIcon()) {
+			return $item->getIcon();
+		}
+
+		return $this->ui_factory->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", 'ILIAS', 'small', true);
 	}
 }

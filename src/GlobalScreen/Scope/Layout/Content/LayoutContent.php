@@ -120,11 +120,7 @@ class LayoutContent {
 		}
 
 		$main_bar = $main_bar->withMoreButton(
-			$f->button()->bulky(
-				$f
-					->glyph()
-					->add(), 'more', "#"
-			)
+			$f->button()->bulky($f->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#")
 		);
 
 		return $main_bar;
