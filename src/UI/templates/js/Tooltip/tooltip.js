@@ -11,7 +11,7 @@ il.UI = il.UI || {};
 
 	UI.tooltip = (function ($) {
 
-		let defaultOptions = {
+		const defaultOptions = {
 			placement: "top",
 			interactive: true,
 			arrow: true,
@@ -30,7 +30,7 @@ il.UI = il.UI || {};
 		 * @param signalData Object containing all data from the signal
 		 * @param options Object with tooltip options
 		 */
-		let showFromSignal = function (signalData, options) {
+		const showFromSignal = function (signalData, options) {
 			let $triggerer = signalData.triggerer;
 
 			if (!$triggerer.length) {
@@ -48,7 +48,7 @@ il.UI = il.UI || {};
 		 * @param options Object with tooltip options
 		 * @returns {boolean} True if the tooltip has already been initialized, false otherwise
 		 */
-		let show = function ($triggerer, options) {
+		const show = function ($triggerer, options) {
 			let triggererId = $triggerer.attr('id');
 
 			options = $.extend({}, defaultOptions, options);
