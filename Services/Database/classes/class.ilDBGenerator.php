@@ -238,11 +238,9 @@ class ilDBGenerator {
 
 
 	protected function openFile($a_path) {
-		global $DIC;
-		$ilDB = $DIC->database();
 		if (1) {
 			$file = fopen($a_path, "w");
-			$start .= "\t" . $ilDB . "\n\n";
+			$start .= "\t" . 'global $ilDB;' . "\n\n";
 			fwrite($file, $start);
 
 			return $file;
@@ -250,7 +248,7 @@ class ilDBGenerator {
 
 		$file = fopen($a_path, "w");
 		$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-		$start .= "\t" . $ilDB . "\n\n";
+		$start .= "\t" . 'global $ilDB;' . "\n\n";
 		fwrite($file, $start);
 
 		return $file;
@@ -290,9 +288,7 @@ class ilDBGenerator {
 			$file = fopen($a_filename, "w");
 
 			$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-			global $DIC;
-			$ilDB = $DIC->database();
-			$start .= "\t" . $ilDB . "\n\n";
+			$start .= "\t" . 'global $ilDB;' . "\n\n";
 			fwrite($file, $start);
 		} elseif ($isDirectory) {
 			;

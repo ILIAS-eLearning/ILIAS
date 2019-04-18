@@ -24,7 +24,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 	private $name_source;
 
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->name_source = new DefNamesource();
 	}
 
@@ -39,7 +39,9 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_implements_factory_interface() {
 		$f = $this->buildFactory();
 
@@ -48,7 +50,9 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-
+	/**
+	 *
+	 */
 	public function test_render() {
 		$f = $this->buildFactory();
 		$label = "label";
@@ -154,17 +158,17 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 
 		$raw_value1 = ["lorem", "ipsum",];
-		$tag1 = $tag->withInput(new DefPostData([$name => $raw_value1]));
+		$tag1 = $tag->withInput(new DefInputData([$name => $raw_value1]));
 		$value1 = $tag1->getContent();
 		$this->assertTrue($value1->isOk());
 		$value = $value1->value();
 		$this->assertEquals($raw_value1, $value);
 
-		$tag2 = $tag->withInput(new DefPostData([$name => []]));
+		$tag2 = $tag->withInput(new DefInputData([$name => []]));
 		$value2 = $tag2->getContent();
 		$this->assertTrue($value2->isError());
 
-		$tag2 = $tag->withInput(new DefPostData([$name => null]));
+		$tag2 = $tag->withInput(new DefInputData([$name => null]));
 		$value2 = $tag2->getContent();
 		$this->assertTrue($value2->isError());
 	}
@@ -176,7 +180,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$tag = $f->tag("label", $tags)->withUserCreatedTagsAllowed(false)->withNameFrom($this->name_source);
 
 		$tag1 = $tag->withInput(
-			new DefPostData(
+			new DefInputData(
 				["name_0" => ["lorem", "ipsum",],]
 			)
 		);
@@ -188,7 +192,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		);
 
 		$tag1 = $tag->withInput(
-			new DefPostData(
+			new DefInputData(
 				["name_0" => ["conseptetuer", "ipsum",],]
 			)
 		);
@@ -201,7 +205,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$f = $this->buildFactory();
 
 		$tag = $f->tag("label", [])->withMaxTags(3)->withNameFrom($this->name_source)->withInput(
-			new DefPostData(["name_0" => ["lorem", "ipsum",],])
+			new DefInputData(["name_0" => ["lorem", "ipsum",],])
 		);
 		$value = $tag->getContent();
 		$this->assertTrue($value->isOk());
@@ -213,7 +217,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 
 		$this->expectException(\InvalidArgumentException::class);
 		$f->tag("label", [])->withMaxTags(2)->withNameFrom($this->name_source)->withInput(
-			new DefPostData(
+			new DefInputData(
 				["name_0" => ["lorem", "ipsum", "dolor",],]
 			)
 		);
@@ -224,7 +228,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$f = $this->buildFactory();
 
 		$tag = $f->tag("label", [])->withTagMaxLength(10)->withNameFrom($this->name_source)->withInput(
-			new DefPostData(["name_0" => ["lorem", "ipsum",],])
+			new DefInputData(["name_0" => ["lorem", "ipsum",],])
 		);
 		$value = $tag->getContent();
 		$this->assertTrue($value->isOk());
@@ -236,7 +240,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 
 		$this->expectException(\InvalidArgumentException::class);
 		$f->tag("label", [])->withTagMaxLength(2)->withNameFrom($this->name_source)->withInput(
-			new DefPostData(
+			new DefInputData(
 				["name_0" => ["lorem", "ipsum", "dolor",],]
 			)
 		);

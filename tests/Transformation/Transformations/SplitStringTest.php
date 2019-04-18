@@ -3,22 +3,23 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Transformation;
+use PHPUnit\Framework\TestCase;
 
 /**
  * TestCase for SplitString transformations
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class SplitStringTest extends PHPUnit_Framework_TestCase {
+class SplitStringTest extends TestCase {
 	const STRING_TO_SPLIT = "I am#a test string#for split";
 	protected static $result = array("I am", "a test string", "for split");
 
-	protected function setUp() {
+	protected function setUp(): void{
 		$this->f = new Transformation\Factory();
 		$this->split_string = $this->f->splitString("#");
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->f = null;
 		$this->split_string = null;
 	}

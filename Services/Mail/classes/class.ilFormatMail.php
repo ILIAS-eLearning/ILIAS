@@ -37,14 +37,14 @@ class ilFormatMail extends ilMail
 		{
 			return false;
 		}
-#		debug($this->mail_data["m_message"]);
-		$bodylines = explode(chr(13).chr(10), $this->mail_data["m_message"]);
-#		var_dump("<pre>",$bodylines,"</pre");
+
+		$bodylines = preg_split("/\r\n|\n|\r/", $this->mail_data["m_message"]);
 		for ($i = 0; $i < count($bodylines); $i++)
 		{
 			$bodylines[$i] = "> ".$bodylines[$i];
 		}
-		return $this->mail_data["m_message"] = implode(chr(13).chr(10), $bodylines);
+
+		return $this->mail_data["m_message"] = implode(chr(10), $bodylines);
 	}
 
 	/**

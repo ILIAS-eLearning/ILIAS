@@ -1,6 +1,6 @@
 <?php
 
-class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
+class ilCertificateMigrationTest extends ilCertificateBaseTestCase
 {
 	public function testGetTaskInformations()
 	{

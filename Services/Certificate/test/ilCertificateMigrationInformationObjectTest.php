@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateMigrationInformationObjectTest extends PHPUnit_Framework_TestCase
+class ilCertificateMigrationInformationObjectTest extends ilCertificateBaseTestCase
 {
 	public function testCreatingObjectAndReceiveData()
 	{

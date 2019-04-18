@@ -74,36 +74,23 @@ class SortationTest extends ILIAS_UI_TestBase {
 	{
 		$expected = <<<EOT
 <div class="il-viewcontrol-sortation" id=""><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button><ul class="dropdown-menu">
-	<li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1"  >Best</button></li>
-	<li><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2"  >Most Recent</button></li>
-	<li><button class="btn btn-link" data-action="?sortation=date_asc" id="id_3"  >Oldest</button></li></ul></div>
+	<li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
+	<li><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
+	<li><button class="btn btn-link" data-action="?sortation=date_asc" id="id_3">Oldest</button></li></ul></div>
 </div>
 EOT;
 		return $this->normalizeHTML($expected);
 	}
 
 	public function getUIFactory() {
-		return new \ILIAS\UI\Implementation\Factory(
-			$this->createMock(C\Counter\Factory::class),
-			$this->createMock(C\Glyph\Factory::class),
-			new I\Component\Button\Factory,
-			$this->createMock(C\Listing\Factory::class),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			new I\Component\Dropdown\Factory,
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
-		);
+		$factory = new class extends NoUIFactory {
+			public function button() {
+				return new I\Component\Button\Factory();
+			}
+			public function dropdown() {
+				return new I\Component\Dropdown\Factory();
+			}
+		};
+		return $factory;
 	}
 }

@@ -32,7 +32,7 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	 */
 	public function __construct(Container $dic) {
 		parent::__construct($dic);
-		$this->mainmenu = $this->globalScreen()->mainmenu();
+		$this->mainmenu = $this->globalScreen()->mainBar();
 		$this->if = $this->globalScreen()->identification()->core($this);
 	}
 

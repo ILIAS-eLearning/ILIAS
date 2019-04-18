@@ -19,7 +19,7 @@ class TextareaTest extends ILIAS_UI_TestBase {
 	 */
 	private $name_source;
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->name_source = new DefNamesource();
 	}
 
@@ -282,7 +282,7 @@ class TextareaTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$text = $f->textarea("")
 			->withNameFrom($this->name_source)
-			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+			->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 
 		$content = $text->getContent();
 		$this->assertEquals("alert()", $content->value());

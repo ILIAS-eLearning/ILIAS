@@ -1,14 +1,16 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group needsInstalledILIAS 
  */
-class ilObjectDefinitionTest extends PHPUnit_Framework_TestCase
+class ilObjectDefinitionTest extends TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();

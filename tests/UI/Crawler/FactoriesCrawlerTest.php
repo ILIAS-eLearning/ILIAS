@@ -5,9 +5,9 @@ require_once("libs/composer/vendor/autoload.php");
 include_once("tests/UI/Crawler/Fixture/Fixture.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
+use PHPUnit\Framework\TestCase;
 
-
-class FactoriesCrawlerTest extends PHPUnit_Framework_TestCase {
+class FactoriesCrawlerTest extends TestCase {
 
 
 	/**
@@ -16,7 +16,7 @@ class FactoriesCrawlerTest extends PHPUnit_Framework_TestCase {
 	protected $crawler;
 
 
-	protected function setUp(){
+	protected function setUp(): void {
 		$this->crawler = new Crawler\FactoriesCrawler();
 	}
 

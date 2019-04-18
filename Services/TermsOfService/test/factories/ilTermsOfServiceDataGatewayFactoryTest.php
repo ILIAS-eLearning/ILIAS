@@ -17,22 +17,22 @@ class ilTermsOfServiceDataGatewayFactoryTest extends \ilTermsOfServiceBaseTest
 	}
 
 	/**
-	 * @expectedException \ilTermsOfServiceMissingDatabaseAdapterException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies()
 	{
-		$this->assertException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
+		$this->expectException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
 
 		$factory = new \ilTermsOfServiceDataGatewayFactory();
 		$factory->getByName('PHP Unit');
 	}
 
 	/**
-	 * @expectedException \InvalidArgumentException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested()
 	{
-		$this->assertException(\InvalidArgumentException::class);
+		$this->expectException(\InvalidArgumentException::class);
 
 		$factory = new \ilTermsOfServiceDataGatewayFactory();
 		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());

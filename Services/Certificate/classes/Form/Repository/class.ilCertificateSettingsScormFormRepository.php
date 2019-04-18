@@ -57,7 +57,6 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 				$object->getId(),
 				$certificatePath,
 				$language,
-				$template,
 				$controller,
 				$access,
 				$toolbar,

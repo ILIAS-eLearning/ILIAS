@@ -32,10 +32,10 @@
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
-		"phpunit/phpunit": "^5.7",
-		"phpunit/php-code-coverage": "^4.0",
-		"mockery/mockery": "^0.9.9",
-		"phpunit/php-token-stream": "^1.4",
+		"phpunit/phpunit": "^8.0",
+		"phpunit/php-code-coverage": "^7.0",
+		"mockery/mockery": "^1.2",
+		"phpunit/php-token-stream": "^3.0",
 		"phpdocumentor/reflection-docblock": "^3.3"
 	},
 	"autoload": {

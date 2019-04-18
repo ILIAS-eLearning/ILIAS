@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
@@ -8,6 +9,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 
@@ -51,14 +53,12 @@ class ilMMItemRepository {
 	/**
 	 * ilMMItemRepository constructor.
 	 *
-	 * @param StorageFacade $storage
-	 *
 	 * @throws Throwable
 	 */
-	public function __construct(StorageFacade $storage) {
+	public function __construct() {
 		global $DIC;
-		$this->storage = $storage;
-		$this->gs = new ilGSRepository($storage);
+		$this->storage = new CoreStorageFacade();
+		$this->gs = new ilGSRepository();
 		$this->information = new ilMMItemInformation($this->storage);
 		$this->providers = $this->initProviders();
 		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
@@ -80,8 +80,8 @@ class ilMMItemRepository {
 	 *
 	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
 	 */
-	public function getEmptyItemForTypeString(string $class_name): \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem {
-		return $this->services->mainmenu()->custom($class_name, new  NullIdentification());
+	public function getEmptyItemForTypeString(string $class_name): isItem {
+		return $this->services->mainBar()->custom($class_name, new  NullIdentification());
 	}
 
 
@@ -120,7 +120,7 @@ class ilMMItemRepository {
 	private function initProviders(): array {
 		$providers = [];
 		// Core
-		foreach (ilGSProviderStorage::get() as $provider_storage) {
+		foreach (ilGSProviderStorage::where(['purpose' => 'mainmenu'])->get() as $provider_storage) {
 			/**
 			 * @var $provider_storage ilGSProviderStorage
 			 */
@@ -325,7 +325,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 * @return TypeHandler
 	 */
 	public function getTypeHandlerForType(string $type): TypeHandler {
-		$item = $this->services->mainmenu()->custom($type, new NullIdentification());
+		$item = $this->services->mainBar()->custom($type, new NullIdentification());
 
 		return $this->main_collector->getHandlerForItem($item);
 	}

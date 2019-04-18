@@ -70,7 +70,6 @@ class ilExSubmission
 		$this->is_tutor = (bool)$a_is_tutor;
 		$this->public_submissions = (bool)$a_public_submissions;
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$this->state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $a_user_id);
 		
 		if($a_ass->hasTeam())

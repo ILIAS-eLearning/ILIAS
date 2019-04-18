@@ -103,6 +103,14 @@ class ilContextScorm implements ilContextTemplate
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public static function isSessionMainContext()
+	{
+		return false;
+	}
+
 }
 
 ?>

@@ -25,65 +25,56 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 	const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
 
 
-	/**
-	 * ilMMTopItemGUI constructor.
-	 *
-	 * @param ilMMTabHandling $tab_handling
-	 */
-	public function __construct(ilMMTabHandling $tab_handling) {
-		global $DIC;
-
-		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
-		$this->tab_handling = $tab_handling;
-		$this->tabs = $DIC['ilTabs'];
-		$this->lng = $DIC->language();
-		$this->ctrl = $DIC['ilCtrl'];
-		$this->tpl = $DIC['tpl'];
-		$this->tree = $DIC['tree'];
-		$this->rbacsystem = $DIC['rbacsystem'];
-		$this->toolbar = $DIC['ilToolbar'];
-	}
-
-
 	private function dispatchCommand($cmd) {
 		global $DIC;
 		switch ($cmd) {
 			case self::CMD_VIEW_TOP_ITEMS:
+				$this->access->checkAccessAndThrowException("visible,read");
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
 
 				return $this->index($DIC);
 			case self::CMD_ADD:
+				$this->access->checkAccessAndThrowException("write");
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
 				return $this->add($DIC);
 			case self::CMD_CREATE:
+				$this->access->checkAccessAndThrowException("write");
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
 				return $this->create($DIC);
 			case self::CMD_EDIT:
+				$this->access->checkAccessAndThrowException("write");
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
 				return $this->edit($DIC);
 			case self::CMD_UPDATE:
+				$this->access->checkAccessAndThrowException("write");
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
 				return $this->update($DIC);
 			case self::CMD_SAVE_TABLE:
+				$this->access->checkAccessAndThrowException("write");
 				$this->saveTable();
 
 				break;
 			case self::CMD_CONFIRM_DELETE:
+				$this->access->checkAccessAndThrowException("write");
+
 				return $this->confirmDelete();
 			case self::CMD_DELETE:
+				$this->access->checkAccessAndThrowException("write");
 				$this->delete();
 				break;
 			case self::CMD_CANCEL:
 				$this->cancel();
 				break;
 			case self::CMD_RESTORE:
+				$this->access->checkAccessAndThrowException("write");
 				$this->restore();
 				break;
 			case self::CMD_RENDER_INTERRUPTIVE:
+				$this->access->checkAccessAndThrowException("write");
 				$this->renderInterruptiveModal();
 				break;
 		}
@@ -134,10 +125,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 	 */
 	private function index(\ILIAS\DI\Container $DIC): string {
 		// ADD NEW
-		$b = ilLinkButton::getInstance();
-		$b->setCaption($this->lng->txt(self::CMD_ADD), false);
-		$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
-		$this->toolbar->addButtonInstance($b);
+		if ($this->access->hasUserPermissionTo('write')) {
+			$b = ilLinkButton::getInstance();
+			$b->setCaption($this->lng->txt(self::CMD_ADD), false);
+			$b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
+			$this->toolbar->addButtonInstance($b);
+		}
 
 		// RESTORE
 		$b = ilLinkButton::getInstance();
@@ -146,7 +139,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 		// $this->toolbar->addButtonInstance($b);
 
 		// TABLE
-		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()));
+		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository(), $this->access);
 		$table->setShowRowsSelector(false);
 
 		return $table->getHTML();

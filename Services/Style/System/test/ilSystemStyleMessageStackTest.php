@@ -4,12 +4,14 @@
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessage.php");
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Tomasz Kolonko <thomas.kolonko@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSystemStyleMessageStackTest extends PHPUnit_Framework_TestCase {
+class ilSystemStyleMessageStackTest extends TestCase {
 
 	/**
 	 * @var ilSystemStyleMessage

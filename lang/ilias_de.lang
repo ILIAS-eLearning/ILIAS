@@ -5361,6 +5361,7 @@ crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten M
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
 crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
+grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
 crs#:#crs_link_hide_next_sessions#:#Zukünftige Sitzungen ausblenden
 crs#:#crs_link_hide_prev_sessions#:#Vergangene Sitzungen ausblenden
 crs#:#crs_link_show_all_next_sessions#:#Alle zukünftigen Sitzungen anzeigen
@@ -13089,7 +13090,8 @@ buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen:
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
 buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage ignorieren:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage ignorieren
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR]Link zum Persönlichen Profil: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
@@ -15042,8 +15044,8 @@ content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
 sess#:#sess_assign#:#Zuordnen
 common#:#certificate_selection#:#Ursprung der Zertifikate
-common#:#certificate_persistent_option#:#Persistente Zertifikate
-common#:#certificate_workspace_option#:#Arbeitsraum Zertifikate
+common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
+common#:#certificate_workspace_option#:#Zertifikate aus dem Arbeitsraum
 common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
 common#:#certificate_file_not_found_error#:#Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
@@ -15052,3 +15054,44 @@ certificate#:#persistent_certificate_mode_cron#:#Cron-Job
 certificate#:#persistent_certificate_mode_cron_info#:#Diese Option wird für Systeme mit hohen Benutzerinteraktion empfohlen
 certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteratkion empfohlen. Für System die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
+task#:#task_derived_tasks#:#To-Do
+task#:#task_tasks_with_deadline#:#Mit Endtermin
+task#:#task_tasks_without_deadline#:#Ohne Endtermin
+task#:#task_deadline#:#Ende
+task#:#task_no_tasks#:#Sie haben derzeit keine offenen To-Do.
+task#:#task_start#:#Beginn
+task#:#task_task#:#Aufgabe
+task#:#task_details#:#Details
+pd#:#block_show_pdtasks#:#To-Do anzeigen
+exc#:#exc_task_submission#:#Abgabe zur Übungseinheit "%1"
+exc#:#exc_task_grading#:#Bewertung der Übungseinheit "%1"
+exc#:#exc_task_peer_feedback#:#Peer-Feedback geben in Übungseinheit "%1"
+content#:#cont_Attention#:#Achtung
+content#:#cont_Confirmation#:#Bestätigung
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literatur
+content#:#cont_Separator#:#Begrenzer
+content#:#cont_StandardCenter#:#Standard Zentriert
+content#:#cont_Interaction#:#Interaktion
+content#:#cont_Background#:#Hintergrund
+mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
+survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
+survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
+sess#:#sess_material_assigned#:#Zugeordnet
+sess#:#sess_material_not_assigned#:#Nicht zugeordnet
+rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
+rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
+rbac#:#lso_manage_members#:#Mitglieder bearbeiten
+rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
+common#:#unparticipate#:#Abmelden
+common#:#participate#:#Anmelden
+rbac#:#lso_participate#:#An der Lernsequenz anmelden
+rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
+rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
+user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
+user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
+lti#:#lti_cron_title#:#LTI Outcome Service
+lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
+dateplaner#:#cal_usr_info#:#Informationen zum Termin

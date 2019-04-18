@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateValueReplacementTest extends \PHPUnit_Framework_TestCase
+class ilCertificateValueReplacementTest extends ilCertificateBaseTestCase
 {
 	public function testReplace()
 	{

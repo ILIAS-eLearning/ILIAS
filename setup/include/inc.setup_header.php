@@ -194,6 +194,9 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.table"],
 		$c["ui.factory.messagebox"],
 		$c["ui.factory.card"],
+		$c["ui.factory.layout"],
+		$c["ui.factory.maincontrols"],
+		$c["ui.factory.tree"],
 		$c["ui.factory.tooltip"]
 	);
 };
@@ -263,6 +266,24 @@ $c["ui.factory.messagebox"] = function($c) {
 };
 $c["ui.factory.card"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Card\Factory();
+};
+$c["ui.factory.layout"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Layout\Factory();
+};
+$c["ui.factory.maincontrols.slate"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MainControls\Slate\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.counter']
+	);
+};
+$c["ui.factory.maincontrols"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MainControls\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.maincontrols.slate']
+	);
+};
+$c["ui.factory.tree"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
 };
 $c["ui.factory.progressmeter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();

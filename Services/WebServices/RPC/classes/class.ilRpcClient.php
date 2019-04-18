@@ -91,7 +91,7 @@ class ilRpcClient
 			$curl = new ilCurlConnection($this->url);
 			$curl->init();
 			$curl->setOpt(CURLOPT_HEADER, 'Content-Type: text/xml');
-			$curl->setOpt(CURLOPT_POST, sizeof($post_data));
+			$curl->setOpt(CURLOPT_POST, (strlen($post_data) > 0));
 			$curl->setOpt(CURLOPT_POSTFIELDS, $post_data);
 			$curl->setOpt(CURLOPT_RETURNTRANSFER , 1);
 

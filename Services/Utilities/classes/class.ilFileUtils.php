@@ -706,6 +706,7 @@ class ilFileUtils
 			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
+			'obj',					// Wavefront .obj file
 			'obm',						// SPSS script
 			'odt',   // Open document text,
 			'ods',   // Open document spreadsheet,
@@ -777,6 +778,7 @@ class ilFileUtils
 			'smil',   // APPLICATION__SMIL,
 			'sps',    // SPSS syntax file
 			'spv',    // SPSS output file
+			'stl',				// Stereolithography CAD file
 			'svg',   // IMAGE__SVG_XML,
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,

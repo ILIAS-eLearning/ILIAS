@@ -4607,6 +4607,7 @@ crs#:#crs_info_start#:#Please work through all of the course items stated below.
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
 crs#:#crs_join_request#:#Send
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
 crs#:#crs_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the course:
 crs#:#crs_map_location#:#Course Map Location
 crs#:#crs_map_settings#:#Map
@@ -13088,7 +13089,8 @@ buddysystem#:#buddy_notification_contact_request_link#:#Approve Request:
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
 buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to his friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
@@ -14877,7 +14879,7 @@ lso#:#lso_users_already_assigned#:#The user is already assigned to this learning
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
 lso#:#lso_notification#:#Notification
 lso#:#lso_header_edit_members#:#Edit Members
-lso#:#lso_members_print_title#:#Learning sequence mebers
+lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence administrator.
 lso#:#lso_members_deleted#:#Deleted members
 lso#:#mail_lso_roles#:#Send mails to roles of learning sequence.
@@ -15041,8 +15043,8 @@ content#:#cont_choose_local#:#Local directory
 content#:#cont_choose_upload_dir#:#Upload directory
 sess#:#sess_assign#:#Assign
 common#:#certificate_selection#:#Origin of Certificates
-common#:#certificate_persistent_option#:#Persistent Certificates
-common#:#certificate_workspace_option#:#Workspace Certificates
+common#:#certificate_persistent_option#:#Certificates of Achievements
+common#:#certificate_workspace_option#:#Certificates of Workspace
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
@@ -15051,3 +15053,25 @@ certificate#:#persistent_certificate_mode_cron#:#Cron Job
 certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
 certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+task#:#task_derived_tasks#:#Tasks
+task#:#task_tasks_with_deadline#:#With Deadline
+task#:#task_tasks_without_deadline#:#Without Deadline
+task#:#task_deadline#:#End
+task#:#task_no_tasks#:#You do not have any open tasks.
+task#:#task_start#:#Start
+task#:#task_task#:#Task
+task#:#task_details#:#Details
+pd#:#block_show_pdtasks#:#Show Tasks
+exc#:#exc_task_submission#:#Submission of Assignment "%1"
+exc#:#exc_task_grading#:#Grading of Assignment "%1"
+exc#:#exc_task_peer_feedback#:#Give Peer Feedback in Assignment "%1"
+content#:#cont_Attention#:#Attention
+content#:#cont_Confirmation#:#Confirmation
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literature
+content#:#cont_Separator#:#Separator
+content#:#cont_StandardCenter#:#Standard Center
+content#:#cont_Interaction#:#Interaction
+content#:#cont_Background#:#Background
+dateplaner#:#cal_usr_info#:#Appointment Information

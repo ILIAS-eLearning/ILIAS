@@ -8,11 +8,11 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assClozeTestGUITest extends PHPUnit_Framework_TestCase
+class assClozeTestGUITest extends assBaseTestCase
 {
 	protected $backupGlobals = false;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{

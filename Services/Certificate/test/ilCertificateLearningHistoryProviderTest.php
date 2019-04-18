@@ -1,6 +1,6 @@
 <?php
 
-class ilCertificateLearningHistoryProviderTest extends PHPUnit_Framework_TestCase
+class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 {
 	public function testIsActive()
 	{

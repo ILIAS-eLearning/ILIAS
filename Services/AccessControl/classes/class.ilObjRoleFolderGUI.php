@@ -279,16 +279,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$ilCtrl = $DIC['ilCtrl'];
 		$ilTabs = $DIC['ilTabs'];
 
+		$ilCtrl->saveParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(
 			$this->lng->txt('rbac_back_to_overview'),
 			$this->ctrl->getLinkTarget($this,'roleSearchList')
 		);
-		
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$_REQUEST['copy_source']);
-
-		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
-
 		$form = $this->initCopyBehaviourForm();
 		$this->tpl->setContent($form->getHTML());
 	}

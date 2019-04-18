@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
+
 /**
  * Class ilMMAbstractItemGUI
  *
@@ -9,6 +11,14 @@ class ilMMAbstractItemGUI {
 
 	const IDENTIFIER = 'identifier';
 	use ilMMHasher;
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+	/**
+	 * @var \ILIAS\DI\HTTPServices
+	 */
+	protected $http;
 	/**
 	 * @var ilMMItemRepository
 	 */
@@ -21,10 +31,6 @@ class ilMMAbstractItemGUI {
 	 * @var ilMMTabHandling
 	 */
 	protected $tab_handling;
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
 	/**
 	 * @var ilTabsGUI
 	 */
@@ -45,42 +51,51 @@ class ilMMAbstractItemGUI {
 	 * @var ilTree
 	 */
 	public $tree;
+	/**
+	 * @var ilObjMainMenuAccess
+	 */
+	protected $access;
 
 
 	/**
 	 * ilMMAbstractItemGUI constructor.
 	 *
 	 * @param ilMMTabHandling $tab_handling
+	 *
+	 * @throws Throwable
 	 */
-
 	public function __construct(ilMMTabHandling $tab_handling) {
 		global $DIC;
 
-		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
+		$this->repository = new ilMMItemRepository();
 		$this->tab_handling = $tab_handling;
 		$this->tabs = $DIC['ilTabs'];
 		$this->lng = $DIC->language();
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->tpl = $DIC['tpl'];
 		$this->tree = $DIC['tree'];
-		$this->rbacsystem = $DIC['rbacsystem'];
 		$this->toolbar = $DIC['ilToolbar'];
+		$this->http = $DIC->http();
+		$this->ui = $DIC->ui();
+		$this->access = new ilObjMainMenuAccess();
 	}
 
 
 	/**
 	 * @param string $standard
+	 * @param string $delete
 	 *
 	 * @return string
+	 * @throws ilException
 	 */
 	protected function determineCommand(string $standard, string $delete): string {
-		global $DIC;
+		$this->access->checkAccessAndThrowException('visible,read');
 		$cmd = $this->ctrl->getCmd();
 		if ($cmd !== '') {
 			return $cmd;
 		}
 
-		$r = $DIC->http()->request();
+		$r = $this->http->request();
 		$post = $r->getParsedBody();
 
 		if ($cmd == "" && isset($post['interruptive_items'])) {
@@ -98,9 +113,7 @@ class ilMMAbstractItemGUI {
 	 * @throws Throwable
 	 */
 	protected function getMMItemFromRequest(): ilMMItemFacadeInterface {
-		global $DIC;
-
-		$r = $DIC->http()->request();
+		$r = $this->http->request();
 		$get = $r->getQueryParams();
 		$post = $r->getParsedBody();
 
@@ -117,9 +130,8 @@ class ilMMAbstractItemGUI {
 
 
 	public function renderInterruptiveModal() {
-		global $DIC;
-		$f = $DIC->ui()->factory();
-		$r = $DIC->ui()->renderer();
+		$f = $this->ui->factory();
+		$r = $this->ui->renderer();
 
 		$form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
 		$delete_modal = $f->modal()->interruptive(
@@ -127,9 +139,6 @@ class ilMMAbstractItemGUI {
 			$this->lng->txt(self::CMD_CONFIRM_DELETE),
 			$form_action
 		);
-		//->withAffectedItems(
-		//[$f->modal()->interruptiveItem($ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
-		//);
 
 		echo $r->render([$delete_modal]);
 		exit;

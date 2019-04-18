@@ -21,7 +21,7 @@ class ilWebDAVAuthentication
     {
         global $DIC;
 
-        if($GLOBALS['DIC']['ilAuthSession']->isAuthenticated() && $DIC->user()->getId() != 0)
+        if($DIC['ilAuthSession']->isAuthenticated() && $DIC->user()->getId() != 0)
         {
             ilLoggerFactory::getLogger('webdav')->debug('User authenticated through session. UserID = ' . $DIC->user()->getId());
             return true;
@@ -43,7 +43,7 @@ class ilWebDAVAuthentication
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_HTTP);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $DIC['ilAuthSession'],
             $status,
             $credentials,
             $providers

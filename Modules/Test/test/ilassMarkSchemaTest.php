@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /** 
 * Unit tests for single choice questions
 * 
@@ -10,11 +12,11 @@
 *
 * @ingroup ServicesTree
 */
-class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
+class ilassMarkSchemaTest extends TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{
@@ -258,7 +260,10 @@ class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
                 'Failed on $failed_passed'
             );
         }
-	
+
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	function testSaveToDb_regular()
 	{
 		/*

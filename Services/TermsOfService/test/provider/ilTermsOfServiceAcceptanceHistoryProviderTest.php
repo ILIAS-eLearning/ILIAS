@@ -82,7 +82,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends \ilTermsOfServiceBas
 	}
 
 	/**
-	 *
+	 * @doesNotPerformAssertions
 	 */
 	public function testRetrievingListThrowsExceptionsWhenInvalidArgumentsArePassed()
 	{

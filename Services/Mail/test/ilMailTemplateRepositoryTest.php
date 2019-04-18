@@ -7,14 +7,6 @@
 class ilMailTemplateRepositoryTest extends \ilMailBaseTest
 {
 	/**
-	 *
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
 	 * @return \ilMailTemplate
 	 */
 	public function testEntityCanBeSaved(): \ilMailTemplate
@@ -100,11 +92,11 @@ class ilMailTemplateRepositoryTest extends \ilMailBaseTest
 	}
 
 	/**
-	 * @expectedException \OutOfBoundsException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfNoTemplateCanBeFoundById()
 	{
-		$this->assertException(\OutOfBoundsException::class);
+		$this->expectException(\OutOfBoundsException::class);
 
 		$db = $this->getMockbuilder(\ilDBInterface::class)->getMock();
 		$statement = $this->getMockbuilder(\ilDBStatement::class)->getMock();
