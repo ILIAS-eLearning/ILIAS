@@ -75,7 +75,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 			ilGSIdentificationStorage::registerIdentification($identification, $this);
 		}
 
-		$item = $this->globalScreen()->mainmenu()->custom($storage->getType(), $identification);
+		$item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification);
 
 		if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
 			$item = $item->withTitle($storage->getDefaultTitle());

@@ -4,7 +4,6 @@ use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\InlineCss;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\StandardLayoutDefinition;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
@@ -96,7 +95,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 		$content = $this->legacy_content_template->renderPage($part, $a_fill_tabs, $a_skip_main_menu);
 		$this->layout_content->setContent($this->ui->factory()->legacy($content));
 
-		print $this->ui->renderer()->render([$this->layout_content->getPageForLayoutDefinition($DIC->navigationContext()->stack()->getLast()->getLayoutDefinition())]);
+		print $this->ui->renderer()->render([$this->layout_content->getPageForLayoutDefinition()]);
 	}
 
 

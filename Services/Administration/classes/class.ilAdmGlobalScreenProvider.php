@@ -80,7 +80,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 					}
 
 					$links[] = $this->globalScreen()
-						->mainmenu()
+						->mainBar()
 						->link($identification)
 						->withTitle($titems[$group_item]["title"])
 						->withAction($action)
@@ -89,7 +89,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 
 				// Main entry
 				$entries[] = $this->globalScreen()
-					->mainmenu()
+					->mainBar()
 					->linkList($this->if->identifier('adm_content_' . $group))
 					->withLinks($links)
 					->withTitle($this->dic->language()->txt("adm_" . $group))

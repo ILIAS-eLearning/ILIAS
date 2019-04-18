@@ -109,7 +109,7 @@ class LayoutContent {
 		$f = $this->ui->factory();
 		$main_bar = $f->mainControls()->mainBar();
 
-		$ilMMItemRepository = new \ilMMItemRepository($this->gs->storage());
+		$ilMMItemRepository = new \ilMMItemRepository();
 		foreach ($ilMMItemRepository->getStackedTopItemsForPresentation() as $item) {
 			/**
 			 * @var $slate Combined
@@ -136,11 +136,11 @@ class LayoutContent {
 
 
 	/**
-	 * @param LayoutDefinition $definition
-	 *
 	 * @return Page
 	 */
-	public function getPageForLayoutDefinition(LayoutDefinition $definition): Page {
+	public function getPageForLayoutDefinition(): Page {
+		global $DIC;
+		$definition = $DIC->navigationContext()->stack()->getLast()->getLayoutDefinition();
 		$main_bar = null;
 		$meta_bar = null;
 		$bread_crumbs = null;

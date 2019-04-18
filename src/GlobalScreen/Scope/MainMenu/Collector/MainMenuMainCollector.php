@@ -191,7 +191,7 @@ class MainMenuMainCollector {
 	private function getLostItem(IdentificationInterface $identification): Lost {
 		global $DIC;
 
-		return $DIC->globalScreen()->mainmenu()->custom(Lost::class, new NullIdentification($identification))
+		return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
 			->withAlwaysAvailable(true)
 			->setTypeInformation($this->type_information_collection->get(Lost::class))
 			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
