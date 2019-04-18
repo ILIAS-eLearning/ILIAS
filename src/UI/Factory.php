@@ -764,14 +764,20 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Tooltips can be used ...
+	 *      Tooltips are used to display on other components and should
+	 *      give the users additional information about this component.
+	 *      Tooltips can be used e.g. to give information for the correct
+	 *      input value in a form or an displayed value in a view.
 	 *   composition: >
-	 *     Tooltips ...
+	 *     Tooltips consists of a placement (top, left, right, bottom)
 	 *   effect: >
-	 *     Tooltips are shown by hovering a Triggerer component such as a Button, a Link or Glyph.
+	 *     Tooltips are shown by hovering a Trigger component such as a Button,
+	 *     a Link or Glyph.
 	 * rivals: >
 	 *   Popover: >
-	 *     Popovers ...
+	 *     The display of Popovers are triggered by a click, a Tooltip will be
+	 *     triggered on the hover such a component instead. The tooltip only
+	 *     vanishes if the trigger leaves the hovered area.
 	 * rules:
 	 *   usage:
 	 *     1: >
@@ -782,6 +788,8 @@ interface Factory {
 	 *   interaction:
 	 *     1: >
 	 *        A Tooltip MUST only be displayed if the Trigger component is hovered.
+	 *     2: >
+	 *        A Tooltip MUST NOT displayed if the Trigger component leaves the hovered area.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Tooltip\Factory
