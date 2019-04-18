@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
@@ -23,12 +24,10 @@ class ilGSRepository {
 
 	/**
 	 * ilGSRepository constructor.
-	 *
-	 * @param StorageFacade $storage
 	 */
-	public function __construct(StorageFacade $storage) {
+	public function __construct() {
 		global $DIC;
-		$this->storage = $storage;
+		$this->storage = new CoreStorageFacade();
 		$this->global_screen_services = $DIC->globalScreen();
 	}
 

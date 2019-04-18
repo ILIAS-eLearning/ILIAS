@@ -41,7 +41,7 @@ class Services {
 	 *
 	 * @return MainMenuItemFactory
 	 */
-	public function mainmenu(): MainMenuItemFactory {
+	public function mainBar(): MainMenuItemFactory {
 		return $this->get(MainMenuItemFactory::class);
 	}
 
@@ -51,14 +51,6 @@ class Services {
 	 */
 	public function collector(): CollectorFactory {
 		return $this->get(CollectorFactory::class);
-	}
-
-
-	/**
-	 * @return StorageFacade
-	 */
-	public function storage(): StorageFacade {
-		return $this->get(CoreStorageFacade::class);
 	}
 
 

@@ -139,7 +139,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 		// $this->toolbar->addButtonInstance($b);
 
 		// TABLE
-		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()), $this->access);
+		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository(), $this->access);
 		$table->setShowRowsSelector(false);
 
 		return $table->getHTML();
