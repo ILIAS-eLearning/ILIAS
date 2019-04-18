@@ -8,11 +8,6 @@ declare(strict_types=1);
 class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 {
 	/**
-	 * @var bool
-	 */
-	protected $show_learning_progress;
-
-	/**
 	 * @var array
 	 */
 	protected $current_filter = array();
@@ -29,7 +24,6 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 	) {
 		$this->parent_gui = $parent_gui;
 		$this->rep_object = $ls_object;
-		$this->show_learning_progress = $show_learning_progress;
 
 		$this->obj_user_tracking = $obj_user_tracking;
 		$this->privacy_settings = $privacy_settings;
