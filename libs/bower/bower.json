@@ -226,11 +226,11 @@
       "purpose": "Accordion Service",
       "last-update-for-ilias": "5.3.4"
     },
-    "tippi": {
+    "tippyjs": {
       "introduction-date": "2019-03-28",
       "approved-by": "Jour Fixe",
       "developer": "mjansen",
-      "purpose": "UI Service Tooltio",
+      "purpose": "UI Service Tooltip",
       "last-update-for-ilias": "6.0.0",
       "note": ""
     }
