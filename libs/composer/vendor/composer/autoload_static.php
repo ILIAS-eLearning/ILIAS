@@ -5452,6 +5452,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilMMLinkListItemRenderer' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Renderer/class.ilMMLinkListItemRenderer.php',
         'ilMMLostItemRenderer' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Renderer/class.ilMMLostItemRenderer.php',
         'ilMMNullItemFacade' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Items/Facade/class.ilMMNullItemFacade.php',
+        'ilMMSlateSessionStateCode' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Renderer/trait.ilMMSlateSessionStateCode.php',
         'ilMMSubItemGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
         'ilMMSubItemTableGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemTableGUI.php',
         'ilMMSubitemFormGUI' => __DIR__ . '/../..' . '/../../Services/MainMenu/classes/Administration/class.ilMMSubitemFormGUI.php',

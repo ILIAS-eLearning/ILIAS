@@ -13,6 +13,9 @@ use ILIAS\UI\Component\Component;
  */
 class ilMMLinkListItemRenderer extends BaseTypeRenderer {
 
+	use ilMMSlateSessionStateCode;
+
+
 	/**
 	 * @param LinkList $item
 	 *
@@ -24,6 +27,8 @@ class ilMMLinkListItemRenderer extends BaseTypeRenderer {
 		 */
 		$symbol = $this->getIcon($item);
 		$slate = $this->ui_factory->mainControls()->slate()->combined($item->getTitle(), $symbol);
+
+		$slate = $this->addOnloadCode($slate, $item);
 
 		foreach ($item->getLinks() as $link) {
 			$symbol = $this->getIcon($link);

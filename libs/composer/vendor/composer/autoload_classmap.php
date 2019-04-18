@@ -5115,6 +5115,7 @@ return array(
     'ilMMLinkListItemRenderer' => $baseDir . '/../../Services/MainMenu/classes/Renderer/class.ilMMLinkListItemRenderer.php',
     'ilMMLostItemRenderer' => $baseDir . '/../../Services/MainMenu/classes/Renderer/class.ilMMLostItemRenderer.php',
     'ilMMNullItemFacade' => $baseDir . '/../../Services/MainMenu/classes/Items/Facade/class.ilMMNullItemFacade.php',
+    'ilMMSlateSessionStateCode' => $baseDir . '/../../Services/MainMenu/classes/Renderer/trait.ilMMSlateSessionStateCode.php',
     'ilMMSubItemGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
     'ilMMSubItemTableGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubItemTableGUI.php',
     'ilMMSubitemFormGUI' => $baseDir . '/../../Services/MainMenu/classes/Administration/class.ilMMSubitemFormGUI.php',

@@ -111,6 +111,9 @@ class LayoutContent {
 
 		$ilMMItemRepository = new \ilMMItemRepository($this->gs->storage());
 		foreach ($ilMMItemRepository->getStackedTopItemsForPresentation() as $item) {
+			/**
+			 * @var $slate Combined
+			 */
 			$slate = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
 			$identifier = $item->getProviderIdentification()->getInternalIdentifier();
 			$main_bar = $main_bar->withAdditionalEntry($identifier, $slate);

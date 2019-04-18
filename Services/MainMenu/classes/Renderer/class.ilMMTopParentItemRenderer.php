@@ -8,7 +8,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
@@ -23,6 +22,9 @@ use ILIAS\UI\Component\MainControls\Slate\Slate;
  */
 class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 
+	use ilMMSlateSessionStateCode;
+
+
 	/**
 	 * @inheritDoc
 	 */
@@ -35,76 +37,28 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 			$symbol = $this->getStandardIcon();
 		}
 
-		$combined_slate = $f->mainControls()->slate()->combined($item->getTitle(), $symbol);
-		if($item instanceof isParent)
+		$slate = $f->mainControls()->slate()->combined($item->getTitle(), $symbol);
+		if ($item instanceof isParent) {
+			foreach ($item->getChildren() as $child) {
 
-		foreach ($item->getChildren() as $child) {
-
-			switch (true) {
-				//case ($child instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex):
-				case ($child instanceof Separator):
-					 // throw new ilException("Rendering not yet implemented: ".get_class($child));
-					break;
-				default:
-					$com = $child->getTypeInformation()->getRenderer()->getComponentForItem($child);
-					if($com instanceof Bulky || $com instanceof Slate) {
-						$combined_slate = $combined_slate->withAdditionalEntry($com);
-					}
-					break;
+				switch (true) {
+					//case ($child instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex):
+					case ($child instanceof Separator):
+						// throw new ilException("Rendering not yet implemented: ".get_class($child));
+						break;
+					default:
+						$com = $child->getTypeInformation()->getRenderer()->getComponentForItem($child);
+						if ($com instanceof Bulky || $com instanceof Slate) {
+							$slate = $slate->withAdditionalEntry($com);
+						}
+						break;
+				}
 			}
 		}
 
-		return $combined_slate;
-		//
-		//
-		//
-		//
-		//
-		global $DIC;
-		/**
-		 * @var $item TopParentItem
-		 */
-		$tpl = new ilTemplate("tpl.mm_top_parent_item.html", false, false, 'Services/MainMenu');
-		$tpl->setVariable("TITLE", $item->getTitle());
+		// $slate = $this->addOnloadCode($slate, $item);
 
-		$gl = new ilGroupedListGUI();
-		$gl->setAsDropDown(true);
-		foreach ($item->getChildren() as $child) {
-			$i = $child->getProviderIdentification()->getInternalIdentifier();
-			switch (true) {
-				case ($child instanceof hasContent && $child->getAsyncContentURL() === ''):
-					$this->handleContent($child, $gl);
-					break;
-				case ($child instanceof hasAsyncContent):
-					$this->handleAsyncContent($child, $gl);
-					break;
-				case ($child instanceof LinkList):
-					$this->handleLinkList($child, $gl, $i);
-					break;
-				case ($child instanceof Separator):
-					$this->handleSeparator($child, $gl);
-					break;
-				case ($child instanceof hasAction && $child instanceof hasTitle):
-					$this->addEntry($gl, $child, $i);
-					break;
-				case($child instanceof isItem):
-				default:
-					$com = $child->getTypeInformation()->getRenderer()->getComponentForItem($child);
-					$identifier = $child->getProviderIdentification()->getInternalIdentifier();
-					$target = $child instanceof hasAction ? ($child->isLinkWithExternalAction() ? "_blank" : "_top") : "_top";
-					$href = ($child instanceof hasAction) ? $child->getAction() : "#";
-					$tooltip = ilHelp::getMainMenuTooltip($identifier);
-					$a_id = "mm_" . $identifier;
-					$gl->addEntry(
-						$DIC->ui()->renderer()->render($com), $href, $target, "", "", $a_id, $tooltip, "left center", "right center", false
-					);
-
-					break;
-			}
-		}
-		$tpl->setVariable("CONTENT", $gl->getHTML());
-
-		return $f->legacy($tpl->get());
+		return $slate;
 	}
 
 
