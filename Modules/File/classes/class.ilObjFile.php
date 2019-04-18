@@ -303,6 +303,9 @@ class ilObjFile extends ilObject2 {
 		$result = null;
 
 		if ($upload->hasUploads()) {
+			if (!$upload->hasBeenProcessed()) {
+				$upload->process();
+			}
 			/**
 			 * @var $result \ILIAS\FileUpload\DTO\UploadResult
 			 */

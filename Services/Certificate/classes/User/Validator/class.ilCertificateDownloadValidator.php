@@ -13,7 +13,7 @@ class ilCertificateDownloadValidator
 	/**
 	 * @var ilUserCertificateRepository
 	 */
-	private $userCertificateRepository;
+	private $userCertificateAccessValidator;
 
 	/**
 	 * @var ilCertificateActiveValidator|null
@@ -21,19 +21,17 @@ class ilCertificateDownloadValidator
 	private $activeValidator;
 
 	/**
-	 * @param ilUserCertificateRepository $userCertificateRepository
+	 * @param ilCertificateUserCertificateAccessValidator|null $userCertificateAccessValidator
 	 * @param ilCertificateActiveValidator|null $activeValidator
 	 */
-	public function __construct(ilUserCertificateRepository $userCertificateRepository = null, ilCertificateActiveValidator $activeValidator = null)
-	{
-		if (null === $userCertificateRepository) {
-			global $DIC;
-			$database = $DIC->database();
-			$logger = $DIC->logger()->cert();
-
-			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+	public function __construct(
+		ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,
+		ilCertificateActiveValidator $activeValidator = null
+	) {
+		if (null === $userCertificateAccessValidator) {
+			$userCertificateAccessValidator = new ilCertificateUserCertificateAccessValidator();
 		}
-		$this->userCertificateRepository = $userCertificateRepository;
+		$this->userCertificateAccessValidator = $userCertificateAccessValidator;
 
 		if (null === $activeValidator) {
 			$activeValidator = new ilCertificateActiveValidator();
@@ -52,12 +50,6 @@ class ilCertificateDownloadValidator
 			return false;
 		}
 
-		try {
-			$this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
-		} catch (ilException $exception) {
-			return false;
-		}
-
-		return true;
+		return $this->userCertificateAccessValidator->validate($userId, $objId);
 	}
 }

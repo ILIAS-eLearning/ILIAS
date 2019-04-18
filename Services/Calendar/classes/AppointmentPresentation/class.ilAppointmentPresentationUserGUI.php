@@ -57,7 +57,7 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
 		$this->addInfoProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
 		$this->addListItemProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
 
-		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilObject::_lookupType($cat_info['obj_id']))."_info"));
+		$this->addInfoSection($this->lng->txt("cal_usr_info"));
 
 		// event location
 		$this->addEventLocation($a_app);

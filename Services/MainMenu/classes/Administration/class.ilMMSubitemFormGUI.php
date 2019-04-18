@@ -138,7 +138,7 @@ class ilMMSubitemFormGUI {
 
 	public function save(): bool {
 		global $DIC;
-		$r = new ilMMItemRepository($DIC->globalScreen()->storage());
+		$r = new ilMMItemRepository();
 		$this->form = $this->form->withRequest($DIC->http()->request());
 		$data = $this->form->getData();
 

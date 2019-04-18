@@ -7,22 +7,23 @@
  */
 class ilBuddySystemNotification
 {
-	/**
-	 * @var ilObjUser
-	 */
+	/** @var \ilObjUser */
 	protected $sender;
+
+	/** @var \ilSetting */
+	protected $settings;
 	
-	/**
-	 * @var array
-	 */
-	protected $recipient_ids = array();
+	/** @var array */
+	protected $recipient_ids = [];
 
 	/**
-	 * @param ilObjUser $ilObjUser
+	 * @param \ilObjUser $user
+	 * @param \ilSetting $settings
 	 */
-	public function __construct(ilObjUser $ilObjUser)
+	public function __construct(ilObjUser $user, \ilSetting $settings)
 	{
-		$this->sender = $ilObjUser;
+		$this->sender = $user;
+		$this->settings = $settings;
 	}
 
 	/**
@@ -46,21 +47,19 @@ class ilBuddySystemNotification
 	 */
 	public function send()
 	{
-		require_once 'Services/Mail/classes/class.ilMail.php';
-		foreach($this->getRecipientIds() as $usr_id)
-		{
+		foreach($this->getRecipientIds() as $usr_id) {
 			$user = new ilObjUser((int)$usr_id);
-
-			require_once 'Services/Language/classes/class.ilLanguageFactory.php';
-			require_once 'Services/User/classes/class.ilUserUtil.php';
-			require_once 'Services/Link/classes/class.ilLink.php';
 
 			$rcp_lng = ilLanguageFactory::_getLanguage($user->getLanguage());
 			$rcp_lng->loadLanguageModule('buddysystem');
 
-			require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
 			$notification = new ilNotificationConfig('buddysystem_request');
 			$notification->setTitleVar('buddy_notification_contact_request', array(), 'buddysystem');
+
+			$personalProfileLink = $rcp_lng->txt('buddy_noti_cr_profile_not_published');
+			if ($this->hasPublicProfile($user->getId())) {
+				$personalProfileLink = \ilLink::_getStaticLink($this->sender->getId(), 'usr', true);
+			}
 
 			$bodyParams = array(
 				'SALUTATION'      => ilMail::getSalutation($user->getId(), $rcp_lng),
@@ -72,13 +71,14 @@ class ilBuddySystemNotification
 			$notification->setShortDescriptionVar('buddy_notification_contact_request_short', $bodyParams, 'buddysystem');
 
 			$bodyParams = array(
-				'SALUTATION'          => ilMail::getSalutation($user->getId(), $rcp_lng),
-				'BR'                  => "\n",
-				'APPROVE_REQUEST'     => ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_approved'),
+				'SALUTATION' => ilMail::getSalutation($user->getId(), $rcp_lng),
+				'BR' => "\n",
+				'APPROVE_REQUEST' => ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_approved'),
 				'APPROVE_REQUEST_TXT' => $rcp_lng->txt('buddy_notification_contact_request_link'),
-				'IGNORE_REQUEST'      => ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_ignored'),
-				'IGNORE_REQUEST_TXT'  => $rcp_lng->txt('buddy_notification_contact_request_ignore'),
-				'REQUESTING_USER'     => ilUserUtil::getNamePresentation($this->sender->getId())
+				'IGNORE_REQUEST' => ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_ignored'),
+				'IGNORE_REQUEST_TXT' => $rcp_lng->txt('buddy_notification_contact_request_ignore'),
+				'REQUESTING_USER' => ilUserUtil::getNamePresentation($this->sender->getId()),
+				'PERSONAL_PROFILE_LINK' => $personalProfileLink,
 			);
 			$notification->setLongDescriptionVar('buddy_notification_contact_request_long', $bodyParams, 'buddysystem');
 
@@ -89,5 +89,23 @@ class ilBuddySystemNotification
 			$notification->setHandlerParam('mail.sender', ANONYMOUS_USER_ID);
 			$notification->notifyByUsers(array($user->getId()));
 		}
+	}
+
+	/**
+	 * @param int $recipientUsrId
+	 * @return bool
+	 */
+	protected function hasPublicProfile($recipientUsrId)
+	{
+		$portfolioId = \ilObjPortfolio::getDefaultPortfolio($this->sender->getId());
+		if (is_numeric($portfolioId) && $portfolioId > 0) {
+			$accessHandler = new \ilPortfolioAccessHandler();
+			return $accessHandler->checkAccessOfUser($recipientUsrId, 'read', '', $portfolioId);
+		}
+
+		return (
+			$this->sender->getPref('public_profile') === 'y' || 
+			$this->sender->getPref('public_profile') === 'g'
+		);
 	}
 }
