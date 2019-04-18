@@ -50,6 +50,14 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
+	/**
+	 * Trigger TreeRecursion::build and recurse into hierarchy by checking for
+	 * further children of the record.
+	 * @param Tree\TreeRecursion $recursion
+	 * @param mixed $record
+	 * @param mixed $environment
+	 * @return Node
+	 */
 	protected function buildNode(
 		Tree\TreeRecursion $recursion,
 		$record,
@@ -78,7 +86,6 @@ class Renderer extends AbstractComponentRenderer {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Tree/tree.js');
 	}
-
 
 	/**
 	 * @inheritdoc

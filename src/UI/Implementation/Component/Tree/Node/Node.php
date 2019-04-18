@@ -41,27 +41,40 @@ abstract class Node implements INode
 	 */
 	protected $subnodes = [];
 
-	public function getLabel(): string
-	{
-		return $this->label;
-	}
 
 	public function __construct(string $label)
 	{
 		$this->label = $label;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getLabel(): string
+	{
+		return $this->label;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function withAdditionalSubnode(INode $node): INode
 	{
 		$this->subnodes[] = $node;
 		return $this;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function getSubnodes(): array
 	{
 		return $this->subnodes;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function withExpanded(bool $expanded): INode
 	{
 		$clone = clone $this;
@@ -69,6 +82,9 @@ abstract class Node implements INode
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function isExpanded(): bool
 	{
 		return $this->expanded;

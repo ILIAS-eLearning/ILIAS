@@ -64,7 +64,11 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
-
+	/**
+	 * Relay signals (beyond expansion) to the node's js.
+	 * @param Node\Node $component
+	 * @param Signal[] $triggered_signals
+	 */
 	protected function triggerFurtherSignals(Node\Node $component, array $triggered_signals)
 	{
 		$signals = [];

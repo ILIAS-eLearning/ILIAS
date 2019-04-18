@@ -14,10 +14,6 @@ interface Factory
 	 *   purpose: >
 	 *     Nodes are entries in a Tree. They represent a level in the Tree's
 	 *     data hierarchy.
-	 *   composition: >
-	 *     X
-	 *   effect: >
-	 *     X
 	 *
 	 * context:
 	 *   - Nodes will only occur in Trees.
@@ -60,9 +56,13 @@ interface Factory
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: X
-	 *   accessibility:
-	 *     1: X
+	 *     1: >
+	 *        Expandable Trees SHOULD only be used when there is a reasonably (large)
+	 *        amount of entries.
+	 *     2: >
+	 *        Expandable Trees SHOULD NOT be used to display several aspects of one
+	 *        topic/item, like it would be the case when e.g. listing a repository
+	 *        object and its properties as individual nodes.
 	 *
 	 * ---
 	 * @param TreeRecursion $recursion

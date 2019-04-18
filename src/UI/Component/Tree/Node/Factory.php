@@ -28,9 +28,10 @@ interface Factory
 	 *
 	 * rules:
 	 *   usage:
-	 *      1: X
-	 *   accessibility:
-	 *      1: X
+	 *      1: >
+	 *        A Simple Node SHOULD be used when there is no need to relay
+	 *        further information for the user to choose. This is the case
+	 *        for most occurences where repository-items are shown.
 	 *
 	 * ---
 	 * @param string $label
