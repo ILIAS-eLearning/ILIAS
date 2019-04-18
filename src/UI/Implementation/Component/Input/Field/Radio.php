@@ -117,7 +117,7 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
-			return $clone->withError("" . $clone->content->error());
+			return $clone->withError("" .$clone->content->error());
 		}
 
 		$dep_fields = $this->getDependantFieldsFor($value);
@@ -136,8 +136,6 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 
 				if ($content->isOk()) {
 					$values['group_values'][$name] = $content->value();
-				} else {
-					$clone = $clone->withError($name .' - '. $content->error());
 				}
 
 				$clone->dependant_fields[$value][$name] = $filled;
