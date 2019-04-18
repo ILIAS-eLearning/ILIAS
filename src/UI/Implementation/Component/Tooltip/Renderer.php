@@ -55,10 +55,7 @@ class Renderer extends AbstractComponentRenderer
 
 		$id = $this->bindJavaScript($component);
 
-		// TODO: Dependency handling
-		return
-			'<script src="https://unpkg.com/popper.js@1/dist/umd/popper.min.js"></script>
-<script src="https://unpkg.com/tippy.js@4"></script>';
+		return '';
 	}
 
 
@@ -68,6 +65,8 @@ class Renderer extends AbstractComponentRenderer
 	public function registerResources(ResourceRegistry $registry)
 	{
 		parent::registerResources($registry);
+		$registry->register('./libs/yarn/node_modules/popper.js/dist/umd/popper.js');
+		$registry->register('./libs/yarn/node_modules/tippy.js/umd/index.all.js');
 		$registry->register('./src/UI/templates/js/Tooltip/tooltip.js');
 	}
 
