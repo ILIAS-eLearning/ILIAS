@@ -316,11 +316,9 @@ class ilTestResultsGUI
 		$toolbar = $DIC->toolbar();
 		$validator = new ilCertificateDownloadValidator();
 		if($validator->isCertificateDownloadable($DIC->user()->getId(), $this->getTestObj()->getId())) {
-			$toolbar->setFormAction($DIC->ctrl()->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
-
-			$button = ilSubmitButton::getInstance();
+			$button = ilLinkButton::getInstance();
 			$button->setCaption('certificate');
-			$button->setCommand('outCertificate');
+			$button->setUrl($DIC->ctrl()->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
 			$toolbar->addButtonInstance($button);
 		}
 
