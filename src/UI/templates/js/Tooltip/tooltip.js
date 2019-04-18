@@ -15,6 +15,7 @@ il.UI = il.UI || {};
 			placement: "top",
 			interactive: true,
 			arrow: true,
+			trigger: 'click',
 			content: ''
 		};
 
@@ -37,6 +38,8 @@ il.UI = il.UI || {};
 				return;
 			}
 
+			options.trigger = signalData.event;
+
 			show($triggerer, options);
 		};
 
@@ -54,7 +57,9 @@ il.UI = il.UI || {};
 			options = $.extend({}, defaultOptions, options);
 
 			if (!initializedTooltips.hasOwnProperty(triggererId)) {
-				tippy('#' + triggererId, options);
+				let t = tippy('#' + triggererId, options);
+				t[0].show();
+
 				initializedTooltips[triggererId] = true;
 			}
 

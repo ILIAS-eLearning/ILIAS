@@ -16,5 +16,10 @@ function show_tooltip_for_button() {
 		->standard('Hover Me!', '#')
 		->withOnHover($tooltip->getShowSignal());
 
-	return $renderer->render([$tooltip, $button]);
+	$tooltip2 = $factory->tooltip()->standard([$factory->legacy('Foo Bar')]);
+	$button2 = $factory->button()
+		->standard('Click Me!', '#')
+		->withOnClick($tooltip2->getShowSignal());
+
+	return $renderer->render([$tooltip, $button, $tooltip2, $button2]);
 }
