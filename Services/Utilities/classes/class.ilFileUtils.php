@@ -777,6 +777,7 @@ class ilFileUtils
 			'smil',   // APPLICATION__SMIL,
 			'sps',    // SPSS syntax file
 			'spv',    // SPSS output file
+			'stl',				// Stereolithography CAD file
 			'svg',   // IMAGE__SVG_XML,
 			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
