@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 
@@ -11,25 +12,44 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 class ilSearchGSProvider extends AbstractStaticMetaBarProvider implements StaticMetaBarProvider {
 
 	/**
+	 * @return IdentificationInterface
+	 */
+	private function getId(): IdentificationInterface {
+		return $this->if->identifier('search');
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAllIdentifications(): array {
+		return [$this->getId()];
+	}
+
+
+	/**
 	 * @inheritDoc
 	 */
 	public function getMetaBarItems(): array {
-		$main_search = new ilMainMenuSearchGUI();
-		$html = "";
+		$content = function () {
+			$main_search = new ilMainMenuSearchGUI();
+			$html = "";
 
-		// user interface plugin slot + default rendering
-		$uip = new ilUIHookProcessor(
-			"Services/MainMenu", "main_menu_search",
-			array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search)
-		);
-		if (!$uip->replaced()) {
-			$html = $main_search->getHTML();
-		}
-		$html = $uip->getHTML($html);
+			// user interface plugin slot + default rendering
+			$uip = new ilUIHookProcessor(
+				"Services/MainMenu", "main_menu_search",
+				array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search)
+			);
+			if (!$uip->replaced()) {
+				$html = $main_search->getHTML();
+			}
+
+			return $this->dic->ui()->factory()->legacy($uip->getHTML($html));
+		};
 
 		$item = $this->globalScreen()
 			->metaBar()
-			->baseItem($this->if->identifier('search'))
+			->baseItem($this->getId())
 			->withAvailableCallable(
 				function () {
 					return (bool)$this->dic->rbac()->system()->checkAccess('search', \ilSearchSettings::_getSearchSettingRefId());
@@ -38,7 +58,7 @@ class ilSearchGSProvider extends AbstractStaticMetaBarProvider implements Static
 			->withGlyph($this->dic->ui()->factory()->glyph()->search())
 			->withTitle("Search")
 			->withPosition(1)
-			->withContent($this->dic->ui()->factory()->legacy($html));
+			->withContent($content());
 
 		return [$item];
 	}

@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\MainControls\Slate\Combined;
 
 /**
  * Class LayoutContent
@@ -82,11 +83,17 @@ class LayoutContent {
 		$f = $this->ui->factory();
 		$meta_bar = $f->mainControls()->metaBar();
 
-
 		foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
-			$slate = $f->mainControls()
-				->slate()
-				->legacy($item->getTitle(), $item->getGlyph(), $item->getContent());
+			$content = $item->getContent();
+			switch (true) {
+				case ($content instanceof Combined):
+					$slate = $content;
+					break;
+				default:
+					$slate = $f->mainControls()
+						->slate()
+						->legacy($item->getTitle(), $item->getGlyph(), $content);
+			}
 
 			$meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $slate);
 		}

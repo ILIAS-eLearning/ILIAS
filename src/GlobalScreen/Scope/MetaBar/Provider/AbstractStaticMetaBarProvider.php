@@ -37,19 +37,6 @@ abstract class AbstractStaticMetaBarProvider extends AbstractProvider implements
 
 
 	/**
-	 * @inheritDoc
-	 */
-	public function getAllIdentifications(): array {
-		$ids = [];
-		foreach ($this->getMetaBarItems() as $slate) {
-			$ids[] = $slate->getProviderIdentification();
-		}
-
-		return $ids;
-	}
-
-
-	/**
 	 * @return string
 	 * @throws \ReflectionException
 	 */

@@ -170,30 +170,56 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 	 * @inheritDoc
 	 */
 	public function getMetaBarItems(): array {
+		$f = $this->dic->ui()->factory();
+		$txt = function ($id) {
+			return $this->dic->language()->txt($id);
+		};
 		$item[] = $this->globalScreen()
 			->metaBar()
 			->baseItem($this->if->identifier('help'))
-			->withGlyph($this->dic->ui()->factory()->glyph()->help())
+			->withGlyph($f->glyph()->help())
 			->withTitle("Help")
 			->withPosition(2)
-			->withContent($this->dic->ui()->factory()->legacy("NOT PROVIDED"));
+			->withContent($f->legacy("NOT PROVIDED"));
 
 		$item[] = $this->globalScreen()
 			->metaBar()
 			->baseItem($this->if->identifier('notifications'))
-			->withGlyph($this->dic->ui()->factory()->glyph()->notification()->withCounter($this->dic->ui()->factory()->counter()->novelty(3)))
+			->withGlyph($f->glyph()->notification()->withCounter($f->counter()->novelty(3)))
 			->withTitle("Notifications")
 			->withPosition(3)
-			->withContent($this->dic->ui()->factory()->legacy("NOT PROVIDED"));
+			->withContent($f->legacy("NOT PROVIDED"));
+
+		$user_slate = $f->mainControls()->slate()->combined('user_links', $f->glyph()->user());
+		$user_slate = $user_slate->withAdditionalEntry(
+			$f->button()->bulky(
+				$f->glyph()->user(),
+				$txt("personal_profile"),
+				"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile"
+			)
+		);
+		$user_slate = $user_slate->withAdditionalEntry(
+			$f->button()->bulky(
+				$f->glyph()->settings(),
+				$txt("personal_settings"),
+				"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings"
+			)
+		);
+		$user_slate = $user_slate->withAdditionalEntry(
+			$f->button()->bulky(
+				$f->glyph()->remove(),
+				$txt("logout"),
+				"logout.php?lang=" . $this->dic->user()->getCurrentLanguage()
+			)
+		);
 
 		$item[] = $this->globalScreen()
 			->metaBar()
 			->baseItem($this->if->identifier('user'))
-			->withGlyph($this->dic->ui()->factory()->glyph()->user())
+			->withGlyph($f->glyph()->user())
 			->withTitle("User")
 			->withPosition(4)
-			->withContent($this->dic->ui()->factory()->legacy("NOT PROVIDED"));
-
+			->withContent($user_slate);
 
 		return $item;
 	}

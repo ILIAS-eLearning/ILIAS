@@ -469,6 +469,10 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function addBlockFile($var, $block, $tplname, $in_module = false) {
+		if ($this->blockExists($block)) {
+			$this->legacy_content_template->removeBlockData($block);
+		}
+
 		return $this->legacy_content_template->addBlockFile($var, $block, $tplname, $in_module);
 	}
 
