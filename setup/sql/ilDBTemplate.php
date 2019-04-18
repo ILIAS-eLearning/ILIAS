@@ -32262,7 +32262,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '37'), 'type' => array('text', 'typ'), 'title' => array('text', 'frm'), 'description' => array('text', 'Forum object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-07-15 15:54:22'), 'last_update' => array('timestamp', '2003-08-15 12:36:40'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2019-02-14 15:54:00'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2019-04-18 13:09:59'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '71'), 'type' => array('text', 'lng'), 'title' => array('text', 'de'), 'description' => array('text', 'not_installed'), 'owner' => array('integer', '6'), 'create_date' => array('timestamp', '2003-08-15 10:25:19'), 'last_update' => array('timestamp', '2015-12-22 16:29:24'), 'import_id' => array('text', '')));
