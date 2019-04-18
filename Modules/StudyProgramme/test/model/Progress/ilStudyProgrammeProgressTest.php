@@ -1,0 +1,148 @@
+<?php
+
+/**
+ * @group needsInstalledILIAS
+ */
+class ilStudyProgrammeProgressTest extends PHPUnit_Framework_TestCase
+{
+	protected $backupGlobals = FALSE;
+
+	public function setUp()
+	{
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			try {
+				ilUnitUtil::performInitialisation();
+			} catch(\Exception $e) {}
+		}
+	}
+
+	public function test_init_and_id()
+	{
+		$spp = new ilStudyProgrammeProgress(123);
+		$this->assertEquals($spp->getId(),123);
+		return $spp;
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_assignmet_id()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setAssignmentId(321);
+		$this->assertEquals($spp->getAssignmentId(),321);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_node_id()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setNodeId(321);
+		$this->assertEquals($spp->getNodeId(),321);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_user_id()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setUserId(321);
+		$this->assertEquals($spp->getUserId(),321);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_amount_of_points()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setAmountOfPoints(321);
+		$this->assertEquals($spp->getAmountOfPoints(),321);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 * @expectedException ilException
+	 */
+	public function test_amount_of_points_invalid()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setAmountOfPoints(-321);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_current_amount_of_points()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setCurrentAmountOfPoints(321);
+		$this->assertEquals($spp->getCurrentAmountOfPoints(),321);
+	}
+
+	public function status() {
+		return [
+			[1]
+			,[2]
+			,[3]
+			,[4]
+			,[5]
+		];
+	}
+
+	/**
+	 * @dataProvider status
+	 */
+	public function test_status($status)
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setStatus($status);
+		$this->assertEquals($spp->getStatus(),$status);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 * @expectedException ilException
+	 */
+	public function test_status_invalid()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setStatus(321);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_completion_by()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setCompletionBy(321);
+		$this->assertEquals($spp->getCompletionBy(),321);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_last_change_by()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setLastChangeBy(6);
+		$this->assertEquals($spp->getLastChangeBy(),6);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 * @expectedException ilException
+	 */
+	public function test_last_change_by_invalid()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->setLastChangeBy(-1);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_deadline()
+	{
+		$dl = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
+		$spp = (new ilStudyProgrammeProgress(123))->setDeadline($dl);
+		$this->assertEquals($spp->getDeadline()->get(IL_CAL_DATETIME),$dl->get(IL_CAL_DATETIME));
+	}
+}
