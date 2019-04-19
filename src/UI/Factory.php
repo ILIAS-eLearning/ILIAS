@@ -639,6 +639,9 @@ interface Factory {
 	 *   Modals: >
 	 *     Modals hide all other content while Popovers do not prevent interaction with other parts
 	 *     of the current context.
+	 *   Tooltips: >
+	 *     Popovers can display a title, where Tooltips must not. Tooltips are designed to contain less content.
+	 *     Popovers provide additional related information, Tooltips are for clarification or tips.
 	 * rules:
 	 *   usage:
 	 *     1: >
@@ -653,7 +656,7 @@ interface Factory {
 	 *   interaction:
 	 *     1: >
 	 *        A Popover MUST only be displayed if the Trigger component is clicked.
-	 *        This behaviour is different from Tooltips that appear on hovering.
+	 *        This behaviour is different from Tooltips that may appear on hovering.
 	 *        Popovers disappear by clicking anywhere outside the Popover or by pressing
 	 *        the ESC key.
 	 *   style:
@@ -839,32 +842,36 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Tooltips are used to display on other components and should
-	 *      give the users additional information about this component.
-	 *      Tooltips can be used e.g. to give information for the correct
-	 *      input value in a form or an displayed value in a view.
+	 *      Tooltips are used to be displayed on other components and are designed for clarifications
+	 *      or tips to be shown.
+	 *      Tooltips can be used e.g. to give information for a correct
+	 *      input value of a form element or to display additional usage information.
 	 *   composition: >
-	 *     Tooltips consists of a placement (top, left, right, bottom)
+	 *     Tooltips consist of a layer displayed above all other content.
+	 *     The content of the Tooltip depends on the functionality it performs.
+	 *     All Tooltips contain a pointer pointing from the Tooltip to the Triggerer of the Tooltip.
 	 *   effect: >
-	 *     Tooltips are shown by hovering a Trigger component such as a Button,
+	 *     Tooltips are shown by hovering or clicking a Trigger component such as a Button,
 	 *     a Link or Glyph.
 	 * rivals: >
 	 *   Popover: >
-	 *     The display of Popovers are triggered by a click, a Tooltip will be
-	 *     triggered on the hover such a component instead. The tooltip only
-	 *     vanishes if the trigger leaves the hovered area.
+	 *     Popovers can display a title, where Tooltips must not. Tooltips are designed to contain less content.
+	 *     Popovers provide additional related information, Tooltips are for clarification or tips.
 	 * rules:
 	 *   usage:
 	 *     1: >
 	 *        Tooltips MUST NOT contain horizontal scrollbars.
 	 *     2: >
-	 *        Tooltips MUST NOT contain vertical scrollbars. The content component is responsible to
-	 *        define its own height and width.
+	 *        Tooltips MUST NOT contain vertical scrollbars. The content components are responsible to
+	 *        define their own height and width.
 	 *   interaction:
 	 *     1: >
-	 *        A Tooltip MUST only be displayed if the Trigger component is hovered.
+	 *        A Tooltip MUST only be displayed if the Trigger component is hovered or clicked.
 	 *     2: >
-	 *        A Tooltip MUST NOT displayed if the Trigger component leaves the hovered area.
+	 *        A Tooltip MUST NOT displayed if the Triggerer is clicked again, or the user is not hovering
+	 *        the Trigger component or the Tooltip itself anymore.
+	 *   style:
+	 *     1: Tooltips MUST always relate to the Trigger component by a little pointer.
 	 * ---
 	 *
 	 * @return \ILIAS\UI\Component\Tooltip\Factory
