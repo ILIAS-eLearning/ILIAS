@@ -16,7 +16,7 @@ use ILIAS\UI\Component\Triggerable;
 interface Tooltip extends Component, Triggerable
 {
 	const PLACEMENT_TOP = 'top';
-	const PLACEMENT_RIGHT = 'top';
+	const PLACEMENT_RIGHT = 'right';
 	const PLACEMENT_BOTTOM = 'bottom';
 	const PLACEMENT_LEFT = 'left';
 

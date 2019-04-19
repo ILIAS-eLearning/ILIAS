@@ -28,23 +28,13 @@ class Renderer extends AbstractComponentRenderer
 			'placement' => $component->getPlacement(),
 		);
 
-		$replacement = array(
-			'"' => '\"',
-			"\n" => "",
-			"\t" => "",
-			"\r" => "",
-		);
-
-		if ($component instanceof Component\Tooltip\Standard) {
-			$tpl = $this->getTemplate('tpl.tooltip.html', true, true);
-			$tpl->setVariable('CONTENT', $default_renderer->render($component->contents()));
-
-			$options['content'] = str_replace(array_keys($replacement), array_values($replacement), $tpl->get());
-		}
+		$tpl = $this->getTemplate('tpl.standard-tooltip-content.html', true, true);
+		$tpl->setVariable('CONTENT', $default_renderer->render($component->contents()));
 
 		$show = $component->getShowSignal();
 
 		$component = $component->withAdditionalOnLoadCode(function ($id) use ($options, $show) {
+			$options['contentId'] = $id;
 			$options = json_encode($options);
 
 			return
@@ -55,7 +45,9 @@ class Renderer extends AbstractComponentRenderer
 
 		$id = $this->bindJavaScript($component);
 
-		return '';
+		$tpl->setVariable('ID', $id);
+
+		return  $tpl->get();
 	}
 
 

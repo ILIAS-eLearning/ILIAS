@@ -16,6 +16,7 @@ il.UI = il.UI || {};
 			interactive: true,
 			arrow: true,
 			trigger: 'click',
+			contentId: '',
 			content: ''
 		};
 
@@ -39,6 +40,11 @@ il.UI = il.UI || {};
 			}
 
 			options.trigger = signalData.event;
+			options.content = $("#" + options.contentId).get(0).innerHTML;
+
+			options = $.extend({}, defaultOptions, options);
+
+			delete options.contentId;
 
 			show($triggerer, options);
 		};
@@ -52,9 +58,7 @@ il.UI = il.UI || {};
 		 * @returns {boolean} True if the tooltip has already been initialized, false otherwise
 		 */
 		const show = function ($triggerer, options) {
-			let triggererId = $triggerer.attr('id');
-
-			options = $.extend({}, defaultOptions, options);
+			let triggererId = $triggerer.attr("id");
 
 			if (!initializedTooltips.hasOwnProperty(triggererId)) {
 				let t = tippy('#' + triggererId, options);
