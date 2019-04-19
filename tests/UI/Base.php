@@ -192,7 +192,7 @@ abstract class ILIAS_UI_TestBase extends TestCase {
 	}
 
 	public function normalizeHTML($html) {
-		return trim(str_replace("\n", "", $html));
+		return trim(str_replace(["\n", "\r"], "", $html));
 	}
 
 	/**
