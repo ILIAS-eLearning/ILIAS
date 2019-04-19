@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.4.x 2019-03-24
+* @version	5.4.x 2019-04-19
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -2790,7 +2790,7 @@ common#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! A
 common#:#mail_no_recipient_found#:#Adjon meg egy másik e-mail címet! Az ILIAS nem talál címzettet ezzel az e-mail címmel.
 common#:#mail_not_sent#:#A levelet nem küldte el!
 rbac#:#mail_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Levelezés beállításaihoz
-common#:#mail_search_no#:#Egyetlen levél sem felel meg a keresési feltételnek.
+common#:#mail_search_no#:#Egy bejegyzés sem felel meg a keresési feltételnek.
 common#:#mail_select_one#:#Legalább egy levelet ki kell választania!
 common#:#mail_send_error#:#Hiba lépett fel az e-mail küldése közben
 common#:#mail_sent#:#E-mail elküldve.
@@ -4591,7 +4591,8 @@ crs#:#crs_info_settings#:#Kurzusinformációk
 crs#:#crs_info_start#:#Haladjon végig az összes lenti kurzuselemen!<br/>Miután feldolgozott minden megjelölt objektumot, új kurzuselemek válnak aktívvá.
 crs#:#crs_item_presetting_info#:#Válassza ezt a beállítást a tanulóknak ajánlott tanulási/feldolgozási időszak megadásához. Ez csak ajánlás, ettől függetlenül mindig elérhető.
 crs#:#crs_join_request#:#Küldés
-crs#:#crs_lim_assigned#:#Már hozzárendelt a kapcsolt '%s' kurzushoz.
+crs#:#crs_lim_assigned#:#'%s' kurzusnak már tagja.
+grp#:#grp_lim_assigned#:#'%s' csoportnak már tagja.
 crs#:#crs_mail_permanent_link#:#Az alábbi linken érheti el a kurzust:
 crs#:#crs_map_location#:#Kurzustérkép helye
 crs#:#crs_map_settings#:#Térkép
@@ -8595,7 +8596,7 @@ tagging#:#tagging_set_tag#:#Címkék
 content#:#cont_link_to_internal#:#Link ILIAS-forrásra
 content#:#cont_link_to_external#:#Link külső weboldalra
 content#:#cont_link_to_wiki#:#Link wikilapra (zárójelek beszúrása)
-content#:#cont_standard#:#Standard
+content#:#cont_standard#:#Szövegtörzs
 content#:#cont_char_style_com#:#Megjegyzés
 content#:#cont_char_style_quot#:#Idézet
 content#:#cont_char_style_acc#:#Kiemelt
@@ -11778,6 +11779,7 @@ skmg#:#skmg_usage_type_info_gen#:#Általános használatra a Taneszköz objektum
 skmg#:#skmg_usage_type_info_mat#:#A felhasználók a magánterületükön lévő anyagaikhoz rendelhetik
 skmg#:#skmg_usage_type_info_user#:#Felhasználókhoz rendelve
 skmg#:#skmg_usage_type_info_pers#:#A felhasználók kiválaszthatják, mint személyes készség
+skmg#:#skmg_usage_type_info_seval#:#Önértékelések
 skmg#:#skmg_usage_type_info_prof#:#Kompetencia profilokban felhasználásra
 skmg#:#skmg_usage_type_info_res#:#Taneszköz objektumokhoz rendelés, mint javasolt erőforrás
 skmg#:#skmg_usage_obj_objects#:#Objektum(ok)
@@ -13074,7 +13076,8 @@ buddysystem#:#buddy_notification_contact_request_link#:#Ismerősnek jelölés el
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Ismerősnek jelölés elfogadása
 buddysystem#:#buddy_notification_contact_request_ignore#:#Ismerősnek jelölés elutasítása:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ismerősnek jelölés elutasítása
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]'[REQUESTING_USER]' ismerősnek jelölt meg.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]'[REQUESTING_USER]' ismerősnek jelölt.[BR][BR]Személyes profilja: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_noti_cr_profile_not_published#:#A profil nincs közzétéve.
 buddysystem#:#buddy_request_approved#:#Sikeresen elfogadta a jelölést.
 buddysystem#:#buddy_request_ignored#:#Figyelmen kívül hagyta a felhasználót.
 buddysystem#:#buddy_relation_requested#:#A felhasználónak sikeresen elküldte a kérést.
@@ -14940,7 +14943,7 @@ obj#:#obj_tile_image_info#:#A csempeképeket akkor használjuk, amikor a tárol�
 fold#:#fold_presentation#:#Mappa megjelenítése
 rep#:#rep_tree_limit#:#Elemek számának korlátozás a fában
 rep#:#rep_tree_limit_info#:#A teljesítmény növelése érdekében korlátozható a Taneszköztároló-fában megjelenő objektumok száma.
-rep#:#rep_tree_limit_number#:#Maximumális szám
+rep#:#rep_tree_limit_number#:#Maximális szám
 rep#:#rep_tree_limit_number_info#:#A csomópont kibontásakor megjelenő gyermekelemek maximális száma. Amennyiben ennél több gyermekelem létezik, egy beviteli mező jelenik meg, mely segítségével cím alapján szűrhetünk a gyermekelemekre.
 cont#:#cont_show_more#:#Több megjelenítése
 cont#:#cont_block_limit#:#Elemek számának korlátozás blokkonként
@@ -15019,8 +15022,8 @@ content#:#cont_choose_local#:#Helyi mappa
 content#:#cont_choose_upload_dir#:#Feltöltési mappa
 sess#:#sess_assign#:#Hozzárendelés
 common#:#certificate_selection#:#Igazolások forrása
-common#:#certificate_persistent_option#:#Állandó igazolások
-common#:#certificate_workspace_option#:#Munkamenet igazolások
+common#:#certificate_persistent_option#:#Megszerzett igazolások
+common#:#certificate_workspace_option#:#Munkaterület igazolásai
 common#:#certificate_file_already_exists_error#:#Az igazolásfájl már létezik a rendszerben.
 common#:#certificate_file_not_found_error#:#Az igazolásfájl már nem található a rendszerben.
 common#:#certificate_file_input_output_error#:#Az igazolásfájl létezik a rendszerben, de nem törölhető. Keresse meg a hibával az üzemeltetőt.
@@ -15029,3 +15032,13 @@ certificate#:#persistent_certificate_mode_cron#:#Ütemezett feladat
 certificate#:#persistent_certificate_mode_cron_info#:#Ez a lehetőség magas felhasználói igénybevétel esetén ajánlott.
 certificate#:#persistent_certificate_mode_instant#:#Azonnali
 certificate#:#persistent_certificate_mode_instant_info#:#Ez a lehetőség közepes, illetve alacsony felhasználói igénybevétel esetén ajánlott. Amennyiben az igazolások azonnali előállítása túl sok időt vesz igénybe, célszerű ütemezett feladatra váltani.
+content#:#cont_Attention#:#Figyelmeztetés
+content#:#cont_Confirmation#:#Megerősítés
+content#:#cont_Information#:#Információ
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Irodalom
+content#:#cont_Separator#:#Elválasztó
+content#:#cont_StandardCenter#:#Szövegtörzs középre
+content#:#cont_Interaction#:#Kölcsönhatás
+content#:#cont_Background#:#Háttér
+dateplaner#:#cal_usr_info#:#Kinevezési információk
