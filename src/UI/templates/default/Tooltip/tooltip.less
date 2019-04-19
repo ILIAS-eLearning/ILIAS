@@ -1,4 +1,55 @@
 .tippy-tooltip {
-	.il-standard-tooltip-content {
+	background-color: @il-tooltip-bg-color;
+	border-color: @il-tooltip-border-color;
+	color: @il-tooltip-color;
+
+	-webkit-border-radius: @il-tooltip-border-radius;
+	-moz-border-radius: @il-tooltip-border-radius;
+	border-radius: @il-tooltip-border-radius;
+
+	.box-shadow(@il-tooltip-shadow);
+
+	&[x-placement^=top] .tippy-arrow{
+		border-top:8px solid @il-tooltip-bg-color;
+		border-right:8px solid transparent;
+		border-left:8px solid transparent
+	}
+
+	&[x-placement^=bottom] .tippy-arrow{
+		border-bottom:8px solid @il-tooltip-bg-color;
+		border-right:8px solid transparent;
+		border-left:8px solid transparent
+	}
+
+	&[x-placement^=left] .tippy-arrow{
+		border-left:8px solid @il-tooltip-bg-color;
+		border-top:8px solid transparent;
+		border-bottom:8px solid transparent
+	}
+
+	&[x-placement^=right] .tippy-arrow{
+		border-right:8px solid @il-tooltip-bg-color;
+		border-top:8px solid transparent;
+		border-bottom:8px solid transparent
+	}
+
+	.tippy-backdrop{
+		background-color: @il-tooltip-bg-color
+	}
+
+	.tippy-roundarrow{
+		fill: @il-tooltip-bg-color
+	}
+
+	&[data-animatefill]{
+		background-color:transparent
+	}
+
+	.tippy-content {
+		font-size: @font-size-small;
+		line-height: @line-height-small;
+
+		.il-standard-tooltip-content {
+		}
 	}
 }
