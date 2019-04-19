@@ -312,8 +312,18 @@ class ilTestResultsGUI
 
 			$DIC->ctrl()->redirectByClass(array('ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
-		
+
+		$toolbar = $DIC->toolbar();
+		$validator = new ilCertificateDownloadValidator();
+		if($validator->isCertificateDownloadable($DIC->user()->getId(), $this->getTestObj()->getId())) {
+			$button = ilLinkButton::getInstance();
+			$button->setCaption('certificate');
+			$button->setUrl($DIC->ctrl()->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
+			$toolbar->addButtonInstance($button);
+		}
+
 		$this->showNoResultsReportingMessage();
+
 	}
 	
 	protected function showNoResultsReportingMessage()
