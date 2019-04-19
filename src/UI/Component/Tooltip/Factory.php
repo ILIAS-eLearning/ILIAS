@@ -20,16 +20,19 @@ interface Factory
 	 *      Standard Tooltips are used to display other components.
 	 *      Tooltips should give the users additional information about a
 	 *      displayed component.
-	 *      Tooltips can be used e.g. to give information for the correct
-	 *      input value in a form or an displayed value in a view.
+	 *      They can be used to create visually appealing prompts
+	 *      that grab user attentions when hovering or clicking other components,
+	 *      e.g. input fields in a form, tabs etc..
 	 *   composition: >
-	 *      The content of a Standard Tooltip displays the components.
-	 *      A tooltip consists of a placement, ui components to be displayed
-	 *      and the signal the tooltip reacts to.
+	 *      A Standard Tooltip displays the UI components passed as argument on creation.
+	 *      A tooltip consists of a placement, the UI components to be displayed
+	 *      and the Signal the tooltip reacts to.
 	 * rules:
 	 *   usage:
 	 *      1: >
-	 *          Standard Tooltips MUST have an array of \ILIAS\UI\Component\Component
+	 *          Standard Tooltips MUST be created with an array of \ILIAS\UI\Component\Component
+	 *      2: >
+	 *          Standard Tooltips MUST NOT contain complex or large components
 	 * ---
 	 *
 	 * @param Component[] $contents An array of components that will be displayed in the tooltip.
