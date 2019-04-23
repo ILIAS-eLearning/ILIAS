@@ -4,7 +4,7 @@
 
 If your component wants to add entries to the taksks list of a user it must do the following.
 
-Add an entry in the `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilLearningHistoryProviderFactory.php`. It is planned to switch this to a future general collector/provider/consumer pattern.
+Add an entry in the `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilDerivedTaskProviderMasterFactory.php`. It is planned to switch this to a future general collector/provider/consumer pattern.
 
 The class provided at this location MUST implement `Services/Tasks/DerivedTasks/interfaces/interface.ilDerivedTaskProviderFactory.php`. The constructor of this class MUST accept an instance of `ilTaskService` as the first argument.
 
