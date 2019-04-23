@@ -259,8 +259,7 @@ class ilSkillNotifications extends ilCronJob
 			null,
 			$subject,
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
-			null,
-			array("system"));
+			[]);
 	}
 
 }

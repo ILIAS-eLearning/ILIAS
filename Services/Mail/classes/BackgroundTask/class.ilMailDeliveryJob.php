@@ -43,7 +43,6 @@ class ilMailDeliveryJob extends AbstractJob
 			(string)$input[4]->getValue(),  // Subject
 			(string)$input[5]->getValue(),  // Message
 			(array)unserialize($input[6]->getValue()),  // Attachments 
-			(array)unserialize($input[11]->getValue()), // Type
 			(bool)$input[7]->getValue() // Use Placeholders
 		);
 
@@ -75,7 +74,6 @@ class ilMailDeliveryJob extends AbstractJob
 			new SingleType(BooleanValue::class), // 8. Save in sentbox
 			new SingleType(StringValue::class), // 9. Context Id
 			new SingleType(StringValue::class), // 10. Context Parameters
-			new SingleType(StringValue::class), // 11. Types,
 		];
 	}
 

@@ -800,7 +800,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		$mail->validateAndEnqueue($settings->getEContentRecipientsAsString(),
 			'','',
 			$lang->txt('ecs_new_econtent_subject'),
-			$message,array(),array('normal'));
+			$message,array());
 	}
 	
 	/**

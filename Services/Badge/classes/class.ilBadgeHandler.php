@@ -656,8 +656,7 @@ class ilBadgeHandler
 					null,
 					$lng->txt("badge_notification_subject"), 
 					$ntf->composeAndGetMessage($user_id, null, "read", true), 
-					null, 
-					array("system"));	
+					[]);	
 				
 				
 				// osd

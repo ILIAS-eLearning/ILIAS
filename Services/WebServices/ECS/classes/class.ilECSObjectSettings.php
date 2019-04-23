@@ -647,7 +647,7 @@ abstract class ilECSObjectSettings
 		$mail->validateAndEnqueue($a_server->getApprovalRecipientsAsString(),
 			'','',
 			$lang->txt('ecs_new_approval_subject'),
-			$message,array(),array('normal'));
+			$message,array());
 		
 		return true;	
 	}

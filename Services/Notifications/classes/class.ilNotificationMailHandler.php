@@ -17,8 +17,7 @@ class ilNotificationMailHandler extends ilNotificationHandler {
                 '',
                 $notification->title,
                 $notification->longDescription,
-                false,
-                array('normal')
+                []
         );
 
         //mail($notification->user->getEmail(), $notification->title, $notification->longDescription);

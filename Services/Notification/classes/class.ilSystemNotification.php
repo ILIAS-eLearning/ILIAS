@@ -347,7 +347,7 @@ class ilSystemNotification extends ilMailNotification
 	{						
 		if($this->compose($a_user_id, $a_goto_additional, $a_permission))
 		{
-			parent::sendMail(array($a_user_id), array('system'), is_numeric($a_user_id));								
+			parent::sendMail(array($a_user_id), is_numeric($a_user_id));								
 			return true;
 		}
 		return false;

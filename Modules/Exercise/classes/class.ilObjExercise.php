@@ -452,8 +452,7 @@ class ilObjExercise extends ilObject
 			"",
 			$subject, 
 			$body,
-			$file_names,
-			array("normal")
+			$file_names
 		);
 		unset($tmp_mail_obj);
 

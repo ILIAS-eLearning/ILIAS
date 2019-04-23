@@ -501,8 +501,7 @@ class ilMembershipCronNotifications extends ilCronJob
 			null,
 			$subject, 
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true), 
-			null, 
-			array("system"));
+			[]);
 	}
 	
 	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)

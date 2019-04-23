@@ -186,7 +186,6 @@ class ilMembershipCronMinMembers extends ilCronJob
 			null,
 			$lng->txt("mem_cron_min_members_subject"), 
 			$ntf->composeAndGetMessage($a_reci_id, null, "read", true), 
-			null, 
-			array("system"));
+			[]);
 	}
 }

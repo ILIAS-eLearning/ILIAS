@@ -478,8 +478,7 @@ class ilAuthContainerECS extends Auth_Container
 			"",
 			$subject,
 			$body,
-			array(),
-			array("normal")
+			array()
 		);
 	}
 }
