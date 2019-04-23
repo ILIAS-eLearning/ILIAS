@@ -117,16 +117,25 @@ class ilDerivedTasksGUI
 		foreach ($entries as $i)
 		{
 			$props = [];
+
+			$title = $i->getTitle();
+			$link = '';
+
 			if ($i->getRefId() > 0)
 			{
 				$obj_id = ilObject::_lookupObjId($i->getRefId());
 				$obj_type = ilObject::_lookupType($obj_id);
-				$title = $f->button()->shy($i->getTitle(), ilLink::_getStaticLink($i->getRefId()));
 				$props[$lng->txt("obj_".$obj_type )] = ilObject::_lookupTitle($obj_id);
+
+				$link = ilLink::_getStaticLink($i->getRefId());
 			}
-			else
-			{
-				$title = $i->getTitle();
+
+			if (strlen($i->getUrl()) > 0) {
+				$link = $i->getUrl();
+			}
+
+			if (strlen($link) > 0) {
+				$title = $f->button()->shy($i->getTitle(), $link);
 			}
 
 			if ($i->getStartingTime() > 0)
