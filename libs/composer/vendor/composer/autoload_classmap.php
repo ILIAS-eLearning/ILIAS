@@ -4660,7 +4660,6 @@ return array(
     'ilMySQLQueryUtils' => $baseDir . '/../../Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php',
     'ilMyStaffAccess' => $baseDir . '/../../Services/MyStaff/classes/class.ilMyStaffAccess.php',
     'ilMyStaffGUI' => $baseDir . '/../../Services/MyStaff/classes/class.ilMyStaffGUI.php',
-    'ilMyStaffUser' => $baseDir . '/../../Services/MyStaff/classes/class.ilMyStaffUser.php',
     'ilNavigationHistory' => $baseDir . '/../../Services/Navigation/classes/class.ilNavigationHistory.php',
     'ilNavigationHistoryGUI' => $baseDir . '/../../Services/Navigation/classes/class.ilNavigationHistoryGUI.php',
     'ilNestedList' => $baseDir . '/../../Services/UIComponent/NestedList/classes/class.ilNestedList.php',
