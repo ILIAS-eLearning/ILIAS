@@ -816,3 +816,19 @@ if( !$ilDB->tableColumnExists('qpl_qst_essay', 'word_cnt_enabled') )
 	));
 }
 ?>
+<#5490>
+<?php
+if ($ilDB->tableColumnExists('mail_saved', 'm_type')) {
+	$ilDB->dropTableColumn('mail_saved', 'm_type');
+}
+
+if ($ilDB->tableColumnExists('mail', 'm_type')) {
+	$ilDB->dropTableColumn('mail', 'm_type');
+}
+
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	['text'],
+	['pd_sys_msg_mode']
+);
+?>
