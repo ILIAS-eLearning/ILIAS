@@ -30,7 +30,7 @@ class ilStudyProgrammeAdvancedMetadataRecord
 	 * @con_fieldtype   integer
 	 * @con_length      4
 	 */
-	protected $type_id;
+	protected $type_id = 0;
 
 	/**
 	 *
@@ -40,7 +40,7 @@ class ilStudyProgrammeAdvancedMetadataRecord
 	 * @con_fieldtype   integer
 	 * @con_length      4
 	 */
-	protected $rec_id;
+	protected $rec_id = 0;
 
 
 	public function __construct(int $id)
