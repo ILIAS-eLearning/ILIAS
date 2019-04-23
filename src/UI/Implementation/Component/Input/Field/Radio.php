@@ -18,6 +18,8 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	use JavaScriptBindable;
 	use Triggerer;
 
+	const DEPENDANT_FIELD_ERROR = 'ilradio_dependant_field_error';
+
 	/**
 	 * @var array <string,string> {$value => $label}
 	 */
@@ -136,6 +138,8 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 
 				if ($content->isOk()) {
 					$values['group_values'][$name] = $content->value();
+				} else {
+					$clone = $clone->withError(self::DEPENDANT_FIELD_ERROR);
 				}
 
 				$clone->dependant_fields[$value][$name] = $filled;
