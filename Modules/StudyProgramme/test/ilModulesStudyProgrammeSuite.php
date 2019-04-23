@@ -40,15 +40,30 @@ class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeUserProgressTest.php");
         require_once("./Modules/StudyProgramme/test/model/Settings/ilStudyProgrammeSettingsTest.php");
         require_once("./Modules/StudyProgramme/test/model/Settings/ilStudyProgrammeSettingsRepositoryTest.php");
-
+        require_once("./Modules/StudyProgramme/test/model/Progress/ilStudyProgrammeProgressTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Progress/ilStudyProgrammeProgressRepositoryTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Assignments/ilStudyProgrammeAssignmentTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Assignments/ilStudyProgrammeAssignmentRepositoryTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeTypeTranslationTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeAdvancedMetadataRecordTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeTypeTest.php");
+        require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeTypeRepositoryTest.php");
         $suite->addTestSuite("ilObjStudyProgrammeTest");
         $suite->addTestSuite("ilStudyProgrammeEventsTest");
         $suite->addTestSuite("ilStudyProgrammeLPTest");
         $suite->addTestSuite("ilStudyProgrammeProgressCalculationTest");
         $suite->addTestSuite("ilStudyProgrammeUserAssignmentTest");
         $suite->addTestSuite("ilStudyProgrammeUserProgressTest");
-  		$suite->addTestSuite("ilStudyProgrammeSettingsTest");
-  		$suite->addTestSuite("ilStudyProgrammeSettingsRepositoryTest");
+        $suite->addTestSuite("ilStudyProgrammeSettingsTest");
+        $suite->addTestSuite("ilStudyProgrammeSettingsRepositoryTest");
+        $suite->addTestSuite("ilStudyProgrammeProgressTest");
+        $suite->addTestSuite("ilStudyProgrammeProgressRepositoryTest");
+        $suite->addTestSuite("ilStudyProgrammeAssignmentTest");
+        $suite->addTestSuite("ilStudyProgrammeAssignmentRepositoryTest");
+        $suite->addTestSuite("ilStudyProgrammeTypeTranslationTest");
+        $suite->addTestSuite("ilStudyProgrammeAdvancedMetadataRecordTest");
+        $suite->addTestSuite("ilStudyProgrammeTypeTest");
+        $suite->addTestSuite("ilStudyProgrammeTypeRepositoryTest");
         return $suite;
     }
 }
