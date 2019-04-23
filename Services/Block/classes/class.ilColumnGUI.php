@@ -94,7 +94,6 @@ class ilColumnGUI
 		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
 		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
 		"ilPDStudyProgrammeExpandableListGUI" => "Modules/StudyProgramme/",
-		"ilForumPostingDraftsBlockGUI" => "Modules/Forum/"
 	);
 	
 	static protected $block_types = array(
@@ -117,7 +116,6 @@ class ilColumnGUI
 		'ilPDPortfolioBlockGUI' => 'pdportf',
 		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
 		"ilPDStudyProgrammeExpandableListGUI" => "prgexpandablelist",
-		"ilForumPostingDraftsBlockGUI" => "pdfrmpostdraft"
 	);
 	
 		
@@ -154,7 +152,6 @@ class ilColumnGUI
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
 			"ilChatroomBlockGUI" => IL_COL_RIGHT,
-			"ilForumPostingDraftsBlockGUI" => IL_COL_RIGHT
 			)
 		);
 
@@ -184,7 +181,6 @@ class ilColumnGUI
 			"pdsysmess" => true,
 			"pdnotes" => true,
 			"chatviewer" => true,
-			"pdfrmpostdraft" => true,
 			"tagcld" => true,
 			"pdportf" => true,
 			"clsfct" => true);
