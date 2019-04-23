@@ -639,7 +639,7 @@ them.
 
 ## Factory to Create Objects Inside a Repository
 
-Some resources on the internet recomment to make the repository depend on a
+Some resources on the internet recommend to make the repository depend on a
 factory to factor out the creation of objects. We found this to be of little
 value, especially when combined with the immutable object pattern.
 

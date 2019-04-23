@@ -302,9 +302,7 @@ class ilMainMenuGUI {
 		}
 
 		if ($this->getMode() == self::MODE_FULL) {
-			$renderer = new ilMMEntryRendererGUI();
-			$new_renderer = $renderer->getHTML();
-			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $new_renderer);
+			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", (new ilMMEntryRendererGUI())->getHTML());
 		}
 
 		if ($this->getMode() != self::MODE_TOPBAR_MEMBERVIEW) {

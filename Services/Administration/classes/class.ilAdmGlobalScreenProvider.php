@@ -56,7 +56,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 		$dic = $this->dic;
 
 		$entries[] = $this->globalScreen()
-			->mainmenu()
+			->mainBar()
 			->complex($this->if->identifier('adm_content'))
 			->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")
 			->withParent($this->getTopItem())

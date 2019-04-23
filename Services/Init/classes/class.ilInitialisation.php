@@ -1472,7 +1472,8 @@ class ilInitialisation
 				$c["ui.factory.messagebox"],
 				$c["ui.factory.card"],
 				$c["ui.factory.layout"],
-				$c["ui.factory.maincontrols"]
+				$c["ui.factory.maincontrols"],
+				$c["ui.factory.tree"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1576,11 +1577,18 @@ class ilInitialisation
 		};
 		$c["ui.factory.input.container"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
-				$c["ui.factory.input.container.form"]
+				$c["ui.factory.input.container.form"],
+				$c["ui.factory.input.container.filter"]
 			);
 		};
 		$c["ui.factory.input.container.form"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
+				$c["ui.factory.input.field"]
+			);
+		};
+		$c["ui.factory.input.container.filter"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+				$c["ui.signal_generator"],
 				$c["ui.factory.input.field"]
 			);
 		};
@@ -1609,6 +1617,12 @@ class ilInitialisation
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
+							),
+						  new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory
+						  	($c["ui.factory"]
+						  	, $c["ui.template_factory"]
+						  	, $c["lng"]
+						  	, $c["ui.javascript_binding"]
 							)
 						)
 					)
@@ -1625,8 +1639,13 @@ class ilInitialisation
 		$c["ui.javascript_binding"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
 		};
+
+		$c["ui.factory.tree"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+		};
+
 	}
-	
+
 	/**
 	 * init HTML output (level 3)
 	 */
