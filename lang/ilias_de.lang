@@ -164,9 +164,6 @@ forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf lös
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#publish#:#Veröffentlichen
-forum#:#frm_my_posting_drafts#:#Meine Beitragsentwürfe
-forum#:#frm_posting_draft#:#Entwurf
-forum#:#frm_posting_drafts#:#Entwürfe
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
 forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
 forum#:#adm_save_drafts#:#Entwürfe speichern
