@@ -13,20 +13,31 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 	/** @var \ilAccess */
 	protected $accessHandler;
 
+	/** @var \ilLanguage */
+	protected $lng;
+
 	/** @var \ilSetting */
 	protected $settings;
 
 	/**
 	 * ilForumDraftsDerivedTaskProvider constructor.
-	 * @param ilTaskService $taskService
-	 * @param ilAccessHandler $accessHandler
-	 * @param ilSetting $settings
+	 * @param \ilTaskService $taskService
+	 * @param \ilAccessHandler $accessHandler
+	 * @param \ilLanguage $lng
+	 * @param \ilSetting $settings
 	 */
-	public function __construct(ilTaskService $taskService, \ilAccessHandler $accessHandler, \ilSetting $settings)
-	{
+	public function __construct(
+		ilTaskService $taskService,
+		\ilAccessHandler $accessHandler,
+		\ilLanguage $lng,
+		\ilSetting $settings
+	) {
 		$this->taskService = $taskService;
 		$this->accessHandler = $accessHandler;
+		$this->lng = $lng;
 		$this->settings = $settings;
+
+		$this->lng->loadLanguageModule('forum');
 	}
 
 	/**
@@ -45,8 +56,13 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 				continue;
 			}
 
+			$title = sprintf(
+				$this->lng->txt('frm_task_publishing_draft_title'),
+				$draft->getPostSubject()
+			);
+
 			$task = $this->taskService->derived()->factory()->task(
-				$draft->getPostSubject(),
+				$title,
 				$refId,
 				0,
 				strtotime($draft->getPostDate())

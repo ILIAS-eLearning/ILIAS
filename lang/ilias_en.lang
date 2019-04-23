@@ -173,6 +173,7 @@ forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save for
 forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
+forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
 common#:#pwsp_recalculate_disk_quota#:#Personal Workspace: Recalculation of Disk Quota
 common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal workspace.
 itgr#:#itgr_show_title#:#Show Title

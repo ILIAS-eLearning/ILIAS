@@ -171,6 +171,7 @@ forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beit
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
+forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
 common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
 itgr#:#itgr_show_title#:#Titel anzeigen

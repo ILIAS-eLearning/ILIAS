@@ -16,16 +16,21 @@ class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 	/** @var \ilSetting */
 	protected $settings;
 
+	/** @var \ilLanguage */
+	protected $lng;
+
 	/**
 	 * ilForumDerivedTaskProviderFactory constructor.
 	 * @param \ilTaskService $taskService
 	 * @param \ilAccess|null $accessHandler
 	 * @param \ilSetting|null $settings
+	 * @param \ilLanguage|null $lng
 	 */
 	public function __construct(
 		\ilTaskService $taskService,
 		\ilAccess $accessHandler = null,
-		\ilSetting $settings = null
+		\ilSetting $settings = null,
+		\ilLanguage $lng = null
 	) {
 		global $DIC;
 
@@ -37,6 +42,10 @@ class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 		$this->settings = is_null($settings)
 			? $DIC->settings()
 			: $settings;
+
+		$this->lng = is_null($lng)
+			? $DIC->language()
+			: $lng;
 	}
 
 	/**
@@ -48,6 +57,7 @@ class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 			new \ilForumDraftsDerivedTaskProvider(
 				$this->taskService,
 				$this->accessHandler,
+				$this->lng,
 				$this->settings
 			)
 		];
