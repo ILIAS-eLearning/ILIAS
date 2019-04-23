@@ -11,7 +11,7 @@ class ilNotificationMailHandler extends ilNotificationHandler {
 		include_once 'Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($sender_id);
 		$mail->appendInstallationSignature(true);
-        $mail->validateAndEnqueue(
+        $mail->enqueue(
                 $notification->user->getLogin(),
                 '',
                 '',

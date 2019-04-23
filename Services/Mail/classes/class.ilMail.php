@@ -1103,7 +1103,7 @@ class ilMail
 	 * @param bool|int $a_use_placeholders
 	 * @return \ilMailError[] 
 	 */
-	public function validateAndEnqueue($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachment, $a_use_placeholders = 0): array
+	public function enqueue($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachment, $a_use_placeholders = 0): array
 	{
 		global $DIC;
 
@@ -1202,8 +1202,7 @@ class ilMail
 
 	/**
 	 * This method is used to finally send internal messages and external emails
-	 * To use the mail system as a consumer, please use \ilMail::validateAndEnqueue
-	 * @see \ilMail::validateAndEnqueue()
+	 * To use the mail system as a consumer, please use \ilMail::enqueue
 	 * @param string $to
 	 * @param string $cc
 	 * @param string $bcc
@@ -1212,6 +1211,7 @@ class ilMail
 	 * @param array $attachments
 	 * @param bool $usePlaceholders
 	 * @return \ilMailError[]
+	 * @see \ilMail::enqueue()
 	 * @internal 
 	 */
 	public function sendMail(

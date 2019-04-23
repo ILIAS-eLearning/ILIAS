@@ -254,7 +254,7 @@ class ilSkillNotifications extends ilCronJob
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
+		$mail->enqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
