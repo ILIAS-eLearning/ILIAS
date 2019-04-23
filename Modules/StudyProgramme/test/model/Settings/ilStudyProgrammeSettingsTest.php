@@ -1,12 +1,25 @@
 <?php
 
 /**
- * TestCase for the ilStudyProgrammeSettings
  * @group needsInstalledILIAS
  */
 class ilStudyProgrammeSettingsTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
+
+	public function setUp()
+	{
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			try {
+				ilUnitUtil::performInitialisation();
+			} catch(\Exception $e) {}
+		}
+	}
+
 
 	public function test_init_and_id()
 	{

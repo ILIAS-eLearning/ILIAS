@@ -128,10 +128,25 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 
 		$asss = $repo->readByUsrId(self::$usr_2->getId());
 		$this->assertCount(2,$asss);
-		$this->assertEquals(
-			array_map(function($ass) {return $ass->getRootId();},$asss),
-			[self::$prg_2->getId(),self::$prg_2->getId()]
-		);
+		foreach ($asss as $ass) {
+			$this->assertEquals($ass->getRootId(),self::$prg_2->getId());
+		}
+	}
+
+	/**
+	 * @depends test_save_and_load
+	 */
+	public function test_read_by_usr_and_prg_ids()
+	{
+		$repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
+		$this->assertCount(0,$repo->readByUsrIdAndPrgId(-1,-2));
+
+		$asss = $repo->readByUsrIdAndPrgId(self::$usr_2->getId(),self::$prg_2->getId());
+		$this->assertCount(2,$asss);
+		foreach ($asss as $ass) {
+			$this->assertEquals($ass->getRootId(),self::$prg_2->getId());
+			$this->assertEquals($ass->getUserId(),self::$usr_2->getId());
+		}
 	}
 
 	/**
