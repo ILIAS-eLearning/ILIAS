@@ -270,12 +270,12 @@ implements ilStudyProgrammeTypeRepository
 	public function deleteType(ilStudyProgrammeType $type)
 	{
 
-		$prgs = $this->readStudyProgrammeIdsByTypeId();
+		$prgs = $this->readStudyProgrammeIdsByTypeId($type->getId());
 
 		if (count($prgs)) {
 			$titles = array();
 			/** @var $prg ilStudyProgramme */
-			foreach ($prgs as $key=>$prg) {
+			foreach ($prgs as $key => $prg) {
 				$container = new ilObjStudyProgramme($prg->getObjId(), false);
 				$titles[] = $container->getTitle();
 			}
@@ -309,15 +309,16 @@ implements ilStudyProgrammeTypeRepository
 		$this->db->manipulate(
 			'DELETE FROM '.self::TYPE_TABLE.' WHERE '.self::FIELD_ID.' = '.$type->getId()
 		);
+		unset($this->amd_records_assigned[$type->getId()]);
 	}
 
 	protected function getActivePlugins() {
 		if ($this->active_plugins === NULL) {
-			$active_plugins = $this->pluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk');
+			$active_plugins = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk');
 			$this->active_plugins = array();
 			foreach ($active_plugins as $pl_name) {
 				/** @var ilStudyProgrammeTypeHookPlugin $plugin */
-				$plugin = $this->pluginAdmin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl_name);
+				$plugin = $this->plugin_admin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl_name);
 				$this->active_plugins[] = $plugin;
 			}
 		}
@@ -328,13 +329,13 @@ implements ilStudyProgrammeTypeRepository
 	protected function deleteAllTranslationsByTypeId(int $type_id)
 	{
 		$this->db->manipulate(
-			'DELETE FROM '.self::TYPE_TRANSLATION_TABLE.' WHERE '.self::FIELD_PRG_TYPE_ID.' = '.$type->getId()
+			'DELETE FROM '.self::TYPE_TRANSLATION_TABLE.' WHERE '.self::FIELD_PRG_TYPE_ID.' = '.$this->db->quote($type_id,'integer')
 		);
 	}
 	protected function deleteAMDRecordsByTypeId(int $type_id)
 	{
 		$this->db->manipulate(
-			'DELETE FROM '.self::AMD_TABLE.' WHERE '.self::FIELD_TYPE_ID.' = '.$type->getId()
+			'DELETE FROM '.self::AMD_TABLE.' WHERE '.self::FIELD_TYPE_ID.' = '.$this->db->quote($type_id,'integer')
 		);
 	}
 
