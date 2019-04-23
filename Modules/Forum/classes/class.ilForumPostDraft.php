@@ -385,7 +385,7 @@ class ilForumPostDraft
 	
 	/**
 	 * @param int $user_id
-	 * @return mixed
+	 * @return \ilForumPostDraft[]
 	 */
 	public static function getDraftInstancesByUserId($user_id)
 	{
