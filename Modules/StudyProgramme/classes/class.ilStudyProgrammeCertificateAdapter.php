@@ -64,7 +64,6 @@ extends ilCertificateAdapter
 		{
 			$insert_tags["[".$id."]"] = $caption;
 		}
-		die(var_dump($vars));
 		return $insert_tags;
 	}
 	
