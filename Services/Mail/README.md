@@ -163,8 +163,7 @@ $mail->validateAndEnqueue(
     $bc,
     $subject,
     $message,
-    $attachments,
-    [array("normal")](#recipients)
+    $attachments
 );
 ```
 
@@ -351,16 +350,6 @@ As outlined above attachments have to be removed
 manually by the consumer after the transport of an
 email has been delegated to the mail system.
 
-### Type
-
-The type string MUST be one of the following options:
-
-* normal
-* system (displayed in a separate block at the *Personal Desktop*)
-
-Messages marked as *system* will not be delivered to the recipient if he/she
-did not accept the *Terms of Service*, or he/she has an expired user account.
-
 ## ilMimeMail
 
 `\ilMimeMail` is a **low level** class to create and send
@@ -477,7 +466,7 @@ class MyMailNotification extends \ilMailNotification
             $this->setBody('Hello World!');
             $this->appendBody(\ilMail::_getInstallationSignature());
 
-            $this->sendMail($this->getRecipients(), array('system'));
+            $this->sendMail($this->getRecipients());
         }
         catch(\ilMailException $e)
         {
@@ -523,7 +512,7 @@ class MyMailNotification extends \ilMailNotification
             $this->setBody('Hello World!');
             $this->appendBody(\ilMail::_getInstallationSignature());
 
-            $this->sendMail($this->getRecipients(), array('system'), false);
+            $this->sendMail($this->getRecipients(), false);
         }
         catch(\ilMailException $e)
         {
@@ -572,7 +561,7 @@ class ilRegistrationMailNotification extends \ilMimeMailNotification
                 $this->appendBody(\ilMail::_getInstallationSignature());
 
                 $this->getMail()->appendInstallationSignature(true);
-                $this->sendMail(array($rcp),array('system'));
+                $this->sendMail(array($rcp));
             }
         }
         catch(\ilMailException $e)
