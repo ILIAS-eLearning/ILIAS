@@ -222,8 +222,8 @@ implements ilStudyProgrammeProgressRepository
 			->setAmountOfPoints($row[self::FIELD_POINTS])
 			->setCurrentAmountOfPoints($row[self::FIELD_POINTS_CUR])
 			->setCompletionBy($row[self::FIELD_COMPLETION_BY])
-			->setLastChange($row[self::FIELD_LAST_CHANGE]? new ilDateTime($row[self::FIELD_LAST_CHANGE],IL_CAL_DATETIME) : null)
-			->setDeadline($row[self::FIELD_DEADLINE] ? new ilDateTime($row[self::FIELD_DEADLINE],IL_CAL_DATE) : null);
+			->setDeadline($row[self::FIELD_DEADLINE] ? new ilDateTime($row[self::FIELD_DEADLINE],IL_CAL_DATE) : null)
+			->setLastChange($row[self::FIELD_LAST_CHANGE]? new ilDateTime($row[self::FIELD_LAST_CHANGE],IL_CAL_DATETIME) : null, true);
 	}
 
 	protected function loadByFilter(array $filter) 
