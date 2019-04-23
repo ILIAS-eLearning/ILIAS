@@ -3295,7 +3295,6 @@ common#:#mail_send_error#:#Fehler beim Verschicken der Mail
 common#:#mail_sent#:#Ihre Mail wurde versandt
 common#:#mail_settings#:#Mail-Einstellungen
 rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen senden
-rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
 common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt)
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
@@ -4086,7 +4085,6 @@ common#:#show_filter#:#Filter anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
-common#:#show_system_messages#:#Systemnachrichten
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#side_frame#:#Rahmen Baumansicht
 common#:#signature#:#Signatur
@@ -4166,7 +4164,6 @@ common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_information#:#Systeminformation
 common#:#system_language#:#Systemsprache
-common#:#system_message#:#Systemnachrichten
 common#:#system_styles#:#System-Styles
 common#:#systemcheck_cron#:#System Check per Cron-Job
 common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cron-Job
@@ -13504,9 +13501,6 @@ skmg#:#skmg_input_file#:#Importdatei
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 form#:#form_no_link#:#Kein Link
 copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
-pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
-pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
-pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
 logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code "%s" identifiziert werden kann.
 logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Dateipfad
