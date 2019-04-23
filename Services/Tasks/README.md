@@ -18,6 +18,18 @@ $tasks[] = $this->derived()->factory()->task($title, $ref_id,
 	$deadline, $starting_time);
 ```
 
+### Custom Links
+
+The title of a task will be linked with the repository object
+by using `\ilLink::_getStaticLink`, if the task provides a valid `ref_id`.
+In case a concrete `\ilDerivedTaskProvider` would like to define a custom URL for
+it's tasks, you can use `\ilDerivedTask::withUrl` to retrieve a task with an URL
+passed as method argument.
+
+```php
+$task = $task->withUrl('...');
+``` 
+
 # JF Decisions
 
 12 Nov 2018
