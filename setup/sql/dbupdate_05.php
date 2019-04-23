@@ -832,3 +832,17 @@ if (!$ilDB->tableColumnExists('exc_assignment_peer', 'is_valid'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5492>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	['text'],
+	['block_activated_chatviewer']
+);
+
+$ilDB->manipulateF(
+	'DELETE FROM usr_pref WHERE keyword = %s',
+	['text'],
+	['chatviewer_last_selected_room']
+);
+?>
