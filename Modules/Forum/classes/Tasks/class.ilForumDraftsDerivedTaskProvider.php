@@ -38,8 +38,12 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 
 		$drafts = \ilForumPostDraft::getDraftInstancesByUserId($user_id);
 		foreach ($drafts as $draft) {
-			/*$objId = ilForum::_lookupObjIdForForumId($draft->getForumId());
-			$refId = end(ilObject::_getAllReferences($objId));
+			$objId = ilForum::_lookupObjIdForForumId($draft->getForumId());
+			$refId = $this->getFirstRefIdWithPermission('read', $objId, $user_id);
+
+			if (0 === $refId) {
+				continue;
+			}
 
 			$task = $this->taskService->derived()->factory()->task(
 				$draft->getPostSubject(),
@@ -48,10 +52,27 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 				strtotime($draft->getPostDate())
 			);
 
-			$tasks[] = $task;*/
+			$tasks[] = $task;
 		}
 
 		return $tasks;
+	}
+
+	/**
+	 * @param string $operation
+	 * @param int $objId
+	 * @param int $userId
+	 * @return int
+	 */
+	protected function getFirstRefIdWithPermission(string $operation, int $objId, int $userId): int
+	{
+		foreach (\ilObject::_getAllReferences($objId) as $refId) {
+			if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
+				return $refId;
+			}
+		}
+
+		return 0;
 	}
 
 	/**

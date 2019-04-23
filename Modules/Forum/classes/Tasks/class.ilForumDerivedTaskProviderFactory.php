@@ -19,6 +19,8 @@ class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 	/**
 	 * ilForumDerivedTaskProviderFactory constructor.
 	 * @param \ilTaskService $taskService
+	 * @param \ilAccess|null $accessHandler
+	 * @param \ilSetting|null $settings
 	 */
 	public function __construct(
 		\ilTaskService $taskService,
@@ -27,17 +29,14 @@ class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 	) {
 		global $DIC;
 
+		$this->taskService = $taskService;
 		$this->accessHandler = is_null($accessHandler)
 			? $DIC->access()
 			: $accessHandler;
 
-		$this->lng = is_null($settings)
-			? $DIC->language()
-			: $lng;
-
-		$this->taskService = $taskService;
-		$this->accessHandler = $accessHandler;
-		$this->settings = $settings;
+		$this->settings = is_null($settings)
+			? $DIC->settings()
+			: $settings;
 	}
 
 	/**
