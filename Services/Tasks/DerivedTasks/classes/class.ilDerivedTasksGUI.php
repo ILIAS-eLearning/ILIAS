@@ -135,7 +135,7 @@ class ilDerivedTasksGUI
 			}
 
 			if (strlen($link) > 0) {
-				$title = $f->button()->shy($i->getTitle(), $link);
+				$title = $f->button()->shy($title, $link);
 			}
 
 			if ($i->getStartingTime() > 0)
