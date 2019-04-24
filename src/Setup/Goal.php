@@ -39,7 +39,7 @@ interface Goal {
 	/**
 	 * Get to know if this is an interesting goal for a human.
 	 */
-	public function isNotable() : string;
+	public function isNotable() : bool;
 
 	/**
 	 * Goals can be configurable.
