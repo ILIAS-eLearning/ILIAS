@@ -23,6 +23,11 @@
  * Form will be sent asynchronously due to limitations of dropped files (see
  * https://stackoverflow.com/questions/1017224/dynamically-set-value-of-a-file-input )
  *
+ * Attention 2: Your form will be sent for every single file (if e.g. setMaxFiles > 1 is set).
+ * This is due to the library used, but also because D&D uploads can only be handled asynchronously.
+ * Therefore, the endpoint of the form must be able to handle this accordingly. If you have any
+ * questions, please contact fs@studer-raimann.ch
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbarItem {
