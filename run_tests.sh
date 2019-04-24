@@ -80,6 +80,16 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 		#printLn "Switching directory and run results handling."
 		#cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
 		#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
+
+		if [ "$FAILURE" == "true" ]
+			then
+				printLn "Errors were found, exiting with error code."
+				exit 99
+		else
+			printLn "No errors were found."
+			exit 0
+		fi
+
 elif [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
 	then
 		printLn "Was a pull request ignoring missing results file!"
