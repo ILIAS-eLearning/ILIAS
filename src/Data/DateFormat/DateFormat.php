@@ -9,14 +9,59 @@ namespace ILIAS\Data\DateFormat;
  */
 class DateFormat
 {
+
+	const DOT = '.';
+	const COMMA = ',';
+	const DASH = '-';
+	const SLASH = '/';
+	const SPACE = ' ';
+	const DAY = 'd';
+	const DAY_ORDINAL = 'jS';
+	const WEEKDAY = 'l';
+	const WEEKDAY_SHORT = 'D';
+	const WEEK = 'W';
+	const MONTH = 'm';
+	const MONTH_SPELLED = 'F';
+	const MONTH_SPELLED_SHORT = 'M';
+	const YEAR = 'Y';
+	const YEAR_TWO_DIG = 'y';
+
+	const TOKENS = [
+		self::DOT,
+		self::COMMA,
+		self::DASH,
+		self::SLASH,
+		self::SPACE,
+		self::DAY,
+		self::DAY_ORDINAL,
+		self::WEEKDAY,
+		self::WEEKDAY_SHORT,
+		self::WEEK,
+		self::MONTH,
+		self::MONTH_SPELLED,
+		self::MONTH_SPELLED_SHORT,
+		self::YEAR,
+		self::YEAR_TWO_DIG
+	];
+
 	/**
 	 * @var array
 	 */
 	protected $format = [];
 
-	public function __construct(FormatBuilder $builder)
+	public function __construct(array $format)
 	{
-		$this->format = $builder->get();
+		$this->validateFormatElelements($format);
+		$this->format = $format;
+	}
+
+	public function validateFormatElelements(array $format)
+	{
+		foreach ($format as $entry) {
+			if(! in_array($entry, self::TOKENS)) {
+				throw new \InvalidArgumentException("not a valid token for date-format", 1);
+			}
+		}
 	}
 
 	/**

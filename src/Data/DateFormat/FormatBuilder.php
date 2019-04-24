@@ -9,114 +9,94 @@ namespace ILIAS\Data\DateFormat;
  */
 class FormatBuilder
 {
-	protected $format = [];
-	protected $format_instance;
+	private $format = [];
 
 	/**
-	 * Get the configured format.
+	 * Get the configured DateFormat and reset format.
 	 */
-	public function get(): array
+	public function get(): DateFormat
 	{
-		return $this->format;
+		$df = new DateFormat($this->format);
+		$this->format = [];
+		return $df;
 	}
 
 	/**
-	 * Bind an instance of DateFormat to the builder;
-	 * used in combination with 'apply'.
+	 * Append tokens to format.
 	 */
-	public function withInstance(DateFormat $instance): FormatBuilder
-	{
-		$clone = clone $this;
-		$clone->format_instance = $instance;
-		return $clone;
-	}
-
-	/**
-	 * Apply the format to the instance of DateFormat set by 'withIntance'.
-	 */
-	public function apply(): DateFormat
-	{
-		if(is_null($this->format_instance)) {
-			throw new \LogicException("no instance to apply to", 1);
-		}
-		return $this->format_instance->applyFormat($this);
-	}
-
 	public function dot(): FormatBuilder
 	{
-		$this->format[] = '.';
+		$this->format[] = DateFormat::DOT;
 		return $this;
 	}
 	public function comma(): FormatBuilder
 	{
-		$this->format[] = ',';
+		$this->format[] = DateFormat::COMMA;
 		return $this;
 	}
 	public function dash(): FormatBuilder
 	{
-		$this->format[] = '-';
+		$this->format[] = DateFormat::DASH;
 		return $this;
 	}
 	public function slash(): FormatBuilder
 	{
-		$this->format[] = '/';
+		$this->format[] = DateFormat::SLASH;
 		return $this;
 	}
 	public function space(): FormatBuilder
 	{
-		$this->format[] = ' ';
+		$this->format[] = DateFormat::SPACE;
 		return $this;
 	}
-
 	public function day(): FormatBuilder
 	{
-		$this->format[] = 'd';
+		$this->format[] = DateFormat::DAY;
 		return $this;
 	}
 	public function dayOrdinal(): FormatBuilder
 	{
-		$this->format[] = 'jS';
+		$this->format[] = DateFormat::DAY_ORDINAL;
 		return $this;
 	}
 	public function weekday(): FormatBuilder
 	{
-		$this->format[] = 'l';
+		$this->format[] = DateFormat::WEEKDAY;
 		return $this;
 	}
 	public function weekdayShort(): FormatBuilder
 	{
-		$this->format[] = 'D';
+		$this->format[] = DateFormat::WEEKDAY_SHORT;
 		return $this;
 	}
 	public function week(): FormatBuilder
 	{
-		$this->format[] = 'W';
+		$this->format[] = DateFormat::WEEK;
 		return $this;
 	}
 	public function month(): FormatBuilder
 	{
-		$this->format[] = 'm';
+		$this->format[] = DateFormat::MONTH;
 		return $this;
 	}
 	public function monthSpelled(): FormatBuilder
 	{
-		$this->format[] = 'F';
+		$this->format[] = DateFormat::MONTH_SPELLED;
 		return $this;
 	}
 	public function monthSpelledShort(): FormatBuilder
 	{
-		$this->format[] = 'M';
+		$this->format[] = DateFormat::MONTH_SPELLED_SHORT;
 		return $this;
 	}
 	public function year(): FormatBuilder
 	{
-		$this->format[] = 'Y';
+		$this->format[] = DateFormat::YEAR;
 		return $this;
 	}
 	public function twoDigitYear(): FormatBuilder
 	{
-		$this->format[] = 'y';
+		$this->format[] = DateFormat::YEAR_TWO_DIG;
 		return $this;
 	}
-
 }

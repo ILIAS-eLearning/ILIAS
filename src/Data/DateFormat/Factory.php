@@ -24,19 +24,16 @@ class Factory
 	 */
 	public function standard(): DateFormat
 	{
-		return new DateFormat(
-			$this->builder->year()->dash()->month()->dash()->day()
-		);
+		return $this->builder->year()->dash()->month()->dash()->day()->get();
 	}
 
 	/**
-	 * Get a "blank" DateFormat to be manually defined via the
-	 * FormatBuilder retrieved by CustomFormat::withFormat()
-	 * @return DateFormat
+	 * Get the builder to define a custom DateFormat
+	 * @return FormatBuilder
 	 */
-	public function custom(): DateFormat
+	public function custom(): FormatBuilder
 	{
-		return new CustomFormat($this->format_builder);
+		return $this->builder;
 	}
 
 	/**
@@ -44,9 +41,7 @@ class Factory
 	 */
 	public function germanShort(): DateFormat
 	{
-		return new DateFormat(
-			$this->builder->day()->dot()->month()->dot()->year()
-		);
+		return $this->builder->day()->dot()->month()->dot()->year()->get();
 	}
 
 	/**
@@ -54,9 +49,7 @@ class Factory
 	 */
 	public function germanLong(): DateFormat
 	{
-		return new DateFormat(
-			$this->builder->weekday()->comma()->space()
-				->day()->dot()->month()->dot()->year()
-		);
+		return $this->builder->weekday()->comma()->space()
+			->day()->dot()->month()->dot()->year()->get();
 	}
 }
