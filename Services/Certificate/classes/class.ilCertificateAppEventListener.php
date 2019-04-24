@@ -206,30 +206,15 @@ class ilCertificateAppEventListener implements ilAppEventListener
 					$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
 					if (true === $template->isCurrentlyActive()) {
-						$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
-
-						$entry = new \ilCertificateQueueEntry(
-							$objectId,
-							$userId,
-							$className,
-							\ilCronConstants::IN_PROGRESS,
-							$template->getId(),
-							time()
-						);
-
-
-						$mode = $settings->get('persistent_certificate_mode', '');
-						if ($mode === 'persistent_certificate_mode_instant') {
-							$cronjob = new ilCertificateCron();
-							$cronjob->init();
-							$cronjob->processEntry(0, $entry, array());
-						} else {
-							$this->certificateQueueRepository->addToQueue($entry);
-						}
+						$this->processEntry($type, $objectId, $userId, $template, $settings);
 					}
 				} catch (ilException $exception) {
 					$this->logger->warning($exception->getMessage());
 				}
+			}
+
+			if ($type === 'crs') {
+				return;
 			}
 
 			foreach (\ilObject::_getAllReferences($objectId) as $refId) {
@@ -237,33 +222,15 @@ class ilCertificateAppEventListener implements ilAppEventListener
 				$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
 				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
-				foreach ($completedCourses as $courseObjId) {
+				foreach ($completedCourses as $courseObjectId) {
 					// We do not check if we support the type anymore, because the type 'crs' is always supported
 					try {
-						$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
+						$template = $templateRepository->fetchCurrentlyActiveCertificate($courseObjectId);
 
-						if (true === $courseTemplate->isCurrentlyActive()) {
-							$type = $this->objectDataCache->lookupType($courseObjId);
+						if (true === $template->isCurrentlyActive()) {
+							$type = $this->objectDataCache->lookupType($courseObjectId);
 
-							$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
-
-							$entry = new \ilCertificateQueueEntry(
-								$courseObjId,
-								$userId,
-								$className,
-								\ilCronConstants::IN_PROGRESS,
-								$courseTemplate->getId(),
-								time()
-							);
-
-							$mode = $settings->get('persistent_certificate_mode', '');
-							if ($mode === 'persistent_certificate_mode_instant') {
-								$cronjob = new ilCertificateCron();
-								$cronjob->init();
-								return $cronjob->processEntry(0, $entry, array());
-							}
-
-							$this->certificateQueueRepository->addToQueue($entry);
+							$this->processEntry($type, $courseObjectId, $userId, $template, $settings);
 						}
 					} catch (ilException $exception) {
 						$this->logger->warning($exception->getMessage());
@@ -398,5 +365,39 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		$portfolioFileService->deleteUserDirectory($userId);
 
 		$this->logger->info(sprintf('All relevant data sources for the user certificates for user(user_id: "%s" deleted)', $userId));
+	}
+
+	/**
+	 * @param $type
+	 * @param $objectId
+	 * @param int $userId
+	 * @param ilCertificateTemplate $template
+	 * @param ilSetting $settings
+	 * @throws ilDatabaseException
+	 * @throws ilException
+	 * @throws ilInvalidCertificateException
+	 */
+	private function processEntry($type, $objectId, int $userId, ilCertificateTemplate $template, ilSetting $settings)
+	{
+		$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
+
+		$entry = new \ilCertificateQueueEntry(
+			$objectId,
+			$userId,
+			$className,
+			\ilCronConstants::IN_PROGRESS,
+			$template->getId(),
+			time()
+		);
+
+		$mode = $settings->get('persistent_certificate_mode', '');
+		if ($mode === 'persistent_certificate_mode_instant') {
+			$cronjob = new ilCertificateCron();
+			$cronjob->init();
+			$cronjob->processEntry(0, $entry, array());
+			return;
+		}
+
+		$this->certificateQueueRepository->addToQueue($entry);
 	}
 }

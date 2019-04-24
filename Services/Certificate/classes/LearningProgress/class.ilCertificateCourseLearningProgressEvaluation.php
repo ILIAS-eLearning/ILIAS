@@ -65,13 +65,17 @@ class ilCertificateCourseLearningProgressEvaluation
 	{
 		$courseObjectIds = $this->templateRepository->fetchAllObjectIdsByType('crs');
 
+		$enabledGlobalLearningProgress = \ilObjUserTracking::_enabledLearningProgress();
+
 		$completedCourses = array();
 		foreach ($courseObjectIds as $courseObjectId) {
-			$objectLearningProgressSettings = new ilLPObjSettings($courseObjectId);
+			if ($enabledGlobalLearningProgress) {
+				$objectLearningProgressSettings = new ilLPObjSettings($courseObjectId);
+				$mode = $objectLearningProgressSettings->getMode();
 
-			$mode = $objectLearningProgressSettings->getMode();
-			if(\ilObjUserTracking::_enabledLearningProgress() && ilLPObjSettings::LP_MODE_DEACTIVATED != $mode) {
-				continue;
+				if (ilLPObjSettings::LP_MODE_DEACTIVATED != $mode) {
+					continue;
+				}
 			}
 
 			$subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
