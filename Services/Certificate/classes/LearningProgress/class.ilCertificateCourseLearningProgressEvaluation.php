@@ -67,6 +67,13 @@ class ilCertificateCourseLearningProgressEvaluation
 
 		$completedCourses = array();
 		foreach ($courseObjectIds as $courseObjectId) {
+			$objectLearningProgressSettings = new ilLPObjSettings($courseObjectId);
+
+			$mode = $objectLearningProgressSettings->getMode();
+			if(\ilObjUserTracking::_enabledLearningProgress() && ilLPObjSettings::LP_MODE_DEACTIVATED != $mode) {
+				continue;
+			}
+
 			$subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
 
 			if (false === $subItems || $subItems === null) {
