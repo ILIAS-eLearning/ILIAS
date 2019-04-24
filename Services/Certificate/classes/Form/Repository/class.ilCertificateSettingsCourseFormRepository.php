@@ -17,7 +17,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	private $settingsFromFactory;
 
 	/**
-	 * @var \ilObject
+	 * @var \ilObjCourse
 	 */
 	private $object;
 
@@ -138,6 +138,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	 *
 	 * @return ilPropertyFormGUI
 	 *
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDatabaseException
 	 * @throws ilException
 	 * @throws ilWACException
 	 */
@@ -145,7 +149,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	{
 		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		if (!$this->trackingHelper->enabledLearningProgress()) {
+		$objectLearningProgressSettings = new ilLPObjSettings($this->object->getId());
+
+		$mode = $objectLearningProgressSettings->getMode();
+		if (!$this->trackingHelper->enabledLearningProgress() || $mode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
 			$subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
 			$formSection = new \ilFormSectionHeaderGUI();
@@ -160,6 +167,9 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 			$objectHelper = $this->objectHelper;
 			$lpHelper = $this->lpHelper;
 			$subitems->setTitleModifier(function ($id) use ($objectHelper, $lpHelper) {
+				if (null === $id) {
+					return '';
+				}
 				$obj_id = $objectHelper->lookupObjId($id);
 				$olp = $lpHelper->getInstance($obj_id);
 
@@ -185,6 +195,26 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	 */
 	public function save(array $formFields)
 	{
+		$invalid_modes = $this->getInvalidLPModes();
+
+		$invalidTitles = array();
+		foreach($formFields['subitems'] as $refId)
+		{
+			$objId = ilObject::_lookupObjId($refId);
+			$olp = ilObjectLP::getInstance($objId);
+			if(in_array($olp->getCurrentMode(), $invalid_modes))
+			{
+				$invalidTitles[] = ilObject::_lookupTitle($objId);
+			}
+		}
+
+		if(sizeof($invalidTitles))
+		{
+			$message = sprintf($this->language->txt('certificate_learning_progress_must_be_active'), implode(', ', $invalidTitles));
+			throw new ilException($message);
+		}
+
+
 		$this->setting->set('cert_subitems_' . $this->object->getId(), json_encode($formFields['subitems']));
 	}
 

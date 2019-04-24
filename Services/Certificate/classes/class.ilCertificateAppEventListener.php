@@ -222,54 +222,52 @@ class ilCertificateAppEventListener implements ilAppEventListener
 						if ($mode === 'persistent_certificate_mode_instant') {
 							$cronjob = new ilCertificateCron();
 							$cronjob->init();
-							return $cronjob->processEntry(0, $entry, array());
+							$cronjob->processEntry(0, $entry, array());
+						} else {
+							$this->certificateQueueRepository->addToQueue($entry);
 						}
-
-						$this->certificateQueueRepository->addToQueue($entry);
 					}
 				} catch (ilException $exception) {
 					$this->logger->warning($exception->getMessage());
 				}
 			}
 
-			if(!\ilObjUserTracking::_enabledLearningProgress()) {
-				foreach (\ilObject::_getAllReferences($objectId) as $refId) {
-					$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
-					$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
+			foreach (\ilObject::_getAllReferences($objectId) as $refId) {
+				$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
+				$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
-					$completedCourses = $progressEvaluation->evaluate($refId, $userId);
-					foreach ($completedCourses as $courseObjId) {
-						// We do not check if we support the type anymore, because the type 'crs' is always supported
-						try {
-							$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
+				$completedCourses = $progressEvaluation->evaluate($refId, $userId);
+				foreach ($completedCourses as $courseObjId) {
+					// We do not check if we support the type anymore, because the type 'crs' is always supported
+					try {
+						$courseTemplate = $templateRepository->fetchCurrentlyActiveCertificate($courseObjId);
 
-							if (true === $courseTemplate->isCurrentlyActive()) {
-								$type = $this->objectDataCache->lookupType($courseObjId);
+						if (true === $courseTemplate->isCurrentlyActive()) {
+							$type = $this->objectDataCache->lookupType($courseObjId);
 
-								$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
+							$className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
-								$entry = new \ilCertificateQueueEntry(
-									$courseObjId,
-									$userId,
-									$className,
-									\ilCronConstants::IN_PROGRESS,
-									$courseTemplate->getId(),
-									time()
-								);
+							$entry = new \ilCertificateQueueEntry(
+								$courseObjId,
+								$userId,
+								$className,
+								\ilCronConstants::IN_PROGRESS,
+								$courseTemplate->getId(),
+								time()
+							);
 
-								$mode = $settings->get('persistent_certificate_mode', '');
-								if ($mode === 'persistent_certificate_mode_instant') {
-									$cronjob = new ilCertificateCron();
-									$cronjob->init();
-									return $cronjob->processEntry(0, $entry, array());
-								}
-
-								$this->certificateQueueRepository->addToQueue($entry);
+							$mode = $settings->get('persistent_certificate_mode', '');
+							if ($mode === 'persistent_certificate_mode_instant') {
+								$cronjob = new ilCertificateCron();
+								$cronjob->init();
+								return $cronjob->processEntry(0, $entry, array());
 							}
-						} catch (ilException $exception) {
-							$this->logger->warning($exception->getMessage());
-							continue;
+
+							$this->certificateQueueRepository->addToQueue($entry);
 						}
+					} catch (ilException $exception) {
+						$this->logger->warning($exception->getMessage());
+						continue;
 					}
 				}
 			}

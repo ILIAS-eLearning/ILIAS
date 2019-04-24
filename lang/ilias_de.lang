@@ -15075,23 +15075,5 @@ content#:#cont_Separator#:#Begrenzer
 content#:#cont_StandardCenter#:#Standard Zentriert
 content#:#cont_Interaction#:#Interaktion
 content#:#cont_Background#:#Hintergrund
-mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
-survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
-survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
-sess#:#sess_material_assigned#:#Zugeordnet
-sess#:#sess_material_not_assigned#:#Nicht zugeordnet
-rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
-rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
-rbac#:#lso_manage_members#:#Mitglieder bearbeiten
-rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
-common#:#unparticipate#:#Abmelden
-common#:#participate#:#Anmelden
-rbac#:#lso_participate#:#An der Lernsequenz anmelden
-rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
-rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
-user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
-lti#:#lti_cron_title#:#LTI Outcome Service
-lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
+certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
