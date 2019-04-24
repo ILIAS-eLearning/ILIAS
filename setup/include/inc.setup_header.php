@@ -193,7 +193,10 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.input"],
 		$c["ui.factory.table"],
 		$c["ui.factory.messagebox"],
-		$c["ui.factory.card"]
+		$c["ui.factory.card"],
+		$c["ui.factory.layout"],
+		$c["ui.factory.maincontrols"],
+		$c["ui.factory.tree"]
 	);
 };
 $c["ui.signal_generator"] = function($c) {
@@ -263,6 +266,24 @@ $c["ui.factory.messagebox"] = function($c) {
 $c["ui.factory.card"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Card\Factory();
 };
+$c["ui.factory.layout"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Layout\Factory();
+};
+$c["ui.factory.maincontrols.slate"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MainControls\Slate\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.counter']
+	);
+};
+$c["ui.factory.maincontrols"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MainControls\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.maincontrols.slate']
+	);
+};
+$c["ui.factory.tree"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+};
 $c["ui.factory.progressmeter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
 };
@@ -282,7 +303,14 @@ $c["ui.factory.input.field"] = function($c) {
 };
 $c["ui.factory.input.container"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
-		$c["ui.factory.input.container.form"]
+		$c["ui.factory.input.container.form"],
+		$c["ui.factory.input.container.filter"]
+	);
+};
+$c["ui.factory.input.container.filter"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+		$c["ui.signal_generator"],
+		$c["ui.factory.input.field"]
 	);
 };
 $c["ui.factory.input.container.form"] = function($c) {
@@ -300,21 +328,27 @@ $c["ui.renderer"] = function($c) {
 	);
 };
 $c["ui.component_renderer_loader"] = function($c) {
-	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper
-	( new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper
-		( $c["ui.resource_registry"]
-			, new ILIAS\UI\Implementation\Render\FSLoader
-			( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
-			($c["ui.factory"]
-				, $c["ui.template_factory"]
-				, $c["lng"]
-				, $c["ui.javascript_binding"]
-			),
-				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
-				($c["ui.factory"]
-					, $c["ui.template_factory"]
-					, $c["lng"]
-					, $c["ui.javascript_binding"]
+	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
+		new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
+			$c["ui.resource_registry"],
+			new ILIAS\UI\Implementation\Render\FSLoader(
+				new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
 				)
 			)
 		)

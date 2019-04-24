@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject.php";
-require_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 
 /** @defgroup ModulesExercise Modules/Exercise
  */
@@ -576,8 +575,7 @@ class ilObjExercise extends ilObject
 
 		$st = $this->determinStatusOfUser($a_user_id);
 
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
-		ilExerciseMembers::_writeStatus($this->getId(), $a_user_id, 
+		ilExerciseMembers::_writeStatus($this->getId(), $a_user_id,
 			$st["overall_status"]);
 	}
 	
@@ -771,7 +769,6 @@ class ilObjExercise extends ilObject
 	{
 		$a_has_submitted = (bool)$a_has_submitted;			
 		
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		foreach($a_user_ids as $user_id)
 		{		
 			$member_status = $a_ass->getMemberStatus($user_id);

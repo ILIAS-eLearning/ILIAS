@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * TestCase for the ilDatabaseAtomBaseTest
  *
@@ -34,7 +36,7 @@
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
+class ilDatabaseAtomBaseTest extends TestCase {
 
 	/**
 	 * @var bool
@@ -50,7 +52,7 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	protected $ilDBInterfaceInnoDB;
 
 
-	protected function setUp() {
+	protected function setUp(): void {
 		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');

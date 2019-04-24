@@ -6,6 +6,10 @@
  */
 class ilPageFormats
 {
+	const DEFAULT_MARGIN_BODY_TOP = '0cm';
+	const DEFAULT_MARGIN_BODY_RIGHT= '2cm';
+	const DEFAULT_MARGIN_BODY_BOTTOM = '0cm';
+	const DEFAULT_MARGIN_BODY_LEFT = '2cm';
 	/**
 	 * @var ilLanguage 
 	 */

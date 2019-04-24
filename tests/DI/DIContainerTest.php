@@ -1,19 +1,21 @@
 <?php
 namespace ILIAS\DI;
 
+use PHPUnit\Framework\TestCase;
+
 require_once('./libs/composer/vendor/autoload.php');
 
 /**
  * Class DIContainerTest
  */
-class DIContainerTest extends \PHPUnit_Framework_TestCase {
+class DIContainerTest extends TestCase {
 
     /**
      * @var Container
      */
     protected $DIC;
 
-    protected function setUp() {
+    protected function setUp(): void{
         $this->DIC = new Container();
     }
 

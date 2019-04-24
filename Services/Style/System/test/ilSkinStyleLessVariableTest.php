@@ -2,12 +2,14 @@
 
 include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessVariable.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleLessVariableTest extends PHPUnit_Framework_TestCase {
+class ilSkinStyleLessVariableTest extends TestCase {
 
 	public function testConstruct() {
 		$variable = new ilSystemStyleLessVariable("name", "value", "comment","category_name", ["references_id"]);

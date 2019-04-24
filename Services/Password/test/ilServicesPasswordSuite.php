@@ -1,36 +1,53 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'libs/composer/vendor/autoload.php';
-require_once 'Services/Utilities/classes/class.ilUtil.php';
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Services/Password/exceptions/class.ilPasswordException.php';
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__ . '/bootstrap.php';
 
 /**
  * Class ilPasswordTestSuite
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilServicesPasswordSuite extends PHPUnit_Framework_TestSuite
+class ilServicesPasswordSuite extends TestSuite
 {
 	/**
 	 * @return self
 	 */
 	public static function suite()
 	{
-		// Set timezone to prevent notices
-		date_default_timezone_set('Europe/Berlin');
-
 		$suite = new self();
 
-		require_once dirname(__FILE__) . '/encoders/ilMd5PasswordEncoderTest.php';
-		$suite->addTestSuite('ilMd5PasswordEncoderTest');
+		foreach (new \RegExIterator(
+					 new \RecursiveIteratorIterator(
+						 new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
+						 \RecursiveIteratorIterator::LEAVES_ONLY
+					 ), '/BaseTest\.php$/') as $file) {
+			/** @var \SplFileInfo $file */
+			require_once $file->getPathname();
+		}
 
-		require_once dirname(__FILE__) . '/encoders/ilBcryptPasswordEncoderTest.php';
-		$suite->addTestSuite('ilBcryptPasswordEncoderTest');
+		foreach (new \RegExIterator(
+					 new \RecursiveIteratorIterator(
+						 new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
+						 \RecursiveIteratorIterator::LEAVES_ONLY
+					 ), '/(?<!Base)Test\.php$/') as $file) {
+			/** @var \SplFileInfo $file */
+			require_once $file->getPathname();
 
-		require_once dirname(__FILE__) . '/encoders/ilBcryptPhpPasswordEncoderTest.php';
-		$suite->addTestSuite('ilBcryptPhpPasswordEncoderTest');
+			$className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
+			if (class_exists($className)) {
+				$reflection = new \ReflectionClass($className);
+				if (
+					!$reflection->isAbstract() &&
+					!$reflection->isInterface() &&
+					$reflection->isSubclassOf(TestCase::class)) {
+					$suite->addTestSuite($className);
+				}
+			}
+		}
 
 		return $suite;
 	}

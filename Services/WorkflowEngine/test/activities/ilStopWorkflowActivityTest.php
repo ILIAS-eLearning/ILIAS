@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use org\bovigo\vfs;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ilStopWorkflowActivityTest is part of the workflow engine.
@@ -13,12 +14,12 @@ use org\bovigo\vfs;
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilStopWorkflowActivityTest extends PHPUnit_Framework_TestCase
+class ilStopWorkflowActivityTest extends TestCase
 {
 	/** vfsStream Test Directory, see setup. */
 	public $test_dir;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		chdir( dirname ( __FILE__ ) );
 		chdir('../../../../');
@@ -52,7 +53,7 @@ class ilStopWorkflowActivityTest extends PHPUnit_Framework_TestCase
 		$this->test_dir = vfs\vfsStream::setup('example');
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		global $ilSetting;
 		if ($ilSetting !=  NULL)

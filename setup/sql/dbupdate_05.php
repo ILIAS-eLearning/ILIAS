@@ -818,6 +818,22 @@ if( !$ilDB->tableColumnExists('qpl_qst_essay', 'word_cnt_enabled') )
 ?>
 <#5490>
 <?php
+if (!$ilDB->tableColumnExists('exc_assignment_peer', 'is_valid'))
+{
+	$ilDB->addTableColumn('exc_assignment_peer', 'is_valid', array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0
+	));
+}
+?>
+<#5491>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5492>
+<?php
 if ($ilDB->tableColumnExists('mail_saved', 'm_type')) {
 	$ilDB->dropTableColumn('mail_saved', 'm_type');
 }

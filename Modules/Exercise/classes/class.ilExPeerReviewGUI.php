@@ -181,7 +181,6 @@ class ilExPeerReviewGUI
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_submission->getAssignment()->getId(), $a_submission->getUserId());
 
 		$ass = $a_submission->getAssignment();

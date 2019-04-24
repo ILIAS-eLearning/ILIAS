@@ -21,13 +21,15 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * TestCase for the ilDatabaseCommonTest
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCase {
+abstract class ilDatabaseImplementationBaseTest extends TestCase {
 
 	const INDEX_NAME = 'i1';
 	const TABLE_NAME = 'il_ut_en';
@@ -70,15 +72,15 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 	protected $set_up = false;
 
 
-	protected function setUp() {
+	protected function setUp(): void {
 		if ($this->set_up) {
 			return;
 		}
 		//		echo phpversion() . "\n";
 		$this->error_reporting_backup = error_reporting();
 
-		PHPUnit_Framework_Error_Notice::$enabled = false;
-		PHPUnit_Framework_Error_Deprecated::$enabled = false;
+		PHPUnit\Framework\Error\Notice::$enabled = false;
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
 		require_once('./libs/composer/vendor/autoload.php');
 		if (!defined('DEVMODE')) {
@@ -146,7 +148,7 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
 	}
 
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->db = null;
 		$this->mock = null;
 		$this->outputs = null;

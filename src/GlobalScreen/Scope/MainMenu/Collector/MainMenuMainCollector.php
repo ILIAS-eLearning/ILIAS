@@ -111,11 +111,10 @@ class MainMenuMainCollector {
 					 * @var $child     isChild
 					 */
 					foreach ($top_item->getChildren() as $child) {
+						$child = $this->applyTypeHandler($child);
 						if (!$this->checkAvailability($child)) {
 							continue;
 						}
-
-						$child = $this->applyTypeHandler($child);
 						$position_of_sub_item = $this->information->getPositionOfSubItem($child);
 						if (isset($children[$position_of_sub_item])) {
 							$position_of_sub_item = max(array_keys($children)) + 1;
@@ -192,7 +191,7 @@ class MainMenuMainCollector {
 	private function getLostItem(IdentificationInterface $identification): Lost {
 		global $DIC;
 
-		return $DIC->globalScreen()->mainmenu()->custom(Lost::class, new NullIdentification($identification))
+		return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
 			->withAlwaysAvailable(true)
 			->setTypeInformation($this->type_information_collection->get(Lost::class))
 			->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
@@ -229,9 +228,6 @@ class MainMenuMainCollector {
 	}
 
 
-	/**
-	 * @return Provider|mixed
-	 */
 	private function loadTopItems() {
 		foreach ($this->providers as $provider) {
 			foreach ($provider->getStaticTopItems() as $top_item) {
@@ -239,12 +235,8 @@ class MainMenuMainCollector {
 					$top_item = $this->information->translateItemForUser($top_item);
 				}
 				$this->addItemToMap($top_item);
-				// self::$topitems[$top_item->getProviderIdentification()->serialize()] = $top_item;
-				// self::$items[$top_item->getProviderIdentification()->serialize()] = $top_item;
 			}
 		}
-
-		return $provider;
 	}
 
 

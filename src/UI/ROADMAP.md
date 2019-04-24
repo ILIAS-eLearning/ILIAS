@@ -83,6 +83,31 @@ The contexts should e.g. be "html", "html-attribute", "js-string". Depending on
 feedback from other devs, we could either default to a very strict context that
 escapes a lot, or to a context that does not escape and a dicto-rule.
 
+### Add mutators to Counter (beginner, ~1h)
+
+Currently, counters (for Glyphs, e.g.) are constructed with a numeric value;
+there is a getter for this number, but in order to increase the value, one has
+to construct a new Counter.
+It would be handy to have a "withNumber"-mutator, or something like
+"withIncrease/withDecrease"
+
+### Implement `Input::getUpdateOnLoadCode`, `Input::withOnUpdate` and `Input::appendOnUpdate` for every Input (advanced, ~4h)
+
+When introducing [UI Filters](https://github.com/ILIAS-eLearning/ILIAS/pull/1735)
+some ends have been left open and need to be implemented properly. Currently
+`withOnUpdate` and `appendOnUpdate` do not work on Inputs in the general case and
+only work for `Select Field` and `Text Field` in the context of the filter. To
+let the promise of `OnUpdate` come true, the following things will need to be done:
+
+* Every Input needs to implement `Input::getUpdateOnLoadCode`.
+* Once this is done, the method `Input::getUpdateOnLoadCode` on the base class
+should be removed to force new inputs to implement this method properly.
+* The usage of the method should be moved from the (specific) `Container\Filter\Renderer`
+to the (general) `Field\Renderer` to make `OnUpdate` apply everywhere.
+* `Input::withOnUpdate` and `Input::appendOnUpdate` can then be reinstated on the
+base class and removed on `Field\Select` and `Field\Text`.
+
+New inputs must already implement the methods.
 
 ## Long Term
 
@@ -161,6 +186,26 @@ to use Bootraps new set of variables together with a possible set of special
 variables should be designed, documented and implemented. The switch to Bootstrap 4
 needs to be coordinated with the components of ILIAS that currently do use features
 of Bootstrap but do not use the UI-Framework.
+
+
+### Page-Layout and ilTemplate, CSS/JS Header
+
+When rendering the whole page, all needed resources like CSS and JS must be included.
+The issue is closely linked to the question of which Service is responsible for
+rendering the actual page, i.e. the overall output when calling an ILIAS-URL.
+
+In the present implementation of ILIAS\UI\Implementation\Component\Layout\Page,
+a tpl.standardpage.html-Template is acquired via the TemplateFactory, which in
+turn makes use of the global template. The resources of global template are then
+transported to the page's template (Layout\Page\Renderer::setHeaderVars).
+
+Since the UI Page-Component aspires to be _the_ topmost thing to be rendered,
+this should probably be done in a more direct and instructional way, similar to
+the already existent template, but more clearly distinguished, like, maybe, in
+registries for CSS- and JS-resources. These registries could then be passed to
+the page and would turn the aforementioned transportation from ilTemplate obsolete.
+In ultimo, there would be exactly one occurence of a line like
+"echo $renderer->render($page);exit();" to output the complete UI.
 
 
 ## Ideas and Food for Thought

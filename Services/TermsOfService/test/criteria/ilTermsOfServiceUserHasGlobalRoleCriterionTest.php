@@ -31,7 +31,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -158,7 +158,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCr
 
 		$actual = $gui->getIdentPresentation();
 
-		$this->assertInternalType('string', $actual);
+		$this->assertIsString($actual);
 		$this->assertNotEmpty($actual);
 	}
 

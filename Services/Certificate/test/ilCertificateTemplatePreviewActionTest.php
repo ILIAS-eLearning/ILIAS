@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTemplatePreviewActionTest extends PHPUnit_Framework_TestCase
+class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
 	public function testA()
 	{

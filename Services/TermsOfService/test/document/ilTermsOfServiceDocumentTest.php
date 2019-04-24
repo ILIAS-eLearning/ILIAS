@@ -315,11 +315,11 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	}
 
 	/**
-	 * @expectedException \ilTermsOfServiceDuplicateCriterionAssignmentException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenAttachingDuplicateCriteria()
 	{
-		$this->assertException(\ilTermsOfServiceDuplicateCriterionAssignmentException::class);
+		$this->expectException(\ilTermsOfServiceDuplicateCriterionAssignmentException::class);
 
 		$criterionAssignment1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)
@@ -370,11 +370,11 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	}
 
 	/**
-	 * @expectedException \ilTermsOfServiceDuplicateCriterionAssignmentException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenAttachingDuplicateCriteriaEvenWithDifferentIds()
 	{
-		$this->assertException(\ilTermsOfServiceDuplicateCriterionAssignmentException::class);
+		$this->expectException(\ilTermsOfServiceDuplicateCriterionAssignmentException::class);
 
 		$criterionAssignment1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)
@@ -425,11 +425,11 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
 	}
 
 	/**
-	 * @expectedException \OutOfBoundsException
+	 * 
 	 */
 	public function testExceptionIsRaisedWhenRemovingUnknownCriterion()
 	{
-		$this->assertException(\OutOfBoundsException::class);
+		$this->expectException(\OutOfBoundsException::class);
 
 		$criterionAssignment1 = $this
 			->getMockBuilder(\ilTermsOfServiceDocumentCriterionAssignment::class)

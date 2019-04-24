@@ -104,6 +104,14 @@ class ilContextRss implements ilContextTemplate
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public static function isSessionMainContext()
+	{
+		return true;
+	}
+
 }
 
 ?>

@@ -38,7 +38,10 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 			$this->createMock(C\Input\Factory::class),
 			$this->createMock(C\Table\Factory::class),
 			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
+			$this->createMock(C\Card\Factory::class),
+			$this->createMock(C\Layout\Factory::class),
+			$this->createMock(C\MainControls\Factory::class),
+			$this->createMock(C\Tree\Factory::class)
 		);
 	}
 

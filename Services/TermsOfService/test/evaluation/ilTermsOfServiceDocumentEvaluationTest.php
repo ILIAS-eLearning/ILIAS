@@ -27,7 +27,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 	}
 
 	/**
-	 * @expectedException \ilTermsOfServiceNoSignableDocumentFoundException
+	 * 
 	 */
 	public function testExceptionIsRaisedIfADocumentIsRequestedFromEvaluatorAndNoDocumentExistsAtAll()
 	{
@@ -42,7 +42,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends \ilTermsOfServiceEvaluation
 			[]
 		);
 
-		$this->assertException(\ilTermsOfServiceNoSignableDocumentFoundException::class);
+		$this->expectException(\ilTermsOfServiceNoSignableDocumentFoundException::class);
 
 		$evaluation->document();
 	}

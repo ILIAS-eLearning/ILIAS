@@ -79,6 +79,7 @@ class ilColumnGUI
 		"ilCalendarBlockGUI" => "Services/Calendar/",
 		"ilPDCalendarBlockGUI" => "Services/Calendar/",
 		"ilPDNotesBlockGUI" => "Services/Notes/",
+		"ilPDTasksBlockGUI" => "Services/Tasks/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
 		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/ItemsBlock/",
 		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
@@ -98,6 +99,7 @@ class ilColumnGUI
 	static protected $block_types = array(
 		"ilPDMailBlockGUI" => "pdmail",
 		"ilPDNotesBlockGUI" => "pdnotes",
+		"ilPDTasksBlockGUI" => "pdtasks",
 		"ilPDNewsBlockGUI" => "pdnews",
 		"ilBookmarkBlockGUI" => "pdbookm",
 		"ilNewsForContextBlockGUI" => "news",
@@ -137,6 +139,7 @@ class ilColumnGUI
 		"info" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"pd" => array(
+			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
 			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
 			"ilPDNewsBlockGUI" => IL_COL_LEFT,

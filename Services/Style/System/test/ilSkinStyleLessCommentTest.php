@@ -2,12 +2,14 @@
 
 include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessComment.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleLessCommentTest extends PHPUnit_Framework_TestCase {
+class ilSkinStyleLessCommentTest extends TestCase {
 
 	public function testConstruct() {
 		$comment = new ilSystemStyleLessComment("comment");

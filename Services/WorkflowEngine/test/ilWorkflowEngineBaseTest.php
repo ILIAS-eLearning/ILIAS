@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilWorkflowEngineBaseTest
  */
-abstract class ilWorkflowEngineBaseTest extends PHPUnit_Framework_TestCase
+abstract class ilWorkflowEngineBaseTest extends TestCase
 {
 	/**
 	 * @param string $name
@@ -24,7 +26,7 @@ abstract class ilWorkflowEngineBaseTest extends PHPUnit_Framework_TestCase
 	/**
 	 * 
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 

@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
+class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 {
 	public function testValidationSucceedsAndReturnsTrue()
 	{
@@ -12,7 +12,10 @@ class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+
 		$userCertificateRepository->method('fetchActiveCertificate');
+
+		$accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
 		$activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
 			->disableOriginalConstructor()
@@ -21,7 +24,7 @@ class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
 		$activeValidator->method('validate')
 			->willReturn(true);
 
-		$validator = new ilCertificateDownloadValidator($userCertificateRepository, $activeValidator);
+		$validator = new ilCertificateDownloadValidator($accessValidator, $activeValidator);
 
 		$result = $validator->isCertificateDownloadable(100, 100);
 
@@ -38,6 +41,8 @@ class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
 			->expects($this->never())
 			->method('fetchActiveCertificate');
 
+		$accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
+
 		$activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
 			->disableOriginalConstructor()
 			->getMock();
@@ -46,7 +51,7 @@ class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
 			->method('validate')
 			->willReturn(false);
 
-		$validator = new ilCertificateDownloadValidator($userCertificateRepository, $activeValidator);
+		$validator = new ilCertificateDownloadValidator($accessValidator, $activeValidator);
 
 		$result = $validator->isCertificateDownloadable(100, 100);
 
@@ -64,6 +69,8 @@ class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
 			->method('fetchActiveCertificate')
 			->willThrowException(new ilRpcClientException('Client not active'));
 
+		$accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
+
 		$activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
 			->disableOriginalConstructor()
 			->getMock();
@@ -72,7 +79,7 @@ class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
 			->method('validate')
 			->willReturn(true);
 
-		$validator = new ilCertificateDownloadValidator($userCertificateRepository, $activeValidator);
+		$validator = new ilCertificateDownloadValidator($accessValidator, $activeValidator);
 
 		$result = $validator->isCertificateDownloadable(100, 100);
 

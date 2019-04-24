@@ -213,7 +213,7 @@ class FileUploadImplTest extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->prePorcessorManagerMock = \Mockery::mock(PreProcessorManager::class);

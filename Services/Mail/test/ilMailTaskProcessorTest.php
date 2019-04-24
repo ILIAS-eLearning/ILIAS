@@ -11,7 +11,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 	private $dicMock;
 	private $loggerMock;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->languageMock = $this->getMockBuilder('ilLanguage')
 			->disableOriginalConstructor()
@@ -261,10 +261,12 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 	}
 
 	/**
-	 * @expectedException \ilException
+	 * 
 	 */
 	public function testRunHasWrongTypeAndWillResultInException()
 	{
+		$this->expectException(\ilException::class);
+
 		$taskManager = $this->getMockBuilder('\ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager')
 			->setMethods(array('run'))
 			->disableOriginalConstructor()

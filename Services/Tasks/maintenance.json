@@ -1,0 +1,14 @@
+{
+  "maintenance_model": "Classic",
+  "first_maintainer": "akill(149)",
+  "second_maintainer": "",
+  "implicit_maintainers": [],
+  "coordinator": [
+    ""
+  ],
+  "tester": "",
+  "testcase_writer": "",
+  "path": "Services/Tasks",
+  "belong_to_component": "Tasks",
+  "used_in_components": []
+}

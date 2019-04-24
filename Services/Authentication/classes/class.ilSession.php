@@ -151,7 +151,17 @@ class ilSession
 
 		if (ilSession::_exists($a_session_id))
 		{
-			$ilDB->update("usr_session", $fields, 
+			// note that we do this only when inserting the new record
+			// updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
+			if (class_exists("ilContext"))
+			{
+				if (ilContext::isSessionMainContext())
+				{
+					$fields["context"] = array("text", ilContext::getType());
+				}
+			}
+
+			$ilDB->update("usr_session", $fields,
 				array("session_id" => array("text", $a_session_id)));			
 		}
 		else
