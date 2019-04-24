@@ -11,7 +11,7 @@ use ILIAS\Validation\Factory as ValidationFactory;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 
 /**
  * This implements the checkbox input, note that this uses GroupHelper to manage potentially
@@ -64,7 +64,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 	/**
 	 * @inheritdoc
 	 */
-	public function withInput(PostData $post_input) {
+	public function withInput(InputData $post_input) {
 		if ($this->getName() === null) {
 			throw new \LogicException("Can only collect if input has a name.");
 		}

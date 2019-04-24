@@ -41,7 +41,7 @@ class LogicalOr extends Custom implements Constraint
 				$problems = [];
 
 				foreach ($this->other as $constraint) {
-					$problems[] = (string)$constraint->problemWith($value);
+					$problems[] = (string)$constraint->getErrorMessage($value);
 				}
 
 				return 'Please fix one of these: ' . implode(', ', array_filter($problems));

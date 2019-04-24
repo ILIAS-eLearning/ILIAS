@@ -17,6 +17,7 @@ use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\ComponentRendererFSLoader;
 use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Factory;
 use PHPUnit\Framework\TestCase;
@@ -177,6 +178,12 @@ abstract class ILIAS_UI_TestBase extends TestCase {
 							, $tpl_factory
 							, $lng
 							, $js_binding
+							),
+						  new FieldRendererFactory
+							( $ui_factory
+							, $tpl_factory
+							, $lng
+							, $js_binding
 							)
 						)
 					)
@@ -185,7 +192,7 @@ abstract class ILIAS_UI_TestBase extends TestCase {
 	}
 
 	public function normalizeHTML($html) {
-		return trim(str_replace("\n", "", $html));
+		return trim(str_replace(["\n", "\r"], "", $html));
 	}
 
 	/**

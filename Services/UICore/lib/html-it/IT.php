@@ -241,6 +241,8 @@ class HTML_Template_IT
      */
     var $blockvariables = array();
 
+    var $blockparents = array();
+
     /**
      * Array of inner blocks of a block.
      * @var      array

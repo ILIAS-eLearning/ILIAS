@@ -303,7 +303,14 @@ $c["ui.factory.input.field"] = function($c) {
 };
 $c["ui.factory.input.container"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
-		$c["ui.factory.input.container.form"]
+		$c["ui.factory.input.container.form"],
+		$c["ui.factory.input.container.filter"]
+	);
+};
+$c["ui.factory.input.container.filter"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+		$c["ui.signal_generator"],
+		$c["ui.factory.input.field"]
 	);
 };
 $c["ui.factory.input.container.form"] = function($c) {
@@ -321,21 +328,27 @@ $c["ui.renderer"] = function($c) {
 	);
 };
 $c["ui.component_renderer_loader"] = function($c) {
-	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper
-	( new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper
-		( $c["ui.resource_registry"]
-			, new ILIAS\UI\Implementation\Render\FSLoader
-			( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
-			($c["ui.factory"]
-				, $c["ui.template_factory"]
-				, $c["lng"]
-				, $c["ui.javascript_binding"]
-			),
-				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
-				($c["ui.factory"]
-					, $c["ui.template_factory"]
-					, $c["lng"]
-					, $c["ui.javascript_binding"]
+	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
+		new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
+			$c["ui.resource_registry"],
+			new ILIAS\UI\Implementation\Render\FSLoader(
+				new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
 				)
 			)
 		)

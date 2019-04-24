@@ -732,7 +732,7 @@ echo htmlentities($a_text);*/
 					$ancstr = ' Anchor="'.$attribs["anchor"].'" ';
 				}
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
-					"<IntLink Target=\"il_".$inst_str."_pg_".$attribs[page]."\" Type=\"PageObject\"".$tframestr.$ancstr.">", $a_text);
+					"<IntLink Target=\"il_".$inst_str."_pg_".$attribs['page']."\" Type=\"PageObject\"".$tframestr.$ancstr.">", $a_text);
 			}
 			// chapters
 			else if (isset($attribs["chap"]))
@@ -746,7 +746,7 @@ echo htmlentities($a_text);*/
 					$tframestr = "";
 				}
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
-					"<IntLink Target=\"il_".$inst_str."_st_".$attribs[chap]."\" Type=\"StructureObject\"".$tframestr.">", $a_text);
+					"<IntLink Target=\"il_".$inst_str."_st_".$attribs['chap']."\" Type=\"StructureObject\"".$tframestr.">", $a_text);
 			}
 			// glossary terms
 			else if (isset($attribs["term"]))
@@ -762,21 +762,21 @@ echo htmlentities($a_text);*/
 						break;
 				}
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
-					"<IntLink Target=\"il_".$inst_str."_git_".$attribs[term]."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
+					"<IntLink Target=\"il_".$inst_str."_git_".$attribs['term']."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
 			}
 			// wiki pages
 			else if (isset($attribs["wpage"]))
 			{
 				$tframestr = "";
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
-					"<IntLink Target=\"il_".$inst_str."_wpage_".$attribs[wpage]."\" Type=\"WikiPage\" $tframestr>", $a_text);
+					"<IntLink Target=\"il_".$inst_str."_wpage_".$attribs['wpage']."\" Type=\"WikiPage\" $tframestr>", $a_text);
 			}
 			// portfolio pages
 			else if (isset($attribs["ppage"]))
 			{
 				$tframestr = "";
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
-					"<IntLink Target=\"il_".$inst_str."_ppage_".$attribs[ppage]."\" Type=\"PortfolioPage\" $tframestr>", $a_text);
+					"<IntLink Target=\"il_".$inst_str."_ppage_".$attribs['ppage']."\" Type=\"PortfolioPage\" $tframestr>", $a_text);
 			}
 			// media object
 			else if (isset($attribs["media"]))
@@ -785,19 +785,19 @@ echo htmlentities($a_text);*/
 				{
 					$tframestr = " TargetFrame=\"".$found[10]."\" ";
 					$a_text = preg_replace('/\['.$found[1].'\]/i',
-						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"".$tframestr.">", $a_text);
+						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs['media']."\" Type=\"MediaObject\"".$tframestr.">", $a_text);
 				}
 				else
 				{
 					$a_text = preg_replace('/\['.$found[1].'\]/i',
-						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
+						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs['media']."\" Type=\"MediaObject\"/>", $a_text);
 				}
 			}
 			// direct download file (no repository object)
 			else if (isset($attribs["dfile"]))
 			{
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
-					"<IntLink Target=\"il_".$inst_str."_dfile_".$attribs[dfile]."\" Type=\"File\">", $a_text);
+					"<IntLink Target=\"il_".$inst_str."_dfile_".$attribs['dfile']."\" Type=\"File\">", $a_text);
 			}
 			// repository items (id is ref_id (will be used internally but will
 			// be replaced by object id for export purposes)
@@ -840,7 +840,7 @@ echo htmlentities($a_text);*/
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
 			$a_text = preg_replace('~\['.$found[1].'/\]~i',
-				"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
+				"<IntLink Target=\"il_".$inst_str."_mob_".$attribs['media']."\" Type=\"MediaObject\"/>", $a_text);
 		}
 
 		// user
@@ -849,7 +849,7 @@ echo htmlentities($a_text);*/
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
 			include_once("./Services/User/classes/class.ilObjUser.php");
-			$user_id = ilObjUser::_lookupId($attribs[user]);
+			$user_id = ilObjUser::_lookupId($attribs['user']);
 			$a_text = preg_replace('~\['.$found[1].'/\]~i',
 				"<IntLink Target=\"il_".$inst_str."_user_".$user_id."\" Type=\"User\"/>", $a_text);
 		}

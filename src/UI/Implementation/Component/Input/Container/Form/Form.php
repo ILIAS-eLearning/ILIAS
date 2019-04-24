@@ -129,7 +129,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 	 *
 	 * @param    ServerRequestInterface $request
 	 *
-	 * @return    PostData
+	 * @return    Input\InputData
 	 */
 	protected function extractPostData(ServerRequestInterface $request) {
 		return new PostDataFromServerRequest($request);

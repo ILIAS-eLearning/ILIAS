@@ -14,11 +14,17 @@ class Factory implements I\Container\Factory {
 	 * @var Form\Factory
 	 */
 	protected $form_factory;
+	/**
+	 * @var Filter\Factory
+	 */
+	protected $filter_factory;
 
 	public function __construct(
-		Form\Factory $form_factory
+		Form\Factory $form_factory,
+		Filter\Factory $filter_factory
 	) {
 		$this->form_factory = $form_factory;
+		$this->filter_factory = $filter_factory;
 	}
 
 	/**
@@ -26,5 +32,12 @@ class Factory implements I\Container\Factory {
 	 */
 	public function form() {
 		return $this->form_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function filter() {
+		return $this->filter_factory;
 	}
 }
