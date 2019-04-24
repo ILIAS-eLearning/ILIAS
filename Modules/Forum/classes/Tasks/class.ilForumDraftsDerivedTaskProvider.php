@@ -19,23 +19,29 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 	/** @var \ilSetting */
 	protected $settings;
 
+	/** @var \ilCtrl */
+	protected $ctrl;
+
 	/**
 	 * ilForumDraftsDerivedTaskProvider constructor.
 	 * @param \ilTaskService $taskService
 	 * @param \ilAccessHandler $accessHandler
 	 * @param \ilLanguage $lng
 	 * @param \ilSetting $settings
+	 * @param \ilCtrl $ctrl
 	 */
 	public function __construct(
 		ilTaskService $taskService,
 		\ilAccessHandler $accessHandler,
 		\ilLanguage $lng,
-		\ilSetting $settings
+		\ilSetting $settings,
+		\ilCtrl $ctrl
 	) {
 		$this->taskService = $taskService;
 		$this->accessHandler = $accessHandler;
 		$this->lng = $lng;
 		$this->settings = $settings;
+		$this->ctrl = $ctrl;
 
 		$this->lng->loadLanguageModule('forum');
 	}
@@ -68,7 +74,25 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 				strtotime($draft->getPostDate())
 			);
 
-			$tasks[] = $task;
+			$isThread = false;
+			if (0 === (int)$draft->getThreadId()) {
+				$isThread = true;
+			}
+
+			$anchor = '';
+			if ($isThread) {
+				$params['draft_id'] = $draft->getDraftId();
+				$params['cmd'] = 'editThreadDraft';
+			} else {
+				$params['thr_pk'] = $draft->getThreadId();
+				$params['pos_pk'] = $draft->getPostId();
+				$params['cmd'] = 'viewThread';
+				$anchor = '#draft_' . $draft->getDraftId();
+			}
+
+			$url = \ilLink::_getLink($refId, 'frm', $params) . $anchor;
+
+			$tasks[] = $task->withUrl($url);
 		}
 
 		return $tasks;
