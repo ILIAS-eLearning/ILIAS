@@ -3693,7 +3693,10 @@ class ilObjectListGUI
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 		
 		// #11554 - make sure that internal ids are reset
-		$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
+		if (is_object($this->getContainerObject()))
+		{
+			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
+		}
 		
 		return $this->tpl->get();
 	}
