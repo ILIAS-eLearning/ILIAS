@@ -520,13 +520,14 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A Duration Input is used to enter a time span instead of a single point in time.
+	 *     A Duration Input is used to enter a time span.
 	 *   composition: >
 	 *     A Duration Input is composed as a group of two DateTime Inputs.
 	 *   effect: >
 	 *     According to configuration, the inputs will accept dates, times or datetimes.
-	 *     The start point must take place before the endpoint.
 	 *     Invalid input will be corrected automatically.
+	 *     The start point must take place before the endpoint; an error-message is
+	 *     shown if this is not the case.
 	 *
 	 * context:
 	 *   - Duration Input is used in forms.
