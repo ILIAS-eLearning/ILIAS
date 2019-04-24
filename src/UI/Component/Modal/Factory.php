@@ -47,10 +47,11 @@ interface Factory {
 	 * @param string $title
 	 * @param string $message A plain string informing the user about the critical situation
 	 * @param string $form_action The URL where the modal posts its form data
+	 * @param string $action_label
 	 *
 	 * @return \ILIAS\UI\Component\Modal\Interruptive
 	 */
-	public function interruptive($title, $message, $form_action);
+	public function interruptive($title, $message, $form_action, $action_label = 'delete');
 
 
 	/**

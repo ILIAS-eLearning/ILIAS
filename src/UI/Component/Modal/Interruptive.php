@@ -61,6 +61,15 @@ interface Interruptive extends Modal {
 	 */
 	public function getCancelButtonLabel();
 
+	/**
+	 * Get a modal like this with the cancel button labeled
+	 * according to the parameter.
+	 * The label will be translated.
+	 *
+	 * @return Interruptive
+	 */
+	public function withCancelButtonLabel(string $cancel_label): Interruptive;
+
 
 	/**
 	 * Return the affected items listed in the content by this modal

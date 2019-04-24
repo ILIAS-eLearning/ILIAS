@@ -117,6 +117,17 @@ class Interruptive extends Modal implements Component\Modal\Interruptive {
 	/**
 	 * @inheritdoc
 	 */
+	public function withCancelButtonLabel(string $cancel_label): Component\Modal\Interruptive
+	{
+		$clone = clone $this;
+		$clone->cancel_button_label = $cancel_label;
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getAffectedItems() {
 		return $this->items;
 	}
