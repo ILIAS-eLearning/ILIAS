@@ -1,10 +1,12 @@
 <?php
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ConstraintViolationExceptionTest extends PHPUnit_Framework_TestCase
+class ConstraintViolationExceptionTest extends TestCase
 {
 	public function testTranslationOfMessage()
 	{
