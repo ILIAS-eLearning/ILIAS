@@ -195,25 +195,21 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 	 */
 	public function save(array $formFields)
 	{
-		$invalid_modes = $this->getInvalidLPModes();
+		$invalidModes = $this->getInvalidLPModes();
 
-		$invalidTitles = array();
-		foreach($formFields['subitems'] as $refId)
-		{
-			$objId = ilObject::_lookupObjId($refId);
-			$olp = ilObjectLP::getInstance($objId);
-			if(in_array($olp->getCurrentMode(), $invalid_modes))
-			{
-				$invalidTitles[] = ilObject::_lookupTitle($objId);
+		$titlesOfObjectsWithInvalidModes = array();
+		foreach($formFields['subitems'] as $refId) {
+			$objectId = ilObject::_lookupObjId($refId);
+			$learningProgressObject = ilObjectLP::getInstance($objectId);
+			if(in_array($learningProgressObject->getCurrentMode(), $invalidModes)) {
+				$titlesOfObjectsWithInvalidModes[] = ilObject::_lookupTitle($objectId);
 			}
 		}
 
-		if(sizeof($invalidTitles))
-		{
-			$message = sprintf($this->language->txt('certificate_learning_progress_must_be_active'), implode(', ', $invalidTitles));
+		if(sizeof($titlesOfObjectsWithInvalidModes)) {
+			$message = sprintf($this->language->txt('certificate_learning_progress_must_be_active'), implode(', ', $titlesOfObjectsWithInvalidModes));
 			throw new ilException($message);
 		}
-
 
 		$this->setting->set('cert_subitems_' . $this->object->getId(), json_encode($formFields['subitems']));
 	}
