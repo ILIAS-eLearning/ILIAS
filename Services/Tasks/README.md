@@ -4,7 +4,7 @@
 
 If your component wants to add entries to the taksks list of a user it must do the following.
 
-Add an entry in the `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilLearningHistoryProviderFactory.php`. It is planned to switch this to a future general collector/provider/consumer pattern.
+Add an entry in the `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilDerivedTaskProviderMasterFactory.php`. It is planned to switch this to a future general collector/provider/consumer pattern.
 
 The class provided at this location MUST implement `Services/Tasks/DerivedTasks/interfaces/interface.ilDerivedTaskProviderFactory.php`. The constructor of this class MUST accept an instance of `ilTaskService` as the first argument.
 
@@ -17,6 +17,18 @@ In this interface the method `getTasks($user_id)` must return all tasks fo a use
 $tasks[] = $this->derived()->factory()->task($title, $ref_id,
 	$deadline, $starting_time);
 ```
+
+### Custom Links
+
+The title of a task will be linked with the repository object
+by using `\ilLink::_getStaticLink`, if the task provides a valid `ref_id`.
+In case a concrete `\ilDerivedTaskProvider` would like to define a custom URL for
+it's tasks, you can use `\ilDerivedTask::withUrl` to retrieve a task with an URL
+passed as method argument.
+
+```php
+$task = $task->withUrl('...');
+``` 
 
 # JF Decisions
 

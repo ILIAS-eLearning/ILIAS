@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e436469fbe55d9af34338bf3669b7e5",
+    "content-hash": "e7bda6f2305ac98ef9206b007c4f4ac0",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -247,13 +247,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/GeSHi/geshi-1.0.git",
-                "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc"
+                "reference": "5861c58981244ab6ee0dd337f096ff14bf15b1eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
-                "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+                "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/5861c58981244ab6ee0dd337f096ff14bf15b1eb",
+                "reference": "5861c58981244ab6ee0dd337f096ff14bf15b1eb",
                 "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
             },
             "type": "library",
             "autoload": {
@@ -276,7 +279,7 @@
             ],
             "description": "Generic Syntax Highlighter",
             "homepage": "http://qbnz.com/highlighter/",
-            "time": "2016-02-01T23:14:34+00:00"
+            "time": "2018-10-01T23:49:06+00:00"
         },
         {
             "name": "gettext/gettext",
@@ -2539,12 +2542,12 @@
             "version": "v1.6.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mikey179/vfsStream.git",
+                "url": "https://github.com/bovigo/vfsStream.git",
                 "reference": "d5fec95f541d4d71c4823bb5e30cf9b9e5b96145"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/d5fec95f541d4d71c4823bb5e30cf9b9e5b96145",
+                "url": "https://api.github.com/repos/bovigo/vfsStream/zipball/d5fec95f541d4d71c4823bb5e30cf9b9e5b96145",
                 "reference": "d5fec95f541d4d71c4823bb5e30cf9b9e5b96145",
                 "shasum": ""
             },
@@ -3952,7 +3955,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
