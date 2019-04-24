@@ -848,3 +848,16 @@ $ilDB->manipulateF(
 	['pd_sys_msg_mode']
 );
 ?>
+<#5493>
+<?php
+$res = $ilDB->queryF('SELECT * FROM rbac_operations WHERE operation = %s', ['text'], ['system_message']);
+$row = $ilDB->fetchAssoc($res);
+
+if ($row['ops_id']) {
+	$opsId = $row['ops_id'];
+
+	$ilDB->manipulateF('DELETE FROM rbac_templates WHERE ops_id = %s', ['integer'], [$opsId]);
+	$ilDB->manipulateF('DELETE FROM rbac_ta WHERE ops_id = %s', ['integer'], [$opsId]);
+	$ilDB->manipulateF('DELETE FROM rbac_operations WHERE ops_id = %s', ['integer'], [$opsId]);
+}
+?>
