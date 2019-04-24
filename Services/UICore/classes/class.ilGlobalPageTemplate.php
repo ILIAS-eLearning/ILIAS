@@ -99,15 +99,46 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	}
 
 
-
-
-
-
 	//
-	// LEGACY METHODS
+	// NEEDED METHODS, but wrapped and will triage to the internal template or to the
 	//
 
-	// NEEDED
+	// CSS & JS
+	/**
+	 * @inheritDoc
+	 */
+	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2) {
+		$this->layout_content->metaContent()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addCss($a_css_file, $media = "screen") {
+		$this->layout_content->metaContent()->addCss($a_css_file, $media);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addOnLoadCode($a_code, $a_batch = 2) {
+		$this->layout_content->metaContent()->addOnloadCode($a_code, $a_batch);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addInlineCss($a_css, $media = "screen") {
+		$this->layout_content->metaContent()->addInlineCss(new InlineCss($a_css, $media));
+	}
+
+
+	// CONTENT
+
+
 	/**
 	 * @inheritDoc
 	 */
@@ -119,7 +150,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function setLeftContent($a_html) { // //
+	public function setLeftContent($a_html) {
 		$this->legacy_content_template->setLeftContent($a_html);
 	}
 
@@ -127,10 +158,113 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function setRightContent($a_html) { // //
+	public function setRightContent($a_html) {
 		$this->legacy_content_template->setRightContent($a_html);
 	}
 
+	// MAIN INFOS
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTitle($a_title) {
+		$this->legacy_content_template->setTitle($a_title);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setDescription($a_descr) {
+		$this->legacy_content_template->setTitleDesc($a_descr);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTitleIcon($a_icon_path, $a_icon_desc = "") {
+		$this->legacy_content_template->setIconPath($a_icon_path);
+		$this->legacy_content_template->setIconDesc($a_icon_desc);
+	}
+
+
+	// ALERTS & OS-MESSAGES
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setAlertProperties(array $a_props) {
+		$this->legacy_content_template->setTitleAlerts($a_props);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false) {
+		$this->legacy_content_template->setOnScreenMessage($a_type, $a_txt, $a_keep);
+	}
+
+	// SPECIAL FEATURES
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function enableDragDropFileUpload($a_ref_id) {
+		$this->legacy_content_template->setEnableFileupload((int)$a_ref_id);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setHeaderActionMenu($a_header) {
+		$this->legacy_content_template->setHeaderAction($a_header);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setHeaderPageTitle($a_title) {
+		$this->legacy_content_template->setHeaderPageTitle($a_title);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addLightbox($a_html, $a_id) { //
+		$this->legacy_content_template->addLightbox($a_id, $a_html);
+	}
+
+
+	/**
+	 * @param $a_action
+	 */
+	public function setPageFormAction($a_action) {
+		$this->legacy_content_template->setPageFormAction($a_action);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false) {
+		$this->legacy_content_template->setAdminPanelCommandsToolbar($toolb);
+		$this->legacy_content_template->setAdminPanelArrow($a_arrow);
+		$this->legacy_content_template->setAdminPanelBottom($a_bottom_panel);
+	}
+
+
+
+	//
+	// Currently needed but should vanish soon
+	//
 
 	/**
 	 * @param        $variable
@@ -149,264 +283,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function loadStandardTemplate() {
-		// Nothing to do
-	}
-
-
-	// JS & CSS
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2) { // //
-		$this->layout_content->metaContent()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function addCss($a_css_file, $media = "screen") { // //
-		$this->layout_content->metaContent()->addCss($a_css_file, $media);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function addOnLoadCode($a_code, $a_batch = 2) { // //
-		$this->layout_content->metaContent()->addOnloadCode($a_code, $a_batch);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setLocator() {
-		// Nothing to do
-	}
-
-
-	// MAIN INFOS
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setTitle($a_title) { // //
-		$this->legacy_content_template->setTitle($a_title);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setDescription($a_descr) { // //
-		$this->legacy_content_template->setTitleDesc($a_descr);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setTitleIcon($a_icon_path, $a_icon_desc = "") { // //
-		$this->legacy_content_template->setIconPath($a_icon_path);
-		$this->legacy_content_template->setIconDesc($a_icon_desc);
-	}
-
-
-	// ALERTS
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setAlertProperties(array $a_props) { // //
-		$this->legacy_content_template->setTitleAlerts($a_props);
-	}
-
-
-	// NEEDS ADJUSTMENT
-
-	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "") {
-		// $this->legacy_content_template->setPermanentLink($a_type, $a_id, $a_append, $a_target, $a_title);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function enableDragDropFileUpload($a_ref_id) { // //
-		$this->legacy_content_template->setEnableFileupload((int)$a_ref_id); // TODO: is ref_id needed?
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setTreeFlatIcon($a_link, $a_mode) {
-		// $this->legacy_content_template->setTreeFlatIcon($a_link, $a_mode);
-	}
-
-
-	// NOT SURE
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function hideFooter() {
-		// $this->legacy_content_template->hideFooter();
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setOnScreenMessage($a_type, $a_txt, $a_keep = false) {
-		$this->legacy_content_template->setOnScreenMessage($a_type, $a_txt, $a_keep);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getOnLoadCodeForAsynch() {
-		// return $this->legacy_content_template->getOnLoadCodeForAsynch();
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
 	public function resetJavascript() {
 		$this->layout_content->metaContent()->getJs()->clear();
-	}
-
-
-	/**
-	 * @param bool $a_force
-	 */
-	public function fillJavaScriptFiles($a_force = false) { //internal
-		// $this->legacy_content_template->fillJavaScriptFiles($a_force);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function addInlineCss($a_css, $media = "screen") { // //
-		$this->layout_content->metaContent()->addInlineCss(new InlineCss($a_css, $media));
-		// $this->legacy_content_template->addInlineCss($a_css, $media);
-	}
-
-
-	public function setBodyClass($a_class = "") { // //
-		// $this->legacy_content_template->setBodyClass($a_class);
-		// $this->legacy_content_template->setBodyClass($a_class);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function clearHeader() {
-		// $this->legacy_content_template->clearHeader();
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setHeaderActionMenu($a_header) { // //
-		$this->legacy_content_template->setHeaderAction($a_header);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setHeaderPageTitle($a_title) {
-		$this->legacy_content_template->setHeaderPageTitle($a_title);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setTabs($a_tabs_html) { // //
-		// $this->legacy_content_template->setTabs($this->ui->factory()->legacy($a_tabs_html));
-		// $this->legacy_content_template->setTabs($a_tabs_html);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setSubTabs($a_tabs_html) { // //
-		// $this->page_info->setSubTabs($this->ui->factory()->legacy($a_tabs_html));
-		// $this->legacy_content_template->setSubTabs($a_tabs_html);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setLeftNavContent($a_content) {
-		// $this->legacy_content_template->setLeftContent($a_content);
-	}
-
-
-	/**
-	 * @param $a_action
-	 */
-	public function setPageFormAction($a_action) { // //
-		$this->legacy_content_template->setPageFormAction($a_action);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function setLoginTargetPar($a_val) {
-		// $this->legacy_content_template->setLoginTargetPar($a_val);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true) { //
-		// return $this->legacy_content_template->getSpecial($part, $add_error_mess, $handle_referer, $add_ilias_footer, $add_standard_elements, $a_main_menu, $a_tabs);
-		throw new NotImplementedException();
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function addLightbox($a_html, $a_id) { //
-		$this->legacy_content_template->addLightbox($a_id, $a_html);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false) { // //
-		$this->legacy_content_template->setAdminPanelCommandsToolbar($toolb);
-		$this->legacy_content_template->setAdminPanelArrow($a_arrow);
-		$this->legacy_content_template->setAdminPanelBottom($a_bottom_panel);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function resetHeaderBlock($a_reset_header_action = true) {
-		// $this->legacy_content_template->resetHeaderBlock($a_reset_header_action);
 	}
 
 
@@ -485,5 +363,134 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 		}
 
 		return $this->legacy_content_template->blockExists($blockname);
+	}
+
+
+
+
+	//
+	// Currently part of the interface but no applicable in ilGlobalPageTemplate
+	//
+
+	/**
+	 * @inheritDoc
+	 */
+	public function loadStandardTemplate() {
+		// Nothing to do
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setLocator() {
+		// Nothing to do
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "") {
+		// Nothing to do
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTreeFlatIcon($a_link, $a_mode) {
+		// Nothing to do
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hideFooter() {
+		// Nothing to do
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setLeftNavContent($a_content) {
+		// Nothing to do, this should be handled in Slates later
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function resetHeaderBlock($a_reset_header_action = true) {
+		// Nothing to do
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setLoginTargetPar($a_val) {
+		// Nothing to do
+	}
+
+	//
+	// NO LONGER AVAILABLE
+	//
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getOnLoadCodeForAsynch() {
+		throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+	}
+
+
+	/**
+	 * @param bool $a_force
+	 */
+	public function fillJavaScriptFiles($a_force = false) {
+		throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setBodyClass($a_class = "") {
+		throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function clearHeader() {
+		throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTabs($a_tabs_html) {
+		throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setSubTabs($a_tabs_html) {
+		throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true) { //
+		throw new NotImplementedException();
 	}
 }

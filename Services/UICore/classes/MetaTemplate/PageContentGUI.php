@@ -117,6 +117,37 @@ class PageContentGUI {
 	}
 
 
+	/**
+	 * @inheritDoc
+	 */
+	public function setCurrentBlock($part = "DEFAULT") {
+		$this->template_file->setCurrentBlock($part);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function touchBlock($block) {
+		$this->template_file->touchBlock($block);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function parseCurrentBlock($part = "DEFAULT") {
+		$this->template_file->parseCurrentBlock($part);
+	}
+
+
+
+
+
+
+
+
+
 	//
 	// BEGIN needed Setters
 	//
