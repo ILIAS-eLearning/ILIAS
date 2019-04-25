@@ -226,12 +226,11 @@ class ilCertificateAppEventListener implements ilAppEventListener
 					// We do not check if we support the type anymore, because the type 'crs' is always supported
 					try {
 						$courseObjectId = $courseTemplate->getObjId();
-						$template = $templateRepository->fetchCurrentlyActiveCertificate($courseObjectId);
 
-						if (true === $template->isCurrentlyActive()) {
+						if (true === $courseTemplate->isCurrentlyActive()) {
 							$type = $this->objectDataCache->lookupType($courseObjectId);
 
-							$this->processEntry($type, $courseObjectId, $userId, $template, $settings);
+							$this->processEntry($type, $courseObjectId, $userId, $courseTemplate, $settings);
 						}
 					} catch (ilException $exception) {
 						$this->logger->warning($exception->getMessage());
