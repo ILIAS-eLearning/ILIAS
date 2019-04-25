@@ -28,8 +28,8 @@ class Factory implements Component\Modal\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function interruptive($title, $message, $form_action, $action_label = 'delete') {
-		return new Interruptive($title, $message, $form_action, $this->signal_generator, $action_label);
+	public function interruptive($title, $message, $form_action) {
+		return new Interruptive($title, $message, $form_action, $this->signal_generator);
 	}
 
 

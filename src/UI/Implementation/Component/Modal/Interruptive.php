@@ -44,18 +44,15 @@ class Interruptive extends Modal implements Component\Modal\Interruptive {
 	 * @param string $message
 	 * @param string $form_action
 	 * @param SignalGeneratorInterface $signal_generator
-	 * @param string $action_button_label
 	 */
-	public function __construct($title, $message, $form_action, SignalGeneratorInterface $signal_generator, $action_button_label = 'delete') {
+	public function __construct($title, $message, $form_action, SignalGeneratorInterface $signal_generator) {
 		parent::__construct($signal_generator);
 		$this->checkStringArg('title', $title);
 		$this->checkStringArg('message', $message);
 		$this->checkStringArg('form_action', $form_action);
-		$this->checkStringArg('action_button_label', $action_button_label);
 		$this->title = $title;
 		$this->message = $message;
 		$this->form_action = $form_action;
-		$this->action_button_label = $action_button_label;
 	}
 
 
@@ -103,6 +100,18 @@ class Interruptive extends Modal implements Component\Modal\Interruptive {
 	 */
 	public function getActionButtonLabel() {
 		return $this->action_button_label;
+	}
+
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withActionButtonLabel(string $action_label): Component\Modal\Interruptive
+	{
+		$clone = clone $this;
+		$clone->action_button_label = $action_label;
+		return $clone;
 	}
 
 

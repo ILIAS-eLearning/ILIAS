@@ -89,9 +89,9 @@ EOT;
 	{
 		$action_label = 'actionlabel';
 		$cancel_label = 'cancellabel';
-		$interruptive = $this->getModalFactory()->interruptive(
-			'Title', 'Message', 'someaction', $action_label
-		)->withCancelButtonLabel($cancel_label);
+		$interruptive = $this->getModalFactory()->interruptive('Title', 'Message', 'someaction')
+			->withActionButtonLabel($action_label)
+			->withCancelButtonLabel($cancel_label);
 
 		$this->assertEquals(
 			$action_label,
