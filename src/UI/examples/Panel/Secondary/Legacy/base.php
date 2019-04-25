@@ -2,17 +2,17 @@
 
 function base() {
 	global $DIC;
-	$f = $DIC->ui()->factory();
+	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$actions = $f->dropdown()->standard(array(
-		$f->button()->shy("ILIAS", "https://www.ilias.de"),
-		$f->button()->shy("GitHub", "https://www.github.com")
+	$actions = $factory->dropdown()->standard(array(
+		$factory->button()->shy("ILIAS", "https://www.ilias.de"),
+		$factory->button()->shy("GitHub", "https://www.github.com")
 	));
 
-	$legacy = $f->legacy("Legacy content");
+	$legacy = $factory->legacy("Legacy content");
 
-	$panel = $f->panel()->secondary()->legacy(
+	$panel = $factory->panel()->secondary()->legacy(
 		"Legacy panel title",
 		$legacy)->withActions($actions);
 
