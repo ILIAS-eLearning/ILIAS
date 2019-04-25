@@ -25,4 +25,11 @@ class ConfigCollection implements Config {
 		}
 		return $this->configs[$key];
 	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getKeys() : array {
+		return array_keys($this->configs);
+	}
 }
