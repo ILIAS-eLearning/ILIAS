@@ -224,12 +224,12 @@ class ilForumExportGUI
 	}
 
 	/**
-	 * @param \ilGlobalTemplate $tpl
+	 * @param \ilTemplate $tpl
 	 * @param ilForumPost $post
 	 * @param int $counter
 	 * @param int $mode
 	 */
-	protected function renderPostHtml(\ilGlobalTemplate $tpl, ilForumPost $post, $counter, $mode)
+	protected function renderPostHtml(\ilTemplate $tpl, ilForumPost $post, $counter, $mode)
 	{
 		$tpl->setCurrentBlock('posts_row');
 
