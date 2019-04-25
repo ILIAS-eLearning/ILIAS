@@ -418,8 +418,6 @@ class ilStudyProgrammeProgress
 	{
 		if($this->last_change && !$force) {
 			if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
-				echo $a_timestamp;
-				echo $this->last_change;
 				throw new ilException("ilStudyProgrammeProgress::setLastChange: Given "
 									 ."timestamp is before current timestamp. That "
 									 ."is logically impossible.");
