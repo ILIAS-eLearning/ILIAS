@@ -7,22 +7,6 @@ namespace ILIAS\Tests\Setup\CLI;
 use ILIAS\Setup;
 
 class CLITest extends \PHPUnit\Framework\TestCase {
-	protected function newGoal() {
-		static $no = 0;
-
-		$goal = $this
-			->getMockBuilder(Setup\Goal::class)
-			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
-			->setMockClassName("Mock_GoalNo".($no++))
-			->getMock();
-
-		$goal
-			->method("getHash")
-			->willReturn("".$no);
-
-		return $goal;
-	}
-
 	public function testBasicAlgorithm() {
 		$goal = $this->newGoal();
 		$config = $this->createMock(Setup\Config::class);
@@ -167,4 +151,19 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 		iterator_to_array($runner->allGoals());
 	}
 
+	protected function newGoal() {
+		static $no = 0;
+
+		$goal = $this
+			->getMockBuilder(Setup\Goal::class)
+			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
+			->setMockClassName("Mock_GoalNo".($no++))
+			->getMock();
+
+		$goal
+			->method("getHash")
+			->willReturn("".$no);
+
+		return $goal;
+	}
 }

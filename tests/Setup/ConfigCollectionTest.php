@@ -7,19 +7,7 @@ namespace ILIAS\Tests\Setup;
 use ILIAS\Setup;
 
 class ConfigCollectionTest extends \PHPUnit\Framework\TestCase {
-	protected function newConfig() {
-		static $no = 0;
-
-		$config = $this
-			->getMockBuilder(Setup\Config::class)
-			->setMethods([])
-			->setMockClassName("Mock_ConfigNo".($no++))
-			->getMock();
-
-		return $config;
-	}
-
-	public function test_construct() {
+	public function testConstruct() {
 		$c1 = $this->newConfig();
 		$c2 = $this->newConfig();
 		$c3 = $this->newConfig();
@@ -29,7 +17,7 @@ class ConfigCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertInstanceOf(Setup\Config::class, $c);
 	}
 
-	public function test_getConfig() {
+	public function testGetConfig() {
 		$c1 = $this->newConfig();
 		$c2 = $this->newConfig();
 		$c3 = $this->newConfig();
@@ -41,7 +29,7 @@ class ConfigCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($c3, $c->getConfig("c3"));
 	}
 
-	public function test_getKeys() {
+	public function testGetKeys() {
 		$c1 = $this->newConfig();
 		$c2 = $this->newConfig();
 		$c3 = $this->newConfig();
@@ -49,5 +37,17 @@ class ConfigCollectionTest extends \PHPUnit\Framework\TestCase {
 		$c = new Setup\ConfigCollection(["c1" => $c1, "c2" => $c2, "c3" => $c3]);
 
 		$this->assertEquals(["c1", "c2", "c3"], $c->getKeys());
+	}
+
+	protected function newConfig() {
+		static $no = 0;
+
+		$config = $this
+			->getMockBuilder(Setup\Config::class)
+			->setMethods([])
+			->setMockClassName("Mock_ConfigNo".($no++))
+			->getMock();
+
+		return $config;
 	}
 }
