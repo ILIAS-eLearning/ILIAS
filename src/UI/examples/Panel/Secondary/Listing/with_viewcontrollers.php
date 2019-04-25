@@ -6,7 +6,7 @@ function with_viewcontrollers()
 	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$actions = $f->dropdown()->standard(array(
+	$actions = $factory->dropdown()->standard(array(
 		$factory->button()->shy("ILIAS", "https://www.ilias.de"),
 		$factory->button()->shy("GitHub", "https://www.github.com")
 	));
@@ -32,11 +32,9 @@ function with_viewcontrollers()
 			$list_item1,
 			$list_item2
 		)),
-		$f->item()->group("Listing Subtitle 2", array(
+		$factory->item()->group("Listing Subtitle 2", array(
 			$list_item3
 		)));
-
-	$legacy = $factory->legacy("Legacy content");
 
 	$sort_options = array(
 		'internal_rating' => 'Best',
@@ -44,7 +42,6 @@ function with_viewcontrollers()
 		'date_asc' => 'Oldest',
 	);
 	$sortation = $factory->viewControl()->sortation($sort_options);
-
 
 	$url = $DIC->http()->request()->getRequestTarget();
 
