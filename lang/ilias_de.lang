@@ -111,6 +111,12 @@ sess#:#sess_notification_option_inherit#:#Von übergeordneten Objekt erben
 sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
 sess#:#sess_notification_option_manual#:#Manuell setzen
 sess#:#sess_notification_option_manual_info#:#Benachrichtigung müssen manuell gesetzt werden.
+sess#:#session_mail_subject_registered#:#Benutzer/in "%s" wurde für die Sitzung "%s" registriert
+sess#:#session_mail_subject_deletion#:#Benutzer/in "%s" wurde aus der Sitzung "%s" gelöscht
+sess#:#session_mail_subject_entered#:#Benutzer/in "%s" ist der "%s" beigetreten
+sess#:#register_notification#:#Benutzer/in "%s" wurde für die Sitzung "%s" registriert. Der/Die Benutzer/in ist aktuell noch kein Mitglied der Sitzung und muss erst von einem/einer Nutzerin hinzugefügt werden.
+sess#:#deletion_notification#:#Benutzer/in "%s" wurde aus der Sitzung "%s" gelöscht.
+sess#:#entered_notification#:#Benutzer/in "%s" ist der Sitzung "%s" beigetreten und kann nun an der Sitzung teilnehmen.
 news#:#news_show_more#:#Zeige mehr
 news#:#news_show_less#:#Zeige weniger
 common#:#obj_ltis#:#LTI

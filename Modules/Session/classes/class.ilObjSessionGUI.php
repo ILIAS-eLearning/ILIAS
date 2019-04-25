@@ -250,6 +250,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		$this->checkPermission('visible');
 		
@@ -282,12 +283,32 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			case ilMembershipRegistrationSettings::TYPE_DIRECT:
 				$part->register($ilUser->getId());
 				ilUtil::sendSuccess($this->lng->txt('event_registered'),true);
+				// thkoeln-patch: begin
+				$ilAppEventHandler->raise(
+					"Modules/Session",
+					'enter',
+					array(
+						'obj_id' => $this->getCurrentObject()->getId(),
+						'usr_id' => $ilUser->getId()
+					)
+				);
+				// thkoeln-patch: end
 				$this->ctrl->redirect($this,'infoScreen');
 				break;
 			
 			case ilMembershipRegistrationSettings::TYPE_REQUEST:
 				ilUtil::sendSuccess($this->lng->txt('sess_registered_confirm'),true);
 				$part->addSubscriber($ilUser->getId());
+				// thkoeln-patch: begin
+				$ilAppEventHandler->raise(
+					"Modules/Session",
+					'register',
+					array(
+						'obj_id' => $this->getCurrentObject()->getId(),
+						'usr_id' => $ilUser->getId()
+					)
+				);
+				// thkoeln-patch: end
 				$this->ctrl->redirect($this,'infoScreen');
 				break;
 		}

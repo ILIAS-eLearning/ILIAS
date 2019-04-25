@@ -18,6 +18,7 @@
 		<event type="raise" id="delete" />
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
+		<event type="listen" id="Modules/Session" />
 	</events>
 	<mailtemplates>
 		<context id="sess_context_participant_manual" class="ilSessionMailTemplateParticipantContext" />
