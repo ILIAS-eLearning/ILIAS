@@ -68,6 +68,11 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 */
 	protected $additional_picker_config = [];
 
+	/**
+	 * @var TransformationFactory
+	 */
+	protected $transformation_factory;
+
 
 	public function __construct(
 		DataFactory $data_factory,
@@ -78,6 +83,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 
+		$this->transformation_factory = $transformation_factory;
 		$trafo = $transformation_factory->toDate();
 		$this->setAdditionalTransformation($trafo);
 		$this->format = $data_factory->dateFormat()->standard();
@@ -99,6 +105,25 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	public function getFormat(): DateFormat\DateFormat
 	{
 		return $this->format;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withTimezone(string $tz): C\Input\Field\DateTime
+	{
+		$trafo = $this->transformation_factory->toTZDate($tz);
+		$clone = clone $this:
+		$clone->timezone = $tz;
+		return $clone->withAdditionalTransformation($trafo);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTimezone()
+	{
+		return $this->timezone;
 	}
 
 	/**

@@ -14,12 +14,23 @@ interface DateTime extends Input
 	/**
 	 * Get an input like this using the given format.
 	 */
-	public function withFormat(DateFormat $format) : DateTime;
+	public function withFormat(DateFormat $format): DateTime;
 
 	/**
 	 * Get the date-format of this input.
 	 */
 	public function getFormat(): DateFormat;
+
+	/**
+	 * Get an input like this using the given timezone.
+	 */
+	public function withTimezone(string $tz): DateTime;
+
+	/**
+	 * Get the timezone of this input.
+	 * @return null|string
+	 */
+	public function getTimezone();
 
 	/**
 	 * Return the datetime format in a form fit for the JS-component of this input.

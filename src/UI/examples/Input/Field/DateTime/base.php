@@ -14,13 +14,27 @@ function base() {
 	$ctrl = $DIC->ctrl();
 
 	//Step 1: define the inputs
-
 	$date = $ui->input()->field()->dateTime("Pick a date/time", "This is the byline text");
 	$formatted = $date->withFormat($data->dateFormat()->germanShort());
 	$time = $date->withTimeOnly(true);
 	$both = $date->withTime(true)
 		->withMinValue(new DateTime());
 
+	//setting a timezone will return a date with this timezone.
+	$tz = 'Asia/Tokyo';
+	$timezoned = $both->withTimezone($tz)->withByline('Result-value will have TZ '.$tz);
+
+	//if you want a date converted to the timezone, do it on the date:
+	$date_now = new DateTime('now');
+	$date_zoned = new DateTime('now', new \DateTimeZone($tz));
+
+
+	//here is the usage of Data/DateFormat
+	$format = $timezoned->getFormat()->toString() .' H:i';
+	$timezoned_preset1 = $timezoned->withValue($date_now->format($format))
+		->withByline('This is local "now"');
+	$timezoned_preset2 = $timezoned->withValue($date_zoned->format($format))
+		->withByline('This is "now" in ' .$tz);
 
 	//Step 2: define form and form actions
 	$ctrl->setParameterByClass(
@@ -33,7 +47,10 @@ function base() {
 		'date'=>$date,
 		'formatted'=>$formatted,
 		'time'=>$time,
-		'both'=>$both
+		'both'=>$both,
+		'timezoned'=>$timezoned,
+		'timezoned_preset1'=>$timezoned_preset1,
+		'timezoned_preset2'=>$timezoned_preset2
 	]);
 
 	//Step 3: implement some form data processing.

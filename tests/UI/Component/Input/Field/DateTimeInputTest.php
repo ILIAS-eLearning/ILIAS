@@ -80,5 +80,20 @@ class DateTimeInputTest extends ILIAS_UI_TestBase {
 		$this->assertTrue($datetime->withTimeOnly(true)->getTimeOnly());
 	}
 
+	public function test_withTimeZone() {
+		$datetime = $this->factory->datetime('label', 'byline');
+		$this->assertNull($datetime->getTimeZone());
+		$tz = 'Europe/Moscow';
+		$this->assertEquals(
+			$tz,
+			$datetime->withTimeZone($tz)->getTimeZone()
+		);
+	}
+	public function test_withInvalidTimeZone() {
+		$this->expectExcetion(\InvalidArgumentException::class);
+		$datetime = $this->factory->datetime('label', 'byline');
+		$tz = 'NOT/aValidTZ';
+		$datetime->withTimeZone($tz);
+	}
 
 }
