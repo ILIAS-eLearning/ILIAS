@@ -69,7 +69,9 @@ class Group extends Input implements C\Input\Field\Group {
 	}
 
 	public function withOnUpdate(Signal $signal) {
-		$clone = parent::withOnUpdate($signal);
+		//TODO: use $clone = parent::withOnUpdate($signal); once the exception there
+		//is solved.
+		$clone = $this->withTriggeredSignal($signal, 'update');
 		$inputs = [];
 		foreach ($this->inputs as $key => $input) {
 			$inputs[$key] = $input->withOnUpdate($signal);

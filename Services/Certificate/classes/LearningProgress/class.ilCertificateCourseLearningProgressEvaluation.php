@@ -27,6 +27,11 @@ class ilCertificateCourseLearningProgressEvaluation
 	private $statusHelper;
 
 	/**
+	 * @var ilCertificateObjUserTrackingHelper
+	 */
+	private $trackingHelper;
+
+	/**
 	 * @param ilCertificateTemplateRepository $templateRepository
 	 * @param ilSetting|null $setting
 	 * @param ilCertificateObjectHelper|null $objectHelper
@@ -36,7 +41,8 @@ class ilCertificateCourseLearningProgressEvaluation
 		ilCertificateTemplateRepository $templateRepository,
 		ilSetting $setting = null,
 		ilCertificateObjectHelper $objectHelper = null,
-		ilCertificateLPStatusHelper $statusHelper = null
+		ilCertificateLPStatusHelper $statusHelper = null,
+		ilCertificateObjUserTrackingHelper $trackingHelper = null
 	) {
 		$this->templateRepository = $templateRepository;
 
@@ -54,19 +60,36 @@ class ilCertificateCourseLearningProgressEvaluation
 			$statusHelper = new ilCertificateLPStatusHelper();
 		}
 		$this->statusHelper = $statusHelper;
+		if (null === $trackingHelper) {
+			$trackingHelper = new ilCertificateObjUserTrackingHelper();
+		}
+		$this->trackingHelper = $trackingHelper;
 	}
 
 	/**
 	 * @param $refId
 	 * @param $userId
-	 * @return array
+	 * @return ilCertificateTemplate[]
 	 */
 	public function evaluate(int $refId, int $userId) : array
 	{
-		$courseObjectIds = $this->templateRepository->fetchAllObjectIdsByType('crs');
+		$courseTemplates = $this->templateRepository->fetchActiveTemplatesByType('crs');
 
-		$completedCourses = array();
-		foreach ($courseObjectIds as $courseObjectId) {
+		$enabledGlobalLearningProgress = $this->trackingHelper->enabledLearningProgress();
+
+		$templatesOfCompletedCourses = array();
+		foreach ($courseTemplates as $courseTemplate) {
+			$courseObjectId = $courseTemplate->getObjId();
+
+			if ($enabledGlobalLearningProgress) {
+				$objectLearningProgressSettings = new ilLPObjSettings($courseObjectId);
+				$mode = $objectLearningProgressSettings->getMode();
+
+				if (ilLPObjSettings::LP_MODE_DEACTIVATED != $mode) {
+					continue;
+				}
+			}
+
 			$subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
 
 			if (false === $subItems || $subItems === null) {
@@ -98,11 +121,11 @@ class ilCertificateCourseLearningProgressEvaluation
 				}
 
 				if (true === $completed) {
-					$completedCourses[] = $courseObjectId;
+					$templatesOfCompletedCourses[] = $courseTemplate;
 				}
 			}
 		}
 
-		return $completedCourses;
+		return $templatesOfCompletedCourses;
 	}
 }

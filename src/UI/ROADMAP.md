@@ -106,6 +106,7 @@ should be removed to force new inputs to implement this method properly.
 to the (general) `Field\Renderer` to make `OnUpdate` apply everywhere.
 * `Input::withOnUpdate` and `Input::appendOnUpdate` can then be reinstated on the
 base class and removed on `Field\Select` and `Field\Text`.
+* `Group::withOnUpdate` can use `parent::withOnUpdate` then.
 
 New inputs must already implement the methods.
 
