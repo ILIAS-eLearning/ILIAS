@@ -12,7 +12,7 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 
 		$goal = $this
 			->getMockBuilder(Setup\Goal::class)
-			->setMethods(["getHash", "getType", "getLabel", "isNotable", "withConfiguration", "getDefaultConfiguration", "withResourcesFrom", "getConfigurationInput", "getPreconditions", "achieve"])
+			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
 			->setMockClassName("Mock_GoalNo".($no++))
 			->getMock();
 
@@ -26,29 +26,11 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 	public function testBasicAlgorithm() {
 		$goal = $this->newGoal();
 		$config = $this->createMock(Setup\Config::class);
-		$configuration_loader = $this->createMock(Setup\ConfigurationLoader::class);
 		$environment = $this->createMock(Setup\Environment::class);
 
 		$type = "TYPE";
 
-		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal);
-
-		$configuration_loader
-			->expects($this->once())
-			->method("loadConfigurationFor")
-			->with($type)
-			->willReturn($config);
-
-		$goal
-			->expects($this->once())
-			->method("getType")
-			->willReturn($type);
-
-		$goal
-			->expects($this->once())
-			->method("withConfiguration")
-			->with($config)
-			->willReturn($goal);
+		$runner = new Setup\Runner\CLI($environment, $goal);
 
 		$goal
 			->expects($this->once())
@@ -97,33 +79,19 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 			->willReturn([]);
 
 		$config = $this->createMock(Setup\Config::class);
-		$configuration_loader = $this->createMock(Setup\ConfigurationLoader::class);
 		$environment = $this->createMock(Setup\Environment::class);
 
 		$type = "TYPE";
 
-		$configuration_loader
-			->method("loadConfigurationFor")
-			->with($type)
-			->willReturn($config);
-
 		foreach([$goal1, $goal11, $goal12, $goal121] as $goal) {
-			$goal
-				->method("getType")
-				->willReturn($type);
 			$goal
 				->expects($this->atLeastOnce())
 				->method("withResourcesFrom")
 				->with($environment)
 				->willReturn($goal);
-			$goal
-				->expects($this->atLeastOnce())
-				->method("withConfiguration")
-				->with($config)
-				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal1);
+		$runner = new Setup\Runner\CLI($environment, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
 		$expected = array_map($f, [$goal11, $goal121, $goal12, $goal1]);
@@ -147,33 +115,19 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 			->willReturn([]);
 
 		$config = $this->createMock(Setup\Config::class);
-		$configuration_loader = $this->createMock(Setup\ConfigurationLoader::class);
 		$environment = $this->createMock(Setup\Environment::class);
 
 		$type = "TYPE";
 
-		$configuration_loader
-			->method("loadConfigurationFor")
-			->with($type)
-			->willReturn($config);
-
 		foreach([$goal1, $goal11] as $goal) {
-			$goal
-				->method("getType")
-				->willReturn($type);
 			$goal
 				->expects($this->atLeastOnce())
 				->method("withResourcesFrom")
 				->with($environment)
 				->willReturn($goal);
-			$goal
-				->expects($this->atLeastOnce())
-				->method("withConfiguration")
-				->with($config)
-				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal1);
+		$runner = new Setup\Runner\CLI($environment, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
 		$expected = array_map($f, [$goal11, $goal1]);
@@ -195,33 +149,19 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 			->willReturn([$goal1]);
 
 		$config = $this->createMock(Setup\Config::class);
-		$configuration_loader = $this->createMock(Setup\ConfigurationLoader::class);
 		$environment = $this->createMock(Setup\Environment::class);
 
 		$type = "TYPE";
 
-		$configuration_loader
-			->method("loadConfigurationFor")
-			->with($type)
-			->willReturn($config);
-
 		foreach([$goal1, $goal2] as $goal) {
-			$goal
-				->method("getType")
-				->willReturn($type);
 			$goal
 				->expects($this->atLeastOnce())
 				->method("withResourcesFrom")
 				->with($environment)
 				->willReturn($goal);
-			$goal
-				->expects($this->atLeastOnce())
-				->method("withConfiguration")
-				->with($config)
-				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner\CLI($environment, $configuration_loader, $goal1);
+		$runner = new Setup\Runner\CLI($environment, $goal1);
 
 		$this->expectException(Setup\UnachievableException::class);		
 		iterator_to_array($runner->allGoals());
