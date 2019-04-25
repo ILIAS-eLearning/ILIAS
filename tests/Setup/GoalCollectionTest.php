@@ -7,23 +7,7 @@ namespace ILIAS\Tests\Setup;
 use ILIAS\Setup;
 
 class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
-	protected function newGoal() {
-		static $no = 0;
-
-		$goal = $this
-			->getMockBuilder(Setup\Goal::class)
-			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
-			->setMockClassName("Mock_GoalNo".($no++))
-			->getMock();
-
-		$goal
-			->method("getHash")
-			->willReturn("".$no);
-
-		return $goal;
-	}
-
-	public function test_getHash() {
+	public function testGetHash() {
 		$g1 = $this->newGoal();
 		$g2 = $this->newGoal();
 		$g3 = $this->newGoal();
@@ -41,19 +25,19 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($c1->getHash(), $c3->getHash());
 	}
 
-	public function test_getLabel() {
+	public function testGetLabel() {
 		$c = new Setup\GoalCollection("LABEL", false);
 		$this->assertEquals("LABEL", $c->getLabel());
 	}
 
-	public function test_isNotable() {
+	public function testIsNotable() {
 		$c1 = new Setup\GoalCollection("", false);
 		$c2 = new Setup\GoalCollection("", true);
 		$this->assertFalse($c1->isNotable());
 		$this->assertTrue($c2->isNotable());
 	}
 
-	public function test_withResourcesFrom() {
+	public function testWithResourcesFrom() {
 		$g1 = $this->newGoal();
 		$g2 = $this->newGoal();
 		$g3 = $this->newGoal();
@@ -73,7 +57,7 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 		$c->withResourcesFrom($env);
 	}
 
-	public function test_getPreconditions() {
+	public function testGetPreconditions() {
 		$g1 = $this->newGoal();
 		$g2 = $this->newGoal();
 		$g3 = $this->newGoal();
@@ -102,7 +86,7 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 	}
 
 
-	public function test_achieve() {
+	public function testAchieve() {
 		$g1 = $this->newGoal();
 		$g2 = $this->newGoal();
 		$g3 = $this->newGoal();
@@ -119,5 +103,21 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 		}
 
 		$c->achieve($env);
+	}
+
+	protected function newGoal() {
+		static $no = 0;
+
+		$goal = $this
+			->getMockBuilder(Setup\Goal::class)
+			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
+			->setMockClassName("Mock_GoalNo".($no++))
+			->getMock();
+
+		$goal
+			->method("getHash")
+			->willReturn("".$no);
+
+		return $goal;
 	}
 }
