@@ -34,9 +34,12 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *      Secondary Legacy Panel present content from a Legacy component.
-	 *      A good example of when use Secondary Legacy Panel is the current mini calendar block.
 	 *   composition: >
 	 *      Secondary Legacy Panel is composed of title and a Legacy component.
+	 *
+	 * context:
+	 *   - Marginal Grid Calendar.
+	 *
 	 * ---
 	 * @param string $title
 	 * @param \ILIAS\UI\Component\Legacy\Legacy $legacy
