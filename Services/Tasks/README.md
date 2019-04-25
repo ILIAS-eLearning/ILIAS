@@ -2,7 +2,7 @@
 
 ## Derived Tasks
 
-If your component wants to add entries to the taksks list of a user it must do the following.
+If your component wants to add entries to the task list of a user it must do the following.
 
 Add an entry in the `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilDerivedTaskProviderMasterFactory.php`. It is planned to switch this to a future general collector/provider/consumer pattern.
 
@@ -36,6 +36,11 @@ $task = $task->withUrl('...');
 
 - General introduction of the service and derived task interface
 - https://docu.ilias.de/goto_docu_wiki_wpage_4910_1357.html
+
+24 Apr 2019
+
+- Add custom url property.
+- https://github.com/ILIAS-eLearning/ILIAS/pull/1789#issuecomment-486218019
 
 # Metrics
 
