@@ -6964,25 +6964,32 @@ button.close {
 .panel-secondary .panel-heading {
   display: flex;
   flex-flow: row wrap;
-  border-bottom: 30px blue;
 }
 .panel-secondary .panel-secondary-title {
   flex: 99 0;
   order: 1;
 }
-.panel-secondary .il-viewcontrol-sortation {
-  flex: 1 0;
-  order: 2;
-}
 .panel-secondary .panel-heading .dropdown {
   flex: 1 0;
   order: 3;
 }
-.panel-secondary .il-viewcontrol-pagination {
+.panel-secondary .il-viewcontrol-sortation {
+  flex: 1 0;
+  order: 2;
+  margin-right: 5px;
+}
+.panel-secondary .il-viewcontrol-pagination,
+.panel-secondary .il-viewcontrol-section {
   flex: 1 100%;
   order: 4;
   background-color: #f9f9f9;
   text-align: center;
+  padding: 8px 0 0 0;
+}
+.panel-secondary .panel-heading.ilHeader {
+  padding-bottom: 0;
+  padding-right: 0;
+  border: none;
 }
 .il-card {
   padding: 0;

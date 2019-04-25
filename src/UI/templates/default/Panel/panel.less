@@ -69,12 +69,32 @@
 }
 
 /* this is currently experimental, could be removed */
-.panel-secondary .panel-heading {
-	display:flex;
-	flex-flow: row wrap;
+.panel-secondary {
+	.panel-heading {
+		display:flex;
+		flex-flow: row wrap;
+	}
+	.panel-secondary-title {
+		flex:99 0; order: 1;
+	}
+	.panel-heading .dropdown {
+		flex: 1 0; order: 3;
+	}
+	.il-viewcontrol-sortation {
+		flex: 1 0;
+		order: 2;
+		margin-right:5px;
+	}
+	.il-viewcontrol-pagination, .il-viewcontrol-section {
+		flex: 1 100%;
+		order: 4;
+		background-color:#f9f9f9;
+		text-align:center;
+		padding:8px 0 0 0;
+	}
+	.panel-heading.ilHeader {
+		padding-bottom: 0;
+		padding-right: 0;
+		border: none;
+	}
 }
-
-.panel-secondary .panel-secondary-title { flex:99 0; order: 1;}
-.panel-secondary .il-viewcontrol-sortation { flex: 1 0; order: 2;}
-.panel-secondary .panel-heading .dropdown { flex: 1 0; order: 3;}
-.panel-secondary .il-viewcontrol-pagination { flex: 1 100%; order: 4; background-color:#f9f9f9; text-align:center;}
