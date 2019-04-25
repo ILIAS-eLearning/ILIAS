@@ -47,6 +47,15 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	 */
 	protected $with_time_only = false;
 
+	/**
+	 * @var string
+	 */
+	protected $timezone;
+
+	/**
+	 * @var TransformationFactory
+	 */
+	protected $transformation_factory;
 
 	public function __construct(
 		DataFactory $data_factory,
@@ -66,6 +75,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		$this->addTransformation($transformation_factory);
 		$this->addValidation($validation_factory);
 		$this->validation_factory = $validation_factory;
+		$this->transformation_factory = $transformation_factory;
 	}
 
 
@@ -276,6 +286,32 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
+	public function withTimezone(string $tz): C\Input\Field\Duration
+	{
+		$trafo = $this->transformation_factory->toTZDate($tz);
+		$clone = clone $this;
+		$clone->timezone = $tz;
+
+		$clone->inputs = array_map(
+			function($inpt) use ($trafo) {
+				return $inpt->withAdditionalTransformation($trafo);
+			},
+			$clone->inputs
+		);
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTimezone()
+	{
+		return $this->timezone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function isClientSideValueOk($value) {
 		return true;
 	}
@@ -286,4 +322,5 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	protected function getConstraintForRequirement() {
 		return null;
 	}
+
 }

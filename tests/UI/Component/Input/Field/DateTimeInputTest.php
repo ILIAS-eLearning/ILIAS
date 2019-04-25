@@ -90,7 +90,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase {
 		);
 	}
 	public function test_withInvalidTimeZone() {
-		$this->expectExcetion(\InvalidArgumentException::class);
+		$this->expectException(\InvalidArgumentException::class);
 		$datetime = $this->factory->datetime('label', 'byline');
 		$tz = 'NOT/aValidTZ';
 		$datetime->withTimeZone($tz);

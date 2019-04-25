@@ -76,4 +76,14 @@ interface Duration extends Group
 	 */
 	public function getTimeOnly(): bool;
 
+	/**
+	 * Get an input like this using the given timezone.
+	 */
+	public function withTimezone(string $tz): Duration;
+
+	/**
+	 * Get the timezone of this input.
+	 * @return null|string
+	 */
+	public function getTimezone();
 }

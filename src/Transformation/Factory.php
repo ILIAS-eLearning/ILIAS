@@ -63,7 +63,7 @@ class Factory {
 	}
 
 	/**
-	 * Adjust a date to a reflect a certain timezone.
+	 * Adjust a date to reflect a certain timezone.
 	 * This does not change the values of date, but sets the timezone.
 	 *
 	 * @return  Transformation

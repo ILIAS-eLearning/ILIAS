@@ -16,6 +16,10 @@ function base() {
 	//Step 1: define the input
 	$duration = $ui->input()->field()->duration("Pick a time-span", "This is the byline text");
 	$time = $duration->withTimeOnly(true)->withRequired(true);
+	$timezone = $duration
+		->withTimezone('America/El_Salvador')
+		->withTime(true)
+		->withByline('timezone and both time and date');
 
 	//Step 2: define form and form actions, attach the input
 	$ctrl->setParameterByClass(
@@ -28,7 +32,8 @@ function base() {
 		$form_action,
 		[
 			'duration'=>$duration,
-			'time'=>$time
+			'time'=>$time,
+			'timezone'=>$timezone
 		]
 	);
 
@@ -36,7 +41,7 @@ function base() {
 	if ($request->getMethod() == "POST"
 		&& $request->getQueryParams()['example_name'] == "duration") {
 		$form = $form->withRequest($request);
-		$groups = $form->getInputs(); //["duration"]
+		$groups = $form->getInputs();
 		foreach ($groups as $group) {
 
 			if($group->getError()){

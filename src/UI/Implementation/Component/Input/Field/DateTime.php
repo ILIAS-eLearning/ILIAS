@@ -73,6 +73,11 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 */
 	protected $transformation_factory;
 
+	/**
+	 * @var string
+	 */
+	protected $timezone;
+
 
 	public function __construct(
 		DataFactory $data_factory,
@@ -113,7 +118,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	public function withTimezone(string $tz): C\Input\Field\DateTime
 	{
 		$trafo = $this->transformation_factory->toTZDate($tz);
-		$clone = clone $this:
+		$clone = clone $this;
 		$clone->timezone = $tz;
 		return $clone->withAdditionalTransformation($trafo);
 	}
