@@ -100,7 +100,7 @@ extends ilCertificateAdapter
 	*/
 	public function getAdapterType()
 	{
-		return "studyProgramme";
+		return "StudyProgramme";
 	}
 
 	/**
