@@ -462,7 +462,7 @@ class ilEventParticipants
 		global $DIC;
 		$tree = $DIC->repositoryTree();
 
-		$recipients = array();
+		$courseRecipients = array();
 		$session = ilObjectFactory::getInstanceByObjId($this->event_id);
 		$refIdArray = array_values(ilObject::_getAllReferences($this->event_id));
 		if (true === $session->isRegistrationNotificationEnabled()) {
@@ -471,7 +471,7 @@ class ilEventParticipants
 				/** @var ilObjCourse $course */
 				$course = ilObjectFactory::getInstanceByRefId($parentRefId);
 
-				$recipients = $course->getMembersObject()->getNotificationRecipients();
+				$courseRecipients = $course->getMembersObject()->getNotificationRecipients();
 			}
 		}
 
@@ -493,7 +493,7 @@ class ilEventParticipants
 				if (ilSessionConstants::NOTIFICATION_MANUAL_OPTION === $session->getRegistrationNotificationOption()) {
 					$this->participants[$row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
 				} elseif (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
-					foreach ($recipients as $recipient) {
+					foreach ($courseRecipients as $recipient) {
 						if ($recipient == $row->usr_id) {
 							$this->participants[$row->usr_id]['notification_enabled'] = true;
 						}
