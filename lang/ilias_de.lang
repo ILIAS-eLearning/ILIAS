@@ -15042,3 +15042,4 @@ content#:#cont_Background#:#Hintergrund
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
 certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###25 04 2019 new variable

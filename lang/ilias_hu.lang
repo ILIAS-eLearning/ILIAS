@@ -15042,3 +15042,4 @@ content#:#cont_StandardCenter#:#Szövegtörzs középre
 content#:#cont_Interaction#:#Kölcsönhatás
 content#:#cont_Background#:#Háttér
 dateplaner#:#cal_usr_info#:#Kinevezési információk
+certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s###25 04 2019 new variable
