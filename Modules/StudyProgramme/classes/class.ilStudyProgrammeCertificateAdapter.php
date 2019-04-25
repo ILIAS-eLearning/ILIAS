@@ -78,7 +78,7 @@ extends ilCertificateAdapter
 		$vars = $this->getBaseVariablesDescription(false);
 		$vars["SP_TITLE"] = $this->lng->txt("crs_title");
 				
-		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");	
+		$template = new ilTemplate("tpl.prg_certificate_edit.html", TRUE, TRUE, "Modules/StudyProgramme");	
 		$template->setCurrentBlock("items");
 		foreach($vars as $id => $caption)
 		{
