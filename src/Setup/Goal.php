@@ -38,7 +38,7 @@ interface Goal {
 	 *
 	 * @throw \RuntimeException if the requested resource is not what the goal expected
 	 */
-	public function withResourcesFrom(Environment $environment);
+	public function withResourcesFrom(Environment $environment) : Goal;
 
 	/**
 	 * Goals might depend on other goals.
@@ -47,13 +47,14 @@ interface Goal {
 	 *
 	 * @return Goal[]
 	 */
-	public function getPreconditions();
+	public function getPreconditions() : array;
 
 	/**
 	 * Goals can be achieved. They might add resources to the environment when
 	 * they have been achieved.
 	 *
 	 * @throw \LogicException if there are unfullfilled preconditions.
+	 * @return void
 	 */
 	public function achieve(Environment $environment);
 }
