@@ -361,7 +361,8 @@ WHERE id = 30')
 				'ilias_version'         => 'v5.4.0',
 				'created_timestamp'     => 123456789,
 				'currently_active'      => true,
-				'background_image_path' => '/some/where/background.jpg'
+				'background_image_path' => '/some/where/background.jpg',
+				'thumbnail_image_path' => '/some/where/thumbnail.svg'
 			),
 			array(
 				'id'                    => 30,
@@ -374,15 +375,17 @@ WHERE id = 30')
 				'ilias_version'         => 'v5.3.0',
 				'created_timestamp'     => 123456789,
 				'currently_active'      => false,
-				'background_image_path' => '/some/where/else/background.jpg'
+				'background_image_path' => '/some/where/else/background.jpg',
+				'thumbnail_image_path' => '/some/where/thumbnail.svg'
 			)
 		);
 
 		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$ids = $repository->fetchAllObjectIdsByType('crs');
+		$templates = $repository->fetchActiveTemplatesByType('crs');
 
-		$this->assertEquals(array(10, 30), $ids);
+		$this->assertEquals(10, $templates[0]->getObjId());
+		$this->assertEquals(30, $templates[1]->getObjId());
 	}
 
 	/**

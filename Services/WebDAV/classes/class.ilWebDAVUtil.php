@@ -484,7 +484,6 @@ class ilWebDAVUtil
             $uri = $baseUri.'/ref_'.$parentRefId.'/'.$this->davUrlEncode($ressourceName);
         } else {
             // Create URI and use some SQL queries to get the missing data
-            global $tree;
             $nodePath = $DIC->repositoryTree()->getNodePath($refId);
             
             if (is_null($nodePath) || count($nodePath) < 2)

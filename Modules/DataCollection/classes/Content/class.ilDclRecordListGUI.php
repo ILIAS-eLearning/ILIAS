@@ -13,6 +13,10 @@
  */
 class ilDclRecordListGUI {
 
+	const GET_TABLE_ID = 'table_id';
+	const GET_TABLEVIEW_ID = 'tableview_id';
+	const GET_MODE = 'mode';
+
 	const MODE_VIEW = 1;
 	const MODE_MANAGE = 2;
 
@@ -63,28 +67,27 @@ class ilDclRecordListGUI {
 		$this->lng = $lng;
 
 		$this->table_id = $table_id;
-		if ($this->table_id == null) {
-			$this->table_id = $_GET["table_id"];
+		if ($this->table_id == NULL) {
+			$this->table_id = filter_input(INPUT_GET, self::GET_TABLE_ID);
 		}
 
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDclCache::getTableCache($table_id);
 
-		if ($_GET['tableview_id']) {
-			$this->tableview_id = $_GET['tableview_id'];
+		if ($tableview_id = filter_input(INPUT_GET, self::GET_TABLEVIEW_ID)) {
+			$this->tableview_id = $tableview_id;
 		} else {
 			//get first visible tableview
 			$this->tableview_id = $this->table_obj->getFirstTableViewId($this->parent_obj->ref_id);
 			//this is for ilDclTextRecordRepresentation with link to detail page
-			$_GET['tableview_id'] = $this->tableview_id; //TODO: find better way
-
+			$_GET[self::GET_TABLEVIEW_ID] = $this->tableview_id; //TODO: find better way
 		}
-
-		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
-		$this->ctrl->setParameterByClass("ildclrecordeditgui", "tableview_id", $this->tableview_id);
-		$this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview_id);
-		$this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;
+		
+		$this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLE_ID, $this->table_id);
+		$this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
+		$this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
+		$this->mode = (isset($_GET[self::GET_MODE]) && in_array($_GET[self::GET_MODE], self::$available_modes)) ? (int)$_GET[self::GET_MODE] : self::MODE_VIEW;
 	}
 
 
@@ -101,7 +104,7 @@ class ilDclRecordListGUI {
 			return;
 		}
 
-		$this->ctrl->saveParameter($this, 'mode');
+		$this->ctrl->saveParameter($this, self::GET_MODE);
 		$cmd = $this->ctrl->getCmd(self::CMD_SHOW);
 
 		// 'show' fills all filters with the predefined values from the tableview,
@@ -458,22 +461,22 @@ class ilDclRecordListGUI {
 	 * Add subtabs
 	 *
 	 */
-	protected function setSubTabs($active_id = 'mode') {
+	protected function setSubTabs($active_id = self::GET_MODE) {
 		global $DIC;
 		$ilTabs = $DIC['ilTabs'];
 
 		/** @var ilTabsGUI $ilTabs */
-		$this->ctrl->setParameter($this, 'mode', self::MODE_VIEW);
+		$this->ctrl->setParameter($this, self::GET_MODE, self::MODE_VIEW);
 		$ilTabs->addSubTab('mode_1', $this->lng->txt('view'), $this->ctrl->getLinkTarget($this, 'listRecords'));
 		$this->ctrl->clearParameters($this);
 
 		if ($this->table_obj->hasPermissionToDeleteRecords((int)$_GET['ref_id'])) {
-			$this->ctrl->setParameter($this, 'mode', self::MODE_MANAGE);
+			$this->ctrl->setParameter($this, self::GET_MODE, self::MODE_MANAGE);
 			$ilTabs->addSubTab('mode_2', $this->lng->txt('dcl_manage'), $this->ctrl->getLinkTarget($this, 'listRecords'));
 			$this->ctrl->clearParameters($this);
 		}
 
-		if ($active_id == 'mode') {
+		if($active_id == self::GET_MODE) {
 			$active_id = 'mode_' . $this->mode;
 		}
 

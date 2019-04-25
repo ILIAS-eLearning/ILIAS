@@ -14859,7 +14859,7 @@ lso#:#lso_users_already_assigned#:#The user is already assigned to this learning
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
 lso#:#lso_notification#:#Notification
 lso#:#lso_header_edit_members#:#Edit Members
-lso#:#lso_members_print_title#:#Learning sequence mebers
+lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence administrator.
 lso#:#lso_members_deleted#:#Deleted members
 lso#:#mail_lso_roles#:#Send mails to roles of learning sequence.
@@ -15042,3 +15042,4 @@ content#:#cont_StandardCenter#:#Standard Center
 content#:#cont_Interaction#:#Interaction
 content#:#cont_Background#:#Background
 dateplaner#:#cal_usr_info#:#Appointment Information
+certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s

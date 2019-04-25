@@ -616,7 +616,6 @@ return array(
     'ILIAS\\Modules\\OrgUnit\\ARHelper\\BaseCommands' => $baseDir . '/../../Modules/OrgUnit/classes/ARHelper/BaseCommands.php',
     'ILIAS\\Modules\\OrgUnit\\ARHelper\\BaseForm' => $baseDir . '/../../Modules/OrgUnit/classes/ARHelper/BaseForm.php',
     'ILIAS\\Modules\\OrgUnit\\ARHelper\\DIC' => $baseDir . '/../../Modules/OrgUnit/classes/ARHelper/DIC.php',
-    'ILIAS\\Refinery\\KindlyTo\\Transformation\\TupleTransformation' => $baseDir . '/../../src/Refinery/KindlyTo/Transformation/TupleTransformation.php',
     'ILIAS\\Transformation\\Factory' => $baseDir . '/../../src/Transformation/Factory.php',
     'ILIAS\\Transformation\\Transformation' => $baseDir . '/../../src/Transformation/Transformation.php',
     'ILIAS\\Transformation\\Transformations\\AddLabels' => $baseDir . '/../../src/Transformation/Transformations/AddLabels.php',

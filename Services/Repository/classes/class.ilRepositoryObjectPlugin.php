@@ -179,7 +179,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 		}
 		else
 		{
-			$create_ops_id = $ilDB->nextId(rbac_operations);
+			$create_ops_id = $ilDB->nextId("rbac_operations");
 			$ilDB->manipulate("INSERT INTO rbac_operations ".
 				"(ops_id, operation, description, class) VALUES (".
 				$ilDB->quote($create_ops_id, "integer").",".
