@@ -24,14 +24,6 @@ interface Goal {
 	public function getHash() : string;
 
 	/**
-	 * An identifier for the type of goal.
-	 *
-	 * Types are used to group goals that share a configuration. For many goals
-	 * return the class name will be fine.
-	 */
-	public function getType() : string;
-
-	/**
 	 * Get a label that describes this goal.
 	 */
 	public function getLabel() : string;
@@ -42,34 +34,11 @@ interface Goal {
 	public function isNotable() : bool;
 
 	/**
-	 * Goals can be configurable.
-	 *
-	 * @throw \InvalidArgumentException if Config does not match the Goal.
-	 */
-	public function withConfiguration(Config $config) : Goal;
-
-	/**
-	 * Goals may provide a default configuration.
-	 *
-	 * @return Config|null
-	 */
-	public function getDefaultConfiguration();
-
-	/**
 	 * Goals may require resources to be reached.
 	 *
 	 * @throw \RuntimeException if the requested resource is not what the goal expected
 	 */
 	public function withResourcesFrom(Environment $environment);
-
-	/**
-	 * Goals may provide an input to configure them, which could be displaying
-	 * some preset configuration.
-	 *
-	 * @throw InvalidArgumentException if Config does not match the Goal
-	 * @return UI\Component\Input\Field\Input|null
-	 */
-	public function getConfigurationInput(Config $config = null);
 
 	/**
 	 * Goals might depend on other goals.

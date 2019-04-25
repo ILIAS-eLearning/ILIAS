@@ -19,18 +19,12 @@ class CLI {
 	protected $environment;
 
 	/**
-	 * @var ConfigurationLoader
-	 */
-	protected $configuration_loader;
-
-	/**
 	 * @var Goal
 	 */
 	protected $goal;
 
-	public function __construct(Environment $environment, ConfigurationLoader $configuration_loader, Goal $goal) {
+	public function __construct(Environment $environment, Goal $goal) {
 		$this->environment = $environment;
-		$this->configuration_loader = $configuration_loader;
 		$this->goal = $goal;
 	}
 
@@ -96,10 +90,7 @@ class CLI {
 	}
 
 	protected function initGoal(Goal $goal) : Goal {
-		$type = $this->goal->getType();
-		$config = $this->configuration_loader->loadConfigurationFor($type);
 		return $goal
-			->withConfiguration($config)
 			->withResourcesFrom($this->environment);
 	}
 }
