@@ -15076,3 +15076,4 @@ content#:#cont_Interaction#:#Interaction
 content#:#cont_Background#:#Background
 dateplaner#:#cal_usr_info#:#Appointment Information
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
+certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
