@@ -15070,3 +15070,4 @@ content#:#cont_StandardCenter#:#Standard Center
 content#:#cont_Interaction#:#Interaction
 content#:#cont_Background#:#Background
 dateplaner#:#cal_usr_info#:#Appointment Information
+certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
