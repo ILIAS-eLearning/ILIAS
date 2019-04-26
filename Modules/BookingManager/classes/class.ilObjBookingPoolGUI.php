@@ -48,6 +48,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->type = "book";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->lng->loadLanguageModule("book");
+
+		if ((int) $_REQUEST['object_id'] > 0 && ilBookingObject::lookupPoolId((int) $_REQUEST['object_id']) != $this->object->getId())
+		{
+			throw new ilException("Booking Object ID does not match Booking Pool.");
+		}
 	}
 
 	/**
