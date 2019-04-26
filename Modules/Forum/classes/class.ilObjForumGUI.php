@@ -3065,7 +3065,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		$profile_gui = new ilPublicUserProfileGUI((int)$_GET['user']);
 		$add = $this->getUserProfileAdditional((int)$_GET['ref_id'], (int)$_GET['user']);
 		$profile_gui->setAdditional($add);
-		$profile_gui->setBackUrl(\ilUtil::stripOnlySlashes($_GET['backurl']));
+		$profile_gui->setBackUrl(\ilUtil::stripSlashes($_GET['backurl']));
 		$this->tpl->setContent($this->ctrl->getHTML($profile_gui));
 	}
 	
