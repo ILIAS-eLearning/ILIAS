@@ -2,6 +2,10 @@
 
 use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\Tools\Maintainers\Component;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Layout\Page\Page;
@@ -84,15 +88,21 @@ class LayoutContent {
 		$meta_bar = $f->mainControls()->metaBar();
 
 		foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
-			$content = $item->getContent();
 			switch (true) {
-				case ($content instanceof Combined):
-					$slate = $content;
+				case ($item instanceof TopLegacyItem):
+					$slate = $f->mainControls()->slate()->legacy($item->getTitle(), $item->getGlyph(), $item->getLegacyContent());
 					break;
-				default:
-					$slate = $f->mainControls()
-						->slate()
-						->legacy($item->getTitle(), $item->getGlyph(), $content);
+				case ($item instanceof TopParentItem):
+					$slate = $f->mainControls()->slate()->combined($item->getTitle(), $item->getGlyph());
+					foreach ($item->getChildren() as $child) {
+						switch (true) {
+							case ($child instanceof LinkItem):
+								$b = $f->button()->bulky($child->getGlyph(), $child->getTitle(), $child->getAction());
+								$slate = $slate->withAdditionalEntry($b);
+								break;
+						}
+					}
+					break;
 			}
 
 			$meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $slate);

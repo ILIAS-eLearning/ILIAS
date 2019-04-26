@@ -26,7 +26,6 @@ trait ilMMSlateSessionStateCode {
 			$slate = $slate->withEngaged(true);
 		}
 
-
 		return $slate->withAdditionalOnLoadCode(
 			function ($id) use ($show_signal, $identification) {
 				return "
@@ -37,10 +36,6 @@ trait ilMMSlateSessionStateCode {
 					}else {
 						document.cookie = '{$identification}' + '=' + true
 					}
-					
-					
-					
-					
 					return false;
 				});
 			";

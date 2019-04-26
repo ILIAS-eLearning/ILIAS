@@ -14,9 +14,29 @@ class MetaBarItemFactory {
 	/**
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return BaseItem
+	 * @return TopParentItem
 	 */
-	public function baseItem(IdentificationInterface $identification): BaseItem {
-		return new BaseItem($identification);
+	public function topParentItem(IdentificationInterface $identification): TopParentItem {
+		return new TopParentItem($identification);
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return TopLegacyItem
+	 */
+	public function topLegacyItem(IdentificationInterface $identification): TopLegacyItem {
+		return new TopLegacyItem($identification);
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return LinkItem
+	 */
+	public function linkItem(IdentificationInterface $identification): LinkItem {
+		return new LinkItem($identification);
 	}
 }

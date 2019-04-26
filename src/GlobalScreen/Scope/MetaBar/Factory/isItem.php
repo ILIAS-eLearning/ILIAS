@@ -1,9 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Glyph\Glyph;
-use ILIAS\UI\Component\Icon\Icon;
 
 /**
  * Class isItem
@@ -68,46 +65,4 @@ interface isItem {
 	 * @return isItem
 	 */
 	public function withPosition(int $position): isItem;
-
-
-	/**
-	 * @param Component $content
-	 *
-	 * @return isItem
-	 */
-	public function withContent(Component $content): isItem;
-
-
-	/**
-	 * @return Component
-	 */
-	public function getContent(): Component;
-
-
-	/**
-	 * @param Glyph $glyph
-	 *
-	 * @return isItem
-	 */
-	public function withGlyph(Glyph $glyph): isItem;
-
-
-	/**
-	 * @return Glyph
-	 */
-	public function getGlyph(): Glyph;
-
-
-	/**
-	 * @param string $title
-	 *
-	 * @return isItem
-	 */
-	public function withTitle(string $title): isItem;
-
-
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string;
 }

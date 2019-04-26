@@ -47,18 +47,19 @@ class ilSearchGSProvider extends AbstractStaticMetaBarProvider implements Static
 			return $this->dic->ui()->factory()->legacy($uip->getHTML($html));
 		};
 
-		$item = $this->globalScreen()
-			->metaBar()
-			->baseItem($this->getId())
+		$mb = $this->globalScreen()->metaBar();
+
+		$item = $mb
+			->topLegacyItem($this->getId())
+			->withLegacyContent($content())
+			->withGlyph($this->dic->ui()->factory()->glyph()->search())
+			->withTitle("Search")
+			->withPosition(1)
 			->withAvailableCallable(
 				function () {
 					return (bool)$this->dic->rbac()->system()->checkAccess('search', \ilSearchSettings::_getSearchSettingRefId());
 				}
-			)
-			->withGlyph($this->dic->ui()->factory()->glyph()->search())
-			->withTitle("Search")
-			->withPosition(1)
-			->withContent($content());
+			);
 
 		return [$item];
 	}

@@ -1,28 +1,14 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Glyph\Glyph;
 
 /**
- * Class BaseItem
+ * Class AbstractBaseItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BaseItem implements isItem {
+abstract class AbstractBaseItem implements isItem {
 
-	/**
-	 * @var Glyph
-	 */
-	protected $glyph;
-	/**
-	 * @var string
-	 */
-	protected $title = "";
-	/**
-	 * @var Component
-	 */
-	protected $content;
 	/**
 	 * @var int
 	 */
@@ -47,10 +33,6 @@ class BaseItem implements isItem {
 	 * @var bool
 	 */
 	protected $is_always_available = false;
-	/**
-	 * @var
-	 */
-	protected $type_information;
 
 
 	/**
@@ -144,62 +126,5 @@ class BaseItem implements isItem {
 		$clone->position = $position;
 
 		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withContent(Component $content): isItem {
-		$clone = clone($this);
-		$clone->content = $content;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getContent(): Component {
-		return $this->content;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withGlyph(Glyph $glyph): isItem {
-		$clone = clone($this);
-		$clone->glyph = $glyph;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getGlyph(): Glyph {
-		return $this->glyph;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withTitle(string $title): isItem {
-		$clone = clone($this);
-		$clone->title = $title;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getTitle(): string {
-		return $this->title;
 	}
 }
