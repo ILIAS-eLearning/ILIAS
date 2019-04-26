@@ -63,7 +63,7 @@ if ($ilDB->tableExists('event'))
 		'notification_opt',
 		array(
 			'type'    => 'text',
-			'length'  => '255',
+			'length'  => '50',
 			'notnull' => false,
 			'default' => null
 		)
