@@ -53,10 +53,8 @@ class ConsumerCollection implements Consumer {
 	 * @inheritdocs
 	 */
 	public function getConfigInput(Config $config = null) : Input {
-		if ($config !== null && !($config instanceof ConfigCollection)) {
-			throw new \InvalidArgumentException(
-				"Expected ConfigCollection for configuration."
-			);
+		if ($config !== null) {
+			$this->checkConfig($config);
 		}
 
 		$inputs = [];
@@ -103,57 +101,49 @@ class ConsumerCollection implements Consumer {
 		return new ConfigCollection($configs);
 	}
 
-	protected function getConsumersWithConfig() : \Traversable {
-		foreach ($this->consumers as $k => $c) {
-			if ($c->hasConfig()) {
-				yield $k => $c;
-			}
-		}
-	}
-
 	/**
 	 * @inheritdocs
 	 */
 	public function getSetupGoal(Config $config = null) : Goal {
-		if (!($config instanceof ConfigCollection)) {
-			throw new \InvalidArgumentException(
-				"Expected ConfigCollection for configuration."
-			);
-		}
-
-		$gs = [];
-		foreach ($this->consumers as $k => $c) {
-			if ($c->hasConfig()) {
-				$gs[] = $c->getSetupGoal($config->getConfig($k));
-			}
-			else {
-				$gs[] = $c->getSetupGoal();
-			}
-		}
-
-		return new GoalCollection("Collected Setup Goals", false, ...$gs);
+		return $this->getXGoal("getSetupGoal", $config);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function getUpdateGoal(Config $config = null) : Goal {
+		return $this->getXGoal("getUpdateGoal", $config);
+	}
+
+	protected function getXGoal(string $which, Config $config = null) : Goal {
+		$this->checkConfig($config);
+
+		$gs = [];
+		foreach ($this->consumers as $k => $c) {
+			if ($c->hasConfig()) {
+				$gs[] = call_user_func([$c, $which], $config->getConfig($k));
+			}
+			else {
+				$gs[] = call_user_func([$c, $which]);
+			}
+		}
+
+		return new GoalCollection("Collected Update Goals", false, ...$gs);
+	}
+
+	protected function checkConfig(Config $config) {
 		if (!($config instanceof ConfigCollection)) {
 			throw new \InvalidArgumentException(
 				"Expected ConfigCollection for configuration."
 			);
 		}
+	}
 
-		$gs = [];
+	protected function getConsumersWithConfig() : \Traversable {
 		foreach ($this->consumers as $k => $c) {
 			if ($c->hasConfig()) {
-				$gs[] = $c->getUpdateGoal($config->getConfig($k));
-			}
-			else {
-				$gs[] = $c->getUpdateGoal();
+				yield $k => $c;
 			}
 		}
-
-		return new GoalCollection("Collected Update Goals", false, ...$gs);
 	}
 }
