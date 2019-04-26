@@ -7682,6 +7682,8 @@ ps#:#ps_grp_user_fields#:#Gruppenspezifische Benutzerdaten
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht.
 ps#:#ps_not_accepted#:#Nicht zugestimmt
+ps#:#ps_passwd_policy_changed_force_user_reset#:#Die Änderungen wurden erfolgreich übernommen. Sie haben mindestens eine Änderung bzgl. der Passwortrichtlinie vorgenommen. Möchten Sie, dass lokale Benutzerkonten nach der nächsten erfolgreichen Anmeldung ein neues Passwort vergeben müssen?
+ps#:#ps_passwd_policy_change_force_user_reset_succ#:#Die Aktion wurde erfolgreich durchgeführt.
 ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erstanmeldung
 ps#:#ps_password_change_on_first_login_enabled_info#:#Zwingt Benutzer, die sich nicht selbst registriert haben, bei der ersten Anmeldung in ILIAS ihr Passwort zu ändern.
 ps#:#ps_password_chars_and_numbers_enabled#:#Buchstaben und Zahlen erzwingen

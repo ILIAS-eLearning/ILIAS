@@ -1646,7 +1646,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				}		
 				// END SESSION SETTINGS												
 				$ilSetting->set('letter_avatars', (int)$this->form->getInput('letter_avatars'));
-				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+				// TODO: Check if password relevant fields changed
+				if (true) {
+					$this->ctrl->redirect($this, 'askForUserPasswordReset');
+				} else {
+					ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+				}
 			}
 			else
 			{
@@ -1659,6 +1664,31 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		$this->form->setValuesByPost();		
 		$this->tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * 
+	 */
+	protected function forceUserPasswordResetObject()
+	{
+		// TODO: Reset usr_data.last_password_change for all local users usr_data
+
+		\ilUtil::sendSuccess($this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'), true);
+		$this->ctrl->redirect($this, 'generalSettings');
+	}
+
+	/**
+	 *
+	 */
+	protected function askForUserPasswordResetObject()
+	{
+		$confirmation = new \ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'askForUserPasswordReset'));
+		$confirmation->setHeaderText($this->lng->txt('ps_passwd_policy_changed_force_user_reset'));
+		$confirmation->setConfirm($this->lng->txt('yes'), 'forceUserPasswordReset');
+		$confirmation->setCancel($this->lng->txt('no'), 'generalSettings');
+
+		$this->tpl->setContent($confirmation->getHTML());
 	}
 	
 	
@@ -2584,7 +2614,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "generalSettings"),array('settings','generalSettings','listUserDefinedField','newAccountMail'));
+				$this->ctrl->getLinkTarget($this, "generalSettings"),array('askForUserPasswordReset', 'forceUserPasswordReset', 'settings','generalSettings','listUserDefinedField','newAccountMail'));
 				
 			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");

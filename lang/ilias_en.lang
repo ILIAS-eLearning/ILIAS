@@ -6614,6 +6614,8 @@ ps#:#ps_files_deleted#:#Export Files Deleted
 ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts.
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_not_accepted#:#Not Accepted
+ps#:#ps_passwd_policy_changed_force_user_reset#:#The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?
+ps#:#ps_passwd_policy_change_force_user_reset_succ#:#The changes have been successfully applied.
 ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).
 ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
 ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.
