@@ -530,7 +530,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		}
 		
 		// feedback mail
-		if($this->exc->hasTutorFeedbackMail() && $a_row['submission_obj']->hasSubmitted())
+		if($this->exc->hasTutorFeedbackMail())
 		{
 			$actions->addItem(
 				$this->lng->txt("exc_tbl_action_feedback_mail"),
@@ -540,7 +540,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		}
 		
 		// feedback files	
-		if($this->exc->hasTutorFeedbackFile() && $a_row['submission_obj']->hasSubmitted())
+		if($this->exc->hasTutorFeedbackFile())
 		{
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
@@ -556,7 +556,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		}
 
 		// comment (modal - see above)
-		if($this->exc->hasTutorFeedbackText() && $a_row['submission_obj']->hasSubmitted())
+		if($this->exc->hasTutorFeedbackText())
 		{
 			$actions->addItem(
 				$this->lng->txt("exc_tbl_action_feedback_text"),
