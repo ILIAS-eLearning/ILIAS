@@ -44,7 +44,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		else if ($_REQUEST["ass_id"] > 0)
 		{
-			include_once("./Modules/Exercise/classes/class.ilExerciseException.php");
+			include_once("./Modules/Exercise/exceptions/class.ilExerciseException.php");
 			throw new ilExerciseException("Assignment ID does not match Exercise.");
 		}
 	}
