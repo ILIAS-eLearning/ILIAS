@@ -7,6 +7,16 @@ namespace ILIAS\Tests\Setup;
 use ILIAS\Setup;
 
 class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
+	public function testGetGoals() {
+		$g1 = $this->newGoal();
+		$g2 = $this->newGoal();
+		$g3 = $this->newGoal();
+
+		$c = new Setup\GoalCollection("", false, $g1, $g2, $g3);
+
+		$this->assertEquals([$g1, $g2, $g3], $c->getGoals());
+	}
+
 	public function testGetHash() {
 		$g1 = $this->newGoal();
 		$g2 = $this->newGoal();
