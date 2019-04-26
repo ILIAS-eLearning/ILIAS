@@ -202,7 +202,11 @@ class ilObjStudyProgrammeSettingsGUI {
 	const PROP_TYPE = "type";
 	const PROP_POINTS = "points";
 	const PROP_STATUS = "status";
-
+	const PROP_DEADLINE = "deadline";
+	const PROP_DEADLINE_PERIOD = "deadline_period";
+	const PROP_DEADLINE_DATE = "deadline_date";
+	const OPT_DEADLINE_PERIOD = "opt_deadline_period";
+	const OPT_DEADLINE_DATE = "opt_deadline_date";
 
 	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
 		$trans = $prg->getObjectTranslation();
@@ -210,7 +214,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
 		$sp_types = $this->type_repository->readAllTypesArray();
-		$status_options = self::getStatusOptions();
+
 		$languages = ilMDLanguageItem::_getLanguages();
 		return $this->input_factory->container()->form()->standard(
 			$submit_action,
@@ -252,11 +256,16 @@ class ilObjStudyProgrammeSettingsGUI {
 								->withValue((string)$prg->getPoints())
 								->withAdditionalConstraint($this->validation->greaterThan(-1)),
 						self::PROP_STATUS =>
-							$ff->select($txt("prg_status"), $status_options)
+							$ff->select($txt("prg_status"), $this->getStatusOptions())
 								->withValue((string)$prg->getStatus())
 								->withRequired(true)
 					],
 					$txt("prg_assessment"),
+					""
+				),
+				$ff->section(
+					[self::PROP_DEADLINE => $this->getDeadlineSubform($prg)],
+					$txt("prg_deadline"),
 					""
 				)
 			]
@@ -269,7 +278,60 @@ class ilObjStudyProgrammeSettingsGUI {
 		}));
 	}
 
-	protected function updateWith(\ilObjStudyProgramme $prg, array $data) {
+
+	protected function getDeadlineSubform($prg)
+	{
+		$ff = $this->input_factory->field();
+		$txt = function($id) { return $this->lng->txt($id); };
+		$deadline_period_subform = $ff->numeric('',$txt('prg_deadline_period_desc'))
+										->withAdditionalConstraint(
+											$this->validation->greaterThan(-1)
+									);
+		$period = $prg->getDeadlinePeriod();
+		$radion_option = null;
+		if($period > 0) {
+			$deadline_period_subform = $deadline_period_subform->withValue($period);
+			$radion_option = self::OPT_DEADLINE_PERIOD;
+		}
+		$deadline_date = $prg->getDeadlineDate();
+		$deadline_date_subform = $ff
+			->text('',$txt('prg_deadline_date_desc'))
+			->withAdditionalConstraint(
+				$this->validation->custom(
+					function($string) {
+						$string = trim($string);
+						return \DateTime::createFromFormat('Y-m-d',$string) instanceof \DateTime || $string === '';
+					},
+					function($txt, $value) {
+						return $txt('prg_improper_deadline_date');
+					}
+				)
+			);
+		if($deadline_date !== null) {
+			$deadline_date_subform = $deadline_date_subform->withValue($deadline_date->get(IL_CAL_DATE));
+			$radion_option = self::OPT_DEADLINE_DATE;
+		}
+		$radio = $ff->radio("","")
+			->withOption(
+				self::OPT_DEADLINE_PERIOD,
+				$txt('prg_deadline_period'),
+				'',
+				[self::PROP_DEADLINE_PERIOD => $deadline_period_subform]
+			)
+			->withOption(
+				self::OPT_DEADLINE_DATE,
+				$txt('prg_deadline_date'),
+				'',
+				[self::PROP_DEADLINE_DATE => $deadline_date_subform]
+			);
+		if($radion_option) {
+			return $radio->withValue($radion_option);
+		}
+		return $radio;
+	}
+
+	protected function updateWith(\ilObjStudyProgramme $prg, array $data)
+	{
 		$prg->setTitle($data[self::PROP_TITLE]);
 		$prg->setDescription($data[self::PROP_DESC]);
 
@@ -282,6 +344,16 @@ class ilObjStudyProgrammeSettingsGUI {
 		$prg->setPoints($data[self::PROP_POINTS]);
 		$prg->setStatus($data[self::PROP_STATUS]);
 
+		if(array_key_exists('value', $data[self::PROP_DEADLINE])) {
+			if($data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_PERIOD) {
+				$prg->setDeadlinePeriod((int)$data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_PERIOD]);
+			}
+			if($data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_DATE) {
+				$date_string = trim($data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_DATE]);
+				$prg->setDeadlineDate($date_string === '' ? null : new ilDateTime($date_string,IL_CAL_DATE));
+			}
+		}
+
 		$prg->update();
 	}
 	
@@ -292,16 +364,14 @@ class ilObjStudyProgrammeSettingsGUI {
 		return $this->object;
 	}
 	
-	static protected function getStatusOptions() {
-		global $DIC;
-		$lng = $DIC['lng'];
+	protected function getStatusOptions() {
 		
 		return array( ilStudyProgrammeSettings::STATUS_DRAFT 
-						=> $lng->txt("prg_status_draft")
+						=> $this->lng->txt("prg_status_draft")
 					, ilStudyProgrammeSettings::STATUS_ACTIVE
-						=> $lng->txt("prg_status_active")
+						=> $this->lng->txt("prg_status_active")
 					, ilStudyProgrammeSettings::STATUS_OUTDATED
-						=> $lng->txt("prg_status_outdated")
+						=> $this->lng->txt("prg_status_outdated")
 					);
 	}
 }

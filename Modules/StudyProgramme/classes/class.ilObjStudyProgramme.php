@@ -390,6 +390,27 @@ class ilObjStudyProgramme extends ilContainer {
 		return null;
 	}
 
+	public function getDeadlinePeriod()
+	{
+		return $this->settings->getDeadlinePeriod();
+	}
+
+	public function setDeadlinePeriod($period)
+	{
+		$this->settings->setDeadlinePeriod($period);
+	}
+
+	public function getDeadlineDate()
+	{
+		return $this->settings->getDeadlineDate();
+	}
+
+	public function setDeadlineDate(ilDateTime $date = null)
+	{
+		$this->settings->setDeadlineDate($date);
+	}
+
+
 	////////////////////////////////////
 	// TREE NAVIGATION
 	////////////////////////////////////
@@ -903,6 +924,23 @@ class ilObjStudyProgramme extends ilContainer {
 				$this->progress_repository->update(
 					$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 				);
+			} else {
+				$deadline_date = null;
+				if($deadline_date = $node->getDeadlineDate()) {
+					$this->progress_repository->update(
+						$progress->setDeadline($deadline_date)
+					);
+				}
+				if($deadline_period = $node->getDeadlinePeriod()) {
+					$deadline_date = new ilDateTime(ilUtil::now(),IL_CAL_DATETIME);
+					$deadline_date->increment(ilDateTime::DAY,$deadline_period);
+					$this->progress_repository->update(
+						$progress->setDeadline($deadline_date)
+					);
+				}
+				if($deadline_date) {
+					$this->progress_db->getInstanceById($progress->getId())->recalculateFailedToDeadline();
+				}
 			}
 		});
 

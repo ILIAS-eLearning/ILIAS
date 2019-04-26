@@ -164,12 +164,24 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 
 		$obj->setPoints(10);
 		$obj->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$obj->setDeadlinePeriod(20);
 		$obj->update();
 		
 		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertEquals(10, $obj->getPoints());
 		$this->assertEquals(ilStudyProgrammeSettings::STATUS_ACTIVE, $obj->getStatus());
+		$this->assertEquals(20, $obj->getDeadlinePeriod());
+		$this->assertNull($obj->getDeadlineDate());
+
+		$obj->setDeadlineDate(new \ilDateTime('2020-10-01',IL_CAL_DATE));
+		$obj->update();
+		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
+		$this->assertEquals(0, $obj->getDeadlinePeriod());
+		$this->assertEquals('2020-10-01',$obj->getDeadlineDate()->get(IL_CAL_DATE));
+
+		$obj->setDeadlineDate(null);
+		$obj->update();
 
 		$midnight = strtotime("today midnight");
 		$this->assertGreaterThan($midnight, $obj->getLastChange()->getUnixTime());
