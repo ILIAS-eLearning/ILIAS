@@ -1,0 +1,10 @@
+//TODO
+//id
+//specification
+//action
+//rule_created_by
+//rule_created
+//rule_updated_by
+//rule_updated
+//last_run
+//hash_last_run

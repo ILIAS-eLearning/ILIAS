@@ -8,9 +8,9 @@ Overview and Glossary for this namespace:
 |------|-------------|---------|
 | Rule | A Rule has Events and that will be triggered | ...
 | Specification | ... | 
-| Repository |... | 
-| DomainObject | ... | 
-| Asserter | ... | 
+| Action |... | 
+| Context | ... | 
+
 
 Usage
 -----
@@ -23,11 +23,8 @@ $specification_factory = SpecificationFactory::andX(
                        );
                        
                        
-//2. Define the events                       
-$arr_event = ["Modules/OrgUnit", "assignUser",new ilObjOrgUnit(ilObject::_lookupTitle('ACME'))];
-
-//3. Create the rule
-$rule_factory->create($arr_event,$specification_factory);
+//2. Create the rule
+$rule_factory->create(new UserAction,$specification_factory);
 
 //4. Check the rule
 $rule_factory->isSatisfiedBy(new UserContext());

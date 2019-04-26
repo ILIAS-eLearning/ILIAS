@@ -1,11 +1,11 @@
 <?php
 
-namespace ILIAS\Context;
+namespace ILIAS\RuleEngine\Context;
 
 use ActiveRecord;
 use arException;
 use ILIAS\RuleEngine\Specification\Specification;
-use ILIAS\RuleEngine\Exceptions\InvalidContextException;
+use ILIAS\RuleEngine\Exception\InvalidContextException;
 
 /**
  * Context
@@ -15,10 +15,6 @@ use ILIAS\RuleEngine\Exceptions\InvalidContextException;
 abstract class Context extends ActiveRecord {
 
 	/**
-	 * @var string
-	 */
-	protected $table_name;
-	/**
 	 * @var Specification[]|void
 	 */
 	protected $base_filter = null;
@@ -27,7 +23,7 @@ abstract class Context extends ActiveRecord {
 	/**
 	 * @throws InvalidContextException
 	 */
-	static function returnDbTableName() {
+	static function returnDbTableName():string {
 		throw new InvalidContextException(arException::UNKNONWN_EXCEPTION, 'Implement getConnectorContainerName in your child-class');
 	}
 
@@ -35,9 +31,9 @@ abstract class Context extends ActiveRecord {
 	/**
 	 * @param Specification[] $specification
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public function findSatisfying(array $specifications) {
+	public function findSatisfying(array $specifications):array {
 
 		foreach ($specifications as $specification) {
 			/**

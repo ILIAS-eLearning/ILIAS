@@ -2,9 +2,9 @@
 
 namespace ILIAS\RuleEngine;
 
-use ILIAS\Context\Context;
+use ILIAS\RuleEngine\Action\Action;
+use ILIAS\RuleEngine\Context\Context;
 use ILIAS\RuleEngine\Specification\Specification;
-use ILIAS\DomainObject\DomainObject;
 
 /**
  * Interface Rule
@@ -16,22 +16,13 @@ interface Rule {
 	/**
 	 * Events triggered if the evaluation of the rule is true
 	 *
-	 * @return array $events {
-	 *      array $event {
-	 *
-	 * @option    string    $a_component    component, e.g. "Modules/Forum" or "Services/User"
-	 * @option    string    $a_event        event e.g. "createUser", "updateUser", "deleteUser", ...
-	 * @option    array    $a_parameter    parameter array (assoc), array("name" => ..., "phone_office" => ...)
-	 *      }
-	 * }
-	 * @see       ilAppEventListener()
+	 * @return Action
 	 */
-	public function getEvents(): array;
+	public function Action(): Action;
 
 
 	/**
 	 * @return Specification
-	 *
 	 */
 	public function getSpecification(): Specification;
 

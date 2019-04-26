@@ -2,7 +2,7 @@
 
 namespace ILIAS\RuleEngine\Specification;
 
-use ILIAS\RuleEngine\Exceptions\ParameterOverridenException;
+use ILIAS\RuleEngine\Exception\ParameterOverridenException;
 
 /**
  * Class Composite

@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\RuleEngine\Exceptions;
+namespace ILIAS\RuleEngine\Exception;
 
 /**
  * Class Exception
