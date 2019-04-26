@@ -15820,3 +15820,10 @@ style#:#style_page_layout_module_learning_module#:#ILIAS Learning Module
 content#:#cont_insert_pagelayout#:#Insert Template Page
 content#:#cont_page_template#:#Page Template
 content#:#cont_page_created#:#Page created
+prg#:#assignment_date#:#Assignment Date
+prg#:#completion_date#:#Completion Date
+prg#:#prg_no_deadline#:#No fixed prozessing time
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.

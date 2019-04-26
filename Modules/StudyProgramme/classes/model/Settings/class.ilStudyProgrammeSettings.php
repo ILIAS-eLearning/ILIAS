@@ -128,7 +128,16 @@ class ilStudyProgrammeSettings{
 	 * @con_is_notnull  true 
 	 */
 	protected $status;
-	
+
+	/**
+	 * The period a user has to finish the prg in days, before he/she automaticaly fails.
+	 */
+	protected $deadline_period = 0;
+
+	/**
+	 * The date, before which a user has to finish the prg, before he/she automaticaly fails.
+	 */
+	protected $deadline_date = null;
 	
 
 	public function __construct(int $a_id)
@@ -203,7 +212,28 @@ class ilStudyProgrammeSettings{
 		return $this;
 	}
 
+	/**
+	 * Set the deadline period to a given value.
+	 */
+	public function setDeadlinePeriod(int $period) : ilStudyProgrammeSettings
+	{
+		if($period < 0) {
+			throw new ilException('A deadline period must be > 0');
+		}
+		$this->deadline_period = $period;
+		$this->deadline_date = null;
+		return $this;
+	}
 
+	/**
+	 * Set the deadline date to a given value.
+	 */
+	public function setDeadlineDate(ilDateTime $date = null) : ilStudyProgrammeSettings
+	{
+		$this->deadline_date = $date;
+		$this->deadline_period = 0;
+		return $this;
+	}
 
 	/**
 	 * Set the amount of points.
@@ -294,6 +324,22 @@ class ilStudyProgrammeSettings{
 	public function getStatus() : int
 	{
 		return (int)$this->status;
+	}
+
+	/**
+	 * Returns the set deadline period.
+	 */
+	public function getDeadlinePeriod() : int
+	{
+		return $this->deadline_period;
+	}
+
+	/**
+	 * Returns the set deadline date.
+	 */
+	public function getDeadlineDate()
+	{
+		return $this->deadline_date;
 	}
 }
 
