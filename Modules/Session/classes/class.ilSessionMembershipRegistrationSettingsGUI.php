@@ -31,8 +31,11 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
 		$form->getItemByPostVar('registration_type')->setValue($this->getCurrentObject()->getRegistrationType());
 		$form->getItemByPostVar('registration_membership_limited')->setChecked($this->getCurrentObject()->isRegistrationUserLimitEnabled());
 		// thkoeln-patch: begin
-		$form->getItemByPostVar('registration_notification')->setChecked($this->getCurrentObject()->isRegistrationNotificationEnabled());
-		$form->getItemByPostVar('notification_option')->setValue($this->getCurrentObject()->getRegistrationNotificationOption());
+		$notificationCheckBox = $form->getItemByPostVar('registration_notification');
+		$notificationCheckBox->setChecked($this->getCurrentObject()->isRegistrationNotificationEnabled());
+
+		$notificationOption = $form->getItemByPostVar('notification_option');
+		$notificationOption->setValue($this->getCurrentObject()->getRegistrationNotificationOption());
 		//thkoeln-patch: end
 		/* not supported yet
 		$form->getItemByPostVar('registration_min_members')->setValue(

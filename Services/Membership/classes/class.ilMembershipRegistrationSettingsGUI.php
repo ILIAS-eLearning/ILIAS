@@ -160,6 +160,7 @@ abstract class ilMembershipRegistrationSettingsGUI
 		$notificationCheckbox->setInfo($this->txt('registration_notification_info'));
 
 		$notificationOption = new ilRadioGroupInputGUI($this->txt('notification_option'), 'notification_option');
+		$notificationOption->setRequired(true);
 
 		$inheritOption = new ilRadioOption($this->txt(ilSessionConstants::NOTIFICATION_INHERIT_OPTION), ilSessionConstants::NOTIFICATION_INHERIT_OPTION);
 		$inheritOption->setInfo($this->txt('notification_option_inherit_info'));

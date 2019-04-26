@@ -64,7 +64,8 @@ class ilObjSession extends ilObject
 
 
 	private $registrationNotificationEnabled;
-	private $notificationOption;
+	private $notificationOption = ilSessionConstants::NOTIFICATION_INHERIT_OPTION;
+	// thkoeln-patch: end
 
 	/**
 	* Constructor
