@@ -65,7 +65,7 @@ if ($ilDB->tableExists('event'))
 			'type'    => 'text',
 			'length'  => '50',
 			'notnull' => false,
-			'default' => null
+			'default' => 'notification_option_manual' // ilSessionConstants::NOTIFICATION_INHERIT_OPTION
 		)
 	);
 }
