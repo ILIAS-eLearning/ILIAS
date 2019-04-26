@@ -2453,10 +2453,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	
 	public function quotePostObject()
 	{
-		if (!$this->is_moderator) {
-			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-		}
-
 		if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
