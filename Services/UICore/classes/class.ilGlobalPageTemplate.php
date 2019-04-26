@@ -68,7 +68,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 		$this->http->saveResponse($response->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
 
 		if (defined("ILIAS_HTTP_PATH")) {
-			$this->layout_content->metaContent()->setBaseURL(ILIAS_HTTP_PATH);
+			$this->layout_content->metaContent()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
 		}
 	}
 
