@@ -1695,7 +1695,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	protected function forceUserPasswordResetObject()
 	{
-		// TODO: Reset usr_data.last_password_change for all local users usr_data
+		$this->user->resetLastPasswordChangeForLocalUsers();
+		$this->lng->loadLanguageModule('ps');
 
 		\ilUtil::sendSuccess($this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'), true);
 		$this->ctrl->redirect($this, 'generalSettings');
@@ -1706,6 +1707,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	protected function askForUserPasswordResetObject()
 	{
+		$this->lng->loadLanguageModule('ps');
+
 		$confirmation = new \ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'askForUserPasswordReset'));
 		$confirmation->setHeaderText($this->lng->txt('ps_passwd_policy_changed_force_user_reset'));
