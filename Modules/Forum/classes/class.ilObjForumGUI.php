@@ -1171,7 +1171,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		$this->object->Forum->setForumId($this->object->getId());
 
 		$tbl = new ilForumStatisticsTableGUI($this, 'showStatistics');
-		$tbl->setId('il_frm_statistic_table_'.(int) (int)$_GET['ref_id']);
+		$tbl->setId('il_frm_statistic_table_'. (int)$_GET['ref_id']);
 		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr.svg', $this->lng->txt('obj_'.$this->object->getType()));
 		
 		$data = $this->object->Forum->getUserStatistic($this->is_moderator);
