@@ -32,6 +32,13 @@ class GoalCollection implements Goal {
 	}
 
 	/**
+	 * @return Goal[]
+	 */
+	public function getGoals() : array {
+		return $this->goals;
+	}
+
+	/**
 	 * @inheritdocs
 	 */
 	public function getHash() : string {

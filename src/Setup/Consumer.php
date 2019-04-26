@@ -16,14 +16,6 @@ interface Consumer {
 	public function hasConfig() : bool;
 
 	/**
-	 * Consumers may provide a default configuration for their goals.
-	 *
-	 * @throw LogicException if Consumer has no Config
-	 * @return Config|null
-	 */
-	public function getDefaultConfig();
-
-	/**
 	 * Consumers must provide an input to set the configuration if they have a
 	 * configuration.
 	 *
