@@ -66,6 +66,10 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 		$response = $this->http->response();
 		$this->http->saveResponse($response->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
 		$this->http->saveResponse($response->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
+
+		if (defined("ILIAS_HTTP_PATH")) {
+			$this->layout_content->metaContent()->setBaseURL(ILIAS_HTTP_PATH);
+		}
 	}
 
 
@@ -87,7 +91,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false) {
-		global $DIC;
 		$this->prepareOutputHeaders();
 		$this->prepareBasicJS();
 		$this->prepareBasicCSS();

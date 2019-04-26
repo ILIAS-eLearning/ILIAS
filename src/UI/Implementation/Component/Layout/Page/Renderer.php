@@ -75,6 +75,7 @@ class Renderer extends AbstractComponentRenderer {
 		$js_inline = [];
 		$css_files = [];
 		$css_inline = [];
+		$base_url = '../../../../../../';
 
 		if ($il_tpl instanceof \ilGlobalPageTemplate) {
 			$view = $DIC->globalScreen()->layout()->content();
@@ -90,6 +91,8 @@ class Renderer extends AbstractComponentRenderer {
 			foreach ($view->metaContent()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
 				$js_inline[] = $on_load_code->getContent();
 			}
+
+			$base_url = $view->metaContent()->getBaseURL();
 		}
 
 		foreach ($js_files as $js_file) {
@@ -106,7 +109,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
 		$tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
 
-		$base_url = '../../../../../../';
+
 		$tpl->setVariable("BASE", $base_url);
 
 		return $tpl;
