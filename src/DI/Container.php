@@ -6,6 +6,7 @@ namespace ILIAS\DI;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\NavigationContext\ContextServices;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -157,6 +158,20 @@ class Container extends \Pimple\Container {
 	public function globalScreen() {
 		return Services::getInstance();
 	}
+
+
+	/**
+	 * @return ContextServices
+	 */
+	public function navigationContext(): ContextServices {
+		static $context_services;
+		if ($context_services === null) {
+			$context_services = new ContextServices($this->globalScreen()->layout()->definition());
+		}
+
+		return $context_services;
+	}
+
 
 
 	/**

@@ -319,12 +319,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng->loadLanguageModule("content");
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		// $this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+		// $this->tpl->parseCurrentBlock();
 
 		if (!ilContainerPage::_exists("cont",
 			$this->object->getId()))

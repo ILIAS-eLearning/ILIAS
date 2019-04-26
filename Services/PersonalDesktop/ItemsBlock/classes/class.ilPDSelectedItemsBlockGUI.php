@@ -778,7 +778,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					
 					default:
 						// do nothing
-						continue;
+						continue 2;
 				}											
 		
 				include_once './Modules/Forum/classes/class.ilForumNotification.php';

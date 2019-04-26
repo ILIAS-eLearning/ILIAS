@@ -12,6 +12,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Image\Image;
 
 class Renderer extends AbstractComponentRenderer {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -23,74 +24,74 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
+
 	protected function renderStandardPage(Component\Layout\Page\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
-		$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
-		$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
-
-		$breadcrumbs = $component->getBreadcrumbs();
-		if($breadcrumbs) {
-			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+		if ($component->hasMetabar()) {
+			$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
+		}
+		if ($component->hasMainbar()) {
+			$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
 		}
 
-		$logo = $component->getLogo();
-		if($logo) {
-			$tpl->setVariable("LOGO", $default_renderer->render($logo));
+		$breadcrumbs = $component->getBreadcrumbs();
+		if ($breadcrumbs) {
+			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+		}
+		if ($component->hasLogo()) {
+			$logo = $component->getLogo();
+			if ($logo) {
+				$tpl->setVariable("LOGO", $default_renderer->render($logo));
+			}
 		}
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
-		if($component->getWithHeaders()) {
+		if ($component->getWithHeaders()) {
 			$tpl = $this->setHeaderVars($tpl);
 		}
+
 		return $tpl->get();
 	}
+
 
 	/**
 	 * When rendering the whole page, all resources must be included.
 	 * This is for now and the page-demo to work, lateron this must be replaced
 	 * with resources set as properties at the page or similar mechanisms.
 	 * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
+	 *
+	 * @param \ilGlobalPageTemplate $tpl
+	 *
+	 * @return \ilGlobalPageTemplate
+	 * @throws \ILIAS\UI\NotImplementedException
 	 */
 	protected function setHeaderVars($tpl) {
-
 		global $DIC;
 		$il_tpl = $DIC["tpl"];
 
-		$base_url = '../../../../../../';
+		$js_files = [];
+		$js_inline = [];
+		$css_files = [];
+		$css_inline = [];
 
-		// always load jQuery
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		\iljQueryUtil::initjQuery($il_tpl);
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
-		\ilUIFramework::init($il_tpl);
-
-		$il_js_files = $il_tpl->getJSFiles();
-		asort($il_js_files);
-
-		$js_files = array();
-		foreach($il_js_files as $il_js_file=>$batch) {
-			$js_files[] = $il_js_file;
+		if ($il_tpl instanceof \ilGlobalPageTemplate) {
+			$view = $DIC->globalScreen()->layout()->content();
+			foreach ($view->metaContent()->getJs()->getItemsInOrderOfDelivery() as $js) {
+				$js_files[] = $js->getContent();
+			}
+			foreach ($view->metaContent()->getCss()->getItemsInOrderOfDelivery() as $css) {
+				$css_files[] = $css->getContent();
+			}
+			foreach ($view->metaContent()->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
+				$css_inline[] = $inline_css->getContent();
+			}
+			foreach ($view->metaContent()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
+				$js_inline[] = $on_load_code->getContent();
+			}
 		}
 
-		$css_files = array();
-		foreach($il_tpl->getCSSFiles() as $il_css_file) {
-			$css_files[] = $il_css_file['file'];
-		}
-		$css_files[] = \ilUtil::getStyleSheetLocation("filesystem", "delos.css");
-		$css_files[] = \ilUtil::getNewContentStyleSheetLocation();
-
-		$css_inline = $il_tpl->getInlineCSS();
-
-		$olc = '';
-		if($il_tpl->on_load_code) {
-			foreach ($il_tpl->on_load_code as $key => $value) {
-				$olc .= implode(PHP_EOL, $value);
-			 }
-		}
-
-		 //fill
 		foreach ($js_files as $js_file) {
 			$tpl->setCurrentBlock("js_file");
 			$tpl->setVariable("JS_FILE", $js_file);
@@ -101,19 +102,23 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("CSS_FILE", $css_file);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
-		$tpl->setVariable("OLCODE", $olc);
 
+		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
+		$tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
+
+		$base_url = '../../../../../../';
 		$tpl->setVariable("BASE", $base_url);
+
 		return $tpl;
 	}
+
 
 	/**
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			Component\Layout\Page\Standard::class
+			Component\Layout\Page\Standard::class,
 		);
 	}
 }

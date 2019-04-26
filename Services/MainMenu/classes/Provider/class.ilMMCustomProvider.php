@@ -15,13 +15,15 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 
 /**
  * Class ilMMCustomProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider {
+class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider, StaticMetaBarProvider {
 
 	/**
 	 * @var \ILIAS\DI\Container
@@ -110,17 +112,26 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 	 */
 	public function provideTypeInformation(): TypeInformationCollection {
 		$c = new TypeInformationCollection();
+		// TopParentItem
 		$c->add(new TypeInformation(TopParentItem::class, $this->translateType(TopParentItem::class), new ilMMTopParentItemRenderer()));
+		// TopLinkItem
 		$c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class), new ilMMTopLinkItemRenderer(), new ilMMTypeHandlerTopLink()));
-		$c->add(new TypeInformation(Link::class, $this->translateType(Link::class), null, new ilMMTypeHandlerLink()));
-		$link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class));
+		// Link
+		$c->add(new TypeInformation(Link::class, $this->translateType(Link::class), new ilMMLinkItemRenderer(), new ilMMTypeHandlerLink()));
+
+		// LinkList
+		$link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class), new ilMMLinkListItemRenderer());
 		$link_list->setCreationPrevented(true);
 		$c->add($link_list);
+		// Separator
 		$c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), null, new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
+		// RepositoryLink
 		$c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), null, new ilMMTypeHandlerRepositoryLink()));
-		$complex = new TypeInformation(Complex::class, $this->translateType(Complex::class));
+		// Complex
+		$complex = new TypeInformation(Complex::class, $this->translateType(Complex::class), new ilMMComplexItemRenderer());
 		$complex->setCreationPrevented(true);
 		$c->add($complex);
+		// Lost
 		$lost = new TypeInformation(Lost::class, $this->translateType(Lost::class), new ilMMLostItemRenderer());
 		$lost->setCreationPrevented(true);
 		$c->add($lost);
@@ -152,5 +163,64 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 		$last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
 
 		return $this->dic->language()->txt("type_" . strtolower($last_part) . "_info");
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMetaBarItems(): array {
+		$f = $this->dic->ui()->factory();
+		$txt = function ($id) {
+			return $this->dic->language()->txt($id);
+		};
+		$item[] = $this->globalScreen()
+			->metaBar()
+			->baseItem($this->if->identifier('help'))
+			->withGlyph($f->glyph()->help())
+			->withTitle("Help")
+			->withPosition(2)
+			->withContent($f->legacy("NOT PROVIDED"));
+
+		$item[] = $this->globalScreen()
+			->metaBar()
+			->baseItem($this->if->identifier('notifications'))
+			->withGlyph($f->glyph()->notification()->withCounter($f->counter()->novelty(3)))
+			->withTitle("Notifications")
+			->withPosition(3)
+			->withContent($f->legacy("NOT PROVIDED"));
+
+		$user_slate = $f->mainControls()->slate()->combined('user_links', $f->glyph()->user());
+		$user_slate = $user_slate->withAdditionalEntry(
+			$f->button()->bulky(
+				$f->glyph()->user(),
+				$txt("personal_profile"),
+				"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile"
+			)
+		);
+		$user_slate = $user_slate->withAdditionalEntry(
+			$f->button()->bulky(
+				$f->glyph()->settings(),
+				$txt("personal_settings"),
+				"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings"
+			)
+		);
+		$user_slate = $user_slate->withAdditionalEntry(
+			$f->button()->bulky(
+				$f->glyph()->remove(),
+				$txt("logout"),
+				"logout.php?lang=" . $this->dic->user()->getCurrentLanguage()
+			)
+		);
+
+		$item[] = $this->globalScreen()
+			->metaBar()
+			->baseItem($this->if->identifier('user'))
+			->withGlyph($f->glyph()->user())
+			->withTitle("User")
+			->withPosition(4)
+			->withContent($user_slate);
+
+		return $item;
 	}
 }

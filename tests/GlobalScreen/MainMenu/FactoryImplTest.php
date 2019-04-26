@@ -1,11 +1,12 @@
 <?php
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\Mock;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;

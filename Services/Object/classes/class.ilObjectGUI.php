@@ -59,7 +59,7 @@ class ilObjectGUI
 
 	/**
 	* template object
-	* @var		object ilias
+	* @var		ilGlobalTemplateInterface
 	* @access	private
 	*/
 	var $tpl;

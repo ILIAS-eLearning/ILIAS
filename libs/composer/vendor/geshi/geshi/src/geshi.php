@@ -4716,9 +4716,13 @@ class GeSHi {
             // TODO: a|bb|c => [ac]|bb
             static $callback_2;
             if (!isset($callback_2)) {
+<<<<<<< HEAD
+                $callback_2 = @create_function('$matches', 'return "[" . str_replace("|", "", $matches[1]) . "]";');
+=======
                 $callback_2 = function($matches) {
                     return "[" . str_replace("|", "", $matches[1]) . "]";
                 };
+>>>>>>> 4326423dddc9bc34c7975cf35b7446c8f1b1358b
             }
             $list = preg_replace_callback('#\(\?\:((?:.\|)+.)\)#', $callback_2, $list);
         }
