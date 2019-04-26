@@ -111,6 +111,11 @@ class ilGlossaryPresentationGUI
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		if (!in_array($term_glo_id, $glo_ids) && !ilGlossaryTermReferences::isReferenced($glo_ids, $this->term_id))
 		{
+			if ((int) $this->term_id  > 0)
+			{
+				include_once("./Modules/Glossary/exceptions/class.ilGlossaryException.php");
+				throw new ilGlossaryException("Term ID does not match the glossary.");
+			}
 			$this->term_id = "";
 		}
 		
