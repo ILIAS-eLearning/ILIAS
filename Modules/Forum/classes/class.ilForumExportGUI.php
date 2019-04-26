@@ -64,7 +64,7 @@ class ilForumExportGUI
 	 * @param int $objId
 	 * @param ilForumTopic $thread
 	 */
-	public function ensureThreadBelongsToForum(int $objId, \ilForumTopic $thread)
+	public function ensureThreadBelongsToForum($objId, \ilForumTopic $thread)
 	{
 		$forumId = \ilObjForum::lookupForumIdByObjId($objId);
 		if ((int)$thread->getForumId() !== (int)$forumId) {
