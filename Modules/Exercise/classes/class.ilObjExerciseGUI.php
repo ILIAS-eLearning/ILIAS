@@ -56,11 +56,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$lng->loadLanguageModule("exercise");
 		$lng->loadLanguageModule("exc");
 		$this->ctrl->saveParameter($this, "ass_id");
-		
-		if ($_REQUEST["ass_id"] > 0)
+
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		if ($_REQUEST["ass_id"] > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId($_REQUEST["ass_id"]) == $this->object->getId())
 		{
-			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			$this->ass = new ilExAssignment((int) $_REQUEST["ass_id"]);
+		}
+		else if ($_REQUEST["ass_id"] > 0)
+		{
+			include_once("./Modules/Exercise/exceptions/class.ilExerciseException.php");
+			throw new ilExerciseException("Assignment ID does not match Exercise.");
 		}
 	}
 
