@@ -33,6 +33,10 @@ class MetaContent {
 	 * @var CssCollection
 	 */
 	private $css;
+	/**
+	 * @var string
+	 */
+	private $base_url = "";
 
 
 	/**
@@ -112,5 +116,21 @@ class MetaContent {
 	 */
 	public function getCss(): CssCollection {
 		return $this->css;
+	}
+
+
+	/**
+	 * @param string $base_url
+	 */
+	public function setBaseURL(string $base_url) {
+		$this->base_url = $base_url;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getBaseURL(): string {
+		return $this->base_url;
 	}
 }
