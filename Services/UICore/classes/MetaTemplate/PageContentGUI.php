@@ -347,7 +347,7 @@ class PageContentGUI {
 				//$this->initHelp();
 			}
 
-			$this->initHelp();
+			//$this->initHelp();
 
 			// TODO SessionReminder
 			// if ($this->blockExists("content") && $this->variableExists('MAINMENU')) {
