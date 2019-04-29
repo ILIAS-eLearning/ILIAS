@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.4.x 2019-03-24
+* @version	5.4.x 2019-04-28
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -471,7 +471,7 @@ assessment#:#assOrderingQuestion#:#Sorrendbe rakó kérdés (függőleges)
 assessment#:#assQuestions#:#Kérdések
 assessment#:#assSingleChoice#:#Egyválaszos kérdés (rádiógombos)
 assessment#:#assTextQuestion#:#Esszékérdés
-assessment#:#assTextSubset#:#Kifejezéshalmaz-kérdés
+assessment#:#assTextSubset#:#Szövegrészhalmaz-kérdés
 assessment#:#autosave_failed#:#Az automatikus mentés sikertelen volt!
 assessment#:#autosave_success#:#Az automatikus mentés sikeres...
 assessment#:#average_reached_points#:#Elért pontok átlaga
@@ -1018,14 +1018,14 @@ assessment#:#search_roles#:#Talált szerepek
 assessment#:#search_term#:#Fogalom keresése
 assessment#:#search_users#:#Felhasználók keresése
 assessment#:#tst_answer_fixation_handling#:#Résztvevő válaszai
-assessment#:#tst_answer_fixation_none#:#A válaszokat nem zároljuk a tesztkitöltés alatt
-assessment#:#tst_answer_fixation_none_desc#:#A résztvevők válaszaikat a teszt befejezése előtt bármikor módosíthatják.
-assessment#:#tst_answer_fixation_on_instant_feedback#:#A válaszok zárolása a visszajelzés megjelenésekor
-assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#A választ zároljuk a visszajelzéskor, utána azt a résztvevő már nem tudja módosítani.
-assessment#:#tst_answer_fixation_on_followup_question#:#A válaszok zárolása a következő kérdés megjelenítésekor
-assessment#:#tst_answer_fixation_on_followup_question_desc#:#A választ zároljuk a következő kérdés megjelenésekor, utána azt a résztvevő már nem tudja módosítani.
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Válaszok zárolása a visszajelzés vagy a következő kérdések megjelenítésével
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#A választ zároljuk a visszajelzéskor, illetve a következő kérdés megjelenésekor.
+assessment#:#tst_answer_fixation_none#:#A válaszokat nem véglegesítjük a tesztkitöltés alatt
+assessment#:#tst_answer_fixation_none_desc#:#A résztvevők a válaszaikat a teszt befejezésig bármikor módosíthatják.
+assessment#:#tst_answer_fixation_on_instant_feedback#:#A válaszok véglegesítése a visszajelzés megjelenésekor
+assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#A résztvevő a válaszát a visszajelzés utána már nem módosíthatja.
+assessment#:#tst_answer_fixation_on_followup_question#:#A válaszok véglegesítése a következő kérdés megjelenésekor
+assessment#:#tst_answer_fixation_on_followup_question_desc#:#A résztvevő a válaszát a következő kérdés megjelenése utána már nem módosíthatja.
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#A válaszok véglegesítése a visszajelzés vagy a következő kérdés megjelenésekor
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#A résztvevő a válaszát a visszajelzés, illetve a következő kérdés megjelenése után már módosíthatja.
 assessment#:#tst_instant_feedback_trigger#:#Mi váltsa ki a visszajelzést
 assessment#:#tst_instant_feedback_trigger_manual#:#A résztvevők a visszajelzést manuálisan idézik elő
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#A visszajelzés elérhető, de csak akkkor jelenik meg, amikor a résztvevő azt manuális előidézi.
@@ -2790,7 +2790,7 @@ common#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! A
 common#:#mail_no_recipient_found#:#Adjon meg egy másik e-mail címet! Az ILIAS nem talál címzettet ezzel az e-mail címmel.
 common#:#mail_not_sent#:#A levelet nem küldte el!
 rbac#:#mail_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Levelezés beállításaihoz
-common#:#mail_search_no#:#Egyetlen levél sem felel meg a keresési feltételnek.
+common#:#mail_search_no#:#Egy bejegyzés sem felel meg a keresési feltételnek.
 common#:#mail_select_one#:#Legalább egy levelet ki kell választania!
 common#:#mail_send_error#:#Hiba lépett fel az e-mail küldése közben
 common#:#mail_sent#:#E-mail elküldve.
@@ -4591,7 +4591,8 @@ crs#:#crs_info_settings#:#Kurzusinformációk
 crs#:#crs_info_start#:#Haladjon végig az összes lenti kurzuselemen!<br/>Miután feldolgozott minden megjelölt objektumot, új kurzuselemek válnak aktívvá.
 crs#:#crs_item_presetting_info#:#Válassza ezt a beállítást a tanulóknak ajánlott tanulási/feldolgozási időszak megadásához. Ez csak ajánlás, ettől függetlenül mindig elérhető.
 crs#:#crs_join_request#:#Küldés
-crs#:#crs_lim_assigned#:#Már hozzárendelt a kapcsolt '%s' kurzushoz.
+crs#:#crs_lim_assigned#:#'%s' kurzusnak már tagja.
+grp#:#grp_lim_assigned#:#'%s' csoportnak már tagja.
 crs#:#crs_mail_permanent_link#:#Az alábbi linken érheti el a kurzust:
 crs#:#crs_map_location#:#Kurzustérkép helye
 crs#:#crs_map_settings#:#Térkép
@@ -5043,16 +5044,16 @@ dateplaner#:#We_short#:#Sze
 dateplaner#:#week#:#Hét
 dateplaner#:#wk_short#:#Hét
 dateplaner#:#year#:#Év
-ecs#:#cert_serial#:#Igazolás sorozatszáma
+ecs#:#cert_serial#:#Tanúsítvány sorozatszáma
 ecs#:#ecs_abr#:#Rövidítés
-ecs#:#ecs_account_duration_info#:#Az új ECS-felhasználók a munkamenet tartamára vannak korlátozva. Miután hozzárendelt egy felhasználót egy kurzushoz, az aktiválási időszak meghosszabbításra kerül az adott számú hónappal.
+ecs#:#ecs_account_duration_info#:#Az új ECS-felhasználók a munkamenet tartalmára vannak korlátozva. Miután hozzárendelt egy felhasználót egy kurzushoz, az aktiválási időszak meghosszabbításra kerül az adott számú hónappal.
 ecs#:#ecs_account_duration#:#Aktiválási időszak meghosszabbítása
 ecs#:#ecs_active_header#:#Az importálás/exportálás engedélyezett
 ecs#:#ecs_active#:#ECS-funkcionalitások engedélyezése
 ecs#:#ecs_approval_rcp_info#:#Adja meg annak vagy azoknak a felhasználóknak a felhasználónevét (vesszővel elválasztva), akik e-mailen keresztül informálva lesznek az új jóváhagyott kurzusokról.
 ecs#:#ecs_approval_rcp#:#Értesítés jóváhagyott kurzusokról
 ecs#:#ecs_attribute_name#:#Tulajdonságnév
-ecs#:#ecs_ca_cert#:#CA-igazolás
+ecs#:#ecs_ca_cert#:#CA-tanúsítvány
 ecs#:#ecs_cat_mapping_duration_info#:#Válassza ezt a módot időszakokon alapuló kurzuslinkek összerendelésére (például kurzus kezdőideje).
 ecs#:#ecs_cat_mapping_duration#:#Időszak
 ecs#:#ecs_cat_mapping_fixed_info#:#Válassza ezt a módot a kurzuslinkek kategóriákhoz rendelésére a rögzített értékeken alapulva.
@@ -7516,8 +7517,8 @@ survey#:#unfold#:#Szétbontás
 survey#:#unlimited_users#:#Az összes felhasználó munkaasztalára helyezés
 survey#:#upper_limit_must_be_greater#:#A felső határnak magasabbnak kell lennie az alsó határnál.
 survey#:#upper_limit#:#Felső határ
-survey#:#use_anonymous_id_desc#:#A felhasználónév az anonimizált kérdőívekben kérdőívkódként fog látszani, máskülönben az 'Anonymous' szöveg lesz látható.
-survey#:#use_anonymous_id#:#Kérdőívkód megjelenítése
+survey#:#use_anonymous_id_desc#:#Anonimizált kérdőívekben a válaszadók 'Anonymous' helyett egy kódként jelenjenek meg.
+survey#:#use_anonymous_id#:#Válaszadókód megjelenítése
 survey#:#use_browser_print_function#:#Használja a böngészője nyomtatási funkcióját!
 survey#:#used#:#használt
 survey#:#users_answered#:#Válaszoltak
@@ -8595,7 +8596,7 @@ tagging#:#tagging_set_tag#:#Címkék
 content#:#cont_link_to_internal#:#Link ILIAS-forrásra
 content#:#cont_link_to_external#:#Link külső weboldalra
 content#:#cont_link_to_wiki#:#Link wikilapra (zárójelek beszúrása)
-content#:#cont_standard#:#Standard
+content#:#cont_standard#:#Szövegtörzs
 content#:#cont_char_style_com#:#Megjegyzés
 content#:#cont_char_style_quot#:#Idézet
 content#:#cont_char_style_acc#:#Kiemelt
@@ -8824,16 +8825,16 @@ wsp#:#wsp_type_webr#:#Weblink
 content#:#cont_maintenance#:#Karbantartás
 content#:#cont_switch_to_media_pool#:#Váltás mások médiagyűjteményre
 mep#:#mep_choose_from_mep#:#Válasszon a gyűjteményből
-ecs#:#ecs_cert_valid_until#:#A Igazolás érvényes eddig:
+ecs#:#ecs_cert_valid_until#:#A tanúsítvány érvényes eddig:
 mep#:#mep_choose_from_folder#:#Válasszon a mappából
 trac#:#trac_object_statistics#:#Objektumstatisztikák
 ecs#:#ecs_auth_type#:#Hitelesítés típusa
-ecs#:#ecs_auth_type_cert#:#Igazolásalap
+ecs#:#ecs_auth_type_cert#:#Tanúsítványalap
 ecs#:#ecs_auth_type_apache#:#Felhasználónév/jelszó
 ecs#:#ecs_apache_user#:#Felhasználónév
 ecs#:#ecs_apache_pass#:#Jelszó
 common#:#obj_skmg#:#Kompetenciamenedzsment
-skmg#:#skmg_settings#:#Kompetenciamenedzsment beállítások
+skmg#:#skmg_settings#:#Kompetenciamenedzsment-beállítások
 skmg#:#skmg_enable_skmg#:#Kompetenciamenedzsment bekapcsolása
 skmg#:#skmg_skills#:#Kompetenciák
 skmg#:#skmg_insert_basic_skill_from_clip#:#Alapkompetenciákat beillesztette a vágólapról
@@ -11761,13 +11762,13 @@ news#:#news_news_item_def_visibility_public_info#:#Az aktuális hírek elérhet�
 chatroom#:#room_in_container#:#%s (itt: %s)
 common#:#obj_crsv#:#Kurzus Igazolás
 wsp#:#wsp_type_crsv#:#Igazolás: Kurzus
-wsp#:#wsp_list_crsv#:#Kurzus Igazolás
-crsv#:#crsv_create#:#Kurzus Igazolás létrehozása
+wsp#:#wsp_list_crsv#:#Kurzusigazolás
+crsv#:#crsv_create#:#Kurzusigazolás létrehozása
 crsv#:#crsv_create_info#:#Válasszon egy teljesített kurzust, hogy igazolást generálhassunk hozzá
 common#:#obj_scov#:#SCORM Igazolás
 wsp#:#wsp_type_scov#:#Igazolás: SCORM
-wsp#:#wsp_list_scov#:#SCORM Igazolás
-scov#:#crsv_create#:#SCORM Igazolás létrehozása
+wsp#:#wsp_list_scov#:#SCORM-igazolás
+scov#:#crsv_create#:#SCORM-igazolás létrehozása
 scov#:#crsv_create_info#:#Válasszon egy tananyagot, hogy igazolást generálhassunk hozzá
 content#:#cont_wiki_page#:#Wiki oldal
 content#:#cont_choose_wiki#:#Válasszon Wiki-t
@@ -11778,6 +11779,7 @@ skmg#:#skmg_usage_type_info_gen#:#Általános használatra a Taneszköz objektum
 skmg#:#skmg_usage_type_info_mat#:#A felhasználók a magánterületükön lévő anyagaikhoz rendelhetik
 skmg#:#skmg_usage_type_info_user#:#Felhasználókhoz rendelve
 skmg#:#skmg_usage_type_info_pers#:#A felhasználók kiválaszthatják, mint személyes készség
+skmg#:#skmg_usage_type_info_seval#:#Önértékelések
 skmg#:#skmg_usage_type_info_prof#:#Kompetencia profilokban felhasználásra
 skmg#:#skmg_usage_type_info_res#:#Taneszköz objektumokhoz rendelés, mint javasolt erőforrás
 skmg#:#skmg_usage_obj_objects#:#Objektum(ok)
@@ -13074,7 +13076,8 @@ buddysystem#:#buddy_notification_contact_request_link#:#Ismerősnek jelölés el
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Ismerősnek jelölés elfogadása
 buddysystem#:#buddy_notification_contact_request_ignore#:#Ismerősnek jelölés elutasítása:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ismerősnek jelölés elutasítása
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]'[REQUESTING_USER]' ismerősnek jelölt meg.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]'[REQUESTING_USER]' ismerősnek jelölt.[BR][BR]Személyes profilja: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_noti_cr_profile_not_published#:#A profil nincs közzétéve.
 buddysystem#:#buddy_request_approved#:#Sikeresen elfogadta a jelölést.
 buddysystem#:#buddy_request_ignored#:#Figyelmen kívül hagyta a felhasználót.
 buddysystem#:#buddy_relation_requested#:#A felhasználónak sikeresen elküldte a kérést.
@@ -13490,21 +13493,21 @@ logging#:#frm_clear_older_then_info#:#Napokban adjon meg egy időszakot.
 blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
 common#:#objs_prtf#:#Portfóliók
 grp#:#grp_member_administration#:#Résztvevők módosítása
-survey#:#svy_results_mail_confirm#:#Résztvevők résztvételi megerősítést kérhetnek
-survey#:#svy_results_mail_confirm_info#:#A résztvevők levelet kérhetnek résztvételük megerősítéséhez a kérdőív végén.
-survey#:#svy_results_mail_own#:#Adott válaszok belefoglalása
-survey#:#svy_results_mail_own_info#:#Az adott válaszok kerüljenek bele a résztvételi megerősítőbe.
-survey#:#svy_mail_send_confirmation#:#Résztvételi megerősítő küldése
-survey#:#svy_mail_confirmation_subject#:#'%s' kérdőívben résztvétel megerősítése
-survey#:#svy_anonymous_participants#:#Résztvevők listája
-survey#:#svy_anonymous_participants_info#:#Ha be van kapcsolva, a résztvevők listája bekapcsolható névtelen kérdőívekben.
-survey#:#svy_anonymous_participants_min#:#Résztvevők minimális száma
-survey#:#svy_anonymous_participants_min_info#:#A lista csak akkor lesz elérhető, ha a résztvevők száma meghaladja a minimálisat.
-survey#:#svy_anonymous_participants_svy#:#Résztvevők listája
-survey#:#svy_anonymous_participants_svy_info#:#Ha be van kapcsolva, a résztvevők listája elérhető a záró időpont után.
-survey#:#survey_results_started#:#Kérdőív elindult
-survey#:#survey_results_not_started#:#Kérdőív nem indult el
-survey#:#svy_mail_own_results_body#:#a következő kérdőívben vett részt:
+survey#:#svy_results_mail_confirm#:#A válaszadók e-mailt kérhetnek
+survey#:#svy_results_mail_confirm_info#:#A válaszadók e-mailt kérhetnek kitöltésükről a kérdőív végén.
+survey#:#svy_results_mail_own#:#A válaszok belefoglalása
+survey#:#svy_results_mail_own_info#:#A válaszok kerüljenek bele az e-mailbe.
+survey#:#svy_mail_send_confirmation#:#A kitöltésről e-mail küldése
+survey#:#svy_mail_confirmation_subject#:#'%s' kérdőív kitöltéséről
+survey#:#svy_anonymous_participants#:#Válaszadók listája
+survey#:#svy_anonymous_participants_info#:#Ha be van kapcsolva, a válaszadók listája bekapcsolható névtelen kérdőívekben.
+survey#:#svy_anonymous_participants_min#:#A válaszadók minimális száma
+survey#:#svy_anonymous_participants_min_info#:#A lista csak akkor lesz elérhető, ha a válaszadók száma meghaladja a minimálisat.
+survey#:#svy_anonymous_participants_svy#:#Válaszadók listája
+survey#:#svy_anonymous_participants_svy_info#:#Ha be van kapcsolva, a válaszadók listája elérhető a záró időpont után.
+survey#:#survey_results_started#:#A kérdőív elindult
+survey#:#survey_results_not_started#:#A kérdőív nem indult el
+survey#:#svy_mail_own_results_body#:#a következő kérdőívben adott válaszokat:
 assessment#:#ass_competence_respect_level_ordering#:#Figyeljen arra, hogy a kompetencia-küszöbértékeket az elérhető szintek alapján növekvő sorrendben szükséges megadni.
 common#:#grpr_edit_info#:#Válasszon egy csoportot egy új link létrehozásához.
 common#:#grpr_edit#:#Csoportlink módosítása
@@ -14709,7 +14712,7 @@ lhist#:#lhist_cont_placeholder_text#:#Ez az elem a tanulási történelmet jelen
 lhist#:#lhist_lhist#:#Tanulási történelem
 skmg#:#skmg_materials_ressources#:#Erőforrások/Segédanyagok
 wsp#:#error_creating_certificate_pdf#:#Az igazolást nem sikerült létrehozni. Kérem, keresse a szerver üzemeltetőjét.
-cert#:#certificate_migration_confirm_start#:#Az ILIAS 5.4-es verziójától módosulnak az igazolások, a már megszerzett igazolások állandóvá válnakm azaz egy már megszerzett igazolás akkor is elérhető marad, ha annak a kurzusát, tesztjét, illetve tananyagát törlik. Az új funkció használatához, el kell indítania a régi igazolásai migrálását.
+cert#:#certificate_migration_confirm_start#:#Az ILIAS 5.4-es verziójától módosulnak az igazolások: a már megszerzett igazolások állandóvá válnak, azaz egy már megszerzett igazolás akkor is elérhető marad, ha annak a kurzusát, tesztjét, illetve tananyagát törlik. Az új funkció használatához, el kell indítania a régi igazolásai migrálását.
 cert#:#certificate_migration_lastrun_failed#:#Az igazolások migrációja nem sikerült. Megpróbálja újra?
 cert#:#certificate_migration_confirm_started#:#A migráció elindult.
 cert#:#certificate_migration_go#:#Migráció indítása
@@ -14940,7 +14943,7 @@ obj#:#obj_tile_image_info#:#A csempeképeket akkor használjuk, amikor a tárol�
 fold#:#fold_presentation#:#Mappa megjelenítése
 rep#:#rep_tree_limit#:#Elemek számának korlátozás a fában
 rep#:#rep_tree_limit_info#:#A teljesítmény növelése érdekében korlátozható a Taneszköztároló-fában megjelenő objektumok száma.
-rep#:#rep_tree_limit_number#:#Maximumális szám
+rep#:#rep_tree_limit_number#:#Maximális szám
 rep#:#rep_tree_limit_number_info#:#A csomópont kibontásakor megjelenő gyermekelemek maximális száma. Amennyiben ennél több gyermekelem létezik, egy beviteli mező jelenik meg, mely segítségével cím alapján szűrhetünk a gyermekelemekre.
 cont#:#cont_show_more#:#Több megjelenítése
 cont#:#cont_block_limit#:#Elemek számának korlátozás blokkonként
@@ -15019,8 +15022,8 @@ content#:#cont_choose_local#:#Helyi mappa
 content#:#cont_choose_upload_dir#:#Feltöltési mappa
 sess#:#sess_assign#:#Hozzárendelés
 common#:#certificate_selection#:#Igazolások forrása
-common#:#certificate_persistent_option#:#Állandó igazolások
-common#:#certificate_workspace_option#:#Munkamenet igazolások
+common#:#certificate_persistent_option#:#Megszerzett igazolások
+common#:#certificate_workspace_option#:#Munkaterület igazolásai
 common#:#certificate_file_already_exists_error#:#Az igazolásfájl már létezik a rendszerben.
 common#:#certificate_file_not_found_error#:#Az igazolásfájl már nem található a rendszerben.
 common#:#certificate_file_input_output_error#:#Az igazolásfájl létezik a rendszerben, de nem törölhető. Keresse meg a hibával az üzemeltetőt.
@@ -15029,3 +15032,15 @@ certificate#:#persistent_certificate_mode_cron#:#Ütemezett feladat
 certificate#:#persistent_certificate_mode_cron_info#:#Ez a lehetőség magas felhasználói igénybevétel esetén ajánlott.
 certificate#:#persistent_certificate_mode_instant#:#Azonnali
 certificate#:#persistent_certificate_mode_instant_info#:#Ez a lehetőség közepes, illetve alacsony felhasználói igénybevétel esetén ajánlott. Amennyiben az igazolások azonnali előállítása túl sok időt vesz igénybe, célszerű ütemezett feladatra váltani.
+content#:#cont_Attention#:#Figyelmeztetés
+content#:#cont_Confirmation#:#Megerősítés
+content#:#cont_Information#:#Információ
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Irodalom
+content#:#cont_Separator#:#Elválasztó
+content#:#cont_StandardCenter#:#Szövegtörzs középre
+content#:#cont_Interaction#:#Kölcsönhatás
+content#:#cont_Background#:#Háttér
+dateplaner#:#cal_usr_info#:#Kinevezési információk
+certificate#:#certificate_learning_progress_must_be_active#:#Csak tanulási haladású objektumok választhatóak ki. A tanulási haladás ki van kapcsolva a következő objektumoknál: %s
+certificate#:#learning_progress_deactivated#:#A tanulási haladás ki van kapcsolva ennél az objektumnál. Az igazolássablon módosításához és a felhasználók igazolásának legeneráláshoz be kell kapcsolni.

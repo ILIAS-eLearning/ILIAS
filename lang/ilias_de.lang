@@ -9674,7 +9674,7 @@ mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
 mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten des Absenders der E-Mail ersetzt.
 mail#:#mail_tbl_head_attachments#:#Anhang
 mail#:#mail_template_client#:#Textvorlage
-mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachricht und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
+mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage werden Nachricht und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
 mail#:#mail_template_context#:#Kontext
 mail#:#mail_template_default#:# (Standard)
 mail#:#mail_template_missing_id#:#Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde.
@@ -9881,7 +9881,7 @@ mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in 
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
-mep#:#mobs_black_list_file_types_info#:#Diese List schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
+mep#:#mobs_black_list_file_types_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
 mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
 mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
@@ -15041,3 +15041,6 @@ content#:#cont_Interaction#:#Interaktion
 content#:#cont_Background#:#Hintergrund
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
+certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###25 04 2019 new variable
+certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
