@@ -90,6 +90,8 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($user->getId(), $root_progress->getUserId());
 		$this->assertNull($root_progress->getLastChangeBy());
 		$this->assertNull($root_progress->getCompletionBy());
+		$this->assertEquals($root_progress->getAssignmentDate()->get(IL_CAL_DATE),(new \DateTime())->format('Y-m-d'));
+
 
 		$node1_progresses = $this->node1->getProgressesOf($user->getId());
 		$this->assertCount(1, $node1_progresses);

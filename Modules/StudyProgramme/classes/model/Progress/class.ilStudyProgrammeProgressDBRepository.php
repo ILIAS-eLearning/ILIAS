@@ -17,6 +17,7 @@ implements ilStudyProgrammeProgressRepository
 	const FIELD_POINTS_CUR = 'points_cur';
 	const FIELD_STATUS = 'status';
 	const FIELD_COMPLETION_BY = 'completion_by';
+	const FIELD_ASSIGNMENT_DATE = 'assignment_date';
 	const FIELD_LAST_CHANGE = 'last_change';
 	const FIELD_LAST_CHANGE_BY = 'last_change_by';
 	const FIELD_DEADLINE = 'deadline';
@@ -47,6 +48,7 @@ implements ilStudyProgrammeProgressRepository
 			self::FIELD_STATUS => ilStudyProgrammeProgress::STATUS_IN_PROGRESS,
 			self::FIELD_COMPLETION_BY => null,
 			self::FIELD_LAST_CHANGE => \ilUtil::now(),
+			self::FIELD_ASSIGNMENT_DATE => \ilUtil::now(),
 			self::FIELD_LAST_CHANGE_BY => null,
 			self::FIELD_DEADLINE => null
 		];
@@ -153,7 +155,8 @@ implements ilStudyProgrammeProgressRepository
 				self::FIELD_COMPLETION_BY => $progress->getCompletionBy(),
 				self::FIELD_LAST_CHANGE_BY => $progress->getLastChangeBy(),
 				self::FIELD_LAST_CHANGE => $progress->getLastChange()->get(IL_CAL_TIMESTAMP),
-				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->get(IL_CAL_DATE) : null
+				self::FIELD_ASSIGNMENT_DATE => $progress->getAssignmentDate()->get(IL_CAL_DATETIME),
+				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->get(IL_CAL_DATETIME) : null
 			]
 		);
 	}
@@ -181,6 +184,7 @@ implements ilStudyProgrammeProgressRepository
 				,self::FIELD_COMPLETION_BY => ['interger',$row[self::FIELD_COMPLETION_BY]]
 				,self::FIELD_LAST_CHANGE_BY => ['interger',$row[self::FIELD_LAST_CHANGE_BY]]
 				,self::FIELD_LAST_CHANGE => ['text',$row[self::FIELD_LAST_CHANGE]]
+				,self::FIELD_ASSIGNMENT_DATE => ['timestamp',$row[self::FIELD_ASSIGNMENT_DATE]]
 				,self::FIELD_DEADLINE => ['text',$row[self::FIELD_DEADLINE]]
 			]
 		);
@@ -206,6 +210,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_COMPLETION_BY.' = '.$this->db->quote($values[self::FIELD_COMPLETION_BY],'integer')
 			.'	,'.self::FIELD_LAST_CHANGE_BY.' = '.$this->db->quote($values[self::FIELD_LAST_CHANGE_BY],'integer')
 			.'	,'.self::FIELD_LAST_CHANGE.' = '.$this->db->quote($values[self::FIELD_LAST_CHANGE],'text')
+			.'	,'.self::FIELD_ASSIGNMENT_DATE.' = '.$this->db->quote($values[self::FIELD_ASSIGNMENT_DATE],'timestamp')
 			.'	,'.self::FIELD_DEADLINE.' = '.$this->db->quote($values[self::FIELD_DEADLINE],'text')
 			.'	WHERE '.self::FIELD_ID.' = '.$this->db->quote($values[self::FIELD_ID],'integer')
 		;
@@ -223,6 +228,7 @@ implements ilStudyProgrammeProgressRepository
 			->setCurrentAmountOfPoints($row[self::FIELD_POINTS_CUR])
 			->setCompletionBy($row[self::FIELD_COMPLETION_BY])
 			->setDeadline($row[self::FIELD_DEADLINE] ? new ilDateTime($row[self::FIELD_DEADLINE],IL_CAL_DATE) : null)
+			->setAssignmentDate(new ilDateTime($row[self::FIELD_ASSIGNMENT_DATE],IL_CAL_DATETIME))
 			->setLastChange($row[self::FIELD_LAST_CHANGE]? new ilDateTime($row[self::FIELD_LAST_CHANGE],IL_CAL_DATETIME) : null, true);
 	}
 
@@ -238,6 +244,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_COMPLETION_BY
 			.'	,'.self::FIELD_LAST_CHANGE
 			.'	,'.self::FIELD_LAST_CHANGE_BY
+			.'	,'.self::FIELD_ASSIGNMENT_DATE
 			.'	,'.self::FIELD_DEADLINE
 			.'	FROM '.self::TABLE
 			.'	WHERE TRUE';

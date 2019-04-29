@@ -153,6 +153,15 @@ class ilStudyProgrammeUserProgress {
 	}
 
 	/**
+	 * Get the assignment date of this node.
+	 *
+	 * @return ilDateTime
+	 */
+	public function getAssignmentDate() {
+		return $this->progress->getAssignmentDate();
+	}
+
+	/**
 	 * Get the deadline of this node.
 	 *
 	 * @return ilDateTime | null

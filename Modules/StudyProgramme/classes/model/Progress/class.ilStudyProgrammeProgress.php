@@ -180,6 +180,17 @@ class ilStudyProgrammeProgress
 	protected $last_change_by;
 
 	/**
+	 * Date of asssignment
+	 *
+	 * @var \ilDateTime
+	 *
+	 * @con_has_field   true
+	 * @con_fieldtype   timestamp
+	 * @con_is_notnull  false
+	 */
+	protected $assignment_date;
+
+	/**
 	 * Date until user has to finish
 	 *
 	 * @var \ilDateTime
@@ -425,6 +436,17 @@ class ilStudyProgrammeProgress
 		}
 		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
 		return $this;
+	}
+
+	public function setAssignmentDate(\ilDateTime $assignment_date)
+	{
+		$this->assignment_date = $assignment_date;
+		return $this;
+	}
+
+	public function getAssignmentDate() : \ilDateTime
+	{
+		return $this->assignment_date;
 	}
 
 	/**

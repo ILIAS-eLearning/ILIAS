@@ -44,6 +44,7 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($prgs->getAmountOfPoints(),123);
 		$this->assertEquals($prgs->getCurrentAmountOfPoints(),0);
 		$this->assertEquals($prgs->getStatus(),ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
+		$this->assertEquals($prgs->getAssignmentDate()->get(IL_CAL_DATE),(new DateTime())->format('Y-m-d'));
 		$this->assertNull($prgs->getCompletionBy());
 		$this->assertNull($prgs->getDeadline());
 
