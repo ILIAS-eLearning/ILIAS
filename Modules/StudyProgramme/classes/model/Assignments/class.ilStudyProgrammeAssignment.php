@@ -190,8 +190,9 @@ class ilStudyProgrammeAssignment
 	{
 		if (ilDateTime::_before($timestamp, $this->getLastChange())) {
 			throw new ilException("ilStudyProgrammeAssignment::setLastChange: Given "
-								 ."timestamp is before current timestamp. That "
-								 ."is logically impossible.");
+								 ."timestamp, ".$this->getLastChange()->get(IL_CAL_DATETIME).","
+								 ."is before current timestamp,".$timestamp->get(IL_CAL_DATETIME).". "
+								 ."That is logically impossible.");
 		}
 		
 		$this->last_change = $timestamp->get(IL_CAL_DATETIME);

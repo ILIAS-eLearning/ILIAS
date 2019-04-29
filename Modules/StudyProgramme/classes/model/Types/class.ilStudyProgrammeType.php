@@ -396,14 +396,14 @@ class ilStudyProgrammeType
 
 	protected function loadTranslation(string $lang_code)
 	{
-		if (isset($this->translations[$a_lang_code])) {
-			return $this->translations[$a_lang_code];
+		if (isset($this->translations[$lang_code])) {
+			return $this->translations[$lang_code];
 		} else {
 			$trans_array = $this->type_repo->readTranslationsByTypeAndLang($this->getId(),$lang_code);
 
 			//ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'lang'=>$a_lang_code))->getArray('member', 'value');
 			if (count($trans_array)) {
-				$this->translations[$a_lang_code] = $trans_array;
+				$this->translations[$lang_code] = $trans_array;
 
 				return $trans_array;
 			}
@@ -443,8 +443,7 @@ class ilStudyProgrammeType
 
 
 	protected function setTranslation($a_member, $a_value, $a_lang_code) {
-		global $DIC;
-		$DIC['ilLog']->write($a_member.' -- '.$a_value);
+
 		$a_value = trim($a_value);
 		// If the value is identical, quit early and do not execute plugin checks
 		$existing_translation = $this->getTranslation($a_member, $a_lang_code);
@@ -478,7 +477,6 @@ class ilStudyProgrammeType
 			$msg = sprintf($this->lng->txt('prg_type_msg_setting_member_prevented'), $a_value, implode(', ', $titles));
 			throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
 		}
-
 		$trans_obj = $this->type_repo->readTranslationByTypeIdMemberLang(
 			$this->getId(),
 			$a_member,
@@ -519,7 +517,7 @@ class ilStudyProgrammeType
 	/**
 	 * @return int
 	 */
-	public function getOwner() : int
+	public function getOwner()
 	{
 		return $this->owner;
 	}
@@ -575,7 +573,7 @@ class ilStudyProgrammeType
 	/**
 	 * @return string
 	 */
-	public function getIcon() : string
+	public function getIcon()
 	{
 		return $this->icon;
 	}
@@ -631,7 +629,7 @@ class ilStudyProgrammeType
 	/**
 	 * @return string
 	 */
-	public function getCreateDate() : ilDateTime
+	public function getCreateDate()
 	{
 		return $this->create_date;
 	}

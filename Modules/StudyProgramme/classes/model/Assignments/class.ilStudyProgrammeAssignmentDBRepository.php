@@ -102,7 +102,7 @@ implements ilStudyProgrammeAssignmentRepository
 			self::FIELD_LAST_CHANGE_BY => $assignment->getLastChangeBy(),
 			self::FIELD_LAST_CHANGE => $assignment->getLastChange()->get(IL_CAL_DATETIME)
 		];
-		$this->updateByRowDB($row);
+		$this->updatedRowDB($row);
 	}
 
 	/**
@@ -162,7 +162,8 @@ implements ilStudyProgrammeAssignmentRepository
 			.'	'.self::FIELD_USR_ID.' = '.$this->db->quote($values[self::FIELD_USR_ID],'integer')
 			.'	,'.self::FIELD_ROOT_PRG_ID.' = '.$this->db->quote($values[self::FIELD_ROOT_PRG_ID],'integer')
 			.'	,'.self::FIELD_LAST_CHANGE.' = '.$this->db->quote($values[self::FIELD_LAST_CHANGE],'text')
-			.'	,'.self::FIELD_LAST_CHANGE_BY.' = '.$this->db->quote($values[self::FIELD_LAST_CHANGE_BY],'integer');
+			.'	,'.self::FIELD_LAST_CHANGE_BY.' = '.$this->db->quote($values[self::FIELD_LAST_CHANGE_BY],'integer')
+			.'	WHERE '.self::FIELD_ID.' = '.$this->db->quote($values[self::FIELD_ID],'integer');
 		$this->db->manipulate($q);
 	}
 

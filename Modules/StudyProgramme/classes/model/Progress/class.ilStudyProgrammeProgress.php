@@ -182,7 +182,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Date until user has to finish
 	 *
-	 * @var int
+	 * @var \ilDateTime
 	 *
 	 * @con_has_field   true
 	 * @con_fieldtype   timestamp
@@ -416,12 +416,6 @@ class ilStudyProgrammeProgress
 	 */
 	public function setLastChange(ilDateTime $a_timestamp) : ilStudyProgrammeProgress
 	{
-		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
-			throw new ilException("ilStudyProgrammeProgress::setLastChange: Given "
-								 ."timestamp is before current timestamp. That "
-								 ."is logically impossible.");
-		}
-		
 		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
 		return $this;
 	}
@@ -433,9 +427,6 @@ class ilStudyProgrammeProgress
 	 */
 	public function getDeadline()
 	{
-		if($this->deadline !== null) {
-			return new ilDateTime($this->deadline, IL_CAL_DATE);
-		}
 		return $this->deadline;
 	}
 
@@ -448,12 +439,7 @@ class ilStudyProgrammeProgress
 	 */
 	public function setDeadline(ilDateTime $deadline = null) : ilStudyProgrammeProgress
 	{
-		if($deadline === null) {
-			$this->deadline = $deadline;
-		} else {
-			$this->deadline = $deadline->get(IL_CAL_DATE);
-		}
-
+		$this->deadline = $deadline;
 		return $this;
 	}
 }

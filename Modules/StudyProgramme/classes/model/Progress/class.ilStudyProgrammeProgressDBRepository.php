@@ -46,8 +46,9 @@ implements ilStudyProgrammeProgressRepository
 			self::FIELD_POINTS_CUR => 0,
 			self::FIELD_STATUS => ilStudyProgrammeProgress::STATUS_IN_PROGRESS,
 			self::FIELD_COMPLETION_BY => null,
-			self::FIELD_LAST_CHANGE => ilUtil::now(),
-			self::FIELD_LAST_CHANGE_BY => null
+			self::FIELD_LAST_CHANGE => \ilUtil::now(),
+			self::FIELD_LAST_CHANGE_BY => null,
+			self::FIELD_DEADLINE => null
 		];
 		$this->insertRowDB($row);
 		return $this->buildByRow($row);
@@ -151,7 +152,8 @@ implements ilStudyProgrammeProgressRepository
 				self::FIELD_POINTS_CUR => $progress->getCurrentAmountOfPoints(),
 				self::FIELD_COMPLETION_BY => $progress->getCompletionBy(),
 				self::FIELD_LAST_CHANGE_BY => $progress->getLastChangeBy(),
-				self::FIELD_LAST_CHANGE => $progress->getLastChange()->get(IL_CAL_DATETIME)
+				self::FIELD_LAST_CHANGE => $progress->getLastChange()->get(IL_CAL_TIMESTAMP),
+				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->get(IL_CAL_DATE) : null
 			]
 		);
 	}
@@ -179,6 +181,7 @@ implements ilStudyProgrammeProgressRepository
 				,self::FIELD_COMPLETION_BY => ['interger',$row[self::FIELD_COMPLETION_BY]]
 				,self::FIELD_LAST_CHANGE_BY => ['interger',$row[self::FIELD_LAST_CHANGE_BY]]
 				,self::FIELD_LAST_CHANGE => ['text',$row[self::FIELD_LAST_CHANGE]]
+				,self::FIELD_DEADLINE => ['text',$row[self::FIELD_DEADLINE]]
 			]
 		);
 	}
@@ -203,6 +206,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_COMPLETION_BY.' = '.$this->db->quote($values[self::FIELD_COMPLETION_BY],'integer')
 			.'	,'.self::FIELD_LAST_CHANGE_BY.' = '.$this->db->quote($values[self::FIELD_LAST_CHANGE_BY],'integer')
 			.'	,'.self::FIELD_LAST_CHANGE.' = '.$this->db->quote($values[self::FIELD_LAST_CHANGE],'text')
+			.'	,'.self::FIELD_DEADLINE.' = '.$this->db->quote($values[self::FIELD_DEADLINE],'text')
 			.'	WHERE '.self::FIELD_ID.' = '.$this->db->quote($values[self::FIELD_ID],'integer')
 		;
 		$this->db->manipulate($q);
@@ -217,7 +221,9 @@ implements ilStudyProgrammeProgressRepository
 			->setStatus($row[self::FIELD_STATUS])
 			->setAmountOfPoints($row[self::FIELD_POINTS])
 			->setCurrentAmountOfPoints($row[self::FIELD_POINTS_CUR])
-			->setCompletionBy($row[self::FIELD_COMPLETION_BY]);
+			->setCompletionBy($row[self::FIELD_COMPLETION_BY])
+			->setDeadline($row[self::FIELD_DEADLINE] ? new ilDateTime($row[self::FIELD_DEADLINE],IL_CAL_DATE) : null)
+			->setLastChange($row[self::FIELD_LAST_CHANGE]? new ilDateTime($row[self::FIELD_LAST_CHANGE],IL_CAL_DATETIME) : null);
 	}
 
 	protected function loadByFilter(array $filter) 
@@ -232,6 +238,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_COMPLETION_BY
 			.'	,'.self::FIELD_LAST_CHANGE
 			.'	,'.self::FIELD_LAST_CHANGE_BY
+			.'	,'.self::FIELD_DEADLINE
 			.'	FROM '.self::TABLE
 			.'	WHERE TRUE';
 		foreach ($filter as $field => $value) {

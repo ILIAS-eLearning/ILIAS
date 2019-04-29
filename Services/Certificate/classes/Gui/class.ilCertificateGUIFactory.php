@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -128,6 +127,29 @@ class ilCertificateGUIFactory
 
 				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
 
+				break;
+			case 'prg':
+				$adapter = new ilStudyProgrammeCertificateAdapter($object);
+				$placeholderDescriptionObject =
+					new ilStudyProgrammePlaceholderDescription();
+				$placeholderValuesObject =
+					new ilStudyProgrammePlaceholderValues();
+
+				$certificatePath =
+					ilCertificatePathConstants::STUDY_PROGRAMME_PATH . $objectId . '/';
+
+				$formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
+					$object,
+					$certificatePath,
+					$DIC->language(),
+					$DIC->ui()->mainTemplate(),
+					$DIC->ctrl(),
+					$DIC->access(),
+					$DIC->toolbar(),
+					$placeholderDescriptionObject
+				);
+
+				$certificatePath = ilCertificatePathConstants::STUDY_PROGRAMME_PATH . $objectId . '/';
 				break;
 			default:
 				throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));

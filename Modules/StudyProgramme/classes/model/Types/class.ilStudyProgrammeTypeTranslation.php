@@ -28,7 +28,7 @@ class ilStudyProgrammeTypeTranslation
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $prg_type_id;
+    protected $prg_type_id = 0;
 
 	/**
 	 *
@@ -48,7 +48,7 @@ class ilStudyProgrammeTypeTranslation
 	 * @con_fieldtype   text
 	 * @con_length      32
 	 */
-    protected $member;
+    protected $member  = '';
 
 	/**
 	 *
@@ -58,14 +58,7 @@ class ilStudyProgrammeTypeTranslation
 	 * @con_fieldtype   text
 	 * @con_length      3500
 	 */
-	protected $value;
-
-    /**
-     * @var ilLog
-     */
-    protected $log;
-
-
+	protected $value = '';
 
     public function __construct(int $id)
     {

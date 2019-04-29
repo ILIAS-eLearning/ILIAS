@@ -1,7 +1,6 @@
 <?php
 
 /**
- * TestCase for the ilStudyProgrammeSettings
  * @group needsInstalledILIAS
  */
 class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
@@ -14,8 +13,10 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 
 		global $DIC;
 		if(!$DIC) {
-			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-			ilUnitUtil::performInitialisation();
+			try{
+				include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+				ilUnitUtil::performInitialisation();
+			} catch(Exception $e) {}
 		}
 		global $DIC;
 		$this->db = $DIC['ilDB'];
