@@ -205,6 +205,7 @@ class ilObjStudyProgrammeSettingsGUI {
 	const PROP_DEADLINE = "deadline";
 	const PROP_DEADLINE_PERIOD = "deadline_period";
 	const PROP_DEADLINE_DATE = "deadline_date";
+	const OPT_NO_DEADLINE = 'opt_no_deadline';
 	const OPT_DEADLINE_PERIOD = "opt_deadline_period";
 	const OPT_DEADLINE_DATE = "opt_deadline_date";
 
@@ -288,7 +289,7 @@ class ilObjStudyProgrammeSettingsGUI {
 											$this->validation->greaterThan(-1)
 									);
 		$period = $prg->getDeadlinePeriod();
-		$radion_option = null;
+		$radion_option = self::OPT_NO_DEADLINE;
 		if($period > 0) {
 			$deadline_period_subform = $deadline_period_subform->withValue($period);
 			$radion_option = self::OPT_DEADLINE_PERIOD;
@@ -312,6 +313,11 @@ class ilObjStudyProgrammeSettingsGUI {
 			$radion_option = self::OPT_DEADLINE_DATE;
 		}
 		$radio = $ff->radio("","")
+			->withOption(
+				self::OPT_NO_DEADLINE,
+				$txt('prg_no_deadline'),
+				''
+			)
 			->withOption(
 				self::OPT_DEADLINE_PERIOD,
 				$txt('prg_deadline_period'),
@@ -351,6 +357,9 @@ class ilObjStudyProgrammeSettingsGUI {
 			if($data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_DATE) {
 				$date_string = trim($data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_DATE]);
 				$prg->setDeadlineDate($date_string === '' ? null : new ilDateTime($date_string,IL_CAL_DATE));
+			}
+			if($data[self::PROP_DEADLINE]['value'] === self::OPT_NO_DEADLINE) {
+				$prg->setDeadlineDate(null); // deadline period will be set to 0 automatically
 			}
 		}
 
