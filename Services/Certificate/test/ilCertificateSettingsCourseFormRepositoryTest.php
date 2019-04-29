@@ -61,6 +61,15 @@ class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_Te
 			->disableOriginalConstructor()
 			->getMock();
 
+		$lpMock = $this->getMockBuilder('ilObjectLP')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$lpMock->method('getCurrentMode')
+			->willReturn(100);
+
+		$lpHelper->method('getInstance')->willReturn($lpMock);
+
 		$tree = $this->getMockBuilder('ilTree')
 			->disableOriginalConstructor()
 			->getMock();

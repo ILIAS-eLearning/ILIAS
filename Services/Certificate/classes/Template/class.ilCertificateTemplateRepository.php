@@ -300,19 +300,24 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 		return $previousCertificate;
 	}
 
-	public function fetchAllObjectIdsByType(string $type): array
+	/**
+	 * @param string $type
+	 * @return ilCertificateTemplate[]
+	 */
+	public function fetchActiveTemplatesByType(string $type): array
 	{
-		$this->logger->info(sprintf('START - Fetch all object ids for object type: "%s"', $type));
+		$this->logger->info(sprintf('START - Fetch all active certificate templates for object type: "%s"', $type));
 
-		$sql = 'SELECT DISTINCT obj_id FROM il_cert_template WHERE obj_type = ' . $this->database->quote($type, 'text');
+		$sql = 'SELECT * FROM il_cert_template WHERE obj_type = ' . $this->database->quote($type, 'text') . '
+AND currently_active = 1';
 		$query = $this->database->query($sql);
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$result[] = $row['obj_id'];
+			$result[] = $this->createCertificateTemplate($row);
 		}
 
-		$this->logger->info(sprintf('END - All object ids for object type: "%s" in certificate templates: "%s"', $type, json_encode($result)));
+		$this->logger->info(sprintf('END - All certificate templates for object type: "%s": "%s"', $type, json_encode($result)));
 
 		return $result;
 	}

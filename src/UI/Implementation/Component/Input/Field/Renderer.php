@@ -526,7 +526,7 @@ class Renderer extends AbstractComponentRenderer {
 		if ($input->isRequired()) {
 			$tpl->touchBlock("required");
 		}
-		if ($input->getError() !== null) {
+		if ($input->getError() !== null && $input->getError() != $input::DEPENDANT_FIELD_ERROR) {
 			$tpl->setCurrentBlock("error");
 			$tpl->setVariable("ERROR", $input->getError());
 			$tpl->parseCurrentBlock();
