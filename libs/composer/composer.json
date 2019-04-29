@@ -41,7 +41,7 @@
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" },
-		"classmap": ["../../Services/", "../../Modules", "../ilias"],
+		"classmap": ["../../Services/", "../../Modules", "../ilias", "../../setup"],
 		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
 	},
 	"extra": {
