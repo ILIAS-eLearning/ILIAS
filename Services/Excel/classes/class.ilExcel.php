@@ -268,6 +268,15 @@ class ilExcel
 			$cell = $wb->getCell($a_coords);
 			$this->setDateFormat($cell, $a_value);
 		}
+		elseif(is_numeric($a_value))
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicit(
+				$a_coords,
+				$this->prepareValue($a_value),
+				DataType::TYPE_NUMERIC
+			);
+			
+		}
 		else
 		{
 			$this->workbook->getActiveSheet()->setCellValueExplicit(
@@ -297,6 +306,15 @@ class ilExcel
 				$this->prepareValue($a_value)
 			);
 			$this->setDateFormat($wb->getCellByColumnAndRow($a_col +1, $a_row), $a_value);
+		}
+		elseif(is_numeric($a_value))
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+				$a_col +1,
+				$a_row,
+				$this->prepareValue($a_value),
+				DataType::TYPE_NUMERIC
+			);
 		}
 		else
 		{
