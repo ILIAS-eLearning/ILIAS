@@ -225,10 +225,10 @@ class ilUserPasswordManager
 
 		$this->db->manipulateF("
 			UPDATE usr_data
-			SET last_password_change = %s, is_self_registered = %s
+			SET passwd_policy_reset = %s
 			WHERE (auth_mode = %s $defaultAuthModeCondition)",
-			['integer', 'integer', 'text'],
-			[0, 0, 'local']
+			['integer', 'text'],
+			[1, 'local']
 		);
 	}
 } 

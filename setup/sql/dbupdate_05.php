@@ -888,3 +888,14 @@ if($ilDB->tableColumnExists("map_area", "href")) {
 	$ilDB->modifyTableColumn("map_area", "href", $field);
 }
 ?>
+<#5496>
+<?php
+if (!$ilDB->tableColumnExists('usr_data', 'passwd_policy_reset')) {
+	$ilDB->addTableColumn('usr_data', 'passwd_policy_reset', array(
+		'type' => 'integer',
+		'notnull' => true,
+		'length' => 1,
+		'default' => 0
+	));
+}
+?>
