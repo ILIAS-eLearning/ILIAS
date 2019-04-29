@@ -12,6 +12,9 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
 class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 {
 	const ID = 'crs_context_member_manual';
+
+	/** @var array */
+	protected static $periodInfoByObjIdCache = [];
 	
 	/**
 	 * @return string
@@ -94,6 +97,19 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 	}
 
 	/**
+	 * @param int $objId
+	 * @return array|null
+	 */
+	private function getCachedPeriodByObjId(int $objId)
+	{
+		if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {
+			self::$periodInfoByObjIdCache[$objId] = \ilObjCourseAccess::lookupPeriodInfo($objId);
+		}
+
+		return self::$periodInfoByObjIdCache[$objId];
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
@@ -114,9 +130,29 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 			require_once './Services/Link/classes/class.ilLink.php';
 			return ilLink::_getLink($context_parameters['ref_id'], 'crs');
 		} elseif ('crs_period_start' == $placeholder_id) {
-			return 'Period Start'; // TODO
+			$periodInfo = $this->getCachedPeriodByObjId((int)$ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+			if ($periodInfo) {
+				$useRelativeDates = \ilDatePresentation::useRelativeDates();
+				\ilDatePresentation::setUseRelativeDates(false);
+				$formattedDate = ilDatePresentation::formatDate($periodInfo['crs_end']);
+				\ilDatePresentation::setUseRelativeDates($useRelativeDates);
+
+				return $formattedDate;
+			}
+
+			return '';
 		} elseif ('crs_period_end' == $placeholder_id) {
-			return 'Period End'; // TODO
+			$periodInfo = $this->getCachedPeriodByObjId((int)$ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+			if ($periodInfo) {
+				$useRelativeDates = \ilDatePresentation::useRelativeDates();
+				\ilDatePresentation::setUseRelativeDates(false);
+				$formattedDate = ilDatePresentation::formatDate($periodInfo['crs_end']);
+				\ilDatePresentation::setUseRelativeDates($useRelativeDates);
+
+				return $formattedDate;
+			}
+
+			return '';
 		}
 
 		return '';

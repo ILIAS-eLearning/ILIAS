@@ -12,7 +12,10 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
 	const ID = 'crs_context_tutor_manual';
-	
+
+	/** @var array */
+	protected static $periodInfoByObjIdCache = [];
+
 	/**
 	 * @return string
 	 */
@@ -129,6 +132,19 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 	}
 
 	/**
+	 * @param int $objId
+	 * @return array|null
+	 */
+	private function getCachedPeriodByObjId(int $objId)
+	{
+		if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {
+			self::$periodInfoByObjIdCache[$objId] = \ilObjCourseAccess::lookupPeriodInfo($objId);
+		}
+
+		return self::$periodInfoByObjIdCache[$objId];
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
@@ -167,10 +183,30 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 				return $ilObjDataCache->lookupTitle($obj_id);
 
 			case 'crs_period_start':
-				return 'Period Start'; // TODO
+				$periodInfo = $this->getCachedPeriodByObjId((int)$ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+				if ($periodInfo) {
+					$useRelativeDates = \ilDatePresentation::useRelativeDates();
+					\ilDatePresentation::setUseRelativeDates(false);
+					$formattedDate = ilDatePresentation::formatDate($periodInfo['crs_start']);
+					\ilDatePresentation::setUseRelativeDates($useRelativeDates);
+
+					return $formattedDate;
+				}
+
+				return '';
 
 			case 'crs_period_end':
-				return 'Period End'; // TODO
+				$periodInfo = $this->getCachedPeriodByObjId((int)$ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+				if ($periodInfo) {
+					$useRelativeDates = \ilDatePresentation::useRelativeDates();
+					\ilDatePresentation::setUseRelativeDates(false);
+					$formattedDate = ilDatePresentation::formatDate($periodInfo['crs_end']);
+					\ilDatePresentation::setUseRelativeDates($useRelativeDates);
+					
+					return $formattedDate;
+				}
+
+				return '';
 				
 			case 'crs_link':		
 				require_once './Services/Link/classes/class.ilLink.php';
