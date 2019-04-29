@@ -235,7 +235,7 @@ implements ilStudyProgrammeProgressRepository
 			->setDeadline($row[self::FIELD_DEADLINE] ? new ilDateTime($row[self::FIELD_DEADLINE],IL_CAL_DATE) : null)
 			->setAssignmentDate(new ilDateTime($row[self::FIELD_ASSIGNMENT_DATE],IL_CAL_DATETIME))
 			->setCompletionDate($row[self::FIELD_COMPLETION_DATE] ? new ilDateTime($row[self::FIELD_COMPLETION_DATE],IL_CAL_DATETIME) : null)
-			->setLastChange($row[self::FIELD_LAST_CHANGE]? new ilDateTime($row[self::FIELD_LAST_CHANGE],IL_CAL_DATETIME) : null, true);
+			->setLastChange($row[self::FIELD_LAST_CHANGE]? new ilDateTime($row[self::FIELD_LAST_CHANGE],IL_CAL_DATETIME) : null);
 	}
 
 	protected function loadByFilter(array $filter) 
