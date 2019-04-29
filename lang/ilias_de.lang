@@ -6772,6 +6772,7 @@ mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger
 mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
 mail#:#mail_tbl_head_attachments#:#Anhang
+mail#:#mail_firstname_last_name_superior#:#A comma separated list for firstname and lastname of the user's superior(s).
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
@@ -12934,6 +12935,8 @@ crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_period#:#Veranstaltungszeitraum
+crs#:#crs_period_start_mail_placeholder#:#Beginn der Veranstaltung
+crs#:#crs_period_end_mail_placeholder#:#Beginn der Veranstaltung
 crs#:#crs_course_period_not_valid#:#Der Zeitraum ist nicht gültig.
 crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.

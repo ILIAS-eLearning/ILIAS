@@ -77,7 +77,17 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 			'placeholder'	=> 'COURSE_TITLE',
 			'label'			=> $lng->txt('crs_title')
 		);
-		
+
+		$placeholders['crs_period_start'] = array(
+			'placeholder'	=> 'COURSE_PERIOD_START',
+			'label'			=> $lng->txt('crs_period_start_mail_placeholder')
+		);
+
+		$placeholders['crs_period_end'] = array(
+			'placeholder'	=> 'COURSE_PERIOD_END',
+			'label'			=> $lng->txt('crs_period_end_mail_placeholder')
+		);
+
 		$placeholders['crs_status'] = array(
 			'placeholder'	=> 'COURSE_STATUS',
 			'label'			=> $lng->txt('trac_status')
@@ -132,6 +142,8 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 
 		if(!in_array($placeholder_id, array(
 			'crs_title',
+			'crs_period_start',
+			'crs_period_start',
 			'crs_link',
 			'crs_status',
 			'crs_mark',
@@ -153,6 +165,12 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		{
 			case 'crs_title':
 				return $ilObjDataCache->lookupTitle($obj_id);
+
+			case 'crs_period_start':
+				return 'Period Start'; // TODO
+
+			case 'crs_period_end':
+				return 'Period End'; // TODO
 				
 			case 'crs_link':		
 				require_once './Services/Link/classes/class.ilLink.php';

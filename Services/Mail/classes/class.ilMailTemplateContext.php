@@ -80,6 +80,10 @@ abstract class ilMailTemplateContext
 				'label'             => $DIC->language()->txt('mail_nacc_title'),
 				'supportsCondition' => true
 			),
+			'firstname_last_name_superior'     => array(
+				'placeholder' => 'FIRSTNAME_LASTNAME_SUPERIOR',
+				'label'       => $DIC->language()->txt('mail_firstname_last_name_superior')
+			),
 			'ilias_url'       => array(
 				'placeholder' => 'ILIAS_URL',
 				'label'       => $DIC->language()->txt('mail_nacc_ilias_url')
@@ -87,7 +91,7 @@ abstract class ilMailTemplateContext
 			'client_name'     => array(
 				'placeholder' => 'CLIENT_NAME',
 				'label'       => $DIC->language()->txt('mail_nacc_client_name')
-			)
+			),
 		);
 	}
 
@@ -181,6 +185,10 @@ abstract class ilMailTemplateContext
 
 			case 'client_name' == $placeholder_id:
 				$resolved = CLIENT_NAME;
+				break;
+
+			case 'firstname_last_name_superior' == $placeholder_id:
+				$resolved = 'TODO ORGU API'; // TODO
 				break;
 
 			case !in_array($placeholder_id, array_keys(self::getGenericPlaceholders())):

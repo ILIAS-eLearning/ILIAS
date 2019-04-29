@@ -70,10 +70,17 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 			'placeholder'	=> 'COURSE_TITLE',
 			'label'			=> $lng->txt('crs_title')
 		);
-		
-		
-		
-		
+
+		$placeholders['crs_period_start'] = array(
+			'placeholder'	=> 'COURSE_PERIOD_START',
+			'label'			=> $lng->txt('crs_period_start_mail_placeholder')
+		);
+
+		$placeholders['crs_period_end'] = array(
+			'placeholder'	=> 'COURSE_PERIOD_END',
+			'label'			=> $lng->txt('crs_period_end_mail_placeholder')
+		);
+
 		$placeholders['crs_link'] = array(
 			'placeholder'	=> 'COURSE_LINK',
 			'label'			=> $lng->txt('crs_mail_permanent_link')
@@ -106,6 +113,10 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 		{
 			require_once './Services/Link/classes/class.ilLink.php';
 			return ilLink::_getLink($context_parameters['ref_id'], 'crs');
+		} elseif ('crs_period_start' == $placeholder_id) {
+			return 'Period Start'; // TODO
+		} elseif ('crs_period_end' == $placeholder_id) {
+			return 'Period End'; // TODO
 		}
 
 		return '';
