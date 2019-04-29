@@ -162,6 +162,15 @@ class ilStudyProgrammeUserProgress {
 	}
 
 	/**
+	 * Get the completion date of this node.
+	 *
+	 * @return ilDateTime
+	 */
+	public function getCompletionDate() {
+		return $this->progress->getCompletionDate();
+	}
+
+	/**
 	 * Get the deadline of this node.
 	 *
 	 * @return ilDateTime | null
@@ -209,6 +218,7 @@ class ilStudyProgrammeUserProgress {
 			$this->progress
 				->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
 				->setCompletionBy($a_user_id)
+				->setCompletionDate(new ilDateTime(ilUtil::now(),IL_CAL_DATETIME))
 		);
 		$this->events->userSuccessful($this);
 
@@ -232,6 +242,7 @@ class ilStudyProgrammeUserProgress {
 			$this->progress
 				->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
 				->setCompletionBy(null)
+				->setCompletionDate(null)
 		);
 
 		$this->refreshLPStatus();
@@ -263,6 +274,7 @@ class ilStudyProgrammeUserProgress {
 			$this->progress
 				->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
 				->setLastChangeBy($a_user_id)
+				->setCompletionDate(null)
 		);
 
 		$this->refreshLPStatus();
@@ -552,8 +564,12 @@ class ilStudyProgrammeUserProgress {
 		if ($successful) {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
 			$this->events->userSuccessful($this);
+			if(!$this->progress->getCompletionDate()) {
+				$this->progress->setCompletionDate(new ilDateTime(ilUtil::now(),IL_CAL_DATETIME));
+			}
 		} else {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
+			$this->progress->setCompletionDate(null);
 		}
 		$this->progress_repository->update(
 			$this->progress
@@ -615,6 +631,7 @@ class ilStudyProgrammeUserProgress {
 			$this->progress
 				->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED)
 				->setCompletionBy($a_obj_id)
+				->setCompletionDate(new ilDateTime(ilUtil::now(),IL_CAL_DATETIME))
 		);
 
 		$this->events->userSuccessful($this);

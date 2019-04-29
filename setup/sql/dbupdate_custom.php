@@ -65,3 +65,19 @@ if($db->tableColumnExists('prg_usr_progress','assignment_date') && $db->tableCol
 	);
 }
 ?>
+
+<#6>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','completion_date')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'completion_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>

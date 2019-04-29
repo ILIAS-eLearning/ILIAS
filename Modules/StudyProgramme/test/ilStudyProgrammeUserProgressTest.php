@@ -90,6 +90,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($user->getId(), $root_progress->getUserId());
 		$this->assertNull($root_progress->getLastChangeBy());
 		$this->assertNull($root_progress->getCompletionBy());
+		$this->assertNull($root_progress->getCompletionDate());
 		$this->assertEquals($root_progress->getAssignmentDate()->get(IL_CAL_DATE),(new \DateTime())->format('Y-m-d'));
 
 
@@ -212,9 +213,11 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($root_progress->getAmountOfPoints(), $root_progress->getCurrentAmountOfPoints());
 
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $root_progress->getStatus());
+		$this->assertEquals((new \DateTime())->format('Y-m-d'), $root_progress->getCompletionDate()->get(IL_CAL_DATE));
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
+		$this->assertNull($node1_progress->getCompletionDate());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $node2_progress->getStatus());
-
+		$this->assertEquals((new \DateTime())->format('Y-m-d'), $node2_progress->getCompletionDate()->get(IL_CAL_DATE));
 		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
@@ -246,6 +249,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 		$this->assertEquals(NULL, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
@@ -267,6 +273,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_FAILED, $node2_progress->getStatus());
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 	}
 
 	public function testMarkNotFailed() {
@@ -286,7 +295,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_FAILED, $node2_progress->getStatus());
-
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 		$node2_progress->markNotFailed($USER_ID);
 
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
@@ -310,6 +321,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT, $node2_progress->getStatus());
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 		$this->assertTrue($node2_progress->hasIndividualModifications());

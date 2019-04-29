@@ -191,6 +191,17 @@ class ilStudyProgrammeProgress
 	protected $assignment_date;
 
 	/**
+	 * Date of asssignment
+	 *
+	 * @var \ilDateTime
+	 *
+	 * @con_has_field   true
+	 * @con_fieldtype   timestamp
+	 * @con_is_notnull  false
+	 */
+	protected $completion_date;
+
+	/**
 	 * Date until user has to finish
 	 *
 	 * @var \ilDateTime
@@ -438,15 +449,40 @@ class ilStudyProgrammeProgress
 		return $this;
 	}
 
+	/**
+	 * Set the date of assignment.
+	 */
 	public function setAssignmentDate(\ilDateTime $assignment_date)
 	{
 		$this->assignment_date = $assignment_date;
 		return $this;
 	}
 
+	/**
+	 * Get the date of assignment.
+	 */
 	public function getAssignmentDate() : \ilDateTime
 	{
 		return $this->assignment_date;
+	}
+
+	/**
+	 * Set the timestamp of the complition of this progress.
+	 */
+	public function setCompletionDate(\ilDateTime $completion_date = null)
+	{
+		$this->completion_date = $completion_date;
+		return $this;
+	}
+
+	/**
+	 * Get the timestamp of the complition of this progress.
+	 *
+	 * @return \ilDateTime | null
+	 */
+	public function getCompletionDate()
+	{
+		return $this->completion_date;
 	}
 
 	/**
