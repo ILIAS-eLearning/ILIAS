@@ -10,30 +10,26 @@ require_once 'Services/User/exceptions/class.ilUserException.php';
  */
 class ilUserPasswordManager
 {
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	const MIN_SALT_SIZE = 16;
 
-	/**
-	 * @var self
-	 */
+	/** @var self */
 	private static $instance;
 
-	/**
-	 * @var ilUserPasswordEncoderFactory
-	 */
+	/** @var ilUserPasswordEncoderFactory */
 	protected $encoder_factory;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $encoder_name;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	protected $config = array();
+	
+	/** @var \ilSetting */
+	protected $settings;
+
+	/** @var \ilDBInterface */
+	protected $db;
 
 	/**
 	 * Please use the singleton method for instance creation
@@ -43,12 +39,15 @@ class ilUserPasswordManager
 	 */
 	public function __construct(array $config = array())
 	{
-		if(!empty($config))
-		{
-			foreach($config as $key => $value)
-			{
-				switch(strtolower($key))
-				{
+		if (!empty($config)) {
+			foreach ($config as $key => $value) {
+				switch (strtolower($key)) {
+					case 'settings':
+						$this->setSettings($value);
+						break;
+					case 'db':
+						$this->setDb($value);
+						break;
 					case 'password_encoder':
 						$this->setEncoderName($value);
 						break;
@@ -76,6 +75,8 @@ class ilUserPasswordManager
 	 */
 	public static function getInstance()
 	{
+		global $DIC;
+
 		if(self::$instance instanceof self)
 		{
 			return self::$instance;
@@ -91,12 +92,31 @@ class ilUserPasswordManager
 						'data_directory'           => ilUtil::getDataDir()
 					)
 				),
-				'password_encoder' => 'bcryptphp'
+				'password_encoder' => 'bcryptphp',
+				'settings' => $DIC->settings(),
+				'db' => $DIC->database(),
 			)
 		);
-
+		
+		
 		self::$instance = $password_manager;
 		return self::$instance;
+	}
+
+	/**
+	 * @param ilSetting $settings
+	 */
+	public function setSettings(ilSetting $settings): void
+	{
+		$this->settings = $settings;
+	}
+
+	/**
+	 * @param ilDBInterface $db
+	 */
+	public function setDb(ilDBInterface $db): void
+	{
+		$this->db = $db;
 	}
 
 	/**
@@ -189,5 +209,26 @@ class ilUserPasswordManager
 		}
 
 		return false;
+	}
+
+
+	/**
+	 *
+	 */
+	public function resetLastPasswordChangeForLocalUsers()
+	{
+		$defaultAuthMode = $this->settings->get('auth_mode');
+		$defaultAuthModeCondition = '';
+		if ((int)$defaultAuthMode === (int)AUTH_LOCAL) {
+			$defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');
+		}
+
+		$this->db->manipulateF("
+			UPDATE usr_data
+			SET last_password_change = %s, is_self_registered = %s
+			WHERE (auth_mode = %s $defaultAuthModeCondition)",
+			['integer', 'integer', 'text'],
+			[0, 0, 'local']
+		);
 	}
 } 

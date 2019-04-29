@@ -6117,28 +6117,5 @@ class ilObjUser extends ilObject
 
 		return $r;
 	}
-
-	/**
-	 * 
-	 */
-	public function resetLastPasswordChangeForLocalUsers()
-	{
-		global $DIC;
-
-		$defaultAuthMode = $DIC->settings()->get('auth_mode');
-		$defaultAuthModeCondition = '';
-		if ((int)$defaultAuthMode === (int)AUTH_LOCAL) {
-			$defaultAuthModeCondition = ' OR auth_mode = ' . $DIC->database()->quote('default', 'text');
-		}
-
-		$DIC->database()->manipulateF("
-			UPDATE usr_data
-			SET last_password_change = %s, is_self_registered = %s
-			WHERE (auth_mode = %s $defaultAuthModeCondition)",
-			['integer', 'integer', 'text'],
-			[0, 0, 'local']
-		);
-	}
-
 } // END class ilObjUser
 ?>
