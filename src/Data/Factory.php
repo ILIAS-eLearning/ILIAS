@@ -82,4 +82,13 @@ class Factory {
 	{
 		return new ClientId($clientId);
 	}
+
+	/**
+	 * @return DateFormat\Factory
+	 */
+	public function dateFormat(): DateFormat\Factory
+	{
+		$builder = new DateFormat\FormatBuilder();
+		return new DateFormat\Factory($builder);
+	}
 }

@@ -481,4 +481,67 @@ interface Factory {
  	 * @return \ILIAS\UI\Component\Input\Field\MultiSelect
  	 */
  	public function multiSelect($label, array $options, $byline = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A DateTime Input is used to enter dates and/or times.
+	 *   composition: >
+	 *     DateTime Input will render a text field with the placeholder-attribute
+	 *     indicating the specified format.
+	 *     Next to the text field, a Calendar Glyph will trigger a popover containing
+	 *     a graphical selector/date-picker.
+	 *     Depending on configuration (withTimeOnly), next to the date-picker a
+	 *     time-picker will be shown.
+	 *   effect: >
+	 *     When clicking the glyph, a popover is shown with the days of the month.
+	 *     Within the popover, the user may navigate to prior and following months.
+	 *   rivals:
+	 *     Text field: Text Felds MUST NOT be used to input date-strings.
+	 *
+	 * context:
+	 *   - DateTime Input is used in forms.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: When used as a time-only input, the glyph MUST be Time Glyph.
+	 *
+	 * ---
+	 * @param string 	$label   defines the label.
+	 * @param string 	$byline
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\DateTime
+	 */
+	public function dateTime($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Duration Input is used to enter a time span.
+	 *   composition: >
+	 *     A Duration Input is composed as a group of two DateTime Inputs.
+	 *   effect: >
+	 *     According to configuration, the inputs will accept dates, times or datetimes.
+	 *     Invalid input will be corrected automatically.
+	 *     The start point must take place before the endpoint; an error-message is
+	 *     shown if this is not the case.
+	 *
+	 * context:
+	 *   - Duration Input is used in forms.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: When used with time-only inputs, the glyph MUST be Time Glyph.
+	 *
+	 * ---
+	 * @param string 	$label   defines the label.
+	 * @param string 	$byline
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\Duration
+	 */
+	public function duration($label,$byline = null);
+
 }
