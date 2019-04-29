@@ -693,27 +693,41 @@ if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
 ?>
 <#48>
 <?php
-$ilDB->manipulate(
-                  'UPDATE lso_activation'
-                  .'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
-                  .'	WHERE activation_start IS NOT NULL'
-);
+if(
+	$ilDB->tableColumnExists('lso_activation','activation_start_ts') &&
+	$ilDB->tableColumnExists('lso_activation','activation_start')
+) {
+	$ilDB->manipulate(
+	                  'UPDATE lso_activation'
+	                  .'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+	                  .'	WHERE activation_start IS NOT NULL'
+	);
+}
 ?>
 <#49>
 <?php
-$ilDB->manipulate(
-                  'UPDATE lso_activation'
-                  .'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
-                  .'	WHERE activation_end IS NOT NULL'
-);
+if(
+	$ilDB->tableColumnExists('lso_activation','activation_end_ts') &&
+	$ilDB->tableColumnExists('lso_activation','activation_end')
+) {
+	$ilDB->manipulate(
+	                  'UPDATE lso_activation'
+	                  .'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+	                  .'	WHERE activation_end IS NOT NULL'
+	);
+}
 ?>
 <#50>
 <?php
-$ilDB->dropTableColumn("lso_activation", "activation_start");
+if($ilDB->tableColumnExists('lso_activation','activation_start')) {
+	$ilDB->dropTableColumn("lso_activation", "activation_start");
+}
 ?>
 <#51>
 <?php
-$ilDB->dropTableColumn("lso_activation", "activation_end");
+if($ilDB->tableColumnExists('lso_activation','activation_end')) {
+	$ilDB->dropTableColumn("lso_activation", "activation_end");
+}
 ?>
 <#52>
 <?php
