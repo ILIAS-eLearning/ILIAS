@@ -7526,6 +7526,8 @@ news#:#news_x_postings#:#%s Beiträge hinzugefügt.
 news#:#passwd_equals_ilpasswd#:#Bitte geben Sie aus Sicherheitsgründen ein anderes Passwort als Ihr ILIAS-Passwort ein
 news#:#priv_feed_disabled#:#Privater Newsfeed wurde deaktiviert.
 news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
+news#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
+news#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für dieses Objekt zur Zeit nicht aktiviert.
 notes#:#note_add_comment#:#Kommentar hinzufügen
 notes#:#note_add_note#:#Notiz hinzufügen
@@ -15027,8 +15029,6 @@ skll#:#skll_lhist_skill_self_eval#:#Status $4$ von $3$ ist selbst zugewiesen.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ von $3$ wurde selbst zugewiesen in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
 exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
-lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
-lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
