@@ -237,7 +237,7 @@ class ilExcel
 	 * @param Cell $a_cell
 	 * @param mixed $a_value
 	 */
-	protected function setDateFormat(Cell $a_cell, $a_value)
+	protected function autoFormat(Cell $a_cell, $a_value)
 	{
 		if($a_value instanceof ilDate)
 		{
@@ -249,6 +249,10 @@ class ilExcel
 			// :TODO: i18n?
 			$a_cell->getStyle()->getNumberFormat()->setFormatCode("dd.mm.yyyy hh:mm:ss");
 		}
+		else if(is_numeric($a_value))
+		{
+			$a_cell->setDataType(PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+		}
 	}
 	
 	/**
@@ -259,6 +263,7 @@ class ilExcel
 	 */
 	public function setCellByCoordinates($a_coords, $a_value)
 	{
+<<<<<<< Updated upstream
 		if($a_value instanceof ilDateTime)
 		{
 			$wb = $this->workbook->getActiveSheet()->setCellValue(
@@ -278,6 +283,14 @@ class ilExcel
 
 		}
 
+=======
+		$wb = $this->workbook->getActiveSheet()->setCellValue(
+			$a_coords, 
+			$this->prepareValue($a_value)
+		);
+		$cell = $wb->getCell($a_coords);
+		$this->autoFormat($cell, $a_value);
+>>>>>>> Stashed changes
 	}
 	
 	/**
@@ -289,6 +302,7 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
+<<<<<<< Updated upstream
 		if($a_value instanceof ilDateTime)
 		{
 			$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
@@ -308,6 +322,14 @@ class ilExcel
 			);
 		}
 
+=======
+		$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
+			$a_col +1,
+			$a_row,
+			$this->prepareValue($a_value)
+		);
+		$this->autoFormat($wb->getCellByColumnAndRow($a_col +1, $a_row), $a_value);
+>>>>>>> Stashed changes
 	}
 	
 	/**
