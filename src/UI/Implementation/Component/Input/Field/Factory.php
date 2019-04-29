@@ -46,7 +46,7 @@ class Factory implements Field\Factory {
 		Validation\Factory $validation_factory,
 		Transformation\Factory $transformation_factory
 	) {
-		$this->data_factory = $data_factory; 
+		$this->data_factory = $data_factory;
 		$this->validation_factory = $validation_factory;
 		$this->transformation_factory = $transformation_factory;
 		$this->signal_generator = $signal_generator;
@@ -159,4 +159,12 @@ class Factory implements Field\Factory {
 	public function duration($label, $byline = null) {
 		return new Duration($this->data_factory, $this->validation_factory, $this->transformation_factory, $this, $label, $byline);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function dateTimeInterval($label, $byline = null) {
+		return new DateTimeInterval($this->data_factory, $this->validation_factory, $this->transformation_factory, $this, $label, $byline);
+	}
+
 }

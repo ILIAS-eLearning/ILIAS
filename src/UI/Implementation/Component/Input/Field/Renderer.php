@@ -672,7 +672,8 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Textarea::class,
 			Component\Input\Field\MultiSelect::class,
 			Component\Input\Field\DateTime::class,
-			Component\Input\Field\Duration::class
+			Component\Input\Field\Duration::class,
+			Component\Input\Field\DateTimeInterval::class
 		];
 	}
 }

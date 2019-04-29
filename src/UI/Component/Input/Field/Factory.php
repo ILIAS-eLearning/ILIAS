@@ -393,7 +393,7 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Textarea
 	 */
 	public function textarea($label, $byline = null);
-  
+
 	/**
 	 * ---
 	 * description:
@@ -542,6 +542,32 @@ interface Factory {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\Duration
 	 */
-	public function duration($label,$byline = null);
+	public function duration($label, $byline = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A DateTime Interval Input is used to enter a time-interval.
+	 *   composition: >
+	 *     An Interval Input is composed of a numeric input in conjuction with a
+	 *     a drop-down selection to pick the unit.
+	 *   effect: >
+	 *     XXX
+	 *
+	 * context:
+	 *   - DateTime Interval Input is used in forms.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: X
+	 *
+	 * ---
+	 * @param string 	$label   defines the label.
+	 * @param string 	$byline
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\DateTimeInterval
+	 */
+	public function dateTimeInterval($label, $byline = null);
 
 }
