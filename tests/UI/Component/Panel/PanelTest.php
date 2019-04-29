@@ -47,10 +47,6 @@ class PanelTest extends ILIAS_UI_TestBase {
 		( "ILIAS\\UI\\Component\\Panel\\Report"
 				, $f->report("Title",$f->sub("Title",array(new ComponentDummy())))
 		);
-		$this->assertInstanceOf
-		( "ILIAS\\UI\\Component\\Panel\\Secondary"
-			, $f->secondary("Title",$f->standard("Title",array(new ComponentDummy())))
-		);
 	}
 
 	public function test_standard_get_title() {
@@ -125,84 +121,6 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals($p->getContent(), array($sub));
 	}
-
-	public function test_secondary_get_title() {
-		$f = $this->getPanelFactory();
-		$legacy = new I\Component\Legacy\Legacy("Legacy content");
-		$p = $f->secondary("Title",$legacy );
-
-		$this->assertEquals($p->getTitle(), "Title");
-	}
-
-	public function test_secondary_get_content() {
-		$f = $this->getPanelFactory();
-		$legacy = new I\Component\Legacy\Legacy("Legacy content");
-		$p = $f->secondary("Title",$legacy);
-
-		$this->assertEquals($p->getContent(), array($legacy));
-	}
-
-	public function test_secondary_with_actions() {
-		$fp = $this->getPanelFactory();
-		$legacy = new I\Component\Legacy\Legacy("Legacy content");
-		$p = $fp->secondary("Title",$legacy);
-
-		$actions = new I\Component\Dropdown\Standard(array(
-			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-			new I\Component\Button\Shy("GitHub", "https://www.github.com")
-		));
-
-		$p = $p->withActions($actions);
-
-		$this->assertEquals($p->getActions(), $actions);
-	}
-
-	public function test_secondary_with_sortation() {
-		$fp = $this->getPanelFactory();
-
-		$sort_options = array(
-			'internal_rating' => 'Best',
-			'date_desc' => 'Most Recent',
-			'date_asc' => 'Oldest',
-		);
-
-		$actions = new I\Component\Dropdown\Standard(array(
-			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-			new I\Component\Button\Shy("GitHub", "https://www.github.com")
-		));
-
-		$sg = new I\Component\SignalGenerator();
-		$sortation = new I\Component\ViewControl\Sortation($sort_options, $sg);
-		$legacy = new I\Component\Legacy\Legacy("Legacy content");
-
-		$p = $fp->secondary("Title", $legacy)->withSortation($sortation)->withActions($actions);
-
-		$this->assertEquals($p->getSortation(), $sortation);
-	}
-
-	public function test_secondary_with_pagination() {
-		$fp = $this->getPanelFactory();
-
-		$sg = new I\Component\SignalGenerator();
-		$url = "http://www.ilias.de";
-		$parameter_name = 'page';
-		$current_page = 1;
-		$vc_pagination = new I\Component\ViewControl\Pagination($sg);
-
-		$pagination = $vc_pagination->withTargetURL($url, $parameter_name)
-			->withTotalEntries(30)
-			->withPageSize(10)
-			->withDropdownAt(5)
-			->withCurrentPage($current_page);
-
-		$legacy = new I\Component\Legacy\Legacy("Legacy content");
-
-		$p = $fp->secondary("Title",$legacy);
-		$p = $p->withPagination($pagination);
-
-		$this->assertEquals($p->getPagination(), $pagination);
-	}
-
 	public function test_render_standard() {
 		$f = $this->getPanelFactory();
 		$r = $this->getDefaultRenderer();
@@ -310,89 +228,4 @@ EOT;
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}
-/*
-	public function test_render_secondary() {
-
-		$f = $this->getPanelFactory();
-		$r = $this->getDefaultRenderer();
-
-		$actions = new I\Component\Dropdown\Standard(array(
-			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-			new I\Component\Button\Shy("GitHub", "https://www.github.com")
-		));
-
-		$legacy = new I\Component\Legacy\Legacy("Legacy content");
-
-		$sec = $f->secondary("Title",$legacy)->withActions($actions);
-
-		$html = $r->render($sec);
-
-		$expected_html = <<<EOT
-<div class="panel panel-secondary">
-	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader">Title</h3>
-		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
-			</ul>
-		</div>
-	</div>
-	Legacy content
-</div>
-EOT;
-		$this->assertHTMLEquals($expected_html, $html);
-	}
-
-
-	public function test_render_secondary_with_sortation() {
-		$f = $this->getPanelFactory();
-		$r = $this->getDefaultRenderer();
-
-		$sort_options = array(
-			'internal_rating' => 'Best',
-			'date_desc' => 'Most Recent',
-			'date_asc' => 'Oldest',
-		);
-
-		$sg = new I\Component\SignalGenerator();
-
-		$sortation = new I\Component\ViewControl\Sortation($sort_options, $sg);
-
-		$actions = new I\Component\Dropdown\Standard(array(
-			new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
-			new I\Component\Button\Shy("GitHub", "https://www.github.com")
-		));
-
-		$legacy = new I\Component\Legacy\Legacy("Legacy content");
-
-		$sec = $f->secondary("Title",$legacy)->withSortation($sortation)->withActions($actions);
-
-		$html = $r->render($sec);
-
-		$expected_html = <<<EOT
-<div class="panel panel-secondary">
-	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader">Title</h3>
-		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
-			</ul>
-		</div>
-		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
-				<li><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
-				<li><button class="btn btn-link" data-action="?sortation=date_asc" id="id_3">Oldest</button></li>
-			</ul>
-		</div>
-	</div>
-	Legacy content
-</div>
-EOT;
-
-		$this->assertHTMLEquals($expected_html, $html);
-	}
-*/
 }
