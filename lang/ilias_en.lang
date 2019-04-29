@@ -6503,6 +6503,8 @@ news#:#news_x_postings#:#%s Postings have been added.
 news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
+news#:#lso_news_online_title#:#A new learning sequence object is online!
+news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_all_comments#:#All Comments
