@@ -127,6 +127,12 @@ class Renderer extends AbstractComponentRenderer {
 			 * @var $group Duration
 			 */
 			return $this->renderDurationInput($group, $default_renderer);
+
+		} elseif ($group instanceof Component\Input\Field\DateTimeInterval) {
+			/**
+			 * @var $group DateTimeInterval
+			 */
+			return $this->renderIntervalInput($group, $default_renderer);
 		}
 
 		$inputs = "";
@@ -653,6 +659,45 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("INPUT", $tpl_duration->get());
 		return $tpl->get();
 	}
+
+
+	protected function renderIntervalInput(
+		DateTimeInterval $input,
+		RendererInterface $default_renderer
+	): string {
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
+		$tpl_interval = $this->getTemplate("tpl.interval.html", true, true);
+
+		if ($input->getName()) {
+			$tpl->setVariable("NAME", $input->getName());
+		} else {
+			$tpl->setVariable("NAME", "");
+		}
+
+		$tpl->setVariable("LABEL", $input->getLabel());
+
+		if ($input->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $input->getByline());
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($input->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+
+		if ($input->getError() !== null) {
+			$tpl->setCurrentBlock("error");
+			$tpl->setVariable("ERROR", $input->getError());
+			$tpl->parseCurrentBlock();
+		}
+
+		$input_html = $default_renderer->render($input->getInputs());
+		$tpl_interval->setVariable('INTERVAl', $input_html);
+		$tpl->setVariable("INPUT", $tpl_interval->get());
+		return $tpl->get();
+	}
+
 
 	/**
 	 * @inheritdoc
