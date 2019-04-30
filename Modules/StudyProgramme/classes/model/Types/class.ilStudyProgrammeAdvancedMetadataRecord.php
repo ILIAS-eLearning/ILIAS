@@ -12,33 +12,18 @@ class ilStudyProgrammeAdvancedMetadataRecord
 	/**
 	 *
 	 * @var int
-	 *
-	 * @con_is_primary  true
-	 * @con_sequence    true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $id;
 
 	/**
 	 *
 	 * @var int
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $type_id = 0;
 
 	/**
 	 *
 	 * @var int
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $rec_id = 0;
 

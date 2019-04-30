@@ -108,4 +108,22 @@ class ilStudyProgrammeSettingsTest extends PHPUnit_Framework_TestCase
 	{
 		$sps->setStatus(41);
 	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_deadline_period($sps)
+	{
+		$this->assertEquals($sps->setDeadlinePeriod(10)->getDeadlinePeriod(),10);
+		$this->assertEquals($sps->setDeadlineDate(new \DateTime())->getDeadlinePeriod(),0);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_deadline_date($sps)
+	{
+		$this->assertEquals($sps->setDeadlineDate(new \DateTime())->getDeadlineDate()->format('Ymd'),(new \DateTime())->format('Ymd'));
+		$this->assertNull($sps->setDeadlinePeriod(10)->getDeadlineDate());
+	}
 }

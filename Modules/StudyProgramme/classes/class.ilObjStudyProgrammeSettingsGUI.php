@@ -148,14 +148,12 @@ class ilObjStudyProgrammeSettingsGUI {
 		$form = $this
 			->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "update"))
 			->withRequest($this->request);
-		$content = $form->getData();
-		$prg = $this->getObject();
-
+		$result = $form->getInputGroup()->getContent();
 		// This could further improved by providing a new container for asynch-forms in the
 		// UI-Framework.
-		$update_possible = !is_null($content);
-		if ($update_possible) {
-			$this->updateWith($prg, $content);
+
+		if ($result->isOK()) {
+			$result->value()->update();
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 			if($this->ctrl->isAsynch()) {
@@ -202,7 +200,12 @@ class ilObjStudyProgrammeSettingsGUI {
 	const PROP_TYPE = "type";
 	const PROP_POINTS = "points";
 	const PROP_STATUS = "status";
-
+	const PROP_DEADLINE = "deadline";
+	const PROP_DEADLINE_PERIOD = "deadline_period";
+	const PROP_DEADLINE_DATE = "deadline_date";
+	const OPT_NO_DEADLINE = 'opt_no_deadline';
+	const OPT_DEADLINE_PERIOD = "opt_deadline_period";
+	const OPT_DEADLINE_DATE = "opt_deadline_date";
 
 	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
 		$trans = $prg->getObjectTranslation();
@@ -210,7 +213,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
 		$sp_types = $this->type_repository->readAllTypesArray();
-		$status_options = self::getStatusOptions();
+
 		$languages = ilMDLanguageItem::_getLanguages();
 		return $this->input_factory->container()->form()->standard(
 			$submit_action,
@@ -252,38 +255,114 @@ class ilObjStudyProgrammeSettingsGUI {
 								->withValue((string)$prg->getPoints())
 								->withAdditionalConstraint($this->validation->greaterThan(-1)),
 						self::PROP_STATUS =>
-							$ff->select($txt("prg_status"), $status_options)
+							$ff->select($txt("prg_status"), $this->getStatusOptions())
 								->withValue((string)$prg->getStatus())
 								->withRequired(true)
 					],
 					$txt("prg_assessment"),
 					""
+				),
+				$ff->section(
+					[self::PROP_DEADLINE => $this->getDeadlineSubform($prg)],
+					$txt("prg_deadline"),
+					""
 				)
 			]
 		)
-		->withAdditionalTransformation($tf->custom(function($values) {
+		->withAdditionalTransformation($tf->custom(function($values) use ($prg) {
 			// values now contains the results of the single sections,
 			// i.e. a list of arrays that each contains keys according
 			// to the section they originated from.
-			return call_user_func_array("array_merge", $values);
+			$object_data = $values[0];
+			$prg->setTitle($object_data[self::PROP_TITLE]);
+			$prg->setDescription($object_data[self::PROP_DESC]);
+
+			$type_data = $values[1];
+			if($prg->getSubtypeId() != $type_data[self::PROP_TYPE]) {
+				$prg->setSubtypeId($type_data[self::PROP_TYPE]);
+				$prg->updateCustomIcon();
+				$this->parent_gui->setTitleAndDescription();
+			}
+
+			$points_data = $values[2];
+			$prg->setPoints($points_data[self::PROP_POINTS]);
+			$prg->setStatus($points_data[self::PROP_STATUS]);
+
+			$deadline_data = $values[3];
+
+			if(array_key_exists(self::PROP_DEADLINE,$deadline_data)) {
+				if(is_array($deadline_data[self::PROP_DEADLINE]) && array_key_exists('value', $deadline_data[self::PROP_DEADLINE])) {
+					if($deadline_data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_PERIOD) {
+						$prg->setDeadlinePeriod((int)$deadline_data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_PERIOD]);
+					}
+					if($deadline_data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_DATE) {
+						$date_string = trim($deadline_data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_DATE]);
+						$prg->setDeadlineDate($date_string === '' ? null : DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_FORMAT,$date_string));
+					}
+				}
+				if($deadline_data[self::PROP_DEADLINE] === self::OPT_NO_DEADLINE) {
+					$prg->setDeadlineDate(null); // deadline period will be set to 0 automatically
+				}
+			}
+			return $prg;
 		}));
 	}
 
-	protected function updateWith(\ilObjStudyProgramme $prg, array $data) {
-		$prg->setTitle($data[self::PROP_TITLE]);
-		$prg->setDescription($data[self::PROP_DESC]);
 
-		if($prg->getSubtypeId() != $data[self::PROP_TYPE]) {
-			$prg->setSubtypeId($data[self::PROP_TYPE]);
-			$prg->updateCustomIcon();
-			$this->parent_gui->setTitleAndDescription();
+	protected function getDeadlineSubform($prg)
+	{
+		$ff = $this->input_factory->field();
+		$txt = function($id) { return $this->lng->txt($id); };
+		$deadline_period_subform = $ff->numeric('',$txt('prg_deadline_period_desc'))
+										->withAdditionalConstraint(
+											$this->validation->greaterThan(-1)
+									);
+		$period = $prg->getDeadlinePeriod();
+		$radio_option = self::OPT_NO_DEADLINE;
+		if($period > 0) {
+			$deadline_period_subform = $deadline_period_subform->withValue($period);
+			$radio_option = self::OPT_DEADLINE_PERIOD;
 		}
+		$deadline_date = $prg->getDeadlineDate();
+		$deadline_date_subform = $ff
+			->text('',$txt('prg_deadline_date_desc'))
+			->withAdditionalConstraint(
+				$this->validation->custom(
+					function($string) {
+						$string = trim($string);
+						return \DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_FORMAT,$string) instanceof \DateTime || $string === '';
+					},
+					function($txt, $value) {
+						return $txt('prg_improper_deadline_date');
+					}
+				)
+			);
+		if($deadline_date !== null) {
+			$deadline_date_subform = $deadline_date_subform->withValue($deadline_date->format(ilStudyProgrammeSettings::DATE_FORMAT));
+			$radio_option = self::OPT_DEADLINE_DATE;
+		}
+		$radio = $ff->radio("","")
+			->withOption(
+				self::OPT_NO_DEADLINE,
+				$txt('prg_no_deadline'),
+				''
+			)
+			->withOption(
+				self::OPT_DEADLINE_PERIOD,
+				$txt('prg_deadline_period'),
+				'',
+				[self::PROP_DEADLINE_PERIOD => $deadline_period_subform]
+			)
+			->withOption(
+				self::OPT_DEADLINE_DATE,
+				$txt('prg_deadline_date'),
+				'',
+				[self::PROP_DEADLINE_DATE => $deadline_date_subform]
+			);
 
-		$prg->setPoints($data[self::PROP_POINTS]);
-		$prg->setStatus($data[self::PROP_STATUS]);
-
-		$prg->update();
+		return $radio->withValue($radio_option);
 	}
+
 	
 	protected function getObject() {
 		if ($this->object === null) {
@@ -292,16 +371,14 @@ class ilObjStudyProgrammeSettingsGUI {
 		return $this->object;
 	}
 	
-	static protected function getStatusOptions() {
-		global $DIC;
-		$lng = $DIC['lng'];
+	protected function getStatusOptions() {
 		
 		return array( ilStudyProgrammeSettings::STATUS_DRAFT 
-						=> $lng->txt("prg_status_draft")
+						=> $this->lng->txt("prg_status_draft")
 					, ilStudyProgrammeSettings::STATUS_ACTIVE
-						=> $lng->txt("prg_status_active")
+						=> $this->lng->txt("prg_status_active")
 					, ilStudyProgrammeSettings::STATUS_OUTDATED
-						=> $lng->txt("prg_status_outdated")
+						=> $this->lng->txt("prg_status_outdated")
 					);
 	}
 }

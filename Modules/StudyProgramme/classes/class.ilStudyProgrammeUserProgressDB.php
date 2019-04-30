@@ -1,7 +1,4 @@
 <?php
-require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Progress/interface.ilStudyProgrammeProgressRepository.php");
-require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 
 /**
  * Storage implementation for ilStudyProgrammeUserProgress.

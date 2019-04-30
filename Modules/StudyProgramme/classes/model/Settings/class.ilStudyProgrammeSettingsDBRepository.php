@@ -15,6 +15,8 @@ implements ilStudyProgrammeSettingsRepository
 	const FIELD_LP_MODE = 'lp_mode';
 	const FIELD_POINTS = 'points';
 	const FIELD_LAST_CHANGED = 'last_change';
+	const FIELD_DEADLINE_PERIOD = 'deadline_period';
+	const FIELD_DEADLINE_DATE = 'deadline_date';
 
 
 	public function __construct(ilDBInterface $db)
@@ -34,7 +36,9 @@ implements ilStudyProgrammeSettingsRepository
 			ilStudyProgrammeSettings::STATUS_DRAFT,
 			ilStudyProgrammeSettings::MODE_UNDEFINED,
 			ilStudyProgrammeSettings::DEFAULT_POINTS,
-			(new DateTime())->format('Y-m-s H:i:s')
+			(new DateTime())->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
+			0,
+			null
 		);
 		$prg->setSubtypeId(ilStudyProgrammeSettings::DEFAULT_SUBTYPE)
 			->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)
@@ -66,7 +70,11 @@ implements ilStudyProgrammeSettingsRepository
 			$settings->getStatus(),
 			$settings->getLPMode(),
 			$settings->getPoints(),
-			$settings->getLastChange()->get(IL_CAL_DATETIME)
+			$settings->getLastChange()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
+			$settings->getDeadlinePeriod(),
+			$settings->getDeadlineDate() ?
+				$settings->getDeadlineDate()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT) :
+				null
 		);
 		$this->cache[$settings->getObjId()] = $settings;
 	}
@@ -91,6 +99,8 @@ implements ilStudyProgrammeSettingsRepository
 			.'	,'.self::FIELD_LP_MODE
 			.'	,'.self::FIELD_LAST_CHANGED
 			.'	,'.self::FIELD_OBJ_ID
+			.'	,'.self::FIELD_DEADLINE_PERIOD
+			.'	,'.self::FIELD_DEADLINE_DATE
 			.'	FROM '.self::TABLE
 			.'	WHERE '.self::FIELD_SUBTYPE_ID.' = '.$this->db->quote($type_id,'integer');
 		$res = $this->db->query($q);
@@ -112,7 +122,9 @@ implements ilStudyProgrammeSettingsRepository
 		int $status,
 		int $lp_mode,
 		int $points,
-		string $last_change
+		string $last_change,
+		int $deadline_period,
+		string $deadline_date = null
 	)
 	{
 		$this->db->insert(
@@ -123,7 +135,9 @@ implements ilStudyProgrammeSettingsRepository
 				self::FIELD_STATUS => ['integer',$status],
 				self::FIELD_POINTS => ['integer',$points],
 				self::FIELD_LP_MODE => ['integer',$lp_mode],
-				self::FIELD_LAST_CHANGED => ['timestamp',$last_change]
+				self::FIELD_LAST_CHANGED => ['timestamp',$last_change],
+				self::FIELD_DEADLINE_PERIOD => ['integer',$deadline_period],
+				self::FIELD_DEADLINE_DATE => ['timestamp',$deadline_date]
 			]
 		);
 	}
@@ -138,6 +152,8 @@ implements ilStudyProgrammeSettingsRepository
 				.'	,'.self::FIELD_LP_MODE
 				.'	,'.self::FIELD_LAST_CHANGED
 				.'	,'.self::FIELD_OBJ_ID
+				.'	,'.self::FIELD_DEADLINE_PERIOD
+				.'	,'.self::FIELD_DEADLINE_DATE
 				.'	FROM '.self::TABLE
 				.'	WHERE '.self::FIELD_OBJ_ID.' = '.$this->db->quote($obj_id,'integer')
 			)
@@ -150,12 +166,16 @@ implements ilStudyProgrammeSettingsRepository
 
 	protected function createByRow(array $row) : ilStudyProgrammeSettings
 	{
-		return (new ilStudyProgrammeSettings($row[self::FIELD_OBJ_ID]))
+		$return = (new ilStudyProgrammeSettings($row[self::FIELD_OBJ_ID]))
 			->setSubtypeId($row[self::FIELD_SUBTYPE_ID])
 			->setStatus($row[self::FIELD_STATUS])
 			->setLPMode($row[self::FIELD_LP_MODE])
 			->setPoints($row[self::FIELD_POINTS])
-			->setLastChange(new \ilDateTime($row[self::FIELD_LAST_CHANGED],IL_CAL_DATETIME));
+			->setLastChange(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_LAST_CHANGED]));
+		if($row[self::FIELD_DEADLINE_DATE] !== null) {
+			return $return->setDeadlineDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_DEADLINE_DATE]));
+		}
+		return $return->setDeadlinePeriod((int)$row[self::FIELD_DEADLINE_PERIOD]);
 	}
 
 	protected function deleteDB(int $obj_id)
@@ -175,7 +195,9 @@ implements ilStudyProgrammeSettingsRepository
 		int $status,
 		int $lp_mode,
 		int $points,
-		string $last_change
+		string $last_change,
+		int $deadline_period,
+		string $deadline_date = null
 	)
 	{
 		if(!$this->checkExists($obj_id)) {
@@ -188,6 +210,8 @@ implements ilStudyProgrammeSettingsRepository
 			.'	,'.self::FIELD_LP_MODE.' = '.$this->db->quote($lp_mode,'integer')
 			.'	,'.self::FIELD_POINTS.' = '.$this->db->quote($points,'integer')
 			.'	,'.self::FIELD_LAST_CHANGED.' = '.$this->db->quote($last_change,'timestamp')
+			.'	,'.self::FIELD_DEADLINE_PERIOD.' = '.$this->db->quote($deadline_period,'integer')
+			.'	,'.self::FIELD_DEADLINE_DATE.' = '.$this->db->quote($deadline_date,'timestamp')
 			.'	WHERE '.self::FIELD_OBJ_ID.' = '.$this->db->quote($obj_id,'integer')
 		);
 	}
