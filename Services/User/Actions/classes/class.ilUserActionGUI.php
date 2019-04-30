@@ -38,7 +38,7 @@ class ilUserActionGUI
 	 * @param ilTemplate $a_global_tpl
 	 * @param int $a_current_user_id
 	 */
-	protected function __construct(ilUserActionContext $a_user_action_context, ilGlobalTemplate $a_global_tpl,
+	protected function __construct(ilUserActionContext $a_user_action_context, ilGlobalTemplateInterface $a_global_tpl,
 		$a_current_user_id)
 	{
 		$this->tpl = $a_global_tpl;
@@ -54,7 +54,7 @@ class ilUserActionGUI
 	 * @param int $a_current_user_id
 	 * @return ilUserActionGUI
 	 */
-	static function getInstance(ilUserActionContext $a_user_action_context, ilGlobalTemplate $a_global_tpl, $a_current_user_id)
+	static function getInstance(ilUserActionContext $a_user_action_context, ilGlobalTemplateInterface $a_global_tpl, $a_current_user_id)
 	{
 		return new ilUserActionGUI($a_user_action_context, $a_global_tpl, $a_current_user_id);
 	}

@@ -30,6 +30,9 @@ class ilDerivedTask
 	 */
 	protected $starting_time;
 
+	/** @var string */
+	protected $url = '';
+
 	/**
 	 * Constructor
 	 * @param string $title
@@ -79,4 +82,23 @@ class ilDerivedTask
 		return $this->title;
 	}
 
+	/**
+	 * @param string $url
+	 * @return ilDerivedTask
+	 */
+	public function withUrl(string $url): self
+	{
+		$clone = clone $this;
+		$clone->url = $url;
+
+		return $clone;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUrl(): string
+	{
+		return $this->url;
+	}
 }

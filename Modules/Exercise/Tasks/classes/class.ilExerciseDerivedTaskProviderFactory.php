@@ -36,7 +36,7 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
 			? $DIC->access()
 			: $access;
 
-		$this->lng = is_null($access)
+		$this->lng = is_null($lng)
 			? $DIC->language()
 			: $lng;
 

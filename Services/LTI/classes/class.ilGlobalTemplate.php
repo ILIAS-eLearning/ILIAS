@@ -11,7 +11,7 @@ require_once("./Services/UICore/classes/class.ilTemplate.php");
 * @author	Stefan Schneider <schneider@hrz.uni-marburg.de>
 * @version	$Id$
 */
-class ilGlobalTemplate extends \ilGlobalTemplate 
+class ilGlobalTemplate extends \ilGlobalTemplate  implements \ilGlobalTemplateInterface
 {
 	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = false) 

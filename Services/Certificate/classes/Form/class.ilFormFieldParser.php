@@ -68,10 +68,10 @@ class ilFormFieldParser
 			$pagesize = "letterlandscape";
 		}
 
-		$marginBody_top = "0cm";
-		$marginBody_right = "2cm";
-		$marginBody_bottom = "0cm";
-		$marginBody_left = "2cm";
+		$marginBody_top = ilPageFormats::DEFAULT_MARGIN_BODY_TOP;
+		$marginBody_right = ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT;
+		$marginBody_bottom = ilPageFormats::DEFAULT_MARGIN_BODY_BOTTOM;
+		$marginBody_left = ilPageFormats::DEFAULT_MARGIN_BODY_LEFT;
 		if(preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $content, $matches)) {
 			// Backwards compatibility
 			$marginbody = $matches[1];

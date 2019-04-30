@@ -1,15 +1,16 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilMMItemRepository
@@ -51,14 +52,12 @@ class ilMMItemRepository {
 	/**
 	 * ilMMItemRepository constructor.
 	 *
-	 * @param StorageFacade $storage
-	 *
 	 * @throws Throwable
 	 */
-	public function __construct(StorageFacade $storage) {
+	public function __construct() {
 		global $DIC;
-		$this->storage = $storage;
-		$this->gs = new ilGSRepository($storage);
+		$this->storage = new CoreStorageFacade();
+		$this->gs = new ilGSRepository();
 		$this->information = new ilMMItemInformation($this->storage);
 		$this->providers = $this->initProviders();
 		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
@@ -78,10 +77,10 @@ class ilMMItemRepository {
 	/**
 	 * @param string $class_name
 	 *
-	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+	 * @return isItem
 	 */
-	public function getEmptyItemForTypeString(string $class_name): \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem {
-		return $this->services->mainmenu()->custom($class_name, new  NullIdentification());
+	public function getEmptyItemForTypeString(string $class_name): isItem {
+		return $this->services->mainBar()->custom($class_name, new  NullIdentification());
 	}
 
 
@@ -91,7 +90,7 @@ class ilMMItemRepository {
 
 
 	/**
-	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem|\ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem
+	 * @return TopLinkItem[]|TopParentItem[]
 	 * @throws Throwable
 	 */
 	public function getStackedTopItemsForPresentation(): array {
@@ -106,10 +105,10 @@ class ilMMItemRepository {
 	/**
 	 * @param IdentificationInterface $identification
 	 *
-	 * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+	 * @return isItem
 	 * @throws Throwable
 	 */
-	public function getSingleItem(IdentificationInterface $identification): \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem {
+	public function getSingleItem(IdentificationInterface $identification): isItem {
 		return $this->main_collector->getSingleItem($identification);
 	}
 
@@ -120,7 +119,7 @@ class ilMMItemRepository {
 	private function initProviders(): array {
 		$providers = [];
 		// Core
-		foreach (ilGSProviderStorage::get() as $provider_storage) {
+		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE])->get() as $provider_storage) {
 			/**
 			 * @var $provider_storage ilGSProviderStorage
 			 */
@@ -144,6 +143,7 @@ class ilMMItemRepository {
 
 	/**
 	 * @return array
+	 * @throws arException
 	 */
 	public function getTopItems(): array {
 		// sync
@@ -235,7 +235,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 			foreach ($this->getTopItems() as $top_item_identification => $data) {
 				$identification = $this->services->identification()->fromSerializedIdentification($top_item_identification);
 				$item = $this->getSingleItem($identification);
-				if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem) {
+				if ($item instanceof TopParentItem) {
 					$parents[$top_item_identification] = $this->getItemFacade($identification)
 						->getDefaultTitle();
 				}
@@ -325,7 +325,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 * @return TypeHandler
 	 */
 	public function getTypeHandlerForType(string $type): TypeHandler {
-		$item = $this->services->mainmenu()->custom($type, new NullIdentification());
+		$item = $this->services->mainBar()->custom($type, new NullIdentification());
 
 		return $this->main_collector->getHandlerForItem($item);
 	}

@@ -218,7 +218,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$persistentCertificateMode->addOption($cronJobMode);
 		$persistentCertificateMode->addOption($instantMode);
 
-		$persistentCertificateMode->setValue($form_settings->get("persistent_certificate_mode"));
+		$persistentCertificateMode->setValue($form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron'));
 
 		$form->addItem($persistentCertificateMode);
 

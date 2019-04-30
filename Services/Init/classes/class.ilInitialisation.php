@@ -1448,7 +1448,7 @@ class ilInitialisation
 	/**
 	 * init the ILIAS UI framework.
 	 */
-	protected static function initUIFramework(\ILIAS\DI\Container $c) {
+	public static function initUIFramework(\ILIAS\DI\Container $c) {
 		$c["ui.factory"] = function ($c) {
 			return new ILIAS\UI\Implementation\Factory(
 				$c["ui.factory.counter"],
@@ -1472,7 +1472,8 @@ class ilInitialisation
 				$c["ui.factory.messagebox"],
 				$c["ui.factory.card"],
 				$c["ui.factory.layout"],
-				$c["ui.factory.maincontrols"]
+				$c["ui.factory.maincontrols"],
+				$c["ui.factory.tree"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1576,11 +1577,18 @@ class ilInitialisation
 		};
 		$c["ui.factory.input.container"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
-				$c["ui.factory.input.container.form"]
+				$c["ui.factory.input.container.form"],
+				$c["ui.factory.input.container.filter"]
 			);
 		};
 		$c["ui.factory.input.container.form"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
+				$c["ui.factory.input.field"]
+			);
+		};
+		$c["ui.factory.input.container.filter"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+				$c["ui.signal_generator"],
 				$c["ui.factory.input.field"]
 			);
 		};
@@ -1609,6 +1617,12 @@ class ilInitialisation
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
+							),
+						  new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory
+						  	($c["ui.factory"]
+						  	, $c["ui.template_factory"]
+						  	, $c["lng"]
+						  	, $c["ui.javascript_binding"]
 							)
 						)
 					)
@@ -1625,14 +1639,20 @@ class ilInitialisation
 		$c["ui.javascript_binding"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
 		};
+
+		$c["ui.factory.tree"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+		};
+
 	}
-	
+
 	/**
 	 * init HTML output (level 3)
 	 */
 	protected static function initHTML()
 	{
-		global $ilUser;
+		global $ilUser, $DIC;
+
 		require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 		$lti = new ilLTIViewGUI($ilUser);
 		$GLOBALS["DIC"]["lti"] = $lti;
@@ -1645,6 +1665,8 @@ class ilInitialisation
 		}
 
 		self::initUIFramework($GLOBALS["DIC"]);
+
+		$DIC->navigationContext()->claim()->main();
 
 		// LTI
 		if ($lti->isActive()) 
@@ -1659,12 +1681,16 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilLMEditorGUI"
 		) {
 			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
-			$_GET["cmdClass"] == "ilobjbloggui"
+			$_GET["cmdClass"] == "ilobjbloggui"		||
+			$_REQUEST["cmdClass"] == "ilblogpostinggui" ||
+			$_GET["cmdClass"] == "ilblogpostinggui"
 		) {
 			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
@@ -1684,10 +1710,13 @@ class ilInitialisation
 			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
 			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-		}
-		else 
-		{
-			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+		} else {
+			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
+				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
+			} else {
+				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+			}
 		}
 		
 		self::initGlobal("tpl", $tpl);
@@ -1701,7 +1730,7 @@ class ilInitialisation
 
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);				
+		$tpl->addCss($location_stylesheet);
 		
 		require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";				
 				

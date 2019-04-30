@@ -456,11 +456,15 @@ il.Accordion = {
 		}
 		// see http://docs.mathjax.org/en/latest/typeset.html
 
+		// rerender google maps
 		if (typeof ilMapRerender != "undefined") {
 			ilMapRerender(acc_el);
 		}
 
-		// rerender google maps
+		// rerender copage content
+		if (il && il.COPagePres) {
+			il.COPagePres.accordionRerender(acc_el);
+		}
 
 
 	}

@@ -2,6 +2,8 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
+use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 
 /**
  * Class CollectorFactory
@@ -10,7 +12,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
  */
 class CollectorFactory {
 
-	const SCOPE_MAINBAR = 'mainmenu';
+	const SCOPE_MAINBAR = 'mainbar';
 	/**
 	 * @var array
 	 */
@@ -30,5 +32,20 @@ class CollectorFactory {
 		}
 
 		return self::$instances[self::SCOPE_MAINBAR];
+	}
+
+
+	/**
+	 * @return MetaBarMainCollector
+	 */
+	public function metaBar(): MetaBarMainCollector {
+		if (!isset(self::$instances[StaticMetaBarProvider::PURPOSE_MBS])) {
+			global $DIC;
+			$providers = [new \ilSearchGSProvider($DIC), new \ilMMCustomProvider($DIC)];
+
+			self::$instances[StaticMetaBarProvider::PURPOSE_MBS] = new MetaBarMainCollector($providers);
+		}
+
+		return self::$instances[StaticMetaBarProvider::PURPOSE_MBS];
 	}
 }

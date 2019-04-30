@@ -1,99 +1,78 @@
-<li id="ilMMSearch" class="dropdown yamm"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span></a>
-<ul class="dropdown-menu pull-right" role="menu">
-	<li>
-		<form class="" role="search" id="mm_search_form" action="{FORMACTION}" method="post" target="_top">
-		<div class="input-group">
-			<input id="main_menu_search" class="form-control" type="text" name="queryString">
-			<span class="input-group-btn">
-				<input type="submit" class="btn btn-default" type="button" value="Go" />
+<form class="" role="search" id="mm_search_form" action="{FORMACTION}" method="post" target="_top">
+	<div class="input-group">
+		<input id="main_menu_search" class="form-control" type="text" name="queryString"> <span class="input-group-btn">
+				<input type="submit" class="btn btn-default" type="button" value="Go"/>
 			</span>
-		</div>
-			<div class="yui-skin-sam" style="font-size: 75%;" id="{ID_AUTOCOMPLETE}"></div>
-			<!-- BEGIN ov_head -->
-			<div id="ilMMSearchMenu">
-				<p>	» <a target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
-				<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked" id="ilmmsg" /> <label for="ilmmsg"> {TXT_GLOBALLY}</label><br /><!-- END position -->
-				<!-- BEGIN position_rep -->
-				<input type="radio" name="root_id" value="{REF_ID}" id="ilmmsc" /> <label for="ilmmsc"> {TXT_CURRENT_POSITION}</label></p>
-				<!-- END position_rep -->
-				<!-- BEGIN usr_search -->
-				<p>
-					<input type="radio" name="root_id" value="-1" id="ilmmsu" /> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
-				</p>
-				<!-- END usr_search -->
-				<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}" /><!-- END position_hid -->
-			</div>
-			<!-- END ov_head -->
-			<div id="mm_search_menu_ac"></div>
-			<script type="text/javascript">
-				il.Util.addOnLoad(
-						function()
-						{
-							if (typeof $ != "undefined")
-							{
-								// we must bind the blur event before the autocomplete
-								// item is added
-								$("#main_menu_search").on("blur", function(e) {
-									// prevent that the autocomplete list disappears when blur occurs
-									e.stopImmediatePropagation();
-								});
-
-								$("#main_menu_search").autocomplete({
-									source: "{AC_DATASOURCE}" + "&search_type=4",
-									appendTo: "#mm_search_menu_ac",
-									open: function(event, ui) {
-										$(".ui-autocomplete").position({
-											my: "left top",
-											at: "left top",
-											of: $("#mm_search_menu_ac")
-										})
-									},
-									/*close: function(event, ui) {
-									 alert("close");
-									 console.log(event);
-									 console.log(ui);
-									 return false;
-									 },*/
-									minLength: 3
-								});
-
-
-								$("#ilMMSearchMenu input[type='radio']").change(function(){
-									$("#main_menu_search").focus();
-                                                                        
-                                                                        /* close current search */
-                                                                        $("#main_menu_search").autocomplete("close");
-                                                                        
-                                                                        /* append search type */
-                                                                        
-                                                                        var orig_datasource = "{AC_DATASOURCE}";
-                                                                        var type_val = $('input[name=root_id]:checked','#mm_search_form').val();
-                                                                        
-                                                                        $("#main_menu_search").autocomplete("option",
-                                                                        {
-                                                                            source: orig_datasource + "&search_type=" + type_val
-                                                                        });
-                                                                        
-                                                                        /* start new search */
-                                                                        $("#main_menu_search").autocomplete("search");
-								});
-							}
-						}
-				);
-			</script>
-		</form>
-
-
-
-	<!-- <form class="navbar-form navbar-right" role="search" action="{FORMACTION}" method="post" target="_top">
-	<div class="form-group">
-		<div class="input-group">
-			<input type="text" class="form-control" placeholder="Search" name="queryString">
-			<span class="input-group-btn">
-				<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-			</span>
-		</div>
 	</div>
-	</form> -->
-</li></ul>
-</li>
+	<div class="yui-skin-sam" style="font-size: 75%;" id="{ID_AUTOCOMPLETE}"></div>
+	<!-- BEGIN ov_head -->
+	<div id="ilMMSearchMenu">
+		<p> » <a target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
+		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked" id="ilmmsg"/> <label for="ilmmsg"> {TXT_GLOBALLY}</label><br/><!-- END position -->
+		<!-- BEGIN position_rep -->
+		<input type="radio" name="root_id" value="{REF_ID}" id="ilmmsc"/> <label for="ilmmsc"> {TXT_CURRENT_POSITION}</label></p>
+		<!-- END position_rep -->
+		<!-- BEGIN usr_search -->
+		<p>
+			<input type="radio" name="root_id" value="-1" id="ilmmsu"/> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
+		</p>
+		<!-- END usr_search -->
+		<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}"/><!-- END position_hid -->
+	</div>
+	<!-- END ov_head -->
+	<div id="mm_search_menu_ac"></div>
+	<script type="text/javascript">
+        il.Util.addOnLoad(
+            function () {
+                if (typeof $ != "undefined") {
+                    // we must bind the blur event before the autocomplete
+                    // item is added
+                    $("#main_menu_search").on("blur", function (e) {
+                        // prevent that the autocomplete list disappears when blur occurs
+                        e.stopImmediatePropagation();
+                    });
+
+                    $("#main_menu_search").autocomplete({
+                        source: "{AC_DATASOURCE}" + "&search_type=4",
+                        appendTo: "#mm_search_menu_ac",
+                        open: function (event, ui) {
+                            $(".ui-autocomplete").position({
+                                my: "left top",
+                                at: "left top",
+                                of: $("#mm_search_menu_ac")
+                            })
+                        },
+                        /*close: function(event, ui) {
+						 alert("close");
+						 console.log(event);
+						 console.log(ui);
+						 return false;
+						 },*/
+                        minLength: 3
+                    });
+
+
+                    $("#ilMMSearchMenu input[type='radio']").change(function () {
+                        $("#main_menu_search").focus();
+
+                        /* close current search */
+                        $("#main_menu_search").autocomplete("close");
+
+                        /* append search type */
+
+                        var orig_datasource = "{AC_DATASOURCE}";
+                        var type_val = $('input[name=root_id]:checked', '#mm_search_form').val();
+
+                        $("#main_menu_search").autocomplete("option",
+                            {
+                                source: orig_datasource + "&search_type=" + type_val
+                            });
+
+                        /* start new search */
+                        $("#main_menu_search").autocomplete("search");
+                    });
+                }
+            }
+        );
+	</script>
+</form>

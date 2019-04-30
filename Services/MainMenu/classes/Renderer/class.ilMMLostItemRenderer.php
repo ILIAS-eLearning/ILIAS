@@ -2,7 +2,6 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -27,6 +26,6 @@ class ilMMLostItemRenderer extends BaseTypeRenderer {
 			return $r->getComponentForItem($item);
 		}
 
-		return $this->ui_factory->legacy("{$item->getTypeInformation()->getTypeNameForPresentation()}");
+		return $this->ui_factory->button()->bulky($this->getStandardIcon($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");
 	}
 }

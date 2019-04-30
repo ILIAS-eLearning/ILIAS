@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
+
 /**
  * Class ilMMAbstractItemGUI
  *
@@ -65,7 +67,7 @@ class ilMMAbstractItemGUI {
 	public function __construct(ilMMTabHandling $tab_handling) {
 		global $DIC;
 
-		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
+		$this->repository = new ilMMItemRepository();
 		$this->tab_handling = $tab_handling;
 		$this->tabs = $DIC['ilTabs'];
 		$this->lng = $DIC->language();

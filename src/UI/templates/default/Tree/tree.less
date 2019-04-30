@@ -1,0 +1,42 @@
+.il-tree {
+	list-style-type: none;
+	ul {
+		list-style-type: none;
+		padding-left: @il-tree-node-indentation;
+	}
+
+	li.il-tree-node .node-line {
+		cursor: pointer;
+	}
+
+	.il-tree-node > ul {
+		display: none;
+	}
+
+	.il-tree-node.expanded > ul {
+		display: block;
+	}
+
+	.il-tree-node.expandable {
+
+		.node-label {
+			padding-left: 2px;
+		}
+
+		> .node-line:before {
+			font-family: 'Glyphicons Halflings';
+			content: "\e250";
+		}
+
+		&.expanded > .node-line:before {
+			font-family: 'Glyphicons Halflings';
+			content: "\e252";
+		}
+	}
+
+	.il-tree-node.highlighted > .node-line {
+		background-color: @il-highlight-bg;
+	}
+
+}
+

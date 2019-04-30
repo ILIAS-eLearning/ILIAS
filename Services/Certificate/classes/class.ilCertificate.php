@@ -322,7 +322,7 @@ class ilCertificate
 	/**
 	* Gets the adapter
 	*
-	* @return object Adapter
+	* @return ilCertificateAdapter Adapter
 	*/
 	public function getAdapter()
 	{
