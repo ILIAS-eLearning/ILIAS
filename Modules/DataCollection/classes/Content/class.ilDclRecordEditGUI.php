@@ -459,7 +459,6 @@ class ilDclRecordEditGUI {
 		}
 
 		if (!$valid) {
-			$this->cleanupTempFiles();
 			$this->sendFailure($this->lng->txt('form_input_not_valid'));
 			return;
 		}
@@ -730,9 +729,9 @@ class ilDclRecordEditGUI {
 	 * Cleanup temp-files
 	 */
 	protected function cleanupTempFiles() {
-		$ilfilehash = (isset($_POST['ilfilehash']))? $_POST['ilfilehash'] : null;
-		if($ilfilehash != null) {
-			$this->form->cleanupTempFiles($ilfilehash, $this->user->getId());
+		$ilfilehash = (isset($_POST['ilfilehash'])) ? $_POST['ilfilehash'] : null;
+		if ($ilfilehash != null) {
+			$this->form->cleanupTempFiles($ilfilehash);
 		}
 	}
 
