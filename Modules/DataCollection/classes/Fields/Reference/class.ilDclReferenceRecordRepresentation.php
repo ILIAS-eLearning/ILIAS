@@ -25,12 +25,15 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 
 		$html = "";
 
-		foreach ($value as $v) {
+		foreach ($value as $k => $v) {
 			$ref_record = ilDclCache::getRecordCache($v);
 			if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
 				//the referenced record_field does not seem to exist.
-				$record_field->setValue(NULL);
+				unset($value[$k]);
+				$value = array_values($value); // resets the keys
+				$record_field->setValue($value);
 				$record_field->doUpdate();
+				continue;
 			} else {
 				$field = $this->getRecordField()->getField();
 				if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
