@@ -201,7 +201,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 		);
 
 		foreach ($learner_items as $learner_item) {
-			if ($learner_item->getLearningProgressStatus() === 2) {
+			if ($learner_item->getLearningProgressStatus() === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 				$passed++;
 			}
 		}
