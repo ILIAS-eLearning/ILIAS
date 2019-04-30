@@ -79,7 +79,9 @@ class ilStudyProgrammeAssignment
 	 * @con_is_notnull  true 
 	 */
 	protected $last_change_by;
-	
+
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
 
 	public function __construct(int $id)
 	{
@@ -159,11 +161,11 @@ class ilStudyProgrammeAssignment
 	/**
 	 * Get the timestamp of the last change on this program or a sub program.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
-	public function getLastChange() : ilDateTime
+	public function getLastChange() : DateTime
 	{
-		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
+		return DateTime::createFromFormat(self::DATE_TIME_FORMAT,$this->last_change);
 	}
 
 	/**
@@ -173,7 +175,7 @@ class ilStudyProgrammeAssignment
 	 */
 	public function updateLastChange() : ilStudyProgrammeAssignment
 	{
-		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
+		$this->setLastChange(new DateTime());
 		return $this;
 	}
 
@@ -186,16 +188,9 @@ class ilStudyProgrammeAssignment
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $timestamp) : ilStudyProgrammeAssignment
+	public function setLastChange(DateTime $timestamp) : ilStudyProgrammeAssignment
 	{
-		if (ilDateTime::_before($timestamp, $this->getLastChange())) {
-			throw new ilException("ilStudyProgrammeAssignment::setLastChange: Given "
-								 ."timestamp, ".$this->getLastChange()->get(IL_CAL_DATETIME).","
-								 ."is before current timestamp,".$timestamp->get(IL_CAL_DATETIME).". "
-								 ."That is logically impossible.");
-		}
-		
-		$this->last_change = $timestamp->get(IL_CAL_DATETIME);
+		$this->last_change = $timestamp->format(self::DATE_TIME_FORMAT);
 		return $this;
 	}
 }

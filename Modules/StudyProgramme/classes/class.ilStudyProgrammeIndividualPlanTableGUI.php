@@ -174,9 +174,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						   , "completion_by" => $completion_by
 						   , "progress_id" => $progress->getId()
 						   , "program_status" => $progress->getStudyProgramme()->getStatus()
-						   , "assignment_date" => $progress->getAssignmentDate()->get(IL_CAL_FKT_DATE,'d.m.Y')
-						   , "deadline" =>$progress->getDeadline()
-						   , "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->get(IL_CAL_FKT_DATE,'d.m.Y') : ''
+						   , "assignment_date" => $progress->getAssignmentDate()->format('d.m.Y')
+						   , "deadline" => $progress->getDeadline()
+						   , "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
 						   );
 		});
 		return $plan;
@@ -229,7 +229,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 
 		$deadline_title = $this->getParentObject()->getDeadlinePostVarTitle();
 		$gui = new ilDateTimeInputGUI("", $deadline_title."[$a_progress_id]");
-		$gui->setDate($deadline);
+		$gui->setDate($deadline ? new ilDateTime($deadline->format('Y-m-d H:i:s'),IL_CAL_DATETIME) : null);
 
 		return $gui->render();
 	}

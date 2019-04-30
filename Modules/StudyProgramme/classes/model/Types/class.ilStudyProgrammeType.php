@@ -13,6 +13,11 @@ class ilStudyProgrammeType
 	 * Folder in ILIAS webdir to store the icons
 	 */
 	const WEB_DATA_FOLDER = 'prg_data';
+
+
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
+
 	/**
 	 * @var int
 	 *
@@ -44,7 +49,7 @@ class ilStudyProgrammeType
 	protected $owner;
 
 	/**
-	 * @var ilDateTime
+	 * @var DateTime
 	 *
 	 * @con_has_field   true
 	 * @con_fieldtype   timestamp
@@ -620,7 +625,7 @@ class ilStudyProgrammeType
 	/**
 	 * @param string $create_date
 	 */
-	public function setCreateDate(ilDateTime $create_date)
+	public function setCreateDate(DateTime $create_date)
 	{
 		$this->create_date = $create_date;
 	}

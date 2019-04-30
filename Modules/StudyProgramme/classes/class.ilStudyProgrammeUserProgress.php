@@ -128,7 +128,7 @@ class ilStudyProgrammeUserProgress {
 	/**
 	 * Get the timestamp when the last change was made on this progress.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
 	public function getLastChange() {
 		return $this->progress->getLastChange();
@@ -155,7 +155,7 @@ class ilStudyProgrammeUserProgress {
 	/**
 	 * Get the assignment date of this node.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
 	public function getAssignmentDate() {
 		return $this->progress->getAssignmentDate();
@@ -164,7 +164,7 @@ class ilStudyProgrammeUserProgress {
 	/**
 	 * Get the completion date of this node.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
 	public function getCompletionDate() {
 		return $this->progress->getCompletionDate();
@@ -173,7 +173,7 @@ class ilStudyProgrammeUserProgress {
 	/**
 	 * Get the deadline of this node.
 	 *
-	 * @return ilDateTime | null
+	 * @return DateTime | null
 	 */
 	public function getDeadline() {
 		return $this->progress->getDeadline();
@@ -182,7 +182,7 @@ class ilStudyProgrammeUserProgress {
 	/**
 	 * Set the deadline of this node.
 	 *
-	 * @param ilDateTime | null 	$deadline
+	 * @param DateTime | null 	$deadline
 	 */
 	public function setDeadline($deadline) {
 		return $this->progress->setDeadline($deadline);
@@ -218,7 +218,7 @@ class ilStudyProgrammeUserProgress {
 			$this->progress
 				->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
 				->setCompletionBy($a_user_id)
-				->setCompletionDate(new ilDateTime(ilUtil::now(),IL_CAL_DATETIME))
+				->setCompletionDate(new DateTime())
 		);
 		$this->events->userSuccessful($this);
 
@@ -474,9 +474,9 @@ class ilStudyProgrammeUserProgress {
 	 */
 	public function recalculateFailedToDeadline() {
 		$deadline = $this->getDeadline();
-		$today = date("Y-m-d");
+		$today = date(ilStudyProgrammeProgress::DATE_FORMAT);
 
-		if($deadline && $deadline->get(IL_CAL_DATE) < $today) {
+		if($deadline && $deadline->format(ilStudyProgrammeProgress::DATE_FORMAT) < $today) {
 			$this->progress_repository->update(
 				$this->progress
 					->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
@@ -565,7 +565,7 @@ class ilStudyProgrammeUserProgress {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
 			$this->events->userSuccessful($this);
 			if(!$this->progress->getCompletionDate()) {
-				$this->progress->setCompletionDate(new ilDateTime(ilUtil::now(),IL_CAL_DATETIME));
+				$this->progress->setCompletionDate(new DateTime());
 			}
 		} else {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
@@ -631,7 +631,7 @@ class ilStudyProgrammeUserProgress {
 			$this->progress
 				->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED)
 				->setCompletionBy($a_obj_id)
-				->setCompletionDate(new ilDateTime(ilUtil::now(),IL_CAL_DATETIME))
+				->setCompletionDate(new DateTime())
 		);
 
 		$this->events->userSuccessful($this);

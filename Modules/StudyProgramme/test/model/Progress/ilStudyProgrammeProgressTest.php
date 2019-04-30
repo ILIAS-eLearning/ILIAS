@@ -141,9 +141,9 @@ class ilStudyProgrammeProgressTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_assignmet_date()
 	{
-		$ad = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
+		$ad = new DateTime();
 		$spp = (new ilStudyProgrammeProgress(123))->setAssignmentDate($ad);
-		$this->assertEquals($spp->getAssignmentDate()->get(IL_CAL_DATETIME),$ad->get(IL_CAL_DATETIME));
+		$this->assertEquals($spp->getAssignmentDate()->format('Y-m-d'),$ad->format('Y-m-d'));
 	}
 
 	/**
@@ -151,9 +151,9 @@ class ilStudyProgrammeProgressTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_completion_date()
 	{
-		$cd = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
+		$cd = new DateTime();
 		$spp = (new ilStudyProgrammeProgress(123))->setCompletionDate($cd);
-		$this->assertEquals($spp->getCompletionDate()->get(IL_CAL_DATETIME),$cd->get(IL_CAL_DATETIME));
+		$this->assertEquals($spp->getCompletionDate()->format('Y-m-d'),$cd->format('Y-m-d'));
 		$spp = (new ilStudyProgrammeProgress(123))->setCompletionDate(null);
 		$this->assertNull($spp->getCompletionDate());
 	}
@@ -163,8 +163,8 @@ class ilStudyProgrammeProgressTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_deadline()
 	{
-		$dl = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
+		$dl = new DateTime();
 		$spp = (new ilStudyProgrammeProgress(123))->setDeadline($dl);
-		$this->assertEquals($spp->getDeadline()->get(IL_CAL_DATETIME),$dl->get(IL_CAL_DATETIME));
+		$this->assertEquals($spp->getDeadline()->format('Y-m-d'),$dl->format('Y-m-d'));
 	}
 }

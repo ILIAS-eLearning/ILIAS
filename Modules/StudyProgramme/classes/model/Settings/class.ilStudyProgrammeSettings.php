@@ -51,7 +51,8 @@ class ilStudyProgrammeSettings{
 	const DEFAULT_POINTS = 100;
 	const DEFAULT_SUBTYPE = 0; // TODO: What should that be?
 	
-
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
 	/**
 	 * Id of this study program and the corresponding ILIAS-object as well.
 	 *
@@ -131,11 +132,13 @@ class ilStudyProgrammeSettings{
 
 	/**
 	 * The period a user has to finish the prg in days, before he/she automaticaly fails.
+	 * @var int
 	 */
 	protected $deadline_period = 0;
 
 	/**
 	 * The date, before which a user has to finish the prg, before he/she automaticaly fails.
+	 * @var int | DateTime
 	 */
 	protected $deadline_date = null;
 	
@@ -180,11 +183,11 @@ class ilStudyProgrammeSettings{
 	/**
 	 * Get the timestamp of the last change on this program or a sub program.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
-	public function getLastChange() : ilDateTime
+	public function getLastChange() : DateTime
 	{
-		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
+		return DateTime::createFromFormat(self::DATE_TIME_FORMAT,$this->last_change);
 	}
 
 	/**
@@ -194,7 +197,7 @@ class ilStudyProgrammeSettings{
 	 */
 	public function updateLastChange() : ilStudyProgrammeSettings
 	{
-		$this->setLastChange(new ilDateTime((new DateTime())->format('Y-m-d H:i:s'), IL_CAL_DATETIME));
+		$this->setLastChange(new DateTime());
 		return $this;
 	} 
 
@@ -206,9 +209,9 @@ class ilStudyProgrammeSettings{
 	 *
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $a_timestamp) : ilStudyProgrammeSettings
+	public function setLastChange(DateTime $a_timestamp) : ilStudyProgrammeSettings
 	{
-		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		$this->last_change = $a_timestamp->format(self::DATE_TIME_FORMAT);
 		return $this;
 	}
 
@@ -228,7 +231,7 @@ class ilStudyProgrammeSettings{
 	/**
 	 * Set the deadline date to a given value.
 	 */
-	public function setDeadlineDate(ilDateTime $date = null) : ilStudyProgrammeSettings
+	public function setDeadlineDate(DateTime $date = null) : ilStudyProgrammeSettings
 	{
 		$this->deadline_date = $date;
 		$this->deadline_period = 0;

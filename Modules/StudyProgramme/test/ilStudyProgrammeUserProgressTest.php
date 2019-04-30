@@ -91,7 +91,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertNull($root_progress->getLastChangeBy());
 		$this->assertNull($root_progress->getCompletionBy());
 		$this->assertNull($root_progress->getCompletionDate());
-		$this->assertEquals($root_progress->getAssignmentDate()->get(IL_CAL_DATE),(new \DateTime())->format('Y-m-d'));
+		$this->assertEquals($root_progress->getAssignmentDate()->format('Y-m-d'),(new \DateTime())->format('Y-m-d'));
 
 
 		$node1_progresses = $this->node1->getProgressesOf($user->getId());
@@ -200,9 +200,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($node1_progress->getAmountOfPoints(), ilStudyProgrammeSettings::DEFAULT_POINTS);
 		$this->assertEquals($node2_progress->getAmountOfPoints(), ilStudyProgrammeSettings::DEFAULT_POINTS);
 
-		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_before_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$node2_progress->markAccredited($USER_ID);
-		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_after_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 
 
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
@@ -213,11 +213,11 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($root_progress->getAmountOfPoints(), $root_progress->getCurrentAmountOfPoints());
 
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $root_progress->getStatus());
-		$this->assertEquals((new \DateTime())->format('Y-m-d'), $root_progress->getCompletionDate()->get(IL_CAL_DATE));
+		$this->assertEquals((new \DateTime())->format('Y-m-d'), $root_progress->getCompletionDate()->format('Y-m-d'));
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertNull($node1_progress->getCompletionDate());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $node2_progress->getStatus());
-		$this->assertEquals((new \DateTime())->format('Y-m-d'), $node2_progress->getCompletionDate()->get(IL_CAL_DATE));
+		$this->assertEquals((new \DateTime())->format('Y-m-d'), $node2_progress->getCompletionDate()->format('Y-m-d'));
 		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
@@ -239,10 +239,10 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
 
-		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_before_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$node2_progress->markAccredited($USER_ID);
 		$node2_progress->unmarkAccredited();
-		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_after_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 
 		// The root node will still be completed, as we do not go back from completed to some other
 		// status.
@@ -315,9 +315,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
 		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
-		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_before_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$node2_progress->markNotRelevant($USER_ID);
-		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_after_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT, $node2_progress->getStatus());

@@ -156,10 +156,12 @@ implements ilStudyProgrammeProgressRepository
 				self::FIELD_POINTS_CUR => $progress->getCurrentAmountOfPoints(),
 				self::FIELD_COMPLETION_BY => $progress->getCompletionBy(),
 				self::FIELD_LAST_CHANGE_BY => $progress->getLastChangeBy(),
-				self::FIELD_LAST_CHANGE => $progress->getLastChange()->get(IL_CAL_TIMESTAMP),
-				self::FIELD_ASSIGNMENT_DATE => $progress->getAssignmentDate()->get(IL_CAL_DATETIME),
-				self::FIELD_COMPLETION_DATE => $progress->getCompletionDate() ? $progress->getCompletionDate()->get(IL_CAL_DATETIME) : null,
-				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->get(IL_CAL_DATETIME) : null
+				self::FIELD_LAST_CHANGE => $progress->getLastChange()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT),
+				self::FIELD_ASSIGNMENT_DATE => $progress->getAssignmentDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT),
+				self::FIELD_COMPLETION_DATE =>
+					$progress->getCompletionDate() ?
+					$progress->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
+				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) : null
 			]
 		);
 	}
@@ -232,10 +234,23 @@ implements ilStudyProgrammeProgressRepository
 			->setAmountOfPoints($row[self::FIELD_POINTS])
 			->setCurrentAmountOfPoints($row[self::FIELD_POINTS_CUR])
 			->setCompletionBy($row[self::FIELD_COMPLETION_BY])
-			->setDeadline($row[self::FIELD_DEADLINE] ? new ilDateTime($row[self::FIELD_DEADLINE],IL_CAL_DATE) : null)
-			->setAssignmentDate(new ilDateTime($row[self::FIELD_ASSIGNMENT_DATE],IL_CAL_DATETIME))
-			->setCompletionDate($row[self::FIELD_COMPLETION_DATE] ? new ilDateTime($row[self::FIELD_COMPLETION_DATE],IL_CAL_DATETIME) : null)
-			->setLastChange($row[self::FIELD_LAST_CHANGE]? new ilDateTime($row[self::FIELD_LAST_CHANGE],IL_CAL_DATETIME) : null);
+			->setDeadline(
+				$row[self::FIELD_DEADLINE] ?
+				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT,$row[self::FIELD_DEADLINE]) :
+				null
+			)
+			->setAssignmentDate(
+				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT,$row[self::FIELD_ASSIGNMENT_DATE])
+			)
+			->setCompletionDate(
+				$row[self::FIELD_COMPLETION_DATE] ?
+				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT,$row[self::FIELD_COMPLETION_DATE]) :
+				null
+			)
+			->setLastChange($row[self::FIELD_LAST_CHANGE] ?
+				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT,$row[self::FIELD_LAST_CHANGE]) :
+				null
+			);
 	}
 
 	protected function loadByFilter(array $filter) 

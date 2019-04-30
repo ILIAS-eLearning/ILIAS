@@ -36,7 +36,7 @@ implements ilStudyProgrammeSettingsRepository
 			ilStudyProgrammeSettings::STATUS_DRAFT,
 			ilStudyProgrammeSettings::MODE_UNDEFINED,
 			ilStudyProgrammeSettings::DEFAULT_POINTS,
-			(new DateTime())->format('Y-m-s H:i:s'),
+			(new DateTime())->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
 			0,
 			null
 		);
@@ -70,9 +70,11 @@ implements ilStudyProgrammeSettingsRepository
 			$settings->getStatus(),
 			$settings->getLPMode(),
 			$settings->getPoints(),
-			$settings->getLastChange()->get(IL_CAL_DATETIME),
+			$settings->getLastChange()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
 			$settings->getDeadlinePeriod(),
-			$settings->getDeadlineDate()
+			$settings->getDeadlineDate() ?
+				$settings->getDeadlineDate()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT) :
+				null
 		);
 		$this->cache[$settings->getObjId()] = $settings;
 	}
@@ -169,9 +171,9 @@ implements ilStudyProgrammeSettingsRepository
 			->setStatus($row[self::FIELD_STATUS])
 			->setLPMode($row[self::FIELD_LP_MODE])
 			->setPoints($row[self::FIELD_POINTS])
-			->setLastChange(new \ilDateTime($row[self::FIELD_LAST_CHANGED],IL_CAL_DATETIME));
+			->setLastChange(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_LAST_CHANGED]));
 		if($row[self::FIELD_DEADLINE_DATE] !== null) {
-			return $return->setDeadlineDate(new ilDateTime($row[self::FIELD_DEADLINE_DATE],IL_CAL_DATETIME));
+			return $return->setDeadlineDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_DEADLINE_DATE]));
 		}
 		return $return->setDeadlinePeriod((int)$row[self::FIELD_DEADLINE_PERIOD]);
 	}

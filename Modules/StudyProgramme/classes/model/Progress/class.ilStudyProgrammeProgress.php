@@ -44,6 +44,8 @@ class ilStudyProgrammeProgress
 						  , self::STATUS_FAILED
 						  );  
 
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
 
 	/**
 	 * The id of this progress.
@@ -182,7 +184,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Date of asssignment
 	 *
-	 * @var \ilDateTime
+	 * @var \DateTime
 	 *
 	 * @con_has_field   true
 	 * @con_fieldtype   timestamp
@@ -193,7 +195,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Date of asssignment
 	 *
-	 * @var \ilDateTime
+	 * @var \DateTime
 	 *
 	 * @con_has_field   true
 	 * @con_fieldtype   timestamp
@@ -204,7 +206,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Date until user has to finish
 	 *
-	 * @var \ilDateTime
+	 * @var \DateTime
 	 *
 	 * @con_has_field   true
 	 * @con_fieldtype   timestamp
@@ -404,11 +406,11 @@ class ilStudyProgrammeProgress
 	/**
 	 * Get the timestamp of the last change on this progress.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
-	public function getLastChange() : ilDateTime
+	public function getLastChange() : DateTime
 	{
-		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
+		return DateTime::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
 	}
 
 	/**
@@ -423,7 +425,7 @@ class ilStudyProgrammeProgress
 	 */
 	public function updateLastChange()
 	{
-		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
+		$this->setLastChange(new DateTime());
 		return $this;
 	}
 
@@ -436,16 +438,16 @@ class ilStudyProgrammeProgress
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $a_timestamp) : ilStudyProgrammeProgress
+	public function setLastChange(DateTime $a_timestamp) : ilStudyProgrammeProgress
 	{
-		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		$this->last_change = $a_timestamp->format(self::DATE_TIME_FORMAT);
 		return $this;
 	}
 
 	/**
 	 * Set the date of assignment.
 	 */
-	public function setAssignmentDate(\ilDateTime $assignment_date)
+	public function setAssignmentDate(DateTime $assignment_date) : ilStudyProgrammeProgress
 	{
 		$this->assignment_date = $assignment_date;
 		return $this;
@@ -454,7 +456,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Get the date of assignment.
 	 */
-	public function getAssignmentDate() : \ilDateTime
+	public function getAssignmentDate() : DateTime
 	{
 		return $this->assignment_date;
 	}
@@ -462,7 +464,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Set the timestamp of the complition of this progress.
 	 */
-	public function setCompletionDate(\ilDateTime $completion_date = null)
+	public function setCompletionDate(DateTime $completion_date = null) : ilStudyProgrammeProgress
 	{
 		$this->completion_date = $completion_date;
 		return $this;
@@ -471,7 +473,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Get the timestamp of the complition of this progress.
 	 *
-	 * @return \ilDateTime | null
+	 * @return \DateTime | null
 	 */
 	public function getCompletionDate()
 	{
@@ -481,7 +483,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Get the deadline of this progress.
 	 *
-	 * @return ilDateTime | null
+	 * @return DateTime | null
 	 */
 	public function getDeadline()
 	{
@@ -491,11 +493,11 @@ class ilStudyProgrammeProgress
 	/**
 	 * Set the deadline of this progress
 	 *
-	 * @param ilDateTime | null	$deadline
+	 * @param DateTime | null	$deadline
 	 *
 	 * @return $this
 	 */
-	public function setDeadline(ilDateTime $deadline = null) : ilStudyProgrammeProgress
+	public function setDeadline(DateTime $deadline = null) : ilStudyProgrammeProgress
 	{
 		$this->deadline = $deadline;
 		return $this;

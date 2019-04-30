@@ -44,7 +44,7 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($prgs->getAmountOfPoints(),123);
 		$this->assertEquals($prgs->getCurrentAmountOfPoints(),0);
 		$this->assertEquals($prgs->getStatus(),ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
-		$this->assertEquals($prgs->getAssignmentDate()->get(IL_CAL_DATE),(new DateTime())->format('Y-m-d'));
+		$this->assertEquals($prgs->getAssignmentDate()->format('Y-m-d'),(new DateTime())->format('Y-m-d'));
 		$this->assertNull($prgs->getCompletionBy());
 		$this->assertNull($prgs->getDeadline());
 		$this->assertNull($prgs->getCompletionDate());
@@ -100,8 +100,8 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 			->setCurrentAmountOfPoints(345)
 			->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
 			->setCompletionBy(6)
-			->setDeadline(new ilDateTime('2018-01-01',IL_CAL_DATE))
-			->setCompletionDate(new ilDateTime('2017-01-01',IL_CAL_DATE));
+			->setDeadline(DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT,'2018-01-01'))
+			->setCompletionDate(DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT,'2017-01-01'));
 		$repo->update($prgs);
 		
 		$repo = new ilStudyProgrammeProgressDBRepository($this->db);
@@ -113,8 +113,8 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($prgs->getCurrentAmountOfPoints(),345);
 		$this->assertEquals($prgs->getStatus(),ilStudyProgrammeProgress::STATUS_ACCREDITED);
 		$this->assertEquals($prgs->getCompletionBy(),6);
-		$this->assertEquals($prgs->getDeadline()->get(IL_CAL_DATE),'2018-01-01');
-		$this->assertEquals($prgs->getCompletionDate()->get(IL_CAL_DATE),'2017-01-01');
+		$this->assertEquals($prgs->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2018-01-01');
+		$this->assertEquals($prgs->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2017-01-01');
 	}
 
 	/**
@@ -132,8 +132,8 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($prgs->getCurrentAmountOfPoints(),345);
 		$this->assertEquals($prgs->getStatus(),ilStudyProgrammeProgress::STATUS_ACCREDITED);
 		$this->assertEquals($prgs->getCompletionBy(),6);
-		$this->assertEquals($prgs->getDeadline()->get(IL_CAL_DATE),'2018-01-01');
-		$this->assertEquals($prgs->getCompletionDate()->get(IL_CAL_DATE),'2017-01-01');
+		$this->assertEquals($prgs->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2018-01-01');
+		$this->assertEquals($prgs->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2017-01-01');
 	}
 
 	/**
