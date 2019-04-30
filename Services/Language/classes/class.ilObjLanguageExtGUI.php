@@ -350,6 +350,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$remarks_array = array();
 		foreach ($_POST as $key => $value)
 		{
+			// mantis #25237
+			// @see https://php.net/manual/en/language.variables.external.php
+			$key = str_replace('_POSTDOT_', '.', $key);
+            $key = str_replace('_POSTSPACE_', ' ', $key);
+
+			// example key of variable: 'common#:#access'
+			// example key of comment: 'common#:#access#:#comment'
 			$keys = explode($this->lng->separator, ilUtil::stripSlashes($key, false));
 
 			if (count($keys) == 2)
@@ -359,6 +366,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		  		$value = ilUtil::stripSlashes($value, false);
 				$save_array[$key] = $value;
 
+				// the comment has the key of the language with the suffix
 				$remarks_array[$key] = $_POST[$key.$this->lng->separator."comment"];
 			}
 		}
