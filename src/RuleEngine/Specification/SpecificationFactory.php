@@ -19,39 +19,33 @@ namespace ILIAS\RuleEngine\Specification;
 abstract class SpecificationFactory implements Specification {
 
 	/**
-	 * Create a conjunction of specifications.
+	 * @param $specifications[]
 	 *
-	 * @param Specification ...$specifications
-	 *
-	 * @return Specification
+	 * @return AndXSpecification
 	 */
-	public static function andX(Specification ...$specifications): AndXSpecification
+	public static function andX($specifications)
     {
         return new AndXSpecification($specifications);
     }
 
 
 	/**
-	 * Create a disjunction of specifications.
+	 * @param Specification $specifications
 	 *
-	 * @param Specification ...$specifications
-	 *
-	 * @return Specification
+	 * @return orXSpecification
 	 */
-	public static function orX(Specification ...$specifications): orX
+	public static function orX(Specification  $specifications): orXSpecification
 	{
 		return new orXSpecification($specifications);
 	}
 
 
 	/**
-	 * Negate a specification.
-	 *
 	 * @param Specification $specification
 	 *
-	 * @return Specification
+	 * @return NotSpecification
 	 */
-	public static function not(Specification $specification): not
+	public static function not(Specification $specification): NotSpecification
 	{
 		return new notSpecification($specification);
 	}
@@ -66,7 +60,7 @@ abstract class SpecificationFactory implements Specification {
 	 * @return Specification
 	 */
 	public static function equals($key, $value) {
-		//TODO
+		return self::createSpec($key,$value,"=");
 	}
 
 
@@ -186,7 +180,6 @@ abstract class SpecificationFactory implements Specification {
 		//TODO
 	}
 
-
 	/**
 	 * @param $key
 	 * @param $value
@@ -194,31 +187,8 @@ abstract class SpecificationFactory implements Specification {
 	 *
 	 * @return Specification
 	 */
-	private static function createGenericSpecification($key, $value, $operator)
+	private static function createSpec($key, $value, $operator)
 	{
-		return new GenericSpecification(sprintf('%s %s %s', $key, $operator, self::formatValue($value)));
-	}
-
-	/**
-	 * @param $value
-	 *
-	 * @return string
-	 */
-	private static function formatValue($value)
-	{
-		if (is_array($value)) {
-			$formattedValues = array_map('self::formatValue', $value);
-			return sprintf('[%s]', implode(', ', $formattedValues));
-		}
-		if (empty($value)) {
-			return '""';
-		}
-		if (ctype_digit($value)) {
-			return $value;
-		}
-		if ($value[0] == ':') {
-			return $value;
-		}
-		return var_export($value, true);
+		return new GenericSpecification(sprintf('%s %s %s', $key, $operator,$value));
 	}
 }

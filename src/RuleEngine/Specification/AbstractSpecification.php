@@ -8,9 +8,9 @@ namespace ILIAS\RuleEngine\Specification;
 abstract class AbstractSpecification implements Specification {
 
 	/**
-	 * Create a conjunction with the current specification and another one.
+	 * @param Specification $spec
 	 *
-	 * @param Specification $spec The other specification.
+	 * @return AndXSpecification
 	 */
 	public function andX(Specification $spec): AndXSpecification {
 		return new AndXSpecification([ $this, $spec ]);
@@ -18,9 +18,9 @@ abstract class AbstractSpecification implements Specification {
 
 
 	/**
-	 * Create a disjunction with the current specification and another one.
+	 * @param Specification $spec
 	 *
-	 * @param Specification $spec The other specification.
+	 * @return OrXSpecification
 	 */
 	public function orX(Specification $spec): OrXSpecification {
 		return new OrXSpecification([ $this, $spec ]);
@@ -28,9 +28,7 @@ abstract class AbstractSpecification implements Specification {
 
 
 	/**
-	 * Negate the current specification.
-	 *
-	 * @return Not
+	 * @return NotSpecification
 	 */
 	public function not(): NotSpecification {
 		return new NotSpecification($this);
@@ -38,7 +36,7 @@ abstract class AbstractSpecification implements Specification {
 
 
 	/**
-	 * {@inheritdoc}
+	 * @return array
 	 */
 	public function getParameters(): array {
 		return [];

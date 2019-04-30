@@ -3,29 +3,48 @@ This namespace provides a small framework for creating ILIAS specific rules that
 
 Overview and Glossary for this namespace:
 
-
 | Name | Description | Example |
 |------|-------------|---------|
-| Rule | A Rule has Events and that will be triggered | ...
-| Specification | ... | 
-| Action |... | 
-| Context | ... | 
+| Rule / Specification|  | ...
+| Target | ... | 
+| Executor |... | 
 
 
 Usage
 -----
-$rule_factory = $DIC->RuleEnginge()->RuleFactory();
+/**
+*
+* Filter ILIAS Objects
+*
+**/
+$org_unit_id = 70;
+//$specification = new EmployeeOfOrgUnitSpecification($org_unit_id);
+$specification = SpecificationFactory::equals('orgu_id', $org_unit_id);
 
-// 1. Write a specification
-$specification_factory = SpecificationFactory::andX(
-						SpecificationFactory::is('institution', 'ACME'),
-						SpecificationFactory::containes('email', '@acme.com')
-                       );
-                       
-                       
-//2. Create the rule
-$rule_factory->create(new UserAction,$specification_factory);
+$rule_engine = new RuleEngine([ new ilSqlVisitor() ], [ new EntityExecutor() ]);
 
-//4. Check the rule
-$rule_factory->isSatisfiedBy(new UserContext());
+print_r($rule_engine->filterSpec(new ilOrgUnitUserAssignmentEntity(), $specification));
+
+
+/**
+*
+* Filter Arrays
+*
+**/
+$specification = SpecificationFactory::andX([
+			SpecificationFactory::equals('lastname', 'Doe'),
+			SpecificationFactory::moreThan('age', 44),
+			SpecificationFactory::equals('gender', 'm')]
+		);
+
+$arr_to_filter = [
+		['firstname' => 'John', 'lastname' => 'Doe', 'gender' => 'm', 'age' => 50],
+		['firstname' => 'Johanne', 'lastname' => 'Doe', 'gender' => 'f', 'age' => 48],
+		['firstname' => 'Richard', 'lastname' => 'Doe', 'gender' => 'm', 'age' => 20],
+		['firstname' => 'Richard', 'lastname' => 'Miles', 'gender' => 'm','age' => 55],
+ ];
+
+
+$rule_engine = new RuleEngine([ new ArrayVisitor() ], [ new ArrayExecutor() ]);
+$rule_engine->filterSpec($arr_to_filter,$specification);
  

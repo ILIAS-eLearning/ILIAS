@@ -12,6 +12,6 @@ namespace ILIAS\RuleEngine\Specification;
 class orXSpecification extends Composite {
 
 	public function __construct(array $specifications = []) {
-		parent::__construct('OR', $specifications);
+		parent::__construct('OR', [$specifications]);
 	}
 }

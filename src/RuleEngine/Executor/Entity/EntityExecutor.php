@@ -4,25 +4,26 @@ namespace  ILIAS\RuleEngine\Executor\Entity;
 
 use ILIAS\RuleEngine\Entity\Entity;
 use ILIAS\RuleEngine\Executor\ExecutorInterface;
-use ILIAS\RuleEnginge\Target\ilSqlVisitor;
+use ILIAS\RuleEnginge\Target\ilSqlVisitor\ilSqlVisitor;
 
 class EntityExecutor implements ExecutorInterface {
 
 	/**
 	 * @param Entity           $target
-	 * @param array            $parameters
+	 * @param string            $rule
 	 * @param array            $operators
-	 * @param ExecutionContext $context
 	 */
-	public function filter($target, array $parameters, array $operators) {
+	public function filter($target, string $rule, array $operators) {
 		global $DIC;
 
+
 		$select =
-		$select = $target->getQuery()." WHERE ".implode(" AND ", $this->buildWhere($target,$parameters));
+		//$select = $target->getQuery()." WHERE ".implode(" AND ", $this->buildWhere($target,$parameters));
+		$select = $target->getQuery()." WHERE ".$rule;
+
 
 		$res = $DIC->database()->query($select)->execute();
 
-		$arr_data = [];
 		return $DIC->database()->fetchAll($res);
 	}
 

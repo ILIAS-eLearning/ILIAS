@@ -3,11 +3,9 @@
 namespace ILIAS\RuleEngine\Specification;
 
 /**
- * Class AndX
+ * Class AndXSpecification
  *
  * @package ILIAS\RuleEngine\Specification
- *
- * @author Martin Studer ms@studer-raimann.ch
  */
 class AndXSpecification extends Composite {
 

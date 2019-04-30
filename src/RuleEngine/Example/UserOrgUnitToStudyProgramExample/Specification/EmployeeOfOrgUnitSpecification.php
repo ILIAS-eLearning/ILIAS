@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\RuleEngine\Example\UserOrgUnitToStudyProgramExample;
+namespace ILIAS\RuleEngine\Example\UserOrgUnitToStudyProgramExample\Specification;
 
 use ILIAS\RuleEngine\Specification\AbstractSpecification;
 
@@ -26,7 +26,7 @@ class EmployeeOfOrgUnitSpecification extends AbstractSpecification {
 	public function getParameters(): array
 	{
 		return [
-			'org_unit_id' => $this->org_unit_id,
+			'orgu_id' => $this->org_unit_id,
 		];
 	}
 }

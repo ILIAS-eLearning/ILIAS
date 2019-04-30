@@ -72,7 +72,7 @@ class Entity {
 	/**
 	 * @param string $primary_key
 	 */
-	public function setPrimaryKey(string $primary_key): void {
+	public function setPrimaryKey(string $primary_key) {
 		$this->primary_key = $primary_key;
 	}
 
@@ -88,7 +88,7 @@ class Entity {
 	/**
 	 * @param Field[] $fields
 	 */
-	public function setFields(array $fields): void {
+	public function setFields(array $fields) {
 		$this->fields = $fields;
 	}
 
@@ -104,7 +104,7 @@ class Entity {
 	/**
 	 * @param string $table_name
 	 */
-	public function setTableName(string $table_name): void {
+	public function setTableName(string $table_name) {
 		$this->table_name = $table_name;
 	}
 }

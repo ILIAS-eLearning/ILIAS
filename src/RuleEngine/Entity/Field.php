@@ -17,7 +17,7 @@ class Field {
 	 */
 	protected $name;
 	/**
-	 * @var integer
+	 * @var string
 	 */
 	protected $type;
 
@@ -43,7 +43,7 @@ class Field {
 	/**
 	 * @param string $name
 	 */
-	public function setName(string $name): void {
+	public function setName(string $name) {
 		$this->name = $name;
 	}
 
@@ -51,7 +51,7 @@ class Field {
 	/**
 	 * @return int
 	 */
-	public function getType(): int {
+	public function getType(): string {
 		return $this->type;
 	}
 
@@ -59,7 +59,7 @@ class Field {
 	/**
 	 * @param int $type
 	 */
-	public function setType(int $type): void {
+	public function setType(string $type) {
 		$this->type = $type;
 	}
 }

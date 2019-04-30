@@ -1,21 +1,19 @@
 <?php
 namespace ILIAS\RuleEngine\Example\ArrayFilter;
 
+use ILIAS\RuleEngine\Executor\Entity\ArrayExecutor;
 use ILIAS\RuleEngine\RuleEngine;
-use ILIAS\RuleEngine\RuleFactory;
-use ILIAS\RuleEngine\Specification\Specification;
 use ILIAS\RuleEngine\Specification\SpecificationFactory;
+use ILIAS\RuleEnginge\Target\ArrayVisitor\ArrayVisitor;
 
 class ArrayFilter {
 
 	public function execute() {
-		global $DIC;
-		$rule_factory = new RuleFactory();
 
-		$specification = SpecificationFactory::andX(
+		$specification = SpecificationFactory::andX([
 			SpecificationFactory::equals('lastname', 'Doe'),
 			SpecificationFactory::moreThan('age', 44),
-			SpecificationFactory::equals('gender', 'm')
+			SpecificationFactory::equals('gender', 'm')]
 		);
 
 		$arr_to_filter = [
@@ -26,11 +24,9 @@ class ArrayFilter {
 						 ];
 
 
-		$rule_engine = new RuleEngine();
+		$rule_engine = new RuleEngine([ new ArrayVisitor() ], [ new ArrayExecutor() ]);
 
 		$rule_engine->filterSpec($arr_to_filter,$specification);
-
-
 	}
 
 }
