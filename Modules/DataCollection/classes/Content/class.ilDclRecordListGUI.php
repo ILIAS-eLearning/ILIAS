@@ -328,10 +328,11 @@ class ilDclRecordListGUI {
 	 *
 	 */
 	protected function resetFilter() {
-		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
+		$table = new ilDclRecordListTableGUI($this, "show", $this->table_obj, $this->tableview_id);
+		$table->initFilter();
 		$table->resetOffset();
 		$table->resetFilter();
-		$this->listRecords(true);
+		$this->ctrl->redirect($this, self::CMD_SHOW);
 	}
 
 
@@ -512,6 +513,8 @@ class ilDclRecordListGUI {
 
 		$list = new ilDclRecordListTableGUI($this, "listRecords", $table_obj, $this->tableview_id, $this->mode);
 		if ($use_tableview_filter) {
+			$list->initFilter();
+			$list->resetFilter();
 			$list->initFilterFromTableView();
 		} else {
 			$list->initFilter();
