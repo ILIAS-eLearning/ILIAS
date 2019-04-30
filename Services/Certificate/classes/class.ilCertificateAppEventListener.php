@@ -439,33 +439,4 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			$this->logger->warning($exception->getMessage());
 		}
 	}
-
-	private function handleCompletedStudyProgramme()
-	{
-		$settings = new ilSetting('certificate');
-		$objectId = $this->parameters['prg_id'] ?? 0;
-		$userId = $this->parameters['usr_id'] ?? 0;
-		try {
-			$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
-			if (true === $template->isCurrentlyActive()) {
-				$entry = new \ilCertificateQueueEntry(
-					$objectId,
-					$userId,
-					ilStudyProgrammePlaceholderValues::class,
-					\ilCronConstants::IN_PROGRESS,
-					$template->getId(),
-					time()
-				);
-				$mode = $settings->get('persistent_certificate_mode', '');
-				if ($mode === 'persistent_certificate_mode_instant') {
-					$cronjob = new ilCertificateCron();
-					$cronjob->init();
-					return $cronjob->processEntry(0, $entry, array());
-				}
-				$this->certificateQueueRepository->addToQueue($entry);
-			}
-		} catch (ilException $exception) {
-			$this->logger->warning($exception->getMessage());
-		}
-	}
 }
