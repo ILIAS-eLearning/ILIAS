@@ -5,7 +5,6 @@
 require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
-use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation as I;
 use \ILIAS\UI\Implementation\Component\SignalGenerator;
 
@@ -25,14 +24,14 @@ class PanelSecodaryLegacyTest extends ILIAS_UI_TestBase {
 			public function dropdown() {
 				return new I\Component\Dropdown\Factory();
 			}
-			public function shy($label, $url) {
-				return new I\Component\Button\Shy($label, $url);
-			}
 			public function viewControl() {
 				return new I\Component\ViewControl\Factory(new SignalGenerator());
 			}
 			public function button() {
 				return new I\Component\Button\Factory();
+			}
+			public function glyph() {
+				return new I\Component\Glyph\Factory();
 			}
 		};
 		return $factory;
@@ -68,8 +67,8 @@ class PanelSecodaryLegacyTest extends ILIAS_UI_TestBase {
 	public function test_with_actions() {
 		$legacy = $this->getUIFactory()->legacy("Legacy content");
 		$actions = $this->getUIFactory()->dropdown()->standard(array(
-			$this->getUIFactory()->shy("ILIAS", "https://www.ilias.de"),
-			$this->getUIFactory()->shy("Github", "https://www.github.com")
+			$this->getUIFactory()->button()->shy("ILIAS", "https://www.ilias.de"),
+			$this->getUIFactory()->button()->shy("Github", "https://www.github.com")
 		));
 
 		$secondary_panel = $this->getUIFactory()->legacyPanel("title", $legacy)
@@ -137,12 +136,11 @@ class PanelSecodaryLegacyTest extends ILIAS_UI_TestBase {
 	//RENDER
 
 	public function test_render_with_actions() {
-		//$this->markTestSkipped("Sortation Skiped, dropdown does not print the actions ");
 		$legacy = $this->getUIFactory()->legacy("Legacy content");
-		$actions = $this->getUIFactory()->dropdown()->standard(
+		$actions = $this->getUIFactory()->dropdown()->standard(array(
 			$this->getUIFactory()->button()->shy("ILIAS", "https://www.ilias.de"),
-			$this->getUIFactory()->button()->shy("GitHub", "https://www.github.com")
-		);
+			$this->getUIFactory()->button()->shy("Github", "https://www.github.com")
+		));
 
 		$sec = $this->getUIFactory()->legacyPanel("Title",$legacy)->withActions($actions);
 
@@ -155,7 +153,7 @@ class PanelSecodaryLegacyTest extends ILIAS_UI_TestBase {
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">Github</button></li>
 			</ul>
 		</div>
 	</div>
@@ -210,13 +208,12 @@ EOT;
 	}
 
 	public function test_render_with_pagination() {
-		//$this->markTestSkipped("call to member function back() on null");
 		$legacy = $this->getUIFactory()->legacy("Legacy content");
 
 		$pagination = $this->getUIFactory()->viewControl()->pagination()
 			->withTargetURL('http://ilias.de', 'page')
-			->withTotalEntries(98)
-			->withPageSize(10)
+			->withTotalEntries(10)
+			->withPageSize(2)
 			->withCurrentPage(1);
 
 		$sec = $this->getUIFactory()->legacyPanel("Title",$legacy)
@@ -228,7 +225,23 @@ EOT;
 <div class="panel panel-secondary">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader panel-secondary-title">Title</h3>
-		
+		<div class="il-viewcontrol-pagination">
+			<span class="browse previous">
+				<a class="glyph" href="http://ilias.de?page=0" aria-label="back">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				</a>
+			</span>
+			<button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
+			<button class="btn btn-link ilSubmitInactive disabled" data-action="http://ilias.de?page=1">2</button>
+			<button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_2">3</button>
+			<button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_3">4</button>
+			<button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_4">5</button>
+			<span class="browse next">
+				<a class="glyph" href="http://ilias.de?page=2" aria-label="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</a>
+			</span>
+		</div>
 	</div>
 	<div class="panel-body">
 		Legacy content
