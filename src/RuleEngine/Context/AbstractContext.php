@@ -2,17 +2,14 @@
 
 namespace ILIAS\RuleEngine\Context;
 
-use ActiveRecord;
-use arException;
 use ILIAS\RuleEngine\Specification\Specification;
-use ILIAS\RuleEngine\Exception\InvalidContextException;
 
 /**
  * Context
  *
  * @author Martin Studer ms@studer-raimann.ch
  */
-abstract class Context extends ActiveRecord {
+abstract class AbstractContext {
 
 	/**
 	 * @var Specification[]|void
@@ -21,11 +18,9 @@ abstract class Context extends ActiveRecord {
 
 
 	/**
-	 * @throws InvalidContextException
+	 * @return string
 	 */
-	static function returnDbTableName():string {
-		throw new InvalidContextException(arException::UNKNONWN_EXCEPTION, 'Implement getConnectorContainerName in your child-class');
-	}
+	abstract function returnDbTableName():string;
 
 
 	/**

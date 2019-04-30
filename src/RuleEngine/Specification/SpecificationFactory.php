@@ -25,9 +25,9 @@ abstract class SpecificationFactory implements Specification {
 	 *
 	 * @return Specification
 	 */
-	public static function andX(Specification ...$specifications): AndX
+	public static function andX(Specification ...$specifications): AndXSpecification
     {
-        return new AndX($specifications);
+        return new AndXSpecification($specifications);
     }
 
 
@@ -40,7 +40,7 @@ abstract class SpecificationFactory implements Specification {
 	 */
 	public static function orX(Specification ...$specifications): orX
 	{
-		return new orX($specifications);
+		return new orXSpecification($specifications);
 	}
 
 
@@ -53,7 +53,7 @@ abstract class SpecificationFactory implements Specification {
 	 */
 	public static function not(Specification $specification): not
 	{
-		return new not($specification);
+		return new notSpecification($specification);
 	}
 
 
@@ -184,5 +184,41 @@ abstract class SpecificationFactory implements Specification {
 	 */
 	public static function notIn($key, $value) {
 		//TODO
+	}
+
+
+	/**
+	 * @param $key
+	 * @param $value
+	 * @param $operator
+	 *
+	 * @return Specification
+	 */
+	private static function createGenericSpecification($key, $value, $operator)
+	{
+		return new GenericSpecification(sprintf('%s %s %s', $key, $operator, self::formatValue($value)));
+	}
+
+	/**
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	private static function formatValue($value)
+	{
+		if (is_array($value)) {
+			$formattedValues = array_map('self::formatValue', $value);
+			return sprintf('[%s]', implode(', ', $formattedValues));
+		}
+		if (empty($value)) {
+			return '""';
+		}
+		if (ctype_digit($value)) {
+			return $value;
+		}
+		if ($value[0] == ':') {
+			return $value;
+		}
+		return var_export($value, true);
 	}
 }

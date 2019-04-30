@@ -3,15 +3,15 @@
 namespace ILIAS\RuleEngine\Specification;
 
 /**
- * Class orX
+ * Class AndX
  *
  * @package ILIAS\RuleEngine\Specification
  *
  * @author Martin Studer ms@studer-raimann.ch
  */
-class orX extends Composite {
+class AndXSpecification extends Composite {
 
 	public function __construct(array $specifications = []) {
-		parent::__construct('OR', $specifications);
+		parent::__construct('AND', $specifications);
 	}
 }
