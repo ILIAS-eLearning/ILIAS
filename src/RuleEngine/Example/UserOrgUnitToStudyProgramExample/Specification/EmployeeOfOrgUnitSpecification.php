@@ -19,14 +19,17 @@ class EmployeeOfOrgUnitSpecification extends AbstractSpecification {
 	}
 
 
-	public function getRule() {
-		 return ":org_unit_id in org_units_of_employee";
+	public function getKey() {
+		// TODO: Implement getKey() method.
 	}
 
-	public function getParameters(): array
-	{
-		return [
-			'orgu_id' => $this->org_unit_id,
-		];
+
+	public function getValue() {
+		// TODO: Implement getValue() method.
+	}
+
+
+	public function getOperator() {
+		// TODO: Implement getOperator() method.
 	}
 }

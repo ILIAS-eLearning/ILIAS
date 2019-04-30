@@ -2,19 +2,19 @@
 
 namespace ILIAS\RuleEngine;
 
-use ILIAS\RuleEngine\Executor\ExecutorInterface;
+use ILIAS\RuleEngine\Executor\Executor;
 
 use ILIAS\RuleEngine\Specification\Specification;
-use ILIAS\RuleEngine\Compiler\CompilerTarget;
+use ILIAS\RuleEngine\Target\Target;
 
 class RuleEngine {
 
 	/**
-	 * @var compiler_targets[]
+	 * @var Target[]
 	 */
-	private $compiler_targets = [];
+	private $targets = [];
 	/**
-	 * @var executors[]
+	 * @var Executor[]
 	 */
 	private $executors = [];
 
@@ -22,10 +22,10 @@ class RuleEngine {
 	/**
 	 * @param array compilerTargets A list of compilation targets, each one handles a specific target type (an array, a DoctrineQueryBuilder, ...)
 	 */
-	public function __construct(array $compiler_targets, array $executors) {
+	public function __construct(array $targets, array $executors) {
 
-		foreach ($compiler_targets as $compiler_target) {
-			$this->registerCompilerTargets($compiler_target);
+		foreach ($targets as $target) {
+			$this->registerTargets($target);
 		}
 
 		foreach ($executors as $executor) {
@@ -35,37 +35,20 @@ class RuleEngine {
 
 
 	/**
-	 * @param CompilerTarget $compiler_target
+	 * @param Target $compiler_target
 	 */
-	public function registerCompilerTargets(CompilerTarget $compiler_target) {
-		$this->compiler_targets[] = $compiler_target;
+	public function registerTargets(Target $compiler_target) {
+		$this->targets[] = $compiler_target;
 	}
 
 
 	/**
 	 * Registers a new target compiler.
 	 *
-	 * @param CompilerTarget $compilerTarget The target compiler to register.
+	 * @param Target $compilerTarget The target compiler to register.
 	 */
-	public function registerExecutors(ExecutorInterface $executor) {
+	public function registerExecutors(Executor $executor) {
 		$this->executors[] = $executor;
-	}
-
-
-	/**
-	 * @param        $target
-	 * @param string $rule
-	 * @param array  $parameters
-	 *
-	 * @return mixed
-	 */
-	public function filter($target, string $rule, array $parameters = []) {
-
-		$target_compiler = $this->findTargetCompiler($target, CompilerTarget::MODE_FILTER);
-
-		$executor = $this->findExecutor($target_compiler);
-
-		return $executor->filter($target, $rule, $target_compiler->getOperators());
 	}
 
 
@@ -76,36 +59,41 @@ class RuleEngine {
 	 * @return mixed
 	 */
 	public function filterSpec($target, Specification $specification) {
-		return $this->filter($target, $specification->getRule(), $specification->getParameters());
+		$target_compiler = $this->findTarget($target, Target::MODE_FILTER);
+
+		$executor = $this->findExecutor($target_compiler);
+
+		return $executor->filter($target, $specification, $target_compiler->getOperators());
+	}
+
+
+	/**
+	 * @param Target $target_value
+	 * @param $mode
+	 *
+	 * @return Target
+	 */
+	private function findTarget($target_value, $mode) /*: Target */ {
+		/** @var Target $target */
+		foreach ($this->targets as $target) {
+			if ($target->supports($target_value, $mode)) {
+				return $target;
+			}
+		}
+		//TODO throw no target found
 	}
 
 
 	/**
 	 * @param $target
-	 * @param $mode
 	 *
-	 * @return CompilerTarget
+	 * @return Executor|executors
 	 */
-	private function findTargetCompiler($target, $mode): CompilerTarget {
-		/** @var CompilerTarget $target_compiler */
-		foreach ($this->compiler_targets as $target_compiler) {
-			if ($target_compiler->supports($target, $mode)) {
-				return $target_compiler;
-			}
-		}
-		//TODO throw no compiler found
-	}
-
-
-	/**
-	 * @param $target_compiler
-	 *
-	 * @return ExecutorInterface|executors
-	 */
-	private function findExecutor($target_compiler) /*: ExecutorInterface */ {
-		/** @var ExecutorInterface $executor */
+	private function findExecutor($target) /*: ExecutorInterface */ {
+		/** @var Executor $executor
+		 */
 		foreach ($this->executors as $executor) {
-			if ($executor->supports($target_compiler)) {
+			if ($executor->supports($target)) {
 				return $executor;
 			}
 		}

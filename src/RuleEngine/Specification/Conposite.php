@@ -41,20 +41,17 @@ class Composite implements Specification {
 	}
 
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getRule(): string {
-		return implode(sprintf(' %s ', $this->operator), array_map(function (Specification $specification) {
-			return sprintf('(%s)', $specification->getRule());
-		}, $this->specifications));
+	public function getKey() {
+		// TODO: Implement getKey() method.
 	}
 
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getParameters(): array {
-		//TODO
+	public function getValue() {
+		// TODO: Implement getValue() method.
+	}
+
+
+	public function getOperator() {
+		return $this->operator;
 	}
 }

@@ -189,6 +189,6 @@ abstract class SpecificationFactory implements Specification {
 	 */
 	private static function createSpec($key, $value, $operator)
 	{
-		return new GenericSpecification(sprintf('%s %s %s', $key, $operator,$value));
+		return new GenericSpecification($key, $value, $operator);
 	}
 }

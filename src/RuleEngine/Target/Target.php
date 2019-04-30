@@ -1,10 +1,10 @@
 <?php
 
-namespace ILIAS\RuleEngine\Compiler;
+namespace ILIAS\RuleEngine\Target;
 
 
 
-interface CompilerTarget
+interface Target
 {
 	const MODE_FILTER = 'filter';
 	const MODE_APPLY_FILTER = 'apply_filter';

@@ -1,26 +1,23 @@
 <?php
 
-namespace  ILIAS\RuleEngine\Executor\Entity;
+namespace ILIAS\RuleEngine\Executor\Entity;
 
 use ILIAS\RuleEngine\Entity\Entity;
-use ILIAS\RuleEngine\Executor\ExecutorInterface;
-use ILIAS\RuleEnginge\Target\ilSqlVisitor\ilSqlVisitor;
+use ILIAS\RuleEngine\Executor\Executor;
+use ILIAS\RuleEngine\Specification\Specification;
+use ILIAS\RuleEnginge\Target\SqlTarget\SqlTarget;
 
-class EntityExecutor implements ExecutorInterface {
+class EntityExecutor implements Executor {
 
 	/**
-	 * @param Entity           $target
-	 * @param string            $rule
-	 * @param array            $operators
+	 * @param Entity $target
+	 * @param string $rule
+	 * @param array  $operators
 	 */
-	public function filter($target, string $rule, array $operators) {
+	public function filter($target, Specification $specification, array $operators) {
 		global $DIC;
 
-
-		$select =
-		//$select = $target->getQuery()." WHERE ".implode(" AND ", $this->buildWhere($target,$parameters));
-		$select = $target->getQuery()." WHERE ".$rule;
-
+		$select = $select = $target->getQuery() . " WHERE " . implode(" AND ", $this->buildWhere($target, $specification));
 
 		$res = $DIC->database()->query($select)->execute();
 
@@ -34,26 +31,27 @@ class EntityExecutor implements ExecutorInterface {
 
 
 	/**
-	 * @param Entity $target
-	 * @param array $parameters
+	 * @param Entity        $target
+	 * @param Specification $specification
 	 */
-	private function buildWhere(Entity $target, array $parameters) {
+	private function buildWhere(Entity $target, Specification $specification) {
 		global $DIC;
 
 		$where = [];
-		foreach ($parameters as $key => $value) {
-			if($target->hasField($key)) {
-				//TODO other operators
 
-				$where[] = $DIC->database()->equals($key, $value, $target->getTypeFor($key),false);
-			}
+		if ($target->hasField($specification->getKey())) {
+			//TODO operator handler
+
+			$where[] = $DIC->database()
+				->equals($specification->getKey(), $specification->getValue(), $target->getTypeFor($specification->getKey()), false);
 		}
 
 		return $where;
 	}
 
+
 	public function supports($target_compiler): bool {
-		return $target_compiler instanceof ilSqlVisitor;
+		return $target_compiler instanceof SqlTarget;
 	}
 }
 

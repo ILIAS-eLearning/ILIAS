@@ -1,28 +1,29 @@
 <?php
 
-namespace  ILIAS\RuleEngine\Executor\Entity;
+namespace ILIAS\RuleEngine\Executor\Entity;
 
 use ILIAS\RuleEngine\Entity\Entity;
-use ILIAS\RuleEngine\Executor\ExecutorInterface;
-use ILIAS\RuleEnginge\Target\ArrayVisitor\ArrayVisitor;
+use ILIAS\RuleEngine\Executor\Executor;
+use ILIAS\RuleEngine\Specification\Specification;
+use ILIAS\RuleEnginge\Target\ArrayVisitor\ArrayTarget;
 use ILIAS\RuleEngine\Result\IteratorTools;
 
-class ArrayExecutor implements ExecutorInterface {
+class ArrayExecutor implements Executor {
 
 	/**
-	 * @param Entity           $target
-	 * @param array            $parameters
-	 * @param array            $operators
+	 * @param               $target
+	 * @param Specification $specification
+	 * @param array         $operators
+	 *
+	 * @return \Iterator
 	 */
-	public function filter($target, array $parameters, array $operators) {
+	public function filter($target, Specification $specification, array $operators) {
 
-		return IteratorTools::fromGenerator(function () use ($target, $parameters, $operators) {
+		return IteratorTools::fromGenerator(function () use ($target, $specification, $operators) {
 			foreach ($target as $row) {
-					yield $row;
+				yield $row;
 			}
 		});
-
-
 	}
 
 
@@ -32,7 +33,7 @@ class ArrayExecutor implements ExecutorInterface {
 
 
 	public function supports($target_compiler): bool {
-		return $target_compiler instanceof ArrayVisitor;
+		return $target_compiler instanceof ArrayTarget;
 	}
 }
 

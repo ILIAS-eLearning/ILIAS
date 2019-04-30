@@ -33,12 +33,4 @@ abstract class AbstractSpecification implements Specification {
 	public function not(): NotSpecification {
 		return new NotSpecification($this);
 	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getParameters(): array {
-		return [];
-	}
 }

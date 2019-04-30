@@ -9,14 +9,10 @@ namespace ILIAS\RuleEngine\Specification;
  */
 interface Specification {
 
-	/**
-	 * @return int|string
-	 */
-	public function getRule();
 
+	public function getKey();
 
-	/**
-	 * @return array
-	 */
-	public function getParameters(): array;
+	public function getValue();
+
+	public function getOperator();
 }

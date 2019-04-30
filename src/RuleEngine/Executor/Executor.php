@@ -2,13 +2,15 @@
 
 namespace ILIAS\RuleEngine\Executor;
 
-use ILIAS\RuleEngine\Context\ExecutionContext;
+use ILIAS\RuleEngine\Specification\Specification;
 
-interface ExecutorInterface {
+interface Executor {
 
-	public function filter($target, string $rule, array $operators);
+	public function filter($target, Specification $specification, array $operators);
+
 
 	public function satisfies($target, array $parameters, array $operators);
+
 
 	public function supports($target_compiler): bool;
 }

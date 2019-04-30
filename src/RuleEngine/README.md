@@ -1,36 +1,37 @@
-# Rule Enginge for ILIAS
-This namespace provides a small framework for creating ILIAS specific rules that can be checked synchronized and unsynchronized.
+# Rule Enginge for ILIAS - WORK IN PROGRESS
+This namespace provides a small framework for creating ILIAS specific rules that can be checked ad hoc and continuously. Rules can optional execute actions after rule execution.
 
 Overview and Glossary for this namespace:
 
 | Name | Description | Example |
 |------|-------------|---------|
-| Rule / Specification|  | ...
-| Target | ... | 
-| Executor |... | 
+| Rule / Specification|A rule like ((lastname = Doe) AND age > 44)) OR User is emmployee of orgunit with id 77  | SpecificationFactory::equals(new StringHandler('orgu_id'), new IntegerHandler($org_unit_id));
+| Target | Defines evaluation location and the possible operators | 
+| Executor |Responsible for rule condition evaluation and action execution | 
+| RuleRepository | Saved Rules to check continuously
+| RuleExecutionLog | Execution Log of Last rule executions to check for circular reference  
+| RuleActions | Actions for the rule
 
 
 Usage
 -----
-/**
-*
-* Filter ILIAS Objects
-*
-**/
+Filter ILIAS Objects
+--
+```
 $org_unit_id = 70;
-//$specification = new EmployeeOfOrgUnitSpecification($org_unit_id);
-$specification = SpecificationFactory::equals('orgu_id', $org_unit_id);
 
-$rule_engine = new RuleEngine([ new ilSqlVisitor() ], [ new EntityExecutor() ]);
+$specification = SpecificationFactory::equals(new StringHandler('orgu_id'), new IntegerHandler($org_unit_id));
+
+$rule_engine = new RuleEngine([ new SqlTarget() ], [ new EntityExecutor() ]);
 
 print_r($rule_engine->filterSpec(new ilOrgUnitUserAssignmentEntity(), $specification));
+```
 
 
-/**
-*
-* Filter Arrays
-*
-**/
+
+Filter Arrays
+----
+```
 $specification = SpecificationFactory::andX([
 			SpecificationFactory::equals('lastname', 'Doe'),
 			SpecificationFactory::moreThan('age', 44),
@@ -47,4 +48,4 @@ $arr_to_filter = [
 
 $rule_engine = new RuleEngine([ new ArrayVisitor() ], [ new ArrayExecutor() ]);
 $rule_engine->filterSpec($arr_to_filter,$specification);
- 
+ ```
