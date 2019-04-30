@@ -53,5 +53,24 @@ class Factory {
 		return new Transformations\Data($type);
 	}
 
+	/**
+	 * Transform to php DateTime.
+	 *
+	 * @return  Transformation
+	 */
+	public function toDate() {
+		return new Transformations\Date();
+	}
+
+	/**
+	 * Adjust a date to reflect a certain timezone.
+	 * This does not change the values of date, but sets the timezone.
+	 *
+	 * @return  Transformation
+	 */
+	public function toTZDate(string $timezone) {
+		return new Transformations\TZDate($timezone);
+	}
+
 
 }
