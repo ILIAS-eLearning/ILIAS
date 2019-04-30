@@ -21,7 +21,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * @param null $a_sub_index
 	 */
 	public function keepTempFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null) {
-		parent::keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
+		$this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
 	}
 
 
@@ -35,21 +35,13 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * @param null $a_index
 	 * @param null $a_sub_index
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	public static function getTempFilename($a_hash, $a_field, $a_name, $a_type, $a_index = null, $a_sub_index = null) {
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-
-		$user_id = $ilUser->getId();
-		if (!$user_id || $user_id == ANONYMOUS_USER_ID) {
-			return;
-		}
-
 		$a_name = ilUtil::getAsciiFileName($a_name);
 
 		$tmp_file_name = implode(
-			"~~", array($user_id,
+			"~~", array(session_id(),
 			            $a_hash,
 			            $a_field,
 			            $a_index,
@@ -69,16 +61,16 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 * Return temp files
 	 *
 	 * @param $hash
-	 * @param $user_id
 	 *
 	 * @return array
+	 * @throws ilDclException
 	 */
-	public static function getTempFileByHash($hash, $user_id) {
+	public static function getTempFileByHash($hash) {
 		$temp_path = ilUtil::getDataDir() . "/temp";
-		if (is_dir($temp_path) && $user_id && $user_id != ANONYMOUS_USER_ID) {
+		if (is_dir($temp_path)) {
 			$reload = array();
 
-			$temp_files = glob($temp_path . "/" . $user_id . "~~" . $hash . "~~*");
+			$temp_files = glob($temp_path . "/" . session_id() . "~~" . $hash . "~~*");
 			if (is_array($temp_files)) {
 				foreach ($temp_files as $full_file) {
 					$file = explode("~~", basename($full_file));
@@ -117,6 +109,8 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 					}
 				}
 			}
+		} else {
+			throw new ilDclException('temp dir path "' . $temp_path . '" is not a directory');
 		}
 
 		return $reload;
@@ -124,23 +118,12 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 
 
 	/**
-	 * Get reloaded files
-	 *
-	 * @return mixed
-	 */
-	public function getReloadedFiles() {
-		return $this->reloaded_files;
-	}
-
-
-	/**
 	 * Cleanup temp-files
 	 *
 	 * @param $hash
-	 * @param $user
 	 */
-	public function cleanupTempFiles($hash, $user) {
-		$files = glob(ilUtil::getDataDir() . "/temp/" . $user . "~~" . $hash . "~~*");
+	public function cleanupTempFiles($hash) {
+		$files = glob(ilUtil::getDataDir() . "/temp/" . session_id() . "~~" . $hash . "~~*");
 
 		foreach ($files as $file) {
 			if (file_exists($file)) {
