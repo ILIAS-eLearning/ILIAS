@@ -9405,8 +9405,6 @@ lso#:#lso_members_print_title#:#Lernsequenzmitglieder
 lso#:#lso_min_one_admin#:#Dieser Lernsequenz muß mindestens ein Administrator zugeordnet bleiben.
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
 lso#:#lso_new_status#:#Ihr neuer Status:
-lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
-lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 lso#:#lso_notification#:#Benachrichtigung
 lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuer die Benachrichtigungen aktiviert sind.
 lso#:#lso_notify_off#:#Benachrichtigungen über Neuanmeldungen deaktiviert
@@ -10723,6 +10721,8 @@ news#:#news_x_postings#:#%s Beiträge hinzugefügt.
 news#:#passwd_equals_ilpasswd#:#Bitte geben Sie aus Sicherheitsgründen ein anderes Passwort als Ihr ILIAS-Passwort ein
 news#:#priv_feed_disabled#:#Privater Newsfeed wurde deaktiviert.
 news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
+news#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
+news#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 note#:#note_comment_notification_link#:#Link
 note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, da Ihr Account als Empfänger für alle Kommentare in der ILIAS Adminstration gepflegt ist (Einstellungen Persönlicher Schreibtisch).
 note#:#note_comment_notification_salutation#:#Hallo %s,
