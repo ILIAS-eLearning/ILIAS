@@ -57,13 +57,6 @@ class ilStudyProgrammeProgress
 	 * desired guarantees by the database.
 	 * 
 	 * @var int
-	 *
-	 * @con_is_primary  true
-	 * @con_sequence    true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $id;
 
@@ -71,11 +64,6 @@ class ilStudyProgrammeProgress
 	 * The id of the assignment this progress belongs to.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $assignment_id;
 
@@ -83,11 +71,6 @@ class ilStudyProgrammeProgress
 	 * The id of the program node this progress belongs to.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $prg_id;
 
@@ -95,11 +78,6 @@ class ilStudyProgrammeProgress
 	 * The id of the user this progress belongs to.
 	 * 
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 
 	protected $usr_id;
@@ -109,11 +87,6 @@ class ilStudyProgrammeProgress
 	 * node.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $points;
 
@@ -121,11 +94,6 @@ class ilStudyProgrammeProgress
 	 * Amount of points the user currently has in the subnodes of this node.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $points_cur;
  
@@ -133,11 +101,6 @@ class ilStudyProgrammeProgress
 	 * The status this progress is in.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      1
-	 * @con_is_notnull  true 
 	 */
 	protected $status;
 
@@ -148,11 +111,6 @@ class ilStudyProgrammeProgress
 	 * otherwise.
 	 *
 	 * @var int
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  false
 	 */
 	protected $completion_by;
 	
@@ -162,10 +120,6 @@ class ilStudyProgrammeProgress
 	 * last time.
 	 *
 	 * @var int
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp 
-	 * @con_is_notnull  true
 	 */
 	protected $last_change;
 
@@ -173,11 +127,6 @@ class ilStudyProgrammeProgress
 	 * Id of the user who did the last manual update of the progress
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  false 
 	 */
 	protected $last_change_by;
 
@@ -185,10 +134,6 @@ class ilStudyProgrammeProgress
 	 * Date of asssignment
 	 *
 	 * @var \DateTime
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp
-	 * @con_is_notnull  false
 	 */
 	protected $assignment_date;
 
@@ -196,10 +141,6 @@ class ilStudyProgrammeProgress
 	 * Date of asssignment
 	 *
 	 * @var \DateTime
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp
-	 * @con_is_notnull  false
 	 */
 	protected $completion_date;
 
@@ -207,10 +148,6 @@ class ilStudyProgrammeProgress
 	 * Date until user has to finish
 	 *
 	 * @var \DateTime
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp
-	 * @con_is_notnull  false
 	 */
 	protected $deadline;
 

@@ -57,12 +57,6 @@ class ilStudyProgrammeSettings{
 	 * Id of this study program and the corresponding ILIAS-object as well.
 	 *
 	 * @var int
-	 * 
-	 * @con_is_primary  true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $obj_id;
 	
@@ -71,10 +65,6 @@ class ilStudyProgrammeSettings{
 	 * object in the subtree of the program.
 	 * 
 	 * @var string 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp 
-	 * @con_is_notnull  true
 	 */
 	protected $last_change;
 
@@ -84,11 +74,6 @@ class ilStudyProgrammeSettings{
 	 * Subtype concepts is also used in Org-Units. 
 	 * 
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $subtype_id;
 
@@ -98,11 +83,6 @@ class ilStudyProgrammeSettings{
 	 * as well.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $points; 
 
@@ -110,11 +90,6 @@ class ilStudyProgrammeSettings{
 	 * Mode the calculation of the learning progress on this node is run in.    
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      1
-	 * @con_is_notnull  true 
 	 */
 	protected $lp_mode;
 
@@ -122,11 +97,6 @@ class ilStudyProgrammeSettings{
 	 * Lifecycle status the program is in.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      1
-	 * @con_is_notnull  true 
 	 */
 	protected $status;
 

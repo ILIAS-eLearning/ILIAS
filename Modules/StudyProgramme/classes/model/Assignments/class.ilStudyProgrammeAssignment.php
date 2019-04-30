@@ -21,13 +21,7 @@ class ilStudyProgrammeAssignment
 	 * Id of this assignment.
 	 *
 	 * @var int
-	 * 
-	 * @con_is_primary  true
-	 * @con_sequence    true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
+
 	 */
 	protected $id;
  
@@ -35,11 +29,6 @@ class ilStudyProgrammeAssignment
 	 * The id of the user that is assigned. 
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $usr_id;
 
@@ -48,11 +37,6 @@ class ilStudyProgrammeAssignment
 	 * a larger program. This is the object id of the program.
 	 * 
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true
 	 */
 	protected $root_prg_id;
 
@@ -61,10 +45,6 @@ class ilStudyProgrammeAssignment
 	 * Timestamp of the moment of the assignment to or last update of the program.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp 
-	 * @con_is_notnull  true 
 	 */
 	protected $last_change; 
 
@@ -72,11 +52,6 @@ class ilStudyProgrammeAssignment
 	 * Id of user who did the assignment to or last update of the program.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $last_change_by;
 
