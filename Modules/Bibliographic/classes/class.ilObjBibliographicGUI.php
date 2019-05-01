@@ -97,9 +97,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	/**
 	 * getType
 	 *
+	 * @return String
 	 * @deprecated REFACTOR use type factory via Facade
 	 *
-	 * @return String
 	 */
 	public function getType() {
 		return "bibl";
@@ -119,6 +119,12 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "bibl");
 			$this->addHeaderAction();
 		}
+
+		// general Access Check, especially for single entries not matching the object
+		if (!$DIC->access()->checkAccess('visible', "", $this->object->getRefId())) {
+			$this->handleNonAccess();
+		}
+
 		$next_class = $this->dic()->ctrl()->getNextClass($this);
 		$this->cmd = $this->dic()->ctrl()->getCmd();
 		switch ($next_class) {
@@ -179,6 +185,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				}
 				break;
 		}
+
 		return true;
 	}
 
@@ -240,16 +247,20 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		// Detail-View
 		if ($id[1]) {
 			$DIC->ctrl()
-			    ->setParameterByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
-			$DIC->ctrl()->redirectByClass(array(
-				ilRepositoryGUI::class,
-				ilObjBibliographicGUI::class,
-			), self::CMD_SHOW_DETAILS);
+				->setParameterByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
+			$DIC->ctrl()->redirectByClass(
+				array(
+					ilRepositoryGUI::class,
+					ilObjBibliographicGUI::class,
+				), self::CMD_SHOW_DETAILS
+			);
 		} else {
-			$DIC->ctrl()->redirectByClass(array(
-				ilRepositoryGUI::class,
-				ilObjBibliographicGUI::class,
-			), self::CMD_VIEW);
+			$DIC->ctrl()->redirectByClass(
+				array(
+					ilRepositoryGUI::class,
+					ilObjBibliographicGUI::class,
+				), self::CMD_VIEW
+			);
 		}
 	}
 
@@ -265,7 +276,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$forms = parent::initCreationForms($a_new_type);
 		// Add File-Upload
 		$in_file = new ilFileInputGUI($DIC->language()->txt("bibliography file"), "bibliographic_file");
-		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
+		$in_file->setSuffixes(array("ris", "bib", "bibtex"));
 		$in_file->setRequired(true);
 		$forms[self::CFORM_NEW]->addItem($in_file);
 		$this->ctrl->saveParameterByClass('ilobjrootfoldergui', 'new_type');
@@ -319,39 +330,54 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$ilHelp->setScreenIdComponent('bibl');
 		// info screen
 		if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
-			$DIC->tabs()->addTab(self::TAB_CONTENT, $DIC->language()
-			                                            ->txt(self::TAB_CONTENT), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT));
+			$DIC->tabs()->addTab(
+				self::TAB_CONTENT, $DIC->language()
+				->txt(self::TAB_CONTENT), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT)
+			);
 		}
 		// info screen
 		if ($DIC->access()->checkAccess('visible', "", $this->object->getRefId())
-		    || $DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
-			$DIC->tabs()->addTab(self::TAB_ID_INFO, $DIC->language()
-			                                            ->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+			|| $DIC->access()->checkAccess('read', "", $this->object->getRefId())
+		) {
+			$DIC->tabs()->addTab(
+				self::TAB_ID_INFO, $DIC->language()
+				->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary")
+			);
 		}
 		// settings
 		if ($DIC->access()->checkAccess('write', "", $this->object->getRefId())) {
-			$DIC->tabs()->addTab(self::SUBTAB_SETTINGS, $DIC->language()
-			                                                ->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT));
+			$DIC->tabs()->addTab(
+				self::SUBTAB_SETTINGS, $DIC->language()
+				->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
+			);
 		}
 		// export
 		if ($DIC->access()->checkAccess("write", "", $this->object->getRefId())) {
-			$DIC->tabs()->addTab(self::TAB_EXPORT, $DIC->language()
-			                                           ->txt(self::TAB_EXPORT), $this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+			$DIC->tabs()->addTab(
+				self::TAB_EXPORT, $DIC->language()
+				->txt(self::TAB_EXPORT), $this->ctrl->getLinkTargetByClass("ilexportgui", "")
+			);
 		}
 		// edit permissions
 		if ($DIC->access()->checkAccess('edit_permission', "", $this->object->getRefId())) {
-			$DIC->tabs()->addTab(self::TAB_ID_PERMISSIONS, $DIC->language()
-			                                                   ->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
+			$DIC->tabs()->addTab(
+				self::TAB_ID_PERMISSIONS, $DIC->language()
+				->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
+			);
 		}
 	}
 
 
 	protected function initSubTabs() {
 		global $DIC;
-		$DIC->tabs()->addSubTab(self::SUBTAB_SETTINGS, $DIC->language()
-		                                                   ->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT));
-		$DIC->tabs()->addSubTab(self::SUB_TAB_FILTER, $DIC->language()
-		                                                  ->txt("bibl_filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
+		$DIC->tabs()->addSubTab(
+			self::SUBTAB_SETTINGS, $DIC->language()
+			->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
+		);
+		$DIC->tabs()->addSubTab(
+			self::SUB_TAB_FILTER, $DIC->language()
+			->txt("bibl_filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD)
+		);
 	}
 
 
@@ -360,12 +386,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 		$form = parent::initEditForm();
 		// Add File-Upload
-		$in_file = new ilFileStandardDropzoneInputGUI($DIC->language()
-		                                                  ->txt("bibliographic_file"), "bibliographic_file");
-		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
+		$in_file = new ilFileStandardDropzoneInputGUI(
+			$DIC->language()
+				->txt("bibliographic_file"), "bibliographic_file"
+		);
+		$in_file->setSuffixes(array("ris", "bib", "bibtex"));
 		$in_file->setRequired(false);
-		$cb_override = new ilCheckboxInputGUI($DIC->language()
-		                                          ->txt("override_entries"), "override_entries");
+		$cb_override = new ilCheckboxInputGUI(
+			$DIC->language()
+				->txt("override_entries"), "override_entries"
+		);
 		$cb_override->addSubItem($in_file);
 
 		$form->addItem($cb_override);
@@ -432,11 +462,14 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$DIC->ui()->mainTemplate()->setPermanentLink("bibl", $this->object->getRefId());
 		} else {
 			$object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
-			ilUtil::sendFailure(sprintf($DIC->language()
-			                                ->txt("msg_no_perm_read_item"), $object_title), true);
+			ilUtil::sendFailure(
+				sprintf(
+					$DIC->language()
+						->txt("msg_no_perm_read_item"), $object_title
+				), true
+			);
 			//redirect to repository without any parameters
-			unset($_GET);
-			ilObjectGUI::_gotoRepositoryRoot();
+			$this->handleNonAccess();
 		}
 	}
 
@@ -474,8 +507,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				}
 			}
 		} else {
-			ilUtil::sendFailure($DIC['lng']->txt("no_permission"), true);
-			ilObjectGUI::_gotoRepositoryRoot();
+			$this->handleNonAccess();
 		}
 	}
 
@@ -486,13 +518,12 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
 			$id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
 			$entry = $this->facade->entryFactory()
-			                      ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
+				->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
 			$bibGUI = new ilBiblEntryDetailPresentationGUI($entry, $this->facade);
 
 			$DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
 		} else {
-			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
-			ilObjectGUI::_gotoRepositoryRoot();
+			$this->handleNonAccess();
 		}
 	}
 
@@ -517,8 +548,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$this->addNews($this->object->getId(), 'updated');
 			}
 		} else {
-			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
-			ilObjectGUI::_gotoRepositoryRoot();
+			$this->handleNonAccess();
 		}
 	}
 
@@ -528,12 +558,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 		switch ($_GET["ntf"]) {
 			case 1:
-				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
-				                                                                          ->getId(), $this->obj_id, false);
+				ilNotification::setNotification(
+					ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
+					->getId(), $this->obj_id, false
+				);
 				break;
 			case 2:
-				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
-				                                                                          ->getId(), $this->obj_id, true);
+				ilNotification::setNotification(
+					ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
+					->getId(), $this->obj_id, true
+				);
 				break;
 		}
 		$DIC->ctrl()->redirect($this, "");
@@ -615,5 +649,14 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$a_new_object->writeSourcefileEntriesToDb();
 
 		parent::afterImport($a_new_object);
+	}
+
+
+	private function handleNonAccess() {
+		global $DIC;
+
+		unset($_GET);
+		ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
+		ilObjectGUI::_gotoRepositoryRoot();
 	}
 }
