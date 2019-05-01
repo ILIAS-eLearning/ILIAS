@@ -288,6 +288,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * init filters with values from tableview
 	 */
 	public function initFilterFromTableView() {
+		$this->filters = [];
+		$this->filter = [];
 		foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
 			$field = $field_set->getFieldObject();
 			ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
