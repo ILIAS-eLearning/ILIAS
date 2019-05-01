@@ -71,6 +71,25 @@ class ilBibliographicEntry {
 
 
 	/**
+	 * @param $entry_id
+	 * @param $obj_id
+	 *
+	 * @return bool
+	 */
+	public static function exists($entry_id, $obj_id) {
+		$q = "SELECT * FROM il_bibl_entry WHERE id = %s AND data_id = %s";
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		$r = $ilDB->queryF($q, array('integer', 'integer'), array($entry_id, $obj_id));
+
+		return ($r->numRows() > 0);
+	}
+
+
+	/**
 	 * @param      $file_type
 	 * @param null $entry_id
 	 */
