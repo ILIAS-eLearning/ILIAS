@@ -352,10 +352,10 @@ class ilDclRecordListGUI {
 			if(isset($_GET['ilfilehash'])) {
 				$filehash = $_GET['ilfilehash'];
 				$field_id = $_GET['field_id'];
-				$file = ilDclPropertyFormGUI::getTempFileByHash($filehash, $ilUser->getId());
+				ilDclPropertyFormGUI::rebuildTempFileByHash($filehash);
 
-				$filepath = $file["field_".$field_id]['tmp_name'];
-				$filetitle = $file["field_".$field_id]['name'];
+				$filepath = $_FILES["field_" . $field_id]['tmp_name'];
+				$filetitle = $_FILES["field_" . $field_id]['name'];
 			} else {
 				$rec_id = $_GET['record_id'];
 				$record = ilDclCache::getRecordCache($rec_id);
