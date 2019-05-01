@@ -83,6 +83,13 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 		if ($a_user_id == "") {
 			$a_user_id = $ilUser->getId();
 		}
+
+		if (isset($_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
+			if (!self::checkEntryIdMatch($a_obj_id, $_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
+				return false;
+			}
+		}
+
 		switch ($a_cmd) {
 			case "view":
 				if (!self::_lookupOnline($a_obj_id)
@@ -116,6 +123,17 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * @param $obj_id
+	 * @param $entry_id
+	 *
+	 * @return bool
+	 */
+	private static function checkEntryIdMatch($obj_id, $entry_id) {
+		return ilBibliographicEntry::exists($entry_id, $obj_id);
 	}
 
 
