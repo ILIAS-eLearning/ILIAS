@@ -62,14 +62,11 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 	 *
 	 * @param $hash
 	 *
-	 * @return array
 	 * @throws ilDclException
 	 */
-	public static function getTempFileByHash($hash) {
+	public static function rebuildTempFileByHash($hash) {
 		$temp_path = ilUtil::getDataDir() . "/temp";
 		if (is_dir($temp_path)) {
-			$reload = array();
-
 			$temp_files = glob($temp_path . "/" . session_id() . "~~" . $hash . "~~*");
 			if (is_array($temp_files)) {
 				foreach ($temp_files as $full_file) {
@@ -82,28 +79,28 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 
 					if ($idx2 != "") {
 						if (!$_FILES[$field]["tmp_name"][$idx][$idx2]) {
-							$reload[$field]["tmp_name"][$idx][$idx2] = $full_file;
-							$reload[$field]["name"][$idx][$idx2] = $name;
-							$reload[$field]["type"][$idx][$idx2] = $type;
-							$reload[$field]["error"][$idx][$idx2] = 0;
-							$reload[$field]["size"][$idx][$idx2] = filesize($full_file);
+							$_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
+							$_FILES[$field]["name"][$idx][$idx2] = $name;
+							$_FILES[$field]["type"][$idx][$idx2] = $type;
+							$_FILES[$field]["error"][$idx][$idx2] = 0;
+							$_FILES[$field]["size"][$idx][$idx2] = filesize($full_file);
 						}
 					} else {
 						if ($idx != "") {
 							if (!$_FILES[$field]["tmp_name"][$idx]) {
-								$reload[$field]["tmp_name"][$idx] = $full_file;
-								$reload[$field]["name"][$idx] = $name;
-								$reload[$field]["type"][$idx] = $type;
-								$reload[$field]["error"][$idx] = 0;
-								$reload[$field]["size"][$idx] = filesize($full_file);
+								$_FILES[$field]["tmp_name"][$idx] = $full_file;
+								$_FILES[$field]["name"][$idx] = $name;
+								$_FILES[$field]["type"][$idx] = $type;
+								$_FILES[$field]["error"][$idx] = 0;
+								$_FILES[$field]["size"][$idx] = filesize($full_file);
 							}
 						} else {
 							if (!$_FILES[$field]["tmp_name"]) {
-								$reload[$field]["tmp_name"] = $full_file;
-								$reload[$field]["name"] = $name;
-								$reload[$field]["type"] = $type;
-								$reload[$field]["error"] = 0;
-								$reload[$field]["size"] = filesize($full_file);
+								$_FILES[$field]["tmp_name"] = $full_file;
+								$_FILES[$field]["name"] = $name;
+								$_FILES[$field]["type"] = $type;
+								$_FILES[$field]["error"] = 0;
+								$_FILES[$field]["size"] = filesize($full_file);
 							}
 						}
 					}
@@ -112,8 +109,6 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI {
 		} else {
 			throw new ilDclException('temp dir path "' . $temp_path . '" is not a directory');
 		}
-
-		return $reload;
 	}
 
 
