@@ -338,7 +338,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$add_title = ' ['. $this->lng->txt('question_id_short') . ': ' . $question_id  . ']';
 
 		$suggested_solution = assQuestion::_getSuggestedSolutionOutput($question_id);
-		if(strlen($suggested_solution) > 0){
+		if($this->object->getShowSolutionSuggested() && strlen($suggested_solution) > 0){
 			$tmp_tpl->setVariable('TEXT_SOLUTION_HINT', $this->lng->txt("solution_hint"));
 			$tmp_tpl->setVariable("SOLUTION_HINT", assQuestion::_getSuggestedSolutionOutput($question_id));
 		}
