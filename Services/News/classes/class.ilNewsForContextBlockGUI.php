@@ -496,7 +496,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
 		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news = new ilNewsItem($_GET["news_id"]);
+		$news = new ilNewsItem((int) $_GET["news_id"]);
 		
 		$tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
 
@@ -513,7 +513,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$c = next($this->data);
 			$curr_cnt++;
 		}
-		
+
+		if (!is_array($c) && is_object($news) && $news->getId() > 0
+			&& ilNewsItem::_lookupContextObjId($news->getId()) != $ilCtrl->getContextObjId())
+		{
+			throw new ilException("News ID does not match object context.");
+		}
+
+
 		// collect news items to show
 		$news_list = array();
 		if (is_array($c["aggregation"]))	// we have an aggregation

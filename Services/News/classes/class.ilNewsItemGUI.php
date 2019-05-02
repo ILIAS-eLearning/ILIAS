@@ -80,6 +80,14 @@ class ilNewsItemGUI
 	{
 		global $ilCtrl;
 
+		// check, if news item id belongs to context
+		if (is_object($this->news_item) && $this->news_item->getId() > 0
+			&& ilNewsItem::_lookupContextObjId($this->news_item->getId()) != $this->getContextObjId())
+		{
+			throw new ilException("News ID does not match object context.");
+		}
+
+
 		// get next class and command
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
