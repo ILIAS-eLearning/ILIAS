@@ -39,7 +39,7 @@ GetMessageHTML = Functions with name: "getMessageHTML"
 SetOnScreenMessage = Functions with name: "setOnScreenMessage"
 GetSystemMessageHTML = Functions with name: "getSystemMessageHTML"
 GetSpecial = Functions with name: "getSpecial"
-SVGFiles = Files with name:".*.svg$"
+SVGFiles = Files with name:".*[.]svg"
 
 
 /**
