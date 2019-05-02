@@ -247,10 +247,10 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
 
 	/**
-	 * @deprecated
+	 * @return array
 	 * @see getPossibleSubItemTypesWithInformation
 	 *
-	 * @return array
+	 * @deprecated
 	 */
 	public function getPossibleSubItemTypesForForm(): array {
 		$types = [];
@@ -286,9 +286,9 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
 
 	/**
-	 * @deprecated
-	 * @see getPossibleTopItemTypesWithInformation
 	 * @return array
+	 * @see getPossibleTopItemTypesWithInformation
+	 * @deprecated
 	 */
 	public function getPossibleTopItemTypesForForm(): array {
 		$types = [];
@@ -318,11 +318,11 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
 
 	/**
-	 * @deprecated
-	 *
 	 * @param string $type
 	 *
 	 * @return TypeHandler
+	 * @deprecated
+	 *
 	 */
 	public function getTypeHandlerForType(string $type): TypeHandler {
 		$item = $this->services->mainBar()->custom($type, new NullIdentification());
@@ -335,8 +335,10 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 * @param ilMMItemFacadeInterface $item_facade
 	 */
 	public function updateItem(ilMMItemFacadeInterface $item_facade) {
-		$item_facade->update();
-		$this->storage->cache()->flush();
+		if ($item_facade->isEditable()) {
+			$item_facade->update();
+			$this->storage->cache()->flush();
+		}
 	}
 
 
@@ -353,7 +355,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 	 * @param ilMMItemFacadeInterface $item_facade
 	 */
 	public function deleteItem(ilMMItemFacadeInterface $item_facade) {
-		if ($item_facade->isCustom()) {
+		if ($item_facade->isDeletable()) {
 			$item_facade->delete();
 			$this->storage->cache()->flush();
 		}
