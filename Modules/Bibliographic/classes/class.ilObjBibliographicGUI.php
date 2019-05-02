@@ -202,15 +202,19 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		// Detail-View
 		if ($id[1]) {
 			$DIC['ilCtrl']->setParameterByClass("ilobjbibliographicgui", ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
-			$DIC['ilCtrl']->redirectByClass(array(
-				"ilRepositoryGUI",
-				"ilobjbibliographicgui",
-			), self::CMD_SHOW_DETAILS);
+			$DIC['ilCtrl']->redirectByClass(
+				array(
+					"ilRepositoryGUI",
+					"ilobjbibliographicgui",
+				), self::CMD_SHOW_DETAILS
+			);
 		} else {
-			$DIC['ilCtrl']->redirectByClass(array(
-				"ilRepositoryGUI",
-				"ilobjbibliographicgui",
-			), self::CMD_VIEW);
+			$DIC['ilCtrl']->redirectByClass(
+				array(
+					"ilRepositoryGUI",
+					"ilobjbibliographicgui",
+				), self::CMD_VIEW
+			);
 		}
 	}
 
@@ -226,7 +230,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$forms = parent::initCreationForms($a_new_type);
 		// Add File-Upload
 		$in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
-		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
+		$in_file->setSuffixes(array("ris", "bib", "bibtex"));
 		$in_file->setRequired(true);
 		$forms[self::CFORM_NEW]->addItem($in_file);
 		$this->ctrl->saveParameterByClass('ilobjrootfoldergui', 'new_type');
@@ -312,7 +316,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$form = parent::initEditForm();
 		// Add File-Upload
 		$in_file = new ilFileStandardDropzoneInputGUI($lng->txt("bibliography file"), "bibliographic_file");
-		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
+		$in_file->setSuffixes(array("ris", "bib", "bibtex"));
 		$in_file->setRequired(false);
 		$cb_override = new ilCheckboxInputGUI($this->lng->txt("override_entries"), "override_entries");
 		$cb_override->addSubItem($in_file);
@@ -364,8 +368,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$ilTabs = $DIC['ilTabs'];
 		// if user has read permission and object is online OR user has write permissions
 		if (($ilAccess->checkAccess('read', "", $this->object->getRefId())
-		     && $this->object->getOnline())
-		    || $ilAccess->checkAccess('write', "", $this->object->getRefId())
+				&& $this->object->getOnline())
+			|| $ilAccess->checkAccess('write', "", $this->object->getRefId())
 		) {
 			$ilTabs->setTabActive(self::TAB_CONTENT);
 

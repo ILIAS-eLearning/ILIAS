@@ -58,15 +58,17 @@ class ilBiblOverviewGUI {
 			}
 			if ($attributes[$cuts[1]]) {
 				//if the attribute for the attribute key exists, replace one attribute in the overview text line of a single entry with its actual value and the text before and after the value given by the model
-				$single_entry = str_replace($placeholders[0][$key], $cuts[0] . $attributes[$cuts[1]]
-				                                                    . $cuts[2], $single_entry);
+				$single_entry = str_replace(
+					$placeholders[0][$key], $cuts[0] . $attributes[$cuts[1]]
+					                      . $cuts[2], $single_entry
+				);
 				// replace the <emph> tags with a span, in order to make text italic by css
 				do {
 					$first_sign_after_begin_emph_tag = strpos(strtolower($single_entry), '<emph>')
-					                                   + 6;
+						+ 6;
 					$last_sign_after_end_emph_tag = strpos(strtolower($single_entry), '</emph>');
 					$italic_text_length = $last_sign_after_end_emph_tag
-					                      - $first_sign_after_begin_emph_tag;
+						- $first_sign_after_begin_emph_tag;
 					//would not be true if there is no <emph> tag left
 					if ($last_sign_after_end_emph_tag) {
 						$italic_text = substr($single_entry, $first_sign_after_begin_emph_tag, $italic_text_length);
@@ -76,12 +78,16 @@ class ilBiblOverviewGUI {
 						$it_tpl->setVariable('ITALIC_STRING', $italic_text);
 						$it_tpl->parseCurrentBlock();
 						//replace the emph tags and the text between with the parsed text from il_tpl
-						$text_before_emph_tag = substr($single_entry, 0, $first_sign_after_begin_emph_tag
-						                                                 - 6);
-						$text_after_emph_tag = substr($single_entry, $last_sign_after_end_emph_tag
-						                                             + 7);
+						$text_before_emph_tag = substr(
+							$single_entry, 0, $first_sign_after_begin_emph_tag
+							             - 6
+						);
+						$text_after_emph_tag = substr(
+							$single_entry, $last_sign_after_end_emph_tag
+							             + 7
+						);
 						$single_entry = $text_before_emph_tag . $it_tpl->get()
-						                . $text_after_emph_tag;
+							. $text_after_emph_tag;
 					}
 				} while ($last_sign_after_end_emph_tag);
 			} else {
