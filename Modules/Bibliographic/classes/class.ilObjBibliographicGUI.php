@@ -386,7 +386,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 		$form = parent::initEditForm();
 		// Add File-Upload
-		$in_file = new ilFileStandardDropzoneInputGUI(
+		$in_file = new ilFileInputGUI(
 			$DIC->language()
 				->txt("bibliography_file"), "bibliographic_file"
 		);
