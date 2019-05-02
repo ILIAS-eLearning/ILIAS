@@ -498,7 +498,7 @@ class ilCronManager
 			foreach((array)$plugin_obj->getCronJobInstances() as $job)
 			{				
 				$item = array_pop(ilCronManager::getCronJobData($job->getId()));					
-				if(!sizeof($item))
+				if(!is_array($item) || 0 === count($item))
 				{						
 					// as job is not "imported" from xml
 					ilCronManager::createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, "");
