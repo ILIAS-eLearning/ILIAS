@@ -10704,7 +10704,7 @@ bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
 bibl#:#override_entries#:#Override Entries
 bibl#:#bibl_edit#:#Edit Bibliography
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#detail_view#:#Detail View
 bibl#:#bibl_settings_libraries#:#Libraries

@@ -2121,7 +2121,7 @@ bibl#:#bibl_settings_new#:#ライブラリーを追加
 bibl#:#bibl_translation_desc#:#Description
 bibl#:#bibl_translation_lang#:#Language
 bibl#:#bibl_translation_trans#:#Translation
-bibl#:#bibliography file#:#文献目録ファイル
+bibl#:#bibliography_file#:#文献目録ファイル
 bibl#:#bibtex#:#Bibtex
 bibl#:#changes_saved#:#Changes were saved.
 bibl#:#custom#:#Custom

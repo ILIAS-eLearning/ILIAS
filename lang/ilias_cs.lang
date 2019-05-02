@@ -1315,7 +1315,7 @@ bibl#:#bibl_add#:#Přidat bibliografii
 bibl#:#bibl_copy#:#Uživatel může kopírovat bibliografii
 bibl#:#bibl_edit#:#Upravit bibliografii
 bibl#:#bibl_new#:#Nová bibliografie
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#detail_view#:#Podrobný náhled
 bibl#:#download_original_file#:#Download Original File
 bibl#:#obj_bibl_duplicate#:#Duplikovat bibliografii

@@ -9673,7 +9673,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable

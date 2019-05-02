@@ -1464,7 +1464,7 @@ auth#:#login_page_activate#:#Inschakelen Editor voor de geslecteerde talen
 auth#:#login_page_editor_switched#:#De actieve pagina editor is gewijzigd
 auth#:#login_page_switch_ipe#:#Gebruik ILIAS Pagina Editor
 auth#:#login_page_switch_rte#:#Gebruik Rich-Text-Editor
-bibl#:#bibliography file#:#Bibliografie bestand
+bibl#:#bibliography_file#:#Bibliografie bestand
 bibl#:#bibl_add#:#Add Boekenlijst
 bibl#:#bibl_copy#:#Gebruiker kan boekenlijst kopiëren.
 bibl#:#bibl_edit#:#Wijzigen Boekenlijst

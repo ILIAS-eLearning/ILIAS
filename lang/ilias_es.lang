@@ -9671,7 +9671,7 @@ bibl#:#download_original_file#:#Descargar fichero original###24 10 2013 new vari
 bibl#:#Type#:#Tipo###24 10 2013 new variable
 bibl#:#override_entries#:#Sobreescribir entradas###24 10 2013 new variable
 bibl#:#bibl_edit#:#Editar Bibliografía###24 10 2013 new variable
-bibl#:#bibliography file#:#Archivo Bibliografía###24 10 2013 new variable
+bibl#:#bibliography_file#:#Archivo Bibliografía###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Bibliografía duplicada###24 10 2013 new variable
 bibl#:#detail_view#:#Vista detallada###24 10 2013 new variable
 rbac#:#bibl_visible#:#La Bibliografía está visible###24 10 2013 new variable
