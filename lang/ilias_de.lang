@@ -10701,7 +10701,7 @@ bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#Type#:#Typ
 bibl#:#bibl_edit#:#Literaturliste bearbeiten
-bibl#:#bibliography file#:#Literaturlisten-Datei
+bibl#:#bibliography_file#:#Literaturlisten-Datei
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
 bibl#:#detail_view#:#Detailansicht
 bibl#:#bibl_settings_libraries#:#Bibliotheken
