@@ -121,7 +121,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		}
 
 		// general Access Check, especially for single entries not matching the object
-		if (!$DIC->access()->checkAccess('visible', "", $this->object->getRefId())) {
+		if ($this->object instanceof ilObjBibliographic && !$DIC->access()->checkAccess('visible', "", $this->object->getRefId())) {
 			$this->handleNonAccess();
 		}
 
