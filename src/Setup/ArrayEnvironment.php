@@ -2,11 +2,11 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup\Runner;
+namespace ILIAS\Setup;
 
 use ILIAS\Setup;
 
-class Environment implements Setup\Environment {
+class ArrayEnvironment implements Environment {
 	/**
 	 * @var	array<string,mixed>
 	 */
