@@ -6,7 +6,7 @@ namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
 
-class CLITest extends \PHPUnit\Framework\TestCase {
+class RunnerTest extends \PHPUnit\Framework\TestCase {
 	public function testBasicAlgorithm() {
 		$goal = $this->newGoal();
 		$config = $this->createMock(Setup\Config::class);
@@ -14,7 +14,7 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 
 		$type = "TYPE";
 
-		$runner = new Setup\Runner\CLI($environment, $goal);
+		$runner = new Setup\CLI\Runner($environment, $goal);
 
 		$goal
 			->expects($this->once())
@@ -75,7 +75,7 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner\CLI($environment, $goal1);
+		$runner = new Setup\CLI\Runner($environment, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
 		$expected = array_map($f, [$goal11, $goal121, $goal12, $goal1]);
@@ -111,7 +111,7 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner\CLI($environment, $goal1);
+		$runner = new Setup\CLI\Runner($environment, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
 		$expected = array_map($f, [$goal11, $goal1]);
@@ -145,7 +145,7 @@ class CLITest extends \PHPUnit\Framework\TestCase {
 				->willReturn($goal);
 		}
 
-		$runner = new Setup\Runner\CLI($environment, $goal1);
+		$runner = new Setup\CLI\Runner($environment, $goal1);
 
 		$this->expectException(Setup\UnachievableException::class);		
 		iterator_to_array($runner->allGoals());
