@@ -195,7 +195,7 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($conf3, $conf->getConfig("c3"));
 	}
 
-	public function testGetSetupGoal() {
+	public function testGetInstallGoal() {
 		$ff = $this->createMock(FieldFactory::class);
 		$tf = new TransformationFactory();
 
@@ -218,19 +218,19 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 
 		$c1
 			->expects($this->once())
-			->method("getSetupGoal")
+			->method("getInstallGoal")
 			->with($conf1)
 			->willReturn($g1);
 		$c2
 			->expects($this->once())
-			->method("getSetupGoal")
+			->method("getInstallGoal")
 			->with()
 			->willReturn($g2);
 
 		$col = new Setup\ConsumerCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2]);
 		$conf = new Setup\ConfigCollection(["c1" => $conf1]);
 
-		$g = $col->getSetupGoal($conf);
+		$g = $col->getInstallGoal($conf);
 
 		$this->assertInstanceOf(Setup\GoalCollection::class, $g);
 		$this->assertEquals([$g1, $g2], $g->getGoals());
@@ -282,7 +282,7 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 
 		$consumer = $this
 			->getMockBuilder(Setup\Consumer::class)
-			->setMethods(["hasConfig", "getDefaultConfig", "getConfigInput", "getConfigFromArray", "getSetupGoal", "getUpdateGoal"])
+			->setMethods(["hasConfig", "getDefaultConfig", "getConfigInput", "getConfigFromArray", "getInstallGoal", "getUpdateGoal"])
 			->setMockClassName("Mock_ConsumerNo".($no++))
 			->getMock();
 

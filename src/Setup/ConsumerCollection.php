@@ -104,8 +104,8 @@ class ConsumerCollection implements Consumer {
 	/**
 	 * @inheritdocs
 	 */
-	public function getSetupGoal(Config $config = null) : Goal {
-		return $this->getXGoal("getSetupGoal", $config);
+	public function getInstallGoal(Config $config = null) : Goal {
+		return $this->getXGoal("getInstallGoal", $config);
 	}
 
 	/**
