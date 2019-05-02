@@ -50482,13 +50482,13 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'lucene_offline_filter'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'lucene_prefix_wildcard'), 'value' => array('clob', '0')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'lucene_prefix_wildcard'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'lucene_show_relevance'), 'value' => array('clob', '1')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'lucene_sub_relevance'), 'value' => array('clob', '0')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'lucene_sub_relevance'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'lucene_user_search'), 'value' => array('clob', '1')));
