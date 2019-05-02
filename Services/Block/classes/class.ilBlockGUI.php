@@ -957,7 +957,8 @@ abstract class ilBlockGUI
 		if ($ilCtrl->isAsynch())
 		{
 			// return without div wrapper
-			echo $this->tpl->getAsynch();
+			echo $this->tpl->get();
+			//echo $this->tpl->getAsynch();
 		}
 		else
 		{
