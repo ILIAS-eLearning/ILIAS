@@ -110,6 +110,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			}
 		}
 		
+		require_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		if(ilObjUserTracking::_enabledLearningProgress() && $user_data["usr_id"] > 0)
 		{
 			$completion_date = $this->getUserCompletionDate($user_data["usr_id"]);
