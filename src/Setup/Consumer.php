@@ -37,7 +37,7 @@ interface Consumer {
 	 *
 	 * @throw InvalidArgumentException if Config does not match the Consumer.. 
 	 */
-	public function getSetupGoal(Config $config = null) : Goal;
+	public function getInstallGoal(Config $config = null) : Goal;
 
 	/**
 	 * Get the goal the consumer wants to achieve on update.
