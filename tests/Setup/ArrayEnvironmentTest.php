@@ -2,13 +2,13 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup\Runner;
+namespace ILIAS\Tests\Setup;
 
-use ILIAS\Setup\Runner;
+use ILIAS\Setup;
 
-class EnvironmentTest extends \PHPUnit\Framework\TestCase {
+class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase {
 	public function setUp() : void {
-		$this->environment = new Runner\Environment([
+		$this->environment = new Setup\ArrayEnvironment([
 			"foo" => "FOO",
 			"bar" => "BAR"
 		]);
