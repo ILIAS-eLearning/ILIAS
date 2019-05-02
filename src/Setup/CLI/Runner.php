@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup\Runner;
+namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Goal;
@@ -12,7 +12,7 @@ use ILIAS\Setup\UnachievableException;
 /**
  * Tries to achieve a goal. 
  */
-class CLI {
+class Runner {
 	/**
 	 * @var	Environment
 	 */

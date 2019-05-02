@@ -12,8 +12,13 @@ function build_container_for_setup() {
 	$c = new \Pimple\Container;
 
 	$c["app"] =  function($c) {
-		return new \ILIAS\Setup\CLI\App();
+		return new \ILIAS\Setup\CLI\App(
+			$c["command.install"]
+		);
 	};
+	$c["command.install"] = function($c) {
+		return new \ILIAS\Setup\CLI\InstallCommand();
+	}
 
 	return $c;
 }
