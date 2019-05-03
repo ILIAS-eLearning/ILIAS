@@ -178,7 +178,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 			$fin_timestamp = $row['feedback']['finalized_tstamp'];
 			if($fin_timestamp > 0){
 				$time = new ilDateTime($fin_timestamp, 3);
-				$this->tpl->setVariable('VAL_FINALIZED_ON', $time->get(4, $this->lng->txt('datetime_format')));
+				$this->tpl->setVariable('VAL_FINALIZED_ON', \ilDatePresentation::formatDate($time));
 			}
 
 		$this->tpl->setVariable('VAL_PASS', $row['pass_id']);

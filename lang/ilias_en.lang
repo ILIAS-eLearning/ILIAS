@@ -15037,7 +15037,6 @@ assessment#:#evaluated_users#:#Evaluated Users
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
 assessment#:#finalized_by#:#Completed by
 assessment#:#finalized_on#:#Completed at
-common#:#datetime_format#:#Y-m-d H:i
 crs#:#crs_timings_edit_personal#:#Edit Personal Timings
 crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
 crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
